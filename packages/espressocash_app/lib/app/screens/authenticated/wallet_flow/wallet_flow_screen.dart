@@ -127,9 +127,11 @@ class _State extends State<WalletFlowScreen> {
           value: Decimal.parse('0.1'),
           currency: Currency.usdc,
         ),
-        onSubmit: () {
-          final id = context.createOSKP(amount: _amount);
-          context.router.replace(OSKPRoute(id: id));
+        onSubmit: () async {
+          final id = await context.createOSKP(amount: _amount);
+          if (!mounted) return;
+
+          await context.router.replace(OSKPRoute(id: id));
           setState(() => _amount = _amount.copyWith(value: 0));
         },
       ),

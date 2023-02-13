@@ -2,10 +2,11 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
@@ -28,25 +29,93 @@ class OSKPRepository {
     return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
-  Future<void> save(OutgoingSplitKeyPayment payment) async =>
-      _db.into(_db.oSKPRows).insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(OutgoingSplitKeyPayment payment) async {
+    await payment.status.maybeMap(
+      txFailure: (status) async {
+        await Sentry.captureMessage(
+          'OSKP tx failure',
+          level: SentryLevel.warning,
+          withScope: (scope) => scope.setContexts('data', {
+            'reason': status.reason,
+          }),
+        );
+      },
+      cancelTxFailure: (status) async {
+        await Sentry.captureMessage(
+          'OSKP cancel tx failure',
+          level: SentryLevel.warning,
+          withScope: (scope) => scope.setContexts('data', {
+            'reason': status.reason,
+          }),
+        );
+      },
+      orElse: () async {},
+    );
 
-  Stream<OutgoingSplitKeyPayment?> watch(String id) {
+    await _db.into(_db.oSKPRows).insertOnConflictUpdate(await payment.toDto());
+  }
+
+  Stream<OutgoingSplitKeyPayment> watch(String id) {
     final query = _db.select(_db.oSKPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
+    return query.watchSingle().asyncMap((row) => row.toModel(_tokens));
   }
 
-  Stream<List<OutgoingSplitKeyPayment>> watchWithReadyLinks() {
-    final query = _db.select(_db.oSKPRows)
-      ..where((p) => p.status.equalsValue(OSKPStatusDto.linksReady));
+  /// Watches for statuses that can be moved to withdrawn or canceled directly,
+  /// i.e. all the transactions are already submitted and confirmed.
+  Stream<IList<OutgoingSplitKeyPayment>> watchReady() => _watchWithStatuses([
+        OSKPStatusDto.linksReady,
+        OSKPStatusDto.cancelTxCreated,
+        OSKPStatusDto.cancelTxSendFailure,
+        OSKPStatusDto.cancelTxSent,
+        OSKPStatusDto.cancelTxWaitFailure,
+        OSKPStatusDto.cancelTxFailure,
+      ]);
 
-    return query.watch().asyncMap(
-          (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
-        );
-  }
+  Stream<IList<OutgoingSplitKeyPayment>> watchTxCreated() =>
+      _watchWithStatuses([
+        OSKPStatusDto.txCreated,
+        OSKPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<OutgoingSplitKeyPayment>> watchTxConfirmed() =>
+      _watchWithStatuses([
+        OSKPStatusDto.txConfirmed,
+        OSKPStatusDto.txLinksFailure,
+      ]);
+
+  Stream<IList<OutgoingSplitKeyPayment>> watchCancelTxCreated() =>
+      _watchWithStatuses([
+        OSKPStatusDto.cancelTxCreated,
+        OSKPStatusDto.cancelTxSendFailure,
+      ]);
+
+  Stream<IList<OutgoingSplitKeyPayment>> watchTxSent() => _watchWithStatuses([
+        OSKPStatusDto.txSent,
+        OSKPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<OutgoingSplitKeyPayment>> watchCancelTxSent() =>
+      _watchWithStatuses([
+        OSKPStatusDto.cancelTxSent,
+        OSKPStatusDto.cancelTxWaitFailure,
+      ]);
 
   Future<void> clear() => _db.delete(_db.oSKPRows).go();
+
+  Stream<IList<OutgoingSplitKeyPayment>> _watchWithStatuses(
+    Iterable<OSKPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.oSKPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap(
+          (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
+        )
+        .map((event) => event.lock);
+  }
 }
 
 class OSKPRows extends Table with AmountMixin, EntityMixin {
@@ -102,9 +171,7 @@ extension on OSKPStatusDto {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
-    final escrow = await row.privateKey
-        ?.let(base58decode)
-        .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
+    final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
     final link3 = row.link3?.let(Uri.tryParse);
@@ -131,33 +198,38 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.withdrawn:
         return OSKPStatus.withdrawn(txId: withdrawTxId!);
       case OSKPStatusDto.canceled:
-        if (cancelTxId == null) {
+        if (cancelTxId == null && withdrawTxId != null) {
           // For compatibility with old versions
-          return OSKPStatus.canceled(txId: withdrawTxId!);
+          return OSKPStatus.canceled(txId: withdrawTxId);
         } else {
           return OSKPStatus.canceled(txId: cancelTxId);
         }
       case OSKPStatusDto.txFailure:
-        return OSKPStatus.txFailure(reason: row.txFailureReason);
+        return OSKPStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case OSKPStatusDto.txSendFailure:
-        return OSKPStatus.txSendFailure(tx!, escrow: escrow!);
+        return OSKPStatus.txCreated(tx!, escrow: escrow!);
       case OSKPStatusDto.txWaitFailure:
-        return OSKPStatus.txWaitFailure(
+        return OSKPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
         );
       case OSKPStatusDto.txLinksFailure:
-        return OSKPStatus.txLinksFailure(escrow: escrow!);
+        return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.cancelTxCreated:
         return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxFailure:
-        return OSKPStatus.cancelTxFailure(escrow: escrow!);
+        return OSKPStatus.cancelTxFailure(
+          escrow: escrow!,
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case OSKPStatusDto.cancelTxSent:
         return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxSendFailure:
-        return OSKPStatus.cancelTxSendFailure(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
       case OSKPStatusDto.cancelTxWaitFailure:
-        return OSKPStatus.cancelTxWaitFailure(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
     }
   }
 }
@@ -190,29 +262,20 @@ extension on OSKPStatus {
         linksReady: always(OSKPStatusDto.linksReady),
         withdrawn: always(OSKPStatusDto.withdrawn),
         txFailure: always(OSKPStatusDto.txFailure),
-        txSendFailure: always(OSKPStatusDto.txSendFailure),
-        txWaitFailure: always(OSKPStatusDto.txWaitFailure),
-        txLinksFailure: always(OSKPStatusDto.txLinksFailure),
         canceled: always(OSKPStatusDto.canceled),
         cancelTxCreated: always(OSKPStatusDto.cancelTxCreated),
         cancelTxFailure: always(OSKPStatusDto.cancelTxFailure),
         cancelTxSent: always(OSKPStatusDto.cancelTxSent),
-        cancelTxSendFailure: always(OSKPStatusDto.cancelTxSendFailure),
-        cancelTxWaitFailure: always(OSKPStatusDto.cancelTxWaitFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
-        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         txCreated: (it) => it.tx.id,
         txSent: (it) => it.tx.id,
-        txSendFailure: (it) => it.tx.id,
-        txWaitFailure: (it) => it.tx.id,
       );
 
   String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
@@ -220,46 +283,25 @@ extension on OSKPStatus {
   String? toCancelTx() => mapOrNull(
         cancelTxCreated: (it) => it.tx.encode(),
         cancelTxSent: (it) => it.tx.encode(),
-        cancelTxSendFailure: (it) => it.tx.encode(),
-        cancelTxWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toCancelTxId() => mapOrNull(
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
-        cancelTxSendFailure: (it) => it.tx.id,
-        cancelTxWaitFailure: (it) => it.tx.id,
         canceled: (it) => it.txId,
       );
 
   Future<String?> toPrivateKey() async => this.map(
-        txCreated: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        txSent: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        txConfirmed: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        linksReady: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        txCreated: (it) async => base58encode(it.escrow.bytes),
+        txSent: (it) async => base58encode(it.escrow.bytes),
+        txConfirmed: (it) async => base58encode(it.escrow.bytes),
+        linksReady: (it) async => base58encode(it.escrow.bytes),
         withdrawn: (it) async => null,
         canceled: (it) async => null,
         txFailure: (it) async => null,
-        txSendFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        txWaitFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        txLinksFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancelTxCreated: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancelTxFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancelTxSent: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancelTxSendFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
-        cancelTxWaitFailure: (it) async =>
-            it.escrow.extract().then((it) => it.bytes).then(base58encode),
+        cancelTxCreated: (it) async => base58encode(it.escrow.bytes),
+        cancelTxFailure: (it) async => base58encode(it.escrow.bytes),
+        cancelTxSent: (it) async => base58encode(it.escrow.bytes),
       );
 
   String? toLink1() => mapOrNull(

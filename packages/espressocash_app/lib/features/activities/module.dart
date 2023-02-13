@@ -7,7 +7,6 @@ import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/module.dart';
 import '../../core/balances/context_ext.dart';
 import '../../di.dart';
-import '../outgoing_split_key_payments/oskp_verifier.dart';
 import '../swap/swap_verifier.dart';
 import 'src/updater/bloc.dart';
 
@@ -27,13 +26,6 @@ class ActivitiesModule extends SingleChildStatelessWidget {
             lazy: false,
             create: (context) => sl<SwapVerifier>()
               ..init(onBalanceAffected: () => context.notifyBalanceAffected()),
-            dispose: (_, value) => value.dispose(),
-          ),
-          Provider<OSKPVerifier>(
-            lazy: false,
-            create: (context) => sl<OSKPVerifier>(
-              param1: context.read<MyAccount>().wallet.publicKey,
-            )..init(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),
         ],
