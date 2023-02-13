@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:sentry/sentry.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
@@ -32,12 +33,30 @@ Future<EscrowAccount?> tryFetchEscrow({
   );
 
   if (signatures.length != 1) {
+    await Sentry.captureMessage(
+      'Invalid number of signatures for escrow account',
+      level: SentryLevel.warning,
+      withScope: (scope) => scope.setContexts('data', {
+        'length': signatures.length,
+        'address': address.toBase58(),
+        'commitment': commitment.value,
+      }),
+    );
+
     return null;
   }
 
   final signature = signatures.first;
 
-  if (signature.err != null) return null;
+  if (signature.err != null) {
+    await Sentry.captureMessage(
+      'Signature had an error',
+      level: SentryLevel.warning,
+      withScope: (scope) => scope.setContexts('error', signature.err),
+    );
+
+    return null;
+  }
 
   final tx = await client.rpcClient.getTransaction(
     signature.signature,
@@ -45,7 +64,15 @@ Future<EscrowAccount?> tryFetchEscrow({
     encoding: Encoding.base64,
   );
 
-  if (tx == null) return null;
+  if (tx == null) {
+    await Sentry.captureMessage(
+      'Transaction not found',
+      level: SentryLevel.warning,
+      withScope: (scope) => scope.setContexts('signature', signature.signature),
+    );
+
+    return null;
+  }
 
   final signedTx =
       SignedTx.fromBytes(ByteArray((tx.transaction as RawTransaction).data));
@@ -58,7 +85,15 @@ Future<EscrowAccount?> tryFetchEscrow({
     publicKey: platform.publicKey,
   );
 
-  if (!isValid) return null;
+  if (!isValid) {
+    await Sentry.captureMessage(
+      'Invalid signature',
+      level: SentryLevel.warning,
+      withScope: (scope) => scope.setContexts('signature', signature.signature),
+    );
+
+    return null;
+  }
 
   final amount = await client.getTokenBalance(
     owner: address,
