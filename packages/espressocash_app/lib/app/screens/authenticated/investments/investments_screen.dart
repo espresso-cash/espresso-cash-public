@@ -16,7 +16,7 @@ import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
-import 'components/started_investing_header.dart';
+import 'components/start_investing_header.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
@@ -53,7 +53,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   SliverToBoxAdapter(child: InvestmentHeader()),
                   SliverToBoxAdapter(child: OnboardingNotice()),
                   SliverToBoxAdapter(child: SizedBox(height: 45)),
-                  SliverToBoxAdapter(child: StartedInvestingHeader()),
+                  SliverToBoxAdapter(child: StartInvestingHeader()),
                   SliverPadding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     sliver: CryptoInvestments(),

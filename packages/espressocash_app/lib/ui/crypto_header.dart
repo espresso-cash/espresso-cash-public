@@ -29,17 +29,21 @@ class CpCryptoHeader extends StatelessWidget {
           Text(
             subtitle,
             style: const TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              letterSpacing: .19,
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
             ),
             textAlign: TextAlign.center,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
-            child: Assets.images.cryptoHeader.svg(
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
+            child: SizedBox(
+              height: 120,
+              child: RepaintBoundary(
+                child: Assets.rive.header.rive(
+                  fit: BoxFit.contain,
+                  alignment: Alignment.center,
+                ),
+              ),
             ),
           ),
         ],

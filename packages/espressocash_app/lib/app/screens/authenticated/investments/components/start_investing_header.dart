@@ -7,8 +7,8 @@ import '../../../../../routes.gr.dart';
 import '../../../../../ui/crypto_header.dart';
 import 'context_ext.dart';
 
-class StartedInvestingHeader extends StatelessWidget {
-  const StartedInvestingHeader({super.key});
+class StartInvestingHeader extends StatelessWidget {
+  const StartInvestingHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
