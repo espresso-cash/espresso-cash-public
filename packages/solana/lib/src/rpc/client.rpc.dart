@@ -62,7 +62,7 @@ class _RpcClient implements RpcClient {
       TransactionDetailLevel? transactionDetails,
       bool? rewards = false,
       Commitment? commitment = Commitment.finalized,
-      num? maxSupportedTransactionVersion}) async {
+      num? maxSupportedTransactionVersion = 0}) async {
     final config = GetBlockConfig(
             encoding: encoding,
             transactionDetails: transactionDetails,
@@ -810,7 +810,7 @@ class _RpcClient implements RpcClient {
   Future<TransactionDetails?> getTransaction(String signature,
       {Encoding? encoding,
       Commitment? commitment = Commitment.finalized,
-      num? maxSupportedTransactionVersion}) async {
+      num? maxSupportedTransactionVersion = 0}) async {
     final config = GetTransactionConfig(
             encoding: encoding,
             commitment: commitment,
@@ -1210,7 +1210,7 @@ class GetBlockConfig {
     this.transactionDetails,
     this.rewards = false,
     this.commitment = Commitment.finalized,
-    this.maxSupportedTransactionVersion,
+    this.maxSupportedTransactionVersion = 0,
   });
 
   final Encoding? encoding;
@@ -1609,7 +1609,7 @@ class GetTransactionConfig {
   GetTransactionConfig({
     this.encoding,
     this.commitment = Commitment.finalized,
-    this.maxSupportedTransactionVersion,
+    this.maxSupportedTransactionVersion = 0,
   });
 
   final Encoding? encoding;

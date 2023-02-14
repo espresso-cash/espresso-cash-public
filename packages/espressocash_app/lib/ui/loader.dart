@@ -53,3 +53,38 @@ class LoadingIndicator extends StatelessWidget {
         ),
       );
 }
+
+Future<T> runWithLoader<T>(
+  BuildContext context,
+  Future<T> Function() fn,
+) async {
+  final future = fn();
+
+  await showDialog<T>(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => LoadingDialog<T>(future: future),
+  );
+
+  return future;
+}
+
+class LoadingDialog<T> extends StatefulWidget {
+  const LoadingDialog({super.key, required this.future});
+
+  final Future<T> future;
+
+  @override
+  State<LoadingDialog<T>> createState() => _LoadingDialogState();
+}
+
+class _LoadingDialogState<T> extends State<LoadingDialog<T>> {
+  @override
+  void initState() {
+    super.initState();
+    widget.future.then((_) => Navigator.of(context).pop());
+  }
+
+  @override
+  Widget build(BuildContext context) => const LoadingIndicator();
+}

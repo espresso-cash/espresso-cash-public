@@ -91,7 +91,10 @@ Future<void> main() async {
 
     final result = await service.send(tx);
 
-    expect(result, const TxSendResult.failure());
+    expect(
+      result,
+      const TxSendResult.failure(reason: TxFailureReason.txError),
+    );
   });
 
   test('Wait for confirmation', () async {

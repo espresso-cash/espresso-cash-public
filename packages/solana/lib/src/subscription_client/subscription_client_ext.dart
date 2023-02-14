@@ -9,13 +9,18 @@ extension SubscriptionClientExt on SubscriptionClient {
     required ConfirmationStatus status,
     Duration? timeout,
   }) async {
-    final future = signatureSubscribe(
-      signature,
-      commitment: status,
-    ).first;
+    try {
+      final future = signatureSubscribe(
+        signature,
+        commitment: status,
+      ).first;
 
-    final result = await (timeout == null ? future : future.timeout(timeout));
+      final result = await (timeout == null ? future : future.timeout(timeout));
 
-    if (result.err != null) throw Exception(result.err);
+      if (result.err != null) throw Exception(result.err);
+      // ignore: avoid_catching_errors, catch Bad state: no element
+    } on StateError catch (_, stackTrace) {
+      Error.throwWithStackTrace(Exception('Bad state'), stackTrace);
+    }
   }
 }
