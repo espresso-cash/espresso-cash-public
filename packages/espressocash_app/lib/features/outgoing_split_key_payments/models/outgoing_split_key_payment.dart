@@ -49,6 +49,7 @@ class OSKPStatus with _$OSKPStatus {
     required Uri link2,
     Uri? qrLink,
     required EscrowPrivateKey escrow,
+    DateTime? timestamp,
   }) = OSKPStatusLinksReady;
 
   /// Money are withdrawn from the escrow by someone, but not by the sender. The
