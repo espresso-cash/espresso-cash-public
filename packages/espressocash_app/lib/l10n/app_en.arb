@@ -104,7 +104,6 @@
     }
   },
   "splitKeyProgressCreated": "Links are created",
-  "splitKeyProgressWaiting": "Waiting for the receiver to withdraw the funds",
   "splitKeyProgressSuccess": "Money has been successfully received",
   "splitKeyProgressCanceling": "Canceling transfer",
   "splitKeyProgressCanceled": "Transfer has been canceled",
