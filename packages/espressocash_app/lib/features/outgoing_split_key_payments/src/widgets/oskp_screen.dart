@@ -90,16 +90,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
                   .ifNull(F);
 
               final created = payment?.created;
-              final generatedLinksAt = payment?.status.mapOrNull(
-                linksReady: (it) => it.timestamp,
-              );
-              final resolvedAt = payment?.status.mapOrNull(
-                withdrawn: (it) => it.timestamp,
-                canceled: (it) => it.timestamp,
-              );
-
-              print('generatedLinksAt: $generatedLinksAt');
-              print('resolvedAt: $resolvedAt');
+              final generatedLinksAt = payment?.linksGeneratedAt;
+              final resolvedAt = payment?.resolvedAt;
 
               final CpStatusType statusType = isProcessing
                   ? CpStatusType.info
@@ -198,22 +190,20 @@ class _OSKPScreenState extends State<OSKPScreen> {
                 subtitle: resolvedAt?.let((t) => context.formatDate(t)),
               );
 
+              final normalItems = [
+                paymentInitiated,
+                linksCreated,
+                paymentSuccess,
+              ];
+
               final cancelingItems = [
                 linksCreated,
                 paymentCanceled,
               ];
 
               final items = payment?.status.mapOrNull(
-                    withdrawn: always([
-                      paymentInitiated,
-                      linksCreated,
-                      paymentSuccess,
-                    ]),
-                    linksReady: always([
-                      paymentInitiated,
-                      linksCreated,
-                      paymentSuccess,
-                    ]),
+                    withdrawn: always(normalItems),
+                    linksReady: always(normalItems),
                     canceled: always(cancelingItems),
                     cancelTxCreated: always(cancelingItems),
                     cancelTxFailure: always(cancelingItems),
@@ -221,11 +211,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                     cancelTxSent: always(cancelingItems),
                     cancelTxWaitFailure: always(cancelingItems),
                   ) ??
-                  [
-                    paymentInitiated,
-                    linksCreated,
-                    paymentSuccess,
-                  ];
+                  normalItems;
 
               final shouldShowRetryButton = payment?.status.map(
                     txCreated: T,

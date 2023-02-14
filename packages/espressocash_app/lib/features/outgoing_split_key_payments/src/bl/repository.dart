@@ -96,6 +96,8 @@ extension OSKPRowExt on OSKPRow {
           cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         status: await status.toOSKPStatus(this),
+        linksGeneratedAt: generatedLinksAt,
+        resolvedAt: resolvedAt,
       );
 }
 
@@ -114,9 +116,6 @@ extension on OSKPStatusDto {
     final cancelTxId = row.cancelTxId;
     final generatedLinksAt = row.generatedLinksAt;
     final resolvedAt = row.resolvedAt;
-
-    // print('toOSKPStatus: generatedLinksAt $generatedLinksAt');
-    // print('toOSKPStatus: resolvedAt $resolvedAt');
 
     switch (this) {
       case OSKPStatusDto.txCreated:
@@ -174,32 +173,25 @@ extension on OSKPStatusDto {
 }
 
 extension on OutgoingSplitKeyPayment {
-  Future<OSKPRow> toDto() async {
-    // asdf
-
-    // print('toDto: generatedLinksAt ${status.toGeneratedAt()}');
-    // print('toDto: resolvedAt ${status.toResolvedAt()}');
-
-    return OSKPRow(
-      amount: amount.value,
-      token: amount.cryptoCurrency.token.address,
-      id: id,
-      created: created,
-      status: status.toDto(),
-      tx: status.toTx(),
-      txId: status.toTxId(),
-      withdrawTxId: status.toWithdrawTxId(),
-      privateKey: await status.toPrivateKey(),
-      link1: status.toLink1(),
-      link2: status.toLink2(),
-      link3: status.toLink3(),
-      txFailureReason: status.toTxFailureReason(),
-      cancelTx: status.toCancelTx(),
-      cancelTxId: status.toCancelTxId(),
-      generatedLinksAt: status.toGeneratedAt(),
-      resolvedAt: status.toResolvedAt(),
-    );
-  }
+  Future<OSKPRow> toDto() async => OSKPRow(
+        amount: amount.value,
+        token: amount.cryptoCurrency.token.address,
+        id: id,
+        created: created,
+        status: status.toDto(),
+        tx: status.toTx(),
+        txId: status.toTxId(),
+        withdrawTxId: status.toWithdrawTxId(),
+        privateKey: await status.toPrivateKey(),
+        link1: status.toLink1(),
+        link2: status.toLink2(),
+        link3: status.toLink3(),
+        txFailureReason: status.toTxFailureReason(),
+        cancelTx: status.toCancelTx(),
+        cancelTxId: status.toCancelTxId(),
+        generatedLinksAt: status.toGeneratedAt(),
+        resolvedAt: status.toResolvedAt(),
+      );
 }
 
 extension on OSKPStatus {

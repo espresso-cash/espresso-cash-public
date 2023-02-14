@@ -14,6 +14,8 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
     required CryptoAmount amount,
     required DateTime created,
     required OSKPStatus status,
+    DateTime? linksGeneratedAt,
+    DateTime? resolvedAt,
   }) = _OutgoingSplitKeyPayment;
 
   const OutgoingSplitKeyPayment._();
