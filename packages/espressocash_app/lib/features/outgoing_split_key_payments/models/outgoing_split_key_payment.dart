@@ -23,77 +23,86 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
 
 @freezed
 class OSKPStatus with _$OSKPStatus {
+  /// Tx created, but not sent yet. At this stage, it's safe to cancel/recreate
+  /// it.
   const factory OSKPStatus.txCreated(
     SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusTxCreated;
 
+  /// Tx sent, but not confirmed yet. We cannot say if it was accepted, so
+  /// before canceling/recreating we need to know its status.
   const factory OSKPStatus.txSent(
     SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusTxSent;
 
+  /// Tx confirmed. At this stage, the money are guaranteed to be in the escrow.
+  /// For canceling the payment, we need to create a new cancellation tx.
   const factory OSKPStatus.txConfirmed({
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusTxConfirmed;
 
+  /// Links are ready to be sent to the recipient.
   const factory OSKPStatus.linksReady({
     required Uri link1,
     required Uri link2,
     Uri? qrLink,
-    required Ed25519HDKeyPair escrow,
-    DateTime? timestamp,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusLinksReady;
 
+  /// Money are withdrawn from the escrow by someone, but not by the sender. The
+  /// payment is complete.
   const factory OSKPStatus.withdrawn({
     required String txId,
     DateTime? timestamp,
   }) = OSKPStatusWithdrawn;
 
+  /// Money are withdrawn by the sender. The payment is complete.
   const factory OSKPStatus.canceled({
-    required String txId,
+    required String? txId,
     DateTime? timestamp,
   }) = OSKPStatusCanceled;
 
-  const factory OSKPStatus.txFailure({TxFailureReason? reason}) =
+  /// There was an error while creating the tx, or the tx was rejected. In any
+  /// case, it's safe to recreate the tx or directly cancel the payment.
+  const factory OSKPStatus.txFailure({required TxFailureReason reason}) =
       OSKPStatusTxFailure;
 
-  const factory OSKPStatus.txSendFailure(
-    SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusTxSendFailure;
-
-  const factory OSKPStatus.txWaitFailure(
-    SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusTxWaitFailure;
-
-  const factory OSKPStatus.txLinksFailure({
-    required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusTxLinksFailure;
-
+  /// Cancellation tx was created but not sent yet. It's safe to recreate the
+  /// tx.
   const factory OSKPStatus.cancelTxCreated(
     SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxCreated;
 
+  /// There was an error while creating the cancellation tx, or the tx was
+  /// rejected. It's safe to recreate it.
   const factory OSKPStatus.cancelTxFailure({
-    TxFailureReason? reason,
-    required Ed25519HDKeyPair escrow,
+    required TxFailureReason reason,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxFailure;
 
+  /// Cancellation tx was sent but not confirmed yet. It's not safe to recreate
+  /// it, we need to know the final status.
   const factory OSKPStatus.cancelTxSent(
     SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
+}
 
-  const factory OSKPStatus.cancelTxSendFailure(
-    SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusCancelTxSendFailure;
+@freezed
+class EscrowPrivateKey with _$EscrowPrivateKey {
+  factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;
 
-  const factory OSKPStatus.cancelTxWaitFailure(
-    SignedTx tx, {
-    required Ed25519HDKeyPair escrow,
-  }) = OSKPStatusCancelTxWaitFailure;
+  EscrowPrivateKey._();
+
+  static Future<EscrowPrivateKey> fromKeyPair(Ed25519HDKeyPair keyPair) async {
+    final data = await keyPair.extract();
+
+    return EscrowPrivateKey(data.bytes);
+  }
+
+  late final Future<Ed25519HDKeyPair> keyPair =
+      Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: bytes);
 }

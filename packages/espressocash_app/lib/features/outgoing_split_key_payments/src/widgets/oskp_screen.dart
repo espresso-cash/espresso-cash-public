@@ -3,11 +3,8 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/balances/context_ext.dart';
 import '../../../../core/presentation/format_amount.dart';
-import '../../../../core/presentation/format_date.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -19,8 +16,9 @@ import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
 import '../../../../ui/timeline.dart';
+import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../models/outgoing_split_key_payment.dart';
-import '../bl/bloc.dart';
+import '../../widgets/extensions.dart';
 import '../bl/repository.dart';
 
 class OSKPScreen extends StatefulWidget {
@@ -33,7 +31,7 @@ class OSKPScreen extends StatefulWidget {
 }
 
 class _OSKPScreenState extends State<OSKPScreen> {
-  late final Stream<OutgoingSplitKeyPayment?> _payment;
+  late final Stream<OutgoingSplitKeyPayment> _payment;
   StreamSubscription<void>? _shareLinksSubscription;
 
   @override
@@ -45,10 +43,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
     _shareLinksSubscription = repository
         .watch(widget.id)
         .skip(1)
-        .where((payment) => payment?.status is OSKPStatusLinksReady)
+        .where((payment) => payment.status is OSKPStatusLinksReady)
         .listen((payment) {
-      if (payment == null) throw StateError('Payment is null');
-
       final status = payment.status as OSKPStatusLinksReady;
 
       context.router
@@ -64,239 +60,189 @@ class _OSKPScreenState extends State<OSKPScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<OutgoingSplitKeyPayment?>(
+  Widget build(BuildContext context) => StreamBuilder<OutgoingSplitKeyPayment>(
         stream: _payment,
         builder: (context, snapshot) {
           final payment = snapshot.data;
           final locale = DeviceLocale.localeOf(context);
 
-          return BlocConsumer<OSKPBloc, OSKPState>(
-            listener: (context, state) => payment?.status.mapOrNull(
-              txConfirmed: (_) => context.notifyBalanceAffected(),
+          if (payment == null) {
+            return TransferProgress(onBack: () => context.router.pop());
+          }
+
+          final cancelButton = Padding(
+            padding: EdgeInsets.only(
+              top: 24,
+              bottom: MediaQuery.of(context).padding.bottom + 16,
             ),
-            builder: (context, state) {
-              final isProcessing =
-                  payment != null && state.contains(payment.id);
+            child: CpTextButton(
+              text: context.l10n.cancelTransfer,
+              variant: CpTextButtonVariant.light,
+              onPressed: () => context.cancelOSKP(payment: payment),
+            ),
+          );
 
-              final isCancelable = payment
-                  .maybeFlatMap(
-                    (it) => it.status.maybeMap(
-                      txFailure: F,
-                      withdrawn: F,
-                      canceled: F,
-                      orElse: T,
-                    ),
-                  )
-                  .ifNull(F);
+          final List<Widget> actions = payment.status.maybeMap(
+            linksReady: (s) => [
+              CpButton(
+                size: CpButtonSize.big,
+                width: double.infinity,
+                text: context.l10n.resendLink,
+                onPressed: () => context.router.push(
+                  ShareLinksRoute(
+                    amount: payment.amount,
+                    status: s,
+                  ),
+                ),
+              ),
+              cancelButton,
+            ],
+            txFailure: (s) => [
+              CpButton(
+                size: CpButtonSize.big,
+                width: double.infinity,
+                text: context.l10n.retry,
+                onPressed: () => context.retryOSKP(payment: payment),
+              ),
+              cancelButton,
+            ],
+            cancelTxFailure: (s) => [
+              CpButton(
+                size: CpButtonSize.big,
+                width: double.infinity,
+                text: context.l10n.retry,
+                onPressed: () => context.cancelOSKP(payment: payment),
+              ),
+            ],
+            orElse: () => const [],
+          );
 
-              final created = payment?.created;
-              final generatedLinksAt = payment?.linksGeneratedAt;
-              final resolvedAt = payment?.resolvedAt;
+          final CpStatusType statusType = payment.status.map(
+            txCreated: always(CpStatusType.info),
+            txSent: always(CpStatusType.info),
+            txConfirmed: always(CpStatusType.info),
+            linksReady: always(CpStatusType.info),
+            withdrawn: always(CpStatusType.success),
+            canceled: always(CpStatusType.error),
+            txFailure: always(CpStatusType.error),
+            cancelTxCreated: always(CpStatusType.info),
+            cancelTxFailure: always(CpStatusType.error),
+            cancelTxSent: always(CpStatusType.info),
+          );
 
-              final CpStatusType statusType = isProcessing
-                  ? CpStatusType.info
-                  : payment?.status.mapOrNull(
-                        withdrawn: always(CpStatusType.success),
-                        canceled: always(CpStatusType.error),
-                        txFailure: always(CpStatusType.error),
-                        txSendFailure: always(CpStatusType.error),
-                        txWaitFailure: always(CpStatusType.error),
-                        txLinksFailure: always(CpStatusType.error),
-                        cancelTxFailure: always(CpStatusType.error),
-                        cancelTxSendFailure: always(CpStatusType.error),
-                        cancelTxWaitFailure: always(CpStatusType.error),
-                      ) ??
-                      CpStatusType.info;
+          final String? statusTitle = payment.status.mapOrNull(
+            withdrawn: always(context.l10n.transferSuccessTitle),
+          );
 
-              final String? statusTitle = payment?.status.mapOrNull(
-                withdrawn: always(context.l10n.transferSuccessTitle),
-              );
+          final String statusContent = payment.status.maybeMap(
+            withdrawn: always(context.l10n.splitKeySuccessMessage2),
+            canceled: always(
+              context.l10n.splitKeyCanceledMessage1(
+                payment.amount.format(locale),
+              ),
+            ),
+            txFailure: (it) => [
+              context.l10n.splitKeyErrorMessage2,
+              if (it.reason == TxFailureReason.insufficientFunds)
+                context.l10n.errorMessageInsufficientFunds,
+            ].join(' '),
+            cancelTxCreated: always(context.l10n.splitKeyProgressCanceling),
+            cancelTxSent: always(context.l10n.splitKeyProgressCanceling),
+            cancelTxFailure: (it) => [
+              context.l10n.splitKeyCancelErrorMessage,
+              if (it.reason == TxFailureReason.insufficientFunds)
+                context.l10n.cancelErrorMessageInsufficientFunds,
+            ].join(' '),
+            orElse: always(
+              context.l10n.splitKeyProgressOngoing(
+                payment.amount.format(locale),
+              ),
+            ),
+          );
 
-              final String statusContent = payment == null
-                  ? context.l10n.loading
-                  : payment.status.maybeMap(
-                      withdrawn: always(context.l10n.splitKeySuccessMessage2),
-                      canceled: always(
-                        context.l10n.splitKeyCanceledMessage1(
-                          payment.amount.format(locale),
-                        ),
-                      ),
-                      txFailure: (it) => [
-                        context.l10n.splitKeyErrorMessage2,
-                        if (it.reason == TxFailureReason.insufficientFunds)
-                          context.l10n.errorMessageInsufficientFunds,
-                      ].join(' '),
-                      txSendFailure: always(context.l10n.splitKeyErrorMessage2),
-                      txWaitFailure: always(context.l10n.splitKeyErrorMessage2),
-                      txLinksFailure:
-                          always(context.l10n.splitKeyErrorMessage2),
-                      cancelTxCreated:
-                          always(context.l10n.splitKeyProgressCanceling),
-                      cancelTxSent:
-                          always(context.l10n.splitKeyProgressCanceling),
-                      cancelTxSendFailure:
-                          always(context.l10n.splitKeyCancelErrorMessage),
-                      cancelTxWaitFailure:
-                          always(context.l10n.splitKeyCancelErrorMessage),
-                      cancelTxFailure: (it) => [
-                        context.l10n.splitKeyCancelErrorMessage,
-                        if (it.reason == TxFailureReason.insufficientFunds)
-                          context.l10n.cancelErrorMessageInsufficientFunds,
-                      ].join(' '),
-                      orElse: always(
-                        context.l10n.splitKeyProgressOngoing(
-                          payment.amount.format(locale),
-                        ),
-                      ),
-                    );
+          final CpTimelineStatus timelineStatus = payment.status.mapOrNull(
+                withdrawn: always(CpTimelineStatus.success),
+                canceled: always(CpTimelineStatus.failure),
+                txFailure: always(CpTimelineStatus.failure),
+                cancelTxFailure: always(CpTimelineStatus.failure),
+              ) ??
+              CpTimelineStatus.inProgress;
 
-              final CpTimelineStatus timelineStatus = isProcessing
-                  ? CpTimelineStatus.inProgress
-                  : payment?.status.mapOrNull(
-                        withdrawn: always(CpTimelineStatus.success),
-                        canceled: always(CpTimelineStatus.failure),
-                        txFailure: always(CpTimelineStatus.failure),
-                        txSendFailure: always(CpTimelineStatus.failure),
-                        txWaitFailure: always(CpTimelineStatus.failure),
-                        txLinksFailure: always(CpTimelineStatus.failure),
-                        cancelTxFailure: always(CpTimelineStatus.failure),
-                        cancelTxSendFailure: always(CpTimelineStatus.failure),
-                        cancelTxWaitFailure: always(CpTimelineStatus.failure),
-                      ) ??
-                      CpTimelineStatus.inProgress;
+          final int activeItem = payment.status.mapOrNull(
+                withdrawn: always(2),
+                linksReady: always(1),
+                canceled: always(1),
+              ) ??
+              0;
 
-              final int activeItem = payment?.status.mapOrNull(
-                    withdrawn: always(2),
-                    linksReady: always(1),
-                    canceled: always(1),
-                  ) ??
-                  0;
+          final creatingLinks = CpTimelineItem(
+            title: 'Creating links',
+            trailing: payment.amount.format(locale),
+          );
+          final linksCreated = CpTimelineItem(
+            title: context.l10n.splitKeyProgressCreated,
+            trailing: payment.amount.format(locale),
+          );
+          final waitingForReceiver = CpTimelineItem(
+            title: context.l10n.splitKeyProgressWaiting,
+          );
+          final fundsWithdrawn = CpTimelineItem(
+            title: context.l10n.splitKeyProgressWithdrawn,
+          );
+          final paymentSuccess = CpTimelineItem(
+            title: context.l10n.splitKeyProgressSuccess,
+          );
+          final paymentCanceled = CpTimelineItem(
+            title: context.l10n.splitKeyProgressCanceled,
+          );
 
-              final paymentInitiated = CpTimelineItem(
-                title: 'Payment initiated',
-                trailing: payment?.amount.format(locale),
-                subtitle: created?.let((t) => context.formatDate(t)),
-              );
-              final linksCreated = CpTimelineItem(
-                title: context.l10n.splitKeyProgressCreated,
-                subtitle: generatedLinksAt?.let((t) => context.formatDate(t)),
-              );
-              final paymentSuccess = CpTimelineItem(
-                title: context.l10n.splitKeyProgressSuccess,
-                subtitle: resolvedAt?.let((t) => context.formatDate(t)),
-              );
-              final paymentCanceled = CpTimelineItem(
-                title: context.l10n.splitKeyProgressCanceled,
-                subtitle: resolvedAt?.let((t) => context.formatDate(t)),
-              );
+          final cancelingItems = [
+            linksCreated,
+            paymentCanceled,
+          ];
 
-              final normalItems = [
-                paymentInitiated,
-                linksCreated,
+          final items = payment.status.mapOrNull(
+                withdrawn: always([
+                  linksCreated,
+                  fundsWithdrawn,
+                  paymentSuccess,
+                ]),
+                linksReady: always([
+                  linksCreated,
+                  waitingForReceiver,
+                  paymentSuccess,
+                ]),
+                canceled: always(cancelingItems),
+                cancelTxCreated: always(cancelingItems),
+                cancelTxFailure: always(cancelingItems),
+                cancelTxSent: always(cancelingItems),
+              ) ??
+              [
+                creatingLinks,
+                waitingForReceiver,
                 paymentSuccess,
               ];
 
-              final cancelingItems = [
-                linksCreated,
-                paymentCanceled,
-              ];
-
-              final items = payment?.status.mapOrNull(
-                    withdrawn: always(normalItems),
-                    linksReady: always(normalItems),
-                    canceled: always(cancelingItems),
-                    cancelTxCreated: always(cancelingItems),
-                    cancelTxFailure: always(cancelingItems),
-                    cancelTxSendFailure: always(cancelingItems),
-                    cancelTxSent: always(cancelingItems),
-                    cancelTxWaitFailure: always(cancelingItems),
-                  ) ??
-                  normalItems;
-
-              final shouldShowRetryButton = payment?.status.map(
-                    txCreated: T,
-                    txSent: T,
-                    txConfirmed: T,
-                    linksReady: F,
-                    withdrawn: F,
-                    canceled: F,
-                    txFailure: T,
-                    txSendFailure: T,
-                    txWaitFailure: T,
-                    txLinksFailure: T,
-                    cancelTxCreated: T,
-                    cancelTxFailure: T,
-                    cancelTxSent: T,
-                    cancelTxSendFailure: T,
-                    cancelTxWaitFailure: T,
-                  ) ??
-                  false;
-
-              return StatusScreen(
-                onBackButtonPressed: () => context.router.pop(),
-                title: context.l10n.splitKeyTransferTitle,
-                statusType: statusType,
-                statusTitle: statusTitle?.let(Text.new),
-                statusContent: Text(statusContent),
-                content: CpContentPadding(
-                  child: Column(
-                    children: [
-                      const Spacer(flex: 1),
-                      CpTimeline(
-                        status: timelineStatus,
-                        items: items,
-                        active: activeItem,
-                      ),
-                      const Spacer(flex: 4),
-                      if (payment != null && shouldShowRetryButton)
-                        CpButton(
-                          size: CpButtonSize.big,
-                          width: double.infinity,
-                          text: isProcessing
-                              ? context.l10n.processing
-                              : context.l10n.retry,
-                          onPressed: isProcessing
-                              ? null
-                              : () => context
-                                  .read<OSKPBloc>()
-                                  .add(OSKPEvent.process(payment.id)),
-                        ),
-                      if (payment != null && !isProcessing)
-                        ...payment.status.mapOrNull(
-                              linksReady: (s) => [
-                                CpButton(
-                                  size: CpButtonSize.big,
-                                  width: double.infinity,
-                                  text: context.l10n.resendLink,
-                                  onPressed: () => context.router.push(
-                                    ShareLinksRoute(
-                                      amount: payment.amount,
-                                      status: s,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ) ??
-                            [],
-                      if (!isProcessing && isCancelable && payment != null)
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 24,
-                            bottom: MediaQuery.of(context).padding.bottom + 16,
-                          ),
-                          child: CpTextButton(
-                            text: context.l10n.cancelTransfer,
-                            variant: CpTextButtonVariant.light,
-                            onPressed: () => context
-                                .read<OSKPBloc>()
-                                .add(OSKPEvent.cancel(payment.id)),
-                          ),
-                        ),
-                    ],
+          return StatusScreen(
+            onBackButtonPressed: () => context.router.pop(),
+            title: context.l10n.splitKeyTransferTitle,
+            statusType: statusType,
+            statusTitle: statusTitle?.let(Text.new),
+            statusContent: Text(statusContent),
+            content: CpContentPadding(
+              child: Column(
+                children: [
+                  const Spacer(flex: 1),
+                  CpTimeline(
+                    status: timelineStatus,
+                    items: items,
+                    active: activeItem,
                   ),
-                ),
-              );
-            },
+                  const Spacer(flex: 4),
+                  ...actions,
+                ],
+              ),
+            ),
           );
         },
       );

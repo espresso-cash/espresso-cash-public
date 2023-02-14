@@ -46,7 +46,7 @@ class TxSender {
         case TransactionError.blockhashNotFound:
           return checkSubmittedTx(tx.id);
         default:
-          return const TxSendResult.failure();
+          return const TxSendResult.failure(reason: TxFailureReason.txError);
       }
     } on Exception {
       return const TxSendResult.networkError();
@@ -61,19 +61,29 @@ class TxSender {
       ).then((value) => value.first);
 
       if (t == null) {
+        // TODO(KB): There is currently a bug if the RPC node reports that
+        // blockhash is invalid, but the transaction was actually submitted.
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
             .isBlockhashValid(bh, commitment: Commitment.confirmed);
         if (!isValidBlockhash) {
           // Check once more to ensure that the transaction was not submitted
           // while we were checking blockhash.
-          final wasSubmitted = await _client.rpcClient
-              .getSignatureStatuses([tx.id]).then((it) => it.first != null);
+          final wasSubmitted = await _client.rpcClient.getSignatureStatuses(
+            [tx.id],
+            searchTransactionHistory: true,
+          ).then((it) => it.first != null);
 
-          if (!wasSubmitted) return const TxWaitResult.failure();
+          if (!wasSubmitted) {
+            return const TxWaitResult.failure(
+              reason: TxFailureReason.invalidBlockhashWaiting,
+            );
+          }
         }
       } else {
-        if (t.err != null) return const TxWaitResult.failure();
+        if (t.err != null) {
+          return const TxWaitResult.failure(reason: TxFailureReason.txError);
+        }
 
         if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
           return const TxWaitResult.success();
@@ -84,7 +94,7 @@ class TxSender {
 
       return const TxWaitResult.success();
     } on SubscriptionClientException {
-      return const TxWaitResult.failure();
+      return const TxWaitResult.failure(reason: TxFailureReason.txError);
     } on Exception {
       return const TxWaitResult.networkError();
     }
@@ -132,18 +142,29 @@ class StubSignedTx implements SignedTx {
 class TxSendResult with _$TxSendResult {
   const factory TxSendResult.sent() = TxSendSent;
   const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
-  const factory TxSendResult.failure({TxFailureReason? reason}) = TxSendFailure;
+  const factory TxSendResult.failure({
+    required TxFailureReason reason,
+  }) = TxSendFailure;
   const factory TxSendResult.networkError() = TxSendNetworkError;
 }
 
 @freezed
 class TxWaitResult with _$TxWaitResult {
   const factory TxWaitResult.success() = TxWaitSuccess;
-  const factory TxWaitResult.failure() = TxWaitFailure;
+  const factory TxWaitResult.failure({
+    required TxFailureReason reason,
+  }) = TxWaitFailure;
   const factory TxWaitResult.networkError() = TxWaitNetworkError;
 }
 
-enum TxFailureReason { insufficientFunds }
+enum TxFailureReason {
+  insufficientFunds,
+  invalidBlockhashSending,
+  invalidBlockhashWaiting,
+  creatingFailure,
+  txError,
+  unknown,
+}
 
 extension on JsonRpcException {
   // TODO(KB): Think about some better error handling
