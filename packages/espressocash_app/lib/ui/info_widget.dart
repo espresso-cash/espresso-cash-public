@@ -54,7 +54,10 @@ class CpInfoWidget extends StatelessWidget {
 
     switch (variant) {
       case CpInfoVariant.dark:
-        return content;
+        return Padding(
+          padding: padding,
+          child: content,
+        );
       case CpInfoVariant.light:
         return CpRoundedRectangle(
           backgroundColor: CpColors.backgroundAccentColor,

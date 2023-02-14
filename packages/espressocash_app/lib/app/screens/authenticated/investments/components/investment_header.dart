@@ -22,18 +22,13 @@ class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 280,
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(color: CpColors.darkBackground),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Expanded(
-              child: _Balance(),
-            ),
-            Expanded(
-              child: _Buttons(),
-            ),
+            _Balance(),
+            _Buttons(),
           ],
         ),
       );
@@ -47,13 +42,18 @@ class _Buttons extends StatelessWidget {
     final isZeroAmount = context.watchUsdcBalance().isZero;
 
     if (isZeroAmount) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [AddCashButton()],
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [AddCashButton()],
+        ),
       );
     }
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Divider(color: CpColors.darkDividerColor),
@@ -69,7 +69,7 @@ class _Buttons extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
           child: Row(
             children: [
               Flexible(
@@ -90,7 +90,7 @@ class _Buttons extends StatelessWidget {
         )
       ],
     );
-  }
+  } 
 }
 
 class _Balance extends StatefulWidget {
@@ -106,22 +106,25 @@ class _BalanceState extends State<_Balance> {
   void _toggleInfo() => setState(() => _showMore = !_showMore);
 
   @override
-  Widget build(BuildContext context) => AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        child: _showMore
-            ? _Info(onClose: _toggleInfo)
-            : Padding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    _Headline(onInfo: _toggleInfo),
-                    const Spacer(),
-                    const _Amount(),
-                  ],
+  Widget build(BuildContext context) => SizedBox(
+        height: 140,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: _showMore
+              ? _Info(onClose: _toggleInfo)
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _Headline(onInfo: _toggleInfo),
+                      const Spacer(),
+                      const _Amount(),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       );
 }
 
@@ -134,20 +137,21 @@ class _Info extends StatelessWidget {
   final VoidCallback onClose;
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.center,
         children: [
-          CloseButton(color: Colors.white, onPressed: onClose),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: CpInfoWidget(
-              message: Text(
-                context.l10n.usdcInfo,
-                style: const TextStyle(color: Colors.white),
-              ),
-              variant: CpInfoVariant.dark,
+          Align(
+            alignment: Alignment.topRight,
+            child: CloseButton(color: Colors.white, onPressed: onClose),
+          ),
+          CpInfoWidget(
+            message: Text(
+              context.l10n.usdcInfo,
+              style: const TextStyle(color: Colors.white),
             ),
-          )
+            variant: CpInfoVariant.dark,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+          ),
         ],
       );
 }
