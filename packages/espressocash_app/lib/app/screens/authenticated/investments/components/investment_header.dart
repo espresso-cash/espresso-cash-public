@@ -9,6 +9,7 @@ import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../features/ramp/widgets/ramp_buttons.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
@@ -90,7 +91,7 @@ class _Buttons extends StatelessWidget {
         )
       ],
     );
-  } 
+  }
 }
 
 class _Balance extends StatefulWidget {
@@ -142,7 +143,10 @@ class _Info extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.topRight,
-            child: CloseButton(color: Colors.white, onPressed: onClose),
+            child: IconButton(
+              icon: Assets.icons.closeButtonIcon.svg(color: Colors.white),
+              onPressed: onClose,
+            ),
           ),
           CpInfoWidget(
             message: Text(
