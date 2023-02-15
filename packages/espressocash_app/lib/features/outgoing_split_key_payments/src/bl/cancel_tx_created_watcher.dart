@@ -44,10 +44,14 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
       return payment;
     }
 
-    final tx = await sender.send(status.tx);
+    final tx = await sender.send(status.tx, minContextSlot: status.slot);
 
     final OSKPStatus? newStatus = tx.map(
-      sent: (_) => OSKPStatus.cancelTxSent(status.tx, escrow: status.escrow),
+      sent: (_) => OSKPStatus.cancelTxSent(
+        status.tx,
+        escrow: status.escrow,
+        slot: status.slot,
+      ),
       invalidBlockhash: (_) => OSKPStatus.cancelTxFailure(
         reason: TxFailureReason.invalidBlockhashSending,
         escrow: status.escrow,

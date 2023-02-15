@@ -138,7 +138,7 @@ class ISLPBloc extends Bloc<_Event, _State> {
   }
 
   Future<ISLPStatus> _sendTx(SignedTx tx) async {
-    final result = await _txSender.send(tx);
+    final result = await _txSender.send(tx, minContextSlot: BigInt.zero);
 
     return result.map(
       sent: (_) => ISLPStatus.txSent(tx),
@@ -149,7 +149,7 @@ class ISLPBloc extends Bloc<_Event, _State> {
   }
 
   Future<ISLPStatus> _waitTx(SignedTx tx) async {
-    final result = await _txSender.wait(tx);
+    final result = await _txSender.wait(tx, minContextSlot: BigInt.zero);
 
     return result.map(
       success: (_) => ISLPStatus.success(txId: tx.id),

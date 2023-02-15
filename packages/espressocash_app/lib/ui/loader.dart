@@ -63,7 +63,10 @@ Future<T> runWithLoader<T>(
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder: (context) => LoadingDialog<T>(future: future),
+    builder: (context) => WillPopScope(
+      onWillPop: () async => false,
+      child: LoadingDialog<T>(future: future),
+    ),
   );
 
   return future;

@@ -33,7 +33,7 @@ Future<void> main() async {
       [sender],
     );
 
-    final result = await service.send(tx);
+    final result = await service.send(tx, minContextSlot: BigInt.zero);
 
     expect(result, const TxSendResult.sent());
   });
@@ -49,7 +49,7 @@ Future<void> main() async {
 
     final tx = await signTransaction(invalidBlockhash, message, [sender]);
 
-    final result = await service.send(tx);
+    final result = await service.send(tx, minContextSlot: BigInt.zero);
 
     expect(result, const TxSendResult.invalidBlockhash());
   });
@@ -70,9 +70,9 @@ Future<void> main() async {
       [sender],
     );
 
-    await service.send(tx);
+    await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
-    final result = await service.send(tx);
+    final result = await service.send(tx, minContextSlot: BigInt.zero);
 
     expect(result, const TxSendResult.sent());
   });
@@ -92,7 +92,7 @@ Future<void> main() async {
     );
     final tx = SignedTx(compiledMessage: compiled);
 
-    final result = await service.send(tx);
+    final result = await service.send(tx, minContextSlot: BigInt.zero);
 
     expect(
       result,
@@ -119,8 +119,8 @@ Future<void> main() async {
       [sender],
     );
 
-    await service.send(tx);
-    final result = await service.wait(tx);
+    await service.send(tx, minContextSlot: BigInt.zero);
+    final result = await service.wait(tx, minContextSlot: BigInt.zero);
 
     expect(result, const TxWaitResult.success());
   });
@@ -144,9 +144,9 @@ Future<void> main() async {
       [sender],
     );
 
-    await service.send(tx);
+    await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
-    final result = await service.wait(tx);
+    final result = await service.wait(tx, minContextSlot: BigInt.zero);
 
     expect(result, const TxWaitResult.success());
   });

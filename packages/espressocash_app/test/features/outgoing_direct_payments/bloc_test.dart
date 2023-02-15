@@ -69,8 +69,9 @@ Future<void> main() async {
       when(client.createDirectPayment(any))
           .thenAnswer((_) async => testApiResponse);
 
-      when(sender.send(any)).thenAnswer((_) async => const TxSendResult.sent());
-      when(sender.wait(any))
+      when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
+          .thenAnswer((_) async => const TxSendResult.sent());
+      when(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
           .thenAnswer((_) async => const TxWaitResult.success());
     },
     build: createBloc,
@@ -85,8 +86,10 @@ Future<void> main() async {
       );
     },
     verify: (b) async {
-      verify(sender.send(any)).called(1);
-      verify(sender.wait(any)).called(1);
+      verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
+          .called(1);
+      verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
+          .called(1);
 
       expect(repository._payments.length, 1);
       expect(
@@ -115,8 +118,8 @@ Future<void> main() async {
       );
     },
     verify: (b) async {
-      verifyNever(sender.send(any));
-      verifyNever(sender.wait(any));
+      verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
+      verifyNever(sender.wait(any, minContextSlot: anyNamed('minContextSlot')));
 
       expect(repository._payments.length, 1);
       expect(
