@@ -1,3 +1,10 @@
+## 1.64.0
+
+ - **REFACTOR**: use ContextResult.
+ - **REFACTOR**: update OSKP handling.
+ - **FIX**: blockhash validation.
+ - **FEAT**: new investment screen (#781).
+
 ## 1.63.1
 
  - **FIX**: retry button behaviour (#797).
