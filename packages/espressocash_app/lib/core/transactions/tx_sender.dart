@@ -15,13 +15,16 @@ class TxSender {
 
   final SolanaClient _client;
 
-  Future<TxSendResult> send(SignedTx tx) async {
+  Future<TxSendResult> send(
+    SignedTx tx, {
+    required BigInt minContextSlot,
+  }) async {
     Future<TxSendResult> checkSubmittedTx(String txId) => _client.rpcClient
-        .getSignatureStatuses([txId], searchTransactionHistory: true)
-        .value
-        .then(
-          (value) => value.first == null
-              ? const TxSendResult.invalidBlockhash()
+            .getSignatureStatuses([txId], searchTransactionHistory: true).then(
+          (statuses) => statuses.value.first == null
+              ? (statuses.context.slot >= minContextSlot
+                  ? const TxSendResult.invalidBlockhash()
+                  : const TxSendResult.networkError())
               : const TxSendResult.sent(),
           onError: (_) => const TxSendResult.networkError(),
         );
@@ -30,10 +33,15 @@ class TxSender {
       await _client.rpcClient.sendTransaction(
         tx.encode(),
         preflightCommitment: Commitment.confirmed,
+        minContextSlot: minContextSlot.toInt(),
       );
 
       return const TxSendResult.sent();
     } on JsonRpcException catch (e) {
+      if (e.code == JsonRpcErrorCode.minContextSlotNotReached) {
+        return const TxSendResult.networkError();
+      }
+
       if (e.isInsufficientFunds) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
@@ -52,33 +60,28 @@ class TxSender {
     }
   }
 
-  Future<TxWaitResult> wait(SignedTx tx) async {
+  Future<TxWaitResult> wait(
+    SignedTx tx, {
+    required BigInt minContextSlot,
+  }) async {
     try {
-      final t = await _client.rpcClient
-          .getSignatureStatuses([tx.id], searchTransactionHistory: true)
-          .value
-          .then((value) => value.first);
+      final statuses = await _client.rpcClient
+          .getSignatureStatuses([tx.id], searchTransactionHistory: true);
+      final t = statuses.value.first;
 
       if (t == null) {
-        // TODO(KB): There is currently a bug if the RPC node reports that
-        // blockhash is invalid, but the transaction was actually submitted.
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
-            .isBlockhashValid(bh, commitment: Commitment.confirmed)
+            .isBlockhashValid(
+              bh,
+              commitment: Commitment.confirmed,
+              minContextSlot: minContextSlot.toInt(),
+            )
             .value;
-        if (!isValidBlockhash) {
-          // Check once more to ensure that the transaction was not submitted
-          // while we were checking blockhash.
-          final wasSubmitted = await _client.rpcClient
-              .getSignatureStatuses([tx.id], searchTransactionHistory: true)
-              .value
-              .then((it) => it.first != null);
-
-          if (!wasSubmitted) {
-            return const TxWaitResult.failure(
-              reason: TxFailureReason.invalidBlockhashWaiting,
-            );
-          }
+        if (!isValidBlockhash && statuses.context.slot >= minContextSlot) {
+          return const TxWaitResult.failure(
+            reason: TxFailureReason.invalidBlockhashWaiting,
+          );
         }
       } else {
         if (t.err != null) {

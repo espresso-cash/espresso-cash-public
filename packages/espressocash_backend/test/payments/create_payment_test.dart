@@ -31,7 +31,7 @@ Future<void> main() async {
     // doesn't transfer private key for the escrow account to the system.
     final escrow = await Ed25519HDKeyPair.random();
 
-    final tx = await createPaymentTx(
+    final result = await createPaymentTx(
       aSender: sender.publicKey,
       aEscrow: escrow.publicKey,
       mint: mint,
@@ -43,7 +43,7 @@ Future<void> main() async {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await sender.resign(tx);
+    final resignedTx = await sender.resign(result.item1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -80,7 +80,7 @@ Future<void> main() async {
 
     final escrow = await Ed25519HDKeyPair.random();
 
-    final tx = await createPaymentTx(
+    final result = await createPaymentTx(
       aSender: sender.publicKey,
       aEscrow: escrow.publicKey,
       mint: mint,
@@ -91,7 +91,7 @@ Future<void> main() async {
     );
 
     final signature = client.rpcClient.sendTransaction(
-      tx.encode(),
+      result.item1.encode(),
       preflightCommitment: Commitment.confirmed,
     );
 
