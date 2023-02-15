@@ -15,7 +15,6 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
     required DateTime created,
     required OSKPStatus status,
     DateTime? linksGeneratedAt,
-    DateTime? resolvedAt,
   }) = _OutgoingSplitKeyPayment;
 
   const OutgoingSplitKeyPayment._();
@@ -49,20 +48,19 @@ class OSKPStatus with _$OSKPStatus {
     required Uri link2,
     Uri? qrLink,
     required EscrowPrivateKey escrow,
-    DateTime? timestamp,
   }) = OSKPStatusLinksReady;
 
   /// Money are withdrawn from the escrow by someone, but not by the sender. The
   /// payment is complete.
   const factory OSKPStatus.withdrawn({
     required String txId,
-    DateTime? timestamp,
+    required DateTime timestamp,
   }) = OSKPStatusWithdrawn;
 
   /// Money are withdrawn by the sender. The payment is complete.
   const factory OSKPStatus.canceled({
     required String? txId,
-    DateTime? timestamp,
+    required DateTime timestamp,
   }) = OSKPStatusCanceled;
 
   /// There was an error while creating the tx, or the tx was rejected. In any

@@ -166,7 +166,6 @@ extension OSKPRowExt on OSKPRow {
         ),
         status: await status.toOSKPStatus(this),
         linksGeneratedAt: generatedLinksAt,
-        resolvedAt: resolvedAt,
       );
 }
 
@@ -181,8 +180,7 @@ extension on OSKPStatusDto {
     final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
-    final generatedLinksAt = row.generatedLinksAt;
-    final resolvedAt = row.resolvedAt;
+    final resolvedAt = row.resolvedAt ?? DateTime.now();
 
     switch (this) {
       case OSKPStatusDto.txCreated:
@@ -197,7 +195,6 @@ extension on OSKPStatusDto {
           link2: link2!,
           qrLink: link3,
           escrow: escrow!,
-          timestamp: generatedLinksAt,
         );
       case OSKPStatusDto.success:
         // For compatibility with old versions
@@ -261,7 +258,7 @@ extension on OutgoingSplitKeyPayment {
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
-        generatedLinksAt: status.toGeneratedAt(),
+        generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
       );
 }
@@ -331,10 +328,6 @@ extension on OSKPStatus {
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
         cancelTxFailure: (it) => it.reason,
-      );
-
-  DateTime? toGeneratedAt() => mapOrNull(
-        linksReady: (it) => it.timestamp,
       );
 
   DateTime? toResolvedAt() => mapOrNull(

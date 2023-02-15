@@ -46,7 +46,10 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
     final tx = await sender.wait(status.tx);
 
     final OSKPStatus? newStatus = tx.map(
-      success: (_) => OSKPStatus.canceled(txId: status.tx.id),
+      success: (_) => OSKPStatus.canceled(
+        txId: status.tx.id,
+        timestamp: DateTime.now(),
+      ),
       failure: (tx) => OSKPStatus.cancelTxFailure(
         reason: tx.reason,
         escrow: status.escrow,

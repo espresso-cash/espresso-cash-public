@@ -77,10 +77,12 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
       link2: secondLink,
       qrLink: qrLink,
       escrow: status.escrow,
-      timestamp: DateTime.now(),
     );
 
-    return payment.copyWith(status: newStatus);
+    return payment.copyWith(
+      status: newStatus,
+      linksGeneratedAt: DateTime.now(),
+    );
   }
 }
 

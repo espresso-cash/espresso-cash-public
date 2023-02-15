@@ -35,8 +35,10 @@ class TxReadyWatcher {
 
           final txId = tx.id;
 
-          final timestamp = txDetails.blockTime
-              ?.let((it) => DateTime.fromMillisecondsSinceEpoch(it * 1000));
+          final timestamp = txDetails.blockTime?.let(
+                (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+              ) ??
+              DateTime.now();
 
           final newStatus = await tx.getDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
@@ -96,8 +98,7 @@ class TxReadyWatcher {
           .startWith(null)
           .flatMap(streamSignatures)
           .where((event) => event.length == 2)
-          .map((details) => details.first)
-          .map((tx) => tx),
+          .map((details) => details.first),
       retryWhen,
     );
   }

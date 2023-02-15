@@ -85,7 +85,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final created = payment.created;
           final generatedLinksAt = payment.linksGeneratedAt;
-          final resolvedAt = payment.resolvedAt;
+          final resolvedAt = payment.status.mapOrNull(
+            canceled: (e) => e.timestamp,
+            withdrawn: (e) => e.timestamp,
+          );
 
           final List<Widget> actions = payment.status.maybeMap(
             linksReady: (s) => [
