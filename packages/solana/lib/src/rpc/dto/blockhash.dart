@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 import 'package:solana/src/rpc/dto/fee_calculator.dart';
 
 part 'blockhash.g.dart';
@@ -18,4 +19,12 @@ class Blockhash {
 
   final FeeCalculator feeCalculator;
   final String blockhash;
+}
+
+@JsonSerializable(createToJson: false)
+class BlockhasValidResult extends ContextResult<bool> {
+  BlockhasValidResult({required super.context, required super.value});
+
+  factory BlockhasValidResult.fromJson(Map<String, dynamic> json) =>
+      _$BlockhasValidResultFromJson(json);
 }

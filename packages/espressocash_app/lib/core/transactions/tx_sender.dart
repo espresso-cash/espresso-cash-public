@@ -16,11 +16,10 @@ class TxSender {
   final SolanaClient _client;
 
   Future<TxSendResult> send(SignedTx tx) async {
-    Future<TxSendResult> checkSubmittedTx(String txId) =>
-        _client.rpcClient.getSignatureStatuses(
-          [txId],
-          searchTransactionHistory: true,
-        ).then(
+    Future<TxSendResult> checkSubmittedTx(String txId) => _client.rpcClient
+        .getSignatureStatuses([txId], searchTransactionHistory: true)
+        .value
+        .then(
           (value) => value.first == null
               ? const TxSendResult.invalidBlockhash()
               : const TxSendResult.sent(),
@@ -55,24 +54,25 @@ class TxSender {
 
   Future<TxWaitResult> wait(SignedTx tx) async {
     try {
-      final t = await _client.rpcClient.getSignatureStatuses(
-        [tx.id],
-        searchTransactionHistory: true,
-      ).then((value) => value.first);
+      final t = await _client.rpcClient
+          .getSignatureStatuses([tx.id], searchTransactionHistory: true)
+          .value
+          .then((value) => value.first);
 
       if (t == null) {
         // TODO(KB): There is currently a bug if the RPC node reports that
         // blockhash is invalid, but the transaction was actually submitted.
         final bh = tx.blockhash;
         final isValidBlockhash = await _client.rpcClient
-            .isBlockhashValid(bh, commitment: Commitment.confirmed);
+            .isBlockhashValid(bh, commitment: Commitment.confirmed)
+            .value;
         if (!isValidBlockhash) {
           // Check once more to ensure that the transaction was not submitted
           // while we were checking blockhash.
-          final wasSubmitted = await _client.rpcClient.getSignatureStatuses(
-            [tx.id],
-            searchTransactionHistory: true,
-          ).then((it) => it.first != null);
+          final wasSubmitted = await _client.rpcClient
+              .getSignatureStatuses([tx.id], searchTransactionHistory: true)
+              .value
+              .then((it) => it.first != null);
 
           if (!wasSubmitted) {
             return const TxWaitResult.failure(

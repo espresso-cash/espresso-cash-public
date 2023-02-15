@@ -22,7 +22,8 @@ Future<void> main() async {
       MemoInstruction(signers: [sender.publicKey], memo: 'Sends tx'),
     );
     final bh = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed);
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(
       RecentBlockhash(
         blockhash: bh.blockhash,
@@ -58,7 +59,8 @@ Future<void> main() async {
       MemoInstruction(signers: [sender.publicKey], memo: 'Duplicate'),
     );
     final bh = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed);
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(
       RecentBlockhash(
         blockhash: bh.blockhash,
@@ -82,6 +84,7 @@ Future<void> main() async {
 
     final b = await client.rpcClient
         .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value
         .then((value) => value.blockhash);
     final compiled = message.compile(
       recentBlockhash: b,
@@ -105,7 +108,8 @@ Future<void> main() async {
       ),
     );
     final bh = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed);
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(
       RecentBlockhash(
         blockhash: bh.blockhash,
@@ -129,7 +133,8 @@ Future<void> main() async {
       ),
     );
     final bh = await client.rpcClient
-        .getLatestBlockhash(commitment: Commitment.confirmed);
+        .getLatestBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await signTransaction(
       RecentBlockhash(
         blockhash: bh.blockhash,
