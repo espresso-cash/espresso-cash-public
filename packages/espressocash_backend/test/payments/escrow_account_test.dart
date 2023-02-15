@@ -66,7 +66,7 @@ void main() {
 
     final escrowAccount = await Ed25519HDKeyPair.random();
 
-    final tx = await createPaymentTx(
+    final result = await createPaymentTx(
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
@@ -78,7 +78,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await testData.sender.resign(tx);
+    final resignedTx = await testData.sender.resign(result.item1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),

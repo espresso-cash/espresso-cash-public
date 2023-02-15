@@ -230,6 +230,7 @@ CreatePaymentResponseDto _$CreatePaymentResponseDtoFromJson(
 /// @nodoc
 mixin _$CreatePaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -243,7 +244,7 @@ abstract class $CreatePaymentResponseDtoCopyWith<$Res> {
           $Res Function(CreatePaymentResponseDto) then) =
       _$CreatePaymentResponseDtoCopyWithImpl<$Res, CreatePaymentResponseDto>;
   @useResult
-  $Res call({String transaction});
+  $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -261,12 +262,17 @@ class _$CreatePaymentResponseDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_value.copyWith(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ) as $Val);
   }
 }
@@ -280,7 +286,7 @@ abstract class _$$_CreatePaymentResponseDtoCopyWith<$Res>
       __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String transaction});
+  $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -296,12 +302,17 @@ class __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_$_CreatePaymentResponseDto(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -309,17 +320,20 @@ class __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_CreatePaymentResponseDto implements _CreatePaymentResponseDto {
-  const _$_CreatePaymentResponseDto({required this.transaction});
+  const _$_CreatePaymentResponseDto(
+      {required this.transaction, required this.slot});
 
   factory _$_CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_CreatePaymentResponseDtoFromJson(json);
 
   @override
   final String transaction;
+  @override
+  final BigInt slot;
 
   @override
   String toString() {
-    return 'CreatePaymentResponseDto(transaction: $transaction)';
+    return 'CreatePaymentResponseDto(transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -328,12 +342,13 @@ class _$_CreatePaymentResponseDto implements _CreatePaymentResponseDto {
         (other.runtimeType == runtimeType &&
             other is _$_CreatePaymentResponseDto &&
             (identical(other.transaction, transaction) ||
-                other.transaction == transaction));
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, transaction);
+  int get hashCode => Object.hash(runtimeType, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -351,14 +366,17 @@ class _$_CreatePaymentResponseDto implements _CreatePaymentResponseDto {
 }
 
 abstract class _CreatePaymentResponseDto implements CreatePaymentResponseDto {
-  const factory _CreatePaymentResponseDto({required final String transaction}) =
-      _$_CreatePaymentResponseDto;
+  const factory _CreatePaymentResponseDto(
+      {required final String transaction,
+      required final BigInt slot}) = _$_CreatePaymentResponseDto;
 
   factory _CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =
       _$_CreatePaymentResponseDto.fromJson;
 
   @override
   String get transaction;
+  @override
+  BigInt get slot;
   @override
   @JsonKey(ignore: true)
   _$$_CreatePaymentResponseDtoCopyWith<_$_CreatePaymentResponseDto>
@@ -555,6 +573,7 @@ ReceivePaymentResponseDto _$ReceivePaymentResponseDtoFromJson(
 /// @nodoc
 mixin _$ReceivePaymentResponseDto {
   String get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -568,7 +587,7 @@ abstract class $ReceivePaymentResponseDtoCopyWith<$Res> {
           $Res Function(ReceivePaymentResponseDto) then) =
       _$ReceivePaymentResponseDtoCopyWithImpl<$Res, ReceivePaymentResponseDto>;
   @useResult
-  $Res call({String transaction});
+  $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -586,12 +605,17 @@ class _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_value.copyWith(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ) as $Val);
   }
 }
@@ -605,7 +629,7 @@ abstract class _$$_ReceivePaymentResponseDtoCopyWith<$Res>
       __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String transaction});
+  $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -622,12 +646,17 @@ class __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>
   @override
   $Res call({
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_$_ReceivePaymentResponseDto(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -635,17 +664,20 @@ class __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_ReceivePaymentResponseDto implements _ReceivePaymentResponseDto {
-  const _$_ReceivePaymentResponseDto({required this.transaction});
+  const _$_ReceivePaymentResponseDto(
+      {required this.transaction, required this.slot});
 
   factory _$_ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_ReceivePaymentResponseDtoFromJson(json);
 
   @override
   final String transaction;
+  @override
+  final BigInt slot;
 
   @override
   String toString() {
-    return 'ReceivePaymentResponseDto(transaction: $transaction)';
+    return 'ReceivePaymentResponseDto(transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -654,12 +686,13 @@ class _$_ReceivePaymentResponseDto implements _ReceivePaymentResponseDto {
         (other.runtimeType == runtimeType &&
             other is _$_ReceivePaymentResponseDto &&
             (identical(other.transaction, transaction) ||
-                other.transaction == transaction));
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, transaction);
+  int get hashCode => Object.hash(runtimeType, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -678,13 +711,16 @@ class _$_ReceivePaymentResponseDto implements _ReceivePaymentResponseDto {
 
 abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   const factory _ReceivePaymentResponseDto(
-      {required final String transaction}) = _$_ReceivePaymentResponseDto;
+      {required final String transaction,
+      required final BigInt slot}) = _$_ReceivePaymentResponseDto;
 
   factory _ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =
       _$_ReceivePaymentResponseDto.fromJson;
 
   @override
   String get transaction;
+  @override
+  BigInt get slot;
   @override
   @JsonKey(ignore: true)
   _$$_ReceivePaymentResponseDtoCopyWith<_$_ReceivePaymentResponseDto>

@@ -151,11 +151,11 @@ class CreateSwap {
     );
     final compiled = asLegacyTx
         ? message.compile(
-            recentBlockhash: latestBlockhash.blockhash,
+            recentBlockhash: latestBlockhash.value.blockhash,
             feePayer: feePayer,
           )
         : message.compileV0(
-            recentBlockhash: latestBlockhash.blockhash,
+            recentBlockhash: latestBlockhash.value.blockhash,
             feePayer: feePayer,
             addressLookupTableAccounts: lookUpTables,
           );
