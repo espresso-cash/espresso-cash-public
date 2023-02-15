@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:dfunc/dfunc.dart';
@@ -155,7 +154,7 @@ class _ConnectorState extends State<_Connector>
     if (!widget.shouldBounce) {
       _controller.reset();
     } else {
-      _controller.repeat();
+      _controller.fling();
     }
   }
 
@@ -172,7 +171,8 @@ class _ConnectorState extends State<_Connector>
               builder: (context, child) => Positioned(
                 top: _controller.value
                     .let(Curves.linear.transform)
-                    .let(_transformConnector),
+                    .let(_transform)
+                    .let(_toConnectorHeight),
                 child: child!,
               ),
               child: Container(
@@ -208,21 +208,13 @@ class _IndicatorState extends State<_Indicator>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this, duration: _bounceDuration)
-      ..addStatusListener(_onAnimationStatusUpdate);
-    Future<void>.delayed(
-      Duration(
-        milliseconds: (_completeDuration.inMilliseconds * 0.25).toInt() -
-            _bounceDuration.inMilliseconds,
-      ),
-    ).then(_updateAnimation);
+    _controller = AnimationController(vsync: this, duration: _completeDuration);
+    _updateAnimation();
   }
 
   @override
   void dispose() {
-    _controller
-      ..removeStatusListener(_onAnimationStatusUpdate)
-      ..dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -232,29 +224,12 @@ class _IndicatorState extends State<_Indicator>
     _updateAnimation();
   }
 
-  void _updateAnimation([_]) {
+  void _updateAnimation() {
     if (!mounted) return;
-    if (!widget.shouldBounce) return _controller.reset();
-    if (_controller.isAnimating) return;
-
-    if (_controller.isCompleted) {
-      _controller.reverse();
+    if (!widget.shouldBounce) {
+      _controller.reset();
     } else {
-      _controller.forward();
-    }
-  }
-
-  void _onAnimationStatusUpdate(AnimationStatus status) {
-    if (status == AnimationStatus.completed) {
-      _updateAnimation();
-    } else if (status == AnimationStatus.dismissed) {
-      final b3 = Duration(
-        milliseconds: _completeDuration.inMilliseconds -
-            2 * _bounceDuration.inMilliseconds,
-      );
-      print('I should wait $b3');
-
-      Future<void>.delayed(b3).then(_updateAnimation);
+      _controller.repeat();
     }
   }
 
@@ -268,8 +243,9 @@ class _IndicatorState extends State<_Indicator>
               animation: _controller,
               builder: (context, child) => Positioned(
                 top: _controller.value
-                    .let(Curves.bounceInOut.transform)
-                    .let(_transformIndicator),
+                    // .let(Curves.bounceInOut.transform)
+                    .let(_transform)
+                    .let(_toIndicatorHeight),
                 child: child!,
               ),
               child: Container(
@@ -355,11 +331,12 @@ extension on CpTimelineStatus {
   }
 }
 
-double _transformConnector(double value) =>
-    sin(2 * pi * value) / 2 * _connectorHeight;
+double _transform(double value) => sin(2 * pi * value) / 2;
 
-double _transformIndicator(double value) =>
-    _indicatorBounceOffset + value * _indicatorBounceOffset;
+double _toConnectorHeight(double value) => value * _connectorHeight;
+
+double _toIndicatorHeight(double value) =>
+    max(0, value) * _indicatorBounceOffset;
 
 enum _BounceDirection { none, up, down }
 
