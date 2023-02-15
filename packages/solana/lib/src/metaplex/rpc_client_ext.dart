@@ -1,9 +1,8 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/metaplex/metaplex.dart';
 import 'package:solana/src/metaplex/utils.dart';
-import 'package:solana/src/rpc/dto/account_data/binary_account_data.dart';
-import 'package:solana/src/rpc/dto/encoding.dart';
 
 extension GetMetaplexMetadata on RpcClient {
   Future<Metadata?> getMetadata({
@@ -15,7 +14,7 @@ extension GetMetaplexMetadata on RpcClient {
       programAddress.toBase58(),
       encoding: Encoding.base64,
       commitment: commitment,
-    );
+    ).value;
     if (account == null) {
       return null;
     }
@@ -38,7 +37,7 @@ extension GetMetaplexMetadata on RpcClient {
       programAddress.toBase58(),
       encoding: Encoding.base64,
       commitment: commitment,
-    );
+    ).value;
     if (account == null) {
       return null;
     }

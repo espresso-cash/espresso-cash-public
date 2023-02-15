@@ -1,3 +1,4 @@
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -43,7 +44,8 @@ Future<void> main() async {
 
   test('recognizes AlreadyProcessedException', () async {
     final b = await client.rpcClient
-        .getRecentBlockhash(commitment: Commitment.confirmed);
+        .getRecentBlockhash(commitment: Commitment.confirmed)
+        .value;
     final tx = await account.signMessage(
       message: message,
       recentBlockhash: b.blockhash,

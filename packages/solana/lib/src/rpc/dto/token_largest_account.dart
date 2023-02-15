@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'token_largest_account.g.dart';
 
@@ -18,4 +19,13 @@ class TokenLargestAccount {
   final String amount;
   final int decimals;
   final String uiAmountString;
+}
+
+@JsonSerializable(createToJson: false)
+class TokenLargestAccountsResult
+    extends ContextResult<List<TokenLargestAccount>> {
+  TokenLargestAccountsResult({required super.context, required super.value});
+
+  factory TokenLargestAccountsResult.fromJson(Map<String, dynamic> json) =>
+      _$TokenLargestAccountsResultFromJson(json);
 }

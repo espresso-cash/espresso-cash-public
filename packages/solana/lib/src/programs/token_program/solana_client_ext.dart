@@ -12,11 +12,13 @@ extension SolanaClientTokenProgram on SolanaClient {
     required Ed25519HDPublicKey address,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final info = await rpcClient.getAccountInfo(
-      address.toBase58(),
-      commitment: commitment,
-      encoding: Encoding.base64,
-    );
+    final info = await rpcClient
+        .getAccountInfo(
+          address.toBase58(),
+          commitment: commitment,
+          encoding: Encoding.base64,
+        )
+        .value;
 
     if (info == null) throw const TokenAccountNotFoundException();
 

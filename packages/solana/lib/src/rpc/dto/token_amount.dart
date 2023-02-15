@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'token_amount.g.dart';
 
@@ -24,4 +25,12 @@ class TokenAmount {
 
   /// Token amount as a string, accounting for decimals.
   final String? uiAmountString;
+}
+
+@JsonSerializable(createToJson: false)
+class TokenAmountResult extends ContextResult<TokenAmount> {
+  TokenAmountResult({required super.context, required super.value});
+
+  factory TokenAmountResult.fromJson(Map<String, dynamic> json) =>
+      _$TokenAmountResultFromJson(json);
 }

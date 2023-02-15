@@ -93,11 +93,13 @@ void main() {
     });
 
     test('Create an associated token account', () async {
-      var accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
-        owner.address,
-        TokenAccountsFilter.byMint(newToken.address.toBase58()),
-        commitment: Commitment.confirmed,
-      );
+      var accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            commitment: Commitment.confirmed,
+          )
+          .value;
       expect(accounts, isNot(null));
       expect(accounts.length, equals(0));
 
@@ -107,12 +109,14 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
-        owner.address,
-        TokenAccountsFilter.byMint(newToken.address.toBase58()),
-        encoding: Encoding.jsonParsed,
-        commitment: Commitment.confirmed,
-      );
+      accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            encoding: Encoding.jsonParsed,
+            commitment: Commitment.confirmed,
+          )
+          .value;
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(
@@ -122,12 +126,14 @@ void main() {
     });
 
     test('Mint the newly created token and account', () async {
-      final accounts = await solanaClient.rpcClient.getTokenAccountsByOwner(
-        owner.address,
-        TokenAccountsFilter.byMint(newToken.address.toBase58()),
-        encoding: Encoding.jsonParsed,
-        commitment: Commitment.confirmed,
-      );
+      final accounts = await solanaClient.rpcClient
+          .getTokenAccountsByOwner(
+            owner.address,
+            TokenAccountsFilter.byMint(newToken.address.toBase58()),
+            encoding: Encoding.jsonParsed,
+            commitment: Commitment.confirmed,
+          )
+          .value;
       await solanaClient.mintTo(
         destination: Ed25519HDPublicKey.fromBase58(accounts.first.pubkey),
         amount: _totalSupply,
@@ -136,11 +142,12 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      final TokenAmount tokenSupply =
-          await solanaClient.rpcClient.getTokenSupply(
-        newToken.address.toBase58(),
-        commitment: Commitment.confirmed,
-      );
+      final TokenAmount tokenSupply = await solanaClient.rpcClient
+          .getTokenSupply(
+            newToken.address.toBase58(),
+            commitment: Commitment.confirmed,
+          )
+          .value;
 
       expect(int.parse(tokenSupply.amount), equals(_totalSupply));
     });
@@ -163,10 +170,12 @@ void main() {
         mint: newToken.address,
         commitment: Commitment.confirmed,
       );
-      final balance = await solanaClient.rpcClient.getTokenAccountBalance(
-        account.pubkey,
-        commitment: Commitment.confirmed,
-      );
+      final balance = await solanaClient.rpcClient
+          .getTokenAccountBalance(
+            account.pubkey,
+            commitment: Commitment.confirmed,
+          )
+          .value;
 
       expect(balance.amount, '100');
     });

@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/by_identity_value.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 import 'package:solana/src/rpc/dto/range.dart';
 
 part 'block_production.g.dart';
@@ -22,4 +23,12 @@ class BlockProduction {
 
   /// Block production slot range
   final Range range;
+}
+
+@JsonSerializable(createToJson: false)
+class BlockProductionResult extends ContextResult<BlockProduction> {
+  BlockProductionResult({required super.context, required super.value});
+
+  factory BlockProductionResult.fromJson(Map<String, dynamic> json) =>
+      _$BlockProductionResultFromJson(json);
 }
