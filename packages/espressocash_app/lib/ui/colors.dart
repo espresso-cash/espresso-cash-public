@@ -52,6 +52,7 @@ abstract class CpColors {
   static const chartLineColor = Color(0xfff9653e);
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
+  static const darkDividerColor = Color(0xff4b4b4b);
 
   static const sliderDisabledColor = Color(0xff323232);
 }

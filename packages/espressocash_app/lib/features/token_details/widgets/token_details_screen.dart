@@ -71,7 +71,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       _Chart(token: token),
                       if (token.canBeSwapped) ExchangeButtons(token: token),
-                      if (token == Token.usdc) const RampButtons(),
+                      if (token == Token.usdc) const _RampButtons(),
                       _Balance(token: token),
                       _Content(token: token),
                     ],
@@ -268,6 +268,23 @@ class __ChartState extends State<_Chart> {
       ],
     );
   }
+}
+
+class _RampButtons extends StatelessWidget {
+  const _RampButtons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: const [
+            AddCashButton(),
+            SizedBox(width: 24),
+            CashOutButton(),
+          ],
+        ),
+      );
 }
 
 extension on Token {

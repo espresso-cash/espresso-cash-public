@@ -16,6 +16,7 @@ import '../../../../ui/icon_button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
+import 'components/start_investing_header.dart';
 
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
@@ -49,26 +50,19 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     elevation: 0,
                     backgroundColor: Colors.white,
                   ),
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 45, horizontal: 24),
-                    sliver: SliverToBoxAdapter(child: InvestmentHeader()),
-                  ),
+                  SliverToBoxAdapter(child: InvestmentHeader()),
                   SliverToBoxAdapter(child: OnboardingNotice()),
+                  SliverToBoxAdapter(child: SizedBox(height: 45)),
+                  SliverToBoxAdapter(child: StartInvestingHeader()),
                   SliverPadding(
-                    padding: EdgeInsets.only(left: 24, right: 24),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
                     sliver: CryptoInvestments(),
                   ),
                   FavoriteTokenList(),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 32, bottom: 24),
-                      child: PopularCryptoHeader(),
-                    ),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 24)),
+                  SliverToBoxAdapter(child: PopularCryptoHeader()),
                   PopularTokenList(),
-                  SliverToBoxAdapter(
-                    child: SizedBox(height: 12),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: 12)),
                 ],
               ),
             ),
@@ -96,8 +90,7 @@ class _AppBarContent extends StatelessWidget {
                 children: [
                   CpIconButton(
                     icon: Assets.icons.searchButtonIcon.svg(),
-                    onPressed: () =>
-                        context.router.push(const TokenSearchRoute()),
+                    onPressed: () => context.router.push(TokenSearchRoute()),
                   ),
                   const SizedBox(width: 12),
                   CpIconButton(
