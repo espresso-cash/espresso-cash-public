@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
@@ -80,13 +81,13 @@ class ODPService {
         amount: amount.value,
         cluster: apiCluster,
       );
-      final tx = await _client
-          .createDirectPayment(dto)
-          .then((it) => it.transaction)
-          .then(SignedTx.decode)
-          .then((it) => it.resign(account));
+      final response = await _client.createDirectPayment(dto);
+      final tx = await response
+          .let((it) => it.transaction)
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account));
 
-      return ODPStatus.txCreated(tx);
+      return ODPStatus.txCreated(tx, slot: response.slot);
     } on Exception {
       return const ODPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,

@@ -72,7 +72,5 @@ extension on ODPStatus {
         txSent: F,
         txFailure: F,
         success: T,
-        txSendFailure: F,
-        txWaitFailure: F,
       );
 }
