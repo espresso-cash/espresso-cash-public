@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
@@ -5,24 +6,33 @@ import 'package:solana/solana.dart';
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/analytics/analytics_manager.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../ui/loader.dart';
 import '../models/outgoing_direct_payment.dart';
 import '../src/bl/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createODP({
-    required CryptoAmount amount,
+    required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
     required Ed25519HDPublicKey? reference,
   }) async =>
       runWithLoader(this, () async {
+        const currency = Currency.usdc;
         final payment = await sl<ODPService>().create(
           account: read<MyAccount>().wallet,
-          amount: amount,
+          amount: CryptoAmount(
+            value: currency.decimalToInt(amountInUsdc),
+            cryptoCurrency: currency,
+          ),
           receiver: receiver,
           reference: reference,
         );
+        print(payment.amount.format(DeviceLocale.localeOf(this)));
+
         sl<AnalyticsManager>().directPaymentCreated();
 
         return payment.id;

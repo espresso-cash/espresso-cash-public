@@ -67,9 +67,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
     if (!mounted) return;
     final id = await context.createODP(
-      amount:
-          Amount.fromDecimal(currency: Currency.usdc, value: confirmedAmount)
-              as CryptoAmount,
+      amountInUsdc: confirmedAmount,
       receiver: request.recipient,
       reference: request.reference?.firstOrNull,
     );

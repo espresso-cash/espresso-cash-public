@@ -88,8 +88,7 @@ class _State extends State<WalletFlowScreen> {
 
       if (!mounted) return;
       final id = await context.createODP(
-        amount: Amount.fromDecimal(currency: Currency.usdc, value: amount)
-            as CryptoAmount,
+        amountInUsdc: amount,
         receiver: recipient,
         reference: request.reference,
       );
