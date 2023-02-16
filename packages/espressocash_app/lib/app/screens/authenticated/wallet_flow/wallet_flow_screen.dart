@@ -86,11 +86,16 @@ class _State extends State<WalletFlowScreen> {
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));
 
-      context.createAndOpenDirectPayment(
-        amountInUsdc: amount,
+      if (!mounted) return;
+      final id = await context.createODP(
+        amount: Amount.fromDecimal(currency: Currency.usdc, value: amount)
+            as CryptoAmount,
         receiver: recipient,
         reference: request.reference,
       );
+
+      if (!mounted) return;
+      await context.router.push(ODPDetailsRoute(id: id));
     }
   }
 

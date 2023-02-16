@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/module.dart';
 import '../../core/balances/context_ext.dart';
 import '../../di.dart';
@@ -18,7 +16,7 @@ class ODPModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-           Provider<TxCreatedWatcher>(
+          Provider<TxCreatedWatcher>(
             lazy: false,
             create: (context) => sl<TxCreatedWatcher>()
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
