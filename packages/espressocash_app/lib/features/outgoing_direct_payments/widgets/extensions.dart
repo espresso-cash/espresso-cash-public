@@ -7,9 +7,7 @@ import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/currency.dart';
-import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../ui/loader.dart';
 import '../models/outgoing_direct_payment.dart';
 import '../src/bl/odp_service.dart';
@@ -31,7 +29,6 @@ extension BuildContextExt on BuildContext {
           receiver: receiver,
           reference: reference,
         );
-        print(payment.amount.format(DeviceLocale.localeOf(this)));
 
         sl<AnalyticsManager>().directPaymentCreated();
 
