@@ -18,3 +18,10 @@ TransactionStatus _$TransactionStatusFromJson(Map<String, dynamic> json) =>
           ? null
           : ReturnData.fromJson(json['returnData'] as Map<String, dynamic>),
     );
+
+TransactionStatusResult _$TransactionStatusResultFromJson(
+        Map<String, dynamic> json) =>
+    TransactionStatusResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: TransactionStatus.fromJson(json['value'] as Map<String, dynamic>),
+    );

@@ -36,7 +36,7 @@ Future<Response> createPaymentHandler(Request request) async =>
       (data) async {
         final cluster = data.cluster;
 
-        final payment = await createPaymentTx(
+        final result = await createPaymentTx(
           aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
           aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
           mint: cluster.mint,
@@ -46,7 +46,10 @@ Future<Response> createPaymentHandler(Request request) async =>
           commitment: Commitment.confirmed,
         );
 
-        return CreatePaymentResponseDto(transaction: payment.encode());
+        return CreatePaymentResponseDto(
+          transaction: result.item1.encode(),
+          slot: result.item2,
+        );
       },
     );
 
@@ -57,7 +60,7 @@ Future<Response> receivePaymentHandler(Request request) async =>
       (data) async {
         final cluster = data.cluster;
 
-        final payment = await receivePaymentTx(
+        final result = await receivePaymentTx(
           aReceiver: Ed25519HDPublicKey.fromBase58(data.receiverAccount),
           aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
           mint: cluster.mint,
@@ -66,7 +69,10 @@ Future<Response> receivePaymentHandler(Request request) async =>
           commitment: Commitment.confirmed,
         );
 
-        return ReceivePaymentResponseDto(transaction: payment.encode());
+        return ReceivePaymentResponseDto(
+          transaction: result.item1.encode(),
+          slot: result.item2,
+        );
       },
     );
 

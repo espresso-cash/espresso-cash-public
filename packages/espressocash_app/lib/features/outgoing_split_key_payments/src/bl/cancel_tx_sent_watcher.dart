@@ -43,7 +43,7 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(status.tx);
+    final tx = await sender.wait(status.tx, minContextSlot: status.slot);
 
     final OSKPStatus? newStatus = tx.map(
       success: (_) => OSKPStatus.canceled(

@@ -11,3 +11,10 @@ LatestBlockhash _$LatestBlockhashFromJson(Map<String, dynamic> json) =>
       blockhash: json['blockhash'] as String,
       lastValidBlockHeight: json['lastValidBlockHeight'] as int,
     );
+
+LatestBlockhashResult _$LatestBlockhashResultFromJson(
+        Map<String, dynamic> json) =>
+    LatestBlockhashResult(
+      value: LatestBlockhash.fromJson(json['value'] as Map<String, dynamic>),
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+    );

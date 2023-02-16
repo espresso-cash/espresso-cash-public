@@ -127,10 +127,8 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 22 && from < 28) {
             await _migrateOTP();
           }
-
           if (from >= 16 && from < 29) {
-            await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
-            await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
+            await m.addColumn(oSKPRows, oSKPRows.slot);
           }
         },
       );

@@ -12,3 +12,10 @@ RecentBlockhash _$RecentBlockhashFromJson(Map<String, dynamic> json) =>
       feeCalculator:
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
     );
+
+RecentBlockhashResult _$RecentBlockhashResultFromJson(
+        Map<String, dynamic> json) =>
+    RecentBlockhashResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: RecentBlockhash.fromJson(json['value'] as Map<String, dynamic>),
+    );

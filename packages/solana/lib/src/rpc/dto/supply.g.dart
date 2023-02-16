@@ -14,3 +14,8 @@ Supply _$SupplyFromJson(Map<String, dynamic> json) => Supply(
           .map((e) => e as String)
           .toList(),
     );
+
+SupplyResult _$SupplyResultFromJson(Map<String, dynamic> json) => SupplyResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: Supply.fromJson(json['value'] as Map<String, dynamic>),
+    );

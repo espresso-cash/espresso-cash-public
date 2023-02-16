@@ -1,5 +1,6 @@
 import 'package:espressocash_backend/src/payments/create_payment.dart';
 import 'package:espressocash_backend/src/payments/receive_payment.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -23,7 +24,7 @@ void main() {
     final escrowAccount = await Ed25519HDKeyPair.random();
     final receiverAccount = await Ed25519HDKeyPair.random();
 
-    final tx = await createPaymentTx(
+    final result = await createPaymentTx(
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
@@ -35,7 +36,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await testData.sender.resign(tx);
+    final resignedTx = await testData.sender.resign(result.item1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -47,12 +48,11 @@ void main() {
       status: Commitment.confirmed,
     );
 
-    final prePlatformBalance = await client.rpcClient.getBalance(
-      testData.platform.address,
-      commitment: Commitment.confirmed,
-    );
+    final prePlatformBalance = await client.rpcClient
+        .getBalance(testData.platform.address, commitment: Commitment.confirmed)
+        .value;
 
-    final receiveTx = await receivePaymentTx(
+    final receiveResult = await receivePaymentTx(
       aEscrow: escrowAccount.publicKey,
       aReceiver: receiverAccount.publicKey,
       mint: testData.mint,
@@ -61,7 +61,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await escrowAccount.resign(receiveTx);
+    final resignedReceiveTx = await escrowAccount.resign(receiveResult.item1);
 
     final signatureReceive = await client.rpcClient.sendTransaction(
       resignedReceiveTx.encode(),
@@ -73,10 +73,9 @@ void main() {
       status: Commitment.confirmed,
     );
 
-    final postPlatformBalance = await client.rpcClient.getBalance(
-      testData.platform.address,
-      commitment: Commitment.confirmed,
-    );
+    final postPlatformBalance = await client.rpcClient
+        .getBalance(testData.platform.address, commitment: Commitment.confirmed)
+        .value;
 
     // Platform pays for 2 signatures: platform itself as a fee payer and escrow
     // for the transfer.
@@ -106,7 +105,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final tx = await createPaymentTx(
+    final createPaymentResult = await createPaymentTx(
       aSender: testData.sender.publicKey,
       aEscrow: escrowAccount.publicKey,
       mint: testData.mint,
@@ -118,7 +117,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await testData.sender.resign(tx);
+    final resignedTx = await testData.sender.resign(createPaymentResult.item1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -130,12 +129,11 @@ void main() {
       status: Commitment.confirmed,
     );
 
-    final prePlatformBalance = await client.rpcClient.getBalance(
-      testData.platform.address,
-      commitment: Commitment.confirmed,
-    );
+    final prePlatformBalance = await client.rpcClient
+        .getBalance(testData.platform.address, commitment: Commitment.confirmed)
+        .value;
 
-    final receiveTx = await receivePaymentTx(
+    final receiveResult = await receivePaymentTx(
       aEscrow: escrowAccount.publicKey,
       aReceiver: receiverAccount.publicKey,
       mint: testData.mint,
@@ -144,7 +142,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await escrowAccount.resign(receiveTx);
+    final resignedReceiveTx = await escrowAccount.resign(receiveResult.item1);
 
     final signatureReceive = await client.rpcClient.sendTransaction(
       resignedReceiveTx.encode(),
@@ -156,10 +154,9 @@ void main() {
       status: Commitment.confirmed,
     );
 
-    final postPlatformBalance = await client.rpcClient.getBalance(
-      testData.platform.address,
-      commitment: Commitment.confirmed,
-    );
+    final postPlatformBalance = await client.rpcClient
+        .getBalance(testData.platform.address, commitment: Commitment.confirmed)
+        .value;
 
     // Platform pays for 2 signatures: platform itself as a fee payer and escrow
     // for the transfer. Since the receiver has an ATA, the platform does not
