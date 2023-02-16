@@ -5,8 +5,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/cancelable_job.dart';
 import '../../models/outgoing_split_key_payment.dart';
-import 'cancelable_job.dart';
 import 'repository.dart';
 
 abstract class PaymentWatcher {

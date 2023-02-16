@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/cancelable_job.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../models/outgoing_split_key_payment.dart';
-import 'cancelable_job.dart';
 import 'payment_watcher.dart';
 import 'repository.dart';
 
