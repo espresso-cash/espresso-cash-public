@@ -58,7 +58,11 @@ class JupiterRepository {
 
     final tx = await _swapClient
         .getSwapTransactions(
-          JupiterSwapRequestDto(userPublicKey: account, route: bestRoute),
+          JupiterSwapRequestDto(
+            userPublicKey: account,
+            route: bestRoute,
+            asLegacyTransaction: asLegacyTransaction,
+          ),
         )
         .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
