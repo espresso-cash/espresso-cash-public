@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/tokens/token.dart';
 import '../../../../di.dart';
@@ -13,18 +15,24 @@ import '../../../../ui/loader.dart';
 import '../../../../ui/text_field.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
 import '../../models/crypto_categories.dart';
+import '../../widgets/discover_header.dart';
 import '../bl/bloc.dart';
-import 'discover_header.dart';
 
 class TokenSearchScreen extends StatelessWidget {
-  const TokenSearchScreen({super.key});
+  const TokenSearchScreen({
+    super.key,
+    this.category,
+  });
+
+  final CryptoCategories? category;
 
   @override
-  Widget build(BuildContext context) => MultiBlocProvider(
+  Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider<TokenSearchBloc>(
             create: (context) => sl<TokenSearchBloc>(),
           ),
+          Provider<CryptoCategories?>.value(value: category),
         ],
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -55,6 +63,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
+    context.read<CryptoCategories?>().maybeFlatMap(onCategoryTap);
     _controller.addListener(() {
       _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));

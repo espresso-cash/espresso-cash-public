@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:solana/anchor.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -91,10 +92,9 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      final account = await client.rpcClient.getAccountInfo(
-        updater.address,
-        commitment: Commitment.confirmed,
-      );
+      final account = await client.rpcClient
+          .getAccountInfo(updater.address, commitment: Commitment.confirmed)
+          .value;
 
       expect(account, isNotNull);
       final rawData = account?.data;
@@ -134,10 +134,9 @@ void main() {
       );
 
       final discriminator = await computeDiscriminator('account', 'MyAccount');
-      final account = await client.rpcClient.getAccountInfo(
-        updater.address,
-        commitment: Commitment.confirmed,
-      );
+      final account = await client.rpcClient
+          .getAccountInfo(updater.address, commitment: Commitment.confirmed)
+          .value;
 
       expect(account, isNotNull);
       final rawData = account?.data;

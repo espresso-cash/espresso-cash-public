@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 28;
+const int latestVersion = 29;
 
 const _tables = [
   OutgoingTransferRows,
@@ -126,6 +126,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from >= 22 && from < 28) {
             await _migrateOTP();
+          }
+          if (from >= 16 && from < 29) {
+            await m.addColumn(oSKPRows, oSKPRows.slot);
           }
         },
       );

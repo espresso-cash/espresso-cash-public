@@ -9,7 +9,7 @@ enum CpButtonVariant {
   inverted,
 }
 
-enum CpButtonSize { normal, big, small, micro }
+enum CpButtonSize { normal, big, small, micro, wide }
 
 enum CpButtonAlignment { left, center }
 
@@ -70,12 +70,24 @@ class CpButton extends StatelessWidget {
           return style.copyWith(fontSize: 17);
         case CpButtonSize.small:
           return style.copyWith(fontSize: 17, height: 1);
+        case CpButtonSize.wide:
+          return style.copyWith(fontSize: 16, height: 0);
         case CpButtonSize.micro:
           return style.copyWith(fontSize: 15, height: 0);
       }
     })();
 
-    final double horizontalPadding = size == CpButtonSize.micro ? 8 : 16;
+    final double horizontalPadding;
+    switch (size) {
+      case CpButtonSize.micro:
+        horizontalPadding = 8;
+        break;
+      case CpButtonSize.wide:
+        horizontalPadding = 4;
+        break;
+      default:
+        horizontalPadding = 16;
+    }
 
     final button = TextButton(
       onPressed: onPressed,
@@ -132,6 +144,7 @@ extension on CpButtonSize {
         return 51;
       case CpButtonSize.big:
         return 63;
+      case CpButtonSize.wide:
       case CpButtonSize.small:
         return 44;
       case CpButtonSize.micro:

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'supply.g.dart';
 
@@ -27,4 +28,12 @@ class Supply {
   /// `excludeNonCirculatingAccountsList` is enabled, the returned array will be
   /// empty.
   final List<String> nonCirculatingAccounts;
+}
+
+@JsonSerializable(createToJson: false)
+class SupplyResult extends ContextResult<Supply> {
+  SupplyResult({required super.context, required super.value});
+
+  factory SupplyResult.fromJson(Map<String, dynamic> json) =>
+      _$SupplyResultFromJson(json);
 }

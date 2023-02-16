@@ -122,7 +122,7 @@ class SwapBloc extends Bloc<_Event, _State> {
   }
 
   Future<SwapStatus> _sendTx(SignedTx tx) async {
-    final result = await _txSender.send(tx);
+    final result = await _txSender.send(tx, minContextSlot: BigInt.zero);
 
     return result.map(
       sent: (_) => SwapStatus.txSent(tx),
@@ -133,7 +133,7 @@ class SwapBloc extends Bloc<_Event, _State> {
   }
 
   Future<SwapStatus> _waitTx(SignedTx tx) async {
-    final result = await _txSender.wait(tx);
+    final result = await _txSender.wait(tx, minContextSlot: BigInt.zero);
 
     return result.map(
       success: (_) => SwapStatus.success(tx),

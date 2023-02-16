@@ -9,36 +9,45 @@ import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
-class RampButtons extends StatelessWidget {
-  const RampButtons({Key? key}) : super(key: key);
+class AddCashButton extends StatelessWidget {
+  const AddCashButton({
+    Key? key,
+    this.size = CpButtonSize.normal,
+  }) : super(key: key);
+
+  final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Flexible(
-              child: CpButton(
-                text: context.l10n.addCash,
-                width: double.infinity,
-                onPressed: () => context.router.navigate(
-                  OnRampRoute(
-                    wallet: context.read<MyAccount>().wallet.publicKey,
-                    token: Token.usdc,
-                  ),
-                ),
-              ),
+  Widget build(BuildContext context) => Flexible(
+        child: CpButton(
+          size: size,
+          minWidth: 250,
+          text: context.l10n.addCash,
+          onPressed: () => context.router.navigate(
+            OnRampRoute(
+              wallet: context.read<MyAccount>().wallet.publicKey,
+              token: Token.usdc,
             ),
-            const SizedBox(width: 24),
-            Flexible(
-              child: CpButton(
-                text: context.l10n.cashOut,
-                width: double.infinity,
-                onPressed: () => OffRampBottomSheet.show(context),
-              ),
-            ),
-          ],
+          ),
+        ),
+      );
+}
+
+class CashOutButton extends StatelessWidget {
+  const CashOutButton({
+    Key? key,
+    this.size = CpButtonSize.normal,
+  }) : super(key: key);
+
+  final CpButtonSize size;
+
+  @override
+  Widget build(BuildContext context) => Flexible(
+        child: CpButton(
+          size: size,
+          minWidth: 250,
+          text: context.l10n.cashOut,
+          onPressed: () => OffRampBottomSheet.show(context),
         ),
       );
 }

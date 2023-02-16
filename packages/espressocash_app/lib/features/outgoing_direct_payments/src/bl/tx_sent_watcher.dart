@@ -43,7 +43,7 @@ class _Job extends CancelableJob<OutgoingDirectPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(status.tx);
+    final tx = await sender.wait(status.tx, minContextSlot: BigInt.zero);
 
     final ODPStatus? newStatus = tx.map(
       success: (_) => ODPStatus.success(txId: status.tx.id),

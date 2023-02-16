@@ -94,7 +94,7 @@ Future<DirectPaymentResult> createDirectPayment({
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(
-    recentBlockhash: recentBlockhash.blockhash,
+    recentBlockhash: recentBlockhash.value.blockhash,
     feePayer: platform.publicKey,
   );
 

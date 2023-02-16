@@ -13,7 +13,7 @@ class _RpcClient implements RpcClient {
   final JsonRpcClient _jsonRpcClient;
 
   @override
-  Future<Account?> getAccountInfo(String pubKey,
+  Future<AccountResult> getAccountInfo(String pubKey,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice,
@@ -31,15 +31,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return (value == null)
-        ? null
-        : Account.fromJson(value as Map<String, dynamic>);
+    return AccountResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<int> getBalance(String pubKey,
+  Future<BalanceResult> getBalance(String pubKey,
       {Commitment? commitment, num? minContextSlot}) async {
     final config =
         GetBalanceConfig(commitment: commitment, minContextSlot: minContextSlot)
@@ -51,9 +49,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return value as int;
+    return BalanceResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -102,7 +100,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<BlockProduction> getBlockProduction(
+  Future<BlockProductionResult> getBlockProduction(
       {Commitment? commitment = Commitment.finalized,
       Range? range,
       String? identity}) async {
@@ -115,9 +113,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return BlockProduction.fromJson(value as Map<String, dynamic>);
+    return BlockProductionResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -371,7 +369,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<LargeAccount>> getLargestAccounts(
+  Future<LargeAccountsResult> getLargestAccounts(
       {Commitment? commitment = Commitment.finalized,
       CirculationStatus? filter}) async {
     final config =
@@ -383,14 +381,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(
-        value, (dynamic v) => LargeAccount.fromJson(v as Map<String, dynamic>));
+    return LargeAccountsResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<LatestBlockhash> getLatestBlockhash(
+  Future<LatestBlockhashResult> getLatestBlockhash(
       {Commitment? commitment, num? minContextSlot}) async {
     final config = GetLatestBlockhashConfig(
             commitment: commitment, minContextSlot: minContextSlot)
@@ -401,9 +398,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return LatestBlockhash.fromJson(value as Map<String, dynamic>);
+    return LatestBlockhashResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -472,7 +469,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<Account?>> getMultipleAccounts(List<String> pubKeys,
+  Future<MultipleAccountsResult> getMultipleAccounts(List<String> pubKeys,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
       DataSlice? dataSlice,
@@ -490,12 +487,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(
-        value,
-        (dynamic v) =>
-            (v == null) ? null : Account.fromJson(v as Map<String, dynamic>));
+    return MultipleAccountsResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -574,7 +568,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<List<SignatureStatus?>> getSignatureStatuses(List<String> signatures,
+  Future<SignatureStatusesResult> getSignatureStatuses(List<String> signatures,
       {bool? searchTransactionHistory}) async {
     final config = GetSignatureStatusesConfig(
             searchTransactionHistory: searchTransactionHistory)
@@ -586,13 +580,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(
-        value,
-        (dynamic v) => (v == null)
-            ? null
-            : SignatureStatus.fromJson(v as Map<String, dynamic>));
+    return SignatureStatusesResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -667,7 +657,8 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<int> getStakeMinimumDelegation({Commitment? commitment}) async {
+  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation(
+      {Commitment? commitment}) async {
     final config =
         GetStakeMinimumDelegationConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
@@ -676,13 +667,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return value as int;
+    return StakeMinimumDelegationResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<Supply> getSupply(
+  Future<SupplyResult> getSupply(
       {Commitment commitment = Commitment.finalized,
       bool? excludeNonCirculatingAccountsList}) async {
     final config = GetSupplyConfig(
@@ -696,13 +687,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return Supply.fromJson(value as Map<String, dynamic>);
+    return SupplyResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<TokenAmount> getTokenAccountBalance(String pubKey,
+  Future<TokenAmountResult> getTokenAccountBalance(String pubKey,
       {Commitment? commitment}) async {
     final config =
         GetTokenAccountBalanceConfig(commitment: commitment).toJson();
@@ -713,13 +704,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return TokenAmount.fromJson(value as Map<String, dynamic>);
+    return TokenAmountResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<List<ProgramAccount>> getTokenAccountsByDelegate(
+  Future<ProgramAccountsResult> getTokenAccountsByDelegate(
       String pubKey, TokenAccountsFilter filter,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
@@ -739,14 +730,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>));
+    return ProgramAccountsResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<List<ProgramAccount>> getTokenAccountsByOwner(
+  Future<ProgramAccountsResult> getTokenAccountsByOwner(
       String pubKey, TokenAccountsFilter filter,
       {Commitment commitment = Commitment.finalized,
       Encoding? encoding,
@@ -766,14 +756,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => ProgramAccount.fromJson(v as Map<String, dynamic>));
+    return ProgramAccountsResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<List<TokenLargestAccount>> getTokenLargestAccounts(String pubKey,
+  Future<TokenLargestAccountsResult> getTokenLargestAccounts(String pubKey,
       {Commitment? commitment}) async {
     final config =
         GetTokenLargestAccountsConfig(commitment: commitment).toJson();
@@ -784,14 +773,13 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return fromJsonArray(value,
-        (dynamic v) => TokenLargestAccount.fromJson(v as Map<String, dynamic>));
+    return TokenLargestAccountsResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<TokenAmount> getTokenSupply(String mint,
+  Future<TokenAmountResult> getTokenSupply(String mint,
       {Commitment? commitment}) async {
     final config = GetTokenSupplyConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
@@ -801,9 +789,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return TokenAmount.fromJson(value as Map<String, dynamic>);
+    return TokenAmountResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -885,7 +873,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<bool> isBlockhashValid(String blockhash,
+  Future<BlockhasValidResult> isBlockhashValid(String blockhash,
       {Commitment? commitment, num? minContextSlot}) async {
     final config = IsBlockhashValidConfig(
             commitment: commitment, minContextSlot: minContextSlot)
@@ -897,9 +885,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return value as bool;
+    return BlockhasValidResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -960,7 +948,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<TransactionStatus> simulateTransaction(String transaction,
+  Future<TransactionStatusResult> simulateTransaction(String transaction,
       {bool? sigVerify,
       Encoding encoding = Encoding.base64,
       Commitment? commitment = Commitment.finalized,
@@ -982,9 +970,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return TransactionStatus.fromJson(value as Map<String, dynamic>);
+    return TransactionStatusResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
@@ -1094,7 +1082,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
+  Future<FeeCalculatorForBlockhashResult> getFeeCalculatorForBlockhash(
       String blockhash,
       {Commitment? commitment}) async {
     final config =
@@ -1106,11 +1094,10 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return (value == null)
-        ? null
-        : FeeCalculatorForBlockhash.fromJson(value as Map<String, dynamic>);
+    return FeeCalculatorForBlockhashResult.fromJson(
+        value as Map<String, dynamic>);
   }
 
   @override
@@ -1128,7 +1115,7 @@ class _RpcClient implements RpcClient {
   }
 
   @override
-  Future<Fees> getFees({Commitment? commitment}) async {
+  Future<FeesResult> getFees({Commitment? commitment}) async {
     final config = GetFeesConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getFees',
@@ -1136,13 +1123,14 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return Fees.fromJson(value as Map<String, dynamic>);
+    return FeesResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override
-  Future<RecentBlockhash> getRecentBlockhash({Commitment? commitment}) async {
+  Future<RecentBlockhashResult> getRecentBlockhash(
+      {Commitment? commitment}) async {
     final config = GetRecentBlockhashConfig(commitment: commitment).toJson();
     final response = await _jsonRpcClient.request(
       'getRecentBlockhash',
@@ -1150,9 +1138,9 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = unwrapAndGetResult(response);
+    final dynamic value = getResult(response);
 
-    return RecentBlockhash.fromJson(value as Map<String, dynamic>);
+    return RecentBlockhashResult.fromJson(value as Map<String, dynamic>);
   }
 
   @override

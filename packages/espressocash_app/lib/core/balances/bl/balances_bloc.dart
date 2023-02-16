@@ -155,10 +155,12 @@ extension SortedBalance on Map<Token, Amount> {
 
 extension on SolanaClient {
   Future<Amount> getSolBalance(String address) async {
-    final lamports = await rpcClient.getBalance(
-      address,
-      commitment: Commitment.confirmed,
-    );
+    final lamports = await rpcClient
+        .getBalance(
+          address,
+          commitment: Commitment.confirmed,
+        )
+        .value;
 
     return Amount.sol(value: lamports);
   }

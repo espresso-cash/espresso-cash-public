@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'program_account.g.dart';
 
@@ -19,4 +20,12 @@ class ProgramAccount {
 
   /// The account Pubkey as base-58 encoded string.
   final String pubkey;
+}
+
+@JsonSerializable(createToJson: false)
+class ProgramAccountsResult extends ContextResult<List<ProgramAccount>> {
+  ProgramAccountsResult({required super.context, required super.value});
+
+  factory ProgramAccountsResult.fromJson(Map<String, dynamic> json) =>
+      _$ProgramAccountsResultFromJson(json);
 }
