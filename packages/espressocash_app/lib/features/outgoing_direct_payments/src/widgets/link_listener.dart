@@ -64,13 +64,18 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
       ),
     );
     if (confirmedAmount == null) return;
-    if (!mounted) return;
 
-    context.createAndOpenDirectPayment(
-      amountInUsdc: confirmedAmount,
+    if (!mounted) return;
+    final id = await context.createODP(
+      amount:
+          Amount.fromDecimal(currency: Currency.usdc, value: confirmedAmount)
+              as CryptoAmount,
       receiver: request.recipient,
       reference: request.reference?.firstOrNull,
     );
+
+    if (!mounted) return;
+    await context.router.push(ODPDetailsRoute(id: id));
   }
 
   @override

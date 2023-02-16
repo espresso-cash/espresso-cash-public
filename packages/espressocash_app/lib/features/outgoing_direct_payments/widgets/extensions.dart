@@ -1,36 +1,39 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
+import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../../routes.gr.dart';
-import '../src/bl/bloc.dart';
+import '../../../core/analytics/analytics_manager.dart';
+import '../../../di.dart';
+import '../../../ui/loader.dart';
+import '../models/outgoing_direct_payment.dart';
+import '../src/bl/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
-  void createAndOpenDirectPayment({
-    required Decimal amountInUsdc,
+  Future<String> createODP({
+    required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
     required Ed25519HDPublicKey? reference,
-  }) {
-    const currency = Currency.usdc;
-    final id = const Uuid().v4();
+  }) async =>
+      runWithLoader(this, () async {
+        final payment = await sl<ODPService>().create(
+          account: read<MyAccount>().wallet,
+          amount: amount,
+          receiver: receiver,
+          reference: reference,
+        );
+        sl<AnalyticsManager>().directPaymentCreated();
 
-    read<ODPBloc>().add(
-      ODPEvent.create(
-        id: id,
-        receiver: receiver,
-        amount: CryptoAmount(
-          value: currency.decimalToInt(amountInUsdc),
-          cryptoCurrency: currency,
-        ),
-        reference: reference,
-      ),
-    );
+        return payment.id;
+      });
 
-    router.push(ODPDetailsRoute(id: id));
-  }
+  Future<void> retryODP({required OutgoingDirectPayment payment}) async =>
+      runWithLoader(this, () async {
+        await sl<ODPService>().retry(
+          payment,
+          account: read<MyAccount>().wallet,
+        );
+        sl<AnalyticsManager>().directPaymentCreated();
+      });
 }

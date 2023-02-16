@@ -21,11 +21,18 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 
 @freezed
 class ODPStatus with _$ODPStatus {
+  /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
   const factory ODPStatus.txCreated(SignedTx tx) = ODPStatusTxCreated;
+
+  /// Tx sent, but not confirmed yet. We cannot say if it was accepted.
   const factory ODPStatus.txSent(SignedTx tx) = ODPStatusTxSent;
+
+  /// Money is received by the recipient address, that's different from the
+  /// sender. The payment is compelte.
   const factory ODPStatus.success({required String txId}) = ODPStatusSuccess;
+
+  /// There was an error while creating the tx, or the tx was rejected. In any
+  /// case, it's safe to recreate the tx.
   const factory ODPStatus.txFailure({TxFailureReason? reason}) =
       ODPStatusTxFailure;
-  const factory ODPStatus.txSendFailure(SignedTx tx) = ODPStatusTxSendFailure;
-  const factory ODPStatus.txWaitFailure(SignedTx tx) = ODPStatusTxWaitFailure;
 }
