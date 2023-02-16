@@ -38,66 +38,75 @@ class CpTimeline extends StatelessWidget {
   final int active;
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final isFirst = index == 0;
-          final isLast = index == items.length - 1;
+  Widget build(BuildContext context) {
+    final animated = items.length > 1 && active != items.length - 1;
 
-          _AnimationTransformer? indicatorTransformer;
-          _AnimationTransformer? connectorTransformer;
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final isFirst = index == 0;
+        final isLast = index == items.length - 1;
 
-          if (index < active) {
-            connectorTransformer = _toConnectorHeight;
-          }
-          if (index == active) {
-            indicatorTransformer = _toDownwardsIndicatorHeight;
-          } else if (index == active - 1) {
-            indicatorTransformer = _toUpwardsIndicatorHeight;
-          }
+        _AnimationTransformer? indicatorTransformer;
+        _AnimationTransformer? connectorTransformer;
 
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                children: [
-                  _IndicatorBkg(
-                    backgroundColor: status.backgroundColor,
-                    isFirst: isFirst,
-                    isLast: isLast,
-                    child: _Animation(
-                      center: true,
-                      transformer: indicatorTransformer,
-                      child: _Indicator2(
+        if (animated && index == active) {
+          indicatorTransformer = _lowerIndicatorTransform;
+        } else if (animated && index == active - 1) {
+          connectorTransformer = _connectorTransform;
+          indicatorTransformer = _upperIndicatorTransform;
+        }
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                _IndicatorBackground(
+                  backgroundColor: status.backgroundColor,
+                  isFirst: isFirst,
+                  isLast: isLast,
+                  child: _Animation(
+                    center: true,
+                    transformer: indicatorTransformer,
+                    child: Container(
+                      height: _indicatorSize,
+                      width: _indicatorSize,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                         color: index > active
                             ? Colors.white
                             : CpColors.darkBackground,
-                        icon: index == active ? status.icon : null,
+                      ),
+                      child: index == active ? status.icon : null,
+                    ),
+                  ),
+                ),
+                if (!isLast)
+                  _ConnectorBackground(
+                    backgroundColor: status.backgroundColor,
+                    child: _Animation(
+                      center: false,
+                      transformer: connectorTransformer,
+                      child: Container(
+                        height: _connectorHeight,
+                        width: _connectorWidth,
+                        color: index >= active
+                            ? Colors.white
+                            : CpColors.darkBackground,
                       ),
                     ),
                   ),
-                  if (!isLast)
-                    _ConnectorBkg(
-                      backgroundColor: status.backgroundColor,
-                      child: _Animation(
-                        center: false,
-                        transformer: connectorTransformer,
-                        child: _Connector2(
-                          color: index >= active
-                              ? Colors.white
-                              : CpColors.darkBackground,
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-              Expanded(child: _TileInfo(tile: items[index])),
-            ],
-          );
-        },
-      );
+              ],
+            ),
+            Expanded(child: _TileInfo(tile: items[index])),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class _TileInfo extends StatelessWidget {
@@ -133,119 +142,8 @@ class _TileInfo extends StatelessWidget {
   }
 }
 
-class _Animation extends StatefulWidget {
-  const _Animation({
-    Key? key,
-    required this.transformer,
-    required this.center,
-    required this.child,
-  }) : super(key: key);
-
-  final _AnimationTransformer? transformer;
-  final bool center;
-  final Widget child;
-
-  @override
-  State<_Animation> createState() => _AnimationState();
-}
-
-class _AnimationState extends State<_Animation>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this, duration: _duration);
-    _updateAnimation();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant _Animation oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _updateAnimation();
-  }
-
-  void _updateAnimation() {
-    if (!mounted) return;
-    if (widget.transformer == null) {
-      _controller.reset();
-    } else {
-      _controller.repeat();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final transformer = widget.transformer;
-
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        if (transformer != null)
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) => Positioned(
-              bottom: widget.center ? 0 : null,
-              top: _controller.value
-                  .let(Curves.linear.transform)
-                  .let(_transform)
-                  .let(transformer),
-              child: child!,
-            ),
-            child: widget.child,
-          )
-        else
-          widget.child
-      ],
-    );
-  }
-}
-
-class _Indicator2 extends StatelessWidget {
-  const _Indicator2({
-    required this.color,
-    this.icon,
-  });
-
-  final Color color;
-  final Widget? icon;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        height: _indicatorSize,
-        width: _indicatorSize,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-        ),
-        child: icon,
-      );
-}
-
-class _Connector2 extends StatelessWidget {
-  const _Connector2({
-    required this.color,
-  });
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        height: _connectorHeight,
-        width: _connectorWidth,
-        color: color,
-      );
-}
-
-class _IndicatorBkg extends StatelessWidget {
-  const _IndicatorBkg({
+class _IndicatorBackground extends StatelessWidget {
+  const _IndicatorBackground({
     Key? key,
     required this.child,
     required this.isFirst,
@@ -282,8 +180,8 @@ class _IndicatorBkg extends StatelessWidget {
       );
 }
 
-class _ConnectorBkg extends StatelessWidget {
-  const _ConnectorBkg({
+class _ConnectorBackground extends StatelessWidget {
+  const _ConnectorBackground({
     Key? key,
     required this.backgroundColor,
     required this.child,
@@ -300,6 +198,92 @@ class _ConnectorBkg extends StatelessWidget {
         child: child,
       );
 }
+
+class _Animation extends StatefulWidget {
+  const _Animation({
+    Key? key,
+    required this.transformer,
+    required this.center,
+    required this.child,
+  }) : super(key: key);
+
+  final _AnimationTransformer? transformer;
+  final bool center;
+  final Widget child;
+
+  @override
+  State<_Animation> createState() => _AnimationState();
+}
+
+class _AnimationState extends State<_Animation>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    _updateAnimation();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(covariant _Animation oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _updateAnimation();
+  }
+
+  void _updateAnimation() {
+    if (!mounted) return;
+    if (widget.transformer == null) {
+      _controller.reset();
+    } else {
+      _controller.repeat();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final transformer = widget.transformer;
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        if (transformer != null)
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) => Positioned(
+              bottom: widget.center ? 0 : null,
+              top: _controller.value.let(_sinoidal).let(transformer),
+              // ignore: avoid-non-null-assertion, child is mandatory for parent
+              child: child!,
+            ),
+            child: widget.child,
+          )
+        else
+          widget.child
+      ],
+    );
+  }
+}
+
+double _sinoidal(double value) => sin(2 * pi * value) / 2;
+
+double _connectorTransform(double value) => value * _connectorHeight;
+
+double _lowerIndicatorTransform(double value) =>
+    max(0, value) * _indicatorBounceOffset;
+
+double _upperIndicatorTransform(double value) =>
+    min(0, value) * _indicatorBounceOffset;
 
 extension on CpTimelineStatus {
   Color get backgroundColor {
@@ -334,30 +318,11 @@ extension on CpTimelineStatus {
   }
 }
 
-double _transform(double value) => sin(2 * pi * value) / 2;
-
-double _toConnectorHeight(double value) => value * _connectorHeight;
-
-double _toDownwardsIndicatorHeight(double value) =>
-    max(0, value) * _indicatorBounceOffset;
-
-double _toUpwardsIndicatorHeight(double value) =>
-    min(0, value) * _indicatorBounceOffset;
-
-const _titleStyle = TextStyle(
-  fontWeight: FontWeight.w500,
-  fontSize: 16,
-);
-
-const _subtitleStyle = TextStyle(
-  fontWeight: FontWeight.w400,
-  fontSize: 14,
-);
-
+const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
+const _subtitleStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14);
 const _timelineRadius = Radius.circular(32);
 const _timelineWidth = 65.0;
 const _connectorHeight = 57.0;
 const _connectorWidth = 9.0;
 const _indicatorSize = 30.0;
 const _indicatorBounceOffset = _indicatorSize * 0.3;
-const _duration = Duration(seconds: 1);
