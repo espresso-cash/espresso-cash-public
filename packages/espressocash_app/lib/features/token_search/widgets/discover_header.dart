@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
-import '../../models/crypto_categories.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../models/crypto_categories.dart';
 
 class DiscoverHeader extends StatelessWidget {
   const DiscoverHeader({
     super.key,
     this.selected,
+    this.showTitle = true,
     required this.onTap,
   });
 
+  final bool showTitle;
   final CryptoCategories? selected;
   final void Function(CryptoCategories) onTap;
 
@@ -24,15 +26,17 @@ class DiscoverHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (selected == null)
-            Text(
-              context.l10n.discover,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 13,
+          if (selected == null && showTitle)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                context.l10n.discover,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 13,
+                ),
               ),
             ),
-          const SizedBox(height: 8),
           if (selected == null)
             Wrap(
               runSpacing: 4,

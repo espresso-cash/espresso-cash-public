@@ -7,7 +7,8 @@ extension RpcClientExt on RpcClient {
     FutureOr<void> Function(Signature)? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final recentBlockhash = await getRecentBlockhash(commitment: commitment);
+    final recentBlockhash =
+        await getRecentBlockhash(commitment: commitment).value;
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
     if (onSigned != null) {
@@ -27,7 +28,7 @@ extension RpcClientExt on RpcClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     final recentBlockhash =
-        blockhash ?? await getRecentBlockhash(commitment: commitment);
+        blockhash ?? await getRecentBlockhash(commitment: commitment).value;
 
     return signTransaction(recentBlockhash, message, signers);
   }
@@ -109,7 +110,7 @@ extension RpcClientExt on RpcClient {
     final accountInfo = await getAccountInfo(
       account.toBase58(),
       encoding: Encoding.base64,
-    );
+    ).value;
 
     if (accountInfo == null) {
       throw const FormatException('Account not found');

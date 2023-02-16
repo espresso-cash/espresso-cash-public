@@ -36,8 +36,7 @@ abstract class RpcClient {
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
-  @withContext
-  Future<Account?> getAccountInfo(
+  Future<AccountResult> getAccountInfo(
     String pubKey, {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
@@ -55,8 +54,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
-  @withContext
-  Future<int> getBalance(
+  Future<BalanceResult> getBalance(
     String pubKey, {
     Commitment? commitment,
     num? minContextSlot,
@@ -115,8 +113,7 @@ abstract class RpcClient {
   /// to current epoch.
   ///
   /// [identity] Only return results for this validator identity (base-58 encoded)
-  @withContext
-  Future<BlockProduction> getBlockProduction({
+  Future<BlockProductionResult> getBlockProduction({
     Commitment? commitment = Commitment.finalized,
     Range? range,
     String? identity,
@@ -266,8 +263,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [filter] filter results by account type; currently supported: circulating|nonCirculating
-  @withContext
-  Future<List<LargeAccount>> getLargestAccounts({
+  Future<LargeAccountsResult> getLargestAccounts({
     Commitment? commitment = Commitment.finalized,
     CirculationStatus? filter,
   });
@@ -280,8 +276,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<LatestBlockhash> getLatestBlockhash({
+  Future<LatestBlockhashResult> getLatestBlockhash({
     Commitment? commitment,
     num? minContextSlot,
   });
@@ -336,8 +331,7 @@ abstract class RpcClient {
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<List<Account?>> getMultipleAccounts(
+  Future<MultipleAccountsResult> getMultipleAccounts(
     List<String> pubKeys, {
     Commitment commitment = Commitment.finalized,
     Encoding? encoding,
@@ -416,8 +410,7 @@ abstract class RpcClient {
   ///
   /// [searchTransactionHistory] If true, a Solana node will search its ledger cache for any signatures not
   /// found in the recent status cache
-  @withContext
-  Future<List<SignatureStatus?>> getSignatureStatuses(
+  Future<SignatureStatusesResult> getSignatureStatuses(
     List<String> signatures, {
     bool? searchTransactionHistory,
   });
@@ -484,8 +477,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<int> getStakeMinimumDelegation({
+  Future<StakeMinimumDelegationResult> getStakeMinimumDelegation({
     Commitment? commitment,
   });
 
@@ -497,8 +489,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [excludeNonCirculatingAccountsList] exclude non circulating accounts list from response
-  @withContext
-  Future<Supply> getSupply({
+  Future<SupplyResult> getSupply({
     Commitment commitment = Commitment.finalized,
     bool? excludeNonCirculatingAccountsList,
   });
@@ -511,8 +502,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<TokenAmount> getTokenAccountBalance(
+  Future<TokenAmountResult> getTokenAccountBalance(
     String pubKey, {
     Commitment? commitment,
   });
@@ -533,8 +523,7 @@ abstract class RpcClient {
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<List<ProgramAccount>> getTokenAccountsByDelegate(
+  Future<ProgramAccountsResult> getTokenAccountsByDelegate(
     String pubKey,
     TokenAccountsFilter filter, {
     Commitment commitment = Commitment.finalized,
@@ -559,8 +548,7 @@ abstract class RpcClient {
   /// [dataSlice] Limit the returned account data using the provided offset: <usize> and length: <usize> fields; only available for "base58""base64" or "base64+zstd" encodings.
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<List<ProgramAccount>> getTokenAccountsByOwner(
+  Future<ProgramAccountsResult> getTokenAccountsByOwner(
     String pubKey,
     TokenAccountsFilter filter, {
     Commitment commitment = Commitment.finalized,
@@ -577,8 +565,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<List<TokenLargestAccount>> getTokenLargestAccounts(
+  Future<TokenLargestAccountsResult> getTokenLargestAccounts(
     String pubKey, {
     Commitment? commitment,
   });
@@ -591,8 +578,7 @@ abstract class RpcClient {
   /// [Commitment.processed] is not supported as [commitment].
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
-  @withContext
-  Future<TokenAmount> getTokenSupply(
+  Future<TokenAmountResult> getTokenSupply(
     String mint, {
     Commitment? commitment,
   });
@@ -666,8 +652,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<bool> isBlockhashValid(
+  Future<BlockhasValidResult> isBlockhashValid(
     String blockhash, {
     Commitment? commitment,
     num? minContextSlot,
@@ -769,8 +754,7 @@ abstract class RpcClient {
   /// [accounts] Accounts configuration object containing the following fields:
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at
-  @withContext
-  Future<TransactionStatus> simulateTransaction(
+  Future<TransactionStatusResult> simulateTransaction(
     String transaction, {
     bool? sigVerify,
     Encoding encoding = Encoding.base64,
@@ -898,8 +882,7 @@ abstract class RpcClient {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @Deprecated('Please use isBlockhashValid or getFeeForMessage instead')
-  @withContext
-  Future<FeeCalculatorForBlockhash?> getFeeCalculatorForBlockhash(
+  Future<FeeCalculatorForBlockhashResult> getFeeCalculatorForBlockhash(
     String blockhash, {
     Commitment? commitment,
   });
@@ -917,8 +900,7 @@ abstract class RpcClient {
   ///
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @Deprecated('Use getFeeForMessage instead')
-  @withContext
-  Future<Fees> getFees({
+  Future<FeesResult> getFees({
     Commitment? commitment,
   });
 
@@ -932,8 +914,7 @@ abstract class RpcClient {
   /// [1]:
   /// https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   @Deprecated('Please use getLatestBlockhash instead')
-  @withContext
-  Future<RecentBlockhash> getRecentBlockhash({
+  Future<RecentBlockhashResult> getRecentBlockhash({
     Commitment? commitment,
   });
 

@@ -33,12 +33,14 @@ _$_CreatePaymentResponseDto _$$_CreatePaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
     _$_CreatePaymentResponseDto(
       transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
     );
 
 Map<String, dynamic> _$$_CreatePaymentResponseDtoToJson(
         _$_CreatePaymentResponseDto instance) =>
     <String, dynamic>{
       'transaction': instance.transaction,
+      'slot': instance.slot.toString(),
     };
 
 _$_ReceivePaymentRequestDto _$$_ReceivePaymentRequestDtoFromJson(
@@ -61,12 +63,14 @@ _$_ReceivePaymentResponseDto _$$_ReceivePaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
     _$_ReceivePaymentResponseDto(
       transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
     );
 
 Map<String, dynamic> _$$_ReceivePaymentResponseDtoToJson(
         _$_ReceivePaymentResponseDto instance) =>
     <String, dynamic>{
       'transaction': instance.transaction,
+      'slot': instance.slot.toString(),
     };
 
 _$_CreateDirectPaymentRequestDto _$$_CreateDirectPaymentRequestDtoFromJson(

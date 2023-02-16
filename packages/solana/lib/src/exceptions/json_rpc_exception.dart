@@ -2,6 +2,25 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'json_rpc_exception.g.dart';
 
+abstract class JsonRpcErrorCode {
+  static const blockCleanedUp = -32001;
+  static const sendTransactionPreflightFailure = -32002;
+  static const transactionSignatureVerificationFailure = -32003;
+  static const blockNotAvailable = -32004;
+  static const nodeUnhealthy = -32005;
+  static const transactionPrecompileVerificationFailure = -32006;
+  static const slotSkipped = -32007;
+  static const noSnapshot = -32008;
+  static const longTermStorageSlotSkipped = -32009;
+  static const keyExcludedFromSecondaryIndex = -32010;
+  static const transactionHistoryNotAvailable = -32011;
+  static const scanError = -32012;
+  static const transactionSignatureLenMismatch = -32013;
+  static const blockStatusNotAvailableYet = -32014;
+  static const unsupportedTransactionVersion = -32015;
+  static const minContextSlotNotReached = -32016;
+}
+
 @JsonSerializable(createToJson: false)
 class JsonRpcException implements Exception {
   const JsonRpcException(this.message, this.code, this.data);

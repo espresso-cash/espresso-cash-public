@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/account_data/account_data.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 import 'package:solana/src/rpc/helpers.dart';
 
 part 'account.g.dart';
@@ -37,4 +38,20 @@ class Account {
   /// The epoch at which this account will next owe rent, as u64
   @JsonKey(fromJson: bigIntFromNum)
   final BigInt rentEpoch;
+}
+
+@JsonSerializable(createToJson: false)
+class AccountResult extends ContextResult<Account?> {
+  AccountResult({required super.context, required super.value});
+
+  factory AccountResult.fromJson(Map<String, dynamic> json) =>
+      _$AccountResultFromJson(json);
+}
+
+@JsonSerializable(createToJson: false)
+class MultipleAccountsResult extends ContextResult<List<Account?>> {
+  MultipleAccountsResult({required super.context, required super.value});
+
+  factory MultipleAccountsResult.fromJson(Map<String, dynamic> json) =>
+      _$MultipleAccountsResultFromJson(json);
 }

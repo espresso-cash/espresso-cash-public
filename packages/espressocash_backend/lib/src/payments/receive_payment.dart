@@ -1,9 +1,10 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-Future<SignedTx> receivePaymentTx({
+Future<Product2<SignedTx, BigInt>> receivePaymentTx({
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey aReceiver,
   required Ed25519HDPublicKey mint,
@@ -76,15 +77,17 @@ Future<SignedTx> receivePaymentTx({
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(
-    recentBlockhash: latestBlockhash.blockhash,
+    recentBlockhash: latestBlockhash.value.blockhash,
     feePayer: platform.publicKey,
   );
 
-  return SignedTx(
+  final tx = SignedTx(
     compiledMessage: compiled,
     signatures: [
       await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aEscrow),
     ],
   );
+
+  return Product2(tx, latestBlockhash.context.slot);
 }
