@@ -9,6 +9,7 @@ part 'create_direct_payment.freezed.dart';
 class DirectPaymentResult with _$DirectPaymentResult {
   const factory DirectPaymentResult({
     required int fee,
+    required BigInt slot,
     required SignedTx transaction,
   }) = _DirectPaymentResult;
 }
@@ -106,5 +107,9 @@ Future<DirectPaymentResult> createDirectPayment({
     ],
   );
 
-  return DirectPaymentResult(fee: fee, transaction: tx);
+  return DirectPaymentResult(
+    fee: fee,
+    transaction: tx,
+    slot: recentBlockhash.context.slot,
+  );
 }
