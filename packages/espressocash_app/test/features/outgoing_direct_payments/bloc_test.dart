@@ -1,4 +1,3 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
@@ -7,14 +6,16 @@ import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/transactions/tx_sender.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoing_direct_payment.dart';
-import 'package:espressocash_app/features/outgoing_direct_payments/src/bl/bloc.dart';
+import 'package:espressocash_app/features/outgoing_direct_payments/src/bl/odp_service.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/src/bl/repository.dart';
+import 'package:espressocash_app/features/outgoing_direct_payments/src/bl/tx_created_watcher.dart';
+import 'package:espressocash_app/features/outgoing_direct_payments/src/bl/tx_sent_watcher.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
 import 'bloc_test.mocks.dart';
 
@@ -26,11 +27,16 @@ Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
   final repository = MemoryRepository();
+  final txCreatedWatcher = TxCreatedWatcher(repository, sender);
+  final txSentWatcher = TxSentWatcher(repository, sender);
 
   setUp(() {
     reset(sender);
     reset(client);
     repository.clear();
+
+    txCreatedWatcher.call(onBalanceAffected: ignore);
+    txSentWatcher.call(onBalanceAffected: ignore);
   });
 
   final stubTx = await Message.only(
@@ -50,30 +56,63 @@ Future<void> main() async {
   final testApiResponse = CreateDirectPaymentResponseDto(
     fee: 100,
     transaction: stubTx,
+    slot: BigInt.zero,
   );
   const testAmount = CryptoAmount(
     value: 100000000,
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
-  ODPBloc createBloc() => ODPBloc(
-        repository: repository,
-        client: client,
-        account: account,
-        txSender: sender,
-      );
+  ODPService createService() => ODPService(client, repository);
 
+  Future<String> createODP(ODPService service) async {
+    final payment = await service.create(
+      account: account,
+      amount: testAmount,
+      receiver: receiver.publicKey,
+      reference: null,
+    );
+
+    return payment.id;
+  }
+
+  test('Happy path', () async {
+    when(client.createDirectPayment(any))
+        .thenAnswer((_) async => testApiResponse);
+
+    when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
+        .thenAnswer((_) async => const TxSendResult.sent());
+    when(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
+        .thenAnswer((_) async => const TxWaitResult.success());
+
+    await createODP(createService());
+
+    await expectLater(repository._payments.length, 1);
+    await expectLater(
+      repository._payments.values.first,
+      isA<OutgoingDirectPayment>()
+          .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
+    );
+    await expectLater(
+      repository._payments.values.first,
+      isA<OutgoingDirectPayment>()
+          .having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
+    );
+    await expectLater(
+      repository._payments.values.first,
+      isA<OutgoingDirectPayment>()
+          .having((it) => it.status, 'status', isA<ODPStatusSuccess>()),
+    );
+
+    verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
+        .called(1);
+    verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
+        .called(1);
+  });
+/*
   blocTest<ODPBloc, ODPState>(
     'happy path',
-    setUp: () async {
-      when(client.createDirectPayment(any))
-          .thenAnswer((_) async => testApiResponse);
-
-      when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-          .thenAnswer((_) async => const TxSendResult.sent());
-      when(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
-          .thenAnswer((_) async => const TxWaitResult.success());
-    },
+    setUp: () async {},
     build: createBloc,
     act: (b) async {
       b.add(
@@ -129,6 +168,7 @@ Future<void> main() async {
       );
     },
   );
+  */
 }
 
 class MemoryRepository implements ODPRepository {
@@ -146,7 +186,30 @@ class MemoryRepository implements ODPRepository {
   Future<void> clear() async => _payments.clear();
 
   @override
-  Stream<OutgoingDirectPayment?> watch(String id) {
+  Stream<OutgoingDirectPayment> watch(String id) {
     throw UnimplementedError();
   }
+
+  @override
+  Stream<IList<OutgoingDirectPayment>> watchTxCreated() => Stream.value(
+        _payments.values
+            .where((it) => it.status.maybeMap(orElse: F, txCreated: T))
+            .toIList(),
+      );
+
+  @override
+  Stream<IList<OutgoingDirectPayment>> watchTxSent() => Stream.value(
+        _payments.values
+            .where((it) => it.status.maybeMap(orElse: F, txSent: T))
+            .toIList(),
+      );
 }
+
+// Future<void> retryODP({required OutgoingDirectPayment payment}) async =>
+//     runWithLoader(this, () async {
+//       await sl<ODPService>().retry(
+//         payment,
+//         account: read<MyAccount>().wallet,
+//       );
+//       sl<AnalyticsManager>().directPaymentCreated();
+//     });
