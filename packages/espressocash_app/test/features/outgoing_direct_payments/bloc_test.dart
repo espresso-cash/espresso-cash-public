@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
@@ -102,11 +101,15 @@ Future<void> main() async {
     final paymentId = await createService().let(createODP);
 
     expect(
+      await repository.load(paymentId),
+      isA<OutgoingDirectPayment>()
+          .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
+    );
+
+    expect(
       repository.watch(paymentId),
       emitsInOrder(
         [
-          isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
           isA<OutgoingDirectPayment>()
               .having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
           isA<OutgoingDirectPayment>()
@@ -129,7 +132,7 @@ class MemoryRepository implements ODPRepository {
   PaymentMap _payments = PaymentMap();
 
   @override
-  Future<OutgoingDirectPayment?> load(String id) async => watch(id).firstOrNull;
+  Future<OutgoingDirectPayment?> load(String id) async => _payments[id];
 
   @override
   Future<void> save(OutgoingDirectPayment payment) async {
