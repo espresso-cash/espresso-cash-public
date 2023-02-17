@@ -49,6 +49,7 @@ _$_SwapRouteResponseDto _$$_SwapRouteResponseDtoFromJson(
       amount: json['amount'] as String,
       encodedTx: json['encodedTx'] as String,
       feeInUsdc: json['feeInUsdc'] as int,
+      slot: BigInt.parse(json['slot'] as String),
     );
 
 Map<String, dynamic> _$$_SwapRouteResponseDtoToJson(
@@ -59,4 +60,5 @@ Map<String, dynamic> _$$_SwapRouteResponseDtoToJson(
       'amount': instance.amount,
       'encodedTx': instance.encodedTx,
       'feeInUsdc': instance.feeInUsdc,
+      'slot': instance.slot.toString(),
     };
