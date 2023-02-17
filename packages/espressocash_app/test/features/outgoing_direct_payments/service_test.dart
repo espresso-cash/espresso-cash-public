@@ -20,7 +20,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import 'bloc_test.mocks.dart';
+import 'service_test.mocks.dart';
 
 final sender = MockTxSender();
 final client = MockCryptopleaseClient();
@@ -66,11 +66,13 @@ Future<void> main() async {
         ),
       )
       .then((it) => it.encode());
+
   final testApiResponse = CreateDirectPaymentResponseDto(
     fee: 100,
     transaction: stubTx,
     slot: BigInt.zero,
   );
+
   const testAmount = CryptoAmount(
     value: 100000000,
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
