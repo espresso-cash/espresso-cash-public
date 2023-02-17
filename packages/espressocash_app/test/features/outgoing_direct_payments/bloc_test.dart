@@ -27,8 +27,8 @@ final client = MockCryptopleaseClient();
 
 @GenerateMocks([TxSender, CryptopleaseClient])
 Future<void> main() async {
-  late final TxCreatedWatcher txCreatedWatcher;
-  late final TxSentWatcher txSentWatcher;
+  late TxCreatedWatcher txCreatedWatcher;
+  late TxSentWatcher txSentWatcher;
 
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
@@ -119,6 +119,26 @@ Future<void> main() async {
         .called(1);
     verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
         .called(1);
+  });
+
+  test('Failed to get tx from API', () async {
+    when(client.createDirectPayment(any)).thenAnswer((_) => throw Exception());
+
+    final paymentId = await createService().let(createODP);
+    final payment = repository.watch(paymentId);
+
+    await expectLater(
+      payment,
+      emitsInOrder(
+        [
+          isA<OutgoingDirectPayment>()
+              .having((it) => it.status, 'status', isA<ODPStatusTxFailure>()),
+        ],
+      ),
+    );
+
+    verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
+    verifyNever(sender.wait(any, minContextSlot: anyNamed('minContextSlot')));
   });
 }
 
