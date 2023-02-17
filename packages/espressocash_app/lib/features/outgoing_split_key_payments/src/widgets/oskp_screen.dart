@@ -49,7 +49,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
       final status = payment.status as OSKPStatusLinksReady;
 
       context.router
-          .push(ShareLinksRoute(amount: payment.amount, status: status));
+          .popAndPush(ShareLinksRoute(amount: payment.amount, status: status));
       _shareLinksSubscription?.cancel();
     });
   }

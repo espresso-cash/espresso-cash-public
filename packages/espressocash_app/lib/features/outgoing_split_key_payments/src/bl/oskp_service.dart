@@ -46,9 +46,11 @@ class OSKPService {
   }) async {
     final status = await _createTx(amount: payment.amount, account: account);
 
-    await _repository.save(payment.copyWith(status: status));
+    final newPayment = payment.copyWith(status: status);
 
-    return payment;
+    await _repository.save(newPayment);
+
+    return newPayment;
   }
 
   Future<OutgoingSplitKeyPayment> cancel(
