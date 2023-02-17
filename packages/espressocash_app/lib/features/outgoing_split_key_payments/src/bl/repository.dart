@@ -181,7 +181,7 @@ extension on OSKPStatusDto {
     final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
-    final resolvedAt = row.resolvedAt ?? DateTime.now();
+    final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {

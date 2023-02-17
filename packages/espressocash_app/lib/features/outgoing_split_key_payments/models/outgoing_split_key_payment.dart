@@ -56,13 +56,13 @@ class OSKPStatus with _$OSKPStatus {
   /// payment is complete.
   const factory OSKPStatus.withdrawn({
     required String txId,
-    required DateTime timestamp,
+    required DateTime? timestamp,
   }) = OSKPStatusWithdrawn;
 
   /// Money are withdrawn by the sender. The payment is complete.
   const factory OSKPStatus.canceled({
     required String? txId,
-    required DateTime timestamp,
+    required DateTime? timestamp,
   }) = OSKPStatusCanceled;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
