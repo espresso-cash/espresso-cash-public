@@ -20,3 +20,14 @@ const _$CommitmentEnumMap = {
   Commitment.confirmed: 'confirmed',
   Commitment.finalized: 'finalized',
 };
+
+SignatureStatusesResult _$SignatureStatusesResultFromJson(
+        Map<String, dynamic> json) =>
+    SignatureStatusesResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: (json['value'] as List<dynamic>)
+          .map((e) => e == null
+              ? null
+              : SignatureStatus.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );

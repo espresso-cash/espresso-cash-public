@@ -25,6 +25,7 @@ class OSKPStatus with _$OSKPStatus {
   /// it.
   const factory OSKPStatus.txCreated(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusTxCreated;
 
@@ -32,6 +33,7 @@ class OSKPStatus with _$OSKPStatus {
   /// before canceling/recreating we need to know its status.
   const factory OSKPStatus.txSent(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusTxSent;
 
@@ -69,6 +71,7 @@ class OSKPStatus with _$OSKPStatus {
   /// tx.
   const factory OSKPStatus.cancelTxCreated(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxCreated;
 
@@ -83,6 +86,7 @@ class OSKPStatus with _$OSKPStatus {
   /// it, we need to know the final status.
   const factory OSKPStatus.cancelTxSent(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
 }

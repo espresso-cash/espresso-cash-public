@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/solana_pay/solana_pay.dart';
 import 'package:test/test.dart';
 
@@ -69,18 +70,22 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      final balanceSender = await client.rpcClient.getBalance(
-        sender.publicKey.toBase58(),
-        commitment: Commitment.confirmed,
-      );
+      final balanceSender = await client.rpcClient
+          .getBalance(
+            sender.publicKey.toBase58(),
+            commitment: Commitment.confirmed,
+          )
+          .value;
       final balanceDecimalSender =
           Decimal.fromInt(balanceSender).shift(-solDecimalPlaces);
       expect(balanceDecimalSender, Decimal.one - amount - transactionFee);
 
-      final balanceRecipient = await client.rpcClient.getBalance(
-        recipient.publicKey.toBase58(),
-        commitment: Commitment.confirmed,
-      );
+      final balanceRecipient = await client.rpcClient
+          .getBalance(
+            recipient.publicKey.toBase58(),
+            commitment: Commitment.confirmed,
+          )
+          .value;
       final balanceDecimalRecipient =
           Decimal.fromInt(balanceRecipient).shift(-solDecimalPlaces);
       expect(balanceDecimalRecipient, Decimal.one + amount);

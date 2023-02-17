@@ -1,4 +1,6 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/constants.dart';
+import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -13,7 +15,7 @@ import 'package:solana/solana.dart';
 ///
 /// [commitment] is used for checking the ATA for [aSender] and for retrieving
 /// the latest blockhash.
-Future<SignedTx> createPaymentTx({
+Future<Product2<SignedTx, BigInt>> createPaymentTx({
   required Ed25519HDPublicKey aSender,
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey mint,
@@ -22,10 +24,9 @@ Future<SignedTx> createPaymentTx({
   required SolanaClient client,
   required Commitment commitment,
 }) async {
-  final isNewEscrowAccount = await client.rpcClient.getAccountInfo(
-        aEscrow.toBase58(),
-        commitment: commitment,
-      ) ==
+  final isNewEscrowAccount = await client.rpcClient
+          .getAccountInfo(aEscrow.toBase58(), commitment: commitment)
+          .value ==
       null;
   if (!isNewEscrowAccount) {
     throw Exception('Escrow account already exists');
@@ -83,15 +84,17 @@ Future<SignedTx> createPaymentTx({
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
   final compiled = message.compile(
-    recentBlockhash: latestBlockhash.blockhash,
+    recentBlockhash: latestBlockhash.value.blockhash,
     feePayer: platform.publicKey,
   );
 
-  return SignedTx(
+  final tx = SignedTx(
     compiledMessage: compiled,
     signatures: [
       await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );
+
+  return Product2(tx, latestBlockhash.context.slot);
 }

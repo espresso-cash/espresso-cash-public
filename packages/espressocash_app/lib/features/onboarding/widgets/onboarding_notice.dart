@@ -14,14 +14,14 @@ class OnboardingNotice extends StatelessWidget {
       BlocBuilder<AccountsBloc, AccountsState>(
         builder: (context, state) => state.hasFinishedOnboarding
             ? const SizedBox.shrink()
-            : Container(
+            : SizedBox(
                 height: 125,
-                margin: const EdgeInsets.only(bottom: 24),
                 child: RepaintBoundary(
                   child: GestureDetector(
                     onTap: () =>
                         context.router.navigate(const OnboardingFlowRoute()),
                     child: Assets.rive.onboardingNotice.rive(
+                      alignment: Alignment.topCenter,
                       fit: BoxFit.fitWidth,
                     ),
                   ),

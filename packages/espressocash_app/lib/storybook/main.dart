@@ -4,7 +4,6 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../di.dart';
 import '../ui/theme.dart';
 import 'stories/activity_tile.dart';
-import 'stories/app/investments/popular_crypto_header.dart';
 import 'stories/app/investments/portfolio_widget.dart';
 import 'stories/app/wallet_main_screen.dart';
 import 'stories/app_bar.dart';
@@ -14,6 +13,7 @@ import 'stories/bullet_item.dart';
 import 'stories/button.dart';
 import 'stories/chip.dart';
 import 'stories/content_padding.dart';
+import 'stories/crypto_header.dart';
 import 'stories/empty_message_widget.dart';
 import 'stories/icon_button.dart';
 import 'stories/info_widget.dart';
@@ -64,7 +64,6 @@ class StorybookApp extends StatelessWidget {
         ),
         stories: [
           appWalletMainScreen,
-          appPopularCryptoHeader,
           appPortfolioWidget,
           cpAppBar,
           cpActivityTile,
@@ -74,6 +73,7 @@ class StorybookApp extends StatelessWidget {
           cpButton,
           cpChip,
           cpContentPadding,
+          cpCryptoHeader,
           cpEmptyMessageWidget,
           cpIconButton,
           cpInfoWidget,

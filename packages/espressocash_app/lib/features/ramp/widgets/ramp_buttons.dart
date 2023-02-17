@@ -8,42 +8,51 @@ import '../../../core/accounts/bl/account.dart';
 import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
-class RampButtons extends StatelessWidget {
-  const RampButtons({Key? key}) : super(key: key);
+class AddCashButton extends StatelessWidget {
+  const AddCashButton({
+    Key? key,
+    this.size = CpButtonSize.normal,
+  }) : super(key: key);
+
+  final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Flexible(
-              child: CpButton(
-                text: context.l10n.addCash,
-                width: double.infinity,
-                onPressed: () {
-                  final configuration = _defaultConfiguration
-                    ..userAddress =
-                        context.read<MyAccount>().wallet.publicKey.toBase58();
+  Widget build(BuildContext context) => Flexible(
+        child: CpButton(
+          size: size,
+          minWidth: 250,
+          text: context.l10n.addCash,
+          onPressed: () {
+            final configuration = _defaultConfiguration
+              ..userAddress =
+                  context.read<MyAccount>().wallet.publicKey.toBase58();
 
-                  RampFlutter.showRamp(
-                    configuration,
-                    (_, __, ___) {},
-                    () {},
-                    () {},
-                  );
-                },
-              ),
-            ),
-            const SizedBox(width: 24),
-            Flexible(
-              child: CpButton(
-                text: context.l10n.cashOut,
-                width: double.infinity,
-                onPressed: () => OffRampBottomSheet.show(context),
-              ),
-            ),
-          ],
+            RampFlutter.showRamp(
+              configuration,
+              (_, __, ___) {},
+              () {},
+              () {},
+            );
+          },
+        ),
+      );
+}
+
+class CashOutButton extends StatelessWidget {
+  const CashOutButton({
+    Key? key,
+    this.size = CpButtonSize.normal,
+  }) : super(key: key);
+
+  final CpButtonSize size;
+
+  @override
+  Widget build(BuildContext context) => Flexible(
+        child: CpButton(
+          size: size,
+          minWidth: 250,
+          text: context.l10n.cashOut,
+          onPressed: () => OffRampBottomSheet.show(context),
         ),
       );
 }

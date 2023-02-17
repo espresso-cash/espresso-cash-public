@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'large_account.g.dart';
 
@@ -18,4 +19,12 @@ class LargeAccount {
 
   /// Number of lamports in the account, as a u64
   final int lamports;
+}
+
+@JsonSerializable(createToJson: false)
+class LargeAccountsResult extends ContextResult<List<LargeAccount>> {
+  LargeAccountsResult({required super.context, required super.value});
+
+  factory LargeAccountsResult.fromJson(Map<String, dynamic> json) =>
+      _$LargeAccountsResultFromJson(json);
 }

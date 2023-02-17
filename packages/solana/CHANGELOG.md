@@ -1,3 +1,12 @@
+## 0.29.0
+
+> Note: This release has breaking changes.
+
+ - **FIX**: catch error in waitForSignatureStatus.
+ - **FEAT**: default maxSupportedTransactionVersion to 0.
+ - **FEAT**: provide default maxSupportedTransactionVersion (#794).
+ - **BREAKING** **FEAT**: wrap client responses in ContextResult.
+
 ## 0.28.1
 
  - **REFACTOR**: update lints (#783).

@@ -1,8 +1,11 @@
+import 'package:solana/src/rpc/dto/context.dart';
+
 export 'account.dart';
 export 'account_data/account_data.dart';
 export 'account_data/spl_token_program/token_account_data_info.dart';
 export 'account_data/spl_token_program/token_program_account_data.dart';
 export 'account_key.dart';
+export 'balance.dart';
 export 'block.dart';
 export 'block_commitment.dart';
 export 'block_production.dart';
@@ -12,6 +15,7 @@ export 'circulation_status.dart';
 export 'cluster_node.dart';
 export 'commitment.dart';
 export 'confirmation_status.dart';
+export 'context.dart';
 export 'data_slice.dart';
 export 'encoding.dart';
 export 'epoch_credits.dart';
@@ -48,6 +52,7 @@ export 'slot.dart';
 export 'solana_version.dart';
 export 'stake_activation.dart';
 export 'stake_activation_state.dart';
+export 'stake_minimum_delegation.dart';
 export 'supply.dart';
 export 'token_accounts_filter.dart';
 export 'token_amount.dart';
@@ -62,3 +67,7 @@ export 'transaction_signature_information.dart';
 export 'transaction_status.dart';
 export 'vote_account.dart';
 export 'vote_accounts.dart';
+
+extension FutureContextResultExt<T> on Future<ContextResult<T>> {
+  Future<T> get value async => (await this).value;
+}

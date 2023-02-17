@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/commitment.dart';
 import 'package:solana/src/rpc/dto/confirmation_status.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'signature_status.g.dart';
 
@@ -32,4 +33,12 @@ class SignatureStatus {
   /// [Commitment](@help/commitment/link) for more on optimistic
   /// confirmation.
   final ConfirmationStatus confirmationStatus;
+}
+
+@JsonSerializable(createToJson: false)
+class SignatureStatusesResult extends ContextResult<List<SignatureStatus?>> {
+  SignatureStatusesResult({required super.context, required super.value});
+
+  factory SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
+      _$SignatureStatusesResultFromJson(json);
 }

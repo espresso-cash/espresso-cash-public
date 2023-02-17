@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 
 part 'latest_blockhash.g.dart';
 
@@ -18,4 +19,12 @@ class LatestBlockhash {
 
   /// Last block height at which the blockhash will be valid
   final int lastValidBlockHeight;
+}
+
+@JsonSerializable(createToJson: false)
+class LatestBlockhashResult extends ContextResult<LatestBlockhash> {
+  LatestBlockhashResult({required super.value, required super.context});
+
+  factory LatestBlockhashResult.fromJson(Map<String, dynamic> json) =>
+      _$LatestBlockhashResultFromJson(json);
 }

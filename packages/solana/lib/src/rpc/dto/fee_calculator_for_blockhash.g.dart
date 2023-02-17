@@ -12,3 +12,13 @@ FeeCalculatorForBlockhash _$FeeCalculatorForBlockhashFromJson(
       feeCalculator:
           FeeCalculator.fromJson(json['feeCalculator'] as Map<String, dynamic>),
     );
+
+FeeCalculatorForBlockhashResult _$FeeCalculatorForBlockhashResultFromJson(
+        Map<String, dynamic> json) =>
+    FeeCalculatorForBlockhashResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: json['value'] == null
+          ? null
+          : FeeCalculatorForBlockhash.fromJson(
+              json['value'] as Map<String, dynamic>),
+    );
