@@ -99,17 +99,14 @@ Future<void> main() async {
         .thenAnswer((_) async => const TxWaitResult.success());
 
     final paymentId = await createService().let(createODP);
+    final payment = repository.watch(paymentId);
 
-    expect(
-      await repository.load(paymentId),
-      isA<OutgoingDirectPayment>()
-          .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
-    );
-
-    expect(
-      repository.watch(paymentId),
+    await expectLater(
+      payment,
       emitsInOrder(
         [
+          isA<OutgoingDirectPayment>()
+              .having((it) => it.status, 'status', isA<ODPStatusTxCreated>()),
           isA<OutgoingDirectPayment>()
               .having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
           isA<OutgoingDirectPayment>()
@@ -118,10 +115,10 @@ Future<void> main() async {
       ),
     );
 
-    // verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-    //     .called(1);
-    // verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
-    //     .called(1);
+    verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
+        .called(1);
+    verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
+        .called(1);
   });
 }
 
@@ -136,8 +133,13 @@ class MemoryRepository implements ODPRepository {
 
   @override
   Future<void> save(OutgoingDirectPayment payment) async {
-    _payments = _payments.add(payment.id, payment);
-    _controller.add(_payments);
+    // This allows the subscriber to receive the initial status (txCreated)
+    Future<void>.delayed(_delay).then(
+      (_) {
+        _payments = _payments.add(payment.id, payment);
+        _controller.add(_payments);
+      },
+    ).ignore();
   }
 
   @override
@@ -148,11 +150,12 @@ class MemoryRepository implements ODPRepository {
 
   @override
   Stream<OutgoingDirectPayment> watch(String id) =>
+      // ignore: avoid-non-null-assertion, should fail if not existent
       _controller.stream.map((it) => it[id]!);
 
   @override
   Stream<IList<OutgoingDirectPayment>> watchTxCreated() =>
-      _controller.stream.delay(const Duration(seconds: 2)).map(
+      _controller.stream.delay(_delay).map(
             (it) => it.values
                 .where((it) => it.status.maybeMap(orElse: F, txCreated: T))
                 .toIList(),
@@ -160,9 +163,11 @@ class MemoryRepository implements ODPRepository {
 
   @override
   Stream<IList<OutgoingDirectPayment>> watchTxSent() =>
-      _controller.stream.delay(const Duration(seconds: 2)).map(
+      _controller.stream.delay(_delay).map(
             (it) => it.values
                 .where((it) => it.status.maybeMap(orElse: F, txSent: T))
                 .toIList(),
           );
 }
+
+const _delay = Duration(milliseconds: 300);
