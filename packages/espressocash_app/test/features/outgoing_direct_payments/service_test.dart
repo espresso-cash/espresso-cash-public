@@ -147,49 +147,37 @@ Future<void> main() async {
 typedef PaymentMap = IMap<String, OutgoingDirectPayment>;
 
 class MemoryRepository implements ODPRepository {
-  final _controller = StreamController<PaymentMap>.broadcast();
-  PaymentMap _payments = PaymentMap();
+  final _data = BehaviorSubject<PaymentMap>.seeded(PaymentMap());
 
   @override
-  Future<OutgoingDirectPayment?> load(String id) async => _payments[id];
+  Future<OutgoingDirectPayment?> load(String id) async => _data.value[id];
 
   @override
   Future<void> save(OutgoingDirectPayment payment) async {
-    // This allows the subscriber to receive the initial status (txCreated)
-    Future<void>.delayed(_delay).then(
-      (_) {
-        _payments = _payments.add(payment.id, payment);
-        _controller.add(_payments);
-      },
-    ).ignore();
+    _data.add(_data.value.add(payment.id, payment));
   }
 
   @override
   Future<void> clear() async {
-    _payments = _payments.clear();
-    _controller.add(_payments);
+    _data.add(_data.value.clear());
   }
 
   @override
   Stream<OutgoingDirectPayment> watch(String id) =>
       // ignore: avoid-non-null-assertion, should fail if not existent
-      _controller.stream.map((it) => it[id]!);
+      _data.stream.map((it) => it[id]!);
 
   @override
-  Stream<IList<OutgoingDirectPayment>> watchTxCreated() =>
-      _controller.stream.delay(_delay).map(
-            (it) => it.values
-                .where((it) => it.status.maybeMap(orElse: F, txCreated: T))
-                .toIList(),
-          );
+  Stream<IList<OutgoingDirectPayment>> watchTxCreated() => _data.stream.map(
+        (it) => it.values
+            .where((it) => it.status.maybeMap(orElse: F, txCreated: T))
+            .toIList(),
+      );
 
   @override
-  Stream<IList<OutgoingDirectPayment>> watchTxSent() =>
-      _controller.stream.delay(_delay).map(
-            (it) => it.values
-                .where((it) => it.status.maybeMap(orElse: F, txSent: T))
-                .toIList(),
-          );
+  Stream<IList<OutgoingDirectPayment>> watchTxSent() => _data.stream.map(
+        (it) => it.values
+            .where((it) => it.status.maybeMap(orElse: F, txSent: T))
+            .toIList(),
+      );
 }
-
-const _delay = Duration(milliseconds: 300);

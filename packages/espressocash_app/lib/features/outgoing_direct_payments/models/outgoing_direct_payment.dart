@@ -33,8 +33,7 @@ class ODPStatus with _$ODPStatus {
     required BigInt slot,
   }) = ODPStatusTxSent;
 
-  /// Money is received by the recipient address, that's different from the
-  /// sender. The payment is compelte.
+  /// Money is received by the recipient address. The payment is complete.
   const factory ODPStatus.success({required String txId}) = ODPStatusSuccess;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
