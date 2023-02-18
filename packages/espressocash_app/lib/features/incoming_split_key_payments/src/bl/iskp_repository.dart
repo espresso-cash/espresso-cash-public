@@ -36,13 +36,9 @@ class ISKPRepository {
   Future<void> clear() => _db.delete(_db.iSKPRows).go();
 }
 
-class ISKPRows extends Table with EntityMixin {
+class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
-
-  // Status fields
-  TextColumn get tx => text().nullable()();
-  TextColumn get txId => text().nullable()();
 }
 
 enum ISKPStatusDto {
@@ -51,9 +47,9 @@ enum ISKPStatusDto {
   txSent,
   success,
   txFailure,
-  txSendFailure,
-  txWaitFailure,
-  txEscrowFailure,
+  txSendFailure, // Legacy
+  txWaitFailure, // Legacy
+  txEscrowFailure, // Legacy
 }
 
 extension on ISKPRow {
@@ -75,24 +71,42 @@ extension on ISKPStatusDto {
   ISKPStatus toModel(ISKPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ISKPStatusDto.privateKeyReady:
         return const ISKPStatus.privateKeyReady();
       case ISKPStatusDto.txCreated:
-        return ISKPStatus.txCreated(tx!);
+        return ISKPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txSent:
-        return ISKPStatus.txSent(tx ?? StubSignedTx(txId!));
+        return ISKPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.success:
         return ISKPStatus.success(txId: txId!);
       case ISKPStatusDto.txFailure:
-        return const ISKPStatus.txFailure();
+        return ISKPStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case ISKPStatusDto.txSendFailure:
-        return ISKPStatus.txSendFailure(tx!);
+        return ISKPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txWaitFailure:
-        return ISKPStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
+        return ISKPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txEscrowFailure:
-        return const ISKPStatus.txEscrowFailure();
+        return const ISKPStatus.txFailure(
+          // TODO(rhbrunetto): validate reason
+          reason: TxFailureReason.insufficientFunds,
+        );
     }
   }
 }
@@ -116,16 +130,11 @@ extension on ISKPStatus {
         txSent: always(ISKPStatusDto.txSent),
         success: always(ISKPStatusDto.success),
         txFailure: always(ISKPStatusDto.txFailure),
-        txSendFailure: always(ISKPStatusDto.txSendFailure),
-        txWaitFailure: always(ISKPStatusDto.txWaitFailure),
-        txEscrowFailure: always(ISKPStatusDto.txEscrowFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
-        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
