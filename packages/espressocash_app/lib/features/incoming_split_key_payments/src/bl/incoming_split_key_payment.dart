@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 
 part 'incoming_split_key_payment.freezed.dart';
@@ -11,7 +12,7 @@ class IncomingSplitKeyPayment with _$IncomingSplitKeyPayment {
   const factory IncomingSplitKeyPayment({
     required String id,
     required DateTime created,
-    required Ed25519HDKeyPair escrow,
+    required EscrowPrivateKey escrow,
     required ISKPStatus status,
   }) = _IncomingSplitKeyPayment;
 }

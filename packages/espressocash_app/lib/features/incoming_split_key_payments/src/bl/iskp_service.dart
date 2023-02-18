@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
@@ -7,8 +8,10 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../config.dart';
 import '../../../../core/accounts/bl/ec_wallet.dart';
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import 'incoming_split_key_payment.dart';
 import 'iskp_repository.dart';
 
@@ -30,13 +33,29 @@ class ISKPService {
     final payment = IncomingSplitKeyPayment(
       id: id,
       created: DateTime.now(),
-      escrow: escrow,
+      escrow: await escrow.let(EscrowPrivateKey.fromKeyPair),
       status: status,
     );
 
     await _repository.save(payment);
 
     return payment;
+  }
+
+  Future<IncomingSplitKeyPayment> retry(
+    IncomingSplitKeyPayment payment, {
+    required ECWallet account,
+  }) async {
+    final status = await _createTx(
+      escrow: await payment.escrow.keyPair,
+      account: account,
+    );
+
+    final newPayment = payment.copyWith(status: status);
+
+    await _repository.save(newPayment);
+
+    return newPayment;
   }
 
   Future<ISKPStatus> _createTx({
@@ -50,21 +69,26 @@ class ISKPService {
         cluster: apiCluster,
       );
 
-      final tx = await _client
-          .receivePayment(dto)
-          .then((it) => it.transaction)
-          .then(SignedTx.decode)
-          .then((it) => it.resign(LocalWallet(escrow)));
+      final response = await _client.receivePayment(dto);
+      final tx = await response.transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(LocalWallet(escrow)));
 
-      return ISKPStatus.txCreated(tx);
+      return ISKPStatus.txCreated(tx, slot: response.slot);
     } on DioError catch (e) {
       if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
-        return const ISKPStatus.txEscrowFailure();
+        return const ISKPStatus.txFailure(
+          reason: TxFailureReason.escrowFailure,
+        );
       }
 
-      return const ISKPStatus.txFailure();
+      return const ISKPStatus.txFailure(
+        reason: TxFailureReason.creatingFailure,
+      );
     } on Exception {
-      return const ISKPStatus.txFailure();
+      return const ISKPStatus.txFailure(
+        reason: TxFailureReason.creatingFailure,
+      );
     }
   }
 }

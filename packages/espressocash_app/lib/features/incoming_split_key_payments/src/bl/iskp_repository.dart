@@ -5,8 +5,8 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
@@ -53,18 +53,12 @@ enum ISKPStatusDto {
 }
 
 extension on ISKPRow {
-  Future<IncomingSplitKeyPayment> toModel() async {
-    final escrow = await privateKey
-        .let(base58decode)
-        .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
-
-    return IncomingSplitKeyPayment(
-      id: id,
-      status: status.toModel(this),
-      created: created,
-      escrow: escrow,
-    );
-  }
+  Future<IncomingSplitKeyPayment> toModel() async => IncomingSplitKeyPayment(
+        id: id,
+        status: status.toModel(this),
+        created: created,
+        escrow: await privateKey.let(base58decode).let(EscrowPrivateKey.new),
+      );
 }
 
 extension on ISKPStatusDto {
@@ -104,8 +98,7 @@ extension on ISKPStatusDto {
         );
       case ISKPStatusDto.txEscrowFailure:
         return const ISKPStatus.txFailure(
-          // TODO(rhbrunetto): validate reason
-          reason: TxFailureReason.insufficientFunds,
+          reason: TxFailureReason.escrowFailure,
         );
     }
   }
@@ -115,8 +108,7 @@ extension on IncomingSplitKeyPayment {
   Future<ISKPRow> toDto() async => ISKPRow(
         id: id,
         created: created,
-        privateKey:
-            await escrow.extract().then((it) => it.bytes).then(base58encode),
+        privateKey: await escrow.bytes.let(base58encode),
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
