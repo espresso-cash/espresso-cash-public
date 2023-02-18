@@ -971,6 +971,7 @@ CreateDirectPaymentResponseDto _$CreateDirectPaymentResponseDtoFromJson(
 mixin _$CreateDirectPaymentResponseDto {
   int get fee => throw _privateConstructorUsedError;
   String get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -986,7 +987,7 @@ abstract class $CreateDirectPaymentResponseDtoCopyWith<$Res> {
       _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
           CreateDirectPaymentResponseDto>;
   @useResult
-  $Res call({int fee, String transaction});
+  $Res call({int fee, String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -1005,6 +1006,7 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
   $Res call({
     Object? fee = null,
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_value.copyWith(
       fee: null == fee
@@ -1015,6 +1017,10 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ) as $Val);
   }
 }
@@ -1028,7 +1034,7 @@ abstract class _$$_CreateDirectPaymentResponseDtoCopyWith<$Res>
       __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int fee, String transaction});
+  $Res call({int fee, String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -1046,6 +1052,7 @@ class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? fee = null,
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_$_CreateDirectPaymentResponseDto(
       fee: null == fee
@@ -1056,6 +1063,10 @@ class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -1065,7 +1076,7 @@ class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
 class _$_CreateDirectPaymentResponseDto
     implements _CreateDirectPaymentResponseDto {
   const _$_CreateDirectPaymentResponseDto(
-      {required this.fee, required this.transaction});
+      {required this.fee, required this.transaction, required this.slot});
 
   factory _$_CreateDirectPaymentResponseDto.fromJson(
           Map<String, dynamic> json) =>
@@ -1075,10 +1086,12 @@ class _$_CreateDirectPaymentResponseDto
   final int fee;
   @override
   final String transaction;
+  @override
+  final BigInt slot;
 
   @override
   String toString() {
-    return 'CreateDirectPaymentResponseDto(fee: $fee, transaction: $transaction)';
+    return 'CreateDirectPaymentResponseDto(fee: $fee, transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -1088,12 +1101,13 @@ class _$_CreateDirectPaymentResponseDto
             other is _$_CreateDirectPaymentResponseDto &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.transaction, transaction) ||
-                other.transaction == transaction));
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fee, transaction);
+  int get hashCode => Object.hash(runtimeType, fee, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -1114,7 +1128,8 @@ abstract class _CreateDirectPaymentResponseDto
     implements CreateDirectPaymentResponseDto {
   const factory _CreateDirectPaymentResponseDto(
       {required final int fee,
-      required final String transaction}) = _$_CreateDirectPaymentResponseDto;
+      required final String transaction,
+      required final BigInt slot}) = _$_CreateDirectPaymentResponseDto;
 
   factory _CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =
       _$_CreateDirectPaymentResponseDto.fromJson;
@@ -1123,6 +1138,8 @@ abstract class _CreateDirectPaymentResponseDto
   int get fee;
   @override
   String get transaction;
+  @override
+  BigInt get slot;
   @override
   @JsonKey(ignore: true)
   _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
