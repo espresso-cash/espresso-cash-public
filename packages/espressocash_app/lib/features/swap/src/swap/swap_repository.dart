@@ -2,6 +2,7 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 
@@ -46,6 +47,28 @@ class SwapRepository {
       _db.into(_db.swapRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.swapRows).go();
+
+  Stream<IList<Swap>> watchTxCreated() => _watchWithStatuses([
+        SwapStatusDto.txCreated,
+        SwapStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<Swap>> watchTxSent() => _watchWithStatuses([
+        SwapStatusDto.txSent,
+        SwapStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<Swap>> _watchWithStatuses(
+    Iterable<SwapStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.swapRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((it) => it.toIList());
+  }
 }
 
 class SwapRows extends Table with EntityMixin, TxStatusMixin {
