@@ -207,7 +207,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             paymentSuccess,
           ];
           final cancelingItems = [
-            linksCreated,
+            paymentInitiated,
             paymentCanceled,
           ];
 
