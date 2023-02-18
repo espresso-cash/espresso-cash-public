@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../l10n/decimal_separator.dart';
 import '../../../../../l10n/device_locale.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/number_formatter.dart';
 
 class DisplayHeader extends StatelessWidget {
@@ -15,6 +16,25 @@ class DisplayHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final empty = displayAmount.isEmpty;
+
+    if (empty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+        child: FittedBox(
+          child: Text(
+            context.l10n.enterAmount,
+            maxLines: 1,
+            style: const TextStyle(
+              fontSize: 44,
+              fontWeight: FontWeight.w700,
+              color: Color(0xff8F8F8F),
+            ),
+          ),
+        ),
+      );
+    }
+
     final formatted = displayAmount.formatted(context);
 
     return Padding(

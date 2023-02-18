@@ -27,36 +27,45 @@ class TokenDropDown extends StatelessWidget {
       fontWeight: FontWeight.w700,
     );
 
-    return Container(
-      height: _itemHeight,
-      width: _width,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: const ShapeDecoration(
-        shape: StadiumBorder(),
-        color: CpColors.greenDropdownEnabled,
-      ),
-      child: DropdownButton<Token>(
-        value: current,
-        style: style,
-        elevation: 0,
-        isExpanded: true,
-        itemHeight: _itemHeight + _spacing,
-        dropdownColor: Colors.transparent,
-        icon: const SizedBox.shrink(),
-        underline: const SizedBox.shrink(),
-        onChanged: (it) =>
-            it == null || it == current ? ignore : onTokenChanged(it),
-        items: availableTokens
-            .map(
-              (it) => DropdownMenuItem(
-                value: it,
-                child: _Item(label: it.symbol, selected: it == current),
-              ),
-            )
-            .toList(),
-        selectedItemBuilder: (context) => availableTokens
-            .map((it) => _Item(label: it.symbol, selected: true))
-            .toList(),
+    final themeData = Theme.of(context).copyWith(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
+    );
+
+    return Theme(
+      data: themeData,
+      child: Container(
+        height: _itemHeight,
+        width: _width,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        decoration: const ShapeDecoration(
+          shape: StadiumBorder(),
+          color: CpColors.greenDropdownEnabled,
+        ),
+        child: DropdownButton<Token>(
+          value: current,
+          style: style,
+          elevation: 0,
+          isExpanded: true,
+          itemHeight: _itemHeight + _spacing,
+          dropdownColor: Colors.transparent,
+          icon: const SizedBox.shrink(),
+          underline: const SizedBox.shrink(),
+          onChanged: (it) =>
+              it == null || it == current ? ignore : onTokenChanged(it),
+          items: availableTokens
+              .map(
+                (it) => DropdownMenuItem(
+                  value: it,
+                  child: _Item(label: it.symbol, selected: it == current),
+                ),
+              )
+              .toList(),
+          selectedItemBuilder: (context) => availableTokens
+              .map((it) => _Item(label: it.symbol, selected: true))
+              .toList(),
+        ),
       ),
     );
   }
