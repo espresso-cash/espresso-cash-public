@@ -7,7 +7,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import 'create_swap/create_swap_screen.dart';
-import 'extensions.dart';
+import 'swap/extensions.dart';
 import 'swap_operation.dart';
 import 'swap_route.dart';
 

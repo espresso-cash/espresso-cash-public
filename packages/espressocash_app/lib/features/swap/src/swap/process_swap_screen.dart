@@ -11,7 +11,7 @@ import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
 import '../../models/swap.dart';
-import '../extensions.dart';
+import 'extensions.dart';
 import 'swap_repository.dart';
 
 class ProcessSwapScreen extends StatefulWidget {

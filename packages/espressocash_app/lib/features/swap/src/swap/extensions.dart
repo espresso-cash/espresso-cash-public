@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/accounts/bl/account.dart';
-import '../../../di.dart';
-import '../../../ui/loader.dart';
-import '../models/swap.dart';
-import 'swap/swap_service.dart';
-import 'swap_route.dart';
+import '../../../../core/accounts/bl/account.dart';
+import '../../../../di.dart';
+import '../../../../ui/loader.dart';
+import '../../models/swap.dart';
+import '../swap_route.dart';
+import 'swap_service.dart';
 
 extension SwapExt on BuildContext {
   Future<String> createSwap(SwapRoute route) async =>
