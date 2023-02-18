@@ -2,7 +2,9 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -27,16 +29,52 @@ class ODPRepository {
     return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
-  Stream<OutgoingDirectPayment?> watch(String id) {
+  Stream<OutgoingDirectPayment> watch(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingleOrNull().map((row) => row?.toModel(_tokens));
+    return query.watchSingle().map((row) => row.toModel(_tokens));
   }
 
-  Future<void> save(OutgoingDirectPayment payment) =>
-      _db.into(_db.oDPRows).insertOnConflictUpdate(payment.toDto());
+  Future<void> save(OutgoingDirectPayment payment) async {
+    await payment.status.maybeMap(
+      txFailure: (status) async {
+        await Sentry.captureMessage(
+          'ODP tx failure',
+          level: SentryLevel.warning,
+          withScope: (scope) => scope.setContexts('data', {
+            'reason': status.reason,
+          }),
+        );
+      },
+      orElse: () async {},
+    );
+
+    await _db.into(_db.oDPRows).insertOnConflictUpdate(payment.toDto());
+  }
 
   Future<void> clear() => _db.delete(_db.oDPRows).go();
+
+  Stream<IList<OutgoingDirectPayment>> watchTxCreated() => _watchWithStatuses([
+        ODPStatusDto.txCreated,
+        ODPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<OutgoingDirectPayment>> watchTxSent() => _watchWithStatuses([
+        ODPStatusDto.txSent,
+        ODPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<OutgoingDirectPayment>> _watchWithStatuses(
+    Iterable<ODPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.oDPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .map((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((event) => event.toIList());
+  }
 }
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
@@ -48,6 +86,7 @@ class ODPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get tx => text().nullable()();
   TextColumn get txId => text().nullable()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
+  TextColumn get slot => text().nullable()();
 }
 
 enum ODPStatusDto {
@@ -55,8 +94,8 @@ enum ODPStatusDto {
   txSent,
   success,
   txFailure,
-  txSendFailure,
-  txWaitFailure,
+  txSendFailure, // Legacy
+  txWaitFailure, // Legacy
 }
 
 extension ODPRowExt on ODPRow {
@@ -76,20 +115,33 @@ extension ODPRowExt on ODPRow {
 extension on ODPStatusDto {
   ODPStatus toModel(ODPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ODPStatusDto.txCreated:
-        return ODPStatus.txCreated(tx!);
+        return ODPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ODPStatusDto.txSent:
-        return ODPStatus.txSent(tx ?? StubSignedTx(row.txId!));
+        return ODPStatus.txSent(
+          tx ?? StubSignedTx(row.txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
         return ODPStatus.txFailure(reason: row.txFailureReason);
       case ODPStatusDto.txSendFailure:
-        return ODPStatus.txSendFailure(SignedTx.decode(row.tx!));
+        return ODPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ODPStatusDto.txWaitFailure:
-        return ODPStatus.txWaitFailure(tx ?? StubSignedTx(row.txId!));
+        return ODPStatus.txSent(
+          tx ?? StubSignedTx(row.txId!),
+          slot: slot ?? BigInt.zero,
+        );
     }
   }
 }
@@ -106,6 +158,7 @@ extension on OutgoingDirectPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
+        slot: status.toSlot()?.toString(),
       );
 }
 
@@ -115,15 +168,11 @@ extension on ODPStatus {
         txSent: always(ODPStatusDto.txSent),
         success: always(ODPStatusDto.success),
         txFailure: always(ODPStatusDto.txFailure),
-        txSendFailure: always(ODPStatusDto.txSendFailure),
-        txWaitFailure: always(ODPStatusDto.txWaitFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
-        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
@@ -132,5 +181,10 @@ extension on ODPStatus {
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
       );
 }

@@ -6,25 +6,25 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../core/cancelable_job.dart';
-import '../../models/outgoing_split_key_payment.dart';
+import '../../models/outgoing_direct_payment.dart';
 import 'repository.dart';
 
 abstract class PaymentWatcher {
   PaymentWatcher(this._repository);
 
-  final OSKPRepository _repository;
+  final ODPRepository _repository;
 
   StreamSubscription<void>? _repoSubscription;
   final Map<String, CancelableOperation<void>> _operations = {};
 
   @protected
-  Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
-    OSKPRepository repository,
+  Stream<IList<OutgoingDirectPayment>> watchPayments(
+    ODPRepository repository,
   );
 
   @protected
-  CancelableJob<OutgoingSplitKeyPayment> createJob(
-    OutgoingSplitKeyPayment payment,
+  CancelableJob<OutgoingDirectPayment> createJob(
+    OutgoingDirectPayment payment,
   );
 
   void call({required VoidCallback onBalanceAffected}) {
@@ -66,17 +66,11 @@ abstract class PaymentWatcher {
   }
 }
 
-extension on OSKPStatus {
+extension on ODPStatus {
   bool get affectsBalance => this.map(
         txCreated: F,
         txSent: F,
-        txConfirmed: T,
-        linksReady: F,
-        withdrawn: T,
-        canceled: T,
         txFailure: F,
-        cancelTxCreated: F,
-        cancelTxFailure: F,
-        cancelTxSent: F,
+        success: T,
       );
 }

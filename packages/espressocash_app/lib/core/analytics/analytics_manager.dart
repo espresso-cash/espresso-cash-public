@@ -36,4 +36,8 @@ class AnalyticsManager {
 
   // User pressed on the single link.
   void singleLinkReceived() => _analytics.logEvent(name: 'singleLinkReceived');
+
+  // User creates a direct payment
+  void directPaymentCreated() =>
+      _analytics.logEvent(name: 'directPaymentCreated');
 }
