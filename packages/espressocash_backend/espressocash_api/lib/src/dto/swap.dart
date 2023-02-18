@@ -31,6 +31,7 @@ class SwapRouteResponseDto with _$SwapRouteResponseDto {
     required String amount,
     required String encodedTx,
     required int feeInUsdc,
+    required BigInt slot,
   }) = _SwapRouteResponseDto;
 
   factory SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =>

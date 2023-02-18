@@ -123,7 +123,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             txConfirmed: always(CpStatusType.info),
             linksReady: always(CpStatusType.info),
             withdrawn: always(CpStatusType.success),
-            canceled: always(CpStatusType.error),
+            canceled: always(CpStatusType.neutral),
             txFailure: always(CpStatusType.error),
             cancelTxCreated: always(CpStatusType.info),
             cancelTxFailure: always(CpStatusType.error),
@@ -162,7 +162,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final CpTimelineStatus timelineStatus = payment.status.mapOrNull(
                 withdrawn: always(CpTimelineStatus.success),
-                canceled: always(CpTimelineStatus.failure),
+                canceled: always(CpTimelineStatus.neutral),
                 txFailure: always(CpTimelineStatus.failure),
                 cancelTxFailure: always(CpTimelineStatus.failure),
               ) ??

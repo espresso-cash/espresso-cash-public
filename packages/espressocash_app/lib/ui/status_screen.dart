@@ -32,6 +32,8 @@ class StatusScreen extends StatelessWidget {
         return Assets.icons.logoBgOrange;
       case CpStatusType.error:
         return Assets.icons.logoBgRed;
+      case CpStatusType.neutral:
+        return Assets.icons.logoBgBlack;
     }
   }
 
