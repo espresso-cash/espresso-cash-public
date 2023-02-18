@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DirectPaymentResult {
   int get fee => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
   SignedTx get transaction => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,7 @@ abstract class $DirectPaymentResultCopyWith<$Res> {
           DirectPaymentResult value, $Res Function(DirectPaymentResult) then) =
       _$DirectPaymentResultCopyWithImpl<$Res, DirectPaymentResult>;
   @useResult
-  $Res call({int fee, SignedTx transaction});
+  $Res call({int fee, BigInt slot, SignedTx transaction});
 
   $SignedTxCopyWith<$Res> get transaction;
 }
@@ -49,6 +50,7 @@ class _$DirectPaymentResultCopyWithImpl<$Res, $Val extends DirectPaymentResult>
   @override
   $Res call({
     Object? fee = null,
+    Object? slot = null,
     Object? transaction = null,
   }) {
     return _then(_value.copyWith(
@@ -56,6 +58,10 @@ class _$DirectPaymentResultCopyWithImpl<$Res, $Val extends DirectPaymentResult>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -80,7 +86,7 @@ abstract class _$$_DirectPaymentResultCopyWith<$Res>
       __$$_DirectPaymentResultCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int fee, SignedTx transaction});
+  $Res call({int fee, BigInt slot, SignedTx transaction});
 
   @override
   $SignedTxCopyWith<$Res> get transaction;
@@ -98,6 +104,7 @@ class __$$_DirectPaymentResultCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fee = null,
+    Object? slot = null,
     Object? transaction = null,
   }) {
     return _then(_$_DirectPaymentResult(
@@ -105,6 +112,10 @@ class __$$_DirectPaymentResultCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as int,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -116,16 +127,19 @@ class __$$_DirectPaymentResultCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_DirectPaymentResult implements _DirectPaymentResult {
-  const _$_DirectPaymentResult({required this.fee, required this.transaction});
+  const _$_DirectPaymentResult(
+      {required this.fee, required this.slot, required this.transaction});
 
   @override
   final int fee;
+  @override
+  final BigInt slot;
   @override
   final SignedTx transaction;
 
   @override
   String toString() {
-    return 'DirectPaymentResult(fee: $fee, transaction: $transaction)';
+    return 'DirectPaymentResult(fee: $fee, slot: $slot, transaction: $transaction)';
   }
 
   @override
@@ -134,12 +148,13 @@ class _$_DirectPaymentResult implements _DirectPaymentResult {
         (other.runtimeType == runtimeType &&
             other is _$_DirectPaymentResult &&
             (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.slot, slot) || other.slot == slot) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fee, transaction);
+  int get hashCode => Object.hash(runtimeType, fee, slot, transaction);
 
   @JsonKey(ignore: true)
   @override
@@ -152,10 +167,13 @@ class _$_DirectPaymentResult implements _DirectPaymentResult {
 abstract class _DirectPaymentResult implements DirectPaymentResult {
   const factory _DirectPaymentResult(
       {required final int fee,
+      required final BigInt slot,
       required final SignedTx transaction}) = _$_DirectPaymentResult;
 
   @override
   int get fee;
+  @override
+  BigInt get slot;
   @override
   SignedTx get transaction;
   @override
