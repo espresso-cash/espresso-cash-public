@@ -16,7 +16,6 @@ import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/theme.dart';
-import '../../../../ui/usdc_info.dart';
 
 class ODPConfirmationScreen extends StatefulWidget {
   const ODPConfirmationScreen({
@@ -88,15 +87,13 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 child: Text(widget.token.symbol, style: _textStyle),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 38),
             AmountWithEquivalent(
               inputController: _amountController,
               token: widget.token,
               collapsed: true,
             ),
             const SizedBox(height: 16),
-            UsdcInfoWidget(isSmall: height < 700 && widget.isEnabled),
-            const SizedBox(height: 8),
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) => widget.isEnabled
