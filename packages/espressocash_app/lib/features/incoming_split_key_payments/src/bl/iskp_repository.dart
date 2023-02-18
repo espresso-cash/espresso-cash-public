@@ -2,6 +2,7 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
@@ -34,6 +35,29 @@ class ISKPRepository {
       _db.into(_db.iSKPRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.iSKPRows).go();
+
+  Stream<IList<IncomingSplitKeyPayment>> watchTxCreated() =>
+      _watchWithStatuses([
+        ISKPStatusDto.txCreated,
+        ISKPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<IncomingSplitKeyPayment>> watchTxSent() => _watchWithStatuses([
+        ISKPStatusDto.txSent,
+        ISKPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<IncomingSplitKeyPayment>> _watchWithStatuses(
+    Iterable<ISKPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.iSKPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
+        .map((it) => it.lock);
+  }
 }
 
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
@@ -42,14 +66,18 @@ class ISKPRows extends Table with EntityMixin, TxStatusMixin {
 }
 
 enum ISKPStatusDto {
+  @Deprecated('State not valid. Use txCreated directly.')
   privateKeyReady,
   txCreated,
   txSent,
   success,
   txFailure,
-  txSendFailure, // Legacy
-  txWaitFailure, // Legacy
-  txEscrowFailure, // Legacy
+  @Deprecated('Use txCreated instead.')
+  txSendFailure,
+  @Deprecated('Use txSent instead.')
+  txWaitFailure,
+  @Deprecated('Use txFailure instead.')
+  txEscrowFailure,
 }
 
 extension on ISKPRow {
@@ -69,7 +97,9 @@ extension on ISKPStatusDto {
 
     switch (this) {
       case ISKPStatusDto.privateKeyReady:
-        return const ISKPStatus.privateKeyReady();
+        return const ISKPStatus.txFailure(
+          reason: TxFailureReason.unknown,
+        );
       case ISKPStatusDto.txCreated:
         return ISKPStatus.txCreated(
           tx!,
@@ -117,7 +147,6 @@ extension on IncomingSplitKeyPayment {
 
 extension on ISKPStatus {
   ISKPStatusDto toDto() => this.map(
-        privateKeyReady: always(ISKPStatusDto.privateKeyReady),
         txCreated: always(ISKPStatusDto.txCreated),
         txSent: always(ISKPStatusDto.txSent),
         success: always(ISKPStatusDto.success),

@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -19,11 +18,6 @@ class IncomingSplitKeyPayment with _$IncomingSplitKeyPayment {
 
 @freezed
 class ISKPStatus with _$ISKPStatus {
-  /// Both parts of the key are successfully retrieved from the URL.
-  ///
-  /// Private key is restored and the payment is ready to be claimed.
-  const factory ISKPStatus.privateKeyReady() = ISKPStatusPrivateKeyReady;
-
   /// Tx is successfully created and ready to be sent.
   const factory ISKPStatus.txCreated(
     SignedTx tx, {

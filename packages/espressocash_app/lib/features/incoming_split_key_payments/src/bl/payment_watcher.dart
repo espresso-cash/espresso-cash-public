@@ -71,7 +71,6 @@ extension on ISKPStatus {
         txCreated: F,
         txSent: F,
         txFailure: F,
-        privateKeyReady: F,
         success: T,
       );
 }
