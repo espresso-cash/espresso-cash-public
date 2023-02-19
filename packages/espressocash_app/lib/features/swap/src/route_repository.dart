@@ -41,6 +41,7 @@ class RouteRepository {
       outAmount: int.parse(route.outAmount),
       fee: CryptoAmount(cryptoCurrency: Currency.usdc, value: route.feeInUsdc),
       encodedTx: route.encodedTx,
+      slot: route.slot,
     );
   }
 }

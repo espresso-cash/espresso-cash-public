@@ -134,10 +134,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 15 && from < 30) {
             await m.addColumn(oDPRows, oDPRows.slot);
           }
-
-          if (from >= 16 && from < 31) {
-            await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
-            await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
+          if (from >= 21 && from < 31) {
+            await m.addColumn(swapRows, swapRows.slot);
+            await m.addColumn(swapRows, swapRows.txFailureReason);
           }
         },
       );
