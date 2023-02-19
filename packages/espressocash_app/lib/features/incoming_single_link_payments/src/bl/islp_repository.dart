@@ -2,6 +2,7 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
@@ -24,16 +25,39 @@ class ISLPRepository {
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
-  Stream<IncomingSingleLinkPayment?> watch(String id) {
+  Stream<IncomingSingleLinkPayment> watch(String id) {
     final query = _db.select(_db.iSLPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
+    return query.watchSingle().asyncMap((row) => row.toModel());
   }
 
   Future<void> save(IncomingSingleLinkPayment payment) async =>
       _db.into(_db.iSLPRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.iSLPRows).go();
+
+  Stream<IList<IncomingSingleLinkPayment>> watchTxCreated() =>
+      _watchWithStatuses([
+        ISLPStatusDto.txCreated,
+        ISLPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<IncomingSingleLinkPayment>> watchTxSent() => _watchWithStatuses([
+        ISLPStatusDto.txSent,
+        ISLPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<IncomingSingleLinkPayment>> _watchWithStatuses(
+    Iterable<ISLPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.iSLPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
+        .map((event) => event.lock);
+  }
 }
 
 class ISLPRows extends Table with EntityMixin, TxStatusMixin {
