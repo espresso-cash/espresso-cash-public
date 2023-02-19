@@ -56,7 +56,7 @@ class ISLPRepository {
     return query
         .watch()
         .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
-        .map((event) => event.lock);
+        .map((it) => it.lock);
   }
 }
 
@@ -66,17 +66,17 @@ class ISLPRows extends Table with EntityMixin, TxStatusMixin {
 }
 
 enum ISLPStatusDto {
-  @Deprecated('State invalid. Use txCreated directly,')
+  @Deprecated('State invalid. Use txCreated directly.')
   privateKeyReady,
   txCreated,
   txSent,
   success,
   txFailure,
-  @Deprecated('Use txCreated instead')
+  @Deprecated('Use txCreated instead.')
   txSendFailure,
-  @Deprecated('Use txSent instead')
+  @Deprecated('Use txSent instead.')
   txWaitFailure,
-  @Deprecated('Use txFailure instead')
+  @Deprecated('Use txFailure instead.')
   txEscrowFailure,
 }
 
