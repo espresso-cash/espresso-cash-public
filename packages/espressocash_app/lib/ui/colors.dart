@@ -43,6 +43,7 @@ abstract class CpColors {
   static const successBackgroundColor = Color(0xff62d58f);
   static const errorBackgroundColor = Color(0xffff6640);
   static const infoBackgroundColor = Color(0xfff2bd1a);
+  static const neutralBackgroundColor = Color(0xffB5B5B5);
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
   static const errorChipColor = Color(0xffe8452f);

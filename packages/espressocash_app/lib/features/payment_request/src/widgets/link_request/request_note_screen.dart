@@ -53,6 +53,7 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
                 title: Text(context.l10n.requestNoteFor),
                 content: Expanded(
                   child: CupertinoTextField(
+                    autofocus: true,
                     decoration: const BoxDecoration(),
                     cursorColor: CpColors.yellowColor,
                     placeholder: context.l10n.requestNotePlaceholder,

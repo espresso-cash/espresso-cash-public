@@ -13,5 +13,6 @@ class SwapRoute with _$SwapRoute {
     required CryptoAmount fee,
     required String encodedTx,
     required SwapSeed seed,
+    required BigInt slot,
   }) = _SwapRoute;
 }
