@@ -63,7 +63,6 @@ class _ScreenState extends State<ODPConfirmationScreen> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     final address = widget.recipient.toBase58();
 
     return CpTheme.dark(
