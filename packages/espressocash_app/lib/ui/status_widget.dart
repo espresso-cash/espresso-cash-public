@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 import 'rounded_rectangle.dart';
 
-enum CpStatusType { success, info, error }
+enum CpStatusType { success, info, error, neutral }
 
 class CpStatusWidget extends StatelessWidget {
   const CpStatusWidget({
@@ -56,6 +56,8 @@ extension on CpStatusType {
         return CpColors.infoBackgroundColor;
       case CpStatusType.error:
         return CpColors.errorBackgroundColor;
+      case CpStatusType.neutral:
+        return CpColors.darkBackground;
     }
   }
 }

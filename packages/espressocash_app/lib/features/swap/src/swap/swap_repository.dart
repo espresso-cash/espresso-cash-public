@@ -2,12 +2,14 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import '../../models/swap.dart';
@@ -45,19 +47,37 @@ class SwapRepository {
       _db.into(_db.swapRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.swapRows).go();
+
+  Stream<IList<Swap>> watchTxCreated() => _watchWithStatuses([
+        SwapStatusDto.txCreated,
+        SwapStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<Swap>> watchTxSent() => _watchWithStatuses([
+        SwapStatusDto.txSent,
+        SwapStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<Swap>> _watchWithStatuses(
+    Iterable<SwapStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.swapRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((it) => it.toIList());
+  }
 }
 
-class SwapRows extends Table with EntityMixin {
+class SwapRows extends Table with EntityMixin, TxStatusMixin {
   IntColumn get status => intEnum<SwapStatusDto>()();
   IntColumn get amount => integer()();
   TextColumn get token => text()();
   TextColumn get inputMint => text()();
   TextColumn get outputMint => text()();
   IntColumn get slippage => intEnum<SlippageDto>()();
-
-  // Status fields
-  TextColumn get tx => text().nullable()();
-  TextColumn get txId => text().nullable()();
 }
 
 enum SwapStatusDto {
@@ -65,8 +85,8 @@ enum SwapStatusDto {
   txSent,
   success,
   txFailure,
-  txSendFailure,
-  txWaitFailure,
+  txSendFailure, // Legacy
+  txWaitFailure, // Legacy
 }
 
 enum SlippageDto {
@@ -96,20 +116,23 @@ extension SwapRowExt on SwapRow {
 extension on SwapStatusDto {
   SwapStatus toModel(SwapRow row) {
     final tx = row.tx?.let(SignedTx.decode);
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case SwapStatusDto.txCreated:
-        return SwapStatus.txCreated(tx!);
+        return SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case SwapStatusDto.txSent:
-        return SwapStatus.txSent(tx!);
+        return SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero);
       case SwapStatusDto.success:
         return SwapStatus.success(tx!);
       case SwapStatusDto.txFailure:
-        return const SwapStatus.txFailure();
+        return SwapStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case SwapStatusDto.txSendFailure:
-        return SwapStatus.txSendFailure(tx!);
+        return SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case SwapStatusDto.txWaitFailure:
-        return SwapStatus.txWaitFailure(tx!);
+        return SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero);
     }
   }
 }
@@ -139,6 +162,8 @@ extension on Swap {
         inputMint: seed.inputToken.address,
         outputMint: seed.outputToken.address,
         slippage: seed.slippage.toDto(),
+        slot: status.toSlot()?.toString(),
+        txFailureReason: status.toTxFailureReason(),
       );
 }
 
@@ -148,20 +173,27 @@ extension on SwapStatus {
         txSent: always(SwapStatusDto.txSent),
         success: always(SwapStatusDto.success),
         txFailure: always(SwapStatusDto.txFailure),
-        txSendFailure: always(SwapStatusDto.txSendFailure),
-        txWaitFailure: always(SwapStatusDto.txWaitFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
+        txSent: (it) => it.tx.encode(),
         success: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         txSent: (it) => it.tx.id,
         success: (it) => it.tx.id,
-        txWaitFailure: (it) => it.tx.id,
+        txCreated: (it) => it.tx.id,
+      );
+
+  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
+        txFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
       );
 }
 

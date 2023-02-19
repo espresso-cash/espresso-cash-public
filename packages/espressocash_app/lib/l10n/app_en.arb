@@ -71,7 +71,7 @@
   "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
-  "splitKeyCanceledMessage1": "{amount} Transaction canceled.",
+  "splitKeyCanceledMessage1": "{amount} Transaction successfully canceled.",
   "@splitKeyCanceledMessage1": {
     "placeholders": {
       "amount": {
