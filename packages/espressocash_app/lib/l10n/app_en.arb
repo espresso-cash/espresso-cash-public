@@ -6,7 +6,7 @@
   "yourFirstNamePlaceholder": "Choose a username",
   "activitiesTitle": "Activity",
   "signOut": "Delete Wallet",
-  "signOutConfirmation": "Are you sure you want to delete the wallet?",
+  "signOutConfirmation": "Are you sure you want to\ndelete the wallet?",
   "cancel": "Cancel",
   "signUp": "Create Wallet",
   "signIn1": "Already have a Solana wallet? ",
@@ -533,5 +533,6 @@
   "sendMoney": "Send Money",
   "startInvestingTitle": "Start Investing",
   "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like.",
-  "invalidEscrowError": "The link is incorrect or the money has already been withdrawn."
+  "invalidEscrowError": "The link is incorrect or the money has already been withdrawn.",
+  "yesDeleteMyWallet": "Yes, delete my wallet"
 }
