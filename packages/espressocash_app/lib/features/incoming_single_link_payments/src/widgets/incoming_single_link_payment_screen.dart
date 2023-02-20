@@ -8,9 +8,9 @@ import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
 import '../../../incoming_split_key_payments/widgets/invalid_escrow_error_widget.dart';
+import '../../widgets/extensions.dart';
 import '../bl/islp_payment.dart';
 import '../bl/islp_repository.dart';
-import 'extensions.dart';
 
 class IncomingSingleLinkScreen extends StatefulWidget {
   const IncomingSingleLinkScreen({

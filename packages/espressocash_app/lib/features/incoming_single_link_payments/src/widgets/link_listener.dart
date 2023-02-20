@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/single_key_payments.dart';
+import '../../../../routes.gr.dart';
 import '../../widgets/extensions.dart';
 
 class ISLPListener extends StatefulWidget {
@@ -23,13 +25,20 @@ class _ISLPListenerState extends State<ISLPListener> {
       final data = SingleKeyPaymentData.tryParse(link);
 
       if (data != null) {
-        context.processISLP(data);
+        _processISLP(data);
 
         return true;
       }
 
       return false;
     });
+  }
+
+  Future<void> _processISLP(SingleKeyPaymentData data) async {
+    final id = await context.createISLP(data);
+
+    if (!mounted) return;
+    context.router.push(IncomingSingleLinkRoute(id: id)).ignore();
   }
 
   @override

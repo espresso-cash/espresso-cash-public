@@ -28,10 +28,10 @@ class ISLPModule extends SingleChildStatelessWidget {
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),
-          LogoutListener(
-            onLogout: (_) => sl<ISLPRepository>().clear(),
-          ),
         ],
-        child: ISLPListener(child: child ?? const SizedBox.shrink()),
+        child: LogoutListener(
+          onLogout: (_) => sl<ISLPRepository>().clear(),
+          child: ISLPListener(child: child ?? const SizedBox.shrink()),
+        ),
       );
 }
