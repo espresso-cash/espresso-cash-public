@@ -534,5 +534,9 @@
   "startInvestingTitle": "Start Investing",
   "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like.",
   "invalidEscrowError": "The link is incorrect or the money has already been withdrawn.",
-  "yesDeleteMyWallet": "Yes, delete my wallet"
+  "yesDeleteMyWallet": "Yes, delete my wallet",
+  "cancelTransferConfirmationTitle": "Cancel Transfer",
+  "cancelTransferConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
+  "cancelPaymentRequestConfirmationTitle": "Cancel Payment Request",
+  "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?"
 }
