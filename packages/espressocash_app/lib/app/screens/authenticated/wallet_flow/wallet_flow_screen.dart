@@ -47,7 +47,10 @@ class _State extends State<WalletFlowScreen> {
     if (!mounted) return;
 
     if (request is QrScannerTipRequest) {
-      await context.processISLP(request.paymentData);
+      final id = await context.createISLP(request.paymentData);
+
+      if (!mounted) return;
+      await context.router.push(IncomingSingleLinkRoute(id: id));
 
       return;
     }
