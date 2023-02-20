@@ -54,7 +54,15 @@ Future<void> showConfirmationDialog(
                 ),
               ),
               const SizedBox(height: 24),
-              Text(message, style: _messageStyle, textAlign: TextAlign.center),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 19,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
               const SizedBox(height: 32),
               CpButton(
                 text: context.l10n.yesDeleteMyWallet,
@@ -129,19 +137,3 @@ Future<void> showWarningDialog(
         ),
       ),
     );
-
-const _contentStyle = TextStyle(
-  color: CpColors.primaryTextColor,
-  fontWeight: FontWeight.normal,
-  fontSize: 16,
-);
-
-final _confirmButtonStyle = TextButton.styleFrom(
-  foregroundColor: CpColors.primaryColor,
-);
-
-const _messageStyle = TextStyle(
-  fontSize: 19,
-  color: Colors.white,
-  fontWeight: FontWeight.w500,
-);
