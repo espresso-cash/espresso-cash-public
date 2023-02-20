@@ -2,11 +2,12 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
@@ -34,65 +35,101 @@ class ISKPRepository {
       _db.into(_db.iSKPRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.iSKPRows).go();
+
+  Stream<IList<IncomingSplitKeyPayment>> watchTxCreated() =>
+      _watchWithStatuses([
+        ISKPStatusDto.txCreated,
+        ISKPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<IncomingSplitKeyPayment>> watchTxSent() => _watchWithStatuses([
+        ISKPStatusDto.txSent,
+        ISKPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<IncomingSplitKeyPayment>> _watchWithStatuses(
+    Iterable<ISKPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.iSKPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
+        .map((it) => it.lock);
+  }
 }
 
-class ISKPRows extends Table with EntityMixin {
+class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
-
-  // Status fields
-  TextColumn get tx => text().nullable()();
-  TextColumn get txId => text().nullable()();
 }
 
 enum ISKPStatusDto {
+  @Deprecated('State not valid. Use txCreated directly.')
   privateKeyReady,
   txCreated,
   txSent,
   success,
   txFailure,
+  @Deprecated('Use txCreated instead.')
   txSendFailure,
+  @Deprecated('Use txSent instead.')
   txWaitFailure,
+  @Deprecated('Use txFailure instead.')
   txEscrowFailure,
 }
 
 extension on ISKPRow {
-  Future<IncomingSplitKeyPayment> toModel() async {
-    final escrow = await privateKey
-        .let(base58decode)
-        .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
-
-    return IncomingSplitKeyPayment(
-      id: id,
-      status: status.toModel(this),
-      created: created,
-      escrow: escrow,
-    );
-  }
+  Future<IncomingSplitKeyPayment> toModel() async => IncomingSplitKeyPayment(
+        id: id,
+        status: status.toModel(this),
+        created: created,
+        escrow: await privateKey.let(base58decode).let(EscrowPrivateKey.new),
+      );
 }
 
 extension on ISKPStatusDto {
   ISKPStatus toModel(ISKPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ISKPStatusDto.privateKeyReady:
-        return const ISKPStatus.privateKeyReady();
+        return const ISKPStatus.txFailure(
+          reason: TxFailureReason.unknown,
+        );
       case ISKPStatusDto.txCreated:
-        return ISKPStatus.txCreated(tx!);
+        return ISKPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txSent:
-        return ISKPStatus.txSent(tx ?? StubSignedTx(txId!));
+        return ISKPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.success:
         return ISKPStatus.success(txId: txId!);
       case ISKPStatusDto.txFailure:
-        return const ISKPStatus.txFailure();
+        return ISKPStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case ISKPStatusDto.txSendFailure:
-        return ISKPStatus.txSendFailure(tx!);
+        return ISKPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txWaitFailure:
-        return ISKPStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
+        return ISKPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISKPStatusDto.txEscrowFailure:
-        return const ISKPStatus.txEscrowFailure();
+        return const ISKPStatus.txFailure(
+          reason: TxFailureReason.escrowFailure,
+        );
     }
   }
 }
@@ -101,8 +138,7 @@ extension on IncomingSplitKeyPayment {
   Future<ISKPRow> toDto() async => ISKPRow(
         id: id,
         created: created,
-        privateKey:
-            await escrow.extract().then((it) => it.bytes).then(base58encode),
+        privateKey: await escrow.bytes.let(base58encode),
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
@@ -111,21 +147,15 @@ extension on IncomingSplitKeyPayment {
 
 extension on ISKPStatus {
   ISKPStatusDto toDto() => this.map(
-        privateKeyReady: always(ISKPStatusDto.privateKeyReady),
         txCreated: always(ISKPStatusDto.txCreated),
         txSent: always(ISKPStatusDto.txSent),
         success: always(ISKPStatusDto.success),
         txFailure: always(ISKPStatusDto.txFailure),
-        txSendFailure: always(ISKPStatusDto.txSendFailure),
-        txWaitFailure: always(ISKPStatusDto.txWaitFailure),
-        txEscrowFailure: always(ISKPStatusDto.txEscrowFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
-        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
