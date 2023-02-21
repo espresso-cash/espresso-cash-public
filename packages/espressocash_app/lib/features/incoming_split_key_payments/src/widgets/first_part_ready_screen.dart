@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
@@ -15,9 +14,9 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import '../bl/iskp_bloc.dart';
 import '../bl/pending_iskp_repository.dart';
 import 'components/cancel_dialog.dart';
+import 'extensions.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
@@ -64,12 +63,13 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
       );
       if (!mounted) return;
 
-      final id = const Uuid().v4();
-      context.read<ISKPBloc>().add(ISKPEvent.create(escrow, id: id));
+      final id = await context.createISKP(escrow);
       await repository.clear();
-      if (!mounted) return;
 
-      await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));
+      if (!mounted) return;
+      await context.router.replace(
+        IncomingSplitKeyPaymentRoute(id: id),
+      );
     } on Object {
       context.router.popForced();
     }

@@ -13,6 +13,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
+import '../../../../ui/dialogs.dart';
 import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
@@ -71,6 +72,15 @@ class _OSKPScreenState extends State<OSKPScreen> {
             return TransferProgress(onBack: () => context.router.pop());
           }
 
+          void onCancel() => showConfirmationDialog(
+                context,
+                title: context.l10n.cancelTransferConfirmationTitle,
+                message: context.l10n.cancelTransferConfirmationSubtitle,
+                onConfirm: () {
+                  context.cancelOSKP(payment: payment);
+                },
+              );
+
           final cancelButton = Padding(
             padding: EdgeInsets.only(
               top: 24,
@@ -79,7 +89,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             child: CpTextButton(
               text: context.l10n.cancelTransfer,
               variant: CpTextButtonVariant.light,
-              onPressed: () => context.cancelOSKP(payment: payment),
+              onPressed: onCancel,
             ),
           );
 
@@ -119,7 +129,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.retry,
-                onPressed: () => context.cancelOSKP(payment: payment),
+                onPressed: onCancel,
               ),
             ],
             orElse: () => const [],

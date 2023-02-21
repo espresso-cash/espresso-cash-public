@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/escrow_private_key.dart';
 import '../../../core/transactions/tx_sender.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
@@ -92,20 +92,4 @@ class OSKPStatus with _$OSKPStatus {
     required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
-}
-
-@freezed
-class EscrowPrivateKey with _$EscrowPrivateKey {
-  factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;
-
-  EscrowPrivateKey._();
-
-  static Future<EscrowPrivateKey> fromKeyPair(Ed25519HDKeyPair keyPair) async {
-    final data = await keyPair.extract();
-
-    return EscrowPrivateKey(data.bytes);
-  }
-
-  late final Future<Ed25519HDKeyPair> keyPair =
-      Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: bytes);
 }
