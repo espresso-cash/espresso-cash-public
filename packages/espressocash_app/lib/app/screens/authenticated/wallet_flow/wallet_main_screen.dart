@@ -8,7 +8,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
@@ -141,7 +140,7 @@ class _ScreenState extends State<WalletMainScreen> {
               size: CpButtonSize.big,
             ),
           ),
-          const SizedBox(height: cpNavigationBarheight + 24),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 24),
         ],
       ),
     );
