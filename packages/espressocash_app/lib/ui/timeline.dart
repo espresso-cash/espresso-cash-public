@@ -38,11 +38,10 @@ class CpTimeline extends StatefulWidget {
   final int active;
 
   @override
-  State<CpTimeline> createState() => _CpTimelineState();
+  State<CpTimeline> createState() => _State();
 }
 
-class _CpTimelineState extends State<CpTimeline>
-    with SingleTickerProviderStateMixin {
+class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
 
   @override
@@ -75,11 +74,13 @@ class _CpTimelineState extends State<CpTimeline>
         _AnimationTransformer? indicatorTransformer;
         _AnimationTransformer? connectorTransformer;
 
-        if (animated && index == widget.active) {
-          indicatorTransformer = _lowerIndicatorTransform;
-        } else if (animated && index == widget.active - 1) {
-          connectorTransformer = _connectorTransform;
-          indicatorTransformer = _upperIndicatorTransform;
+        if (animated) {
+          if (index == widget.active) {
+            indicatorTransformer = _lowerIndicatorTransformer;
+          } else if (index == widget.active - 1) {
+            connectorTransformer = _connectorTransformer;
+            indicatorTransformer = _upperIndicatorTransformer;
+          }
         }
 
         return Row(
@@ -196,7 +197,7 @@ class _IndicatorBackground extends StatelessWidget {
               : null,
         ),
         padding: (isFirst || isLast)
-            ? EdgeInsets.only(top: isFirst ? 16 : 4, bottom: isLast ? 16 : 4)
+            ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
             : EdgeInsets.zero,
         margin: EdgeInsets.zero,
         child: SizedBox(
@@ -225,7 +226,7 @@ class _ConnectorBackground extends StatelessWidget {
       );
 }
 
-class _Animation extends StatefulWidget {
+class _Animation extends StatelessWidget {
   const _Animation({
     Key? key,
     required this.transformer,
@@ -240,30 +241,25 @@ class _Animation extends StatefulWidget {
   final Widget child;
 
   @override
-  State<_Animation> createState() => _AnimationState();
-}
-
-class _AnimationState extends State<_Animation> {
-  @override
   Widget build(BuildContext context) {
-    final transformer = widget.transformer;
+    final transformer = this.transformer;
 
     return Stack(
       alignment: Alignment.center,
       children: [
         if (transformer != null)
           AnimatedBuilder(
-            animation: widget.controller,
+            animation: controller,
             builder: (context, child) => Positioned(
-              bottom: widget.center ? 0 : null,
-              top: widget.controller.value.let(_sinoidal).let(transformer),
+              bottom: center ? 0 : null,
+              top: controller.value.let(_sinoidalTransformer).let(transformer),
               // ignore: avoid-non-null-assertion, child is mandatory for parent
               child: child!,
             ),
-            child: widget.child,
+            child: child,
           )
         else
-          widget.child
+          child
       ],
     );
   }
@@ -305,14 +301,14 @@ extension on CpTimelineStatus {
   }
 }
 
-double _sinoidal(double value) => sin(2 * pi * value) / 2;
+double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
 
-double _connectorTransform(double value) => value * _connectorHeight;
+double _connectorTransformer(double value) => value * _connectorHeight;
 
-double _lowerIndicatorTransform(double value) =>
+double _lowerIndicatorTransformer(double value) =>
     max(0, value) * _indicatorBounceOffset;
 
-double _upperIndicatorTransform(double value) =>
+double _upperIndicatorTransformer(double value) =>
     min(0, value) * _indicatorBounceOffset;
 
 const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
