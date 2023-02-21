@@ -21,7 +21,7 @@ class CpTimelineItem {
 
 enum CpTimelineStatus { inProgress, success, failure, neutral }
 
-class CpTimeline extends StatelessWidget {
+class CpTimeline extends StatefulWidget {
   const CpTimeline({
     super.key,
     required this.items,
@@ -38,23 +38,47 @@ class CpTimeline extends StatelessWidget {
   final int active;
 
   @override
+  State<CpTimeline> createState() => _CpTimelineState();
+}
+
+class _CpTimelineState extends State<CpTimeline>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final animated = items.length > 1 && active != items.length - 1;
+    const animated = true;
+    // widget.items.length > 1 && widget.active != widget.items.length - 1;
 
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: items.length,
+      itemCount: widget.items.length,
       itemBuilder: (context, index) {
         final isFirst = index == 0;
-        final isLast = index == items.length - 1;
+        final isLast = index == widget.items.length - 1;
 
         _AnimationTransformer? indicatorTransformer;
         _AnimationTransformer? connectorTransformer;
 
-        if (animated && index == active) {
+        if (animated && index == widget.active) {
           indicatorTransformer = _lowerIndicatorTransform;
-        } else if (animated && index == active - 1) {
+        } else if (animated && index == widget.active - 1) {
           connectorTransformer = _connectorTransform;
           indicatorTransformer = _upperIndicatorTransform;
         }
@@ -65,35 +89,37 @@ class CpTimeline extends StatelessWidget {
             Column(
               children: [
                 _IndicatorBackground(
-                  backgroundColor: status.backgroundColor,
+                  backgroundColor: widget.status.backgroundColor,
                   isFirst: isFirst,
                   isLast: isLast,
                   child: _Animation(
                     center: true,
+                    controller: _controller,
                     transformer: indicatorTransformer,
                     child: Container(
                       height: _indicatorSize,
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index > active
+                        color: index > widget.active
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
-                      child: index == active ? status.icon : null,
+                      child: index >= widget.active ? widget.status.icon : null,
                     ),
                   ),
                 ),
                 if (!isLast)
                   _ConnectorBackground(
-                    backgroundColor: status.backgroundColor,
+                    backgroundColor: widget.status.backgroundColor,
                     child: _Animation(
                       center: false,
+                      controller: _controller,
                       transformer: connectorTransformer,
                       child: Container(
                         height: _connectorHeight,
                         width: _connectorWidth,
-                        color: index >= active
+                        color: index >= widget.active
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
@@ -101,7 +127,7 @@ class CpTimeline extends StatelessWidget {
                   ),
               ],
             ),
-            Expanded(child: _TileInfo(tile: items[index])),
+            Expanded(child: _TileInfo(tile: widget.items[index])),
           ],
         );
       },
@@ -203,10 +229,12 @@ class _Animation extends StatefulWidget {
   const _Animation({
     Key? key,
     required this.transformer,
+    required this.controller,
     required this.center,
     required this.child,
   }) : super(key: key);
 
+  final AnimationController controller;
   final _AnimationTransformer? transformer;
   final bool center;
   final Widget child;
@@ -215,41 +243,7 @@ class _Animation extends StatefulWidget {
   State<_Animation> createState() => _AnimationState();
 }
 
-class _AnimationState extends State<_Animation>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 800),
-    );
-    _updateAnimation();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant _Animation oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _updateAnimation();
-  }
-
-  void _updateAnimation() {
-    if (!mounted) return;
-    if (widget.transformer == null) {
-      _controller.reset();
-    } else {
-      _controller.repeat();
-    }
-  }
-
+class _AnimationState extends State<_Animation> {
   @override
   Widget build(BuildContext context) {
     final transformer = widget.transformer;
@@ -259,10 +253,10 @@ class _AnimationState extends State<_Animation>
       children: [
         if (transformer != null)
           AnimatedBuilder(
-            animation: _controller,
+            animation: widget.controller,
             builder: (context, child) => Positioned(
               bottom: widget.center ? 0 : null,
-              top: _controller.value.let(_sinoidal).let(transformer),
+              top: widget.controller.value.let(_sinoidal).let(transformer),
               // ignore: avoid-non-null-assertion, child is mandatory for parent
               child: child!,
             ),
