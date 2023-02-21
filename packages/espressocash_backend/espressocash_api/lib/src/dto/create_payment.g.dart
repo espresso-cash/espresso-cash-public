@@ -128,6 +128,7 @@ _$_CreateDirectPaymentResponseDto _$$_CreateDirectPaymentResponseDtoFromJson(
     _$_CreateDirectPaymentResponseDto(
       fee: json['fee'] as int,
       transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
     );
 
 Map<String, dynamic> _$$_CreateDirectPaymentResponseDtoToJson(
@@ -135,4 +136,5 @@ Map<String, dynamic> _$$_CreateDirectPaymentResponseDtoToJson(
     <String, dynamic>{
       'fee': instance.fee,
       'transaction': instance.transaction,
+      'slot': instance.slot.toString(),
     };

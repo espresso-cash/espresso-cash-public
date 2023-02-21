@@ -123,6 +123,7 @@ Future<Response> createDirectPaymentHandler(Request request) async =>
         return CreateDirectPaymentResponseDto(
           fee: payment.fee,
           transaction: payment.transaction.encode(),
+          slot: payment.slot,
         );
       },
     );

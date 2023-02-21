@@ -92,6 +92,7 @@ class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
   const factory CreateDirectPaymentResponseDto({
     required int fee,
     required String transaction,
+    required BigInt slot,
   }) = _CreateDirectPaymentResponseDto;
 
   factory CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
