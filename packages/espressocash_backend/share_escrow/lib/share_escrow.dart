@@ -1,3 +1,4 @@
 library share_escrow;
 
-//TODO add exports
+export 'src/instructions.dart';
+export 'src/models.dart';

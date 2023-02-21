@@ -24,6 +24,11 @@ abstract class CryptopleaseClient {
     @Body() ReceivePaymentRequestDto request,
   );
 
+  @POST('/cancelPayment')
+  Future<CancelPaymentResponseDto> cancelPayment(
+    @Body() CancelPaymentRequestDto request,
+  );
+
   @POST('/createDirectPayment')
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
     @Body() CreateDirectPaymentRequestDto request,

@@ -17,13 +17,7 @@ void main() {
   const initializerAmount = 1000;
   const sendAmount = 700;
 
-  const escrowAccountRent = 1893120; // calculated for escrow account len = 144
-  const vaultTokenRent = 2039280; // calculated for token account len = 165
   const airdropAmount = 1000000000;
-
-  const expectedDepositorBalanceAfterInit = airdropAmount - escrowAccountRent;
-  const expectedDepositorBalanceAfterComplete =
-      airdropAmount - escrowAccountRent + vaultTokenRent;
 
   Future<void> requestAirdrop(Ed25519HDKeyPair account) async {
     await client.requestAirdrop(
@@ -99,6 +93,13 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
+    final vault = await client.createAssociatedTokenAccount(
+      owner: escrow.publicKey,
+      mint: mint.address,
+      funder: depositor,
+      commitment: Commitment.confirmed,
+    );
+
     return Accounts(
       escrowAccount: escrow,
       senderAccount: sender,
@@ -107,8 +108,7 @@ void main() {
       senderTokenAccount: sellerTokenAccount,
       receiverTokenAccount:
           await createAccount(client: client, owner: receiver, mint: mint),
-      vaultTokenAccount:
-          await createAccount(client: client, owner: sender, mint: mint),
+      vaultTokenAccount: Ed25519HDPublicKey.fromBase58(vault.pubkey),
     );
   }
 
@@ -180,7 +180,6 @@ void main() {
       escrowAccount: accounts.escrowAccount.publicKey,
       receiverTokenAccount: accounts.receiverTokenAccount,
       depositorAccount: accounts.depositorAccount.publicKey,
-      senderTokenAccount: accounts.senderTokenAccount,
       vaultTokenAccount: accounts.vaultTokenAccount,
     );
 

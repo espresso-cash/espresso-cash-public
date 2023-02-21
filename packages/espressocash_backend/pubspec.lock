@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  borsh:
+    dependency: transitive
+    description:
+      name: borsh
+      sha256: "58f762a29eb4bc5e24a733e19d5a51771c512f9734f6e538a17aae0a68cf30ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1+2"
   borsh_annotation:
     dependency: transitive
     description:
@@ -591,6 +599,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.20.1"
+  share_escrow:
+    dependency: "direct main"
+    description:
+      path: share_escrow
+      relative: true
+    source: path
+    version: "1.0.0"
   shelf:
     dependency: "direct main"
     description:
@@ -816,4 +831,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.2 <3.0.0"

@@ -41,7 +41,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await sender.resign(payment.transaction);
+    final resignedTx = await payment.transaction.resign(sender);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -100,7 +100,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await sender.resign(payment.transaction);
+    final resignedTx = await payment.transaction.resign(sender);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),

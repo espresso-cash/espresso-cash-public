@@ -34,7 +34,6 @@ class EscrowInstruction {
 
   static Future<AnchorInstruction> completeEscrow({
     required Ed25519HDPublicKey escrowAccount,
-    required Ed25519HDPublicKey senderTokenAccount,
     required Ed25519HDPublicKey receiverTokenAccount,
     required Ed25519HDPublicKey depositorAccount,
     required Ed25519HDPublicKey vaultTokenAccount,
@@ -45,7 +44,6 @@ class EscrowInstruction {
         accounts: <AccountMeta>[
           AccountMeta.writeable(pubKey: escrowAccount, isSigner: true),
           AccountMeta.writeable(pubKey: depositorAccount, isSigner: true),
-          AccountMeta.writeable(pubKey: senderTokenAccount, isSigner: false),
           AccountMeta.writeable(pubKey: receiverTokenAccount, isSigner: false),
           AccountMeta.writeable(pubKey: vaultTokenAccount, isSigner: false),
           AccountMeta.readonly(
