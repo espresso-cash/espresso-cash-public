@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/text_button.dart';
 import '../../../../../ui/theme.dart';
@@ -59,10 +60,16 @@ class SharePaymentRequestScreen extends StatelessWidget {
                 ),
                 child: CpTextButton(
                   text: context.l10n.paymentRequestCancel,
-                  onPressed: () {
-                    sl<PaymentRequestRepository>().delete(request.id);
-                    context.router.pop();
-                  },
+                  onPressed: () => showConfirmationDialog(
+                    context,
+                    title: context.l10n.cancelPaymentRequestConfirmationTitle,
+                    message:
+                        context.l10n.cancelPaymentRequestConfirmationSubtitle,
+                    onConfirm: () {
+                      sl<PaymentRequestRepository>().delete(request.id);
+                      context.router.pop();
+                    },
+                  ),
                 ),
               ),
             ],

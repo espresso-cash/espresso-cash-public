@@ -21,6 +21,7 @@ mixin _$SwapTransaction {
   String get outAmount => throw _privateConstructorUsedError;
   int get fee => throw _privateConstructorUsedError;
   SignedTx get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SwapTransactionCopyWith<SwapTransaction> get copyWith =>
@@ -38,7 +39,8 @@ abstract class $SwapTransactionCopyWith<$Res> {
       String inAmount,
       String outAmount,
       int fee,
-      SignedTx transaction});
+      SignedTx transaction,
+      BigInt slot});
 
   $SignedTxCopyWith<$Res> get transaction;
 }
@@ -61,6 +63,7 @@ class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
     Object? outAmount = null,
     Object? fee = null,
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_value.copyWith(
       amount: null == amount
@@ -83,6 +86,10 @@ class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as SignedTx,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ) as $Val);
   }
 
@@ -108,7 +115,8 @@ abstract class _$$_SwapTransactionCopyWith<$Res>
       String inAmount,
       String outAmount,
       int fee,
-      SignedTx transaction});
+      SignedTx transaction,
+      BigInt slot});
 
   @override
   $SignedTxCopyWith<$Res> get transaction;
@@ -130,6 +138,7 @@ class __$$_SwapTransactionCopyWithImpl<$Res>
     Object? outAmount = null,
     Object? fee = null,
     Object? transaction = null,
+    Object? slot = null,
   }) {
     return _then(_$_SwapTransaction(
       amount: null == amount
@@ -152,6 +161,10 @@ class __$$_SwapTransactionCopyWithImpl<$Res>
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
               as SignedTx,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -164,7 +177,8 @@ class _$_SwapTransaction implements _SwapTransaction {
       required this.inAmount,
       required this.outAmount,
       required this.fee,
-      required this.transaction});
+      required this.transaction,
+      required this.slot});
 
   @override
   final String amount;
@@ -176,10 +190,12 @@ class _$_SwapTransaction implements _SwapTransaction {
   final int fee;
   @override
   final SignedTx transaction;
+  @override
+  final BigInt slot;
 
   @override
   String toString() {
-    return 'SwapTransaction(amount: $amount, inAmount: $inAmount, outAmount: $outAmount, fee: $fee, transaction: $transaction)';
+    return 'SwapTransaction(amount: $amount, inAmount: $inAmount, outAmount: $outAmount, fee: $fee, transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -194,12 +210,13 @@ class _$_SwapTransaction implements _SwapTransaction {
                 other.outAmount == outAmount) &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.transaction, transaction) ||
-                other.transaction == transaction));
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, amount, inAmount, outAmount, fee, transaction);
+  int get hashCode => Object.hash(
+      runtimeType, amount, inAmount, outAmount, fee, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +231,8 @@ abstract class _SwapTransaction implements SwapTransaction {
       required final String inAmount,
       required final String outAmount,
       required final int fee,
-      required final SignedTx transaction}) = _$_SwapTransaction;
+      required final SignedTx transaction,
+      required final BigInt slot}) = _$_SwapTransaction;
 
   @override
   String get amount;
@@ -226,6 +244,8 @@ abstract class _SwapTransaction implements SwapTransaction {
   int get fee;
   @override
   SignedTx get transaction;
+  @override
+  BigInt get slot;
   @override
   @JsonKey(ignore: true)
   _$$_SwapTransactionCopyWith<_$_SwapTransaction> get copyWith =>

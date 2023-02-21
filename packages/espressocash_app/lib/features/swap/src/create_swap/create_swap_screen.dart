@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +16,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../../ui/content_padding.dart';
+import '../../../../ui/dialogs.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/slider.dart';
 import '../../models/swap_seed.dart';
@@ -24,7 +26,6 @@ import 'available_balance.dart';
 import 'components/display_header.dart';
 import 'components/equivalent_header.dart';
 import 'components/slippage_info.dart';
-import 'components/swap_exception_dialog.dart';
 import 'components/swap_fee.dart';
 import 'components/token_dropdown.dart';
 import 'create_swap_bloc.dart';
@@ -111,10 +112,10 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
     _onAmountChanged(amount);
   }
 
-  void _onSwapException(CreateSwapException e) => showSwapExceptionDialog(
+  void _onSwapException(CreateSwapException e) => showWarningDialog(
         context,
-        context.l10n.swapErrorTitle,
-        e,
+        title: context.l10n.swapErrorTitle,
+        message: e.description(context),
       );
 
   @override
@@ -216,4 +217,19 @@ extension on SwapOperation {
         return const SwapEditingMode.input();
     }
   }
+}
+
+extension on CreateSwapException {
+  String description(BuildContext context) => this.map(
+        routeNotFound: always(context.l10n.swapFailRouteNotFound),
+        insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
+          e.amount.format(DeviceLocale.localeOf(context)),
+          e.balance.format(DeviceLocale.localeOf(context)),
+        ),
+        insufficientFee: (e) => context.l10n.insufficientFundsForFeeMessage(
+          e.fee.currency.symbol,
+          e.fee.format(DeviceLocale.localeOf(context)),
+        ),
+        other: always(context.l10n.swapFailUnknown),
+      );
 }

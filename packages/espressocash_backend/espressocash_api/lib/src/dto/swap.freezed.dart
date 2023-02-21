@@ -293,6 +293,7 @@ mixin _$SwapRouteResponseDto {
   String get amount => throw _privateConstructorUsedError;
   String get encodedTx => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -311,7 +312,8 @@ abstract class $SwapRouteResponseDtoCopyWith<$Res> {
       String outAmount,
       String amount,
       String encodedTx,
-      int feeInUsdc});
+      int feeInUsdc,
+      BigInt slot});
 }
 
 /// @nodoc
@@ -333,6 +335,7 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
     Object? amount = null,
     Object? encodedTx = null,
     Object? feeInUsdc = null,
+    Object? slot = null,
   }) {
     return _then(_value.copyWith(
       inAmount: null == inAmount
@@ -355,6 +358,10 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
               as int,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ) as $Val);
   }
 }
@@ -372,7 +379,8 @@ abstract class _$$_SwapRouteResponseDtoCopyWith<$Res>
       String outAmount,
       String amount,
       String encodedTx,
-      int feeInUsdc});
+      int feeInUsdc,
+      BigInt slot});
 }
 
 /// @nodoc
@@ -391,6 +399,7 @@ class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
     Object? amount = null,
     Object? encodedTx = null,
     Object? feeInUsdc = null,
+    Object? slot = null,
   }) {
     return _then(_$_SwapRouteResponseDto(
       inAmount: null == inAmount
@@ -413,6 +422,10 @@ class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
               as int,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
     ));
   }
 }
@@ -425,7 +438,8 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
       required this.outAmount,
       required this.amount,
       required this.encodedTx,
-      required this.feeInUsdc});
+      required this.feeInUsdc,
+      required this.slot});
 
   factory _$_SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_SwapRouteResponseDtoFromJson(json);
@@ -440,10 +454,12 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
   final String encodedTx;
   @override
   final int feeInUsdc;
+  @override
+  final BigInt slot;
 
   @override
   String toString() {
-    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc)';
+    return 'SwapRouteResponseDto(inAmount: $inAmount, outAmount: $outAmount, amount: $amount, encodedTx: $encodedTx, feeInUsdc: $feeInUsdc, slot: $slot)';
   }
 
   @override
@@ -459,13 +475,14 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
             (identical(other.encodedTx, encodedTx) ||
                 other.encodedTx == encodedTx) &&
             (identical(other.feeInUsdc, feeInUsdc) ||
-                other.feeInUsdc == feeInUsdc));
+                other.feeInUsdc == feeInUsdc) &&
+            (identical(other.slot, slot) || other.slot == slot));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc);
+      runtimeType, inAmount, outAmount, amount, encodedTx, feeInUsdc, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -488,7 +505,8 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
       required final String outAmount,
       required final String amount,
       required final String encodedTx,
-      required final int feeInUsdc}) = _$_SwapRouteResponseDto;
+      required final int feeInUsdc,
+      required final BigInt slot}) = _$_SwapRouteResponseDto;
 
   factory _SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =
       _$_SwapRouteResponseDto.fromJson;
@@ -503,6 +521,8 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   String get encodedTx;
   @override
   int get feeInUsdc;
+  @override
+  BigInt get slot;
   @override
   @JsonKey(ignore: true)
   _$$_SwapRouteResponseDtoCopyWith<_$_SwapRouteResponseDto> get copyWith =>

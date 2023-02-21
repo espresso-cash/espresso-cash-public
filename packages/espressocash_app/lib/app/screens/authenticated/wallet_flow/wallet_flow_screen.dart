@@ -47,7 +47,10 @@ class _State extends State<WalletFlowScreen> {
     if (!mounted) return;
 
     if (request is QrScannerTipRequest) {
-      await context.processISLP(request.paymentData);
+      final id = await context.createISLP(request.paymentData);
+
+      if (!mounted) return;
+      await context.router.push(IncomingSingleLinkRoute(id: id));
 
       return;
     }
@@ -86,11 +89,14 @@ class _State extends State<WalletFlowScreen> {
     if (amount != null) {
       setState(() => _amount = _amount.copyWith(value: 0));
 
-      context.createAndOpenDirectPayment(
+      final id = await context.createODP(
         amountInUsdc: amount,
         receiver: recipient,
         reference: request.reference,
       );
+
+      if (!mounted) return;
+      await context.router.push(ODPDetailsRoute(id: id));
     }
   }
 

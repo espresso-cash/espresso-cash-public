@@ -31,7 +31,7 @@ abstract class PaymentWatcher {
     _repoSubscription =
         watchPayments(_repository).distinct().listen((payments) async {
       final keys = payments.map((e) => e.id).toSet();
-      for (final key in _operations.keys) {
+      for (final key in _operations.keys.toSet()) {
         if (!keys.contains(key)) {
           await _operations[key]?.cancel();
         }
