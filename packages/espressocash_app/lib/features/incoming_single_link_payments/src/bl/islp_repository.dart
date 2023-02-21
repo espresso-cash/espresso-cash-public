@@ -2,11 +2,12 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
@@ -24,75 +25,112 @@ class ISLPRepository {
     return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
-  Stream<IncomingSingleLinkPayment?> watch(String id) {
+  Stream<IncomingSingleLinkPayment> watch(String id) {
     final query = _db.select(_db.iSLPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
+    return query.watchSingle().asyncMap((row) => row.toModel());
   }
 
   Future<void> save(IncomingSingleLinkPayment payment) async =>
       _db.into(_db.iSLPRows).insertOnConflictUpdate(await payment.toDto());
 
   Future<void> clear() => _db.delete(_db.iSLPRows).go();
+
+  Stream<IList<IncomingSingleLinkPayment>> watchTxCreated() =>
+      _watchWithStatuses([
+        ISLPStatusDto.txCreated,
+        ISLPStatusDto.txSendFailure,
+      ]);
+
+  Stream<IList<IncomingSingleLinkPayment>> watchTxSent() => _watchWithStatuses([
+        ISLPStatusDto.txSent,
+        ISLPStatusDto.txWaitFailure,
+      ]);
+
+  Stream<IList<IncomingSingleLinkPayment>> _watchWithStatuses(
+    Iterable<ISLPStatusDto> statuses,
+  ) {
+    final query = _db.select(_db.iSLPRows)
+      ..where((p) => p.status.isInValues(statuses));
+
+    return query
+        .watch()
+        .asyncMap((rows) => Future.wait(rows.map((row) => row.toModel())))
+        .map((it) => it.lock);
+  }
 }
 
-class ISLPRows extends Table with EntityMixin {
+class ISLPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISLPStatusDto>()();
-
-  // Status fields
-  TextColumn get tx => text().nullable()();
-  TextColumn get txId => text().nullable()();
 }
 
 enum ISLPStatusDto {
+  @Deprecated('State invalid. Use txCreated directly.')
   privateKeyReady,
   txCreated,
   txSent,
   success,
   txFailure,
+  @Deprecated('Use txCreated instead.')
   txSendFailure,
+  @Deprecated('Use txSent instead.')
   txWaitFailure,
+  @Deprecated('Use txFailure instead.')
   txEscrowFailure,
 }
 
 extension on ISLPRow {
-  Future<IncomingSingleLinkPayment> toModel() async {
-    final escrow = await privateKey
-        .let(base58decode)
-        .let((it) => Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: it));
-
-    return IncomingSingleLinkPayment(
-      id: id,
-      status: status.toModel(this),
-      created: created,
-      escrow: escrow,
-    );
-  }
+  Future<IncomingSingleLinkPayment> toModel() async =>
+      IncomingSingleLinkPayment(
+        id: id,
+        status: status.toModel(this),
+        created: created,
+        escrow: privateKey.let(base58decode).let(EscrowPrivateKey.new),
+      );
 }
 
 extension on ISLPStatusDto {
   ISLPStatus toModel(ISLPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ISLPStatusDto.privateKeyReady:
-        return const ISLPStatus.privateKeyReady();
+        return const ISLPStatus.txFailure(
+          reason: TxFailureReason.unknown,
+        );
       case ISLPStatusDto.txCreated:
-        return ISLPStatus.txCreated(tx!);
+        return ISLPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISLPStatusDto.txSent:
-        return ISLPStatus.txSent(tx ?? StubSignedTx(txId!));
+        return ISLPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISLPStatusDto.success:
         return ISLPStatus.success(txId: txId!);
       case ISLPStatusDto.txFailure:
-        return const ISLPStatus.txFailure();
+        return ISLPStatus.txFailure(
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
       case ISLPStatusDto.txSendFailure:
-        return ISLPStatus.txSendFailure(tx!);
+        return ISLPStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ISLPStatusDto.txWaitFailure:
-        return ISLPStatus.txWaitFailure(tx ?? StubSignedTx(txId!));
+        return ISLPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          slot: slot ?? BigInt.zero,
+        );
       case ISLPStatusDto.txEscrowFailure:
-        return const ISLPStatus.txEscrowFailure();
+        return const ISLPStatus.txFailure(
+          reason: TxFailureReason.escrowFailure,
+        );
     }
   }
 }
@@ -101,34 +139,38 @@ extension on IncomingSingleLinkPayment {
   Future<ISLPRow> toDto() async => ISLPRow(
         id: id,
         created: created,
-        privateKey:
-            await escrow.extract().then((it) => it.bytes).then(base58encode),
+        privateKey: await escrow.bytes.let(base58encode),
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
+        slot: status.toSlot()?.toString(),
+        txFailureReason: status.toTxFailureReason(),
       );
 }
 
 extension on ISLPStatus {
   ISLPStatusDto toDto() => this.map(
-        privateKeyReady: always(ISLPStatusDto.privateKeyReady),
         txCreated: always(ISLPStatusDto.txCreated),
         txSent: always(ISLPStatusDto.txSent),
         success: always(ISLPStatusDto.success),
         txFailure: always(ISLPStatusDto.txFailure),
-        txSendFailure: always(ISLPStatusDto.txSendFailure),
-        txWaitFailure: always(ISLPStatusDto.txWaitFailure),
-        txEscrowFailure: always(ISLPStatusDto.txEscrowFailure),
       );
 
   String? toTx() => mapOrNull(
         txCreated: (it) => it.tx.encode(),
-        txSendFailure: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
-        txWaitFailure: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         success: (it) => it.txId,
+      );
+
+  TxFailureReason? toTxFailureReason() => mapOrNull(
+        txFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
       );
 }
