@@ -28,6 +28,7 @@ Future<void> showConfirmationDialog(
   required String title,
   required String message,
   required void Function() onConfirm,
+  String? confirmLabel,
 }) =>
     showModalBottomSheet(
       context: context,
@@ -65,7 +66,7 @@ Future<void> showConfirmationDialog(
               ),
               const SizedBox(height: 32),
               CpButton(
-                text: context.l10n.yesDeleteMyWallet,
+                text: confirmLabel ?? context.l10n.yes,
                 width: double.infinity,
                 onPressed: () {
                   Navigator.pop(context);
