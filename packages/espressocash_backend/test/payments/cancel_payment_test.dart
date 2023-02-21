@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_backend/src/constants.dart';
+import 'package:espressocash_backend/src/payments/cancel_payment.dart';
 import 'package:espressocash_backend/src/payments/create_payment.dart';
-import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -15,51 +16,7 @@ void main() {
 
   const transferAmount = 300000;
 
-  test('account without transactions fails', () async {
-    final testData = await createTestData(
-      client: client,
-      senderInitialAmount: senderInitialAmount,
-    );
-
-    final account = await Ed25519HDKeyPair.random();
-
-    final escrow = await tryFetchEscrow(
-      address: account.publicKey,
-      platform: testData.platform,
-      mint: testData.mint,
-      client: client,
-      commitment: Commitment.confirmed,
-    );
-
-    expect(escrow, isNull);
-  });
-
-  test('account with random transaction fails', () async {
-    final testData = await createTestData(
-      client: client,
-      senderInitialAmount: 10,
-    );
-
-    final account = await Ed25519HDKeyPair.random();
-
-    await client.requestAirdrop(
-      address: account.publicKey,
-      lamports: lamportsPerSol,
-      commitment: Commitment.confirmed,
-    );
-
-    final escrow = await tryFetchEscrow(
-      address: account.publicKey,
-      platform: testData.platform,
-      mint: testData.mint,
-      client: client,
-      commitment: Commitment.confirmed,
-    );
-
-    expect(escrow, isNull);
-  });
-
-  test('account with proper payments succeeds', () async {
+  test('cancels payment', () async {
     final testData = await createTestData(
       client: client,
       senderInitialAmount: senderInitialAmount,
@@ -93,18 +50,33 @@ void main() {
       status: Commitment.confirmed,
     );
 
-    final escrow = await tryFetchEscrow(
-      address: escrowAccount.publicKey,
-      platform: testData.platform,
+    final receiveResult = await cancelPaymentTx(
+      aEscrow: escrowAccount.publicKey,
+      aSender: testData.sender.publicKey,
       mint: testData.mint,
+      platform: testData.platform,
       client: client,
       commitment: Commitment.confirmed,
     );
 
-    if (escrow == null) {
-      fail('escrow account not found');
-    }
+    final resignedReceiveTx = await receiveResult.item1.resign(testData.sender);
 
-    expect(escrow.amount, transferAmount);
+    final signatureReceive = await client.rpcClient.sendTransaction(
+      resignedReceiveTx.encode(),
+      preflightCommitment: Commitment.confirmed,
+    );
+
+    await client.waitForSignatureStatus(
+      signatureReceive,
+      status: Commitment.confirmed,
+    );
+
+    final senderBalance = await client.getMintBalance(
+      testData.sender.publicKey,
+      mint: testData.mint,
+    );
+
+    // Receiver should get the expected amount.
+    expect(senderBalance, senderInitialAmount - shareableLinkPaymentFee);
   });
 }

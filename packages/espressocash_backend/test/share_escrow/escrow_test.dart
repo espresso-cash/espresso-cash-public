@@ -4,9 +4,8 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-import 'utils/accounts.dart';
-import 'utils/config.dart';
-import 'utils/helper.dart';
+import '../config.dart';
+import 'utils.dart';
 
 void main() {
   final client = createTestSolanaClient();

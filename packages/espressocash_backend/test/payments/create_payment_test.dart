@@ -42,7 +42,7 @@ Future<void> main() async {
       commitment: Commitment.confirmed,
     );
 
-    // Sender has to resign the transaction with their private key. The tx is
+    // Sender and Escrow has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
     final resignedTx =
         await result.item1.resign(sender).letAsync((p) => p.resign(escrow));

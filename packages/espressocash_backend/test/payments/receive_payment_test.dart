@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/payments/create_payment.dart';
 import 'package:espressocash_backend/src/payments/receive_payment.dart';
 import 'package:solana/dto.dart';
@@ -36,7 +37,9 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await result.item1.resign(testData.sender);
+    final resignedTx = await result.item1
+        .resign(testData.sender)
+        .letAsync((tx) => tx.resign(escrowAccount));
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -117,7 +120,9 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await createPaymentResult.item1.resign(testData.sender);
+    final resignedTx = await createPaymentResult.item1
+        .resign(testData.sender)
+        .letAsync((tx) => tx.resign(escrowAccount));
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),

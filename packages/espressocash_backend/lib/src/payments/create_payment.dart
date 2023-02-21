@@ -95,8 +95,8 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
     compiledMessage: compiled,
     signatures: [
       await platform.sign(compiled.toByteArray()),
-      Signature(List.filled(64, 0), publicKey: aSender),
       Signature(List.filled(64, 0), publicKey: aEscrow),
+      Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );
 
