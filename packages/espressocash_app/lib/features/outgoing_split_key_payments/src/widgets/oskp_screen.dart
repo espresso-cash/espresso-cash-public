@@ -12,6 +12,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/content_padding.dart';
+import '../../../../ui/dialogs.dart';
 import '../../../../ui/status_screen.dart';
 import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
@@ -48,7 +49,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
       final status = payment.status as OSKPStatusLinksReady;
 
       context.router
-          .push(ShareLinksRoute(amount: payment.amount, status: status));
+          .popAndPush(ShareLinksRoute(amount: payment.amount, status: status));
       _shareLinksSubscription?.cancel();
     });
   }
@@ -70,6 +71,15 @@ class _OSKPScreenState extends State<OSKPScreen> {
             return TransferProgress(onBack: () => context.router.pop());
           }
 
+          void onCancel() => showConfirmationDialog(
+                context,
+                title: context.l10n.cancelTransferConfirmationTitle,
+                message: context.l10n.cancelTransferConfirmationSubtitle,
+                onConfirm: () {
+                  context.cancelOSKP(payment: payment);
+                },
+              );
+
           final cancelButton = Padding(
             padding: EdgeInsets.only(
               top: 24,
@@ -78,7 +88,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             child: CpTextButton(
               text: context.l10n.cancelTransfer,
               variant: CpTextButtonVariant.light,
-              onPressed: () => context.cancelOSKP(payment: payment),
+              onPressed: onCancel,
             ),
           );
 
@@ -111,7 +121,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.retry,
-                onPressed: () => context.cancelOSKP(payment: payment),
+                onPressed: onCancel,
               ),
             ],
             orElse: () => const [],
@@ -123,7 +133,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             txConfirmed: always(CpStatusType.info),
             linksReady: always(CpStatusType.info),
             withdrawn: always(CpStatusType.success),
-            canceled: always(CpStatusType.error),
+            canceled: always(CpStatusType.neutral),
             txFailure: always(CpStatusType.error),
             cancelTxCreated: always(CpStatusType.info),
             cancelTxFailure: always(CpStatusType.error),
@@ -162,7 +172,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           final CpTimelineStatus timelineStatus = payment.status.mapOrNull(
                 withdrawn: always(CpTimelineStatus.success),
-                canceled: always(CpTimelineStatus.failure),
+                canceled: always(CpTimelineStatus.neutral),
                 txFailure: always(CpTimelineStatus.failure),
                 cancelTxFailure: always(CpTimelineStatus.failure),
               ) ??

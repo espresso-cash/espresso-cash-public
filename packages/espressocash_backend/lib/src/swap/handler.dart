@@ -40,6 +40,7 @@ Future<Response> _swapRouteHandler(Request request) async =>
           outAmount: tx.outAmount,
           feeInUsdc: tx.fee,
           encodedTx: tx.transaction.encode(),
+          slot: tx.slot,
         );
       },
     );

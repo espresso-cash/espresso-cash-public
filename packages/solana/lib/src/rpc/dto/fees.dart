@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 import 'package:solana/src/rpc/dto/fee_calculator.dart';
 
 part 'fees.g.dart';
@@ -22,4 +23,12 @@ class Fees {
 
   /// Last block height at which a [blockhash] will be valid
   final int lastValidBlockHeight;
+}
+
+@JsonSerializable(createToJson: false)
+class FeesResult extends ContextResult<Fees> {
+  FeesResult({required super.context, required super.value});
+
+  factory FeesResult.fromJson(Map<String, dynamic> json) =>
+      _$FeesResultFromJson(json);
 }

@@ -1,3 +1,4 @@
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
@@ -20,7 +21,8 @@ void main() {
     );
 
     final b1 = await solanaClient.rpcClient
-        .getBalance(owner.address, commitment: Commitment.confirmed);
+        .getBalance(owner.address, commitment: Commitment.confirmed)
+        .value;
 
     final derivedAddress = await findAssociatedTokenAddress(
       owner: owner.publicKey,
@@ -40,10 +42,9 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final b2 = await solanaClient.rpcClient.getBalance(
-      owner.address,
-      commitment: Commitment.confirmed,
-    );
+    final b2 = await solanaClient.rpcClient
+        .getBalance(owner.address, commitment: Commitment.confirmed)
+        .value;
 
     expect(b1 - b2, _tokenProgramRent + _lamportsPerSignature);
 

@@ -13,3 +13,10 @@ BlockProduction _$BlockProductionFromJson(Map<String, dynamic> json) =>
       ),
       range: Range.fromJson(json['range'] as Map<String, dynamic>),
     );
+
+BlockProductionResult _$BlockProductionResultFromJson(
+        Map<String, dynamic> json) =>
+    BlockProductionResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: BlockProduction.fromJson(json['value'] as Map<String, dynamic>),
+    );

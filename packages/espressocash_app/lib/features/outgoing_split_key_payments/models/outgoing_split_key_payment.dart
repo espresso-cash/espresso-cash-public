@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/escrow_private_key.dart';
 import '../../../core/transactions/tx_sender.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
@@ -25,6 +25,7 @@ class OSKPStatus with _$OSKPStatus {
   /// it.
   const factory OSKPStatus.txCreated(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusTxCreated;
 
@@ -32,6 +33,7 @@ class OSKPStatus with _$OSKPStatus {
   /// before canceling/recreating we need to know its status.
   const factory OSKPStatus.txSent(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusTxSent;
 
@@ -69,6 +71,7 @@ class OSKPStatus with _$OSKPStatus {
   /// tx.
   const factory OSKPStatus.cancelTxCreated(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxCreated;
 
@@ -83,22 +86,7 @@ class OSKPStatus with _$OSKPStatus {
   /// it, we need to know the final status.
   const factory OSKPStatus.cancelTxSent(
     SignedTx tx, {
+    required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
-}
-
-@freezed
-class EscrowPrivateKey with _$EscrowPrivateKey {
-  factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;
-
-  EscrowPrivateKey._();
-
-  static Future<EscrowPrivateKey> fromKeyPair(Ed25519HDKeyPair keyPair) async {
-    final data = await keyPair.extract();
-
-    return EscrowPrivateKey(data.bytes);
-  }
-
-  late final Future<Ed25519HDKeyPair> keyPair =
-      Ed25519HDKeyPair.fromPrivateKeyBytes(privateKey: bytes);
 }

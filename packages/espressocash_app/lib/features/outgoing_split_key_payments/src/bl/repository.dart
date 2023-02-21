@@ -10,6 +10,7 @@ import 'package:solana/encoder.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
@@ -132,6 +133,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
   TextColumn get cancelTx => text().nullable()();
   TextColumn get cancelTxId => text().nullable()();
+  TextColumn get slot => text().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -177,12 +179,21 @@ extension on OSKPStatusDto {
     final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case OSKPStatusDto.txCreated:
-        return OSKPStatus.txCreated(tx!, escrow: escrow!);
+        return OSKPStatus.txCreated(
+          tx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.txSent:
-        return OSKPStatus.txSent(tx ?? StubSignedTx(txId!), escrow: escrow!);
+        return OSKPStatus.txSent(
+          tx ?? StubSignedTx(txId!),
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.txConfirmed:
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.linksReady:
@@ -209,27 +220,48 @@ extension on OSKPStatusDto {
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case OSKPStatusDto.txSendFailure:
-        return OSKPStatus.txCreated(tx!, escrow: escrow!);
+        return OSKPStatus.txCreated(
+          tx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.txWaitFailure:
         return OSKPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
+          slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.txLinksFailure:
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.cancelTxCreated:
-        return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxCreated(
+          cancelTx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.cancelTxFailure:
         return OSKPStatus.cancelTxFailure(
           escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case OSKPStatusDto.cancelTxSent:
-        return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxSent(
+          cancelTx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.cancelTxSendFailure:
-        return OSKPStatus.cancelTxCreated(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxCreated(
+          cancelTx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
       case OSKPStatusDto.cancelTxWaitFailure:
-        return OSKPStatus.cancelTxSent(cancelTx!, escrow: escrow!);
+        return OSKPStatus.cancelTxSent(
+          cancelTx!,
+          escrow: escrow!,
+          slot: slot ?? BigInt.zero,
+        );
     }
   }
 }
@@ -251,6 +283,7 @@ extension on OutgoingSplitKeyPayment {
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
+        slot: status.toSlot()?.toString(),
       );
 }
 
@@ -319,5 +352,12 @@ extension on OSKPStatus {
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
         cancelTxFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
+        cancelTxCreated: (it) => it.slot,
+        cancelTxSent: (it) => it.slot,
       );
 }

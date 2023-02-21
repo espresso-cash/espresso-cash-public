@@ -1,3 +1,28 @@
+## 1.65.1
+
+ - **FIX**: confirmation dialog label (#827).
+
+## 1.65.0
+
+ - **REFACTOR**: update ISLP handling (#825).
+ - **REFACTOR**: update ISKP handling (#823).
+ - **REFACTOR**: update swap handling (#818).
+ - **REFACTOR**: update ODP handling (#806).
+ - **REFACTOR**: make CancelableJob reusable (#807).
+ - **FEAT**: add cancel confirmation dialogs (#824).
+ - **FEAT**: remove USDC info on receiving request screen (#822).
+ - **FEAT**: update dialog and bottom sheet design (#826).
+ - **FEAT**: update oskp cancel screen (#819).
+ - **FEAT**: auto focus on new request note (#820).
+ - **FEAT**: pop status screen when going to share screen for the first time (#808).
+
+## 1.64.0
+
+ - **REFACTOR**: use ContextResult.
+ - **REFACTOR**: update OSKP handling.
+ - **FIX**: blockhash validation.
+ - **FEAT**: new investment screen (#781).
+
 ## 1.63.1
 
  - **FIX**: retry button behaviour (#797).

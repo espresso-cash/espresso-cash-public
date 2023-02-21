@@ -20,6 +20,7 @@ class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
 class CreatePaymentResponseDto with _$CreatePaymentResponseDto {
   const factory CreatePaymentResponseDto({
     required String transaction,
+    required BigInt slot,
   }) = _CreatePaymentResponseDto;
 
   factory CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -42,6 +43,7 @@ class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
 class ReceivePaymentResponseDto with _$ReceivePaymentResponseDto {
   const factory ReceivePaymentResponseDto({
     required String transaction,
+    required BigInt slot,
   }) = _ReceivePaymentResponseDto;
 
   factory ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -67,6 +69,7 @@ class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
   const factory CreateDirectPaymentResponseDto({
     required int fee,
     required String transaction,
+    required BigInt slot,
   }) = _CreateDirectPaymentResponseDto;
 
   factory CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =>

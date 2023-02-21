@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:solana/src/rpc/dto/context.dart';
 import 'package:solana/src/rpc/dto/fee_calculator.dart';
 
 part 'recent_blockhash.g.dart';
@@ -19,4 +20,12 @@ class RecentBlockhash {
 
   /// [FeeCalculator] object, the fee schedule for this block hash
   final FeeCalculator feeCalculator;
+}
+
+@JsonSerializable(createToJson: false)
+class RecentBlockhashResult extends ContextResult<RecentBlockhash> {
+  RecentBlockhashResult({required super.context, required super.value});
+
+  factory RecentBlockhashResult.fromJson(Map<String, dynamic> json) =>
+      _$RecentBlockhashResultFromJson(json);
 }

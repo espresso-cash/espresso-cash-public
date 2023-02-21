@@ -18,6 +18,7 @@ class SwapTransaction with _$SwapTransaction {
     required String outAmount,
     required int fee,
     required SignedTx transaction,
+    required BigInt slot,
   }) = _SwapTransaction;
 }
 
@@ -151,11 +152,11 @@ class CreateSwap {
     );
     final compiled = asLegacyTx
         ? message.compile(
-            recentBlockhash: latestBlockhash.blockhash,
+            recentBlockhash: latestBlockhash.value.blockhash,
             feePayer: feePayer,
           )
         : message.compileV0(
-            recentBlockhash: latestBlockhash.blockhash,
+            recentBlockhash: latestBlockhash.value.blockhash,
             feePayer: feePayer,
             addressLookupTableAccounts: lookUpTables,
           );
@@ -174,6 +175,7 @@ class CreateSwap {
       outAmount: route.outAmount,
       fee: fee,
       transaction: tx,
+      slot: latestBlockhash.context.slot,
     );
   }
 }

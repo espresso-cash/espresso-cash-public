@@ -18,3 +18,9 @@ Map<String, dynamic> _$TokenAmountToJson(TokenAmount instance) =>
       'decimals': instance.decimals,
       'uiAmountString': instance.uiAmountString,
     };
+
+TokenAmountResult _$TokenAmountResultFromJson(Map<String, dynamic> json) =>
+    TokenAmountResult(
+      context: Context.fromJson(json['context'] as Map<String, dynamic>),
+      value: TokenAmount.fromJson(json['value'] as Map<String, dynamic>),
+    );

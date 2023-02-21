@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
@@ -7,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../config.dart';
 import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../models/outgoing_split_key_payment.dart';
@@ -45,9 +47,11 @@ class OSKPService {
   }) async {
     final status = await _createTx(amount: payment.amount, account: account);
 
-    await _repository.save(payment.copyWith(status: status));
+    final newPayment = payment.copyWith(status: status);
 
-    return payment;
+    await _repository.save(newPayment);
+
+    return newPayment;
   }
 
   Future<OutgoingSplitKeyPayment> cancel(
@@ -99,13 +103,12 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final tx = await _client
-          .createPayment(dto)
-          .then((it) => it.transaction)
-          .then(SignedTx.decode)
-          .then((it) => it.resign(account));
+      final response = await _client.createPayment(dto);
+      final tx = await response.transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account));
 
-      return OSKPStatus.txCreated(tx, escrow: privateKey);
+      return OSKPStatus.txCreated(tx, escrow: privateKey, slot: response.slot);
     } on Exception {
       return const OSKPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -126,13 +129,17 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final tx = await _client
-          .receivePayment(dto)
-          .then((it) => it.transaction)
-          .then(SignedTx.decode)
-          .then((it) => it.resign(LocalWallet(escrow)));
+      final response = await _client.receivePayment(dto);
+      final tx = await response
+          .let((it) => it.transaction)
+          .let(SignedTx.decode)
+          .let((it) => it.resign(LocalWallet(escrow)));
 
-      return OSKPStatus.cancelTxCreated(tx, escrow: privateKey);
+      return OSKPStatus.cancelTxCreated(
+        tx,
+        escrow: privateKey,
+        slot: response.slot,
+      );
     } on Exception {
       return OSKPStatus.cancelTxFailure(
         escrow: privateKey,

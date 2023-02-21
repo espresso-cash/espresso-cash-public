@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:solana/dto.dart' show ParsedTransaction, TransactionDetails;
+import 'package:solana/dto.dart'
+    show FutureContextResultExt, ParsedTransaction, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
@@ -26,18 +27,16 @@ extension SolanaClientSolanaPay on SolanaClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     // Check that the payer and recipient accounts exist.
-    final payerInfo = await rpcClient.getAccountInfo(
-      payer.address,
-      commitment: commitment,
-    );
+    final payerInfo = await rpcClient
+        .getAccountInfo(payer.address, commitment: commitment)
+        .value;
     if (payerInfo == null) {
       throw const CreateTransactionException('Payer not found.');
     }
 
-    final recipientInfo = await rpcClient.getAccountInfo(
-      recipient.toBase58(),
-      commitment: commitment,
-    );
+    final recipientInfo = await rpcClient
+        .getAccountInfo(recipient.toBase58(), commitment: commitment)
+        .value;
     if (recipientInfo == null) {
       throw const CreateTransactionException('Recipient not found.');
     }

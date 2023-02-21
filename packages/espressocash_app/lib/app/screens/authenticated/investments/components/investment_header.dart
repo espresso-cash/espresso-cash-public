@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
@@ -7,11 +9,14 @@ import '../../../../../core/currency.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../features/ramp/widgets/ramp_buttons.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
+import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/info_icon.dart';
+import '../../../../../ui/info_widget.dart';
 import '../../../../../ui/token_icon.dart';
 
 class InvestmentHeader extends StatelessWidget {
@@ -19,141 +24,244 @@ class InvestmentHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(
-          color: Color(0xff2D2B2C),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
+        decoration: const BoxDecoration(color: CpColors.darkBackground),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: const [
-            _Info(),
             _Balance(),
-            Divider(color: Color(0xff4B4B4B), height: 8),
-            Padding(
-              padding: EdgeInsets.only(bottom: 16, top: 8.0),
-              child: RampButtons(),
+            _Buttons(),
+          ],
+        ),
+      );
+}
+
+class _Buttons extends StatelessWidget {
+  const _Buttons({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final isZeroAmount = context.watchUsdcBalance().isZero;
+
+    if (isZeroAmount) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [AddCashButton()],
+        ),
+      );
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: CpColors.darkDividerColor),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+          child: Text(
+            context.l10n.investmentHeaderButtonsTitle,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+              fontSize: 20,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+          child: Row(
+            children: [
+              Flexible(
+                child: CpButton(
+                  minWidth: 250,
+                  size: CpButtonSize.wide,
+                  text: context.l10n.sendMoney,
+                  onPressed: () =>
+                      context.router.navigate(const WalletFlowRoute()),
+                ),
+              ),
+              const SizedBox(width: 8),
+              const AddCashButton(size: CpButtonSize.wide),
+              const SizedBox(width: 8),
+              const CashOutButton(size: CpButtonSize.wide),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _Balance extends StatefulWidget {
+  const _Balance({Key? key}) : super(key: key);
+
+  @override
+  State<_Balance> createState() => _BalanceState();
+}
+
+class _BalanceState extends State<_Balance> {
+  bool _showMore = false;
+
+  void _toggleInfo() => setState(() => _showMore = !_showMore);
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: 140,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: _showMore
+              ? _Info(onClose: _toggleInfo)
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _Headline(onInfo: _toggleInfo),
+                      const Spacer(),
+                      const _Amount(),
+                    ],
+                  ),
+                ),
+        ),
+      );
+}
+
+class _Info extends StatelessWidget {
+  const _Info({
+    Key? key,
+    required this.onClose,
+  }) : super(key: key);
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.center,
+        children: [
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              icon: Assets.icons.closeButtonIcon.svg(color: Colors.white),
+              onPressed: onClose,
+            ),
+          ),
+          CpInfoWidget(
+            message: Text(
+              context.l10n.usdcInfo,
+              style: const TextStyle(color: Colors.white),
+            ),
+            variant: CpInfoVariant.dark,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+          ),
+        ],
+      );
+}
+
+class _Amount extends StatelessWidget {
+  const _Amount({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final amount = context.watchUsdcBalance();
+    final formattedAmount = amount.format(
+      DeviceLocale.localeOf(context),
+      roundInteger: amount.isZero,
+    );
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        FittedBox(
+          child: Text(
+            formattedAmount,
+            style: const TextStyle(
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ).let((it) => amount.isZero ? it : Flexible(child: it)),
+        const SizedBox(width: 8),
+        const CpTokenIcon(token: Token.usdc, size: 30),
+        const SizedBox(width: 8),
+        if (amount.isZero)
+          Flexible(
+            child: Text(
+              context.l10n.fundYourAccount,
+              style: const TextStyle(
+                fontSize: 14.5,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+class _Headline extends StatelessWidget {
+  const _Headline({
+    Key? key,
+    required this.onInfo,
+  }) : super(key: key);
+
+  final VoidCallback onInfo;
+
+  @override
+  Widget build(BuildContext context) => RichText(
+        text: TextSpan(
+          text: context.l10n.cryptoCashBalance,
+          style: const TextStyle(
+            fontSize: 21,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
+          children: [
+            WidgetSpan(
+              child: GestureDetector(
+                onTap: onInfo,
+                child: RichText(
+                  text: TextSpan(
+                    text: context.l10n.inUsdc,
+                    style: const TextStyle(
+                      fontSize: 21,
+                      color: CpColors.yellowColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    children: const [
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: CircleAvatar(
+                          maxRadius: 10,
+                          backgroundColor: CpColors.yellowColor,
+                          child: Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: CpInfoIcon(
+                              iconColor: CpColors.darkBackground,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ],
         ),
       );
 }
 
-class _Info extends StatefulWidget {
-  const _Info();
-
-  @override
-  State<_Info> createState() => _InfoState();
+extension on Amount {
+  bool get isZero => decimal == Decimal.zero;
 }
 
-class _InfoState extends State<_Info> {
-  bool _showMore = false;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-        child: SizedBox(
-          height: 55,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!_showMore)
-                Expanded(
-                  child: Text(
-                    context.l10n.cryptoCashBalance,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                )
-              else
-                Expanded(
-                  child: Text(
-                    context.l10n.usdcInfo,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              const SizedBox(width: 8),
-              _InfoIcon(
-                onTap: () {
-                  setState(() => _showMore = !_showMore);
-                },
-                isTapped: _showMore,
-              ),
-            ],
-          ),
-        ),
-      );
-}
-
-class _InfoIcon extends StatelessWidget {
-  const _InfoIcon({
-    required this.onTap,
-    required this.isTapped,
-  });
-  final VoidCallback onTap;
-  final bool isTapped;
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        child: Container(
-          height: 28,
-          width: 28,
-          padding: const EdgeInsets.all(5),
-          decoration: ShapeDecoration(
-            shape: const CircleBorder(),
-            color: isTapped ? const Color(0xff737273) : CpColors.yellowColor,
-          ),
-          child: const CpInfoIcon(
-            iconColor: Color(0xff2D2B2C),
-          ),
-        ),
-      );
-}
-
-class _Balance extends StatelessWidget {
-  const _Balance();
-
-  @override
-  Widget build(BuildContext context) {
-    const token = Token.usdc;
-
-    final locale = DeviceLocale.localeOf(context);
-    final converted = context.watchUserFiatBalance(token);
-    final amount = converted ?? Amount.zero(currency: Currency.usd);
-    final formattedAmount = amount.format(locale);
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: ListTile(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
-        leading: const CpTokenIcon(token: token, size: 36),
-        horizontalTitleGap: 8,
-        title: Text(
-          token.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 15,
-            color: Colors.white,
-          ),
-          overflow: TextOverflow.ellipsis,
-        ),
-        trailing: Text(
-          formattedAmount,
-          style: const TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 50,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
+extension on BuildContext {
+  Amount watchUsdcBalance() => watchUserFiatBalance(Token.usdc)
+      .ifNull(() => Amount.zero(currency: Currency.usd));
 }

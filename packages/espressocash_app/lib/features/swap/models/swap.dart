@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../core/transactions/tx_sender.dart';
 import 'swap_seed.dart';
 
 part 'swap.freezed.dart';
@@ -18,20 +19,22 @@ class Swap with _$Swap {
 @freezed
 class SwapStatus with _$SwapStatus {
   /// Tx is successfully created and ready to be sent.
-  const factory SwapStatus.txCreated(SignedTx tx) = SwapStatusTxCreated;
+  const factory SwapStatus.txCreated(
+    SignedTx tx, {
+    required BigInt slot,
+  }) = SwapStatusTxCreated;
 
   /// Tx is successfully sent.
-  const factory SwapStatus.txSent(SignedTx tx) = SwapStatusTxSent;
+  const factory SwapStatus.txSent(
+    SignedTx tx, {
+    required BigInt slot,
+  }) = SwapStatusTxSent;
 
-  /// Final state. Tx is successfully confirmed and payment is claimed.
+  /// Final state. Tx is successfully confirmed and swap is completed.
   const factory SwapStatus.success(SignedTx tx) = SwapStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
-  const factory SwapStatus.txFailure() = SwapStatusTxFailure;
-
-  /// Failed to send the tx, waiting should be retried.
-  const factory SwapStatus.txSendFailure(SignedTx tx) = SwapStatusTxSendFailure;
-
-  /// Failed to get the confirmation about tx, waiting should be retried.
-  const factory SwapStatus.txWaitFailure(SignedTx tx) = SwapStatusTxWaitFailure;
+  const factory SwapStatus.txFailure({
+    required TxFailureReason reason,
+  }) = SwapStatusTxFailure;
 }

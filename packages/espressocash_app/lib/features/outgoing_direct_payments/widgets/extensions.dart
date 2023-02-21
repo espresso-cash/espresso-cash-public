@@ -1,36 +1,46 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
+import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
+import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/currency.dart';
-import '../../../routes.gr.dart';
-import '../src/bl/bloc.dart';
+import '../../../di.dart';
+import '../../../ui/loader.dart';
+import '../models/outgoing_direct_payment.dart';
+import '../src/bl/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
-  void createAndOpenDirectPayment({
+  Future<String> createODP({
     required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
     required Ed25519HDPublicKey? reference,
-  }) {
-    const currency = Currency.usdc;
-    final id = const Uuid().v4();
+  }) async =>
+      runWithLoader(this, () async {
+        const currency = Currency.usdc;
+        final payment = await sl<ODPService>().create(
+          account: read<MyAccount>().wallet,
+          amount: CryptoAmount(
+            value: currency.decimalToInt(amountInUsdc),
+            cryptoCurrency: currency,
+          ),
+          receiver: receiver,
+          reference: reference,
+        );
 
-    read<ODPBloc>().add(
-      ODPEvent.create(
-        id: id,
-        receiver: receiver,
-        amount: CryptoAmount(
-          value: currency.decimalToInt(amountInUsdc),
-          cryptoCurrency: currency,
-        ),
-        reference: reference,
-      ),
-    );
+        sl<AnalyticsManager>().directPaymentCreated();
 
-    router.push(ODPDetailsRoute(id: id));
-  }
+        return payment.id;
+      });
+
+  Future<void> retryODP({required OutgoingDirectPayment payment}) async =>
+      runWithLoader(this, () async {
+        await sl<ODPService>().retry(
+          payment,
+          account: read<MyAccount>().wallet,
+        );
+        sl<AnalyticsManager>().directPaymentCreated();
+      });
 }

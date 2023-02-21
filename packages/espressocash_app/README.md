@@ -68,3 +68,5 @@ Main app screens. It should be kept minimal and serve as an entrypoint to featur
    ```sh
    make flutter_test_e2e
    ```
+   
+ This project is tested with [BrowserStack](https://email.browserstack.com/c/eJwljMtugzAQAL-m3Gz5sbuGg78lstmlWEDcYCj9_KD0OqMZiZYCYe-NGTqOmJFDVyJ5kWTIAKJLD-eCS9JjyCmgA49EfhitboVlKS817fI65XmoidVP5bNJaodVWypPr_J6isIcekKYCNTs4O_3C4zcetV32maWtuixbt0cJw42oYeBwYsPDMPoiC0544wHzN0ar-vSea9Xk70dafwv91jrkrail3y_vz_vm78B6kVFXw).

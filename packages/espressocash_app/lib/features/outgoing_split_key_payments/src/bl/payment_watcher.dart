@@ -5,8 +5,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../../../core/cancelable_job.dart';
 import '../../models/outgoing_split_key_payment.dart';
-import 'cancelable_job.dart';
 import 'repository.dart';
 
 abstract class PaymentWatcher {
@@ -31,7 +31,7 @@ abstract class PaymentWatcher {
     _repoSubscription =
         watchPayments(_repository).distinct().listen((payments) async {
       final keys = payments.map((e) => e.id).toSet();
-      for (final key in _operations.keys) {
+      for (final key in _operations.keys.toSet()) {
         if (!keys.contains(key)) {
           await _operations[key]?.cancel();
         }
