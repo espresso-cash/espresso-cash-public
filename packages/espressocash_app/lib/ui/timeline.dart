@@ -62,8 +62,7 @@ class _CpTimelineState extends State<CpTimeline>
 
   @override
   Widget build(BuildContext context) {
-    const animated = true;
-    // widget.items.length > 1 && widget.active != widget.items.length - 1;
+    final animated = widget.status == CpTimelineStatus.inProgress;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -84,6 +83,7 @@ class _CpTimelineState extends State<CpTimeline>
         }
 
         return Row(
+          key: ValueKey(index),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Column(
@@ -269,16 +269,6 @@ class _AnimationState extends State<_Animation> {
   }
 }
 
-double _sinoidal(double value) => sin(2 * pi * value) / 2;
-
-double _connectorTransform(double value) => value * _connectorHeight;
-
-double _lowerIndicatorTransform(double value) =>
-    max(0, value) * _indicatorBounceOffset;
-
-double _upperIndicatorTransform(double value) =>
-    min(0, value) * _indicatorBounceOffset;
-
 extension on CpTimelineStatus {
   Color get backgroundColor {
     switch (this) {
@@ -314,6 +304,16 @@ extension on CpTimelineStatus {
     }
   }
 }
+
+double _sinoidal(double value) => sin(2 * pi * value) / 2;
+
+double _connectorTransform(double value) => value * _connectorHeight;
+
+double _lowerIndicatorTransform(double value) =>
+    max(0, value) * _indicatorBounceOffset;
+
+double _upperIndicatorTransform(double value) =>
+    min(0, value) * _indicatorBounceOffset;
 
 const _titleStyle = TextStyle(fontWeight: FontWeight.w500, fontSize: 16);
 const _subtitleStyle = TextStyle(fontWeight: FontWeight.w400, fontSize: 14);

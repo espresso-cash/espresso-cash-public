@@ -24,7 +24,11 @@ final cpTimeline = Story(
           const Option(
             label: 'Failure',
             value: CpTimelineStatus.failure,
-          )
+          ),
+          const Option(
+            label: 'Neutral',
+            value: CpTimelineStatus.neutral,
+          ),
         ],
       ),
       active: context.knobs.sliderInt(
