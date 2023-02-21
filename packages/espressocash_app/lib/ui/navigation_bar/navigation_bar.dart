@@ -16,8 +16,8 @@ class CPNavigationBar extends StatelessWidget {
         // prevents from clicking below the navigation bar
         color: Colors.transparent,
         child: Container(
-          margin: const EdgeInsets.only(
-            bottom: _barPadding,
+          margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewPadding.bottom,
             left: _barPadding,
             right: _barPadding,
           ),
