@@ -1,3 +1,7 @@
+## 1.65.1
+
+ - **FIX**: confirmation dialog label (#827).
+
 ## 1.65.0
 
  - **REFACTOR**: update ISLP handling (#825).
