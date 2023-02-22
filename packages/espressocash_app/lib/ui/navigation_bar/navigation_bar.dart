@@ -12,15 +12,16 @@ class CPNavigationBar extends StatelessWidget {
   final List<CpNavigationButton> items;
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Container(
-          // prevents from clicking below the navigation bar
-          color: Colors.transparent,
+  Widget build(BuildContext context) => Container(
+        // prevents from clicking below the navigation bar
+        color: Colors.transparent,
+        child: SafeArea(
+          minimum: const EdgeInsets.only(
+            bottom: _barPadding,
+            left: _barPadding,
+            right: _barPadding,
+          ),
           child: Container(
-            margin: const EdgeInsets.only(
-              left: _barPadding,
-              right: _barPadding,
-            ),
             clipBehavior: Clip.antiAlias,
             decoration: const ShapeDecoration(
               color: CpColors.darkBackground,
