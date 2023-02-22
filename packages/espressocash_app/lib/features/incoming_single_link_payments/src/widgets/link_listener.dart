@@ -2,16 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/single_key_payments.dart';
-import '../../../../di.dart';
 import '../../../../routes.gr.dart';
-import '../bl/islp_bloc.dart';
+import '../../widgets/extensions.dart';
 
 class ISLPListener extends StatefulWidget {
   const ISLPListener({super.key, required this.child});
@@ -30,7 +25,7 @@ class _ISLPListenerState extends State<ISLPListener> {
       final data = SingleKeyPaymentData.tryParse(link);
 
       if (data != null) {
-        _processIncomingTip(data);
+        _processISLP(data);
 
         return true;
       }
@@ -39,28 +34,13 @@ class _ISLPListenerState extends State<ISLPListener> {
     });
   }
 
-  Future<void> _processIncomingTip(SingleKeyPaymentData paymentData) async {
-    final key = paymentData.key;
-
-    final escrow = await walletFromKey(encodedKey: key);
-
-    final id = const Uuid().v4();
-
-    sl<AnalyticsManager>().singleLinkReceived();
+  Future<void> _processISLP(SingleKeyPaymentData data) async {
+    final id = await context.createISLP(data);
 
     if (!mounted) return;
-    context.read<ISLPBloc>().add(ISLPEvent.create(escrow, id: id));
-    await context.router.push(IncomingSingleLinkRoute(id: id));
+    context.router.push(IncomingSingleLinkRoute(id: id)).ignore();
   }
 
   @override
   Widget build(BuildContext context) => widget.child;
-}
-
-Future<Wallet> walletFromKey({
-  required String encodedKey,
-}) async {
-  final key = ByteArray.fromBase58(encodedKey).toList();
-
-  return Wallet.fromPrivateKeyBytes(privateKey: key);
 }

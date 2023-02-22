@@ -14,7 +14,7 @@ class CpTimelineItem {
   final String? trailing;
 }
 
-enum CpTimelineStatus { inProgress, success, failure }
+enum CpTimelineStatus { inProgress, success, failure, neutral }
 
 class CpTimeline extends StatelessWidget {
   const CpTimeline({
@@ -190,6 +190,8 @@ extension on CpTimelineStatus {
         return CpColors.infoBackgroundColor;
       case CpTimelineStatus.failure:
         return CpColors.errorBackgroundColor;
+      case CpTimelineStatus.neutral:
+        return CpColors.neutralBackgroundColor;
     }
   }
 
@@ -209,6 +211,7 @@ extension on CpTimelineStatus {
         );
 
       case CpTimelineStatus.inProgress:
+      case CpTimelineStatus.neutral:
         return null;
     }
   }

@@ -167,6 +167,7 @@ enum TxFailureReason {
   creatingFailure,
   txError,
   unknown,
+  escrowFailure,
 }
 
 extension on JsonRpcException {
