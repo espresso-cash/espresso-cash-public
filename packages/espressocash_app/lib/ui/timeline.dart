@@ -62,6 +62,9 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final animated = widget.status == CpTimelineStatus.inProgress;
+    final lastIconIndex = widget.status == CpTimelineStatus.inProgress
+        ? widget.active - 1
+        : widget.active;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -106,7 +109,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
-                      child: index >= widget.active ? widget.status.icon : null,
+                      child: index <= lastIconIndex ? widget.status.icon : null,
                     ),
                   ),
                 ),
@@ -281,22 +284,20 @@ extension on CpTimelineStatus {
 
   Widget? get icon {
     switch (this) {
-      case CpTimelineStatus.success:
-        return const Icon(
-          Icons.check,
-          color: Colors.white,
-          size: 22,
-        );
       case CpTimelineStatus.failure:
         return const Icon(
           Icons.close,
           color: Colors.white,
           size: 22,
         );
-
+      case CpTimelineStatus.success:
       case CpTimelineStatus.inProgress:
       case CpTimelineStatus.neutral:
-        return null;
+        return const Icon(
+          Icons.check,
+          color: Colors.white,
+          size: 22,
+        );
     }
   }
 }
