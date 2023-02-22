@@ -56,6 +56,8 @@ abstract class CpColors {
   static const darkDividerColor = Color(0xff4b4b4b);
 
   static const sliderDisabledColor = Color(0xff323232);
+
+  static const greenAmount = Color(0xff24BE20);
 }
 
 const bgGradient = LinearGradient(
