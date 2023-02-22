@@ -2,6 +2,7 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
+// ignore: implementation_imports, Update when solana package is updated
 import 'package:solana/src/borsh_ext.dart';
 
 part 'models.g.dart';
