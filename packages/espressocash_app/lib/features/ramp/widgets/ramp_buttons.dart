@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
@@ -5,6 +6,7 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
 import '../../../core/accounts/bl/account.dart';
+import '../../../core/balances/context_ext.dart';
 import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
@@ -30,8 +32,8 @@ class AddCashButton extends StatelessWidget {
             RampFlutter.showRamp(
               configuration,
               (_, __, ___) {},
-              () {},
-              () {},
+              () => context.notifyBalanceAffected(),
+              ignore,
             );
           },
         ),
