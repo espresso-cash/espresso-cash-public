@@ -174,6 +174,7 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
                     onPressed: onQrScanner,
                     icon: Assets.icons.qrScanner.svg(height: 26),
                     padding: EdgeInsets.zero,
+                    alignment: Alignment.centerLeft,
                   ),
                 ),
                 Align(
