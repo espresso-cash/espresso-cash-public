@@ -32,6 +32,8 @@ Future<void> showConfirmationDialog(
 }) =>
     showModalBottomSheet(
       context: context,
+      elevation: 0,
+      barrierColor: _barrierColor,
       backgroundColor: CpColors.primaryColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -92,8 +94,10 @@ Future<void> showWarningDialog(
 }) =>
     showDialog(
       context: context,
+      barrierColor: _barrierColor,
       builder: (context) => CpTheme.dark(
         child: Dialog(
+          elevation: 0,
           backgroundColor: CpColors.primaryColor,
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
           shape: const RoundedRectangleBorder(
@@ -138,3 +142,5 @@ Future<void> showWarningDialog(
         ),
       ),
     );
+
+final _barrierColor = Colors.black.withOpacity(0.75);

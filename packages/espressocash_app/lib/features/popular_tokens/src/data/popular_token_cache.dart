@@ -3,18 +3,25 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/tokens/token.dart';
+import '../../../../core/tokens/token_list.dart';
 import '../../../../data/db/db.dart';
 
 @injectable
 class PopularTokenCache {
-  PopularTokenCache(this._db);
+  PopularTokenCache({
+    required MyDatabase db,
+    required TokenList tokenList,
+  })  : _db = db,
+        _tokenList = tokenList;
 
   final MyDatabase _db;
+  final TokenList _tokenList;
 
-  Future<IMap<Token, double>>? get() => _db
-      .select(_db.popularTokenRows)
-      .get()
-      .then((rows) => IMap({for (var e in rows) e.toModel(): e.price}));
+  Future<IMap<Token, double>>? get() =>
+      _db.select(_db.popularTokenRows).get().then(
+            (rows) =>
+                IMap({for (var e in rows) e.toToken(_tokenList): e.price}),
+          );
 
   Future<void> set(IMap<Token, double> result) => _db.transaction(() async {
         await _db.delete(_db.popularTokenRows).go();
@@ -52,14 +59,17 @@ extension on Token {
 }
 
 extension on PopularTokenRow {
-  Token toModel() => Token(
-        name: name,
-        symbol: symbol,
-        logoURI: logoUri,
-        extensions: Extensions(coingeckoId: id),
-        address: id,
-        chainId: 0,
-        decimals: 0,
-        tags: const [],
-      );
+  Token toToken(TokenList tokenList) {
+    final id = this.id;
+    final symbol = this.symbol.toLowerCase();
+
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
+
+    return tokenList.fromCoingecko(
+      coingeckoId: id,
+      symbol: symbol,
+      name: name,
+      image: logoUri,
+    );
+  }
 }
