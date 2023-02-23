@@ -170,13 +170,10 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: SizedBox.square(
-                    dimension: _qrButtonSize,
-                    child: IconButton(
-                      onPressed: onQrScanner,
-                      icon: Assets.icons.qrScanner.svg(height: _qrButtonSize),
-                      padding: EdgeInsets.zero,
-                    ),
+                  child: IconButton(
+                    onPressed: onQrScanner,
+                    icon: Assets.icons.qrScanner.svg(height: 26),
+                    padding: EdgeInsets.zero,
                   ),
                 ),
                 Align(
@@ -210,5 +207,3 @@ extension on WalletOperation {
 }
 
 enum WalletOperation { pay, request }
-
-const _qrButtonSize = 36.0;
