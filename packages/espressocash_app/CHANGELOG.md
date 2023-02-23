@@ -1,3 +1,9 @@
+## 1.66.0
+
+ - **FIX**: popular token list cache mapping (#828).
+ - **FIX**: bottom navigation bar padding  (#829).
+ - **FEAT**: improve dialogs ui (#830).
+
 ## 1.65.1
 
  - **FIX**: confirmation dialog label (#827).

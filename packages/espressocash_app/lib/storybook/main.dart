@@ -18,6 +18,7 @@ import 'stories/empty_message_widget.dart';
 import 'stories/icon_button.dart';
 import 'stories/info_widget.dart';
 import 'stories/loader.dart';
+import 'stories/navigation_bar.dart';
 import 'stories/rounded_rectangle.dart';
 import 'stories/slider.dart';
 import 'stories/snackbar.dart';
@@ -63,10 +64,10 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
-          appWalletMainScreen,
           appPortfolioWidget,
-          cpAppBar,
+          appWalletMainScreen,
           cpActivityTile,
+          cpAppBar,
           cpBackgroundGradient,
           cpBottomButton,
           cpBulletItem,
@@ -78,6 +79,7 @@ class StorybookApp extends StatelessWidget {
           cpIconButton,
           cpInfoWidget,
           cpLoader,
+          cpNavigationBar,
           cpRoundedRectangle,
           cpSlider,
           cpSnackbar,
