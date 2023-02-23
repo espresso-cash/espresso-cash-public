@@ -66,10 +66,12 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
 
     if (payment.amount.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
-      qrLink = SingleKeyPaymentData(
+      final rawLink = SingleKeyPaymentData(
         key: key,
         token: token.publicKey,
       ).toUri();
+
+      qrLink = await _linkShortener.shorten(rawLink);
     }
 
     final newStatus = OSKPStatus.linksReady(
