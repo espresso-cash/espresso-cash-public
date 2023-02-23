@@ -15,23 +15,25 @@ class CPNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         // prevents from clicking below the navigation bar
         color: Colors.transparent,
-        child: Container(
-          margin: const EdgeInsets.only(
+        child: SafeArea(
+          minimum: const EdgeInsets.only(
             bottom: _barPadding,
             left: _barPadding,
             right: _barPadding,
           ),
-          clipBehavior: Clip.antiAlias,
-          decoration: const ShapeDecoration(
-            color: CpColors.darkBackground,
-            shape: StadiumBorder(),
-          ),
-          child: SizedBox(
-            height: _barHeight,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: items.map((child) => Expanded(child: child)).toList(),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: const ShapeDecoration(
+              color: CpColors.darkBackground,
+              shape: StadiumBorder(),
+            ),
+            child: SizedBox(
+              height: _barHeight,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: items.map((child) => Expanded(child: child)).toList(),
+              ),
             ),
           ),
         ),
