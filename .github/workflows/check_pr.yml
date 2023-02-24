@@ -100,7 +100,8 @@ jobs:
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
       - name: Test Solana validator
-        run: solana-test-validator --bpf-program ${{ env.METAPLEX_ID }}  metaplex.so --reset
+        run: |
+          solana-test-validator --bpf-program ${{ env.METAPLEX_ID }}  metaplex.so --reset
 
       - name: Activate remove_from_coverage
         run: dart pub global activate remove_from_coverage
