@@ -99,9 +99,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
-      - name: Dump Solana program
-        run: solana program dump -u m ${{ env.METAPLEX_ID }} metaplex.so
-
       - name: Test Solana validator
         run: solana-test-validator --bpf-program ${{ env.METAPLEX_ID }}  metaplex.so --reset
 
