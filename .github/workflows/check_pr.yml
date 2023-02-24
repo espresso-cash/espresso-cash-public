@@ -88,6 +88,7 @@ jobs:
       DEVNET_RPC_URL: "http://solana:8899"
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
+      METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
     container:
       image: ghcr.io/espresso-cash/flutter:3.7.0
     services:
@@ -97,6 +98,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+
+      - name: Dump Solana program
+        run: solana program dump -u m ${{ env.METAPLEX_ID }} metaplex.so
+
+      - name: Test Solana validator
+        run: solana-test-validator --bpf-program ${{ env.METAPLEX_ID }}  metaplex.so --reset
 
       - name: Activate remove_from_coverage
         run: dart pub global activate remove_from_coverage

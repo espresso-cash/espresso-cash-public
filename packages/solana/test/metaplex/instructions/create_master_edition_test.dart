@@ -10,7 +10,7 @@ Future<void> main() async {
   const symbol = 'COFR';
 
   // TODO(KB): Setup localnet with the metaplex program deployed.
-  final client = createTestSolanaClient(useLocal: false);
+  final client = createTestSolanaClient(useLocal: true);
   final owner = await Ed25519HDKeyPair.random();
 
   test(
@@ -92,6 +92,5 @@ Future<void> main() async {
       expect(masterEdition?.supply, BigInt.zero);
       expect(masterEdition?.maxSupply, BigInt.zero);
     },
-    skip: 'Setup localnet with the metaplex program deployed.',
   );
 }
