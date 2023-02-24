@@ -99,9 +99,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
-      - name: Kill solana test validator
-        run: pkill -f solana-test-validator
-
       - name: Dump Solana program
         run: solana program dump -u m ${{ env.METAPLEX_ID }} metaplex.so
 
