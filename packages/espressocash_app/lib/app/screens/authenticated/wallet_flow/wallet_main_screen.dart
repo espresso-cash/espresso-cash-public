@@ -8,7 +8,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
@@ -99,50 +98,52 @@ class _ScreenState extends State<WalletMainScreen> {
 
     return Scaffold(
       appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
-      body: Column(
-        children: [
-          const SizedBox(height: 24),
-          AmountWithEquivalent(
-            inputController: _amountController,
-            token: widget.amount.cryptoCurrency.token,
-            collapsed: false,
-            shakeKey: widget.shakeKey,
-            error: widget.error,
-          ),
-          const SizedBox(height: 8),
-          UsdcInfoWidget(
-            isSmall: height < 700,
-          ),
-          Flexible(
-            child: LayoutBuilder(
-              builder: (context, constraints) => AmountKeypad(
-                height: constraints.maxHeight,
-                width: width,
-                controller: _amountController,
-                maxDecimals: 2,
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 24),
+            AmountWithEquivalent(
+              inputController: _amountController,
+              token: widget.amount.cryptoCurrency.token,
+              collapsed: false,
+              shakeKey: widget.shakeKey,
+              error: widget.error,
+            ),
+            const SizedBox(height: 8),
+            UsdcInfoWidget(
+              isSmall: height < 700,
+            ),
+            Flexible(
+              child: LayoutBuilder(
+                builder: (context, constraints) => AmountKeypad(
+                  height: constraints.maxHeight,
+                  width: width,
+                  controller: _amountController,
+                  maxDecimals: 2,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: CpButton(
-              text: _action.buttonLabel(context),
-              minWidth: width,
-              onPressed: () {
-                switch (_action) {
-                  case WalletOperation.pay:
-                    widget.onPay();
-                    break;
-                  case WalletOperation.request:
-                    widget.onRequest();
-                    break;
-                }
-              },
-              size: CpButtonSize.big,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: CpButton(
+                text: _action.buttonLabel(context),
+                minWidth: width,
+                onPressed: () {
+                  switch (_action) {
+                    case WalletOperation.pay:
+                      widget.onPay();
+                      break;
+                    case WalletOperation.request:
+                      widget.onRequest();
+                      break;
+                  }
+                },
+                size: CpButtonSize.big,
+              ),
             ),
-          ),
-          const SizedBox(height: cpNavigationBarheight + 24),
-        ],
+            const SizedBox(height: 24),
+          ],
+        ),
       ),
     );
   }
