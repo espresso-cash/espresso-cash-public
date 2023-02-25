@@ -107,7 +107,7 @@ jobs:
         with:
           cluster: devnet
           args:
-            --bpf-program ${{ env.METAPLEX_ID }} metaplex.so --reset
+            --bpf-program ${{ env.METAPLEX_ID }} metaplex.so
 
       - name: Activate remove_from_coverage
         run: dart pub global activate remove_from_coverage
