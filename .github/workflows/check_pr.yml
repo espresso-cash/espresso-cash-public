@@ -105,8 +105,9 @@ jobs:
       - name: Start Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
+          cluster: devnet
           args:
-            --bpf-program ${{ env.METAPLEX_ID }}  metaplex.so --reset
+            --bpf-program ${{ env.METAPLEX_ID }} metaplex.so --reset
 
       - name: Activate remove_from_coverage
         run: dart pub global activate remove_from_coverage
