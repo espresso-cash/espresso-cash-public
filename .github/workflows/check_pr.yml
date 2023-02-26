@@ -91,10 +91,6 @@ jobs:
       METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
     container:
       image: ghcr.io/espresso-cash/flutter:3.7.0
-    # services:
-    #   solana:
-    #     image: solanalabs/solana:${{ matrix.solanaVersion }}
-    #     options: --entrypoint="solana-test-validator"
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
