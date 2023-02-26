@@ -89,7 +89,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="solana"
       METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
-      METAPLEX_SO: "/packages/solana/test/bpf-programs/metaplex.so"
+      METAPLEX_SO: "packages/solana/test/bpf-programs/metaplex.so"
     container:
       image: ghcr.io/espresso-cash/flutter:3.7.0
     steps:
@@ -99,9 +99,10 @@ jobs:
       - name: Install sudo package
         run: apt update && apt install sudo
 
-      - name: Start Local Validator
+      - name: Start Solana Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
+          solana-version: ${{ matrix.solanaVersion }}
           cluster: devnet
           args:
             --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
