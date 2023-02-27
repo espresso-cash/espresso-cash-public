@@ -64,4 +64,5 @@ final _defaultConfiguration = Configuration()
   ..hostLogoUrl =
       'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
   ..hostApiKey = rampApiKey
+  ..swapAsset = 'SOLANA_USDC'
   ..defaultAsset = 'SOLANA_USDC';
