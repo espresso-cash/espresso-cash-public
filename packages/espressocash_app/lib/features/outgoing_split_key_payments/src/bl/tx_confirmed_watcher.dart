@@ -79,7 +79,10 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
       escrow: status.escrow,
     );
 
-    return payment.copyWith(status: newStatus);
+    return payment.copyWith(
+      status: newStatus,
+      linksGeneratedAt: DateTime.now(),
+    );
   }
 }
 

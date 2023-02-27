@@ -30,16 +30,24 @@ class TxReadyWatcher {
     _repoSubscription =
         _repository.watchReady().distinct().listen((payments) async {
       for (final payment in payments) {
-        Future<void> onSuccess(ParsedTransaction tx) async {
+        Future<void> onSuccess(TransactionDetails txDetails) async {
+          final tx = txDetails.transaction as ParsedTransaction;
+
           final txId = tx.id;
+
+          final timestamp = txDetails.blockTime?.let(
+                (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+              ) ??
+              DateTime.now();
+
           final newStatus = await tx.getDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.cryptoCurrency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
-              ? OSKPStatus.canceled(txId: txId)
-              : OSKPStatus.withdrawn(txId: txId);
+              ? OSKPStatus.canceled(txId: txId, timestamp: timestamp)
+              : OSKPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();
@@ -63,7 +71,7 @@ class TxReadyWatcher {
     });
   }
 
-  Stream<ParsedTransaction> _createStream({
+  Stream<TransactionDetails> _createStream({
     required Ed25519HDPublicKey account,
   }) {
     Duration backoff = const Duration(seconds: 1);
@@ -90,8 +98,7 @@ class TxReadyWatcher {
           .startWith(null)
           .flatMap(streamSignatures)
           .where((event) => event.length == 2)
-          .map((details) => details.first)
-          .map((tx) => tx.transaction as ParsedTransaction),
+          .map((details) => details.first),
       retryWhen,
     );
   }
