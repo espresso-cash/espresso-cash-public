@@ -171,35 +171,38 @@ class _Amount extends StatelessWidget {
       roundInteger: amount.isZero,
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        FittedBox(
-          child: Text(
-            formattedAmount,
-            style: const TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ).let((it) => amount.isZero ? it : Flexible(child: it)),
-        const SizedBox(width: 8),
-        const CpTokenIcon(token: Token.usdc, size: 30),
-        const SizedBox(width: 8),
-        if (amount.isZero)
-          Flexible(
+    return GestureDetector(
+      onTap: () => context.router.push(TokenDetailsRoute(token: Token.usdc)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FittedBox(
             child: Text(
-              context.l10n.fundYourAccount,
+              formattedAmount,
               style: const TextStyle(
-                fontSize: 14.5,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
               ),
             ),
-          ),
-      ],
+          ).let((it) => amount.isZero ? it : Flexible(child: it)),
+          const SizedBox(width: 8),
+          const CpTokenIcon(token: Token.usdc, size: 30),
+          const SizedBox(width: 8),
+          if (amount.isZero)
+            Flexible(
+              child: Text(
+                context.l10n.fundYourAccount,
+                style: const TextStyle(
+                  fontSize: 14.5,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
