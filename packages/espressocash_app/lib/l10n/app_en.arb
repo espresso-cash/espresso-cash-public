@@ -107,17 +107,13 @@
   "splitKeyProgressSuccess": "Money has been successfully received",
   "splitKeyProgressCanceling": "Canceling transfer",
   "splitKeyProgressCanceled": "Transfer has been canceled",
-  "transferCanceled": "Transfer canceled",
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
-  "paymentRequestInitialNotificationTitle": "You requested {amount} for {payer}",
-  "@paymentRequestInitialNotificationTitle": {
+ "paymentRequestTitle": "Payment request for {label}",
+  "@paymentRequestTitle": {
     "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "payer": {
+      "label": {
         "type": "String"
       }
     }
@@ -136,15 +132,11 @@
   "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "amount": {
-        "type": "String"
-      },
       "label": {
         "type": "String"
       }
     }
   },
-  "paymentRequestNotificationSubtitle": "Payment request",
   "paymentRequestCancel": "Cancel request",
   "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
   "securitySectionTitle": "SECURITY AND PRIVACY",
@@ -345,17 +337,6 @@
   "myPortfolio": "MY PORTFOLIO",
   "requestOrSendPayment": "Request or send a payment",
   "noActivity": "No activity yet!",
-  "activityDate": "On {date} at {time}",
-  "@activityDate": {
-    "placeholders": {
-      "date": {
-        "type": "String"
-      },
-      "time": {
-        "type": "String"
-      }
-    }
-  },
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
   "@insufficientFundsMessage": {
     "placeholders": {
@@ -496,7 +477,7 @@
   "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
   "cryptoInvestments": "Your Crypto\nInvestments",
   "moneyReceived": "Money has been received",
-  "sentDirectly": "Sent directly",
+  "sentDirectly": "Sent",
   "boughtToken": "Bought {amount}",
   "@boughtToken": {
     "placeholders": {
@@ -515,7 +496,7 @@
   },
   "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
-  "sentViaLink": "Sent via link",
+  "sentViaLink": "Sent via links",
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "transferInitiated": "Transfer initiated",
   "receivedBy": "Received by {address}",
@@ -536,5 +517,9 @@
   "cancelTransferConfirmationTitle": "Cancel Transfer",
   "cancelTransferConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
   "cancelPaymentRequestConfirmationTitle": "Cancel Payment Request",
-  "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?"
+  "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?",
+  "activityStatusSuccess": "Success",
+  "activityStatusFailure": "Failure",
+  "activityStatusInProgress": "In Progress",
+  "activityStatusCanceled": "Canceled"
 }

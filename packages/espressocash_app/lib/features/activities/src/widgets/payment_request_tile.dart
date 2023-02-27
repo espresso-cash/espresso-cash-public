@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_date.dart';
@@ -40,47 +41,25 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
           final data = snapshot.data;
 
           if (data == null) {
-            return ActivityTile(
+            return SizedBox.shrink(
               key: ValueKey(widget.id),
-              icon: CircleAvatar(
-                radius: 21,
-                child: Assets.icons.incoming.svg(),
-              ),
-              title: '',
-              subtitle: context.l10n.paymentRequestNotificationSubtitle,
-            );
-          }
-
-          String title() {
-            final formattedAmount =
-                data.formattedAmount(DeviceLocale.localeOf(context));
-
-            return data.state.when(
-              initial: () =>
-                  context.l10n.paymentRequestInitialNotificationTitle(
-                formattedAmount,
-                data.label,
-              ),
-              completed: (_) =>
-                  context.l10n.paymentRequestSuccessNotificationTitle(
-                formattedAmount,
-                data.label,
-              ),
-              failure: () =>
-                  context.l10n.paymentRequestFailureNotificationTitle(
-                formattedAmount,
-                data.label,
-              ),
             );
           }
 
           return PaymentRequestVerifier(
             key: ValueKey(widget.id),
             paymentRequest: data,
-            child: ActivityTile(
-              title: title(),
-              icon: Assets.icons.incoming.svg(),
-              subtitle: context.formatDate(data.created),
+            child: CpActivityTile(
+              title: context.l10n.paymentRequestTitle(data.label),
+              icon: Assets.icons.paymentIcon.svg(),
+              timestamp: context.formatDate(data.created),
+              incomingAmount:
+                  data.formattedAmount(DeviceLocale.localeOf(context)),
+              status: data.state.map(
+                initial: always(CpActivityTileStatus.inProgress),
+                completed: always(CpActivityTileStatus.success),
+                failure: always(CpActivityTileStatus.failure),
+              ),
               onTap: () =>
                   context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
             ),
