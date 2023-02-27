@@ -71,7 +71,7 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
         token: token.publicKey,
       ).toUri();
 
-      qrLink = await _linkShortener.shorten(rawLink) ?? rawLink;
+      qrLink = await _linkShortener.manual(rawLink);
     }
 
     final newStatus = OSKPStatus.linksReady(
