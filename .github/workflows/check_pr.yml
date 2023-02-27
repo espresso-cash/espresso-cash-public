@@ -102,8 +102,8 @@ jobs:
       - name: Start Solana Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
-          solana-version: beta
-          cluster: devnet
+          solana-version: ${{ matrix.solanaVersion }}
+          cluster: mainnet
           args:
             --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
 
