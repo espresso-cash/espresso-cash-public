@@ -1,11 +1,12 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../config.dart';
 import '../../../core/accounts/bl/account.dart';
-import '../../../core/tokens/token.dart';
-import '../../../routes.gr.dart';
+import '../../../core/balances/context_ext.dart';
 import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
@@ -23,12 +24,18 @@ class AddCashButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.addCash,
-          onPressed: () => context.router.navigate(
-            OnRampRoute(
-              wallet: context.read<MyAccount>().wallet.publicKey,
-              token: Token.usdc,
-            ),
-          ),
+          onPressed: () {
+            final configuration = _defaultConfiguration
+              ..userAddress =
+                  context.read<MyAccount>().wallet.publicKey.toBase58();
+
+            RampFlutter.showRamp(
+              configuration,
+              (_, __, ___) {},
+              () => context.notifyBalanceAffected(),
+              ignore,
+            );
+          },
         ),
       );
 }
@@ -51,3 +58,10 @@ class CashOutButton extends StatelessWidget {
         ),
       );
 }
+
+final _defaultConfiguration = Configuration()
+  ..hostAppName = 'Espresso Cash'
+  ..hostLogoUrl =
+      'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
+  ..hostApiKey = rampApiKey
+  ..defaultAsset = 'SOLANA_USDC';

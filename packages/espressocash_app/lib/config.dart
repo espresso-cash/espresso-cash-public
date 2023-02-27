@@ -68,3 +68,5 @@ const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+
+const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
