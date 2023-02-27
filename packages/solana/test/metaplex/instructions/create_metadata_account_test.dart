@@ -9,8 +9,7 @@ Future<void> main() async {
   const name = 'Cofre #514';
   const symbol = 'COFR';
 
-  // TODO(KB): Setup localnet with the metaplex program deployed.
-  final client = createTestSolanaClient(useLocal: true);
+  final client = createTestSolanaClient();
   final owner = await Ed25519HDKeyPair.random();
 
   test(
