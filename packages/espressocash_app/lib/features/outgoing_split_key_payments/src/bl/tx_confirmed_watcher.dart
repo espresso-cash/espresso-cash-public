@@ -25,7 +25,7 @@ class TxConfirmedWatcher extends PaymentWatcher {
   CancelableJob<OutgoingSplitKeyPayment> createJob(
     OutgoingSplitKeyPayment payment,
   ) =>
-      _Job(payment, _shortener);
+      _OSKPConfirmedJob(payment, _shortener);
 
   @override
   Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
@@ -34,8 +34,8 @@ class TxConfirmedWatcher extends PaymentWatcher {
       repository.watchTxConfirmed();
 }
 
-class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
-  _Job(this.payment, this._linkShortener);
+class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
+  _OSKPConfirmedJob(this.payment, this._linkShortener);
 
   final OutgoingSplitKeyPayment payment;
   final LinkShortener _linkShortener;
@@ -79,7 +79,10 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
       escrow: status.escrow,
     );
 
-    return payment.copyWith(status: newStatus);
+    return payment.copyWith(
+      status: newStatus,
+      linksGeneratedAt: DateTime.now(),
+    );
   }
 }
 
