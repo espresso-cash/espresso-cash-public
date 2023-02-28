@@ -88,13 +88,8 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<void> _onCreated(Created event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
-    final wallet = event.account.wallet;
 
-    if (wallet is SagaWallet) {
-      await _storage.write(key: authTokenKey, value: wallet.token.toString());
-    } else {
-      await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
-    }
+    await _storage.saveAccountSource(event.source);
 
     await _saveNameAndPhoto(
       name: event.account.firstName,
@@ -144,6 +139,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 }
 
 extension on FlutterSecureStorage {
+  Future<void> saveAccountSource(AccountSource source) => source.when(
+        local: (it) => write(key: mnemonicKey, value: it.phrase),
+        saga: (it) => write(key: authTokenKey, value: it.toString()),
+      );
+
   /// Loads existing account if wallet data exists in [FlutterSecureStorage].
   Future<MyAccount?> loadAccount(
     FileManager manager,
@@ -158,7 +158,7 @@ extension on FlutterSecureStorage {
 
     if (authToken != null) {
       wallet = await restoreSagaWallet(authToken, seedVault);
-    } else if (mnemonic != null) {
+    } else if (mnemonic != null && mnemonic.isNotEmpty) {
       wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
     } else {
       return null;

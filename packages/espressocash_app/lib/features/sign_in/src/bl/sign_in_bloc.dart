@@ -8,9 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../../config.dart';
 import '../../../../core/accounts/bl/account.dart';
-import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/accounts/bl/mnemonic.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../core/flow.dart';
@@ -41,9 +39,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           );
 
   Future<void> _onPhraseRequested(Emitter<SignInState> emit) async {
-    if (!await _seedVault.isReady()) {
-      emit(state.copyWith(seed: Mnemonic.generated(bip39.generateMnemonic())));
-    }
+    emit(
+      state.copyWith(
+        source: bip39
+            .generateMnemonic()
+            .let(Mnemonic.generated)
+            .let(AccountSource.local),
+      ),
+    );
     add(const SignInSubmitted(name: 'My Wallet'));
   }
 
@@ -51,7 +54,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     SignInPhraseUpdated event,
     Emitter<SignInState> emit,
   ) async {
-    emit(state.copyWith(seed: Mnemonic.typed(event.phrase)));
+    emit(
+      state.copyWith(
+        source: event.phrase.let(Mnemonic.typed).let(AccountSource.local),
+      ),
+    );
   }
 
   Future<void> _onSubmitted(
@@ -60,24 +67,19 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   ) async {
     emit(state.copyWith(processingState: const Flow.processing()));
     try {
-      final ECWallet wallet;
-      final AccessMode accessMode;
+      final wallet = await state.source.when(
+        local: (it) => createLocalWallet(mnemonic: it.phrase, account: 0),
+        saga: (it) => restoreSagaWallet(it, _seedVault),
+      );
 
-      final mnemonic = state.phrase;
-
-      if (mnemonic.isNotEmpty) {
-        wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
-        accessMode = state.seed.when(
+      final accessMode = state.source.when(
+        local: (it) => it.when(
           typed: always(const AccessMode.seedInputted()),
           generated: always(const AccessMode.created()),
           empty: () => throw StateError('Seed is empty during submission.'),
-        );
-      } else if (await _seedVault.isReady()) {
-        wallet = await createSagaWallet(_seedVault);
-        accessMode = const AccessMode.created();
-      } else {
-        throw StateError('No source avaiable to create wallet');
-      }
+        ),
+        saga: always(const AccessMode.created()),
+      );
 
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
@@ -111,7 +113,7 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 @freezed
 class SignInState with _$SignInState {
   const factory SignInState({
-    @Default(Mnemonic.empty()) Mnemonic seed,
+    @Default(AccountSource.local(Mnemonic.empty())) AccountSource source,
     required Flow<Exception, SignInResult> processingState,
   }) = _SignInState;
 }
@@ -124,12 +126,14 @@ class SignInResult with _$SignInResult {
   }) = _SignInResult;
 }
 
-extension SignInStateExt on SignInState {
-  String get phrase => seed.phrase;
-}
-
 @freezed
 class SignInEvent with _$SignInEvent {
+  const factory SignInEvent.newSagaWalletRequested() =
+      SignInNewSagaWalletRequested;
+
+  const factory SignInEvent.existingSagaRequested() =
+      SignInExistingSagaWalletRequested;
+
   const factory SignInEvent.phraseRequested() = SignInPhraseRequested;
 
   const factory SignInEvent.phraseUpdated(String phrase) = SignInPhraseUpdated;
@@ -140,7 +144,7 @@ class SignInEvent with _$SignInEvent {
   }) = SignInSubmitted;
 }
 
-extension on SeedVault {
-  Future<bool> isReady() async =>
-      await isAvailable(allowSimulated: !isProd) && await checkPermission();
-}
+// extension on SeedVault {
+//   Future<bool> isReady() async =>
+//       await isAvailable(allowSimulated: !isProd) && await checkPermission();
+// }

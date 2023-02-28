@@ -39,7 +39,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
             success: (result) => context.read<AccountsBloc>().add(
                   AccountsEvent.created(
                     account: result.account,
-                    mnemonic: state.seed,
+                    source: state.source,
                     hasFinishedOnboarding: result.hasFinishedOnboarding,
                   ),
                 ),
