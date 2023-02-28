@@ -17,7 +17,7 @@ class LinkShortener {
     appStoreId: '1559625715',
   );
 
-  Future<Uri?> shorten(Uri link) async {
+  Future<Uri?> buildShortUrl(Uri link) async {
     final parameters = DynamicLinkParameters(
       link: link,
       uriPrefix: 'https://$_host',
@@ -37,7 +37,7 @@ class LinkShortener {
     }
   }
 
-  Future<Uri> manual(Uri link) async => Uri(
+  Uri buildFullUrl(Uri link) => Uri(
         scheme: 'https',
         host: _host,
         path: '/',
