@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../di.dart';
@@ -32,6 +33,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
         providers: [
           BlocProvider(create: (_) => sl<SignInBloc>()),
           Provider<SignInRouter>.value(value: this),
+          Provider<SeedVault>.value(value: sl<SeedVault>()),
         ],
         child: BlocConsumer<SignInBloc, SignInState>(
           listener: (context, state) => state.processingState.maybeWhen(

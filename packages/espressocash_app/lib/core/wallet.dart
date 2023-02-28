@@ -4,6 +4,7 @@ import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'accounts/bl/ec_wallet.dart';
+import 'extensions.dart';
 
 Future<LocalWallet> createLocalWallet({
   required String mnemonic,
@@ -15,21 +16,15 @@ Future<LocalWallet> createLocalWallet({
   return LocalWallet(wallet);
 }
 
-Future<SagaWallet> createSagaWallet(SeedVault seedVault) async {
-  final authToken = await seedVault.createSeed(Purpose.signSolanaTransaction);
+Future<SagaWallet> createSagaWallet(
+  SeedVault seedVault,
+  AuthToken authToken,
+) async {
   final account = await seedVault
-      .getParsedAccounts(authToken)
+      .getParsedAccounts(authToken, filter: const AccountFilter())
       .letAsync((it) => it.findValidAccount());
-  await seedVault.updateAccountIsUserWallet(
-    authToken: authToken,
-    accountId: account.id,
-    isUserWallet: true,
-  );
-  await seedVault.updateAccountIsValid(
-    authToken: authToken,
-    accountId: account.id,
-    isValid: true,
-  );
+
+  await seedVault.updateAccountData(authToken, account);
 
   return SagaWallet(account, authToken);
 }

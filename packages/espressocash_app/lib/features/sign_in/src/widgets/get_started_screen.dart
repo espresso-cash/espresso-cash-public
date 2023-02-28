@@ -1,7 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
+import '../../../../core/extensions.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/bullet_item.dart';
@@ -66,8 +68,40 @@ class _Header extends StatelessWidget {
       );
 }
 
-class _Footer extends StatelessWidget {
+class _Footer extends StatefulWidget {
   const _Footer({Key? key}) : super(key: key);
+
+  @override
+  State<_Footer> createState() => _FooterState();
+}
+
+class _FooterState extends State<_Footer> {
+  Future<void> _onCreateWallet() async {
+    final hasSeedVault = await context.read<SeedVault>().isReady();
+    if (!mounted) return;
+
+    final SignInEvent signInEvent;
+    if (hasSeedVault) {
+      signInEvent = const SignInEvent.newSagaWalletRequested();
+    } else {
+      signInEvent = const SignInEvent.phraseRequested();
+    }
+
+    context.read<SignInBloc>().add(signInEvent);
+  }
+
+  Future<void> _onExistingWallet() async {
+    final hasSeedVault = await context.read<SeedVault>().isReady();
+    if (!mounted) return;
+
+    if (hasSeedVault) {
+      context
+          .read<SignInBloc>()
+          .add(const SignInEvent.existingSagaWalletRequested());
+    } else {
+      context.signInRouter.onSignIn();
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -79,11 +113,7 @@ class _Footer extends StatelessWidget {
               key: keyCreateWalletButton,
               text: context.l10n.signUp,
               width: double.infinity,
-              onPressed: () {
-                context
-                    .read<SignInBloc>()
-                    .add(const SignInEvent.phraseRequested());
-              },
+              onPressed: _onCreateWallet,
             ),
             const SizedBox(height: 16),
             Text.rich(
@@ -94,7 +124,7 @@ class _Footer extends StatelessWidget {
                   TextSpan(
                     text: context.l10n.signIn2,
                     recognizer: TapGestureRecognizer()
-                      ..onTap = () => context.signInRouter.onSignIn(),
+                      ..onTap = _onExistingWallet,
                     style: const TextStyle(
                       color: CpColors.yellowColor,
                     ),

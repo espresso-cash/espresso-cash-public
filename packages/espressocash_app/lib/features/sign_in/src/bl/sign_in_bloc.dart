@@ -33,10 +33,50 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
+            newSagaWalletRequested: (_) => _onNewSagaWalletRequested(emit),
+            existingSagaWalletRequested: (_) =>
+                _onExistingSagaWalletRequested(emit),
             phraseRequested: (_) => _onPhraseRequested(emit),
             phraseUpdated: (event) => _onPhraseUpdated(event, emit),
             submitted: (event) => _onSubmitted(event, emit),
           );
+
+  Future<void> _onNewSagaWalletRequested(Emitter<SignInState> emit) async {
+    try {
+      emit(
+        state.copyWith(
+          source: await _seedVault
+              .createSeed(Purpose.signSolanaTransaction)
+              .letAsync(AccountSource.saga),
+        ),
+      );
+      add(const SignInSubmitted(name: 'My Wallet'));
+    } on Exception catch (e) {
+      emit(state.copyWith(processingState: Flow.failure(e)));
+    }
+  }
+
+  Future<void> _onExistingSagaWalletRequested(Emitter<SignInState> emit) async {
+    try {
+      final AuthToken token;
+      const purpose = Purpose.signSolanaTransaction;
+
+      final canAuthorizeSeed =
+          await _seedVault.hasUnauthorizedSeedsForPurpose(purpose);
+
+      // TODO(rhbrunetto): fix it
+      if (canAuthorizeSeed) {
+        token = await _seedVault.authorizeSeed(purpose);
+      } else {
+        token = await _seedVault.importSeed(purpose);
+      }
+
+      emit(state.copyWith(source: AccountSource.saga(token)));
+      add(const SignInSubmitted(name: 'My Wallet'));
+    } on Exception catch (e) {
+      emit(state.copyWith(processingState: Flow.failure(e)));
+    }
+  }
 
   Future<void> _onPhraseRequested(Emitter<SignInState> emit) async {
     emit(
@@ -69,7 +109,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       final wallet = await state.source.when(
         local: (it) => createLocalWallet(mnemonic: it.phrase, account: 0),
-        saga: (it) => restoreSagaWallet(it, _seedVault),
+        saga: (it) => createSagaWallet(_seedVault, it),
       );
 
       final accessMode = state.source.when(
@@ -131,7 +171,7 @@ class SignInEvent with _$SignInEvent {
   const factory SignInEvent.newSagaWalletRequested() =
       SignInNewSagaWalletRequested;
 
-  const factory SignInEvent.existingSagaRequested() =
+  const factory SignInEvent.existingSagaWalletRequested() =
       SignInExistingSagaWalletRequested;
 
   const factory SignInEvent.phraseRequested() = SignInPhraseRequested;
@@ -143,8 +183,3 @@ class SignInEvent with _$SignInEvent {
     File? photo,
   }) = SignInSubmitted;
 }
-
-// extension on SeedVault {
-//   Future<bool> isReady() async =>
-//       await isAvailable(allowSimulated: !isProd) && await checkPermission();
-// }

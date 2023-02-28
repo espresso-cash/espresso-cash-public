@@ -70,8 +70,6 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(state.copyWith(isProcessing: true));
     try {
       final account = await _storage.loadAccount(_fileManager, _seedVault);
-      if (account == null) return;
-
       final hasFinishedOnboarding = await _loadOnboardingState();
 
       emit(
@@ -110,8 +108,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Future<void> _onLoggedOut(Emitter<AccountsState> emit) async {
-    await _storage.deleteAll();
-    emit(const AccountsState());
+    try {
+      final authToken = await loadAuthToken(_storage);
+      if (authToken != null) {
+        await _seedVault.deauthorizeSeed(authToken);
+      }
+    } finally {
+      await _storage.deleteAll();
+      emit(const AccountsState());
+    }
   }
 
   Future<void> _onProfileUpdated(
@@ -138,6 +143,14 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 }
 
+Future<String> loadMnemonic(FlutterSecureStorage storage) =>
+    storage.read(key: mnemonicKey).letAsync((it) => it ?? '');
+
+Future<AuthToken?> loadAuthToken(FlutterSecureStorage storage) => storage
+    .read(key: authTokenKey)
+    .letAsync((it) => it.toString())
+    .letAsync(AuthToken.tryParse);
+
 extension on FlutterSecureStorage {
   Future<void> saveAccountSource(AccountSource source) => source.when(
         local: (it) => write(key: mnemonicKey, value: it.phrase),
@@ -149,16 +162,14 @@ extension on FlutterSecureStorage {
     FileManager manager,
     SeedVault seedVault,
   ) async {
-    final mnemonic = await read(key: mnemonicKey);
-    final authToken = await read(key: authTokenKey)
-        .letAsync((it) => it.toString())
-        .letAsync(AuthToken.tryParse);
+    final mnemonic = await loadMnemonic(this);
+    final authToken = await loadAuthToken(this);
 
     final ECWallet wallet;
 
     if (authToken != null) {
       wallet = await restoreSagaWallet(authToken, seedVault);
-    } else if (mnemonic != null && mnemonic.isNotEmpty) {
+    } else if (mnemonic.isNotEmpty) {
       wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
     } else {
       return null;
