@@ -195,8 +195,8 @@ class _OSKPScreenState extends State<OSKPScreen> {
             cancelTxCreated: always(1),
             cancelTxSent: always(1),
             txConfirmed: always(1),
+            linksReady: always(1),
             withdrawn: always(2),
-            linksReady: always(2),
           );
 
           final paymentInitiated = CpTimelineItem(

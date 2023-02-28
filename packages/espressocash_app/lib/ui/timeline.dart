@@ -63,9 +63,10 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final lastIconIndex = widget.status == CpTimelineStatus.inProgress
-        ? widget.active - 1
-        : widget.active;
+    final lastIconIndex =
+        widget.status == CpTimelineStatus.inProgress && widget.animated
+            ? widget.active - 1
+            : widget.active;
 
     return ListView.builder(
       shrinkWrap: true,
