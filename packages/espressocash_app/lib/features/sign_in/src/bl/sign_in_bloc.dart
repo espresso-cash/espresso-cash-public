@@ -62,17 +62,23 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     try {
       final ECWallet wallet;
       final AccessMode accessMode;
-      if (state.phrase.isEmpty && await _seedVault.isReady()) {
-        wallet = await createSagaWallet(_seedVault);
-accessMode = const AccessMode.created();
-      } else {
-        wallet = await createLocalWallet(mnemonic: state.phrase, account: 0);
+
+      final mnemonic = state.phrase;
+
+      if (mnemonic.isNotEmpty) {
+        wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
         accessMode = state.seed.when(
-        typed: always(const AccessMode.seedInputted()),
-        generated: always(const AccessMode.created()),
-        empty: () => throw StateError('Seed is empty during submission.'),
-      );
+          typed: always(const AccessMode.seedInputted()),
+          generated: always(const AccessMode.created()),
+          empty: () => throw StateError('Seed is empty during submission.'),
+        );
+      } else if (await _seedVault.isReady()) {
+        wallet = await createSagaWallet(_seedVault);
+        accessMode = const AccessMode.created();
+      } else {
+        throw StateError('No source avaiable to create wallet');
       }
+
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
       final myAccount = MyAccount(
