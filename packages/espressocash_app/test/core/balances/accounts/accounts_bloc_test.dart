@@ -16,7 +16,7 @@ import 'accounts_bloc_test.mocks.dart';
 Future<void> main() async {
   final storage = MockFlutterSecureStorage();
   final mnemonic = bip39.generateMnemonic();
-  final wallet = await createWallet(mnemonic: mnemonic, account: 0);
+  final wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
   final testAccount = MyAccount(
     wallet: wallet,
     firstName: 'Test',

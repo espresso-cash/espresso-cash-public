@@ -6,8 +6,11 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
+import '../../../../config.dart';
 import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/accounts/bl/mnemonic.dart';
 import '../../../../core/file_manager.dart';
 import '../../../../core/flow.dart';
@@ -17,7 +20,7 @@ part 'sign_in_bloc.freezed.dart';
 
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc(this._fileManager)
+  SignInBloc(this._fileManager, this._seedVault)
       // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
       // to a parameter of type 'Flow<Exception, SignInResult>' in a const
       // constructor.
@@ -28,6 +31,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 
   final FileManager _fileManager;
+  final SeedVault _seedVault;
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
@@ -37,7 +41,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           );
 
   Future<void> _onPhraseRequested(Emitter<SignInState> emit) async {
-    emit(state.copyWith(seed: Mnemonic.generated(bip39.generateMnemonic())));
+    if (!await _seedVault.isReady()) {
+      emit(state.copyWith(seed: Mnemonic.generated(bip39.generateMnemonic())));
+    }
     add(const SignInSubmitted(name: 'My Wallet'));
   }
 
@@ -54,14 +60,20 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   ) async {
     emit(state.copyWith(processingState: const Flow.processing()));
     try {
-      final wallet = await createWallet(mnemonic: state.phrase, account: 0);
-      final photo = await event.photo?.let(_fileManager.copyToAppDir);
-
-      final accessMode = state.seed.when(
+      final ECWallet wallet;
+      final AccessMode accessMode;
+      if (state.phrase.isEmpty && await _seedVault.isReady()) {
+        wallet = await createSagaWallet(_seedVault);
+accessMode = const AccessMode.created();
+      } else {
+        wallet = await createLocalWallet(mnemonic: state.phrase, account: 0);
+        accessMode = state.seed.when(
         typed: always(const AccessMode.seedInputted()),
         generated: always(const AccessMode.created()),
         empty: () => throw StateError('Seed is empty during submission.'),
       );
+      }
+      final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
       final myAccount = MyAccount(
         firstName: event.name,
@@ -120,4 +132,9 @@ class SignInEvent with _$SignInEvent {
     required String name,
     File? photo,
   }) = SignInSubmitted;
+}
+
+extension on SeedVault {
+  Future<bool> isReady() async =>
+      await isAvailable(allowSimulated: !isProd) && await checkPermission();
 }

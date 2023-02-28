@@ -7,10 +7,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../file_manager.dart';
 import '../../wallet.dart';
 import 'account.dart';
+import 'ec_wallet.dart';
 import 'mnemonic.dart';
 
 part 'accounts_bloc.freezed.dart';
@@ -22,14 +24,17 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({
     required FlutterSecureStorage storage,
     required FileManager fileManager,
+    required SeedVault seedVault,
   })  : _storage = storage,
         _fileManager = fileManager,
+        _seedVault = seedVault,
         super(const AccountsState(isProcessing: true)) {
     on<AccountsEvent>(_eventHandler, transformer: sequential());
   }
 
   final FlutterSecureStorage _storage;
   final FileManager _fileManager;
+  final SeedVault _seedVault;
 
   EventHandler<AccountsEvent, AccountsState> get _eventHandler =>
       (event, emit) => event.map(
@@ -64,7 +69,30 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
-      final account = await _fileManager.loadAccount(_storage);
+      final authToken = await _storage
+          .read(key: authTokenKey)
+          .letAsync((it) => it.toString())
+          .letAsync(AuthToken.tryParse);
+
+      final ECWallet? wallet;
+
+      if (authToken != null) {
+        wallet = await restoreSagaWallet(authToken, _seedVault);
+      } else {
+        final mnemonic = await loadMnemonic(_storage);
+        if (mnemonic.isNotEmpty) {
+          wallet = await createLocalWallet(
+            mnemonic: mnemonic,
+            account: 0,
+          );
+        } else {
+          wallet = null;
+        }
+      }
+
+      final account = await wallet.maybeFlatMap(
+        (it) async => _fileManager.loadAccount(_storage, it),
+      );
       final hasFinishedOnboarding = await _loadOnboardingState();
 
       emit(
@@ -81,7 +109,13 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<void> _onCreated(Created event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
-    await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
+    final wallet = event.account.wallet;
+
+    if (wallet is SagaWallet) {
+      await _storage.write(key: authTokenKey, value: wallet.token.toString());
+    } else {
+      await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
+    }
 
     await _saveNameAndPhoto(
       name: event.account.firstName,
@@ -135,23 +169,23 @@ Future<String> loadMnemonic(FlutterSecureStorage storage) =>
 
 extension on FileManager {
   /// Loads existing account if wallet data exist in [storage].
-  Future<MyAccount?> loadAccount(FlutterSecureStorage storage) async {
-    final mnemonic = await loadMnemonic(storage);
-    if (mnemonic.isEmpty) return null;
-
+  Future<MyAccount?> loadAccount(
+    FlutterSecureStorage storage,
+    ECWallet wallet,
+  ) async {
     final photoPath = await storage.read(key: photoKey);
 
     return MyAccount(
       firstName: (await storage.read(key: nameKey)) ?? '',
       photoPath: (await photoPath?.let(loadFromAppDir))?.path,
       accessMode: const AccessMode.loaded(),
-      wallet: await createWallet(
-        mnemonic: mnemonic,
-        account: 0,
-      ),
+      wallet: wallet,
     );
   }
 }
+
+@visibleForTesting
+const authTokenKey = 'authToken';
 
 @visibleForTesting
 const mnemonicKey = 'mnemonic';
