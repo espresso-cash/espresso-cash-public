@@ -44,7 +44,6 @@ class TokenDropDown extends StatelessWidget {
         dropdownColor: Colors.transparent,
         icon: const SizedBox.shrink(),
         underline: const SizedBox.shrink(),
-        borderRadius: const BorderRadius.all(Radius.circular(30)),
         onChanged: (it) =>
             it == null || it == current ? ignore : onTokenChanged(it),
         items: availableTokens
