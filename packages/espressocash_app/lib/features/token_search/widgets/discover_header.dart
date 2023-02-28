@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
+import '../../../ui/icon_button.dart';
 import '../models/crypto_categories.dart';
 
 class DiscoverHeader extends StatelessWidget {
@@ -52,11 +54,22 @@ class DiscoverHeader extends StatelessWidget {
                   .toList(),
             )
           else
-            CpButton(
-              text: selected.label,
-              size: CpButtonSize.small,
-              onPressed: () => onTap.call(selected),
-              variant: CpButtonVariant.inverted,
+            Row(
+              children: [
+                CpButton(
+                  text: selected.label,
+                  size: CpButtonSize.small,
+                  onPressed: () => onTap.call(selected),
+                  variant: CpButtonVariant.inverted,
+                ),
+                const SizedBox(width: 8),
+                CpIconButton(
+                  icon: Assets.icons.closeButtonIcon.svg(),
+                  onPressed: () => onTap.call(selected),
+                  variant: CpIconButtonVariant.dark,
+                  size: CpIconButtonSize.small,
+                ),
+              ],
             )
         ],
       ),

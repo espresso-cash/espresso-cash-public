@@ -14,6 +14,7 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
     required CryptoAmount amount,
     required DateTime created,
     required OSKPStatus status,
+    DateTime? linksGeneratedAt,
   }) = _OutgoingSplitKeyPayment;
 
   const OutgoingSplitKeyPayment._();
@@ -55,11 +56,13 @@ class OSKPStatus with _$OSKPStatus {
   /// payment is complete.
   const factory OSKPStatus.withdrawn({
     required String txId,
+    required DateTime? timestamp,
   }) = OSKPStatusWithdrawn;
 
   /// Money are withdrawn by the sender. The payment is complete.
   const factory OSKPStatus.canceled({
     required String? txId,
+    required DateTime? timestamp,
   }) = OSKPStatusCanceled;
 
   /// There was an error while creating the tx, or the tx was rejected. In any

@@ -1,3 +1,16 @@
+## 1.67.0
+
+ - **FIX**: expand qr scanner button tap size (#837).
+ - **FIX**: update nav bar icons (#839).
+ - **FEAT**: provide only USDC for ramp (#846).
+ - **FEAT**: navigate to usdc token detail page from home (#842).
+ - **FEAT**: add ramp.network on-ramp method (#801).
+ - **FEAT**: improve activity screen tiles (#836).
+ - **FEAT**: update oskp status screen (#800).
+ - **FEAT**: add animation to transfer progress timeline (#805).
+ - **FEAT**: token search enhancements (#838).
+ - **FEAT**: add performance monitoring for watchers (#844).
+
 ## 1.66.0
 
  - **FIX**: popular token list cache mapping (#828).

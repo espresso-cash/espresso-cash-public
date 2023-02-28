@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../core/presentation/format_date.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -90,6 +91,13 @@ class _OSKPScreenState extends State<OSKPScreen> {
               variant: CpTextButtonVariant.light,
               onPressed: onCancel,
             ),
+          );
+
+          final created = payment.created;
+          final generatedLinksAt = payment.linksGeneratedAt;
+          final resolvedAt = payment.status.mapOrNull(
+            canceled: (e) => e.timestamp,
+            withdrawn: (e) => e.timestamp,
           );
 
           final List<Widget> actions = payment.status.maybeMap(
@@ -185,53 +193,43 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               0;
 
-          final creatingLinks = CpTimelineItem(
-            title: 'Creating links',
+          final paymentInitiated = CpTimelineItem(
+            title: 'Payment initiated',
             trailing: payment.amount.format(locale),
+            subtitle: created.let((t) => context.formatDate(t)),
           );
           final linksCreated = CpTimelineItem(
             title: context.l10n.splitKeyProgressCreated,
-            trailing: payment.amount.format(locale),
-          );
-          final waitingForReceiver = CpTimelineItem(
-            title: context.l10n.splitKeyProgressWaiting,
-          );
-          final fundsWithdrawn = CpTimelineItem(
-            title: context.l10n.splitKeyProgressWithdrawn,
+            subtitle: generatedLinksAt?.let((t) => context.formatDate(t)),
           );
           final paymentSuccess = CpTimelineItem(
             title: context.l10n.splitKeyProgressSuccess,
+            subtitle: resolvedAt?.let((t) => context.formatDate(t)),
           );
           final paymentCanceled = CpTimelineItem(
             title: context.l10n.splitKeyProgressCanceled,
+            subtitle: resolvedAt?.let((t) => context.formatDate(t)),
           );
 
-          final cancelingItems = [
+          final normalItems = [
+            paymentInitiated,
             linksCreated,
+            paymentSuccess,
+          ];
+          final cancelingItems = [
+            paymentInitiated,
             paymentCanceled,
           ];
 
           final items = payment.status.mapOrNull(
-                withdrawn: always([
-                  linksCreated,
-                  fundsWithdrawn,
-                  paymentSuccess,
-                ]),
-                linksReady: always([
-                  linksCreated,
-                  waitingForReceiver,
-                  paymentSuccess,
-                ]),
+                withdrawn: always(normalItems),
+                linksReady: always(normalItems),
                 canceled: always(cancelingItems),
                 cancelTxCreated: always(cancelingItems),
                 cancelTxFailure: always(cancelingItems),
                 cancelTxSent: always(cancelingItems),
               ) ??
-              [
-                creatingLinks,
-                waitingForReceiver,
-                paymentSuccess,
-              ];
+              normalItems;
 
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),

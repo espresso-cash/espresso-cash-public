@@ -7,13 +7,20 @@ import '../../../gen/assets.gen.dart';
 import '../src/bl/bloc.dart';
 import '../src/bl/repository.dart';
 
+enum FavoriteButtonVariant {
+  dark,
+  light,
+}
+
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({
     super.key,
     required this.token,
+    this.variant = FavoriteButtonVariant.dark,
   });
 
   final Token token;
+  final FavoriteButtonVariant variant;
 
   @override
   State<FavoriteButton> createState() => _FavoriteButtonState();
@@ -45,13 +52,22 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         builder: (context, data) {
           final isFavorite = data.data ?? false;
 
+          final icon = (() {
+            if (isFavorite) return Assets.icons.favorite.svg();
+
+            switch (widget.variant) {
+              case FavoriteButtonVariant.dark:
+                return Assets.icons.unfavorite.svg();
+              case FavoriteButtonVariant.light:
+                return Assets.icons.unfavoriteLight.svg();
+            }
+          })();
+
           return SizedBox.square(
             dimension: 26,
             child: IconButton(
               onPressed: () => _onPressed(isFavorite: isFavorite),
-              icon: isFavorite
-                  ? Assets.icons.favorite.svg()
-                  : Assets.icons.unfavorite.svg(),
+              icon: icon,
               padding: EdgeInsets.zero,
             ),
           );

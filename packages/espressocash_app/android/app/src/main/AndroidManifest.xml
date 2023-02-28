@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.pleasecrypto.flutter">
     <queries>
         <intent>
@@ -14,6 +15,7 @@
     <uses-permission android:name="com.solanamobile.seedvault.ACCESS_SEED_VAULT" />
 
     <application android:name="${applicationName}"
+        tools:replace="android:label"
         android:allowBackup="false"
         android:fullBackupContent="false"
         android:label="Espresso Cash"
