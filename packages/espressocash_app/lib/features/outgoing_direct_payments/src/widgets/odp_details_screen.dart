@@ -58,6 +58,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                 payment.amount.format(DeviceLocale.localeOf(context)),
               ),
               content: CpTimeline(
+                animated: false,
                 status: CpTimelineStatus.success,
                 active: 1,
                 items: [

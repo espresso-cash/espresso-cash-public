@@ -237,6 +237,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               normalItems;
 
+          final animated = timelineStatus == CpTimelineStatus.inProgress &&
+              payment.status.maybeMap(orElse: T, linksReady: F);
+
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),
             title: context.l10n.splitKeyTransferTitle,
@@ -251,6 +254,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                     status: timelineStatus,
                     items: items,
                     active: activeItem,
+                    animated: animated,
                   ),
                   const Spacer(flex: 4),
                   ...actions,
