@@ -26,7 +26,6 @@ import 'available_balance.dart';
 import 'components/display_header.dart';
 import 'components/equivalent_header.dart';
 import 'components/slippage_info.dart';
-import 'components/swap_fee.dart';
 import 'components/token_dropdown.dart';
 import 'create_swap_bloc.dart';
 
@@ -171,9 +170,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 inputAmount: state.inputAmount,
                 outputAmount: state.outputAmount,
                 isLoadingRoute: state.flowState.isProcessing(),
+                feeAmount: state.fee,
               ),
-              SwapFee(amount: state.fee),
-              const SizedBox(height: 16),
+              const SizedBox(height: 6),
               AvailableBalance(
                 maxAmountAvailable: _bloc.calculateMaxAmount(),
                 onMaxAmountRequested: widget.operation == SwapOperation.buy
@@ -197,7 +196,10 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               CpContentPadding(
                 child: CpSlider(
                   text: label,
-                  onSlideCompleted: state.bestRoute == null ? null : _onSubmit,
+                  onSlideCompleted: (state.bestRoute == null ||
+                          state.flowState.isProcessing())
+                      ? null
+                      : _onSubmit,
                 ),
               ),
             ],
