@@ -186,12 +186,18 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               CpTimelineStatus.inProgress;
 
-          final int activeItem = payment.status.mapOrNull(
-                withdrawn: always(2),
-                linksReady: always(1),
-                canceled: always(1),
-              ) ??
-              0;
+          final int activeItem = payment.status.map(
+            cancelTxFailure: always(0),
+            txFailure: always(0),
+            canceled: always(1),
+            txCreated: always(1),
+            txSent: always(1),
+            cancelTxCreated: always(1),
+            cancelTxSent: always(1),
+            txConfirmed: always(1),
+            withdrawn: always(2),
+            linksReady: always(2),
+          );
 
           final paymentInitiated = CpTimelineItem(
             title: 'Payment initiated',
