@@ -17,49 +17,14 @@ class TokenDropDown extends StatelessWidget {
   final Iterable<Token> availableTokens;
 
   @override
-  Widget build(BuildContext context) {
-    // Needed to keep dropdown opening downwards
-    final availableTokens = this.availableTokens.toList()
-      ..sort((t, _) => t == current ? 0 : 1);
-
-    const style = TextStyle(
-      fontSize: 15,
-      fontWeight: FontWeight.w700,
-    );
-
-    return Container(
-      height: _itemHeight,
-      width: _width,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      decoration: const ShapeDecoration(
-        shape: StadiumBorder(),
-        color: CpColors.greenDropdownEnabled,
-      ),
-      child: DropdownButton<Token>(
-        value: current,
-        style: style,
-        elevation: 0,
-        isExpanded: true,
-        itemHeight: _itemHeight + _spacing,
-        dropdownColor: Colors.transparent,
-        icon: const SizedBox.shrink(),
-        underline: const SizedBox.shrink(),
-        onChanged: (it) =>
-            it == null || it == current ? ignore : onTokenChanged(it),
-        items: availableTokens
-            .map(
-              (it) => DropdownMenuItem(
-                value: it,
-                child: _Item(label: it.symbol, selected: it == current),
-              ),
-            )
-            .toList(),
-        selectedItemBuilder: (context) => availableTokens
-            .map((it) => _Item(label: it.symbol, selected: true))
-            .toList(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: _TokenDropDown(
+          value: current,
+          onChanged: (it) => it == current ? ignore : onTokenChanged(it),
+          items: availableTokens.toList(),
+        ),
+      );
 }
 
 class _Item extends StatelessWidget {
@@ -67,14 +32,20 @@ class _Item extends StatelessWidget {
     Key? key,
     required this.label,
     required this.selected,
+    required this.onTap,
   }) : super(key: key);
 
   final String label;
+  final VoidCallback? onTap;
   final bool selected;
 
   @override
   Widget build(BuildContext context) {
-    final title = Text(label, textAlign: TextAlign.center);
+    const style = TextStyle(
+      fontSize: 15,
+      fontWeight: FontWeight.w700,
+    );
+    final title = Text(label, textAlign: TextAlign.center, style: style);
     final color = selected
         ? CpColors.greenDropdownEnabled
         : CpColors.greenDropdownDisabled;
@@ -93,13 +64,158 @@ class _Item extends StatelessWidget {
       child = Center(child: title);
     }
 
-    return Container(
+    return SizedBox(
       height: _itemHeight,
       width: _width,
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: ShapeDecoration(shape: const StadiumBorder(), color: color),
-      child: child,
+      child: TextButton(
+        onPressed: onTap,
+        style: TextButton.styleFrom(
+          elevation: 0,
+          foregroundColor: Colors.white,
+          backgroundColor: color,
+          shape: const StadiumBorder(),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+        ),
+        child: child,
+      ),
     );
+  }
+}
+
+class _TokenDropDown extends StatefulWidget {
+  const _TokenDropDown({
+    Key? key,
+    required this.onChanged,
+    required this.value,
+    required this.items,
+  }) : super(key: key);
+
+  final Token value;
+  final List<Token> items;
+  final void Function(Token) onChanged;
+
+  @override
+  State<_TokenDropDown> createState() => _TokenDropDownState();
+}
+
+class _TokenDropDownState extends State<_TokenDropDown>
+    with TickerProviderStateMixin {
+  final LayerLink _layerLink = LayerLink();
+  final ScrollController _scrollController =
+      ScrollController(initialScrollOffset: 0);
+  late OverlayEntry _overlayEntry;
+  bool _isOpen = false;
+  late AnimationController _animationController;
+  late Animation<double> _expandAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _expandAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => CompositedTransformTarget(
+        link: _layerLink,
+        child: _Item(
+          onTap: _toggleDropdown,
+          label: widget.value.symbol,
+          selected: true,
+        ),
+      );
+
+  OverlayEntry _createOverlayEntry() {
+    final renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+
+    final offset = renderBox.localToGlobal(Offset.zero);
+    final topOffset = offset.dy + size.height;
+
+    return OverlayEntry(
+      builder: (context) => GestureDetector(
+        onTap: () => _toggleDropdown(close: true),
+        behavior: HitTestBehavior.translucent,
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: [
+              Positioned(
+                left: offset.dx,
+                top: topOffset,
+                width: size.width,
+                child: CompositedTransformFollower(
+                  offset: Offset(0, size.height),
+                  link: _layerLink,
+                  showWhenUnlinked: false,
+                  child: Material(
+                    elevation: 0,
+                    color: Colors.transparent,
+                    shape: const StadiumBorder(),
+                    child: SizeTransition(
+                      axisAlignment: 1,
+                      sizeFactor: _expandAnimation,
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        controller: _scrollController,
+                        children: widget.items
+                            .where((e) => e != widget.value)
+                            .map(
+                              (item) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: _spacing,
+                                ),
+                                child: _Item(
+                                  onTap: () {
+                                    widget.onChanged.call(item);
+                                    _toggleDropdown();
+                                  },
+                                  label: item.symbol,
+                                  selected: widget.value == item,
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _toggleDropdown({bool close = false}) async {
+    if (_isOpen || close) {
+      await _animationController.reverse();
+      _overlayEntry.remove();
+      setState(() {
+        _isOpen = false;
+      });
+    } else {
+      _overlayEntry = _createOverlayEntry();
+      Overlay.of(context).insert(_overlayEntry);
+      setState(() => _isOpen = true);
+      await _animationController.forward();
+    }
   }
 }
 
