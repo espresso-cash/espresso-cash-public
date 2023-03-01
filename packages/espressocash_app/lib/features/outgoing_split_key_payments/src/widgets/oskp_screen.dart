@@ -186,12 +186,18 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               CpTimelineStatus.inProgress;
 
-          final int activeItem = payment.status.mapOrNull(
-                withdrawn: always(2),
-                linksReady: always(1),
-                canceled: always(1),
-              ) ??
-              0;
+          final int activeItem = payment.status.map(
+            cancelTxFailure: always(0),
+            txFailure: always(0),
+            canceled: always(1),
+            txCreated: always(1),
+            txSent: always(1),
+            cancelTxCreated: always(1),
+            cancelTxSent: always(1),
+            txConfirmed: always(1),
+            linksReady: always(1),
+            withdrawn: always(2),
+          );
 
           final paymentInitiated = CpTimelineItem(
             title: 'Payment initiated',
@@ -231,6 +237,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
               ) ??
               normalItems;
 
+          final animated = timelineStatus == CpTimelineStatus.inProgress &&
+              payment.status.maybeMap(orElse: T, linksReady: F);
+
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),
             title: context.l10n.splitKeyTransferTitle,
@@ -245,6 +254,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                     status: timelineStatus,
                     items: items,
                     active: activeItem,
+                    animated: animated,
                   ),
                   const Spacer(flex: 4),
                   ...actions,

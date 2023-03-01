@@ -27,6 +27,7 @@ class CpTimeline extends StatefulWidget {
     required this.items,
     required this.status,
     required this.active,
+    required this.animated,
   })  : assert(items.length > 0, 'Items must not be empty'),
         assert(
           active >= 0 && active < items.length,
@@ -36,6 +37,7 @@ class CpTimeline extends StatefulWidget {
   final List<CpTimelineItem> items;
   final CpTimelineStatus status;
   final int active;
+  final bool animated;
 
   @override
   State<CpTimeline> createState() => _State();
@@ -61,10 +63,10 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final animated = widget.status == CpTimelineStatus.inProgress;
-    final lastIconIndex = widget.status == CpTimelineStatus.inProgress
-        ? widget.active - 1
-        : widget.active;
+    final lastIconIndex =
+        widget.status == CpTimelineStatus.inProgress && widget.animated
+            ? widget.active - 1
+            : widget.active;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -77,7 +79,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
         _AnimationTransformer? indicatorTransformer;
         _AnimationTransformer? connectorTransformer;
 
-        if (animated) {
+        if (widget.animated) {
           if (index == widget.active) {
             indicatorTransformer = _lowerIndicatorTransformer;
           } else if (index == widget.active - 1) {
