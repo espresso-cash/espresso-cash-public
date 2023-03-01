@@ -521,5 +521,6 @@
   "activityStatusSuccess": "Success",
   "activityStatusFailure": "Failure",
   "activityStatusInProgress": "In Progress",
-  "activityStatusCanceled": "Canceled"
+  "activityStatusCanceled": "Canceled",
+  "enterAmount": "Enter amount"
 }
