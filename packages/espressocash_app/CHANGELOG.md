@@ -1,3 +1,11 @@
+## 1.68.0
+
+ - **FIX**: swap token dropdown splash (#852).
+ - **FIX**: wrap tip link with dynamic links (#840).
+ - **FIX**: update transfer progress screen (#847).
+ - **FEAT**: swap hide fees and button when searching route (#849).
+ - **FEAT**: update swap label when amount is zero (#821).
+
 ## 1.67.0
 
  - **FIX**: expand qr scanner button tap size (#837).
