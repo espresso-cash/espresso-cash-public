@@ -22,9 +22,9 @@ class AccountsModule extends SingleChildStatelessWidget {
         create: (context) =>
             sl<AccountsBloc>()..add(const AccountsEvent.initialize()),
         child: SeedVaultListener(
-          // TODO(rhbrunetto): fix it.
-          onDeauthorized: () =>
-              context.read<AccountsBloc>().add(const AccountsEvent.loggedOut()),
+          // TODO(rhbrunetto): we need to handle when the Seed Vault
+          //deauthorizes the app.
+          onDeauthorized: ignore,
           child: child,
         ),
       );
