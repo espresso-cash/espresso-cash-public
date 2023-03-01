@@ -108,7 +108,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emit(state.copyWith(processingState: const Flow.processing()));
     try {
       final wallet = await state.source.when(
-        local: (it) => createLocalWallet(mnemonic: it.phrase, account: 0),
+        local: (it) => createLocalWallet(mnemonic: it.phrase),
         saga: (it) => createSagaWallet(_seedVault, it),
       );
 

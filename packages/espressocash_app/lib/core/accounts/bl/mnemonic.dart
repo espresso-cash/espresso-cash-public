@@ -24,6 +24,5 @@ extension MnemonicExt on Mnemonic {
 @freezed
 class AccountSource with _$AccountSource {
   const factory AccountSource.local(Mnemonic mnemonic) = AccountSourceLocal;
-
   const factory AccountSource.saga(AuthToken token) = AccountSourceSaga;
 }

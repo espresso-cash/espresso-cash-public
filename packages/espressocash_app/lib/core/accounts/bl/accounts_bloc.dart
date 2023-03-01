@@ -170,7 +170,7 @@ extension on FlutterSecureStorage {
     if (authToken != null) {
       wallet = await restoreSagaWallet(authToken, seedVault);
     } else if (mnemonic.isNotEmpty) {
-      wallet = await createLocalWallet(mnemonic: mnemonic, account: 0);
+      wallet = await createLocalWallet(mnemonic: mnemonic);
     } else {
       return null;
     }
