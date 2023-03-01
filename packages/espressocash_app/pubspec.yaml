@@ -60,7 +60,7 @@ dependencies:
   rxdart: ^0.27.1
   sentry_flutter: ^6.13.1
   share: ^2.0.4
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.0.18
   sliver_tools: ^0.2.8
   solana:
     path: ../solana/
