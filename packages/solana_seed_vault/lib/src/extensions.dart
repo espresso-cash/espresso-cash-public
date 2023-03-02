@@ -12,7 +12,7 @@ import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 extension SeedVaultHelperExt on SeedVault {
   Future<List<Seed>> getParsedAuthorizedSeeds({
-    AccountFilter accountFilter = const AccountFilter.byIsUserWallet(true),
+    AccountFilter accountFilter = const AccountFilter(),
   }) async {
     final result = await getAuthorizedSeeds();
 
@@ -23,7 +23,7 @@ extension SeedVaultHelperExt on SeedVault {
 
   Future<Seed> getParsedAuthorizedSeed(
     AuthToken authToken, {
-    AccountFilter accountFilter = const AccountFilter.byIsUserWallet(true),
+    AccountFilter accountFilter = const AccountFilter(),
   }) =>
       getAuthorizedSeed(authToken: authToken)
           .letAsync((it) => it.cursorToSeed(this, accountFilter));
