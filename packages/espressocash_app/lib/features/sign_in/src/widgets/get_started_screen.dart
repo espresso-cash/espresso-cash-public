@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../../core/extensions.dart';
+import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/bullet_item.dart';
@@ -77,7 +78,7 @@ class _Footer extends StatefulWidget {
 
 class _FooterState extends State<_Footer> {
   Future<void> _onCreateWallet() async {
-    final hasSeedVault = await context.read<SeedVault>().isReady();
+    final hasSeedVault = await sl<SeedVault>().isReady();
     if (!mounted) return;
 
     final event = hasSeedVault
@@ -88,7 +89,7 @@ class _FooterState extends State<_Footer> {
   }
 
   Future<void> _onExistingWallet() async {
-    final hasSeedVault = await context.read<SeedVault>().isReady();
+    final hasSeedVault = await sl<SeedVault>().isReady();
     if (!mounted) return;
 
     if (hasSeedVault) {
