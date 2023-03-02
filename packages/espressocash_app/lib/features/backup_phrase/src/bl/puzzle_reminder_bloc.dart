@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 
 part 'puzzle_reminder_bloc.freezed.dart';
 part 'puzzle_reminder_bloc.g.dart';
@@ -53,24 +54,32 @@ class PuzzleReminderBloc
   Future<void> _onCheckRequested(
     PuzzleReminderEventCheckRequested event,
     Emitter<PuzzleReminderState> emit,
-  ) =>
-      event.accessMode.when(
-        // Don't set a reminder if user logged in (they already know the seed)
-        seedInputted: () async => add(const PuzzleReminderEvent.solved()),
-        // Postpone the reminder by 1 day if user created account now
-        created: () async => add(
-          const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1)),
-        ),
-        // Check for reminder if user account was loaded from storage
-        loaded: () async {
-          final data = await _readSharedPreferences();
+  ) async {
+    if (event.wallet is SagaWallet) {
+      // Don't set a reminder if wallet is from Saga
+      add(const PuzzleReminderEvent.solved());
 
-          if (data.shouldRemindNow) {
-            emit(const PuzzleReminderState.remindNow());
-            emit(const PuzzleReminderState.none());
-          }
-        },
-      );
+      return;
+    }
+
+    await event.accessMode.when(
+      // Don't set a reminder if user logged in (they already know the seed)
+      seedInputted: () async => add(const PuzzleReminderEvent.solved()),
+      // Postpone the reminder by 1 day if user created account now
+      created: () async => add(
+        const PuzzleReminderEvent.postponed(postponedBy: Duration(days: 1)),
+      ),
+      // Check for reminder if user account was loaded from storage
+      loaded: () async {
+        final data = await _readSharedPreferences();
+
+        if (data.shouldRemindNow) {
+          emit(const PuzzleReminderState.remindNow());
+          emit(const PuzzleReminderState.none());
+        }
+      },
+    );
+  }
 
   /// Mark the reminder as postponed and set a date time in which to remind
   Future<void> _onPostponed(PuzzleReminderEventPostponed event) async {
