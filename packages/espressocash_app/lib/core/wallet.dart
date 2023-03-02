@@ -47,11 +47,11 @@ extension on List<Account> {
     /// - account, that is set to 0 reffering the first indexed account
     /// - change, that is set to 0 reffering external addresses only
     final uri = Bip32DerivationPath.toUri(
-      [
-        const BipLevel(index: 44, hardened: true),
-        const BipLevel(index: 501, hardened: true),
-        const BipLevel(index: 0, hardened: true),
-        const BipLevel(index: 0, hardened: true),
+      const [
+        BipLevel(index: 44, hardened: true),
+        BipLevel(index: 501, hardened: true),
+        BipLevel(index: 0, hardened: true),
+        BipLevel(index: 0, hardened: true),
       ],
     );
 

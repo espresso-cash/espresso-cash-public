@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -51,8 +52,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
       add(const SignInSubmitted(name: 'My Wallet'));
+    } on PlatformException {
+      emit(state.toSeedVaultException());
     } on Exception catch (e) {
-      emit(state.copyWith(processingState: Flow.failure(e)));
+      emit(state.toGenericException(e));
     }
   }
 
@@ -73,8 +76,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       emit(state.copyWith(source: AccountSource.saga(token)));
       add(const SignInSubmitted(name: 'My Wallet'));
+    } on PlatformException {
+      emit(state.toSeedVaultException());
     } on Exception catch (e) {
-      emit(state.copyWith(processingState: Flow.failure(e)));
+      emit(state.toGenericException(e));
     }
   }
 
@@ -141,7 +146,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
     } on Exception catch (e) {
-      emit(state.copyWith(processingState: Flow.failure(e)));
+      emit(state.toGenericException(e));
     }
 
     emit(state.copyWith(processingState: const Flow.initial()));
@@ -154,7 +159,7 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 class SignInState with _$SignInState {
   const factory SignInState({
     @Default(AccountSource.local(Mnemonic.empty())) AccountSource source,
-    required Flow<Exception, SignInResult> processingState,
+    required Flow<SignInException, SignInResult> processingState,
   }) = _SignInState;
 }
 
@@ -182,4 +187,21 @@ class SignInEvent with _$SignInEvent {
     required String name,
     File? photo,
   }) = SignInSubmitted;
+}
+
+@freezed
+class SignInException with _$SignInException implements Exception {
+  const factory SignInException.seedVaultActionCanceled() = _ActionCanceled;
+  const factory SignInException.generic(Exception e) = _Generic;
+}
+
+extension on SignInState {
+  SignInState toGenericException(Exception e) => copyWith(
+        processingState: Flow.failure(SignInException.generic(e)),
+      );
+
+  SignInState toSeedVaultException() => copyWith(
+        processingState:
+            const Flow.failure(SignInException.seedVaultActionCanceled()),
+      );
 }

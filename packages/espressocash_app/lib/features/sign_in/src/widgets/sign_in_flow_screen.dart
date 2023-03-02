@@ -37,7 +37,10 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
         ],
         child: BlocConsumer<SignInBloc, SignInState>(
           listener: (context, state) => state.processingState.maybeWhen(
-            failure: (e) => showErrorDialog(context, 'Error', e),
+            failure: (it) => it.when(
+              seedVaultActionCanceled: ignore,
+              generic: (e) => showErrorDialog(context, 'Error', e),
+            ),
             success: (result) => context.read<AccountsBloc>().add(
                   AccountsEvent.created(
                     account: result.account,
