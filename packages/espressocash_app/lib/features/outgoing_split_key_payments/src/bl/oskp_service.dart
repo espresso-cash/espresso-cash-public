@@ -62,7 +62,10 @@ class OSKPService {
 
     final OSKPStatus newStatus;
     if (status is OSKPStatusTxFailure) {
-      newStatus = const OSKPStatus.canceled(txId: null);
+      newStatus = OSKPStatus.canceled(
+        txId: null,
+        timestamp: DateTime.now(),
+      );
     } else {
       final escrow = status.mapOrNull(
         linksReady: (it) => it.escrow,

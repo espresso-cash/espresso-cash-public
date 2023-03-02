@@ -34,14 +34,19 @@ class TxReadyWatcher {
           final tx = txDetails.transaction as ParsedTransaction;
           final txId = tx.id;
 
+          final timestamp = txDetails.blockTime?.let(
+                (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+              ) ??
+              DateTime.now();
+
           final newStatus = await txDetails.getInnerDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.cryptoCurrency.token.publicKey,
                     ).then((it) => it.toBase58()).then(accounts.contains),
                   )
-              ? OSKPStatus.canceled(txId: txId)
-              : OSKPStatus.withdrawn(txId: txId);
+              ? OSKPStatus.canceled(txId: txId, timestamp: timestamp)
+              : OSKPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
           await _repository.save(payment.copyWith(status: newStatus));
           await _subscriptions[payment.id]?.cancel();

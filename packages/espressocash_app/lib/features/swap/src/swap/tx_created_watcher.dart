@@ -19,15 +19,15 @@ class TxCreatedWatcher extends SwapWatcher {
   final TxSender _sender;
 
   @override
-  CancelableJob<Swap> createJob(Swap swap) => _Job(swap, _sender);
+  CancelableJob<Swap> createJob(Swap swap) => _SwapTxCreatedJob(swap, _sender);
 
   @override
   Stream<IList<Swap>> watchSwaps(SwapRepository repository) =>
       repository.watchTxCreated();
 }
 
-class _Job extends CancelableJob<Swap> {
-  _Job(this.swap, this.sender);
+class _SwapTxCreatedJob extends CancelableJob<Swap> {
+  _SwapTxCreatedJob(this.swap, this.sender);
 
   final Swap swap;
   final TxSender sender;
