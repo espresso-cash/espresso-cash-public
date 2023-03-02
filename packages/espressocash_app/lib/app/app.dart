@@ -8,6 +8,7 @@ import '../core/accounts/bl/accounts_bloc.dart';
 import '../core/analytics/analytics_manager.dart';
 import '../di.dart';
 import '../features/app_lock/module.dart';
+import '../features/onboarding/module.dart';
 import '../routes.gr.dart';
 import '../ui/theme.dart';
 
@@ -19,7 +20,15 @@ class CryptopleaseApp extends StatefulWidget {
 }
 
 class _CryptopleaseAppState extends State<CryptopleaseApp> {
-  final _router = AppRouter();
+  late final AppRouter _router;
+
+  @override
+  void initState() {
+    super.initState();
+    _router = AppRouter(
+      recoveryPhraseGuard: RecoveryPhraseGuard(context.read<AccountsBloc>()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
