@@ -21,11 +21,13 @@ class AccountsModule extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
         create: (context) =>
             sl<AccountsBloc>()..add(const AccountsEvent.initialize()),
-        child: SeedVaultListener(
-          // TODO(rhbrunetto): we need to handle when the Seed Vault
-          //deauthorizes the app.
-          onDeauthorized: ignore,
-          child: child,
+        child: Builder(
+          builder: (context) => SeedVaultListener(
+            onDeauthorized: () => context
+                .read<AccountsBloc>()
+                .add(const AccountsEvent.loggedOut()),
+            child: child,
+          ),
         ),
       );
 }
