@@ -80,14 +80,11 @@ class _FooterState extends State<_Footer> {
     final hasSeedVault = await context.read<SeedVault>().isReady();
     if (!mounted) return;
 
-    final SignInEvent signInEvent;
-    if (hasSeedVault) {
-      signInEvent = const SignInEvent.newSagaWalletRequested();
-    } else {
-      signInEvent = const SignInEvent.phraseRequested();
-    }
+    final event = hasSeedVault
+        ? const SignInEvent.newSagaWalletRequested()
+        : const SignInEvent.phraseRequested();
 
-    context.read<SignInBloc>().add(signInEvent);
+    context.read<SignInBloc>().add(event);
   }
 
   Future<void> _onExistingWallet() async {

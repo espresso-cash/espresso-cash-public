@@ -20,12 +20,7 @@ part 'sign_in_bloc.freezed.dart';
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(this._fileManager, this._seedVault)
-      // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
-      // to a parameter of type 'Flow<Exception, SignInResult>' in a const
-      // constructor.
-      //
-      //ignore: prefer_const_constructors, some bug in analyzer
-      : super(SignInState(processingState: Flow.initial())) {
+      : super(const SignInState(processingState: Flow.initial())) {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
@@ -67,7 +62,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final canAuthorizeSeed =
           await _seedVault.hasUnauthorizedSeedsForPurpose(purpose);
 
-      // TODO(rhbrunetto): fix it
       if (canAuthorizeSeed) {
         token = await _seedVault.authorizeSeed(purpose);
       } else {
