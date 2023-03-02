@@ -20,7 +20,12 @@ part 'sign_in_bloc.freezed.dart';
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
   SignInBloc(this._fileManager, this._seedVault)
-      : super(const SignInState(processingState: Flow.initial())) {
+      // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
+      // to a parameter of type 'Flow<Exception, SignInResult>' in a const
+      // constructor.
+      //
+      //ignore: prefer_const_constructors, some bug in analyzer
+      : super(SignInState(processingState: Flow.initial())) {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
@@ -29,15 +34,16 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
-            newSagaWalletRequested: (_) => _onNewSagaWalletRequested(emit),
+            submitted: (event) => _onSubmitted(event, emit),
+            sagaWalletRequested: (_) => _onSagaWalletRequested(emit),
+            localWalletRequested: (_) => _onLocalWalletRequested(emit),
             existingSagaWalletRequested: (_) =>
                 _onExistingSagaWalletRequested(emit),
-            phraseRequested: (_) => _onPhraseRequested(emit),
-            phraseUpdated: (event) => _onPhraseUpdated(event, emit),
-            submitted: (event) => _onSubmitted(event, emit),
+            existingLocalWalletRequested: (event) =>
+                _onExistingLocalWalletRequested(event, emit),
           );
 
-  Future<void> _onNewSagaWalletRequested(Emitter<SignInState> emit) async {
+  Future<void> _onSagaWalletRequested(Emitter<SignInState> emit) async {
     try {
       emit(
         state.copyWith(
@@ -59,10 +65,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final AuthToken token;
       const purpose = Purpose.signSolanaTransaction;
 
-      final canAuthorizeSeed =
-          await _seedVault.hasUnauthorizedSeedsForPurpose(purpose);
-
-      if (canAuthorizeSeed) {
+      if (await _seedVault.hasUnauthorizedSeedsForPurpose(purpose)) {
         token = await _seedVault.authorizeSeed(purpose);
       } else {
         token = await _seedVault.importSeed(purpose);
@@ -77,7 +80,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     }
   }
 
-  Future<void> _onPhraseRequested(Emitter<SignInState> emit) async {
+  Future<void> _onLocalWalletRequested(Emitter<SignInState> emit) async {
     emit(
       state.copyWith(
         source: bip39
@@ -89,8 +92,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     add(const SignInSubmitted(name: 'My Wallet'));
   }
 
-  Future<void> _onPhraseUpdated(
-    SignInPhraseUpdated event,
+  Future<void> _onExistingLocalWalletRequested(
+    SignInExistingLocalWalletRequested event,
     Emitter<SignInState> emit,
   ) async {
     emit(
@@ -167,15 +170,15 @@ class SignInResult with _$SignInResult {
 
 @freezed
 class SignInEvent with _$SignInEvent {
-  const factory SignInEvent.newSagaWalletRequested() =
-      SignInNewSagaWalletRequested;
+  const factory SignInEvent.sagaWalletRequested() = SignInSagaWalletRequested;
 
   const factory SignInEvent.existingSagaWalletRequested() =
       SignInExistingSagaWalletRequested;
 
-  const factory SignInEvent.phraseRequested() = SignInPhraseRequested;
+  const factory SignInEvent.localWalletRequested() = SignInLocalWalletRequested;
 
-  const factory SignInEvent.phraseUpdated(String phrase) = SignInPhraseUpdated;
+  const factory SignInEvent.existingLocalWalletRequested(String phrase) =
+      SignInExistingLocalWalletRequested;
 
   const factory SignInEvent.submitted({
     required String name,
