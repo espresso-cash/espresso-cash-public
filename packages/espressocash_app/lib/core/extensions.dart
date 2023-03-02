@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
@@ -36,4 +37,9 @@ extension SeedVaultExt on SeedVault {
       isUserWallet: true,
     );
   }
+
+  Future<bool> hasAccessToAccount(AuthToken authToken, Account account) =>
+      getAccount(authToken: authToken, id: account.id, projection: const [])
+          .toEither()
+          .foldAsync(F, T);
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
@@ -9,6 +8,7 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../di.dart';
 import '../callback.dart';
+import '../extensions.dart';
 import 'bl/account.dart';
 import 'bl/accounts_bloc.dart';
 import 'bl/ec_wallet.dart';
@@ -23,9 +23,9 @@ class AccountsModule extends SingleChildStatelessWidget {
             sl<AccountsBloc>()..add(const AccountsEvent.initialize()),
         child: Builder(
           builder: (context) => SeedVaultListener(
-            onDeauthorized: () => context
-                .read<AccountsBloc>()
-                .add(const AccountsEvent.loggedOut()),
+            onDeauthorized: () {
+              context.read<AccountsBloc>().add(const AccountsEvent.loggedOut());
+            },
             child: child,
           ),
         ),
@@ -81,23 +81,26 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
   void _onUpdateAccount(MyAccount? account) {
     _subscription?.cancel();
 
-    if (account == null) return;
+    final sagaWallet =
+        account?.wallet.let((it) => it is SagaWallet ? it : null);
 
-    final affectedUri = account.wallet
-        .let((it) => it is SagaWallet ? it : null)
-        .maybeFlatMap((it) => it.token.toString())
-        .maybeFlatMap(WalletContractV1().authorizedSeedsContentUri.append);
-
-    if (affectedUri == null) return;
+    if (sagaWallet == null) return;
 
     _subscription = sl<SeedVault>()
         .notificationStream
-        .listen((event) => _onNotification(event, affectedUri));
+        .listen((event) => _onNotification(event, sagaWallet));
   }
 
-  void _onNotification(SeedVaultNotification event, Uri uri) {
-    if (!event.uris.contains(uri)) return;
-    widget.onDeauthorized();
+  Future<void> _onNotification(
+    SeedVaultNotification event,
+    SagaWallet wallet,
+  ) async {
+    if (event.uris.toSet().intersection(_affectedUris).isEmpty) return;
+
+    final accountExistsAndIsAuthorized =
+        await sl<SeedVault>().hasAccessToAccount(wallet.token, wallet.account);
+
+    if (!accountExistsAndIsAuthorized) widget.onDeauthorized();
   }
 
   @override
@@ -109,8 +112,9 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
       );
 }
 
-extension on Uri {
-  Uri append(String segment) => replace(
-        pathSegments: pathSegments.toIList().add(segment),
-      );
-}
+final _affectedUris = WalletContractV1().let(
+  (it) => {
+    it.unauthorizedSeedsContentUri,
+    it.accountsContentUri,
+  },
+);
