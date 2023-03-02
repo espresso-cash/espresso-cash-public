@@ -39,12 +39,8 @@ Future<void> main() async {
   blocTest<AccountsBloc, AccountsState>(
     'Tries to load account from storage',
     setUp: () {
-      when(
-        storage.read(
-          key: anyNamed('key'),
-          iOptions: anyNamed('iOptions'),
-        ),
-      ).thenAnswer((_) async => null);
+      when(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
+          .thenAnswer((_) async => null);
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
@@ -57,12 +53,8 @@ Future<void> main() async {
       const AccountsState(),
     ],
     verify: (_) {
-      verify(
-        storage.read(
-          key: anyNamed('key'),
-          iOptions: anyNamed('iOptions'),
-        ),
-      ).called(3);
+      verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
+          .called(3);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
@@ -101,10 +93,7 @@ Future<void> main() async {
           (AccountsState a) => a.account?.address == testAccount.address,
           'has correct account address',
         ),
-        predicate(
-          (AccountsState a) => !a.isProcessing,
-          'is not processing',
-        ),
+        predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
         predicate(
           (AccountsState a) => a.hasFinishedOnboarding,
           'has finished onboarding',
@@ -136,10 +125,7 @@ Future<void> main() async {
           (AccountsState a) => a.account?.address == testAccount.address,
           'has correct account address',
         ),
-        predicate(
-          (AccountsState a) => !a.isProcessing,
-          'is not processing',
-        ),
+        predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
         predicate(
           (AccountsState a) => !a.hasFinishedOnboarding,
           'has not finished onboarding',
