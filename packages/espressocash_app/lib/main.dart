@@ -37,7 +37,9 @@ Future<void> main() async {
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
           (options) {
-            options.dsn = sentryDsn;
+            options
+              ..dsn = sentryDsn
+              ..tracesSampleRate = 1.0;
           },
           appRunner: _start,
         )

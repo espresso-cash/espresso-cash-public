@@ -22,7 +22,7 @@ class TxCreatedWatcher extends PaymentWatcher {
   CancelableJob<OutgoingDirectPayment> createJob(
     OutgoingDirectPayment payment,
   ) =>
-      _Job(payment, _sender);
+      _ODPTxCreatedJob(payment, _sender);
 
   @override
   Stream<IList<OutgoingDirectPayment>> watchPayments(
@@ -31,8 +31,8 @@ class TxCreatedWatcher extends PaymentWatcher {
       repository.watchTxCreated();
 }
 
-class _Job extends CancelableJob<OutgoingDirectPayment> {
-  _Job(this.payment, this.sender);
+class _ODPTxCreatedJob extends CancelableJob<OutgoingDirectPayment> {
+  _ODPTxCreatedJob(this.payment, this.sender);
 
   final OutgoingDirectPayment payment;
   final TxSender sender;

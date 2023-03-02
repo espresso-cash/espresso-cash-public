@@ -3,25 +3,63 @@ import 'package:flutter_svg/svg.dart';
 
 import 'colors.dart';
 
+enum CpIconButtonVariant {
+  dark,
+  grey,
+  light,
+}
+
+enum CpIconButtonSize {
+  normal,
+  small,
+  micro,
+}
+
 class CpIconButton extends StatelessWidget {
   const CpIconButton({
     Key? key,
     required this.icon,
     required this.onPressed,
+    this.variant = CpIconButtonVariant.grey,
+    this.size = CpIconButtonSize.normal,
   }) : super(key: key);
 
   final SvgPicture icon;
   final VoidCallback onPressed;
+  final CpIconButtonVariant variant;
+  final CpIconButtonSize size;
+
+  Color get _backgroundColor {
+    switch (variant) {
+      case CpIconButtonVariant.dark:
+        return CpColors.yellowColor;
+      case CpIconButtonVariant.grey:
+        return CpColors.greyIconBackgroundColor;
+      case CpIconButtonVariant.light:
+        return Colors.white;
+    }
+  }
+
+  double get _size {
+    switch (size) {
+      case CpIconButtonSize.normal:
+        return 34;
+      case CpIconButtonSize.small:
+        return 28;
+      case CpIconButtonSize.micro:
+        return 22;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 34,
-        decoration: const ShapeDecoration(
-          shape: CircleBorder(),
-          color: CpColors.greyIconBackgroundColor,
+        width: _size,
+        decoration: ShapeDecoration(
+          shape: const CircleBorder(),
+          color: _backgroundColor,
         ),
         child: IconButton(
-          iconSize: 15,
+          padding: const EdgeInsets.all(6),
           icon: icon,
           onPressed: onPressed,
         ),

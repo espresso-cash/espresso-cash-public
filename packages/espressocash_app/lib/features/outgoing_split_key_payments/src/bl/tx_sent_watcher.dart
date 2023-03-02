@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../core/cancelable_job.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -21,7 +22,7 @@ class TxSentWatcher extends PaymentWatcher {
   CancelableJob<OutgoingSplitKeyPayment> createJob(
     OutgoingSplitKeyPayment payment,
   ) =>
-      _Job(payment, _sender);
+      _OSKPSentJob(payment, _sender);
 
   @override
   Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
@@ -30,8 +31,8 @@ class TxSentWatcher extends PaymentWatcher {
       repository.watchTxSent();
 }
 
-class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
-  _Job(this.payment, this.sender);
+class _OSKPSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
+  _OSKPSentJob(this.payment, this.sender);
 
   final OutgoingSplitKeyPayment payment;
   final TxSender sender;
@@ -48,7 +49,11 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
     final OSKPStatus? newStatus = tx.map(
       success: (_) => OSKPStatus.txConfirmed(escrow: status.escrow),
       failure: (tx) => OSKPStatus.txFailure(reason: tx.reason),
-      networkError: (_) => null,
+      networkError: (_) {
+        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+
+        return null;
+      },
     );
 
     if (newStatus == null) {

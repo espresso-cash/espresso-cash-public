@@ -11,6 +11,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
+import '../../../../ui/icon_button.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/text_field.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
@@ -77,11 +78,11 @@ class _ContentState extends State<_Content> {
   }
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        child: Column(
-          children: [
-            CpTextField(
+  Widget build(BuildContext context) => Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: CpTextField(
               controller: _controller,
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               fontSize: 14,
@@ -90,43 +91,58 @@ class _ContentState extends State<_Content> {
               backgroundColor: const Color(0xffEFEFEF),
               inputType: TextInputType.text,
               prefix: Assets.icons.searchButtonIcon.svg(),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
-                builder: (context, state) => Column(
-                  children: [
-                    if (_selected != null || state.isInitial())
-                      DiscoverHeader(
-                        selected: _selected,
-                        onTap: onCategoryTap,
-                      ),
-                    Expanded(
-                      child: Center(
-                        child: state.when(
-                          failure: (_) => Text(context.l10n.failedToSearch),
-                          initial: Container.new,
-                          processing: LoadingIndicator.new,
-                          success: (result) {
-                            if (result.isEmpty) {
-                              return Text(context.l10n.emptySearch);
-                            }
-
-                            return ListView.builder(
-                              itemCount: result.length,
-                              itemBuilder: (context, index) =>
-                                  _TokenItem(result[index]),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ],
+              suffix: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: CpIconButton(
+                  icon: Assets.icons.closeButtonIconLight.svg(),
+                  onPressed: _controller.clear,
+                  variant: CpIconButtonVariant.light,
+                  size: CpIconButtonSize.micro,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          Expanded(
+            child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
+              builder: (context, state) => Column(
+                children: [
+                  if (_selected != null || state.isInitial())
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 16,
+                      ),
+                      child: DiscoverHeader(
+                        selected: _selected,
+                        onTap: onCategoryTap,
+                      ),
+                    ),
+                  Expanded(
+                    child: Center(
+                      child: state.when(
+                        failure: (_) => Text(context.l10n.failedToSearch),
+                        initial: Container.new,
+                        processing: LoadingIndicator.new,
+                        success: (result) {
+                          if (result.isEmpty) {
+                            return Text(context.l10n.emptySearch);
+                          }
+
+                          return ListView.builder(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            itemCount: result.length,
+                            itemBuilder: (context, index) =>
+                                _TokenItem(result[index]),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       );
 }
 
@@ -165,7 +181,10 @@ class _TokenItem extends StatelessWidget {
               _TokenSymbolWidget(token.symbol),
             ],
           ),
-          trailing: FavoriteButton(token: token),
+          trailing: FavoriteButton(
+            token: token,
+            variant: FavoriteButtonVariant.light,
+          ),
         ),
       );
 }

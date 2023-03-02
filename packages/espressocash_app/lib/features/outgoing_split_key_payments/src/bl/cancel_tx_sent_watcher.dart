@@ -21,7 +21,7 @@ class CancelTxSentWatcher extends PaymentWatcher {
   CancelableJob<OutgoingSplitKeyPayment> createJob(
     OutgoingSplitKeyPayment payment,
   ) =>
-      _Job(payment, _sender);
+      _OSKPCancelTxSentJob(payment, _sender);
 
   @override
   Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
@@ -30,8 +30,8 @@ class CancelTxSentWatcher extends PaymentWatcher {
       repository.watchCancelTxSent();
 }
 
-class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
-  _Job(this.payment, this.sender);
+class _OSKPCancelTxSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
+  _OSKPCancelTxSentJob(this.payment, this.sender);
 
   final OutgoingSplitKeyPayment payment;
   final TxSender sender;
@@ -46,7 +46,10 @@ class _Job extends CancelableJob<OutgoingSplitKeyPayment> {
     final tx = await sender.wait(status.tx, minContextSlot: status.slot);
 
     final OSKPStatus? newStatus = tx.map(
-      success: (_) => OSKPStatus.canceled(txId: status.tx.id),
+      success: (_) => OSKPStatus.canceled(
+        txId: status.tx.id,
+        timestamp: DateTime.now(),
+      ),
       failure: (tx) => OSKPStatus.cancelTxFailure(
         reason: tx.reason,
         escrow: status.escrow,

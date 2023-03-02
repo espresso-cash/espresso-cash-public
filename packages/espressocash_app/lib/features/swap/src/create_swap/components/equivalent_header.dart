@@ -4,6 +4,7 @@ import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
+import 'swap_fee.dart';
 
 class EquivalentHeader extends StatelessWidget {
   const EquivalentHeader({
@@ -11,11 +12,13 @@ class EquivalentHeader extends StatelessWidget {
     required this.inputAmount,
     required this.outputAmount,
     required this.isLoadingRoute,
+    required this.feeAmount,
   }) : super(key: key);
 
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
   final bool isLoadingRoute;
+  final CryptoAmount feeAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +37,23 @@ class EquivalentHeader extends StatelessWidget {
       );
 
       content = FittedBox(
-        child: Text(
-          context.l10n.swapEquivalent(formattedInput, formattedOutput),
-          maxLines: 1,
-          style: const TextStyle(fontSize: 15),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              context.l10n.swapEquivalent(formattedInput, formattedOutput),
+              maxLines: 1,
+              style: const TextStyle(fontSize: 15),
+            ),
+            const SizedBox(height: 6),
+            SwapFee(amount: feeAmount)
+          ],
         ),
       );
     }
 
     return Container(
-      height: 16,
+      height: 40,
       margin: const EdgeInsets.all(8),
       child: content,
     );
@@ -54,8 +64,10 @@ class _Loading extends StatelessWidget {
   const _Loading({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => const SizedBox.square(
-        dimension: 16,
-        child: CircularProgressIndicator(color: Colors.white),
+  Widget build(BuildContext context) => const Center(
+        child: SizedBox.square(
+          dimension: 16,
+          child: CircularProgressIndicator(color: Colors.white),
+        ),
       );
 }
