@@ -65,7 +65,7 @@ jobs:
       - name: Start Solana Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
-          solana-version: ${{ matrix.solanaVersion }}
+          solana-version: stable
           cluster: mainnet
           args:
             --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
