@@ -17,21 +17,10 @@ Future<SagaWallet> createSagaWallet(
   AuthToken authToken,
 ) async {
   final account = await seedVault
-      .getParsedAccounts(authToken, filter: const AccountFilter())
-      .letAsync((it) => it.findFirstAccount());
-
-  await seedVault.updateAccountData(authToken, account);
-
-  return SagaWallet(account, authToken);
-}
-
-Future<SagaWallet> restoreSagaWallet(
-  AuthToken authToken,
-  SeedVault seedVault,
-) async {
-  final account = await seedVault
       .getParsedAuthorizedSeed(authToken)
       .letAsync((it) => it.accounts.findFirstAccount());
+
+  await seedVault.updateAccountData(authToken, account);
 
   return SagaWallet(account, authToken);
 }

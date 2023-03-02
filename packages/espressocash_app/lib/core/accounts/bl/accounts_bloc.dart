@@ -168,7 +168,7 @@ extension on FlutterSecureStorage {
     final ECWallet wallet;
 
     if (authToken != null) {
-      wallet = await restoreSagaWallet(authToken, seedVault);
+      wallet = await createSagaWallet(seedVault, authToken);
     } else if (mnemonic.isNotEmpty) {
       wallet = await createLocalWallet(mnemonic: mnemonic);
     } else {
