@@ -11,22 +11,15 @@ import 'package:solana_seed_vault/src/seed_vault.dart';
 import 'package:solana_seed_vault/src/wallet_contract_v1.dart';
 
 extension SeedVaultHelperExt on SeedVault {
-  Future<List<Seed>> getParsedAuthorizedSeeds({
-    AccountFilter accountFilter = const AccountFilter(),
-  }) async {
+  Future<List<Seed>> getParsedAuthorizedSeeds() async {
     final result = await getAuthorizedSeeds();
 
-    return result
-        .map((it) => it.cursorToSeed(this, accountFilter))
-        .let(Future.wait);
+    return result.map((it) => it.cursorToSeed(this)).let(Future.wait);
   }
 
-  Future<Seed> getParsedAuthorizedSeed(
-    AuthToken authToken, {
-    AccountFilter accountFilter = const AccountFilter(),
-  }) =>
+  Future<Seed> getParsedAuthorizedSeed(AuthToken authToken) =>
       getAuthorizedSeed(authToken: authToken)
-          .letAsync((it) => it.cursorToSeed(this, accountFilter));
+          .letAsync((it) => it.cursorToSeed(this));
 
   Future<List<Account>> getParsedAccounts(
     AuthToken authToken, {
@@ -53,13 +46,13 @@ extension SeedVaultHelperExt on SeedVault {
 }
 
 extension CursorToModelExt on CursorData {
-  Future<Seed> cursorToSeed(SeedVault seedVault, AccountFilter filter) async {
+  Future<Seed> cursorToSeed(SeedVault seedVault) async {
     final authToken = this[WalletContractV1.authorizedSeedsAuthToken] as int;
     final name = this[WalletContractV1.authorizedSeedsSeedName] as String;
     final purpose = this[WalletContractV1.authorizedSeedsAuthPurpose] as int;
     final accounts = await seedVault.getParsedAccounts(
       authToken,
-      filter: filter,
+      filter: const AccountFilter.byIsUserWallet(true),
     );
 
     return Seed(
