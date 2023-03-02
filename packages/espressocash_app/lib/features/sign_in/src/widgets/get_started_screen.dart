@@ -81,8 +81,8 @@ class _FooterState extends State<_Footer> {
     if (!mounted) return;
 
     final event = hasSeedVault
-        ? const SignInEvent.sagaWalletRequested()
-        : const SignInEvent.localWalletRequested();
+        ? const SignInEvent.newSagaWalletRequested()
+        : const SignInEvent.newLocalWalletRequested();
 
     context.read<SignInBloc>().add(event);
   }

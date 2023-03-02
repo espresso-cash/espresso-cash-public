@@ -30,7 +30,7 @@ extension on List<Account> {
     /// This is how we determine the "first" wallet. This may vary between
     /// wallet implementations.
     ///
-    /// The three BipLevels specified are, respectively:
+    /// The four BipLevels specified are, respectively:
     /// - purpose, that is set to 44 reffering the BIP-44 proposal
     /// - coin_type, that is set to 501 once Solana is assigned 501 per SLIP-44
     /// - account, that is set to 0 reffering the first indexed account

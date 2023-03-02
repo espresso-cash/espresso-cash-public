@@ -35,41 +35,17 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
             submitted: (event) => _onSubmitted(event, emit),
-            sagaWalletRequested: (_) => _onSagaWalletRequested(emit),
-            localWalletRequested: (_) => _onLocalWalletRequested(emit),
+            newSagaWalletRequested: (_) => _onNewSagaWalletRequested(emit),
+            newLocalWalletRequested: (_) => _onNewLocalWalletRequested(emit),
             existingSagaWalletRequested: (_) =>
                 _onExistingSagaWalletRequested(emit),
             existingLocalWalletRequested: (event) =>
                 _onExistingLocalWalletRequested(event, emit),
           );
 
-  Future<void> _onSagaWalletRequested(Emitter<SignInState> emit) async {
+  Future<void> _onNewSagaWalletRequested(Emitter<SignInState> emit) async {
     try {
-      emit(
-        state.copyWith(
-          source: await _seedVault
-              .createSeed(Purpose.signSolanaTransaction)
-              .letAsync(AccountSource.saga),
-        ),
-      );
-      add(const SignInSubmitted(name: 'My Wallet'));
-    } on PlatformException {
-      emit(state.toSeedVaultException());
-    } on Exception catch (e) {
-      emit(state.toGenericException(e));
-    }
-  }
-
-  Future<void> _onExistingSagaWalletRequested(Emitter<SignInState> emit) async {
-    try {
-      final AuthToken token;
-      const purpose = Purpose.signSolanaTransaction;
-
-      if (await _seedVault.hasUnauthorizedSeedsForPurpose(purpose)) {
-        token = await _seedVault.authorizeSeed(purpose);
-      } else {
-        token = await _seedVault.importSeed(purpose);
-      }
+      final token = await _seedVault.createSeed(Purpose.signSolanaTransaction);
 
       emit(state.copyWith(source: AccountSource.saga(token)));
       add(const SignInSubmitted(name: 'My Wallet'));
@@ -80,7 +56,23 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     }
   }
 
-  Future<void> _onLocalWalletRequested(Emitter<SignInState> emit) async {
+  Future<void> _onExistingSagaWalletRequested(Emitter<SignInState> emit) async {
+    try {
+      const purpose = Purpose.signSolanaTransaction;
+      final token = await _seedVault.hasUnauthorizedSeedsForPurpose(purpose)
+          ? await _seedVault.authorizeSeed(purpose)
+          : await _seedVault.importSeed(purpose);
+
+      emit(state.copyWith(source: AccountSource.saga(token)));
+      add(const SignInSubmitted(name: 'My Wallet'));
+    } on PlatformException {
+      emit(state.toSeedVaultException());
+    } on Exception catch (e) {
+      emit(state.toGenericException(e));
+    }
+  }
+
+  Future<void> _onNewLocalWalletRequested(Emitter<SignInState> emit) async {
     emit(
       state.copyWith(
         source: bip39
@@ -170,12 +162,14 @@ class SignInResult with _$SignInResult {
 
 @freezed
 class SignInEvent with _$SignInEvent {
-  const factory SignInEvent.sagaWalletRequested() = SignInSagaWalletRequested;
+  const factory SignInEvent.newSagaWalletRequested() =
+      SignInNewSagaWalletRequested;
 
   const factory SignInEvent.existingSagaWalletRequested() =
       SignInExistingSagaWalletRequested;
 
-  const factory SignInEvent.localWalletRequested() = SignInLocalWalletRequested;
+  const factory SignInEvent.newLocalWalletRequested() =
+      SignInNewLocalWalletRequested;
 
   const factory SignInEvent.existingLocalWalletRequested(String phrase) =
       SignInExistingLocalWalletRequested;
