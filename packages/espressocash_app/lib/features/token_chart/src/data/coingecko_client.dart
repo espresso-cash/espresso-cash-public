@@ -5,14 +5,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/coingecko_client.dart';
+
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
+@RestApi()
 abstract class ChartCoingeckoClient {
   @factoryMethod
-  factory ChartCoingeckoClient(Dio dio) = _ChartCoingeckoClient;
+  factory ChartCoingeckoClient(CoingeckoClient client) =>
+      _ChartCoingeckoClient(client.dio);
 
   @GET('/coins/{id}/market_chart')
   Future<TokenChartResponseDto> getCoinChart(

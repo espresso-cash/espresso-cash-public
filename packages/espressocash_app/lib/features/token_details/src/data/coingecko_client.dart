@@ -6,14 +6,17 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/coingecko_client.dart';
+
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
+@RestApi()
 abstract class DetailsCoingeckoClient {
   @factoryMethod
-  factory DetailsCoingeckoClient(Dio dio) = _DetailsCoingeckoClient;
+  factory DetailsCoingeckoClient(CoingeckoClient client) =>
+      _DetailsCoingeckoClient(client.dio);
 
   @GET('/coins/{id}')
   Future<TokenDetailsResponseDto> getCoinDetails(

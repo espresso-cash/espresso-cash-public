@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/coingecko_client.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 
@@ -12,10 +13,11 @@ part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
+@RestApi()
 abstract class MarketsCoingeckoClient {
   @factoryMethod
-  factory MarketsCoingeckoClient(Dio dio) = _MarketsCoingeckoClient;
+  factory MarketsCoingeckoClient(CoingeckoClient client) =>
+      _MarketsCoingeckoClient(client.dio);
 
   @GET('/coins/markets')
   Future<List<MarketsResponseDto>> getMarketTokens(

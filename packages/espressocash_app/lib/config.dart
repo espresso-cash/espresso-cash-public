@@ -70,3 +70,8 @@ const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
 
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
+
+const coingeckoApiKey = String.fromEnvironment('COINGECKO_API_KEY');
+const coingeckoBaseUrl = coingeckoApiKey == ''
+    ? 'https://api.coingecko.com/api/v3'
+    : 'https://pro-api.coingecko.com/api/v3';

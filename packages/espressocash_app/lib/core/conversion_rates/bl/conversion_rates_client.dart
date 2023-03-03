@@ -6,19 +6,22 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../coingecko_client.dart';
 import '../../currency.dart';
 
 part 'conversion_rates_client.freezed.dart';
 part 'conversion_rates_client.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'https://api.coingecko.com/api/v3/simple')
+@RestApi()
 abstract class ConversionRatesClient {
   @factoryMethod
-  factory ConversionRatesClient() =>
-      _ConversionRatesClient(Dio()..options.listFormat = ListFormat.csv);
+  factory ConversionRatesClient(CoingeckoClient client) =>
+      _ConversionRatesClient(
+        client.dio..options.listFormat = ListFormat.csv,
+      );
 
-  @GET('/price')
+  @GET('/simple/price')
   Future<Map<String, PricesMapDto>> getPrice(@Queries() RateRequestDto request);
 }
 

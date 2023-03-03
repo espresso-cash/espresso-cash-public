@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
 
 import 'config.dart';
+import 'core/coingecko_client.dart';
 import 'core/tokens/token_list.dart';
 import 'di.config.dart';
 
@@ -22,7 +22,7 @@ abstract class AppModule {
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 
   @lazySingleton
-  Dio get dio => Dio();
+  CoingeckoClient get dio => CoingeckoClient();
 
   @lazySingleton
   TokenList get tokenList => TokenList();
