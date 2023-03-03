@@ -146,5 +146,5 @@ class _JsonRpcArrayResponse implements _JsonRpcResponse {
 }
 
 const _defaultHeaders = <String, String>{
-  'Content-Type': 'application/json; charset=UTF-8',
+  'Content-Type': 'application/json',
 };
