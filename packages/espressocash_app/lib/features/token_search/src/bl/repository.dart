@@ -23,10 +23,10 @@ class SearchRepository {
   final TokenList _tokenList;
 
   AsyncResult<IList<Token>> search(String query) async {
-    final cachedResult = _cache.get(query);
+    final cachedResult = await _cache.get(query, tokenList: _tokenList);
 
     if (cachedResult != null) {
-      return Either.right(cachedResult);
+      return Either.right(cachedResult.toIList());
     }
 
     return _coingeckoClient
@@ -40,10 +40,11 @@ class SearchRepository {
   }
 
   AsyncResult<IList<Token>> category(CryptoCategories category) async {
-    final cachedResult = _cache.get(category.dtoId);
+    final cachedResult =
+        await _cache.get(category.dtoId, tokenList: _tokenList);
 
     if (cachedResult != null) {
-      return Either.right(cachedResult);
+      return Either.right(cachedResult.toIList());
     }
 
     return _coingeckoClient

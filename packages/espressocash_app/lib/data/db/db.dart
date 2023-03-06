@@ -12,7 +12,9 @@ import '../../features/outgoing_split_key_payments/db.dart';
 import '../../features/payment_request/db.dart';
 import '../../features/popular_tokens/db.dart';
 import '../../features/swap/db.dart';
+import '../../features/token_chart/db.dart';
 import '../../features/token_details/db.dart';
+import '../../features/token_search/db.dart';
 import 'deprecated.dart';
 import 'open_connection.dart';
 
@@ -43,6 +45,8 @@ const _tables = [
   ITRows,
   ISLPRows,
   TokenDetailsRows,
+  TokenChartRows,
+  TokenSearchRows,
 ];
 
 @lazySingleton
@@ -153,6 +157,8 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 35) {
             await m.createTable(tokenDetailsRows);
+            await m.createTable(tokenChartRows);
+            await m.createTable(tokenSearchRows);
           }
         },
       );

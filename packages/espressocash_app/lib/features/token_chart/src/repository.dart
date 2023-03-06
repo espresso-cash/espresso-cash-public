@@ -5,34 +5,48 @@ import 'package:injectable/injectable.dart';
 import '../../../core/tokens/token.dart';
 import 'chart_interval.dart';
 import 'data/coingecko_client.dart';
+import 'data/token_chart_cache.dart';
 import 'token_chart_item.dart';
 
 @injectable
 class ChartRepository {
   ChartRepository({
     required ChartCoingeckoClient coingeckoClient,
-  }) : _coingeckoClient = coingeckoClient;
+    required TokenChartCache tokenChartCache,
+  })  : _coingeckoClient = coingeckoClient,
+        _cache = tokenChartCache;
 
   final ChartCoingeckoClient _coingeckoClient;
+  final TokenChartCache _cache;
 
   AsyncResult<IList<TokenChartItem>> getMarketChart(
     Token crypto, {
     required ChartInterval interval,
-  }) async =>
-      _coingeckoClient
-          .getCoinChart(
-            crypto.extensions?.coingeckoId ?? crypto.name,
-            TokenChartRequestDto(
-              days: interval.dtoDays,
-              interval: interval.dtoInterval,
-            ),
-          )
-          .toEither()
-          .mapAsync(
-            (response) =>
-                response.prices?.map((e) => e.toTokenChartItem()).toIList() ??
-                const IListConst([]),
-          );
+  }) async {
+    final id =
+        '${interval.dtoId}_${crypto.name}_${crypto.symbol}'.toUpperCase();
+
+    final cachedResult = await _cache.get(id);
+
+    if (cachedResult != null) {
+      return Either.right(cachedResult.toIList());
+    }
+
+    return _coingeckoClient
+        .getCoinChart(
+          crypto.extensions?.coingeckoId ?? crypto.name,
+          TokenChartRequestDto(
+            days: interval.dtoDays,
+            interval: interval.dtoInterval,
+          ),
+        )
+        .toEither()
+        .mapAsync(
+          (response) => response.prices?.map((e) => e.toTokenChartItem()),
+        )
+        .doOnRightAsync((r) => _cache.set(id, r?.toList() ?? []))
+        .mapAsync((r) => r?.toIList() ?? const IListConst([]));
+  }
 }
 
 extension on List<num> {
@@ -74,6 +88,23 @@ extension on ChartInterval {
         return '365';
       case ChartInterval.all:
         return 'max';
+    }
+  }
+
+  String get dtoId {
+    switch (this) {
+      case ChartInterval.oneDay:
+        return '1D';
+      case ChartInterval.oneWeek:
+        return '1W';
+      case ChartInterval.oneMonth:
+        return '1M';
+      case ChartInterval.threeMonth:
+        return '3M';
+      case ChartInterval.oneYear:
+        return '1Y';
+      case ChartInterval.all:
+        return 'ALL';
     }
   }
 }
