@@ -3,44 +3,42 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/tokens/token.dart';
 import 'data/coingecko_client.dart';
+import 'data/token_details_cache.dart';
 import 'token_details.dart';
 
 @injectable
 class TokenDetailsRepository {
   TokenDetailsRepository({
     required DetailsCoingeckoClient coingeckoClient,
-  }) : _coingeckoClient = coingeckoClient;
+    required TokenDetailsCache tokenDetailsCache,
+  })  : _coingeckoClient = coingeckoClient,
+        _cache = tokenDetailsCache;
 
   final DetailsCoingeckoClient _coingeckoClient;
+  final TokenDetailsCache _cache;
 
   AsyncResult<TokenDetails> getTokenDetails({
     required Token token,
     required String fiatCurrency,
-  }) async =>
-      _coingeckoClient
-          .getCoinDetails(
-            token.extensions?.coingeckoId ?? token.name,
-            const TokenDetailsRequestDto(marketData: true),
-          )
-          .toEither()
-          .mapAsync((response) {
-        final marketData = response.marketData?.currentPrice;
+  }) async {
+    final id = token.extensions?.coingeckoId ?? token.name;
 
-        return TokenDetails(
-          name: response.name ?? token.name,
-          description: _removeHtmlTags(response.description?['en'] ?? ''),
-          marketCapRank: response.marketCapRank,
-          marketPrice: marketData?[fiatCurrency],
-        );
-      });
-}
+    final cachedResult = await _cache.get(id);
 
-String _removeHtmlTags(String htmlText) {
-  final RegExp exp = RegExp(
-    r'<[^>]*>',
-    multiLine: true,
-    caseSensitive: true,
-  );
+    if (cachedResult != null) {
+      return Either.right(cachedResult);
+    }
 
-  return htmlText.replaceAll(exp, '');
+    return _coingeckoClient
+        .getCoinDetails(
+          id,
+          const TokenDetailsRequestDto(marketData: true),
+        )
+        .toEither()
+        .mapAsync(
+          (result) =>
+              result.toModel(name: token.name, fiatCurrency: fiatCurrency),
+        )
+        .doOnRightAsync((result) => _cache.set(id, result));
+  }
 }

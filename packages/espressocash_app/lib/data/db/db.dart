@@ -12,6 +12,7 @@ import '../../features/outgoing_split_key_payments/db.dart';
 import '../../features/payment_request/db.dart';
 import '../../features/popular_tokens/db.dart';
 import '../../features/swap/db.dart';
+import '../../features/token_details/db.dart';
 import 'deprecated.dart';
 import 'open_connection.dart';
 
@@ -26,7 +27,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 34;
+const int latestVersion = 35;
 
 const _tables = [
   OutgoingTransferRows,
@@ -41,6 +42,7 @@ const _tables = [
   OTRows,
   ITRows,
   ISLPRows,
+  TokenDetailsRows,
 ];
 
 @lazySingleton
@@ -148,6 +150,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 34) {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
+          }
+          if (from < 35) {
+            await m.createTable(tokenDetailsRows);
           }
         },
       );

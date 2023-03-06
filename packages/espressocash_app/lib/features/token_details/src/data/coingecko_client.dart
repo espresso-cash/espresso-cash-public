@@ -6,6 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../token_details.dart';
+
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
@@ -64,4 +66,30 @@ class MarketData with _$MarketData {
 
   factory MarketData.fromJson(Map<String, dynamic> json) =>
       _$MarketDataFromJson(json);
+}
+
+extension TokenDetailsResponseExt on TokenDetailsResponseDto {
+  TokenDetails toModel({
+    required String name,
+    required String fiatCurrency,
+  }) {
+    final price = marketData?.currentPrice;
+
+    return TokenDetails(
+      name: this.name ?? name,
+      description: _removeHtmlTags(description?['en'] ?? ''),
+      marketCapRank: marketCapRank,
+      marketPrice: price?[fiatCurrency],
+    );
+  }
+}
+
+String _removeHtmlTags(String htmlText) {
+  final RegExp exp = RegExp(
+    r'<[^>]*>',
+    multiLine: true,
+    caseSensitive: true,
+  );
+
+  return htmlText.replaceAll(exp, '');
 }
