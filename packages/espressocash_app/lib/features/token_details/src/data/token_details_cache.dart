@@ -16,7 +16,7 @@ class TokenDetailsCache {
   final MyDatabase _db;
 
   Future<TokenDetails?> get(String id) async {
-    final query = _db.select(_db.tokenDetailsRows)
+    final query = _db.select(_db.tokenDetailsCacheRows)
       ..where((p) => p.id.equals(id));
 
     final row = await query.getSingleOrNull();
@@ -33,16 +33,17 @@ class TokenDetailsCache {
   }
 
   Future<void> set(String id, TokenDetails result) => _db
-      .into(_db.tokenDetailsRows)
+      .into(_db.tokenDetailsCacheRows)
       .insert(result.toDto(id), mode: InsertMode.replace);
 
   Future<void> remove(String id) =>
-      (_db.delete(_db.tokenDetailsRows)..where((t) => t.id.equals(id))).go();
+      (_db.delete(_db.tokenDetailsCacheRows)..where((t) => t.id.equals(id)))
+          .go();
 
-  Future<void> clear() => _db.delete(_db.tokenDetailsRows).go();
+  Future<void> clear() => _db.delete(_db.tokenDetailsCacheRows).go();
 }
 
-class TokenDetailsRows extends Table with EntityMixin {
+class TokenDetailsCacheRows extends Table with EntityMixin {
   TextColumn get name => text()();
   TextColumn get description => text()();
   RealColumn get marketPrice => real().nullable()();
@@ -50,7 +51,7 @@ class TokenDetailsRows extends Table with EntityMixin {
 }
 
 extension on TokenDetails {
-  TokenDetailsRow toDto(String id) => TokenDetailsRow(
+  TokenDetailsCacheRow toDto(String id) => TokenDetailsCacheRow(
         id: id,
         name: name,
         description: description,
@@ -60,7 +61,7 @@ extension on TokenDetails {
       );
 }
 
-extension on TokenDetailsRow {
+extension on TokenDetailsCacheRow {
   Future<TokenDetails>? toModel() async => TokenDetails(
         name: name,
         description: description,

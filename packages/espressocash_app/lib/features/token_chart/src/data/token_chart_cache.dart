@@ -18,7 +18,8 @@ class TokenChartCache {
   final MyDatabase _db;
 
   Future<List<TokenChartItem>?> get(String id) async {
-    final query = _db.select(_db.tokenChartRows)..where((p) => p.id.equals(id));
+    final query = _db.select(_db.tokenChartCacheRows)
+      ..where((p) => p.id.equals(id));
 
     final row = await query.getSingleOrNull();
 
@@ -34,28 +35,28 @@ class TokenChartCache {
   }
 
   Future<void> set(String id, List<TokenChartItem> result) => _db
-      .into(_db.tokenChartRows)
+      .into(_db.tokenChartCacheRows)
       .insert(result.toDto(id), mode: InsertMode.replace);
 
   Future<void> remove(String id) =>
-      (_db.delete(_db.tokenChartRows)..where((t) => t.id.equals(id))).go();
+      (_db.delete(_db.tokenChartCacheRows)..where((t) => t.id.equals(id))).go();
 
-  Future<void> clear() => _db.delete(_db.tokenChartRows).go();
+  Future<void> clear() => _db.delete(_db.tokenChartCacheRows).go();
 }
 
-class TokenChartRows extends Table with EntityMixin {
+class TokenChartCacheRows extends Table with EntityMixin {
   TextColumn get data => text()();
 }
 
 extension on List<TokenChartItem> {
-  TokenChartRow toDto(String id) => TokenChartRow(
+  TokenChartCacheRow toDto(String id) => TokenChartCacheRow(
         id: id,
         created: DateTime.now(),
         data: json.encode(map((e) => e.toJson()).toList()),
       );
 }
 
-extension on TokenChartRow {
+extension on TokenChartCacheRow {
   Future<List<TokenChartItem>>? toModel() async {
     final list = json.decode(data) as List;
 

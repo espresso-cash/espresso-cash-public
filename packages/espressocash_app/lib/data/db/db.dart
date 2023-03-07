@@ -45,10 +45,10 @@ const _tables = [
   OTRows,
   ITRows,
   ISLPRows,
-  TokenDetailsRows,
-  TokenChartRows,
-  TokenSearchRows,
-  PriceCacheRows,
+  TokenDetailsCacheRows,
+  TokenChartCacheRows,
+  TokenSearchCacheRows,
+  TokenPriceCacheRows,
 ];
 
 @lazySingleton
@@ -158,10 +158,10 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
           }
           if (from < 35) {
-            await m.createTable(tokenDetailsRows);
-            await m.createTable(tokenChartRows);
-            await m.createTable(tokenSearchRows);
-            await m.createTable(priceCacheRows);
+            await m.createTable(tokenDetailsCacheRows);
+            await m.createTable(tokenChartCacheRows);
+            await m.createTable(tokenSearchCacheRows);
+            await m.createTable(tokenPriceCacheRows);
           }
         },
       );

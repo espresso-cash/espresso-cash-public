@@ -1,4 +1,4 @@
-// ignore_for_file: always_use_package_imports, avoid-banned-imports
+// ignore_for_file: avoid-banned-imports
 
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
@@ -23,7 +23,7 @@ class TokenPriceCache {
     final Map<String, PricesMapDto> result = {};
 
     for (final id in ids) {
-      final query = _db.select(_db.priceCacheRows)
+      final query = _db.select(_db.tokenPriceCacheRows)
         ..where((p) => p.id.equals(id));
 
       final row = await query.getSingleOrNull();
@@ -51,9 +51,9 @@ class TokenPriceCache {
       _db.transaction(() async {
         await _db.batch((batch) {
           batch.insertAll(
-            _db.priceCacheRows,
+            _db.tokenPriceCacheRows,
             data.entries.map(
-              (e) => PriceCacheRow(
+              (e) => TokenPriceCacheRow(
                 id: e.key,
                 usd: e.value.usd,
                 eur: e.value.eur,
@@ -66,12 +66,12 @@ class TokenPriceCache {
       });
 
   Future<void> remove(String id) =>
-      (_db.delete(_db.priceCacheRows)..where((t) => t.id.equals(id))).go();
+      (_db.delete(_db.tokenPriceCacheRows)..where((t) => t.id.equals(id))).go();
 
-  Future<void> clear() => _db.delete(_db.priceCacheRows).go();
+  Future<void> clear() => _db.delete(_db.tokenPriceCacheRows).go();
 }
 
-class PriceCacheRows extends Table with EntityMixin {
+class TokenPriceCacheRows extends Table with EntityMixin {
   RealColumn get usd => real().nullable()();
   RealColumn get eur => real().nullable()();
 }

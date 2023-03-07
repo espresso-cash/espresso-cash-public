@@ -1,1 +1,1 @@
-export 'src/data/search_cache.dart' show TokenSearchRows;
+export 'src/data/search_cache.dart' show TokenSearchCacheRows;

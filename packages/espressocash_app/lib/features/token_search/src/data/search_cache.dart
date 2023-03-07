@@ -20,7 +20,7 @@ class SearchCache {
   final MyDatabase _db;
 
   Future<List<Token>?> get(String id, {required TokenList tokenList}) async {
-    final query = _db.select(_db.tokenSearchRows)
+    final query = _db.select(_db.tokenSearchCacheRows)
       ..where((p) => p.id.equals(id));
 
     final row = await query.getSingleOrNull();
@@ -37,21 +37,22 @@ class SearchCache {
   }
 
   Future<void> set(String id, IList<Token> result) => _db
-      .into(_db.tokenSearchRows)
+      .into(_db.tokenSearchCacheRows)
       .insert(result.toList().toDto(id), mode: InsertMode.replace);
 
   Future<void> remove(String id) =>
-      (_db.delete(_db.tokenSearchRows)..where((t) => t.id.equals(id))).go();
+      (_db.delete(_db.tokenSearchCacheRows)..where((t) => t.id.equals(id)))
+          .go();
 
-  Future<void> clear() => _db.delete(_db.tokenSearchRows).go();
+  Future<void> clear() => _db.delete(_db.tokenSearchCacheRows).go();
 }
 
-class TokenSearchRows extends Table with EntityMixin {
+class TokenSearchCacheRows extends Table with EntityMixin {
   TextColumn get data => text()();
 }
 
 extension on List<Token> {
-  TokenSearchRow toDto(String id) => TokenSearchRow(
+  TokenSearchCacheRow toDto(String id) => TokenSearchCacheRow(
         id: id,
         created: DateTime.now(),
         data: json.encode(map((e) => e.toJson()).toList()),
@@ -67,7 +68,7 @@ extension on Token {
       };
 }
 
-extension on TokenSearchRow {
+extension on TokenSearchCacheRow {
   List<Token> toModel(TokenList tokenList) {
     final data = json.decode(this.data) as List;
 
