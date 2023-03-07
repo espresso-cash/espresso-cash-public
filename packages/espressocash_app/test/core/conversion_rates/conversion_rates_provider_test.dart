@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/core/conversion_rates/bl/conversion_rates_client.dart';
 import 'package:espressocash_app/core/conversion_rates/bl/repository.dart';
+import 'package:espressocash_app/core/conversion_rates/bl/token_price_cache.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -10,13 +11,46 @@ import 'package:mockito/mockito.dart';
 
 import 'conversion_rates_provider_test.mocks.dart';
 
-@GenerateMocks([ConversionRatesClient])
+@GenerateMocks([ConversionRatesClient, TokenPriceCache])
 void main() {
   final client = MockConversionRatesClient();
+  final cacheClient = MockTokenPriceCache();
 
   tearDown(() {
     reset(client);
+    reset(cacheClient);
   });
+
+  const tokenA = Token(
+    chainId: 0,
+    address: 'a',
+    symbol: 'a',
+    name: 'a',
+    decimals: 2,
+    logoURI: null,
+    tags: null,
+    extensions: Extensions(coingeckoId: 'a'),
+  );
+  const tokenB = Token(
+    chainId: 0,
+    address: 'b',
+    symbol: 'b',
+    name: 'b',
+    decimals: 2,
+    logoURI: null,
+    tags: null,
+    extensions: Extensions(coingeckoId: 'b'),
+  );
+  const tokenC = Token(
+    chainId: 0,
+    address: 'c',
+    symbol: 'c',
+    name: 'c',
+    decimals: 2,
+    logoURI: null,
+    tags: null,
+    extensions: Extensions(coingeckoId: 'c'),
+  );
 
   test('Buffers coingecko ids', () async {
     final dto1 = RateRequestDto(
@@ -38,39 +72,11 @@ void main() {
       },
     );
 
-    const tokenA = Token(
-      chainId: 0,
-      address: 'a',
-      symbol: 'a',
-      name: 'a',
-      decimals: 2,
-      logoURI: null,
-      tags: null,
-      extensions: Extensions(coingeckoId: 'a'),
-    );
-    const tokenB = Token(
-      chainId: 0,
-      address: 'b',
-      symbol: 'b',
-      name: 'b',
-      decimals: 2,
-      logoURI: null,
-      tags: null,
-      extensions: Extensions(coingeckoId: 'b'),
-    );
-    const tokenC = Token(
-      chainId: 0,
-      address: 'c',
-      symbol: 'c',
-      name: 'c',
-      decimals: 2,
-      logoURI: null,
-      tags: null,
-      extensions: Extensions(coingeckoId: 'c'),
-    );
+    when(cacheClient.get(any)).thenAnswer((_) async => {});
 
     final repository = ConversionRatesRepository.test(
       coingeckoClient: client,
+      tokenPriceCache: cacheClient,
       maxCoingeckoIds: 2,
     );
     await repository.refresh(Currency.usd, [tokenA, tokenB, tokenC]);
@@ -95,6 +101,45 @@ void main() {
         to: Currency.usd,
       ),
       Decimal.fromInt(3),
+    );
+  });
+
+  test('Cache is used when valid', () async {
+    when(cacheClient.get(['a', 'b', 'c'])).thenAnswer(
+      (_) async => {
+        'c': const PricesMapDto(usd: 3.0),
+      },
+    );
+
+    final dto = RateRequestDto(
+      ids: ['a', 'b'].lock,
+      vsCurrencies: ['USD'].lock,
+    );
+
+    when(client.getPrice(dto)).thenAnswer(
+      (_) async => {
+        'a': const PricesMapDto(usd: 1.0),
+        'b': const PricesMapDto(usd: 2.0),
+      },
+    );
+
+    final repository = ConversionRatesRepository.test(
+      coingeckoClient: client,
+      tokenPriceCache: cacheClient,
+      maxCoingeckoIds: 30,
+    );
+    await repository.refresh(Currency.usd, [tokenA, tokenB, tokenC]);
+
+    verify(
+      client.getPrice(dto),
+    );
+    verifyNever(
+      client.getPrice(
+        RateRequestDto(
+          ids: ['a', 'b', 'c'].lock,
+          vsCurrencies: ['USD'].lock,
+        ),
+      ),
     );
   });
 }

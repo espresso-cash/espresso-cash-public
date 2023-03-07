@@ -5,7 +5,7 @@ import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import '../token_details.dart';
 
-const _maxAge = Duration(minutes: 60);
+const _maxAge = Duration(hours: 6);
 
 @injectable
 class TokenDetailsCache {

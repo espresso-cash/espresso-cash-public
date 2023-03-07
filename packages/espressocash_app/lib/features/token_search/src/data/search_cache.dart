@@ -9,7 +9,7 @@ import '../../../../core/tokens/token_list.dart';
 import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 
-const _maxAge = Duration(minutes: 1);
+const _maxAge = Duration(hours: 1);
 
 @injectable
 class SearchCache {

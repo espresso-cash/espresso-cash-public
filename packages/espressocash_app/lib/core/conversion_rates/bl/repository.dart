@@ -9,19 +9,24 @@ import '../../currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import 'conversion_rates_client.dart';
+import 'token_price_cache.dart';
 
 @lazySingleton
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
     required ConversionRatesClient coingeckoClient,
+    required TokenPriceCache tokenPriceCache,
   })  : _maxCoingeckoIds = 30,
+        _tokenPriceCache = tokenPriceCache,
         _coingeckoClient = coingeckoClient;
 
   @visibleForTesting
   ConversionRatesRepository.test({
     required ConversionRatesClient coingeckoClient,
+    required TokenPriceCache tokenPriceCache,
     required int maxCoingeckoIds,
   })  : _maxCoingeckoIds = maxCoingeckoIds,
+        _tokenPriceCache = tokenPriceCache,
         _coingeckoClient = coingeckoClient;
 
   final BehaviorSubject<IMap<FiatCurrency, IMap<CryptoCurrency, Decimal>>>
@@ -29,6 +34,7 @@ class ConversionRatesRepository extends ChangeNotifier {
 
   final int _maxCoingeckoIds;
   final ConversionRatesClient _coingeckoClient;
+  final TokenPriceCache _tokenPriceCache;
 
   Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
       _value.value[to]?[crypto];
@@ -49,12 +55,22 @@ class ConversionRatesRepository extends ChangeNotifier {
 
         final results = await Future.wait(
           ids.map((ids) async {
+            final cache = await _tokenPriceCache.get(ids);
+            final missingIds = ids.toSet().difference(cache.keys.toSet());
+
+            if (missingIds.isEmpty) {
+              return cache;
+            }
+
             final request = RateRequestDto(
               vsCurrencies: [currency.symbol].lock,
-              ids: ids.lock,
+              ids: missingIds.toList().lock,
             );
 
-            return _coingeckoClient.getPrice(request);
+            final priceData = await _coingeckoClient.getPrice(request);
+            await _tokenPriceCache.set(data: priceData);
+
+            return {...priceData, ...cache};
           }),
         );
 

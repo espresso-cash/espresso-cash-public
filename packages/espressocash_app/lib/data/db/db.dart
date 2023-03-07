@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../core/conversion_rates/bl/token_price_cache.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
@@ -47,6 +48,7 @@ const _tables = [
   TokenDetailsRows,
   TokenChartRows,
   TokenSearchRows,
+  PriceCacheRows,
 ];
 
 @lazySingleton
@@ -159,6 +161,7 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(tokenDetailsRows);
             await m.createTable(tokenChartRows);
             await m.createTable(tokenSearchRows);
+            await m.createTable(priceCacheRows);
           }
         },
       );
