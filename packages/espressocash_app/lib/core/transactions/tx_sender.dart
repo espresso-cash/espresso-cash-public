@@ -117,8 +117,7 @@ class TxSender {
     }
 
     final polling = _Polling<TxWaitResult?>(
-      request: (_) => getSignatureStatus().asStream(),
-      period: const Duration(seconds: 10),
+      source: (_) => getSignatureStatus().asStream(),
     );
 
     return Rx.merge([
@@ -216,12 +215,10 @@ extension on JsonRpcException {
 
 class _Polling<T extends Object?> {
   _Polling({
-    required this.request,
-    required this.period,
+    required this.source,
   });
 
-  final Stream<T> Function(void) request;
-  final Duration period;
+  final Stream<T> Function(void) source;
 
   Stream<T> init() {
     Duration backoff = const Duration(seconds: 1);
@@ -234,7 +231,9 @@ class _Polling<T extends Object?> {
     }
 
     return RetryWhenStream(
-      () => Stream<void>.periodic(period).startWith(null).flatMap(request),
+      () => Stream<void>.periodic(const Duration(seconds: 10))
+          .startWith(null)
+          .flatMap(source),
       retryWhen,
     );
   }
