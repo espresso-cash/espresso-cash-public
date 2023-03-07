@@ -120,10 +120,10 @@ class TxSender {
       source: (_) => getSignatureStatus().asStream(),
     );
 
-    return Rx.merge([
-      polling.init(),
-      waitForSignatureStatus().asStream(),
-    ]).whereNotNull().first;
+    return Rx.race([
+      polling.init().whereNotNull(),
+      waitForSignatureStatus().asStream().whereNotNull(),
+    ]).first;
   }
 }
 
