@@ -5,6 +5,8 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../config.dart';
+
 part 'tx_sender.freezed.dart';
 
 @injectable
@@ -93,7 +95,12 @@ class TxSender {
         }
       }
 
-      await _client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
+      await _client.waitForSignatureStatus(
+        tx.id,
+        status: Commitment.confirmed,
+        pingInterval: pingDefaultInterval,
+        timeout: waitForSignatureDefaultTimeout,
+      );
 
       return const TxWaitResult.success();
     } on SubscriptionClientException {
