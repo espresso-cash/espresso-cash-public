@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
@@ -66,7 +67,9 @@ class TxSender {
     SignedTx tx, {
     required BigInt minContextSlot,
   }) async {
-    try {
+    const commitment = Commitment.confirmed;
+
+    Future<TxWaitResult?> getSignatureStatus() async {
       final statuses = await _client.rpcClient
           .getSignatureStatuses([tx.id], searchTransactionHistory: true);
       final t = statuses.value.first;
@@ -76,7 +79,7 @@ class TxSender {
         final isValidBlockhash = await _client.rpcClient
             .isBlockhashValid(
               bh,
-              commitment: Commitment.confirmed,
+              commitment: commitment,
               minContextSlot: minContextSlot.toInt(),
             )
             .value;
@@ -94,20 +97,34 @@ class TxSender {
           return const TxWaitResult.success();
         }
       }
-
-      await _client.waitForSignatureStatus(
-        tx.id,
-        status: Commitment.confirmed,
-        pingInterval: pingDefaultInterval,
-        timeout: waitForSignatureDefaultTimeout,
-      );
-
-      return const TxWaitResult.success();
-    } on SubscriptionClientException {
-      return const TxWaitResult.failure(reason: TxFailureReason.txError);
-    } on Exception {
-      return const TxWaitResult.networkError();
     }
+
+    Future<TxWaitResult?> waitForSignatureStatus() async {
+      try {
+        await _client.waitForSignatureStatus(
+          tx.id,
+          status: commitment,
+          pingInterval: pingDefaultInterval,
+          timeout: waitForSignatureDefaultTimeout,
+        );
+
+        return const TxWaitResult.success();
+      } on SubscriptionClientException {
+        return const TxWaitResult.failure(reason: TxFailureReason.txError);
+      } on Exception {
+        return const TxWaitResult.networkError();
+      }
+    }
+
+    final polling = _Polling<TxWaitResult?>(
+      request: (_) => getSignatureStatus().asStream(),
+      period: const Duration(seconds: 10),
+    );
+
+    return Rx.merge([
+      polling.init(),
+      waitForSignatureStatus().asStream(),
+    ]).whereNotNull().first;
   }
 }
 
@@ -194,5 +211,31 @@ extension on JsonRpcException {
     if (instructionErrorData is! Map<String, dynamic>) return false;
 
     return instructionErrorData['Custom'] == 1;
+  }
+}
+
+class _Polling<T extends Object?> {
+  _Polling({
+    required this.request,
+    required this.period,
+  });
+
+  final Stream<T> Function(void) request;
+  final Duration period;
+
+  Stream<T> init() {
+    Duration backoff = const Duration(seconds: 1);
+
+    Stream<void> retryWhen(void _, void __) async* {
+      await Future<void>.delayed(backoff);
+      if (backoff < const Duration(seconds: 30)) backoff *= 2;
+
+      yield null;
+    }
+
+    return RetryWhenStream(
+      () => Stream<void>.periodic(period).startWith(null).flatMap(request),
+      retryWhen,
+    );
   }
 }
