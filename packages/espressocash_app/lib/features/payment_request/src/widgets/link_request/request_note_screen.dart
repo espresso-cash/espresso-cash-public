@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -13,6 +12,7 @@ import '../../../../../ui/bottom_button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
+import '../../../../balances/presentation/format_amount.dart';
 
 abstract class NoteSetter {
   void onNoteSubmitted(String name);

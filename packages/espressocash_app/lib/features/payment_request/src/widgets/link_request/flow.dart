@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/accounts/bl/account.dart';
 import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../../core/user_preferences.dart';
 import '../../../../../di.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
+import '../../../../conversion_rates/conversion_rates.dart';
 import '../../bl/create_payment_request/bloc.dart';
 import '../../bl/repository.dart';
 import 'request_note_screen.dart';

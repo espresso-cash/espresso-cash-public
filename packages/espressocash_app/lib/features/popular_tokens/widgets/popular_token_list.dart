@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/amount.dart';
-import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token.dart';
 import '../../../../../../core/user_preferences.dart';
 import '../../../../../../l10n/device_locale.dart';
@@ -13,6 +12,7 @@ import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
+import '../../balances/presentation/format_amount.dart';
 import '../src/bl/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {

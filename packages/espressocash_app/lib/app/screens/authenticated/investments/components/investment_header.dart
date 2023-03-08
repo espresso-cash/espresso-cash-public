@@ -4,10 +4,10 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/balances/presentation/watch_balance.dart';
 import '../../../../../core/currency.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
+import '../../../../../features/balances/presentation/format_amount.dart';
+import '../../../../../features/balances/presentation/watch_balance.dart';
 import '../../../../../features/ramp/widgets/ramp_buttons.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';

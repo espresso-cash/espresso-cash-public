@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token_list.dart';
 import '../../../../../../di.dart';
 import '../../../../../../l10n/l10n.dart';
 import '../../../../../../ui/rounded_rectangle.dart';
+import '../../../../../balances/presentation/format_amount.dart';
 import '../../../../models/payment_request.dart';
 
 class ShareQrCode extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../core/presentation/page_fade_wrapper.dart';
+import '../../../../features/balances/presentation/refresh_balance_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';

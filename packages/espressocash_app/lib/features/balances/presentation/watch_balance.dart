@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../amount.dart';
+import '../../../core/amount.dart';
+import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/user_preferences.dart';
 import '../../conversion_rates/context_ext.dart';
-import '../../currency.dart';
-import '../../tokens/token.dart';
-import '../../user_preferences.dart';
-import '../bl/balances_bloc.dart';
 
 extension WatchBalance on BuildContext {
   Amount watchUserCryptoBalance(Token token) =>

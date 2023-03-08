@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
+import '../../../core/accounts/bl/account.dart';
+import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/processing_state.dart';
+import '../../../core/user_preferences.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
-import '../../accounts/bl/account.dart';
-import '../../conversion_rates/bl/conversion_rates_bloc.dart';
-import '../../processing_state.dart';
-import '../../user_preferences.dart';
-import '../bl/balances_bloc.dart';
+import '../../conversion_rates/conversion_rates.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 

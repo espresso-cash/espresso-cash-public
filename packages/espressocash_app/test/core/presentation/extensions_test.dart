@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/core/currency.dart';
-import 'package:espressocash_app/core/presentation/extensions.dart';
+import 'package:espressocash_app/features/balances/presentation/extensions.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -3,10 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/fee_label.dart';
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
@@ -15,6 +12,9 @@ import '../../../../ui/chip.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
+import '../../../balances/presentation/format_amount.dart';
+import '../../../conversion_rates/context_ext.dart';
+import '../../../fee/fee.dart';
 
 class OSKPConfirmationScreen extends StatelessWidget {
   const OSKPConfirmationScreen({

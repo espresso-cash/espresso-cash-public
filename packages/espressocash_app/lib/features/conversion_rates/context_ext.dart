@@ -2,10 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../amount.dart';
-import '../currency.dart';
-import '../tokens/token.dart';
-import 'bl/repository.dart';
+import '../../core/amount.dart';
+import '../../core/currency.dart';
+import '../../core/tokens/token.dart';
+import 'src/bl/repository.dart';
 
 extension ConversionRates on BuildContext {
   Decimal? watchConversionRate({

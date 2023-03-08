@@ -5,14 +5,14 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../di.dart';
-import '../l10n/device_locale.dart';
-import '../l10n/l10n.dart';
-import 'amount.dart';
-import 'async_snapshot.dart';
-import 'currency.dart';
-import 'presentation/format_amount.dart';
-import 'tokens/token.dart';
+import '../../../core/amount.dart';
+import '../../../core/async_snapshot.dart';
+import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
+import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../balances/presentation/format_amount.dart';
 
 part 'fee_label.freezed.dart';
 

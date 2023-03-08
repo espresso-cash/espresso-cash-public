@@ -3,13 +3,13 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../../../../../core/balances/presentation/watch_balance.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
+import '../../balances/presentation/format_amount.dart';
+import '../../balances/presentation/watch_balance.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key, required this.tokens});

@@ -7,9 +7,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-import '../../currency.dart';
-import '../../processing_state.dart';
-import '../../tokens/token.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/processing_state.dart';
+import '../../../../core/tokens/token.dart';
 import 'repository.dart';
 
 part 'conversion_rates_bloc.freezed.dart';

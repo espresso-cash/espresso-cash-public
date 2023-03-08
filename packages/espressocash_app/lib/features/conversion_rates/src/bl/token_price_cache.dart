@@ -1,11 +1,9 @@
-// ignore_for_file: avoid-banned-imports
-
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/conversion_rates/bl/conversion_rates_client.dart';
-import '../../../data/db/db.dart';
-import '../../../data/db/mixins.dart';
+import '../../../../data/db/db.dart';
+import '../../../../data/db/mixins.dart';
+import 'conversion_rates_client.dart';
 
 const _maxAge = Duration(minutes: 1);
 

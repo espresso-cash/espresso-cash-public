@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
 
-import '../currency.dart';
+import '../../../core/currency.dart';
 import 'format_amount.dart';
 
 extension DecimalExt on Decimal? {

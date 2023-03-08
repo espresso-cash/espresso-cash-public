@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../di.dart';
@@ -19,6 +18,7 @@ import '../../../../ui/status_widget.dart';
 import '../../../../ui/text_button.dart';
 import '../../../../ui/timeline.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
+import '../../../balances/presentation/format_amount.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import '../../widgets/extensions.dart';
 import '../bl/repository.dart';

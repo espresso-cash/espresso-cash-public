@@ -9,10 +9,10 @@ import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
+import '../../../balances/presentation/format_amount.dart';
 import '../../widgets/extensions.dart';
 
 class ODPLinkListener extends StatefulWidget {

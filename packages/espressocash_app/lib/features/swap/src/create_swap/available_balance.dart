@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/colors.dart';
+import '../../../balances/presentation/format_amount.dart';
 
 class AvailableBalance extends StatelessWidget {
   const AvailableBalance({

@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/conversion_rates/bl/token_price_cache.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
+import '../../features/conversion_rates/conversion_rates.dart';
 import '../../features/favorite_tokens/db.dart';
 import '../../features/incoming_single_link_payments/db.dart';
 import '../../features/incoming_split_key_payments/db.dart';

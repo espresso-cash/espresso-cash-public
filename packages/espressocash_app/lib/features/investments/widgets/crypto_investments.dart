@@ -7,14 +7,14 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/balances/bl/balances_bloc.dart';
-import '../../../core/balances/presentation/watch_balance.dart';
-import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
+import '../../balances/presentation/format_amount.dart';
+import '../../balances/presentation/watch_balance.dart';
 import '../src/data/repository.dart';
 import 'portfolio_widget.dart';
 

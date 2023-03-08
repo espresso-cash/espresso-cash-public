@@ -2,10 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../../l10n/device_locale.dart';
-import '../amount.dart';
-import '../conversion_rates/context_ext.dart';
-import '../currency.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../l10n/device_locale.dart';
+import '../../conversion_rates/context_ext.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {

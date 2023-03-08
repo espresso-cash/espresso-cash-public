@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../balances/presentation/format_amount.dart';
 import 'swap_fee.dart';
 
 class EquivalentHeader extends StatelessWidget {

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../../core/amount.dart';
-import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/rounded_rectangle.dart';
+import '../../../../balances/presentation/format_amount.dart';
 import '../../../models/outgoing_split_key_payment.dart';
 
 class ShareQr extends StatelessWidget {
