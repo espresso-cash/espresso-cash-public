@@ -7,7 +7,7 @@ import '../../../../data/db/db.dart';
 import '../../../../data/db/mixins.dart';
 import '../token_chart_item.dart';
 
-const _maxAge = Duration(minutes: 3);
+const _maxAge = Duration(hours: 1);
 
 @injectable
 class TokenChartCache {
