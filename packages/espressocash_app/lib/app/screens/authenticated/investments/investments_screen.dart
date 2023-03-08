@@ -62,7 +62,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   SliverToBoxAdapter(child: SizedBox(height: 24)),
                   SliverToBoxAdapter(child: PopularCryptoHeader()),
                   PopularTokenList(),
-                  SliverToBoxAdapter(child: SizedBox(height: 12)),
+                  SliverToBoxAdapter(child: SizedBox(height: 40)),
                 ],
               ),
             ),

@@ -105,6 +105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       DangerSection(),
                       ShareSection(),
                       VersionSection(),
+                      SizedBox(height: 24),
                     ],
                   ),
                 ),
