@@ -7,7 +7,6 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
-import '../../../../features/incoming_single_link_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
 import '../../../../features/payment_request/models/payment_request.dart';
@@ -47,10 +46,9 @@ class _State extends State<WalletFlowScreen> {
     if (!mounted) return;
 
     if (request is QrScannerTipRequest) {
-      final id = await context.createISLP(request.paymentData);
-
       if (!mounted) return;
-      await context.router.push(IncomingSingleLinkRoute(id: id));
+      await context.router
+          .push(IncomingSingleLinkRoute(data: request.paymentData));
 
       return;
     }

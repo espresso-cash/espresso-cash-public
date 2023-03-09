@@ -68,6 +68,7 @@ Future<void> _start() async {
       const AccountsModule(),
       ChangeNotifierProvider<DynamicLinksNotifier>(
         create: (_) => sl<DynamicLinksNotifier>(),
+        lazy: false,
       ),
     ],
     child: const CryptopleaseApp(),
