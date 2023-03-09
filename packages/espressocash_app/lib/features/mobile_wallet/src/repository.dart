@@ -9,7 +9,7 @@ typedef NotificationHanlder = FutureOr<Object?> Function(
   MobileWalletNotification,
 );
 
-@injectable
+@lazySingleton
 class MobileWalletRepository extends ChangeNotifier {
   MobileWalletNotification? _notification;
   Completer<Object?>? _completer;

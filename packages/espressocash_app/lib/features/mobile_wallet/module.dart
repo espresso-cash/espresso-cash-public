@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
 import 'src/repository.dart';
+import 'src/scenario_handler.dart';
 
 class MobileWalletModule extends SingleChildStatelessWidget {
   const MobileWalletModule({
@@ -17,24 +18,25 @@ class MobileWalletModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
+          Provider(lazy: false, create: (_) => sl<ScenarioHandler>()),
           ChangeNotifierProvider.value(value: sl<MobileWalletRepository>()),
         ],
-        child: RemoteRequestListener(
+        child: MobileWalletListener(
           child: child ?? const SizedBox.shrink(),
         ),
       );
 }
 
-class RemoteRequestListener extends StatefulWidget {
-  const RemoteRequestListener({super.key, required this.child});
+class MobileWalletListener extends StatefulWidget {
+  const MobileWalletListener({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<RemoteRequestListener> createState() => _RemoteRequestListenerState();
+  State<MobileWalletListener> createState() => _MobileWalletListenerState();
 }
 
-class _RemoteRequestListenerState extends State<RemoteRequestListener> {
+class _MobileWalletListenerState extends State<MobileWalletListener> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();

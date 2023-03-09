@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
@@ -7,7 +8,7 @@ import 'models/notification.dart';
 import 'models/remote_request.dart';
 import 'repository.dart';
 
-@lazySingleton
+@injectable
 class ScenarioHandler implements ScenarioCallbacks {
   ScenarioHandler(this._repository) {
     _init();
@@ -29,6 +30,7 @@ class ScenarioHandler implements ScenarioCallbacks {
     );
 
     _scenario?.start();
+    log('Scenario initialized');
   }
 
   @override
