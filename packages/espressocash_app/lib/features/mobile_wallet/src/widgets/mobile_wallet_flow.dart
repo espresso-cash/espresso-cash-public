@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,19 +26,64 @@ class _Content extends StatefulWidget {
   const _Content({Key? key}) : super(key: key);
 
   @override
-  State<_Content> createState() => __ContentState();
+  State<_Content> createState() => _ContentState();
 }
 
-class __ContentState extends State<_Content> {
+class _ContentState extends State<_Content> {
+  void _onAccept() =>
+      context.read<MobileWalletBloc>().add(const MobileWalletEvent.accepted());
+
+  void _onDecline() =>
+      context.read<MobileWalletBloc>().add(const MobileWalletEvent.declined());
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(),
         body: BlocBuilder<MobileWalletBloc, MobileWalletState>(
-          builder: (context, state) => Center(
-            child: Text(
-              state.toString(),
+          builder: (context, state) => state.when(
+            result: always(const Center(child: CircularProgressIndicator())),
+            requested: (r) => _RequestWidget(
+              message: r.map(
+                authorizeDapp: always('authorizeDapp'),
+                reauthorizeDapp: always('reauthorizeDapp'),
+                signPayloads: always('signPayloads'),
+                signTransactionsForSending:
+                    always('signTransactionsForSending'),
+                sendTransactions: always('sendTransactions'),
+              ),
+              onAccept: _onAccept,
+              onDecline: _onDecline,
             ),
           ),
         ),
+      );
+}
+
+class _RequestWidget extends StatelessWidget {
+  const _RequestWidget({
+    Key? key,
+    required this.message,
+    required this.onAccept,
+    required this.onDecline,
+  }) : super(key: key);
+
+  final String message;
+  final VoidCallback onAccept;
+  final VoidCallback onDecline;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(message),
+          const SizedBox(height: 24),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(onPressed: onDecline, child: const Text('Decline')),
+              TextButton(onPressed: onAccept, child: const Text('Accept')),
+            ],
+          )
+        ],
       );
 }
