@@ -30,16 +30,22 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
     if (existing != null) {
       if (!mounted) return;
 
-      _openFirstPartReadyScreen();
+      await _openFirstPartReadyScreen();
     }
   }
 
-  void _openFirstPartReadyScreen() {
-    context.router.push(
-      FirstPartReadyRoute(
-        onCancel: () => sl<PendingISKPRepository>().clear(),
-      ),
-    );
+  Future<void> _openFirstPartReadyScreen() async {
+    // Added this delay to avoid routing error
+    await Future<void>.delayed(const Duration(milliseconds: 100));
+
+    if (!mounted) return;
+    context.router
+        .push(
+          FirstPartReadyRoute(
+            onCancel: () => sl<PendingISKPRepository>().clear(),
+          ),
+        )
+        .ignore();
   }
 
   @override
