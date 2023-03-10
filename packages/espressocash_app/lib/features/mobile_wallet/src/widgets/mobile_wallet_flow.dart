@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/accounts/bl/account.dart';
 import '../../../../di.dart';
 import '../../../../ui/app_bar.dart';
 import '../bl/bloc.dart';
@@ -17,7 +19,10 @@ class MobileWalletFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (_) => sl<MobileWalletBloc>(param1: request),
+        create: (context) => sl<MobileWalletBloc>(
+          param1: request,
+          param2: context.read<MyAccount>(),
+        ),
         child: const _Content(),
       );
 }
@@ -39,7 +44,10 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(),
-        body: BlocBuilder<MobileWalletBloc, MobileWalletState>(
+        body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
+          listener: (context, state) => state.whenOrNull(
+            result: (r) => context.router.pop(r),
+          ),
           builder: (context, state) => state.when(
             result: always(const Center(child: CircularProgressIndicator())),
             requested: (r) => _RequestWidget(

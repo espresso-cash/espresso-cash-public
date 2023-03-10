@@ -43,7 +43,9 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
     context.watch<MobileWalletRepository>().processNotification(
           (notification) => notification.maybeWhen(
             orElse: ignore,
-            request: (r) => context.router.push(MobileWalletFlow(request: r)),
+            request: (r) => context.router.replace(
+              MobileWalletFlow(request: r),
+            ),
           ),
         );
   }

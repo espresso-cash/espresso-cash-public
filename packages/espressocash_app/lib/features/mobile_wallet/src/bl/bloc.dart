@@ -21,8 +21,8 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
   MobileWalletBloc(
     this._client, {
     @factoryParam required RemoteRequest request,
-    @factoryParam required MyAccount myAccount,
-  })  : _account = myAccount,
+    @factoryParam required MyAccount account,
+  })  : _account = account,
         super(MobileWalletState.requested(request)) {
     on<MobileWalletEvent>(_eventHandler, transformer: sequential());
   }
