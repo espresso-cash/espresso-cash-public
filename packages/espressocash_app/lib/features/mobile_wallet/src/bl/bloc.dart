@@ -6,10 +6,12 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../../core/accounts/bl/account.dart';
+import '../../../../core/transactions/resign_tx.dart';
 import '../models/remote_request.dart';
 
 part 'bloc.freezed.dart';
@@ -62,7 +64,7 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
         qualifier: _qualifier,
       ),
       reauthorizeDapp: always(null),
-      signPayloads: always(null),
+      signPayloads: (it) => _onSignPayloads(it.request),
       sendTransactions: always(null),
       signTransactionsForSending: always(null),
     );
@@ -83,6 +85,42 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
           utf8.encode([scopeTag, qualifier].whereType<String>().join(',')),
         ),
       );
+
+  Future<SignedPayloadResult> _onSignPayloads(
+    SignPayloadsRequest request,
+  ) async {
+    // TODO(rhbrunetto): add payloads validation: invalidPayloads /
+    // tooManyPayloads
+    final transactions = await Future.wait(
+      request.payloads.map(
+        (it) => SignedTx.fromBytes(it).resign(_account.wallet),
+      ),
+    );
+
+    return SignedPayloadResult(
+      signedPayloads: transactions
+          .map((it) => it.toByteArray().toList())
+          .map(Uint8List.fromList)
+          .toList(),
+    );
+  }
+
+  Future<SignedPayloadResult> _onSendTransactions(
+    SignPayloadsRequest request,
+  ) async {
+    final transactions = await Future.wait(
+      request.payloads.map(
+        (it) => SignedTx.fromBytes(it).resign(_account.wallet),
+      ),
+    );
+
+    return SignedPayloadResult(
+      signedPayloads: transactions
+          .map((it) => it.toByteArray().toList())
+          .map(Uint8List.fromList)
+          .toList(),
+    );
+  }
 }
 
 const String _scopeTag = 'app';
