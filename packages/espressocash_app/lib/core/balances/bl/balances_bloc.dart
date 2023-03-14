@@ -8,8 +8,11 @@ import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
+import 'package:web3dart/credentials.dart';
 
+import '../../../di.dart';
 import '../../amount.dart';
+import '../../currency.dart';
 import '../../processing_state.dart';
 import '../../solana_helpers.dart';
 import '../../tokens/token.dart';
@@ -25,14 +28,17 @@ final _logger = Logger('BalancesBloc');
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   BalancesBloc({
     required SolanaClient solanaClient,
+    required EthereumClient ethereumClient,
     required TokenList tokens,
   })  : _solanaClient = solanaClient,
+        _ethereumClient = ethereumClient,
         _tokens = tokens,
         super(BalancesState()) {
     on<BalancesEvent>(_eventHandler);
   }
 
   final SolanaClient _solanaClient;
+  final EthereumClient _ethereumClient;
   final TokenList _tokens;
 
   EventHandler<BalancesEvent, BalancesState> get _eventHandler =>
@@ -51,6 +57,14 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     try {
       emit(state.copyWith(processingState: const ProcessingState.processing()));
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
+
+      final ethBalance = await _ethereumClient
+          .getBalance(EthereumAddress.fromHex(event.ethAddress!));
+
+      balances[Token.eth] = Amount.crypto(
+        value: ethBalance.getInWei.toInt(),
+        cryptoCurrency: const CryptoCurrency(token: Token.eth),
+      );
 
       final allAccounts = await _solanaClient.getSplAccounts(
         event.address,
@@ -87,7 +101,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
         ),
       );
       balances.addEntries(tokenBalances);
-
       emit(
         state.copyWith(
           processingState: const ProcessingState.none(),

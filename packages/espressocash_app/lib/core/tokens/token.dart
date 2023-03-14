@@ -24,6 +24,8 @@ class Token {
 
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
 
+  const factory Token.ethereum() = _EthToken;
+
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -40,6 +42,8 @@ class Token {
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
 
   static const sol = Token.solana();
+
+  static const eth = Token.ethereum();
 
   static const wrappedSol = Token.wrappedSolana();
 
@@ -86,6 +90,23 @@ class _SolanaToken extends Token {
           decimals: 9,
           name: 'Solana',
           symbol: 'SOL',
+        );
+}
+
+class _EthToken extends Token {
+  const _EthToken()
+      : super(
+          address: 'ethereum',
+          extensions: const Extensions(
+            coingeckoId: 'ethereum',
+          ),
+          logoURI:
+              'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1595348880',
+          chainId: currentChainId,
+          tags: const [],
+          decimals: 18,
+          name: 'Ethereum',
+          symbol: 'ETH',
         );
 }
 

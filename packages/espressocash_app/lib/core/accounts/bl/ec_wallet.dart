@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 abstract class ECWallet {
   String get address;
@@ -12,9 +13,10 @@ abstract class ECWallet {
 }
 
 class LocalWallet implements ECWallet {
-  LocalWallet(this.keyPair);
+  LocalWallet(this.keyPair, {this.wallet});
 
   final Ed25519HDKeyPair keyPair;
+  final HDWallet? wallet;
 
   @override
   String get address => keyPair.address;

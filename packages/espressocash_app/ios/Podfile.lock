@@ -200,6 +200,16 @@ PODS:
     - sqlite3/fts5
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
+  - SwiftProtobuf (1.20.3)
+  - trust_wallet_core_lib (0.0.1):
+    - Flutter
+    - TrustWalletCore
+  - TrustWalletCore (3.1.10):
+    - TrustWalletCore/Core (= 3.1.10)
+  - TrustWalletCore/Core (3.1.10):
+    - TrustWalletCore/Types
+  - TrustWalletCore/Types (3.1.10):
+    - SwiftProtobuf
   - uni_links (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
@@ -228,10 +238,14 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/ios`)
+  - trust_wallet_core_lib (from `.symlinks/plugins/trust_wallet_core_lib/ios`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
 SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SwiftProtobuf
+    - TrustWalletCore
   https://github.com/passbase/cocoapods-specs.git:
     - Passbase
   https://github.com/passbase/microblink-cocoapods-specs.git:
@@ -310,6 +324,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/ios"
+  trust_wallet_core_lib:
+    :path: ".symlinks/plugins/trust_wallet_core_lib/ios"
   uni_links:
     :path: ".symlinks/plugins/uni_links/ios"
   url_launcher_ios:
@@ -371,6 +387,9 @@ SPEC CHECKSUMS:
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   sqlite3: 88dd99ef4ac3945f5a15facdd752933c52fd93bf
   sqlite3_flutter_libs: c00751e981228acb63595236703da79d31282b63
+  SwiftProtobuf: b02b5075dcf60c9f5f403000b3b0c202a11b6ae1
+  trust_wallet_core_lib: 1d25320104cd3a7fee634d5f57596200da2b5d7c
+  TrustWalletCore: 9a0893d370196226a8c371c2b29575399e326f78
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: ae1517e5e344f5544fb090b079e11f399dfbe4d2
 

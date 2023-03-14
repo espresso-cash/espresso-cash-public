@@ -4,5 +4,6 @@ part of 'balances_bloc.dart';
 class BalancesEvent with _$BalancesEvent {
   const factory BalancesEvent.requested({
     required String address,
+    String? ethAddress,
   }) = BalancesEventRequested;
 }

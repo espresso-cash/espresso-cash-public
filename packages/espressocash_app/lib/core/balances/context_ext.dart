@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../config.dart';
 import '../accounts/bl/account.dart';
+import '../accounts/bl/ec_wallet.dart';
 import 'bl/balances_bloc.dart';
 
 extension BalancesExt on BuildContext {
@@ -9,6 +11,14 @@ extension BalancesExt on BuildContext {
     final bloc = read<BalancesBloc>();
     final account = read<MyAccount>();
 
-    bloc.add(BalancesEvent.requested(address: account.address));
+    final ethWallet =
+        (account.wallet as LocalWallet).wallet?.getAddressForCoin(ethCoinId);
+
+    bloc.add(
+      BalancesEvent.requested(
+        address: account.address,
+        ethAddress: ethWallet,
+      ),
+    );
   }
 }

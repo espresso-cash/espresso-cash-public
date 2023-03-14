@@ -14,6 +14,8 @@ import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
@@ -72,6 +74,7 @@ class TokenDetailsScreen extends StatelessWidget {
                       _Chart(token: token),
                       if (token.canBeSwapped) ExchangeButtons(token: token),
                       if (token == Token.usdc) const _RampButtons(),
+                      if (token.isEth) EthButtons(token: token),
                       _Balance(token: token),
                       _Content(token: token),
                     ],
@@ -287,9 +290,46 @@ class _RampButtons extends StatelessWidget {
       );
 }
 
+class EthButtons extends StatelessWidget {
+  const EthButtons({
+    Key? key,
+    required this.token,
+  }) : super(key: key);
+
+  final Token token;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Flexible(
+              child: CpButton(
+                text: 'Send',
+                width: double.infinity,
+                onPressed: () =>
+                    context.navigateTo(TokenSendRoute(token: token)),
+              ),
+            ),
+            const SizedBox(width: 24),
+            Flexible(
+              child: CpButton(
+                text: 'Receive',
+                width: double.infinity,
+                onPressed: () =>
+                    context.navigateTo(TokenReceiveRoute(token: token)),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
 extension on Token {
   /// Since buy and sell a token actually swaps it for USDC, makes no sense
   /// buying or selling USDC through this same flow as would not exist a match.
   bool get canBeSwapped =>
       address != coingeckoId && address != Token.usdc.address;
+  bool get isEth => address == Token.eth.address;
 }

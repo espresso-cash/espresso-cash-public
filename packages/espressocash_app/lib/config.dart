@@ -70,3 +70,13 @@ const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
 
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
+
+const ethCoinId = 60;
+const solCoinId = 501;
+
+const ethChainId = isProd ? _ethMainNetChainId : _ethDevNetChainId;
+
+const _ethMainNetChainId = 1;
+const _ethDevNetChainId = 11155111;
+
+const ethRpcUrl = String.fromEnvironment('ETH_RPC_URL');

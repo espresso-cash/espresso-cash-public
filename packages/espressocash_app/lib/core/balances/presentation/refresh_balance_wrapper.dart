@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
+import '../../../config.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/bl/account.dart';
+import '../../accounts/bl/ec_wallet.dart';
 import '../../conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../processing_state.dart';
 import '../../user_preferences.dart';
@@ -65,7 +67,15 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     final bloc = context.read<BalancesBloc>();
     final account = context.read<MyAccount>();
 
-    bloc.add(BalancesEvent.requested(address: account.address));
+    final ethWallet =
+        (account.wallet as LocalWallet).wallet?.getAddressForCoin(ethCoinId);
+
+    bloc.add(
+      BalancesEvent.requested(
+        address: account.address,
+        ethAddress: ethWallet,
+      ),
+    );
 
     return _listenForProcessingStateAndThrowOnError(bloc.stream);
   }

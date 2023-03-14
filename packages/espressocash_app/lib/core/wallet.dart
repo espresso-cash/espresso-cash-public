@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:solana/solana.dart';
+import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 import 'accounts/bl/ec_wallet.dart';
 
@@ -10,7 +11,7 @@ Future<ECWallet> createWallet({
   final wallet =
       await compute(_createKeyPair, KeyPairParams(mnemonic, account));
 
-  return LocalWallet(wallet);
+  return LocalWallet(wallet, wallet: HDWallet.createWithMnemonic(mnemonic));
 }
 
 Future<Ed25519HDKeyPair> _createKeyPair(KeyPairParams params) =>

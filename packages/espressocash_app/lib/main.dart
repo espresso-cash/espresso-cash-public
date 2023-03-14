@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trust_wallet_core_lib/trust_wallet_core_lib.dart';
 
 import 'app/app.dart';
 import 'config.dart';
@@ -50,6 +51,8 @@ Future<void> _start() async {
   await Firebase.initializeApp();
 
   await configureDependencies();
+
+  TrustWalletCoreLib.init();
 
   Bloc.observer = Observer();
 
