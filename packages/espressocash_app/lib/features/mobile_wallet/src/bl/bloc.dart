@@ -26,7 +26,7 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
     @factoryParam required MyAccount account,
   })  : _account = account,
         super(MobileWalletState.requested(request)) {
-    on<MobileWalletEvent>(_eventHandler, transformer: sequential());
+    on<MobileWalletEvent>(_eventHandler, transformer: droppable());
   }
 
   final TxSender _sender;

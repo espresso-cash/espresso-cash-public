@@ -2,10 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../di.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
 import '../bl/bloc.dart';
 import '../models/remote_request.dart';
@@ -43,27 +45,39 @@ class _ContentState extends State<_Content> {
       context.read<MobileWalletBloc>().add(const MobileWalletEvent.declined());
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.light(
         child: Scaffold(
-          appBar: CpAppBar(),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: BlocConsumer<MobileWalletBloc, MobileWalletState>(
-              listener: (context, state) => state.whenOrNull(
-                result: (r) => context.router.pop(r),
+          appBar: CpAppBar(
+            title: const Text('Espresso Cash Wallet'),
+          ),
+          body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
+            listener: (context, state) => state.whenOrNull(
+              result: (r) => context.router.pop(r),
+            ),
+            builder: (context, state) => state.when(
+              result: always(
+                const Center(child: CircularProgressIndicator()),
               ),
-              builder: (context, state) => state.when(
-                result:
-                    always(const Center(child: CircularProgressIndicator())),
-                requested: (r) => _RequestWidget(
-                  message: r.map(
-                    authorizeDapp: always('authorizeDapp'),
-                    signPayloads: always('signPayloads'),
-                    signTransactionsForSending:
-                        always('signTransactionsForSending'),
+              requested: (request) => SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      request.when(
+                        authorizeDapp: (it) =>
+                            _AuthorizeRequestWidget(request: it),
+                        signPayloads: (it) => _SignPayloadsWidget(request: it),
+                        signTransactionsForSending: (it) =>
+                            _SignAndSendPayloadsWidget(request: it),
+                      ),
+                      const Spacer(),
+                      _Buttons(
+                        onAccept: _onAccept,
+                        onDecline: _onDecline,
+                      ),
+                    ],
                   ),
-                  onAccept: _onAccept,
-                  onDecline: _onDecline,
                 ),
               ),
             ),
@@ -72,43 +86,151 @@ class _ContentState extends State<_Content> {
       );
 }
 
-class _RequestWidget extends StatelessWidget {
-  const _RequestWidget({
+class _Buttons extends StatelessWidget {
+  const _Buttons({
     Key? key,
-    required this.message,
     required this.onAccept,
     required this.onDecline,
   }) : super(key: key);
 
-  final String message;
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
   @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CpButton(text: 'Decline', onPressed: onDecline),
+            CpButton(text: 'Accept', onPressed: onAccept),
+          ],
+        ),
+      );
+}
+
+class _AuthorizeRequestWidget extends StatelessWidget {
+  const _AuthorizeRequestWidget({
+    Key? key,
+    required this.request,
+  }) : super(key: key);
+
+  final AuthorizeRequest request;
+
+  @override
+  Widget build(BuildContext context) {
+    final name = request.identityName ?? '';
+    final identityUri = request.identityUri;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _DAppIcon(
+          identityUri: identityUri,
+          iconUri: request.iconUri,
+        ),
+        const SizedBox(height: 16),
+        Text('Authorize $name?', style: _titleStyle),
+        const SizedBox(height: 8),
+        if (identityUri != null) Text(identityUri.toString()),
+      ],
+    );
+  }
+}
+
+class _SignPayloadsWidget extends StatelessWidget {
+  const _SignPayloadsWidget({
+    Key? key,
+    required this.request,
+  }) : super(key: key);
+
+  final SignPayloadsRequest request;
+
+  @override
   Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(message),
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton(
-                onPressed: onDecline,
-                child: const Text(
-                  'Decline',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              TextButton(
-                onPressed: onAccept,
-                child: const Text(
-                  'Accept',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-          )
+          _DAppIcon(
+            identityUri: request.identityUri,
+            iconUri: request.iconRelativeUri,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            request.map(
+              transactions: always('Sign Transaction(s)'),
+              messages: always('Sign Message(s)'),
+            ),
+            style: _titleStyle,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            '${request.identityName} is requesting you to sign ${request.payloads.length} payload(s)',
+          ),
         ],
       );
 }
+
+class _SignAndSendPayloadsWidget extends StatelessWidget {
+  const _SignAndSendPayloadsWidget({
+    Key? key,
+    required this.request,
+  }) : super(key: key);
+
+  final SignAndSendTransactionsRequest request;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _DAppIcon(
+            identityUri: request.identityUri,
+            iconUri: request.iconRelativeUri,
+          ),
+          const SizedBox(height: 16),
+          const Text('Sign and Send Transaction(s)', style: _titleStyle),
+          const SizedBox(height: 8),
+          Text(
+            '${request.identityName} is requesting you to sign ${request.transactions.length} transactions(s)',
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'These transactions will be immediately submitted after signing.',
+          ),
+        ],
+      );
+}
+
+class _DAppIcon extends StatelessWidget {
+  const _DAppIcon({
+    Key? key,
+    required this.iconUri,
+    required this.identityUri,
+  }) : super(key: key);
+
+  final Uri? iconUri;
+  final Uri? identityUri;
+
+  @override
+  Widget build(BuildContext context) {
+    final identityUri = this.identityUri;
+    Uri? iconUri = this.iconUri;
+
+    if (identityUri != null && iconUri != null && identityUri.isAbsolute) {
+      iconUri = identityUri.replace(
+        pathSegments: [
+          ...identityUri.pathSegments,
+          Uri.encodeFull(iconUri.toString()),
+        ],
+      );
+    }
+
+    if (iconUri == null) return const SizedBox.shrink();
+
+    return Image.network(iconUri.toString());
+  }
+}
+
+const _titleStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 17);

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:injectable/injectable.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
+import '../../../config.dart';
 import 'models/notification.dart';
 import 'models/remote_request.dart';
 import 'repository.dart';
@@ -21,8 +22,8 @@ class ScenarioHandler implements ScenarioCallbacks {
     _scenario = await Scenario.create(
       walletConfig: const MobileWalletAdapterConfig(
         supportsSignAndSendTransactions: true,
-        maxTransactionsPerSigningRequest: 10,
-        maxMessagesPerSigningRequest: 10,
+        maxTransactionsPerSigningRequest: maxTransactionsPerSigningRequest,
+        maxMessagesPerSigningRequest: maxMessagesPerSigningRequest,
         supportedTransactionVersions: ['legacy'],
       ),
       issuerConfig: const AuthIssuerConfig(name: 'Espresso Cash'),
