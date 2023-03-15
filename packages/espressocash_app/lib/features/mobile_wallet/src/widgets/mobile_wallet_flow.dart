@@ -61,7 +61,6 @@ class _ContentState extends State<_Content> {
                     signPayloads: always('signPayloads'),
                     signTransactionsForSending:
                         always('signTransactionsForSending'),
-                    sendTransactions: always('sendTransactions'),
                   ),
                   onAccept: _onAccept,
                   onDecline: _onDecline,

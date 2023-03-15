@@ -7,11 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/transactions/resign_tx.dart';
+import '../../../../core/transactions/tx_sender.dart';
 import '../models/remote_request.dart';
 
 part 'bloc.freezed.dart';
@@ -21,7 +21,7 @@ part 'state.dart';
 @injectable
 class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
   MobileWalletBloc(
-    this._client, {
+    this._sender, {
     @factoryParam required RemoteRequest request,
     @factoryParam required MyAccount account,
   })  : _account = account,
@@ -29,7 +29,7 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
     on<MobileWalletEvent>(_eventHandler, transformer: sequential());
   }
 
-  final SolanaClient _client;
+  final TxSender _sender;
   final MyAccount _account;
 
   EventHandler<MobileWalletEvent, MobileWalletState> get _eventHandler =>
@@ -45,7 +45,6 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
     final result = request.map(
       authorizeDapp: always(null),
       signPayloads: always(const SignedPayloadResult.requestDeclined()),
-      sendTransactions: always(const SignedPayloadResult.requestDeclined()),
       signTransactionsForSending:
           always(const SignaturesResult.requestDeclined()),
     );
@@ -57,94 +56,79 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
     final request = state.whenOrNull(requested: identity);
     if (request == null) return;
 
-    final result = request.map(
-      authorizeDapp: (_) => _onAuthorized(
-        scopeTag: _scopeTag,
-        qualifier: _qualifier,
-      ),
-      signPayloads: (it) => _onSignPayloads(it.request),
-      sendTransactions: _onSendTransactions,
+    final result = request.when(
+      authorizeDapp: _onAuthorized,
+      signPayloads: _onSignPayloads,
       signTransactionsForSending: _signTransactionsForSending,
     );
 
     emit(MobileWalletState.result(result));
   }
 
-  AuthorizeResult _onAuthorized({
-    required String scopeTag,
-    required String? qualifier,
-  }) =>
-      AuthorizeResult(
+  AuthorizeResult _onAuthorized(AuthorizeRequest _) => AuthorizeResult(
         publicKey: Uint8List.fromList(_account.wallet.publicKey.bytes),
+        walletUriBase: null,
         // TODO(rhbrunetto): fix me
         accountLabel: _account.firstName,
-        walletUriBase: null,
         scope: Uint8List.fromList(
-          utf8.encode([scopeTag, qualifier].whereType<String>().join(',')),
+          utf8.encode([_scopeTag, _qualifier].whereType<String>().join(',')),
         ),
       );
 
   Future<SignedPayloadResult> _onSignPayloads(
     SignPayloadsRequest request,
   ) async {
+    final payloads = request.payloads;
     // TODO(rhbrunetto): add payloads validation: invalidPayloads /
     // tooManyPayloads
-    final transactions = await Future.wait(
-      request.payloads.map(
-        (it) => SignedTx.fromBytes(it).resign(_account.wallet),
+
+    final signedPayloads = await Future.wait(
+      request.map(
+        transactions: (_) => payloads.map(SignedTx.fromBytes).map(
+              (tx) => tx
+                  .resign(_account.wallet)
+                  .letAsync((it) => it.toByteArray().toList()),
+            ),
+        messages: (_) => payloads.map(
+          (it) async =>
+              it + await _account.wallet.sign(it).then((s) => s.bytes),
+        ),
       ),
     );
 
     return SignedPayloadResult(
-      signedPayloads: transactions.toBytes(),
+      signedPayloads: signedPayloads.map(Uint8List.fromList).toList(),
     );
   }
 
-  Future<SignaturesResult> _onSendTransactions(
-    SendTransactions request,
+  Future<SignaturesResult> _signTransactionsForSending(
+    SignAndSendTransactionsRequest request,
   ) async {
-    final results = await Future.wait(
-      request.signedTransactions.map(base64.encode).map(
-            (e) => _client.rpcClient.sendTransaction(e).then(T, onError: F),
-          ),
-    );
+    // TODO(rhbrunetto): add validations:
+    // - authorization: scope
+    // - payload: invalidPayloads / tooManyPayloads
+
+    final signedTxs = await request.transactions
+        .map(SignedTx.fromBytes)
+        .map((it) => it.resign(_account.wallet))
+        .let(Future.wait);
+
+    final signatures = signedTxs
+        .map((it) => it.signatures.first.bytes)
+        .map(Uint8List.fromList)
+        .toList();
+
+    final results = await signedTxs
+        .map(
+          (tx) => _sender
+              .send(tx, minContextSlot: BigInt.zero)
+              .letAsync((it) => it.maybeMap(orElse: F, sent: T)),
+        )
+        .let(Future.wait);
 
     return results.any((e) => !e)
         ? SignaturesResult.invalidPayloads(valid: results)
-        : SignaturesResult(signatures: request.signatures);
-  }
-
-  Future<void> _signTransactionsForSending(
-    SignTransactionsForSending request,
-  ) async {
-    final transactions = await Future.wait(
-      request.request.transactions.map(
-        (e) async {
-          final tx = SignedTx.fromBytes(e);
-
-          return SignedTx(
-            messageBytes: tx.messageBytes,
-            signatures: [await _keyPair.sign(tx.messageBytes)],
-          );
-        },
-      ),
-    );
-
-    emit(
-      MobileWalletState.remote(
-        RemoteRequest.sendTransactions(
-          request: request,
-          signatures: transactions
-              .map((e) => e.signatures.first.bytes)
-              .map(Uint8List.fromList)
-              .toList(),
-          signedTransactions: transactions
-              .map((e) => e.toByteArray().toList())
-              .map(Uint8List.fromList)
-              .toList(),
-        ),
-      ),
-    );
+        : SignaturesResult(signatures: signatures);
   }
 }
 
@@ -156,9 +140,4 @@ extension on List<SignedTx> {
       .map((it) => it.toByteArray().toList())
       .map(Uint8List.fromList)
       .toList();
-}
-
-extension on List<Uint8List> {
-  List<SignedTx> toTransactions() =>
-      this.map((it) => it.toList()).map(SignedTx.fromBytes).toList();
 }

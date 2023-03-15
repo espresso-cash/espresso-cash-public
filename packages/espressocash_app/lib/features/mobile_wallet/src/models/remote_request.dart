@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
@@ -18,10 +16,4 @@ class RemoteRequest with _$RemoteRequest {
   const factory RemoteRequest.signTransactionsForSending({
     required SignAndSendTransactionsRequest request,
   }) = SignTransactionsForSending;
-
-  const factory RemoteRequest.sendTransactions({
-    required SignAndSendTransactionsRequest request,
-    required List<Uint8List> signatures,
-    required List<Uint8List> signedTransactions,
-  }) = SendTransactions;
 }
