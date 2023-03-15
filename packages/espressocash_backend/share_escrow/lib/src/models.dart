@@ -33,7 +33,7 @@ class EscrowDataAccount implements AnchorAccount {
     );
   }
 
-  factory EscrowDataAccount.fromAccountData(AccountData accountData) {
+  factory EscrowDataAccount.fromAccountData(AccountData? accountData) {
     if (accountData is BinaryAccountData) {
       return EscrowDataAccount._fromBinary(accountData.data);
     } else {

@@ -47,7 +47,11 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    return EscrowDataAccount.fromAccountData(account.value!.data!);
+    if (account.value == null) {
+      fail('Escrow account is null');
+    }
+
+    return EscrowDataAccount.fromAccountData(account.value?.data);
   }
 
   Future<void> createEscrow(Accounts accounts) async {
@@ -126,9 +130,13 @@ void main() {
       account: accounts.senderTokenAccount,
     );
 
+    if (senderTokenAccount == null) {
+      fail('Sender token account is null');
+    }
+
     expect(
       initializerAmount - sendAmount,
-      int.tryParse(senderTokenAccount!.amount) ?? 0,
+      int.tryParse(senderTokenAccount.amount) ?? 0,
     );
 
     final depositorTokenAccount = await getTokenAccountBalance(
@@ -136,9 +144,13 @@ void main() {
       account: accounts.vaultTokenAccount,
     );
 
+    if (depositorTokenAccount == null) {
+      fail('Depositor token account is null');
+    }
+
     expect(
       sendAmount,
-      int.tryParse(depositorTokenAccount!.amount) ?? 0,
+      int.tryParse(depositorTokenAccount.amount) ?? 0,
     );
   });
 
