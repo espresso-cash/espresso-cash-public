@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../di.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/theme.dart';
 import '../bl/bloc.dart';
 import '../models/remote_request.dart';
 
@@ -42,25 +43,30 @@ class _ContentState extends State<_Content> {
       context.read<MobileWalletBloc>().add(const MobileWalletEvent.declined());
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(),
-        body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
-          listener: (context, state) => state.whenOrNull(
-            result: (r) => context.router.pop(r),
-          ),
-          builder: (context, state) => state.when(
-            result: always(const Center(child: CircularProgressIndicator())),
-            requested: (r) => _RequestWidget(
-              message: r.map(
-                authorizeDapp: always('authorizeDapp'),
-                reauthorizeDapp: always('reauthorizeDapp'),
-                signPayloads: always('signPayloads'),
-                signTransactionsForSending:
-                    always('signTransactionsForSending'),
-                sendTransactions: always('sendTransactions'),
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          appBar: CpAppBar(),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: BlocConsumer<MobileWalletBloc, MobileWalletState>(
+              listener: (context, state) => state.whenOrNull(
+                result: (r) => context.router.pop(r),
               ),
-              onAccept: _onAccept,
-              onDecline: _onDecline,
+              builder: (context, state) => state.when(
+                result:
+                    always(const Center(child: CircularProgressIndicator())),
+                requested: (r) => _RequestWidget(
+                  message: r.map(
+                    authorizeDapp: always('authorizeDapp'),
+                    signPayloads: always('signPayloads'),
+                    signTransactionsForSending:
+                        always('signTransactionsForSending'),
+                    sendTransactions: always('sendTransactions'),
+                  ),
+                  onAccept: _onAccept,
+                  onDecline: _onDecline,
+                ),
+              ),
             ),
           ),
         ),
@@ -88,8 +94,20 @@ class _RequestWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextButton(onPressed: onDecline, child: const Text('Decline')),
-              TextButton(onPressed: onAccept, child: const Text('Accept')),
+              TextButton(
+                onPressed: onDecline,
+                child: const Text(
+                  'Decline',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+              TextButton(
+                onPressed: onAccept,
+                child: const Text(
+                  'Accept',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
             ],
           )
         ],

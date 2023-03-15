@@ -11,10 +11,6 @@ class RemoteRequest with _$RemoteRequest {
     required AuthorizeRequest request,
   }) = AuthorizeDapp;
 
-  const factory RemoteRequest.reauthorizeDapp({
-    required ReauthorizeRequest request,
-  }) = ReauthorizeDapp;
-
   const factory RemoteRequest.signPayloads({
     required SignPayloadsRequest request,
   }) = SignPayloads;

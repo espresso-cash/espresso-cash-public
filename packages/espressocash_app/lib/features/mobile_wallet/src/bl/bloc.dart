@@ -44,7 +44,6 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
 
     final result = request.map(
       authorizeDapp: always(null),
-      reauthorizeDapp: always(null),
       signPayloads: always(const SignedPayloadResult.requestDeclined()),
       sendTransactions: always(const SignedPayloadResult.requestDeclined()),
       signTransactionsForSending:
@@ -63,10 +62,9 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
         scopeTag: _scopeTag,
         qualifier: _qualifier,
       ),
-      reauthorizeDapp: always(null),
       signPayloads: (it) => _onSignPayloads(it.request),
-      sendTransactions: always(null),
-      signTransactionsForSending: always(null),
+      sendTransactions: _onSendTransactions,
+      signTransactionsForSending: _signTransactionsForSending,
     );
 
     emit(MobileWalletState.result(result));
@@ -98,30 +96,69 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
     );
 
     return SignedPayloadResult(
-      signedPayloads: transactions
-          .map((it) => it.toByteArray().toList())
-          .map(Uint8List.fromList)
-          .toList(),
+      signedPayloads: transactions.toBytes(),
     );
   }
 
-  Future<SignedPayloadResult> _onSendTransactions(
-    SignPayloadsRequest request,
+  Future<SignaturesResult> _onSendTransactions(
+    SendTransactions request,
+  ) async {
+    final results = await Future.wait(
+      request.signedTransactions.map(base64.encode).map(
+            (e) => _client.rpcClient.sendTransaction(e).then(T, onError: F),
+          ),
+    );
+
+    return results.any((e) => !e)
+        ? SignaturesResult.invalidPayloads(valid: results)
+        : SignaturesResult(signatures: request.signatures);
+  }
+
+  Future<void> _signTransactionsForSending(
+    SignTransactionsForSending request,
   ) async {
     final transactions = await Future.wait(
-      request.payloads.map(
-        (it) => SignedTx.fromBytes(it).resign(_account.wallet),
+      request.request.transactions.map(
+        (e) async {
+          final tx = SignedTx.fromBytes(e);
+
+          return SignedTx(
+            messageBytes: tx.messageBytes,
+            signatures: [await _keyPair.sign(tx.messageBytes)],
+          );
+        },
       ),
     );
 
-    return SignedPayloadResult(
-      signedPayloads: transactions
-          .map((it) => it.toByteArray().toList())
-          .map(Uint8List.fromList)
-          .toList(),
+    emit(
+      MobileWalletState.remote(
+        RemoteRequest.sendTransactions(
+          request: request,
+          signatures: transactions
+              .map((e) => e.signatures.first.bytes)
+              .map(Uint8List.fromList)
+              .toList(),
+          signedTransactions: transactions
+              .map((e) => e.toByteArray().toList())
+              .map(Uint8List.fromList)
+              .toList(),
+        ),
+      ),
     );
   }
 }
 
 const String _scopeTag = 'app';
 const String? _qualifier = null;
+
+extension on List<SignedTx> {
+  List<Uint8List> toBytes() => this
+      .map((it) => it.toByteArray().toList())
+      .map(Uint8List.fromList)
+      .toList();
+}
+
+extension on List<Uint8List> {
+  List<SignedTx> toTransactions() =>
+      this.map((it) => it.toList()).map(SignedTx.fromBytes).toList();
+}

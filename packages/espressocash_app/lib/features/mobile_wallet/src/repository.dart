@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -39,7 +40,8 @@ class MobileWalletRepository extends ChangeNotifier {
   void _completeRequest(Object? result) {
     _completer?.complete(result);
     _notification = null;
-    notifyListeners();
+    // TODO(rhbrunetto): remove it from here
+    exit(0);
   }
 
   Future<T?> _waitForRequestComplete<T>() {
