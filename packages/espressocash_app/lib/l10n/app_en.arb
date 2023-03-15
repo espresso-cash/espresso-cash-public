@@ -522,5 +522,32 @@
   "activityStatusFailure": "Failure",
   "activityStatusInProgress": "In Progress",
   "activityStatusCanceled": "Canceled",
-  "enterAmount": "Enter amount"
+  "enterAmount": "Enter amount",
+  "mobileWalletTitle": "Espresso Cash Wallet",
+  "mobileWalletAuthorize": "Authorize {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Sign Transaction(s)",
+  "mobileWalletSignMessages": "Sign Message(s)",
+   "mobileWalletSignRequesting": "{appName} is requesting you to sign {payloadCount} payload(s)",
+  "@mobileWalletSignRequesting": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "payloadCount": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
+  "mobileWalletSendTransactions": "These transactions will be immediately submitted after signing.",
+  "mobileWalletAcceptSignPayloads": "Yes, sign payloads",
+  "mobileWalletAcceptAuthorization": "Yes, authorize",
+  "mobileWalletAcceptSignAndSendPayloads": "Yes, sign and send payloads"
 }

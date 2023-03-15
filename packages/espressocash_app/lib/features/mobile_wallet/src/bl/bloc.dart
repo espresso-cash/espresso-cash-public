@@ -57,6 +57,8 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     final request = state.whenOrNull(requested: identity);
     if (request == null) return;
 
+    emit(const RemoteRequestState.loading());
+
     final result = request.when(
       authorizeDapp: _onAuthorized,
       signPayloads: _onSignPayloads,

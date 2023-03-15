@@ -6,6 +6,7 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../../core/accounts/bl/account.dart';
 import '../../../../di.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
@@ -50,38 +51,57 @@ class _ContentState extends State<_Content> {
   Widget build(BuildContext context) => CpTheme.light(
         child: Scaffold(
           appBar: CpAppBar(
-            title: const Text('Espresso Cash Wallet'),
+            title: Text(context.l10n.mobileWalletTitle),
           ),
           body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
             listener: (context, state) => state.whenOrNull(
               result: (r) => context.router.pop(r),
             ),
             builder: (context, state) => state.when(
+              loading: always(
+                const Center(child: CircularProgressIndicator()),
+              ),
               result: always(
                 const Center(child: CircularProgressIndicator()),
               ),
-              requested: (request) => SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      request.when(
-                        authorizeDapp: (it) =>
-                            _AuthorizeRequestWidget(request: it),
-                        signPayloads: (it) => _SignPayloadsWidget(request: it),
-                        signTransactionsForSending: (it) =>
-                            _SignAndSendPayloadsWidget(request: it),
-                      ),
-                      const Spacer(),
-                      _Buttons(
-                        onAccept: _onAccept,
-                        onDecline: _onDecline,
-                      ),
-                    ],
+              requested: (request) {
+                final content = request.when(
+                  authorizeDapp: (it) => _AuthorizeRequestWidget(request: it),
+                  signPayloads: (it) => _SignPayloadsWidget(request: it),
+                  signTransactionsForSending: (it) =>
+                      _SignAndSendPayloadsWidget(request: it),
+                );
+
+                final acceptLabel = request.when(
+                  authorizeDapp: always(
+                    context.l10n.mobileWalletAcceptAuthorization,
                   ),
-                ),
-              ),
+                  signPayloads: always(
+                    context.l10n.mobileWalletAcceptSignPayloads,
+                  ),
+                  signTransactionsForSending: always(
+                    context.l10n.mobileWalletAcceptSignAndSendPayloads,
+                  ),
+                );
+
+                return SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        content,
+                        const Spacer(),
+                        _Buttons(
+                          acceptLabel: acceptLabel,
+                          onAccept: _onAccept,
+                          onDecline: _onDecline,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
         ),
@@ -91,10 +111,12 @@ class _ContentState extends State<_Content> {
 class _Buttons extends StatelessWidget {
   const _Buttons({
     Key? key,
+    required this.acceptLabel,
     required this.onAccept,
     required this.onDecline,
   }) : super(key: key);
 
+  final String acceptLabel;
   final VoidCallback onAccept;
   final VoidCallback onDecline;
 
@@ -104,8 +126,8 @@ class _Buttons extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CpButton(text: 'Decline', onPressed: onDecline),
-            CpButton(text: 'Accept', onPressed: onAccept),
+            CpButton(text: context.l10n.cancel, onPressed: onDecline),
+            CpButton(text: acceptLabel, onPressed: onAccept),
           ],
         ),
       );
@@ -133,7 +155,10 @@ class _AuthorizeRequestWidget extends StatelessWidget {
           iconUri: request.iconUri,
         ),
         const SizedBox(height: 16),
-        Text('Authorize $name?', style: _titleStyle),
+        Text(
+          context.l10n.mobileWalletAuthorize(name),
+          style: _titleStyle,
+        ),
         const SizedBox(height: 8),
         if (identityUri != null) Text(identityUri.toString()),
       ],
@@ -161,14 +186,17 @@ class _SignPayloadsWidget extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             request.map(
-              transactions: always('Sign Transaction(s)'),
-              messages: always('Sign Message(s)'),
+              transactions: always(context.l10n.mobileWalletSignTransactions),
+              messages: always(context.l10n.mobileWalletSignMessages),
             ),
             style: _titleStyle,
           ),
           const SizedBox(height: 8),
           Text(
-            '${request.identityName} is requesting you to sign ${request.payloads.length} payload(s)',
+            context.l10n.mobileWalletSignRequesting(
+              request.identityName ?? '',
+              request.payloads.length,
+            ),
           ),
         ],
       );
@@ -192,15 +220,19 @@ class _SignAndSendPayloadsWidget extends StatelessWidget {
             iconUri: request.iconRelativeUri,
           ),
           const SizedBox(height: 16),
-          const Text('Sign and Send Transaction(s)', style: _titleStyle),
+          Text(
+            context.l10n.mobileWalletSignAndSendTransactions,
+            style: _titleStyle,
+          ),
           const SizedBox(height: 8),
           Text(
-            '${request.identityName} is requesting you to sign ${request.transactions.length} transactions(s)',
+            context.l10n.mobileWalletSignRequesting(
+              request.identityName ?? '',
+              request.transactions.length,
+            ),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'These transactions will be immediately submitted after signing.',
-          ),
+          Text(context.l10n.mobileWalletSendTransactions),
         ],
       );
 }
