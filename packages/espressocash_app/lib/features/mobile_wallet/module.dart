@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
@@ -41,8 +42,9 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<MobileWalletRepository>().processNotification(
-          (notification) => notification.maybeWhen(
-            orElse: ignore,
+          (notification) => notification.when(
+            initialized: ignore,
+            sessionTerminated: SystemNavigator.pop,
             request: (r) => context.pushRoute(MobileWalletFlow(request: r)),
           ),
         );

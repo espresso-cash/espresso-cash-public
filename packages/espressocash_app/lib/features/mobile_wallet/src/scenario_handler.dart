@@ -42,7 +42,6 @@ class ScenarioHandler implements ScenarioCallbacks {
     );
   }
 
-  // TODO(rhbrunetto): fix it
   @override
   Future<bool> onReauthorizeRequest(
     ReauthorizeRequest request,

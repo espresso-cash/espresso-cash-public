@@ -134,10 +134,3 @@ class MobileWalletBloc extends Bloc<MobileWalletEvent, MobileWalletState> {
 
 const String _scopeTag = 'app';
 const String? _qualifier = null;
-
-extension on List<SignedTx> {
-  List<Uint8List> toBytes() => this
-      .map((it) => it.toByteArray().toList())
-      .map(Uint8List.fromList)
-      .toList();
-}
