@@ -12,8 +12,8 @@ import '../../../../ui/theme.dart';
 import '../bl/bloc.dart';
 import '../models/remote_request.dart';
 
-class MobileWalletFlow extends StatelessWidget {
-  const MobileWalletFlow({
+class RemoteRequestScreen extends StatelessWidget {
+  const RemoteRequestScreen({
     Key? key,
     required this.request,
   }) : super(key: key);
@@ -22,7 +22,7 @@ class MobileWalletFlow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => sl<MobileWalletBloc>(
+        create: (context) => sl<RemoteRequestBloc>(
           param1: request,
           param2: context.read<MyAccount>(),
         ),
@@ -38,11 +38,13 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  void _onAccept() =>
-      context.read<MobileWalletBloc>().add(const MobileWalletEvent.accepted());
+  void _onAccept() => context
+      .read<RemoteRequestBloc>()
+      .add(const RemoteRequestEvent.accepted());
 
-  void _onDecline() =>
-      context.read<MobileWalletBloc>().add(const MobileWalletEvent.declined());
+  void _onDecline() => context
+      .read<RemoteRequestBloc>()
+      .add(const RemoteRequestEvent.declined());
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
@@ -50,7 +52,7 @@ class _ContentState extends State<_Content> {
           appBar: CpAppBar(
             title: const Text('Espresso Cash Wallet'),
           ),
-          body: BlocConsumer<MobileWalletBloc, MobileWalletState>(
+          body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
             listener: (context, state) => state.whenOrNull(
               result: (r) => context.router.pop(r),
             ),

@@ -22,8 +22,8 @@ class ScenarioHandler implements ScenarioCallbacks {
     _scenario = await Scenario.create(
       walletConfig: const MobileWalletAdapterConfig(
         supportsSignAndSendTransactions: true,
-        maxTransactionsPerSigningRequest: maxTransactionsPerSigningRequest,
-        maxMessagesPerSigningRequest: maxMessagesPerSigningRequest,
+        maxTransactionsPerSigningRequest: maxPayloadsPerSigningRequest,
+        maxMessagesPerSigningRequest: maxPayloadsPerSigningRequest,
         supportedTransactionVersions: ['legacy'],
       ),
       issuerConfig: const AuthIssuerConfig(name: 'Espresso Cash'),

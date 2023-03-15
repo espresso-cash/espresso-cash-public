@@ -1,7 +1,7 @@
 part of 'bloc.dart';
 
 @freezed
-class MobileWalletEvent with _$MobileWalletEvent {
-  const factory MobileWalletEvent.declined() = _Decline;
-  const factory MobileWalletEvent.accepted() = _Accepted;
+class RemoteRequestEvent with _$RemoteRequestEvent {
+  const factory RemoteRequestEvent.declined() = _Decline;
+  const factory RemoteRequestEvent.accepted() = _Accepted;
 }
