@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/escrow_private_key.dart';
 import '../../../../core/tokens/token.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import 'repository.dart';
@@ -55,7 +56,7 @@ class RecoverPendingWatcher {
             .firstOrNull;
 
         if (escrow != null) {
-          if (pendingEscrows.contains(escrow.toBase58())) continue;
+          if (pendingEscrows.contains(escrow)) continue;
 
           final txList = await _client.rpcClient.getTransactionsList(
             escrow,
@@ -103,25 +104,25 @@ class RecoverPendingWatcher {
     }
   }
 
-  Future<List<String>> _pendingEscrows() async {
+  Future<List<EscrowPublicKey>> _pendingEscrows() async {
     final pending = await _repository.watchPending().first;
 
-    final List<String> results = [];
+    final List<EscrowPublicKey> results = [];
 
     for (final p in pending) {
-      final escrowAddress = p.status.mapOrNull(
-        txCreated: (it) async => it.escrow.keyPair.then((v) => v.address),
-        txSent: (it) async => it.escrow.keyPair.then((v) => v.address),
-        txConfirmed: (it) async => it.escrow.keyPair.then((v) => v.address),
-        linksReady: (it) async => it.escrow.keyPair.then((v) => v.address),
-        cancelTxCreated: (it) async => it.escrow.keyPair.then((v) => v.address),
-        cancelTxFailure: (it) async => it.escrow.keyPair.then((v) => v.address),
-        cancelTxSent: (it) async => it.escrow.keyPair.then((v) => v.address),
-        recovered: (it) => it.escrow.toBase58(),
+      final escrow = await p.status.mapOrNull(
+        txCreated: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+        txSent: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+        txConfirmed: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+        linksReady: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+        cancelTxCreated: (it) async => it.escrow,
+        cancelTxFailure: (it) async => it.escrow,
+        cancelTxSent: (it) async => it.escrow,
+        recovered: (it) async => it.escrow,
       );
 
-      if (escrowAddress != null && escrowAddress is String) {
-        results.add(escrowAddress);
+      if (escrow != null) {
+        results.add(escrow);
       }
     }
 

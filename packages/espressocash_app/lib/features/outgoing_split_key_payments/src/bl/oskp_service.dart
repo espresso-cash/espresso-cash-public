@@ -67,9 +67,11 @@ class OSKPService {
         timestamp: DateTime.now(),
       );
     } else {
-      final escrow = status.mapOrNull(
-        linksReady: (it) => it.escrow,
-        cancelTxFailure: (it) => it.escrow,
+      final escrow = await status.mapOrNull(
+        linksReady: (it) async => it.escrow.keyPair
+            .then((e) => Ed25519HDPublicKey.fromBase58(e.address)),
+        recovered: (it) async => it.escrow,
+        cancelTxFailure: (it) async => it.escrow,
       );
 
       if (escrow == null) {
@@ -77,9 +79,7 @@ class OSKPService {
       }
 
       newStatus = await _createCancelTx(
-        escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(
-          privateKey: escrow.bytes,
-        ),
+        escrow: escrow,
         account: account,
       );
     }
@@ -121,15 +121,13 @@ class OSKPService {
   }
 
   Future<OSKPStatus> _createCancelTx({
-    required Ed25519HDKeyPair escrow,
+    required EscrowPublicKey escrow,
     required ECWallet account,
   }) async {
-    final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
-
     try {
       final dto = CancelPaymentRequestDto(
         senderAccount: account.address,
-        escrowAccount: escrow.address,
+        escrowAccount: escrow.toBase58(),
         cluster: apiCluster,
       );
 
@@ -141,12 +139,12 @@ class OSKPService {
 
       return OSKPStatus.cancelTxCreated(
         tx,
-        escrow: privateKey,
+        escrow: escrow,
         slot: response.slot,
       );
     } on Exception {
       return OSKPStatus.cancelTxFailure(
-        escrow: privateKey,
+        escrow: escrow,
         reason: TxFailureReason.creatingFailure,
       );
     }

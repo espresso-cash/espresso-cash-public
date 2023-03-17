@@ -76,14 +76,14 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.cancelTxCreated(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
+    required EscrowPublicKey escrow,
   }) = OSKPStatusCancelTxCreated;
 
   /// There was an error while creating the cancellation tx, or the tx was
   /// rejected. It's safe to recreate it.
   const factory OSKPStatus.cancelTxFailure({
     required TxFailureReason reason,
-    required EscrowPrivateKey escrow,
+    required EscrowPublicKey escrow,
   }) = OSKPStatusCancelTxFailure;
 
   /// Cancellation tx was sent but not confirmed yet. It's not safe to recreate
@@ -91,7 +91,7 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.cancelTxSent(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
+    required EscrowPublicKey escrow,
   }) = OSKPStatusCancelTxSent;
 
   const factory OSKPStatus.recovered({

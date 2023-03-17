@@ -132,6 +132,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                 onPressed: onCancel,
               ),
             ],
+            recovered: (s) => [cancelButton],
             orElse: () => const [],
           );
 
@@ -198,7 +199,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             txConfirmed: always(1),
             linksReady: always(1),
             withdrawn: always(2),
-            recovered: always(0),
+            recovered: always(1),
           );
 
           final paymentInitiated = CpTimelineItem(
@@ -240,7 +241,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               normalItems;
 
           final animated = timelineStatus == CpTimelineStatus.inProgress &&
-              payment.status.maybeMap(orElse: T, linksReady: F);
+              payment.status.maybeMap(orElse: T, linksReady: F, recovered: F);
 
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),

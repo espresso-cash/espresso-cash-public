@@ -78,6 +78,6 @@ extension on OSKPStatus {
         cancelTxCreated: F,
         cancelTxFailure: F,
         cancelTxSent: F,
-        recovered: T,
+        recovered: F,
       );
 }

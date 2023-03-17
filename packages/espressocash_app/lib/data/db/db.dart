@@ -149,7 +149,10 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
           }
-          //TODO add migration to OSKP
+
+          if (from >= 16 && from < 35) {
+            await m.addColumn(oSKPRows, oSKPRows.publicKey);
+          }
         },
       );
 
