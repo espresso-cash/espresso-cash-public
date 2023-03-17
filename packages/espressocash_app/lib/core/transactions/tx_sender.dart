@@ -99,7 +99,7 @@ class TxSender {
       }
     }
 
-    Future<TxWaitResult?> waitForSignatureStatus() async {
+    Future<TxWaitResult> waitForSignatureStatus() async {
       try {
         await _client.waitForSignatureStatus(
           tx.id,
@@ -116,14 +116,14 @@ class TxSender {
       }
     }
 
-    final polling = _Polling<TxWaitResult?>(
-      source: (_) => getSignatureStatus().asStream(),
+    final polling = _createPolling<TxWaitResult?>(
+      createSource: () => getSignatureStatus().asStream(),
     );
 
-    return Rx.race([
-      polling.init().whereNotNull(),
-      waitForSignatureStatus().asStream().whereNotNull(),
-    ]).first;
+    return Future.any([
+      polling.whereNotNull().first,
+      waitForSignatureStatus(),
+    ]);
   }
 }
 
@@ -213,28 +213,20 @@ extension on JsonRpcException {
   }
 }
 
-class _Polling<T extends Object?> {
-  _Polling({
-    required this.source,
-  });
+Stream<T> _createPolling<T>({required Stream<T> Function() createSource}) {
+  Duration backoff = const Duration(seconds: 1);
 
-  final Stream<T> Function(void) source;
+  Stream<void> retryWhen(void _, void __) async* {
+    await Future<void>.delayed(backoff);
+    if (backoff < const Duration(seconds: 30)) backoff *= 2;
 
-  Stream<T> init() {
-    Duration backoff = const Duration(seconds: 1);
-
-    Stream<void> retryWhen(void _, void __) async* {
-      await Future<void>.delayed(backoff);
-      if (backoff < const Duration(seconds: 30)) backoff *= 2;
-
-      yield null;
-    }
-
-    return RetryWhenStream(
-      () => Stream<void>.periodic(const Duration(seconds: 10))
-          .startWith(null)
-          .flatMap(source),
-      retryWhen,
-    );
+    yield null;
   }
+
+  return RetryWhenStream(
+    () => Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .flatMap((_) => createSource()),
+    retryWhen,
+  );
 }
