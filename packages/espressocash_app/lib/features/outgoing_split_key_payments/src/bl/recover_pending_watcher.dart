@@ -41,8 +41,8 @@ class RecoverPendingWatcher {
       final rawTx = detail.transaction as RawTransaction;
       final tx = SignedTx.fromBytes(rawTx.data);
 
+      // Check if the transaction has interacted with the escrow smart contract
       final accounts = tx.compiledMessage.accountKeys;
-
       final hasInteractedWithEscrow = accounts.contains(
         Ed25519HDPublicKey.fromBase58(
           'GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC',
@@ -50,6 +50,8 @@ class RecoverPendingWatcher {
       );
 
       if (hasInteractedWithEscrow) {
+        // Find the escrow address from accounts. It should either be in index 1 or 2.
+        // Index 0 is the platforms account, index 1 or 2 should either be the user or the escrow.
         final escrow = accounts
             .getRange(1, 2)
             .where((e) => e != _userPublicKey)
