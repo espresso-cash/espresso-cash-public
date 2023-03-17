@@ -96,6 +96,7 @@ class RecoverPendingWatcher {
                 ),
                 status: OSKPStatus.recovered(escrow: escrow),
                 created: timestamp,
+                linksGeneratedAt: timestamp,
               ),
             );
           }

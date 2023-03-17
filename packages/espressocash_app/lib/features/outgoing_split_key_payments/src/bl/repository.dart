@@ -73,6 +73,7 @@ class OSKPRepository {
         OSKPStatusDto.cancelTxSent,
         OSKPStatusDto.cancelTxWaitFailure,
         OSKPStatusDto.cancelTxFailure,
+        OSKPStatusDto.recovered,
       ]);
 
   Stream<IList<OutgoingSplitKeyPayment>> watchTxCreated() =>
