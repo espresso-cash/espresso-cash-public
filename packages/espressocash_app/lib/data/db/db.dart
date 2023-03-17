@@ -26,7 +26,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 34;
+const int latestVersion = 35;
 
 const _tables = [
   OutgoingTransferRows,
@@ -149,6 +149,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
           }
+          //TODO add migration to OSKP
         },
       );
 

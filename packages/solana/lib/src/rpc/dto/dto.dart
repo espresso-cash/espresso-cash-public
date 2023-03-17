@@ -47,6 +47,7 @@ export 'recent_blockhash.dart';
 export 'reward.dart';
 export 'reward_type.dart';
 export 'signature_status.dart';
+export 'simple_instruction.dart';
 export 'simulate_transaction_accounts.dart';
 export 'slot.dart';
 export 'solana_version.dart';

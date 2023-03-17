@@ -1,5 +1,6 @@
 // ignore_for_file: avoid-non-null-assertion
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -7,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
@@ -102,6 +104,12 @@ class OSKPRepository {
         OSKPStatusDto.cancelTxWaitFailure,
       ]);
 
+  Stream<IList<OutgoingSplitKeyPayment>> watchPending() => _watchWithStatuses(
+        OSKPStatusDto.values.whereNot(
+          (e) => e == OSKPStatusDto.withdrawn || e == OSKPStatusDto.canceled,
+        ),
+      );
+
   Future<void> clear() => _db.delete(_db.oSKPRows).go();
 
   Stream<IList<OutgoingSplitKeyPayment>> _watchWithStatuses(
@@ -136,6 +144,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get generatedLinksAt => dateTime().nullable()();
   DateTimeColumn get resolvedAt => dateTime().nullable()();
   TextColumn get slot => text().nullable()();
+  TextColumn get publicKey => text().nullable()();
 }
 
 enum OSKPStatusDto {
@@ -155,6 +164,7 @@ enum OSKPStatusDto {
   cancelTxSent,
   cancelTxSendFailure,
   cancelTxWaitFailure,
+  recovered,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -269,6 +279,10 @@ extension on OSKPStatusDto {
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
+      case OSKPStatusDto.recovered:
+        return OSKPStatus.recovered(
+          escrow: Ed25519HDPublicKey.fromBase58(row.publicKey!),
+        );
     }
   }
 }
@@ -293,6 +307,7 @@ extension on OutgoingSplitKeyPayment {
         slot: status.toSlot()?.toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
+        publicKey: status.toPublicKey(),
       );
 }
 
@@ -308,6 +323,7 @@ extension on OSKPStatus {
         cancelTxCreated: always(OSKPStatusDto.cancelTxCreated),
         cancelTxFailure: always(OSKPStatusDto.cancelTxFailure),
         cancelTxSent: always(OSKPStatusDto.cancelTxSent),
+        recovered: always(OSKPStatusDto.recovered),
       );
 
   String? toTx() => mapOrNull(
@@ -344,6 +360,7 @@ extension on OSKPStatus {
         cancelTxCreated: (it) async => base58encode(it.escrow.bytes),
         cancelTxFailure: (it) async => base58encode(it.escrow.bytes),
         cancelTxSent: (it) async => base58encode(it.escrow.bytes),
+        recovered: (it) async => null,
       );
 
   String? toLink1() => mapOrNull(
@@ -373,5 +390,9 @@ extension on OSKPStatus {
         txSent: (it) => it.slot,
         cancelTxCreated: (it) => it.slot,
         cancelTxSent: (it) => it.slot,
+      );
+
+  String? toPublicKey() => mapOrNull(
+        recovered: (it) => it.escrow.toBase58(),
       );
 }

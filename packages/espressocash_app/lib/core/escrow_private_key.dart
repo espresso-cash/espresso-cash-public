@@ -3,6 +3,8 @@ import 'package:solana/solana.dart';
 
 part 'escrow_private_key.freezed.dart';
 
+typedef EscrowPublicKey = Ed25519HDPublicKey;
+
 @freezed
 class EscrowPrivateKey with _$EscrowPrivateKey {
   factory EscrowPrivateKey(List<int> bytes) = _EscrowPrivateKey;

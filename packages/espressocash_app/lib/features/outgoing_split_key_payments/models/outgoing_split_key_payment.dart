@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/escrow_private_key.dart';
@@ -92,4 +93,8 @@ class OSKPStatus with _$OSKPStatus {
     required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
+
+  const factory OSKPStatus.recovered({
+    required EscrowPublicKey escrow,
+  }) = OSKPStatusRecovered;
 }
