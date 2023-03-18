@@ -46,6 +46,7 @@ const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 const int tokenProgramRent = 2039280;
 
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 25);
+const Duration pingDefaultInterval = Duration(seconds: 1);
 
 const _mainNetChainId = 101;
 const _devNetChainId = 103;
