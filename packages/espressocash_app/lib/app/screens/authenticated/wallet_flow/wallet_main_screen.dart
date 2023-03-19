@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/tokens/token.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -20,7 +21,7 @@ class WalletMainScreen extends StatefulWidget {
     required this.onRequest,
     required this.onPay,
     required this.amount,
-    required this.equivalentAmount,
+    required this.token,
     this.shakeKey,
     this.error = '',
   });
@@ -30,7 +31,7 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onPay;
   final ValueSetter<Decimal> onAmountChanged;
   final FiatAmount amount;
-  final CryptoAmount equivalentAmount;
+  final Token token;
   final Key? shakeKey;
   final String error;
 
@@ -106,7 +107,7 @@ class _ScreenState extends State<WalletMainScreen> {
             const SizedBox(height: 24),
             AmountWithEquivalent(
               inputController: _amountController,
-              equivalentAmount: widget.equivalentAmount,
+              token: widget.token,
               collapsed: false,
               shakeKey: widget.shakeKey,
               error: widget.error,

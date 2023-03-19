@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/conversion_rates/amount_ext.dart';
+import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/presentation/format_amount.dart';
@@ -46,15 +49,26 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {
-    final amount = Amount.fromDecimal(
-      value: request.amount ?? Decimal.zero,
-      currency: Currency.usdc,
-    );
+    final amount = request.amount
+        .let(
+          (it) => Amount.fromDecimal(
+            value: it ?? Decimal.zero,
+            currency: Currency.usdc,
+          ) as CryptoAmount,
+        )
+        .let(
+          (it) => it.toFiatAmount(
+            Currency.usd,
+            ratesRepository: context.read<ConversionRatesRepository>(),
+          ),
+        )
+        .ifNull(() => const FiatAmount(value: 0, fiatCurrency: Currency.usd));
+
     final formatted = amount.value == 0
         ? ''
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
-    final confirmedAmount = await context.router.push<Decimal>(
+    final confirmedFiatAmount = await context.router.push<Decimal>(
       ODPConfirmationRoute(
         initialAmount: formatted,
         recipient: request.recipient,
@@ -63,11 +77,22 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         isEnabled: amount.value == 0,
       ),
     );
-    if (confirmedAmount == null) return;
 
+    if (confirmedFiatAmount == null) return;
     if (!mounted) return;
+
+    final confirmedCryptoAmount = amount
+        .copyWithDecimal(confirmedFiatAmount)
+        .toTokenAmount(
+          Token.usdc,
+          ratesRepository: context.read<ConversionRatesRepository>(),
+        )
+        ?.decimal;
+
+    if (confirmedCryptoAmount == null) return;
+
     final id = await context.createODP(
-      amountInUsdc: confirmedAmount,
+      amountInUsdc: confirmedCryptoAmount,
       receiver: request.recipient,
       reference: request.reference?.firstOrNull,
     );

@@ -18,8 +18,8 @@ final appWalletMainScreen = Story(
           onAmountChanged: (_) {},
           onRequest: () {},
           onPay: () {},
-          equivalentAmount:
-              const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+          amount: const FiatAmount(value: 0, fiatCurrency: Currency.usd),
+          token: Currency.usdc.token,
         ),
       ),
     ),

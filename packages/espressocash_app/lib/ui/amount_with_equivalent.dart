@@ -1,8 +1,13 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/amount.dart';
+import '../core/conversion_rates/amount_ext.dart';
+import '../core/conversion_rates/bl/repository.dart';
 import '../core/currency.dart';
 import '../core/presentation/format_amount.dart';
+import '../core/tokens/token.dart';
 import '../l10n/decimal_separator.dart';
 import '../l10n/device_locale.dart';
 import '../l10n/l10n.dart';
@@ -16,13 +21,13 @@ class AmountWithEquivalent extends StatelessWidget {
     Key? key,
     required this.inputController,
     required this.collapsed,
-    this.equivalentAmount,
+    required this.token,
     this.shakeKey,
     this.error = '',
   }) : super(key: key);
 
   final TextEditingController inputController;
-  final CryptoAmount? equivalentAmount;
+  final Token token;
   final bool collapsed;
   final Key? shakeKey;
   final String error;
@@ -31,69 +36,83 @@ class AmountWithEquivalent extends StatelessWidget {
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
-        builder: (context, value, _) {
-          final amount = equivalentAmount;
-
-          return Column(
-            children: [
-              Shake(
-                key: shakeKey,
-                child: _InputDisplay(
-                  input: value.text,
-                  fontSize: collapsed ? 57 : 80,
-                ),
+        builder: (context, value, _) => Column(
+          children: [
+            Shake(
+              key: shakeKey,
+              child: _InputDisplay(
+                input: value.text,
+                fontSize: collapsed ? 57 : 80,
               ),
-              if (!collapsed && amount != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child: error.isNotEmpty
-                        ? _DisplayChip(
-                            key: ValueKey(error),
-                            value: error,
-                            shouldDisplay: true,
-                            backgroundColor: CpColors.errorChipColor,
-                          )
-                        : _EquivalentDisplay(
-                            equivalentAmount: amount,
-                            backgroundColor: CpColors.backgroundAccentColor,
-                          ),
-                  ),
-                )
-            ],
-          );
-        },
+            ),
+            if (!collapsed)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: error.isNotEmpty
+                      ? _DisplayChip(
+                          key: ValueKey(error),
+                          value: error,
+                          shouldDisplay: true,
+                          backgroundColor: CpColors.errorChipColor,
+                        )
+                      : _EquivalentDisplay(
+                          input: value.text,
+                          token: token,
+                          backgroundColor: CpColors.backgroundAccentColor,
+                        ),
+                ),
+              )
+          ],
+        ),
       );
 }
 
 class _EquivalentDisplay extends StatelessWidget {
   const _EquivalentDisplay({
     Key? key,
-    required this.equivalentAmount,
+    required this.input,
+    required this.token,
     this.backgroundColor,
   }) : super(key: key);
 
-  final CryptoAmount equivalentAmount;
+  final String input;
+  final Token token;
   final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final symbol = equivalentAmount.token.symbol;
-    final shouldDisplay = equivalentAmount.value.toDouble() != 0;
-    final amount = shouldDisplay
-        ? equivalentAmount.format(
-            locale,
-            roundInteger: true,
-            skipSymbol: true,
-            maxDecimals: Currency.usd.decimals,
+    final value = input.toDecimalOrZero(locale);
+    final shouldDisplay = value.toDouble() != 0;
+
+    final String formattedAmount;
+    if (shouldDisplay) {
+      formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
+          .let((it) => it as FiatAmount)
+          .let(
+            (it) => it.toTokenAmount(
+              token,
+              ratesRepository: context.read<ConversionRatesRepository>(),
+            ),
           )
-        : '0';
+          .maybeFlatMap(
+            (it) => it.format(
+              locale,
+              roundInteger: true,
+              skipSymbol: true,
+              maxDecimals: Currency.usd.decimals,
+            ),
+          )
+          .ifNull(() => '0');
+    } else {
+      formattedAmount = '0';
+    }
 
     return _DisplayChip(
       shouldDisplay: shouldDisplay,
-      value: context.l10n.tokenEquivalent(amount, symbol),
+      value: context.l10n.tokenEquivalent(formattedAmount, token.symbol),
       backgroundColor: backgroundColor,
     );
   }

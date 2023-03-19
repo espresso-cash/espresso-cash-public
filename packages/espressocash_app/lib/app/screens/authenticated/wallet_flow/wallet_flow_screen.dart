@@ -8,7 +8,6 @@ import '../../../../core/conversion_rates/amount_ext.dart';
 import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
-import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../di.dart';
 import '../../../../features/incoming_single_link_payments/widgets/extensions.dart';
@@ -23,7 +22,7 @@ import '../../../../ui/shake.dart';
 import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
 
-const _token = Token.usdc;
+const _cryptoCurrency = Currency.usdc;
 final _minimumAmount = Decimal.parse('0.1');
 
 class WalletFlowScreen extends StatefulWidget {
@@ -45,13 +44,10 @@ class _State extends State<WalletFlowScreen> {
 
   CryptoAmount get _cryptoAmount =>
       _fiatAmount.toTokenAmount(
-        _token,
+        _cryptoCurrency.token,
         ratesRepository: context.read<ConversionRatesRepository>(),
       ) ??
-      CryptoAmount(
-        value: _fiatAmount.value,
-        cryptoCurrency: const CryptoCurrency(token: _token),
-      );
+      const CryptoAmount(value: 0, cryptoCurrency: _cryptoCurrency);
 
   String _errorMessage = '';
 
@@ -96,7 +92,7 @@ class _State extends State<WalletFlowScreen> {
         initialAmount: formatted,
         recipient: recipient,
         label: name,
-        token: _token,
+        token: _cryptoCurrency.token,
         isEnabled: isEnabled,
       ),
     );
@@ -111,9 +107,8 @@ class _State extends State<WalletFlowScreen> {
         reference: request.reference,
       );
 
-      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
-
       if (!mounted) return;
+      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
       await context.router.push(ODPDetailsRoute(id: id));
     }
   }
@@ -187,7 +182,7 @@ class _State extends State<WalletFlowScreen> {
             onRequest: _onRequest,
             onPay: _onPay,
             amount: _fiatAmount,
-            equivalentAmount: _cryptoAmount,
+            token: _cryptoCurrency.token,
             error: _errorMessage,
           ),
         ),
