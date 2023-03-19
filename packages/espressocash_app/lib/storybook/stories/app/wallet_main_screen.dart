@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
@@ -10,12 +11,15 @@ final appWalletMainScreen = Story(
   name: 'App/WalletMainScreen',
   builder: (context) => AppWrapper(
     child: CpTheme.dark(
-      child: WalletMainScreen(
-        onScan: () {},
-        onAmountChanged: (_) {},
-        onRequest: () {},
-        onPay: () {},
-        amount: const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+      child: DefaultTabController(
+        length: 2,
+        child: WalletMainScreen(
+          onScan: () {},
+          onAmountChanged: (_) {},
+          onRequest: () {},
+          onPay: () {},
+          amount: const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+        ),
       ),
     ),
   ),
