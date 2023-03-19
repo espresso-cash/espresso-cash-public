@@ -49,19 +49,14 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {
+    const fiat = Currency.usd;
+    const crypto = Currency.usdc;
+    final rates = context.read<ConversionRatesRepository>();
+
     final amount = request.amount
-        .let(
-          (it) => Amount.fromDecimal(
-            value: it ?? Decimal.zero,
-            currency: Currency.usdc,
-          ) as CryptoAmount,
-        )
-        .let(
-          (it) => it.toFiatAmount(
-            Currency.usd,
-            ratesRepository: context.read<ConversionRatesRepository>(),
-          ),
-        )
+        .maybeFlatMap((it) => Amount.fromDecimal(value: it, currency: crypto))
+        .maybeFlatMap((it) => it as CryptoAmount)
+        .maybeFlatMap((it) => it.toFiatAmount(fiat, ratesRepository: rates))
         .ifNull(() => const FiatAmount(value: 0, fiatCurrency: Currency.usd));
 
     final formatted = amount.value == 0
@@ -73,7 +68,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         initialAmount: formatted,
         recipient: request.recipient,
         label: request.label,
-        token: Token.usdc,
+        token: crypto.token,
         isEnabled: amount.value == 0,
       ),
     );
@@ -83,10 +78,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
     final confirmedCryptoAmount = amount
         .copyWithDecimal(confirmedFiatAmount)
-        .toTokenAmount(
-          Token.usdc,
-          ratesRepository: context.read<ConversionRatesRepository>(),
-        )
+        .toTokenAmount(Token.usdc, ratesRepository: rates)
         ?.decimal;
 
     if (confirmedCryptoAmount == null) return;

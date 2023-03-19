@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/conversion_rates/amount_ext.dart';
@@ -108,8 +108,8 @@ class _State extends State<WalletFlowScreen> {
       );
 
       if (!mounted) return;
-      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
       await context.router.push(ODPDetailsRoute(id: id));
+      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
     }
   }
 
@@ -138,16 +138,18 @@ class _State extends State<WalletFlowScreen> {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
+    final cryptoAmount = _cryptoAmount;
+
     context.router.push(
       OSKPConfirmationRoute(
-        tokenAmount: _cryptoAmount,
+        tokenAmount: cryptoAmount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
           value: Decimal.parse('0.1'),
           currency: Currency.usdc,
         ),
         onSubmit: () async {
-          final id = await context.createOSKP(amount: _cryptoAmount);
+          final id = await context.createOSKP(amount: cryptoAmount);
           if (!mounted) return;
 
           await context.router.replace(OSKPRoute(id: id));
