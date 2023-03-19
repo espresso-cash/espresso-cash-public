@@ -18,7 +18,7 @@ jobs:
       packages: read
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/espresso-cash/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.7
     steps:
       - uses: actions/checkout@v2
 
