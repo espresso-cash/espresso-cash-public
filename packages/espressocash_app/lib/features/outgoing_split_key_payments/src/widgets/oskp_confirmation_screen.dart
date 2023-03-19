@@ -110,9 +110,10 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const currency = Currency.usd;
     final fiatAmount = amount.map(
       crypto: (crypto) => context.convertToFiat(
-        fiatCurrency: Currency.usd,
+        fiatCurrency: currency,
         token: crypto.token,
         amount: crypto.value,
       ),
@@ -120,7 +121,10 @@ class _AmountView extends StatelessWidget {
     );
 
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = amount.format(locale);
+    final formattedAmount = amount.format(
+      locale,
+      maxDecimals: currency.decimals,
+    );
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
     return Column(

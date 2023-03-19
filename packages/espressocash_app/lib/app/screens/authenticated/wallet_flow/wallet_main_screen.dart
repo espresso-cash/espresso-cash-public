@@ -20,6 +20,7 @@ class WalletMainScreen extends StatefulWidget {
     required this.onRequest,
     required this.onPay,
     required this.amount,
+    required this.equivalentAmount,
     this.shakeKey,
     this.error = '',
   });
@@ -28,7 +29,8 @@ class WalletMainScreen extends StatefulWidget {
   final VoidCallback onRequest;
   final VoidCallback onPay;
   final ValueSetter<Decimal> onAmountChanged;
-  final CryptoAmount amount;
+  final FiatAmount amount;
+  final CryptoAmount equivalentAmount;
   final Key? shakeKey;
   final String error;
 
@@ -104,7 +106,7 @@ class _ScreenState extends State<WalletMainScreen> {
             const SizedBox(height: 24),
             AmountWithEquivalent(
               inputController: _amountController,
-              token: widget.amount.cryptoCurrency.token,
+              equivalentAmount: widget.equivalentAmount,
               collapsed: false,
               shakeKey: widget.shakeKey,
               error: widget.error,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../core/amount.dart';
 import '../core/currency.dart';
-import '../core/tokens/token.dart';
+import '../core/presentation/format_amount.dart';
 import '../l10n/decimal_separator.dart';
 import '../l10n/device_locale.dart';
 import '../l10n/l10n.dart';
@@ -14,14 +15,14 @@ class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({
     Key? key,
     required this.inputController,
-    required this.token,
     required this.collapsed,
+    this.equivalentAmount,
     this.shakeKey,
     this.error = '',
   }) : super(key: key);
 
   final TextEditingController inputController;
-  final Token token;
+  final CryptoAmount? equivalentAmount;
   final bool collapsed;
   final Key? shakeKey;
   final String error;
@@ -30,63 +31,69 @@ class AmountWithEquivalent extends StatelessWidget {
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
-        builder: (context, value, _) => Column(
-          children: [
-            Shake(
-              key: shakeKey,
-              child: _InputDisplay(
-                input: value.text,
-                fontSize: collapsed ? 57 : 80,
-              ),
-            ),
-            if (!collapsed)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: error.isNotEmpty
-                      ? _DisplayChip(
-                          key: ValueKey(error),
-                          value: error,
-                          shouldDisplay: true,
-                          backgroundColor: CpColors.errorChipColor,
-                        )
-                      : _EquivalentDisplay(
-                          input: value.text,
-                          token: token,
-                          backgroundColor: CpColors.backgroundAccentColor,
-                        ),
+        builder: (context, value, _) {
+          final amount = equivalentAmount;
+
+          return Column(
+            children: [
+              Shake(
+                key: shakeKey,
+                child: _InputDisplay(
+                  input: value.text,
+                  fontSize: collapsed ? 57 : 80,
                 ),
-              )
-          ],
-        ),
+              ),
+              if (!collapsed && amount != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child: error.isNotEmpty
+                        ? _DisplayChip(
+                            key: ValueKey(error),
+                            value: error,
+                            shouldDisplay: true,
+                            backgroundColor: CpColors.errorChipColor,
+                          )
+                        : _EquivalentDisplay(
+                            equivalentAmount: amount,
+                            backgroundColor: CpColors.backgroundAccentColor,
+                          ),
+                  ),
+                )
+            ],
+          );
+        },
       );
 }
 
 class _EquivalentDisplay extends StatelessWidget {
   const _EquivalentDisplay({
     Key? key,
-    required this.input,
-    required this.token,
+    required this.equivalentAmount,
     this.backgroundColor,
   }) : super(key: key);
 
-  final String input;
-  final Token token;
+  final CryptoAmount equivalentAmount;
   final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final value = input.toDecimalOrZero(locale);
-    final symbol = token.symbol;
-    final shouldDisplay = value.toDouble() != 0;
-    final amount = shouldDisplay ? input : '0';
-    final formatted = context.l10n.tokenEquivalent(amount, symbol);
+    final symbol = equivalentAmount.token.symbol;
+    final shouldDisplay = equivalentAmount.value.toDouble() != 0;
+    final amount = shouldDisplay
+        ? equivalentAmount.format(
+            locale,
+            roundInteger: true,
+            skipSymbol: true,
+            maxDecimals: Currency.usd.decimals,
+          )
+        : '0';
 
     return _DisplayChip(
       shouldDisplay: shouldDisplay,
-      value: formatted,
+      value: context.l10n.tokenEquivalent(amount, symbol),
       backgroundColor: backgroundColor,
     );
   }
