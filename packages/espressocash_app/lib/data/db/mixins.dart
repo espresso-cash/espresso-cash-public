@@ -15,6 +15,15 @@ mixin EntityMixin on Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
+mixin QueryMixin on Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get created => dateTime()();
+  TextColumn get query => text()();
+
+  @override
+  Set<Column<Object>>? get primaryKey => {id};
+}
+
 // TODO(rhbrunetto): use it on other entities
 mixin TxStatusMixin on Table {
   TextColumn get tx => text().nullable()();

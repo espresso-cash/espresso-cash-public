@@ -25,7 +25,7 @@ class SearchRepository {
   AsyncResult<IList<Token>> search(String query) async {
     final cachedResult = await _cache.get(query, tokenList: _tokenList);
 
-    if (cachedResult != null) {
+    if (cachedResult != null && cachedResult.isNotEmpty) {
       return Either.right(cachedResult.toIList());
     }
 
@@ -43,7 +43,7 @@ class SearchRepository {
     final cachedResult =
         await _cache.get(category.dtoId, tokenList: _tokenList);
 
-    if (cachedResult != null) {
+    if (cachedResult != null && cachedResult.isNotEmpty) {
       return Either.right(cachedResult.toIList());
     }
 

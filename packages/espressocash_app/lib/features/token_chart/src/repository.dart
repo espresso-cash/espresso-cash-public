@@ -28,7 +28,7 @@ class ChartRepository {
 
     final cachedResult = await _cache.get(id);
 
-    if (cachedResult != null) {
+    if (cachedResult != null && cachedResult.isNotEmpty) {
       return Either.right(cachedResult.toIList());
     }
 

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -19,68 +17,69 @@ class SearchCache {
 
   final MyDatabase _db;
 
-  Future<List<Token>?> get(String id, {required TokenList tokenList}) async {
+  Future<List<Token>?> get(String term, {required TokenList tokenList}) async {
     final now = DateTime.now();
     final query = _db.select(_db.tokenSearchCacheRows)
-      ..where((p) => p.id.equals(id))
+      ..where((p) => p.query.equals(term))
       ..where(
         (p) => p.created.isBiggerOrEqualValue(
           now.subtract(_maxAge),
         ),
       );
 
-    return query.getSingleOrNull().then((row) => row?.toModel(tokenList));
+    return query
+        .get()
+        .then((row) => row.map((e) => e.toModel(tokenList)).toList());
   }
 
-  Future<void> set(String id, IList<Token> result) => _db
-      .into(_db.tokenSearchCacheRows)
-      .insert(result.toList().toDto(id), mode: InsertMode.replace);
-
-  Future<void> remove(String id) =>
-      (_db.delete(_db.tokenSearchCacheRows)..where((t) => t.id.equals(id)))
+  Future<void> set(String term, IList<Token> result) => _db.batch(
+        (batch) {
+          batch
+            ..deleteWhere(
+              _db.tokenSearchCacheRows,
+              (t) => t.query.equals(term),
+            )
+            ..insertAll(
+              _db.tokenSearchCacheRows,
+              result.map((e) => e.toRow(term)),
+            );
+        },
+      );
+  Future<void> remove(String term) =>
+      (_db.delete(_db.tokenSearchCacheRows)..where((t) => t.query.equals(term)))
           .go();
 
   Future<void> clear() => _db.delete(_db.tokenSearchCacheRows).go();
 }
 
-class TokenSearchCacheRows extends Table with EntityMixin {
-  TextColumn get data => text()();
-}
-
-extension on List<Token> {
-  TokenSearchCacheRow toDto(String id) => TokenSearchCacheRow(
-        id: id,
-        created: DateTime.now(),
-        data: json.encode(map((e) => e.toJson()).toList()),
-      );
+class TokenSearchCacheRows extends Table with QueryMixin {
+  TextColumn get coingeckoId => text()();
+  TextColumn get name => text()();
+  TextColumn get symbol => text()();
+  TextColumn get image => text().nullable()();
 }
 
 extension on Token {
-  Map<String, dynamic> toJson() => {
-        'id': extensions?.coingeckoId ?? name,
-        'name': name,
-        'symbol': symbol,
-        'image': logoURI,
-      };
+  TokenSearchCacheRowsCompanion toRow(String term) =>
+      TokenSearchCacheRowsCompanion.insert(
+        query: term,
+        created: DateTime.now(),
+        coingeckoId: extensions?.coingeckoId ?? name,
+        name: name,
+        symbol: symbol,
+        image: Value(logoURI),
+      );
 }
 
 extension on TokenSearchCacheRow {
-  List<Token> toModel(TokenList tokenList) {
-    final data = json.decode(this.data) as List;
+  Token toModel(TokenList tokenList) {
+    if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
 
-    return data.map((e) {
-      e as Map<String, dynamic>;
-
-      final symbol = e['symbol'] as String;
-
-      if (symbol == Token.sol.symbol.toLowerCase()) return Token.sol;
-
-      return tokenList.fromCoingecko(
-        coingeckoId: e['id'] as String,
-        symbol: symbol,
-        name: e['name'] as String,
-        image: e['image'] as String,
-      );
-    }).toList();
+    return tokenList.fromCoingecko(
+      coingeckoId: coingeckoId,
+      name: name,
+      symbol: symbol,
+      image: image,
+    );
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,47 +15,58 @@ class TokenChartCache {
 
   final MyDatabase _db;
 
-  Future<List<TokenChartItem>?> get(String id) async {
+  Future<List<TokenChartItem>?> get(String term) async {
     final now = DateTime.now();
     final query = _db.select(_db.tokenChartCacheRows)
-      ..where((p) => p.id.equals(id))
+      ..where((p) => p.query.equals(term))
       ..where(
         (p) => p.created.isBiggerOrEqualValue(
           now.subtract(_maxAge),
         ),
       );
 
-    return query.getSingleOrNull().then((row) => row?.toModel());
+    return query.get().then((row) => row.map((e) => e.toModel()).toList());
   }
 
-  Future<void> set(String id, List<TokenChartItem> result) => _db
-      .into(_db.tokenChartCacheRows)
-      .insert(result.toDto(id), mode: InsertMode.replace);
+  Future<void> set(String query, List<TokenChartItem> result) => _db.batch(
+        (batch) {
+          batch
+            ..deleteWhere(
+              _db.tokenChartCacheRows,
+              (t) => t.query.equals(query),
+            )
+            ..insertAll(
+              _db.tokenChartCacheRows,
+              result.map((e) => e.toRow(query)),
+            );
+        },
+      );
 
-  Future<void> remove(String id) =>
-      (_db.delete(_db.tokenChartCacheRows)..where((t) => t.id.equals(id))).go();
+  Future<void> remove(String query) =>
+      (_db.delete(_db.tokenChartCacheRows)..where((t) => t.query.equals(query)))
+          .go();
 
   Future<void> clear() => _db.delete(_db.tokenChartCacheRows).go();
 }
 
-class TokenChartCacheRows extends Table with EntityMixin {
-  TextColumn get data => text()();
+class TokenChartCacheRows extends Table with QueryMixin {
+  DateTimeColumn get date => dateTime().nullable()();
+  RealColumn get price => real().nullable()();
 }
 
-extension on List<TokenChartItem> {
-  TokenChartCacheRow toDto(String id) => TokenChartCacheRow(
-        id: id,
+extension on TokenChartItem {
+  TokenChartCacheRowsCompanion toRow(String query) =>
+      TokenChartCacheRowsCompanion.insert(
+        query: query,
         created: DateTime.now(),
-        data: json.encode(map((e) => e.toJson()).toList()),
+        date: Value(date),
+        price: Value(price),
       );
 }
 
 extension on TokenChartCacheRow {
-  Future<List<TokenChartItem>>? toModel() async {
-    final list = json.decode(data) as List;
-
-    return list
-        .map((e) => TokenChartItem.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
+  TokenChartItem toModel() => TokenChartItem(
+        date: date,
+        price: price,
+      );
 }
