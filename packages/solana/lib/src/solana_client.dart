@@ -51,8 +51,12 @@ class SolanaClient {
     String signature, {
     required ConfirmationStatus status,
     Duration? timeout,
+    Duration? pingInterval,
   }) async {
-    final subscriptionClient = createSubscriptionClient();
+    final subscriptionClient = createSubscriptionClient(
+      pingInterval: pingInterval,
+      connectTimeout: timeout,
+    );
 
     try {
       await subscriptionClient.waitForSignatureStatus(
@@ -65,8 +69,15 @@ class SolanaClient {
     }
   }
 
-  SubscriptionClient createSubscriptionClient() =>
-      SubscriptionClient(_websocketUrl);
+  SubscriptionClient createSubscriptionClient({
+    Duration? pingInterval,
+    Duration? connectTimeout,
+  }) =>
+      SubscriptionClient(
+        _websocketUrl,
+        pingInterval: pingInterval,
+        connectTimeout: connectTimeout,
+      );
 }
 
 typedef SignatureCallback = FutureOr<void> Function(
