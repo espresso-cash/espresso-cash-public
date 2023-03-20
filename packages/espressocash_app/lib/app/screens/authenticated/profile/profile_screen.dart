@@ -37,8 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Material(
         color: const Color(0xffF4F4F4),
         child: SafeArea(
-          bottom: false,
-          maintainBottomViewPadding: false,
+          maintainBottomViewPadding: true,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,7 +104,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       DangerSection(),
                       ShareSection(),
                       VersionSection(),
-                      SizedBox(height: 24),
                     ],
                   ),
                 ),
