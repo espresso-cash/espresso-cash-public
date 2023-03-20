@@ -54,7 +54,12 @@ jobs:
       EC_LINKS_ID: "GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC"
       EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
     container:
-      image: ghcr.io/espresso-cash/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.7
+    services:
+      solana:
+        image: solanalabs/solana:stable
+        options: --entrypoint="solana-test-validator"
+
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
@@ -97,7 +102,7 @@ jobs:
       DEVNET_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="solana"
     container:
-      image: ghcr.io/espresso-cash/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.7
     services:
       solana:
         image: solanalabs/solana:${{ matrix.solanaVersion }}
@@ -160,7 +165,7 @@ jobs:
       SOLANA_WEBSOCKET_URL: "ws://solana:8900"
       SCOPE: --scope="espressocash_app"
     container:
-      image: ghcr.io/espresso-cash/flutter:3.7.0
+      image: ghcr.io/espresso-cash/flutter:3.7.7
     services:
       solana:
         image: solanalabs/solana:stable
