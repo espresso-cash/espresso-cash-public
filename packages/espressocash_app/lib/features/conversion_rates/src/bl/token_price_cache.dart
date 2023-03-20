@@ -18,26 +18,17 @@ class TokenPriceCache {
   Future<Map<String, PricesMapDto>> get(
     List<String> ids,
   ) async {
-    final Map<String, PricesMapDto> result = {};
+    final now = DateTime.now();
+    final result = <String, PricesMapDto>{};
 
-    for (final id in ids) {
-      final query = _db.select(_db.tokenPriceCacheRows)
-        ..where((p) => p.id.equals(id));
+    final query = _db.select(_db.tokenPriceCacheRows)
+      ..where((p) => p.id.isIn(ids))
+      ..where((p) => p.created.isBiggerOrEqualValue(now.subtract(_maxAge)));
 
-      final row = await query.getSingleOrNull();
+    final rows = await query.get();
 
-      if (row != null) {
-        final now = DateTime.now();
-
-        if (now.difference(row.created) <= _maxAge) {
-          result[id] = PricesMapDto(
-            usd: row.usd,
-            eur: row.eur,
-          );
-        } else {
-          await remove(id);
-        }
-      }
+    for (final row in rows) {
+      result[row.id] = PricesMapDto(usd: row.usd, eur: row.eur);
     }
 
     return result;

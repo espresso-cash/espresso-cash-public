@@ -20,20 +20,16 @@ class SearchCache {
   final MyDatabase _db;
 
   Future<List<Token>?> get(String id, {required TokenList tokenList}) async {
+    final now = DateTime.now();
     final query = _db.select(_db.tokenSearchCacheRows)
-      ..where((p) => p.id.equals(id));
+      ..where((p) => p.id.equals(id))
+      ..where(
+        (p) => p.created.isBiggerOrEqualValue(
+          now.subtract(_maxAge),
+        ),
+      );
 
-    final row = await query.getSingleOrNull();
-
-    if (row != null) {
-      final now = DateTime.now();
-
-      if (now.difference(row.created) <= _maxAge) {
-        return row.toModel(tokenList);
-      } else {
-        await remove(id);
-      }
-    }
+    return query.getSingleOrNull().then((row) => row?.toModel(tokenList));
   }
 
   Future<void> set(String id, IList<Token> result) => _db
