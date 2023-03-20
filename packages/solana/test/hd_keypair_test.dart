@@ -58,6 +58,39 @@ void main() {
       });
     },
   );
+
+  test(
+    'Can copy a key pair data if bytes are not destroyed',
+    () async {
+      final randomKeyPair = await Ed25519HDKeyPair.random();
+      final simpleKeyPairData = await randomKeyPair.extract();
+      final testKeyPair = simpleKeyPairData.copy();
+
+      expect(randomKeyPair.publicKey, equals(testKeyPair.publicKey));
+    },
+  );
+
+  test(
+    'Cannot copy a key pair data if bytes are destroyed',
+    () async {
+      final randomKeyPair = await Ed25519HDKeyPair.random();
+      final simpleKeyPairData = await randomKeyPair.extract();
+      simpleKeyPairData.destroy();
+
+      expect(simpleKeyPairData.copy, throwsA(isA<StateError>()));
+    },
+  );
+
+  test(
+    'Cannot extract a key pair data if bytes are destroyed',
+    () async {
+      final randomKeyPair = await Ed25519HDKeyPair.random();
+      final simpleKeyPairData = await randomKeyPair.extract();
+      simpleKeyPairData.destroy();
+
+      expect(simpleKeyPairData.extract, throwsA(isA<StateError>()));
+    },
+  );
 }
 
 const _mnemonic =
