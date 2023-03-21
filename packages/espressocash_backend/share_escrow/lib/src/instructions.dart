@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:share_escrow/src/models.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/encoder.dart';
@@ -92,6 +94,5 @@ Future<Ed25519HDPublicKey> _calculatePda(
       programId: escrowProgram,
     );
 
-final escrowProgram = Ed25519HDPublicKey.fromBase58(
-  'GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC',
-);
+final escrowAddress = Platform.environment['ESCROW_SMART_CONTRACT'] ?? '';
+final escrowProgram = Ed25519HDPublicKey.fromBase58(escrowAddress);
