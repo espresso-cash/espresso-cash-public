@@ -34,9 +34,6 @@ class _ISLPListenerState extends State<ISLPListener> {
   }
 
   Future<void> _processISLP(SingleKeyPaymentData data) async {
-    // Added this delay to avoid routing error
-    await Future<void>.delayed(const Duration(milliseconds: 100));
-
     if (!mounted) return;
     context.router.push(IncomingSingleLinkRoute(data: data)).ignore();
   }
