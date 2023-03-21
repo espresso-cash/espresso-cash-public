@@ -1,19 +1,19 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:espressocash_backend/src/payments/create_direct_payment.dart';
-import 'package:espressocash_backend/src/payments/create_payment.dart';
-import 'package:espressocash_backend/src/payments/receive_payment.dart';
+import 'package:espressocash_backend/src/payments_ec/cancel_payment.dart';
+import 'package:espressocash_backend/src/payments_ec/create_payment.dart';
+import 'package:espressocash_backend/src/payments_ec/receive_payment.dart';
 import 'package:espressocash_backend/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
 Handler paymentHandler() => (shelf_router.Router()
-      ..post('/createPayment', createPaymentHandler)
-      ..post('/receivePayment', receivePaymentHandler)
-      ..post('/createDirectPayment', createDirectPaymentHandler)
-      ..post('/getFees', getFeesHandler))
+      ..post('/v2/createPayment', createPaymentHandler)
+      ..post('/v2/receivePayment', receivePaymentHandler)
+      ..post('/v2/cancelPayment', cancelPaymentHandler)
+      ..post('/v2/getFees', getFeesHandler))
     .call;
 
 Future<Response> getFeesHandler(Request request) =>
@@ -76,29 +76,25 @@ Future<Response> receivePaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> createDirectPaymentHandler(Request request) async =>
-    processRequest<CreateDirectPaymentRequestDto,
-        CreateDirectPaymentResponseDto>(
+Future<Response> cancelPaymentHandler(Request request) async =>
+    processRequest<CancelPaymentRequestDto, CancelPaymentResponseDto>(
       request,
-      CreateDirectPaymentRequestDto.fromJson,
+      CancelPaymentRequestDto.fromJson,
       (data) async {
         final cluster = data.cluster;
 
-        final payment = await createDirectPayment(
+        final result = await cancelPaymentTx(
           aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
-          aReceiver: Ed25519HDPublicKey.fromBase58(data.receiverAccount),
-          aReference: data.referenceAccount?.let(Ed25519HDPublicKey.fromBase58),
+          aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
           mint: cluster.mint,
-          amount: data.amount,
           platform: await cluster.platformAccount,
           client: cluster.solanaClient,
           commitment: Commitment.confirmed,
         );
 
-        return CreateDirectPaymentResponseDto(
-          fee: payment.fee,
-          transaction: payment.transaction.encode(),
-          slot: payment.slot,
+        return CancelPaymentResponseDto(
+          transaction: result.item1.encode(),
+          slot: result.item2,
         );
       },
     );

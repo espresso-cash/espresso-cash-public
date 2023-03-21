@@ -100,15 +100,16 @@ extension SolanaClientExt on SolanaClient {
   }
 }
 
-extension Ed25519HDKeyPairExt on Ed25519HDKeyPair {
-  Future<SignedTx> resign(SignedTx tx) async {
-    final compiledMessage = CompiledMessage(tx.compiledMessage.toByteArray());
-
-    return SignedTx(
-      signatures: tx.signatures.toList()
-        ..removeLast()
-        ..add(await sign(compiledMessage.toByteArray())),
-      compiledMessage: compiledMessage,
-    );
-  }
+extension SignedTxExt on SignedTx {
+  Future<SignedTx> resign(
+    Ed25519HDKeyPair wallet,
+  ) async =>
+      SignedTx(
+        signatures: signatures.toList()
+          ..setAll(
+              signatures.indexWhere((it) => it.publicKey == wallet.publicKey), [
+            await wallet.sign(compiledMessage.toByteArray()),
+          ]),
+        compiledMessage: compiledMessage,
+      );
 }

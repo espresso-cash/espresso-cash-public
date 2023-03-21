@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
+import 'package:share_escrow/share_escrow.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -55,22 +56,14 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     instructions.add(iCreateATA);
   }
 
-  final iTransfer = TokenInstruction.transfer(
-    amount: escrow.amount,
-    source: ataEscrow,
-    destination: ataReceiver,
-    owner: aEscrow,
+  final escrowIx = await EscrowInstruction.completeEscrow(
+    escrowAccount: aEscrow,
+    receiverTokenAccount: ataReceiver,
+    depositorAccount: platform.publicKey,
+    vaultTokenAccount: ataEscrow,
   );
 
-  instructions.add(iTransfer);
-
-  final iCloseAccount = TokenInstruction.closeAccount(
-    accountToClose: ataEscrow,
-    destination: platform.publicKey,
-    owner: aEscrow,
-  );
-
-  instructions.add(iCloseAccount);
+  instructions.add(escrowIx);
 
   final message = Message(instructions: instructions);
   final latestBlockhash =
