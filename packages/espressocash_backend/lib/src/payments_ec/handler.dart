@@ -9,11 +9,10 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
-Handler paymentHandler() => (shelf_router.Router()
-      ..post('/v2/createPayment', createPaymentHandler)
-      ..post('/v2/receivePayment', receivePaymentHandler)
-      ..post('/v2/cancelPayment', cancelPaymentHandler)
-      ..post('/v2/getFees', getFeesHandler))
+Handler ecPaymentHandler() => (shelf_router.Router()
+      ..post('/createPaymentEc', createPaymentHandler)
+      ..post('/receivePaymentEc', receivePaymentHandler)
+      ..post('/cancelPaymentEc', cancelPaymentHandler))
     .call;
 
 Future<Response> getFeesHandler(Request request) =>

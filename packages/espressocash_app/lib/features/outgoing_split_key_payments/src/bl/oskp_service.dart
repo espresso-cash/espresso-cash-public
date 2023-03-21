@@ -106,7 +106,7 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.createPayment(dto);
+      final response = await _client.createPaymentEc(dto);
       final tx = await response.transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(account))
@@ -133,7 +133,7 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.cancelPayment(dto);
+      final response = await _client.cancelPaymentEc(dto);
       final tx = await response
           .let((it) => it.transaction)
           .let(SignedTx.decode)
