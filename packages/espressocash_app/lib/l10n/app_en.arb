@@ -54,11 +54,11 @@
   "remindMeLater": "Remind me later",
   "setReminder": "SET A REMINDER FOR {duration}",
   "@setReminder": {
-      "placeholders": {
-          "duration": {
-              "type": "String"
-          }
+    "placeholders": {
+      "duration": {
+        "type": "String"
       }
+    }
   },
   "tomorrow": "Tomorrow",
   "oneWeek": "1 week",
@@ -69,21 +69,21 @@
   "splitKeyTransactionLoading": "Hang tight. We're almost done...",
   "splitKeyCanceledMessage1": "{amount} Transaction successfully canceled.",
   "@splitKeyCanceledMessage1": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "transferSuccessTitle": "SUCCESS!",
   "outgoingTransferSuccess": "{amount} has been sent",
   "@outgoingTransferSuccess": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "transferErrorTitle": "OOPS!",
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
@@ -91,11 +91,11 @@
   "splitKeyErrorRetry": "Please retry.",
   "splitKeyProgressOngoing": "Sending {amount} using secure links...",
   "@splitKeyProgressOngoing": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "splitKeyProgressCreated": "Links are created",
   "splitKeyProgressSuccess": "Money has been successfully received",
@@ -106,30 +106,30 @@
   "sell": "Sell",
   "paymentRequestTitle": "Payment request for {label}",
   "@paymentRequestTitle": {
-      "placeholders": {
-          "label": {
-              "type": "String"
-          }
+    "placeholders": {
+      "label": {
+        "type": "String"
       }
+    }
   },
   "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
   "@paymentRequestSuccessNotificationTitle": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          },
-          "label": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
       }
+    }
   },
   "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
   "@paymentRequestFailureNotificationTitle": {
-      "placeholders": {
-          "label": {
-              "type": "String"
-          }
+    "placeholders": {
+      "label": {
+        "type": "String"
       }
+    }
   },
   "paymentRequestCancel": "Cancel request",
   "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
@@ -162,14 +162,14 @@
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request of {amount}. To pay me with one click, visit:\n\n{link}",
   "@sharePaymentRequestLinkMessage": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          },
-          "link": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
       }
+    }
   },
   "comingSoon": "Coming soon!",
   "pay": "Pay",
@@ -184,48 +184,48 @@
   "cashOut": "Cash Out",
   "tokenBalance": "{symbol} Balance",
   "@tokenBalance": {
-      "placeholders": {
-          "symbol": {
-              "type": "String"
-          }
+    "placeholders": {
+      "symbol": {
+        "type": "String"
       }
+    }
   },
   "zeroAmountTitle": "Invalid amount",
   "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
   "@zeroAmountMessage": {
-      "placeholders": {
-          "operation": {
-              "type": "String"
-          }
+    "placeholders": {
+      "operation": {
+        "type": "String"
       }
+    }
   },
   "operationSend": "sent",
   "tokenEquivalent": "Equivalent to {value} {symbol}",
   "@tokenEquivalent": {
-      "placeholders": {
-          "value": {
-              "type": "String"
-          },
-          "symbol": {
-              "type": "String"
-          }
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
       }
+    }
   },
   "fiatEquivalent": "Equivalent to {value}",
   "@fiatEquivalent": {
-      "placeholders": {
-          "value": {
-              "type": "String"
-          }
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
+    }
   },
   "feeAmount": "Fee: {value}",
   "@feeAmount": {
-      "placeholders": {
-          "value": {
-              "type": "String"
-          }
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
+    }
   },
   "feesCalculating": "calculating...",
   "feesFailed": "failed to load",
@@ -236,17 +236,17 @@
   "shareStep2": "Step 2 – When the application asks you, click on the second link:",
   "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
   "@shareText": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          },
-          "firstLink": {
-              "type": "Uri"
-          },
-          "secondLink": {
-              "type": "Uri"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "firstLink": {
+        "type": "Uri"
+      },
+      "secondLink": {
+        "type": "Uri"
       }
+    }
   },
   "yourLinkIsReady": "Your link is ready",
   "sendAs": "Send as",
@@ -255,101 +255,101 @@
   "all": "All",
   "swapBuySuccess": "Your purchase of {token} was successful.",
   "@swapBuySuccess": {
-      "placeholders": {
-          "token": {
-              "type": "String"
-          }
+    "placeholders": {
+      "token": {
+        "type": "String"
       }
+    }
   },
   "swapSellSuccess": "Your sale of {token} was successful.",
   "@swapSellSuccess": {
-      "placeholders": {
-          "token": {
-              "type": "String"
-          }
+    "placeholders": {
+      "token": {
+        "type": "String"
       }
+    }
   },
   "swapErrorTitle": "There's a problem",
   "swapFailRouteNotFound": "No routes found for given tokens and amount!",
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
   "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
   "@insufficientFundsForFeeMessage": {
-      "placeholders": {
-          "feeToken": {
-              "type": "String"
-          },
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "feeToken": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "requestOrSendPayment": "Request or send a payment",
   "noActivity": "No activity yet!",
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
   "@insufficientFundsMessage": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          },
-          "balance": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "balance": {
+        "type": "String"
       }
+    }
   },
   "todayAt": "Today at {time}",
   "@todayAt": {
-      "placeholders": {
-          "time": {
-              "type": "String"
-          }
+    "placeholders": {
+      "time": {
+        "type": "String"
       }
+    }
   },
   "swapSlippageTitle": "Slippage tolerance",
   "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
   "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
   "swapAmountAvailable": "{amount} available for use.",
   "@swapAmountAvailable": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "marketCapRank": "Market Cap Rank",
   "aboutTokenLabel": "About {name}",
   "@aboutTokenLabel": {
-      "placeholders": {
-          "name": {
-              "type": "String"
-          }
+    "placeholders": {
+      "name": {
+        "type": "String"
       }
+    }
   },
   "swapEquivalent": "For {input} you will get aprox. {output}",
   "@swapEquivalent": {
-      "placeholders": {
-          "input": {
-              "type": "String"
-          },
-          "output": {
-              "type": "String"
-          }
+    "placeholders": {
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
       }
+    }
   },
   "pressAndHoldToBuy": "Slide to Buy {token}",
   "@pressAndHoldToBuy": {
-      "placeholders": {
-          "token": {
-              "type": "String"
-          }
+    "placeholders": {
+      "token": {
+        "type": "String"
       }
+    }
   },
   "pressAndHoldToSell": "Slide to Sell {token}",
   "@pressAndHoldToSell": {
-      "placeholders": {
-          "token": {
-              "type": "String"
-          }
+    "placeholders": {
+      "token": {
+        "type": "String"
       }
+    }
   },
   "more": "more",
   "less": "less",
@@ -364,19 +364,19 @@
   "errorMessageInsufficientFunds": "You do not have enough funds.",
   "minimumAmountToSend": "{amount} is the minimum to send",
   "@minimumAmountToSend": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "minimumAmountToRequest": "{amount} is the minimum to request",
   "@minimumAmountToRequest": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "price": "Price",
   "balance": "Balance",
@@ -406,19 +406,19 @@
   "sentDirectly": "Sent",
   "boughtToken": "Bought {amount}",
   "@boughtToken": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "soldToken": "Sold {amount}",
   "@soldToken": {
-      "placeholders": {
-          "amount": {
-              "type": "String"
-          }
+    "placeholders": {
+      "amount": {
+        "type": "String"
       }
+    }
   },
   "moreDetails": "View more details",
   "cancelTransfer": "Cancel transfer",
@@ -427,11 +427,11 @@
   "transferInitiated": "Transfer initiated",
   "receivedBy": "Received by {address}",
   "@receivedBy": {
-      "placeholders": {
-          "address": {
-              "type": "String"
-          }
+    "placeholders": {
+      "address": {
+        "type": "String"
       }
+    }
   },
   "fundYourAccount": "Fund your account to begin your crypto journey. You can buy and sell crypto or send money anywhere in the world!",
   "investmentHeaderButtonsTitle": "I want to",
