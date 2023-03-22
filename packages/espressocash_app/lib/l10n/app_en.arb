@@ -110,7 +110,7 @@
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
- "paymentRequestTitle": "Payment request for {label}",
+  "paymentRequestTitle": "Payment request for {label}",
   "@paymentRequestTitle": {
     "placeholders": {
       "label": {
