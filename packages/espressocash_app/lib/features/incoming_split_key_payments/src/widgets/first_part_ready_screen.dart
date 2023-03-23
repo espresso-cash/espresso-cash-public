@@ -13,9 +13,9 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
+import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
 import '../bl/pending_iskp_repository.dart';
-import 'components/cancel_dialog.dart';
 import 'extensions.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
@@ -115,9 +115,12 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                             ),
                             const SizedBox(height: 30),
                             CpButton(
-                              onPressed: () => showCancelDialog(
+                              onPressed: () => showConfirmationDialog(
                                 context,
-                                () {
+                                title: context.l10n.cancel,
+                                message: context
+                                    .l10n.splitKeyConfirmationDialogContent,
+                                onConfirm: () {
                                   context.router.popForced();
                                   widget.onCancel();
                                 },
