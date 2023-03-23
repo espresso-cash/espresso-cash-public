@@ -448,5 +448,8 @@
   "activityStatusFailure": "Failure",
   "activityStatusInProgress": "In Progress",
   "activityStatusCanceled": "Canceled",
-  "enterAmount": "Enter amount"
+  "enterAmount": "Enter amount",
+  "onboardingNoticeTitle": "You’re almost done!",
+  "onboardingNoticeMessage": "Complete setup by securing your account.",
+  "onboardingNoticeFinishSetup": "Finish Setup"
 }
