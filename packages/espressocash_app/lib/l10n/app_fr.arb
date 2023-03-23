@@ -39,20 +39,20 @@
   "removePhoto": "Supprimer la photo",
   "weWereUnableToFetchTokenPrice": "Nous n'avons pas pu récupérer les prix des jetons.",
   "cannotConnectToTheNetwork": "Impossible de se connecter au réseau!",
-  "loading": "Loading...",
-  "retry": "Retry",
-  "processing": "Processing...",
-  "search": "Search",
-  "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
-  "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
-  "iUnderstand": "I Understand",
-  "protectYourWalletParagraph1": "Don't risk losing your funds. Protect your wallet by saving your secret recovery phrase in a place you trust.",
-  "protectYourWalletParagraph2": "It's the only way to recover your wallet if you get locked out of the app or get a new device.",
-  "protectWalletTitle": "WALLET PROTECTION",
-  "protectWallet": "Protect Wallet",
-  "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
-  "remindMeLater": "Remind me later",
-  "setReminder": "SET A REMINDER FOR {duration}",
+  "loading": "Chargement...",
+  "retry": "Reessayer",
+  "processing": "En cours...",
+  "search": "Recherche",
+  "noEmailInCryptoInfo": "Avec Espresso Cash, il n'y a pas besoin d'un e-mail et d'un mot de passe pour accéder à votre argent!",
+  "noEmailInCryptoParagraph": "Vous avez besoin d'une phrase de récupération secrète. Cette phrase est composée de mots de sécurité générés au hasard qui vous seront fournis. Sans ces mots, vous ne pourrez pas accéder à vos fonds. Ces mots ne peuvent jamais être récupérés.\n\nGarde les en sécurité!",
+  "iUnderstand": "Je comprends",
+  "protectYourWalletParagraph1": "Ne risquez pas de perdre vos fonds. Protégez votre portefeuille en stockant votre phrase de récupération secrète dans un endroit en qui vous avez confiance.",
+  "protectYourWalletParagraph2": "C'est la seule façon de récupérer votre portefeuille si vous êtes déconnecté de l'application ou si vous changez d'appareil.",
+  "protectWalletTitle": "Protection du portefeuille",
+  "protectWallet": "Protéger le portefeuille",
+  "iUnderstandIfLoseMySecret": "Je comprends que si je perds ma phrase de récupération secrète, je ne pourrai pas accéder aux fonds.",
+  "remindMeLater": "Rappellez-moi plus tard",
+  "setReminder": "Définissez un rappel pour {duration}",
   "@setReminder": {
     "placeholders": {
       "duration": {
@@ -60,14 +60,14 @@
       }
     }
   },
-  "tomorrow": "Tomorrow",
-  "oneWeek": "1 week",
-  "oneMonth": "1 month",
-  "splitKeySecondLinkTitle": "Money is waiting for you!",
-  "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
-  "splitKeyTransferTitle": "TRANSFER PROGRESS",
-  "splitKeyTransactionLoading": "Hang tight. We're almost done...",
-  "splitKeyCanceledMessage1": "{amount} Transaction successfully canceled.",
+  "tomorrow": "Demain",
+  "oneWeek": "1 semaine",
+  "oneMonth": "1 mois",
+  "splitKeySecondLinkTitle": "De l'argent vous attend!",
+  "splitKeySecondLinkMessage": "Veuillez cliquer sur le deuxième lien dans le message que vous avez reçu.",
+  "splitKeyTransferTitle": "Transfert en cours",
+  "splitKeyTransactionLoading": "Patientez. Nous avons presque fini ...",
+  "splitKeyCanceledMessage1": "{amount} transaction a été annulé.",
   "@splitKeyCanceledMessage1": {
     "placeholders": {
       "amount": {
@@ -75,9 +75,9 @@
       }
     }
   },
-  "splitKeySuccessMessage2": "Your transfer has been sent.",
+  "splitKeySuccessMessage2": "Votre transfert a été envoyé.",
   "transferSuccessTitle": "SUCCESS!",
-  "outgoingTransferSuccess": "{amount} has been sent",
+  "outgoingTransferSuccess": "{amount}a été envoyé",
   "@outgoingTransferSuccess": {
     "placeholders": {
       "amount": {
@@ -86,10 +86,10 @@
     }
   },
   "transferErrorTitle": "OOPS!",
-  "splitKeyErrorMessage2": "There was an issue with your transfer.",
-  "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
-  "splitKeyErrorRetry": "Please retry.",
-  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
+  "splitKeyErrorMessage2": "Il y avait un problème avec votre transfert.",
+  "splitKeyCancelErrorMessage": "Il y a eu un problème en annulant votre transfert.",
+  "splitKeyErrorRetry": "Veuillez réessayer.",
+  "splitKeyProgressOngoing": "Envoi de {amount} en utilisant des liens sécurisés ...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -97,13 +97,13 @@
       }
     }
   },
-  "splitKeyProgressCreated": "Links are created",
-  "splitKeyProgressSuccess": "Money has been successfully received",
-  "splitKeyProgressCanceling": "Canceling transfer",
-  "splitKeyProgressCanceled": "Transfer has been canceled",
-  "resendLink": "Resend Links",
-  "buy": "Buy",
-  "sell": "Sell",
+  "splitKeyProgressCreated": "Les liens ont été créés",
+  "splitKeyProgressSuccess": "L'argent a été reçu avec succès",
+  "splitKeyProgressCanceling": "Annulation du transfert",
+  "splitKeyProgressCanceled": "Le transfert a été annulé",
+  "resendLink": "Réenvoyer les liens",
+  "buy": "Acheter",
+  "sell": "Vendre",
   "paymentRequestTitle": "Payment request for {label}",
   "@paymentRequestTitle": {
     "placeholders": {
