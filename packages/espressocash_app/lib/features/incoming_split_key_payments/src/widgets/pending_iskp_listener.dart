@@ -41,13 +41,17 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
     );
   }
 
-  void _onLink(Uri link) {
+  bool _onLink(Uri link) {
     final firstPart = SplitKeyFirstLink.tryParse(link);
     if (firstPart != null) {
       sl<PendingISKPRepository>().save(firstPart);
       sl<AnalyticsManager>().firstLinkReceived();
       _openFirstPartReadyScreen();
+
+      return true;
     }
+
+    return false;
   }
 
   @override

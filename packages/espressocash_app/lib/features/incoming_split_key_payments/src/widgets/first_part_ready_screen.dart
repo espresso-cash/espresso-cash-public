@@ -58,12 +58,16 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
     }
   }
 
-  void _onLink(Uri link) {
+  bool _onLink(Uri link) {
     final secondPart = SplitKeySecondLink.tryParse(link);
     if (secondPart != null) {
       sl<AnalyticsManager>().secondLinkReceived();
       _processSecondPart(secondPart);
+
+      return true;
     }
+
+    return false;
   }
 
   @override

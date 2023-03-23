@@ -24,16 +24,20 @@ class ODPLinkListener extends StatefulWidget {
 }
 
 class _ODPLinkListenerState extends State<ODPLinkListener> {
-  void _onLink(Uri link) {
+  bool _onLink(Uri link) {
     final solanaPayRequest = tryParse(link);
     if (solanaPayRequest != null) {
       if (solanaPayRequest.splToken != Token.usdc.publicKey) {
         // This is not USDC token, silently ignore for now
-        return;
+        return false;
       }
 
       _processSolanaPayRequest(solanaPayRequest);
+
+      return true;
     }
+
+    return false;
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {

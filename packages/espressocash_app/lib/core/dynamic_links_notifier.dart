@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uni_links/uni_links.dart';
 
-import 'callback.dart';
+typedef LinkCallback = bool Function(Uri);
 
 @injectable
 class DynamicLinksNotifier {
@@ -14,12 +14,15 @@ class DynamicLinksNotifier {
     _init();
   }
 
-  final _subject = BehaviorSubject<Uri>();
+  final _subject = BehaviorSubject<Uri?>();
 
   final FirebaseDynamicLinks _firebaseDynamicLinks;
 
-  StreamSubscription<Uri> processLink(Callback1<Uri> onLink) =>
-      _subject.listen(onLink);
+  StreamSubscription<Uri?> processLink(LinkCallback onLink) =>
+      _subject.listen((link) {
+        if (link == null) return;
+        if (onLink(link)) _subject.add(null);
+      });
 
   Future<void> _init() async {
     final initialLink = await _firebaseDynamicLinks
@@ -32,7 +35,7 @@ class DynamicLinksNotifier {
     await _subject.addStream(
       _firebaseDynamicLinks.onLink.map((event) => event.link),
     );
-    await _subject.addStream(uriLinkStream.whereNotNull());
+    await _subject.addStream(uriLinkStream);
   }
 
   void dispose() {

@@ -25,9 +25,15 @@ class _ISLPListenerState extends State<ISLPListener> {
     context.router.push(IncomingSingleLinkRoute(id: id)).ignore();
   }
 
-  void _onLink(Uri link) {
+  bool _onLink(Uri link) {
     final data = SingleKeyPaymentData.tryParse(link);
-    if (data != null) _processISLP(data);
+    if (data != null) {
+      _processISLP(data);
+
+      return true;
+    }
+
+    return false;
   }
 
   @override
