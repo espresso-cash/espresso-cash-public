@@ -249,11 +249,11 @@
     }
   },
   "yourLinkIsReady": "Votre lien est prêt",
-  "sendAs": "Send as",
-  "popularCryptoTitle": "Popular Crypto",
-  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
-  "all": "All",
-  "swapBuySuccess": "Your purchase of {token} was successful.",
+  "sendAs": "Envoyer comme",
+  "popularCryptoTitle": "Crypto populaire",
+  "popularCryptoSubtitle": "Un moyen rapide et facile d'acheter et de vendre \n des cryptos partout dans le monde.",
+  "all": "Tous",
+  "swapBuySuccess": "Votre achat de {token} a été un succès.",
   "@swapBuySuccess": {
     "placeholders": {
       "token": {
@@ -261,7 +261,7 @@
       }
     }
   },
-  "swapSellSuccess": "Your sale of {token} was successful.",
+  "swapSellSuccess": "Votre vente de {token} a été succès",
   "@swapSellSuccess": {
     "placeholders": {
       "token": {
@@ -269,10 +269,10 @@
       }
     }
   },
-  "swapErrorTitle": "There's a problem",
-  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
-  "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
-  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
+  "swapErrorTitle": "Il y a un problème",
+  "swapFailRouteNotFound": "Aucune voie trouvée pour les jetons et le montant donnés!",
+  "swapFailUnknown": "Une erreur inconnue s'est produite lors de la soumission de votre transaction",
+  "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",
   "@insufficientFundsForFeeMessage": {
     "placeholders": {
       "feeToken": {
@@ -283,9 +283,9 @@
       }
     }
   },
-  "requestOrSendPayment": "Request or send a payment",
-  "noActivity": "No activity yet!",
-  "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
+  "requestOrSendPayment": "Demander ou envoyer un paiement",
+  "noActivity": "Aucune activité encore!",
+  "insufficientFundsMessage": "Vous ne pouvez pas envoyer{amount}, tu as seulement {balance} de disponible.",
   "@insufficientFundsMessage": {
     "placeholders": {
       "amount": {
@@ -296,7 +296,7 @@
       }
     }
   },
-  "todayAt": "Today at {time}",
+  "todayAt": "Aujourd'hui à {time}",
   "@todayAt": {
     "placeholders": {
       "time": {
