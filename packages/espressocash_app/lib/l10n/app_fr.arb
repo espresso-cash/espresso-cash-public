@@ -158,9 +158,9 @@
   "sharePaymentRequestQrCodeDescription": "Le destinataire peut vous payer avec Espresso Cash (ou un autre portefeuille Solana Pay) en scannant le code QR ci-dessous.",
   "sharePaymentRequestLinkTitle": "Partager le lien",
   "sharePaymentRequestQrCodeTitle": "Partager le code QR",
-  "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de ",
+  "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de paiement ",
   "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
-  "sharePaymentRequestLinkMessage": "Hello!\n\nJe t'envoie une demande de {amount}. Pour me payer en un seul clic, visite:\n\n{link}",
+  "sharePaymentRequestLinkMessage": "Hello!\n\nJe t'envoie une demande de paiement de {amount}. Pour me payer en un seul clic, visite:\n\n{link}",
   "@sharePaymentRequestLinkMessage": {
     "placeholders": {
       "amount": {
