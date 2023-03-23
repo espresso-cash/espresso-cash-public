@@ -15,7 +15,7 @@ class OnboardingNotice extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<AccountsBloc, AccountsState>(
         builder: (context, state) {
-          if (!state.hasFinishedOnboarding) return const SizedBox.shrink();
+          if (state.hasFinishedOnboarding) return const SizedBox.shrink();
 
           void onPressed() =>
               context.router.navigate(const OnboardingFlowRoute());
