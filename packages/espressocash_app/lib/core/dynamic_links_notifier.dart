@@ -8,7 +8,6 @@ import 'package:uni_links/uni_links.dart';
 
 import 'callback.dart';
 
-
 @injectable
 class DynamicLinksNotifier {
   DynamicLinksNotifier(this._firebaseDynamicLinks) {
