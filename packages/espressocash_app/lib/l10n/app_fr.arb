@@ -180,8 +180,8 @@
   "editProfileDescription": "Apporter des modifications à votre profil actuel",
   "learnAboutCrypto": "Apprendre la crypto",
   "learnAboutCryptoDescription": "Obtenez de l'aide au sujet de la crypto",
-  "addCash": "Ajouter de l'argent",
-  "cashOut": "Retirer l'argent",
+  "addCash": "Déposer",
+  "cashOut": "Retirer",
   "tokenBalance": "{symbol} Solde",
   "@tokenBalance": {
     "placeholders": {
