@@ -1,6 +1,6 @@
 {
   "next": "Suivant",
-  "recoverySubHeading": "Veuillez noter votre phrase de récupération secrète suivante et l'enregistrer attentivement. Cette phrase est composée de 12 mots générés au hasard. Vous ne pourrez pas récupérer vos fonds si vous perdez ces mots.",
+  "recoverySubHeading": "Veuillez noter votre phrase de récupération secrète suivante et la stocker quelque part précieusement. Cette phrase est composée de 12 mots générés au hasard. Vous ne pourrez pas récupérer vos fonds si vous perdez ces mots.",
   "yourRecoveryPhrase": "Votre phrase de récupération secrète",
   "yourRecoveryPhraseSub": "Veuillez noter votre phrase de récupération secrète suivante et l'enregistrer attentivement. Cette phrase est composée de 12 mots générés au hasard. Vous ne pourrez pas récupérer vos fonds si vous perdez ces mots.",
   "yourFirstNamePlaceholder": "Choisissez un nom d'utilisateur",
@@ -44,7 +44,7 @@
   "processing": "En cours...",
   "search": "Recherche",
   "noEmailInCryptoInfo": "Avec Espresso Cash, il n'y a pas besoin d'un e-mail et d'un mot de passe pour accéder à votre argent!",
-  "noEmailInCryptoParagraph": "Vous avez besoin d'une phrase de récupération secrète. Cette phrase est composée de mots de sécurité générés au hasard qui vous seront fournis. Sans ces mots, vous ne pourrez pas accéder à vos fonds. Ces mots ne peuvent jamais être récupérés.\n\nGarde les en sécurité!",
+  "noEmailInCryptoParagraph": "Vous avez besoin d'une phrase de récupération secrète. Cette phrase est composée de 12 mots qui ont été générés au hasard et qui vous sont fournis. Sans ces mots, vous ne pourrez pas accéder à vos fonds. Ces mots ne peuvent jamais être récupérés.\n\nGarde les en sécurité!",
   "iUnderstand": "Je comprends",
   "protectYourWalletParagraph1": "Ne risquez pas de perdre vos fonds. Protégez votre portefeuille en stockant votre phrase de récupération secrète dans un endroit en qui vous avez confiance.",
   "protectYourWalletParagraph2": "C'est la seule façon de récupérer votre portefeuille si vous êtes déconnecté de l'application ou si vous changez d'appareil.",
