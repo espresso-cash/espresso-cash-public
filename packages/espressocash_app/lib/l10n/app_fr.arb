@@ -315,7 +315,7 @@
       }
     }
   },
-  "marketCapRank": "Classement de capitalisation crypto",
+  "marketCapRank": "Classement de capitalisation des crypto-monnaies",
   "aboutTokenLabel": "A propos de {name}",
   "@aboutTokenLabel": {
     "placeholders": {
@@ -324,7 +324,7 @@
       }
     }
   },
-  "swapEquivalent": "For {input} you will get aprox. {output}",
+  "swapEquivalent": "Pour {input} Vous obtiendrez approx. {output}",
   "@swapEquivalent": {
     "placeholders": {
       "input": {
@@ -335,7 +335,7 @@
       }
     }
   },
-  "pressAndHoldToBuy": "Slide to Buy {token}",
+  "pressAndHoldToBuy": "Glisser pour Acheter {token}",
   "@pressAndHoldToBuy": {
     "placeholders": {
       "token": {
@@ -343,7 +343,7 @@
       }
     }
   },
-  "pressAndHoldToSell": "Slide to Sell {token}",
+  "pressAndHoldToSell": "Glisser pour Vendre {token}",
   "@pressAndHoldToSell": {
     "placeholders": {
       "token": {
@@ -355,14 +355,14 @@
   "less": "less",
   "swap": "Swap",
   "send": "Send",
-  "failedToLoadDescription": "Failed to load description",
-  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
-  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
-  "requestNoteRequesting": "Requesting",
-  "requestNoteFor": "For",
-  "requestNotePlaceholder": "Add a note for your request",
-  "errorMessageInsufficientFunds": "You do not have enough funds.",
-  "minimumAmountToSend": "{amount} is the minimum to send",
+  "failedToLoadDescription": "Échec du chargement de la description",
+  "recoveryWarningInfo": "Veuillez lire attentivement les informations ci-dessous avant de consulter votre phrase de récupération secrète",
+  "recoveryWarningParagraph": "Pour récupérer votre portefeuille, vous aurez besoin de votre phrase de récupération secrète. Veuillez noter votre phrase de récupération secrète suivante et la stocker attentivement. \n\n N'importe qui qui a accès à votre phrase de récupération secrète a également un accès irrévocable à votre argent. \n\n Ne partagez jamais cette phrase de récupération secrète à un étranger et n'entrez jamais cette phrase de récupération secrète dans un formulaire ou une autre application.",
+  "requestNoteRequesting": "Demande",
+  "requestNoteFor": "Pour",
+  "requestNotePlaceholder": "Ajoutez une note pour votre demande",
+  "errorMessageInsufficientFunds": "Vous n'avez pas assez de fonds.",
+  "minimumAmountToSend": "{amount} est le minimum à envoyer",
   "@minimumAmountToSend": {
     "placeholders": {
       "amount": {
@@ -370,7 +370,7 @@
       }
     }
   },
-  "minimumAmountToRequest": "{amount} is the minimum to request",
+  "minimumAmountToRequest": "{amount} est le minimum pour demander",
   "@minimumAmountToRequest": {
     "placeholders": {
       "amount": {
@@ -378,33 +378,33 @@
       }
     }
   },
-  "price": "Price",
-  "balance": "Balance",
-  "youOwn": "You own",
-  "failedToLoadTokens": "Failed to load tokens",
-  "settings": "Settings",
-  "displayEmptyBalanceTitle": "Display Empty Balances",
-  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
-  "following": "Following",
-  "searchPlaceholder": "Search...",
-  "failedToSearch": "Failed to search token",
-  "emptySearch": "Token not found",
-  "discover": "DISCOVER",
-  "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "view": "View",
-  "shareLinks": "Share Links",
-  "qrCameraPermissionTitle": "Camera disabled",
-  "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
-  "qrInputAddressTitle": "Send manually",
-  "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
-  "qrInputAddressHint": "Enter the crypto address here",
+  "price": "Prix",
+  "balance": "Solde",
+  "youOwn": "Vous possédez",
+  "failedToLoadTokens": "Échec du chargement des jetons",
+  "settings": "Paramètres",
+  "displayEmptyBalanceTitle": "Afficher les soldes vides",
+  "displayEmptyBalanceSubtitle": "Montrez votre crypto avec zéro solde",
+  "following": "Suivi",
+  "searchPlaceholder": "Recherche...",
+  "failedToSearch": "Échec de la recherche de jeton",
+  "emptySearch": "Jeton introuvable",
+  "discover": "DÉCOUVRIR",
+  "qrPaymentSubtitle": "Le destinataire recevra l'argent en scannant ce code QR:",
+  "view": "Voir",
+  "shareLinks": "Partager les liens",
+  "qrCameraPermissionTitle": "Caméra inaccessible",
+  "qrCameraPermissionMessage": "Autorisez l'accès à la caméra dans les paramètres de votre appareil pour activer le lecteur de code QR.",
+  "qrInputAddressTitle": "Envoyer manuellement",
+  "qrInputAddressMessage": "Vous pouvez saisir l'adresse du portefeuille Solana du destinataire pour leur envoyer de l'argent directement.",
+  "qrInputAddressHint": "Entrez l'adresse crypto ici",
   "cryptoCashBalance": "Votre Crypto Cash\nSolde ",
-  "inUsdc": "in USDC ",
-  "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
-  "cryptoInvestments": "Your Crypto\nInvestments",
-  "moneyReceived": "Money has been received",
-  "sentDirectly": "Sent",
-  "boughtToken": "Bought {amount}",
+  "inUsdc": "en USDC ",
+  "usdcInfo": "L'USDC est un stablecoin numérique qui devrait être fixé au dollar américain.(1$ = 1USDC)",
+  "cryptoInvestments": "Vos investissements\ncrypto",
+  "moneyReceived": "L'argent a bien été reçu",
+  "sentDirectly": "Envoyé",
+  "boughtToken": "{amount} Acheté",
   "@boughtToken": {
     "placeholders": {
       "amount": {
@@ -412,7 +412,7 @@
       }
     }
   },
-  "soldToken": "Sold {amount}",
+  "soldToken": "{amount} Vendu",
   "@soldToken": {
     "placeholders": {
       "amount": {
@@ -420,12 +420,12 @@
       }
     }
   },
-  "moreDetails": "View more details",
-  "cancelTransfer": "Cancel transfer",
-  "sentViaLink": "Sent via links",
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
-  "transferInitiated": "Transfer initiated",
-  "receivedBy": "Received by {address}",
+  "moreDetails": "Afficher plus de détails",
+  "cancelTransfer": "Annuler le transfert",
+  "sentViaLink": "Envoyé via des liens",
+  "cancelErrorMessageInsufficientFunds": "L'argent a déjà été retiré.",
+  "transferInitiated": "Transfert initié",
+  "receivedBy": "Reçu par {address}",
   "@receivedBy": {
     "placeholders": {
       "address": {
@@ -434,19 +434,19 @@
     }
   },
   "fundYourAccount": "Financez votre compte pour commencer votre voyage crypto. Vous pouvez acheter et vendre des cryptos ou envoyer de l'argent partout dans le monde !",
-  "investmentHeaderButtonsTitle": "I want to",
-  "sendMoney": "Send Money",
+  "investmentHeaderButtonsTitle": "Je veux",
+  "sendMoney": "Envoyer de l'argent",
   "startInvestingTitle": "Commencez à investir",
-  "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like.",
-  "invalidEscrowError": "The link is incorrect or the money has already been withdrawn.",
-  "yesDeleteMyWallet": "Yes, delete my wallet",
-  "cancelTransferConfirmationTitle": "Cancel Transfer",
-  "cancelTransferConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
-  "cancelPaymentRequestConfirmationTitle": "Cancel Payment Request",
-  "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?",
-  "activityStatusSuccess": "Success",
-  "activityStatusFailure": "Failure",
-  "activityStatusInProgress": "In Progress",
-  "activityStatusCanceled": "Canceled",
-  "enterAmount": "Enter amount"
+  "startInvestingSubtitle": "Nouveau à l'investissement cryptographique?\n Voici quelques crypto populaires que vous pourriez aimer.",
+  "invalidEscrowError": "Le lien est incorrect ou l'argent a déjà été retiré.",
+  "yesDeleteMyWallet": "Oui, supprimez mon portefeuille",
+  "cancelTransferConfirmationTitle": "Annuler le transfert",
+  "cancelTransferConfirmationSubtitle": "Êtes-vous sûr de vouloir annuler ce transfert?",
+  "cancelPaymentRequestConfirmationTitle": "Annuler la demande de paiement",
+  "cancelPaymentRequestConfirmationSubtitle": "Êtes-vous sûr que vous souhaitez annuler cette demande de paiement?",
+  "activityStatusSuccess": "Succès",
+  "activityStatusFailure": "Echec",
+  "activityStatusInProgress": "En cours",
+  "activityStatusCanceled": "Annulé",
+  "enterAmount": "Entrer le montant"
 }
