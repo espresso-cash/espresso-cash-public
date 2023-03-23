@@ -27,20 +27,23 @@ class GetStartedScreen extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                 ),
               ),
-              LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: constraints.copyWith(
-                      minHeight: constraints.maxHeight,
-                      maxHeight: double.infinity,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        children: const [
-                          _Header(),
-                          _Body(),
-                          Expanded(child: _Footer()),
-                        ],
+              SafeArea(
+                top: false,
+                child: LayoutBuilder(
+                  builder: (context, constraints) => SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: constraints.copyWith(
+                        minHeight: constraints.maxHeight,
+                        maxHeight: double.infinity,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          children: const [
+                            _Header(),
+                            _Body(),
+                            Expanded(child: _Footer()),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -111,7 +114,7 @@ class _Footer extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TermsDisclaimer(),
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 16),
           ],
         ),
       );

@@ -39,9 +39,9 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 context.refreshFavorites(),
               ]),
               color: CpColors.primaryColor,
-              child: const CustomScrollView(
+              child: CustomScrollView(
                 slivers: [
-                  SliverAppBar(
+                  const SliverAppBar(
                     shape: Border(),
                     title: _AppBarContent(),
                     pinned: true,
@@ -50,19 +50,24 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                     elevation: 0,
                     backgroundColor: Colors.white,
                   ),
-                  SliverToBoxAdapter(child: InvestmentHeader()),
-                  SliverToBoxAdapter(child: OnboardingNotice()),
-                  SliverToBoxAdapter(child: SizedBox(height: 45)),
-                  SliverToBoxAdapter(child: StartInvestingHeader()),
-                  SliverPadding(
+                  const SliverToBoxAdapter(child: InvestmentHeader()),
+                  const SliverToBoxAdapter(child: OnboardingNotice()),
+                  const SliverToBoxAdapter(child: SizedBox(height: 45)),
+                  const SliverToBoxAdapter(child: StartInvestingHeader()),
+                  const SliverPadding(
                     padding: EdgeInsets.symmetric(horizontal: 24),
                     sliver: CryptoInvestments(),
                   ),
-                  FavoriteTokenList(),
-                  SliverToBoxAdapter(child: SizedBox(height: 24)),
-                  SliverToBoxAdapter(child: PopularCryptoHeader()),
-                  PopularTokenList(),
-                  SliverToBoxAdapter(child: SizedBox(height: 12)),
+                  const FavoriteTokenList(),
+                  const SliverToBoxAdapter(child: SizedBox(height: 24)),
+                  const SliverToBoxAdapter(child: PopularCryptoHeader()),
+                  const PopularTokenList(),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).padding.bottom -
+                          cpNavigationBarheight,
+                    ),
+                  ),
                 ],
               ),
             ),
