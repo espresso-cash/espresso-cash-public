@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
+import '../callback.dart';
 import '../dynamic_links_notifier.dart';
 
 class DynamicLinksWrapper extends StatefulWidget {
@@ -12,7 +13,7 @@ class DynamicLinksWrapper extends StatefulWidget {
     required this.child,
   }) : super(key: key);
 
-  final LinkCallback onLink;
+  final Callback1<Uri> onLink;
   final Widget child;
 
   @override
