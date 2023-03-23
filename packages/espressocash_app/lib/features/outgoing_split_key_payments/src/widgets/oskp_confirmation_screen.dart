@@ -47,19 +47,21 @@ class OSKPConfirmationScreen extends StatelessWidget {
               fee: fee,
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const FeeLabel(type: FeeType.splitKey()),
-                const SizedBox(height: 21),
-                CpButton(
-                  width: double.infinity,
-                  onPressed: onSubmit,
-                  text: context.l10n.create,
-                ),
-              ],
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const FeeLabel(type: FeeType.splitKey()),
+                  const SizedBox(height: 21),
+                  CpButton(
+                    width: double.infinity,
+                    onPressed: onSubmit,
+                    text: context.l10n.create,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
