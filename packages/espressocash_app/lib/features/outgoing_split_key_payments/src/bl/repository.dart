@@ -133,6 +133,8 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
   TextColumn get cancelTx => text().nullable()();
   TextColumn get cancelTxId => text().nullable()();
+  DateTimeColumn get generatedLinksAt => dateTime().nullable()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
   TextColumn get slot => text().nullable()();
 }
 
@@ -165,6 +167,7 @@ extension OSKPRowExt on OSKPRow {
           cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
         status: await status.toOSKPStatus(this),
+        linksGeneratedAt: generatedLinksAt,
       );
 }
 
@@ -179,6 +182,7 @@ extension on OSKPStatusDto {
     final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
+    final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
@@ -205,15 +209,18 @@ extension on OSKPStatusDto {
         );
       case OSKPStatusDto.success:
         // For compatibility with old versions
-        return OSKPStatus.withdrawn(txId: txId!);
+        return OSKPStatus.withdrawn(txId: txId!, timestamp: resolvedAt);
       case OSKPStatusDto.withdrawn:
-        return OSKPStatus.withdrawn(txId: withdrawTxId!);
+        return OSKPStatus.withdrawn(txId: withdrawTxId!, timestamp: resolvedAt);
       case OSKPStatusDto.canceled:
         if (cancelTxId == null && withdrawTxId != null) {
           // For compatibility with old versions
-          return OSKPStatus.canceled(txId: withdrawTxId);
+          return OSKPStatus.canceled(
+            txId: withdrawTxId,
+            timestamp: resolvedAt,
+          );
         } else {
-          return OSKPStatus.canceled(txId: cancelTxId);
+          return OSKPStatus.canceled(txId: cancelTxId, timestamp: resolvedAt);
         }
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(
@@ -284,6 +291,8 @@ extension on OutgoingSplitKeyPayment {
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
         slot: status.toSlot()?.toString(),
+        generatedLinksAt: linksGeneratedAt,
+        resolvedAt: status.toResolvedAt(),
       );
 }
 
@@ -352,6 +361,11 @@ extension on OSKPStatus {
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
         cancelTxFailure: (it) => it.reason,
+      );
+
+  DateTime? toResolvedAt() => mapOrNull(
+        withdrawn: (it) => it.timestamp,
+        canceled: (it) => it.timestamp,
       );
 
   BigInt? toSlot() => mapOrNull(

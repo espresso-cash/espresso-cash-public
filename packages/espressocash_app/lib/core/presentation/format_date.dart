@@ -12,6 +12,6 @@ extension FormatDate on BuildContext {
             now.month == date.month &&
             now.day == date.day
         ? l10n.todayAt(time)
-        : l10n.activityDate(DateFormat.MMMd().format(date), time);
+        : DateFormat.MMMd().add_jm().format(date);
   }
 }

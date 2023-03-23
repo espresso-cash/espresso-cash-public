@@ -33,7 +33,7 @@ class SeedVault implements SeedVaultFlutterApi {
   @visibleForTesting
   static set instance(SeedVault vault) => _instance = vault;
 
-  final _eventStream = StreamController<SeedVaultNotification>();
+  final _eventStream = StreamController<SeedVaultNotification>.broadcast();
 
   @override
   void onChangeNotified(List<String?> uris, int flags) {

@@ -46,6 +46,7 @@ const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 const int tokenProgramRent = 2039280;
 
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 25);
+const Duration pingDefaultInterval = Duration(seconds: 1);
 
 const _mainNetChainId = 101;
 const _devNetChainId = 103;
@@ -68,3 +69,5 @@ const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+
+const rampApiKey = String.fromEnvironment('RAMP_API_KEY');

@@ -57,8 +57,8 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
       token: token.publicKey,
     ).toUri();
 
-    final firstLink =
-        await _linkShortener.shorten(rawFirstLink) ?? rawFirstLink;
+    final firstLink = await _linkShortener.buildShortUrl(rawFirstLink) ??
+        _linkShortener.buildFullUrl(rawFirstLink);
 
     final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
 
@@ -66,10 +66,12 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
 
     if (payment.amount.decimal <= _qrLinkThreshold) {
       final key = base58encode(privateKey.toList());
-      qrLink = SingleKeyPaymentData(
+      final rawQrLink = SingleKeyPaymentData(
         key: key,
         token: token.publicKey,
       ).toUri();
+
+      qrLink = _linkShortener.buildFullUrl(rawQrLink);
     }
 
     final newStatus = OSKPStatus.linksReady(
@@ -79,7 +81,10 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
       escrow: status.escrow,
     );
 
-    return payment.copyWith(status: newStatus);
+    return payment.copyWith(
+      status: newStatus,
+      linksGeneratedAt: DateTime.now(),
+    );
   }
 }
 
