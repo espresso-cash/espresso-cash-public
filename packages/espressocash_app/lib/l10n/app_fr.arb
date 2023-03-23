@@ -104,7 +104,7 @@
   "resendLink": "Réenvoyer les liens",
   "buy": "Acheter",
   "sell": "Vendre",
-  "paymentRequestTitle": "Payment request for {label}",
+  "paymentRequestTitle": "Demande de paiement pour {label}",
   "@paymentRequestTitle": {
     "placeholders": {
       "label": {
@@ -112,7 +112,7 @@
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
+  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} pour {label} a été payée.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -123,7 +123,7 @@
       }
     }
   },
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
+  "paymentRequestFailureNotificationTitle": "Paiement échoué de {amount} pour {label}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
       "label": {
@@ -131,20 +131,20 @@
       }
     }
   },
-  "paymentRequestCancel": "Cancel request",
-  "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
-  "securitySectionTitle": "SECURITY AND PRIVACY",
-  "learningSectionTitle": "LEARNING CENTER",
-  "help": "Help",
-  "tryAgainLater": "Please, try again later",
-  "appLock": "Auto-Lock",
-  "enterPasscode": "Enter your passcode",
-  "reEnterPasscode": "Re-enter your passcode",
-  "incorrectPasscode": "Incorrect passcode. Retry again",
-  "copiedToClipboard": "Copied!",
-  "contactUs": "Contact Us",
-  "qrCodeScanErrorTitle": "Scan Failed",
-  "qrCodeScanErrorContent": "We were unable to understand this QR code. Please try again.",
+  "paymentRequestCancel": "Demande d'annulation",
+  "splitKeyConfirmationDialogContent": "Êtes-vous sûr de ne pas vouloir obtenir l'argent disponible pour vous?",
+  "securitySectionTitle": "SECURITE ET CONFIDENTIALITE",
+  "learningSectionTitle": "CENTRE D'APPRENTISSAGE",
+  "help": "Aide",
+  "tryAgainLater": "Veuillez réessayer plus tard",
+  "appLock": "Verrouillage automatique",
+  "enterPasscode": "Entre ton code d'accès",
+  "reEnterPasscode": "Réentrez votre code d'accès",
+  "incorrectPasscode": "Code d'accès incorrect. Réessayer à nouveau",
+  "copiedToClipboard": "Copié!",
+  "contactUs": "Contactez-nous",
+  "qrCodeScanErrorTitle": "Échec du scan",
+  "qrCodeScanErrorContent": "Nous n'avons pas pu comprendre ce code QR. Veuillez réessayer.",
   "crypto": "Crypto",
   "stablecoin": "Stablecoin",
   "byCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
