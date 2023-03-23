@@ -231,10 +231,10 @@
   "feesFailed": "Echec du chargement",
   "sendExplanation": "Une fois que vous avez créé ces liens, vous pouvez l'envoyer à votre destinataire! Il peut ensuite recevoir les fonds en cliquant simplement sur les liens.",
   "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
-  "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
-  "shareStep1": "Step 1 – Click on the first link:",
-  "shareStep2": "Step 2 – When the application asks you, click on the second link:",
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "shareInstructions": "Pour recevoir l'argent, vous devez cliquer sur deux liens. Suivez ces deux étapes ci-dessous:",
+  "shareStep1": "Étape 1 - Cliquez sur le premier lien:",
+  "shareStep2": "Étape 2 - Lorsque l'application vous demande, cliquez sur le deuxième lien:",
+  "shareText": "Hello!\n\nJe viens de t'envoyer {amount}.\n\n Pour recevoir l'argent, vous devez cliquer sur deux liens. Suivez ces deux étapes ci-dessous:\n\nÉtape 1 - Cliquez sur le premier lien:\n\n{firstLink}\n\nÉtape 2 - Lorsque l'application vous demande, cliquez sur le deuxième lien:\n\n{secondLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
@@ -248,7 +248,7 @@
       }
     }
   },
-  "yourLinkIsReady": "Your link is ready",
+  "yourLinkIsReady": "Votre lien est prêt",
   "sendAs": "Send as",
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
