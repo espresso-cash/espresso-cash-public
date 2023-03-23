@@ -304,10 +304,10 @@
       }
     }
   },
-  "swapSlippageTitle": "Slippage tolerance",
-  "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
-  "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
-  "swapAmountAvailable": "{amount} available for use.",
+  "swapSlippageTitle": "Tolérance de glissement",
+  "swapSlippageExplanation": "Le glissement est la différence observée en raison de l'évolution des conditions du marché entre le moment où la transaction est soumise et sa vérification.",
+  "swapSlippageWarning": "Votre transaction sera annulée\nsi le prix varie plus de ",
+  "swapAmountAvailable": "{amount} disponible.",
   "@swapAmountAvailable": {
     "placeholders": {
       "amount": {
@@ -315,8 +315,8 @@
       }
     }
   },
-  "marketCapRank": "Market Cap Rank",
-  "aboutTokenLabel": "About {name}",
+  "marketCapRank": "Classement de capitalisation crypto",
+  "aboutTokenLabel": "A propos de {name}",
   "@aboutTokenLabel": {
     "placeholders": {
       "name": {
