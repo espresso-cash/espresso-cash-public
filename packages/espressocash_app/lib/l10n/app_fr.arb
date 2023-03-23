@@ -270,7 +270,7 @@
     }
   },
   "swapErrorTitle": "Il y a un problème",
-  "swapFailRouteNotFound": "Aucune voie trouvée pour les jetons et le montant donnés!",
+  "swapFailRouteNotFound": "Impossible d'exécuter votre ordre pour les jetons et le montant donnés!",
   "swapFailUnknown": "Une erreur inconnue s'est produite lors de la soumission de votre transaction",
   "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",
   "@insufficientFundsForFeeMessage": {
