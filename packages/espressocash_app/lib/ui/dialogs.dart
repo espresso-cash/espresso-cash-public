@@ -16,7 +16,7 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
+              child: Text(context.l10n.ok),
             ),
           ],
         ),
