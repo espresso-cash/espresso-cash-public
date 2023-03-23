@@ -35,7 +35,6 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   }
 
   Future<void> _openFirstPartReadyScreen() async {
-    if (!mounted) return;
     context.router
         .push(
           FirstPartReadyRoute(

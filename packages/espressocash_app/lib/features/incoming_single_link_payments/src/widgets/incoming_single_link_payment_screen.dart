@@ -37,6 +37,8 @@ class _IncomingSingleLinkScreenState extends State<IncomingSingleLinkScreen> {
 
   Future<void> init() async {
     final id = await context.createISLP(widget.data);
+
+    if (!mounted) return;
     setState(() {
       _payment = sl<ISLPRepository>().watch(id);
     });

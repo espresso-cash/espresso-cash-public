@@ -34,7 +34,6 @@ class _ISLPListenerState extends State<ISLPListener> {
   }
 
   Future<void> _processISLP(SingleKeyPaymentData data) async {
-    if (!mounted) return;
     context.router.push(IncomingSingleLinkRoute(data: data)).ignore();
   }
 
