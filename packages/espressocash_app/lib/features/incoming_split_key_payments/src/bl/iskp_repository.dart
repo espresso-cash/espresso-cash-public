@@ -142,6 +142,8 @@ extension on IncomingSplitKeyPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
+        slot: status.toSlot()?.toString(),
+        txFailureReason: status.toTxFailureReason(),
       );
 }
 
@@ -160,5 +162,14 @@ extension on ISKPStatus {
 
   String? toTxId() => mapOrNull(
         success: (it) => it.txId,
+      );
+
+  TxFailureReason? toTxFailureReason() => mapOrNull(
+        txFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
       );
 }
