@@ -253,7 +253,7 @@
   "popularCryptoTitle": "Crypto populaire",
   "popularCryptoSubtitle": "Un moyen rapide et facile d'acheter et de vendre \n des cryptos partout dans le monde.",
   "all": "Tous",
-  "swapBuySuccess": "Votre achat de {token} a été un succès.",
+  "swapBuySuccess": "Votre achat de {token} a été correctement exécuté.",
   "@swapBuySuccess": {
     "placeholders": {
       "token": {
@@ -261,7 +261,7 @@
       }
     }
   },
-  "swapSellSuccess": "Votre vente de {token} a été succès",
+  "swapSellSuccess": "Votre vente de {token} a été correctement exécuté.",
   "@swapSellSuccess": {
     "placeholders": {
       "token": {
