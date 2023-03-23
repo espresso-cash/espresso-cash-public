@@ -231,10 +231,10 @@
   "feesFailed": "Echec du chargement",
   "sendExplanation": "Une fois que vous avez créé ces liens, vous pouvez l'envoyer à votre destinataire! Il peut ensuite recevoir les fonds en cliquant simplement sur les liens.",
   "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
-  "shareInstructions": "Pour recevoir l'argent, vous devez cliquer sur deux liens. Suivez ces deux étapes ci-dessous:",
-  "shareStep1": "Étape 1 - Cliquez sur le premier lien:",
-  "shareStep2": "Étape 2 - Lorsque l'application vous demande, cliquez sur le deuxième lien:",
-  "shareText": "Hello!\n\nJe viens de t'envoyer {amount}.\n\n Pour recevoir l'argent, vous devez cliquer sur deux liens. Suivez ces deux étapes ci-dessous:\n\nÉtape 1 - Cliquez sur le premier lien:\n\n{firstLink}\n\nÉtape 2 - Lorsque l'application vous demande, cliquez sur le deuxième lien:\n\n{secondLink}",
+  "shareInstructions": "Pour recevoir l'argent, tu dois cliquer sur deux liens. Suis ces deux étapes ci-dessous:",
+  "shareStep1": "Étape 1 - Clique sur le premier lien:",
+  "shareStep2": "Étape 2 - Lorsque l'application te demande, clique sur le deuxième lien:",
+  "shareText": "Hello!\n\nJe viens de t'envoyer {amount}.\n\n Pour recevoir l'argent, tu dois cliquer sur deux liens. Suis ces deux étapes ci-dessous:\n\nÉtape 1 - Clique sur le premier lien:\n\n{firstLink}\n\nÉtape 2 - Lorsque l'application te demande, clique sur le deuxième lien:\n\n{secondLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
@@ -435,7 +435,7 @@
   },
   "fundYourAccount": "Financez votre compte pour commencer votre voyage crypto. Vous pouvez acheter et vendre des cryptos ou envoyer de l'argent partout dans le monde !",
   "investmentHeaderButtonsTitle": "Je veux",
-  "sendMoney": "Envoyer de l'argent",
+  "sendMoney": "Envoyer",
   "startInvestingTitle": "Commencez à investir",
   "startInvestingSubtitle": "Nouveau à l'investissement cryptographique?\n Voici quelques crypto populaires que vous pourriez aimer.",
   "invalidEscrowError": "Le lien est incorrect ou l'argent a déjà été retiré.",
