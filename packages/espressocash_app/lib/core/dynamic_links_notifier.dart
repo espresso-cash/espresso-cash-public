@@ -2,61 +2,40 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:uni_links/uni_links.dart';
 
+typedef LinkCallback = void Function(Uri);
+
 @injectable
-class DynamicLinksNotifier extends ChangeNotifier {
+class DynamicLinksNotifier {
   DynamicLinksNotifier(this._firebaseDynamicLinks) {
     _init();
   }
 
-  Uri? _link;
-  StreamSubscription<dynamic>? _dynamicLinksSubscription;
-  StreamSubscription<dynamic>? _uniLinksSubscription;
+  final _subject = BehaviorSubject<Uri>();
 
   final FirebaseDynamicLinks _firebaseDynamicLinks;
 
-  void processLink(bool Function(Uri link) onLink) {
-    final link = _link;
-    if (link == null) return;
-
-    if (onLink(link)) {
-      _link = null;
-    }
-  }
+  StreamSubscription<Uri> processLink(LinkCallback onLink) =>
+      _subject.listen(onLink);
 
   Future<void> _init() async {
-    await _processInitialLink();
-
-    _dynamicLinksSubscription = _firebaseDynamicLinks.onLink
-        .map((event) => event.link)
-        .listen(_notifyLink);
-
-    _uniLinksSubscription = uriLinkStream.listen(_notifyLink);
-  }
-
-  void _notifyLink(Uri? link) {
-    if (link == null) return;
-
-    _link = link;
-    notifyListeners();
-  }
-
-  Future<void> _processInitialLink() async {
     final initialLink = await _firebaseDynamicLinks
         .getInitialLink()
         .then((value) => value?.link)
         .ifNull(getInitialUri);
 
-    _notifyLink(initialLink);
+    if (initialLink != null) _subject.add(initialLink);
+
+    await _subject.addStream(
+      _firebaseDynamicLinks.onLink.map((event) => event.link),
+    );
+    await _subject.addStream(uriLinkStream.whereNotNull());
   }
 
-  @override
   void dispose() {
-    _dynamicLinksSubscription?.cancel();
-    _uniLinksSubscription?.cancel();
-    super.dispose();
+    _subject.close();
   }
 }

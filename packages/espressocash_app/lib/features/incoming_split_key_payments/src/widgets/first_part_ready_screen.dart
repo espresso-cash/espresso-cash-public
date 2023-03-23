@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
-import '../../../../core/dynamic_links_notifier.dart';
+import '../../../../core/presentation/dynamic_links_wrapper.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
@@ -28,22 +27,6 @@ class FirstPartReadyScreen extends StatefulWidget {
 }
 
 class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    context.watch<DynamicLinksNotifier>().processLink((link) {
-      final secondPart = SplitKeySecondLink.tryParse(link);
-      if (secondPart != null) {
-        sl<AnalyticsManager>().secondLinkReceived();
-        _processSecondPart(secondPart);
-
-        return true;
-      }
-
-      return false;
-    });
-  }
-
   Future<void> _processSecondPart(SplitKeySecondLink secondPart) async {
     final repository = sl<PendingISKPRepository>();
 
@@ -75,62 +58,73 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
     }
   }
 
+  void _onLink(Uri link) {
+    final secondPart = SplitKeySecondLink.tryParse(link);
+    if (secondPart != null) {
+      sl<AnalyticsManager>().secondLinkReceived();
+      _processSecondPart(secondPart);
+    }
+  }
+
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: CpTheme.dark(
-            child: Builder(
-              builder: (context) => DecoratedBox(
-                decoration: const BoxDecoration(color: CpColors.primaryColor),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Assets.icons.logoBg
-                          .svg(alignment: Alignment.bottomCenter),
-                    ),
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 62),
-                            Text(
-                              context.l10n.splitKeySecondLinkTitle,
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium
-                                  ?.copyWith(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                            const _ContentView(),
-                            const SizedBox(height: 40),
-                            Expanded(
-                              child: Assets.images.secondLinkArtwork.image(),
-                            ),
-                            const SizedBox(height: 30),
-                            CpButton(
-                              onPressed: () => showCancelDialog(
-                                context,
-                                () {
-                                  context.router.popForced();
-                                  widget.onCancel();
-                                },
+  Widget build(BuildContext context) => DynamicLinksWrapper(
+        onLink: _onLink,
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            extendBodyBehindAppBar: true,
+            body: CpTheme.dark(
+              child: Builder(
+                builder: (context) => DecoratedBox(
+                  decoration: const BoxDecoration(color: CpColors.primaryColor),
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Assets.icons.logoBg
+                            .svg(alignment: Alignment.bottomCenter),
+                      ),
+                      SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 62),
+                              Text(
+                                context.l10n.splitKeySecondLinkTitle,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayMedium
+                                    ?.copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
-                              text: context.l10n.cancel,
-                              size: CpButtonSize.micro,
-                              variant: CpButtonVariant.inverted,
-                            ),
-                          ],
+                              const _ContentView(),
+                              const SizedBox(height: 40),
+                              Expanded(
+                                child: Assets.images.secondLinkArtwork.image(),
+                              ),
+                              const SizedBox(height: 30),
+                              CpButton(
+                                onPressed: () => showCancelDialog(
+                                  context,
+                                  () {
+                                    context.router.popForced();
+                                    widget.onCancel();
+                                  },
+                                ),
+                                text: context.l10n.cancel,
+                                size: CpButtonSize.micro,
+                                variant: CpButtonVariant.inverted,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -66,8 +66,10 @@ Future<void> _start() async {
     providers: [
       const BalancesModule(),
       const AccountsModule(),
-      ChangeNotifierProvider<DynamicLinksNotifier>(
-        create: (_) => sl<DynamicLinksNotifier>(),
+      Provider<DynamicLinksNotifier>(
+        lazy: false,
+        create: (context) => sl<DynamicLinksNotifier>(),
+        dispose: (_, value) => value.dispose(),
       ),
     ],
     child: const CryptopleaseApp(),

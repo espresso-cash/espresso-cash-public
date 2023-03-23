@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/dynamic_links_notifier.dart';
+import '../../../../core/presentation/dynamic_links_wrapper.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
@@ -25,24 +24,16 @@ class ODPLinkListener extends StatefulWidget {
 }
 
 class _ODPLinkListenerState extends State<ODPLinkListener> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    context.watch<DynamicLinksNotifier>().processLink((link) {
-      final solanaPayRequest = tryParse(link);
-      if (solanaPayRequest != null) {
-        if (solanaPayRequest.splToken != Token.usdc.publicKey) {
-          // This is not USDC token, silently ignore for now
-          return true;
-        }
-
-        _processSolanaPayRequest(solanaPayRequest);
-
-        return true;
+  void _onLink(Uri link) {
+    final solanaPayRequest = tryParse(link);
+    if (solanaPayRequest != null) {
+      if (solanaPayRequest.splToken != Token.usdc.publicKey) {
+        // This is not USDC token, silently ignore for now
+        return;
       }
 
-      return false;
-    });
+      _processSolanaPayRequest(solanaPayRequest);
+    }
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {
@@ -77,7 +68,10 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) => DynamicLinksWrapper(
+        onLink: _onLink,
+        child: widget.child,
+      );
 }
 
 SolanaPayRequest? tryParse(Uri link) {
