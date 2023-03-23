@@ -23,7 +23,7 @@
   "share": "Partager",
   "yes": "Oui",
   "no": "Non",
-  "receive": "Demande",
+  "receive": "Recevoir",
   "create": "Créer",
   "youAreCreatingUniqueLink": "Vous créez un lien sécurisé contenant:",
   "ok": "OK",
@@ -131,7 +131,7 @@
       }
     }
   },
-  "paymentRequestCancel": "Demande d'annulation",
+  "paymentRequestCancel": "Annuler la demande",
   "splitKeyConfirmationDialogContent": "Êtes-vous sûr de ne pas vouloir obtenir l'argent disponible pour vous?",
   "securitySectionTitle": "SECURITE ET CONFIDENTIALITE",
   "learningSectionTitle": "CENTRE D'APPRENTISSAGE",
@@ -158,9 +158,9 @@
   "sharePaymentRequestQrCodeDescription": "Le destinataire peut vous payer avec Espresso Cash (ou un autre portefeuille Solana Pay) en scannant le code QR ci-dessous.",
   "sharePaymentRequestLinkTitle": "Partager le lien",
   "sharePaymentRequestQrCodeTitle": "Partager le code QR",
-  "sharePaymentRequestLinkIntro": "Hello!\n\nJ'ai envoyé une demande de",
-  "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visitez:",
-  "sharePaymentRequestLinkMessage": "Hello!\n\nJ'ai envoyé une demande de {amount}. Pour me payer en un seul clic, visitez:\n\n{link}",
+  "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de ",
+  "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
+  "sharePaymentRequestLinkMessage": "Hello!\n\nJe t'envoie une demande de {amount}. Pour me payer en un seul clic, visite:\n\n{link}",
   "@sharePaymentRequestLinkMessage": {
     "placeholders": {
       "amount": {
@@ -358,9 +358,9 @@
   "failedToLoadDescription": "Échec du chargement de la description",
   "recoveryWarningInfo": "Veuillez lire attentivement les informations ci-dessous avant de consulter votre phrase de récupération secrète",
   "recoveryWarningParagraph": "Pour récupérer votre portefeuille, vous aurez besoin de votre phrase de récupération secrète. Veuillez noter votre phrase de récupération secrète suivante et la stocker attentivement. \n\n N'importe qui qui a accès à votre phrase de récupération secrète a également un accès irrévocable à votre argent. \n\n Ne partagez jamais cette phrase de récupération secrète à un étranger et n'entrez jamais cette phrase de récupération secrète dans un formulaire ou une autre application.",
-  "requestNoteRequesting": "Demande",
-  "requestNoteFor": "Pour",
-  "requestNotePlaceholder": "Ajoutez une note pour votre demande",
+  "requestNoteRequesting": "Demander",
+  "requestNoteFor": "Note",
+  "requestNotePlaceholder": "Ajoutez un mémo",
   "errorMessageInsufficientFunds": "Vous n'avez pas assez de fonds.",
   "minimumAmountToSend": "{amount} est le minimum à envoyer",
   "@minimumAmountToSend": {
