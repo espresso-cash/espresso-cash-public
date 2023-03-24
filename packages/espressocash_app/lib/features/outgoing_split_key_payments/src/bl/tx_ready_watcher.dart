@@ -32,7 +32,6 @@ class TxReadyWatcher {
       for (final payment in payments) {
         Future<void> onSuccess(TransactionDetails txDetails) async {
           final tx = txDetails.transaction as ParsedTransaction;
-
           final txId = tx.id;
 
           final timestamp = txDetails.blockTime?.let(
@@ -40,7 +39,7 @@ class TxReadyWatcher {
               ) ??
               DateTime.now();
 
-          final newStatus = await tx.getDestinations().let(
+          final newStatus = await txDetails.getInnerDestinations().let(
                     (accounts) => findAssociatedTokenAddress(
                       owner: _userPublicKey,
                       mint: payment.amount.cryptoCurrency.token.publicKey,
