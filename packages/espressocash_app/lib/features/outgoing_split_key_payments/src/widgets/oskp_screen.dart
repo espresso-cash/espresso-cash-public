@@ -200,7 +200,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
           );
 
           final paymentInitiated = CpTimelineItem(
-            title: 'Payment initiated',
+            title: context.l10n.paymentInitiated,
             trailing: payment.amount.format(locale),
             subtitle: created.let((t) => context.formatDate(t)),
           );
