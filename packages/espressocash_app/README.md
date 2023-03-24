@@ -45,7 +45,7 @@ Main app screens. It should be kept minimal and serve as an entrypoint to featur
 ## Running
 
 1. Clone the project.
-2. run `make app_get app_build`.
+2. run `make flutter_get flutter_build`.
 3. Run the application.
 
 ## Tests
@@ -56,14 +56,7 @@ Main app screens. It should be kept minimal and serve as an entrypoint to featur
    make flutter_generate_test_schemas flutter_test
    ```
 
-2. Running solana-related integration tests (make sure that local solana instance is installed and running):
-
-   ```sh
-   # Ensure that SOLANA_RPC_URL and SOLANA_WEBSOCKET_URL environment variables are set
-   make flutter_test_solana
-   ```
-
-3. Running E2E tests:
+2. Running E2E tests:
 
    ```sh
    make flutter_test_e2e
