@@ -112,7 +112,7 @@
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
+  "paymentRequestSuccessNotificationTitle": "Su solicitud de {amount} fue pagada para {label}.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -123,7 +123,7 @@
       }
     }
   },
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
+  "paymentRequestFailureNotificationTitle": "Pago fallido de {amount} para {label}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
       "label": {
@@ -131,8 +131,8 @@
       }
     }
   },
-  "paymentRequestCancel": "Cancel request",
-  "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
+  "paymentRequestCancel": "Cancelar la solicitud de pago",
+  "splitKeyConfirmationDialogContent": "¿Estás seguro de que no quieres obtener el dinero disponible para ti?",
   "securitySectionTitle": "SECURITY AND PRIVACY",
   "learningSectionTitle": "LEARNING CENTER",
   "help": "Help",
