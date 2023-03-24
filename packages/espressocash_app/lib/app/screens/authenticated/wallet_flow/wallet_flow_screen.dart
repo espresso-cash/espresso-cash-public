@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/conversion_rates/amount_ext.dart';
+import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
@@ -19,6 +22,7 @@ import '../../../../ui/shake.dart';
 import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
 
+const _cryptoCurrency = Currency.usdc;
 final _minimumAmount = Decimal.parse('0.1');
 
 class WalletFlowScreen extends StatefulWidget {
@@ -33,10 +37,18 @@ class WalletFlowScreen extends StatefulWidget {
 class _State extends State<WalletFlowScreen> {
   final _shakeKey = GlobalKey<ShakeState>();
 
-  CryptoAmount _amount = const CryptoAmount(
+  FiatAmount _fiatAmount = const FiatAmount(
     value: 0,
-    cryptoCurrency: Currency.usdc,
+    fiatCurrency: Currency.usd,
   );
+
+  CryptoAmount get _cryptoAmount =>
+      _fiatAmount.toTokenAmount(
+        _cryptoCurrency.token,
+        ratesRepository: context.read<ConversionRatesRepository>(),
+      ) ??
+      const CryptoAmount(value: 0, cryptoCurrency: _cryptoCurrency);
+
   String _errorMessage = '';
 
   Future<void> _onQrScanner() async {
@@ -67,7 +79,7 @@ class _State extends State<WalletFlowScreen> {
     );
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
-    final initialAmount = requestAmount ?? _amount;
+    final initialAmount = requestAmount ?? _fiatAmount;
     final formatted = initialAmount.value == 0
         ? ''
         : initialAmount.format(
@@ -75,70 +87,73 @@ class _State extends State<WalletFlowScreen> {
             skipSymbol: true,
           );
 
-    final amount = await context.router.push<Decimal>(
+    final fiatDecimal = await context.router.push<Decimal>(
       ODPConfirmationRoute(
         initialAmount: formatted,
         recipient: recipient,
         label: name,
-        token: _amount.token,
+        token: _cryptoCurrency.token,
         isEnabled: isEnabled,
       ),
     );
     if (!mounted) return;
 
-    if (amount != null) {
-      setState(() => _amount = _amount.copyWith(value: 0));
+    if (fiatDecimal != null) {
+      setState(() => _fiatAmount = _fiatAmount.copyWithDecimal(fiatDecimal));
 
       final id = await context.createODP(
-        amountInUsdc: amount,
+        amountInUsdc: _cryptoAmount.decimal,
         receiver: recipient,
         reference: request.reference,
       );
 
       if (!mounted) return;
       await context.router.push(ODPDetailsRoute(id: id));
+      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
     }
   }
 
-  void _onAmountUpdate(Decimal value) {
-    if (value == _amount.decimal) return;
+  void _onFiatAmountUpdate(Decimal value) {
+    if (value == _fiatAmount.decimal) return;
 
     setState(() {
-      _amount = _amount.copyWithDecimal(value);
+      _fiatAmount = _fiatAmount.copyWithDecimal(value);
       _errorMessage = '';
     });
   }
 
   void _onRequest() {
-    if (_amount.decimal < _minimumAmount) {
+    if (_fiatAmount.decimal < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.request);
     }
 
-    context.navigateTo(LinkRequestFlowRoute(initialAmount: _amount));
-    setState(() => _amount = _amount.copyWith(value: 0));
+    context.navigateTo(LinkRequestFlowRoute(initialAmount: _cryptoAmount));
+    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
   void _onPay() {
-    final amount = _amount.decimal;
+    final amount = _fiatAmount.decimal;
 
     if (amount < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
+    final cryptoAmount = _cryptoAmount;
+
     context.router.push(
       OSKPConfirmationRoute(
-        tokenAmount: _amount,
+        tokenAmount: cryptoAmount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
           value: Decimal.parse('0.1'),
           currency: Currency.usdc,
         ),
         onSubmit: () async {
-          final id = await context.createOSKP(amount: _amount);
+          final id = await context.createOSKP(amount: cryptoAmount);
           if (!mounted) return;
 
           await context.router.replace(OSKPRoute(id: id));
-          setState(() => _amount = _amount.copyWith(value: 0));
+          setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
         },
       ),
     );
@@ -165,10 +180,11 @@ class _State extends State<WalletFlowScreen> {
           child: WalletMainScreen(
             shakeKey: _shakeKey,
             onScan: _onQrScanner,
-            onAmountChanged: _onAmountUpdate,
+            onAmountChanged: _onFiatAmountUpdate,
             onRequest: _onRequest,
             onPay: _onPay,
-            amount: _amount,
+            amount: _fiatAmount,
+            token: _cryptoCurrency.token,
             error: _errorMessage,
           ),
         ),
