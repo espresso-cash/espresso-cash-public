@@ -102,9 +102,9 @@
   "splitKeyProgressCanceling": "Cancelando transferancia",
   "splitKeyProgressCanceled": "La transferencia ha sido cancelada",
   "resendLink": "Reenviar enlaces",
-  "buy": "Buy",
-  "sell": "Sell",
-  "paymentRequestTitle": "Payment request for {label}",
+  "buy": "Comprar",
+  "sell": "Vender",
+  "paymentRequestTitle": "Solicitud de pago para {label}",
   "@paymentRequestTitle": {
     "placeholders": {
       "label": {
