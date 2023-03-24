@@ -229,12 +229,12 @@
   },
   "feesCalculating": "calculando...",
   "feesFailed": "falló al cargar",
-  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
-  "shareIntroFt": "Hi!\n\nI’ve just sent you ",
-  "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
-  "shareStep1": "Step 1 – Click on the first link:",
-  "shareStep2": "Step 2 – When the application asks you, click on the second link:",
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "sendExplanation": "Una vez que haya creado este enlace, ¡puede enviarlo a su destinatario!Luego pueden canjear los fondos simplemente haciendo clic en los enlaces.",
+  "shareIntroFt": "¡Hola!\n\nTe acabo de enviar ",
+  "shareInstructions": "Para recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:",
+  "shareStep1": "Paso 1: haga clic en el primer enlace:",
+  "shareStep2": "Paso 2: cuando la aplicación le pida, haga clic en el segundo enlace:",
+  "shareText": "¡Hola!\n\nTe acabo de enviar {amount}.\n\nPara recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:\n\nPaso 1: haga clic en el primer enlace:\n\n{firstLink}\n\nPaso 2: cuando la aplicación le pida, haga clic en el segundo enlace:\n\n{secondLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
@@ -248,7 +248,7 @@
       }
     }
   },
-  "yourLinkIsReady": "Your link is ready",
+  "yourLinkIsReady": "Tu enlace está listo",
   "sendAs": "Send as",
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
