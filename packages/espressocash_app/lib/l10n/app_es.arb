@@ -249,11 +249,11 @@
     }
   },
   "yourLinkIsReady": "Tu enlace está listo",
-  "sendAs": "Send as",
-  "popularCryptoTitle": "Popular Crypto",
-  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
-  "all": "All",
-  "swapBuySuccess": "Your purchase of {token} was successful.",
+  "sendAs": "Enviar como",
+  "popularCryptoTitle": "Crypto popular",
+  "popularCryptoSubtitle": "Una forma rápida y fácil de comprar y vender criptográfico \n en cualquier parte del mundo.",
+  "all": "Toda",
+  "swapBuySuccess": "Tu compra de {token} fue exitoso.",
   "@swapBuySuccess": {
     "placeholders": {
       "token": {
@@ -261,7 +261,7 @@
       }
     }
   },
-  "swapSellSuccess": "Your sale of {token} was successful.",
+  "swapSellSuccess": "Tu venta de {token} fue exitoso.",
   "@swapSellSuccess": {
     "placeholders": {
       "token": {
@@ -269,9 +269,9 @@
       }
     }
   },
-  "swapErrorTitle": "There's a problem",
-  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
-  "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
+  "swapErrorTitle": "Hay un problema",
+  "swapFailRouteNotFound": "¡No hay rutas encontradas para tokens y cantidad dados!",
+  "swapFailUnknown": "Se produjo un error desconocido al enviar su transacción",
   "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
   "@insufficientFundsForFeeMessage": {
     "placeholders": {
