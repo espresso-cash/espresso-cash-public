@@ -56,7 +56,7 @@ class OSKPService {
 
   Future<OutgoingSplitKeyPayment> cancel(
     OutgoingSplitKeyPayment payment, {
-    required Ed25519HDPublicKey account,
+    required ECWallet account,
   }) async {
     final status = payment.status;
 
@@ -106,10 +106,11 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.createPayment(dto);
+      final response = await _client.createPaymentEc(dto);
       final tx = await response.transaction
           .let(SignedTx.decode)
-          .let((it) => it.resign(account));
+          .let((it) => it.resign(account))
+          .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
 
       return OSKPStatus.txCreated(tx, escrow: privateKey, slot: response.slot);
     } on Exception {
@@ -121,22 +122,22 @@ class OSKPService {
 
   Future<OSKPStatus> _createCancelTx({
     required Ed25519HDKeyPair escrow,
-    required Ed25519HDPublicKey account,
+    required ECWallet account,
   }) async {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
-      final dto = ReceivePaymentRequestDto(
-        receiverAccount: account.toBase58(),
+      final dto = CancelPaymentRequestDto(
+        senderAccount: account.address,
         escrowAccount: escrow.address,
         cluster: apiCluster,
       );
 
-      final response = await _client.receivePayment(dto);
+      final response = await _client.cancelPaymentEc(dto);
       final tx = await response
           .let((it) => it.transaction)
           .let(SignedTx.decode)
-          .let((it) => it.resign(LocalWallet(escrow)));
+          .let((it) => it.resign(account));
 
       return OSKPStatus.cancelTxCreated(
         tx,
