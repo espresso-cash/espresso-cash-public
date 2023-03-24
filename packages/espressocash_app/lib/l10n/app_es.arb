@@ -180,9 +180,9 @@
   "editProfileDescription": "Hacer cambios en su perfil actual",
   "learnAboutCrypto": "Aprendiendo sobre cripto",
   "learnAboutCryptoDescription": "Obtenga ayuda con todas las cosas cripto",
-  "addCash": "Add Cash",
-  "cashOut": "Cash Out",
-  "tokenBalance": "{symbol} Balance",
+  "addCash": "Depositar",
+  "cashOut": "Retirar",
+  "tokenBalance": "{symbol} Saldo",
   "@tokenBalance": {
     "placeholders": {
       "symbol": {
@@ -190,7 +190,7 @@
       }
     }
   },
-  "zeroAmountTitle": "Invalid amount",
+  "zeroAmountTitle": "Monto invalido",
   "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
   "@zeroAmountMessage": {
     "placeholders": {
