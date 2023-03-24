@@ -457,7 +457,7 @@
       }
     }
   },
-  "version": "Version {versionNumber} (buildNumber)",
+  "version": "Version {versionNumber} ({buildNumber})",
   "@version": {
     "placeholders": {
       "versionNumber": {

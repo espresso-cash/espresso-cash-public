@@ -11,8 +11,8 @@
   "signUp": "Criar carteira",
   "signIn1": "Já tem uma carteira Solana? ",
   "signIn2": "Continue aqui",
-  "onboardingIntro": "Uma forma mais rápida e simples de enviar & receber dinheiro instantaneamente.",
-  "onboardingBullet": "Investimento em Cripto simplificado, seja você novo ou um profissional experiente!",
+  "onboardingIntro": "Uma forma rápida e simples de enviar & receber dinheiro na hora.",
+  "onboardingBullet": "Investimento em Cripto simplificado, seja você novato ou profissional experiente!",
   "linkSubtitle": "O destinatário precisará clicar nos dois links abaixo para resgatar o dinheiro.",
   "enterYourSecretWords": "Digite sua Frase de Recuperação Secreta",
   "toRestoreYourAccount": "Por favor, insira sua frase de recuperação secreta abaixo. Esta frase é composta por 12 palavras geradas aleatoriamente.",
@@ -147,9 +147,9 @@
   "qrCodeScanErrorContent": "Não conseguimos processar esse QR code. Por favor, tente novamente.",
   "crypto": "Cripto",
   "stablecoin": "Stablecoin",
-  "byCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com o nosso",
+  "byCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
   "terms": "Termos",
-  "and": "e",
+  "and": " e ",
   "privacyPolicy": "Política de Privacidade",
   "viewTransaction": "Visualizar Transação",
   "faq": "Perguntas frequentes (FAQ)",
@@ -283,7 +283,7 @@
       }
     }
   },
-  "requestOrSendPayment": "Solicitar ou enviar um pagamento",
+  "requestOrSendPayment": "Solicitar ou enviar pagamento",
   "noActivity": "Nenhuma atividade ainda!",
   "insufficientFundsMessage": "Você não pode enviar {amount}, você só tem {balance} disponível.",
   "@insufficientFundsMessage": {
@@ -398,10 +398,10 @@
   "qrInputAddressTitle": "Enviar manualmente",
   "qrInputAddressMessage": "Você pode inserir o endereço da carteira Solana do destinatário para enviar dinheiro diretamente para ele.",
   "qrInputAddressHint": "Digite o endereço cripto aqui",
-  "cryptoCashBalance": "Seu Cripto\nSaldo",
+  "cryptoCashBalance": "Seu Saldo\nCripto",
   "inUsdc": " em USDC ",
   "usdcInfo": "O US Dollar Coin (USDC) é uma moeda digital estável (Stablecoin) vinculada ao dólar dos Estados Unidos. ($1 = 1USDC)",
-  "cryptoInvestments": "Seus Cripto\nInvestmentos",
+  "cryptoInvestments": "Seus Investmentos\nem Cripto",
   "moneyReceived": "Dinheiro recebido",
   "sentDirectly": "Enviado",
   "boughtToken": "Comprou {amount}",
@@ -433,7 +433,7 @@
       }
     }
   },
-  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada de cripto. Você pode comprar e vender cripto ou enviar dinheiro para qualquer lugar do mundo!",
+  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode comprar e vender cripto ou enviar dinheiro para qualquer lugar do mundo!",
   "investmentHeaderButtonsTitle": "Eu quero",
   "sendMoney": "Enviar",
   "startInvestingTitle": "Comece a investir",
@@ -448,5 +448,27 @@
   "activityStatusFailure": "Falha",
   "activityStatusInProgress": "Em andamento",
   "activityStatusCanceled": "Cancelada",
-  "enterAmount": "Insira o valor"
+  "enterAmount": "Insira o valor",
+   "copiedFid": "FID copiado: {fid}",
+  "@copiedFid": {
+    "placeholders": {
+      "fid": {
+        "type": "String"
+      }
+    }
+  },
+  "version": "Versão {versionNumber} ({buildNumber})",
+  "@version": {
+    "placeholders": {
+      "versionNumber": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "pending": "Pendentes",
+  "transactions": "Transações",
+  "paymentInitiated": "Pagamento iniciado"
 }
