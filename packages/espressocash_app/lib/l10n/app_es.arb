@@ -191,7 +191,7 @@
     }
   },
   "zeroAmountTitle": "Monto invalido",
-  "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
+  "zeroAmountMessage": "Ingrese una cantidad mayor que cero para ser {operation}.",
   "@zeroAmountMessage": {
     "placeholders": {
       "operation": {
@@ -199,8 +199,8 @@
       }
     }
   },
-  "operationSend": "sent",
-  "tokenEquivalent": "Equivalent to {value} {symbol}",
+  "operationSend": "enviada",
+  "tokenEquivalent": "Equivalente a {value} {symbol}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
@@ -211,7 +211,7 @@
       }
     }
   },
-  "fiatEquivalent": "Equivalent to {value}",
+  "fiatEquivalent": "Equivalente a {value}",
   "@fiatEquivalent": {
     "placeholders": {
       "value": {
@@ -219,7 +219,7 @@
       }
     }
   },
-  "feeAmount": "Fee: {value}",
+  "feeAmount": "Tarifa: {value}",
   "@feeAmount": {
     "placeholders": {
       "value": {
@@ -227,8 +227,8 @@
       }
     }
   },
-  "feesCalculating": "calculating...",
-  "feesFailed": "failed to load",
+  "feesCalculating": "calculando...",
+  "feesFailed": "falló al cargar",
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
