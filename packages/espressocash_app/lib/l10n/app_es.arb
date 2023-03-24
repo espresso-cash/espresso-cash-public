@@ -272,7 +272,7 @@
   "swapErrorTitle": "Hay un problema",
   "swapFailRouteNotFound": "¡No hay rutas encontradas para tokens y cantidad dados!",
   "swapFailUnknown": "Se produjo un error desconocido al enviar su transacción",
-  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
+  "insufficientFundsForFeeMessage": "No tienes suficiente {feeToken} para pagar la tarifa de la red, necesita al menos {amount}.",
   "@insufficientFundsForFeeMessage": {
     "placeholders": {
       "feeToken": {
@@ -283,9 +283,9 @@
       }
     }
   },
-  "requestOrSendPayment": "Request or send a payment",
-  "noActivity": "No activity yet!",
-  "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
+  "requestOrSendPayment": "Solicitar o enviar un pago",
+  "noActivity": "¡No hay actividad todavía!",
+  "insufficientFundsMessage": "No puedes enviar {amount}, tu solo tienes {balance} disponible.",
   "@insufficientFundsMessage": {
     "placeholders": {
       "amount": {
@@ -296,7 +296,7 @@
       }
     }
   },
-  "todayAt": "Today at {time}",
+  "todayAt": "Hoy en {time}",
   "@todayAt": {
     "placeholders": {
       "time": {
@@ -304,10 +304,10 @@
       }
     }
   },
-  "swapSlippageTitle": "Slippage tolerance",
-  "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
-  "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
-  "swapAmountAvailable": "{amount} available for use.",
+  "swapSlippageTitle": "Tolerancia de deslizamiento",
+  "swapSlippageExplanation": "El deslizamiento es la diferencia observada debido a las condiciones cambiantes del mercado entre el momento en que se presenta la transacción y su verificación.",
+  "swapSlippageWarning": "Su transacción será cancelada\nsi el precio varía más de ",
+  "swapAmountAvailable": "{amount} disponible para su uso.",
   "@swapAmountAvailable": {
     "placeholders": {
       "amount": {
@@ -315,8 +315,8 @@
       }
     }
   },
-  "marketCapRank": "Market Cap Rank",
-  "aboutTokenLabel": "About {name}",
+  "marketCapRank": "Rango de capitalización de mercado",
+  "aboutTokenLabel": "Acerca de {name}",
   "@aboutTokenLabel": {
     "placeholders": {
       "name": {
@@ -324,7 +324,7 @@
       }
     }
   },
-  "swapEquivalent": "For {input} you will get aprox. {output}",
+  "swapEquivalent": "Para {input} obtendrás a aprox. {output}",
   "@swapEquivalent": {
     "placeholders": {
       "input": {
@@ -335,7 +335,7 @@
       }
     }
   },
-  "pressAndHoldToBuy": "Slide to Buy {token}",
+  "pressAndHoldToBuy": "Deslizar para comprar {token}",
   "@pressAndHoldToBuy": {
     "placeholders": {
       "token": {
@@ -343,7 +343,7 @@
       }
     }
   },
-  "pressAndHoldToSell": "Slide to Sell {token}",
+  "pressAndHoldToSell": "Deslizar para vender {token}",
   "@pressAndHoldToSell": {
     "placeholders": {
       "token": {
@@ -351,18 +351,18 @@
       }
     }
   },
-  "more": "more",
-  "less": "less",
-  "swap": "Swap",
-  "send": "Send",
-  "failedToLoadDescription": "Failed to load description",
-  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
-  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
-  "requestNoteRequesting": "Requesting",
-  "requestNoteFor": "For",
-  "requestNotePlaceholder": "Add a note for your request",
-  "errorMessageInsufficientFunds": "You do not have enough funds.",
-  "minimumAmountToSend": "{amount} is the minimum to send",
+  "more": "más",
+  "less": "menos",
+  "swap": "Intercambio",
+  "send": "Enviar",
+  "failedToLoadDescription": "No se pudo cargar la descripción",
+  "recoveryWarningInfo": "Lea cuidadosamente la información a continuación antes de ver su frase de recuperación secreta.",
+  "recoveryWarningParagraph": "Para recuperar su billetera, necesitará su frase de recuperación secreta.Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente.\n\nCualquier otra persona que tenga acceso a su frase de recuperación secreta también tiene un acceso irrevocable a su dinero.\n\nNunca comparta esta frase de recuperación secreta a un extraño y nunca ingrese esta frase de recuperación secreta en un formulario o otra aplicación.",
+  "requestNoteRequesting": "Solicitante",
+  "requestNoteFor": "Para",
+  "requestNotePlaceholder": "Agregue una nota para su solicitud",
+  "errorMessageInsufficientFunds": "No tienes suficientes fondos.",
+  "minimumAmountToSend": "{amount} es el mínimo para enviar",
   "@minimumAmountToSend": {
     "placeholders": {
       "amount": {
@@ -370,7 +370,7 @@
       }
     }
   },
-  "minimumAmountToRequest": "{amount} is the minimum to request",
+  "minimumAmountToRequest": "{amount} es el mínimo de solicitar",
   "@minimumAmountToRequest": {
     "placeholders": {
       "amount": {
@@ -378,24 +378,24 @@
       }
     }
   },
-  "price": "Price",
-  "balance": "Balance",
-  "youOwn": "You own",
-  "failedToLoadTokens": "Failed to load tokens",
-  "settings": "Settings",
-  "displayEmptyBalanceTitle": "Display Empty Balances",
-  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
+  "price": "Precio",
+  "balance": "Saldo",
+  "youOwn": "Tu posees",
+  "failedToLoadTokens": "No se pudo cargar tokens",
+  "settings": "Ajustes",
+  "displayEmptyBalanceTitle": "Muestra saldos vacíos",
+  "displayEmptyBalanceSubtitle": "Muestre su criptografía con saldos cero",
   "following": "Following",
-  "searchPlaceholder": "Search...",
-  "failedToSearch": "Failed to search token",
-  "emptySearch": "Token not found",
-  "discover": "DISCOVER",
-  "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "view": "View",
-  "shareLinks": "Share Links",
-  "qrCameraPermissionTitle": "Camera disabled",
-  "qrCameraPermissionMessage": "Allow camera access in your device settings to enable the QR Code reader.",
-  "qrInputAddressTitle": "Send manually",
+  "searchPlaceholder": "Buscar...",
+  "failedToSearch": "No se pudo buscar token",
+  "emptySearch": "Token no encontrado",
+  "discover": "DESCUBRIR",
+  "qrPaymentSubtitle": "El destinatario recibirá el dinero escaneando este código QR:",
+  "view": "Ver",
+  "shareLinks": "Compartir enlaces",
+  "qrCameraPermissionTitle": "Cámara discapacitada",
+  "qrCameraPermissionMessage": "Permita el acceso a la cámara en la configuración de su dispositivo para habilitar el lector de código QR.",
+  "qrInputAddressTitle": "Enviar manualmente",
   "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
   "qrInputAddressHint": "Enter the crypto address here",
   "cryptoCashBalance": "Your Crypto Cash\nBalance ",
