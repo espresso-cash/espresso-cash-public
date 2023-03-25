@@ -448,7 +448,10 @@
   "activityStatusFailure": "Echec",
   "activityStatusInProgress": "En cours",
   "activityStatusCanceled": "Annulé",
-  "enterAmount": "Entrer le montant"
+  "enterAmount": "Entrer le montant",
+  "onboardingNoticeTitle": "Vous avez presque fini!",
+  "onboardingNoticeMessage": "Terminez la configuration en sécurisant votre compte.",
+  "onboardingNoticeFinishSetup": "Terminer la configuration",
   "copiedFid": "FID copié: {fid}",
   "@copiedFid": {
     "placeholders": {
