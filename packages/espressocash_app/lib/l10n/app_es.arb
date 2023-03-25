@@ -449,6 +449,9 @@
   "activityStatusInProgress": "En curso",
   "activityStatusCanceled": "Cancelada",
   "enterAmount": "Ingresar la cantidad",
+  "onboardingNoticeTitle": "¡Ya casi terminas!",
+  "onboardingNoticeMessage": "Complete la configuración asegurando su cuenta.",
+  "onboardingNoticeFinishSetup": "Finalizar configuración",
   "copiedFid": "Copiada FID: {fid}",
   "@copiedFid": {
     "placeholders": {
