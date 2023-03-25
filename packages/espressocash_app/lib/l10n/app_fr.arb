@@ -150,7 +150,7 @@
   "byCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
   "terms": "conditions d'utilisation",
   "and": " et ",
-  "privacyPolicy": "politique de confidentialité",
+  "privacyPolicy": "Politique de confidentialité",
   "viewTransaction": "Afficher la transaction",
   "faq": "Questions fréquemment posées (FAQ)",
   "sharePaymentRequestTitle": "La demande a été créée!",
@@ -460,7 +460,7 @@
       }
     }
   },
-  "version": "Version {versionNumber} (buildNumber)",
+  "version": "Version {versionNumber} ({buildNumber})",
   "@version": {
     "placeholders": {
       "versionNumber": {
