@@ -317,10 +317,10 @@ packages:
     dependency: transitive
     description:
       name: cryptography
-      sha256: e0e37f79665cd5c86e8897f9abe1accfe813c0cc5299dab22256e22fddc1fef8
+      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.5.0"
   csslib:
     dependency: transitive
     description:
@@ -409,6 +409,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.6"
+  dio_cache_interceptor:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor
+      sha256: "24f5fb2fbffea25325e9eabc1501b6582d0928b0ef5cb9127c920e58fbf6ca62"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.0"
+  dio_cache_interceptor_db_store:
+    dependency: "direct main"
+    description:
+      name: dio_cache_interceptor_db_store
+      sha256: "2a3715c445ee7dc7dc232cded13d6502bb8b5c60250ca9b7fc475dd1b960db9c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.1.0"
   drift:
     dependency: "direct main"
     description:
