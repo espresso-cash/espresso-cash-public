@@ -448,5 +448,30 @@
   "activityStatusFailure": "Failure",
   "activityStatusInProgress": "In Progress",
   "activityStatusCanceled": "Canceled",
-  "enterAmount": "Enter amount"
+  "enterAmount": "Enter amount",
+  "onboardingNoticeTitle": "You’re almost done!",
+  "onboardingNoticeMessage": "Complete setup by securing your account.",
+  "onboardingNoticeFinishSetup": "Finish Setup",
+  "copiedFid": "Copied FID: {fid}",
+  "@copiedFid": {
+    "placeholders": {
+      "fid": {
+        "type": "String"
+      }
+    }
+  },
+  "version": "Version {versionNumber} ({buildNumber})",
+  "@version": {
+    "placeholders": {
+      "versionNumber": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "pending": "Pending",
+  "transactions": "Transactions",
+  "paymentInitiated": "Payment initiated"
 }
