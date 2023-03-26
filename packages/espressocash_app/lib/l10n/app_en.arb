@@ -449,6 +449,9 @@
   "activityStatusInProgress": "In Progress",
   "activityStatusCanceled": "Canceled",
   "enterAmount": "Enter amount",
+  "onboardingNoticeTitle": "You’re almost done!",
+  "onboardingNoticeMessage": "Complete setup by securing your account.",
+  "onboardingNoticeFinishSetup": "Finish Setup",
   "copiedFid": "Copied FID: {fid}",
   "@copiedFid": {
     "placeholders": {
@@ -457,7 +460,7 @@
       }
     }
   },
-  "version": "Version {versionNumber} (buildNumber)",
+  "version": "Version {versionNumber} ({buildNumber})",
   "@version": {
     "placeholders": {
       "versionNumber": {
