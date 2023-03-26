@@ -67,11 +67,7 @@ class _EscrowDataAccount with _$_EscrowDataAccount {
       _$_EscrowDataAccountFromBorsh(data);
 }
 
-enum EscrowStatus {
-  pending,
-  canceled,
-  completed;
-}
+enum EscrowStatus { pending, canceled, completed }
 
 @BorshSerializable()
 class EscrowArgument with _$EscrowArgument {

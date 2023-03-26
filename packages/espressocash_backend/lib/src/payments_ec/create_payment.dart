@@ -1,6 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:share_escrow/share_escrow.dart';
+import 'package:espressocash_backend/src/share_escrow/instructions.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

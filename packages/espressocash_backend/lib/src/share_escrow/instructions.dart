@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:share_escrow/src/models.dart';
+import 'package:espressocash_backend/src/share_escrow/models.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

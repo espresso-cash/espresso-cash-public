@@ -1,5 +1,5 @@
-import 'package:share_escrow/src/instructions.dart';
-import 'package:share_escrow/src/models.dart';
+import 'package:espressocash_backend/src/share_escrow/instructions.dart';
+import 'package:espressocash_backend/src/share_escrow/models.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
