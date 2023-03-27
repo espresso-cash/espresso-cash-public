@@ -449,7 +449,10 @@
   "activityStatusInProgress": "Em andamento",
   "activityStatusCanceled": "Cancelada",
   "enterAmount": "Insira o valor",
-   "copiedFid": "FID copiado: {fid}",
+  "onboardingNoticeTitle": "Quase tudo pronto!",
+  "onboardingNoticeMessage": "Conclua a configuração protegendo sua conta.",
+  "onboardingNoticeFinishSetup": "Concluir configuração",
+  "copiedFid": "FID copiado: {fid}",
   "@copiedFid": {
     "placeholders": {
       "fid": {
