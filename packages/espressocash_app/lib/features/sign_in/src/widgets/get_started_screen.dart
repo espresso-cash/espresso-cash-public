@@ -110,6 +110,7 @@ class _FooterState extends State<_Footer> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            const SizedBox(height: 8),
             CpButton(
               key: keyCreateWalletButton,
               text: context.l10n.signUp,
@@ -137,7 +138,7 @@ class _FooterState extends State<_Footer> {
                 fontSize: 15,
               ),
             ),
-            const SizedBox(height: 42),
+            const SizedBox(height: 34),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: TermsDisclaimer(),
