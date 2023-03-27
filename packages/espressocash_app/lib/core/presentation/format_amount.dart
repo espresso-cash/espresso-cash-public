@@ -28,12 +28,13 @@ extension FormatAmountExt on Amount {
     Locale locale, {
     bool skipSymbol = false,
     bool roundInteger = false,
+    int? maxDecimals,
   }) =>
       currency.map(
         fiat: (FiatCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: currency.decimals,
+          decimals: maxDecimals ?? currency.decimals,
           symbol: skipSymbol ? null : currency.sign,
           prefixedSymbol: true,
           roundInteger: roundInteger,
@@ -41,7 +42,7 @@ extension FormatAmountExt on Amount {
         crypto: (CryptoCurrency currency) => formatAmount(
           locale: locale,
           value: decimal,
-          decimals: currency.decimals,
+          decimals: maxDecimals ?? currency.decimals,
           symbol: skipSymbol ? null : currency.symbol,
           prefixedSymbol: false,
           roundInteger: roundInteger,
