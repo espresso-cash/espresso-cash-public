@@ -5,17 +5,21 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/coingecko_client.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
+const _maxAge = Duration(hours: 1);
+
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class SearchCoingeckoClient {
   @factoryMethod
-  factory SearchCoingeckoClient(Dio dio) = _SearchCoingeckoClient;
+  factory SearchCoingeckoClient(CoingeckoClient client) =>
+      _SearchCoingeckoClient(client.setMaxAge(_maxAge));
 
   @GET('/search')
   Future<SearchResponseDto> search(@Query('query') String query);

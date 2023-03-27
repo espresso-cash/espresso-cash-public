@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
 
 import 'config.dart';
+import 'core/coingecko_client.dart';
 import 'core/tokens/token_list.dart';
-import 'data/db/cache.dart';
 import 'di.config.dart';
 
 final sl = GetIt.instance;
@@ -51,6 +50,6 @@ abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-  @preResolve
-  Future<DbCacheStore> get cacheStore => initCacheStore();
+  @singleton
+  CoingeckoClient get coingeckoClient => CoingeckoClient();
 }

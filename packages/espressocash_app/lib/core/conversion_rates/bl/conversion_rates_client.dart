@@ -6,17 +6,22 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../coingecko_client.dart';
 import '../../currency.dart';
 
 part 'conversion_rates_client.freezed.dart';
 part 'conversion_rates_client.g.dart';
 
+const _maxAge = Duration(minutes: 1);
+
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3/simple')
 abstract class ConversionRatesClient {
   @factoryMethod
-  factory ConversionRatesClient() =>
-      _ConversionRatesClient(Dio()..options.listFormat = ListFormat.csv);
+  factory ConversionRatesClient(CoingeckoClient client) =>
+      _ConversionRatesClient(
+        client.setMaxAge(_maxAge)..options.listFormat = ListFormat.csv,
+      );
 
   @GET('/price')
   Future<Map<String, PricesMapDto>> getPrice(@Queries() RateRequestDto request);

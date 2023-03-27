@@ -1,33 +1,21 @@
-// ignore_for_file: invalid_annotation_target
-
 import 'package:dio/dio.dart';
-import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
-import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../../di.dart';
+import '../../../../core/coingecko_client.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
-final _dio = Dio()
-  ..interceptors.add(
-    DioCacheInterceptor(
-      options: CacheOptions(
-        // store: DbCacheStore(),
-        store: sl<DbCacheStore>(),
-        maxStale: const Duration(days: 1),
-      ),
-    ),
-  );
+const _maxAge = Duration(hours: 1);
 
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class ChartCoingeckoClient {
   @factoryMethod
-  factory ChartCoingeckoClient() => _ChartCoingeckoClient(_dio);
+  factory ChartCoingeckoClient(CoingeckoClient client) =>
+      _ChartCoingeckoClient(client.setMaxAge(_maxAge));
 
   @GET('/coins/{id}/market_chart')
   Future<TokenChartResponseDto> getCoinChart(
