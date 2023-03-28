@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -41,11 +40,16 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController()
-      ..start()
-          .then((it) => it != null)
-          .then(_onPermissionSet)
-          .catchError((_) => _onPermissionSet(false));
+    _qrViewController = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      formats: [
+        BarcodeFormat.qrCode,
+        BarcodeFormat.aztec,
+      ],
+    )..start()
+        .then((it) => it != null)
+        .then(_onPermissionSet)
+        .catchError((_) => _onPermissionSet(false));
   }
 
   @override
@@ -94,10 +98,9 @@ class _ContentState extends State<_Content> {
   }
 
   void _onDetected(BarcodeCapture capture) {
-    final code = capture.barcodes.firstOrNull?.rawValue;
-    if (code != null) {
-      context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
-    }
+    context
+        .read<QrScannerBloc>()
+        .add(QrScannerEvent.received(capture.barcodes));
   }
 
   void _onManualInputRequested() => InputAddressBottomSheet.show(context)

@@ -26,7 +26,7 @@ class QrScannerBackground extends StatelessWidget {
         builder: (context, frame) => CustomPaint(
           foregroundPainter: _Painter(
             frame: frame.data,
-            dimension: 220,
+            dimension: 350,
           ),
           child: child,
         ),
@@ -50,7 +50,7 @@ class _Painter extends CustomPainter {
     final frameSize = Size.square(dimension);
 
     final topDisplacement = min(
-      200.0,
+      220.0,
       (size.height / 2) - (frameSize.height / 2),
     );
 

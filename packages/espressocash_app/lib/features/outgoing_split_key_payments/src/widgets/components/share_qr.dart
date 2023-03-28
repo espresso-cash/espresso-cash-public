@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/rounded_rectangle.dart';
 import '../../../models/outgoing_split_key_payment.dart';
@@ -34,7 +35,8 @@ class ShareQr extends StatelessWidget {
         ),
         _QrCodeWrapper(
           amount: amount.formatWithFiat(context),
-          qrData: status.qrLink.toString(),
+          firstLink: status.link1.toString(),
+          secondLink: status.link2.toString(),
         ),
       ],
     );
@@ -45,11 +47,13 @@ class _QrCodeWrapper extends StatelessWidget {
   const _QrCodeWrapper({
     Key? key,
     required this.amount,
-    required this.qrData,
+    required this.firstLink,
+    required this.secondLink,
   }) : super(key: key);
 
   final String? amount;
-  final String qrData;
+  final String firstLink;
+  final String secondLink;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +63,7 @@ class _QrCodeWrapper extends StatelessWidget {
       child: CpContentPadding(
         child: CpRoundedRectangle(
           scrollable: false,
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 42),
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -78,11 +82,38 @@ class _QrCodeWrapper extends StatelessWidget {
                   ),
                 ),
               Flexible(
-                child: BarcodeWidget(
-                  barcode: Barcode.qrCode(),
-                  data: qrData,
-                  padding: EdgeInsets.zero,
-                  color: Colors.white,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    BarcodeWidget(
+                      barcode: Barcode.qrCode(
+                        errorCorrectLevel: BarcodeQRCorrectionLevel.high,
+                      ),
+                      data: firstLink,
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                    ),
+                    // const SizedBox(height: 12),
+                    SizedBox.square(
+                      dimension: 145,
+                      child: BarcodeWidget(
+                        barcode: Barcode.aztec(),
+                        data: secondLink,
+                        padding: const EdgeInsets.all(8),
+                        color: CpColors.primaryColor,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8)),
+                          border: Border.all(
+                            color: CpColors.primaryColor,
+                            // color: Colors.red.shade900,
+                            width: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               )
             ],
