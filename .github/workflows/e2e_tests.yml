@@ -17,10 +17,14 @@ jobs:
       contents: write
       packages: read
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
     steps:
       - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+      - run: flutter --version
 
       - id: "auth"
         name: "Authenticate to Google Cloud"
