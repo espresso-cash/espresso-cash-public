@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: ${{ github.event.inputs.version }}
+  FLUTTER_VERSION: "3.7.7"
 
 jobs:
   formatting:
@@ -164,8 +164,8 @@ jobs:
       contents: write
       packages: read
     env:
-      DEVNET_RPC_URL: "http://localhost:8899"
-      DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
+      SOLANA_RPC_URL: "http://localhost:8899"
+      SOLANA_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="espressocash_app"
 
     steps:
