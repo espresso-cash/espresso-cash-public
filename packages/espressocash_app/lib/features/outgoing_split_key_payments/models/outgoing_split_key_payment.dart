@@ -48,7 +48,6 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.linksReady({
     required Uri link1,
     required Uri link2,
-    Uri? qrLink, //todo remove
     required EscrowPrivateKey escrow,
   }) = OSKPStatusLinksReady;
 

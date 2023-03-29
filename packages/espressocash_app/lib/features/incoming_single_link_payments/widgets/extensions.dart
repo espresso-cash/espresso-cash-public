@@ -5,14 +5,20 @@ import 'package:solana/solana.dart';
 
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/analytics/analytics_manager.dart';
-import '../../../core/single_key_payments.dart';
+import '../../../core/split_key_payments.dart';
 import '../../../di.dart';
 import '../src/bl/ilsp_service.dart';
 import '../src/bl/islp_payment.dart';
 
 extension ISLPExt on BuildContext {
-  Future<String> createISLP(SingleKeyPaymentData skpData) async {
-    final escrow = await _walletFromKey(encodedKey: skpData.key);
+  Future<String> createISLP({
+    required SplitKeyFirstLink first,
+    required SplitKeySecondLink second,
+  }) async {
+    final escrow = await walletFromParts(
+      firstPart: first.key,
+      secondPart: second.key,
+    );
 
     sl<AnalyticsManager>().singleLinkReceived();
 
@@ -32,10 +38,12 @@ extension ISLPExt on BuildContext {
   }
 }
 
-Future<Wallet> _walletFromKey({
-  required String encodedKey,
+Future<Wallet> walletFromParts({
+  required String firstPart,
+  required String secondPart,
 }) async {
-  final key = ByteArray.fromBase58(encodedKey).toList();
+  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
+  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
 
-  return Wallet.fromPrivateKeyBytes(privateKey: key);
+  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }

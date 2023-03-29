@@ -93,7 +93,6 @@ class _QrCodeWrapper extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       color: Colors.white,
                     ),
-                    // const SizedBox(height: 12),
                     SizedBox.square(
                       dimension: 145,
                       child: BarcodeWidget(
@@ -107,8 +106,7 @@ class _QrCodeWrapper extends StatelessWidget {
                               const BorderRadius.all(Radius.circular(8)),
                           border: Border.all(
                             color: CpColors.primaryColor,
-                            // color: Colors.red.shade900,
-                            width: 2,
+                            width: 4,
                           ),
                         ),
                       ),

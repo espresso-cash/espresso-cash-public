@@ -1,10 +1,14 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
+import '../../../../config.dart';
 import '../../../../core/link_shortener.dart';
+import '../../../../core/split_key_payments.dart';
 import '../../models/qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
@@ -37,18 +41,59 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onReceived(QrScannerReceivedEvent event, _Emitter emit) async {
-    if (event.barcodes.length == 2) {
-      print('OMG');
-    }
-    // for (final code in event.barcodes) {
-    //   print('format: ${code.format} - value: ${code.rawValue}');
-    // }
-    // final dynamicLink =
-    //     await _linkShortener.reverse(event.code).then((e) => e?.toString());
+    if (event.barcodes.length == 1) {
+      final code = event.barcodes.first.rawValue;
+      if (code != null) {
+        final newState =
+            QrScannerRequest.parse(code).maybeMap(QrScannerState.done);
 
-    // final newState = QrScannerRequest.parse(dynamicLink ?? event.code)
-    //         .maybeMap(QrScannerState.done) ??
-    //     const QrScannerState.error();
-    // emit(newState);
+        if (newState != null) {
+          emit(newState);
+        }
+      }
+    } else if (event.barcodes.length == 2) {
+      const host = 'cryptoplease.page.link';
+
+      final firstLink = event.barcodes
+          .firstWhereOrNull(
+            (e) =>
+                e.rawValue?.contains(host) ??
+                e.rawValue?.contains(link1Host) ??
+                false,
+          )
+          ?.rawValue;
+
+      final secondLink = event.barcodes
+          .firstWhereOrNull((e) => e.rawValue?.contains(link2Host) ?? false)
+          ?.rawValue;
+
+      if (firstLink == null || secondLink == null) return;
+
+      final firstLinkShortened =
+          await _linkShortener.reverse(firstLink).then((e) => e);
+
+      if (firstLinkShortened == null) return;
+
+      final firstPart = SplitKeyFirstLink.tryParse(firstLinkShortened);
+
+      if (firstPart == null) return;
+
+      final secondUri = Uri.tryParse(secondLink);
+
+      if (secondUri == null) return;
+
+      final secondPart = SplitKeySecondLink.tryParse(secondUri);
+
+      if (secondPart == null) return;
+
+      emit(
+        QrScannerState.done(
+          QrScannerRequest.qrPayment(
+            first: firstPart,
+            second: secondPart,
+          ),
+        ),
+      );
+    }
   }
 }
