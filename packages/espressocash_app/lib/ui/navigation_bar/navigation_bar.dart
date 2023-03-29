@@ -14,6 +14,7 @@ class CPNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         // prevents from clicking below the navigation bar
+        padding: const EdgeInsets.only(bottom: 8),
         color: Colors.transparent,
         child: SafeArea(
           minimum: const EdgeInsets.only(

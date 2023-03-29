@@ -32,7 +32,6 @@
   "photoLibrary": "Photo Library",
   "camera": "Camera",
   "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
-  "hereIsYourSolanaAddress": "Here is your Solana address",
   "to": "To",
   "amount": "Amount",
   "save": "Save",
@@ -40,7 +39,6 @@
   "removePhoto": "Remove Photo",
   "weWereUnableToFetchTokenPrice": "We were unable to fetch token prices.",
   "cannotConnectToTheNetwork": "Cannot connect to the network!",
-  "noDataPullToRefresh": "No data, pull to refresh.",
   "loading": "Loading...",
   "retry": "Retry",
   "processing": "Processing...",
@@ -48,8 +46,6 @@
   "noEmailInCryptoInfo": "With Espresso Cash, there’s no need for an email and password to access your money!",
   "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
   "iUnderstand": "I Understand",
-  "termsOfService": "Terms of Service",
-  "failToLoadTerms": "Failed to load Terms of Service, something unexpected happened!",
   "protectYourWalletParagraph1": "Don't risk losing your funds. Protect your wallet by saving your secret recovery phrase in a place you trust.",
   "protectYourWalletParagraph2": "It's the only way to recover your wallet if you get locked out of the app or get a new device.",
   "protectWalletTitle": "WALLET PROTECTION",
@@ -79,9 +75,7 @@
       }
     }
   },
-  "splitKeySuccessMessage1": "SUCCESS!",
   "splitKeySuccessMessage2": "Your transfer has been sent.",
-  "splitKeyErrorMessage1": "OOPS!",
   "transferSuccessTitle": "SUCCESS!",
   "outgoingTransferSuccess": "{amount} has been sent",
   "@outgoingTransferSuccess": {
@@ -110,7 +104,7 @@
   "resendLink": "Resend Links",
   "buy": "Buy",
   "sell": "Sell",
- "paymentRequestTitle": "Payment request for {label}",
+  "paymentRequestTitle": "Payment request for {label}",
   "@paymentRequestTitle": {
     "placeholders": {
       "label": {
@@ -141,45 +135,24 @@
   "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
   "securitySectionTitle": "SECURITY AND PRIVACY",
   "learningSectionTitle": "LEARNING CENTER",
-  "dangerZoneSectionTitle": "Danger Zone",
   "help": "Help",
-  "buySol": "Buy SOL",
-  "buySolanaTokenMoonPay": "You can buy SOL via MoonPay, our third party provider",
-  "buySolFailedTitle": "Failed to launch MoonPay",
   "tryAgainLater": "Please, try again later",
-  "buySolFailedMessage": "Please, try again later",
   "appLock": "Auto-Lock",
-  "enableSecurity": "Enable Security",
   "enterPasscode": "Enter your passcode",
   "reEnterPasscode": "Re-enter your passcode",
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "copiedToClipboard": "Copied!",
-  "scanQRTitle": "Scan a QR code",
-  "supportEmail": "contact@espressocash.com",
   "contactUs": "Contact Us",
-  "supportSubtitle": "You can send us an email to",
-  "openEmailApp": "Open email app",
-  "cameraPermissionsTitle": "Camera Permissions",
-  "cameraPermissionsContent": "We need access to your camera. Please provide the necessary permissions by going to your application settings.",
   "qrCodeScanErrorTitle": "Scan Failed",
   "qrCodeScanErrorContent": "We were unable to understand this QR code. Please try again.",
   "crypto": "Crypto",
   "stablecoin": "Stablecoin",
-  "stablecoinExplained": "Stablecoins are cryptocurrencies that mirror traditional currency or asset such as the dollar, euro.",
-  "theyWillAppearHere": "They will appear here",
   "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
   "terms": "Terms",
   "and": " and ",
   "privacyPolicy": "Privacy Policy",
   "viewTransaction": "View Transaction",
   "faq": "Frequently Asked Questions (FAQ)",
-  "sendUsEmail": "Send us an email",
-  "receiveFlowTitle": "Request",
-  "receiveFlowSolanaAddress": "By sharing your Solana address",
-  "receiveFlowLinkTitle": "With a link",
-  "receiveFlowLinkDescription": "You can request money to anyone by email, whatsapp, signal, telegram.",
-  "receiveFlowPayerNameLabel": "Request to",
-  "receiveFlowPayerNamePlaceholder": "Name of the payer",
   "sharePaymentRequestTitle": "Request has been created!",
   "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
   "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
@@ -227,7 +200,6 @@
     }
   },
   "operationSend": "sent",
-  "operationRequest": "requested",
   "tokenEquivalent": "Equivalent to {value} {symbol}",
   "@tokenEquivalent": {
     "placeholders": {
@@ -281,25 +253,6 @@
   "popularCryptoTitle": "Popular Crypto",
   "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
   "all": "All",
-  "buyToken": "Buy {symbol}",
-  "@buyToken": {
-    "placeholders": {
-      "symbol": {
-        "type": "String"
-      }
-    }
-  },
-  "sellToken": "Sell {symbol}",
-  "@sellToken": {
-    "placeholders": {
-      "symbol": {
-        "type": "String"
-      }
-    }
-  },
-  "swapTitle": "PROCESSING",
-  "swapBuyFail": "There was an issue with buying your tokens.",
-  "swapSellFail": "There was an issue with selling your tokens.",
   "swapBuySuccess": "Your purchase of {token} was successful.",
   "@swapBuySuccess": {
     "placeholders": {
@@ -316,7 +269,6 @@
       }
     }
   },
-  "swapPreparing": "Preparing your transaction",
   "swapErrorTitle": "There's a problem",
   "swapFailRouteNotFound": "No routes found for given tokens and amount!",
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
@@ -331,10 +283,6 @@
       }
     }
   },
-  "addCashTitle": "Payment",
-  "addCashSubtitle": "Complete your purchase with one\nof our secure partners.",
-  "cashOutSubtitle": "Complete your withdrawal with one\nof our secure partners.",
-  "myPortfolio": "MY PORTFOLIO",
   "requestOrSendPayment": "Request or send a payment",
   "noActivity": "No activity yet!",
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
@@ -344,15 +292,6 @@
         "type": "String"
       },
       "balance": {
-        "type": "String"
-      }
-    }
-  },
-  "transactionFetchFailed": "Failed to fetch transactions",
-  "transactionTitle": "Transaction {signature}",
-  "@transactionTitle": {
-    "placeholders": {
-      "signature": {
         "type": "String"
       }
     }
@@ -439,17 +378,6 @@
       }
     }
   },
-  "odpRequestTitle": "Request for {amount} for {payer}",
-  "@odpRequestTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "payer": {
-        "type": "String"
-      }
-    }
-  },
   "price": "Price",
   "balance": "Balance",
   "youOwn": "You own",
@@ -458,8 +386,6 @@
   "displayEmptyBalanceTitle": "Display Empty Balances",
   "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
   "following": "Following",
-  "favoritesAddNotice": "Added to favorites!",
-  "favoritesRemoveNotice": "Removed from favorites!",
   "searchPlaceholder": "Search...",
   "failedToSearch": "Failed to search token",
   "emptySearch": "Token not found",
@@ -523,12 +449,37 @@
   "activityStatusInProgress": "In Progress",
   "activityStatusCanceled": "Canceled",
   "enterAmount": "Enter amount",
-  "mobileWalletTitle": "Espresso Cash Wallet",
+  "onboardingNoticeTitle": "You’re almost done!",
+  "onboardingNoticeMessage": "Complete setup by securing your account.",
+  "onboardingNoticeFinishSetup": "Finish Setup",
+  "copiedFid": "Copied FID: {fid}",
+  "@copiedFid": {
+    "placeholders": {
+      "fid": {
+        "type": "String"
+      }
+    }
+  },
+  "version": "Version {versionNumber} ({buildNumber})",
+  "@version": {
+    "placeholders": {
+      "versionNumber": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "pending": "Pending",
+  "transactions": "Transactions",
+  "paymentInitiated": "Payment initiated",
+   "mobileWalletTitle": "Espresso Cash Wallet",
   "mobileWalletAuthorize": "Authorize {appName}?",
   "@mobileWalletAuthorize": {
     "placeholders": {
       "appName": {
-        "type": "String"
+            "type": "String"
       }
     }
   },
