@@ -82,26 +82,17 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
         authorizationScope: request.authorizationScope,
         payloads: request.payloads,
       ).fold(
-        (err) async => err.when(
-          invalidPayloads: (it) =>
-              SignedPayloadResult.invalidPayloads(valid: it),
-          authorizationNotValid:
-              always(const SignedPayloadResult.authorizationNotValid()),
-          tooManyPayloads: always(const SignedPayloadResult.tooManyPayloads()),
-        ),
+        (err) async => err.toSignedPayloadResult(),
         (payloads) async {
-          final signedPayloads = await Future.wait(
-            request.map(
-              transactions: (_) => payloads.map(SignedTx.fromBytes).map(
-                    (tx) => tx
-                        .resign(_account.wallet)
-                        .letAsync((it) => it.toByteArray().toList()),
-                  ),
-              messages: (_) => payloads.map(
-                (it) async =>
-                    it + await _account.wallet.sign(it).then((s) => s.bytes),
-              ),
-            ),
+          final signedPayloads = await request.map(
+            transactions: (it) => it.payloads
+                .map(SignedTx.fromBytes)
+                .resignAll(_account.wallet)
+                .letAsync((it) => it.map((it) => it.toByteArray().toList())),
+            messages: (it) async => zip2(
+              it.payloads,
+              await _account.wallet.sign(it.payloads),
+            ).map((it) => it.item1 + it.item2.bytes),
           );
 
           return SignedPayloadResult(
@@ -117,34 +108,30 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
         authorizationScope: request.authorizationScope,
         payloads: request.transactions,
       ).fold(
-        (err) async => err.when(
-          invalidPayloads: (it) => SignaturesResult.invalidPayloads(valid: it),
-          authorizationNotValid:
-              always(const SignaturesResult.authorizationNotValid()),
-          tooManyPayloads: always(const SignaturesResult.tooManyPayloads()),
-        ),
+        (err) async => err.toSignaturesResult(),
         (payloads) async {
           final signedTxs = await payloads
               .map(SignedTx.fromBytes)
-              .map((it) => it.resign(_account.wallet))
-              .let(Future.wait);
+              .let((it) => it.resignAll(_account.wallet));
 
-          final signatures = signedTxs
-              .map((it) => it.signatures.first.bytes)
-              .map(Uint8List.fromList)
-              .toList();
+          final results = await Future.wait(
+            signedTxs.map(
+              (tx) => _sender
+                  .send(tx, minContextSlot: BigInt.zero)
+                  .letAsync((it) => it.maybeMap(orElse: F, sent: T)),
+            ),
+          );
 
-          final results = await signedTxs
-              .map(
-                (tx) => _sender
-                    .send(tx, minContextSlot: BigInt.zero)
-                    .letAsync((it) => it.maybeMap(orElse: F, sent: T)),
-              )
-              .let(Future.wait);
+          if (results.any((e) => !e)) {
+            return SignaturesResult.invalidPayloads(valid: results);
+          }
 
-          return results.any((e) => !e)
-              ? SignaturesResult.invalidPayloads(valid: results)
-              : SignaturesResult(signatures: signatures);
+          return SignaturesResult(
+            signatures: signedTxs
+                .map((it) => it.signatures.first.bytes)
+                .map(Uint8List.fromList)
+                .toList(),
+          );
         },
       );
 }
@@ -177,6 +164,22 @@ class _ValidationError with _$_ValidationError {
 
   const factory _ValidationError.authorizationNotValid() =
       _AuthorizationNotValid;
+}
+
+extension on _ValidationError {
+  SignaturesResult toSignaturesResult() => when(
+        invalidPayloads: (it) => SignaturesResult.invalidPayloads(valid: it),
+        tooManyPayloads: always(const SignaturesResult.tooManyPayloads()),
+        authorizationNotValid:
+            always(const SignaturesResult.authorizationNotValid()),
+      );
+
+  SignedPayloadResult toSignedPayloadResult() => when(
+        invalidPayloads: (it) => SignedPayloadResult.invalidPayloads(valid: it),
+        tooManyPayloads: always(const SignedPayloadResult.tooManyPayloads()),
+        authorizationNotValid:
+            always(const SignedPayloadResult.authorizationNotValid()),
+      );
 }
 
 Uint8List _buildScope() => [_scopeTag, _qualifier]
