@@ -474,7 +474,7 @@
   "pending": "Pending",
   "transactions": "Transactions",
   "paymentInitiated": "Payment initiated",
-   "mobileWalletTitle": "Espresso Cash Wallet",
+  "mobileWalletTitle": "Espresso Cash Wallet",
   "mobileWalletAuthorize": "Authorize {appName}?",
   "@mobileWalletAuthorize": {
     "placeholders": {
