@@ -91,42 +91,45 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                       SafeArea(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 22),
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 62),
-                              Text(
-                                context.l10n.splitKeySecondLinkTitle,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium
-                                    ?.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                              ),
-                              const _ContentView(),
-                              const SizedBox(height: 40),
-                              Expanded(
-                                child: Assets.images.secondLinkArtwork.image(),
-                              ),
-                              const SizedBox(height: 30),
-                              CpButton(
-                                onPressed: () => showConfirmationDialog(
-                                  context,
-                                  title: context.l10n.cancel,
-                                  message: context
-                                      .l10n.splitKeyConfirmationDialogContent,
-                                  onConfirm: () {
-                                    context.router.popForced();
-                                    widget.onCancel();
-                                  },
+                          child: Center(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 62),
+                                Text(
+                                  context.l10n.splitKeySecondLinkTitle,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayMedium
+                                      ?.copyWith(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                 ),
-                                text: context.l10n.cancel,
-                                size: CpButtonSize.micro,
-                                variant: CpButtonVariant.inverted,
-                              ),
-                            ],
+                                const _ContentView(),
+                                const SizedBox(height: 40),
+                                Expanded(
+                                  child:
+                                      Assets.images.secondLinkArtwork.image(),
+                                ),
+                                const SizedBox(height: 30),
+                                CpButton(
+                                  onPressed: () => showConfirmationDialog(
+                                    context,
+                                    title: context.l10n.cancel,
+                                    message: context
+                                        .l10n.splitKeyConfirmationDialogContent,
+                                    onConfirm: () {
+                                      context.router.popForced();
+                                      widget.onCancel();
+                                    },
+                                  ),
+                                  text: context.l10n.cancel,
+                                  size: CpButtonSize.micro,
+                                  variant: CpButtonVariant.inverted,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
