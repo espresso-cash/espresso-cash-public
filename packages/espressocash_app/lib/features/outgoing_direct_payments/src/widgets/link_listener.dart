@@ -3,6 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../config.dart';
