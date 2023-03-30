@@ -43,8 +43,8 @@ class _ContentState extends State<_Content> {
     _qrViewController = MobileScannerController(
       detectionSpeed: DetectionSpeed.noDuplicates,
       formats: [
-        BarcodeFormat.qrCode,
         BarcodeFormat.aztec,
+        BarcodeFormat.qrCode,
       ],
     )..start()
         .then((it) => it != null)

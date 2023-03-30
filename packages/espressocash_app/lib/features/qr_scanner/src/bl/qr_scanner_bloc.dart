@@ -52,14 +52,9 @@ class QrScannerBloc extends Bloc<_Event, _State> {
         }
       }
     } else if (event.barcodes.length == 2) {
-      const host = 'cryptoplease.page.link';
-
       final firstLink = event.barcodes
           .firstWhereOrNull(
-            (e) =>
-                e.rawValue?.contains(host) ??
-                e.rawValue?.contains(link1Host) ??
-                false,
+            (e) => e.rawValue?.contains(cpDeepLinkHost) ?? false,
           )
           ?.rawValue;
 
