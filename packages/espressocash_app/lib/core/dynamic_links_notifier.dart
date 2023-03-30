@@ -14,10 +14,11 @@ class DynamicLinksNotifier {
     _init();
   }
 
-  final _subject = BehaviorSubject<Uri?>();
-  StreamSubscription<dynamic>? _subscription;
-
   final FirebaseDynamicLinks _firebaseDynamicLinks;
+
+  final _subject = BehaviorSubject<Uri?>();
+  StreamSubscription<dynamic>? _firebaseSubscription;
+  StreamSubscription<dynamic>? _uniLinksSubscription;
 
   StreamSubscription<Uri?> processLink(LinkCallback onLink) =>
       _subject.listen((link) {
@@ -33,14 +34,14 @@ class DynamicLinksNotifier {
 
     if (initialLink != null) _subject.add(initialLink);
 
-    _subscription = _firebaseDynamicLinks.onLink
-        .map((event) => event.link)
-        .listen(_subject.add);
-    uriLinkStream.whereNotNull().listen(_subject.add);
+    _uniLinksSubscription = uriLinkStream.listen(_subject.add);
+    _firebaseSubscription =
+        _firebaseDynamicLinks.onLink.map((it) => it.link).listen(_subject.add);
   }
 
   void dispose() {
-    _subscription?.cancel();
+    _firebaseSubscription?.cancel();
+    _uniLinksSubscription?.cancel();
     _subject.close();
   }
 }
