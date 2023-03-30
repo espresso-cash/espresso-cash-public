@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -98,9 +99,12 @@ class _ContentState extends State<_Content> {
   }
 
   void _onDetected(BarcodeCapture capture) {
-    context
-        .read<QrScannerBloc>()
-        .add(QrScannerEvent.received(capture.barcodes));
+    final codes =
+        capture.barcodes.map((e) => e.rawValue).whereNotNull().toList();
+
+    if (codes.isNotEmpty) {
+      context.read<QrScannerBloc>().add(QrScannerEvent.received(codes));
+    }
   }
 
   void _onManualInputRequested() => InputAddressBottomSheet.show(context)
