@@ -473,9 +473,9 @@
   "pending": "Pendentes",
   "transactions": "Transações",
   "paymentInitiated": "Pagamento iniciado",
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "scanToReceive": "Scan to receive {amount}",
+  "qrScanInfo1": "Se o destinatário estiver com o app instalado:",
+  "qrScanInfo2": "Eles devem usar o leitor de QR Code do app.",
+  "scanToReceive": "Escaneie para receber {amount}",
   "@scanToReceive": {
     "placeholders": {
       "amount": {
@@ -483,9 +483,9 @@
       }
     }
   },
-  "openInAppScanner": "Open in-app QR Scanner",
-  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
-  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
-  "money": "Money",
-  "isWaitingForYou": "IS WAITING FOR YOU."
+  "openInAppScanner": "Abra o leitor de QR Code do aplicaitvo.",
+  "qrPaymentInstructions": "Por motivos de segurança, escaneie o QR Code do remetente usando o leitor do aplicativo.",
+  "qrTermsDisclaimer": "Ao abrir o leitor de QR Code, você concorda com o nosso ",
+  "money": "O dinheiro",
+  "isWaitingForYou": "Está esperando por você."
 }
