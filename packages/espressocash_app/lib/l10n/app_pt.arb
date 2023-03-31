@@ -390,7 +390,6 @@
   "failedToSearch": "Falha ao buscar token",
   "emptySearch": "Token não encontrado",
   "discover": "DESCOBRIR",
-  "qrPaymentSubtitle": "O destinatário receberá o dinheiro escaneando este QR Code:",
   "view": "Visualizar",
   "shareLinks": "Compartilhar links",
   "qrCameraPermissionTitle": "Câmera desativada",
@@ -473,5 +472,20 @@
   },
   "pending": "Pendentes",
   "transactions": "Transações",
-  "paymentInitiated": "Pagamento iniciado"
+  "paymentInitiated": "Pagamento iniciado",
+  "qrScanInfo1": "If the recipient has the app installed:",
+  "qrScanInfo2": "They should use the in-app QR scanner.",
+  "scanToReceive": "Scan to receive {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "openInAppScanner": "Open in-app QR Scanner",
+  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
+  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
+  "money": "Money",
+  "isWaitingForYou": "IS WAITING FOR YOU."
 }

@@ -390,7 +390,6 @@
   "failedToSearch": "Échec de la recherche de jeton",
   "emptySearch": "Jeton introuvable",
   "discover": "DÉCOUVRIR",
-  "qrPaymentSubtitle": "Le destinataire recevra l'argent en scannant ce code QR:",
   "view": "Voir",
   "shareLinks": "Partager les liens",
   "qrCameraPermissionTitle": "Caméra inaccessible",
@@ -473,5 +472,20 @@
   },
   "pending": "En attente",
   "transactions": "Transactions",
-  "paymentInitiated": "Paiement initié"
+  "paymentInitiated": "Paiement initié",
+  "qrScanInfo1": "If the recipient has the app installed:",
+  "qrScanInfo2": "They should use the in-app QR scanner.",
+  "scanToReceive": "Scan to receive {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "openInAppScanner": "Open in-app QR Scanner",
+  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
+  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
+  "money": "Money",
+  "isWaitingForYou": "IS WAITING FOR YOU."
 }

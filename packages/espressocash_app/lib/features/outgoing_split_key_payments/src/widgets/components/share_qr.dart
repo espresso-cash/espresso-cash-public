@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../gen/assets.gen.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/rounded_rectangle.dart';
@@ -61,11 +62,11 @@ class _QrInfoHeader extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   FittedBox(
                     child: Text(
-                      'If the recipient has the app installed:',
-                      style: TextStyle(
+                      context.l10n.qrScanInfo1,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
@@ -73,8 +74,8 @@ class _QrInfoHeader extends StatelessWidget {
                   ),
                   FittedBox(
                     child: Text(
-                      'They should use the in-app QR scanner.',
-                      style: TextStyle(
+                      context.l10n.qrScanInfo2,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
@@ -107,7 +108,7 @@ class _QrBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Scan to receive $amount',
+                context.l10n.scanToReceive(amount),
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,

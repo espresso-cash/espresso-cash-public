@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/bullet_item.dart';
 import '../../../../ui/button.dart';
@@ -106,7 +107,7 @@ class _Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             CpButton(
-              text: 'Open in-app QR Scanner',
+              text: context.l10n.openInAppScanner,
               width: double.infinity,
               onPressed: onScan,
             ),
@@ -131,18 +132,18 @@ class _Body extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'MONEY',
-              style: TextStyle(
+            Text(
+              context.l10n.money.toUpperCase(),
+              style: const TextStyle(
                 color: CpColors.yellowDarkAccentColor,
                 fontWeight: FontWeight.w900,
                 fontSize: 50,
                 height: 0.9,
               ),
             ),
-            const Text(
-              'IS WAITING FOR YOU.',
-              style: TextStyle(
+            Text(
+              context.l10n.isWaitingForYou.toUpperCase(),
+              style: const TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 50,
                 height: 0.9,
@@ -153,10 +154,9 @@ class _Body extends StatelessWidget {
               children: [
                 Assets.icons.qrScanner.svg(height: 36),
                 const SizedBox(width: 16),
-                const Expanded(
+                Expanded(
                   child: CpBulletItemWidget(
-                    text:
-                        'For security reasons, please scan the senders QR code using the in-app scanner.',
+                    text: context.l10n.qrPaymentInstructions,
                   ),
                 ),
               ],

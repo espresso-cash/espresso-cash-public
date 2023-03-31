@@ -11,7 +11,7 @@ class TermsDisclaimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
-          text: 'By opening the secure QR code scanner, you agree to our ',
+          text: context.l10n.qrTermsDisclaimer,
           children: [
             TextSpan(
               text: context.l10n.terms,
