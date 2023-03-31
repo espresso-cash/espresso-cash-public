@@ -161,14 +161,14 @@ class _CustomQrCode extends StatelessWidget {
               child: BarcodeWidget(
                 barcode: Barcode.aztec(),
                 data: secondLink,
-                padding: const EdgeInsets.all(12),
-                color: CpColors.primaryColor,
+                padding: const EdgeInsets.all(10),
+                color: Colors.black,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
                   border: Border.all(
-                    color: CpColors.primaryColor,
-                    width: 6,
+                    color: Colors.black,
+                    width: 5,
                   ),
                 ),
               ),
