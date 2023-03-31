@@ -104,6 +104,7 @@ class _QrBody extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
         child: LayoutBuilder(
           builder: (context, constraints) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Scan to receive $amount',
@@ -115,7 +116,7 @@ class _QrBody extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               Expanded(
                 child: _CustomQrCode(
                   qrLink: qrLink,

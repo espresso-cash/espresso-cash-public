@@ -33,7 +33,7 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
       );
 
       if (!mounted) return;
-      await context.router.push(IncomingSingleLinkRoute(id: id));
+      await context.router.replace(IncomingSingleLinkRoute(id: id));
     }
   }
 
