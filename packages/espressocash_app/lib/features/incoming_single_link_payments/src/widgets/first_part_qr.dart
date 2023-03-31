@@ -28,16 +28,12 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
 
     if (request is QrScannerPaymentRequest) {
       final id = await context.createISLP(
-        first: request.first,
-        second: request.second,
+        first: request.firstPart,
+        second: request.secondPart,
       );
-
-      //TODO
 
       if (!mounted) return;
       await context.router.push(IncomingSingleLinkRoute(id: id));
-
-      return;
     }
   }
 

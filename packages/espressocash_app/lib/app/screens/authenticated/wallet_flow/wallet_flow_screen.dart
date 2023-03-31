@@ -60,14 +60,12 @@ class _State extends State<WalletFlowScreen> {
 
     if (request is QrScannerPaymentRequest) {
       final id = await context.createISLP(
-        first: request.first,
-        second: request.second,
+        first: request.firstPart,
+        second: request.secondPart,
       );
 
       if (!mounted) return;
       await context.router.push(IncomingSingleLinkRoute(id: id));
-
-      return;
     }
 
     final recipient = request.recipient;
@@ -80,6 +78,8 @@ class _State extends State<WalletFlowScreen> {
     final requestAmount = request.whenOrNull(
       solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
     );
+
+    if (!mounted) return;
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
     final initialAmount = requestAmount ?? _fiatAmount;

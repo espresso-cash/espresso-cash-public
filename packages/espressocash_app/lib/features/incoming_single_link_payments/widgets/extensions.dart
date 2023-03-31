@@ -13,7 +13,7 @@ import '../src/bl/islp_payment.dart';
 
 extension ISLPExt on BuildContext {
   Future<String> createISLP({
-    required SplitKeyFirstLink first,
+    required SplitQrLink first,
     required SplitKeySecondLink second,
   }) async =>
       runWithLoader(this, () async {

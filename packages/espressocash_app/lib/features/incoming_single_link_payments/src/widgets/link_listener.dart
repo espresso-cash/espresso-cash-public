@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/single_key_payments.dart';
+import '../../../../core/split_key_payments.dart';
 import '../../../../routes.gr.dart';
-import '../../widgets/extensions.dart';
 
 class ISLPListener extends StatefulWidget {
   const ISLPListener({super.key, required this.child});
@@ -22,23 +21,16 @@ class _ISLPListenerState extends State<ISLPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final data = SingleKeyPaymentData.tryParse(link);
+      final data = SplitQrLink.tryParse(link);
 
       if (data != null) {
-        _processISLP(data);
+        context.router.push(const FirstPartQrRoute()).ignore();
 
         return true;
       }
 
       return false;
     });
-  }
-
-  Future<void> _processISLP(SingleKeyPaymentData data) async {
-    final id = await context.createISLP(data);
-
-    if (!mounted) return;
-    context.router.push(IncomingSingleLinkRoute(id: id)).ignore();
   }
 
   @override

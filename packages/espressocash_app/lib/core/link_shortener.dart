@@ -49,7 +49,7 @@ class LinkShortener {
         },
       );
 
-  Future<Uri?> reverse(String? link) async {
+  static Future<Uri?> reverse(String? link) async {
     if (link == null) return null;
 
     final url = Uri.tryParse(link);

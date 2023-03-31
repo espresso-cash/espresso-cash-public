@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../config.dart';
+import '../../../core/split_key_payments.dart';
 import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
@@ -18,8 +19,8 @@ class QrScannerRequest with _$QrScannerRequest {
       QrScannerAddressRequest;
 
   const factory QrScannerRequest.qrPayment({
-    required String firstLink,
-    required String secondLink,
+    required SplitQrLink firstPart,
+    required SplitKeySecondLink secondPart,
   }) = QrScannerPaymentRequest;
 
   const QrScannerRequest._();
@@ -46,10 +47,24 @@ class QrScannerRequest with _$QrScannerRequest {
     final firstLink = codes.firstWhereOrNull((e) => e.contains(cpDeepLinkHost));
     final secondLink = codes.firstWhereOrNull((e) => e.contains(link2Host));
 
-    if (firstLink != null && secondLink != null) {
+    if (firstLink == null || secondLink == null) {
+      return null;
+    }
+
+    final firstLongLink = Uri.parse(firstLink);
+    final reversedLink = firstLongLink.queryParameters['link'];
+
+    if (reversedLink == null) {
+      return null;
+    }
+
+    final firstPart = SplitQrLink.tryParse(Uri.parse(reversedLink));
+    final secondPart = SplitKeySecondLink.tryParse(Uri.parse(secondLink));
+
+    if (firstPart != null && secondPart != null) {
       return QrScannerRequest.qrPayment(
-        firstLink: firstLink,
-        secondLink: secondLink,
+        firstPart: firstPart,
+        secondPart: secondPart,
       );
     }
   }

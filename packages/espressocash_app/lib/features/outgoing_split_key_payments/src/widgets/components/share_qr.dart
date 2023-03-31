@@ -22,7 +22,7 @@ class ShareQr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final amount = this.amount.formatWithFiat(context);
-    final firstLink = status.link1.toString();
+    final qrLink = status.qrLink.toString();
     final secondLink = status.link2.toString();
 
     return CpContentPadding(
@@ -35,7 +35,7 @@ class ShareQr extends StatelessWidget {
             Expanded(
               child: _QrBody(
                 amount: amount,
-                firstLink: firstLink,
+                qrLink: qrLink,
                 secondLink: secondLink,
               ),
             ),
@@ -51,33 +51,36 @@ class _QrInfoHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        padding: const EdgeInsets.fromLTRB(24, 28, 24, 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Assets.icons.qrScanner.svg(height: 26),
             const SizedBox(width: 16),
-            const Expanded(
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'If the recipient has the app installed:\n',
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  FittedBox(
+                    child: Text(
+                      'If the recipient has the app installed:',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
                     ),
-                    TextSpan(
-                      text: 'They should use the in-app QR scanner.',
+                  ),
+                  FittedBox(
+                    child: Text(
+                      'They should use the in-app QR scanner.',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -88,22 +91,21 @@ class _QrInfoHeader extends StatelessWidget {
 class _QrBody extends StatelessWidget {
   const _QrBody({
     required this.amount,
-    required this.firstLink,
+    required this.qrLink,
     required this.secondLink,
   });
 
   final String amount;
-  final String firstLink;
+  final String qrLink;
   final String secondLink;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 14),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.topCenter,
-              child: Text(
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+        child: LayoutBuilder(
+          builder: (context, constraints) => Column(
+            children: [
+              Text(
                 'Scan to receive $amount',
                 maxLines: 1,
                 textAlign: TextAlign.center,
@@ -113,26 +115,30 @@ class _QrBody extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            Align(
-              child: _CustomQrCode(
-                firstLink: firstLink,
-                secondLink: secondLink,
+              const SizedBox(height: 8),
+              Expanded(
+                child: _CustomQrCode(
+                  qrLink: qrLink,
+                  secondLink: secondLink,
+                  height: constraints.maxWidth,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 }
 
 class _CustomQrCode extends StatelessWidget {
   const _CustomQrCode({
-    required this.firstLink,
+    required this.qrLink,
     required this.secondLink,
+    required this.height,
   });
 
-  final String firstLink;
+  final String qrLink;
   final String secondLink;
+  final double height;
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(
@@ -140,16 +146,16 @@ class _CustomQrCode extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             BarcodeWidget(
-              height: constraints.maxWidth,
+              height: height,
               barcode: Barcode.qrCode(
                 errorCorrectLevel: BarcodeQRCorrectionLevel.high,
               ),
-              data: firstLink,
+              data: qrLink,
               padding: EdgeInsets.zero,
               color: Colors.white,
             ),
             SizedBox.square(
-              dimension: 145,
+              dimension: 115,
               child: BarcodeWidget(
                 barcode: Barcode.aztec(),
                 data: secondLink,
