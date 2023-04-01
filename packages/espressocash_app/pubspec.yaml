@@ -13,6 +13,7 @@ dependencies:
   bloc_concurrency: ^0.2.0
   cached_network_image: ^3.2.3
   collection: ^1.15.0
+  connectivity_plus: ^3.0.3
   date_time_format: ^2.0.1
   decimal: ^2.3.0
   dfunc: ^0.8.0+1
