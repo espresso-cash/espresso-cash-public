@@ -8,6 +8,9 @@ concurrency:
   group: ${{ github.workflow }}-master
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: '3.7.8'
+
 jobs:
   solana_coverage:
     runs-on: ubuntu-latest
@@ -15,18 +18,25 @@ jobs:
       contents: write
       packages: read
     env:
-      DEVNET_RPC_URL: "http://solana:8899"
-      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
+      DEVNET_RPC_URL: "http://localhost:8899"
+      DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="solana"
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
-    services:
-      solana:
-        image: solanalabs/solana:stable
-        options: --entrypoint="solana-test-validator"
+
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+
+      - name: Start Solana Local Validator
+        uses: switchboard-xyz/solana-local-validator@v0.1
+        with:
+          solana-version: stable
+          cluster: mainnet
 
       - name: Activate remove_from_coverage
         run: dart pub global activate remove_from_coverage
