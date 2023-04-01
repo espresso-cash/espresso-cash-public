@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: '3.7.8'
+  FLUTTER_VERSION: "3.7.8"
 
 jobs:
   solana_coverage:
@@ -29,17 +29,17 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
+          channel: "stable"
           cache: true
+
+      - name: Activate utils
+        run: make activate_utils
 
       - name: Start Solana Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
           solana-version: stable
           cluster: mainnet
-
-      - name: Activate remove_from_coverage
-        run: dart pub global activate remove_from_coverage
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
