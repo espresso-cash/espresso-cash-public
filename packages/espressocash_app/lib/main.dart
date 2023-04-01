@@ -12,6 +12,7 @@ import 'app/app.dart';
 import 'config.dart';
 import 'core/accounts/module.dart';
 import 'core/balances/module.dart';
+import 'core/connectivity_notifier.dart';
 import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
 import 'logging.dart';
@@ -68,6 +69,9 @@ Future<void> _start() async {
       const AccountsModule(),
       ChangeNotifierProvider<DynamicLinksNotifier>(
         create: (_) => sl<DynamicLinksNotifier>(),
+      ),
+      ChangeNotifierProvider<ConnectivityNotifier>(
+        create: (_) => sl<ConnectivityNotifier>(),
       ),
     ],
     child: const CryptopleaseApp(),

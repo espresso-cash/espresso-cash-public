@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../core/accounts/bl/accounts_bloc.dart';
 import '../core/analytics/analytics_manager.dart';
+import '../core/connectvity_wrapper.dart';
 import '../di.dart';
 import '../features/app_lock/module.dart';
 import '../routes.gr.dart';
@@ -52,7 +53,11 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
           debugShowCheckedModeBanner: false,
           title: 'Espresso Cash',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
-          builder: (context, child) => AppLockModule(child: child),
+          builder: (context, child) => ConnectivityWrapper(
+            child: AppLockModule(
+              child: child,
+            ),
+          ),
         ),
       ),
     );

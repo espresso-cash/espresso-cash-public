@@ -6,6 +6,7 @@ void showCpSnackbar(
   BuildContext context, {
   required String message,
   Widget? icon,
+  GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
 }) {
   final snackbar = SnackBar(
     behavior: SnackBarBehavior.floating,
@@ -32,14 +33,20 @@ void showCpSnackbar(
     ),
   );
 
-  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+  (scaffoldMessengerKey?.currentState ?? ScaffoldMessenger.of(context))
+      .showSnackBar(snackbar);
 }
 
-void showCpErrorSnackbar(BuildContext context, {required String message}) =>
+void showCpErrorSnackbar(
+  BuildContext context, {
+  required String message,
+  GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
+}) =>
     showCpSnackbar(
       context,
       message: message,
       icon: const Icon(Icons.error, color: Colors.red),
+      scaffoldMessengerKey: scaffoldMessengerKey,
     );
 
 void showClipboardSnackbar(BuildContext context) => showCpSnackbar(
