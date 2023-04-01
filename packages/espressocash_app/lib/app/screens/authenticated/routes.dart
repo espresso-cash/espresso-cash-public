@@ -13,6 +13,7 @@ import '../../../features/qr_scanner/routes.dart';
 import '../../../features/swap/routes.dart';
 import '../../../features/token_details/widgets/token_details_screen.dart';
 import '../../../features/token_search/routes.dart';
+import '../../../ui/webview_screen.dart';
 import 'activities/activities_screen.dart';
 import 'authenticated_flow_screen.dart';
 import 'home_screen.dart';
@@ -56,5 +57,6 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: HelpScreen),
     ...tokenSearchRoutes,
     onboardingFlowRoutes,
+    AutoRoute<void>(page: WebViewScreen),
   ],
 );
