@@ -70,8 +70,8 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.10
   storybook_flutter: ^0.12.0
   uni_links: ^0.5.1
-  url_launcher: ^6.0.12
   uuid: ^3.0.4
+  webview_flutter: ^4.0.7
 
 dev_dependencies:
   auto_route_generator: ^5.0.3

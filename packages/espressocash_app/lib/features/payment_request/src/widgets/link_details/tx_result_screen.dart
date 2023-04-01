@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/presentation/utils.dart';
 import '../../../../../core/transactions/create_transaction_link.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
@@ -10,7 +10,7 @@ import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
 
-class TxResultScreen extends StatelessWidget {
+class TxResultScreen extends StatefulWidget {
   const TxResultScreen({
     Key? key,
     required this.signature,
@@ -22,11 +22,16 @@ class TxResultScreen extends StatelessWidget {
   final String text;
   final SvgGenImage icon;
 
+  @override
+  State<TxResultScreen> createState() => _TxResultScreenState();
+}
+
+class _TxResultScreenState extends State<TxResultScreen> {
   void _onViewTransaction() {
-    final signature = this.signature;
+    final signature = widget.signature;
     if (signature == null) return;
 
-    launchUrl(Uri.parse(createTransactionLink(signature)));
+    context.openLink(createTransactionLink(signature));
   }
 
   @override
@@ -40,17 +45,17 @@ class TxResultScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    icon.svg(height: 50),
+                    widget.icon.svg(height: 50),
                     const SizedBox(height: 16),
                     Text(
-                      text,
+                      widget.text,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium
                           ?.copyWith(fontSize: 32),
                     ),
-                    if (signature != null)
+                    if (widget.signature != null)
                       TextButton(
                         onPressed: _onViewTransaction,
                         child: Text(
