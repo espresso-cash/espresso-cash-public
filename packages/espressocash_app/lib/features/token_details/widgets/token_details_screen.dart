@@ -54,7 +54,7 @@ class TokenDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
                 child: NestedScrollView(
                   headerSliverBuilder: (context, _) => [
-                   TokenAppBar(token: token),
+                    TokenAppBar(token: token),
                   ],
                   body: _NoGlowList(
                     child: SingleChildScrollView(
