@@ -8,10 +8,7 @@ import '../core/accounts/bl/accounts_bloc.dart';
 import '../core/analytics/analytics_manager.dart';
 import '../di.dart';
 import '../features/app_lock/module.dart';
-<<<<<<< HEAD
 import '../features/onboarding/module.dart';
-=======
->>>>>>> master
 import '../l10n/localizely_updater.dart';
 import '../routes.gr.dart';
 import '../ui/theme.dart';
