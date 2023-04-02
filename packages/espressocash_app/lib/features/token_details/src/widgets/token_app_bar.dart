@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -35,8 +36,11 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final ratio = shrinkOffset / maxExtent;
-    final iconSize = max(_tokenSize * (1 - ratio), 24.0);
+    /// Scroll ratio, should vary between [0,1] from expanded to collapsed.
+    final ratio = (shrinkOffset / maxExtent)
+        .let(Curves.ease.transform)
+        .let((it) => 1 - it);
+    final iconSize = max(_tokenSize * ratio, 24.0);
 
     return Material(
       color: CpColors.darkBackground,
@@ -59,19 +63,19 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildIcon(double ratio, double iconSize) => Positioned(
-        top: (iconSize * (1 - ratio)) - iconSize + 8,
+        top: (iconSize * ratio) - iconSize,
         left: 0,
         right: 0,
         child: Opacity(
-          opacity: 1 - ratio,
+          opacity: ratio,
           child: CpTokenIcon(token: token, size: iconSize),
         ),
       );
 
   Widget _buildText(double ratio, double iconSize) => Positioned.fill(
-        top: iconSize * (1 - ratio),
-        left: 48,
-        right: 48,
+        top: iconSize * ratio,
+        left: _buttonSize,
+        right: _buttonSize,
         child: Center(
           child: FittedBox(
             child: Text(
@@ -118,11 +122,15 @@ class _Buttons extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             BackButton(onPressed: () => context.router.pop()),
-            FavoriteButton(token: token),
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: FavoriteButton(token: token),
+            ),
           ],
         ),
       );
 }
 
 const double _tokenSize = 68;
-const double _minExtent = kToolbarHeight;
+const double _buttonSize = 48;
+const double _minExtent = kToolbarHeight; // Default Flutter toolbar height
