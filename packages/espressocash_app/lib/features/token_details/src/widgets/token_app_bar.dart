@@ -9,10 +9,23 @@ import '../../../../ui/colors.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
 
-class TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const TokenAppBarDelegate({
+class TokenAppBar extends StatelessWidget {
+  const TokenAppBar({
+    Key? key,
     required this.token,
-  });
+  }) : super(key: key);
+
+  final Token token;
+
+  @override
+  Widget build(BuildContext context) => SliverPersistentHeader(
+        pinned: true,
+        delegate: _TokenAppBarDelegate(token),
+      );
+}
+
+class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
+  const _TokenAppBarDelegate(this.token);
 
   final Token token;
 
@@ -44,7 +57,7 @@ class TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildIcon(double ratio, double iconSize) => Positioned(
-        top: (iconSize * (1 - ratio)) - iconSize,
+        top: (iconSize * (1 - ratio)) - iconSize + 8,
         left: 0,
         right: 0,
         child: Opacity(
@@ -55,13 +68,18 @@ class TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   Widget _buildText(double ratio, double iconSize) => Positioned.fill(
         top: iconSize * (1 - ratio),
+        left: 48,
+        right: 48,
         child: Center(
-          child: Text(
-            token.name,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 26,
+          child: FittedBox(
+            child: Text(
+              token.name,
+              maxLines: 1,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 26,
+              ),
             ),
           ),
         ),
@@ -74,7 +92,7 @@ class TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get minExtent => _minExtent;
 
   @override
-  bool shouldRebuild(covariant TokenAppBarDelegate oldDelegate) =>
+  bool shouldRebuild(covariant _TokenAppBarDelegate oldDelegate) =>
       oldDelegate.token != token;
 
   @override

@@ -26,7 +26,7 @@ import '../src/token_details.dart';
 import '../src/token_details_bloc.dart';
 import '../src/widgets/balance_widget.dart';
 import '../src/widgets/exchange_buttons.dart';
-import '../src/widgets/token_appbar.dart';
+import '../src/widgets/token_app_bar.dart';
 import '../src/widgets/token_details_widget.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -54,10 +54,7 @@ class TokenDetailsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
                 child: NestedScrollView(
                   headerSliverBuilder: (context, _) => [
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: TokenAppBarDelegate(token: token),
-                    ),
+                   TokenAppBar(token: token),
                   ],
                   body: _NoGlowList(
                     child: SingleChildScrollView(
