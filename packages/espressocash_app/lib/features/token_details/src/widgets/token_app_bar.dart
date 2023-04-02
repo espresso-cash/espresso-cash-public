@@ -48,6 +48,8 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
             _buildText(ratio, iconSize),
             Positioned(
               top: 0,
+              left: 0,
+              right: 0,
               child: _Buttons(token: token),
             ),
           ],
@@ -96,7 +98,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       oldDelegate.token != token;
 
   @override
-  FloatingHeaderSnapConfiguration? get snapConfiguration =>
+  FloatingHeaderSnapConfiguration get snapConfiguration =>
       FloatingHeaderSnapConfiguration(
         curve: Curves.easeIn,
         duration: const Duration(milliseconds: 200),
