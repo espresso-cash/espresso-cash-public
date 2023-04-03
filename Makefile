@@ -19,6 +19,7 @@ endif
 activate_utils:
 	dart pub global activate melos
 	dart pub global activate lakos
+	dart pub global activate remove_from_coverage
 
 dart_get:
 	dart pub get
