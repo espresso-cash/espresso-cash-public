@@ -1,0 +1,681 @@
+{
+  "@@locale": "es",
+  "aboutTokenLabel": "Acerca de {name}",
+  "@aboutTokenLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activitiesTitle": "Actividad",
+  "@activitiesTitle": {},
+  "activityStatusCanceled": "Cancelada",
+  "@activityStatusCanceled": {},
+  "activityStatusFailure": "Falla",
+  "@activityStatusFailure": {},
+  "activityStatusInProgress": "En curso",
+  "@activityStatusInProgress": {},
+  "activityStatusSuccess": "Éxito",
+  "@activityStatusSuccess": {},
+  "addCash": "Depositar",
+  "@addCash": {},
+  "all": "Toda",
+  "@all": {},
+  "amount": "Cantidad",
+  "@amount": {},
+  "and": " y ",
+  "@and": {},
+  "appLock": "Bloqueo automático",
+  "@appLock": {},
+  "appLockDescription": "Requiere contraseña para acceder a la aplicación",
+  "@appLockDescription": {},
+  "backupPhraseSuccessMessage": "Has guardado con éxito tu frase de recuperación secreta en un lugar seguro.¡Asegúrate de mantenerlo privado!",
+  "@backupPhraseSuccessMessage": {},
+  "balance": "Saldo",
+  "@balance": {},
+  "boughtToken": "Compró {amount}",
+  "@boughtToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "buy": "Comprar",
+  "@buy": {},
+  "byCreatingWalletYouAgree": "Al crear una billetera o usar una billetera existente, usted acepta nuestro ",
+  "@byCreatingWalletYouAgree": {},
+  "camera": "Camera",
+  "@camera": {},
+  "cancel": "Cancelar",
+  "@cancel": {},
+  "cancelErrorMessageInsufficientFunds": "El dinero ya ha sido retirado.",
+  "@cancelErrorMessageInsufficientFunds": {},
+  "cancelPaymentRequestConfirmationSubtitle": "¿Está seguro de que desea cancelar esta solicitud de pago?",
+  "@cancelPaymentRequestConfirmationSubtitle": {},
+  "cancelPaymentRequestConfirmationTitle": "Cancelar la solicitud de pago",
+  "@cancelPaymentRequestConfirmationTitle": {},
+  "cancelTransfer": "Cancelar la transferencia",
+  "@cancelTransfer": {},
+  "cancelTransferConfirmationSubtitle": "¿Estás seguro de que quieres cancelar esta transferencia?",
+  "@cancelTransferConfirmationSubtitle": {},
+  "cancelTransferConfirmationTitle": "Cancelar la transferencia",
+  "@cancelTransferConfirmationTitle": {},
+  "cannotConnectToTheNetwork": "¡No se puede conectar a la red!",
+  "@cannotConnectToTheNetwork": {},
+  "cashOut": "Retirar",
+  "@cashOut": {},
+  "comingSoon": "¡Muy pronto!",
+  "@comingSoon": {},
+  "completeThePuzzle": "¿Lo escribiste en tu frase de recuperación correctamente?Pruébelo aquí:",
+  "@completeThePuzzle": {},
+  "contactUs": "Contáctenos",
+  "@contactUs": {},
+  "copiedFid": "Copiada FID: {fid}",
+  "@copiedFid": {
+    "placeholders": {
+      "fid": {
+        "type": "String"
+      }
+    }
+  },
+  "copiedToClipboard": "¡Copiada!",
+  "@copiedToClipboard": {},
+  "copy": "Copiar",
+  "@copy": {},
+  "create": "Crear",
+  "@create": {},
+  "crypto": "Crypto",
+  "@crypto": {},
+  "cryptoCashBalance": "Tu cripto efectivo\nSaldo ",
+  "@cryptoCashBalance": {},
+  "cryptoInvestments": "Tu cripto\nInversiones",
+  "@cryptoInvestments": {},
+  "decline": "Rechazar",
+  "@decline": {},
+  "discover": "DESCUBRIR",
+  "@discover": {},
+  "displayEmptyBalanceSubtitle": "Muestre su criptografía con saldos cero",
+  "@displayEmptyBalanceSubtitle": {},
+  "displayEmptyBalanceTitle": "Muestra saldos vacíos",
+  "@displayEmptyBalanceTitle": {},
+  "editProfile": "Editar perfil",
+  "@editProfile": {},
+  "editProfileDescription": "Hacer cambios en su perfil actual",
+  "@editProfileDescription": {},
+  "emptySearch": "Token no encontrado",
+  "@emptySearch": {},
+  "enterAmount": "Ingresar la cantidad",
+  "@enterAmount": {},
+  "enterPasscode": "Introduzca su código de acceso",
+  "@enterPasscode": {},
+  "enterYourSecretWords": "Ingrese su frase de recuperación secreta",
+  "@enterYourSecretWords": {},
+  "errorMessageInsufficientFunds": "No tienes suficientes fondos.",
+  "@errorMessageInsufficientFunds": {},
+  "failedToLoadDescription": "No se pudo cargar la descripción",
+  "@failedToLoadDescription": {},
+  "failedToLoadTokens": "No se pudo cargar tokens",
+  "@failedToLoadTokens": {},
+  "failedToSearch": "No se pudo buscar token",
+  "@failedToSearch": {},
+  "faq": "Preguntas frecuentes",
+  "@faq": {},
+  "feeAmount": "Tarifa: {value}",
+  "@feeAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "feesCalculating": "calculando...",
+  "@feesCalculating": {},
+  "feesFailed": "falló al cargar",
+  "@feesFailed": {},
+  "fiatEquivalent": "Equivalente a {value}",
+  "@fiatEquivalent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "following": "Following",
+  "@following": {},
+  "fundYourAccount": "Fondo de su cuenta para comenzar su viaje criptográfico.¡Puede comprar y vender criptografía o enviar dinero en cualquier parte del mundo!",
+  "@fundYourAccount": {},
+  "help": "Ayuda",
+  "@help": {},
+  "incorrectPasscode": "código de acceso incorrecto.Volver a intentarlo",
+  "@incorrectPasscode": {},
+  "insufficientFundsForFeeMessage": "No tienes suficiente {feeToken} para pagar la tarifa de la red, necesita al menos {amount}.",
+  "@insufficientFundsForFeeMessage": {
+    "placeholders": {
+      "feeToken": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insufficientFundsMessage": "No puedes enviar {amount}, tu solo tienes {balance} disponible.",
+  "@insufficientFundsMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "balance": {
+        "type": "String"
+      }
+    }
+  },
+  "inUsdc": "in USDC ",
+  "@inUsdc": {},
+  "invalidEscrowError": "El enlace es incorrecto o el dinero ya se ha retirado.",
+  "@invalidEscrowError": {},
+  "investmentHeaderButtonsTitle": "Yo quiero",
+  "@investmentHeaderButtonsTitle": {},
+  "iUnderstand": "Entiendo",
+  "@iUnderstand": {},
+  "iUnderstandIfLoseMySecret": "Entiendo que si pierdo mi frase de recuperación secreta, no podré acceder a fondos.",
+  "@iUnderstandIfLoseMySecret": {},
+  "learnAboutCrypto": "Aprendiendo sobre cripto",
+  "@learnAboutCrypto": {},
+  "learnAboutCryptoDescription": "Obtenga ayuda con todas las cosas cripto",
+  "@learnAboutCryptoDescription": {},
+  "learningSectionTitle": "CENTRO DE APRENDIZAJE",
+  "@learningSectionTitle": {},
+  "less": "menos",
+  "@less": {},
+  "linkSubtitle": "El destinatario deberá hacer clic en los dos enlaces a continuación para canjear el dinero.",
+  "@linkSubtitle": {},
+  "loading": "Cargando...",
+  "@loading": {},
+  "marketCapRank": "Rango de capitalización de mercado",
+  "@marketCapRank": {},
+  "minimumAmountToRequest": "{amount} es el mínimo de solicitar",
+  "@minimumAmountToRequest": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minimumAmountToSend": "{amount} es el mínimo para enviar",
+  "@minimumAmountToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyReceived": "Se ha recibido dinero",
+  "@moneyReceived": {},
+  "more": "más",
+  "@more": {},
+  "moreDetails": "Ver más detalles",
+  "@moreDetails": {},
+  "next": "Siguiente",
+  "@next": {},
+  "no": "No",
+  "@no": {},
+  "noActivity": "¡No hay actividad todavía!",
+  "@noActivity": {},
+  "noEmailInCryptoInfo": "Con Espresso Cash, ¡no hay necesidad de un correo electrónico y una contraseña para acceder a su dinero!",
+  "@noEmailInCryptoInfo": {},
+  "noEmailInCryptoParagraph": "Necesitas una frase de recuperación secreta. Esta frase está compuesta por palabras de seguridad generadas al azar que se le proporcionarán. Sin estas palabras, no podrá acceder a sus fondos. Estas palabras nunca se pueden recuperar.\n\n¡Mantenlos a salvo! ",
+  "@noEmailInCryptoParagraph": {},
+  "ok": "OK",
+  "@ok": {},
+  "onboardingBullet": "¡La criptoinversión simplificada, tanto si es nuevo como si es un profesional experimentado!",
+  "@onboardingBullet": {},
+  "onboardingIntro": "Una forma más rápida y simple de pagar y recibir dinero al instante.",
+  "@onboardingIntro": {},
+  "onboardingNoticeFinishSetup": "Finalizar configuración",
+  "@onboardingNoticeFinishSetup": {},
+  "onboardingNoticeMessage": "Complete la configuración asegurando su cuenta.",
+  "@onboardingNoticeMessage": {},
+  "onboardingNoticeTitle": "¡Ya casi terminas!",
+  "@onboardingNoticeTitle": {},
+  "oneMonth": "1 mes",
+  "@oneMonth": {},
+  "oneWeek": "1 semana",
+  "@oneWeek": {},
+  "operationSend": "enviada",
+  "@operationSend": {},
+  "outgoingTransferSuccess": "{amount} ha sido enviado",
+  "@outgoingTransferSuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "pay": "Pagar",
+  "@pay": {},
+  "paymentInitiated": "Pago iniciado",
+  "@paymentInitiated": {},
+  "paymentRequestCancel": "Cancelar la solicitud de pago",
+  "@paymentRequestCancel": {},
+  "paymentRequestFailureNotificationTitle": "Pago fallido de {amount} para {label}.",
+  "@paymentRequestFailureNotificationTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRequestSuccessNotificationTitle": "Su solicitud de {amount} fue pagada para {label}.",
+  "@paymentRequestSuccessNotificationTitle": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentRequestTitle": "Solicitud de pago para {label}",
+  "@paymentRequestTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "pending": "Pendiente",
+  "@pending": {},
+  "photoLibrary": "Librería fotográfica",
+  "@photoLibrary": {},
+  "popularCryptoSubtitle": "Una forma rápida y fácil de comprar y vender criptográfico \n en cualquier parte del mundo.",
+  "@popularCryptoSubtitle": {},
+  "popularCryptoTitle": "Crypto popular",
+  "@popularCryptoTitle": {},
+  "pressAndHoldToBuy": "Deslizar para comprar {token}",
+  "@pressAndHoldToBuy": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "pressAndHoldToSell": "Deslizar para vender {token}",
+  "@pressAndHoldToSell": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "price": "Precio",
+  "@price": {},
+  "privacyPolicy": "Política de privacidad",
+  "@privacyPolicy": {},
+  "processing": "Procesando...",
+  "@processing": {},
+  "protectWallet": "Proteger la billetera",
+  "@protectWallet": {},
+  "protectWalletTitle": "PROTECCION DE LA BILLETERA",
+  "@protectWalletTitle": {},
+  "protectYourWalletParagraph1": "No se arriesgue a perder sus fondos. Proteja su billetera guardando su frase de recuperación secreta en un lugar en el que confíe.",
+  "@protectYourWalletParagraph1": {},
+  "protectYourWalletParagraph2": "Es la única forma de recuperar su billetera si se bloquea de la aplicación u obtiene un nuevo dispositivo.",
+  "@protectYourWalletParagraph2": {},
+  "qrCameraPermissionMessage": "Permita el acceso a la cámara en la configuración de su dispositivo para habilitar el lector de código QR.",
+  "@qrCameraPermissionMessage": {},
+  "qrCameraPermissionTitle": "Cámara discapacitada",
+  "@qrCameraPermissionTitle": {},
+  "qrCodeScanErrorContent": "No pudimos entender este código QR. Inténtalo de nuevo.",
+  "@qrCodeScanErrorContent": {},
+  "qrCodeScanErrorTitle": "Escaneo falló",
+  "@qrCodeScanErrorTitle": {},
+  "qrInputAddressHint": "Ingrese la dirección de cifrado aquí",
+  "@qrInputAddressHint": {},
+  "qrInputAddressMessage": "Puede ingresar la dirección de la billetera Solana del receptor para enviarles dinero directamente a ellos.",
+  "@qrInputAddressMessage": {},
+  "qrInputAddressTitle": "Enviar manualmente",
+  "@qrInputAddressTitle": {},
+  "qrPaymentSubtitle": "El destinatario recibirá el dinero escaneando este código QR:",
+  "@qrPaymentSubtitle": {},
+  "receive": "Recibir",
+  "@receive": {},
+  "receivedBy": "Recibido por {address}",
+  "@receivedBy": {
+    "placeholders": {
+      "address": {
+        "type": "String"
+      }
+    }
+  },
+  "recoverySubHeading": "Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente. Esta frase está compuesta de 12 palabras generadas al azar. No podrá recuperar sus fondos si pierde estas palabras.",
+  "@recoverySubHeading": {},
+  "recoveryWarningInfo": "Lea cuidadosamente la información a continuación antes de ver su frase de recuperación secreta.",
+  "@recoveryWarningInfo": {},
+  "recoveryWarningParagraph": "Para recuperar su billetera, necesitará su frase de recuperación secreta.Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente.\n\nCualquier otra persona que tenga acceso a su frase de recuperación secreta también tiene un acceso irrevocable a su dinero.\n\nNunca comparta esta frase de recuperación secreta a un extraño y nunca ingrese esta frase de recuperación secreta en un formulario o otra aplicación.",
+  "@recoveryWarningParagraph": {},
+  "reEnterPasscode": "Vuelva a ingresar su código de acceso",
+  "@reEnterPasscode": {},
+  "remindMeLater": "Recuérdame más tarde",
+  "@remindMeLater": {},
+  "removePhoto": "Eliminar foto",
+  "@removePhoto": {},
+  "requestNoteFor": "Para",
+  "@requestNoteFor": {},
+  "requestNotePlaceholder": "Agregue una nota para su solicitud",
+  "@requestNotePlaceholder": {},
+  "requestNoteRequesting": "Solicitante",
+  "@requestNoteRequesting": {},
+  "requestOrSendPayment": "Solicitar o enviar un pago",
+  "@requestOrSendPayment": {},
+  "resendLink": "Reenviar enlaces",
+  "@resendLink": {},
+  "retry": "Procesar de nuevo",
+  "@retry": {},
+  "save": "Guardar",
+  "@save": {},
+  "search": "Buscar",
+  "@search": {},
+  "searchPlaceholder": "Buscar...",
+  "@searchPlaceholder": {},
+  "securitySectionTitle": "SEGURIDAD Y PRIVACIDAD",
+  "@securitySectionTitle": {},
+  "sell": "Vender",
+  "@sell": {},
+  "send": "Enviar",
+  "@send": {},
+  "sendAs": "Enviar como",
+  "@sendAs": {},
+  "sendExplanation": "Una vez que haya creado este enlace, ¡puede enviarlo a su destinatario!Luego pueden canjear los fondos simplemente haciendo clic en los enlaces.",
+  "@sendExplanation": {},
+  "sendMoney": "Enviar dinero",
+  "@sendMoney": {},
+  "sentDirectly": "Enviada",
+  "@sentDirectly": {},
+  "sentViaLink": "Enviado a través de enlaces",
+  "@sentViaLink": {},
+  "setReminder": "Establecer un recordatorio para{duration}",
+  "@setReminder": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "settings": "Ajustes",
+  "@settings": {},
+  "share": "Compartir",
+  "@share": {},
+  "shareInstructions": "Para recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:",
+  "@shareInstructions": {},
+  "shareIntroFt": "¡Hola!\n\nTe acabo de enviar ",
+  "@shareIntroFt": {},
+  "shareLink": "Compartir enlaces de pago",
+  "@shareLink": {},
+  "shareLinks": "Compartir enlaces",
+  "@shareLinks": {},
+  "sharePaymentRequestLinkDescription": "El destinatario deberá hacer clic en el siguiente enlace para pagarle.",
+  "@sharePaymentRequestLinkDescription": {},
+  "sharePaymentRequestLinkInstructions": "Para pagarme con un clic, visite:",
+  "@sharePaymentRequestLinkInstructions": {},
+  "sharePaymentRequestLinkIntro": "Hola!\n\nHe enviado una solicitud de ",
+  "@sharePaymentRequestLinkIntro": {},
+  "sharePaymentRequestLinkMessage": "Hola!\n\nHe enviado una solicitud de {amount}. Para pagarme con un clic, visite:\n\n{link}",
+  "@sharePaymentRequestLinkMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "link": {
+        "type": "String"
+      }
+    }
+  },
+  "sharePaymentRequestLinkTitle": "Compartir enlace",
+  "@sharePaymentRequestLinkTitle": {},
+  "sharePaymentRequestQrCodeDescription": "El destinatario puede pagarle con Espresso Cash (u otra billetera de pago de Solana) escaneando el código QR a continuación.",
+  "@sharePaymentRequestQrCodeDescription": {},
+  "sharePaymentRequestQrCodeTitle": "Compartir el código QR",
+  "@sharePaymentRequestQrCodeTitle": {},
+  "sharePaymentRequestTitle": "¡Se ha creado una solicitud!",
+  "@sharePaymentRequestTitle": {},
+  "shareStep1": "Paso 1: haga clic en el primer enlace:",
+  "@shareStep1": {},
+  "shareStep2": "Paso 2: cuando la aplicación le pida, haga clic en el segundo enlace:",
+  "@shareStep2": {},
+  "shareText": "¡Hola!\n\nTe acabo de enviar {amount}.\n\nPara recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:\n\nPaso 1: haga clic en el primer enlace:\n\n{firstLink}\n\nPaso 2: cuando la aplicación le pida, haga clic en el segundo enlace:\n\n{secondLink}",
+  "@shareText": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "firstLink": {
+        "type": "Uri"
+      },
+      "secondLink": {
+        "type": "Uri"
+      }
+    }
+  },
+  "signIn1": "¿Ya tienes una billetera solana? ",
+  "@signIn1": {},
+  "signIn2": "Continuar aquí",
+  "@signIn2": {},
+  "signOut": "Eliminar la billetera",
+  "@signOut": {},
+  "signOutConfirmation": "¿Estás seguro de que quieres eliminar la billetera?",
+  "@signOutConfirmation": {},
+  "signUp": "Crear billetera",
+  "@signUp": {},
+  "soldToken": "Vendida {amount}",
+  "@soldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyCanceledMessage1": "{amount} Transacción cancelada con éxito.",
+  "@splitKeyCanceledMessage1": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyCancelErrorMessage": "Hubo un problema cancelando su transferencia.",
+  "@splitKeyCancelErrorMessage": {},
+  "splitKeyConfirmationDialogContent": "¿Estás seguro de que no quieres obtener el dinero disponible para ti?",
+  "@splitKeyConfirmationDialogContent": {},
+  "splitKeyErrorMessage2": "Hubo un problema con su transferencia.",
+  "@splitKeyErrorMessage2": {},
+  "splitKeyErrorRetry": "Por favor, intenta de nuevo.",
+  "@splitKeyErrorRetry": {},
+  "splitKeyProgressCanceled": "La transferencia ha sido cancelada",
+  "@splitKeyProgressCanceled": {},
+  "splitKeyProgressCanceling": "Cancelando transferancia",
+  "@splitKeyProgressCanceling": {},
+  "splitKeyProgressCreated": "Se crean enlaces",
+  "@splitKeyProgressCreated": {},
+  "splitKeyProgressOngoing": "Enviando {amount} usando enlaces seguros ...",
+  "@splitKeyProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitKeyProgressSuccess": "El dinero ha sido recibido con éxito",
+  "@splitKeyProgressSuccess": {},
+  "splitKeySecondLinkMessage": "Haga clic en el segundo enlace en el mensaje que ha recibido.",
+  "@splitKeySecondLinkMessage": {},
+  "splitKeySecondLinkTitle": "El dinero te está esperando!",
+  "@splitKeySecondLinkTitle": {},
+  "splitKeySuccessMessage2": "Su transferencia ha sido enviada.",
+  "@splitKeySuccessMessage2": {},
+  "splitKeyTransactionLoading": "Aguanta. Ya casi hemos terminado...",
+  "@splitKeyTransactionLoading": {},
+  "splitKeyTransferTitle": "Avance de transferencia",
+  "@splitKeyTransferTitle": {},
+  "stablecoin": "stablecoin",
+  "@stablecoin": {},
+  "startInvestingSubtitle": "¿Nuevo en invertir en criptomonedas? Te tenemos.",
+  "@startInvestingSubtitle": {},
+  "startInvestingTitle": "Empezar a invertir",
+  "@startInvestingTitle": {},
+  "swap": "Intercambio",
+  "@swap": {},
+  "swapAmountAvailable": "{amount} disponible para su uso.",
+  "@swapAmountAvailable": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "swapBuySuccess": "Tu compra de {token} fue exitoso.",
+  "@swapBuySuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "swapEquivalent": "Para {input} obtendrás a aprox. {output}",
+  "@swapEquivalent": {
+    "placeholders": {
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
+      }
+    }
+  },
+  "swapErrorTitle": "Hay un problema",
+  "@swapErrorTitle": {},
+  "swapFailRouteNotFound": "¡No hay rutas encontradas para tokens y cantidad dados!",
+  "@swapFailRouteNotFound": {},
+  "swapFailUnknown": "Se produjo un error desconocido al enviar su transacción",
+  "@swapFailUnknown": {},
+  "swapSellSuccess": "Tu venta de {token} fue exitoso.",
+  "@swapSellSuccess": {
+    "placeholders": {
+      "token": {
+        "type": "String"
+      }
+    }
+  },
+  "swapSlippageExplanation": "El deslizamiento es la diferencia observada debido a las condiciones cambiantes del mercado entre el momento en que se presenta la transacción y su verificación.",
+  "@swapSlippageExplanation": {},
+  "swapSlippageTitle": "Tolerancia de deslizamiento",
+  "@swapSlippageTitle": {},
+  "swapSlippageWarning": "Su transacción será cancelada\nsi el precio varía más de ",
+  "@swapSlippageWarning": {},
+  "terms": "Condiciones de uso",
+  "@terms": {},
+  "termsOfUse": "Condiciones de uso",
+  "@termsOfUse": {},
+  "to": "A",
+  "@to": {},
+  "todayAt": "Hoy en {time}",
+  "@todayAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenBalance": "{symbol} Saldo",
+  "@tokenBalance": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenEquivalent": "Equivalente a {value} {symbol}",
+  "@tokenEquivalent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "tomorrow": "Mañana",
+  "@tomorrow": {},
+  "toRestoreYourAccount": "Ingrese su frase de recuperación secreta a continuación. Esta frase está compuesta de 12 palabras generadas aleatorias.",
+  "@toRestoreYourAccount": {},
+  "transactions": "Transacciónes",
+  "@transactions": {},
+  "transferErrorTitle": "UPS!",
+  "@transferErrorTitle": {},
+  "transferInitiated": "Transferencia iniciada",
+  "@transferInitiated": {},
+  "transferSuccessTitle": "¡ÉXITO!",
+  "@transferSuccessTitle": {},
+  "tryAgainLater": "Por favor, inténtelo de nuevo más tarde",
+  "@tryAgainLater": {},
+  "uploadPhoto": "Sube una foto",
+  "@uploadPhoto": {},
+  "usdcExplanation": "El USDC es una establo digital que debe arreglarse al dólar de los Estados Unidos.",
+  "@usdcExplanation": {},
+  "usdcInfo": "El USDC es una establo digital que debe arreglarse al dólar de los Estados Unidos. ($1 = 1USDC)",
+  "@usdcInfo": {},
+  "version": "Version {versionNumber} ({buildNumber})",
+  "@version": {
+    "placeholders": {
+      "versionNumber": {
+        "type": "String"
+      },
+      "buildNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "view": "Ver",
+  "@view": {},
+  "viewRecoveryPhrase": "Ver frase de recuperación secreta",
+  "@viewRecoveryPhrase": {},
+  "viewRecoveryPhraseDescription": "Palabras generadas por su billetera criptográfica",
+  "@viewRecoveryPhraseDescription": {},
+  "viewTransaction": "Ver transacción",
+  "@viewTransaction": {},
+  "weWereUnableToFetchTokenPrice": "No pudimos alcanzar los precios de los tokenses.",
+  "@weWereUnableToFetchTokenPrice": {},
+  "yes": "Sí",
+  "@yes": {},
+  "yesDeleteMyWallet": "Si, elimina mi billetera",
+  "@yesDeleteMyWallet": {},
+  "youAreCreatingUniqueLink": "Estás creando un enlace seguro que contiene:",
+  "@youAreCreatingUniqueLink": {},
+  "youOwn": "Tu posees",
+  "@youOwn": {},
+  "yourFirstNamePlaceholder": "Elige un nombre de usuario",
+  "@yourFirstNamePlaceholder": {},
+  "yourLinkIsReady": "Tu enlace está listo",
+  "@yourLinkIsReady": {},
+  "yourRecoveryPhrase": "Tu frase de recuperación secreta",
+  "@yourRecoveryPhrase": {},
+  "yourRecoveryPhraseSub": "Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente. Esta frase está compuesta de 12 palabras generadas al azar. No podrá recuperar sus fondos si pierde estas palabras.",
+  "@yourRecoveryPhraseSub": {},
+  "zeroAmountMessage": "Ingrese una cantidad mayor que cero para ser {operation}.",
+  "@zeroAmountMessage": {
+    "placeholders": {
+      "operation": {
+        "type": "String"
+      }
+    }
+  },
+  "zeroAmountTitle": "Monto invalido",
+  "@zeroAmountTitle": {}
+}
