@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +18,6 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
-import '../../../ui/token_icon.dart';
-import '../../favorite_tokens/widgets/favorite_button.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
@@ -29,6 +26,7 @@ import '../src/token_details.dart';
 import '../src/token_details_bloc.dart';
 import '../src/widgets/balance_widget.dart';
 import '../src/widgets/exchange_buttons.dart';
+import '../src/widgets/token_app_bar.dart';
 import '../src/widgets/token_details_widget.dart';
 
 class TokenDetailsScreen extends StatelessWidget {
@@ -54,63 +52,28 @@ class TokenDetailsScreen extends StatelessWidget {
               bottom: false,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
-                child: SingleChildScrollView(
-                  physics: const ClampingScrollPhysics(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      _Header(token: token),
-                      const SizedBox(height: 4),
-                      Text(
-                        token.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 26,
-                        ),
+                child: NestedScrollView(
+                  headerSliverBuilder: (context, _) => [
+                    TokenAppBar(token: token),
+                  ],
+                  body: _NoGlowList(
+                    child: SingleChildScrollView(
+                      physics: const ClampingScrollPhysics(),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _Chart(token: token),
+                          if (token.canBeSwapped) ExchangeButtons(token: token),
+                          if (token == Token.usdc) const _RampButtons(),
+                          _Balance(token: token),
+                          _Content(token: token),
+                        ],
                       ),
-                      const SizedBox(height: 4),
-                      _Chart(token: token),
-                      if (token.canBeSwapped) ExchangeButtons(token: token),
-                      if (token == Token.usdc) const _RampButtons(),
-                      _Balance(token: token),
-                      _Content(token: token),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ),
-      );
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.token});
-
-  final Token token;
-
-  static const double _tokenSize = 68;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SizedBox(
-          height: _tokenSize,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: CpTokenIcon(token: token, size: _tokenSize),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: BackButton(onPressed: () => context.router.pop()),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: FavoriteButton(token: token),
-              ),
-            ],
           ),
         ),
       );
@@ -284,6 +247,26 @@ class _RampButtons extends StatelessWidget {
             CashOutButton(),
           ],
         ),
+      );
+}
+
+class _NoGlowList extends StatelessWidget {
+  const _NoGlowList({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) =>
+      NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowIndicator();
+
+          return true;
+        },
+        child: child,
       );
 }
 
