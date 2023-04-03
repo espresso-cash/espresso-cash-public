@@ -184,7 +184,7 @@ class _AppBarContent extends StatelessWidget {
               child: Row(
                 children: [
                   CpIconButton(
-                    icon: Assets.icons.qrScannerBlack.svg(height: 26),
+                    icon: Assets.icons.qrScannerBlack.svg(),
                     onPressed: onQrScanner,
                   ),
                 ],
