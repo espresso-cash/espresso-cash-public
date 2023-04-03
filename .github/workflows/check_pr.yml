@@ -8,6 +8,9 @@ concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: "3.7.8"
+
 jobs:
   formatting:
     runs-on: ubuntu-latest
@@ -29,7 +32,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
 
-      - name: Activate melos
+      - name: Activate utils
         run: make activate_utils
 
       - name: Install dependencies
@@ -51,29 +54,25 @@ jobs:
       DEVNET_RPC_URL: "http://localhost:8899"
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator"
-      EC_LINKS_ID: "GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC"
-      EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
-    services:
-      solana:
-        image: solanalabs/solana:stable
-        options: --entrypoint="solana-test-validator"
 
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
 
-      - name: Install sudo package
-        run: apt update && apt install sudo
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      - name: Activate utils
+        run: make activate_utils
 
       - name: Start Solana Local Validator
         uses: switchboard-xyz/solana-local-validator@v0.1
         with:
           solana-version: stable
           cluster: mainnet
-          args:
-            --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
 
       - name: Activate melos
         run: make activate_utils
@@ -98,21 +97,28 @@ jobs:
       contents: write
       packages: read
     env:
-      DEVNET_RPC_URL: "http://solana:8899"
-      DEVNET_WEBSOCKET_URL: "ws://solana:8900"
+      DEVNET_RPC_URL: "http://localhost:8899"
+      DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="solana"
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
-    services:
-      solana:
-        image: solanalabs/solana:${{ matrix.solanaVersion }}
-        options: --entrypoint="solana-test-validator"
+
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
 
-      - name: Activate remove_from_coverage
-        run: dart pub global activate remove_from_coverage
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      - name: Activate utils
+        run: make activate_utils
+
+      - name: Start Solana Local Validator
+        uses: switchboard-xyz/solana-local-validator@v0.1
+        with:
+          solana-version: ${{ matrix.solanaVersion }}
+          cluster: mainnet
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -142,7 +148,7 @@ jobs:
         with:
           flutter-version: "3.7.2"
 
-      - name: Activate melos
+      - name: Activate utils
         run: make activate_utils
 
       - name: Install dependencies
@@ -161,17 +167,27 @@ jobs:
       contents: write
       packages: read
     env:
-      SOLANA_RPC_URL: "http://solana:8899"
-      SOLANA_WEBSOCKET_URL: "ws://solana:8900"
+      SOLANA_RPC_URL: "http://localhost:8899"
+      SOLANA_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="espressocash_app"
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
-    services:
-      solana:
-        image: solanalabs/solana:stable
-        options: --entrypoint="solana-test-validator"
+
     steps:
       - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
+
+      - name: Activate utils
+        run: make activate_utils
+
+      - name: Start Solana Local Validator
+        uses: switchboard-xyz/solana-local-validator@v0.1
+        with:
+          solana-version: stable
+          cluster: mainnet
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
