@@ -139,9 +139,7 @@ class _ContentState extends State<_Content> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).padding.bottom + 16,
-                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 32.0),
                     child: CpButton(
                       text: context.l10n.qrInputAddressTitle,
                       size: CpButtonSize.big,
