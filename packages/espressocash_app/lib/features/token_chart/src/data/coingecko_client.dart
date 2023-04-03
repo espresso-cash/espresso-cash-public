@@ -17,9 +17,10 @@ const _maxAge = Duration(hours: 1);
 abstract class ChartCoingeckoClient {
   @factoryMethod
   factory ChartCoingeckoClient(CoingeckoClient client) =>
-      _ChartCoingeckoClient(client.setMaxAge(_maxAge));
+      _ChartCoingeckoClient(client.dio);
 
   @GET('/coins/{id}/market_chart')
+  @Extra({'maxAge': _maxAge})
   Future<TokenChartResponseDto> getCoinChart(
     @Path() String id,
     @Queries() TokenChartRequestDto request,

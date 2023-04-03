@@ -21,24 +21,17 @@ class CoingeckoClient {
       policy: CachePolicy.refreshForceCache,
     );
 
-    dio.interceptors.add(
+    dio.interceptors.addAll([
+      CacheInterceptor(options: options),
       DioCacheInterceptor(options: options),
-    );
+    ]);
   }
-
-  Dio setMaxAge(Duration maxAge) => dio
-    ..interceptors
-        .insert(0, CacheInterceptor(options: options, maxAge: maxAge));
 }
 
 class CacheInterceptor extends Interceptor {
-  CacheInterceptor({
-    required this.options,
-    this.maxAge = const Duration(seconds: 60),
-  });
+  CacheInterceptor({required this.options});
 
   final CacheOptions options;
-  final Duration maxAge;
 
   @override
   Future<void> onRequest(
@@ -47,6 +40,8 @@ class CacheInterceptor extends Interceptor {
   ) async {
     // ignore: avoid-non-null-assertion, we know its not null
     final store = this.options.store!;
+
+    final maxAge = options.extra['maxAge'] as Duration? ?? Duration.zero;
 
     final key = this.options.keyBuilder(options);
 

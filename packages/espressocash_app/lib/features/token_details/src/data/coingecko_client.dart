@@ -18,9 +18,10 @@ const _maxAge = Duration(hours: 6);
 abstract class DetailsCoingeckoClient {
   @factoryMethod
   factory DetailsCoingeckoClient(CoingeckoClient client) =>
-      _DetailsCoingeckoClient(client.setMaxAge(_maxAge));
+      _DetailsCoingeckoClient(client.dio);
 
   @GET('/coins/{id}')
+  @Extra({'maxAge': _maxAge})
   Future<TokenDetailsResponseDto> getCoinDetails(
     @Path() String id,
     @Queries() TokenDetailsRequestDto request,

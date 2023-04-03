@@ -19,12 +19,14 @@ const _maxAge = Duration(hours: 1);
 abstract class SearchCoingeckoClient {
   @factoryMethod
   factory SearchCoingeckoClient(CoingeckoClient client) =>
-      _SearchCoingeckoClient(client.setMaxAge(_maxAge));
+      _SearchCoingeckoClient(client.dio);
 
   @GET('/search')
+  @Extra({'maxAge': _maxAge})
   Future<SearchResponseDto> search(@Query('query') String query);
 
   @GET('/coins/markets')
+  @Extra({'maxAge': _maxAge})
   Future<List<CategorySearchResponseDto>> searchByCategory(
     @Queries() CategorySearchRequestDto request,
   );

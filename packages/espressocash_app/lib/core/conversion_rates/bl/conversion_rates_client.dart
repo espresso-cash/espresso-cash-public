@@ -20,10 +20,11 @@ abstract class ConversionRatesClient {
   @factoryMethod
   factory ConversionRatesClient(CoingeckoClient client) =>
       _ConversionRatesClient(
-        client.setMaxAge(_maxAge)..options.listFormat = ListFormat.csv,
+        client.dio..options.listFormat = ListFormat.csv,
       );
 
   @GET('/price')
+  @Extra({'maxAge': _maxAge})
   Future<Map<String, PricesMapDto>> getPrice(@Queries() RateRequestDto request);
 }
 
