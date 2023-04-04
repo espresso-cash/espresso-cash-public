@@ -22,7 +22,7 @@ extension GetMetaplexMetadata on RpcClient {
     final data = account.data;
 
     if (data is BinaryAccountData) {
-      return Metadata.fromBinary(data.data);
+      return Metadata.fromBorsh(Uint8List.fromList(data.data));
     } else {
       return null;
     }
