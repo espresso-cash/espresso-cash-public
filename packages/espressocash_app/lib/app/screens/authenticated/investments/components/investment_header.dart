@@ -107,25 +107,21 @@ class _BalanceState extends State<_Balance> {
   void _toggleInfo() => setState(() => _showMore = !_showMore);
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 140,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: _showMore
-              ? _Info(onClose: _toggleInfo)
-              : Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _Headline(onInfo: _toggleInfo),
-                      const Spacer(),
-                      const _Amount(),
-                    ],
-                  ),
-                ),
+  Widget build(BuildContext context) => _HeaderSwitcher(
+        first: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _Headline(onInfo: _toggleInfo),
+              const SizedBox(height: 8),
+              const _Amount(),
+            ],
+          ),
         ),
+        second: _Info(onClose: _toggleInfo),
+        showMore: _showMore,
       );
 }
 
@@ -267,4 +263,55 @@ extension on Amount {
 extension on BuildContext {
   Amount watchUsdcBalance() => watchUserFiatBalance(Token.usdc)
       .ifNull(() => Amount.zero(currency: Currency.usd));
+}
+
+class _HeaderSwitcher extends StatefulWidget {
+  const _HeaderSwitcher({
+    Key? key,
+    required this.first,
+    required this.second,
+    required this.showMore,
+  }) : super(key: key);
+  final Widget first;
+  final Widget second;
+  final bool showMore;
+
+  @override
+  State<_HeaderSwitcher> createState() => _HeaderSwitcherState();
+}
+
+class _HeaderSwitcherState extends State<_HeaderSwitcher> {
+  double? _firstChildHeight;
+
+  @override
+  void didUpdateWidget(covariant _HeaderSwitcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _firstChildHeight = null;
+  }
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (_firstChildHeight == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                _firstChildHeight = context.size?.height;
+              });
+            });
+          }
+
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 100),
+            switchInCurve: Curves.easeInOut,
+            switchOutCurve: Curves.easeInOut,
+            child: !widget.showMore
+                ? widget.first
+                : SizedBox(
+                    key: const ValueKey('second'),
+                    height: _firstChildHeight,
+                    child: widget.second,
+                  ),
+          );
+        },
+      );
 }

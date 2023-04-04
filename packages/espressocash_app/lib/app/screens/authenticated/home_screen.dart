@@ -26,7 +26,13 @@ class HomeScreen extends StatelessWidget {
                     (i, p) => CpNavigationButton(
                       icon: p.icon,
                       active: tabsRouter.activeIndex == i,
-                      onPressed: () => tabsRouter.setActiveIndex(i),
+                      onPressed: () {
+                        if (tabsRouter.activeIndex == i) {
+                          tabsRouter.popTop();
+                        } else {
+                          tabsRouter.setActiveIndex(i);
+                        }
+                      },
                     ),
                   )
                   .toList(),

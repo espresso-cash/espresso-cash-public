@@ -47,19 +47,21 @@ class OSKPConfirmationScreen extends StatelessWidget {
               fee: fee,
             ),
           ),
-          bottomNavigationBar: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const FeeLabel(type: FeeType.splitKey()),
-                const SizedBox(height: 21),
-                CpButton(
-                  width: double.infinity,
-                  onPressed: onSubmit,
-                  text: context.l10n.create,
-                ),
-              ],
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const FeeLabel(type: FeeType.splitKey()),
+                  const SizedBox(height: 21),
+                  CpButton(
+                    width: double.infinity,
+                    onPressed: onSubmit,
+                    text: context.l10n.create,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -110,9 +112,10 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const currency = Currency.usd;
     final fiatAmount = amount.map(
       crypto: (crypto) => context.convertToFiat(
-        fiatCurrency: Currency.usd,
+        fiatCurrency: currency,
         token: crypto.token,
         amount: crypto.value,
       ),
@@ -120,7 +123,10 @@ class _AmountView extends StatelessWidget {
     );
 
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = amount.format(locale);
+    final formattedAmount = amount.format(
+      locale,
+      maxDecimals: currency.decimals,
+    );
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
     return Column(
