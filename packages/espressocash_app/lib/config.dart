@@ -21,6 +21,9 @@ const solanaWebSocketUrl = String.fromEnvironment(
   defaultValue: 'wss://$_solanaHost',
 );
 
+const localizelyDistributionId = '40138bb04c6d44e9894f943c63217f6f';
+const localizelySdkToken = String.fromEnvironment('LOCALIZELY_SDK_TOKEN');
+
 // Environment independent constants
 
 const twitterUrl = 'https://twitter.com/espresso_cash';
@@ -46,6 +49,7 @@ const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 const int tokenProgramRent = 2039280;
 
 const Duration waitForSignatureDefaultTimeout = Duration(seconds: 25);
+const Duration pingDefaultInterval = Duration(seconds: 1);
 
 const _mainNetChainId = 101;
 const _devNetChainId = 103;
@@ -68,3 +72,5 @@ const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+
+const rampApiKey = String.fromEnvironment('RAMP_API_KEY');

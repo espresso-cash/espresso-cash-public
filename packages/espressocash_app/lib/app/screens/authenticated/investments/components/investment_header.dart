@@ -107,25 +107,21 @@ class _BalanceState extends State<_Balance> {
   void _toggleInfo() => setState(() => _showMore = !_showMore);
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: 140,
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 200),
-          child: _showMore
-              ? _Info(onClose: _toggleInfo)
-              : Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _Headline(onInfo: _toggleInfo),
-                      const Spacer(),
-                      const _Amount(),
-                    ],
-                  ),
-                ),
+  Widget build(BuildContext context) => _HeaderSwitcher(
+        first: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _Headline(onInfo: _toggleInfo),
+              const SizedBox(height: 8),
+              const _Amount(),
+            ],
+          ),
         ),
+        second: _Info(onClose: _toggleInfo),
+        showMore: _showMore,
       );
 }
 
@@ -171,35 +167,38 @@ class _Amount extends StatelessWidget {
       roundInteger: amount.isZero,
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        FittedBox(
-          child: Text(
-            formattedAmount,
-            style: const TextStyle(
-              fontSize: 48,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ).let((it) => amount.isZero ? it : Flexible(child: it)),
-        const SizedBox(width: 8),
-        const CpTokenIcon(token: Token.usdc, size: 30),
-        const SizedBox(width: 8),
-        if (amount.isZero)
-          Flexible(
+    return GestureDetector(
+      onTap: () => context.router.push(TokenDetailsRoute(token: Token.usdc)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FittedBox(
             child: Text(
-              context.l10n.fundYourAccount,
+              formattedAmount,
               style: const TextStyle(
-                fontSize: 14.5,
+                fontSize: 48,
+                fontWeight: FontWeight.bold,
                 color: Colors.white,
-                fontWeight: FontWeight.w500,
               ),
             ),
-          ),
-      ],
+          ).let((it) => amount.isZero ? it : Flexible(child: it)),
+          const SizedBox(width: 8),
+          const CpTokenIcon(token: Token.usdc, size: 30),
+          const SizedBox(width: 8),
+          if (amount.isZero)
+            Flexible(
+              child: Text(
+                context.l10n.fundYourAccount,
+                style: const TextStyle(
+                  fontSize: 14.5,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -264,4 +263,55 @@ extension on Amount {
 extension on BuildContext {
   Amount watchUsdcBalance() => watchUserFiatBalance(Token.usdc)
       .ifNull(() => Amount.zero(currency: Currency.usd));
+}
+
+class _HeaderSwitcher extends StatefulWidget {
+  const _HeaderSwitcher({
+    Key? key,
+    required this.first,
+    required this.second,
+    required this.showMore,
+  }) : super(key: key);
+  final Widget first;
+  final Widget second;
+  final bool showMore;
+
+  @override
+  State<_HeaderSwitcher> createState() => _HeaderSwitcherState();
+}
+
+class _HeaderSwitcherState extends State<_HeaderSwitcher> {
+  double? _firstChildHeight;
+
+  @override
+  void didUpdateWidget(covariant _HeaderSwitcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _firstChildHeight = null;
+  }
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+          if (_firstChildHeight == null) {
+            WidgetsBinding.instance.addPostFrameCallback((_) async {
+              setState(() {
+                _firstChildHeight = context.size?.height;
+              });
+            });
+          }
+
+          return AnimatedSwitcher(
+            duration: const Duration(milliseconds: 100),
+            switchInCurve: Curves.easeInOut,
+            switchOutCurve: Curves.easeInOut,
+            child: !widget.showMore
+                ? widget.first
+                : SizedBox(
+                    key: const ValueKey('second'),
+                    height: _firstChildHeight,
+                    child: widget.second,
+                  ),
+          );
+        },
+      );
 }

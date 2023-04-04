@@ -25,12 +25,12 @@ class ActivitiesScreen extends StatelessWidget {
               title: Text(context.l10n.activitiesTitle.toUpperCase()),
             ),
             const SizedBox(height: 20),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: CpTabBar(
                 tabs: [
-                  Tab(text: 'Pending'),
-                  Tab(text: 'Transactions'),
+                  Tab(text: context.l10n.pending),
+                  Tab(text: context.l10n.transactions),
                 ],
               ),
             ),

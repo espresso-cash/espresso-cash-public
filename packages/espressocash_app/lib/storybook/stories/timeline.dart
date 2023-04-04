@@ -9,6 +9,7 @@ final cpTimeline = Story(
     padding: const EdgeInsets.all(16),
     child: CpTimeline(
       items: _data,
+      animated: context.knobs.boolean(label: 'Animated', initial: true),
       status: context.knobs.options(
         label: 'Timeline Status',
         initial: CpTimelineStatus.inProgress,
@@ -24,7 +25,11 @@ final cpTimeline = Story(
           const Option(
             label: 'Failure',
             value: CpTimelineStatus.failure,
-          )
+          ),
+          const Option(
+            label: 'Neutral',
+            value: CpTimelineStatus.neutral,
+          ),
         ],
       ),
       active: context.knobs.sliderInt(

@@ -6,17 +6,23 @@ import 'package:injectable/injectable.dart';
 class LinkShortener {
   const LinkShortener();
 
-  Future<Uri?> shorten(Uri link) async {
+  final _host = 'cryptoplease.page.link';
+
+  final _androidParameters = const AndroidParameters(
+    packageName: 'com.pleasecrypto.flutter',
+  );
+
+  final _iosParameters = const IOSParameters(
+    bundleId: 'com.pleasecrypto.flutter',
+    appStoreId: '1559625715',
+  );
+
+  Future<Uri?> buildShortUrl(Uri link) async {
     final parameters = DynamicLinkParameters(
       link: link,
-      uriPrefix: 'https://cryptoplease.page.link',
-      androidParameters: const AndroidParameters(
-        packageName: 'com.pleasecrypto.flutter',
-      ),
-      iosParameters: const IOSParameters(
-        bundleId: 'com.pleasecrypto.flutter',
-        appStoreId: '1559625715',
-      ),
+      uriPrefix: 'https://$_host',
+      androidParameters: _androidParameters,
+      iosParameters: _iosParameters,
     );
 
     try {
@@ -30,6 +36,18 @@ class LinkShortener {
       return null;
     }
   }
+
+  Uri buildFullUrl(Uri link) => Uri(
+        scheme: 'https',
+        host: _host,
+        path: '/',
+        queryParameters: <String, String>{
+          'apn': _androidParameters.packageName,
+          'ibi': _iosParameters.bundleId,
+          'isi': _iosParameters.appStoreId ?? '',
+          'link': link.toString(),
+        },
+      );
 
   Future<Uri?> reverse(String? link) async {
     if (link == null) return null;

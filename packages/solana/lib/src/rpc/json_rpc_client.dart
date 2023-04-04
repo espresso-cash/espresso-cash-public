@@ -11,10 +11,13 @@ class JsonRpcClient {
   JsonRpcClient(
     this._url, {
     required Duration timeout,
-  }) : _timeout = timeout;
+    required Map<String, String> customHeaders,
+  })  : _timeout = timeout,
+        _headers = {..._defaultHeaders, ...customHeaders};
 
   final String _url;
   final Duration _timeout;
+  final Map<String, String> _headers;
   int _lastId = 1;
 
   Future<List<Map<String, dynamic>>> bulkRequest(
@@ -69,7 +72,7 @@ class JsonRpcClient {
     // Perform the POST request
     final Response response = await post(
       Uri.parse(_url),
-      headers: _defaultHeaders,
+      headers: _headers,
       body: json.encode(body),
     ).timeout(
       _timeout,
@@ -143,5 +146,5 @@ class _JsonRpcArrayResponse implements _JsonRpcResponse {
 }
 
 const _defaultHeaders = <String, String>{
-  'Content-Type': 'application/json; charset=UTF-8',
+  'Content-Type': 'application/json',
 };

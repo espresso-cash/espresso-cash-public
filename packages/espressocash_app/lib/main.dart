@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:localizely_sdk/localizely_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,7 @@ import 'logging.dart';
 import 'ui/splash_screen.dart';
 
 Future<void> main() async {
+  Localizely.init(localizelySdkToken, localizelyDistributionId);
   WidgetsFlutterBinding.ensureInitialized();
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
@@ -37,7 +39,9 @@ Future<void> main() async {
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
           (options) {
-            options.dsn = sentryDsn;
+            options
+              ..dsn = sentryDsn
+              ..tracesSampleRate = 1.0;
           },
           appRunner: _start,
         )

@@ -17,21 +17,17 @@ class OSKPTile extends StatelessWidget {
   final OSKPActivity activity;
 
   @override
-  Widget build(BuildContext context) => ActivityTile(
-        title: activity.data.status.maybeMap(
-          canceled: always(context.l10n.transferCanceled),
-          orElse: always(context.l10n.sentViaLink),
-        ),
-        amount: activity.data.status.maybeMap(
-          orElse: always(
-            '-${activity.data.amount.format(DeviceLocale.localeOf(context))}',
-          ),
-          canceled: always(null),
-        ),
-        subtitle: context.formatDate(activity.created),
-        icon: activity.data.status.maybeMap(
-          orElse: always(Assets.icons.outgoing.svg()),
-          canceled: always(Assets.icons.txFailed.svg()),
+  Widget build(BuildContext context) => CpActivityTile(
+        title: context.l10n.sentViaLink,
+        outgoingAmount:
+            activity.data.amount.format(DeviceLocale.localeOf(context)),
+        timestamp: context.formatDate(activity.created),
+        icon: Assets.icons.paymentIcon.svg(),
+        status: activity.data.status.maybeMap(
+          withdrawn: always(CpActivityTileStatus.success),
+          canceled: always(CpActivityTileStatus.canceled),
+          txFailure: always(CpActivityTileStatus.failure),
+          orElse: always(CpActivityTileStatus.inProgress),
         ),
         onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
       );

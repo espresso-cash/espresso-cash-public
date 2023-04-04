@@ -17,8 +17,16 @@ abstract class RpcClient {
   factory RpcClient(
     String url, {
     Duration timeout = const Duration(seconds: 30),
+    Map<String, String> customHeaders = const {},
   }) =>
-      _RpcClient(url, JsonRpcClient(url, timeout: timeout));
+      _RpcClient(
+        url,
+        JsonRpcClient(
+          url,
+          timeout: timeout,
+          customHeaders: customHeaders,
+        ),
+      );
 
   abstract final JsonRpcClient _jsonRpcClient;
 
