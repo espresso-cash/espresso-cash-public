@@ -9,7 +9,6 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../../ui/amount_with_equivalent.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/icon_button.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/tab_bar.dart';
 import '../../../../ui/usdc_info.dart';
@@ -167,18 +166,18 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 24, top: 12),
+          padding: const EdgeInsets.only(left: 28, top: 12),
           child: SizedBox(
             height: kToolbarHeight - 10,
             child: Stack(
               children: [
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: CpIconButton(
+                  child: IconButton(
                     onPressed: onQrScanner,
-                    icon: Assets.icons.qrScanner.svg(),
-                    variant: CpIconButtonVariant.black,
-                    size: CpIconButtonSize.big,
+                    icon: Assets.icons.qrScanner.svg(height: 26),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.centerLeft,
                   ),
                 ),
                 Align(
