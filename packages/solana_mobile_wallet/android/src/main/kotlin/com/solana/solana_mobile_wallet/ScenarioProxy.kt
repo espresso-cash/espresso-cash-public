@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import com.solana.mobilewalletadapter.walletlib.scenario.*
 import io.flutter.plugin.common.BinaryMessenger
-import java.lang.IllegalArgumentException
 
 object ApiHost : Api.ApiHost {
     private val scenarios = mutableMapOf<Long, Scenario>()
@@ -35,7 +34,7 @@ class Callbacks(
     private val id: Long,
     binaryMessenger: BinaryMessenger,
     private val onTeardownComplete: () -> Unit
-) : Scenario.Callbacks {
+) : LocalScenario.Callbacks {
     private val api = Api.ApiFlutter(binaryMessenger)
 
     override fun onScenarioReady() {
@@ -204,4 +203,7 @@ class Callbacks(
         }
     }
 
+    override fun onLowPowerAndNoConnection() {
+        Handler(Looper.getMainLooper()).post { api.onLowPowerAndNoConnection(id) {} }
+    }
 }

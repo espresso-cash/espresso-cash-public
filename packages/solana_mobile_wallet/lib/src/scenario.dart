@@ -70,6 +70,7 @@ abstract class ScenarioCallbacks {
   void onScenarioComplete();
   void onScenarioError();
   void onScenarioTeardownComplete();
+  void onLowPowerAndNoConnection();
 
   // Request callbacks
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
@@ -278,6 +279,11 @@ class Api implements ApiFlutter {
   @override
   void onScenarioServingComplete(int id) {
     _scenarios[id]?.callbacks.onScenarioServingComplete();
+  }
+
+  @override
+  void onLowPowerAndNoConnection(int id) {
+    _scenarios[id]?.callbacks.onLowPowerAndNoConnection();
   }
 
   @override

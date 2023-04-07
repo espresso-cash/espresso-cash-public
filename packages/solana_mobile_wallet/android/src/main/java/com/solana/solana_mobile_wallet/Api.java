@@ -1339,6 +1339,14 @@ public class Api {
           new ArrayList<Object>(Collections.singletonList(idArg)),
           channelReply -> callback.reply(null));
     }
+    public void onLowPowerAndNoConnection(@NonNull Long idArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(
+              binaryMessenger, "dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection", getCodec());
+      channel.send(
+          new ArrayList<Object>(Collections.singletonList(idArg)),
+          channelReply -> callback.reply(null));
+    }
     public void authorize(@NonNull AuthorizeRequestDto requestArg, @NonNull Long idArg, Reply<AuthorizeResultDto> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(

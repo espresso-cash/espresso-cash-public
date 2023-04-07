@@ -346,6 +346,9 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   void onScenarioServingClients() {}
 
   @override
+  void onLowPowerAndNoConnection() {}
+
+  @override
   void onScenarioServingComplete() {
     _scenario?.close();
   }

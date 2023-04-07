@@ -457,6 +457,8 @@ abstract class ApiFlutter {
 
   void onScenarioTeardownComplete(int id);
 
+  void onLowPowerAndNoConnection(int id);
+
   Future<AuthorizeResultDto?> authorize(AuthorizeRequestDto request, int id);
 
   Future<bool> reauthorize(ReauthorizeRequestDto request, int id);
@@ -580,6 +582,25 @@ abstract class ApiFlutter {
           assert(arg_id != null,
               'Argument for dev.flutter.pigeon.ApiFlutter.onScenarioTeardownComplete was null, expected non-null int.');
           api.onScenarioTeardownComplete(arg_id!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final int? arg_id = (args[0] as int?);
+          assert(arg_id != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onLowPowerAndNoConnection was null, expected non-null int.');
+          api.onLowPowerAndNoConnection(arg_id!);
           return;
         });
       }

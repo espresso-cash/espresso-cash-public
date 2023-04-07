@@ -260,6 +260,7 @@ abstract class ApiFlutter {
   void onScenarioComplete(int id);
   void onScenarioError(int id);
   void onScenarioTeardownComplete(int id);
+  void onLowPowerAndNoConnection(int id);
 
   @async
   AuthorizeResultDto? authorize(AuthorizeRequestDto request, int id);
