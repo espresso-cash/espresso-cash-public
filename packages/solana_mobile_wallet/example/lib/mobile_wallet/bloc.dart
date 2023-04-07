@@ -7,7 +7,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
-import 'package:solana_mobile_wallet/src/events/deauthorize.dart';
 
 part 'bloc.freezed.dart';
 part 'state.dart';
