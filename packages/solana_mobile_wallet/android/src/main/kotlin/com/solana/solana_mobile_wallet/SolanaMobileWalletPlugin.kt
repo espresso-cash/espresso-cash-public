@@ -65,7 +65,8 @@ class SolanaMobileWalletPlugin : FlutterPlugin, MethodCallHandler, ActivityAware
                         walletConfig["maxTransactionsPerSigningRequest"] as Int,
                         walletConfig["maxMessagesPerSigningRequest"] as Int,
                         (walletConfig["supportedTransactionVersions"] as ArrayList<Object>).toArray(),
-                    ),
+                        walletConfig["noConnectionWarningTimeoutMs"] as Long,
+                        ),
                     AuthIssuerConfig(
                         issuerConfig["name"] as String,
                         issuerConfig["maxOutstandingTokensPerIdentity"] as Int,
