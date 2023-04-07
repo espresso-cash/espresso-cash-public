@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:meta/meta.dart';
 import 'package:solana_mobile_wallet/src/api.dart';
 import 'package:solana_mobile_wallet/src/auth_issuer_config.dart';
+import 'package:solana_mobile_wallet/src/events/deauthorize.dart';
 import 'package:solana_mobile_wallet/src/requests/authorize.dart';
 import 'package:solana_mobile_wallet/src/requests/reauthorize.dart';
 import 'package:solana_mobile_wallet/src/requests/sign_and_send_transactions.dart';
@@ -82,6 +83,7 @@ abstract class ScenarioCallbacks {
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
   );
+  Future<void> deauthorize(DeauthorizeEvent event);
 }
 
 class Api implements ApiFlutter {
@@ -282,5 +284,16 @@ class Api implements ApiFlutter {
   void onScenarioTeardownComplete(int id) {
     _scenarios[id]?.callbacks.onScenarioTeardownComplete();
     unregister(id);
+  }
+
+  @override
+  Future<void> deauthorize(DeauthorizeEventDto event, int id) async {
+    final r = DeauthorizeEvent(
+      identityName: event.identityName,
+      identityUri: Uri.tryParse(event.identityUri ?? ''),
+      iconUri: Uri.tryParse(event.iconRelativeUri ?? ''),
+    );
+
+    await _scenarios[id]?.callbacks.deauthorize(r);
   }
 }

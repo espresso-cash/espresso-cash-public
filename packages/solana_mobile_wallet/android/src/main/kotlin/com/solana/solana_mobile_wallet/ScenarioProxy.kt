@@ -180,4 +180,20 @@ class Callbacks(
         }
     }
 
+    override fun onDeauthorizedEvent(event: DeauthorizedEvent) {
+        val dto = Api.DeauthorizeEventDto.Builder()
+            .setIdentityName(event.identityName)
+            .setIdentityUri(event.identityUri?.toString())
+            .setIconRelativeUri(event.iconRelativeUri?.toString())
+            .setCluster(event.cluster)
+            .setAuthorizationScope(event.authorizationScope)
+            .build()
+
+        Handler(Looper.getMainLooper()).post {
+            api.deauthorize(dto, id) {
+               event.complete()
+            }
+        }
+    }
+
 }
