@@ -30,7 +30,6 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
         maxTransactionsPerSigningRequest: 10,
         maxMessagesPerSigningRequest: 10,
         supportedTransactionVersions: ['legacy'],
-        noConnectionWarningTimeoutMs: 30000,
       ),
       issuerConfig: const AuthIssuerConfig(name: 'example_wallet'),
       callbacks: this,

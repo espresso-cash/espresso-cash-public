@@ -28,7 +28,7 @@ mixin _$MobileWalletAdapterConfig {
   int get maxMessagesPerSigningRequest => throw _privateConstructorUsedError;
   List<Object> get supportedTransactionVersions =>
       throw _privateConstructorUsedError;
-  int get noConnectionWarningTimeoutMs => throw _privateConstructorUsedError;
+  Duration get noConnectionWarningTimeout => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +47,7 @@ abstract class $MobileWalletAdapterConfigCopyWith<$Res> {
       int maxTransactionsPerSigningRequest,
       int maxMessagesPerSigningRequest,
       List<Object> supportedTransactionVersions,
-      int noConnectionWarningTimeoutMs});
+      Duration noConnectionWarningTimeout});
 }
 
 /// @nodoc
@@ -68,7 +68,7 @@ class _$MobileWalletAdapterConfigCopyWithImpl<$Res,
     Object? maxTransactionsPerSigningRequest = null,
     Object? maxMessagesPerSigningRequest = null,
     Object? supportedTransactionVersions = null,
-    Object? noConnectionWarningTimeoutMs = null,
+    Object? noConnectionWarningTimeout = null,
   }) {
     return _then(_value.copyWith(
       supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
@@ -87,10 +87,10 @@ class _$MobileWalletAdapterConfigCopyWithImpl<$Res,
           ? _value.supportedTransactionVersions
           : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
               as List<Object>,
-      noConnectionWarningTimeoutMs: null == noConnectionWarningTimeoutMs
-          ? _value.noConnectionWarningTimeoutMs
-          : noConnectionWarningTimeoutMs // ignore: cast_nullable_to_non_nullable
-              as int,
+      noConnectionWarningTimeout: null == noConnectionWarningTimeout
+          ? _value.noConnectionWarningTimeout
+          : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ) as $Val);
   }
 }
@@ -109,7 +109,7 @@ abstract class _$$_MobileWalletAdapterConfigCopyWith<$Res>
       int maxTransactionsPerSigningRequest,
       int maxMessagesPerSigningRequest,
       List<Object> supportedTransactionVersions,
-      int noConnectionWarningTimeoutMs});
+      Duration noConnectionWarningTimeout});
 }
 
 /// @nodoc
@@ -129,7 +129,7 @@ class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
     Object? maxTransactionsPerSigningRequest = null,
     Object? maxMessagesPerSigningRequest = null,
     Object? supportedTransactionVersions = null,
-    Object? noConnectionWarningTimeoutMs = null,
+    Object? noConnectionWarningTimeout = null,
   }) {
     return _then(_$_MobileWalletAdapterConfig(
       supportsSignAndSendTransactions: null == supportsSignAndSendTransactions
@@ -148,10 +148,10 @@ class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
           ? _value._supportedTransactionVersions
           : supportedTransactionVersions // ignore: cast_nullable_to_non_nullable
               as List<Object>,
-      noConnectionWarningTimeoutMs: null == noConnectionWarningTimeoutMs
-          ? _value.noConnectionWarningTimeoutMs
-          : noConnectionWarningTimeoutMs // ignore: cast_nullable_to_non_nullable
-              as int,
+      noConnectionWarningTimeout: null == noConnectionWarningTimeout
+          ? _value.noConnectionWarningTimeout
+          : noConnectionWarningTimeout // ignore: cast_nullable_to_non_nullable
+              as Duration,
     ));
   }
 }
@@ -164,7 +164,7 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
       required this.maxTransactionsPerSigningRequest,
       required this.maxMessagesPerSigningRequest,
       required final List<Object> supportedTransactionVersions,
-      required this.noConnectionWarningTimeoutMs})
+      this.noConnectionWarningTimeout = const Duration(seconds: 3)})
       : _supportedTransactionVersions = supportedTransactionVersions;
 
   factory _$_MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
@@ -186,11 +186,12 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   }
 
   @override
-  final int noConnectionWarningTimeoutMs;
+  @JsonKey()
+  final Duration noConnectionWarningTimeout;
 
   @override
   String toString() {
-    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions, noConnectionWarningTimeoutMs: $noConnectionWarningTimeoutMs)';
+    return 'MobileWalletAdapterConfig(supportsSignAndSendTransactions: $supportsSignAndSendTransactions, maxTransactionsPerSigningRequest: $maxTransactionsPerSigningRequest, maxMessagesPerSigningRequest: $maxMessagesPerSigningRequest, supportedTransactionVersions: $supportedTransactionVersions, noConnectionWarningTimeout: $noConnectionWarningTimeout)';
   }
 
   @override
@@ -213,10 +214,10 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
             const DeepCollectionEquality().equals(
                 other._supportedTransactionVersions,
                 _supportedTransactionVersions) &&
-            (identical(other.noConnectionWarningTimeoutMs,
-                    noConnectionWarningTimeoutMs) ||
-                other.noConnectionWarningTimeoutMs ==
-                    noConnectionWarningTimeoutMs));
+            (identical(other.noConnectionWarningTimeout,
+                    noConnectionWarningTimeout) ||
+                other.noConnectionWarningTimeout ==
+                    noConnectionWarningTimeout));
   }
 
   @JsonKey(ignore: true)
@@ -227,7 +228,7 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
       maxTransactionsPerSigningRequest,
       maxMessagesPerSigningRequest,
       const DeepCollectionEquality().hash(_supportedTransactionVersions),
-      noConnectionWarningTimeoutMs);
+      noConnectionWarningTimeout);
 
   @JsonKey(ignore: true)
   @override
@@ -250,7 +251,7 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
           required final int maxTransactionsPerSigningRequest,
           required final int maxMessagesPerSigningRequest,
           required final List<Object> supportedTransactionVersions,
-          required final int noConnectionWarningTimeoutMs}) =
+          final Duration noConnectionWarningTimeout}) =
       _$_MobileWalletAdapterConfig;
 
   factory _MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =
@@ -265,7 +266,7 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
   @override
   List<Object> get supportedTransactionVersions;
   @override
-  int get noConnectionWarningTimeoutMs;
+  Duration get noConnectionWarningTimeout;
   @override
   @JsonKey(ignore: true)
   _$$_MobileWalletAdapterConfigCopyWith<_$_MobileWalletAdapterConfig>

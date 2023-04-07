@@ -10,7 +10,7 @@ class MobileWalletAdapterConfig with _$MobileWalletAdapterConfig {
     required int maxTransactionsPerSigningRequest,
     required int maxMessagesPerSigningRequest,
     required List<Object> supportedTransactionVersions,
-    required int noConnectionWarningTimeoutMs,
+    @Default(Duration(seconds: 3)) Duration noConnectionWarningTimeout,
   }) = _MobileWalletAdapterConfig;
 
   factory MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
