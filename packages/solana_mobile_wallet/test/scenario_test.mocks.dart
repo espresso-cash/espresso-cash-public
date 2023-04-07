@@ -95,6 +95,14 @@ class MockScenarioCallbacks extends _i1.Mock implements _i2.ScenarioCallbacks {
         returnValueForMissingStub: null,
       );
   @override
+  void onLowPowerAndNoConnection() => super.noSuchMethod(
+        Invocation.method(
+          #onLowPowerAndNoConnection,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
   _i3.Future<_i4.AuthorizeResult?> onAuthorizeRequest(
           _i4.AuthorizeRequest? request) =>
       (super.noSuchMethod(
@@ -144,10 +152,10 @@ class MockScenarioCallbacks extends _i1.Mock implements _i2.ScenarioCallbacks {
         returnValue: _i3.Future<_i7.SignaturesResult?>.value(),
       ) as _i3.Future<_i7.SignaturesResult?>);
   @override
-  _i3.Future<void> deauthorize(_i8.DeauthorizeEvent? event) =>
+  _i3.Future<void> onDeauthorizeEvent(_i8.DeauthorizeEvent? event) =>
       (super.noSuchMethod(
         Invocation.method(
-          #deauthorize,
+          #onDeauthorizeEvent,
           [event],
         ),
         returnValue: _i3.Future<void>.value(),

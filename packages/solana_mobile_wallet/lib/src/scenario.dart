@@ -84,7 +84,7 @@ abstract class ScenarioCallbacks {
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
   );
-  Future<void> deauthorize(DeauthorizeEvent event);
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event);
 }
 
 class Api implements ApiFlutter {
@@ -300,6 +300,6 @@ class Api implements ApiFlutter {
       iconUri: Uri.tryParse(event.iconRelativeUri ?? ''),
     );
 
-    await _scenarios[id]?.callbacks.deauthorize(r);
+    await _scenarios[id]?.callbacks.onDeauthorizeEvent(r);
   }
 }

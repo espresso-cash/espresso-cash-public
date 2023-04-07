@@ -359,7 +359,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   }
 
   @override
-  Future<void> deauthorize(DeauthorizeEvent event) async {
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
     emit(const MobileWalletState.sessionTerminated());
   }
 }
