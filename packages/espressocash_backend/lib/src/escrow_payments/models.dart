@@ -1,5 +1,4 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:solana/solana.dart';
 
 part 'models.g.dart';
 
