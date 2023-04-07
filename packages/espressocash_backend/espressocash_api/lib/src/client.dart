@@ -37,17 +37,17 @@ abstract class CryptopleaseClient {
     @Body() SwapRouteRequestDto request,
   );
 
-  @POST('/createPaymentEc')
+  @POST('/escrow/create')
   Future<CreatePaymentResponseDto> createPaymentEc(
     @Body() CreatePaymentRequestDto request,
   );
 
-  @POST('/receivePaymentEc')
+  @POST('/escrow/receive')
   Future<ReceivePaymentResponseDto> receivePaymentEc(
     @Body() ReceivePaymentRequestDto request,
   );
 
-  @POST('/cancelPaymentEc')
+  @POST('/escrow/cancel')
   Future<CancelPaymentResponseDto> cancelPaymentEc(
     @Body() CancelPaymentRequestDto request,
   );

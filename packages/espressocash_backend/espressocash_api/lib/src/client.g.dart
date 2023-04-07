@@ -178,7 +178,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     )
             .compose(
               _dio.options,
-              '/createPaymentEc',
+              '/escrow/create',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -202,7 +202,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     )
             .compose(
               _dio.options,
-              '/receivePaymentEc',
+              '/escrow/receive',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -226,7 +226,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     )
             .compose(
               _dio.options,
-              '/cancelPaymentEc',
+              '/escrow/cancel',
               queryParameters: queryParameters,
               data: _data,
             )

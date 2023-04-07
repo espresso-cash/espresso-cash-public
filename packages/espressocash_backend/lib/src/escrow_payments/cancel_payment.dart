@@ -1,13 +1,13 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/escrow_payments/instructions.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
-import 'package:espressocash_backend/src/share_escrow/instructions.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-Future<Product2<SignedTx, BigInt>> receivePaymentTx({
+Future<Product2<SignedTx, BigInt>> cancelPaymentTx({
   required Ed25519HDPublicKey aEscrow,
-  required Ed25519HDPublicKey aReceiver,
+  required Ed25519HDPublicKey aSender,
   required Ed25519HDPublicKey mint,
   required Ed25519HDKeyPair platform,
   required SolanaClient client,
@@ -27,45 +27,25 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     );
   }
 
-  final instructions = <Instruction>[];
+  final ataSender = await findAssociatedTokenAddress(
+    owner: aSender,
+    mint: mint,
+  );
 
   final ataEscrow = await findAssociatedTokenAddress(
     owner: aEscrow,
     mint: mint,
   );
 
-  final ataReceiver = await findAssociatedTokenAddress(
-    owner: aReceiver,
-    mint: mint,
-  );
-
-  final shouldCreateAta = !await client.hasAssociatedTokenAccount(
-    owner: aReceiver,
-    mint: mint,
-    commitment: commitment,
-  );
-
-  if (shouldCreateAta) {
-    final iCreateATA = AssociatedTokenAccountInstruction.createAccount(
-      funder: platform.publicKey,
-      address: ataReceiver,
-      owner: aReceiver,
-      mint: mint,
-    );
-
-    instructions.add(iCreateATA);
-  }
-
-  final escrowIx = await EscrowInstruction.completeEscrow(
+  final escrowIx = await EscrowInstruction.cancelEscrow(
     escrowAccount: aEscrow,
-    receiverTokenAccount: ataReceiver,
     depositorAccount: platform.publicKey,
+    senderAccount: aSender,
+    senderTokenAccount: ataSender,
     vaultTokenAccount: ataEscrow,
   );
 
-  instructions.add(escrowIx);
-
-  final message = Message(instructions: instructions);
+  final message = Message.only(escrowIx);
   final latestBlockhash =
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
 
@@ -78,7 +58,7 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     compiledMessage: compiled,
     signatures: [
       await platform.sign(compiled.toByteArray()),
-      Signature(List.filled(64, 0), publicKey: aEscrow),
+      Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );
 

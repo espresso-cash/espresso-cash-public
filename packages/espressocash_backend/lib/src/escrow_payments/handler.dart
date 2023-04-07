@@ -1,18 +1,18 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:espressocash_backend/src/payments_ec/cancel_payment.dart';
-import 'package:espressocash_backend/src/payments_ec/create_payment.dart';
-import 'package:espressocash_backend/src/payments_ec/receive_payment.dart';
+import 'package:espressocash_backend/src/escrow_payments/cancel_payment.dart';
+import 'package:espressocash_backend/src/escrow_payments/create_payment.dart';
+import 'package:espressocash_backend/src/escrow_payments/receive_payment.dart';
 import 'package:espressocash_backend/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
-Handler ecPaymentHandler() => (shelf_router.Router()
-      ..post('/createPaymentEc', createPaymentHandler)
-      ..post('/receivePaymentEc', receivePaymentHandler)
-      ..post('/cancelPaymentEc', cancelPaymentHandler))
+Handler escrowPaymentsHandler() => (shelf_router.Router()
+      ..post('/escrow/create', createPaymentHandler)
+      ..post('/escrow/receive', receivePaymentHandler)
+      ..post('/escrow/cancel', cancelPaymentHandler))
     .call;
 
 Future<Response> getFeesHandler(Request request) =>

@@ -1,4 +1,7 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 class Accounts {
@@ -68,3 +71,17 @@ Future<TokenAmount?> getTokenTest({
   required Ed25519HDPublicKey mint,
 }) async =>
     client.getTokenBalance(owner: account, mint: mint);
+
+extension SignedTxExt on SignedTx {
+  Future<SignedTx> resign(
+    Ed25519HDKeyPair wallet,
+  ) async =>
+      SignedTx(
+        signatures: signatures.toList()
+          ..setAll(
+              signatures.indexWhere((it) => it.publicKey == wallet.publicKey), [
+            await wallet.sign(compiledMessage.toByteArray()),
+          ]),
+        compiledMessage: compiledMessage,
+      );
+}

@@ -1,10 +1,10 @@
 import 'dart:io' as io;
 
+import 'package:espressocash_backend/src/escrow_payments/handler.dart';
 import 'package:espressocash_backend/src/handlers/association_handlers.dart';
 import 'package:espressocash_backend/src/handlers/solana_handler.dart';
 import 'package:espressocash_backend/src/moonpay/handler.dart';
 import 'package:espressocash_backend/src/payments/handler.dart';
-import 'package:espressocash_backend/src/payments_ec/handler.dart';
 import 'package:espressocash_backend/src/swap/handler.dart';
 import 'package:espressocash_backend/src/tokens.dart';
 import 'package:sentry/sentry.dart';
@@ -58,7 +58,7 @@ final _apiV1 = shelf_router.Router()
     '/api/v1',
     Cascade() //
         .add(paymentHandler())
-        .add(ecPaymentHandler())
+        .add(escrowPaymentsHandler())
         .add(addFundsHandler())
         .add(addSwapHandler())
         .handler,

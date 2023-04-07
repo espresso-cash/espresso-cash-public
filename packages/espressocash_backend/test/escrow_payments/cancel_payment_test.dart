@@ -1,7 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:espressocash_backend/src/payments_ec/cancel_payment.dart';
-import 'package:espressocash_backend/src/payments_ec/create_payment.dart';
+import 'package:espressocash_backend/src/escrow_payments/cancel_payment.dart';
+import 'package:espressocash_backend/src/escrow_payments/create_payment.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
