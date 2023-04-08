@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
 
 import 'config.dart';
+import 'core/coingecko_client.dart';
 import 'core/tokens/token_list.dart';
 import 'di.config.dart';
 
@@ -48,4 +49,7 @@ abstract class AppModule {
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+
+  @preResolve
+  Future<CoingeckoClient> get coingeckoClient => CoingeckoClient.init();
 }

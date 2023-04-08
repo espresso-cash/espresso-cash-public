@@ -138,13 +138,15 @@ class _ContentState extends State<_Content> {
                   ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 32.0),
-                    child: CpButton(
-                      text: context.l10n.qrInputAddressTitle,
-                      size: CpButtonSize.big,
-                      minWidth: 250,
-                      onPressed: _onManualInputRequested,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 32.0),
+                      child: CpButton(
+                        text: context.l10n.qrInputAddressTitle,
+                        size: CpButtonSize.big,
+                        minWidth: 250,
+                        onPressed: _onManualInputRequested,
+                      ),
                     ),
                   ),
                 ),
@@ -182,8 +184,10 @@ class _PermissionText extends StatelessWidget {
             children: [
               Text(
                 context.l10n.qrCameraPermissionTitle,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
               const SizedBox(height: 12),
               Text(

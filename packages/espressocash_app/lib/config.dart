@@ -21,6 +21,9 @@ const solanaWebSocketUrl = String.fromEnvironment(
   defaultValue: 'wss://$_solanaHost',
 );
 
+const localizelyDistributionId = '40138bb04c6d44e9894f943c63217f6f';
+const localizelySdkToken = String.fromEnvironment('LOCALIZELY_SDK_TOKEN');
+
 // Environment independent constants
 
 const twitterUrl = 'https://twitter.com/espresso_cash';
