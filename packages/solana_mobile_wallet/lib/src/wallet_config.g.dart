@@ -18,6 +18,9 @@ _$_MobileWalletAdapterConfig _$$_MobileWalletAdapterConfigFromJson(
           (json['supportedTransactionVersions'] as List<dynamic>)
               .map((e) => e as Object)
               .toList(),
+      noConnectionWarningTimeout: json['noConnectionWarningTimeout'] == null
+          ? const Duration(seconds: 3)
+          : Duration(microseconds: json['noConnectionWarningTimeout'] as int),
     );
 
 Map<String, dynamic> _$$_MobileWalletAdapterConfigToJson(
@@ -29,4 +32,6 @@ Map<String, dynamic> _$$_MobileWalletAdapterConfigToJson(
           instance.maxTransactionsPerSigningRequest,
       'maxMessagesPerSigningRequest': instance.maxMessagesPerSigningRequest,
       'supportedTransactionVersions': instance.supportedTransactionVersions,
+      'noConnectionWarningTimeout':
+          instance.noConnectionWarningTimeout.inMicroseconds,
     };
