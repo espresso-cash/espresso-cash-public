@@ -227,6 +227,31 @@ class SignaturesResultDto {
   final List<bool?>? validSignatures;
 }
 
+class DeauthorizeEventDto implements BaseVerifiableIdentityRequestDto {
+  DeauthorizeEventDto({
+    required this.identityUri,
+    required this.identityName,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+  });
+
+  @override
+  final String? identityName;
+
+  @override
+  final String? identityUri;
+
+  @override
+  final String? iconRelativeUri;
+
+  @override
+  final String cluster;
+
+  @override
+  final Uint8List authorizationScope;
+}
+
 @FlutterApi()
 abstract class ApiFlutter {
   void onScenarioReady(int id);
@@ -235,6 +260,7 @@ abstract class ApiFlutter {
   void onScenarioComplete(int id);
   void onScenarioError(int id);
   void onScenarioTeardownComplete(int id);
+  void onLowPowerAndNoConnection(int id);
 
   @async
   AuthorizeResultDto? authorize(AuthorizeRequestDto request, int id);
@@ -257,6 +283,12 @@ abstract class ApiFlutter {
   @async
   SignaturesResultDto? signAndSendTransactions(
     SignAndSendTransactionsRequestDto request,
+    int id,
+  );
+
+  @async
+  void deauthorize(
+    DeauthorizeEventDto event,
     int id,
   );
 }
