@@ -1,5 +1,9 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
+
+import '../config.dart';
 
 extension DioErrorExt on DioError {
   EspressoCashError? toEspressoCashError() {
@@ -15,4 +19,27 @@ extension DioErrorExt on DioError {
       return null;
     }
   }
+}
+
+extension SeedVaultExt on SeedVault {
+  Future<bool> isReady() async =>
+      await isAvailable(allowSimulated: !isProd) && await checkPermission();
+
+  Future<void> updateAccountData(AuthToken authToken, Account account) async {
+    await updateAccountIsValid(
+      authToken: authToken,
+      accountId: account.id,
+      isValid: true,
+    );
+    await updateAccountIsUserWallet(
+      authToken: authToken,
+      accountId: account.id,
+      isUserWallet: true,
+    );
+  }
+
+  Future<bool> hasAccessToAccount(AuthToken authToken, Account account) =>
+      getAccount(authToken: authToken, id: account.id, projection: const [])
+          .toEither()
+          .foldAsync(F, T);
 }
