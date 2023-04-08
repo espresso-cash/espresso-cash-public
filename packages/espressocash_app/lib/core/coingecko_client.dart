@@ -21,7 +21,8 @@ class CoingeckoClient {
       ..interceptors.addAll([
         CacheInterceptor(options: options),
         DioCacheInterceptor(options: options),
-      ]);
+      ])
+      ..options.listFormat = ListFormat.csv;
 
     return CoingeckoClient._(dio, options);
   }

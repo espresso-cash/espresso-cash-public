@@ -17,9 +17,7 @@ part 'conversion_rates_client.g.dart';
 abstract class ConversionRatesClient {
   @factoryMethod
   factory ConversionRatesClient(CoingeckoClient client) =>
-      _ConversionRatesClient(
-        client.dio..options.listFormat = ListFormat.csv,
-      );
+      _ConversionRatesClient(client.dio);
 
   @GET('/price')
   @Extra({maxAgeOption: Duration(minutes: 1)})
