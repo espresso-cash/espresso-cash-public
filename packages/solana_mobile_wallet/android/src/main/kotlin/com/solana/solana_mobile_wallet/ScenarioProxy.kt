@@ -172,15 +172,15 @@ class Callbacks(
         Handler(Looper.getMainLooper()).post {
             api.signAndSendTransactions(dto, id) {
                 when (it.error) {
-                    Api.MobileWalletAdapterServerException.NOT_SUBMITTED -> request.completeWithDecline()
+                    Api.MobileWalletAdapterServerException.NOT_SUBMITTED -> request.completeWithNotSubmitted(
+                        it.signatures!!.toTypedArray()
+                    )
                     Api.MobileWalletAdapterServerException.INVALID_PAYLOADS -> request.completeWithInvalidSignatures(
                         it.validSignatures!!.toBooleanArray()
                     )
                     Api.MobileWalletAdapterServerException.TOO_MANY_PAYLOADS -> request.completeWithTooManyPayloads()
                     Api.MobileWalletAdapterServerException.AUTHORIZATION_NOT_VALID -> request.completeWithAuthorizationNotValid()
-                    Api.MobileWalletAdapterServerException.NOT_SUBMITTED -> request.completeWithNotSubmitted(
-                        it.signatures!!.toTypedArray()
-                    )
+                    Api.MobileWalletAdapterServerException.REQUEST_DECLINED -> request.completeWithDecline()
                     null -> request.completeWithSignatures(it.signatures!!.toTypedArray())
                 }
             }
