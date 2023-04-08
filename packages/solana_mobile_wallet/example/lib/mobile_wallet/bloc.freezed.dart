@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'bloc.dart';
 
@@ -443,6 +443,7 @@ abstract class Remote implements MobileWalletState {
 
 /// @nodoc
 mixin _$RemoteRequest {
+  Object get request => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(AuthorizeRequest request) authorizeDapp,
@@ -687,6 +688,7 @@ abstract class AuthorizeDapp implements RemoteRequest {
   const factory AuthorizeDapp({required final AuthorizeRequest request}) =
       _$AuthorizeDapp;
 
+  @override
   AuthorizeRequest get request;
   @JsonKey(ignore: true)
   _$$AuthorizeDappCopyWith<_$AuthorizeDapp> get copyWith =>
@@ -855,6 +857,7 @@ abstract class SignPayloads implements RemoteRequest {
   const factory SignPayloads({required final SignPayloadsRequest request}) =
       _$SignPayloads;
 
+  @override
   SignPayloadsRequest get request;
   @JsonKey(ignore: true)
   _$$SignPayloadsCopyWith<_$SignPayloads> get copyWith =>
@@ -1028,6 +1031,7 @@ abstract class SignTransactionsForSending implements RemoteRequest {
           {required final SignAndSendTransactionsRequest request}) =
       _$SignTransactionsForSending;
 
+  @override
   SignAndSendTransactionsRequest get request;
   @JsonKey(ignore: true)
   _$$SignTransactionsForSendingCopyWith<_$SignTransactionsForSending>
@@ -1104,6 +1108,7 @@ class _$SendTransactions implements SendTransactions {
   final List<Uint8List> _signatures;
   @override
   List<Uint8List> get signatures {
+    if (_signatures is EqualUnmodifiableListView) return _signatures;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_signatures);
   }
@@ -1111,6 +1116,8 @@ class _$SendTransactions implements SendTransactions {
   final List<Uint8List> _signedTransactions;
   @override
   List<Uint8List> get signedTransactions {
+    if (_signedTransactions is EqualUnmodifiableListView)
+      return _signedTransactions;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_signedTransactions);
   }
@@ -1238,6 +1245,7 @@ abstract class SendTransactions implements RemoteRequest {
       required final List<Uint8List> signatures,
       required final List<Uint8List> signedTransactions}) = _$SendTransactions;
 
+  @override
   SignAndSendTransactionsRequest get request;
   List<Uint8List> get signatures;
   List<Uint8List> get signedTransactions;
