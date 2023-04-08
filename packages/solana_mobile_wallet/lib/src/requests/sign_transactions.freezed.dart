@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'sign_transactions.dart';
 
@@ -261,6 +261,7 @@ class _$SignTransactionsRequest implements SignTransactionsRequest {
   final List<Uint8List> _payloads;
   @override
   List<Uint8List> get payloads {
+    if (_payloads is EqualUnmodifiableListView) return _payloads;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_payloads);
   }
@@ -528,6 +529,7 @@ class _$SignMessagesRequest implements SignMessagesRequest {
   final List<Uint8List> _payloads;
   @override
   List<Uint8List> get payloads {
+    if (_payloads is EqualUnmodifiableListView) return _payloads;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_payloads);
   }
@@ -826,6 +828,7 @@ class _$_SignedPayloadResult extends _SignedPayloadResult {
   final List<Uint8List> _signedPayloads;
   @override
   List<Uint8List> get signedPayloads {
+    if (_signedPayloads is EqualUnmodifiableListView) return _signedPayloads;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_signedPayloads);
   }
@@ -1111,6 +1114,7 @@ class _$_InvalidPayloads extends _InvalidPayloads {
   final List<bool> _valid;
   @override
   List<bool> get valid {
+    if (_valid is EqualUnmodifiableListView) return _valid;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_valid);
   }

@@ -2,6 +2,7 @@ import 'package:solana/src/crypto/crypto.dart';
 
 export 'dto.dart' show Commitment;
 export 'encoder.dart' show Message;
+export 'src/borsh_ext.dart';
 export 'src/crypto/crypto.dart';
 export 'src/exceptions/exceptions.dart';
 export 'src/helpers.dart';
