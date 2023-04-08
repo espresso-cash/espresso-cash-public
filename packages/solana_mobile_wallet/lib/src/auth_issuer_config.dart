@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'auth_issuer_config.g.dart';
 part 'auth_issuer_config.freezed.dart';
+part 'auth_issuer_config.g.dart';
 
 @freezed
 class AuthIssuerConfig with _$AuthIssuerConfig {

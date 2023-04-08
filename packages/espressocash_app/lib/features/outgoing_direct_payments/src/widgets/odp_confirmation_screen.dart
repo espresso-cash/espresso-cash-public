@@ -90,7 +90,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
             AmountWithEquivalent(
               inputController: _amountController,
               token: widget.token,
-              collapsed: true,
+              collapsed: widget.isEnabled,
             ),
             const SizedBox(height: 16),
             Expanded(

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -64,8 +66,11 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                   const PopularTokenList(),
                   SliverToBoxAdapter(
                     child: SizedBox(
-                      height: MediaQuery.of(context).padding.bottom -
-                          cpNavigationBarheight,
+                      height: max(
+                        0,
+                        MediaQuery.of(context).padding.bottom -
+                            cpNavigationBarheight,
+                      ),
                     ),
                   ),
                 ],
