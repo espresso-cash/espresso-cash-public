@@ -4,7 +4,6 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:solana/metaplex.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/borsh_ext.dart';
 import 'package:solana/src/metaplex/accounts/collection_details.dart';
 import 'package:solana/src/metaplex/accounts/creator.dart';
 import 'package:solana/src/metaplex/accounts/on_chain_collection.dart';

@@ -1,6 +1,5 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/borsh_ext.dart';
 
 part 'creator.g.dart';
 
