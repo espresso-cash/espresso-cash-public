@@ -7,20 +7,14 @@ import '../../../../../routes.gr.dart';
 import 'menu_button.dart';
 import 'profile_section.dart';
 
-class AboutSection extends StatelessWidget {
-  const AboutSection({super.key});
+class LearningSection extends StatelessWidget {
+  const LearningSection({super.key});
 
   @override
   Widget build(BuildContext context) => ProfileSection(
         title: context.l10n.learningSectionTitle,
         padding: const EdgeInsets.symmetric(vertical: 16),
         actions: [
-          MenuButton(
-            title: context.l10n.editProfile,
-            description: context.l10n.editProfileDescription,
-            icon: Assets.icons.visibility,
-            onTap: () => context.router.push(const EditProfileRoute()),
-          ),
           MenuButton(
             title: context.l10n.learnAboutCrypto,
             description: context.l10n.learnAboutCryptoDescription,

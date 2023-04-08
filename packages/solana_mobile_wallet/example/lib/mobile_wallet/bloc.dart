@@ -346,12 +346,20 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   void onScenarioServingClients() {}
 
   @override
+  void onLowPowerAndNoConnection() {}
+
+  @override
   void onScenarioServingComplete() {
     _scenario?.close();
   }
 
   @override
   void onScenarioTeardownComplete() {
+    emit(const MobileWalletState.sessionTerminated());
+  }
+
+  @override
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
     emit(const MobileWalletState.sessionTerminated());
   }
 }

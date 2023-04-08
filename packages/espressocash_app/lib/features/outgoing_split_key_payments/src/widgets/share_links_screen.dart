@@ -31,31 +31,34 @@ class ShareLinksScreen extends StatelessWidget {
     return CpTheme.dark(
       child: Scaffold(
         appBar: CpAppBar(title: title),
-        body: DefaultTabController(
-          length: hasQrLink ? 2 : 1,
-          child: Column(
-            children: [
-              if (hasQrLink)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(48, 24, 48, 16),
-                  child: CpTabBar(
-                    variant: CpTabBarVariant.inverted,
-                    tabs: [
-                      Tab(text: context.l10n.sharePaymentRequestLinkTitle),
-                      Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
+        body: SafeArea(
+          top: false,
+          child: DefaultTabController(
+            length: hasQrLink ? 2 : 1,
+            child: Column(
+              children: [
+                if (hasQrLink)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(48, 24, 48, 16),
+                    child: CpTabBar(
+                      variant: CpTabBarVariant.inverted,
+                      tabs: [
+                        Tab(text: context.l10n.sharePaymentRequestLinkTitle),
+                        Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
+                      ],
+                    ),
+                  ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      ShareLinks(status: status, amount: amount),
+                      if (hasQrLink) ShareQr(status: status, amount: amount),
                     ],
                   ),
                 ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    ShareLinks(status: status, amount: amount),
-                    if (hasQrLink) ShareQr(status: status, amount: amount),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

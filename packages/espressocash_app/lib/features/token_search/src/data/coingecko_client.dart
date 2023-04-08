@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../core/coingecko_client.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 
@@ -15,12 +16,15 @@ part 'coingecko_client.g.dart';
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class SearchCoingeckoClient {
   @factoryMethod
-  factory SearchCoingeckoClient(Dio dio) = _SearchCoingeckoClient;
+  factory SearchCoingeckoClient(CoingeckoClient client) =>
+      _SearchCoingeckoClient(client.dio);
 
   @GET('/search')
+  @Extra({maxAgeOption: Duration(hours: 1)})
   Future<SearchResponseDto> search(@Query('query') String query);
 
   @GET('/coins/markets')
+  @Extra({maxAgeOption: Duration(hours: 1)})
   Future<List<CategorySearchResponseDto>> searchByCategory(
     @Queries() CategorySearchRequestDto request,
   );
@@ -53,7 +57,7 @@ class SearchResponseDataDto with _$SearchResponseDataDto {
 }
 
 @freezed
-abstract class CategorySearchRequestDto with _$CategorySearchRequestDto {
+class CategorySearchRequestDto with _$CategorySearchRequestDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CategorySearchRequestDto({
     @Default('usd') String vsCurrency,
