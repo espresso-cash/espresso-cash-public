@@ -40,17 +40,19 @@ class CacheInterceptor extends Interceptor {
     // ignore: avoid-non-null-assertion, we know its not null
     final store = this.options.store!;
 
-    final maxAge = options.extra['maxAge'] as Duration? ?? Duration.zero;
+    final maxAge = options.extra[maxAgeOption] as Duration? ?? Duration.zero;
 
     final key = this.options.keyBuilder(options);
 
     final cache = await store.get(key);
 
     if (cache != null &&
-        DateTime.now().difference(cache.responseDate).compareTo(maxAge) < 0) {
+        DateTime.now().difference(cache.responseDate) < maxAge) {
       return handler.resolve(cache.toResponse(options, fromNetwork: false));
     }
 
     return handler.next(options);
   }
 }
+
+const maxAgeOption = 'maxAge';

@@ -12,8 +12,6 @@ import '../../currency.dart';
 part 'conversion_rates_client.freezed.dart';
 part 'conversion_rates_client.g.dart';
 
-const _maxAge = Duration(minutes: 1);
-
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3/simple')
 abstract class ConversionRatesClient {
@@ -24,7 +22,7 @@ abstract class ConversionRatesClient {
       );
 
   @GET('/price')
-  @Extra({'maxAge': _maxAge})
+  @Extra({maxAgeOption: Duration(minutes: 1)})
   Future<Map<String, PricesMapDto>> getPrice(@Queries() RateRequestDto request);
 }
 

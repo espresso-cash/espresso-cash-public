@@ -11,8 +11,6 @@ import '../../../../core/coingecko_client.dart';
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
-const _maxAge = Duration(hours: 6);
-
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class DetailsCoingeckoClient {
@@ -21,7 +19,7 @@ abstract class DetailsCoingeckoClient {
       _DetailsCoingeckoClient(client.dio);
 
   @GET('/coins/{id}')
-  @Extra({'maxAge': _maxAge})
+  @Extra({maxAgeOption: Duration(hours: 6)})
   Future<TokenDetailsResponseDto> getCoinDetails(
     @Path() String id,
     @Queries() TokenDetailsRequestDto request,

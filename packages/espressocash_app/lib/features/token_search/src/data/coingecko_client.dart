@@ -12,8 +12,6 @@ import '../../../../core/tokens/token_list.dart';
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
-const _maxAge = Duration(hours: 1);
-
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class SearchCoingeckoClient {
@@ -22,11 +20,11 @@ abstract class SearchCoingeckoClient {
       _SearchCoingeckoClient(client.dio);
 
   @GET('/search')
-  @Extra({'maxAge': _maxAge})
+  @Extra({maxAgeOption: Duration(hours: 1)})
   Future<SearchResponseDto> search(@Query('query') String query);
 
   @GET('/coins/markets')
-  @Extra({'maxAge': _maxAge})
+  @Extra({maxAgeOption: Duration(hours: 1)})
   Future<List<CategorySearchResponseDto>> searchByCategory(
     @Queries() CategorySearchRequestDto request,
   );

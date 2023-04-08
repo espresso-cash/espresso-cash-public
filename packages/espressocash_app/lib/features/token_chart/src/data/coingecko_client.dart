@@ -10,8 +10,6 @@ import '../../../../core/coingecko_client.dart';
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
 
-const _maxAge = Duration(hours: 1);
-
 @injectable
 @RestApi(baseUrl: 'https://api.coingecko.com/api/v3')
 abstract class ChartCoingeckoClient {
@@ -20,7 +18,7 @@ abstract class ChartCoingeckoClient {
       _ChartCoingeckoClient(client.dio);
 
   @GET('/coins/{id}/market_chart')
-  @Extra({'maxAge': _maxAge})
+  @Extra({maxAgeOption: Duration(hours: 1)})
   Future<TokenChartResponseDto> getCoinChart(
     @Path() String id,
     @Queries() TokenChartRequestDto request,
