@@ -110,4 +110,14 @@ class ScenarioHandler implements ScenarioCallbacks {
       const MobileWalletNotification.sessionTerminated(),
     );
   }
+
+  @override
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
+    _repository.notifyApp<void>(
+      const MobileWalletNotification.deauthorized(),
+    );
+  }
+
+  @override
+  void onLowPowerAndNoConnection() {}
 }

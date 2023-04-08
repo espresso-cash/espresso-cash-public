@@ -45,6 +45,7 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
           (notification) => notification.when(
             initialized: ignore,
             sessionTerminated: SystemNavigator.pop,
+            deauthorized: SystemNavigator.pop,
             request: (r) => context.pushRoute(RemoteRequestRoute(request: r)),
           ),
         );

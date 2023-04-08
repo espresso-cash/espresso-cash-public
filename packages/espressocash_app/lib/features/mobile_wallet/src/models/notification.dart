@@ -11,6 +11,8 @@ class MobileWalletNotification with _$MobileWalletNotification {
   const factory MobileWalletNotification.sessionTerminated() =
       _SessionTerminated;
 
+  const factory MobileWalletNotification.deauthorized() = _Deauthorized;
+
   const factory MobileWalletNotification.request(RemoteRequest request) =
       _RemoteRequsest;
 }
