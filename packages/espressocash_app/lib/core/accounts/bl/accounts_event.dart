@@ -8,7 +8,7 @@ class AccountsEvent with _$AccountsEvent {
 
   const factory AccountsEvent.created({
     required MyAccount account,
-    required Mnemonic mnemonic,
+    required AccountSource source,
     @Default(false) bool hasFinishedOnboarding,
   }) = Created;
 
