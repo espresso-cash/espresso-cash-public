@@ -6,54 +6,31 @@ import '../../../../core/tokens/token.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../models/crypto_categories.dart';
 import '../data/coingecko_client.dart';
-import '../data/search_cache.dart';
 
 @injectable
 class SearchRepository {
   SearchRepository({
     required SearchCoingeckoClient coingeckoClient,
-    required SearchCache cache,
     required TokenList tokenList,
   })  : _coingeckoClient = coingeckoClient,
-        _cache = cache,
         _tokenList = tokenList;
 
   final SearchCoingeckoClient _coingeckoClient;
-  final SearchCache _cache;
   final TokenList _tokenList;
 
-  AsyncResult<IList<Token>> search(String query) async {
-    final cachedResult = _cache.get(query);
+  AsyncResult<IList<Token>> search(String query) async =>
+      _coingeckoClient.search(query).toEither().mapAsync(
+            (response) =>
+                response.coins.map((e) => e.toToken(_tokenList)).toIList(),
+          );
 
-    if (cachedResult != null) {
-      return Either.right(cachedResult);
-    }
-
-    return _coingeckoClient
-        .search(query)
-        .toEither()
-        .mapAsync(
-          (response) =>
-              response.coins.map((e) => e.toToken(_tokenList)).toIList(),
-        )
-        .doOnRightAsync((e) => _cache.set(query, e));
-  }
-
-  AsyncResult<IList<Token>> category(CryptoCategories category) async {
-    final cachedResult = _cache.get(category.dtoId);
-
-    if (cachedResult != null) {
-      return Either.right(cachedResult);
-    }
-
-    return _coingeckoClient
-        .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
-        .toEither()
-        .mapAsync(
-          (response) => response.map((e) => e.toToken(_tokenList)).toIList(),
-        )
-        .doOnRightAsync((e) => _cache.set(category.dtoId, e));
-  }
+  AsyncResult<IList<Token>> category(CryptoCategories category) async =>
+      _coingeckoClient
+          .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
+          .toEither()
+          .mapAsync(
+            (response) => response.map((e) => e.toToken(_tokenList)).toIList(),
+          );
 }
 
 extension on CryptoCategories {
