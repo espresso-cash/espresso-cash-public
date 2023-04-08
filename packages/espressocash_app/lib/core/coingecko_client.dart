@@ -4,27 +4,26 @@ import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.da
 import 'package:path_provider/path_provider.dart';
 
 class CoingeckoClient {
-  CoingeckoClient() {
-    init();
-  }
+  CoingeckoClient._(this.dio, this.options);
 
-  late final Dio dio;
-  late final CacheOptions options;
+  final Dio dio;
+  final CacheOptions options;
 
-  Future<void> init() async {
-    dio = Dio();
-
+  static Future<CoingeckoClient> init() async {
     final directory = await getTemporaryDirectory();
 
-    options = CacheOptions(
+    final options = CacheOptions(
       store: DbCacheStore(databasePath: directory.path),
       policy: CachePolicy.refreshForceCache,
     );
 
-    dio.interceptors.addAll([
-      CacheInterceptor(options: options),
-      DioCacheInterceptor(options: options),
-    ]);
+    final dio = Dio()
+      ..interceptors.addAll([
+        CacheInterceptor(options: options),
+        DioCacheInterceptor(options: options),
+      ]);
+
+    return CoingeckoClient._(dio, options);
   }
 }
 

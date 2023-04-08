@@ -50,6 +50,6 @@ abstract class AppModule {
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
-  @singleton
-  CoingeckoClient get coingeckoClient => CoingeckoClient();
+  @preResolve
+  Future<CoingeckoClient> get coingeckoClient => CoingeckoClient.init();
 }

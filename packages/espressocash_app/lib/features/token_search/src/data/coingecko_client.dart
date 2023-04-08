@@ -59,7 +59,7 @@ class SearchResponseDataDto with _$SearchResponseDataDto {
 }
 
 @freezed
-abstract class CategorySearchRequestDto with _$CategorySearchRequestDto {
+class CategorySearchRequestDto with _$CategorySearchRequestDto {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory CategorySearchRequestDto({
     @Default('usd') String vsCurrency,
