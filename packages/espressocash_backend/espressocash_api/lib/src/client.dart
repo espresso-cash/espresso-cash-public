@@ -41,4 +41,19 @@ abstract class CryptopleaseClient {
   Future<SwapRouteResponseDto> getSwapRoute(
     @Body() SwapRouteRequestDto request,
   );
+
+  @POST('/escrow/create')
+  Future<CreatePaymentResponseDto> createPaymentEc(
+    @Body() CreatePaymentRequestDto request,
+  );
+
+  @POST('/escrow/receive')
+  Future<ReceivePaymentResponseDto> receivePaymentEc(
+    @Body() ReceivePaymentRequestDto request,
+  );
+
+  @POST('/escrow/cancel')
+  Future<CancelPaymentResponseDto> cancelPaymentEc(
+    @Body() CancelPaymentRequestDto request,
+  );
 }

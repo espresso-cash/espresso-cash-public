@@ -1488,3 +1488,346 @@ abstract class _CreateDirectPaymentResponseDto
   _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+CancelPaymentRequestDto _$CancelPaymentRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _CancelPaymentRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CancelPaymentRequestDto {
+  String get senderAccount => throw _privateConstructorUsedError;
+  String get escrowAccount => throw _privateConstructorUsedError;
+  Cluster get cluster => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CancelPaymentRequestDtoCopyWith<CancelPaymentRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CancelPaymentRequestDtoCopyWith<$Res> {
+  factory $CancelPaymentRequestDtoCopyWith(CancelPaymentRequestDto value,
+          $Res Function(CancelPaymentRequestDto) then) =
+      _$CancelPaymentRequestDtoCopyWithImpl<$Res, CancelPaymentRequestDto>;
+  @useResult
+  $Res call({String senderAccount, String escrowAccount, Cluster cluster});
+}
+
+/// @nodoc
+class _$CancelPaymentRequestDtoCopyWithImpl<$Res,
+        $Val extends CancelPaymentRequestDto>
+    implements $CancelPaymentRequestDtoCopyWith<$Res> {
+  _$CancelPaymentRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? senderAccount = null,
+    Object? escrowAccount = null,
+    Object? cluster = null,
+  }) {
+    return _then(_value.copyWith(
+      senderAccount: null == senderAccount
+          ? _value.senderAccount
+          : senderAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      escrowAccount: null == escrowAccount
+          ? _value.escrowAccount
+          : escrowAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      cluster: null == cluster
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CancelPaymentRequestDtoCopyWith<$Res>
+    implements $CancelPaymentRequestDtoCopyWith<$Res> {
+  factory _$$_CancelPaymentRequestDtoCopyWith(_$_CancelPaymentRequestDto value,
+          $Res Function(_$_CancelPaymentRequestDto) then) =
+      __$$_CancelPaymentRequestDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String senderAccount, String escrowAccount, Cluster cluster});
+}
+
+/// @nodoc
+class __$$_CancelPaymentRequestDtoCopyWithImpl<$Res>
+    extends _$CancelPaymentRequestDtoCopyWithImpl<$Res,
+        _$_CancelPaymentRequestDto>
+    implements _$$_CancelPaymentRequestDtoCopyWith<$Res> {
+  __$$_CancelPaymentRequestDtoCopyWithImpl(_$_CancelPaymentRequestDto _value,
+      $Res Function(_$_CancelPaymentRequestDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? senderAccount = null,
+    Object? escrowAccount = null,
+    Object? cluster = null,
+  }) {
+    return _then(_$_CancelPaymentRequestDto(
+      senderAccount: null == senderAccount
+          ? _value.senderAccount
+          : senderAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      escrowAccount: null == escrowAccount
+          ? _value.escrowAccount
+          : escrowAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      cluster: null == cluster
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CancelPaymentRequestDto implements _CancelPaymentRequestDto {
+  const _$_CancelPaymentRequestDto(
+      {required this.senderAccount,
+      required this.escrowAccount,
+      required this.cluster});
+
+  factory _$_CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CancelPaymentRequestDtoFromJson(json);
+
+  @override
+  final String senderAccount;
+  @override
+  final String escrowAccount;
+  @override
+  final Cluster cluster;
+
+  @override
+  String toString() {
+    return 'CancelPaymentRequestDto(senderAccount: $senderAccount, escrowAccount: $escrowAccount, cluster: $cluster)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CancelPaymentRequestDto &&
+            (identical(other.senderAccount, senderAccount) ||
+                other.senderAccount == senderAccount) &&
+            (identical(other.escrowAccount, escrowAccount) ||
+                other.escrowAccount == escrowAccount) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, senderAccount, escrowAccount, cluster);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CancelPaymentRequestDtoCopyWith<_$_CancelPaymentRequestDto>
+      get copyWith =>
+          __$$_CancelPaymentRequestDtoCopyWithImpl<_$_CancelPaymentRequestDto>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CancelPaymentRequestDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
+  const factory _CancelPaymentRequestDto(
+      {required final String senderAccount,
+      required final String escrowAccount,
+      required final Cluster cluster}) = _$_CancelPaymentRequestDto;
+
+  factory _CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_CancelPaymentRequestDto.fromJson;
+
+  @override
+  String get senderAccount;
+  @override
+  String get escrowAccount;
+  @override
+  Cluster get cluster;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CancelPaymentRequestDtoCopyWith<_$_CancelPaymentRequestDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+CancelPaymentResponseDto _$CancelPaymentResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _CancelPaymentResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CancelPaymentResponseDto {
+  String get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CancelPaymentResponseDtoCopyWith<CancelPaymentResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CancelPaymentResponseDtoCopyWith<$Res> {
+  factory $CancelPaymentResponseDtoCopyWith(CancelPaymentResponseDto value,
+          $Res Function(CancelPaymentResponseDto) then) =
+      _$CancelPaymentResponseDtoCopyWithImpl<$Res, CancelPaymentResponseDto>;
+  @useResult
+  $Res call({String transaction, BigInt slot});
+}
+
+/// @nodoc
+class _$CancelPaymentResponseDtoCopyWithImpl<$Res,
+        $Val extends CancelPaymentResponseDto>
+    implements $CancelPaymentResponseDtoCopyWith<$Res> {
+  _$CancelPaymentResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transaction = null,
+    Object? slot = null,
+  }) {
+    return _then(_value.copyWith(
+      transaction: null == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CancelPaymentResponseDtoCopyWith<$Res>
+    implements $CancelPaymentResponseDtoCopyWith<$Res> {
+  factory _$$_CancelPaymentResponseDtoCopyWith(
+          _$_CancelPaymentResponseDto value,
+          $Res Function(_$_CancelPaymentResponseDto) then) =
+      __$$_CancelPaymentResponseDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String transaction, BigInt slot});
+}
+
+/// @nodoc
+class __$$_CancelPaymentResponseDtoCopyWithImpl<$Res>
+    extends _$CancelPaymentResponseDtoCopyWithImpl<$Res,
+        _$_CancelPaymentResponseDto>
+    implements _$$_CancelPaymentResponseDtoCopyWith<$Res> {
+  __$$_CancelPaymentResponseDtoCopyWithImpl(_$_CancelPaymentResponseDto _value,
+      $Res Function(_$_CancelPaymentResponseDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? transaction = null,
+    Object? slot = null,
+  }) {
+    return _then(_$_CancelPaymentResponseDto(
+      transaction: null == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CancelPaymentResponseDto implements _CancelPaymentResponseDto {
+  const _$_CancelPaymentResponseDto(
+      {required this.transaction, required this.slot});
+
+  factory _$_CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CancelPaymentResponseDtoFromJson(json);
+
+  @override
+  final String transaction;
+  @override
+  final BigInt slot;
+
+  @override
+  String toString() {
+    return 'CancelPaymentResponseDto(transaction: $transaction, slot: $slot)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CancelPaymentResponseDto &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, transaction, slot);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CancelPaymentResponseDtoCopyWith<_$_CancelPaymentResponseDto>
+      get copyWith => __$$_CancelPaymentResponseDtoCopyWithImpl<
+          _$_CancelPaymentResponseDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CancelPaymentResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CancelPaymentResponseDto implements CancelPaymentResponseDto {
+  const factory _CancelPaymentResponseDto(
+      {required final String transaction,
+      required final BigInt slot}) = _$_CancelPaymentResponseDto;
+
+  factory _CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_CancelPaymentResponseDto.fromJson;
+
+  @override
+  String get transaction;
+  @override
+  BigInt get slot;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CancelPaymentResponseDtoCopyWith<_$_CancelPaymentResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}

@@ -138,3 +138,33 @@ Map<String, dynamic> _$$_CreateDirectPaymentResponseDtoToJson(
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),
     };
+
+_$_CancelPaymentRequestDto _$$_CancelPaymentRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_CancelPaymentRequestDto(
+      senderAccount: json['senderAccount'] as String,
+      escrowAccount: json['escrowAccount'] as String,
+      cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+    );
+
+Map<String, dynamic> _$$_CancelPaymentRequestDtoToJson(
+        _$_CancelPaymentRequestDto instance) =>
+    <String, dynamic>{
+      'senderAccount': instance.senderAccount,
+      'escrowAccount': instance.escrowAccount,
+      'cluster': _$ClusterEnumMap[instance.cluster]!,
+    };
+
+_$_CancelPaymentResponseDto _$$_CancelPaymentResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_CancelPaymentResponseDto(
+      transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
+    );
+
+Map<String, dynamic> _$$_CancelPaymentResponseDtoToJson(
+        _$_CancelPaymentResponseDto instance) =>
+    <String, dynamic>{
+      'transaction': instance.transaction,
+      'slot': instance.slot.toString(),
+    };

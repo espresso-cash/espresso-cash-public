@@ -99,4 +99,27 @@ class CreateDirectPaymentResponseDto with _$CreateDirectPaymentResponseDto {
       _$CreateDirectPaymentResponseDtoFromJson(json);
 }
 
+@freezed
+class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
+  const factory CancelPaymentRequestDto({
+    required String senderAccount,
+    required String escrowAccount,
+    required Cluster cluster,
+  }) = _CancelPaymentRequestDto;
+
+  factory CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$CancelPaymentRequestDtoFromJson(json);
+}
+
+@freezed
+class CancelPaymentResponseDto with _$CancelPaymentResponseDto {
+  const factory CancelPaymentResponseDto({
+    required String transaction,
+    required BigInt slot,
+  }) = _CancelPaymentResponseDto;
+
+  factory CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$CancelPaymentResponseDtoFromJson(json);
+}
+
 enum Cluster { mainnet, devnet }
