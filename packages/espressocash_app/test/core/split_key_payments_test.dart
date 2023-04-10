@@ -1,3 +1,4 @@
+import 'package:espressocash_app/core/api_version.dart';
 import 'package:espressocash_app/core/split_key_payments.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,7 +9,7 @@ void main() {
 
     expect(
       link.toUri().toString(),
-      'https://solana1.cryptoplease.link/?key=abcd&token=${Token.usdc.address}&v=v2',
+      'https://solana1.cryptoplease.link/?key=abcd&token=${Token.usdc.address}&v=v3',
     );
   });
 
@@ -27,7 +28,26 @@ void main() {
           'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v2',
         ),
       ),
-      SplitKeyFirstLink(key: '123', token: Token.usdc.publicKey),
+      SplitKeyFirstLink(
+        key: '123',
+        token: Token.usdc.publicKey,
+        apiVersion: SplitKeyApiVersion.v2,
+      ),
+    );
+  });
+
+  test('Valid first link 2', () {
+    expect(
+      SplitKeyFirstLink.tryParse(
+        Uri.parse(
+          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v3',
+        ),
+      ),
+      SplitKeyFirstLink(
+        key: '123',
+        token: Token.usdc.publicKey,
+        apiVersion: SplitKeyApiVersion.v3,
+      ),
     );
   });
 
@@ -39,6 +59,17 @@ void main() {
         ),
       ),
       null,
+    );
+  });
+
+  test('Invalid first link 1', () {
+    expect(
+      SplitKeyFirstLink.tryParse(
+        Uri.parse(
+          'https://solana1.cryptoplease.link?token=${Token.usdc.address}&key=123&v=v4',
+        ),
+      ),
+      isNull,
     );
   });
 

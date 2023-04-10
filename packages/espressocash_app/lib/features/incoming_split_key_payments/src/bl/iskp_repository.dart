@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../../core/api_version.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
@@ -63,6 +64,7 @@ class ISKPRepository {
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
+  IntColumn get apiVersion => intEnum<ApiVersionDto>()();
 }
 
 enum ISKPStatusDto {
@@ -80,12 +82,18 @@ enum ISKPStatusDto {
   txEscrowFailure,
 }
 
+enum ApiVersionDto {
+  v2,
+  v3,
+}
+
 extension on ISKPRow {
   Future<IncomingSplitKeyPayment> toModel() async => IncomingSplitKeyPayment(
         id: id,
         status: status.toModel(this),
         created: created,
         escrow: await privateKey.let(base58decode).let(EscrowPrivateKey.new),
+        apiVersion: apiVersion.toModel(),
       );
 }
 
@@ -144,6 +152,7 @@ extension on IncomingSplitKeyPayment {
         txId: status.toTxId(),
         slot: status.toSlot()?.toString(),
         txFailureReason: status.toTxFailureReason(),
+        apiVersion: apiVersion.toDto(),
       );
 }
 
@@ -172,4 +181,26 @@ extension on ISKPStatus {
         txCreated: (it) => it.slot,
         txSent: (it) => it.slot,
       );
+}
+
+extension on SplitKeyApiVersion {
+  ApiVersionDto toDto() {
+    switch (this) {
+      case SplitKeyApiVersion.v2:
+        return ApiVersionDto.v2;
+      case SplitKeyApiVersion.v3:
+        return ApiVersionDto.v3;
+    }
+  }
+}
+
+extension on ApiVersionDto {
+  SplitKeyApiVersion toModel() {
+    switch (this) {
+      case ApiVersionDto.v2:
+        return SplitKeyApiVersion.v2;
+      case ApiVersionDto.v3:
+        return SplitKeyApiVersion.v3;
+    }
+  }
 }

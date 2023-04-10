@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
 import '../config.dart';
+import 'api_version.dart';
 import 'tokens/token.dart';
 
 part 'split_key_payments.freezed.dart';
@@ -12,6 +14,7 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
   const factory SplitKeyFirstLink({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
+    @Default(SplitKeyApiVersion.v3) SplitKeyApiVersion apiVersion,
   }) = _SplitKeyFirstLink;
 
   factory SplitKeyFirstLink.fromJson(Map<String, dynamic> json) =>
@@ -31,8 +34,10 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
     final firstPart = link.queryParameters['key'];
     if (firstPart == null) return null;
 
-    final apiVersion = link.queryParameters['v'];
-    if (apiVersion != 'v2') return null;
+    final apiVersion = SplitKeyApiVersion.values.firstWhereOrNull(
+      (e) => e.name == link.queryParameters['v'],
+    );
+    if (apiVersion == null) return null;
 
     final type = link.queryParameters['type'];
     if (type != null) return null;
@@ -40,6 +45,7 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
     return SplitKeyFirstLink(
       key: firstPart,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
+      apiVersion: apiVersion,
     );
   }
 
@@ -50,7 +56,7 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
         queryParameters: <String, String>{
           'key': key,
           if (token != Token.sol.publicKey) 'token': token.toBase58(),
-          'v': 'v2',
+          'v': 'v3',
         },
       );
 }

@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/api_version.dart';
 import '../../../../core/cancelable_job.dart';
 import '../../../../core/link_shortener.dart';
 import '../../../../core/single_key_payments.dart';
@@ -55,6 +56,7 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final rawFirstLink = SplitKeyFirstLink(
       key: keyParts.first,
       token: token.publicKey,
+      apiVersion: SplitKeyApiVersion.v3,
     ).toUri();
 
     final firstLink = await _linkShortener.buildShortUrl(rawFirstLink) ??
