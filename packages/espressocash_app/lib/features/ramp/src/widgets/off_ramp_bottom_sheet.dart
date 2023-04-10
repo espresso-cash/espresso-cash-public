@@ -20,36 +20,38 @@ class OffRampBottomSheet extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              context.l10n.cashOut.toUpperCase(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                color: CpColors.darkBackground,
+  Widget build(BuildContext context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.l10n.cashOut.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: CpColors.darkBackground,
+                ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Text(
-              context.l10n.comingSoon,
-              style: const TextStyle(
-                fontSize: 17,
-                color: CpColors.darkBackground,
+              const SizedBox(height: 30),
+              Text(
+                context.l10n.comingSoon,
+                style: const TextStyle(
+                  fontSize: 17,
+                  color: CpColors.darkBackground,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-            CpButton(
-              text: context.l10n.ok,
-              minWidth: 250,
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
+              const SizedBox(height: 30),
+              CpButton(
+                text: context.l10n.ok,
+                minWidth: 250,
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
         ),
       );
 }
