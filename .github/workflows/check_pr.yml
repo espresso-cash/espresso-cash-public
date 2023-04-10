@@ -54,7 +54,8 @@ jobs:
       DEVNET_RPC_URL: "http://localhost:8899"
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator"
-
+      EC_LINKS_ID: "GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC"
+      EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
@@ -73,6 +74,8 @@ jobs:
         with:
           solana-version: stable
           cluster: mainnet
+          args:
+            --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
 
       - name: Activate melos
         run: make activate_utils

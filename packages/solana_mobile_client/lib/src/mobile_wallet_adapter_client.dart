@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana_mobile_client/src/api.dart';
 import 'package:solana_mobile_client/src/local_association_scenario.dart';
 
 part 'mobile_wallet_adapter_client.freezed.dart';
@@ -101,18 +102,27 @@ class MobileWalletAdapterClient {
     }
   }
 
-  Future<SignPayloadsResult> signMessages({
+  Future<SignMessagesResult> signMessages({
     required List<Uint8List> messages,
     required List<Uint8List> addresses,
   }) async {
     try {
       final result = await api.signMessages(_scenarioId, messages, addresses);
 
-      return SignPayloadsResult(
-        signedPayloads: result.signedPayloads.whereType<Uint8List>().toList(),
+      return SignMessagesResult(
+        signedMessages: result.messages
+            .whereType<SignedMessageDto>()
+            .map(
+              (it) => SignedMessage(
+                message: it.message,
+                addresses: it.addresses.whereType<Uint8List>().toList(),
+                signatures: it.signatures.whereType<Uint8List>().toList(),
+              ),
+            )
+            .toList(),
       );
     } on PlatformException {
-      return const SignPayloadsResult(signedPayloads: []);
+      return const SignMessagesResult(signedMessages: []);
     }
   }
 
@@ -168,4 +178,20 @@ class SignAndSendTransactionsResult with _$SignAndSendTransactionsResult {
   const factory SignAndSendTransactionsResult({
     required List<Uint8List> signatures,
   }) = _SignAndSendTransactionsResult;
+}
+
+@freezed
+class SignedMessage with _$SignedMessage {
+  const factory SignedMessage({
+    required Uint8List message,
+    required List<Uint8List> addresses,
+    required List<Uint8List> signatures,
+  }) = _SignedMessage;
+}
+
+@freezed
+class SignMessagesResult with _$SignMessagesResult {
+  const factory SignMessagesResult({
+    required List<SignedMessage> signedMessages,
+  }) = _SignMessagesResult;
 }

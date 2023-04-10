@@ -43,6 +43,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.solanamobile:seedvault-wallet-sdk:0.2.6"
+    implementation "com.solanamobile:seedvault-wallet-sdk:0.2.7"
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.6.10"
 }

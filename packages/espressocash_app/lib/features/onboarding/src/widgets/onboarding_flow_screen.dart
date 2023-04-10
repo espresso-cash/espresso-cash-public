@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/loader.dart';
@@ -19,14 +21,31 @@ class OnboardingFlowScreen extends StatefulWidget {
 
 class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
     implements OnboardingRouter {
+  final _routerKey = GlobalKey<AutoRouterState>();
+
+  StackRouter? get _router => _routerKey.currentState?.controller;
+
   @override
   void onExplainNoEmailAndPasswordCompleted() {
-    context.router.push(const ViewRecoveryPhraseRoute());
+    _router?.push(const ViewRecoveryPhraseRoute());
   }
 
   @override
   void onMnemonicConfirmed() =>
-      context.router.push(const CreateProfileOnboardingScreen());
+      _router?.push(const CreateProfileOnboardingScreen());
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.read<AccountsBloc>().state.account?.wallet is SagaWallet) {
+        _router?.push(const CreateProfileOnboardingScreen());
+      } else {
+        _router?.push(const NoEmailAndPasswordRoute());
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -41,7 +60,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
           ),
           builder: (context, state) => CpLoader(
             isLoading: state.isProcessing(),
-            child: const AutoRouter(),
+            child: AutoRouter(key: _routerKey),
           ),
         ),
       );
