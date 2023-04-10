@@ -14,7 +14,7 @@ import '../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/icon_button.dart';
 import '../../../../ui/user_avatar.dart';
-import 'components/about_section.dart';
+import 'components/learning_section.dart';
 import 'components/profile_section.dart';
 import 'components/security_section.dart';
 
@@ -100,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: const [
                       EditProfileSection(),
                       SecuritySection(),
-                      AboutSection(),
+                      LearningSection(),
                       DangerSection(),
                       ShareSection(),
                       VersionSection(),

@@ -7,10 +7,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../file_manager.dart';
 import '../../wallet.dart';
 import 'account.dart';
+import 'ec_wallet.dart';
 import 'mnemonic.dart';
 
 part 'accounts_bloc.freezed.dart';
@@ -22,14 +24,17 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({
     required FlutterSecureStorage storage,
     required FileManager fileManager,
+    required SeedVault seedVault,
   })  : _storage = storage,
         _fileManager = fileManager,
+        _seedVault = seedVault,
         super(const AccountsState(isProcessing: true)) {
     on<AccountsEvent>(_eventHandler, transformer: sequential());
   }
 
   final FlutterSecureStorage _storage;
   final FileManager _fileManager;
+  final SeedVault _seedVault;
 
   EventHandler<AccountsEvent, AccountsState> get _eventHandler =>
       (event, emit) => event.map(
@@ -64,7 +69,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
-      final account = await _fileManager.loadAccount(_storage);
+      final account = await _storage.loadAccount(_fileManager, _seedVault);
       final hasFinishedOnboarding = await _loadOnboardingState();
 
       emit(
@@ -81,7 +86,8 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
   Future<void> _onCreated(Created event, Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
-    await _storage.write(key: mnemonicKey, value: event.mnemonic.phrase);
+
+    await _storage.saveAccountSource(event.source);
 
     await _saveNameAndPhoto(
       name: event.account.firstName,
@@ -102,8 +108,15 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   }
 
   Future<void> _onLoggedOut(Emitter<AccountsState> emit) async {
-    await _storage.deleteAll();
-    emit(const AccountsState());
+    try {
+      final authToken = await loadAuthToken(_storage);
+      if (authToken != null) {
+        await _seedVault.deauthorizeSeed(authToken);
+      }
+    } finally {
+      await _storage.deleteAll();
+      emit(const AccountsState());
+    }
   }
 
   Future<void> _onProfileUpdated(
@@ -131,27 +144,50 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 }
 
 Future<String> loadMnemonic(FlutterSecureStorage storage) =>
-    storage.read(key: mnemonicKey).then((value) => value ?? '');
+    storage.read(key: mnemonicKey).letAsync((it) => it ?? '');
 
-extension on FileManager {
-  /// Loads existing account if wallet data exist in [storage].
-  Future<MyAccount?> loadAccount(FlutterSecureStorage storage) async {
-    final mnemonic = await loadMnemonic(storage);
-    if (mnemonic.isEmpty) return null;
+Future<AuthToken?> loadAuthToken(FlutterSecureStorage storage) => storage
+    .read(key: authTokenKey)
+    .letAsync((it) => it.toString())
+    .letAsync(AuthToken.tryParse);
 
-    final photoPath = await storage.read(key: photoKey);
+extension on FlutterSecureStorage {
+  Future<void> saveAccountSource(AccountSource source) => source.when(
+        local: (it) => write(key: mnemonicKey, value: it.phrase),
+        saga: (it) => write(key: authTokenKey, value: it.toString()),
+      );
+
+  /// Loads existing account if wallet data exists in [FlutterSecureStorage].
+  Future<MyAccount?> loadAccount(
+    FileManager manager,
+    SeedVault seedVault,
+  ) async {
+    final mnemonic = await loadMnemonic(this);
+    final authToken = await loadAuthToken(this);
+
+    final ECWallet wallet;
+
+    if (authToken != null) {
+      wallet = await createSagaWallet(seedVault, authToken);
+    } else if (mnemonic.isNotEmpty) {
+      wallet = await createLocalWallet(mnemonic: mnemonic);
+    } else {
+      return null;
+    }
+
+    final photoPath = await read(key: photoKey);
 
     return MyAccount(
-      firstName: (await storage.read(key: nameKey)) ?? '',
-      photoPath: (await photoPath?.let(loadFromAppDir))?.path,
+      firstName: (await read(key: nameKey)) ?? '',
+      photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
       accessMode: const AccessMode.loaded(),
-      wallet: await createWallet(
-        mnemonic: mnemonic,
-        account: 0,
-      ),
+      wallet: wallet,
     );
   }
 }
+
+@visibleForTesting
+const authTokenKey = 'authToken';
 
 @visibleForTesting
 const mnemonicKey = 'mnemonic';

@@ -204,6 +204,36 @@ Future<void> main() async {
     verify(callbacks.onScenarioTeardownComplete()).called(1);
     verifyNoMoreInteractions(callbacks);
   });
+
+  test('On low power and no connection', () async {
+    final id = createAndRegisterScenario();
+
+    when(callbacks.onLowPowerAndNoConnection()).thenAnswer((_) {});
+
+    Api.instance.onLowPowerAndNoConnection(id);
+
+    verify(callbacks.onLowPowerAndNoConnection()).called(1);
+    verifyNoMoreInteractions(callbacks);
+  });
+
+  test('Deauthorize', () async {
+    final id = createAndRegisterScenario();
+
+    final deauthorizeDto = DeauthorizeEventDto(
+      identityName: '',
+      identityUri: '',
+      iconRelativeUri: '',
+      cluster: 'testnet',
+      authorizationScope: Uint8List(32),
+    );
+
+    when(callbacks.onDeauthorizeEvent(any)).thenAnswer((_) async => true);
+
+    await Api.instance.deauthorize(deauthorizeDto, id);
+
+    verify(callbacks.onDeauthorizeEvent(any)).called(1);
+    verifyNoMoreInteractions(callbacks);
+  });
 }
 
 class ScenarioTest implements Scenario {
