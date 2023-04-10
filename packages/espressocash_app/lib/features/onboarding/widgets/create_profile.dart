@@ -52,7 +52,9 @@ class _CreateProfileState extends State<CreateProfile> {
               onPressed: _isValid ? _handleSubmitted : null,
             ),
             children: [
-              CpAppBar(),
+              CpAppBar(
+                leading: BackButton(onPressed: widget.onBackButtonPressed),
+              ),
               ProfileImagePicker(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,
