@@ -92,6 +92,7 @@ class OSKPService {
           privateKey: escrow.bytes,
         ),
         account: account,
+        apiVersion: payment.apiVersion,
       );
     }
 
@@ -143,6 +144,7 @@ class OSKPService {
   Future<OSKPStatus> _createCancelTx({
     required Ed25519HDKeyPair escrow,
     required ECWallet account,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
@@ -153,16 +155,34 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.cancelPaymentEc(dto);
-      final tx = await response
-          .let((it) => it.transaction)
+      final String transaction;
+      final BigInt slot;
+
+      switch (apiVersion) {
+        case SplitKeyApiVersion.manual:
+          final dto = ReceivePaymentRequestDto(
+            receiverAccount: account.address,
+            escrowAccount: escrow.address,
+            cluster: apiCluster,
+          );
+          final response = await _client.receivePayment(dto);
+          transaction = response.transaction;
+          slot = response.slot;
+          break;
+        case SplitKeyApiVersion.smartContract:
+          final response = await _client.cancelPaymentEc(dto);
+          transaction = response.transaction;
+          slot = response.slot;
+          break;
+      }
+      final tx = await transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(account));
 
       return OSKPStatus.cancelTxCreated(
         tx,
         escrow: privateKey,
-        slot: response.slot,
+        slot: slot,
       );
     } on Exception {
       return OSKPStatus.cancelTxFailure(
