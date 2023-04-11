@@ -27,6 +27,7 @@ class MarketDetailsRepository {
               vsCurrency: currency,
               order: 'market_cap_desc',
               perPage: noOfTokens,
+              ids: _popularTokensCoinGeckoId.join(','),
             ),
           )
           .toEither()
@@ -39,3 +40,12 @@ class MarketDetailsRepository {
           )
           .mapAsync(IMap.fromEntries);
 }
+
+const _popularTokensCoinGeckoId = [
+  'solana',
+  'raydium',
+  'orca',
+  'mango',
+  'usd-coin',
+  'tether'
+];
