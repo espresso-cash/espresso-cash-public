@@ -14,11 +14,15 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:shelf_static/shelf_static.dart' as shelf_static;
 
 Future<void> main() async {
-  await Sentry.init((options) {
-    options
-      ..dsn = io.Platform.environment['SENTRY_DSN']
-      ..tracesSampleRate = 1.0;
-  });
+  final sentryDsn = io.Platform.environment['SENTRY_DSN'];
+
+  if (sentryDsn != null) {
+    await Sentry.init((options) {
+      options
+        ..dsn = sentryDsn
+        ..tracesSampleRate = 1.0;
+    });
+  }
 
   final port = int.parse(io.Platform.environment['PORT'] ?? '8080');
   final network = io.Platform.environment['SOLANA_RPC_URL'] ?? '';

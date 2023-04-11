@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:solana/solana.dart';
 
+const espressocashLinkHost = 'link.espressocash.com';
+const espressocashLinkScheme = 'espressocash';
 const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
@@ -10,6 +12,7 @@ const deeplinkScheme = 'cryptoplease-sol';
 const protocolMap = {
   link1Host: '1',
   link2Host: '2',
+  espressocashLinkHost: '',
 };
 const moonpayHost = 'moonpay.$cpLinkDomain';
 
