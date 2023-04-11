@@ -70,7 +70,7 @@ class ISLPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.receivePaymentEc(dto);
+      final response = await _client.receivePayment(dto);
       final tx = await response.transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(LocalWallet(escrow)));
