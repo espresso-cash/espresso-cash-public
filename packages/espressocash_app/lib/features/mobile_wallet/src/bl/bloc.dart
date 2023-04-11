@@ -59,7 +59,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
 
     emit(const RemoteRequestState.loading());
 
-    final result = request.when(
+    final result = await request.when(
       authorizeDapp: _onAuthorized,
       signPayloads: _onSignPayloads,
       signTransactionsForSending: _signTransactionsForSending,
@@ -68,7 +68,8 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     emit(RemoteRequestState.result(result));
   }
 
-  AuthorizeResult _onAuthorized(AuthorizeRequest _) => AuthorizeResult(
+  Future<AuthorizeResult> _onAuthorized(AuthorizeRequest _) async =>
+      AuthorizeResult(
         publicKey: Uint8List.fromList(_account.wallet.publicKey.bytes),
         walletUriBase: null,
         accountLabel: 'Espresso Cash account',
@@ -140,9 +141,6 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
   required List<Uint8List> payloads,
   required Uint8List authorizationScope,
 }) {
-  if (authorizationScope != _buildScope()) {
-    return const Either.left(_ValidationError.authorizationNotValid());
-  }
   if (payloads.length > maxPayloadsPerSigningRequest) {
     return const Either.left(_ValidationError.tooManyPayloads());
   }
