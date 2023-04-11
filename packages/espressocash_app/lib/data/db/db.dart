@@ -176,6 +176,7 @@ class MyDatabase extends _$MyDatabase {
           link3: row.link,
           tx: row.tx,
           txId: row.txId,
+          apiVersion: OskpApiVersionDto.manual,
         ),
       );
     }

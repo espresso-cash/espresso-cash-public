@@ -64,7 +64,8 @@ class ISKPRepository {
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
-  IntColumn get apiVersion => intEnum<ApiVersionDto>()();
+  IntColumn get apiVersion => intEnum<IskpApiVersionDto>()
+      .withDefault(Constant(IskpApiVersionDto.manual.index))();
 }
 
 enum ISKPStatusDto {
@@ -82,9 +83,9 @@ enum ISKPStatusDto {
   txEscrowFailure,
 }
 
-enum ApiVersionDto {
-  v2,
-  v3,
+enum IskpApiVersionDto {
+  manual,
+  smartContract,
 }
 
 extension on ISKPRow {
@@ -184,23 +185,23 @@ extension on ISKPStatus {
 }
 
 extension on SplitKeyApiVersion {
-  ApiVersionDto toDto() {
+  IskpApiVersionDto toDto() {
     switch (this) {
-      case SplitKeyApiVersion.v2:
-        return ApiVersionDto.v2;
-      case SplitKeyApiVersion.v3:
-        return ApiVersionDto.v3;
+      case SplitKeyApiVersion.manual:
+        return IskpApiVersionDto.manual;
+      case SplitKeyApiVersion.smartContract:
+        return IskpApiVersionDto.smartContract;
     }
   }
 }
 
-extension on ApiVersionDto {
+extension on IskpApiVersionDto {
   SplitKeyApiVersion toModel() {
     switch (this) {
-      case ApiVersionDto.v2:
-        return SplitKeyApiVersion.v2;
-      case ApiVersionDto.v3:
-        return SplitKeyApiVersion.v3;
+      case IskpApiVersionDto.manual:
+        return SplitKeyApiVersion.manual;
+      case IskpApiVersionDto.smartContract:
+        return SplitKeyApiVersion.smartContract;
     }
   }
 }

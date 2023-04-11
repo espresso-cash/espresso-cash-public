@@ -78,7 +78,7 @@ class ISKPService {
         cluster: apiCluster,
       );
 
-      final response = apiVersion == SplitKeyApiVersion.v2
+      final response = apiVersion == SplitKeyApiVersion.manual
           ? await _client.receivePayment(dto)
           : await _client.receivePaymentEc(dto);
 

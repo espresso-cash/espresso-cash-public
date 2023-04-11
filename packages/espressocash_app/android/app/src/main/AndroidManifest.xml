@@ -55,6 +55,8 @@
                     android:scheme="https" />
                 <data android:host="solana2.cryptoplease.link"
                     android:scheme="https" />
+                <data android:host="link.espressocash.com"
+                    android:scheme="https" />
 
                 <!-- Support for requests -->
                 <data android:host="solanapay.cryptoplease.link"
@@ -62,6 +64,8 @@
 
                 <!-- Firebase deep link for installing the app -->
                 <data android:host="cryptoplease.page.link"
+                    android:scheme="https" />
+                <data android:host="espressocash.page.link"
                     android:scheme="https" />
             </intent-filter>
 
@@ -72,6 +76,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="cryptoplease-sol" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="espressocash" />
             </intent-filter>
 
             <!-- Support for requests  -->

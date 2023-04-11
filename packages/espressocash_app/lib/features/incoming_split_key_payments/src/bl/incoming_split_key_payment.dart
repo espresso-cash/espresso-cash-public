@@ -14,7 +14,7 @@ class IncomingSplitKeyPayment with _$IncomingSplitKeyPayment {
     required DateTime created,
     required EscrowPrivateKey escrow,
     required ISKPStatus status,
-    @Default(SplitKeyApiVersion.v3) SplitKeyApiVersion apiVersion,
+    @Default(SplitKeyApiVersion.smartContract) SplitKeyApiVersion apiVersion,
   }) = _IncomingSplitKeyPayment;
 }
 
