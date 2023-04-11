@@ -46,11 +46,19 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final firstPart = SplitKeyFirstLink.tryParse(link);
-      if (firstPart != null) {
-        sl<PendingISKPRepository>().save(firstPart);
+      final firstPartLink = SplitKeyFirstLink.tryParse(link);
+      if (firstPartLink != null) {
+        sl<PendingISKPRepository>().save(firstPartLink);
         sl<AnalyticsManager>().firstLinkReceived();
         _openFirstPartReadyScreen();
+
+        return true;
+      }
+
+      final firstPartQr = SplitQrLink.tryParse(link);
+      if (firstPartQr != null) {
+        sl<AnalyticsManager>().firstLinkReceived();
+        context.router.push(const FirstPartQrRoute()).ignore();
 
         return true;
       }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/wallet.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -9,7 +10,7 @@ import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import '../../../qr_scanner/models/qr_scanner_request.dart';
-import '../../widgets/extensions.dart';
+import '../../extensions.dart';
 import 'components/terms_disclaimer.dart';
 
 class FirstPartQrScreen extends StatefulWidget {
@@ -28,13 +29,16 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
     if (!mounted) return;
 
     if (request is QrScannerPaymentRequest) {
-      final id = await context.createISLP(
-        first: request.firstPart,
-        second: request.secondPart,
+      final escrow = await walletFromParts(
+        firstPart: request.firstPart.key,
+        secondPart: request.secondPart.key,
       );
+      if (!mounted) return;
+
+      final id = await context.createISKP(escrow);
 
       if (!mounted) return;
-      await context.router.replace(IncomingSingleLinkRoute(id: id));
+      await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));
     }
   }
 

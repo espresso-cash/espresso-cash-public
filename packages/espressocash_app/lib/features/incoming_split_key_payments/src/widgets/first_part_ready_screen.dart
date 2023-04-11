@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
+import '../../../../core/wallet.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -15,8 +14,8 @@ import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
+import '../../extensions.dart';
 import '../bl/pending_iskp_repository.dart';
-import 'extensions.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
@@ -161,14 +160,4 @@ class _ContentView extends StatelessWidget {
           ),
         ],
       );
-}
-
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
-}) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
-
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }
