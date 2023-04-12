@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -40,14 +41,14 @@ class TxReadyWatcher {
               ) ??
               DateTime.now();
 
-          final Iterable<String> destinationAccounts;
+          final IList<String> destinationAccounts;
 
           switch (payment.apiVersion) {
             case SplitKeyApiVersion.manual:
-              destinationAccounts = tx.getDestinations();
+              destinationAccounts = tx.getDestinations().toIList();
               break;
             case SplitKeyApiVersion.smartContract:
-              destinationAccounts = txDetails.getInnerDestinations();
+              destinationAccounts = txDetails.getInnerDestinations().toIList();
               break;
           }
 
