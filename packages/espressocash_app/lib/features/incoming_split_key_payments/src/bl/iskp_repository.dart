@@ -64,8 +64,8 @@ class ISKPRepository {
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
-  IntColumn get apiVersion => intEnum<IskpApiVersionDto>()
-      .withDefault(Constant(IskpApiVersionDto.manual.index))();
+  IntColumn get apiVersion =>
+      intEnum<IskpApiVersionDto>().withDefault(const Constant(0))();
 }
 
 enum ISKPStatusDto {
