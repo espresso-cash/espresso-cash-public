@@ -40,7 +40,7 @@ class TxReadyWatcher {
               ) ??
               DateTime.now();
 
-          late Iterable<String> destinationAccounts;
+          final Iterable<String> destinationAccounts;
 
           switch (payment.apiVersion) {
             case SplitKeyApiVersion.manual:
