@@ -1,27 +1,27 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:solana/dto.dart';
 
 extension TxDestinationsExt on ParsedTransaction {
   /// Retrieves all destinations of a transaction
-  Iterable<String> getDestinations() =>
-      message.instructions.whereType<ParsedInstruction>().let(
-            (it) => it.map((ix) => ix.getDestination()).compact(),
-          );
+  IList<String> getDestinations() => message.instructions
+      .whereType<ParsedInstruction>()
+      .map((ix) => ix.getDestination())
+      .compact()
+      .toIList();
 
   String get id => signatures.first;
 }
 
 extension MetaInnerInstructionExt on TransactionDetails {
   /// Retrieves all destinations of a transaction
-  Iterable<String> getInnerDestinations() => meta
+  IList<String> getInnerDestinations() => meta
       .let((m) => m?.innerInstructions ?? [])
-      .map(
-        (e) => e.instructions
-            .whereType<ParsedInstruction>()
-            .let((it) => it.map((ix) => ix.getDestination()).compact()),
-      )
-      .expand((e) => e)
-      .compact();
+      .expand((e) => e.instructions)
+      .whereType<ParsedInstruction>()
+      .map((ix) => ix.getDestination())
+      .compact()
+      .toIList();
 }
 
 extension on ParsedInstruction {
