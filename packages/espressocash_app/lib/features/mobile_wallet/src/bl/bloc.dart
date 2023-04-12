@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -141,6 +142,10 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
   required List<Uint8List> payloads,
   required Uint8List authorizationScope,
 }) {
+  if (!authorizationScope.deepEquals(_buildScope())) {
+    return const Either.left(_ValidationError.authorizationNotValid());
+  }
+
   if (payloads.length > maxPayloadsPerSigningRequest) {
     return const Either.left(_ValidationError.tooManyPayloads());
   }
@@ -186,5 +191,5 @@ Uint8List _buildScope() => [_scopeTag, _qualifier]
     .let(utf8.encode)
     .let(Uint8List.fromList);
 
-const String _scopeTag = 'app';
+const String _scopeTag = 'espresso-cash';
 const String? _qualifier = null;
