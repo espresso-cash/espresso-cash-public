@@ -653,22 +653,34 @@
   },
   "mobileWalletSignTransactions": "Sign Transaction(s)",
   "mobileWalletSignMessages": "Sign Message(s)",
-   "mobileWalletSignRequesting": "{appName} is requesting you to sign {payloadCount} payload(s)",
-  "@mobileWalletSignRequesting": {
+  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
+  "@mobileWalletSignMessagesRequest": {
     "placeholders": {
       "appName": {
         "type": "String"
       },
-      "payloadCount": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
         "type": "int"
       }
     }
   },
   "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
   "mobileWalletSendTransactions": "These transactions will be immediately submitted after signing.",
-  "mobileWalletAcceptSignPayloads": "Yes, sign payloads",
-  "mobileWalletAcceptAuthorization": "Yes, authorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Yes, sign and send payloads",
+  "mobileWalletAcceptSignTransactions": "Sign transactions",
+  "mobileWalletAcceptSignMessages": "Sign messages",
+  "mobileWalletAcceptAuthorization": "Authorize",
+  "mobileWalletAcceptSignAndSendPayloads": "Sign and send",
   "view": "View",
   "@view": {},
   "viewRecoveryPhrase": "View secret recovery phrase",

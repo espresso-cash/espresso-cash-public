@@ -76,11 +76,14 @@ class _ContentState extends State<_Content> {
                   authorizeDapp: always(
                     context.l10n.mobileWalletAcceptAuthorization,
                   ),
-                  signPayloads: always(
-                    context.l10n.mobileWalletAcceptSignPayloads,
-                  ),
                   signTransactionsForSending: always(
                     context.l10n.mobileWalletAcceptSignAndSendPayloads,
+                  ),
+                  signPayloads: (it) => it.map(
+                    messages:
+                        always(context.l10n.mobileWalletAcceptSignMessages),
+                    transactions:
+                        always(context.l10n.mobileWalletAcceptSignTransactions),
                   ),
                 );
 
@@ -193,9 +196,16 @@ class _SignPayloadsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            context.l10n.mobileWalletSignRequesting(
-              request.identityName ?? '',
-              request.payloads.length,
+            request.map(
+              transactions: (it) =>
+                  context.l10n.mobileWalletSignTransactionsRequest(
+                it.identityName ?? '',
+                it.payloads.length,
+              ),
+              messages: (it) => context.l10n.mobileWalletSignMessagesRequest(
+                it.identityName ?? '',
+                it.payloads.length,
+              ),
             ),
           ),
         ],
@@ -226,7 +236,7 @@ class _SignAndSendPayloadsWidget extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            context.l10n.mobileWalletSignRequesting(
+            context.l10n.mobileWalletSignTransactionsRequest(
               request.identityName ?? '',
               request.transactions.length,
             ),
