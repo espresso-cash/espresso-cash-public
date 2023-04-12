@@ -65,8 +65,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  borsh:
+    dependency: "direct dev"
+    description:
+      name: borsh
+      sha256: "58f762a29eb4bc5e24a733e19d5a51771c512f9734f6e538a17aae0a68cf30ee"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1+2"
   borsh_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: borsh_annotation
       sha256: "0b93351d7af50bad42a1b844a459e3786d5b3cf2cfc5598429df7704410061bf"

@@ -8,7 +8,7 @@ import 'src/widgets/onboarding_flow_screen.dart';
 const onboardingFlowRoutes = AutoRoute<void>(
   page: OnboardingFlowScreen,
   children: [
-    AutoRoute<void>(page: NoEmailAndPasswordScreen, initial: true),
+    AutoRoute<void>(page: NoEmailAndPasswordScreen),
     AutoRoute<void>(page: ViewRecoveryPhraseScreen),
     AutoRoute<void>(
       page: CreateProfileScreen,
