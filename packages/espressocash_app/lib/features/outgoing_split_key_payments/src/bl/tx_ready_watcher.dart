@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/api_version.dart';
 import '../../../../core/transactions/tx_destinations.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import 'repository.dart';
@@ -39,12 +40,23 @@ class TxReadyWatcher {
               ) ??
               DateTime.now();
 
-          final newStatus = await txDetails.getInnerDestinations().let(
-                    (accounts) => findAssociatedTokenAddress(
-                      owner: _userPublicKey,
-                      mint: payment.amount.cryptoCurrency.token.publicKey,
-                    ).then((it) => it.toBase58()).then(accounts.contains),
-                  )
+          late Iterable<String> destinationAccounts;
+
+          switch (payment.apiVersion) {
+            case SplitKeyApiVersion.manual:
+              destinationAccounts = tx.getDestinations();
+              break;
+            case SplitKeyApiVersion.smartContract:
+              destinationAccounts = txDetails.getInnerDestinations();
+              break;
+          }
+
+          final newStatus = await destinationAccounts.let(
+            (accounts) => findAssociatedTokenAddress(
+              owner: _userPublicKey,
+              mint: payment.amount.cryptoCurrency.token.publicKey,
+            ).then((it) => it.toBase58()).then(accounts.contains),
+          )
               ? OSKPStatus.canceled(txId: txId, timestamp: timestamp)
               : OSKPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
