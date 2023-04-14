@@ -40,7 +40,10 @@ Future<Response> commonHandler(
     htmlEscapeValues: false,
   );
 
-  final deepLink = app.deepLink(request.requestedUri);
+  final deepLink = app.deepLink(
+    request.requestedUri,
+    host: request.requestedUri.host,
+  );
   // ignore: avoid-non-null-assertion, should not be null at this point
   final String installLink = app.installLink(deepLink, platform)!;
 
@@ -82,8 +85,10 @@ Future<Response> commonHandler(
 }
 
 extension on App {
-  Uri deepLink(Uri requestLink) => requestLink.replace(
-        scheme: deeplinkScheme,
+  Uri deepLink(Uri requestLink, {required String host}) => requestLink.replace(
+        scheme: host == espressocashLinkHost
+            ? espressocashLinkScheme
+            : deeplinkScheme,
         host: protocolMap[requestLink.host],
       );
 
