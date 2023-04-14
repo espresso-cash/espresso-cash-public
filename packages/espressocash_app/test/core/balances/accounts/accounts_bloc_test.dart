@@ -9,14 +9,16 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'accounts_bloc_test.mocks.dart';
 
-@GenerateMocks([FlutterSecureStorage])
+@GenerateMocks([FlutterSecureStorage, SeedVault])
 Future<void> main() async {
+  final seedVault = MockSeedVault();
   final storage = MockFlutterSecureStorage();
   final mnemonic = bip39.generateMnemonic();
-  final wallet = await createWallet(mnemonic: mnemonic, account: 0);
+  final wallet = await createLocalWallet(mnemonic: mnemonic);
   final testAccount = MyAccount(
     wallet: wallet,
     firstName: 'Test',
@@ -28,6 +30,12 @@ Future<void> main() async {
     reset(storage);
   });
 
+  AccountsBloc createBloc() => AccountsBloc(
+        storage: storage,
+        fileManager: fileManager,
+        seedVault: seedVault,
+      );
+
   blocTest<AccountsBloc, AccountsState>(
     'Tries to load account from storage',
     setUp: () {
@@ -36,7 +44,7 @@ Future<void> main() async {
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
+    build: createBloc,
     act: (b) {
       b.add(const AccountsEvent.initialize());
     },
@@ -46,7 +54,7 @@ Future<void> main() async {
     ],
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
-          .called(2);
+          .called(3);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
@@ -56,6 +64,9 @@ Future<void> main() async {
   blocTest<AccountsBloc, AccountsState>(
     'Loads account from storage if it exists',
     setUp: () {
+      when(
+        storage.read(key: authTokenKey, iOptions: anyNamed('iOptions')),
+      ).thenAnswer((_) async => null);
       when(
         storage.read(key: mnemonicKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => mnemonic);
@@ -71,7 +82,7 @@ Future<void> main() async {
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
+    build: createBloc,
     act: (b) {
       b.add(const AccountsEvent.initialize());
     },
@@ -97,11 +108,11 @@ Future<void> main() async {
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
-    build: () => AccountsBloc(storage: storage, fileManager: fileManager),
+    build: createBloc,
     act: (b) {
       b.add(
         AccountsEvent.created(
-          mnemonic: Mnemonic.generated(mnemonic),
+          source: AccountSource.local(Mnemonic.generated(mnemonic)),
           account: testAccount,
           hasFinishedOnboarding: false,
         ),

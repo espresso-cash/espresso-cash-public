@@ -24,7 +24,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   void _restoreAccount() {
     context
         .read<SignInBloc>()
-        .add(SignInEvent.phraseUpdated(_controller.text.trim()));
+        .add(SignInEvent.existingLocalWalletRequested(_controller.text.trim()));
     context.signInRouter.onMnemonicConfirmed();
   }
 

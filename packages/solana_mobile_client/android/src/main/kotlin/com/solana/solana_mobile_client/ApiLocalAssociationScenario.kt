@@ -199,22 +199,31 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         id: Long,
         messages: MutableList<ByteArray>,
         addresses: MutableList<ByteArray>,
-        result: Api.Result<Api.SignPayloadsResultDto>?
+        result: Api.Result<Api.SignMessagesResultDto>?
     ) {
         val client = getClient(id)
 
-        client.signMessages(messages.toTypedArray(), addresses.toTypedArray()).notifyOnComplete {
-            try {
-                val response = it.get()
-                val dto = Api.SignPayloadsResultDto.Builder()
-                    .setSignedPayloads(response.signedPayloads.toList())
-                    .build()
+        client.signMessagesDetached(messages.toTypedArray(), addresses.toTypedArray())
+            .notifyOnComplete {
+                try {
+                    val response = it.get()
+                    val messages = response.messages.map {
+                        r ->
+                        Api.SignedMessageDto.Builder()
+                            .setMessage(r.message)
+                            .setSignatures(r.signatures.toList())
+                            .setAddresses(r.addresses.toList())
+                            .build()
+                    }
+                    val dto = Api.SignMessagesResultDto.Builder()
+                        .setMessages(messages.toList())
+                        .build()
 
-                activity?.runOnUiThread { result?.success(dto) }
-            } catch (e: Throwable) {
-                activity?.runOnUiThread { result?.error(e) }
+                    activity?.runOnUiThread { result?.success(dto) }
+                } catch (e: Throwable) {
+                    activity?.runOnUiThread { result?.error(e) }
+                }
             }
-        }
     }
 
     override fun signAndSendTransactions(

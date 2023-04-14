@@ -42,7 +42,7 @@ abstract class ApiLocalAssociationScenario {
   SignPayloadsResultDto signTransactions(int id, List<Uint8List> transactions);
 
   @async
-  SignPayloadsResultDto signMessages(
+  SignMessagesResultDto signMessages(
     int id,
     List<Uint8List> messages,
     List<Uint8List> addresses,
@@ -98,4 +98,24 @@ class SignAndSendTransactionsResultDto {
   });
 
   final List<Uint8List?> signatures;
+}
+
+class SignedMessageDto {
+  SignedMessageDto({
+    required this.message,
+    required this.addresses,
+    required this.signatures,
+  });
+
+  final Uint8List message;
+  final List<Uint8List?> addresses;
+  final List<Uint8List?> signatures;
+}
+
+class SignMessagesResultDto {
+  SignMessagesResultDto({
+    required this.messages,
+  });
+
+  final List<SignedMessageDto?> messages;
 }
