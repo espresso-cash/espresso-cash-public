@@ -61,6 +61,51 @@ void main() {
             (m) => m.uri,
             'uri',
             'https://arweave.net/LogULMuEjDSOg-TnsboIF6UvmZyyr6j3BDCN4p46Frc',
+          )
+          .having(
+            (m) => m.key,
+            'key',
+            4,
+          )
+          .having(
+            (m) => m.isMutable,
+            'isMutable',
+            true,
+          )
+          .having(
+            (m) => m.primarySaleHappened,
+            'primarySaleHappened',
+            true,
+          )
+          .having(
+            (m) => m.sellerFeeBasisPoints,
+            'sellerFeeBasisPoints',
+            0,
+          )
+          .having(
+            (m) => m.creators?.length,
+            'creators length',
+            2,
+          )
+          .having(
+            (m) => m.creators?.first.address.toBase58(),
+            'first creator address',
+            'F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi',
+          )
+          .having(
+            (m) => m.uses,
+            'uses',
+            null,
+          )
+          .having(
+            (m) => m.collection,
+            'collection',
+            null,
+          )
+          .having(
+            (m) => m.tokenStandard,
+            'tokenStandard',
+            null,
           ),
     );
   });
