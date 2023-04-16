@@ -6,7 +6,7 @@ upload:
     - file: packages/espressocash_app/lib/l10n/intl_en.arb
       locale_code: en
   params:
-    overwrite: false
+    overwrite: true
     reviewed: false
     tag_removed:
       - removed
