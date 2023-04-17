@@ -615,7 +615,6 @@
   "@tomorrow": {},
   "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
   "@toRestoreYourAccount": {},
-  "transactions": "Transactions",
   "@transactions": {},
   "transferErrorTitle": "OOPS!",
   "@transferErrorTitle": {},
@@ -642,6 +641,7 @@
       }
     }
   },
+  "transactions": "Transactions",
   "view": "View",
   "@view": {},
   "viewRecoveryPhrase": "View secret recovery phrase",
@@ -677,5 +677,44 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "mobileWalletTitle": "Espresso Cash Wallet",
+  "mobileWalletAuthorize": "Authorize {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+            "type": "String"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Sign Transaction",
+  "mobileWalletSignMessages": "Sign Message",
+  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
+  "mobileWalletSendTransactions": "Thesze transactions will be immediately submitted after signing.",
+  "mobileWalletAcceptSignTransactions": "Sign Transactions",
+  "mobileWalletAcceptSignMessages": "Sign Messages",
+  "mobileWalletAcceptAuthorization": "Authorize",
+  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send"
 }
