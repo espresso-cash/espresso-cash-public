@@ -5,6 +5,7 @@ import '../../../features/app_lock/routes.dart';
 import '../../../features/backup_phrase/routes.dart';
 import '../../../features/incoming_single_link_payments/routes.dart';
 import '../../../features/incoming_split_key_payments/routes.dart';
+import '../../../features/mobile_wallet/routes.dart';
 import '../../../features/onboarding/routes.dart';
 import '../../../features/outgoing_direct_payments/routes.dart';
 import '../../../features/outgoing_split_key_payments/routes.dart';
@@ -57,6 +58,7 @@ const authenticatedFlowRoutes = AutoRoute<dynamic>(
     AutoRoute<void>(page: HelpScreen),
     ...tokenSearchRoutes,
     onboardingFlowRoutes,
+    mobileWalletRoutes,
     AutoRoute<void>(page: WebViewScreen),
   ],
 );
