@@ -67,6 +67,8 @@ dependencies:
   sliver_tools: ^0.2.8
   solana:
     path: ../solana/
+  solana_mobile_wallet:
+    path: ../solana_mobile_wallet/
   solana_seed_vault:
     path: ../solana_seed_vault/
   sqlite3_flutter_libs: ^0.5.10
