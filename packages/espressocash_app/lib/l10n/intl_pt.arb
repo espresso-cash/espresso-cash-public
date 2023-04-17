@@ -636,6 +636,33 @@
       }
     }
   },
+  "mobileWalletTitle": "Espresso Cash Wallet",
+  "mobileWalletAuthorize": "Authorizar {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+            "type": "String"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Assinar transações",
+  "mobileWalletSignMessages": "Assinar mensagens",
+   "mobileWalletSignRequesting": "{appName} está pedindo que você assine {payloadCount} transação(ões)",
+  "@mobileWalletSignRequesting": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "payloadCount": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignAndSendTransactions": "Assinar e Enviar Transações",
+  "mobileWalletSendTransactions": "Essas transações serão enviadas imediatamente após a assinatura.",
+  "mobileWalletAcceptSignPayloads": "Sim, assine",
+  "mobileWalletAcceptAuthorization": "Sim, autorize",
+  "mobileWalletAcceptSignAndSendPayloads": "Sim, assine e envie",
   "view": "Visualizar",
   "@view": {},
   "viewRecoveryPhrase": "Ver a frase de recuperação secreta",

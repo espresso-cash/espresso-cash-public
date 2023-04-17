@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
@@ -62,7 +63,9 @@ Future<void> main() async {
       .let(
         (it) async => SignedTx(
           compiledMessage: it,
-          signatures: [await account.sign(it.toByteArray())],
+          signatures: await account.sign(
+            [it.toByteArray().toList().let(Uint8List.fromList)],
+          ),
         ),
       )
       .then((it) => it.encode());
