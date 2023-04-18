@@ -4,6 +4,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
@@ -31,8 +32,22 @@ class ISKPRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel());
   }
 
-  Future<void> save(IncomingSplitKeyPayment payment) async =>
-      _db.into(_db.iSKPRows).insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(IncomingSplitKeyPayment payment) async {
+    await payment.status.maybeMap(
+      txFailure: (status) async {
+        await Sentry.captureMessage(
+          'ISKP tx failure',
+          level: SentryLevel.warning,
+          withScope: (scope) => scope.setContexts('data', {
+            'reason': status.reason,
+          }),
+        );
+      },
+      orElse: () async {},
+    );
+
+    await _db.into(_db.iSKPRows).insertOnConflictUpdate(await payment.toDto());
+  }
 
   Future<void> clear() => _db.delete(_db.iSKPRows).go();
 
