@@ -18,6 +18,7 @@ import '../../../../ui/theme.dart';
 import '../bl/pending_iskp_repository.dart';
 import 'extensions.dart';
 
+@RoutePage()
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
 

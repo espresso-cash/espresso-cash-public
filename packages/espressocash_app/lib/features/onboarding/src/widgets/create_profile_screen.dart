@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/create_profile.dart';
 import '../bl/onboarding_bloc.dart';
 
+@RoutePage(name: 'CreateProfileOnboardingRoute')
 class CreateProfileScreen extends StatelessWidget {
   const CreateProfileScreen({Key? key}) : super(key: key);
 

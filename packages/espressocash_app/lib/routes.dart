@@ -2,14 +2,20 @@ import 'package:auto_route/auto_route.dart';
 
 import 'app/screens/authenticated/routes.dart';
 import 'features/sign_in/routes.dart';
-import 'ui/splash_screen.dart';
+import 'routes.gr.dart';
 
-@MaterialAutoRouter(
+@AutoRouterConfig(
   replaceInRouteName: 'Screen,Route',
-  routes: <AutoRoute<dynamic>>[
-    AutoRoute<void>(page: SplashScreen, initial: true),
+  deferredLoading: false,
+)
+class AppRouter extends $AppRouter {
+  @override
+  RouteType get defaultRouteType => const RouteType.material();
+
+  @override
+  final List<AutoRoute> routes = [
+    AutoRoute(page: SplashRoute.page, initial: true),
     authenticatedFlowRoutes,
     signUpFlowRoutes,
-  ],
-)
-class $AppRouter {}
+  ];
+}

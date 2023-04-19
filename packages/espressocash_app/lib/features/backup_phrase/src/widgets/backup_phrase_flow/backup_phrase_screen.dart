@@ -10,6 +10,7 @@ import '../../../../../ui/theme.dart';
 import '../../../mnemonic_getter.dart';
 import 'backup_phrase_flow_screen.dart';
 
+@RoutePage()
 class BackupPhraseScreen extends StatefulWidget {
   const BackupPhraseScreen({Key? key}) : super(key: key);
 

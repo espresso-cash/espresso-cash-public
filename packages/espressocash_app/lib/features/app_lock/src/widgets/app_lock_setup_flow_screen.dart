@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../routes.gr.dart';
 import '../bl/app_lock_bloc.dart';
 
+@RoutePage()
 class AppLockSetupFlowScreen extends StatefulWidget {
   const AppLockSetupFlowScreen({Key? key}) : super(key: key);
 

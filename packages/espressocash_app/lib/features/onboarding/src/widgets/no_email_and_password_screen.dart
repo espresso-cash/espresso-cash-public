@@ -8,6 +8,7 @@ import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/theme.dart';
 import 'onboarding_flow_screen.dart';
 
+@RoutePage()
 class NoEmailAndPasswordScreen extends StatelessWidget {
   const NoEmailAndPasswordScreen({Key? key}) : super(key: key);
 

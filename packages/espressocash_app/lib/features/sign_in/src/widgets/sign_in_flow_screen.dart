@@ -12,6 +12,7 @@ import '../../../../ui/dialogs.dart';
 import '../../../../ui/loader.dart';
 import '../bl/sign_in_bloc.dart';
 
+@RoutePage()
 class SignInFlowScreen extends StatefulWidget {
   const SignInFlowScreen({Key? key}) : super(key: key);
 

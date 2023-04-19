@@ -12,6 +12,7 @@ import '../../widgets/extensions.dart';
 import '../bl/islp_payment.dart';
 import '../bl/islp_repository.dart';
 
+@RoutePage()
 class IncomingSingleLinkScreen extends StatefulWidget {
   const IncomingSingleLinkScreen({
     super.key,

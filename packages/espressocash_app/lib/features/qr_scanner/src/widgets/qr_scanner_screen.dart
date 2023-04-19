@@ -16,6 +16,7 @@ import '../bl/qr_scanner_bloc.dart';
 import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';
 
+@RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({Key? key}) : super(key: key);
 

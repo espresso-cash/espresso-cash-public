@@ -1,64 +1,101 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/empty_router_widgets.dart';
 
-import '../../../features/app_lock/routes.dart';
-import '../../../features/backup_phrase/routes.dart';
-import '../../../features/incoming_single_link_payments/routes.dart';
-import '../../../features/incoming_split_key_payments/routes.dart';
-import '../../../features/mobile_wallet/routes.dart';
-import '../../../features/onboarding/routes.dart';
-import '../../../features/outgoing_direct_payments/routes.dart';
-import '../../../features/outgoing_split_key_payments/routes.dart';
-import '../../../features/payment_request/routes.dart';
-import '../../../features/qr_scanner/routes.dart';
-import '../../../features/swap/routes.dart';
-import '../../../features/token_details/widgets/token_details_screen.dart';
-import '../../../features/token_search/routes.dart';
-import '../../../ui/webview_screen.dart';
-import 'activities/activities_screen.dart';
-import 'authenticated_flow_screen.dart';
-import 'home_screen.dart';
-import 'investments/investments_screen.dart';
-import 'profile/edit_profile_screen.dart';
-import 'profile/help_screen.dart';
-import 'profile/profile_screen.dart';
-import 'wallet_flow/wallet_flow_screen.dart';
+import '../../../routes.gr.dart';
 
-const authenticatedFlowRoutes = AutoRoute<dynamic>(
-  page: AuthenticatedFlowScreen,
+final authenticatedFlowRoutes = AutoRoute(
+  page: AuthenticatedFlowRoute.page,
   children: [
-    AutoRoute<void>(
+    AutoRoute(
       path: '',
-      page: HomeScreen,
+      page: HomeRoute.page,
       children: [
-        CustomRoute<void>(
-          name: 'InvestmentsRouter',
-          page: EmptyRouterScreen,
+        CustomRoute(
+          page: InvestmentsRouter.page,
           path: '',
           children: [
-            CustomRoute<void>(initial: true, page: InvestmentsScreen),
-            AutoRoute<void>(page: TokenDetailsScreen),
+            CustomRoute(initial: true, page: InvestmentsRoute.page),
+            AutoRoute(page: TokenDetailsRoute.page),
           ],
         ),
-        CustomRoute<void>(page: WalletFlowScreen, maintainState: false),
-        CustomRoute<void>(page: ActivitiesScreen, maintainState: false),
+        CustomRoute(page: WalletFlowRoute.page, maintainState: false),
+        CustomRoute(page: ActivitiesRoute.page, maintainState: false),
       ],
     ),
-    ...backupPhraseRoutes,
-    ...odpRoutes,
-    ...oskpRoutes,
-    ...iskpRoutes,
-    ...qrScannerRoutes,
-    ...paymentRequestRoutes,
-    ...islpRoutes,
-    ...swapRoutes,
-    appLockSetupFlowRoutes,
-    AutoRoute<void>(page: ProfileScreen, fullscreenDialog: true),
-    AutoRoute<void>(page: EditProfileScreen),
-    AutoRoute<void>(page: HelpScreen),
-    ...tokenSearchRoutes,
-    onboardingFlowRoutes,
-    mobileWalletRoutes,
-    AutoRoute<void>(page: WebViewScreen),
+    AutoRoute(
+      page: PuzzleReminderRoute.page,
+      fullscreenDialog: true,
+      children: [
+        AutoRoute(path: '', page: PuzzleReminderMessageRoute.page),
+        AutoRoute(page: PuzzleReminderSetupRoute.page),
+      ],
+    ),
+    AutoRoute(
+      page: BackupPhraseFlowRoute.page,
+      children: [
+        AutoRoute(path: '', page: BackupWarningRoute.page),
+        AutoRoute(page: BackupPhraseRoute.page),
+        AutoRoute(page: BackupConfirmPhraseRoute.page),
+        AutoRoute(page: BackupPhraseSuccessRoute.page),
+      ],
+    ),
+    // odpRoutes,
+    AutoRoute(page: ODPDetailsRoute.page),
+    AutoRoute(page: ODPConfirmationRoute.page),
+    // oskpRoutes,
+    AutoRoute(page: OSKPRoute.page),
+    AutoRoute(page: OSKPConfirmationRoute.page),
+    AutoRoute(page: ShareLinksRoute.page),
+    // iskpRoutes,
+    AutoRoute(page: FirstPartReadyRoute.page),
+    AutoRoute(page: IncomingSplitKeyPaymentRoute.page),
+    // qrScannerRoutes
+    AutoRoute(page: QrScannerRoute.page),
+    // paymentRequestRoutes,
+    AutoRoute(
+      page: LinkDetailsFlowRoute.page,
+      children: [
+        AutoRoute(page: SharePaymentRequestRoute.page, initial: true),
+      ],
+    ),
+    AutoRoute(page: LinkRequestFlowRoute.page),
+    // islpRoutes,
+    AutoRoute(page: IncomingSingleLinkRoute.page),
+    // swapRoutes,
+    AutoRoute(page: SwapFlowRoute.page),
+    AutoRoute(page: ProcessSwapRoute.page),
+    // appLockSetupFlowRoutes,
+    AutoRoute(
+      page: AppLockSetupFlowRoute.page,
+      children: [
+        AutoRoute(page: AppLockEnableRoute.page),
+        AutoRoute(page: AppLockDisableRoute.page),
+      ],
+    ),
+    AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
+    AutoRoute(page: EditProfileRoute.page),
+    AutoRoute(page: HelpRoute.page),
+    // tokenSearchRoutes,
+    AutoRoute(page: TokenSearchRoute.page),
+    // onboardingFlowRoutes,
+    AutoRoute(
+      page: OnboardingFlowRoute.page,
+      children: [
+        AutoRoute(page: NoEmailAndPasswordRoute.page),
+        AutoRoute(page: ViewRecoveryPhraseRoute.page),
+        AutoRoute(page: CreateProfileOnboardingRoute.page),
+      ],
+    ),
+    AutoRoute(page: RemoteRequestRoute.page),
+    AutoRoute(page: WebViewRoute.page),
   ],
 );
+
+@RoutePage(name: 'InvestmentsRouter')
+class InvestmentsRouterScreen extends AutoRouter {
+  const InvestmentsRouterScreen({super.key});
+}
+
+@RoutePage(name: 'PuzzleReminderRoute')
+class PuzzleReminderRouteScreen extends AutoRouter {
+  const PuzzleReminderRouteScreen({super.key});
+}

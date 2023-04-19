@@ -9,6 +9,7 @@ import '../../../../../ui/message_info_widget.dart';
 import '../../bl/puzzle_reminder_bloc.dart';
 import 'components/puzzle_screen.dart';
 
+@RoutePage()
 class PuzzleReminderSetupScreen extends StatefulWidget {
   const PuzzleReminderSetupScreen({Key? key}) : super(key: key);
 

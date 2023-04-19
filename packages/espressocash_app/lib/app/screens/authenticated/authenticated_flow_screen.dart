@@ -34,6 +34,7 @@ class HomeRouterKey {
   final GlobalKey<AutoRouterState> value;
 }
 
+@RoutePage()
 class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({Key? key}) : super(key: key);
 

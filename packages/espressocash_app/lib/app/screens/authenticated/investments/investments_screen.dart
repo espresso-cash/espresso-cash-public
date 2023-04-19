@@ -20,6 +20,7 @@ import 'components/investment_header.dart';
 import 'components/popular_crypto_header.dart';
 import 'components/start_investing_header.dart';
 
+@RoutePage()
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({Key? key}) : super(key: key);
 

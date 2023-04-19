@@ -12,6 +12,7 @@ import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_repository.dart';
 import 'extensions.dart';
 
+@RoutePage()
 class IncomingSplitKeyPaymentScreen extends StatefulWidget {
   const IncomingSplitKeyPaymentScreen({
     super.key,

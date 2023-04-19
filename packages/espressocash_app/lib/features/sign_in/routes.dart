@@ -1,17 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 
-import '../../ui/webview_screen.dart';
-import 'src/widgets/get_started_screen.dart';
-import 'src/widgets/restore_account_screen.dart';
-import 'src/widgets/sign_in_flow_screen.dart';
-import 'src/widgets/sign_in_profile_screen.dart';
+import '../../routes.gr.dart';
 
-const signUpFlowRoutes = AutoRoute<void>(
-  page: SignInFlowScreen,
+final signUpFlowRoutes = AutoRoute(
+  page: SignInFlowRoute.page,
   children: [
-    AutoRoute<void>(path: '', page: GetStartedScreen),
-    AutoRoute<void>(page: RestoreAccountScreen),
-    AutoRoute<void>(page: SignInProfileScreen),
-    AutoRoute<void>(page: WebViewScreen),
+    AutoRoute(path: '', page: GetStartedRoute.page),
+    AutoRoute(page: RestoreAccountRoute.page),
+    AutoRoute(page: SignInProfileRoute.page),
+    AutoRoute(page: WebViewRoute.page),
   ],
 );
