@@ -49,8 +49,7 @@ dependencies:
   localizely_sdk: ^2.5.1
   logging: ^1.1.0
   meta: ^1.7.0
-  mews_pedantic:
-    path: ../../../../mews-flutter/mews_pedantic/
+  mews_pedantic: ^0.13.0
   mobile_scanner: ^3.0.0-beta.4
   nested: ^1.0.0
   package_info_plus: ^1.3.0
