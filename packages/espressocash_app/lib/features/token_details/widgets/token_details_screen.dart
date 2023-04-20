@@ -270,7 +270,7 @@ class _NoGlowList extends StatelessWidget {
       );
 }
 
-extension on Token {
+extension TokenExt on Token {
   /// Since buy and sell a token actually swaps it for USDC, makes no sense
   /// buying or selling USDC through this same flow as would not exist a match.
   bool get canBeSwapped =>

@@ -9,6 +9,8 @@ import '../../../../core/tokens/token.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
+import '../../widgets/token_details_screen.dart';
+import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {
   const TokenAppBar({
@@ -41,6 +43,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
         .let(Curves.ease.transform)
         .let((it) => 1 - it);
     final iconSize = max(_tokenSize * ratio, 24.0);
+    final showUnavailableNotice = !token.canBeSwapped;
 
     return Material(
       color: CpColors.darkBackground,
@@ -48,13 +51,16 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Stack(
           children: [
-            _buildIcon(ratio, iconSize),
-            _buildText(ratio, iconSize),
+            _buildIcon(ratio, iconSize, showUnavailableNotice),
+            _buildText(ratio, iconSize, showUnavailableNotice),
             Positioned(
               top: 0,
               left: 0,
               right: 0,
-              child: _Buttons(token: token),
+              child: _Buttons(
+                token: token,
+                opacity: ratio,
+              ),
             ),
           ],
         ),
@@ -62,8 +68,9 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
-  Widget _buildIcon(double ratio, double iconSize) => Positioned(
-        top: (iconSize * ratio) - iconSize,
+  Widget _buildIcon(double ratio, double iconSize, bool showNotice) =>
+      Positioned(
+        top: (iconSize * ratio) - iconSize + (showNotice ? _noticeSize : 0),
         left: 0,
         right: 0,
         child: Opacity(
@@ -72,8 +79,9 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
         ),
       );
 
-  Widget _buildText(double ratio, double iconSize) => Positioned.fill(
-        top: iconSize * ratio,
+  Widget _buildText(double ratio, double iconSize, bool showNotice) =>
+      Positioned.fill(
+        top: (iconSize + (showNotice ? _noticeSize : 0)) * ratio,
         left: _buttonSize,
         right: _buttonSize,
         child: Center(
@@ -92,7 +100,8 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       );
 
   @override
-  double get maxExtent => _tokenSize + _minExtent;
+  double get maxExtent =>
+      _tokenSize + _minExtent + (token.canBeSwapped ? 0 : _noticeSize);
 
   @override
   double get minExtent => _minExtent;
@@ -110,27 +119,45 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({Key? key, required this.token}) : super(key: key);
+  const _Buttons({Key? key, required this.token, required this.opacity})
+      : super(key: key);
 
   final Token token;
+  final double opacity;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        height: _minExtent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            BackButton(onPressed: () => context.router.pop()),
-            Padding(
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: _minExtent,
+            child: BackButton(
+              onPressed: () => context.router.pop(),
+            ),
+          ),
+          if (!token.canBeSwapped)
+            Expanded(
+              child: Opacity(
+                opacity: opacity,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: UnavailableTokenNotice(tokenName: token.name),
+                ),
+              ),
+            ),
+          SizedBox(
+            height: _minExtent,
+            child: Padding(
               padding: const EdgeInsets.only(right: 12.0),
               child: FavoriteButton(token: token),
             ),
-          ],
-        ),
+          ),
+        ],
       );
 }
 
+const double _noticeSize = 110;
 const double _tokenSize = 68;
 const double _buttonSize = 48;
 const double _minExtent = kToolbarHeight; // Default Flutter toolbar height
