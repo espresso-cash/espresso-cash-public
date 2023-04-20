@@ -67,6 +67,10 @@ class TokenDetailsScreen extends StatelessWidget {
                           if (token == Token.usdc) const _RampButtons(),
                           _Balance(token: token),
                           _Content(token: token),
+                          SizedBox(
+                            height: MediaQuery.of(context).padding.bottom -
+                                cpNavigationBarheight,
+                          )
                         ],
                       ),
                     ),
@@ -270,7 +274,7 @@ class _NoGlowList extends StatelessWidget {
       );
 }
 
-extension TokenExt on Token {
+extension on Token {
   /// Since buy and sell a token actually swaps it for USDC, makes no sense
   /// buying or selling USDC through this same flow as would not exist a match.
   bool get canBeSwapped =>
