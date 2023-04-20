@@ -54,19 +54,14 @@ final _authenticatedFlowRoutes = AutoRoute(
         AutoRoute(page: BackupPhraseSuccessRoute.page),
       ],
     ),
-    // odpRoutes,
     AutoRoute(page: ODPDetailsRoute.page),
     AutoRoute(page: ODPConfirmationRoute.page),
-    // oskpRoutes,
     AutoRoute(page: OSKPRoute.page),
     AutoRoute(page: OSKPConfirmationRoute.page),
     AutoRoute(page: ShareLinksRoute.page),
-    // iskpRoutes,
     AutoRoute(page: FirstPartReadyRoute.page),
     AutoRoute(page: IncomingSplitKeyPaymentRoute.page),
-    // qrScannerRoutes
     AutoRoute(page: QrScannerRoute.page),
-    // paymentRequestRoutes,
     AutoRoute(
       page: LinkDetailsFlowRoute.page,
       children: [
@@ -74,12 +69,9 @@ final _authenticatedFlowRoutes = AutoRoute(
       ],
     ),
     AutoRoute(page: LinkRequestFlowRoute.page),
-    // islpRoutes,
     AutoRoute(page: IncomingSingleLinkRoute.page),
-    // swapRoutes,
     AutoRoute(page: SwapFlowRoute.page),
     AutoRoute(page: ProcessSwapRoute.page),
-    // appLockSetupFlowRoutes,
     AutoRoute(
       page: AppLockSetupFlowRoute.page,
       children: [
@@ -90,9 +82,7 @@ final _authenticatedFlowRoutes = AutoRoute(
     AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
     AutoRoute(page: EditProfileRoute.page),
     AutoRoute(page: HelpRoute.page),
-    // tokenSearchRoutes,
     AutoRoute(page: TokenSearchRoute.page),
-    // onboardingFlowRoutes,
     AutoRoute(
       page: OnboardingFlowRoute.page,
       children: [
