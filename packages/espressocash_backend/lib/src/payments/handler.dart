@@ -26,6 +26,7 @@ Future<Response> getFeesHandler(Request request) =>
           ataDoesNotExist: directPaymentWithAccountCreationFee,
         ),
         splitKeyPayment: shareableLinkPaymentFee,
+        escrowPayment: escrowPaymentFee,
       ),
     );
 

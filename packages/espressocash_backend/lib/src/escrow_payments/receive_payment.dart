@@ -5,6 +5,8 @@ import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../constants.dart';
+
 Future<Product2<SignedTx, BigInt>> receivePaymentTx({
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey aReceiver,
@@ -64,6 +66,20 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
   );
 
   instructions.add(escrowIx);
+
+  if (shouldCreateAta) {
+    final ataPlatform = await findAssociatedTokenAddress(
+      owner: platform.publicKey,
+      mint: mint,
+    );
+    final iTransferFee = TokenInstruction.transfer(
+      amount: escrowPaymentAccountCreationFee,
+      source: ataReceiver,
+      destination: ataPlatform,
+      owner: aReceiver,
+    );
+    instructions.add(iTransferFee);
+  }
 
   final message = Message(instructions: instructions);
   final latestBlockhash =
