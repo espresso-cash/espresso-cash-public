@@ -94,6 +94,5 @@ Future<Ed25519HDPublicKey> _calculatePda(
       programId: escrowProgram,
     );
 
-final escrowAddress = Platform.environment['ESCROW_SMART_CONTRACT'] ??
-    'GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC';
+const escrowAddress = '7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL';
 final escrowProgram = Ed25519HDPublicKey.fromBase58(escrowAddress);
