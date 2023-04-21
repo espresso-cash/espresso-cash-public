@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/dynamic_links_notifier.dart';
+import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/dialogs.dart';
@@ -48,10 +50,22 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
                 ),
             orElse: ignore,
           ),
-          builder: (context, state) => CpLoader(
-            isLoading: state.processingState.isProcessing(),
-            child: const AutoRouter(),
-          ),
+          builder: (context, state) {
+            final isValidLink =
+                context.watch<DynamicLinksNotifier>().link.let(_parseUri);
+
+            return CpLoader(
+              isLoading: state.processingState.isProcessing(),
+              child: AutoRouter.declarative(
+                routes: (_) => [
+                  if (isValidLink)
+                    const CreateWalletLoadingRoute()
+                  else
+                    const SignUpFlowRoute(),
+                ],
+              ),
+            );
+          },
         ),
       );
 }
@@ -63,4 +77,20 @@ abstract class SignInRouter {
 
 extension SignInRouterExt on BuildContext {
   SignInRouter get signInRouter => read<SignInRouter>();
+}
+
+bool _parseUri(Uri? link) {
+  if (link == null) return false;
+
+  final firstPartLink = SplitKeyFirstLink.tryParse(link);
+  if (firstPartLink != null) {
+    return true;
+  }
+
+  final firstPartQr = SplitQrLink.tryParse(link);
+  if (firstPartQr != null) {
+    return true;
+  }
+
+  return false;
 }

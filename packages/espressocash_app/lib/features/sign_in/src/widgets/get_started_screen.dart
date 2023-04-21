@@ -12,6 +12,7 @@ import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import '../bl/sign_in_bloc.dart';
+import '../extensions.dart';
 import 'components/terms_disclaimer.dart';
 import 'sign_in_flow_screen.dart';
 
@@ -80,17 +81,6 @@ class _Footer extends StatefulWidget {
 }
 
 class _FooterState extends State<_Footer> {
-  Future<void> _onCreateWallet() async {
-    final hasSeedVault = await sl<SeedVault>().isReady();
-    if (!mounted) return;
-
-    final event = hasSeedVault
-        ? const SignInEvent.newSagaWalletRequested()
-        : const SignInEvent.newLocalWalletRequested();
-
-    context.read<SignInBloc>().add(event);
-  }
-
   Future<void> _onExistingWallet() async {
     final hasSeedVault = await sl<SeedVault>().isReady();
     if (!mounted) return;
@@ -115,7 +105,7 @@ class _FooterState extends State<_Footer> {
               key: keyCreateWalletButton,
               text: context.l10n.signUp,
               width: double.infinity,
-              onPressed: _onCreateWallet,
+              onPressed: context.createWallet,
             ),
             const SizedBox(height: 16),
             Text.rich(
