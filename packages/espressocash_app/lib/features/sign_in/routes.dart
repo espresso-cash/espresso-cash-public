@@ -12,17 +12,15 @@ const signUpFlowRoutes = AutoRoute<void>(
   page: SignInFlowScreen,
   children: [
     AutoRoute<void>(page: CreateWalletLoadingScreen),
-    _signUpFlowRoutes,
-  ],
-);
-
-const _signUpFlowRoutes = AutoRoute<void>(
-  page: EmptyRouterPage,
-  name: 'SignUpFlowRoute',
-  children: [
-    AutoRoute<void>(path: '', page: GetStartedScreen),
-    AutoRoute<void>(page: RestoreAccountScreen),
-    AutoRoute<void>(page: SignInProfileScreen),
-    AutoRoute<void>(page: WebViewScreen),
+    AutoRoute<void>(
+      page: EmptyRouterPage,
+      name: 'SignUpFlowRoute',
+      children: [
+        AutoRoute<void>(path: '', page: GetStartedScreen),
+        AutoRoute<void>(page: RestoreAccountScreen),
+        AutoRoute<void>(page: SignInProfileScreen),
+        AutoRoute<void>(page: WebViewScreen),
+      ],
+    ),
   ],
 );
