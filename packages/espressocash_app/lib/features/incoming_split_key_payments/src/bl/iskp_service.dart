@@ -84,7 +84,8 @@ class ISKPService {
 
       final tx = await response.transaction
           .let(SignedTx.decode)
-          .let((it) => it.resign(LocalWallet(escrow)));
+          .let((it) => it.resign(LocalWallet(escrow)))
+          .letAsync((it) => it.resign(account));
 
       return ISKPStatus.txCreated(tx, slot: response.slot);
     } on DioError catch (e) {
