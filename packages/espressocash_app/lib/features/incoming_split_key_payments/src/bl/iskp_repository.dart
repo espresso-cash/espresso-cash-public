@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../../core/api_version.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 import '../../../../data/db/db.dart';
@@ -63,6 +64,8 @@ class ISKPRepository {
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
+  IntColumn get apiVersion =>
+      intEnum<IskpApiVersionDto>().withDefault(const Constant(0))();
 }
 
 enum ISKPStatusDto {
@@ -80,12 +83,18 @@ enum ISKPStatusDto {
   txEscrowFailure,
 }
 
+enum IskpApiVersionDto {
+  manual,
+  smartContract,
+}
+
 extension on ISKPRow {
   Future<IncomingSplitKeyPayment> toModel() async => IncomingSplitKeyPayment(
         id: id,
         status: status.toModel(this),
         created: created,
         escrow: await privateKey.let(base58decode).let(EscrowPrivateKey.new),
+        apiVersion: apiVersion.toModel(),
       );
 }
 
@@ -144,6 +153,7 @@ extension on IncomingSplitKeyPayment {
         txId: status.toTxId(),
         slot: status.toSlot()?.toString(),
         txFailureReason: status.toTxFailureReason(),
+        apiVersion: apiVersion.toDto(),
       );
 }
 
@@ -172,4 +182,26 @@ extension on ISKPStatus {
         txCreated: (it) => it.slot,
         txSent: (it) => it.slot,
       );
+}
+
+extension on SplitKeyApiVersion {
+  IskpApiVersionDto toDto() {
+    switch (this) {
+      case SplitKeyApiVersion.manual:
+        return IskpApiVersionDto.manual;
+      case SplitKeyApiVersion.smartContract:
+        return IskpApiVersionDto.smartContract;
+    }
+  }
+}
+
+extension on IskpApiVersionDto {
+  SplitKeyApiVersion toModel() {
+    switch (this) {
+      case IskpApiVersionDto.manual:
+        return SplitKeyApiVersion.manual;
+      case IskpApiVersionDto.smartContract:
+        return SplitKeyApiVersion.smartContract;
+    }
+  }
 }
