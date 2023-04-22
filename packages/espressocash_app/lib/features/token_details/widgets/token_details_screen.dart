@@ -19,6 +19,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../swap/token_ext.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';
@@ -63,7 +64,8 @@ class TokenDetailsScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           _Chart(token: token),
-                          if (token.canBeSwapped) ExchangeButtons(token: token),
+                          if (token.shouldShowExchangeButtons)
+                            ExchangeButtons(token: token),
                           if (token == Token.usdc) const _RampButtons(),
                           _Balance(token: token),
                           _Content(token: token),
@@ -277,6 +279,6 @@ class _NoGlowList extends StatelessWidget {
 extension on Token {
   /// Since buy and sell a token actually swaps it for USDC, makes no sense
   /// buying or selling USDC through this same flow as would not exist a match.
-  bool get canBeSwapped =>
-      address != coingeckoId && address != Token.usdc.address;
+  bool get shouldShowExchangeButtons =>
+      canBeSwapped && address != Token.usdc.address;
 }

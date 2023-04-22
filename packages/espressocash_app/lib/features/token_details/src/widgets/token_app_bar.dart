@@ -9,6 +9,7 @@ import '../../../../core/tokens/token.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
+import '../../../swap/token_ext.dart';
 import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {
@@ -160,7 +161,3 @@ const double _noticeSize = 110;
 const double _tokenSize = 68;
 const double _buttonSize = 48;
 const double _minExtent = kToolbarHeight; // Default Flutter toolbar height
-
-extension on Token {
-  bool get canBeSwapped => address != coingeckoId;
-}
