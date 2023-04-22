@@ -67,6 +67,7 @@ dependencies:
   sliver_tools: ^0.2.8
   solana:
     path: ../solana/
+    version: ^0.29.1
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   solana_seed_vault:
