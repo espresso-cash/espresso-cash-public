@@ -94,7 +94,7 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     signatures: [
       await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aEscrow),
-      Signature(List.filled(64, 0), publicKey: aReceiver),
+      if (shouldCreateAta) Signature(List.filled(64, 0), publicKey: aReceiver),
     ],
   );
 

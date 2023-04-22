@@ -205,10 +205,10 @@ packages:
     dependency: transitive
     description:
       name: cryptography
-      sha256: e0e37f79665cd5c86e8897f9abe1accfe813c0cc5299dab22256e22fddc1fef8
+      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.5.0"
   csslib:
     dependency: transitive
     description:
@@ -643,10 +643,10 @@ packages:
     dependency: "direct main"
     description:
       name: solana
-      sha256: "85331b87b17fa32fdf85f33fa7a1bca23a6cf302a8d3d6222d6ec36d0dec692f"
+      sha256: "90592f5789c9d9102f730390d304436234dee696d6258d85715fa3a5e3ae70fe"
       url: "https://pub.dev"
     source: hosted
-    version: "0.29.0"
+    version: "0.29.1"
   source_gen:
     dependency: transitive
     description:
