@@ -12,7 +12,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   freezed_annotation: ^2.1.0
   shared_preferences: ^2.0.15
-  solana: ^0.26.3
+  solana: ^0.29.1
   solana_mobile_wallet:
     path: ../
 
