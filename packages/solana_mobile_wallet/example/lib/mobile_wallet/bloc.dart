@@ -79,8 +79,10 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
             final tx = SignedTx.fromBytes(e);
 
             return SignedTx(
-              messageBytes: tx.messageBytes,
-              signatures: [await _keyPair.sign(tx.messageBytes)],
+              compiledMessage: tx.compiledMessage,
+              signatures: [
+                await _keyPair.sign(tx.compiledMessage.toByteArray()),
+              ],
             ).toByteArray().toList();
           },
         ),
@@ -147,8 +149,8 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
           final tx = SignedTx.fromBytes(e);
 
           return SignedTx(
-            messageBytes: tx.messageBytes,
-            signatures: [await _keyPair.sign(tx.messageBytes)],
+            compiledMessage: tx.compiledMessage,
+            signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
           );
         },
       ),
