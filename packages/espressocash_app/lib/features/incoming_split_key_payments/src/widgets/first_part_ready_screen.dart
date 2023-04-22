@@ -63,7 +63,10 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
       );
       if (!mounted) return;
 
-      final id = await context.createISKP(escrow);
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: firstPart.apiVersion,
+      );
       await repository.clear();
 
       if (!mounted) return;

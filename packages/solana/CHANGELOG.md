@@ -1,3 +1,11 @@
+## 0.29.1
+
+ - **FIX**: update Ed25519HDKeyPairData interface (#874).
+ - **FEAT**: use smart contract for escrow payments backend (#893).
+ - **FEAT**: support for custom http headers in RpcClient (#861).
+ - **FEAT**: polling to avoid websocket broken connection when waiting for transactions statuses (#866).
+ - **FEAT**: add JsonRpcErrorCode.
+
 ## 0.29.0
 
 > Note: This release has breaking changes.
