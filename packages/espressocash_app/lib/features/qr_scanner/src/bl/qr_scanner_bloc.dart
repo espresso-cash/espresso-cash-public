@@ -32,8 +32,8 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
-    final newState =
-        QrScannerRequest.tryParse(event.codes).maybeMap(QrScannerState.done);
+    final newState = QrScannerRequest.tryParseMultiple(event.codes)
+        .maybeMap(QrScannerState.done);
 
     if (newState != null) {
       emit(newState);

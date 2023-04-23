@@ -26,9 +26,7 @@ class TermsDisclaimer extends StatelessWidget {
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()
                 ..onTap = () => context.navigateToPrivacyPolicy(),
-              style: const TextStyle(
-                color: CpColors.yellowColor,
-              ),
+              style: const TextStyle(color: CpColors.yellowColor),
             ),
           ],
           style: Theme.of(context).textTheme.displayMedium?.copyWith(

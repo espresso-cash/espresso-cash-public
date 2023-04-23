@@ -59,7 +59,7 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerPaymentRequest) {
+    if (request is QrScannerSplitKeyPayment) {
       final escrow = await walletFromParts(
         firstPart: request.firstPart.key,
         secondPart: request.secondPart.key,

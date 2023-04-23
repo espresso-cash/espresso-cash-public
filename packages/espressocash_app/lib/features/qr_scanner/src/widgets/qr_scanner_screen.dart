@@ -109,7 +109,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _onManualInputRequested() => InputAddressBottomSheet.show(context)
-      .then((r) => r?.let(QrScannerRequest.parse)?.let(_onScanComplete));
+      .then((r) => r?.let(QrScannerRequest.tryParse)?.let(_onScanComplete));
 
   void _onScanComplete([QrScannerRequest? request]) =>
       context.router.pop(request);

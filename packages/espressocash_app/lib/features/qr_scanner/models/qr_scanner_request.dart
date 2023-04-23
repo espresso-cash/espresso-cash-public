@@ -19,14 +19,14 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.qrPayment({
+  const factory QrScannerRequest.splitKeyPayment({
     required SplitKeyFirstLink firstPart,
     required SplitKeySecondLink secondPart,
-  }) = QrScannerPaymentRequest;
+  }) = QrScannerSplitKeyPayment;
 
   const QrScannerRequest._();
 
-  static QrScannerRequest? parse(String code) {
+  static QrScannerRequest? tryParse(String code) {
     final address = QrAddressData.tryParse(code);
     if (address != null) {
       return QrScannerRequest.address(address);
@@ -38,12 +38,11 @@ class QrScannerRequest with _$QrScannerRequest {
     }
   }
 
-  static QrScannerRequest? tryParse(IList<String> codes) {
-    final code = codes.map(parse).first;
+  static QrScannerRequest? tryParseMultiple(IList<String> codes) {
+    if (codes.isEmpty) return null;
 
-    if (code != null) {
-      return code;
-    }
+    final code = codes.map(tryParse).firstWhereOrNull((it) => it != null);
+    if (code != null) return code;
 
     final firstLink =
         codes.firstWhereOrNull((e) => e.contains(espressoCashDeepLinkHost));
@@ -55,22 +54,22 @@ class QrScannerRequest with _$QrScannerRequest {
       return null;
     }
 
-    final firstLongLink = Uri.parse(firstLink);
-    final reversedLink = firstLongLink.queryParameters['link'];
+    final firstLongLink = Uri.tryParse(firstLink);
+    final reversedLink = firstLongLink?.queryParameters['link'];
 
-    if (reversedLink == null) {
-      return null;
-    }
+    if (reversedLink == null) return null;
 
-    final firstPart = SplitKeyFirstLink.tryParse(Uri.parse(reversedLink));
-    final secondPart = SplitKeySecondLink.tryParse(Uri.parse(secondLink));
+    final firstPart =
+        Uri.tryParse(reversedLink)?.let(SplitKeyFirstLink.tryParse);
+    final secondPart =
+        Uri.tryParse(secondLink)?.let(SplitKeySecondLink.tryParse);
 
-    if (firstPart != null && secondPart != null) {
-      return QrScannerRequest.qrPayment(
-        firstPart: firstPart,
-        secondPart: secondPart,
-      );
-    }
+    if (firstPart == null || secondPart == null) return null;
+
+    return QrScannerRequest.splitKeyPayment(
+      firstPart: firstPart,
+      secondPart: secondPart,
+    );
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
