@@ -75,7 +75,7 @@ class QrScannerRequest with _$QrScannerRequest {
   Ed25519HDPublicKey? get recipient => this.map(
         solanaPay: (r) => r.request.recipient,
         address: (r) => r.addressData.address,
-        qrPayment: always(null),
+        splitKeyPayment: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
