@@ -25,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 35;
+const int latestVersion = 36;
 
 const _tables = [
   OutgoingTransferRows,
@@ -39,7 +39,6 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
-  ISLPRows,
 ];
 
 @lazySingleton
@@ -120,9 +119,6 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
-          if (from < 28) {
-            await m.createTable(iSLPRows);
-          }
           if (from >= 22 && from < 28) {
             await _migrateOTP();
           }
@@ -140,21 +136,18 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(iSKPRows, iSKPRows.txFailureReason);
             await m.addColumn(iSKPRows, iSKPRows.slot);
           }
-          if (from >= 28 && from < 33) {
-            await m.addColumn(iSLPRows, iSLPRows.slot);
-            await m.addColumn(iSLPRows, iSLPRows.txFailureReason);
-          }
           if (from >= 16 && from < 34) {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
           }
-
           if (from >= 16 && from < 35) {
             await m.addColumn(oSKPRows, oSKPRows.apiVersion);
           }
-
           if (from >= 17 && from < 35) {
             await m.addColumn(iSKPRows, iSKPRows.apiVersion);
+          }
+          if (from < 36) {
+            await m.deleteTable('i_s_l_p_rows');
           }
         },
       );

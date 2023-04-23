@@ -97,23 +97,3 @@ extension OTStatusDtoExt on OTStatusDto {
     }
   }
 }
-
-class ISLPRows extends Table with EntityMixin, TxStatusMixin {
-  TextColumn get privateKey => text()();
-  IntColumn get status => intEnum<ISLPStatusDto>()();
-}
-
-enum ISLPStatusDto {
-  @Deprecated('State invalid. Use txCreated directly.')
-  privateKeyReady,
-  txCreated,
-  txSent,
-  success,
-  txFailure,
-  @Deprecated('Use txCreated instead.')
-  txSendFailure,
-  @Deprecated('Use txSent instead.')
-  txWaitFailure,
-  @Deprecated('Use txFailure instead.')
-  txEscrowFailure,
-}
