@@ -60,7 +60,7 @@ Future<void> main() async {
 
     expect(
       await client.getMintBalance(sender.publicKey, mint: mint),
-      senderInitialAmount - transferAmount - shareableLinkPaymentFee,
+      senderInitialAmount - transferAmount - escrowPaymentFee,
     );
     expect(
       await client.getMintBalance(escrow.publicKey, mint: mint),
@@ -68,7 +68,7 @@ Future<void> main() async {
     );
     expect(
       await client.getMintBalance(platform.publicKey, mint: mint),
-      shareableLinkPaymentFee,
+      escrowPaymentFee,
     );
   });
 

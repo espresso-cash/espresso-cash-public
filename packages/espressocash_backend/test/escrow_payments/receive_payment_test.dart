@@ -1,4 +1,4 @@
-import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/escrow_payments/create_payment.dart';
 import 'package:espressocash_backend/src/escrow_payments/receive_payment.dart';
 import 'package:solana/dto.dart';
@@ -14,8 +14,10 @@ void main() {
 
   /// Initial token amount for the sender after creation.
   const senderInitialAmount = 500000;
-
   const transferAmount = 300000;
+  const escrowAccountRent = 1893120; // calculated for escrow account len = 144
+  const lamportsPerSignature = 5000;
+  const accountRent = 2039280;
 
   test('receives payment', () async {
     final testData = await createTestData(
@@ -40,7 +42,7 @@ void main() {
     // already partially signed by the platform.
     final resignedTx = await result.item1
         .resign(testData.sender)
-        .letAsync((tx) => tx.resign(escrowAccount));
+        .then((tx) => tx.resign(escrowAccount));
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -65,7 +67,9 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await receiveResult.item1.resign(escrowAccount);
+    final resignedReceiveTx = await receiveResult.item1
+        .resign(escrowAccount)
+        .then((it) => it.resign(receiverAccount));
 
     final signatureReceive = await client.rpcClient.sendTransaction(
       resignedReceiveTx.encode(),
@@ -81,9 +85,14 @@ void main() {
         .getBalance(testData.platform.address, commitment: Commitment.confirmed)
         .value;
 
-    // Platform pays for 2 signatures: platform itself as a fee payer and escrow
-    // for the transfer.
-    expect(prePlatformBalance - postPlatformBalance, _lamportsPerSignature * 2);
+    // Platform pays for 3 signatures:
+    // - platform itself as a fee payer;
+    // - escrow for the transfer;
+    // - receiver for the potential ATA creation.
+    expect(
+      postPlatformBalance - prePlatformBalance,
+      escrowAccountRent - lamportsPerSignature * 3,
+    );
 
     final receiverBalance = await client.getMintBalance(
       receiverAccount.publicKey,
@@ -91,7 +100,7 @@ void main() {
     );
 
     // Receiver should get the expected amount.
-    expect(receiverBalance, transferAmount);
+    expect(receiverBalance, transferAmount - escrowPaymentAccountCreationFee);
   });
 
   test('platform does not create ATA if not needed', () async {
@@ -123,7 +132,7 @@ void main() {
     // already partially signed by the platform.
     final resignedTx = await createPaymentResult.item1
         .resign(testData.sender)
-        .letAsync((tx) => tx.resign(escrowAccount));
+        .then((tx) => tx.resign(escrowAccount));
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -148,7 +157,9 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await receiveResult.item1.resign(escrowAccount);
+    final resignedReceiveTx = await receiveResult.item1
+        .resign(escrowAccount)
+        .then((it) => it.resign(receiverAccount));
 
     final signatureReceive = await client.rpcClient.sendTransaction(
       resignedReceiveTx.encode(),
@@ -169,7 +180,7 @@ void main() {
     // pay for its creation and gets the rent from terminating escrow ATA.
     expect(
       postPlatformBalance - prePlatformBalance,
-      _accountRent - _lamportsPerSignature * 2,
+      accountRent + escrowAccountRent - lamportsPerSignature * 2,
     );
 
     final receiverBalance = await client.getMintBalance(
@@ -181,6 +192,3 @@ void main() {
     expect(receiverBalance, transferAmount);
   });
 }
-
-const _lamportsPerSignature = 5000;
-const _accountRent = 2039280;
