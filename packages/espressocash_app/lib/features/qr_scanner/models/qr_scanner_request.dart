@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -37,7 +38,7 @@ class QrScannerRequest with _$QrScannerRequest {
     }
   }
 
-  static QrScannerRequest? tryParse(List<String> codes) {
+  static QrScannerRequest? tryParse(IList<String> codes) {
     final code = codes.map(parse).first;
 
     if (code != null) {
