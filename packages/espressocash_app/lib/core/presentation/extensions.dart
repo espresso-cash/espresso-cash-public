@@ -9,6 +9,7 @@ extension DecimalExt on Decimal? {
   String formatDisplayablePrice({
     required Locale locale,
     required FiatCurrency currency,
+    bool skipSymbol = false,
   }) {
     final price = this;
 
@@ -20,7 +21,7 @@ extension DecimalExt on Decimal? {
       decimals: price < Decimal.parse('0.01') ? 7 : currency.decimals,
       prefixedSymbol: true,
       roundInteger: false,
-      symbol: currency.sign,
+      symbol: skipSymbol ? null : currency.sign,
     );
   }
 }

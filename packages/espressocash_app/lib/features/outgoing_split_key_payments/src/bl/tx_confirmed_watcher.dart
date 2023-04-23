@@ -55,12 +55,16 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final rawFirstLink = SplitKeyFirstLink(
       key: keyParts.first,
       token: token.publicKey,
+      apiVersion: payment.apiVersion,
     ).toUri();
 
     final firstLink = await _linkShortener.buildShortUrl(rawFirstLink) ??
         _linkShortener.buildFullUrl(rawFirstLink);
 
-    final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
+    final secondLink = SplitKeySecondLink(
+      key: keyParts.last,
+      apiVersion: payment.apiVersion,
+    ).toUri();
 
     Uri? qrLink;
 

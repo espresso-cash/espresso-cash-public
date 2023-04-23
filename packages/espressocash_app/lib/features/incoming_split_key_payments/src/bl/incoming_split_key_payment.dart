@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../../core/api_version.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/tx_sender.dart';
 
@@ -13,6 +14,7 @@ class IncomingSplitKeyPayment with _$IncomingSplitKeyPayment {
     required DateTime created,
     required EscrowPrivateKey escrow,
     required ISKPStatus status,
+    required SplitKeyApiVersion apiVersion,
   }) = _IncomingSplitKeyPayment;
 }
 

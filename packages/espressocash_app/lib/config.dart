@@ -60,6 +60,8 @@ const _solanaHost = isProd
     ? '' // mainnet URL should be provided via environment variable
     : 'api.devnet.solana.com';
 
+const espressoCashLinkDomain = 'link.espressocash.com';
+const espressoCashLinkProtocol = 'espressocash';
 const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';

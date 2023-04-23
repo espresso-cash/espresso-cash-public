@@ -717,5 +717,13 @@
   "mobileWalletAcceptSignMessages": "Sign Messages",
   "mobileWalletAcceptAuthorization": "Authorize",
   "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
+  "unavailableToken": "{tokenName} is currently unavailable for purchase. You can still follow to track pricing.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+        "type": "String"
+      }
+    }
+  },
   "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our "
 }

@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 class LinkShortener {
   const LinkShortener();
 
-  final _host = 'cryptoplease.page.link';
+  final _host = 'espressocash.page.link';
 
   final _androidParameters = const AndroidParameters(
     packageName: 'com.pleasecrypto.flutter',
