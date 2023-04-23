@@ -213,7 +213,7 @@ extension on OSKPStatusDto {
         return OSKPStatus.linksReady(
           link1: link1!,
           link2: link2!,
-          qrLink: link3!,
+          qrLink: link3,
           escrow: escrow!,
         );
       case OSKPStatusDto.success:
