@@ -2,12 +2,12 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/accounts/bl/account.dart';
 import '../../../../core/api_version.dart';
-import '../../../../di.dart';
-import '../../../../ui/loader.dart';
-import '../bl/incoming_split_key_payment.dart';
-import '../bl/iskp_service.dart';
+import '../../core/accounts/bl/account.dart';
+import '../../di.dart';
+import '../../ui/loader.dart';
+import 'src/bl/incoming_split_key_payment.dart';
+import 'src/bl/iskp_service.dart';
 
 extension ISKPExt on BuildContext {
   Future<String> createISKP({
