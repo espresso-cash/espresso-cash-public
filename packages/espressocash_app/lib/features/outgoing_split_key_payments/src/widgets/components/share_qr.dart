@@ -157,7 +157,7 @@ class _CustomQrCode extends StatelessWidget {
               color: Colors.white,
             ),
             SizedBox.square(
-              dimension: 115,
+              dimension: 120,
               child: BarcodeWidget(
                 barcode: Barcode.aztec(),
                 data: secondLink,

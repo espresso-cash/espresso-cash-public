@@ -44,8 +44,11 @@ class QrScannerRequest with _$QrScannerRequest {
       return code;
     }
 
-    final firstLink = codes.firstWhereOrNull((e) => e.contains(cpDeepLinkHost));
-    final secondLink = codes.firstWhereOrNull((e) => e.contains(link2Host));
+    final firstLink =
+        codes.firstWhereOrNull((e) => e.contains(espressoCashDeepLinkHost));
+    final secondLink = codes.firstWhereOrNull(
+      (e) => e.contains(espressoCashLinkDomain) && e.contains('k2'),
+    );
 
     if (firstLink == null || secondLink == null) {
       return null;

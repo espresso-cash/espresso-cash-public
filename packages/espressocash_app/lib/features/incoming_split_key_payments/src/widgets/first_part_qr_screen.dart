@@ -35,7 +35,10 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
       );
       if (!mounted) return;
 
-      final id = await context.createISKP(escrow);
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: request.firstPart.apiVersion,
+      );
 
       if (!mounted) return;
       await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));

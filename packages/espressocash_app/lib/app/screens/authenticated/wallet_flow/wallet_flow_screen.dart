@@ -66,7 +66,10 @@ class _State extends State<WalletFlowScreen> {
       );
       if (!mounted) return;
 
-      final id = await context.createISKP(escrow);
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: request.firstPart.apiVersion,
+      );
 
       if (!mounted) return;
       await context.router.push(IncomingSplitKeyPaymentRoute(id: id));

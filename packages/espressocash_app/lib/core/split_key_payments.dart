@@ -27,6 +27,9 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
       final firstPart = link.queryParameters['k1'];
       if (firstPart == null) return null;
 
+      final type = link.queryParameters['type'];
+      if (type != null) return null;
+
       return SplitKeyFirstLink(
         key: firstPart,
         token: Token.usdc.publicKey,
@@ -89,6 +92,7 @@ class SplitQrLink with _$SplitQrLink {
   const factory SplitQrLink({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
+    required SplitKeyApiVersion apiVersion,
   }) = _SplitQrLink;
 
   factory SplitQrLink.fromJson(Map<String, dynamic> json) =>
@@ -99,6 +103,21 @@ class SplitQrLink with _$SplitQrLink {
   static const _type = 'qr';
 
   static SplitQrLink? tryParse(Uri link) {
+    if (link.scheme == 'https' && link.host == espressoCashLinkDomain ||
+        link.scheme == espressoCashLinkProtocol) {
+      final firstPart = link.queryParameters['k1'];
+      if (firstPart == null) return null;
+
+      final type = link.queryParameters['type'];
+      if (type != _type) return null;
+
+      return SplitQrLink(
+        key: firstPart,
+        token: Token.usdc.publicKey,
+        apiVersion: SplitKeyApiVersion.smartContract,
+      );
+    }
+
     final correctSchemeAndHost =
         link.scheme == 'cryptoplease-sol' && link.host == '1' ||
             link.scheme == 'https' && link.host == link1Host;
@@ -119,20 +138,36 @@ class SplitQrLink with _$SplitQrLink {
     return SplitQrLink(
       key: firstPart,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
+      apiVersion: SplitKeyApiVersion.manual,
     );
   }
 
-  Uri toUri() => Uri(
-        scheme: 'https',
-        host: link1Host,
-        path: '/',
-        queryParameters: <String, String>{
-          'key': key,
-          if (token != Token.sol.publicKey) 'token': token.toBase58(),
-          'v': 'v2',
-          'type': _type
-        },
-      );
+  Uri toUri() {
+    switch (apiVersion) {
+      case SplitKeyApiVersion.manual:
+        return Uri(
+          scheme: 'https',
+          host: link1Host,
+          path: '/',
+          queryParameters: <String, String>{
+            'key': key,
+            if (token != Token.sol.publicKey) 'token': token.toBase58(),
+            'v': 'v2',
+            'type': _type
+          },
+        );
+      case SplitKeyApiVersion.smartContract:
+        return Uri(
+          scheme: 'https',
+          host: espressoCashLinkDomain,
+          path: '',
+          queryParameters: <String, String>{
+            'k1': key,
+            'type': _type,
+          },
+        );
+    }
+  }
 }
 
 @freezed
