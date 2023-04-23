@@ -2,11 +2,11 @@ import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 
-import '../config.dart';
-
 @injectable
 class LinkShortener {
   const LinkShortener();
+
+  final _host = 'espressocash.page.link';
 
   final _androidParameters = const AndroidParameters(
     packageName: 'com.pleasecrypto.flutter',
@@ -20,7 +20,7 @@ class LinkShortener {
   Future<Uri?> buildShortUrl(Uri link) async {
     final parameters = DynamicLinkParameters(
       link: link,
-      uriPrefix: 'https://$cpDeepLinkHost',
+      uriPrefix: 'https://$_host',
       androidParameters: _androidParameters,
       iosParameters: _iosParameters,
     );
@@ -39,7 +39,7 @@ class LinkShortener {
 
   Uri buildFullUrl(Uri link) => Uri(
         scheme: 'https',
-        host: cpDeepLinkHost,
+        host: _host,
         path: '/',
         queryParameters: <String, String>{
           'apn': _androidParameters.packageName,

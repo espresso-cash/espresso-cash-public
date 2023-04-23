@@ -740,5 +740,13 @@
   "mobileWalletAcceptSignTransactions": "Sign Transactions",
   "mobileWalletAcceptSignMessages": "Sign Messages",
   "mobileWalletAcceptAuthorization": "Authorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send"
+  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
+  "unavailableToken": "{tokenName} is currently unavailable for purchase. You can still follow to track pricing.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+            "type": "String"
+      }
+    }
+  }
 }
