@@ -20,7 +20,7 @@ class QrScannerRequest with _$QrScannerRequest {
       QrScannerAddressRequest;
 
   const factory QrScannerRequest.qrPayment({
-    required SplitQrLink firstPart,
+    required SplitKeyFirstLink firstPart,
     required SplitKeySecondLink secondPart,
   }) = QrScannerPaymentRequest;
 
@@ -62,7 +62,7 @@ class QrScannerRequest with _$QrScannerRequest {
       return null;
     }
 
-    final firstPart = SplitQrLink.tryParse(Uri.parse(reversedLink));
+    final firstPart = SplitKeyFirstLink.tryParse(Uri.parse(reversedLink));
     final secondPart = SplitKeySecondLink.tryParse(Uri.parse(secondLink));
 
     if (firstPart != null && secondPart != null) {
