@@ -24,7 +24,7 @@ import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
-final _minimumAmount = Decimal.parse('0.1');
+final _minimumAmount = Decimal.parse('0.2');
 
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({
@@ -174,10 +174,10 @@ class _State extends State<WalletFlowScreen> {
     setState(() {
       switch (operation) {
         case WalletOperation.request:
-          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
+          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.20');
           break;
         case WalletOperation.pay:
-          _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
           break;
       }
     });
