@@ -145,7 +145,7 @@ class _Header extends StatelessWidget {
           Text(
             context.l10n.splitKeySecondLinkTitle.toUpperCase(),
             style: const TextStyle(
-              fontSize: 38,
+              fontSize: 36,
               fontWeight: FontWeight.w900,
             ),
           ),
