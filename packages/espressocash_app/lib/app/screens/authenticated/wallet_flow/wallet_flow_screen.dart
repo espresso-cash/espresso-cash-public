@@ -16,6 +16,7 @@ import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
 import '../../../../features/payment_request/models/payment_request.dart';
 import '../../../../features/qr_scanner/models/qr_scanner_request.dart';
+import '../../../../features/qr_scanner/widgets/build_context_ext.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -53,74 +54,14 @@ class _State extends State<WalletFlowScreen> {
   String _errorMessage = '';
 
   Future<void> _onQrScanner() async {
-    final request =
-        await context.router.push<QrScannerRequest>(const QrScannerRoute());
-
-    if (request == null) return;
-    if (!mounted) return;
-
-    if (request is QrScannerSplitKeyPayment) {
-      final escrow = await walletFromParts(
-        firstPart: request.firstPart.key,
-        secondPart: request.secondPart.key,
-      );
-      if (!mounted) return;
-
-      final id = await context.createISKP(
-        escrow: escrow,
-        version: request.firstPart.apiVersion,
-      );
-
-      if (!mounted) return;
-      await context.router.push(IncomingSplitKeyPaymentRoute(id: id));
-    }
-
-    final recipient = request.recipient;
-    if (recipient == null) return;
-
-    final name = request.mapOrNull(
-      solanaPay: (r) => r.request.label,
-      address: (r) => r.addressData.name,
-    );
-    final requestAmount = request.whenOrNull(
-      solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
+    await context.launchQrScannerFlow(
+      cryptoCurrency: _cryptoCurrency,
+      defaultFiatAmount: _fiatAmount,
+      onFiatAmountChanged: (value) => setState(() => _fiatAmount = value),
     );
 
     if (!mounted) return;
-
-    final isEnabled = requestAmount == null || requestAmount.value == 0;
-    final initialAmount = requestAmount ?? _fiatAmount;
-    final formatted = initialAmount.value == 0
-        ? ''
-        : initialAmount.format(
-            DeviceLocale.localeOf(context),
-            skipSymbol: true,
-          );
-
-    final fiatDecimal = await context.router.push<Decimal>(
-      ODPConfirmationRoute(
-        initialAmount: formatted,
-        recipient: recipient,
-        label: name,
-        token: _cryptoCurrency.token,
-        isEnabled: isEnabled,
-      ),
-    );
-    if (!mounted) return;
-
-    if (fiatDecimal != null) {
-      setState(() => _fiatAmount = _fiatAmount.copyWithDecimal(fiatDecimal));
-
-      final id = await context.createODP(
-        amountInUsdc: _cryptoAmount.decimal,
-        receiver: recipient,
-        reference: request.reference,
-      );
-
-      if (!mounted) return;
-      await context.router.push(ODPDetailsRoute(id: id));
-      setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
-    }
+    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
   void _onFiatAmountUpdate(Decimal value) {
