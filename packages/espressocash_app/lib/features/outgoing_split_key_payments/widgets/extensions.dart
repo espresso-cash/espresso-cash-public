@@ -28,7 +28,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader<void>(this, () async {
         await sl<OSKPService>().cancel(
           payment,
-          account: read<MyAccount>().publicKey,
+          account: read<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().linksCreated();
       });

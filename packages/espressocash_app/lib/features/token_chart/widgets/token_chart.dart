@@ -1,10 +1,14 @@
+import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../ui/colors.dart';
+import '../../../core/presentation/extensions.dart';
 import '../../../core/tokens/token.dart';
+import '../../../core/user_preferences.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../ui/loader.dart';
 import '../src/bloc.dart';
 import '../src/chart_interval.dart';
@@ -107,7 +111,7 @@ class _ChartWidget extends StatelessWidget {
       fitInsideHorizontally: true,
       tooltipBgColor: Colors.transparent,
       showOnTopOfTheChartBoxArea: true,
-      tooltipMargin: 12,
+      tooltipMargin: -30,
       maxContentWidth: 300,
       getTooltipItems: (touchedSpots) =>
           touchedSpots.map(createTooltipItem).toList(),
@@ -121,42 +125,124 @@ class _ChartWidget extends StatelessWidget {
           e.price ?? 0,
         );
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 32.0),
-      child: LineChart(
-        LineChartData(
-          lineBarsData: [
-            LineChartBarData(
-              spots: data.map(createSpot).toList(),
-              isCurved: true,
-              dotData: FlDotData(show: false),
-              color: CpColors.chartLineColor,
-              barWidth: 5,
-            )
-          ],
-          gridData: FlGridData(show: false),
-          borderData: FlBorderData(show: false),
-          titlesData: FlTitlesData(show: false),
-          lineTouchData: LineTouchData(
-            enabled: true,
-            touchCallback: (event, lineResponse) {
-              final selectedIndex = lineResponse?.lineBarSpots?.first.spotIndex;
+    final spots = data.map(createSpot).toList();
 
-              if (selectedIndex == null ||
-                  event is FlTapUpEvent ||
-                  event is FlLongPressEnd) {
-                onSelect(null);
-              } else {
-                onSelect(data[selectedIndex]);
-              }
-            },
-            getTouchedSpotIndicator: (_, indicators) =>
-                indicators.map((_) => _touchedSpotIndicatorData).toList(),
-            touchTooltipData: _createTooltipData(),
-            getTouchLineEnd: (_, __) => double.infinity,
+    if (spots.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    double minY = spots.first.y;
+    double maxY = spots.first.y;
+
+    for (final FlSpot spot in spots) {
+      if (spot.y < minY) {
+        minY = spot.y;
+      }
+      if (spot.y > maxY) {
+        maxY = spot.y;
+      }
+    }
+
+    final range = maxY - minY;
+    final interval = range / 4;
+
+    final padding = range * 12 / 100.0;
+    final chartMinY = minY - padding;
+    final chartMaxY = maxY + padding;
+
+    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Stack(
+        children: [
+          const _ChartBackground(),
+          LineChart(
+            LineChartData(
+              lineBarsData: [
+                LineChartBarData(
+                  spots: spots,
+                  isCurved: true,
+                  dotData: FlDotData(show: false),
+                  color: CpColors.chartLineColor,
+                  barWidth: 5,
+                )
+              ],
+              minY: chartMinY,
+              maxY: chartMaxY,
+              gridData: FlGridData(
+                show: true,
+                horizontalInterval: interval,
+                getDrawingHorizontalLine: (value) => FlLine(
+                  color: const Color(0xff454141),
+                  strokeWidth: 1,
+                  dashArray: [2, 2],
+                ),
+                drawVerticalLine: false,
+              ),
+              backgroundColor: const Color(0xff272525),
+              borderData: FlBorderData(
+                show: true,
+                border: _border,
+              ),
+              titlesData: FlTitlesData(
+                show: true,
+                leftTitles: AxisTitles(sideTitles: SideTitles()),
+                topTitles: AxisTitles(sideTitles: SideTitles()),
+                bottomTitles: AxisTitles(sideTitles: SideTitles()),
+                rightTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    reservedSize: 70,
+                    showTitles: true,
+                    interval: interval,
+                    getTitlesWidget: (val, __) {
+                      if (val == chartMaxY || val == chartMinY) {
+                        return const SizedBox.shrink();
+                      }
+
+                      final formattedValue =
+                          Decimal.parse(val.toString()).formatDisplayablePrice(
+                        locale: DeviceLocale.localeOf(context),
+                        currency: fiatCurrency,
+                        skipSymbol: true,
+                      );
+
+                      return Center(
+                        child: Text(
+                          formattedValue,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              lineTouchData: LineTouchData(
+                enabled: true,
+                touchCallback: (event, lineResponse) {
+                  final selectedIndex =
+                      lineResponse?.lineBarSpots?.first.spotIndex;
+
+                  if (selectedIndex == null ||
+                      event is FlTapUpEvent ||
+                      event is FlLongPressEnd) {
+                    onSelect(null);
+                  } else {
+                    onSelect(data[selectedIndex]);
+                  }
+                },
+                getTouchedSpotIndicator: (_, indicators) =>
+                    indicators.map((_) => _touchedSpotIndicatorData).toList(),
+                touchTooltipData: _createTooltipData(),
+                getTouchLineEnd: (barData, spotIndex) => double.infinity,
+              ),
+            ),
+            swapAnimationDuration: Duration.zero,
           ),
-        ),
-        swapAnimationDuration: Duration.zero,
+        ],
       ),
     );
   }
@@ -236,4 +322,23 @@ extension ChartIntervalExt on ChartInterval {
         return 'All';
     }
   }
+}
+
+const _border = Border.symmetric(
+  horizontal: BorderSide(
+    color: Color(0xff3A3A3A),
+    width: 1,
+  ),
+);
+
+class _ChartBackground extends StatelessWidget {
+  const _ChartBackground();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: const BoxDecoration(
+          color: Color(0xff222020),
+          border: _border,
+        ),
+      );
 }

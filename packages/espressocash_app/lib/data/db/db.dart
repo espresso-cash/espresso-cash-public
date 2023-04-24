@@ -5,7 +5,6 @@ import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/db.dart';
 import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/db.dart';
-import '../../features/incoming_single_link_payments/db.dart';
 import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/outgoing_direct_payments/db.dart';
 import '../../features/outgoing_split_key_payments/db.dart';
@@ -26,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>>? get primaryKey => {id};
 }
 
-const int latestVersion = 34;
+const int latestVersion = 36;
 
 const _tables = [
   OutgoingTransferRows,
@@ -40,7 +39,6 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
-  ISLPRows,
 ];
 
 @lazySingleton
@@ -121,9 +119,6 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 16 && from < 27) {
             await m.addColumn(oSKPRows, oSKPRows.link3);
           }
-          if (from < 28) {
-            await m.createTable(iSLPRows);
-          }
           if (from >= 22 && from < 28) {
             await _migrateOTP();
           }
@@ -141,13 +136,18 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(iSKPRows, iSKPRows.txFailureReason);
             await m.addColumn(iSKPRows, iSKPRows.slot);
           }
-          if (from >= 28 && from < 33) {
-            await m.addColumn(iSLPRows, iSLPRows.slot);
-            await m.addColumn(iSLPRows, iSLPRows.txFailureReason);
-          }
           if (from >= 16 && from < 34) {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
+          }
+          if (from >= 16 && from < 35) {
+            await m.addColumn(oSKPRows, oSKPRows.apiVersion);
+          }
+          if (from >= 17 && from < 35) {
+            await m.addColumn(iSKPRows, iSKPRows.apiVersion);
+          }
+          if (from < 36) {
+            await m.deleteTable('i_s_l_p_rows');
           }
         },
       );
@@ -172,6 +172,7 @@ class MyDatabase extends _$MyDatabase {
           link3: row.link,
           tx: row.tx,
           txId: row.txId,
+          apiVersion: OskpApiVersionDto.manual,
         ),
       );
     }

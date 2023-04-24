@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/api_version.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../core/transactions/tx_sender.dart';
 
@@ -14,6 +15,7 @@ class OutgoingSplitKeyPayment with _$OutgoingSplitKeyPayment {
     required CryptoAmount amount,
     required DateTime created,
     required OSKPStatus status,
+    required SplitKeyApiVersion apiVersion,
     DateTime? linksGeneratedAt,
   }) = _OutgoingSplitKeyPayment;
 
@@ -48,7 +50,7 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.linksReady({
     required Uri link1,
     required Uri link2,
-    Uri? qrLink,
+    required Uri? qrLink,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusLinksReady;
 

@@ -29,13 +29,22 @@ Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
       ),
     ).letAsync((it) => it.compact().toList());
 
-Uint8List generateFakeMessage(List<String> signers) => MemoInstruction(
-      signers: signers.map(Ed25519HDPublicKey.fromBase58).toList(),
-      memo: 'Memo #',
-    )
-        .let(Message.only)
-        .let((it) => it.compile(recentBlockhash: '').data.toList())
-        .let(Uint8List.fromList);
+Uint8List generateFakeMessage(List<String> signers) {
+  final publicKeys = signers.map(Ed25519HDPublicKey.fromBase58).toList();
+
+  return MemoInstruction(
+    signers: publicKeys,
+    memo: 'Memo #',
+  )
+      .let(Message.only)
+      .let(
+        (it) => it
+            .compile(recentBlockhash: '', feePayer: publicKeys.first)
+            .toByteArray()
+            .toList(),
+      )
+      .let(Uint8List.fromList);
+}
 
 Uint8List generateFakeTransaction(List<String> signers) {
   final publicKeys = signers.map(Ed25519HDPublicKey.fromBase58).toList();
@@ -44,13 +53,14 @@ Uint8List generateFakeTransaction(List<String> signers) {
       .let(Message.only)
       .let(
         (it) => SignedTx(
-          messageBytes: it.compile(recentBlockhash: '').data,
+          compiledMessage: it.compile(
+            recentBlockhash: '',
+            feePayer: publicKeys.first,
+          ),
           signatures: publicKeys
-              .map(
-                (it) => Signature(List.filled(64, 0), publicKey: it),
-              )
+              .map((it) => Signature(List.filled(64, 0), publicKey: it))
               .toList(),
         ),
       )
-      .let((it) => it.messageBytes.toList().let(Uint8List.fromList));
+      .let((it) => it.toByteArray().toList().let(Uint8List.fromList));
 }

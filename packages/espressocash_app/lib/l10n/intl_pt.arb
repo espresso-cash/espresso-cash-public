@@ -698,5 +698,29 @@
     }
   },
   "zeroAmountTitle": "Quantia inválida",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "paymentInitiated": "Payment initiated",
+  "@paymentInitiated": {},
+  "qrScanInfo1": "Se o destinatário estiver com o app instalado:",
+  "@qrScanInfo1": {},
+  "qrScanInfo2": "Eles devem usar o leitor de QR Code do app.",
+  "@qrScanInfo2": {},
+  "scanToReceive": "Escaneie para receber {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "openInAppScanner": "Abra o leitor de QR Code do aplicaitvo.",
+  "@openInAppScanner": {},
+  "qrPaymentInstructions": "Por motivos de segurança, escaneie o QR Code do remetente usando o leitor do aplicativo.",
+  "@qrPaymentInstructions": {},
+  "qrTermsDisclaimer": "Ao abrir o leitor de QR Code, você concorda com o nosso ",
+  "@qrTermsDisclaimer": {},
+  "money": "O dinheiro",
+  "@money": {},
+  "isWaitingForYou": "Está esperando por você.",
+  "@isWaitingForYou": {}
 }

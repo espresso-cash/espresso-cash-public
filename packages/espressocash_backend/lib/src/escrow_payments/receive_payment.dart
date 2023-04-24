@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/escrow_payments/instructions.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/encoder.dart';
@@ -65,6 +66,20 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
 
   instructions.add(escrowIx);
 
+  if (shouldCreateAta) {
+    final ataPlatform = await findAssociatedTokenAddress(
+      owner: platform.publicKey,
+      mint: mint,
+    );
+    final iTransferFee = TokenInstruction.transfer(
+      amount: escrowPaymentAccountCreationFee,
+      source: ataReceiver,
+      destination: ataPlatform,
+      owner: aReceiver,
+    );
+    instructions.add(iTransferFee);
+  }
+
   final message = Message(instructions: instructions);
   final latestBlockhash =
       await client.rpcClient.getLatestBlockhash(commitment: commitment);
@@ -79,6 +94,7 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     signatures: [
       await platform.sign(compiled.toByteArray()),
       Signature(List.filled(64, 0), publicKey: aEscrow),
+      if (shouldCreateAta) Signature(List.filled(64, 0), publicKey: aReceiver),
     ],
   );
 

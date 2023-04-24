@@ -7,10 +7,10 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/transfer_status/transfer_error.dart';
 import '../../../../ui/transfer_status/transfer_progress.dart';
 import '../../../../ui/transfer_status/transfer_success.dart';
+import '../../extensions.dart';
 import '../../widgets/invalid_escrow_error_widget.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_repository.dart';
-import 'extensions.dart';
 
 class IncomingSplitKeyPaymentScreen extends StatefulWidget {
   const IncomingSplitKeyPaymentScreen({

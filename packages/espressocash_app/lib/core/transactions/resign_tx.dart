@@ -26,9 +26,9 @@ extension ResignMultipleTx on Iterable<SignedTx> {
         final signature = it.item2;
 
         return SignedTx(
-          signatures: tx.signatures.toList()
-            ..removeLast()
-            ..add(signature),
+          signatures: tx.signatures
+              .map((e) => e.publicKey == wallet.publicKey ? signature : e)
+              .toList(),
           compiledMessage: tx.compiledMessage,
         );
       },
