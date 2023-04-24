@@ -176,7 +176,7 @@ class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
                   alignment: Alignment.centerLeft,
                   child: CpIconButton(
                     onPressed: onQrScanner,
-                    icon: Assets.icons.qrScanner.svg(),
+                    icon: Assets.icons.qrScanner.svg(color: Colors.white),
                     variant: CpIconButtonVariant.black,
                     size: CpIconButtonSize.big,
                   ),
