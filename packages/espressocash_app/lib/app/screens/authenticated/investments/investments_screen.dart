@@ -1,33 +1,19 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/amount.dart';
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../core/conversion_rates/amount_ext.dart';
-import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/page_fade_wrapper.dart';
-import '../../../../core/tokens/token_list.dart';
-import '../../../../core/wallet.dart';
-import '../../../../di.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../../../features/incoming_split_key_payments/extensions.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';
 import '../../../../features/onboarding/widgets/onboarding_notice.dart';
-import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
-import '../../../../features/payment_request/models/payment_request.dart';
 import '../../../../features/popular_tokens/widgets/extensions.dart';
 import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
-import '../../../../features/qr_scanner/models/qr_scanner_request.dart';
 import '../../../../features/qr_scanner/widgets/build_context_ext.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/icon_button.dart';
