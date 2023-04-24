@@ -140,7 +140,6 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
             await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
           }
-
           if (from >= 16 && from < 35) {
             await m.addColumn(oSKPRows, oSKPRows.apiVersion);
           }

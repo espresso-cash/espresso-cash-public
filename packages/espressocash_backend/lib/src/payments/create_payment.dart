@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:share_escrow/share_escrow.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -58,6 +57,15 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
 
   instructions.add(iCreateATA);
 
+  final iTransferAmount = TokenInstruction.transfer(
+    amount: amount,
+    source: ataSender,
+    destination: ataEscrow,
+    owner: aSender,
+  );
+
+  instructions.add(iTransferAmount);
+
   final ataPlatform = await findAssociatedTokenAddress(
     owner: platform.publicKey,
     mint: mint,
@@ -70,17 +78,6 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
   );
 
   instructions.add(iTransferFee);
-
-  final escrowIx = await EscrowInstruction.initEscrow(
-    amount: amount,
-    escrowAccount: aEscrow,
-    senderAccount: aSender,
-    depositorAccount: platform.publicKey,
-    senderTokenAccount: ataSender,
-    vaultTokenAccount: ataEscrow,
-  );
-
-  instructions.add(escrowIx);
 
   final message = Message(instructions: instructions);
   final latestBlockhash =
@@ -95,7 +92,6 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
     compiledMessage: compiled,
     signatures: [
       await platform.sign(compiled.toByteArray()),
-      Signature(List.filled(64, 0), publicKey: aEscrow),
       Signature(List.filled(64, 0), publicKey: aSender),
     ],
   );

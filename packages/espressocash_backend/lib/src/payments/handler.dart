@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
-import 'package:espressocash_backend/src/payments/cancel_payment.dart';
 import 'package:espressocash_backend/src/payments/create_direct_payment.dart';
 import 'package:espressocash_backend/src/payments/create_payment.dart';
 import 'package:espressocash_backend/src/payments/receive_payment.dart';
@@ -13,7 +12,6 @@ import 'package:solana/solana.dart';
 Handler paymentHandler() => (shelf_router.Router()
       ..post('/createPayment', createPaymentHandler)
       ..post('/receivePayment', receivePaymentHandler)
-      ..post('/cancelPayment', cancelPaymentHandler)
       ..post('/createDirectPayment', createDirectPaymentHandler)
       ..post('/getFees', getFeesHandler))
     .call;
@@ -73,29 +71,6 @@ Future<Response> receivePaymentHandler(Request request) async =>
         );
 
         return ReceivePaymentResponseDto(
-          transaction: result.item1.encode(),
-          slot: result.item2,
-        );
-      },
-    );
-
-Future<Response> cancelPaymentHandler(Request request) async =>
-    processRequest<CancelPaymentRequestDto, CancelPaymentResponseDto>(
-      request,
-      CancelPaymentRequestDto.fromJson,
-      (data) async {
-        final cluster = data.cluster;
-
-        final result = await cancelPaymentTx(
-          aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
-          aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
-          mint: cluster.mint,
-          platform: await cluster.platformAccount,
-          client: cluster.solanaClient,
-          commitment: Commitment.confirmed,
-        );
-
-        return CancelPaymentResponseDto(
           transaction: result.item1.encode(),
           slot: result.item2,
         );

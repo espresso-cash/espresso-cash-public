@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/payments/create_payment.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/solana.dart';
@@ -77,11 +76,9 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    // Sender and Escrow has to resign the transaction with their private key. The tx is
+    // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await result.item1
-        .resign(testData.sender)
-        .letAsync((tx) => tx.resign(escrowAccount));
+    final resignedTx = await testData.sender.resign(result.item1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
