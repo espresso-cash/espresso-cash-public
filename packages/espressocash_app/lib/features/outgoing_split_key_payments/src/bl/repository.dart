@@ -197,7 +197,7 @@ extension on OSKPStatusDto {
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
-    final escrowPk = await escrow?.keyPair.then((e) => e.publicKey);
+    final escrowPubkey = await escrow?.keyPair.then((e) => e.publicKey);
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
     final link3 = row.link3?.let(Uri.tryParse);
@@ -264,30 +264,30 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.cancelTxCreated:
         return OSKPStatus.cancelTxCreated(
           cancelTx!,
-          escrow: escrowPk!,
+          escrow: escrowPubkey!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxFailure:
         return OSKPStatus.cancelTxFailure(
-          escrow: escrowPk!,
+          escrow: escrowPubkey!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case OSKPStatusDto.cancelTxSent:
         return OSKPStatus.cancelTxSent(
           cancelTx!,
-          escrow: escrowPk!,
+          escrow: escrowPubkey!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxSendFailure:
         return OSKPStatus.cancelTxCreated(
           cancelTx!,
-          escrow: escrowPk!,
+          escrow: escrowPubkey!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxWaitFailure:
         return OSKPStatus.cancelTxSent(
           cancelTx!,
-          escrow: escrowPk!,
+          escrow: escrowPubkey!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.recovered:
