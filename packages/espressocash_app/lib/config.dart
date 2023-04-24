@@ -79,3 +79,6 @@ const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 
 const maxPayloadsPerSigningRequest = 10;
+
+// Escrow payment address
+const escrowScAddress = '7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL';

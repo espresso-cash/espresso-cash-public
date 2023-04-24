@@ -6,6 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/api_version.dart';
 import '../../../../core/currency.dart';
@@ -45,9 +46,7 @@ class RecoverPendingWatcher {
       // Check if the transaction has interacted with the escrow smart contract
       final accounts = tx.compiledMessage.accountKeys;
       final hasInteractedWithEscrow = accounts.contains(
-        Ed25519HDPublicKey.fromBase58(
-          'GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC',
-        ),
+        Ed25519HDPublicKey.fromBase58(escrowScAddress),
       );
 
       if (hasInteractedWithEscrow) {
