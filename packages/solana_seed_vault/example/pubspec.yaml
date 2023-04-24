@@ -16,7 +16,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   freezed_annotation: ^2.2.0
   provider: ^6.0.5
-  solana: ^0.26.3
+  solana: ^0.29.1
   solana_seed_vault:
     path: ../
 

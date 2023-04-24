@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
@@ -8,7 +7,6 @@ import 'package:solana/base58.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/cancelable_job.dart';
 import '../../../../core/link_shortener.dart';
-import '../../../../core/single_key_payments.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';
@@ -55,24 +53,26 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final rawFirstLink = SplitKeyFirstLink(
       key: keyParts.first,
       token: token.publicKey,
+      apiVersion: payment.apiVersion,
+      source: SplitKeySource.other,
     ).toUri();
 
     final firstLink = await _linkShortener.buildShortUrl(rawFirstLink) ??
         _linkShortener.buildFullUrl(rawFirstLink);
 
-    final secondLink = SplitKeySecondLink(key: keyParts.last).toUri();
+    final secondLink = SplitKeySecondLink(
+      key: keyParts.last,
+      apiVersion: payment.apiVersion,
+    ).toUri();
 
-    Uri? qrLink;
+    final rawQrLink = SplitKeyFirstLink(
+      key: keyParts.first,
+      token: token.publicKey,
+      apiVersion: payment.apiVersion,
+      source: SplitKeySource.qr,
+    ).toUri();
 
-    if (payment.amount.decimal <= _qrLinkThreshold) {
-      final key = base58encode(privateKey.toList());
-      final rawQrLink = SingleKeyPaymentData(
-        key: key,
-        token: token.publicKey,
-      ).toUri();
-
-      qrLink = _linkShortener.buildFullUrl(rawQrLink);
-    }
+    final qrLink = _linkShortener.buildFullUrl(rawQrLink);
 
     final newStatus = OSKPStatus.linksReady(
       link1: firstLink,
@@ -87,9 +87,6 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     );
   }
 }
-
-/// The maximum amount that a QR code will be generated together with links.
-final _qrLinkThreshold = Decimal.parse('10.0');
 
 List<String> _splitKey(IList<int> privateKey) {
   final parts = privateKey.splitAt(privateKey.length ~/ 2);

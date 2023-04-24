@@ -9,8 +9,9 @@ import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../../../core/wallet.dart';
 import '../../../../di.dart';
-import '../../../../features/incoming_single_link_payments/widgets/extensions.dart';
+import '../../../../features/incoming_split_key_payments/extensions.dart';
 import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
 import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
 import '../../../../features/payment_request/models/payment_request.dart';
@@ -23,7 +24,7 @@ import '../../../../ui/theme.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
-final _minimumAmount = Decimal.parse('0.1');
+final _minimumAmount = Decimal.parse('0.2');
 
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({
@@ -58,13 +59,20 @@ class _State extends State<WalletFlowScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerTipRequest) {
-      final id = await context.createISLP(request.paymentData);
+    if (request is QrScannerSplitKeyPayment) {
+      final escrow = await walletFromParts(
+        firstPart: request.firstPart.key,
+        secondPart: request.secondPart.key,
+      );
+      if (!mounted) return;
+
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: request.firstPart.apiVersion,
+      );
 
       if (!mounted) return;
-      await context.router.push(IncomingSingleLinkRoute(id: id));
-
-      return;
+      await context.router.push(IncomingSplitKeyPaymentRoute(id: id));
     }
 
     final recipient = request.recipient;
@@ -77,6 +85,8 @@ class _State extends State<WalletFlowScreen> {
     final requestAmount = request.whenOrNull(
       solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
     );
+
+    if (!mounted) return;
 
     final isEnabled = requestAmount == null || requestAmount.value == 0;
     final initialAmount = requestAmount ?? _fiatAmount;
@@ -164,10 +174,10 @@ class _State extends State<WalletFlowScreen> {
     setState(() {
       switch (operation) {
         case WalletOperation.request:
-          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.10');
+          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.20');
           break;
         case WalletOperation.pay:
-          _errorMessage = context.l10n.minimumAmountToSend(r'$0.10');
+          _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
           break;
       }
     });

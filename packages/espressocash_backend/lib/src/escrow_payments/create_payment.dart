@@ -63,7 +63,7 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
     mint: mint,
   );
   final iTransferFee = TokenInstruction.transfer(
-    amount: shareableLinkPaymentFee,
+    amount: escrowPaymentFee,
     source: ataSender,
     destination: ataPlatform,
     owner: aSender,

@@ -677,5 +677,29 @@
     }
   },
   "zeroAmountTitle": "Montant invalide",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "paymentInitiated": "Payment initiated",
+  "@paymentInitiated": {},
+  "qrScanInfo1": "If the recipient has the app installed:",
+  "@qrScanInfo1": {},
+  "qrScanInfo2": "They should use the in-app QR scanner.",
+  "@qrScanInfo2": {},
+  "scanToReceive": "Scan to receive {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "openInAppScanner": "Open in-app QR Scanner",
+  "@openInAppScanner": {},
+  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
+  "@qrPaymentInstructions": {},
+  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
+  "@qrTermsDisclaimer": {},
+  "money": "Money",
+  "@money": {},
+  "isWaitingForYou": "is waiting for you.",
+  "@isWaitingForYou": {}
 }
