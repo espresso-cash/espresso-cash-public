@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
@@ -62,4 +63,14 @@ class KeyPairParams {
   final String mnemonic;
   final int account;
   final int change;
+}
+
+Future<Wallet> walletFromParts({
+  required String firstPart,
+  required String secondPart,
+}) async {
+  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
+  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
+
+  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/accounts/bl/account.dart';
@@ -146,16 +146,20 @@ class _QrCodeWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            QrImage(data: qrData, padding: EdgeInsets.zero),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 24),
-                child: Text(
-                  address.toBase58(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+            Expanded(
+              child: BarcodeWidget(
+                barcode: Barcode.qrCode(),
+                data: qrData,
+                padding: EdgeInsets.zero,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                address.toBase58(),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
