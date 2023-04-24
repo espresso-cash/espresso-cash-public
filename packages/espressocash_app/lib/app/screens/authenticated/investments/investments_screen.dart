@@ -13,10 +13,11 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../core/tokens/token_list.dart';
+import '../../../../core/wallet.dart';
 import '../../../../di.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../../../features/incoming_single_link_payments/widgets/extensions.dart';
+import '../../../../features/incoming_split_key_payments/extensions.dart';
 import '../../../../features/investments/widgets/crypto_investments.dart';
 import '../../../../features/onboarding/widgets/onboarding_notice.dart';
 import '../../../../features/outgoing_direct_payments/widgets/extensions.dart';
@@ -49,13 +50,20 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerTipRequest) {
-      final id = await context.createISLP(request.paymentData);
+    if (request is QrScannerSplitKeyPayment) {
+      final escrow = await walletFromParts(
+        firstPart: request.firstPart.key,
+        secondPart: request.secondPart.key,
+      );
+      if (!mounted) return;
+
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: request.firstPart.apiVersion,
+      );
 
       if (!mounted) return;
-      await context.router.push(IncomingSingleLinkRoute(id: id));
-
-      return;
+      await context.router.push(IncomingSplitKeyPaymentRoute(id: id));
     }
 
     final recipient = request.recipient;
@@ -75,6 +83,8 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
       value: 0,
       fiatCurrency: Currency.usd,
     );
+
+    if (!mounted) return;
 
     final cryptoAmount = fiatAmount.toTokenAmount(
           cryptoCurrency.token,
