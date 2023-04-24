@@ -46,10 +46,11 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
 
-    final accessMode = context.read<MyAccount>().accessMode;
-    context
-        .read<PuzzleReminderBloc>()
-        .add(PuzzleReminderEvent.checkRequested(accessMode));
+    final event = PuzzleReminderEvent.checkRequested(
+      accessMode: context.read<MyAccount>().accessMode,
+      wallet: context.read<MyAccount>().wallet,
+    );
+    context.read<PuzzleReminderBloc>().add(event);
   }
 
   void _showPuzzleReminderDialog() {

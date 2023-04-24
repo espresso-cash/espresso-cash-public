@@ -1,10 +1,10 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/link_shortener.dart';
 import '../../models/qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
@@ -18,14 +18,9 @@ typedef _Emitter = Emitter<_State>;
 
 @injectable
 class QrScannerBloc extends Bloc<_Event, _State> {
-  QrScannerBloc({
-    required LinkShortener linkShortener,
-  })  : _linkShortener = linkShortener,
-        super(const QrScannerState.initial()) {
+  QrScannerBloc() : super(const QrScannerState.initial()) {
     on<_Event>(_eventHandler, transformer: sequential());
   }
-
-  final LinkShortener _linkShortener;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         received: (e) => _onReceived(e, emit),
@@ -36,13 +31,12 @@ class QrScannerBloc extends Bloc<_Event, _State> {
     emit(const QrScannerState.initial());
   }
 
-  Future<void> _onReceived(QrScannerReceivedEvent event, _Emitter emit) async {
-    final dynamicLink =
-        await _linkShortener.reverse(event.code).then((e) => e?.toString());
+  void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
+    final newState = QrScannerRequest.tryParseMultiple(event.codes)
+        .maybeMap(QrScannerState.done);
 
-    final newState = QrScannerRequest.parse(dynamicLink ?? event.code)
-            .maybeMap(QrScannerState.done) ??
-        const QrScannerState.error();
-    emit(newState);
+    if (newState != null) {
+      emit(newState);
+    }
   }
 }

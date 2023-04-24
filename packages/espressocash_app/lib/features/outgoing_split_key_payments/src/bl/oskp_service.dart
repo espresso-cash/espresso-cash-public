@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../config.dart';
 import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/amount.dart';
+import '../../../../core/api_version.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/transactions/resign_tx.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -25,7 +26,12 @@ class OSKPService {
     required CryptoAmount amount,
     required ECWallet account,
   }) async {
-    final status = await _createTx(amount: amount, account: account);
+    const apiVersion = SplitKeyApiVersion.smartContract;
+    final status = await _createTx(
+      amount: amount,
+      account: account,
+      apiVersion: apiVersion,
+    );
 
     final id = const Uuid().v4();
 
@@ -34,6 +40,7 @@ class OSKPService {
       amount: amount,
       created: DateTime.now(),
       status: status,
+      apiVersion: apiVersion,
     );
 
     await _repository.save(payment);
@@ -45,7 +52,11 @@ class OSKPService {
     OutgoingSplitKeyPayment payment, {
     required ECWallet account,
   }) async {
-    final status = await _createTx(amount: payment.amount, account: account);
+    final status = await _createTx(
+      amount: payment.amount,
+      account: account,
+      apiVersion: payment.apiVersion,
+    );
 
     final newPayment = payment.copyWith(status: status);
 
@@ -81,6 +92,7 @@ class OSKPService {
       newStatus = await _createCancelTx(
         escrow: escrow,
         account: account,
+        apiVersion: payment.apiVersion,
       );
     }
 
@@ -94,6 +106,7 @@ class OSKPService {
   Future<OSKPStatus> _createTx({
     required CryptoAmount amount,
     required ECWallet account,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     try {
       final escrowAccount = await Ed25519HDKeyPair.random();
@@ -106,7 +119,15 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.createPayment(dto);
+      final CreatePaymentResponseDto response;
+      switch (apiVersion) {
+        case SplitKeyApiVersion.manual:
+          response = await _client.createPayment(dto);
+          break;
+        case SplitKeyApiVersion.smartContract:
+          response = await _client.createPaymentEc(dto);
+          break;
+      }
       final tx = await response.transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(account))
@@ -123,6 +144,7 @@ class OSKPService {
   Future<OSKPStatus> _createCancelTx({
     required EscrowPublicKey escrow,
     required ECWallet account,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     try {
       final dto = CancelPaymentRequestDto(
@@ -131,16 +153,34 @@ class OSKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.cancelPayment(dto);
-      final tx = await response
-          .let((it) => it.transaction)
+      final String transaction;
+      final BigInt slot;
+
+      switch (apiVersion) {
+        case SplitKeyApiVersion.manual:
+          final dto = ReceivePaymentRequestDto(
+            receiverAccount: account.address,
+            escrowAccount: escrow.toBase58(),
+            cluster: apiCluster,
+          );
+          final response = await _client.receivePayment(dto);
+          transaction = response.transaction;
+          slot = response.slot;
+          break;
+        case SplitKeyApiVersion.smartContract:
+          final response = await _client.cancelPaymentEc(dto);
+          transaction = response.transaction;
+          slot = response.slot;
+          break;
+      }
+      final tx = await transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(account));
 
       return OSKPStatus.cancelTxCreated(
         tx,
         escrow: escrow,
-        slot: response.slot,
+        slot: slot,
       );
     } on Exception {
       return OSKPStatus.cancelTxFailure(

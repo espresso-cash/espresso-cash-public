@@ -84,7 +84,7 @@ class FeeCalculator {
                 ? fees.directPayment.ataExists
                 : fees.directPayment.ataDoesNotExist;
           },
-          splitKey: (_) async => fees.splitKeyPayment,
+          splitKey: (_) async => fees.escrowPayment,
         ),
       )
       .then((fee) => Amount(value: fee, currency: Currency.usdc));

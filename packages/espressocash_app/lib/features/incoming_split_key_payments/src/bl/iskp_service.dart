@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../config.dart';
 import '../../../../core/accounts/bl/ec_wallet.dart';
+import '../../../../core/api_version.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/extensions.dart';
 import '../../../../core/transactions/resign_tx.dart';
@@ -25,8 +26,13 @@ class ISKPService {
   Future<IncomingSplitKeyPayment> create({
     required ECWallet account,
     required Ed25519HDKeyPair escrow,
+    required SplitKeyApiVersion apiVersion,
   }) async {
-    final status = await _createTx(escrow: escrow, account: account);
+    final status = await _createTx(
+      escrow: escrow,
+      account: account,
+      apiVersion: apiVersion,
+    );
 
     final id = const Uuid().v4();
 
@@ -35,6 +41,7 @@ class ISKPService {
       created: DateTime.now(),
       escrow: await escrow.let(EscrowPrivateKey.fromKeyPair),
       status: status,
+      apiVersion: apiVersion,
     );
 
     await _repository.save(payment);
@@ -49,6 +56,7 @@ class ISKPService {
     final status = await _createTx(
       escrow: await payment.escrow.keyPair,
       account: account,
+      apiVersion: payment.apiVersion,
     );
 
     final newPayment = payment.copyWith(status: status);
@@ -61,6 +69,7 @@ class ISKPService {
   Future<ISKPStatus> _createTx({
     required ECWallet account,
     required Ed25519HDKeyPair escrow,
+    required SplitKeyApiVersion apiVersion,
   }) async {
     try {
       final dto = ReceivePaymentRequestDto(
@@ -69,10 +78,14 @@ class ISKPService {
         cluster: apiCluster,
       );
 
-      final response = await _client.receivePayment(dto);
+      final response = apiVersion == SplitKeyApiVersion.manual
+          ? await _client.receivePayment(dto)
+          : await _client.receivePaymentEc(dto);
+
       final tx = await response.transaction
           .let(SignedTx.decode)
-          .let((it) => it.resign(LocalWallet(escrow)));
+          .let((it) => it.resign(LocalWallet(escrow)))
+          .letAsync((it) => it.resign(account));
 
       return ISKPStatus.txCreated(tx, slot: response.slot);
     } on DioError catch (e) {

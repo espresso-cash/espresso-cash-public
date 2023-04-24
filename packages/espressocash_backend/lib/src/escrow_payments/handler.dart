@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/escrow_payments/cancel_payment.dart';
@@ -14,19 +13,6 @@ Handler escrowPaymentsHandler() => (shelf_router.Router()
       ..post('/escrow/receive', receivePaymentHandler)
       ..post('/escrow/cancel', cancelPaymentHandler))
     .call;
-
-Future<Response> getFeesHandler(Request request) =>
-    processRequest<void, GetFeesResponseDto>(
-      request,
-      ignore,
-      (_) async => const GetFeesResponseDto(
-        directPayment: DirectPaymentFeeDto(
-          ataExists: directPaymentFee,
-          ataDoesNotExist: directPaymentWithAccountCreationFee,
-        ),
-        splitKeyPayment: shareableLinkPaymentFee,
-      ),
-    );
 
 Future<Response> createPaymentHandler(Request request) async =>
     processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
