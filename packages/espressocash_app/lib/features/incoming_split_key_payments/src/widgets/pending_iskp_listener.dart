@@ -63,14 +63,6 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
         return true;
       }
 
-      final firstPartQr = SplitQrLink.tryParse(link);
-      if (firstPartQr != null) {
-        sl<AnalyticsManager>().firstLinkReceived();
-        context.router.push(const FirstPartQrRoute()).ignore();
-
-        return true;
-      }
-
       return false;
     });
   }

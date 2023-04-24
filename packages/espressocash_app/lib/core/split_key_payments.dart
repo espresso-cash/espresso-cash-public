@@ -95,57 +95,6 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
 }
 
 @freezed
-class SplitQrLink with _$SplitQrLink {
-  const factory SplitQrLink({
-    required String key,
-    @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
-  }) = _SplitQrLink;
-
-  factory SplitQrLink.fromJson(Map<String, dynamic> json) =>
-      _$SplitQrLinkFromJson(json);
-
-  const SplitQrLink._();
-
-  static const _type = 'qr';
-
-  static SplitQrLink? tryParse(Uri link) {
-    final correctSchemeAndHost =
-        link.scheme == 'cryptoplease-sol' && link.host == '1' ||
-            link.scheme == 'https' && link.host == link1Host;
-    if (!correctSchemeAndHost) return null;
-
-    final tokenAddress = link.queryParameters['token'];
-    if (tokenAddress == null || tokenAddress != Token.usdc.address) return null;
-
-    final firstPart = link.queryParameters['key'];
-    if (firstPart == null) return null;
-
-    final apiVersion = link.queryParameters['v'];
-    if (apiVersion != 'v2') return null;
-
-    final type = link.queryParameters['type'];
-    if (type != _type) return null;
-
-    return SplitQrLink(
-      key: firstPart,
-      token: Ed25519HDPublicKey.fromBase58(tokenAddress),
-    );
-  }
-
-  Uri toUri() => Uri(
-        scheme: 'https',
-        host: link1Host,
-        path: '/',
-        queryParameters: <String, String>{
-          'key': key,
-          if (token != Token.sol.publicKey) 'token': token.toBase58(),
-          'v': 'v2',
-          'type': _type
-        },
-      );
-}
-
-@freezed
 class SplitKeySecondLink with _$SplitKeySecondLink {
   const factory SplitKeySecondLink({
     required String key,

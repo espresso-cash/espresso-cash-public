@@ -87,10 +87,5 @@ bool _parseUri(Uri? link) {
     return true;
   }
 
-  final firstPartQr = SplitQrLink.tryParse(link);
-  if (firstPartQr != null) {
-    return true;
-  }
-
   return false;
 }
