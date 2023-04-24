@@ -149,7 +149,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 36) {
             await m.deleteTable('i_s_l_p_rows');
           }
-          if (from >= 16 && from < 35) {
+          if (from >= 16 && from < 37) {
             await m.addColumn(oSKPRows, oSKPRows.publicKey);
           }
         },
