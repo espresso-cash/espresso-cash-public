@@ -7,6 +7,7 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/amount.dart';
+import '../../../../core/api_version.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/tokens/token.dart';
@@ -99,6 +100,7 @@ class RecoverPendingWatcher {
                 status: OSKPStatus.recovered(escrow: escrow),
                 created: timestamp,
                 linksGeneratedAt: timestamp,
+                apiVersion: SplitKeyApiVersion.smartContract,
               ),
             );
           }
