@@ -8,23 +8,22 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/rounded_rectangle.dart';
-import '../../../models/outgoing_split_key_payment.dart';
 
 class ShareQr extends StatelessWidget {
   const ShareQr({
     super.key,
-    required this.status,
     required this.amount,
+    required this.qrLink,
+    required this.secondLink,
   });
 
   final CryptoAmount amount;
-  final OSKPStatusLinksReady status;
+  final Uri qrLink;
+  final Uri secondLink;
 
   @override
   Widget build(BuildContext context) {
     final amount = this.amount.formatWithFiat(context);
-    final qrLink = status.qrLink.toString();
-    final secondLink = status.link2.toString();
 
     return CpContentPadding(
       child: CpRoundedRectangle(
@@ -36,8 +35,8 @@ class ShareQr extends StatelessWidget {
             Expanded(
               child: _QrBody(
                 amount: amount,
-                qrLink: qrLink,
-                secondLink: secondLink,
+                qrLink: qrLink.toString(),
+                secondLink: secondLink.toString(),
               ),
             ),
           ],
@@ -157,7 +156,7 @@ class _CustomQrCode extends StatelessWidget {
               color: Colors.white,
             ),
             SizedBox.square(
-              dimension: 115,
+              dimension: 120,
               child: BarcodeWidget(
                 barcode: Barcode.aztec(),
                 data: secondLink,

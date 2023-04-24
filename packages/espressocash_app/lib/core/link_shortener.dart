@@ -20,7 +20,7 @@ class LinkShortener {
   Future<Uri?> buildShortUrl(Uri link) async {
     final parameters = DynamicLinkParameters(
       link: link,
-      uriPrefix: 'https://$cpDeepLinkHost',
+      uriPrefix: 'https://$espressoCashDeepLinkHost',
       androidParameters: _androidParameters,
       iosParameters: _iosParameters,
     );
@@ -39,7 +39,7 @@ class LinkShortener {
 
   Uri buildFullUrl(Uri link) => Uri(
         scheme: 'https',
-        host: cpDeepLinkHost,
+        host: espressoCashDeepLinkHost,
         path: '/',
         queryParameters: <String, String>{
           'apn': _androidParameters.packageName,

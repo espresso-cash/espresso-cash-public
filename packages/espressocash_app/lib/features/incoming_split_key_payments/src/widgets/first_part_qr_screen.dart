@@ -28,14 +28,17 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerPaymentRequest) {
+    if (request is QrScannerSplitKeyPayment) {
       final escrow = await walletFromParts(
         firstPart: request.firstPart.key,
         secondPart: request.secondPart.key,
       );
       if (!mounted) return;
 
-      final id = await context.createISKP(escrow);
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: request.firstPart.apiVersion,
+      );
 
       if (!mounted) return;
       await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));
@@ -68,11 +71,7 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
                           children: [
                             const _Header(),
                             const _Body(),
-                            Expanded(
-                              child: _Footer(
-                                onScan: _onQrScanner,
-                              ),
-                            ),
+                            Expanded(child: _Footer(onScan: _onQrScanner)),
                           ],
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -31,8 +32,8 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
-    final newState =
-        QrScannerRequest.tryParse(event.codes).maybeMap(QrScannerState.done);
+    final newState = QrScannerRequest.tryParseMultiple(event.codes)
+        .maybeMap(QrScannerState.done);
 
     if (newState != null) {
       emit(newState);

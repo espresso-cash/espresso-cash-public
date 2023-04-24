@@ -2,6 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_address_data.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
 import 'package:espressocash_app/features/qr_scanner/src/bl/qr_scanner_bloc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 
@@ -25,7 +26,7 @@ void main() {
       build: QrScannerBloc.new,
       act: (bloc) => bloc.add(
         QrScannerEvent.received(
-          [_buildSolanaPayURI(recipientAddress: sampleAddress)],
+          [_buildSolanaPayURI(recipientAddress: sampleAddress)].lock,
         ),
       ),
       expect: () => [isA<QrScannerDoneState>()],
@@ -34,7 +35,7 @@ void main() {
     blocTest<QrScannerBloc, QrScannerState>(
       'simple address qr scanned',
       build: QrScannerBloc.new,
-      act: (bloc) => bloc.add(QrScannerEvent.received([sampleAddress])),
+      act: (bloc) => bloc.add(QrScannerEvent.received([sampleAddress].lock)),
       expect: () => [
         QrScannerState.done(
           QrScannerRequest.address(

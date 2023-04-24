@@ -26,6 +26,9 @@ class ShareLinksScreen extends StatelessWidget {
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 
+    final qrLink = status.qrLink;
+    final hasQrLink = qrLink != null && qrLink.path != 'null';
+
     return CpTheme.dark(
       child: Scaffold(
         appBar: CpAppBar(title: title),
@@ -50,7 +53,12 @@ class ShareLinksScreen extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       ShareLinks(status: status, amount: amount),
-                      ShareQr(status: status, amount: amount),
+                      if (hasQrLink)
+                        ShareQr(
+                          qrLink: qrLink,
+                          secondLink: status.link2,
+                          amount: amount,
+                        ),
                     ],
                   ),
                 ),

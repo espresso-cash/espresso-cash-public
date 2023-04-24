@@ -54,7 +54,7 @@ jobs:
       DEVNET_RPC_URL: "http://localhost:8899"
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator"
-      EC_LINKS_ID: "GHrMLBLnwGB8ypCWQnPeRzgHwePpUtSnY5ZSCCWzYmhC"
+      EC_LINKS_ID: "7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL"
       EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
     steps:
       - uses: actions/checkout@v2
