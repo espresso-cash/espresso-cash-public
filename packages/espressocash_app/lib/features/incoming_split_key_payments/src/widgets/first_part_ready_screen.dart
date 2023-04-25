@@ -104,7 +104,9 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                         const _Header(),
                         const SizedBox(height: 16),
                         Flexible(
-                          child: Assets.images.secondLinkArtwork.image(),
+                          child: Assets.rive.secondLink.rive(
+                            placeHolder: const SizedBox.expand(),
+                          ),
                         ),
                         const SizedBox(height: 16),
                         CpButton(
