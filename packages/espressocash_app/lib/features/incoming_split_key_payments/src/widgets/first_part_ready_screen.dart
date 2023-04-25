@@ -18,8 +18,8 @@ import '../../../../ui/colors.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
 import '../../../legal/flow.dart';
+import '../../extensions.dart';
 import '../bl/pending_iskp_repository.dart';
-import 'extensions.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});

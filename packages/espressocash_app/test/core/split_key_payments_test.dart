@@ -10,6 +10,7 @@ void main() {
         key: 'abcd',
         token: Token.usdc.publicKey,
         apiVersion: SplitKeyApiVersion.manual,
+        source: SplitKeySource.other,
       );
 
       expect(
@@ -40,6 +41,7 @@ void main() {
           key: '123',
           token: Token.usdc.publicKey,
           apiVersion: SplitKeyApiVersion.manual,
+          source: SplitKeySource.other,
         ),
       );
     });
@@ -99,6 +101,7 @@ void main() {
         key: 'abcd',
         token: Token.usdc.publicKey,
         apiVersion: SplitKeyApiVersion.smartContract,
+        source: SplitKeySource.other,
       );
 
       expect(
@@ -127,6 +130,7 @@ void main() {
           key: '123',
           token: Token.usdc.publicKey,
           apiVersion: SplitKeyApiVersion.smartContract,
+          source: SplitKeySource.other,
         ),
       );
     });

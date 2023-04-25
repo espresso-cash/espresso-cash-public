@@ -8,12 +8,15 @@ import 'tokens/token.dart';
 part 'split_key_payments.freezed.dart';
 part 'split_key_payments.g.dart';
 
+enum SplitKeySource { qr, other }
+
 @freezed
 class SplitKeyFirstLink with _$SplitKeyFirstLink {
   const factory SplitKeyFirstLink({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
     required SplitKeyApiVersion apiVersion,
+    required SplitKeySource source,
   }) = _SplitKeyFirstLink;
 
   factory SplitKeyFirstLink.fromJson(Map<String, dynamic> json) =>
@@ -21,16 +24,21 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
 
   const SplitKeyFirstLink._();
 
+  static const _qrSource = 'qr';
+
   static SplitKeyFirstLink? tryParse(Uri link) {
     if (link.scheme == 'https' && link.host == espressoCashLinkDomain ||
         link.scheme == espressoCashLinkProtocol) {
       final firstPart = link.queryParameters['k1'];
       if (firstPart == null) return null;
 
+      final source = link.queryParameters['source'];
+
       return SplitKeyFirstLink(
         key: firstPart,
         token: Token.usdc.publicKey,
         apiVersion: SplitKeyApiVersion.smartContract,
+        source: source == _qrSource ? SplitKeySource.qr : SplitKeySource.other,
       );
     }
 
@@ -55,6 +63,7 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
       key: firstPart,
       token: Ed25519HDPublicKey.fromBase58(tokenAddress),
       apiVersion: SplitKeyApiVersion.manual,
+      source: SplitKeySource.other,
     );
   }
 
@@ -78,6 +87,7 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
           path: '',
           queryParameters: <String, String>{
             'k1': key,
+            if (source == SplitKeySource.qr) 'source': _qrSource,
           },
         );
     }

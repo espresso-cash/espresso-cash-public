@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
+import '../../../../core/currency.dart';
 import '../../../../core/presentation/page_fade_wrapper.dart';
 import '../../../../features/favorite_tokens/widgets/extensions.dart';
 import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
@@ -11,6 +12,7 @@ import '../../../../features/investments/widgets/crypto_investments.dart';
 import '../../../../features/onboarding/widgets/onboarding_notice.dart';
 import '../../../../features/popular_tokens/widgets/extensions.dart';
 import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
+import '../../../../features/qr_scanner/widgets/build_context_ext.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/colors.dart';
@@ -28,6 +30,9 @@ class InvestmentsScreen extends StatefulWidget {
 }
 
 class _InvestmentsScreenState extends State<InvestmentsScreen> {
+  Future<void> _onQrScanner() async =>
+      context.launchQrScannerFlow(cryptoCurrency: Currency.usdc);
+
   @override
   Widget build(BuildContext context) => PageFadeWrapper(
         child: Container(
@@ -43,9 +48,9 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               color: CpColors.primaryColor,
               child: CustomScrollView(
                 slivers: [
-                  const SliverAppBar(
-                    shape: Border(),
-                    title: _AppBarContent(),
+                  SliverAppBar(
+                    shape: const Border(),
+                    title: _AppBarContent(onQrScanner: _onQrScanner),
                     pinned: true,
                     snap: false,
                     floating: false,
@@ -82,13 +87,29 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
 }
 
 class _AppBarContent extends StatelessWidget {
-  const _AppBarContent({Key? key}) : super(key: key);
+  const _AppBarContent({Key? key, required this.onQrScanner}) : super(key: key);
+  final VoidCallback onQrScanner;
 
   @override
   Widget build(BuildContext context) => SizedBox(
         height: kToolbarHeight,
         child: Stack(
           children: [
+            Positioned(
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              child: Row(
+                children: [
+                  CpIconButton(
+                    icon: Assets.icons.qrScanner
+                        .svg(color: const Color(0xFF2B2D2C)),
+                    onPressed: onQrScanner,
+                  ),
+                ],
+              ),
+            ),
             Center(
               child: Assets.images.logoDark.image(height: 32),
             ),
