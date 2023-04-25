@@ -3,6 +3,8 @@ workflows:
     name: App Android Workflow
     max_build_duration: 60
     instance_type: mac_mini_m1
+    integrations:
+      app_store_connect: app
     working_directory: packages/espressocash_app
     environment:
       groups:
@@ -11,11 +13,16 @@ workflows:
       flutter: 3.7.8
       android_signing:
         - app
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.pleasecrypto.flutter
 
     scripts:
       - name: Set up local.properties
         script: |
           echo "flutter.sdk=$HOME/programs/flutter" > "android/local.properties"
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
       - name: Get Flutter packages
         script: |
           flutter packages pub get
@@ -34,42 +41,6 @@ workflows:
             --dart-define SENTRY_DSN=$SENTRY_DSN \
             --dart-define RAMP_API_KEY=$RAMP_API_KEY \
             --dart-define LOCALIZELY_SDK_TOKEN=$LOCALIZELY_SDK_TOKEN
-
-    artifacts:
-      - build/**/outputs/**/*.aab
-      - build/**/outputs/**/mapping.txt
-      - flutter_drive.log
-
-    publishing:
-      google_play:
-        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: alpha
-        submit_as_draft: false
-
-  app-ios:
-    name: App iOS Workflow
-    max_build_duration: 60
-    instance_type: mac_mini_m1
-    integrations:
-      app_store_connect: app
-    working_directory: packages/espressocash_app
-    environment:
-      groups:
-        - common
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.pleasecrypto.flutter
-      flutter: 3.7.8
-
-    scripts:
-      - name: Set up code signing settings on Xcode project
-        script: xcode-project use-profiles
-      - name: Get Flutter packages
-        script: |
-          flutter packages pub get
-      - name: Generate code
-        script: |
-          flutter pub run build_runner build --delete-conflicting-outputs
       - name: Build IPA with Flutter
         script: |
           BUILD_NUMBER=$(($PROJECT_BUILD_NUMBER + 200))
@@ -84,10 +55,16 @@ workflows:
             --dart-define LOCALIZELY_SDK_TOKEN=$LOCALIZELY_SDK_TOKEN
 
     artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
 
     publishing:
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: alpha
+        submit_as_draft: false
       app_store_connect:
         auth: integration
