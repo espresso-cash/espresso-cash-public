@@ -2,12 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
+import '../../../../core/wallet.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -196,14 +195,4 @@ class _TermsDisclaimer extends StatelessWidget {
           ),
         ),
       );
-}
-
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
-}) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
-
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }
