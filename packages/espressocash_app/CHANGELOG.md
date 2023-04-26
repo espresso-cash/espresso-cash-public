@@ -1,3 +1,7 @@
+## 1.70.0
+
+ - **FEAT**: update solanapay host (#951).
+
 ## 1.69.0
 
  - **FIX**: center iskp screen content (#887).
