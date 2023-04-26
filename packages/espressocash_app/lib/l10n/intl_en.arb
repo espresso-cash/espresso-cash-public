@@ -745,8 +745,9 @@
   "@unavailableToken": {
     "placeholders": {
       "tokenName": {
-            "type": "String"
+        "type": "String"
       }
     }
-  }
+  },
+  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our "
 }
