@@ -367,7 +367,7 @@ extension SolanaClientSolanaPay on SolanaClient {
 
       compiledMessage = tx.decompileMessage().compile(
             recentBlockhash: latestBlockhash.value.blockhash,
-            feePayer: feePayer,
+            feePayer: signer,
           );
 
       signatures = [
