@@ -1,3 +1,4 @@
+import 'package:solana/solana_pay.dart';
 import 'package:solana/src/solana_pay/solana_transaction_request.dart';
 import 'package:test/test.dart';
 
@@ -43,4 +44,31 @@ void main() {
       expect(url, link.key);
     });
   }
+
+  test('Catch Invalid Links', () {
+    final request = SolanaTransactionRequest.tryParse('invalid-key');
+    expect(request, null);
+
+    expect(
+      () => SolanaTransactionRequest.parse('sol:https://example.com'),
+      throwsA(
+        isA<ParseUrlException>().having(
+          (p) => p.message,
+          'Protocol invalid',
+          'Protocol invalid',
+        ),
+      ),
+    );
+
+    expect(
+      () => SolanaTransactionRequest.parse('solana:http://example.com'),
+      throwsA(
+        isA<ParseUrlException>().having(
+          (p) => p.message,
+          'Protocol invalid',
+          'Protocol invalid',
+        ),
+      ),
+    );
+  });
 }
