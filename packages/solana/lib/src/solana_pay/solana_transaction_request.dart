@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:http/http.dart' as http;
+import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
+import 'package:solana/src/solana_pay/accounts/transaction_request.dart';
 import 'package:solana/src/solana_pay/constants.dart';
 
 part 'solana_transaction_request.freezed.dart';
@@ -68,5 +73,17 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
           ? Map<String, dynamic>.fromEntries(queryParameters.entries)
           : null,
     ).toString();
+  }
+
+  Future<TransactionRequestInfo> getTransactionRequestInfo() async {
+    final response = await http.get(link);
+
+    if (response.statusCode != 200) {
+      throw HttpException(response.statusCode, response.body);
+    }
+
+    return TransactionRequestInfo.fromJson(
+      json.decode(response.body) as Map<String, dynamic>,
+    );
   }
 }

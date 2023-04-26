@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
+import 'package:http/http.dart' as http;
 import 'package:solana/dto.dart'
     show FutureContextResultExt, ParsedTransaction, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/solana_pay/accounts/transaction_request.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
+import 'package:solana/src/solana_pay/solana_transaction_request.dart';
 
 extension SolanaClientSolanaPay on SolanaClient {
   /// Creates Solana Pay transaction from [payer] to [recipient].
@@ -283,5 +288,96 @@ extension SolanaClientSolanaPay on SolanaClient {
     }
 
     return response;
+  }
+
+  /// Fetch a transaction from a Solana Pay transaction request link.
+  ///
+  /// Link is `link` in the [Solana Pay Transaction Request spec][1].
+  ///
+  /// Signer is account the that may [sign the transaction][2].
+  ///
+  /// Commitment is used when getting latest blockhash.
+  ///
+  /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
+  /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
+  Future<SignedTx> fetchSolanaPayTransactionRequest({
+    required SolanaTransactionRequest link,
+    required Ed25519HDPublicKey signer,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final response = await http.post(
+      link.link,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'account': signer.toBase58()}),
+    );
+
+    if (response.statusCode != 200) {
+      throw HttpException(response.statusCode, response.body);
+    }
+
+    final transactionResponse = TransactionRequestResponse.fromJson(
+      json.decode(response.body) as Map<String, dynamic>,
+    );
+
+    return _processTransactionResponse(
+      transaction: transactionResponse.transaction,
+      signer: signer,
+      commitment: commitment,
+    );
+  }
+
+  Future<SignedTx> _processTransactionResponse({
+    required String transaction,
+    required Ed25519HDPublicKey signer,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final tx = SignedTx.decode(transaction);
+
+    List<Signature> signatures = tx.signatures;
+    final feePayer = tx.compiledMessage.accountKeys.first;
+
+    CompiledMessage compiledMessage = tx.compiledMessage;
+
+    if (signatures.isNotEmpty) {
+      if (feePayer != signatures.first.publicKey) {
+        throw const FetchTransactionException('Invalid fee payer');
+      }
+
+      for (final sig in signatures) {
+        final signature = sig.bytes;
+        final publicKey = sig.publicKey;
+
+        final isValid = await verifySignature(
+          message: compiledMessage.toByteArray().toList(),
+          signature: signature,
+          publicKey: Ed25519HDPublicKey.fromBase58(publicKey.toString()),
+        );
+
+        if (!isValid) {
+          throw const FetchTransactionException('Invalid signature');
+        }
+      }
+    } else {
+      final latestBlockhash = await rpcClient.getLatestBlockhash(
+        commitment: commitment,
+      );
+
+      compiledMessage = tx.decompileMessage().compile(
+            recentBlockhash: latestBlockhash.value.blockhash,
+            feePayer: feePayer,
+          );
+
+      signatures = [
+        Signature(List.filled(64, 0), publicKey: signer),
+      ];
+    }
+
+    return SignedTx(
+      compiledMessage: compiledMessage,
+      signatures: signatures,
+    );
   }
 }

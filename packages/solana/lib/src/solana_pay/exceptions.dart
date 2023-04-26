@@ -24,3 +24,12 @@ class ValidateTransactionException implements Exception {
   @override
   String toString() => '$runtimeType($message)';
 }
+
+class FetchTransactionException implements Exception {
+  const FetchTransactionException(this.message);
+
+  final String message;
+
+  @override
+  String toString() => '$runtimeType($message)';
+}
