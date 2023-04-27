@@ -4,8 +4,8 @@ import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
-import '../../../../ui/dialogs.dart';
 import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
 
@@ -39,19 +39,32 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
         final localAuth = LocalAuthentication();
 
         if (!await localAuth.isDeviceSupported() ||
-            !await localAuth.canCheckBiometrics) throw Exception();
+            !await localAuth.canCheckBiometrics) return false;
 
         if (mounted) {
-          await showConfirmationDialog(
-            context,
-            title: 'Would you like to use Biometrics?',
-            message: '',
-            onConfirm: T,
-          );
+          final shouldUse = await showDialog<bool>(
+                context: context,
+                builder: (context) => SimpleDialog(
+                  title: const Text('Use biometrics?'),
+                  children: [
+                    CpButton(
+                      text: 'Yes',
+                      onPressed: () => Navigator.of(context).pop(true),
+                    ),
+                    CpButton(
+                      text: 'No',
+                      onPressed: () => Navigator.of(context).pop(false),
+                    ),
+                  ],
+                ),
+              ) ??
+              false;
+
+          if (!shouldUse) return false;
         }
 
         return localAuth.authenticate(localizedReason: 'test');
-      }).foldAsync(F, T);
+      }).foldAsync(F, identity);
 
   String get _instructions {
     if (_firstPass == null) {

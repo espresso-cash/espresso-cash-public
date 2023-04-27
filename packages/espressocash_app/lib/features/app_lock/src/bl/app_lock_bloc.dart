@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +30,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
             enable: (e) => _onEnable(e, emit),
             disable: (e) => _onDisable(e, emit),
             lock: (e) => _onLock(e, emit),
+            usePin: (e) => _onUsePin(e, emit),
             unlock: (e) => _onUnlock(e, emit),
             logout: (e) => _onLogout(e, emit),
           );
@@ -67,12 +70,26 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
     }
   }
 
+  Future<void> _onUsePin(AppLockEventUsePin _, _Emitter emit) async {
+    if (state is! AppLockStateLocked) return;
+    emit(
+      const AppLockState.locked(
+        isRetrying: false,
+        localBiometrics: LocalBiometrics.disabled(),
+      ),
+    );
+  }
+
   Future<void> _onLock(AppLockEventLock _, _Emitter emit) async {
     if (state is! AppLockStateEnabled) return;
+    final biometrics = await _secureStorage.readLocalBiometrics();
+
+    log(biometrics.toString());
+
     emit(
       AppLockState.locked(
         isRetrying: false,
-        localBiometrics: await _secureStorage.readLocalBiometrics(),
+        localBiometrics: biometrics,
       ),
     );
   }
@@ -93,9 +110,9 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
       emit(const AppLockState.enabled(disableFailed: false));
     } else {
       emit(
-        AppLockState.locked(
+        const AppLockState.locked(
           isRetrying: true,
-          localBiometrics: (state as AppLockStateLocked).localBiometrics,
+          localBiometrics: LocalBiometrics.disabled(),
         ),
       );
     }

@@ -13,6 +13,7 @@
     </queries>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.solanamobile.seedvault.ACCESS_SEED_VAULT" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
 
     <application android:name="${applicationName}"
         tools:replace="android:label"

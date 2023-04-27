@@ -6,12 +6,12 @@ class AppLockEvent with _$AppLockEvent {
 
   const factory AppLockEvent.lock() = AppLockEventLock;
 
-  const factory AppLockEvent.enable(
-    String pin,
-    bool useLocalAuth,
-  ) = AppLockEventEnable;
+  const factory AppLockEvent.enable(String pin, bool useLocalAuth) =
+      AppLockEventEnable;
 
   const factory AppLockEvent.disable(String pin) = AppLockEventDisable;
+
+  const factory AppLockEvent.usePin() = AppLockEventUsePin;
 
   const factory AppLockEvent.init() = AppLockEventInit;
 
