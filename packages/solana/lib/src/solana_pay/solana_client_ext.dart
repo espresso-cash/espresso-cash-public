@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:solana/dto.dart'
     show FutureContextResultExt, ParsedTransaction, TransactionDetails;
@@ -322,14 +323,15 @@ extension SolanaClientSolanaPay on SolanaClient {
       json.decode(response.body) as Map<String, dynamic>,
     );
 
-    return _processTransactionResponse(
+    return processTransactionResponse(
       transaction: transactionResponse.transaction,
       signer: signer,
       commitment: commitment,
     );
   }
 
-  Future<SignedTx> _processTransactionResponse({
+  @visibleForTesting
+  Future<SignedTx> processTransactionResponse({
     required String transaction,
     required Ed25519HDPublicKey signer,
     Commitment commitment = Commitment.finalized,
@@ -337,11 +339,25 @@ extension SolanaClientSolanaPay on SolanaClient {
     final tx = SignedTx.decode(transaction);
 
     List<Signature> signatures = tx.signatures;
-    final feePayer = tx.compiledMessage.accountKeys.first;
-
     CompiledMessage compiledMessage = tx.compiledMessage;
 
-    if (signatures.isNotEmpty) {
+    if (signatures.isEmpty ||
+        (signatures.length == 1 && signatures.first.publicKey == signer)) {
+      final latestBlockhash = await rpcClient.getLatestBlockhash(
+        commitment: commitment,
+      );
+
+      compiledMessage = tx.decompileMessage().compile(
+            recentBlockhash: latestBlockhash.value.blockhash,
+            feePayer: signer,
+          );
+
+      signatures = [
+        Signature(List.filled(64, 0), publicKey: signer),
+      ];
+    } else {
+      final feePayer = tx.compiledMessage.accountKeys.first;
+
       if (feePayer != signatures.first.publicKey) {
         throw const FetchTransactionException('Invalid fee payer');
       }
@@ -360,19 +376,6 @@ extension SolanaClientSolanaPay on SolanaClient {
           throw const FetchTransactionException('Invalid signature');
         }
       }
-    } else {
-      final latestBlockhash = await rpcClient.getLatestBlockhash(
-        commitment: commitment,
-      );
-
-      compiledMessage = tx.decompileMessage().compile(
-            recentBlockhash: latestBlockhash.value.blockhash,
-            feePayer: signer,
-          );
-
-      signatures = [
-        Signature(List.filled(64, 0), publicKey: signer),
-      ];
     }
 
     return SignedTx(
