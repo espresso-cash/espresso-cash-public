@@ -8,6 +8,7 @@ const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
+const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const deeplinkScheme = 'cryptoplease-sol';
 const protocolMap = {
   link1Host: '1',

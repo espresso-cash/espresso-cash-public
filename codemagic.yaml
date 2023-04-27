@@ -46,6 +46,7 @@ workflows:
         script: |
           BUILD_NUMBER=$(($PROJECT_BUILD_NUMBER + 200))
           flutter build ipa --release \
+            --export-options-plist=/Users/builder/export_options.plist \
             --build-number=$BUILD_NUMBER \
             --dart-define PROD=true \
             --dart-define SOLANA_RPC_URL=$SOLANA_RPC_URL \
