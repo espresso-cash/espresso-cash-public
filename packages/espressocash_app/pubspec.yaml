@@ -47,6 +47,7 @@ dependencies:
   intercom_flutter: ^7.6.0
   intl: ^0.17.0
   json_annotation: ^4.4.0
+  local_auth: ^2.1.6
   localizely_sdk: ^2.5.1
   logging: ^1.1.0
   meta: ^1.7.0

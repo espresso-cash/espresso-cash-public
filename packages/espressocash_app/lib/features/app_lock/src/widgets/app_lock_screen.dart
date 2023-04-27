@@ -23,8 +23,9 @@ class AppLockScreen extends StatelessWidget {
                     : context.l10n.enterPasscode,
                 orElse: () => context.l10n.enterPasscode,
               ),
-              onCompleted: (pin) =>
-                  context.read<AppLockBloc>().add(AppLockEvent.unlock(pin)),
+              onCompleted: (pin) => context
+                  .read<AppLockBloc>()
+                  .add(AppLockEvent.unlock(AppUnlockMode.pin(pin))),
             ),
           ),
         ),

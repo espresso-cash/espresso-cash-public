@@ -15,8 +15,8 @@ class AppLockSetupFlowScreen extends StatefulWidget {
 class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
     implements AppLockSetupRouter {
   @override
-  void onEnableFinished(String pin) {
-    context.read<AppLockBloc>().add(AppLockEvent.enable(pin));
+  void onEnableFinished(String pin, bool canUseBiometrics) {
+    context.read<AppLockBloc>().add(AppLockEvent.enable(pin, canUseBiometrics));
     context.router.pop();
   }
 
@@ -48,7 +48,7 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
 }
 
 abstract class AppLockSetupRouter {
-  void onEnableFinished(String pin);
+  void onEnableFinished(String pin, bool canUseBiometrics);
 
   void onEnable();
 
