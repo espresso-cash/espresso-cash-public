@@ -19,7 +19,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
   String? _secondPass;
   bool _askForBiometrics = false;
 
-  Future<void> _onComplete(String value) async {
+  void _onComplete(String value) {
     if (_firstPass == null) {
       setState(() => _firstPass = value);
     } else {
