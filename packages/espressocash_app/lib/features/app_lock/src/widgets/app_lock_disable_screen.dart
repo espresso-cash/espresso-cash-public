@@ -5,6 +5,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
 import '../bl/app_lock_bloc.dart';
 import 'app_lock_setup_flow_screen.dart';
+import 'components/biometric_check.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockDisableScreen extends StatelessWidget {
@@ -22,16 +23,22 @@ class AppLockDisableScreen extends StatelessWidget {
           ),
           hasLogo: true,
           backgroundStyle: BackgroundStyle.dark,
-          child: PinInputDisplayWidget(
-            message: state.maybeMap(
-              enabled: (state) => state.disableFailed
-                  ? context.l10n.incorrectPasscode
-                  : context.l10n.enterPasscode,
-              orElse: () => context.l10n.enterPasscode,
+          child: BiometricsCheck(
+            shouldAskForBiometric: state.shouldAskForBiometrics,
+            onLocalAuthenticate: () => context
+                .read<AppLockBloc>()
+                .add(const AppLockEvent.disable(AppUnlockMode.biometrics())),
+            child: PinInputDisplayWidget(
+              message: state.maybeMap(
+                enabled: (state) => state.disableFailed
+                    ? context.l10n.incorrectPasscode
+                    : context.l10n.enterPasscode,
+                orElse: () => context.l10n.enterPasscode,
+              ),
+              onCompleted: (pin) => context
+                  .read<AppLockBloc>()
+                  .add(AppLockEvent.disable(AppUnlockMode.pin(pin))),
             ),
-            onCompleted: (pin) => context.read<AppLockBloc>().add(
-                  AppLockEvent.disable(pin),
-                ),
           ),
         ),
       );

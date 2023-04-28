@@ -8,12 +8,12 @@ class BiometricsCheck extends StatefulWidget {
   const BiometricsCheck({
     Key? key,
     required this.shouldAskForBiometric,
-    required this.onBiometricUnlock,
+    required this.onLocalAuthenticate,
     required this.child,
   }) : super(key: key);
 
   final bool shouldAskForBiometric;
-  final VoidCallback onBiometricUnlock;
+  final VoidCallback onLocalAuthenticate;
   final Widget child;
 
   @override
@@ -25,7 +25,7 @@ class _BiometricsCheckState extends State<BiometricsCheck> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _checkLocalAuth(widget.shouldAskForBiometric),
+      (_) => _doLocalAuthenticate(widget.shouldAskForBiometric),
     );
   }
 
@@ -33,16 +33,16 @@ class _BiometricsCheckState extends State<BiometricsCheck> {
   void didUpdateWidget(covariant BiometricsCheck oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.shouldAskForBiometric != oldWidget.shouldAskForBiometric) {
-      _checkLocalAuth(widget.shouldAskForBiometric);
+      _doLocalAuthenticate(widget.shouldAskForBiometric);
     }
   }
 
-  Future<void> _checkLocalAuth(bool shouldAskForBiometric) async {
+  Future<void> _doLocalAuthenticate(bool shouldAskForBiometric) async {
     if (!shouldAskForBiometric) return;
 
     final authenticated = await _authenticate();
 
-    if (authenticated) widget.onBiometricUnlock();
+    if (authenticated) widget.onLocalAuthenticate();
   }
 
   Future<bool> _authenticate() async => tryEitherAsync((_) async {
