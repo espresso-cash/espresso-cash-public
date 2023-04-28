@@ -39,10 +39,10 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
   }
 
   void _finish() {
-    context.read<AppLockSetupRouter>().onEnableFinished(
-          // ignore: avoid-non-null-assertion, cannot be null here
-          _firstPass!,
-        );
+    final passCode = _firstPass;
+    if (passCode != null && _secondPass != null && passCode == _secondPass) {
+      context.read<AppLockSetupRouter>().onEnableFinished(passCode);
+    }
   }
 
   @override
