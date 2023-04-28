@@ -54,7 +54,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
   Future<void> _onDisable(AppLockEventDisable event, _Emitter emit) async {
     if (state is! AppLockStateEnabled) return;
 
-    if (await _authenticate(event.mode)) {
+    if (await _validate(event.mode)) {
       await _secureStorage.delete(key: _key);
       emit(const AppLockState.disabled());
     } else {
@@ -70,14 +70,14 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
   Future<void> _onUnlock(AppLockEventUnlock event, _Emitter emit) async {
     if (state is! AppLockStateLocked) return;
 
-    if (await _authenticate(event.mode)) {
+    if (await _validate(event.mode)) {
       emit(const AppLockState.enabled(disableFailed: false));
     } else {
       emit(const AppLockState.locked(isRetrying: true));
     }
   }
 
-  Future<bool> _authenticate(AppUnlockMode mode) async => mode.when(
+  Future<bool> _validate(AppUnlockMode mode) async => mode.when(
         pin: (pin) async => pin == await _secureStorage.read(key: _key),
         biometrics: T,
       );
