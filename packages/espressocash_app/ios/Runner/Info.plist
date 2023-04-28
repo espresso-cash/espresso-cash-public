@@ -105,8 +105,8 @@
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
+		<true/>
 		<key>NSFaceIDUsageDescription</key>
 		<string>Allow access to use FaceID to unlock the app.</string>
-		<true/>
 	</dict>
 </plist>
