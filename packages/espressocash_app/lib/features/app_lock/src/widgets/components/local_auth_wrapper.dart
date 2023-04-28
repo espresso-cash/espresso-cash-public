@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/button.dart';
 import '../../bl/local_auth_repository.dart';
 
 class LocalAuthWrapper extends StatefulWidget {
@@ -45,17 +46,22 @@ class _LocalAuthWrapperState extends State<LocalAuthWrapper> {
   Future<void> _doLocalAuthenticate(bool shouldAskForLocalAuth) async {
     if (!shouldAskForLocalAuth) return;
 
-    final authenticated =
-        await context.read<LocalAuthRepository>().askForBiometrics.when(
-              disabled: () async => false,
-              neverAsked: () => _authenticate(true),
-              enabled: () => _authenticate(false),
-            );
+    final preference = context.read<LocalAuthRepository>().askForBiometrics;
 
-    if (!mounted) return;
-    await context
-        .read<LocalAuthRepository>()
-        .saveBiometricsPreference(authenticated);
+    final authenticated = await preference.when(
+      disabled: () async => false,
+      neverAsked: _authenticate,
+      enabled: _authenticate,
+    );
+
+    await preference.whenOrNull(
+      neverAsked: () async {
+        if (!mounted) return;
+        await context
+            .read<LocalAuthRepository>()
+            .saveBiometricsPreference(authenticated);
+      },
+    );
 
     if (authenticated) {
       widget.onLocalAuthComplete();
@@ -64,7 +70,7 @@ class _LocalAuthWrapperState extends State<LocalAuthWrapper> {
     }
   }
 
-  Future<bool> _authenticate(bool firstRun) async => tryEitherAsync((_) async {
+  Future<bool> _authenticate() async => tryEitherAsync((_) async {
         final localAuth = LocalAuthentication();
 
         if (!await localAuth.isDeviceSupported() ||
@@ -72,36 +78,12 @@ class _LocalAuthWrapperState extends State<LocalAuthWrapper> {
 
         await localAuth.stopAuthentication();
 
-        if (firstRun) {
-          final shouldUse = await _askToUseBiometrics();
-          if (!shouldUse) return false;
-        }
-
         if (!mounted) return false;
 
         return localAuth.authenticate(
-          localizedReason: context.l10n.enableLocalAuth,
+          localizedReason: context.l10n.localAuthReason,
         );
       }).foldAsync(F, identity);
-
-  Future<bool> _askToUseBiometrics() async =>
-      await showDialog<bool>(
-        context: context,
-        builder: (context) => SimpleDialog(
-          title: const Text('Use biometrics?'),
-          children: [
-            CpButton(
-              text: 'Yes',
-              onPressed: () => Navigator.of(context).pop(true),
-            ),
-            CpButton(
-              text: 'No',
-              onPressed: () => Navigator.of(context).pop(false),
-            ),
-          ],
-        ),
-      ) ??
-      false;
 
   @override
   Widget build(BuildContext context) => widget.child;

@@ -4,7 +4,6 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
-import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/bl/app_lock_bloc.dart';
 import 'src/bl/local_auth_repository.dart';
@@ -24,9 +23,6 @@ class AppLockModule extends SingleChildStatelessWidget {
           ),
           ChangeNotifierProvider<LocalAuthRepository>(
             create: (context) => sl<LocalAuthRepository>(),
-          ),
-          LogoutListener(
-            onLogout: (context) => context.read<LocalAuthRepository>().clear(),
           ),
         ],
         child: _Content(child: child),
@@ -75,6 +71,7 @@ class _ContentState extends State<_Content>
       listener: (context, state) {
         if (state.account == null) {
           context.read<AppLockBloc>().add(const AppLockEvent.logout());
+          context.read<LocalAuthRepository>().clear();
         }
       },
       child: Stack(

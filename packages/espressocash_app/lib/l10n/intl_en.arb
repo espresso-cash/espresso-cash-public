@@ -749,5 +749,5 @@
       }
     }
   },
-  "enableLocalAuth": "Authenticate to access Espresso Cash"
+  "localAuthReason": "Use your device method to authenticate to access Espresso Cash"
 }
