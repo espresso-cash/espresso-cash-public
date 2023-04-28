@@ -85,8 +85,9 @@ class _ChartWidget extends StatelessWidget {
     ),
     FlDotData(
       getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-        radius: 5,
+        radius: 6,
         color: CpColors.yellowColor,
+        strokeWidth: 0,
       ),
     ),
   );
@@ -166,6 +167,8 @@ class _ChartWidget extends StatelessWidget {
                   dotData: FlDotData(show: false),
                   color: CpColors.chartLineColor,
                   barWidth: 5,
+                  isStrokeJoinRound: true,
+                  isStrokeCapRound: true,
                 )
               ],
               minY: chartMinY,
@@ -191,8 +194,9 @@ class _ChartWidget extends StatelessWidget {
                 topTitles: AxisTitles(sideTitles: SideTitles()),
                 bottomTitles: AxisTitles(sideTitles: SideTitles()),
                 rightTitles: AxisTitles(
+                  drawBehindEverything: true,
                   sideTitles: SideTitles(
-                    reservedSize: 70,
+                    reservedSize: 50,
                     showTitles: true,
                     interval: interval,
                     getTitlesWidget: (val, __) {
@@ -211,7 +215,7 @@ class _ChartWidget extends StatelessWidget {
                         child: Text(
                           formattedValue,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

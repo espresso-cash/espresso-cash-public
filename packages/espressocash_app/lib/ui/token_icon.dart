@@ -52,7 +52,10 @@ class _TokenIconImage extends StatelessWidget {
             const _DefaultIcon(),
         imageUrl: url,
         imageBuilder: (context, provider) => DecoratedBox(
-          decoration: BoxDecoration(image: DecorationImage(image: provider)),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(image: provider),
+          ),
         ),
       );
     }
