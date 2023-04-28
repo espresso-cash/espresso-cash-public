@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
+import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
+import '../../core/accounts/module.dart';
 import '../../di.dart';
 import 'src/bl/app_lock_bloc.dart';
+import 'src/bl/local_auth_repository.dart';
 import 'src/widgets/app_lock_screen.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
@@ -12,10 +15,20 @@ class AppLockModule extends SingleChildStatelessWidget {
       : super(key: key, child: child);
 
   @override
-  Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
-        create: (_) => sl<AppLockBloc>()
-          ..add(const AppLockEvent.init())
-          ..add(const AppLockEvent.lock()),
+  Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => sl<AppLockBloc>()
+              ..add(const AppLockEvent.init())
+              ..add(const AppLockEvent.lock()),
+          ),
+          ChangeNotifierProvider<LocalAuthRepository>(
+            create: (context) => sl<LocalAuthRepository>(),
+          ),
+          LogoutListener(
+            onLogout: (context) => context.read<LocalAuthRepository>().clear(),
+          ),
+        ],
         child: _Content(child: child),
       );
 }

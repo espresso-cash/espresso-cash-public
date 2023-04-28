@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,26 +11,16 @@ class LocalAuthRepository extends ChangeNotifier {
   final SharedPreferences _sharedPreferences;
 
   LocalAuthPreference get askForBiometrics {
-    final value = _sharedPreferences.getString(_localAuthKey);
-    switch (value) {
-      case 'enabled':
-        return const LocalAuthPreference.enabled();
-      case 'disabled':
-        return const LocalAuthPreference.disabled();
-      default:
-        return const LocalAuthPreference.neverAsked();
-    }
+    final value = _sharedPreferences.getBool(_localAuthKey);
+    if (value == null) return const LocalAuthPreference.neverAsked();
+
+    return value
+        ? const LocalAuthPreference.enabled()
+        : const LocalAuthPreference.disabled();
   }
 
-  Future<void> toggleAskForBiometrics(LocalAuthPreference preference) async {
-    await _sharedPreferences.setString(
-      _localAuthKey,
-      preference.map(
-        disabled: always('disabled'),
-        enabled: always('enabled'),
-        neverAsked: always('neverAsked'),
-      ),
-    );
+  Future<void> saveBiometricsPreference(bool useBiometrics) async {
+    await _sharedPreferences.setBool(_localAuthKey, useBiometrics);
     notifyListeners();
   }
 

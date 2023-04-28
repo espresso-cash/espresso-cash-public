@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
 import '../bl/app_lock_bloc.dart';
-import 'components/biometric_check.dart';
+import 'components/local_auth_wrapper.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockScreen extends StatelessWidget {
@@ -18,9 +18,8 @@ class AppLockScreen extends StatelessWidget {
             locked: (state) => DecoratedWindow(
               hasLogo: true,
               backgroundStyle: BackgroundStyle.dark,
-              child: BiometricsCheck(
-                shouldAskForBiometric: state.shouldAskForBiometrics,
-                onLocalAuthenticate: () => context
+              child: LocalAuthWrapper(
+                onLocalAuthComplete: () => context
                     .read<AppLockBloc>()
                     .add(const AppLockEvent.unlock(AppUnlockMode.biometrics())),
                 child: PinInputDisplayWidget(
