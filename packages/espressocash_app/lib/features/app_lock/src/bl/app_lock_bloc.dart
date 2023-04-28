@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,10 +49,10 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
 
   Future<void> _onEnable(AppLockEventEnable event, _Emitter emit) async {
     final localAuth = event.useLocalAuth
-        ? const LocalBiometrics.enabled()
-        : const LocalBiometrics.disabled();
+        ? const LocalAuthPreference.enabled()
+        : const LocalAuthPreference.disabled();
     await _secureStorage.write(key: _key, value: event.pin);
-    await _secureStorage.saveLocalBiometrics(localAuth);
+    await _secureStorage.saveLocalAuthPreference(localAuth);
     emit(const AppLockState.enabled(disableFailed: false));
   }
 
@@ -63,7 +61,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
     final pin = await _secureStorage.read(key: _key);
     if (pin == event.pin) {
       await _secureStorage.delete(key: _key);
-      await _secureStorage.delete(key: _preferBiometricsKey);
+      await _secureStorage.delete(key: _preferAuthPreferenceKey);
       emit(const AppLockState.disabled());
     } else {
       emit(const AppLockState.enabled(disableFailed: true));
@@ -75,21 +73,19 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
     emit(
       const AppLockState.locked(
         isRetrying: false,
-        localBiometrics: LocalBiometrics.disabled(),
+        localAuth: LocalAuthPreference.disabled(),
       ),
     );
   }
 
   Future<void> _onLock(AppLockEventLock _, _Emitter emit) async {
     if (state is! AppLockStateEnabled) return;
-    final biometrics = await _secureStorage.readLocalBiometrics();
-
-    log(biometrics.toString());
+    final localAuth = await _secureStorage.readLocalAuthPreference();
 
     emit(
       AppLockState.locked(
         isRetrying: false,
-        localBiometrics: biometrics,
+        localAuth: localAuth,
       ),
     );
   }
@@ -98,7 +94,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
     if (state is! AppLockStateLocked) return;
 
     final unlocked = await event.mode.map(
-      biometrics: (_) async => true,
+      authPreference: (_) async => true,
       pin: (event) async {
         final pin = await _secureStorage.read(key: _key);
 
@@ -112,7 +108,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
       emit(
         const AppLockState.locked(
           isRetrying: true,
-          localBiometrics: LocalBiometrics.disabled(),
+          localAuth: LocalAuthPreference.disabled(),
         ),
       );
     }
@@ -120,28 +116,29 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
 }
 
 const _key = 'lock-key';
-const _preferBiometricsKey = 'biometric-lock-key';
+const _preferAuthPreferenceKey = 'biometric-lock-key';
 
 extension on FlutterSecureStorage {
-  Future<LocalBiometrics> readLocalBiometrics() async {
-    final value = await read(key: _preferBiometricsKey);
+  Future<LocalAuthPreference> readLocalAuthPreference() async {
+    final value = await read(key: _preferAuthPreferenceKey);
     switch (value) {
       case 'enabled':
-        return const LocalBiometrics.enabled();
+        return const LocalAuthPreference.enabled();
       case 'disabled':
-        return const LocalBiometrics.disabled();
+        return const LocalAuthPreference.disabled();
       default:
-        return const LocalBiometrics.neverAsked();
+        return const LocalAuthPreference.neverAsked();
     }
   }
 
-  Future<void> saveLocalBiometrics(LocalBiometrics biometrics) async {
-    final value = biometrics.map(
+  Future<void> saveLocalAuthPreference(
+      LocalAuthPreference authPreference) async {
+    final value = authPreference.map(
       disabled: always('disabled'),
       enabled: always('enabled'),
       neverAsked: always('neverAsked'),
     );
 
-    await write(key: _preferBiometricsKey, value: value);
+    await write(key: _preferAuthPreferenceKey, value: value);
   }
 }

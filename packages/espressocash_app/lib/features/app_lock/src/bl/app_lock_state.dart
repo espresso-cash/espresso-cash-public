@@ -1,6 +1,5 @@
 part of 'app_lock_bloc.dart';
 
-
 @freezed
 class AppLockState with _$AppLockState {
   const factory AppLockState.none() = AppLockStateNone;
@@ -10,7 +9,7 @@ class AppLockState with _$AppLockState {
   }) = AppLockStateEnabled;
 
   const factory AppLockState.locked({
-    required LocalBiometrics localBiometrics,
+    required LocalAuthPreference localAuth,
     required bool isRetrying,
   }) = AppLockStateLocked;
 
@@ -18,8 +17,8 @@ class AppLockState with _$AppLockState {
 }
 
 @freezed
-class LocalBiometrics with _$LocalBiometrics{
-  const factory LocalBiometrics.disabled() = _Disabled;
-  const factory LocalBiometrics.enabled() = _Enabled;
-  const factory LocalBiometrics.neverAsked() = _NeverAsked;
+class LocalAuthPreference with _$LocalAuthPreference {
+  const factory LocalAuthPreference.disabled() = _Disabled;
+  const factory LocalAuthPreference.enabled() = _Enabled;
+  const factory LocalAuthPreference.neverAsked() = _NeverAsked;
 }

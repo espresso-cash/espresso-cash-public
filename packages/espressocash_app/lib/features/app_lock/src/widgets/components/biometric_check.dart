@@ -1,20 +1,20 @@
-import 'dart:developer';
-
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 
+import '../../../../../l10n/l10n.dart';
 import '../../bl/app_lock_bloc.dart';
 
 class BiometricsCheck extends StatefulWidget {
   const BiometricsCheck({
     Key? key,
-    required this.localBiometrics,
+    required this.shouldAskForBiometric,
     required this.child,
   }) : super(key: key);
 
-  final LocalBiometrics localBiometrics;
+  final bool shouldAskForBiometric;
+  final VoidCallback onBiometricUnlock;
   final Widget child;
 
   @override
@@ -26,37 +26,33 @@ class _BiometricsCheckState extends State<BiometricsCheck> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _checkBiometrics(widget.localBiometrics),
+      (_) => _checkLocalAuth(widget.localAuth),
     );
   }
 
   @override
   void didUpdateWidget(covariant BiometricsCheck oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.localBiometrics != oldWidget.localBiometrics) {
-      _checkBiometrics(widget.localBiometrics);
+    if (widget.localAuth != oldWidget.localAuth) {
+      _checkLocalAuth(widget.localAuth);
     }
   }
 
-  Future<void> _checkBiometrics(LocalBiometrics biometrics) async {
-    print('Calling bio checker');
+  Future<void> _checkLocalAuth(LocalAuthPreference biometrics) async {
     final shouldCheck = biometrics.maybeMap(orElse: F, enabled: T);
-    print('Should check: $shouldCheck');
     if (!shouldCheck) return;
 
-    final authenticated = await _useLocalBiometrics();
-    print('authenticated: $authenticated');
+    final authenticated = await _authenticate();
 
     final event = authenticated
         ? const AppLockEvent.unlock(AppUnlockMode.biometrics())
         : const AppLockEvent.usePin();
 
-    print('mounted: $mounted');
     if (!mounted) return;
     context.read<AppLockBloc>().add(event);
   }
 
-  Future<bool> _useLocalBiometrics() async => tryEitherAsync((_) async {
+  Future<bool> _authenticate() async => tryEitherAsync((_) async {
         final localAuth = LocalAuthentication();
 
         if (!await localAuth.isDeviceSupported() ||
@@ -64,11 +60,11 @@ class _BiometricsCheckState extends State<BiometricsCheck> {
 
         await localAuth.stopAuthentication();
 
-        final authed = await localAuth.authenticate(localizedReason: 'Unlock');
+        if (!mounted) return false;
 
-        log('Checking result: $authed');
-
-        return authed;
+        return localAuth.authenticate(
+          localizedReason: context.l10n.enableLocalAuth,
+        );
       }).foldAsync(F, identity);
 
   @override

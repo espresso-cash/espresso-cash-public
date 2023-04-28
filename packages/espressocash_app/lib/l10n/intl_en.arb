@@ -748,5 +748,6 @@
             "type": "String"
       }
     }
-  }
+  },
+  "enableLocalAuth": "Authenticate to access Espresso Cash"
 }

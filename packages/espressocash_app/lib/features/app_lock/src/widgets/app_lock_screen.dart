@@ -19,7 +19,7 @@ class AppLockScreen extends StatelessWidget {
               hasLogo: true,
               backgroundStyle: BackgroundStyle.dark,
               child: BiometricsCheck(
-                localBiometrics: state.localBiometrics,
+                localAuth: state.localAuth,
                 child: PinInputDisplayWidget(
                   message: state.isRetrying
                       ? context.l10n.incorrectPasscode
@@ -30,7 +30,7 @@ class AppLockScreen extends StatelessWidget {
                 ),
               ),
             ),
-            orElse: Container.new,
+            orElse: () => const SizedBox.expand(),
           ),
         ),
       );
