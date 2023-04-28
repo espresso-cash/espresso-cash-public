@@ -1,15 +1,14 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_auth/local_auth.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../bl/app_lock_bloc.dart';
 
 class BiometricsCheck extends StatefulWidget {
   const BiometricsCheck({
     Key? key,
     required this.shouldAskForBiometric,
+    required this.onBiometricUnlock,
     required this.child,
   }) : super(key: key);
 
@@ -26,30 +25,24 @@ class _BiometricsCheckState extends State<BiometricsCheck> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(
-      (_) => _checkLocalAuth(widget.localAuth),
+      (_) => _checkLocalAuth(widget.shouldAskForBiometric),
     );
   }
 
   @override
   void didUpdateWidget(covariant BiometricsCheck oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.localAuth != oldWidget.localAuth) {
-      _checkLocalAuth(widget.localAuth);
+    if (widget.shouldAskForBiometric != oldWidget.shouldAskForBiometric) {
+      _checkLocalAuth(widget.shouldAskForBiometric);
     }
   }
 
-  Future<void> _checkLocalAuth(LocalAuthPreference biometrics) async {
-    final shouldCheck = biometrics.maybeMap(orElse: F, enabled: T);
-    if (!shouldCheck) return;
+  Future<void> _checkLocalAuth(bool shouldAskForBiometric) async {
+    if (!shouldAskForBiometric) return;
 
     final authenticated = await _authenticate();
 
-    final event = authenticated
-        ? const AppLockEvent.unlock(AppUnlockMode.biometrics())
-        : const AppLockEvent.usePin();
-
-    if (!mounted) return;
-    context.read<AppLockBloc>().add(event);
+    if (authenticated) widget.onBiometricUnlock();
   }
 
   Future<bool> _authenticate() async => tryEitherAsync((_) async {

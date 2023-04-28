@@ -11,8 +11,6 @@ class AppLockEvent with _$AppLockEvent {
 
   const factory AppLockEvent.disable(AppUnlockMode mode) = AppLockEventDisable;
 
-  const factory AppLockEvent.usePin() = AppLockEventUsePin;
-
   const factory AppLockEvent.init() = AppLockEventInit;
 
   const factory AppLockEvent.logout() = AppLockEventLogout;

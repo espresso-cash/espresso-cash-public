@@ -19,7 +19,8 @@ class AppLockScreen extends StatelessWidget {
               hasLogo: true,
               backgroundStyle: BackgroundStyle.dark,
               child: BiometricsCheck(
-                localAuth: state.localAuth,
+                onBiometricUnlock: () {},
+                shouldAskForBiometric: hasBiometric && !state.isRetrying,
                 child: PinInputDisplayWidget(
                   message: state.isRetrying
                       ? context.l10n.incorrectPasscode

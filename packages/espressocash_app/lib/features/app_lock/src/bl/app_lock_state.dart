@@ -9,7 +9,6 @@ class AppLockState with _$AppLockState {
   }) = AppLockStateEnabled;
 
   const factory AppLockState.locked({
-    required LocalAuthPreference localAuth,
     required bool isRetrying,
   }) = AppLockStateLocked;
 

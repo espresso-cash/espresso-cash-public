@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+
 class AppLockWidget extends StatelessWidget {
-const AppLockWidget({Key? key}) : super(key: key);
+  const AppLockWidget({
+    Key? key,
+    required this.onBiometricUnlock,
+    required this.onPinUnlock,
+  }) : super(key: key);
 
+  final VoidCallback onBiometricUnlock;
+  final VoidCallback onPinUnlock;
 
-final VoidCallback onBiometricUnlock;
-final VoidCallback onPinUnlock;
-
-@override
-Widget build(BuildContext context) => Container();
+  @override
+  Widget build(BuildContext context) => Container();
 }
