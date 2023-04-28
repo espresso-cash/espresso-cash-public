@@ -62,6 +62,8 @@
                 <!-- Support for requests -->
                 <data android:host="solanapay.cryptoplease.link"
                     android:scheme="https" />
+                <data android:host="solanapay.espressocash.com"
+                    android:scheme="https" />
 
                 <!-- Firebase deep link for installing the app -->
                 <data android:host="cryptoplease.page.link"
@@ -101,7 +103,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="solana-wallet" />
             </intent-filter>
-            
+
             <!-- Any other uncategorized solana-wallet URI not covered by above -->
             <intent-filter android:order="0">
                 <category android:name="android.intent.category.DEFAULT" />
