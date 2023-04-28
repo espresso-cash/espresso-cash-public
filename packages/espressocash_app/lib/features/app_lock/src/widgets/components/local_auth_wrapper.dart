@@ -46,7 +46,7 @@ class _LocalAuthWrapperState extends State<LocalAuthWrapper> {
   Future<void> _doLocalAuthenticate(bool shouldAskForLocalAuth) async {
     if (!shouldAskForLocalAuth) return;
 
-    final preference = context.read<LocalAuthRepository>().askForBiometrics;
+    final preference = context.read<LocalAuthRepository>().localAuthPreference;
 
     final authenticated = await preference.when(
       disabled: () async => false,
@@ -57,9 +57,7 @@ class _LocalAuthWrapperState extends State<LocalAuthWrapper> {
     await preference.whenOrNull(
       neverAsked: () async {
         if (!mounted) return;
-        await context
-            .read<LocalAuthRepository>()
-            .saveBiometricsPreference(authenticated);
+        await context.read<LocalAuthRepository>().savePreference(authenticated);
       },
     );
 

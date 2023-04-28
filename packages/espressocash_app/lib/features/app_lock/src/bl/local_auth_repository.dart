@@ -10,7 +10,7 @@ class LocalAuthRepository extends ChangeNotifier {
 
   final SharedPreferences _sharedPreferences;
 
-  LocalAuthPreference get askForBiometrics {
+  LocalAuthPreference get localAuthPreference {
     final value = _sharedPreferences.getBool(_localAuthKey);
     if (value == null) return const LocalAuthPreference.neverAsked();
 
@@ -19,7 +19,7 @@ class LocalAuthRepository extends ChangeNotifier {
         : const LocalAuthPreference.disabled();
   }
 
-  Future<void> saveBiometricsPreference(bool useBiometrics) async {
+  Future<void> savePreference(bool useBiometrics) async {
     await _sharedPreferences.setBool(_localAuthKey, useBiometrics);
     notifyListeners();
   }
