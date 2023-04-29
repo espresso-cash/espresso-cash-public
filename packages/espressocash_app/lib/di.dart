@@ -16,7 +16,7 @@ import 'di.config.dart';
 final sl = GetIt.instance;
 
 @InjectableInit(preferRelativeImports: false)
-Future<void> configureDependencies() async => $initGetIt(sl);
+Future<void> configureDependencies() async => sl.init();
 
 @module
 abstract class AppModule {
