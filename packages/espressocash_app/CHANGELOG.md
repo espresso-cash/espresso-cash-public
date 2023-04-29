@@ -1,3 +1,8 @@
+## 1.72.0
+
+ - **FIX**: correctly sign old cancellation tx (#957).
+ - **FEAT**: update sign in with saga flow (#958).
+
 ## 1.71.0
 
  - **FEAT**: don't show manual input button after first qr scanned (#954).
