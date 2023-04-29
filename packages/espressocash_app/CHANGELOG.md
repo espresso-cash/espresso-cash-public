@@ -1,3 +1,7 @@
+## 1.71.0
+
+ - **FEAT**: don't show manual input button after first qr scanned (#954).
+
 ## 1.70.0
 
  - **FEAT**: update solanapay host (#951).
