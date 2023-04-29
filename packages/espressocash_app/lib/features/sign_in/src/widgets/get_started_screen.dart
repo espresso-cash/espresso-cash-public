@@ -15,7 +15,9 @@ import 'components/terms_disclaimer.dart';
 import 'sign_in_flow_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
-  const GetStartedScreen({Key? key}) : super(key: key);
+  const GetStartedScreen({super.key, required this.isSaga});
+
+  final bool isSaga;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -40,10 +42,10 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       child: IntrinsicHeight(
                         child: Column(
-                          children: const [
-                            _Header(),
-                            _Body(),
-                            Expanded(child: _Footer()),
+                          children: [
+                            const _Header(),
+                            const _Body(),
+                            Expanded(child: _Footer(isSaga: isSaga)),
                           ],
                         ),
                       ),
@@ -71,15 +73,10 @@ class _Header extends StatelessWidget {
       );
 }
 
-class _Footer extends StatefulWidget {
-  const _Footer({Key? key}) : super(key: key);
+class _Footer extends StatelessWidget {
+  const _Footer({Key? key, required this.isSaga}) : super(key: key);
 
-  @override
-  State<_Footer> createState() => _FooterState();
-}
-
-class _FooterState extends State<_Footer> {
-  final Future<bool> _isSaga = sl<SeedVault>().isAvailable();
+  final bool isSaga;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -88,43 +85,32 @@ class _FooterState extends State<_Footer> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 8),
-            FutureBuilder(
-              future: _isSaga,
-              builder: (context, snapshot) {
-                if (snapshot.data == null) return const SizedBox.shrink();
-
-                return snapshot.data == true
-                    ? const _SignInWithSagaButton()
-                    : Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const _CreateLocalWalletButton(),
-                          const SizedBox(height: 16),
-                          Text.rich(
-                            key: keyUseExistingWalletButton,
-                            TextSpan(
-                              text: context.l10n.signIn1,
-                              children: [
-                                TextSpan(
-                                  text: context.l10n.signIn2,
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap =
-                                        () => context.signInRouter.onSignIn(),
-                                  style: const TextStyle(
-                                    color: CpColors.yellowColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      );
-              },
-            ),
+            if (isSaga)
+              const _SignInWithSagaButton()
+            else ...[
+              const _CreateLocalWalletButton(),
+              const SizedBox(height: 16),
+              Text.rich(
+                key: keyUseExistingWalletButton,
+                TextSpan(
+                  text: context.l10n.signIn1,
+                  children: [
+                    TextSpan(
+                      text: context.l10n.signIn2,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => context.signInRouter.onSignIn(),
+                      style: const TextStyle(
+                        color: CpColors.yellowColor,
+                      ),
+                    ),
+                  ],
+                ),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
+              ),
+            ],
             const SizedBox(height: 34),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
