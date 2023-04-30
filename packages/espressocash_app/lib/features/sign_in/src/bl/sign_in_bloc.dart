@@ -35,26 +35,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
       (event, emit) => event.map(
             submitted: (event) => _onSubmitted(event, emit),
-            newSagaWalletRequested: (_) => _onNewSagaWalletRequested(emit),
             newLocalWalletRequested: (_) => _onNewLocalWalletRequested(emit),
             existingSagaWalletRequested: (_) =>
                 _onExistingSagaWalletRequested(emit),
             existingLocalWalletRequested: (event) =>
                 _onExistingLocalWalletRequested(event, emit),
           );
-
-  Future<void> _onNewSagaWalletRequested(Emitter<SignInState> emit) async {
-    try {
-      final token = await _seedVault.createSeed(Purpose.signSolanaTransaction);
-
-      emit(state.copyWith(source: AccountSource.saga(token)));
-      add(const SignInSubmitted(name: 'My Wallet'));
-    } on PlatformException {
-      emit(state.toSeedVaultException());
-    } on Exception catch (e) {
-      emit(state.toGenericException(e));
-    }
-  }
 
   Future<void> _onExistingSagaWalletRequested(Emitter<SignInState> emit) async {
     try {
@@ -162,9 +148,6 @@ class SignInResult with _$SignInResult {
 
 @freezed
 class SignInEvent with _$SignInEvent {
-  const factory SignInEvent.newSagaWalletRequested() =
-      SignInNewSagaWalletRequested;
-
   const factory SignInEvent.existingSagaWalletRequested() =
       SignInExistingSagaWalletRequested;
 

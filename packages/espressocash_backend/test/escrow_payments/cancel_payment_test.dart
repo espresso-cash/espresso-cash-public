@@ -78,6 +78,6 @@ void main() {
     );
 
     // Receiver should get the expected amount.
-    expect(senderBalance, senderInitialAmount - shareableLinkPaymentFee);
+    expect(senderBalance, senderInitialAmount - escrowPaymentFee);
   });
 }

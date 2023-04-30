@@ -60,6 +60,7 @@ final _authenticatedFlowRoutes = AutoRoute(
     AutoRoute(page: OSKPConfirmationRoute.page),
     AutoRoute(page: ShareLinksRoute.page),
     AutoRoute(page: FirstPartReadyRoute.page),
+    AutoRoute(page: FirstPartQrRoute.page),
     AutoRoute(page: IncomingSplitKeyPaymentRoute.page),
     AutoRoute(page: QrScannerRoute.page),
     AutoRoute(
@@ -69,7 +70,6 @@ final _authenticatedFlowRoutes = AutoRoute(
       ],
     ),
     AutoRoute(page: LinkRequestFlowRoute.page),
-    AutoRoute(page: IncomingSingleLinkRoute.page),
     AutoRoute(page: SwapFlowRoute.page),
     AutoRoute(page: ProcessSwapRoute.page),
     AutoRoute(

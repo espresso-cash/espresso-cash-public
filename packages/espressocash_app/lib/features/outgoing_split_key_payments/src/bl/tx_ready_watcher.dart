@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
+import '../../../../core/api_version.dart';
 import '../../../../core/transactions/tx_destinations.dart';
 import '../../models/outgoing_split_key_payment.dart';
 import 'repository.dart';
@@ -32,7 +34,6 @@ class TxReadyWatcher {
       for (final payment in payments) {
         Future<void> onSuccess(TransactionDetails txDetails) async {
           final tx = txDetails.transaction as ParsedTransaction;
-
           final txId = tx.id;
 
           final timestamp = txDetails.blockTime?.let(
@@ -40,12 +41,23 @@ class TxReadyWatcher {
               ) ??
               DateTime.now();
 
-          final newStatus = await tx.getDestinations().let(
-                    (accounts) => findAssociatedTokenAddress(
-                      owner: _userPublicKey,
-                      mint: payment.amount.cryptoCurrency.token.publicKey,
-                    ).then((it) => it.toBase58()).then(accounts.contains),
-                  )
+          final IList<String> destinationAccounts;
+
+          switch (payment.apiVersion) {
+            case SplitKeyApiVersion.manual:
+              destinationAccounts = tx.getDestinations();
+              break;
+            case SplitKeyApiVersion.smartContract:
+              destinationAccounts = txDetails.getInnerDestinations();
+              break;
+          }
+
+          final newStatus = await destinationAccounts.let(
+            (accounts) => findAssociatedTokenAddress(
+              owner: _userPublicKey,
+              mint: payment.amount.cryptoCurrency.token.publicKey,
+            ).then((it) => it.toBase58()).then(accounts.contains),
+          )
               ? OSKPStatus.canceled(txId: txId, timestamp: timestamp)
               : OSKPStatus.withdrawn(txId: txId, timestamp: timestamp);
 

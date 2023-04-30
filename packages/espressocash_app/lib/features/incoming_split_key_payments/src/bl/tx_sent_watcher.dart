@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../core/cancelable_job.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -50,7 +51,11 @@ class _ISKPTxSentJob extends CancelableJob<IncomingSplitKeyPayment> {
       failure: (_) => const ISKPStatus.txFailure(
         reason: TxFailureReason.escrowFailure,
       ),
-      networkError: (_) => null,
+      networkError: (_) {
+        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+
+        return null;
+      },
     );
 
     if (newStatus == null) {

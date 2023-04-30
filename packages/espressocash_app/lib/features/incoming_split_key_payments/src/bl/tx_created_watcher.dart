@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../core/cancelable_job.dart';
 import '../../../../core/transactions/tx_sender.dart';
@@ -55,7 +56,11 @@ class _ISKPTxCreatedJob extends CancelableJob<IncomingSplitKeyPayment> {
         reason: TxFailureReason.invalidBlockhashSending,
       ),
       failure: (it) => ISKPStatus.txFailure(reason: it.reason),
-      networkError: (_) => null,
+      networkError: (_) {
+        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+
+        return null;
+      },
     );
 
     if (newStatus == null) {
