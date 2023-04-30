@@ -157,6 +157,7 @@ class OSKPService {
 
       final String transaction;
       final BigInt slot;
+      final SignedTx tx;
 
       switch (apiVersion) {
         case SplitKeyApiVersion.manual:
@@ -168,16 +169,19 @@ class OSKPService {
           final response = await _client.receivePayment(dto);
           transaction = response.transaction;
           slot = response.slot;
+          tx = await transaction
+              .let(SignedTx.decode)
+              .let((it) => it.resign(LocalWallet(escrow)));
           break;
         case SplitKeyApiVersion.smartContract:
           final response = await _client.cancelPaymentEc(dto);
           transaction = response.transaction;
           slot = response.slot;
+          tx = await transaction
+              .let(SignedTx.decode)
+              .let((it) => it.resign(account));
           break;
       }
-      final tx = await transaction
-          .let(SignedTx.decode)
-          .let((it) => it.resign(account));
 
       return OSKPStatus.cancelTxCreated(
         tx,
