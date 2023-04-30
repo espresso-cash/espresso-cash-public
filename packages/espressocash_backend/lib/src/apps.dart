@@ -15,7 +15,7 @@ final espressoCashApp = App(
   iOSOptions: const IOSOptions(
     appStoreId: '1559625715',
     bundleId: 'com.pleasecrypto.flutter',
-    teamId: 'US38KFXH3P',
+    teamId: '7KDSA54KNN',
   ),
   appDisplayStyle: const AppDisplayStyle(
     textColor: '#000000',

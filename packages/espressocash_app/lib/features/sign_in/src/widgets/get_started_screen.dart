@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../../core/extensions.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
@@ -16,7 +15,9 @@ import 'components/terms_disclaimer.dart';
 import 'sign_in_flow_screen.dart';
 
 class GetStartedScreen extends StatelessWidget {
-  const GetStartedScreen({Key? key}) : super(key: key);
+  const GetStartedScreen({super.key, required this.isSaga});
+
+  final bool isSaga;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -41,10 +42,10 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       child: IntrinsicHeight(
                         child: Column(
-                          children: const [
-                            _Header(),
-                            _Body(),
-                            Expanded(child: _Footer()),
+                          children: [
+                            const _Header(),
+                            const _Body(),
+                            Expanded(child: _Footer(isSaga: isSaga)),
                           ],
                         ),
                       ),
@@ -72,37 +73,10 @@ class _Header extends StatelessWidget {
       );
 }
 
-class _Footer extends StatefulWidget {
-  const _Footer({Key? key}) : super(key: key);
+class _Footer extends StatelessWidget {
+  const _Footer({Key? key, required this.isSaga}) : super(key: key);
 
-  @override
-  State<_Footer> createState() => _FooterState();
-}
-
-class _FooterState extends State<_Footer> {
-  Future<void> _onCreateWallet() async {
-    final hasSeedVault = await sl<SeedVault>().isReady();
-    if (!mounted) return;
-
-    final event = hasSeedVault
-        ? const SignInEvent.newSagaWalletRequested()
-        : const SignInEvent.newLocalWalletRequested();
-
-    context.read<SignInBloc>().add(event);
-  }
-
-  Future<void> _onExistingWallet() async {
-    final hasSeedVault = await sl<SeedVault>().isReady();
-    if (!mounted) return;
-
-    if (hasSeedVault) {
-      context
-          .read<SignInBloc>()
-          .add(const SignInEvent.existingSagaWalletRequested());
-    } else {
-      context.signInRouter.onSignIn();
-    }
-  }
+  final bool isSaga;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -111,33 +85,32 @@ class _FooterState extends State<_Footer> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const SizedBox(height: 8),
-            CpButton(
-              key: keyCreateWalletButton,
-              text: context.l10n.signUp,
-              width: double.infinity,
-              onPressed: _onCreateWallet,
-            ),
-            const SizedBox(height: 16),
-            Text.rich(
-              key: keyUseExistingWalletButton,
-              TextSpan(
-                text: context.l10n.signIn1,
-                children: [
-                  TextSpan(
-                    text: context.l10n.signIn2,
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = _onExistingWallet,
-                    style: const TextStyle(
-                      color: CpColors.yellowColor,
+            if (isSaga)
+              const _SignInWithSagaButton()
+            else ...[
+              const _CreateLocalWalletButton(),
+              const SizedBox(height: 16),
+              Text.rich(
+                key: keyUseExistingWalletButton,
+                TextSpan(
+                  text: context.l10n.signIn1,
+                  children: [
+                    TextSpan(
+                      text: context.l10n.signIn2,
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () => context.signInRouter.onSignIn(),
+                      style: const TextStyle(
+                        color: CpColors.yellowColor,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 15,
+                ),
               ),
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-              ),
-            ),
+            ],
             const SizedBox(height: 34),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -146,6 +119,46 @@ class _FooterState extends State<_Footer> {
             const SizedBox(height: 16),
           ],
         ),
+      );
+}
+
+class _CreateLocalWalletButton extends StatelessWidget {
+  const _CreateLocalWalletButton();
+
+  @override
+  Widget build(BuildContext context) => CpButton(
+        key: keyCreateWalletButton,
+        text: context.l10n.signUp,
+        width: double.infinity,
+        onPressed: () => context
+            .read<SignInBloc>()
+            .add(const SignInEvent.newLocalWalletRequested()),
+      );
+}
+
+class _SignInWithSagaButton extends StatefulWidget {
+  const _SignInWithSagaButton();
+
+  @override
+  State<_SignInWithSagaButton> createState() => _SignInWithSagaButtonState();
+}
+
+class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
+  Future<void> _onPressed() async {
+    final hasPermission = await sl<SeedVault>().checkPermission();
+    if (!mounted || !hasPermission) return;
+
+    context
+        .read<SignInBloc>()
+        .add(const SignInEvent.existingSagaWalletRequested());
+  }
+
+  @override
+  Widget build(BuildContext context) => CpButton(
+        key: keyCreateWalletButton,
+        text: context.l10n.signInWithSaga,
+        width: double.infinity,
+        onPressed: _onPressed,
       );
 }
 
