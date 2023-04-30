@@ -473,6 +473,8 @@
   "@signOutConfirmation": {},
   "signUp": "Create Wallet",
   "@signUp": {},
+  "signInWithSaga": "Sign in with Saga",
+  "@signInWithSage": {},
   "soldToken": "Sold {amount}",
   "@soldToken": {
     "placeholders": {
@@ -707,7 +709,7 @@
   "@mobileWalletAuthorize": {
     "placeholders": {
       "appName": {
-            "type": "String"
+        "type": "String"
       }
     }
   },
