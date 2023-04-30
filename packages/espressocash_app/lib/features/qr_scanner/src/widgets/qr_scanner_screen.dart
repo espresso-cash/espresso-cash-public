@@ -18,17 +18,24 @@ import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';
 
 class QrScannerScreen extends StatelessWidget {
-  const QrScannerScreen({Key? key}) : super(key: key);
+  const QrScannerScreen({
+    super.key,
+    this.showManualInput = true,
+  });
+
+  final bool showManualInput;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
-        child: const _Content(),
+        child: _Content(showManualInput: showManualInput),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content({required this.showManualInput});
+
+  final bool showManualInput;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -144,20 +151,21 @@ class _ContentState extends State<_Content> {
                     alignment: Alignment(0, -0.3),
                     child: _PermissionText(),
                   ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32.0),
-                      child: CpButton(
-                        text: context.l10n.qrInputAddressTitle,
-                        size: CpButtonSize.big,
-                        minWidth: 250,
-                        onPressed: _onManualInputRequested,
+                if (widget.showManualInput)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 32.0),
+                        child: CpButton(
+                          text: context.l10n.qrInputAddressTitle,
+                          size: CpButtonSize.big,
+                          minWidth: 250,
+                          onPressed: _onManualInputRequested,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(

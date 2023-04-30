@@ -29,7 +29,10 @@ import 'utils.dart';
   AppLockBloc,
 ])
 void main() {
-  testGoldensWidget('Get started screen', const GetStartedScreen());
+  testGoldensWidget(
+    'Get started screen',
+    const GetStartedScreen(isSaga: false),
+  );
 
   testGoldensWidget(
     'No email and password screen',

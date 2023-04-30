@@ -26,7 +26,7 @@ extension BuilContextExt on BuildContext {
     required CryptoCurrency cryptoCurrency,
     FiatAmount? defaultFiatAmount,
   }) async {
-    final request = await router.push<QrScannerRequest>(const QrScannerRoute());
+    final request = await router.push<QrScannerRequest>(QrScannerRoute());
 
     if (request == null) return;
     if (!mounted) return;
