@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.68.0
+version: 1.72.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
@@ -9,6 +9,7 @@ environment:
 dependencies:
   async: ^2.10.0
   auto_route: ^5.0.4
+  barcode_widget: ^2.0.3
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
   cached_network_image: ^3.2.3
@@ -42,8 +43,7 @@ dependencies:
   get_it: ^7.2.0
   http: ^0.13.5
   image_picker: ^0.8.6
-  injectable: ^1.5.4
-  intercom_flutter: ^7.6.0
+  injectable: ^2.1.1
   intl: ^0.17.0
   json_annotation: ^4.4.0
   localizely_sdk: ^2.5.1
@@ -56,7 +56,6 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.2
   provider: ^6.0.0
-  qr_flutter: ^4.0.0
   ramp_flutter: ^1.0.1
   retrofit: ^3.0.1
   rive: ^0.10.1
@@ -74,6 +73,7 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.10
   storybook_flutter: ^0.12.0
   uni_links: ^0.5.1
+  url_launcher: ^6.1.10
   uuid: ^3.0.4
   webview_flutter: ^4.0.7
 
@@ -90,7 +90,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.3.0
   golden_toolkit: ^0.14.0
-  injectable_generator: ^1.5.4
+  injectable_generator: ^2.1.5
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.4

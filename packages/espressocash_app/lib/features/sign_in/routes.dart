@@ -9,7 +9,7 @@ import 'src/widgets/sign_in_profile_screen.dart';
 const signUpFlowRoutes = AutoRoute<void>(
   page: SignInFlowScreen,
   children: [
-    AutoRoute<void>(path: '', page: GetStartedScreen),
+    AutoRoute<void>(page: GetStartedScreen),
     AutoRoute<void>(page: RestoreAccountScreen),
     AutoRoute<void>(page: SignInProfileScreen),
     AutoRoute<void>(page: WebViewScreen),

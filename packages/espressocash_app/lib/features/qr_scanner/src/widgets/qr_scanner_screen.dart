@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -17,17 +18,24 @@ import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';
 
 class QrScannerScreen extends StatelessWidget {
-  const QrScannerScreen({Key? key}) : super(key: key);
+  const QrScannerScreen({
+    super.key,
+    this.showManualInput = true,
+  });
+
+  final bool showManualInput;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
-        child: const _Content(),
+        child: _Content(showManualInput: showManualInput),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content({required this.showManualInput});
+
+  final bool showManualInput;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -41,11 +49,16 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
-    _qrViewController = MobileScannerController()
-      ..start()
-          .then((it) => it != null)
-          .then(_onPermissionSet)
-          .catchError((_) => _onPermissionSet(false));
+    _qrViewController = MobileScannerController(
+      detectionSpeed: DetectionSpeed.noDuplicates,
+      formats: [
+        BarcodeFormat.aztec,
+        BarcodeFormat.qrCode,
+      ],
+    )..start()
+        .then((it) => it != null)
+        .then(_onPermissionSet)
+        .catchError((_) => _onPermissionSet(false));
   }
 
   @override
@@ -94,14 +107,16 @@ class _ContentState extends State<_Content> {
   }
 
   void _onDetected(BarcodeCapture capture) {
-    final code = capture.barcodes.firstOrNull?.rawValue;
-    if (code != null) {
-      context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
+    final codes =
+        capture.barcodes.map((e) => e.rawValue).whereNotNull().toIList();
+
+    if (codes.isNotEmpty) {
+      context.read<QrScannerBloc>().add(QrScannerEvent.received(codes));
     }
   }
 
   void _onManualInputRequested() => InputAddressBottomSheet.show(context)
-      .then((r) => r?.let(QrScannerRequest.parse)?.let(_onScanComplete));
+      .then((r) => r?.let(QrScannerRequest.tryParse)?.let(_onScanComplete));
 
   void _onScanComplete([QrScannerRequest? request]) =>
       context.router.pop(request);
@@ -136,20 +151,21 @@ class _ContentState extends State<_Content> {
                     alignment: Alignment(0, -0.3),
                     child: _PermissionText(),
                   ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 32.0),
-                      child: CpButton(
-                        text: context.l10n.qrInputAddressTitle,
-                        size: CpButtonSize.big,
-                        minWidth: 250,
-                        onPressed: _onManualInputRequested,
+                if (widget.showManualInput)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 32.0),
+                        child: CpButton(
+                          text: context.l10n.qrInputAddressTitle,
+                          size: CpButtonSize.big,
+                          minWidth: 250,
+                          onPressed: _onManualInputRequested,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(

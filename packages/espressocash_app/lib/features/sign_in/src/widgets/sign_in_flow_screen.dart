@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../../core/router_wrapper.dart';
 import '../../../../di.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/dialogs.dart';
@@ -20,12 +21,17 @@ class SignInFlowScreen extends StatefulWidget {
 }
 
 class _SignInFlowScreenState extends State<SignInFlowScreen>
+    with RouterWrapper
     implements SignInRouter {
   @override
   void onSignIn() => context.router.push(const RestoreAccountRoute());
 
   @override
   void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
+
+  @override
+  PageRouteInfo? get initialRoute =>
+      GetStartedRoute(isSaga: sl<bool>(instanceName: 'isSaga'));
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -50,7 +56,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
           ),
           builder: (context, state) => CpLoader(
             isLoading: state.processingState.isProcessing(),
-            child: const AutoRouter(),
+            child: AutoRouter(key: routerKey),
           ),
         ),
       );

@@ -36,6 +36,7 @@ const lamportsPerSignature = 5000;
 
 const termsUrl = 'https://espressocash.com/docs/legal/terms';
 const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
+const contactEmail = 'contact@espressocash.com';
 
 /// Currently, the rent cost is fixed at the genesis. However, it's anticipated
 /// to be dynamic, reflecting the underlying hardware storage cost at the time.
@@ -60,11 +61,15 @@ const _solanaHost = isProd
     ? '' // mainnet URL should be provided via environment variable
     : 'api.devnet.solana.com';
 
+const espressoCashLinkDomain = 'link.espressocash.com';
+const espressoCashLinkProtocol = 'espressocash';
 const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
+const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const moonpayHost = 'moonpay.$cpLinkDomain';
+const espressoCashDeepLinkHost = 'espressocash.page.link';
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');

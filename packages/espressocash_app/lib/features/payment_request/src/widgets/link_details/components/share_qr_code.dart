@@ -1,5 +1,5 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token_list.dart';
@@ -75,10 +75,11 @@ class _QrCodeWrapper extends StatelessWidget {
                 ),
               ),
             Flexible(
-              child: QrImage(
+              child: BarcodeWidget(
+                barcode: Barcode.qrCode(),
                 data: qrData,
                 padding: EdgeInsets.zero,
-                foregroundColor: Colors.white,
+                color: Colors.white,
               ),
             )
           ],
