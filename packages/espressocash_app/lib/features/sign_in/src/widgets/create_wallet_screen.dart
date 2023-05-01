@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana_seed_vault/solana_seed_vault.dart';
 
+import '../../../../di.dart';
 import '../../../../ui/splash_screen.dart';
-import '../extensions.dart';
+import '../bl/sign_in_bloc.dart';
 
 class CreateWalletLoadingScreen extends StatefulWidget {
   const CreateWalletLoadingScreen({super.key});
@@ -12,10 +15,28 @@ class CreateWalletLoadingScreen extends StatefulWidget {
 }
 
 class _CreateWalletLoadingScreenState extends State<CreateWalletLoadingScreen> {
+  Future<void> _createWallet() async {
+    final isSaga = sl<bool>(instanceName: 'isSaga');
+
+    SignInEvent event = const SignInEvent.newLocalWalletRequested();
+
+    if (isSaga) {
+      final hasPermission = await sl<SeedVault>().checkPermission();
+
+      if (hasPermission) {
+        event = const SignInEvent.existingSagaWalletRequested();
+      }
+    }
+
+    if (!mounted) return;
+
+    context.read<SignInBloc>().add(event);
+  }
+
   @override
   void initState() {
     super.initState();
-    context.createWallet();
+    _createWallet();
   }
 
   @override
