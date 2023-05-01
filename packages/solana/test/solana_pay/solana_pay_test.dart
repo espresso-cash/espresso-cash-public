@@ -171,4 +171,29 @@ void main() {
     },
     timeout: const Timeout(Duration(minutes: 1)),
   );
+
+  test(
+    'Sad path for paying using Transaction Request: Invalid signature',
+    () async {
+      final sender = await Ed25519HDKeyPair.random();
+
+      const encodedTx =
+          'AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAECC4JMKqNplIXybGb/GhK1ofdVWeuEjXnQor7gi0Y2hMcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQECAAAMAgAAAAAAAAAAAAAA';
+
+      expect(
+        () => client.processTransactionResponse(
+          transaction: encodedTx,
+          signer: sender.publicKey,
+        ),
+        throwsA(
+          isA<FetchTransactionException>().having(
+            (p) => p.message,
+            'Invalid signature',
+            'Invalid signature',
+          ),
+        ),
+      );
+    },
+    timeout: const Timeout(Duration(minutes: 1)),
+  );
 }
