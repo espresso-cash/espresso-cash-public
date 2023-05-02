@@ -474,7 +474,7 @@
   "signUp": "Create Wallet",
   "@signUp": {},
   "signInWithSaga": "Sign in with Saga",
-  "@signInWithSage": {},
+  "@signInWithSaga": {},
   "soldToken": "Sold {amount}",
   "@soldToken": {
     "placeholders": {
