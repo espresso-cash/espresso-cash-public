@@ -96,7 +96,7 @@ class RecoverPendingWatcher {
                   value: amount,
                   cryptoCurrency: const CryptoCurrency(token: Token.usdc),
                 ),
-                status: OSKPStatus.recovered(escrow: escrow),
+                status: OSKPStatus.recovered(escrowPubKey: escrow),
                 created: timestamp,
                 linksGeneratedAt: timestamp,
                 apiVersion: SplitKeyApiVersion.smartContract,
@@ -119,10 +119,12 @@ class RecoverPendingWatcher {
         txSent: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
         txConfirmed: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
         linksReady: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
-        cancelTxCreated: (it) async => it.escrow,
-        cancelTxFailure: (it) async => it.escrow,
-        cancelTxSent: (it) async => it.escrow,
-        recovered: (it) async => it.escrow,
+        cancelTxCreated: (it) async =>
+            it.escrow.keyPair.then((v) => v.publicKey),
+        cancelTxFailure: (it) async =>
+            it.escrow.keyPair.then((v) => v.publicKey),
+        cancelTxSent: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+        recovered: (it) async => it.escrowPubKey,
       );
 
       if (escrow != null) {

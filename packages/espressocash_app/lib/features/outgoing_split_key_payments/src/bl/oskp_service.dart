@@ -77,12 +77,15 @@ class OSKPService {
         txId: null,
         timestamp: DateTime.now(),
       );
+    } else if (status is OSKPStatusRecovered) {
+      newStatus = await _createRecoveredCancelTx(
+        escrow: status.escrowPubKey,
+        account: account,
+      );
     } else {
-      final escrow = await status.mapOrNull(
-        linksReady: (it) async => it.escrow.keyPair
-            .then((e) => Ed25519HDPublicKey.fromBase58(e.address)),
-        recovered: (it) async => it.escrow,
-        cancelTxFailure: (it) async => it.escrow,
+      final escrow = status.mapOrNull(
+        linksReady: (it) => it.escrow,
+        cancelTxFailure: (it) => it.escrow,
       );
 
       if (escrow == null) {
@@ -90,7 +93,9 @@ class OSKPService {
       }
 
       newStatus = await _createCancelTx(
-        escrow: escrow,
+        escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(
+          privateKey: escrow.bytes,
+        ),
         account: account,
         apiVersion: payment.apiVersion,
       );
@@ -142,14 +147,16 @@ class OSKPService {
   }
 
   Future<OSKPStatus> _createCancelTx({
-    required EscrowPublicKey escrow,
+    required Ed25519HDKeyPair escrow,
     required ECWallet account,
     required SplitKeyApiVersion apiVersion,
   }) async {
+    final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
+
     try {
       final dto = CancelPaymentRequestDto(
         senderAccount: account.address,
-        escrowAccount: escrow.toBase58(),
+        escrowAccount: escrow.address,
         cluster: apiCluster,
       );
 
@@ -161,7 +168,7 @@ class OSKPService {
         case SplitKeyApiVersion.manual:
           final dto = ReceivePaymentRequestDto(
             receiverAccount: account.address,
-            escrowAccount: escrow.toBase58(),
+            escrowAccount: escrow.address,
             cluster: apiCluster,
           );
           final response = await _client.receivePayment(dto);
@@ -183,12 +190,44 @@ class OSKPService {
 
       return OSKPStatus.cancelTxCreated(
         tx,
-        escrow: escrow,
+        escrow: privateKey,
         slot: slot,
       );
     } on Exception {
       return OSKPStatus.cancelTxFailure(
-        escrow: escrow,
+        escrow: privateKey,
+        reason: TxFailureReason.creatingFailure,
+      );
+    }
+  }
+
+  Future<OSKPStatus> _createRecoveredCancelTx({
+    required EscrowPublicKey escrow,
+    required ECWallet account,
+  }) async {
+    try {
+      final dto = CancelPaymentRequestDto(
+        senderAccount: account.address,
+        escrowAccount: escrow.toBase58(),
+        cluster: apiCluster,
+      );
+
+      final response = await _client.cancelPaymentEc(dto);
+
+      final transaction = response.transaction;
+      final slot = response.slot;
+      final tx = await transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account));
+
+      return OSKPStatus.recoveredCancelTxCreated(
+        tx,
+        escrowPubKey: escrow,
+        slot: slot,
+      );
+    } on Exception {
+      return OSKPStatus.recoveredCancelTxFailure(
+        escrowPubKey: escrow,
         reason: TxFailureReason.creatingFailure,
       );
     }

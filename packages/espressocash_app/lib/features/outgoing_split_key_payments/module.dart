@@ -8,6 +8,8 @@ import '../../core/balances/context_ext.dart';
 import '../../di.dart';
 import 'src/bl/cancel_tx_created_watcher.dart';
 import 'src/bl/cancel_tx_sent_watcher.dart';
+import 'src/bl/recover_cancel_tx_created_watcher.dart';
+import 'src/bl/recover_cancel_tx_sent_watcher.dart';
 import 'src/bl/recover_pending_watcher.dart';
 import 'src/bl/repository.dart';
 import 'src/bl/tx_confirmed_watcher.dart';
@@ -55,6 +57,18 @@ class OSKPModule extends SingleChildStatelessWidget {
           Provider<CancelTxSentWatcher>(
             lazy: false,
             create: (context) => sl<CancelTxSentWatcher>()
+              ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
+            dispose: (_, value) => value.dispose(),
+          ),
+          Provider<RecoverCancelTxCreatedWatcher>(
+            lazy: false,
+            create: (context) => sl<RecoverCancelTxCreatedWatcher>()
+              ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
+            dispose: (_, value) => value.dispose(),
+          ),
+          Provider<RecoverCancelTxSentWatcher>(
+            lazy: false,
+            create: (context) => sl<RecoverCancelTxSentWatcher>()
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),

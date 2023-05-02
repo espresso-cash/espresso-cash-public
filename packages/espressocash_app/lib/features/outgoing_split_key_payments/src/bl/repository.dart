@@ -106,6 +106,16 @@ class OSKPRepository {
         OSKPStatusDto.cancelTxWaitFailure,
       ]);
 
+  Stream<IList<OutgoingSplitKeyPayment>> watchRecoverCancelTxCreated() =>
+      _watchWithStatuses([
+        OSKPStatusDto.recoveredCancelTxCreated,
+      ]);
+
+  Stream<IList<OutgoingSplitKeyPayment>> watchRecoverCancelTxSent() =>
+      _watchWithStatuses([
+        OSKPStatusDto.recoveredCancelTxSent,
+      ]);
+
   Stream<IList<OutgoingSplitKeyPayment>> watchPending() => _watchWithStatuses(
         OSKPStatusDto.values.whereNot(
           (e) => e == OSKPStatusDto.withdrawn || e == OSKPStatusDto.canceled,
@@ -148,7 +158,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get slot => text().nullable()();
   IntColumn get apiVersion =>
       intEnum<OskpApiVersionDto>().withDefault(const Constant(0))();
-  TextColumn get publicKey => text().nullable()();
+  TextColumn get publicKey => text().nullable()(); //recheck if needed
 }
 
 enum OSKPStatusDto {
@@ -169,6 +179,9 @@ enum OSKPStatusDto {
   cancelTxSendFailure,
   cancelTxWaitFailure,
   recovered,
+  recoveredCancelTxFailure,
+  recoveredCancelTxSent,
+  recoveredCancelTxCreated,
 }
 
 extension OSKPRowExt on OSKPRow {
@@ -197,7 +210,7 @@ extension on OSKPStatusDto {
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
-    final escrowPubkey = await escrow?.keyPair.then((e) => e.publicKey);
+    final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
     final link1 = row.link1?.let(Uri.parse);
     final link2 = row.link2?.let(Uri.parse);
     final link3 = row.link3?.let(Uri.tryParse);
@@ -264,35 +277,52 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.cancelTxCreated:
         return OSKPStatus.cancelTxCreated(
           cancelTx!,
-          escrow: escrowPubkey!,
+          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxFailure:
         return OSKPStatus.cancelTxFailure(
-          escrow: escrowPubkey!,
+          escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case OSKPStatusDto.cancelTxSent:
         return OSKPStatus.cancelTxSent(
           cancelTx!,
-          escrow: escrowPubkey!,
+          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxSendFailure:
         return OSKPStatus.cancelTxCreated(
           cancelTx!,
-          escrow: escrowPubkey!,
+          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.cancelTxWaitFailure:
         return OSKPStatus.cancelTxSent(
           cancelTx!,
-          escrow: escrowPubkey!,
+          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OSKPStatusDto.recovered:
         return OSKPStatus.recovered(
-          escrow: Ed25519HDPublicKey.fromBase58(row.publicKey!),
+          escrowPubKey: escrowPubkey!,
+        );
+      case OSKPStatusDto.recoveredCancelTxFailure:
+        return OSKPStatus.recoveredCancelTxFailure(
+          escrowPubKey: escrowPubkey!,
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
+      case OSKPStatusDto.recoveredCancelTxSent:
+        return OSKPStatus.recoveredCancelTxSent(
+          cancelTx!,
+          escrowPubKey: escrowPubkey!,
+          slot: slot ?? BigInt.zero,
+        );
+      case OSKPStatusDto.recoveredCancelTxCreated:
+        return OSKPStatus.recoveredCancelTxCreated(
+          cancelTx!,
+          escrowPubKey: escrowPubkey!,
+          slot: slot ?? BigInt.zero,
         );
     }
   }
@@ -336,6 +366,11 @@ extension on OSKPStatus {
         cancelTxFailure: always(OSKPStatusDto.cancelTxFailure),
         cancelTxSent: always(OSKPStatusDto.cancelTxSent),
         recovered: always(OSKPStatusDto.recovered),
+        recoveredCancelTxFailure:
+            always(OSKPStatusDto.recoveredCancelTxFailure),
+        recoveredCancelTxSent: always(OSKPStatusDto.recoveredCancelTxSent),
+        recoveredCancelTxCreated:
+            always(OSKPStatusDto.recoveredCancelTxCreated),
       );
 
   String? toTx() => mapOrNull(
@@ -353,12 +388,14 @@ extension on OSKPStatus {
   String? toCancelTx() => mapOrNull(
         cancelTxCreated: (it) => it.tx.encode(),
         cancelTxSent: (it) => it.tx.encode(),
+        recoveredCancelTxCreated: (it) => it.tx.encode(),
       );
 
   String? toCancelTxId() => mapOrNull(
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
         canceled: (it) => it.txId,
+        recoveredCancelTxCreated: (it) => it.tx.id,
       );
 
   Future<String?> toPrivateKey() async => this.map(
@@ -369,10 +406,13 @@ extension on OSKPStatus {
         withdrawn: (it) async => null,
         canceled: (it) async => null,
         txFailure: (it) async => null,
-        cancelTxCreated: (it) async => base58encode(it.escrow.bytes),
+        cancelTxCreated: (it) async => null,
         cancelTxFailure: (it) async => base58encode(it.escrow.bytes),
         cancelTxSent: (it) async => base58encode(it.escrow.bytes),
         recovered: (it) async => null,
+        recoveredCancelTxFailure: (it) async => null,
+        recoveredCancelTxSent: (it) async => null,
+        recoveredCancelTxCreated: (it) async => null,
       );
 
   String? toLink1() => mapOrNull(
@@ -405,7 +445,10 @@ extension on OSKPStatus {
       );
 
   String? toPublicKey() => mapOrNull(
-        recovered: (it) => it.escrow.toBase58(),
+        recovered: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxCreated: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxSent: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxFailure: (it) => it.escrowPubKey.toBase58(),
       );
 }
 

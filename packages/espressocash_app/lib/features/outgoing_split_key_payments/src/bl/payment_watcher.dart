@@ -79,5 +79,8 @@ extension on OSKPStatus {
         cancelTxFailure: F,
         cancelTxSent: F,
         recovered: F,
+        recoveredCancelTxCreated: F,
+        recoveredCancelTxSent: F,
+        recoveredCancelTxFailure: F,
       );
 }

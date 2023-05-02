@@ -78,7 +78,7 @@ class TxReadyWatcher {
         final escrowAccount = await status.mapOrNull(
           linksReady: (it) async => it.escrow.keyPair
               .then((e) => Ed25519HDPublicKey.fromBase58(e.address)),
-          recovered: (it) async => it.escrow,
+          recovered: (it) async => it.escrowPubKey,
         );
 
         if (escrowAccount == null) continue;

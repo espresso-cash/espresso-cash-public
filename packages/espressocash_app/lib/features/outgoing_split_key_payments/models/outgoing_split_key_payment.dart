@@ -78,14 +78,14 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.cancelTxCreated(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPublicKey escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxCreated;
 
   /// There was an error while creating the cancellation tx, or the tx was
   /// rejected. It's safe to recreate it.
   const factory OSKPStatus.cancelTxFailure({
     required TxFailureReason reason,
-    required EscrowPublicKey escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxFailure;
 
   /// Cancellation tx was sent but not confirmed yet. It's not safe to recreate
@@ -93,10 +93,32 @@ class OSKPStatus with _$OSKPStatus {
   const factory OSKPStatus.cancelTxSent(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPublicKey escrow,
+    required EscrowPrivateKey escrow,
   }) = OSKPStatusCancelTxSent;
 
+  /// Tx was recovered from the blockchain.
+  /// These transactions cannot be resent, they can only be cancelled
   const factory OSKPStatus.recovered({
-    required EscrowPublicKey escrow,
+    required EscrowPublicKey escrowPubKey,
   }) = OSKPStatusRecovered;
+
+  /// Similar to [OSKPStatus.cancelTxCreated], but only contains public key
+  const factory OSKPStatus.recoveredCancelTxCreated(
+    SignedTx tx, {
+    required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
+  }) = OSKPStatusRecoveredCancelTxCreated;
+
+  /// Similar to [OSKPStatus.cancelTxSent], but only contains public key
+  const factory OSKPStatus.recoveredCancelTxSent(
+    SignedTx tx, {
+    required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
+  }) = OSKPStatusRecoveredCancelTxSent;
+
+  /// Similar to [OSKPStatus.cancelTxFailure], but only contains public key
+  const factory OSKPStatus.recoveredCancelTxFailure({
+    required TxFailureReason reason,
+    required EscrowPublicKey escrowPubKey,
+  }) = OSKPStatusRecoveredCancelTxFailure;
 }
