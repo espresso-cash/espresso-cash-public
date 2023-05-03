@@ -1,22 +1,24 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
 
 import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/dynamic_links_notifier.dart';
 import '../../../../core/split_key_payments.dart';
+import '../../../../core/wallet.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/bullet_item.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/theme.dart';
+import '../../../legal/flow.dart';
+import '../../extensions.dart';
 import '../bl/pending_iskp_repository.dart';
-import 'extensions.dart';
 
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
@@ -63,7 +65,10 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
       );
       if (!mounted) return;
 
-      final id = await context.createISKP(escrow);
+      final id = await context.createISKP(
+        escrow: escrow,
+        version: firstPart.apiVersion,
+      );
       await repository.clear();
 
       if (!mounted) return;
@@ -76,99 +81,118 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          body: CpTheme.dark(
-            child: Builder(
-              builder: (context) => DecoratedBox(
-                decoration: const BoxDecoration(color: CpColors.primaryColor),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Assets.icons.logoBg
-                          .svg(alignment: Alignment.bottomCenter),
-                    ),
-                    SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 22),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 62),
-                              Text(
-                                context.l10n.splitKeySecondLinkTitle,
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayMedium
-                                    ?.copyWith(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                              ),
-                              const _ContentView(),
-                              const SizedBox(height: 40),
-                              Expanded(
-                                child: Assets.images.secondLinkArtwork.image(),
-                              ),
-                              const SizedBox(height: 30),
-                              CpButton(
-                                onPressed: () => showConfirmationDialog(
-                                  context,
-                                  title: context.l10n.cancel,
-                                  message: context
-                                      .l10n.splitKeyConfirmationDialogContent,
-                                  onConfirm: () {
-                                    context.router.popForced();
-                                    widget.onCancel();
-                                  },
-                                ),
-                                text: context.l10n.cancel,
-                                size: CpButtonSize.micro,
-                                variant: CpButtonVariant.inverted,
-                              ),
-                            ],
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            backgroundColor: const Color(0xff2D2B2C),
+            extendBodyBehindAppBar: true,
+            body: Stack(
+              children: [
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Assets.icons.logoDark.svg(
+                    alignment: Alignment.bottomCenter,
+                  ),
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      children: [
+                        const _Header(),
+                        const SizedBox(height: 16),
+                        Flexible(
+                          child: Assets.rive.secondLink.rive(
+                            placeHolder: const SizedBox.expand(),
                           ),
                         ),
-                      ),
+                        const SizedBox(height: 16),
+                        CpButton(
+                          onPressed: () => showConfirmationDialog(
+                            context,
+                            title: context.l10n.cancel,
+                            message:
+                                context.l10n.splitKeyConfirmationDialogContent,
+                            onConfirm: () {
+                              context.router.popForced();
+                              widget.onCancel();
+                            },
+                          ),
+                          text: context.l10n.cancel,
+                          size: CpButtonSize.micro,
+                        ),
+                        const SizedBox(height: 16),
+                        const _TermsDisclaimer(),
+                      ],
                     ),
-                  ],
-                ),
-              ),
+                  ),
+                )
+              ],
             ),
           ),
         ),
       );
 }
 
-class _ContentView extends StatelessWidget {
-  const _ContentView({Key? key}) : super(key: key);
+class _Header extends StatelessWidget {
+  const _Header({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(height: 30),
-          Text(
-            context.l10n.splitKeySecondLinkMessage,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+          Padding(
+            padding: const EdgeInsets.all(30),
+            child: Assets.images.logo.image(width: 209),
           ),
+          Text(
+            context.l10n.splitKeySecondLinkTitle.toUpperCase(),
+            style: const TextStyle(
+              fontSize: 36,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 8),
+          CpBulletItemWidget(text: context.l10n.splitKeySecondLinkMessage),
         ],
       );
 }
 
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
-}) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
+class _TermsDisclaimer extends StatelessWidget {
+  const _TermsDisclaimer({Key? key}) : super(key: key);
 
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Text.rich(
+          TextSpan(
+            text: context.l10n.byClickingTheSecondLink,
+            children: [
+              TextSpan(
+                text: context.l10n.terms,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context.navigateToTermsOfUse(),
+                style: const TextStyle(
+                  color: CpColors.yellowColor,
+                ),
+              ),
+              TextSpan(text: context.l10n.and),
+              TextSpan(
+                text: context.l10n.privacyPolicy,
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => context.navigateToPrivacyPolicy(),
+                style: const TextStyle(
+                  color: CpColors.yellowColor,
+                ),
+              ),
+            ],
+            style: const TextStyle(
+              fontSize: 14,
+              height: 1.1,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
 }

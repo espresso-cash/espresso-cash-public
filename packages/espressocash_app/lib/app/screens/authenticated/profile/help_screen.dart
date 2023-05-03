@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../config.dart';
 import '../../../../core/presentation/utils.dart';
-import '../../../../features/intercom/module.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import 'components/profile_button.dart';
@@ -27,7 +27,11 @@ class HelpScreen extends StatelessWidget {
               ),
               ProfileButton(
                 label: context.l10n.contactUs,
-                onPressed: displayIntercomMessenger,
+                onPressed: () {
+                  final email = Uri.encodeComponent(contactEmail);
+                  final mail = Uri.parse('mailto:$email');
+                  launchUrl(mail);
+                },
               ),
             ],
           ),

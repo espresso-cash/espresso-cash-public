@@ -13,7 +13,7 @@ Future<Response> Function(Request) createSolanaHandler({
           host == link2Host ||
           host == espressocashLinkHost) {
         return _solanaShareableHandler(request);
-      } else if (host == solanaPayHost) {
+      } else if (host == solanaPayHost || host == solanaPayEspressoCashHost) {
         return _solanaPayHandler(request, tokens, network);
       }
 
