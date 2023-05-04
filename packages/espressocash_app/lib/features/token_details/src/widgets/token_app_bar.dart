@@ -101,7 +101,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent =>
-      _tokenSize + _minExtent + (token.canBeSwapped ? 0 : _noticeSize);
+      _tokenSize + (_minExtent - 20) + (token.canBeSwapped ? 0 : _noticeSize);
 
   @override
   double get minExtent => _minExtent;

@@ -1,3 +1,10 @@
+## 1.73.0
+
+ - **FIX**: second link animation artifacts (#960).
+ - **FIX**: update l10n key.
+ - **FEAT**: token details page enhancements  (#961).
+ - **FEAT**: truncate usdc amount on messages (#959).
+
 ## 1.72.0
 
  - **FIX**: correctly sign old cancellation tx (#957).
