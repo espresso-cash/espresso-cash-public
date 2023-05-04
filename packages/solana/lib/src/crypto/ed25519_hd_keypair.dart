@@ -75,8 +75,8 @@ class Ed25519HDKeyPair extends KeyPair {
   /// and passing the [mnemonic] seed phrase
   static Future<Ed25519HDKeyPair> fromMnemonic(
     String mnemonic, {
-    int account = 0,
-    int change = 0,
+    int? account,
+    int? change,
   }) async {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
 
@@ -135,8 +135,18 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   /// Build a derivation path with [account] and [change]
-  static String _getHDPath(int account, int change) =>
-      "m/44'/501'/$account'/$change'";
+  static String _getHDPath(int? account, int? change) {
+    final path = StringBuffer("m/44'/501'");
+
+    if (account != null) {
+      path.write("/$account'");
+    }
+    if (change != null) {
+      path.write("/$change'");
+    }
+
+    return path.toString();
+  }
 
   /// The address or public key of this wallet
   static final _ed25519 = Ed25519();
