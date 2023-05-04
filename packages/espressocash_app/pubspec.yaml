@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.72.0
+version: 1.73.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
