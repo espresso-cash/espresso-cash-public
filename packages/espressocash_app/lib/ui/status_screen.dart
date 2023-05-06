@@ -4,6 +4,7 @@ import '../gen/assets.gen.dart';
 import 'app_bar.dart';
 import 'colors.dart';
 import 'content_padding.dart';
+import 'icon_button.dart';
 import 'status_widget.dart';
 
 class StatusScreen extends StatelessWidget {
@@ -41,15 +42,17 @@ class StatusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = this.content;
     final title = this.title;
+    final onBackButtonPressed = this.onBackButtonPressed;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CpAppBar(
         title: title != null ? Text(title, style: _titleStyle) : null,
         leading: onBackButtonPressed != null
-            ? BackButton(
+            ? CpIconButton(
+                icon: Assets.icons.arrow.svg(color: Colors.black),
+                variant: CpIconButtonVariant.transparent,
                 onPressed: onBackButtonPressed,
-                color: Colors.black,
               )
             : null,
         automaticallyImplyLeading: onBackButtonPressed != null,

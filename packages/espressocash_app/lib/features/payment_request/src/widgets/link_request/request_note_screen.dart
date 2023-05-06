@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/presentation/format_amount.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -12,6 +13,7 @@ import '../../../../../ui/bordered_row.dart';
 import '../../../../../ui/bottom_button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/content_padding.dart';
+import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/theme.dart';
 
 abstract class NoteSetter {
@@ -34,7 +36,11 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           appBar: CpAppBar(
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpIconButton(
+              icon: Assets.icons.arrow.svg(),
+              variant: CpIconButtonVariant.transparent,
+              onPressed: () => context.router.pop(),
+            ),
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -2,9 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
+import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/message_info_widget.dart';
 import '../../bl/puzzle_reminder_bloc.dart';
 import 'components/puzzle_screen.dart';
@@ -60,7 +62,10 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   @override
   Widget build(BuildContext context) => PuzzleScreen(
         title: context.l10n.protectWalletTitle,
-        backButton: BackButton(onPressed: () => context.router.pop()),
+        backButton: CpIconButton(
+            icon: Assets.icons.arrow.svg(),
+            variant: CpIconButtonVariant.transparent,
+            onPressed: () => context.router.pop(),),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(

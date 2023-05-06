@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/icon_button.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/theme.dart';
@@ -22,7 +24,9 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
             ),
             children: [
               CpAppBar(
-                leading: BackButton(
+                leading: CpIconButton(
+                  icon: Assets.icons.arrow.svg(),
+                  variant: CpIconButtonVariant.transparent,
                   onPressed: () => context.router.pop(),
                 ),
               ),

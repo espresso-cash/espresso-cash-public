@@ -8,6 +8,8 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../ui/icon_button.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
@@ -53,7 +55,11 @@ class _CreateProfileState extends State<CreateProfile> {
             ),
             children: [
               CpAppBar(
-                leading: BackButton(onPressed: widget.onBackButtonPressed),
+                leading: CpIconButton(
+                  icon: Assets.icons.arrow.svg(),
+                  variant: CpIconButtonVariant.transparent,
+                  onPressed: widget.onBackButtonPressed,
+                ),
               ),
               ProfileImagePicker(
                 photo: _photo,

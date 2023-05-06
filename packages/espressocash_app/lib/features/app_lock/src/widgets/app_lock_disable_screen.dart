@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
+import '../../../../ui/icon_button.dart';
 import '../bl/app_lock_bloc.dart';
 import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
@@ -17,7 +19,9 @@ class AppLockDisableScreen extends StatelessWidget {
               context.read<AppLockSetupRouter>().onDisableFinished(),
         ),
         builder: (context, state) => DecoratedWindow(
-          backButton: BackButton(
+          backButton: CpIconButton(
+            icon: Assets.icons.arrow.svg(),
+            variant: CpIconButtonVariant.transparent,
             onPressed: () => context.read<AppLockSetupRouter>().closeFlow(),
           ),
           hasLogo: true,

@@ -7,12 +7,14 @@ import '../../../../core/conversion_rates/context_ext.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
+import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/chip.dart';
 import '../../../../ui/content_padding.dart';
+import '../../../../ui/icon_button.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
 
@@ -39,7 +41,11 @@ class OSKPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpIconButton(
+              icon: Assets.icons.arrow.svg(),
+              variant: CpIconButtonVariant.transparent,
+              onPressed: () => context.router.pop(),
+            ),
           ),
           body: CpContentPadding(
             child: _TokenCreateLinkContent(
