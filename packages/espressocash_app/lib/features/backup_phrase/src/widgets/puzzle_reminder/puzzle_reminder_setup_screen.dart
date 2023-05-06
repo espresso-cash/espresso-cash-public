@@ -63,9 +63,10 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   Widget build(BuildContext context) => PuzzleScreen(
         title: context.l10n.protectWalletTitle,
         backButton: CpIconButton(
-            icon: Assets.icons.arrow.svg(),
-            variant: CpIconButtonVariant.transparent,
-            onPressed: () => context.router.pop(),),
+          icon: Assets.icons.arrow.svg(),
+          variant: CpIconButtonVariant.transparent,
+          onPressed: () => context.router.pop(),
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
