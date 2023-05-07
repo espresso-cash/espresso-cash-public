@@ -131,11 +131,7 @@ class _Content extends StatelessWidget {
             initial: () => loader,
             processing: () => loader,
             failure: (_) => TokenDetailsWidget(
-              data: TokenDetails(
-                name: token.name,
-                description: context.l10n.failedToLoadDescription,
-                marketCapRank: null,
-              ),
+              data: TokenDetails(name: token.name),
             ),
             success: (data) => TokenDetailsWidget(data: data),
           );
