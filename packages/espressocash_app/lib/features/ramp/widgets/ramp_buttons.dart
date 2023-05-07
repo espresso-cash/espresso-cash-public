@@ -7,6 +7,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/balances/context_ext.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
@@ -26,6 +27,7 @@ class AddCashButton extends StatelessWidget {
           text: context.l10n.addCash,
           onPressed: () {
             final configuration = _defaultConfiguration
+              ..selectedCountryCode = DeviceLocale.localeOf(context).countryCode
               ..userAddress =
                   context.read<MyAccount>().wallet.publicKey.toBase58();
 
