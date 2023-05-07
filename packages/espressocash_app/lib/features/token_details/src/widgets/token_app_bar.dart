@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../../core/tokens/token.dart';
-import '../../../../gen/assets.gen.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/colors.dart';
-import '../../../../ui/icon_button.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
 import '../../../swap/token_ext.dart';
@@ -134,11 +133,7 @@ class _Buttons extends StatelessWidget {
         children: [
           SizedBox(
             height: _minExtent,
-            child: CpIconButton(
-              icon: Assets.icons.arrow.svg(),
-              variant: CpIconButtonVariant.transparent,
-              onPressed: () => context.router.pop(),
-            ),
+            child: CpBackButton(onPressed: () => context.router.pop()),
           ),
           if (!token.canBeSwapped)
             Expanded(

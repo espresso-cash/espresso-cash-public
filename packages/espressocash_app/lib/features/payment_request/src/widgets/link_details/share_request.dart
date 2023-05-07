@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../di.dart';
-import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/dialogs.dart';
-import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/text_button.dart';
 import '../../../../../ui/theme.dart';
@@ -31,11 +30,7 @@ class SharePaymentRequestScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CpAppBar(
           title: title,
-          leading: CpIconButton(
-            icon: Assets.icons.arrow.svg(),
-            variant: CpIconButtonVariant.transparent,
-            onPressed: () => context.router.pop(),
-          ),
+          leading: CpBackButton(onPressed: () => context.router.pop()),
         ),
         body: DefaultTabController(
           length: 2,

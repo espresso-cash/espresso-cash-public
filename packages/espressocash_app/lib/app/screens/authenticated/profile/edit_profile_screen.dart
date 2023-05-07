@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
-import '../../../../ui/icon_button.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/profile_image_picker/pick_profile_picture.dart';
@@ -64,11 +63,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               children: [
                 CpAppBar(
-                  leading: CpIconButton(
-                    icon: Assets.icons.arrow.svg(),
-                    variant: CpIconButtonVariant.transparent,
-                    onPressed: _closeFlow,
-                  ),
+                  leading: CpBackButton(onPressed: _closeFlow),
                 ),
                 ProfileImagePicker(
                   onChanged: (photo) => setState(() {

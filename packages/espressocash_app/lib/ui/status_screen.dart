@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
 import 'app_bar.dart';
+import 'back_button.dart';
 import 'colors.dart';
 import 'content_padding.dart';
-import 'icon_button.dart';
 import 'status_widget.dart';
 
 class StatusScreen extends StatelessWidget {
@@ -49,11 +49,7 @@ class StatusScreen extends StatelessWidget {
       appBar: CpAppBar(
         title: title != null ? Text(title, style: _titleStyle) : null,
         leading: onBackButtonPressed != null
-            ? CpIconButton(
-                icon: Assets.icons.arrow.svg(color: Colors.black),
-                variant: CpIconButtonVariant.transparent,
-                onPressed: onBackButtonPressed,
-              )
+            ? CpBackButton(onPressed: onBackButtonPressed)
             : null,
         automaticallyImplyLeading: onBackButtonPressed != null,
       ),
