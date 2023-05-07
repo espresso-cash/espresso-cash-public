@@ -8,6 +8,7 @@ import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/bordered_row.dart';
 import '../../../../../ui/bottom_button.dart';
 import '../../../../../ui/colors.dart';
@@ -34,7 +35,7 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           appBar: CpAppBar(
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
