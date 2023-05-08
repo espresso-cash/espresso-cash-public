@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../../core/tokens/token.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
@@ -101,7 +102,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   double get maxExtent =>
-      _tokenSize + _minExtent + (token.canBeSwapped ? 0 : _noticeSize);
+      _tokenSize + (_minExtent - 20) + (token.canBeSwapped ? 0 : _noticeSize);
 
   @override
   double get minExtent => _minExtent;
@@ -132,9 +133,7 @@ class _Buttons extends StatelessWidget {
         children: [
           SizedBox(
             height: _minExtent,
-            child: BackButton(
-              onPressed: () => context.router.pop(),
-            ),
+            child: CpBackButton(onPressed: () => context.router.pop()),
           ),
           if (!token.canBeSwapped)
             Expanded(
