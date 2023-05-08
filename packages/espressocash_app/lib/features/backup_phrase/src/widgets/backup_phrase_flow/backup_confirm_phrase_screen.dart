@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
@@ -43,7 +44,7 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
           ),
           children: [
             CpAppBar(
-              leading: BackButton(onPressed: () => context.router.pop()),
+              leading: CpBackButton(onPressed: () => context.router.pop()),
             ),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),

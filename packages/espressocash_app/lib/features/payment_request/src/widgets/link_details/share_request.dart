@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/tab_bar.dart';
 import '../../../../../ui/text_button.dart';
@@ -29,7 +30,7 @@ class SharePaymentRequestScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CpAppBar(
           title: title,
-          leading: BackButton(onPressed: () => context.router.pop()),
+          leading: CpBackButton(onPressed: () => context.router.pop()),
         ),
         body: DefaultTabController(
           length: 2,
