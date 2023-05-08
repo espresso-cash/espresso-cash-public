@@ -10,6 +10,7 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/chip.dart';
 import '../../../../ui/content_padding.dart';
@@ -39,7 +40,7 @@ class OSKPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(
             child: _TokenCreateLinkContent(
