@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../gen/assets.gen.dart';
 import 'app_bar.dart';
+import 'back_button.dart';
 import 'colors.dart';
 import 'content_padding.dart';
 import 'status_widget.dart';
@@ -41,16 +42,14 @@ class StatusScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final content = this.content;
     final title = this.title;
+    final onBackButtonPressed = this.onBackButtonPressed;
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CpAppBar(
         title: title != null ? Text(title, style: _titleStyle) : null,
         leading: onBackButtonPressed != null
-            ? BackButton(
-                onPressed: onBackButtonPressed,
-                color: Colors.black,
-              )
+            ? CpBackButton(onPressed: onBackButtonPressed)
             : null,
         automaticallyImplyLeading: onBackButtonPressed != null,
       ),
