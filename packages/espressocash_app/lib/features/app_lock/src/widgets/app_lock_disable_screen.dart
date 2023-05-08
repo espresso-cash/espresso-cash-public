@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
 import '../bl/app_lock_bloc.dart';
 import 'app_lock_setup_flow_screen.dart';
@@ -17,7 +18,7 @@ class AppLockDisableScreen extends StatelessWidget {
               context.read<AppLockSetupRouter>().onDisableFinished(),
         ),
         builder: (context, state) => DecoratedWindow(
-          backButton: BackButton(
+          backButton: CpBackButton(
             onPressed: () => context.read<AppLockSetupRouter>().closeFlow(),
           ),
           hasLogo: true,

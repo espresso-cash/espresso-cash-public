@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../token_details.dart';
 import 'expandable_text.dart';
@@ -25,7 +27,7 @@ class TokenDetailsWidget extends StatelessWidget {
             const SizedBox(height: 12),
             ExpandableText(
               text: TextSpan(
-                text: data.description,
+                text: data.localizedDescription(context),
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 15,
@@ -69,4 +71,18 @@ class _DetailsRowItem extends StatelessWidget {
           ),
         ],
       );
+}
+
+extension on TokenDetails {
+  String localizedDescription(BuildContext context) {
+    final descriptions = this.descriptions;
+    if (descriptions == null) return context.l10n.failedToLoadDescription;
+
+    final languageCode = DeviceLocale.localeOf(context).languageCode;
+
+    return descriptions[languageCode] ??
+        descriptions['en'] ??
+        descriptions.values.firstOrNull ??
+        '';
+  }
 }

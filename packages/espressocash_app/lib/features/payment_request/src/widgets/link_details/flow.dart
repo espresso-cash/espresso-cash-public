@@ -9,6 +9,7 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/theme.dart';
 import '../../../formatted_amount.dart';
 import '../../../models/payment_request.dart';
@@ -74,7 +75,7 @@ class _Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(
-          leading: BackButton(onPressed: () => context.router.pop()),
+          leading: CpBackButton(onPressed: () => context.router.pop()),
         ),
         body: const Center(child: CircularProgressIndicator()),
       );
