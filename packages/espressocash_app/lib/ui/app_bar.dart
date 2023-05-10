@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'back_button.dart';
+
 class CpAppBar extends AppBar {
   CpAppBar({
     Key? key,
@@ -9,7 +11,7 @@ class CpAppBar extends AppBar {
     bool automaticallyImplyLeading = true,
   }) : super(
           key: key,
-          leading: leading,
+          leading: leading ?? const CpBackButton(ensureBackNavigation: true),
           automaticallyImplyLeading: automaticallyImplyLeading,
           actions: nextButton != null
               ? [

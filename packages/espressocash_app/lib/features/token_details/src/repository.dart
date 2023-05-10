@@ -20,7 +20,7 @@ class TokenDetailsRepository {
       _coingeckoClient
           .getCoinDetails(
             token.extensions?.coingeckoId ?? token.name,
-            const TokenDetailsRequestDto(marketData: true),
+            const TokenDetailsRequestDto(marketData: true, localization: true),
           )
           .toEither()
           .mapAsync((response) {
@@ -28,7 +28,10 @@ class TokenDetailsRepository {
 
         return TokenDetails(
           name: response.name ?? token.name,
-          description: _removeHtmlTags(response.description?['en'] ?? ''),
+          descriptions: response.description?.map(
+            (k, v) => MapEntry(k, _removeHtmlTags(v)),
+            ifRemove: (k, v) => v.isEmpty,
+          ),
           marketCapRank: response.marketCapRank,
           marketPrice: marketData?[fiatCurrency],
         );
