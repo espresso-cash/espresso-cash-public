@@ -18,6 +18,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: "2.19.4"
 
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed .
@@ -31,6 +33,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: "2.19.4"
 
       - name: Activate utils
         run: make activate_utils
@@ -59,6 +63,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: dart-lang/setup-dart@v1.3
+        with:
+          sdk: "2.19.4"
 
       - uses: subosito/flutter-action@v2
         with:
@@ -74,8 +80,7 @@ jobs:
         with:
           solana-version: stable
           cluster: mainnet
-          args:
-            --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
+          args: --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
 
       - name: Activate melos
         run: make activate_utils
