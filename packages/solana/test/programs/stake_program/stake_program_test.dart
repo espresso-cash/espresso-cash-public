@@ -8,7 +8,7 @@ void main() {
   final RpcClient rpcClient = RpcClient(devnetRpcUrl);
   final SubscriptionClient subscriptionClient =
       SubscriptionClient.connect(devnetWebsocketUrl);
-  const int stakeAmount = lamportsPerSol;
+  const int stakeAmount = 2 * lamportsPerSol;
 
   test('Create Account', () async {
     final rent = await rpcClient
@@ -179,7 +179,7 @@ void main() {
       );
 
       final splitInstruction = StakeInstruction.split(
-        amount: 100,
+        amount: lamportsPerSol,
         destinationStake: newAccount.publicKey,
         sourceStake: account.publicKey,
         authority: staker.publicKey,
