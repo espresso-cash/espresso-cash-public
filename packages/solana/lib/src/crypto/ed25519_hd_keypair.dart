@@ -140,7 +140,10 @@ class Ed25519HDKeyPair extends KeyPair {
 
     if (account != null) {
       path.write("/$account'");
+    } else {
+      path.write('/0');
     }
+
     if (change != null) {
       path.write("/$change'");
     }
