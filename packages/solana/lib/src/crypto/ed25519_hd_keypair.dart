@@ -5,6 +5,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
     show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/crypto/signature.dart';
@@ -82,7 +83,7 @@ class Ed25519HDKeyPair extends KeyPair {
 
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seed,
-      hdPath: _getHDPath(account, change),
+      hdPath: getHDPath(account, change),
     );
   }
 
@@ -135,7 +136,8 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   /// Build a derivation path with [account] and [change]
-  static String _getHDPath(int? account, int? change) {
+  @visibleForTesting
+  static String getHDPath(int? account, int? change) {
     final path = StringBuffer("m/44'/501'");
 
     if (account != null) {

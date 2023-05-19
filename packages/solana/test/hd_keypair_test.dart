@@ -91,6 +91,24 @@ void main() {
       expect(simpleKeyPairData.extract, throwsA(isA<StateError>()));
     },
   );
+
+  group('getHDPath', () {
+    test('returns correct path with account and change', () {
+      expect(Ed25519HDKeyPair.getHDPath(1, 2), equals("m/44'/501'/1'/2'"));
+    });
+
+    test('returns correct path with only account', () {
+      expect(Ed25519HDKeyPair.getHDPath(1, null), equals("m/44'/501'/1'"));
+    });
+
+    test('returns correct path with only change', () {
+      expect(Ed25519HDKeyPair.getHDPath(null, 2), equals("m/44'/501'/0'/2'"));
+    });
+
+    test('returns correct path with no account or change', () {
+      expect(Ed25519HDKeyPair.getHDPath(null, null), equals("m/44'/501'"));
+    });
+  });
 }
 
 const _mnemonic =
