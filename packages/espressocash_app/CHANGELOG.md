@@ -1,3 +1,11 @@
+## 1.74.0
+
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: update scenario handler.
+ - **FEAT**: add custom icon to back button (#973).
+ - **FEAT**: update second link animation (#972).
+ - **FEAT**: add coingecko l10n support for token details page (#975).
+
 ## 1.73.0
 
  - **FIX**: second link animation artifacts (#960).
