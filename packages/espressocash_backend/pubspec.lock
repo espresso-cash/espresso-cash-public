@@ -245,10 +245,10 @@ packages:
     dependency: "direct main"
     description:
       name: dfunc
-      sha256: "634dcde12bdf6e7a104f4e46d0b00a391fa98af479f519c05f4e49d6da650335"
+      sha256: cb0e20067771ae3da6b09827d0097faec18e91c3b3100b2d966ba95b9338a296
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.1"
+    version: "0.8.2"
   dio:
     dependency: transitive
     description:
