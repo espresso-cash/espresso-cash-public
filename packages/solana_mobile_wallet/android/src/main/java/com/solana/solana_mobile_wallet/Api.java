@@ -1210,6 +1210,302 @@ public class Api {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static final class WalletConfigDto {
+    private @NonNull Boolean supportsSignAndSendTransactions;
+
+    public @NonNull Boolean getSupportsSignAndSendTransactions() {
+      return supportsSignAndSendTransactions;
+    }
+
+    public void setSupportsSignAndSendTransactions(@NonNull Boolean setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"supportsSignAndSendTransactions\" is null.");
+      }
+      this.supportsSignAndSendTransactions = setterArg;
+    }
+
+    private @NonNull Long maxTransactionsPerSigningRequest;
+
+    public @NonNull Long getMaxTransactionsPerSigningRequest() {
+      return maxTransactionsPerSigningRequest;
+    }
+
+    public void setMaxTransactionsPerSigningRequest(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"maxTransactionsPerSigningRequest\" is null.");
+      }
+      this.maxTransactionsPerSigningRequest = setterArg;
+    }
+
+    private @NonNull Long maxMessagesPerSigningRequest;
+
+    public @NonNull Long getMaxMessagesPerSigningRequest() {
+      return maxMessagesPerSigningRequest;
+    }
+
+    public void setMaxMessagesPerSigningRequest(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"maxMessagesPerSigningRequest\" is null.");
+      }
+      this.maxMessagesPerSigningRequest = setterArg;
+    }
+
+    private @NonNull List<String> supportedTransactionVersions;
+
+    public @NonNull List<String> getSupportedTransactionVersions() {
+      return supportedTransactionVersions;
+    }
+
+    public void setSupportedTransactionVersions(@NonNull List<String> setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"supportedTransactionVersions\" is null.");
+      }
+      this.supportedTransactionVersions = setterArg;
+    }
+
+    private @NonNull Long noConnectionWarningTimeoutInMs;
+
+    public @NonNull Long getNoConnectionWarningTimeoutInMs() {
+      return noConnectionWarningTimeoutInMs;
+    }
+
+    public void setNoConnectionWarningTimeoutInMs(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"noConnectionWarningTimeoutInMs\" is null.");
+      }
+      this.noConnectionWarningTimeoutInMs = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private WalletConfigDto() {}
+
+    public static final class Builder {
+
+      private @Nullable Boolean supportsSignAndSendTransactions;
+
+      public @NonNull Builder setSupportsSignAndSendTransactions(@NonNull Boolean setterArg) {
+        this.supportsSignAndSendTransactions = setterArg;
+        return this;
+      }
+
+      private @Nullable Long maxTransactionsPerSigningRequest;
+
+      public @NonNull Builder setMaxTransactionsPerSigningRequest(@NonNull Long setterArg) {
+        this.maxTransactionsPerSigningRequest = setterArg;
+        return this;
+      }
+
+      private @Nullable Long maxMessagesPerSigningRequest;
+
+      public @NonNull Builder setMaxMessagesPerSigningRequest(@NonNull Long setterArg) {
+        this.maxMessagesPerSigningRequest = setterArg;
+        return this;
+      }
+
+      private @Nullable List<String> supportedTransactionVersions;
+
+      public @NonNull Builder setSupportedTransactionVersions(@NonNull List<String> setterArg) {
+        this.supportedTransactionVersions = setterArg;
+        return this;
+      }
+
+      private @Nullable Long noConnectionWarningTimeoutInMs;
+
+      public @NonNull Builder setNoConnectionWarningTimeoutInMs(@NonNull Long setterArg) {
+        this.noConnectionWarningTimeoutInMs = setterArg;
+        return this;
+      }
+
+      public @NonNull WalletConfigDto build() {
+        WalletConfigDto pigeonReturn = new WalletConfigDto();
+        pigeonReturn.setSupportsSignAndSendTransactions(supportsSignAndSendTransactions);
+        pigeonReturn.setMaxTransactionsPerSigningRequest(maxTransactionsPerSigningRequest);
+        pigeonReturn.setMaxMessagesPerSigningRequest(maxMessagesPerSigningRequest);
+        pigeonReturn.setSupportedTransactionVersions(supportedTransactionVersions);
+        pigeonReturn.setNoConnectionWarningTimeoutInMs(noConnectionWarningTimeoutInMs);
+        return pigeonReturn;
+      }
+    }
+
+    @NonNull
+    ArrayList<Object> toList() {
+      ArrayList<Object> toListResult = new ArrayList<Object>(5);
+      toListResult.add(supportsSignAndSendTransactions);
+      toListResult.add(maxTransactionsPerSigningRequest);
+      toListResult.add(maxMessagesPerSigningRequest);
+      toListResult.add(supportedTransactionVersions);
+      toListResult.add(noConnectionWarningTimeoutInMs);
+      return toListResult;
+    }
+
+    static @NonNull WalletConfigDto fromList(@NonNull ArrayList<Object> list) {
+      WalletConfigDto pigeonResult = new WalletConfigDto();
+      Object supportsSignAndSendTransactions = list.get(0);
+      pigeonResult.setSupportsSignAndSendTransactions((Boolean) supportsSignAndSendTransactions);
+      Object maxTransactionsPerSigningRequest = list.get(1);
+      pigeonResult.setMaxTransactionsPerSigningRequest((maxTransactionsPerSigningRequest == null) ? null : ((maxTransactionsPerSigningRequest instanceof Integer) ? (Integer) maxTransactionsPerSigningRequest : (Long) maxTransactionsPerSigningRequest));
+      Object maxMessagesPerSigningRequest = list.get(2);
+      pigeonResult.setMaxMessagesPerSigningRequest((maxMessagesPerSigningRequest == null) ? null : ((maxMessagesPerSigningRequest instanceof Integer) ? (Integer) maxMessagesPerSigningRequest : (Long) maxMessagesPerSigningRequest));
+      Object supportedTransactionVersions = list.get(3);
+      pigeonResult.setSupportedTransactionVersions((List<String>) supportedTransactionVersions);
+      Object noConnectionWarningTimeoutInMs = list.get(4);
+      pigeonResult.setNoConnectionWarningTimeoutInMs((noConnectionWarningTimeoutInMs == null) ? null : ((noConnectionWarningTimeoutInMs instanceof Integer) ? (Integer) noConnectionWarningTimeoutInMs : (Long) noConnectionWarningTimeoutInMs));
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static final class AuthIssuerConfigDto {
+    private @NonNull String name;
+
+    public @NonNull String getName() {
+      return name;
+    }
+
+    public void setName(@NonNull String setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"name\" is null.");
+      }
+      this.name = setterArg;
+    }
+
+    private @NonNull Long maxOutstandingTokensPerIdentility;
+
+    public @NonNull Long getMaxOutstandingTokensPerIdentility() {
+      return maxOutstandingTokensPerIdentility;
+    }
+
+    public void setMaxOutstandingTokensPerIdentility(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"maxOutstandingTokensPerIdentility\" is null.");
+      }
+      this.maxOutstandingTokensPerIdentility = setterArg;
+    }
+
+    private @NonNull Long authorizationValidityInMs;
+
+    public @NonNull Long getAuthorizationValidityInMs() {
+      return authorizationValidityInMs;
+    }
+
+    public void setAuthorizationValidityInMs(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"authorizationValidityInMs\" is null.");
+      }
+      this.authorizationValidityInMs = setterArg;
+    }
+
+    private @NonNull Long reauthorizationValidityInMs;
+
+    public @NonNull Long getReauthorizationValidityInMs() {
+      return reauthorizationValidityInMs;
+    }
+
+    public void setReauthorizationValidityInMs(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"reauthorizationValidityInMs\" is null.");
+      }
+      this.reauthorizationValidityInMs = setterArg;
+    }
+
+    private @NonNull Long reauthorizationNopDurationInMs;
+
+    public @NonNull Long getReauthorizationNopDurationInMs() {
+      return reauthorizationNopDurationInMs;
+    }
+
+    public void setReauthorizationNopDurationInMs(@NonNull Long setterArg) {
+      if (setterArg == null) {
+        throw new IllegalStateException("Nonnull field \"reauthorizationNopDurationInMs\" is null.");
+      }
+      this.reauthorizationNopDurationInMs = setterArg;
+    }
+
+    /** Constructor is private to enforce null safety; use Builder. */
+    private AuthIssuerConfigDto() {}
+
+    public static final class Builder {
+
+      private @Nullable String name;
+
+      public @NonNull Builder setName(@NonNull String setterArg) {
+        this.name = setterArg;
+        return this;
+      }
+
+      private @Nullable Long maxOutstandingTokensPerIdentility;
+
+      public @NonNull Builder setMaxOutstandingTokensPerIdentility(@NonNull Long setterArg) {
+        this.maxOutstandingTokensPerIdentility = setterArg;
+        return this;
+      }
+
+      private @Nullable Long authorizationValidityInMs;
+
+      public @NonNull Builder setAuthorizationValidityInMs(@NonNull Long setterArg) {
+        this.authorizationValidityInMs = setterArg;
+        return this;
+      }
+
+      private @Nullable Long reauthorizationValidityInMs;
+
+      public @NonNull Builder setReauthorizationValidityInMs(@NonNull Long setterArg) {
+        this.reauthorizationValidityInMs = setterArg;
+        return this;
+      }
+
+      private @Nullable Long reauthorizationNopDurationInMs;
+
+      public @NonNull Builder setReauthorizationNopDurationInMs(@NonNull Long setterArg) {
+        this.reauthorizationNopDurationInMs = setterArg;
+        return this;
+      }
+
+      public @NonNull AuthIssuerConfigDto build() {
+        AuthIssuerConfigDto pigeonReturn = new AuthIssuerConfigDto();
+        pigeonReturn.setName(name);
+        pigeonReturn.setMaxOutstandingTokensPerIdentility(maxOutstandingTokensPerIdentility);
+        pigeonReturn.setAuthorizationValidityInMs(authorizationValidityInMs);
+        pigeonReturn.setReauthorizationValidityInMs(reauthorizationValidityInMs);
+        pigeonReturn.setReauthorizationNopDurationInMs(reauthorizationNopDurationInMs);
+        return pigeonReturn;
+      }
+    }
+
+    @NonNull
+    ArrayList<Object> toList() {
+      ArrayList<Object> toListResult = new ArrayList<Object>(5);
+      toListResult.add(name);
+      toListResult.add(maxOutstandingTokensPerIdentility);
+      toListResult.add(authorizationValidityInMs);
+      toListResult.add(reauthorizationValidityInMs);
+      toListResult.add(reauthorizationNopDurationInMs);
+      return toListResult;
+    }
+
+    static @NonNull AuthIssuerConfigDto fromList(@NonNull ArrayList<Object> list) {
+      AuthIssuerConfigDto pigeonResult = new AuthIssuerConfigDto();
+      Object name = list.get(0);
+      pigeonResult.setName((String) name);
+      Object maxOutstandingTokensPerIdentility = list.get(1);
+      pigeonResult.setMaxOutstandingTokensPerIdentility((maxOutstandingTokensPerIdentility == null) ? null : ((maxOutstandingTokensPerIdentility instanceof Integer) ? (Integer) maxOutstandingTokensPerIdentility : (Long) maxOutstandingTokensPerIdentility));
+      Object authorizationValidityInMs = list.get(2);
+      pigeonResult.setAuthorizationValidityInMs((authorizationValidityInMs == null) ? null : ((authorizationValidityInMs instanceof Integer) ? (Integer) authorizationValidityInMs : (Long) authorizationValidityInMs));
+      Object reauthorizationValidityInMs = list.get(3);
+      pigeonResult.setReauthorizationValidityInMs((reauthorizationValidityInMs == null) ? null : ((reauthorizationValidityInMs instanceof Integer) ? (Integer) reauthorizationValidityInMs : (Long) reauthorizationValidityInMs));
+      Object reauthorizationNopDurationInMs = list.get(4);
+      pigeonResult.setReauthorizationNopDurationInMs((reauthorizationNopDurationInMs == null) ? null : ((reauthorizationNopDurationInMs instanceof Integer) ? (Integer) reauthorizationNopDurationInMs : (Long) reauthorizationNopDurationInMs));
+      return pigeonResult;
+    }
+  }
+
+  public interface Result<T> {
+    void success(T result);
+
+    void error(Throwable error);
+  }
+
   private static class ApiFlutterCodec extends StandardMessageCodec {
     public static final ApiFlutterCodec INSTANCE = new ApiFlutterCodec();
 
@@ -1415,7 +1711,47 @@ public class Api {
           new ArrayList<Object>(Arrays.asList(eventArg, idArg)),
           channelReply -> callback.reply(null));
     }
+    public void onNewIntent(@NonNull Boolean isInitialIntentArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(
+              binaryMessenger, "dev.flutter.pigeon.ApiFlutter.onNewIntent", getCodec());
+      channel.send(
+          new ArrayList<Object>(Collections.singletonList(isInitialIntentArg)),
+          channelReply -> callback.reply(null));
+    }
   }
+
+  private static class ApiHostCodec extends StandardMessageCodec {
+    public static final ApiHostCodec INSTANCE = new ApiHostCodec();
+
+    private ApiHostCodec() {}
+
+    @Override
+    protected Object readValueOfType(byte type, @NonNull ByteBuffer buffer) {
+      switch (type) {
+        case (byte) 128:
+          return AuthIssuerConfigDto.fromList((ArrayList<Object>) readValue(buffer));
+        case (byte) 129:
+          return WalletConfigDto.fromList((ArrayList<Object>) readValue(buffer));
+        default:
+          return super.readValueOfType(type, buffer);
+      }
+    }
+
+    @Override
+    protected void writeValue(@NonNull ByteArrayOutputStream stream, Object value) {
+      if (value instanceof AuthIssuerConfigDto) {
+        stream.write(128);
+        writeValue(stream, ((AuthIssuerConfigDto) value).toList());
+      } else if (value instanceof WalletConfigDto) {
+        stream.write(129);
+        writeValue(stream, ((WalletConfigDto) value).toList());
+      } else {
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
   /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
   public interface ApiHost {
 
@@ -1423,9 +1759,11 @@ public class Api {
 
     void close(@NonNull Long id);
 
+    void createScenario(@NonNull Long id, @NonNull WalletConfigDto walletConfig, @NonNull AuthIssuerConfigDto authIssuerConfig, Result<byte[]> result);
+
     /** The codec used by ApiHost. */
     static MessageCodec<Object> getCodec() {
-      return new StandardMessageCodec();
+      return ApiHostCodec.INSTANCE;
     }
     /**Sets up an instance of `ApiHost` to handle messages through the `binaryMessenger`. */
     static void setup(BinaryMessenger binaryMessenger, ApiHost api) {
@@ -1478,6 +1816,52 @@ public class Api {
                   wrapped = wrappedError;
                 }
                 reply.reply(wrapped);
+              });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(
+                binaryMessenger, "dev.flutter.pigeon.ApiHost.createScenario", getCodec());
+        if (api != null) {
+          channel.setMessageHandler(
+              (message, reply) -> {
+                ArrayList<Object> wrapped = new ArrayList<Object>();
+                try {
+                  ArrayList<Object> args = (ArrayList<Object>) message;
+                  assert args != null;
+                  Number idArg = (Number) args.get(0);
+                  if (idArg == null) {
+                    throw new NullPointerException("idArg unexpectedly null.");
+                  }
+                  WalletConfigDto walletConfigArg = (WalletConfigDto) args.get(1);
+                  if (walletConfigArg == null) {
+                    throw new NullPointerException("walletConfigArg unexpectedly null.");
+                  }
+                  AuthIssuerConfigDto authIssuerConfigArg = (AuthIssuerConfigDto) args.get(2);
+                  if (authIssuerConfigArg == null) {
+                    throw new NullPointerException("authIssuerConfigArg unexpectedly null.");
+                  }
+                  Result<byte[]> resultCallback = 
+                      new Result<byte[]>() {
+                        public void success(byte[] result) {
+                          wrapped.add(0, result);
+                          reply.reply(wrapped);
+                        }
+
+                        public void error(Throwable error) {
+                          ArrayList<Object> wrappedError = wrapError(error);
+                          reply.reply(wrappedError);
+                        }
+                      };
+
+                  api.createScenario((idArg == null) ? null : idArg.longValue(), walletConfigArg, authIssuerConfigArg, resultCallback);
+                } catch (Error | RuntimeException exception) {
+                  ArrayList<Object> wrappedError = wrapError(exception);
+                  reply.reply(wrappedError);
+                }
               });
         } else {
           channel.setMessageHandler(null);

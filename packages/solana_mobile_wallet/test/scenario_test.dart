@@ -142,11 +142,11 @@ Future<void> main() async {
   test('Scenario ready', () async {
     final id = createAndRegisterScenario();
 
-    when(callbacks.onScenarioReady()).thenAnswer((_) {});
+    when(callbacks.onScenarioReady(any)).thenAnswer((_) {});
 
     Api.instance.onScenarioReady(id);
 
-    verify(callbacks.onScenarioReady()).called(1);
+    verify(callbacks.onScenarioReady(any)).called(1);
     verifyNoMoreInteractions(callbacks);
   });
 

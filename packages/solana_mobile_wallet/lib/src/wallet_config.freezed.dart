@@ -14,11 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-MobileWalletAdapterConfig _$MobileWalletAdapterConfigFromJson(
-    Map<String, dynamic> json) {
-  return _MobileWalletAdapterConfig.fromJson(json);
-}
-
 /// @nodoc
 mixin _$MobileWalletAdapterConfig {
   bool get supportsSignAndSendTransactions =>
@@ -30,7 +25,6 @@ mixin _$MobileWalletAdapterConfig {
       throw _privateConstructorUsedError;
   Duration get noConnectionWarningTimeout => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $MobileWalletAdapterConfigCopyWith<MobileWalletAdapterConfig> get copyWith =>
       throw _privateConstructorUsedError;
@@ -157,7 +151,7 @@ class __$$_MobileWalletAdapterConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   const _$_MobileWalletAdapterConfig(
       {required this.supportsSignAndSendTransactions,
@@ -166,9 +160,6 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
       required final List<Object> supportedTransactionVersions,
       this.noConnectionWarningTimeout = const Duration(seconds: 3)})
       : _supportedTransactionVersions = supportedTransactionVersions;
-
-  factory _$_MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =>
-      _$$_MobileWalletAdapterConfigFromJson(json);
 
   @override
   final bool supportsSignAndSendTransactions;
@@ -220,7 +211,6 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
                     noConnectionWarningTimeout));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -236,13 +226,6 @@ class _$_MobileWalletAdapterConfig implements _MobileWalletAdapterConfig {
   _$$_MobileWalletAdapterConfigCopyWith<_$_MobileWalletAdapterConfig>
       get copyWith => __$$_MobileWalletAdapterConfigCopyWithImpl<
           _$_MobileWalletAdapterConfig>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_MobileWalletAdapterConfigToJson(
-      this,
-    );
-  }
 }
 
 abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
@@ -253,9 +236,6 @@ abstract class _MobileWalletAdapterConfig implements MobileWalletAdapterConfig {
           required final List<Object> supportedTransactionVersions,
           final Duration noConnectionWarningTimeout}) =
       _$_MobileWalletAdapterConfig;
-
-  factory _MobileWalletAdapterConfig.fromJson(Map<String, dynamic> json) =
-      _$_MobileWalletAdapterConfig.fromJson;
 
   @override
   bool get supportsSignAndSendTransactions;

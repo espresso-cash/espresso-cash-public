@@ -379,6 +379,89 @@ class DeauthorizeEventDto {
   }
 }
 
+class WalletConfigDto {
+  WalletConfigDto({
+    required this.supportsSignAndSendTransactions,
+    required this.maxTransactionsPerSigningRequest,
+    required this.maxMessagesPerSigningRequest,
+    required this.supportedTransactionVersions,
+    required this.noConnectionWarningTimeoutInMs,
+  });
+
+  bool supportsSignAndSendTransactions;
+
+  int maxTransactionsPerSigningRequest;
+
+  int maxMessagesPerSigningRequest;
+
+  List<String?> supportedTransactionVersions;
+
+  int noConnectionWarningTimeoutInMs;
+
+  Object encode() {
+    return <Object?>[
+      supportsSignAndSendTransactions,
+      maxTransactionsPerSigningRequest,
+      maxMessagesPerSigningRequest,
+      supportedTransactionVersions,
+      noConnectionWarningTimeoutInMs,
+    ];
+  }
+
+  static WalletConfigDto decode(Object result) {
+    result as List<Object?>;
+    return WalletConfigDto(
+      supportsSignAndSendTransactions: result[0]! as bool,
+      maxTransactionsPerSigningRequest: result[1]! as int,
+      maxMessagesPerSigningRequest: result[2]! as int,
+      supportedTransactionVersions:
+          (result[3] as List<Object?>?)!.cast<String?>(),
+      noConnectionWarningTimeoutInMs: result[4]! as int,
+    );
+  }
+}
+
+class AuthIssuerConfigDto {
+  AuthIssuerConfigDto({
+    required this.name,
+    required this.maxOutstandingTokensPerIdentility,
+    required this.authorizationValidityInMs,
+    required this.reauthorizationValidityInMs,
+    required this.reauthorizationNopDurationInMs,
+  });
+
+  String name;
+
+  int maxOutstandingTokensPerIdentility;
+
+  int authorizationValidityInMs;
+
+  int reauthorizationValidityInMs;
+
+  int reauthorizationNopDurationInMs;
+
+  Object encode() {
+    return <Object?>[
+      name,
+      maxOutstandingTokensPerIdentility,
+      authorizationValidityInMs,
+      reauthorizationValidityInMs,
+      reauthorizationNopDurationInMs,
+    ];
+  }
+
+  static AuthIssuerConfigDto decode(Object result) {
+    result as List<Object?>;
+    return AuthIssuerConfigDto(
+      name: result[0]! as String,
+      maxOutstandingTokensPerIdentility: result[1]! as int,
+      authorizationValidityInMs: result[2]! as int,
+      reauthorizationValidityInMs: result[3]! as int,
+      reauthorizationNopDurationInMs: result[4]! as int,
+    );
+  }
+}
+
 class _ApiFlutterCodec extends StandardMessageCodec {
   const _ApiFlutterCodec();
   @override
@@ -473,6 +556,8 @@ abstract class ApiFlutter {
       SignAndSendTransactionsRequestDto request, int id);
 
   Future<void> deauthorize(DeauthorizeEventDto event, int id);
+
+  void onNewIntent(bool isInitialIntent);
 
   static void setup(ApiFlutter? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -750,6 +835,53 @@ abstract class ApiFlutter {
         });
       }
     }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.ApiFlutter.onNewIntent', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final bool? arg_isInitialIntent = (args[0] as bool?);
+          assert(arg_isInitialIntent != null,
+              'Argument for dev.flutter.pigeon.ApiFlutter.onNewIntent was null, expected non-null bool.');
+          api.onNewIntent(arg_isInitialIntent!);
+          return;
+        });
+      }
+    }
+  }
+}
+
+class _ApiHostCodec extends StandardMessageCodec {
+  const _ApiHostCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is AuthIssuerConfigDto) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else if (value is WalletConfigDto) {
+      buffer.putUint8(129);
+      writeValue(buffer, value.encode());
+    } else {
+      super.writeValue(buffer, value);
+    }
+  }
+
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128:
+        return AuthIssuerConfigDto.decode(readValue(buffer)!);
+      case 129:
+        return WalletConfigDto.decode(readValue(buffer)!);
+      default:
+        return super.readValueOfType(type, buffer);
+    }
   }
 }
 
@@ -761,7 +893,7 @@ class ApiHost {
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = StandardMessageCodec();
+  static const MessageCodec<Object?> codec = _ApiHostCodec();
 
   Future<void> start(int arg_id) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -804,6 +936,32 @@ class ApiHost {
       );
     } else {
       return;
+    }
+  }
+
+  Future<Uint8List?> createScenario(
+      int arg_id,
+      WalletConfigDto arg_walletConfig,
+      AuthIssuerConfigDto arg_authIssuerConfig) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.ApiHost.createScenario', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList = await channel
+            .send(<Object?>[arg_id, arg_walletConfig, arg_authIssuerConfig])
+        as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return (replyList[0] as Uint8List?);
     }
   }
 }
