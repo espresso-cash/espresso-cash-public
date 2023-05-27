@@ -155,7 +155,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Activate utils
         run: make activate_utils
