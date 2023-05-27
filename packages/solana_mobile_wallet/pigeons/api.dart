@@ -252,6 +252,38 @@ class DeauthorizeEventDto implements BaseVerifiableIdentityRequestDto {
   final Uint8List authorizationScope;
 }
 
+class WalletConfigDto {
+  WalletConfigDto({
+    required this.supportsSignAndSendTransactions,
+    required this.maxTransactionsPerSigningRequest,
+    required this.maxMessagesPerSigningRequest,
+    required this.supportedTransactionVersions,
+    required this.noConnectionWarningTimeoutInMs,
+  });
+
+  final bool supportsSignAndSendTransactions;
+  final int maxTransactionsPerSigningRequest;
+  final int maxMessagesPerSigningRequest;
+  final List<String?> supportedTransactionVersions;
+  final int noConnectionWarningTimeoutInMs;
+}
+
+class AuthIssuerConfigDto {
+  AuthIssuerConfigDto({
+    required this.name,
+    required this.authorizationValidityInMs,
+    required this.maxOutstandingTokensPerIdentility,
+    required this.reauthorizationNopDurationInMs,
+    required this.reauthorizationValidityInMs,
+  });
+
+  final String name;
+  final int maxOutstandingTokensPerIdentility;
+  final int authorizationValidityInMs;
+  final int reauthorizationValidityInMs;
+  final int reauthorizationNopDurationInMs;
+}
+
 @FlutterApi()
 abstract class ApiFlutter {
   void onScenarioReady(int id);
@@ -291,10 +323,19 @@ abstract class ApiFlutter {
     DeauthorizeEventDto event,
     int id,
   );
+
+  void onNewIntent(bool isInitialIntent);
 }
 
 @HostApi()
 abstract class ApiHost {
   void start(int id);
   void close(int id);
+
+  @async
+  Uint8List? createScenario(
+    int id,
+    WalletConfigDto walletConfig,
+    AuthIssuerConfigDto authIssuerConfig,
+  );
 }
