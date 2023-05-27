@@ -213,10 +213,10 @@ packages:
     dependency: transitive
     description:
       name: dart_code_metrics
-      sha256: d44c456bc26d5d9e2479eeaa4f18cbbbee626b3055a66c58ab252103d2c3c6fc
+      sha256: "873890861a3d7e06fd5a6cd17d802e215ee1301dfb7cbcc7aeab9576e69330d0"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "5.7.2"
   dart_code_metrics_presets:
     dependency: transitive
     description:
@@ -443,10 +443,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mews_pedantic
-      sha256: "770570f085580765cc683d1949da31f0c0a6b30692db8d7fa8301b9186b3e7a1"
+      sha256: "76d0d4e003819073f5c9b0d20de6cb9651d99e24ade8b0ae8bc6e1334c4b1181"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.0"
+    version: "0.14.0"
   mime:
     dependency: transitive
     description:
