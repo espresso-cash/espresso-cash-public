@@ -6,8 +6,7 @@ import '../../di.dart';
 import 'bl/balances_bloc.dart';
 
 class BalancesModule extends SingleChildStatelessWidget {
-  const BalancesModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const BalancesModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(

@@ -4,7 +4,7 @@ import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.da
 import 'package:path_provider/path_provider.dart';
 
 class CoingeckoClient {
-  CoingeckoClient._(this.dio, this.options);
+  const CoingeckoClient._(this.dio, this.options);
 
   final Dio dio;
   final CacheOptions options;

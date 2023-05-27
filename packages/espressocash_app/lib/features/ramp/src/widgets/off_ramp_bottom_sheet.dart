@@ -5,7 +5,7 @@ import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 
 class OffRampBottomSheet extends StatelessWidget {
-  const OffRampBottomSheet({Key? key}) : super(key: key);
+  const OffRampBottomSheet({super.key});
 
   static Future<void> show(BuildContext context) => showModalBottomSheet(
         context: context,

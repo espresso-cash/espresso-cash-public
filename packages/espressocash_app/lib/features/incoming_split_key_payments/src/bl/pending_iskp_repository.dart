@@ -7,6 +7,8 @@ import '../../../../core/split_key_payments.dart';
 
 @injectable
 class PendingISKPRepository {
+  const PendingISKPRepository();
+
   Future<SplitKeyFirstLink?> load() async {
     final data = await SharedPreferences.getInstance()
         .then((value) => value.getString(_key));

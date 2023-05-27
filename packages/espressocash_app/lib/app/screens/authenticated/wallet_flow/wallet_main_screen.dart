@@ -55,8 +55,12 @@ class _ScreenState extends State<WalletMainScreen> {
 
   @override
   void dispose() {
-    _amountController.removeListener(_updateValue);
-    _tabController?.removeListener(_handleTabUpdate);
+    _amountController
+      ..removeListener(_updateValue)
+      ..dispose();
+    _tabController
+      ?..removeListener(_handleTabUpdate)
+      ..dispose();
     super.dispose();
   }
 
@@ -154,10 +158,7 @@ class _ScreenState extends State<WalletMainScreen> {
 }
 
 class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _QrScannerAppBar({
-    Key? key,
-    required this.onQrScanner,
-  }) : super(key: key);
+  const _QrScannerAppBar({required this.onQrScanner});
 
   final VoidCallback onQrScanner;
 

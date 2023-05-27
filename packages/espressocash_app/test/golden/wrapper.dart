@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
-  const Wrapper({Key? key, required this.child}) : super(key: key);
+  const Wrapper({super.key, required this.child});
 
   final Widget child;
 
@@ -12,7 +12,6 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.light(
         child: Builder(
           builder: (context) => MaterialApp(
-            useInheritedMediaQuery: true,
             theme: context.watch<CpThemeData>().toMaterialTheme(),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

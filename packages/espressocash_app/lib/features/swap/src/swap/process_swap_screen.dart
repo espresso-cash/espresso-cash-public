@@ -16,9 +16,9 @@ import 'swap_repository.dart';
 
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
 

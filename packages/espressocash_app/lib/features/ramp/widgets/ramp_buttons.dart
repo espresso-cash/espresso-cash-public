@@ -12,9 +12,9 @@ import '../src/widgets/off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
-    Key? key,
+    super.key,
     this.size = CpButtonSize.normal,
-  }) : super(key: key);
+  });
 
   final CpButtonSize size;
 
@@ -42,9 +42,9 @@ class AddCashButton extends StatelessWidget {
 
 class CashOutButton extends StatelessWidget {
   const CashOutButton({
-    Key? key,
+    super.key,
     this.size = CpButtonSize.normal,
-  }) : super(key: key);
+  });
 
   final CpButtonSize size;
 

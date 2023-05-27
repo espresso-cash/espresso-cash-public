@@ -18,7 +18,7 @@ import 'iskp_repository.dart';
 
 @injectable
 class ISKPService {
-  ISKPService(this._client, this._repository);
+  const ISKPService(this._client, this._repository);
 
   final CryptopleaseClient _client;
   final ISKPRepository _repository;

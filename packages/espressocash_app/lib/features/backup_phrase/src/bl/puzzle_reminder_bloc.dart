@@ -36,11 +36,11 @@ class PuzzleReminderBloc
     final content = _sharedPreferences.getString(_spKey);
     if (content == null) {
       return const PuzzleReminderData.unset();
-    } else {
-      return PuzzleReminderData.fromJson(
-        json.decode(content) as Map<String, dynamic>,
-      );
     }
+
+    return PuzzleReminderData.fromJson(
+      json.decode(content) as Map<String, dynamic>,
+    );
   }
 
   Future<void> _writeSharedPreferences(PuzzleReminderData data) =>

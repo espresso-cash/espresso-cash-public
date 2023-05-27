@@ -3,6 +3,8 @@ import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 abstract class ECWallet {
+  const ECWallet();
+
   String get address;
 
   Ed25519HDPublicKey get publicKey;
@@ -11,7 +13,7 @@ abstract class ECWallet {
 }
 
 class LocalWallet implements ECWallet {
-  LocalWallet(this.keyPair);
+  const LocalWallet(this.keyPair);
 
   final Ed25519HDKeyPair keyPair;
 
@@ -27,7 +29,7 @@ class LocalWallet implements ECWallet {
 }
 
 class SagaWallet implements ECWallet {
-  SagaWallet(this.account, this.token);
+  const SagaWallet(this.account, this.token);
 
   final Account account;
   final AuthToken token;

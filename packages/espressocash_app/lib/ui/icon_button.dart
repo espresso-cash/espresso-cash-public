@@ -20,12 +20,12 @@ enum CpIconButtonSize {
 
 class CpIconButton extends StatelessWidget {
   const CpIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.onPressed,
     this.variant = CpIconButtonVariant.grey,
     this.size = CpIconButtonSize.normal,
-  }) : super(key: key);
+  });
 
   final SvgPicture icon;
   final VoidCallback onPressed;

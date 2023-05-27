@@ -91,24 +91,15 @@ class _SolanaToken extends Token {
 
 class SplToken extends Token {
   const SplToken({
-    required int chainId,
-    required String address,
-    required String symbol,
-    required String name,
-    required int decimals,
-    String? logoURI,
-    required List<String> tags,
-    Extensions? extensions,
-  }) : super(
-          chainId: chainId,
-          address: address,
-          symbol: symbol,
-          name: name,
-          decimals: decimals,
-          logoURI: logoURI,
-          tags: tags,
-          extensions: extensions,
-        );
+    required super.chainId,
+    required super.address,
+    required super.symbol,
+    required super.name,
+    required super.decimals,
+    super.logoURI,
+    required List<String> super.tags,
+    super.extensions,
+  });
 }
 
 class _WrappedSolanaToken extends SplToken {

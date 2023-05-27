@@ -5,13 +5,13 @@ import 'switch.dart';
 
 class ProfileSwitch extends StatelessWidget {
   const ProfileSwitch({
-    Key? key,
+    super.key,
     required this.label,
     this.color = CpColors.primaryTextColor,
     required this.value,
     required this.onChanged,
     required this.subtitle,
-  }) : super(key: key);
+  });
 
   final String label;
   final String subtitle;

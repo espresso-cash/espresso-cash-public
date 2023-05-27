@@ -5,6 +5,9 @@ linter:
     - prefer_relative_imports
 
 analyzer:
+  plugins:
+    - dart_code_metrics
+
   exclude:
     - "**/*.mocks.dart"
     - "**/*.gr.dart"

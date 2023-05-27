@@ -1,7 +1,7 @@
 part of 'profile_section.dart';
 
 class EditProfileSection extends StatelessWidget {
-  const EditProfileSection({Key? key}) : super(key: key);
+  const EditProfileSection({super.key});
 
   @override
   Widget build(BuildContext context) => ProfileSection(

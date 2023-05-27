@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 
 class CpSwitch extends StatelessWidget {
   const CpSwitch({
-    Key? key,
+    super.key,
     required this.value,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final bool value;
-  final void Function(bool) onChanged;
+  final ValueSetter<bool> onChanged;
 
   @override
   Widget build(BuildContext context) => CupertinoSwitch(

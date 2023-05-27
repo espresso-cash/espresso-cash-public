@@ -16,7 +16,7 @@ class DiscoverHeader extends StatelessWidget {
 
   final bool showTitle;
   final CryptoCategories? selected;
-  final void Function(CryptoCategories) onTap;
+  final ValueSetter<CryptoCategories> onTap;
 
   @override
   Widget build(BuildContext context) {

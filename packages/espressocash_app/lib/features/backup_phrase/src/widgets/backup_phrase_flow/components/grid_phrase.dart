@@ -6,10 +6,10 @@ import '../../../../../../ui/button.dart';
 
 class GridPhrase extends StatefulWidget {
   const GridPhrase({
-    Key? key,
+    super.key,
     required this.callback,
     required this.correctPhrase,
-  }) : super(key: key);
+  });
 
   final ValueSetter<String> callback;
   final String correctPhrase;
