@@ -35,12 +35,10 @@ class MemoInstruction extends Instruction {
   }
 
   MemoInstruction._({
-    required List<AccountMeta> accounts,
-    required ByteArray data,
+    required super.accounts,
+    required super.data,
   }) : super(
           programId: MemoProgram.id,
-          accounts: accounts,
-          data: data,
         );
 
   static AccountMeta _addressToAccount(Ed25519HDPublicKey address) =>

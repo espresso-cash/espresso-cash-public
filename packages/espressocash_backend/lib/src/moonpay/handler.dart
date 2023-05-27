@@ -50,8 +50,8 @@ extension on String {
   String toMoonpaySymbol() {
     if (toLowerCase() == 'usdc') {
       return 'usdc_sol';
-    } else {
-      return this;
     }
+
+    return this;
   }
 }

@@ -1,1 +1,3 @@
-class ProgramFilter {}
+class ProgramFilter {
+  const ProgramFilter();
+}

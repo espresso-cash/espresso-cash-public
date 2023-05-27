@@ -57,6 +57,7 @@ class CreateSwap {
       ),
       _repository.getUsdcPrice(),
     ]);
+    // ignore: cast_nullable_to_non_nullable, required info
     final route = responses.first as RouteInfo;
     final price = responses.last as double?;
 
@@ -236,16 +237,16 @@ extension on Message {
             data: ix.data,
           ),
         ];
-      } else {
-        return [
-          ix,
-          SystemInstruction.transfer(
-            fundingAccount: sender,
-            lamports: tokenProgramRent,
-            recipientAccount: platform,
-          ),
-        ];
       }
+
+      return [
+        ix,
+        SystemInstruction.transfer(
+          fundingAccount: sender,
+          lamports: tokenProgramRent,
+          recipientAccount: platform,
+        ),
+      ];
     }).toList();
 
     return Message(instructions: instructions);

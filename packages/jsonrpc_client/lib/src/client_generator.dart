@@ -7,6 +7,8 @@ import 'package:solana/src/rpc/rpc_client_annotation.dart';
 import 'package:source_gen/source_gen.dart';
 
 class ClientGenerator extends GeneratorForAnnotation<SolanaRpcClient> {
+  const ClientGenerator();
+
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -54,9 +56,9 @@ class ${name}Config {
     final params = method.parameters.where((p) => p.isPositional).map((p) {
       if (p.type.isNullableType) {
         return 'if (${p.name} != null) ${p.toJson()}';
-      } else {
-        return p.toJson();
       }
+
+      return p.toJson();
     }).toList();
     final isWithContext = const TypeChecker.fromRuntime(WithContextResult)
         .hasAnnotationOf(method);
@@ -138,12 +140,12 @@ extension on DartType {
     final typeArguments = parameterizedType.typeArguments;
     if (typeArguments.isEmpty) {
       return ['$data as Map<String, dynamic>'];
-    } else {
-      return [
-        '$data as Map<String, dynamic>',
-        '(json) => ${typeArguments.first.fromJson('json')}',
-      ];
     }
+
+    return [
+      '$data as Map<String, dynamic>',
+      '(json) => ${typeArguments.first.fromJson('json')}',
+    ];
   }
 
   String _parameterizedTypeFromJson(
@@ -158,22 +160,22 @@ extension on DartType {
       return _listFromJson(data);
     } else if (isDartCoreMap) {
       return _mapFromJson(data);
-    } else {
-      final parameters =
-          _parameterizedTypeFromJsonParameters(parameterizedType, data);
-
-      return '$_nullCheck$typeName.fromJson(${parameters.join(', ')})';
     }
+
+    final parameters =
+        _parameterizedTypeFromJsonParameters(parameterizedType, data);
+
+    return '$_nullCheck$typeName.fromJson(${parameters.join(', ')})';
   }
 
   String fromJson(String data) {
     if (this is ParameterizedType) {
       return _parameterizedTypeFromJson(this as ParameterizedType, data);
-    } else {
-      final typeName = getDisplayString(withNullability: false);
-
-      return '$_nullCheck$data as $typeName';
     }
+
+    final typeName = getDisplayString(withNullability: false);
+
+    return '$_nullCheck$data as $typeName';
   }
 
   String get _nullCheck => isNullableType ? '(value == null) ? null : ' : '';
@@ -215,8 +217,8 @@ extension on ParameterElement {
       return '$name.value';
     } else if (!type.isDartCoreList) {
       return '$name${type.nullSuffix}.toJson()';
-    } else {
-      return '$name${type.nullSuffix}';
     }
+
+    return '$name${type.nullSuffix}';
   }
 }

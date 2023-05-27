@@ -22,13 +22,13 @@ extension AccountMetaListExt on List<AccountMeta> {
         final index = list.indexOfPubKey(item.pubKey);
         if (index == -1) {
           return [...list, item];
-        } else {
-          // Keep then one of the two that is either a signer or
-          // a writeable account
-          list[index] = item.mergeWith(list[index]);
-
-          return list;
         }
+
+        // Keep then one of the two that is either a signer or
+        // a writeable account
+        list[index] = item.mergeWith(list[index]);
+
+        return list;
       });
 
   /// Find an account with a matching [pubKey].

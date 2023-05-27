@@ -10,7 +10,7 @@ abstract class MasterEdition with _$MasterEdition {
     @BOption(BU64()) BigInt? maxSupply,
   }) = _MasterEdition;
 
-  MasterEdition._();
+  const MasterEdition._();
 
   factory MasterEdition.fromBorsh(Uint8List data) =>
       _$MasterEditionFromBorsh(data);

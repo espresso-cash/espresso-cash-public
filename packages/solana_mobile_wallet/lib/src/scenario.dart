@@ -11,7 +11,7 @@ import 'package:solana_mobile_wallet/src/requests/sign_transactions.dart';
 import 'package:solana_mobile_wallet/src/wallet_config.dart';
 
 class Scenario {
-  Scenario._({
+  const Scenario._({
     required this.associationPublicKey,
     required this.callbacks,
     required this.id,
@@ -82,6 +82,7 @@ class Scenario {
 }
 
 abstract class ScenarioCallbacks {
+  const ScenarioCallbacks();
   // Scenario state callbacks
   void onScenarioReady(Scenario scenario);
   void onScenarioServingClients();

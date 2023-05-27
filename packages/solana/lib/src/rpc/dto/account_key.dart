@@ -6,9 +6,9 @@ abstract class AccountKey {
   factory AccountKey.fromJson(dynamic json) {
     if (json is String) {
       return RawAccountKey(pubkey: json);
-    } else {
-      return ParsedAccountKey.fromJson(json as Map<String, dynamic>);
     }
+
+    return ParsedAccountKey.fromJson(json as Map<String, dynamic>);
   }
 
   abstract final String pubkey;

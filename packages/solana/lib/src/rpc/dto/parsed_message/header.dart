@@ -4,7 +4,7 @@ part 'header.g.dart';
 
 @JsonSerializable(createToJson: false)
 class Header {
-  Header({
+  const Header({
     required this.numRequiredSignatures,
     required this.numReadonlySignedAccounts,
     required this.numReadonlyUnsignedAccounts,
@@ -17,9 +17,9 @@ class Header {
         numReadonlyUnsignedAccounts: json[1] as int,
         numReadonlySignedAccounts: json[2] as int,
       );
-    } else {
-      return _$HeaderFromJson(json as Map<String, dynamic>);
     }
+
+    return _$HeaderFromJson(json as Map<String, dynamic>);
   }
 
   final int numRequiredSignatures;

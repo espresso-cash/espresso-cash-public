@@ -237,7 +237,7 @@ Future<void> main() async {
 }
 
 class ScenarioTest implements Scenario {
-  ScenarioTest({
+  const ScenarioTest({
     required this.associationPublicKey,
     required this.callbacks,
     required this.id,

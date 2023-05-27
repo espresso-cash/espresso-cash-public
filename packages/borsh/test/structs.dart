@@ -11,11 +11,11 @@ class Test1 with _$Test1 {
     @BFixedArray(3, BString()) required List<String> listOfStrings,
     @BFixedArray(3, BU8()) required List<int> listOfInts,
     @BFixedArray(3, BFixedArray(2, BU8()))
-        required List<List<int>> listOfListsOfInts,
+    required List<List<int>> listOfListsOfInts,
     @BArray(BString()) required List<String> dynamicListOfStrings,
   }) = _Test1;
 
-  Test1._();
+  const Test1._();
 
   factory Test1.fromBorsh(Uint8List data) => _$Test1FromBorsh(data);
 }
@@ -27,7 +27,7 @@ class SimpleStruct with _$SimpleStruct {
     @BU8() required int intValue,
   }) = _SimpleStruct;
 
-  SimpleStruct._();
+  const SimpleStruct._();
 
   factory SimpleStruct.fromBorsh(Uint8List data) =>
       _$SimpleStructFromBorsh(data);
@@ -40,7 +40,7 @@ class CompositeStruct with _$CompositeStruct {
     @BSimpleStruct() required SimpleStruct simpleStruct,
   }) = _CompositeStruct;
 
-  CompositeStruct._();
+  const CompositeStruct._();
 
   factory CompositeStruct.fromBorsh(Uint8List data) =>
       _$CompositeStructFromBorsh(data);
@@ -53,7 +53,7 @@ class StructWithOption with _$StructWithOption {
     @BOption(BString()) required String? option,
   }) = _StructWithOption;
 
-  StructWithOption._();
+  const StructWithOption._();
 
   factory StructWithOption.fromBorsh(Uint8List data) =>
       _$StructWithOptionFromBorsh(data);

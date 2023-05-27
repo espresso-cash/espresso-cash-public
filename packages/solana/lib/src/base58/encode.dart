@@ -17,6 +17,7 @@ String base58encode(List<int> bytes) {
     int carry = byteValue;
     int i = 0;
     for (int j = 0; j < size; j++, i++) {
+      // ignore: avoid-inverted-boolean-checks, fix later
       if (!((carry != 0) || (i < length))) break;
       carry += 256 * b58bytes[j];
       b58bytes[j] = carry % 58;

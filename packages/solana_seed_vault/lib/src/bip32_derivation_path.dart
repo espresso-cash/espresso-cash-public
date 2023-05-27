@@ -9,9 +9,9 @@ class Bip32DerivationPath {
         (it) {
           if (it.hardened) {
             return '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}';
-          } else {
-            return it.index.toString();
           }
+
+          return it.index.toString();
         },
       ),
     ];
