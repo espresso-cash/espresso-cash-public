@@ -15,9 +15,9 @@ import '../../../payment_request/widgets/payment_request_verifier.dart';
 
 class PaymentRequestTile extends StatefulWidget {
   const PaymentRequestTile({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
 

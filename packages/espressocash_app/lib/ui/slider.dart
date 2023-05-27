@@ -9,10 +9,10 @@ import 'colors.dart';
 
 class CpSlider extends StatefulWidget {
   const CpSlider({
-    Key? key,
+    super.key,
     required this.text,
     required this.onSlideCompleted,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback? onSlideCompleted;
@@ -44,6 +44,7 @@ class _CpSliderState extends State<CpSlider>
 
   @override
   void dispose() {
+    _positionNotifier.dispose();
     _reverseAnimationController
       ..removeListener(_reverseListener)
       ..removeStatusListener(_statusListener)
@@ -136,16 +137,15 @@ class _CpSliderState extends State<CpSlider>
 
 class _Background extends StatelessWidget {
   const _Background({
-    Key? key,
     required this.text,
     required this.enabled,
-  }) : super(key: key);
+  });
 
   final String text;
   final bool enabled;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => ColoredBox(
         color: CpColors.darkBackgroundColor,
         child: Padding(
           padding: const EdgeInsets.only(left: _minBarWidth / 2),
@@ -167,9 +167,8 @@ class _Background extends StatelessWidget {
 
 class _SlideBar extends StatefulWidget {
   const _SlideBar({
-    Key? key,
     required this.enabled,
-  }) : super(key: key);
+  });
 
   final bool enabled;
 

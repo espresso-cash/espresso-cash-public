@@ -10,12 +10,10 @@ import 'package:solana/src/rpc/dto/account_data/stake_program/lockup.dart';
 
 class StakeInstruction extends Instruction {
   StakeInstruction._({
-    required List<AccountMeta> accounts,
-    required ByteArray data,
+    required super.accounts,
+    required super.data,
   }) : super(
           programId: StakeProgram.id,
-          accounts: accounts,
-          data: data,
         );
 
   /// Initialize a [stake] with lockup and authorization information.

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-typedef _AnimationTransformer = double Function(double);
+typedef _AnimationTransformer = double Function(double value);
 
 class CpTimelineItem {
-  CpTimelineItem({
+  const CpTimelineItem({
     required this.title,
     this.subtitle,
     this.trailing,
@@ -153,7 +153,7 @@ class _TileInfo extends StatelessWidget {
     final subtitle = tile.subtitle;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      padding: const EdgeInsets.all(16),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -176,12 +176,11 @@ class _TileInfo extends StatelessWidget {
 
 class _IndicatorBackground extends StatelessWidget {
   const _IndicatorBackground({
-    Key? key,
     required this.child,
     required this.isFirst,
     required this.backgroundColor,
     required this.isLast,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool isFirst;
@@ -214,10 +213,9 @@ class _IndicatorBackground extends StatelessWidget {
 
 class _ConnectorBackground extends StatelessWidget {
   const _ConnectorBackground({
-    Key? key,
     required this.backgroundColor,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Color backgroundColor;
   final Widget child;
@@ -233,12 +231,11 @@ class _ConnectorBackground extends StatelessWidget {
 
 class _Animation extends StatelessWidget {
   const _Animation({
-    Key? key,
     required this.transformer,
     required this.controller,
     required this.center,
     required this.child,
-  }) : super(key: key);
+  });
 
   final AnimationController controller;
   final _AnimationTransformer? transformer;
@@ -284,7 +281,7 @@ extension on CpTimelineStatus {
     }
   }
 
-  Widget? get icon {
+  Widget get icon {
     switch (this) {
       case CpTimelineStatus.failure:
         return const Icon(

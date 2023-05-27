@@ -16,7 +16,7 @@ class CreateSwapState with _$CreateSwapState {
     SwapRoute? bestRoute,
     DateTime? expiresAt,
     @Default(Flow<CreateSwapException, SwapRoute>.initial())
-        Flow<CreateSwapException, SwapRoute> flowState,
+    Flow<CreateSwapException, SwapRoute> flowState,
   }) = Initialized;
 }
 

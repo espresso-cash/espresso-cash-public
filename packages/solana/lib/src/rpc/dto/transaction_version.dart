@@ -7,9 +7,9 @@ abstract class TransactionVersion {
   factory TransactionVersion.fromJson(dynamic value) {
     if (value is String) {
       return LegacyTransactionVersion();
-    } else {
-      return VersionedTransactionVersion(value as num);
     }
+
+    return VersionedTransactionVersion(value as num);
   }
 
   abstract final num? version;

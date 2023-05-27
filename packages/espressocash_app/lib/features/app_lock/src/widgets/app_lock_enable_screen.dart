@@ -8,7 +8,7 @@ import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockEnableScreen extends StatefulWidget {
-  const AppLockEnableScreen({Key? key}) : super(key: key);
+  const AppLockEnableScreen({super.key});
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();

@@ -31,7 +31,7 @@ class CancelTxSentWatcher extends PaymentWatcher {
 }
 
 class _OSKPCancelTxSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
-  _OSKPCancelTxSentJob(this.payment, this.sender);
+  const _OSKPCancelTxSentJob(this.payment, this.sender);
 
   final OutgoingSplitKeyPayment payment;
   final TxSender sender;

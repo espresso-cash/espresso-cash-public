@@ -18,13 +18,13 @@ import 'shake.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({
-    Key? key,
+    super.key,
     required this.inputController,
     required this.collapsed,
     required this.token,
     this.shakeKey,
     this.error = '',
-  }) : super(key: key);
+  });
 
   final TextEditingController inputController;
   final Token token;
@@ -71,11 +71,10 @@ class AmountWithEquivalent extends StatelessWidget {
 
 class _EquivalentDisplay extends StatelessWidget {
   const _EquivalentDisplay({
-    Key? key,
     required this.input,
     required this.token,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final String input;
   final Token token;
@@ -155,10 +154,9 @@ class _DisplayChip extends StatelessWidget {
 
 class _InputDisplay extends StatelessWidget {
   const _InputDisplay({
-    Key? key,
     required this.input,
     required this.fontSize,
-  }) : super(key: key);
+  });
 
   final String input;
   final double fontSize;

@@ -4,7 +4,7 @@ part 'exception.g.dart';
 
 @JsonSerializable()
 class EspressoCashException implements Exception {
-  EspressoCashException({required this.error});
+  const EspressoCashException({required this.error});
 
   factory EspressoCashException.fromJson(Map<String, dynamic> json) =>
       _$EspressoCashExceptionFromJson(json);

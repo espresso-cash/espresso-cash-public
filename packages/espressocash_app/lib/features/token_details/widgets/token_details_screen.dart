@@ -201,7 +201,7 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final price = _selected?.price.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
       locale: DeviceLocale.localeOf(context),
@@ -236,14 +236,14 @@ class __ChartState extends State<_Chart> {
 }
 
 class _RampButtons extends StatelessWidget {
-  const _RampButtons({Key? key}) : super(key: key);
+  const _RampButtons();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+  Widget build(BuildContext context) => const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
+          children: [
             AddCashButton(),
             SizedBox(width: 24),
             CashOutButton(),
@@ -254,9 +254,8 @@ class _RampButtons extends StatelessWidget {
 
 class _NoGlowList extends StatelessWidget {
   const _NoGlowList({
-    Key? key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 

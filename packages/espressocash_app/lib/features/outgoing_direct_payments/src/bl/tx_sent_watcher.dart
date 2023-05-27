@@ -31,7 +31,7 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _ODPTxSentJob extends CancelableJob<OutgoingDirectPayment> {
-  _ODPTxSentJob(this.payment, this.sender);
+  const _ODPTxSentJob(this.payment, this.sender);
 
   final OutgoingDirectPayment payment;
   final TxSender sender;

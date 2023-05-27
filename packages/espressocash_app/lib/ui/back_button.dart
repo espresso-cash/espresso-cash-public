@@ -5,10 +5,10 @@ import 'icon_button.dart';
 
 class CpBackButton extends StatelessWidget {
   const CpBackButton({
-    Key? key,
+    super.key,
     this.onPressed,
     this.ensureBackNavigation = false,
-  }) : super(key: key);
+  });
 
   final bool ensureBackNavigation;
   final VoidCallback? onPressed;

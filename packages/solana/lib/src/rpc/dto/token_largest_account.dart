@@ -5,7 +5,7 @@ part 'token_largest_account.g.dart';
 
 @JsonSerializable(createToJson: false)
 class TokenLargestAccount {
-  TokenLargestAccount({
+  const TokenLargestAccount({
     required this.address,
     required this.amount,
     required this.decimals,
@@ -24,7 +24,10 @@ class TokenLargestAccount {
 @JsonSerializable(createToJson: false)
 class TokenLargestAccountsResult
     extends ContextResult<List<TokenLargestAccount>> {
-  TokenLargestAccountsResult({required super.context, required super.value});
+  const TokenLargestAccountsResult({
+    required super.context,
+    required super.value,
+  });
 
   factory TokenLargestAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$TokenLargestAccountsResultFromJson(json);

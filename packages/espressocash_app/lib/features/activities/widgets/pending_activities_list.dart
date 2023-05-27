@@ -12,9 +12,9 @@ import '../src/widgets/swap_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
-    Key? key,
+    super.key,
     this.padding,
-  }) : super(key: key);
+  });
 
   final EdgeInsetsGeometry? padding;
 

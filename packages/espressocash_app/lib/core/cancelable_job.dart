@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 abstract class CancelableJob<T extends Object> {
+  const CancelableJob();
+
   @protected
   Future<T?> process();
 
@@ -17,7 +19,7 @@ abstract class CancelableJob<T extends Object> {
         ..setMeasurement(
           'backoff',
           backoff.inSeconds,
-          unit: SentryMeasurementUnit.second,
+          unit: DurationSentryMeasurementUnit.second,
         )
         ..setData('backoff', backoff.inSeconds);
       await transaction.finish();

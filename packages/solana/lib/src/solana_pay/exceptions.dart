@@ -4,7 +4,7 @@ class CreateTransactionException implements Exception {
   final String message;
 
   @override
-  String toString() => '$runtimeType($message)';
+  String toString() => '$CreateTransactionException($message)';
 }
 
 class ParseUrlException implements Exception {
@@ -13,7 +13,7 @@ class ParseUrlException implements Exception {
   final String message;
 
   @override
-  String toString() => '$runtimeType($message)';
+  String toString() => '$ParseUrlException($message)';
 }
 
 class ValidateTransactionException implements Exception {
@@ -22,5 +22,5 @@ class ValidateTransactionException implements Exception {
   final String message;
 
   @override
-  String toString() => '$runtimeType($message)';
+  String toString() => '$ValidateTransactionException($message)';
 }

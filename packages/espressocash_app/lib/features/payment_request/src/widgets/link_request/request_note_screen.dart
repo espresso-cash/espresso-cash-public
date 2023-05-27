@@ -16,11 +16,13 @@ import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
 
 abstract class NoteSetter {
+  const NoteSetter();
+
   void onNoteSubmitted(String name);
 }
 
 class RequestNoteScreen extends StatefulWidget {
-  const RequestNoteScreen({Key? key, required this.amount}) : super(key: key);
+  const RequestNoteScreen({super.key, required this.amount});
 
   final Amount amount;
 
@@ -30,6 +32,12 @@ class RequestNoteScreen extends StatefulWidget {
 
 class _RequestNoteScreenState extends State<RequestNoteScreen> {
   final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -78,9 +86,8 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
 
 class _BottomButton extends StatelessWidget {
   const _BottomButton({
-    Key? key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final TextEditingController controller;
 

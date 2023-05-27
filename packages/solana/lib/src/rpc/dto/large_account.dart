@@ -23,7 +23,7 @@ class LargeAccount {
 
 @JsonSerializable(createToJson: false)
 class LargeAccountsResult extends ContextResult<List<LargeAccount>> {
-  LargeAccountsResult({required super.context, required super.value});
+  const LargeAccountsResult({required super.context, required super.value});
 
   factory LargeAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$LargeAccountsResultFromJson(json);

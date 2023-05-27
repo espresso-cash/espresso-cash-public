@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'models/notification.dart';
 
 typedef NotificationHanlder = FutureOr<Object?> Function(
-  MobileWalletNotification,
+  MobileWalletNotification notification,
 );
 
 @lazySingleton

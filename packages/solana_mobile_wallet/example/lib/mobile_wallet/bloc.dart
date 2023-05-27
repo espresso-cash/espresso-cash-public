@@ -11,6 +11,7 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 part 'bloc.freezed.dart';
 part 'state.dart';
 
+// ignore: avoid-cubits, just an example
 class MobileWalletBloc extends Cubit<MobileWalletState>
     implements ScenarioCallbacks {
   MobileWalletBloc(this._keyPair) : super(const MobileWalletState.none()) {

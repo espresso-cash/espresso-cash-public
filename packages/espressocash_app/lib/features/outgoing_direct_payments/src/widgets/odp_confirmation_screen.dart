@@ -19,13 +19,13 @@ import '../../../../ui/theme.dart';
 
 class ODPConfirmationScreen extends StatefulWidget {
   const ODPConfirmationScreen({
-    Key? key,
+    super.key,
     required this.initialAmount,
     required this.recipient,
     required this.label,
     required this.token,
     this.isEnabled = true,
-  }) : super(key: key);
+  });
 
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
@@ -58,6 +58,12 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     } else {
       context.router.pop(amount);
     }
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
   }
 
   @override

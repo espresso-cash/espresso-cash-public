@@ -18,14 +18,9 @@ import 'components/learning_section.dart';
 import 'components/profile_section.dart';
 import 'components/security_section.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MyAccount>();
@@ -91,13 +86,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: 24,
-                  ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                   child: Column(
-                    children: const [
+                    children: [
                       EditProfileSection(),
                       SecuritySection(),
                       LearningSection(),
@@ -121,10 +113,9 @@ const double _imageSize = 88;
 
 class _QrCodeWidget extends StatelessWidget {
   const _QrCodeWidget({
-    Key? key,
     required this.address,
     required this.name,
-  }) : super(key: key);
+  });
 
   final Ed25519HDPublicKey address;
   final String name;

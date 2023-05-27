@@ -76,8 +76,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   final IMap<Token, Amount> _balances;
   final Ed25519HDPublicKey _userAccount;
 
-  bool isValidInput(Token token) => _balances.isPositive(token);
-
   Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async {
     emit(state.copyWith(slippage: event.slippage));
     add(const CreateSwapEvent.routeInvalidated());
@@ -162,7 +160,9 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       emit(state.error(const CreateSwapException.routeNotFound()));
     }
   }
+}
 
+extension CreateSwapBlocExt on CreateSwapBloc {
   CryptoAmount calculateMaxAmount() => _balances.balanceFromToken(state.input);
 }
 

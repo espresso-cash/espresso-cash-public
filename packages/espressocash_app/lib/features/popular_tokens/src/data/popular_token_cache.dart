@@ -17,7 +17,7 @@ class PopularTokenCache {
   final MyDatabase _db;
   final TokenList _tokenList;
 
-  Future<IMap<Token, double>>? get() =>
+  Future<IMap<Token, double>> get() =>
       _db.select(_db.popularTokenRows).get().then(
             (rows) =>
                 IMap({for (var e in rows) e.toToken(_tokenList): e.price}),
@@ -38,6 +38,8 @@ class PopularTokenCache {
 }
 
 class PopularTokenRows extends Table {
+  const PopularTokenRows();
+
   TextColumn get id => text()();
   TextColumn get name => text()();
   TextColumn get symbol => text()();
@@ -45,7 +47,7 @@ class PopularTokenRows extends Table {
   RealColumn get price => real()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 extension on Token {

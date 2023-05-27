@@ -5,9 +5,9 @@ import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 
 class SignPayloadsScreen extends StatelessWidget {
   const SignPayloadsScreen({
-    Key? key,
+    super.key,
     required this.request,
-  }) : super(key: key);
+  });
 
   final SignPayloadsRequest request;
 

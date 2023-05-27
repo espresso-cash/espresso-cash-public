@@ -26,7 +26,7 @@ class TxSentWatcher extends SwapWatcher {
 }
 
 class _SwapTxSentJob extends CancelableJob<Swap> {
-  _SwapTxSentJob(this.swap, this.sender);
+  const _SwapTxSentJob(this.swap, this.sender);
 
   final Swap swap;
   final TxSender sender;

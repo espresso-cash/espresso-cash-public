@@ -12,7 +12,7 @@ import '../../models/payment_request.dart';
 
 @injectable
 class PaymentRequestRepository {
-  PaymentRequestRepository(this._db);
+  const PaymentRequestRepository(this._db);
 
   final MyDatabase _db;
 
@@ -60,6 +60,8 @@ class PaymentRequestRepository {
 enum PaymentRequestStateDto { initial, completed, error }
 
 class PaymentRequestRows extends Table with EntityMixin {
+  const PaymentRequestRows();
+
   TextColumn get payerName => text()();
   TextColumn get dynamicLink => text()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();

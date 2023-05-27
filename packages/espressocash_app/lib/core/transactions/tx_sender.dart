@@ -54,7 +54,9 @@ class TxSender {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
+          // ignore: prefer-return-await, not needed here
           return checkSubmittedTx(tx.id);
+        // ignore: no_default_cases, not interested in other options
         default:
           return const TxSendResult.failure(reason: TxFailureReason.txError);
       }
@@ -130,7 +132,7 @@ class TxSender {
 // TODO(KB): should be removed after full migration to waiting status with
 // SignedTx
 class StubSignedTx implements SignedTx {
-  StubSignedTx(this.id);
+  const StubSignedTx(this.id);
 
   @override
   String get blockhash => base58encode(List.filled(32, 0));

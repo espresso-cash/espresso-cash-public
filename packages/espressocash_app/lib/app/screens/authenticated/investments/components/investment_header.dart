@@ -23,11 +23,11 @@ class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(color: CpColors.darkBackground),
+  Widget build(BuildContext context) => const DecoratedBox(
+        decoration: BoxDecoration(color: CpColors.darkBackground),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
+          children: [
             _Balance(),
             _Buttons(),
           ],
@@ -36,19 +36,19 @@ class InvestmentHeader extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({Key? key}) : super(key: key);
+  const _Buttons();
 
   @override
   Widget build(BuildContext context) {
     final isZeroAmount = context.watchUsdcBalance().isZero;
 
     if (isZeroAmount) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [AddCashButton()],
+          children: [AddCashButton()],
         ),
       );
     }
@@ -95,7 +95,7 @@ class _Buttons extends StatelessWidget {
 }
 
 class _Balance extends StatefulWidget {
-  const _Balance({Key? key}) : super(key: key);
+  const _Balance();
 
   @override
   State<_Balance> createState() => _BalanceState();
@@ -109,7 +109,7 @@ class _BalanceState extends State<_Balance> {
   @override
   Widget build(BuildContext context) => _HeaderSwitcher(
         first: Padding(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+          padding: const EdgeInsets.only(left: 24, top: 16, right: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -126,10 +126,7 @@ class _BalanceState extends State<_Balance> {
 }
 
 class _Info extends StatelessWidget {
-  const _Info({
-    Key? key,
-    required this.onClose,
-  }) : super(key: key);
+  const _Info({required this.onClose});
 
   final VoidCallback onClose;
 
@@ -157,7 +154,7 @@ class _Info extends StatelessWidget {
 }
 
 class _Amount extends StatelessWidget {
-  const _Amount({Key? key}) : super(key: key);
+  const _Amount();
 
   @override
   Widget build(BuildContext context) {
@@ -204,10 +201,7 @@ class _Amount extends StatelessWidget {
 }
 
 class _Headline extends StatelessWidget {
-  const _Headline({
-    Key? key,
-    required this.onInfo,
-  }) : super(key: key);
+  const _Headline({required this.onInfo});
 
   final VoidCallback onInfo;
 
@@ -267,11 +261,11 @@ extension on BuildContext {
 
 class _HeaderSwitcher extends StatefulWidget {
   const _HeaderSwitcher({
-    Key? key,
     required this.first,
     required this.second,
     required this.showMore,
-  }) : super(key: key);
+  });
+
   final Widget first;
   final Widget second;
   final bool showMore;

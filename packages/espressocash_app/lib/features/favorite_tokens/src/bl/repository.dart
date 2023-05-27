@@ -54,13 +54,15 @@ class FavoriteTokenRepository {
 }
 
 class FavoriteTokenRows extends Table {
+  const FavoriteTokenRows();
+
   TextColumn get id => text()();
   TextColumn get name => text()();
   TextColumn get symbol => text()();
   TextColumn get logoUri => text().nullable()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 extension on Token {

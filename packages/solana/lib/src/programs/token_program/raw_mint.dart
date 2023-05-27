@@ -15,7 +15,7 @@ class RawMint with _$RawMint {
     @BPublicKey() required Ed25519HDPublicKey freezeAuthority,
   }) = _RawMint;
 
-  RawMint._();
+  const RawMint._();
 
   factory RawMint.fromBorsh(Uint8List data) => _$RawMintFromBorsh(data);
 }

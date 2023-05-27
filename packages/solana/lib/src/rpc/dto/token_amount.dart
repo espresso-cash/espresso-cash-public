@@ -29,7 +29,7 @@ class TokenAmount {
 
 @JsonSerializable(createToJson: false)
 class TokenAmountResult extends ContextResult<TokenAmount> {
-  TokenAmountResult({required super.context, required super.value});
+  const TokenAmountResult({required super.context, required super.value});
 
   factory TokenAmountResult.fromJson(Map<String, dynamic> json) =>
       _$TokenAmountResultFromJson(json);

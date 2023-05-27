@@ -10,8 +10,7 @@ import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
 class PopularTokensModule extends SingleChildStatelessWidget {
-  const PopularTokensModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const PopularTokensModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

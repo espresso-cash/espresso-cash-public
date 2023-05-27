@@ -35,7 +35,10 @@ Future<_CoinMap> _fetchCoins() async {
 
           final isStablecoin = stablecoins.any((st) => st['id'] == coingeckoId);
 
-          return MapEntry(solAddress, _CoinData(coingeckoId, isStablecoin));
+          return MapEntry(
+            solAddress,
+            _CoinData(coingeckoId, isStablecoin: isStablecoin),
+          );
         },
       )
       .whereNotNull()
@@ -110,7 +113,7 @@ typedef _CoinMap = Map<String, _CoinData>;
 typedef _Json = Map<String, dynamic>;
 
 class _CoinData {
-  _CoinData(this.coingeckoId, this.isStablecoin);
+  const _CoinData(this.coingeckoId, {required this.isStablecoin});
 
   final String coingeckoId;
   final bool isStablecoin;

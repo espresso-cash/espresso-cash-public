@@ -10,7 +10,7 @@ import '../../../backup_phrase/mnemonic_getter.dart';
 import 'onboarding_flow_screen.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
-  const ViewRecoveryPhraseScreen({Key? key}) : super(key: key);
+  const ViewRecoveryPhraseScreen({super.key});
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>

@@ -11,9 +11,9 @@ import '../src/widgets/transaction_item.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({
-    Key? key,
+    super.key,
     this.padding,
-  }) : super(key: key);
+  });
 
   final EdgeInsetsGeometry? padding;
 

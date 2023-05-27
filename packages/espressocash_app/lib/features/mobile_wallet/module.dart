@@ -12,9 +12,9 @@ import 'src/scenario_handler.dart';
 
 class MobileWalletModule extends SingleChildStatelessWidget {
   const MobileWalletModule({
-    Key? key,
-    Widget? child,
-  }) : super(key: key, child: child);
+    super.key,
+    super.child,
+  });
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

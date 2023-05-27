@@ -56,10 +56,9 @@ class SwapTile extends StatelessWidget {
 
 class _SwapIcon extends StatelessWidget {
   const _SwapIcon({
-    Key? key,
     required this.input,
     required this.output,
-  }) : super(key: key);
+  });
 
   final Token input;
   final Token output;

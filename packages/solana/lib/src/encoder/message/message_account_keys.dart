@@ -4,7 +4,7 @@ import 'package:solana/src/encoder/instruction.dart';
 import 'package:solana/src/encoder/message/loaded_addresses.dart';
 
 class MessageAccountKeys {
-  MessageAccountKeys({
+  const MessageAccountKeys({
     required this.staticAccountKeys,
     this.accountKeysFromLookups,
   });
@@ -28,11 +28,9 @@ class MessageAccountKeys {
 
   Ed25519HDPublicKey? operator [](int index) {
     for (final keySegment in keySegments()) {
-      if (index < keySegment.length) {
-        return keySegment[index];
-      } else {
-        index -= keySegment.length;
-      }
+      if (index < keySegment.length) return keySegment[index];
+
+      index -= keySegment.length;
     }
   }
 

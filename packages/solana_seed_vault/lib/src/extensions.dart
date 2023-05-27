@@ -1,3 +1,5 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
@@ -108,7 +110,7 @@ extension on AccountFilter {
         byIsValid: always(WalletContractV1.accountsAccountIsValid),
       );
 
-  Object? toValue() => when(
+  dynamic toValue() => when(
         () => null,
         byId: identity,
         byName: identity,
