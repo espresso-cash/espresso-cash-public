@@ -53,13 +53,14 @@ class ${name}Config {
   }
 
   String _generateMethod(MethodElement method) {
-    final params = method.parameters.where((p) => p.isPositional).map((p) {
-      if (p.type.isNullableType) {
-        return 'if (${p.name} != null) ${p.toJson()}';
-      }
-
-      return p.toJson();
-    }).toList();
+    final params = method.parameters
+        .where((p) => p.isPositional)
+        .map(
+          (p) => p.type.isNullableType
+              ? 'if (${p.name} != null) ${p.toJson()}'
+              : p.toJson(),
+        )
+        .toList();
     final isWithContext = const TypeChecker.fromRuntime(WithContextResult)
         .hasAnnotationOf(method);
     final configParams = method.parameters.where((p) => p.isNamed);
@@ -138,14 +139,13 @@ extension on DartType {
     String data,
   ) {
     final typeArguments = parameterizedType.typeArguments;
-    if (typeArguments.isEmpty) {
-      return ['$data as Map<String, dynamic>'];
-    }
 
-    return [
-      '$data as Map<String, dynamic>',
-      '(json) => ${typeArguments.first.fromJson('json')}',
-    ];
+    return typeArguments.isEmpty
+        ? ['$data as Map<String, dynamic>']
+        : [
+            '$data as Map<String, dynamic>',
+            '(json) => ${typeArguments.first.fromJson('json')}',
+          ];
   }
 
   String _parameterizedTypeFromJson(
@@ -203,11 +203,10 @@ extension on ParameterElement {
 
   String asFormalInitializer() {
     final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
-    if (isRequiredNamed) {
-      return 'required this.$name$defaultValue';
-    }
 
-    return 'this.$name$defaultValue';
+    return isRequiredNamed
+        ? 'required this.$name$defaultValue'
+        : 'this.$name$defaultValue';
   }
 
   String toJson() {

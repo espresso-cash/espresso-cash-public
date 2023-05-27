@@ -19,5 +19,5 @@ dev_dependencies:
   dart_code_metrics: ^5.7.3
   freezed: ^2.0.2
   json_serializable: ^6.3.1
-  mews_pedantic: ^0.15.0-dev.0
+  mews_pedantic: ^0.15.0-dev.2
   retrofit_generator: ^4.0.0
