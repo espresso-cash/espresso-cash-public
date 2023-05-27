@@ -20,14 +20,14 @@ class CpTokenIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final url = token.logoURI;
     final borderRadius = BorderRadius.circular(size / 2);
-    if (url == '' || url == null) {
-      return _DefaultIcon(size: size);
-    }
 
-    return ClipRRect(
-      borderRadius: borderRadius,
-      child: _TokenIconImage(url: url, cacheKey: token.symbol, size: size),
-    );
+    return url == '' || url == null
+        ? _DefaultIcon(size: size)
+        : ClipRRect(
+            borderRadius: borderRadius,
+            child:
+                _TokenIconImage(url: url, cacheKey: token.symbol, size: size),
+          );
   }
 }
 
@@ -39,26 +39,22 @@ class _TokenIconImage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (extension(url) == '.svg') {
-      return SvgPicture.network(url, width: size, height: size);
-    }
-
-    return CachedNetworkImage(
-      cacheKey: cacheKey,
-      height: size,
-      width: size,
-      errorWidget: (BuildContext context, String url, dynamic error) =>
-          const _DefaultIcon(),
-      imageUrl: url,
-      imageBuilder: (context, provider) => DecoratedBox(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          image: DecorationImage(image: provider),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => extension(url) == '.svg'
+      ? SvgPicture.network(url, width: size, height: size)
+      : CachedNetworkImage(
+          cacheKey: cacheKey,
+          height: size,
+          width: size,
+          errorWidget: (BuildContext context, String url, dynamic error) =>
+              const _DefaultIcon(),
+          imageUrl: url,
+          imageBuilder: (context, provider) => DecoratedBox(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(image: provider),
+            ),
+          ),
+        );
 
   final double size;
   final String cacheKey;

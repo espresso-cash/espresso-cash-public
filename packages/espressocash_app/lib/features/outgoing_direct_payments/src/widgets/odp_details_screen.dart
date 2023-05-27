@@ -44,51 +44,47 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
         builder: (context, snapshot) {
           final payment = snapshot.data;
 
-          if (payment == null) {
-            return TransferProgress(
-              onBack: () => context.router.pop(),
-            );
-          }
-
-          return payment.status.maybeMap(
-            success: (status) => TransferSuccess(
-              onBack: () => context.router.pop(),
-              onOkPressed: () => context.router.pop(),
-              statusContent: context.l10n.outgoingTransferSuccess(
-                payment.amount.format(DeviceLocale.localeOf(context)),
-              ),
-              content: CpTimeline(
-                animated: false,
-                status: CpTimelineStatus.success,
-                active: 1,
-                items: [
-                  CpTimelineItem(title: context.l10n.transferInitiated),
-                  CpTimelineItem(
-                    title: context.l10n.receivedBy(
-                      payment.receiver.toBase58().toShortAddress(),
+          return payment == null
+              ? TransferProgress(onBack: () => context.router.pop())
+              : payment.status.maybeMap(
+                  success: (status) => TransferSuccess(
+                    onBack: () => context.router.pop(),
+                    onOkPressed: () => context.router.pop(),
+                    statusContent: context.l10n.outgoingTransferSuccess(
+                      payment.amount.format(DeviceLocale.localeOf(context)),
                     ),
-                    // TODO(rhbrunetto): use received date instead
-                    subtitle: context.formatDate(payment.created),
+                    content: CpTimeline(
+                      animated: false,
+                      status: CpTimelineStatus.success,
+                      active: 1,
+                      items: [
+                        CpTimelineItem(title: context.l10n.transferInitiated),
+                        CpTimelineItem(
+                          title: context.l10n.receivedBy(
+                            payment.receiver.toBase58().toShortAddress(),
+                          ),
+                          // TODO(rhbrunetto): use received date instead
+                          subtitle: context.formatDate(payment.created),
+                        ),
+                      ],
+                    ),
+                    onMoreDetailsPressed: () {
+                      final link = status.txId
+                          .let(createTransactionLink)
+                          .let(Uri.parse)
+                          .toString();
+                      context.openLink(link);
+                    },
                   ),
-                ],
-              ),
-              onMoreDetailsPressed: () {
-                final link = status.txId
-                    .let(createTransactionLink)
-                    .let(Uri.parse)
-                    .toString();
-                context.openLink(link);
-              },
-            ),
-            txFailure: (it) => TransferError(
-              onBack: () => context.router.pop(),
-              onRetry: () => context.retryODP(payment: payment),
-              reason: it.reason,
-            ),
-            orElse: () => TransferProgress(
-              onBack: () => context.router.pop(),
-            ),
-          );
+                  txFailure: (it) => TransferError(
+                    onBack: () => context.router.pop(),
+                    onRetry: () => context.retryODP(payment: payment),
+                    reason: it.reason,
+                  ),
+                  orElse: () => TransferProgress(
+                    onBack: () => context.router.pop(),
+                  ),
+                );
         },
       );
 }

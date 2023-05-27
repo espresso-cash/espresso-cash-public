@@ -29,23 +29,21 @@ class PopularTokenList extends StatelessWidget {
             ),
           );
 
-          if (state.tokens.isNotEmpty) {
-            return SliverList(
-              delegate: SliverChildListDelegate(
-                state.tokens.entries
-                    .map((e) => _TokenItem(e.key, e.value))
-                    .toList(),
-              ),
-            );
-          }
-
-          return state.processingState.when(
-            none: () => loader,
-            processing: () => loader,
-            error: (_) => SliverToBoxAdapter(
-              child: Center(child: Text(context.l10n.failedToLoadTokens)),
-            ),
-          );
+          return state.tokens.isNotEmpty
+              ? SliverList(
+                  delegate: SliverChildListDelegate(
+                    state.tokens.entries
+                        .map((e) => _TokenItem(e.key, e.value))
+                        .toList(),
+                  ),
+                )
+              : state.processingState.when(
+                  none: () => loader,
+                  processing: () => loader,
+                  error: (_) => SliverToBoxAdapter(
+                    child: Center(child: Text(context.l10n.failedToLoadTokens)),
+                  ),
+                );
         },
       );
 }

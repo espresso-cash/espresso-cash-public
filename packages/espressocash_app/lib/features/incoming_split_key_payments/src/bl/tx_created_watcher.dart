@@ -63,10 +63,6 @@ class _ISKPTxCreatedJob extends CancelableJob<IncomingSplitKeyPayment> {
       },
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

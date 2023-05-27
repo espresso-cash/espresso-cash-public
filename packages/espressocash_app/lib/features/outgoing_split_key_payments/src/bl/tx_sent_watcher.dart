@@ -56,10 +56,6 @@ class _OSKPSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
       },
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }
