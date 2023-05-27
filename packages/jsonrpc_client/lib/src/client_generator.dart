@@ -188,7 +188,7 @@ extension on DartType {
       isDartCoreString;
 
   bool get isNullableType =>
-      isDynamic || nullabilitySuffix != NullabilitySuffix.none;
+      this is DynamicType || nullabilitySuffix != NullabilitySuffix.none;
 
   String get nullSuffix =>
       nullabilitySuffix != NullabilitySuffix.none ? '?' : '';
