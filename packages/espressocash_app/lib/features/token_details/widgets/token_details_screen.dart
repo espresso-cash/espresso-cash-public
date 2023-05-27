@@ -149,41 +149,39 @@ class _Balance extends StatelessWidget {
     final Amount cryptoAmount = context.watchUserCryptoBalance(token);
     final Amount? fiatAmount = context.watchUserFiatBalance(token);
 
-    if (cryptoAmount.value != 0 && fiatAmount != null) {
-      return CpContentPadding(
-        bottom: false,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          width: double.infinity,
-          decoration: const ShapeDecoration(
-            shape: StadiumBorder(),
-            color: CpColors.darkBackgroundColor,
-          ),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            spacing: 16,
-            children: [
-              PriceWidget(
-                label: context.l10n.youOwn,
-                amount: cryptoAmount.format(
-                  DeviceLocale.localeOf(context),
-                  roundInteger: true,
-                ),
+    return cryptoAmount.value != 0 && fiatAmount != null
+        ? CpContentPadding(
+            bottom: false,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              width: double.infinity,
+              decoration: const ShapeDecoration(
+                shape: StadiumBorder(),
+                color: CpColors.darkBackgroundColor,
               ),
-              PriceWidget(
-                label: context.l10n.balance,
-                amount: fiatAmount.format(
-                  DeviceLocale.localeOf(context),
-                  roundInteger: true,
-                ),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 16,
+                children: [
+                  PriceWidget(
+                    label: context.l10n.youOwn,
+                    amount: cryptoAmount.format(
+                      DeviceLocale.localeOf(context),
+                      roundInteger: true,
+                    ),
+                  ),
+                  PriceWidget(
+                    label: context.l10n.balance,
+                    amount: fiatAmount.format(
+                      DeviceLocale.localeOf(context),
+                      roundInteger: true,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }
 

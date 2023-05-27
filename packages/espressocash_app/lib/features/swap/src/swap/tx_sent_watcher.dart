@@ -46,10 +46,6 @@ class _SwapTxSentJob extends CancelableJob<Swap> {
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return swap.copyWith(status: newStatus);
+    return newStatus == null ? null : swap.copyWith(status: newStatus);
   }
 }

@@ -1070,10 +1070,10 @@ packages:
     dependency: "direct main"
     description:
       name: mews_pedantic
-      sha256: ff062653a99da156395a0dd1207a53d531ebcf0df5b43f5158afe63f45bf5392
+      sha256: d02ec6c146bfaae780463a8a974f084037d0ae401fbb0637936f5456a98d2b64
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.0-dev.0"
+    version: "0.15.0-dev.2"
   mime:
     dependency: transitive
     description:

@@ -123,18 +123,15 @@ class _ContentState extends State<_Content> {
                         failure: (_) => Text(context.l10n.failedToSearch),
                         initial: Container.new,
                         processing: LoadingIndicator.new,
-                        success: (result) {
-                          if (result.isEmpty) {
-                            return Text(context.l10n.emptySearch);
-                          }
-
-                          return ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemCount: result.length,
-                            itemBuilder: (context, index) =>
-                                _TokenItem(result[index]),
-                          );
-                        },
+                        success: (result) => result.isEmpty
+                            ? Text(context.l10n.emptySearch)
+                            : ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                itemCount: result.length,
+                                itemBuilder: (context, index) =>
+                                    _TokenItem(result[index]),
+                              ),
                       ),
                     ),
                   ),

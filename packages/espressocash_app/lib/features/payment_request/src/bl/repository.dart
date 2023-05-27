@@ -16,30 +16,6 @@ class PaymentRequestRepository {
 
   final MyDatabase _db;
 
-  Stream<IList<Product2<String, DateTime>>> watchAllIds() {
-    final query = _db.selectOnly(_db.paymentRequestRows)
-      ..addColumns([_db.paymentRequestRows.id, _db.paymentRequestRows.created])
-      ..orderBy([
-        OrderingTerm(
-          expression: _db.paymentRequestRows.created,
-          mode: OrderingMode.desc,
-        ),
-      ]);
-
-    return query.watch().map(
-          (rows) => rows
-              .map(
-                (row) => Product2(
-                  // ignore: avoid-non-null-assertion, cannot be null here
-                  row.read(_db.paymentRequestRows.id)!,
-                  // ignore: avoid-non-null-assertion, cannot be null here
-                  row.read(_db.paymentRequestRows.created)!,
-                ),
-              )
-              .toIList(),
-        );
-  }
-
   Stream<PaymentRequest> watchById(String id) {
     final query = _db.select(_db.paymentRequestRows)
       ..where((p) => p.id.equals(id));

@@ -51,10 +51,6 @@ class _ODPTxSentJob extends CancelableJob<OutgoingDirectPayment> {
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

@@ -47,12 +47,10 @@ class CacheInterceptor extends Interceptor {
 
     final cache = await store.get(key);
 
-    if (cache != null &&
-        DateTime.now().difference(cache.responseDate) < maxAge) {
-      return handler.resolve(cache.toResponse(options, fromNetwork: false));
-    }
-
-    return handler.next(options);
+    return cache != null &&
+            DateTime.now().difference(cache.responseDate) < maxAge
+        ? handler.resolve(cache.toResponse(options, fromNetwork: false))
+        : handler.next(options);
   }
 }
 

@@ -42,55 +42,54 @@ class _Buttons extends StatelessWidget {
   Widget build(BuildContext context) {
     final isZeroAmount = context.watchUsdcBalance().isZero;
 
-    if (isZeroAmount) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [AddCashButton()],
-        ),
-      );
-    }
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(color: CpColors.darkDividerColor),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-          child: Text(
-            context.l10n.investmentHeaderButtonsTitle,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
+    return isZeroAmount
+        ? const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [AddCashButton()],
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-          child: Row(
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: CpButton(
-                  minWidth: 250,
-                  size: CpButtonSize.wide,
-                  text: context.l10n.sendMoney,
-                  onPressed: () =>
-                      context.router.navigate(const WalletFlowRoute()),
+              const Divider(color: CpColors.darkDividerColor),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                child: Text(
+                  context.l10n.investmentHeaderButtonsTitle,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              const SizedBox(width: 8),
-              const AddCashButton(size: CpButtonSize.wide),
-              const SizedBox(width: 8),
-              const CashOutButton(size: CpButtonSize.wide),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: CpButton(
+                        minWidth: 250,
+                        size: CpButtonSize.wide,
+                        text: context.l10n.sendMoney,
+                        onPressed: () =>
+                            context.router.navigate(const WalletFlowRoute()),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const AddCashButton(size: CpButtonSize.wide),
+                    const SizedBox(width: 8),
+                    const CashOutButton(size: CpButtonSize.wide),
+                  ],
+                ),
+              )
             ],
-          ),
-        )
-      ],
-    );
+          );
   }
 }
 
