@@ -15,9 +15,9 @@ import '../models/remote_request.dart';
 
 class RemoteRequestScreen extends StatelessWidget {
   const RemoteRequestScreen({
-    Key? key,
+    super.key,
     required this.request,
-  }) : super(key: key);
+  });
 
   final RemoteRequest request;
 
@@ -32,7 +32,7 @@ class RemoteRequestScreen extends StatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content();
 
   @override
   State<_Content> createState() => _ContentState();
@@ -113,11 +113,10 @@ class _ContentState extends State<_Content> {
 
 class _Buttons extends StatelessWidget {
   const _Buttons({
-    Key? key,
     required this.acceptLabel,
     required this.onAccept,
     required this.onDecline,
-  }) : super(key: key);
+  });
 
   final String acceptLabel;
   final VoidCallback onAccept;
@@ -137,10 +136,7 @@ class _Buttons extends StatelessWidget {
 }
 
 class _AuthorizeRequestWidget extends StatelessWidget {
-  const _AuthorizeRequestWidget({
-    Key? key,
-    required this.request,
-  }) : super(key: key);
+  const _AuthorizeRequestWidget({required this.request});
 
   final AuthorizeRequest request;
 
@@ -170,10 +166,7 @@ class _AuthorizeRequestWidget extends StatelessWidget {
 }
 
 class _SignPayloadsWidget extends StatelessWidget {
-  const _SignPayloadsWidget({
-    Key? key,
-    required this.request,
-  }) : super(key: key);
+  const _SignPayloadsWidget({required this.request});
 
   final SignPayloadsRequest request;
 
@@ -213,10 +206,7 @@ class _SignPayloadsWidget extends StatelessWidget {
 }
 
 class _SignAndSendPayloadsWidget extends StatelessWidget {
-  const _SignAndSendPayloadsWidget({
-    Key? key,
-    required this.request,
-  }) : super(key: key);
+  const _SignAndSendPayloadsWidget({required this.request});
 
   final SignAndSendTransactionsRequest request;
 
@@ -249,10 +239,9 @@ class _SignAndSendPayloadsWidget extends StatelessWidget {
 
 class _DAppIcon extends StatelessWidget {
   const _DAppIcon({
-    Key? key,
     required this.iconUri,
     required this.identityUri,
-  }) : super(key: key);
+  });
 
   final Uri? iconUri;
   final Uri? identityUri;

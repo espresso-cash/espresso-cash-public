@@ -27,6 +27,12 @@ class _CpRoundedRectangleState extends State<CpRoundedRectangle> {
   late final _scrollController = ScrollController();
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => Container(
         margin: widget.margin,
         padding: widget.padding,

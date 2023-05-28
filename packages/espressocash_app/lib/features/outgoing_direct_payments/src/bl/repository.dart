@@ -18,7 +18,7 @@ import '../../models/outgoing_direct_payment.dart';
 
 @injectable
 class ODPRepository {
-  ODPRepository(this._db, this._tokens);
+  const ODPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
@@ -78,6 +78,8 @@ class ODPRepository {
 }
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
+  const ODPRows();
+
   TextColumn get receiver => text()();
   TextColumn get reference => text().nullable()();
   IntColumn get status => intEnum<ODPStatusDto>()();
@@ -119,11 +121,13 @@ extension on ODPStatusDto {
 
     switch (this) {
       case ODPStatusDto.txCreated:
+      case ODPStatusDto.txSendFailure:
         return ODPStatus.txCreated(
           tx!,
           slot: slot ?? BigInt.zero,
         );
       case ODPStatusDto.txSent:
+      case ODPStatusDto.txWaitFailure:
         return ODPStatus.txSent(
           tx ?? StubSignedTx(row.txId!),
           slot: slot ?? BigInt.zero,
@@ -132,16 +136,6 @@ extension on ODPStatusDto {
         return ODPStatus.success(txId: row.txId!);
       case ODPStatusDto.txFailure:
         return ODPStatus.txFailure(reason: row.txFailureReason);
-      case ODPStatusDto.txSendFailure:
-        return ODPStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        );
-      case ODPStatusDto.txWaitFailure:
-        return ODPStatus.txSent(
-          tx ?? StubSignedTx(row.txId!),
-          slot: slot ?? BigInt.zero,
-        );
     }
   }
 }

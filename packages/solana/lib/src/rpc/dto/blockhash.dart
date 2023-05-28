@@ -9,7 +9,7 @@ part 'blockhash.g.dart';
 /// [get recent blockhash]: https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
 @JsonSerializable(createToJson: false)
 class Blockhash {
-  Blockhash({
+  const Blockhash({
     required this.feeCalculator,
     required this.blockhash,
   });
@@ -23,7 +23,7 @@ class Blockhash {
 
 @JsonSerializable(createToJson: false)
 class BlockhasValidResult extends ContextResult<bool> {
-  BlockhasValidResult({required super.context, required super.value});
+  const BlockhasValidResult({required super.context, required super.value});
 
   factory BlockhasValidResult.fromJson(Map<String, dynamic> json) =>
       _$BlockhasValidResultFromJson(json);

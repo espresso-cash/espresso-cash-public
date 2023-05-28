@@ -8,7 +8,7 @@ import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockEnableScreen extends StatefulWidget {
-  const AppLockEnableScreen({Key? key}) : super(key: key);
+  const AppLockEnableScreen({super.key});
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();
@@ -30,13 +30,9 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
     }
   }
 
-  String get _instructions {
-    if (_firstPass == null) {
-      return context.l10n.enterPasscode;
-    }
-
-    return context.l10n.reEnterPasscode;
-  }
+  String get _instructions => _firstPass == null
+      ? context.l10n.enterPasscode
+      : context.l10n.reEnterPasscode;
 
   @override
   Widget build(BuildContext context) => DecoratedWindow(

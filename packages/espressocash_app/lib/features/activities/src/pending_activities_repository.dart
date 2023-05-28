@@ -15,7 +15,7 @@ import 'activity_builder.dart';
 
 @injectable
 class PendingActivitiesRepository {
-  PendingActivitiesRepository(this._db, this._tokens);
+  const PendingActivitiesRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;

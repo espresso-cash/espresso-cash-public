@@ -13,7 +13,7 @@ import '../routes.gr.dart';
 import '../ui/theme.dart';
 
 class CryptopleaseApp extends StatefulWidget {
-  const CryptopleaseApp({Key? key}) : super(key: key);
+  const CryptopleaseApp({super.key});
 
   @override
   State<CryptopleaseApp> createState() => _CryptopleaseAppState();
@@ -21,6 +21,12 @@ class CryptopleaseApp extends StatefulWidget {
 
 class _CryptopleaseAppState extends State<CryptopleaseApp> {
   final _router = AppRouter();
+
+  @override
+  void dispose() {
+    _router.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

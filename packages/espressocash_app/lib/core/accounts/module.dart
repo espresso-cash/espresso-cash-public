@@ -14,8 +14,7 @@ import 'bl/accounts_bloc.dart';
 import 'bl/ec_wallet.dart';
 
 class AccountsModule extends SingleChildStatelessWidget {
-  const AccountsModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const AccountsModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
@@ -34,10 +33,10 @@ class AccountsModule extends SingleChildStatelessWidget {
 
 class LogoutListener extends SingleChildStatelessWidget {
   const LogoutListener({
-    Key? key,
-    Widget? child,
+    super.key,
+    super.child,
     required this.onLogout,
-  }) : super(key: key, child: child);
+  });
 
   final Callback1<BuildContext> onLogout;
 
@@ -58,10 +57,10 @@ class LogoutListener extends SingleChildStatelessWidget {
 /// deauthorizes the app.
 class SeedVaultListener extends SingleChildStatefulWidget {
   const SeedVaultListener({
-    Key? key,
-    Widget? child,
+    super.key,
+    super.child,
     required this.onDeauthorized,
-  }) : super(key: key, child: child);
+  });
 
   final VoidCallback onDeauthorized;
 

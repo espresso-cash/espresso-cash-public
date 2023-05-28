@@ -11,10 +11,10 @@ import 'src/bl/onboarding_bloc.dart';
 
 class OnboardingModule extends SingleChildStatelessWidget {
   const OnboardingModule({
-    Key? key,
-    Widget? child,
+    super.key,
+    super.child,
     required this.mnemonic,
-  }) : super(key: key, child: child);
+  });
 
   final Future<String> mnemonic;
 

@@ -19,7 +19,7 @@ class TokenRateText extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final Amount? tokenRate = context
         .watchConversionRate(from: token, to: fiatCurrency)
         ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));

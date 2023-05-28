@@ -15,7 +15,7 @@ enum CpButtonAlignment { left, center }
 
 class CpButton extends StatelessWidget {
   const CpButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.width,
@@ -23,7 +23,7 @@ class CpButton extends StatelessWidget {
     this.minWidth,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
-  }) : super(key: key);
+  });
 
   final String text;
   final double? width;
@@ -50,7 +50,9 @@ class CpButton extends StatelessWidget {
     switch (variant) {
       case CpButtonVariant.inverted:
         return CpColors.lightGreyBackground;
-      default:
+      case CpButtonVariant.secondary:
+      case CpButtonVariant.dark:
+      case CpButtonVariant.light:
         return CpColors.primaryTextColor;
     }
   }
@@ -85,8 +87,11 @@ class CpButton extends StatelessWidget {
       case CpButtonSize.wide:
         horizontalPadding = 4;
         break;
-      default:
+      case CpButtonSize.normal:
+      case CpButtonSize.big:
+      case CpButtonSize.small:
         horizontalPadding = 16;
+        break;
     }
 
     final button = TextButton(

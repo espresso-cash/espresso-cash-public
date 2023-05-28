@@ -17,7 +17,7 @@ import '../../models/swap_seed.dart';
 
 @injectable
 class SwapRepository {
-  SwapRepository(this._db, this._tokens);
+  const SwapRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
@@ -72,6 +72,8 @@ class SwapRepository {
 }
 
 class SwapRows extends Table with EntityMixin, TxStatusMixin {
+  const SwapRows();
+
   IntColumn get status => intEnum<SwapStatusDto>()();
   IntColumn get amount => integer()();
   TextColumn get token => text()();
@@ -120,8 +122,10 @@ extension on SwapStatusDto {
 
     switch (this) {
       case SwapStatusDto.txCreated:
+      case SwapStatusDto.txSendFailure:
         return SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
       case SwapStatusDto.txSent:
+      case SwapStatusDto.txWaitFailure:
         return SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero);
       case SwapStatusDto.success:
         return SwapStatus.success(tx!);
@@ -129,10 +133,6 @@ extension on SwapStatusDto {
         return SwapStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
-      case SwapStatusDto.txSendFailure:
-        return SwapStatus.txCreated(tx!, slot: slot ?? BigInt.zero);
-      case SwapStatusDto.txWaitFailure:
-        return SwapStatus.txSent(tx!, slot: slot ?? BigInt.zero);
     }
   }
 }

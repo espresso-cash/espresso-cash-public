@@ -7,15 +7,12 @@ import 'package:solana/src/encoder/message_address_table_lookup.dart';
 import 'package:solana/src/encoder/message_header.dart';
 
 class CompiledKeys {
-  CompiledKeys({
+  const CompiledKeys({
     required this.payer,
     required this.keyMetaMap,
   });
 
-  final Ed25519HDPublicKey payer;
-  final Map<String, CompiledKeyMeta> keyMetaMap;
-
-  static CompiledKeys compile({
+  factory CompiledKeys.compile({
     required List<Instruction> instructions,
     required Ed25519HDPublicKey payer,
   }) {
@@ -57,6 +54,9 @@ class CompiledKeys {
 
     return CompiledKeys(payer: payer, keyMetaMap: keyMetaMap);
   }
+
+  final Ed25519HDPublicKey payer;
+  final Map<String, CompiledKeyMeta> keyMetaMap;
 
   MessageComponents getMessageComponents() {
     final mapEntries = keyMetaMap.entries.toList(growable: false);
@@ -147,7 +147,7 @@ class CompiledKeys {
 
   DrainedKeys _drainKeysFoundInLookupTable(
     List<Ed25519HDPublicKey> lookupTableEntries,
-    bool Function(CompiledKeyMeta) keyMetaFilter,
+    bool Function(CompiledKeyMeta data) keyMetaFilter,
   ) {
     final lookupTableIndexes = <int>[];
     final drainedKeys = <Ed25519HDPublicKey>[];
@@ -181,21 +181,24 @@ class CompiledKeys {
 }
 
 class DrainedKeys {
-  DrainedKeys({required this.lookupTableIndexes, required this.drainedKeys});
+  const DrainedKeys({
+    required this.lookupTableIndexes,
+    required this.drainedKeys,
+  });
 
   final List<int> lookupTableIndexes;
   final List<Ed25519HDPublicKey> drainedKeys;
 }
 
 class TableLookupResult {
-  TableLookupResult({required this.lookup, required this.keys});
+  const TableLookupResult({required this.lookup, required this.keys});
 
   final MessageAddressTableLookup lookup;
   final LoadedAddresses keys;
 }
 
 class MessageComponents {
-  MessageComponents(this.header, this.publicKeys);
+  const MessageComponents(this.header, this.publicKeys);
 
   final MessageHeader header;
   final List<Ed25519HDPublicKey> publicKeys;

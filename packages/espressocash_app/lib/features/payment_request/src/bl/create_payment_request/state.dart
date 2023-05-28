@@ -7,7 +7,7 @@ class CreatePaymentRequestState with _$CreatePaymentRequestState {
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
     @Default(Flow<Exception, PaymentRequest>.initial())
-        Flow<Exception, PaymentRequest> flow,
+    Flow<Exception, PaymentRequest> flow,
   }) = _CreatePaymentRequestState;
 
   const CreatePaymentRequestState._();

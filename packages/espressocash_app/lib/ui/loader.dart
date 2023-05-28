@@ -4,10 +4,10 @@ import 'colors.dart';
 
 class CpLoader extends StatefulWidget {
   const CpLoader({
-    Key? key,
+    super.key,
     required this.child,
     required this.isLoading,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool isLoading;
@@ -29,9 +29,9 @@ class _CpLoaderState extends State<CpLoader> {
             child: Stack(
               children: [
                 child,
-                Container(
+                const ColoredBox(
                   color: Colors.black38,
-                  child: const LoadingIndicator(),
+                  child: LoadingIndicator(),
                 ),
               ],
             ),

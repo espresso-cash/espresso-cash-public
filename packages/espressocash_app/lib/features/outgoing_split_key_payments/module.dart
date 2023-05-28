@@ -15,7 +15,7 @@ import 'src/bl/tx_ready_watcher.dart';
 import 'src/bl/tx_sent_watcher.dart';
 
 class OSKPModule extends SingleChildStatelessWidget {
-  const OSKPModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const OSKPModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

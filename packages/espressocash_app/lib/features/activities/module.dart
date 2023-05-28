@@ -9,8 +9,7 @@ import '../../di.dart';
 import 'src/updater/bloc.dart';
 
 class ActivitiesModule extends SingleChildStatelessWidget {
-  const ActivitiesModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const ActivitiesModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

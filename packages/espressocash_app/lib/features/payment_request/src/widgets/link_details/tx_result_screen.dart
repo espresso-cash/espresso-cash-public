@@ -12,11 +12,11 @@ import '../../../../../ui/theme.dart';
 
 class TxResultScreen extends StatefulWidget {
   const TxResultScreen({
-    Key? key,
+    super.key,
     required this.signature,
     required this.text,
     required this.icon,
-  }) : super(key: key);
+  });
 
   final TransactionId? signature;
   final String text;

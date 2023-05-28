@@ -5,10 +5,10 @@ import '../../ui/bordered_row.dart';
 
 final cpBorderedRow = Story(
   name: 'CpBorderedRow',
-  builder: (context) => Center(
+  builder: (context) => const Center(
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
+      children: [
         CpBorderedRow(
           title: Text('Title'),
           content: Text('Regular Content'),

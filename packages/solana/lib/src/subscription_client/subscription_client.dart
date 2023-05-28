@@ -255,11 +255,11 @@ class SubscriptionClient {
       final parsed = json.decode(event) as Map<String, dynamic>;
 
       return SubscriptionMessage.fromJson(parsed);
-    } else {
-      throw FormatException(
-        'unexpected type received through the websocket ${event.runtimeType}',
-      );
     }
+
+    throw FormatException(
+      'unexpected type received through the websocket ${event.runtimeType}',
+    );
   }
 
   void _sendRequest(

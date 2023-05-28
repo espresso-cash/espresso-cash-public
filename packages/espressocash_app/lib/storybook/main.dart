@@ -42,7 +42,7 @@ Future<void> main() async {
 }
 
 class StorybookApp extends StatelessWidget {
-  const StorybookApp({Key? key}) : super(key: key);
+  const StorybookApp({super.key});
 
   @override
   Widget build(BuildContext context) => Storybook(
@@ -54,7 +54,6 @@ class StorybookApp extends StatelessWidget {
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
           debugShowCheckedModeBanner: false,
-          useInheritedMediaQuery: true,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           home: Builder(

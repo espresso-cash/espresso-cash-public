@@ -5,32 +5,38 @@ import 'pin_keypad.dart';
 
 class PinInputDisplayWidget extends StatefulWidget {
   const PinInputDisplayWidget({
-    Key? key,
+    super.key,
     this.message,
     required this.onCompleted,
-  }) : super(key: key);
+  });
 
   final String? message;
-  final void Function(String) onCompleted;
+  final ValueSetter<String> onCompleted;
 
   @override
   State<PinInputDisplayWidget> createState() => _PinInputDisplayWidgetState();
 }
 
 class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
-  late final TextEditingController controller;
+  late final TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
-    controller = TextEditingController()..addListener(_onInputChanged);
+    _controller = TextEditingController()..addListener(_onInputChanged);
   }
 
   void _onInputChanged() {
-    if (controller.text.length == _maxDigits) {
-      widget.onCompleted(controller.text);
-      controller.text = '';
-    }
+    if (_controller.text.length != _maxDigits) return;
+
+    widget.onCompleted(_controller.text);
+    _controller.text = '';
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,7 +52,7 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
           const SizedBox(height: 24),
         ],
         ValueListenableBuilder<TextEditingValue>(
-          valueListenable: controller,
+          valueListenable: _controller,
           builder: (context, value, _) => PinDisplay(
             maxDigits: _maxDigits,
             currentDigits: value.text.length,
@@ -57,7 +63,7 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
           alignment: Alignment.bottomCenter,
           child: PinKeypad(
             maxDigits: _maxDigits,
-            controller: controller,
+            controller: _controller,
           ),
         ),
       ],

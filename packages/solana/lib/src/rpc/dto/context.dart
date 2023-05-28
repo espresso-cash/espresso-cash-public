@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/helpers.dart';
 part 'context.g.dart';
 
 class ContextResult<T> {
-  ContextResult({
+  const ContextResult({
     required this.context,
     required this.value,
   });

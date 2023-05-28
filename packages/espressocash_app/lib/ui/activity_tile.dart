@@ -7,7 +7,7 @@ enum CpActivityTileStatus { inProgress, success, failure, canceled }
 
 class CpActivityTile extends StatelessWidget {
   const CpActivityTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.status,
@@ -15,7 +15,7 @@ class CpActivityTile extends StatelessWidget {
     this.incomingAmount,
     this.outgoingAmount,
     this.onTap,
-  }) : super(key: key);
+  });
 
   final String title;
   final Widget icon;

@@ -1,9 +1,11 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
 import 'package:solana/src/curve25519/field_element.dart';
 import 'package:solana/src/curve25519/projective_point.dart';
 
+@immutable
 class EdwardsPoint {
-  EdwardsPoint(this._x, this._y, this._z, this._t);
+  const EdwardsPoint(this._x, this._y, this._z, this._t);
 
   static final EdwardsPoint identity = EdwardsPoint(
     FieldElement.zero,
@@ -12,10 +14,10 @@ class EdwardsPoint {
     FieldElement.zero,
   );
 
-  late final FieldElement _x;
-  late final FieldElement _y;
-  late final FieldElement _z;
-  late final FieldElement _t;
+  final FieldElement _x;
+  final FieldElement _y;
+  final FieldElement _z;
+  final FieldElement _t;
 
   CompressedEdwardsY compress() {
     final r = _z.invert();
