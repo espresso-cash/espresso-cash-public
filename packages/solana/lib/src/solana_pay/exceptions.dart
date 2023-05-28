@@ -31,5 +31,5 @@ class FetchTransactionException implements Exception {
   final String message;
 
   @override
-  String toString() => '$runtimeType($message)';
+  String toString() => '$FetchTransactionException($message)';
 }
