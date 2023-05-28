@@ -1,6 +1,6 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ramp_flutter/configuration.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -26,15 +26,15 @@ class AddCashButton extends StatelessWidget {
           text: context.l10n.addCash,
           onPressed: () {
             final configuration = _defaultConfiguration
+              ..defaultFlow = 'ONRAMP'
               ..userAddress =
                   context.read<MyAccount>().wallet.publicKey.toBase58();
 
-            RampFlutter.showRamp(
-              configuration,
-              (_, __, ___) {},
-              () => context.notifyBalanceAffected(),
-              ignore,
-            );
+            RampFlutter()
+              ..onRampClosed = () {
+                context.notifyBalanceAffected();
+              }
+              ..showRamp(configuration);
           },
         ),
       );
