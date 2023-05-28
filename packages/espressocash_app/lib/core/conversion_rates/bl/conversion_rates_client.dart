@@ -39,9 +39,9 @@ class PricesMapDto with _$PricesMapDto {
   Decimal to(Currency currency) {
     if (currency == Currency.usd) {
       return usd?.let((s) => Decimal.parse(s.toString())) ?? Decimal.zero;
-    } else {
-      throw FormatException('unsupported fiat currency ${currency.name}');
     }
+
+    throw FormatException('unsupported fiat currency ${currency.name}');
   }
 }
 

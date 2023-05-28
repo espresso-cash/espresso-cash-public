@@ -8,13 +8,13 @@ import 'pick_image_container.dart';
 
 class ProfileImagePicker extends StatefulWidget {
   const ProfileImagePicker({
-    Key? key,
+    super.key,
     required this.onChanged,
     required this.label,
     this.onLabelClicked,
     this.labelStyle,
     this.photo,
-  }) : super(key: key);
+  });
 
   final TextStyle? labelStyle;
   final ValueSetter<File?> onChanged;
@@ -69,7 +69,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   void _showPicker(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
-      builder: (BuildContext bc) => Container(
+      builder: (BuildContext bc) => ColoredBox(
         color: Colors.white,
         child: SafeArea(
           child: Column(

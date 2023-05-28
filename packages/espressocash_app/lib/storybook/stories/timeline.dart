@@ -42,7 +42,7 @@ final cpTimeline = Story(
   ),
 );
 
-final _data = <CpTimelineItem>[
+const _data = <CpTimelineItem>[
   CpTimelineItem(
     title: 'Tile #1',
     subtitle: 'Tile Subtitle #1',

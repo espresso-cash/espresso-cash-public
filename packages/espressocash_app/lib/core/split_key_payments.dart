@@ -125,8 +125,6 @@ class SplitKeySecondLink with _$SplitKeySecondLink {
         key: secondPart,
         apiVersion: SplitKeyApiVersion.manual,
       );
-    } else {
-      return null;
     }
   }
 

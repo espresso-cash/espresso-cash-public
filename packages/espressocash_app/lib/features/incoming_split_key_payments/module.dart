@@ -11,7 +11,7 @@ import 'src/bl/tx_sent_watcher.dart';
 import 'src/widgets/pending_iskp_listener.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {
-  const ISKPModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const ISKPModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

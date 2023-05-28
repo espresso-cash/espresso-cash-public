@@ -23,6 +23,7 @@ List<int> base58decode(String base58String) {
       throw FormatException('Invalid base58 character found: $currentByte');
     }
     for (int j = size - 1; j >= 0; j--, i++) {
+      // ignore: avoid-inverted-boolean-checks, fix later
       if (!((carry != 0) || (i < length))) break;
       carry += 58 * bytes256[j];
       bytes256[j] = carry % 256;

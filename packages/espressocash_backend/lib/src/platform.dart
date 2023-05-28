@@ -14,8 +14,8 @@ extension RequestExt on Request {
       return Platform.ios;
     } else if (userAgent.contains('Android')) {
       return Platform.android;
-    } else {
-      return Platform.web;
     }
+
+    return Platform.web;
   }
 }

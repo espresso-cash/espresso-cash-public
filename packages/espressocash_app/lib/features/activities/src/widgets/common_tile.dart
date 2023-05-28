@@ -10,9 +10,9 @@ import '../../models/transaction.dart';
 
 class CommonTile extends StatelessWidget {
   const CommonTile({
-    Key? key,
+    super.key,
     required this.txCommon,
-  }) : super(key: key);
+  });
 
   final TxCommon txCommon;
 

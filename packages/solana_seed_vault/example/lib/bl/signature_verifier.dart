@@ -4,6 +4,7 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 import 'package:wallet_example/bl/utils.dart';
 
 class SignatureVerifier {
+  const SignatureVerifier();
   Future<String> verify({
     required AuthToken authToken,
     required List<SigningRequest> signingRequests,

@@ -23,12 +23,12 @@ part 'version_section.dart';
 
 class ProfileSection extends StatelessWidget {
   const ProfileSection({
-    Key? key,
+    super.key,
     this.title,
     required this.actions,
     this.color = Colors.white,
     required this.padding,
-  }) : super(key: key);
+  });
 
   final String? title;
   final List<Widget> actions;

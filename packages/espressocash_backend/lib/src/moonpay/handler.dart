@@ -47,11 +47,5 @@ extension on Uri {
 }
 
 extension on String {
-  String toMoonpaySymbol() {
-    if (toLowerCase() == 'usdc') {
-      return 'usdc_sol';
-    } else {
-      return this;
-    }
-  }
+  String toMoonpaySymbol() => toLowerCase() == 'usdc' ? 'usdc_sol' : this;
 }

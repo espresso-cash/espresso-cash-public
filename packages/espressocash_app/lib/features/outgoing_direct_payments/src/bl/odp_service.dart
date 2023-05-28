@@ -15,7 +15,7 @@ import 'repository.dart';
 
 @injectable
 class ODPService {
-  ODPService(this._client, this._repository);
+  const ODPService(this._client, this._repository);
 
   final CryptopleaseClient _client;
   final ODPRepository _repository;

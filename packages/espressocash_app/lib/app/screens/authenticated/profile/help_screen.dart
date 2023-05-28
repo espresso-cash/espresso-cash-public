@@ -8,7 +8,7 @@ import '../../../../ui/app_bar.dart';
 import 'components/profile_button.dart';
 
 class HelpScreen extends StatelessWidget {
-  const HelpScreen({Key? key}) : super(key: key);
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

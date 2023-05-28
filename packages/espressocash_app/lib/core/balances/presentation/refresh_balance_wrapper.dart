@@ -15,13 +15,16 @@ import '../bl/balances_bloc.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 
-typedef RefreshBalancesBuilder = Widget Function(BuildContext, AsyncCallback);
+typedef RefreshBalancesBuilder = Widget Function(
+  BuildContext context,
+  AsyncCallback callback,
+);
 
 class RefreshBalancesWrapper extends StatefulWidget {
   const RefreshBalancesWrapper({
-    Key? key,
+    super.key,
     required this.builder,
-  }) : super(key: key);
+  });
 
   final RefreshBalancesBuilder builder;
 

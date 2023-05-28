@@ -8,8 +8,7 @@ import 'src/bl/bloc.dart';
 import 'src/bl/repository.dart';
 
 class FavoriteTokensModule extends SingleChildStatelessWidget {
-  const FavoriteTokensModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const FavoriteTokensModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) =>

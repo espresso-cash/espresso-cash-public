@@ -8,13 +8,13 @@ import '../button.dart';
 
 class PickImageContainer extends StatelessWidget {
   const PickImageContainer({
-    Key? key,
+    super.key,
     this.image,
     this.pickImageClicked,
     this.labelStyle,
     required this.label,
     required this.onLabelClicked,
-  }) : super(key: key);
+  });
 
   final File? image;
   final VoidCallback? pickImageClicked;

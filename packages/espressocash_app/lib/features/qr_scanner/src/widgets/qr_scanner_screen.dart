@@ -188,7 +188,7 @@ class _ContentState extends State<_Content> {
 }
 
 class _PermissionText extends StatelessWidget {
-  const _PermissionText({Key? key}) : super(key: key);
+  const _PermissionText();
 
   @override
   Widget build(BuildContext context) => Padding(

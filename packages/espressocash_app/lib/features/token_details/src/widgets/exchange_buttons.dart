@@ -7,9 +7,9 @@ import '../../../swap/widgets/extensions.dart';
 
 class ExchangeButtons extends StatelessWidget {
   const ExchangeButtons({
-    Key? key,
+    super.key,
     required this.token,
-  }) : super(key: key);
+  });
 
   final Token token;
 

@@ -11,7 +11,7 @@ import '../../../../../ui/theme.dart';
 import 'backup_phrase_flow_screen.dart';
 
 class BackupWarningScreen extends StatelessWidget {
-  const BackupWarningScreen({Key? key}) : super(key: key);
+  const BackupWarningScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(

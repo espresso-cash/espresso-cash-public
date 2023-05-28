@@ -9,14 +9,14 @@ import 'status_widget.dart';
 
 class StatusScreen extends StatelessWidget {
   const StatusScreen({
-    Key? key,
+    super.key,
     required this.statusType,
     this.content,
     this.title,
     this.onBackButtonPressed,
     this.statusTitle,
     required this.statusContent,
-  }) : super(key: key);
+  });
 
   final CpStatusType statusType;
   final Widget? content;

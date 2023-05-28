@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class PinDisplay extends StatefulWidget {
   const PinDisplay({
-    Key? key,
+    super.key,
     required this.maxDigits,
     required this.currentDigits,
-  }) : super(key: key);
+  });
 
   final int maxDigits;
   final int currentDigits;

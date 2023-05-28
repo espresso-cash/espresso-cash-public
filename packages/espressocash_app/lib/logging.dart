@@ -6,12 +6,12 @@ import 'package:logging/logging.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 void setUpLogging() {
-  if (kDebugMode) {
-    Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen((r) {
-      developer.log('${r.loggerName}: ${r.message}', level: r.level.value);
-    });
-  }
+  if (!kDebugMode) return;
+
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((r) {
+    developer.log('${r.loggerName}: ${r.message}', level: r.level.value);
+  });
 }
 
 class Observer extends BlocObserver {

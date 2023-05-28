@@ -16,7 +16,7 @@ import '../../../../ui/loader.dart';
 import '../bl/sign_in_bloc.dart';
 
 class SignInFlowScreen extends StatefulWidget {
-  const SignInFlowScreen({Key? key}) : super(key: key);
+  const SignInFlowScreen({super.key});
 
   @override
   State<SignInFlowScreen> createState() => _SignInFlowScreenState();
@@ -32,7 +32,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
 
   @override
-  PageRouteInfo? get initialRoute =>
+  PageRouteInfo get initialRoute =>
       GetStartedRoute(isSaga: sl<bool>(instanceName: 'isSaga'));
 
   @override
@@ -78,6 +78,8 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
 }
 
 abstract class SignInRouter {
+  const SignInRouter();
+
   void onSignIn();
   void onMnemonicConfirmed();
 }

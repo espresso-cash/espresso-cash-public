@@ -13,7 +13,7 @@ import 'swap_repository.dart';
 
 @injectable
 class SwapService {
-  SwapService(this._swapRepository, this._routeRepository);
+  const SwapService(this._swapRepository, this._routeRepository);
 
   final SwapRepository _swapRepository;
   final RouteRepository _routeRepository;
@@ -60,7 +60,7 @@ class SwapService {
         userPublicKey: account.address,
       );
 
-      return _createTx(route: route, account: account);
+      return await _createTx(route: route, account: account);
     } on Exception {
       return const SwapStatus.txFailure(
         reason: TxFailureReason.creatingFailure,

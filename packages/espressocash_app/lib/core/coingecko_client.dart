@@ -4,7 +4,7 @@ import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.da
 import 'package:path_provider/path_provider.dart';
 
 class CoingeckoClient {
-  CoingeckoClient._(this.dio, this.options);
+  const CoingeckoClient._(this.dio, this.options);
 
   final Dio dio;
   final CacheOptions options;
@@ -47,12 +47,10 @@ class CacheInterceptor extends Interceptor {
 
     final cache = await store.get(key);
 
-    if (cache != null &&
-        DateTime.now().difference(cache.responseDate) < maxAge) {
-      return handler.resolve(cache.toResponse(options, fromNetwork: false));
-    }
-
-    return handler.next(options);
+    return cache != null &&
+            DateTime.now().difference(cache.responseDate) < maxAge
+        ? handler.resolve(cache.toResponse(options, fromNetwork: false))
+        : handler.next(options);
   }
 }
 

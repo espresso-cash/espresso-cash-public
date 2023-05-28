@@ -57,6 +57,7 @@ class CreateSwap {
       ),
       _repository.getUsdcPrice(),
     ]);
+    // ignore: cast_nullable_to_non_nullable, required info
     final route = responses.first as RouteInfo;
     final price = responses.last as double?;
 
@@ -224,28 +225,26 @@ extension on Message {
         TokenProgram.closeAccountInstructionIndex,
       )) return [ix];
 
-      if (ix.accounts.first.pubKey != wrappedSolAccount) {
-        return [
-          Instruction(
-            programId: ix.programId,
-            accounts: [
-              ix.accounts.first,
-              AccountMeta.writeable(pubKey: platform, isSigner: false),
-              ...ix.accounts.skip(2),
-            ],
-            data: ix.data,
-          ),
-        ];
-      } else {
-        return [
-          ix,
-          SystemInstruction.transfer(
-            fundingAccount: sender,
-            lamports: tokenProgramRent,
-            recipientAccount: platform,
-          ),
-        ];
-      }
+      return ix.accounts.first.pubKey != wrappedSolAccount
+          ? [
+              Instruction(
+                programId: ix.programId,
+                accounts: [
+                  ix.accounts.first,
+                  AccountMeta.writeable(pubKey: platform, isSigner: false),
+                  ...ix.accounts.skip(2),
+                ],
+                data: ix.data,
+              ),
+            ]
+          : [
+              ix,
+              SystemInstruction.transfer(
+                fundingAccount: sender,
+                lamports: tokenProgramRent,
+                recipientAccount: platform,
+              ),
+            ];
     }).toList();
 
     return Message(instructions: instructions);

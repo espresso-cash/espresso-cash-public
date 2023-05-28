@@ -13,7 +13,6 @@ class AppWrapper extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.light(
         child: Builder(
           builder: (context) => MaterialApp(
-            useInheritedMediaQuery: true,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,

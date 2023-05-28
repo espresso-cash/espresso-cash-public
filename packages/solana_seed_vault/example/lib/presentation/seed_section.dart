@@ -6,7 +6,7 @@ import 'package:wallet_example/bl/bloc.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class SeedSection extends StatefulWidget {
-  const SeedSection({Key? key}) : super(key: key);
+  const SeedSection({super.key});
 
   @override
   State<SeedSection> createState() => _SeedSectionState();
