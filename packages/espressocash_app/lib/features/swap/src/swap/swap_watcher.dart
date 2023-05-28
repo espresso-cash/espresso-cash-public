@@ -35,19 +35,17 @@ abstract class SwapWatcher {
 
       for (final swap in swaps) {
         final job = _operations[swap.id];
-        if (job != null) {
-          return;
-        } else {
-          _operations[swap.id] = createJob(swap).call().then((newSwap) async {
-            if (swap != newSwap) {
-              if (newSwap.status.affectsBalance) {
-                onBalanceAffected();
-              }
-              await _repository.save(newSwap);
+        if (job != null) return;
+
+        _operations[swap.id] = createJob(swap).call().then((newSwap) async {
+          if (swap != newSwap) {
+            if (newSwap.status.affectsBalance) {
+              onBalanceAffected();
             }
-            _operations.remove(swap.id);
-          });
-        }
+            await _repository.save(newSwap);
+          }
+          _operations.remove(swap.id);
+        });
       }
     });
   }

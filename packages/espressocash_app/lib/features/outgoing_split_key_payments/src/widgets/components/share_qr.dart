@@ -101,7 +101,7 @@ class _QrBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 18),
+        padding: const EdgeInsets.all(18),
         child: LayoutBuilder(
           builder: (context, constraints) => Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -50,7 +50,7 @@ class CreateSwapScreen extends StatefulWidget {
 class _CreateSwapScreenState extends State<CreateSwapScreen> {
   final _amountController = TextEditingController();
   late final CreateSwapBloc _bloc;
-  Timer? timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -68,9 +68,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
   }
 
   void _resetTimer(DateTime? expiresAt) {
-    timer?.cancel();
+    _timer?.cancel();
     if (expiresAt == null) return;
-    timer = Timer(expiresAt.difference(DateTime.now()), _onRouteExpired);
+    _timer = Timer(expiresAt.difference(DateTime.now()), _onRouteExpired);
   }
 
   void _onSubmit() {
@@ -119,9 +119,11 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
 
   @override
   void dispose() {
-    _amountController.removeListener(_updateValue);
+    _amountController
+      ..removeListener(_updateValue)
+      ..dispose();
     _bloc.close();
-    timer?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 

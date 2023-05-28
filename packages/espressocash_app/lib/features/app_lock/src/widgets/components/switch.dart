@@ -5,19 +5,19 @@ import '../../../../../ui/switch.dart';
 
 class MenuSwitch extends StatelessWidget {
   const MenuSwitch({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.icon,
     required this.value,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   final String title;
   final String description;
   final SvgGenImage icon;
   final bool value;
-  final void Function(bool) onChanged;
+  final ValueSetter<bool> onChanged;
 
   @override
   Widget build(BuildContext context) => ListTile(

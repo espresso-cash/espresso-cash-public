@@ -60,7 +60,7 @@ class GetStartedScreen extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -74,7 +74,7 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({Key? key, required this.isSaga}) : super(key: key);
+  const _Footer({required this.isSaga});
 
   final bool isSaga;
 
@@ -163,11 +163,11 @@ class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key}) : super(key: key);
+  const _Body();
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

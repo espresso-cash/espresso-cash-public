@@ -4,11 +4,11 @@ import 'rounded_rectangle.dart';
 
 class CpMessageInfoWidget extends StatelessWidget {
   const CpMessageInfoWidget({
-    Key? key,
+    super.key,
     required this.content,
     this.backgroundColor,
-    this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-  }) : super(key: key);
+    this.padding = const EdgeInsets.all(24),
+  });
 
   final Widget content;
   final Color? backgroundColor;

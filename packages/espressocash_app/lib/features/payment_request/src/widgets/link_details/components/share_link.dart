@@ -14,9 +14,9 @@ import '../../../../models/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
   const ShareLink({
-    Key? key,
+    super.key,
     required this.paymentRequest,
-  }) : super(key: key);
+  });
 
   final PaymentRequest paymentRequest;
 
@@ -55,7 +55,7 @@ class ShareLink extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
           _Subtitle(text: context.l10n.sharePaymentRequestLinkDescription),
@@ -68,7 +68,7 @@ class ShareLink extends StatelessWidget {
 }
 
 class _Instructions extends StatelessWidget {
-  const _Instructions({Key? key}) : super(key: key);
+  const _Instructions();
 
   @override
   Widget build(BuildContext context) => Text.rich(
@@ -84,10 +84,7 @@ class _Instructions extends StatelessWidget {
 }
 
 class _Links extends StatelessWidget {
-  const _Links({
-    Key? key,
-    required this.link,
-  }) : super(key: key);
+  const _Links({required this.link});
 
   final String link;
 
@@ -105,7 +102,7 @@ class _Links extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle({Key? key, required this.text}) : super(key: key);
+  const _Subtitle({required this.text});
 
   final String text;
 

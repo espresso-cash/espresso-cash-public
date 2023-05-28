@@ -27,7 +27,7 @@ class BlockProduction {
 
 @JsonSerializable(createToJson: false)
 class BlockProductionResult extends ContextResult<BlockProduction> {
-  BlockProductionResult({required super.context, required super.value});
+  const BlockProductionResult({required super.context, required super.value});
 
   factory BlockProductionResult.fromJson(Map<String, dynamic> json) =>
       _$BlockProductionResultFromJson(json);

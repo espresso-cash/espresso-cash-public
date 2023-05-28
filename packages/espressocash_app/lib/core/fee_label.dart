@@ -65,7 +65,7 @@ class _FeeLabelState extends State<FeeLabel> {
 
 @injectable
 class FeeCalculator {
-  FeeCalculator(this._cryptopleaseClient, this._solanaClient);
+  const FeeCalculator(this._cryptopleaseClient, this._solanaClient);
 
   final CryptopleaseClient _cryptopleaseClient;
   final SolanaClient _solanaClient;

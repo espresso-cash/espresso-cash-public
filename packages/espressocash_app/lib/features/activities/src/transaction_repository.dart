@@ -21,7 +21,7 @@ import 'updater/tx_updater_repository.dart';
 
 @injectable
 class TransactionRepository {
-  TransactionRepository(this._db, this._tokens);
+  const TransactionRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
@@ -86,8 +86,8 @@ class TransactionRepository {
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   Stream<Activity?> findActivityOrNull({
     required Expression<bool> Function(Tbl tbl) where,
-    required FutureOr<Activity> Function(D) builder,
-    bool Function(D) ignoreWhen = T,
+    required FutureOr<Activity> Function(D data) builder,
+    bool Function(D data) ignoreWhen = T,
   }) {
     final query = select()
       ..where(where)

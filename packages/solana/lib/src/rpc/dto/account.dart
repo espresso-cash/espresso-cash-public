@@ -42,7 +42,7 @@ class Account {
 
 @JsonSerializable(createToJson: false)
 class AccountResult extends ContextResult<Account?> {
-  AccountResult({required super.context, required super.value});
+  const AccountResult({required super.context, required super.value});
 
   factory AccountResult.fromJson(Map<String, dynamic> json) =>
       _$AccountResultFromJson(json);
@@ -50,7 +50,7 @@ class AccountResult extends ContextResult<Account?> {
 
 @JsonSerializable(createToJson: false)
 class MultipleAccountsResult extends ContextResult<List<Account?>> {
-  MultipleAccountsResult({required super.context, required super.value});
+  const MultipleAccountsResult({required super.context, required super.value});
 
   factory MultipleAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$MultipleAccountsResultFromJson(json);

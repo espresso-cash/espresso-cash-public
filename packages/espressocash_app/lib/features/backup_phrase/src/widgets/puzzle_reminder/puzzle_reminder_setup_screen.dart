@@ -11,7 +11,7 @@ import '../../bl/puzzle_reminder_bloc.dart';
 import 'components/puzzle_screen.dart';
 
 class PuzzleReminderSetupScreen extends StatefulWidget {
-  const PuzzleReminderSetupScreen({Key? key}) : super(key: key);
+  const PuzzleReminderSetupScreen({super.key});
 
   @override
   State<PuzzleReminderSetupScreen> createState() =>

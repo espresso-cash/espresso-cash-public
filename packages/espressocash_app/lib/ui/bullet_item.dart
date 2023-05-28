@@ -4,9 +4,9 @@ import 'colors.dart';
 
 class CpBulletItemWidget extends StatelessWidget {
   const CpBulletItemWidget({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 

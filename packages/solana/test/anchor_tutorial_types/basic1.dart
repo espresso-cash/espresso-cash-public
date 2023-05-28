@@ -24,9 +24,9 @@ class Basic1DataAccount implements AnchorAccount {
   factory Basic1DataAccount.fromAccountData(AccountData accountData) {
     if (accountData is BinaryAccountData) {
       return Basic1DataAccount._fromBinary(accountData.data);
-    } else {
-      throw const FormatException('invalid account data found');
     }
+
+    throw const FormatException('invalid account data found');
   }
 
   @override
@@ -42,7 +42,7 @@ class _AccountData with _$_AccountData {
     @BU64() required BigInt data,
   }) = __AccountData;
 
-  _AccountData._();
+  const _AccountData._();
 
   factory _AccountData.fromBorsh(Uint8List data) =>
       _$_AccountDataFromBorsh(data);
@@ -54,7 +54,7 @@ class Basic1Arguments with _$Basic1Arguments {
     @BU64() required BigInt data,
   }) = _Basic1Arguments;
 
-  Basic1Arguments._();
+  const Basic1Arguments._();
 
   factory Basic1Arguments.fromBorsh(Uint8List data) =>
       _$Basic1ArgumentsFromBorsh(data);

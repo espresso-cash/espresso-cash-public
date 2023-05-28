@@ -4,9 +4,9 @@ import 'colors.dart';
 
 class CpBackgroundGradient extends StatelessWidget {
   const CpBackgroundGradient({
-    Key? key,
+    super.key,
     this.child,
-  }) : super(key: key);
+  });
 
   final Widget? child;
 

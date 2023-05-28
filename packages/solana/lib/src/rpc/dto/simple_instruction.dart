@@ -6,7 +6,7 @@ part 'simple_instruction.g.dart';
 
 @JsonSerializable(createToJson: false)
 class SimpleInstruction implements Instruction {
-  SimpleInstruction({
+  const SimpleInstruction({
     required this.programId,
     required this.data,
     required this.accounts,

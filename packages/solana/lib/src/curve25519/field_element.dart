@@ -1,8 +1,10 @@
-// ignore_for_file: prefer-first
+// ignore_for_file: avoid-self-assignment
 
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/extensions.dart';
 import 'package:solana/src/curve25519/sqrt_ratio_m1_result.dart';
 
+@immutable
 class FieldElement {
   FieldElement(this._t) {
     if (_t.length != 10) {

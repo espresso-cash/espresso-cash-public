@@ -11,8 +11,8 @@ class InvestmentSettingsRepository extends ChangeNotifier {
   bool get displayEmptyBalances =>
       _sharedPreferences.getBool(_hideZeroBalanceKey) ?? false;
 
-  Future<void> toggleDisplayEmptyBalances(bool value) async {
-    await _sharedPreferences.setBool(_hideZeroBalanceKey, value);
+  Future<void> toggleDisplayEmptyBalances({required bool isEnabled}) async {
+    await _sharedPreferences.setBool(_hideZeroBalanceKey, isEnabled);
     notifyListeners();
   }
 

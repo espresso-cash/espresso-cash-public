@@ -4,12 +4,12 @@ import '../../../../../ui/colors.dart';
 
 class ProfileButton extends StatelessWidget {
   const ProfileButton({
-    Key? key,
+    super.key,
     required this.label,
     this.description,
     this.onPressed,
     this.color = CpColors.primaryTextColor,
-  }) : super(key: key);
+  });
 
   final String label;
   final String? description;

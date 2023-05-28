@@ -63,6 +63,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
           final data = account.data;
 
           if (data is ParsedAccountData) {
+            // ignore: prefer-return-await, not needed here
             return data.maybeWhen<Future<_MainTokenAccount?>>(
               splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
                 account: (a) =>
@@ -71,8 +72,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
               ),
               orElse: () async => null,
             );
-          } else {
-            return null;
           }
         }),
       ).then(compact);
@@ -99,7 +98,8 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
 
       emit(
         state.copyWith(
-          processingState: ProcessingState.error(BalancesRequestException()),
+          processingState:
+              const ProcessingState.error(BalancesRequestException()),
         ),
       );
       emit(state.copyWith(processingState: const ProcessingState.none()));
@@ -107,7 +107,9 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   }
 }
 
-class BalancesRequestException implements Exception {}
+class BalancesRequestException implements Exception {
+  const BalancesRequestException();
+}
 
 class _MainTokenAccount {
   const _MainTokenAccount._(this.pubKey, this.info, this.token);
@@ -125,12 +127,9 @@ class _MainTokenAccount {
     if (expectedPubKey.toBase58() != pubKey) return null;
 
     final token = tokens.findTokenByMint(info.mint);
-    if (token == null) {
-      // TODO(IA): we should find a way to display this
-      return null;
-    }
 
-    return _MainTokenAccount._(pubKey, info, token);
+    // TODO(IA): we should find a way to display this
+    return token == null ? null : _MainTokenAccount._(pubKey, info, token);
   }
 
   final Token token;
@@ -140,7 +139,7 @@ class _MainTokenAccount {
 
 extension SortedBalance on Map<Token, Amount> {
   Iterable<MapEntry<Token, Amount>> _splitAndSort(
-    bool Function(MapEntry<Token, Amount>) test,
+    bool Function(MapEntry<Token, Amount> entry) test,
   ) =>
       entries.where(test).toList()
         ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));

@@ -116,3 +116,5 @@ test-ledger
 .packages~master
 
 **/pubspec_overrides.yaml
+
+.fvm/flutter_sdk

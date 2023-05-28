@@ -2,6 +2,7 @@ import 'package:pigeon/pigeon.dart';
 
 @HostApi()
 abstract class ApiLocalAssociationScenario {
+  const ApiLocalAssociationScenario();
   @async
   void create(int id);
 
@@ -57,7 +58,7 @@ abstract class ApiLocalAssociationScenario {
 }
 
 class GetCapabilitiesResultDto {
-  GetCapabilitiesResultDto({
+  const GetCapabilitiesResultDto({
     required this.supportsCloneAuthorization,
     required this.supportsSignAndSendTransactions,
     required this.maxTransactionsPerSigningRequest,
@@ -71,7 +72,7 @@ class GetCapabilitiesResultDto {
 }
 
 class AuthorizationResultDto {
-  AuthorizationResultDto({
+  const AuthorizationResultDto({
     required this.authToken,
     required this.publicKey,
     required this.accountLabel,
@@ -85,7 +86,7 @@ class AuthorizationResultDto {
 }
 
 class SignPayloadsResultDto {
-  SignPayloadsResultDto({
+  const SignPayloadsResultDto({
     required this.signedPayloads,
   });
 
@@ -93,7 +94,7 @@ class SignPayloadsResultDto {
 }
 
 class SignAndSendTransactionsResultDto {
-  SignAndSendTransactionsResultDto({
+  const SignAndSendTransactionsResultDto({
     required this.signatures,
   });
 
@@ -101,7 +102,7 @@ class SignAndSendTransactionsResultDto {
 }
 
 class SignedMessageDto {
-  SignedMessageDto({
+  const SignedMessageDto({
     required this.message,
     required this.addresses,
     required this.signatures,
@@ -113,7 +114,7 @@ class SignedMessageDto {
 }
 
 class SignMessagesResultDto {
-  SignMessagesResultDto({
+  const SignMessagesResultDto({
     required this.messages,
   });
 

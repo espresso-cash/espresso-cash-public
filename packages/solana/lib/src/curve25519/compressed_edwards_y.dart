@@ -1,3 +1,4 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/edwards_point.dart';
 import 'package:solana/src/curve25519/extensions.dart';
 import 'package:solana/src/curve25519/field_element.dart';
@@ -9,8 +10,9 @@ final _d = FieldElement(
   ].map(BigInt.from).toList(),
 );
 
+@immutable
 class CompressedEdwardsY {
-  CompressedEdwardsY(this._data);
+  const CompressedEdwardsY(this._data);
 
   final List<BigInt> _data;
 

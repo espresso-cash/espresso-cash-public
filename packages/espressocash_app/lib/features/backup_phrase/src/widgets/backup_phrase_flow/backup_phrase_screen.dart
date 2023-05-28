@@ -12,7 +12,7 @@ import '../../../mnemonic_getter.dart';
 import 'backup_phrase_flow_screen.dart';
 
 class BackupPhraseScreen extends StatefulWidget {
-  const BackupPhraseScreen({Key? key}) : super(key: key);
+  const BackupPhraseScreen({super.key});
 
   @override
   State<BackupPhraseScreen> createState() => _BackupPhraseScreenState();

@@ -13,11 +13,12 @@ class AsyncSnapshotResult<T> with _$AsyncSnapshotResult<T> {
 extension AsyncSnapshotExt<T> on AsyncSnapshot<T> {
   AsyncSnapshotResult<T> toResult() {
     if (hasError) {
-      return AsyncSnapshotResult.error(error as Object);
+      // ignore: avoid-non-null-assertion, checked for hasError
+      return AsyncSnapshotResult.error(error!);
     } else if (hasData) {
       return AsyncSnapshotResult.data(data as T);
-    } else {
-      return const AsyncSnapshotResult.loading();
     }
+
+    return const AsyncSnapshotResult.loading();
   }
 }

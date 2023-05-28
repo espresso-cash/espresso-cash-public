@@ -8,12 +8,12 @@ import 'swap_fee.dart';
 
 class EquivalentHeader extends StatelessWidget {
   const EquivalentHeader({
-    Key? key,
+    super.key,
     required this.inputAmount,
     required this.outputAmount,
     required this.isLoadingRoute,
     required this.feeAmount,
-  }) : super(key: key);
+  });
 
   final CryptoAmount inputAmount;
   final CryptoAmount outputAmount;
@@ -61,7 +61,7 @@ class EquivalentHeader extends StatelessWidget {
 }
 
 class _Loading extends StatelessWidget {
-  const _Loading({Key? key}) : super(key: key);
+  const _Loading();
 
   @override
   Widget build(BuildContext context) => const Center(

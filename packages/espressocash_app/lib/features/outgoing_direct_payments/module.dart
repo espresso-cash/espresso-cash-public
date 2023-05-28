@@ -11,7 +11,7 @@ import 'src/bl/tx_sent_watcher.dart';
 import 'src/widgets/link_listener.dart';
 
 class ODPModule extends SingleChildStatelessWidget {
-  const ODPModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const ODPModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.7.8"
-  DART_VERSION: "2.19.5"
+  FLUTTER_VERSION: "3.10.2"
+  DART_VERSION: "3.0.2"
 
 jobs:
   formatting:
@@ -66,7 +66,6 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: ${{ env.DART_VERSION }}
-
 
       - uses: subosito/flutter-action@v2
         with:
@@ -156,7 +155,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.7.2"
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Activate utils
         run: make activate_utils

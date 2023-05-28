@@ -1,10 +1,6 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '13.0'
 
-source 'https://github.com/CocoaPods/Specs.git'
-source 'https://github.com/passbase/cocoapods-specs.git'
-source 'https://github.com/passbase/microblink-cocoapods-specs.git'
-
 $FirebaseAnalyticsWithoutAdIdSupport = true
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -38,7 +34,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'Ramp', :git => 'https://github.com/RampNetwork/ramp-sdk-ios', :tag => '2.0.0'
+  pod 'Ramp', :git => 'https://github.com/RampNetwork/ramp-sdk-ios', :tag => '4.0.1'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

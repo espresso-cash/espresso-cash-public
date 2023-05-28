@@ -27,7 +27,7 @@ class TxCreatedWatcher extends SwapWatcher {
 }
 
 class _SwapTxCreatedJob extends CancelableJob<Swap> {
-  _SwapTxCreatedJob(this.swap, this.sender);
+  const _SwapTxCreatedJob(this.swap, this.sender);
 
   final Swap swap;
   final TxSender sender;
@@ -53,10 +53,6 @@ class _SwapTxCreatedJob extends CancelableJob<Swap> {
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return swap.copyWith(status: newStatus);
+    return newStatus == null ? null : swap.copyWith(status: newStatus);
   }
 }

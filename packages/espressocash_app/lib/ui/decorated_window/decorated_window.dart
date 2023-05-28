@@ -9,7 +9,7 @@ enum BackgroundStyle { gradient, light, dark }
 
 class DecoratedWindow extends StatelessWidget {
   const DecoratedWindow({
-    Key? key,
+    super.key,
     this.title,
     this.message,
     required this.child,
@@ -20,7 +20,7 @@ class DecoratedWindow extends StatelessWidget {
     this.backgroundStyle = BackgroundStyle.gradient,
     this.markdownMessage = false,
     this.bottomButton,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final String? title;
@@ -83,11 +83,10 @@ class DecoratedWindow extends StatelessWidget {
     );
     switch (backgroundStyle) {
       case BackgroundStyle.dark:
+      case BackgroundStyle.light:
         return content;
       case BackgroundStyle.gradient:
         return CpBackgroundGradient(child: content);
-      case BackgroundStyle.light:
-        return content;
     }
   }
 }

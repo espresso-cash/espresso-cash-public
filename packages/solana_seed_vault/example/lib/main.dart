@@ -10,7 +10,7 @@ import 'package:wallet_example/presentation/seed_section.dart';
 void main() {
   runApp(
     BlocProvider<SeedVaultBloc>(
-      create: (context) => SeedVaultBloc(SignatureVerifier())..init(),
+      create: (context) => SeedVaultBloc(const SignatureVerifier())..init(),
       child: const MyApp(),
     ),
   );
@@ -24,12 +24,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late final SeedVaultBloc bloc;
+  late final SeedVaultBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    bloc = context.read<SeedVaultBloc>();
+    _bloc = context.read<SeedVaultBloc>();
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 
   @override
@@ -40,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               title: const Text('FakeWallet'),
               actions: [
                 IconButton(
-                  onPressed: bloc.refreshUI,
+                  onPressed: _bloc.refreshUI,
                   icon: const Icon(Icons.refresh),
                 ),
               ],
@@ -52,7 +58,7 @@ class _MyAppState extends State<MyApp> {
                 error: (state) => Text(state.err),
                 unauthorized: always(
                   ElevatedButton(
-                    onPressed: bloc.init,
+                    onPressed: _bloc.init,
                     child: const Text('Request permission'),
                   ),
                 ),
@@ -64,7 +70,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 class SeedVaultContent extends StatelessWidget {
-  const SeedVaultContent({Key? key}) : super(key: key);
+  const SeedVaultContent({super.key});
 
   @override
   Widget build(BuildContext context) => Padding(

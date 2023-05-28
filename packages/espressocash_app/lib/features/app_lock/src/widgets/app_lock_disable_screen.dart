@@ -9,7 +9,7 @@ import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockDisableScreen extends StatelessWidget {
-  const AppLockDisableScreen({Key? key}) : super(key: key);
+  const AppLockDisableScreen({super.key});
 
   @override
   Widget build(BuildContext context) => BlocConsumer<AppLockBloc, AppLockState>(

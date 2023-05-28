@@ -6,11 +6,11 @@ import '../../../../../ui/colors.dart';
 
 class TokenDropDown extends StatelessWidget {
   const TokenDropDown({
-    Key? key,
+    super.key,
     required this.current,
     required this.onTokenChanged,
     required this.availableTokens,
-  }) : super(key: key);
+  });
 
   final Token current;
   final ValueSetter<Token> onTokenChanged;
@@ -29,11 +29,10 @@ class TokenDropDown extends StatelessWidget {
 
 class _Item extends StatelessWidget {
   const _Item({
-    Key? key,
     required this.label,
     required this.selected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String label;
   final VoidCallback? onTap;
@@ -84,15 +83,14 @@ class _Item extends StatelessWidget {
 
 class _TokenDropDown extends StatefulWidget {
   const _TokenDropDown({
-    Key? key,
     required this.onChanged,
     required this.value,
     required this.items,
-  }) : super(key: key);
+  });
 
   final Token value;
   final List<Token> items;
-  final void Function(Token) onChanged;
+  final ValueSetter<Token> onChanged;
 
   @override
   State<_TokenDropDown> createState() => _TokenDropDownState();
@@ -124,7 +122,9 @@ class _TokenDropDownState extends State<_TokenDropDown>
 
   @override
   void dispose() {
+    _scrollController.dispose();
     _animationController.dispose();
+    _overlayEntry.dispose();
     super.dispose();
   }
 
@@ -139,6 +139,7 @@ class _TokenDropDownState extends State<_TokenDropDown>
       );
 
   OverlayEntry _createOverlayEntry() {
+    // ignore: cast_nullable_to_non_nullable, RenderBox is not nullable
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
 
@@ -207,13 +208,15 @@ class _TokenDropDownState extends State<_TokenDropDown>
     if (_isOpen || close) {
       await _animationController.reverse();
       _overlayEntry.remove();
-      setState(() {
-        _isOpen = false;
-      });
+      if (!mounted) return;
+
+      setState(() => _isOpen = false);
     } else {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry);
+      if (!mounted) return;
       setState(() => _isOpen = true);
+
       await _animationController.forward();
     }
   }

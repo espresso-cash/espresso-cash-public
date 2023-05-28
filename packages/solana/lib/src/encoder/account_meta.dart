@@ -1,9 +1,11 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 
 /// Class that wraps addresses with information necessary for solana
 /// transactions to be encoded correctly.
+@immutable
 class AccountMeta implements Comparable<AccountMeta> {
-  AccountMeta({
+  const AccountMeta({
     required this.pubKey,
     required this.isWriteable,
     required this.isSigner,

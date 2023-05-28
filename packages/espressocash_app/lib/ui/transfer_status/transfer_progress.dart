@@ -19,10 +19,10 @@ class TransferProgress extends StatelessWidget {
         title: context.l10n.splitKeyTransferTitle,
         statusContent: Text(context.l10n.splitKeyTransactionLoading),
         statusType: CpStatusType.info,
-        content: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+        content: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
           child: Column(
-            children: const [
+            children: [
               SizedBox(height: 50),
               Center(
                 child: CircularProgressIndicator(

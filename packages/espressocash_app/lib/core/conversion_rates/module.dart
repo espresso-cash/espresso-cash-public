@@ -8,8 +8,7 @@ import 'bl/conversion_rates_bloc.dart';
 import 'bl/repository.dart';
 
 class ConversionRatesModule extends SingleChildStatelessWidget {
-  const ConversionRatesModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const ConversionRatesModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

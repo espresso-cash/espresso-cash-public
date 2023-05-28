@@ -1,5 +1,5 @@
 abstract class Sysvar {
-  Sysvar._();
+  const Sysvar._();
 
   static const clock = 'SysvarC1ock11111111111111111111111111111111';
   static const recentBlockHashes =
