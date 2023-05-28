@@ -5,12 +5,12 @@ import '../colors.dart';
 
 class CpNavigationButton extends StatelessWidget {
   const CpNavigationButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.active,
     required this.onPressed,
     this.badge,
-  }) : super(key: key);
+  });
 
   final SvgGenImage icon;
   final bool active;
@@ -51,7 +51,7 @@ class CpNavigationButton extends StatelessWidget {
 }
 
 class _Badge extends StatelessWidget {
-  const _Badge({Key? key, required this.value}) : super(key: key);
+  const _Badge({required this.value});
 
   final int value;
 

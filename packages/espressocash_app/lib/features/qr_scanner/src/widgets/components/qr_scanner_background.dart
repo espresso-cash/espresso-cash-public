@@ -8,9 +8,9 @@ import '../../../../../gen/assets.gen.dart';
 
 class QrScannerBackground extends StatelessWidget {
   const QrScannerBackground({
-    Key? key,
+    super.key,
     required this.child,
-  }) : super(key: key);
+  });
 
   final Widget child;
 
@@ -34,7 +34,7 @@ class QrScannerBackground extends StatelessWidget {
 }
 
 class _Painter extends CustomPainter {
-  _Painter({
+  const _Painter({
     required this.frame,
     required this.dimension,
   });

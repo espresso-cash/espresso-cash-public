@@ -8,13 +8,13 @@ class BinaryWriter {
   int length = 0;
 
   void _maybeResize() {
-    if (buf.lengthInBytes < 16 + length) {
-      final list = Uint8List.fromList([
-        ...buf.buffer.asUint8List(),
-        ...Uint8List(_initialLength),
-      ]);
-      buf = list.buffer.asByteData();
-    }
+    if (buf.lengthInBytes >= 16 + length) return;
+
+    final list = Uint8List.fromList([
+      ...buf.buffer.asUint8List(),
+      ...Uint8List(_initialLength),
+    ]);
+    buf = list.buffer.asByteData();
   }
 
   void writeU8(int value) {
@@ -56,13 +56,13 @@ class BinaryWriter {
     _writeBuffer(buffer);
   }
 
-  void writeFixedArray<T>(Iterable<T> array, void Function(T) fn) {
+  void writeFixedArray<T>(Iterable<T> array, void Function(T item) fn) {
     for (final item in array) {
       fn(item);
     }
   }
 
-  void writeArray<T>(Iterable<T> array, void Function(T) fn) {
+  void writeArray<T>(Iterable<T> array, void Function(T item) fn) {
     writeU32(array.length);
     for (final item in array) {
       fn(item);

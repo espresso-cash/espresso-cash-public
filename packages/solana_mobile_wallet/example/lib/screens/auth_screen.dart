@@ -5,9 +5,9 @@ import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({
-    Key? key,
+    super.key,
     required this.request,
-  }) : super(key: key);
+  });
 
   final AuthorizeRequest request;
 

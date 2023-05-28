@@ -11,7 +11,7 @@ final cpSwitch = Story(
 );
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key}) : super(key: key);
+  const _Content();
 
   @override
   _ContentState createState() => _ContentState();

@@ -6,7 +6,7 @@ import 'package:solana_mobile_client/src/local_association_scenario.dart';
 part 'mobile_wallet_adapter_client.freezed.dart';
 
 class MobileWalletAdapterClient {
-  MobileWalletAdapterClient(this._scenarioId);
+  const MobileWalletAdapterClient(this._scenarioId);
 
   final int _scenarioId;
 

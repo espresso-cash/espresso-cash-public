@@ -8,7 +8,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/tab_bar.dart';
 
 class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({Key? key}) : super(key: key);
+  const ActivitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

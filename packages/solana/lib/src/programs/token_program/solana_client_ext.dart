@@ -1,3 +1,5 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'dart:typed_data';
 
 import 'package:solana/dto.dart';

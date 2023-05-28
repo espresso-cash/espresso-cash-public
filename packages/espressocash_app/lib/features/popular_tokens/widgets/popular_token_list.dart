@@ -29,23 +29,21 @@ class PopularTokenList extends StatelessWidget {
             ),
           );
 
-          if (state.tokens.isNotEmpty) {
-            return SliverList(
-              delegate: SliverChildListDelegate(
-                state.tokens.entries
-                    .map((e) => _TokenItem(e.key, e.value))
-                    .toList(),
-              ),
-            );
-          }
-
-          return state.processingState.when(
-            none: () => loader,
-            processing: () => loader,
-            error: (_) => SliverToBoxAdapter(
-              child: Center(child: Text(context.l10n.failedToLoadTokens)),
-            ),
-          );
+          return state.tokens.isNotEmpty
+              ? SliverList(
+                  delegate: SliverChildListDelegate(
+                    state.tokens.entries
+                        .map((e) => _TokenItem(e.key, e.value))
+                        .toList(),
+                  ),
+                )
+              : state.processingState.when(
+                  none: () => loader,
+                  processing: () => loader,
+                  error: (_) => SliverToBoxAdapter(
+                    child: Center(child: Text(context.l10n.failedToLoadTokens)),
+                  ),
+                );
         },
       );
 }
@@ -59,7 +57,7 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
 
     final Amount tokenRate = Amount.fromDecimal(
       currency: fiatCurrency,
@@ -111,10 +109,7 @@ class _TokenItem extends StatelessWidget {
 }
 
 class _TokenSymbolWidget extends StatelessWidget {
-  const _TokenSymbolWidget(
-    this.symbol, {
-    Key? key,
-  }) : super(key: key);
+  const _TokenSymbolWidget(this.symbol);
 
   final String symbol;
 
@@ -122,10 +117,7 @@ class _TokenSymbolWidget extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: 57,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6,
-            horizontal: 6,
-          ),
+          padding: const EdgeInsets.all(6),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.lightPillBackgroundColor,

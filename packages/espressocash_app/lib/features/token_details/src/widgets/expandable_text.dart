@@ -6,10 +6,10 @@ import '../../../../l10n/l10n.dart';
 
 class ExpandableText extends StatefulWidget {
   const ExpandableText({
-    Key? key,
+    super.key,
     required this.text,
     required this.maxLines,
-  }) : super(key: key);
+  });
 
   final TextSpan text;
   final int maxLines;
@@ -48,23 +48,21 @@ class _ExpandableTextState extends State<ExpandableText> {
               tapRecognizer: _tapRecognizer,
               showLessButton: !overflowed,
             );
-          } else {
-            final croppedText = _ellipsizeText(boxes);
-            final ellipsizedText =
-                _buildEllipsizedText(croppedText, _tapRecognizer);
-
-            if (ellipsizedText.measure(context, constraints).length <=
-                maxLines) {
-              return ellipsizedText;
-            } else {
-              final fixedEllipsizedText = croppedText.substring(
-                0,
-                croppedText.length - lineEnding.length,
-              );
-
-              return _buildEllipsizedText(fixedEllipsizedText, _tapRecognizer);
-            }
           }
+          final croppedText = _ellipsizeText(boxes);
+          final ellipsizedText =
+              _buildEllipsizedText(croppedText, _tapRecognizer);
+
+          if (ellipsizedText.measure(context, constraints).length <= maxLines) {
+            return ellipsizedText;
+          }
+
+          final fixedEllipsizedText = croppedText.substring(
+            0,
+            croppedText.length - lineEnding.length,
+          );
+
+          return _buildEllipsizedText(fixedEllipsizedText, _tapRecognizer);
         },
       );
 

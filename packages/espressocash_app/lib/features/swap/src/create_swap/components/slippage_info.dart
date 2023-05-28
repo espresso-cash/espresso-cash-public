@@ -7,10 +7,10 @@ import '../../../models/swap_seed.dart';
 
 class SlippageInfo extends StatelessWidget {
   const SlippageInfo({
-    Key? key,
+    super.key,
     required this.slippage,
     required this.onSlippageChanged,
-  }) : super(key: key);
+  });
 
   final Slippage slippage;
   final ValueSetter<Slippage> onSlippageChanged;
@@ -61,9 +61,8 @@ extension on Slippage {
 
 class _SlippageBottomSheet extends StatelessWidget {
   const _SlippageBottomSheet({
-    Key? key,
     required this.onSlippageChange,
-  }) : super(key: key);
+  });
 
   final ValueSetter<Slippage> onSlippageChange;
 
@@ -116,6 +115,8 @@ class _SlippageBottomSheet extends StatelessWidget {
             const SizedBox(height: 24),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              // TODO(KB): Migrate to slivers
+              // ignore: avoid-shrink-wrap-in-lists, migrate later
               child: ListView.separated(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

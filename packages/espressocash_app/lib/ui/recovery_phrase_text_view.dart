@@ -9,11 +9,11 @@ import 'theme.dart';
 
 class RecoveryPhraseTextView extends StatelessWidget {
   const RecoveryPhraseTextView({
-    Key? key,
+    super.key,
     this.phrase = '',
     this.backgroundColor,
     this.hasCopyButton = true,
-  }) : super(key: key);
+  });
 
   final String phrase;
   final Color? backgroundColor;
@@ -29,7 +29,7 @@ class RecoveryPhraseTextView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+              padding: const EdgeInsets.all(24),
               child: Text(
                 phrase,
                 textAlign: TextAlign.justify,

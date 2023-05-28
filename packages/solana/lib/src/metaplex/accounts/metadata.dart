@@ -30,7 +30,7 @@ class Metadata with _$Metadata {
     @BOption(BOnChainCollection()) required OnChainCollection? collection,
     @BOption(BUses()) required Uses? uses,
     @BOption(BCollectionDetails())
-        required CollectionDetails? collectionDetails,
+    required CollectionDetails? collectionDetails,
   }) = _Metadata;
 
   const Metadata._();

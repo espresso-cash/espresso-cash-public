@@ -5,6 +5,7 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:cryptography/cryptography.dart'
     show Ed25519, KeyPair, KeyPairType, SimpleKeyPairData, SimplePublicKey;
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/crypto/ed25519_hd_keypair_data.dart';
 import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/crypto/signature.dart';
@@ -75,14 +76,14 @@ class Ed25519HDKeyPair extends KeyPair {
   /// and passing the [mnemonic] seed phrase
   static Future<Ed25519HDKeyPair> fromMnemonic(
     String mnemonic, {
-    int account = 0,
-    int change = 0,
+    int? account,
+    int? change,
   }) async {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
 
     return Ed25519HDKeyPair.fromSeedWithHdPath(
       seed: seed,
-      hdPath: _getHDPath(account, change),
+      hdPath: getHDPath(account, change),
     );
   }
 
@@ -135,8 +136,22 @@ class Ed25519HDKeyPair extends KeyPair {
   }
 
   /// Build a derivation path with [account] and [change]
-  static String _getHDPath(int account, int change) =>
-      "m/44'/501'/$account'/$change'";
+  @visibleForTesting
+  static String getHDPath(int? account, int? change) {
+    final path = StringBuffer("m/44'/501'");
+
+    if (account != null) {
+      path.write("/$account'");
+    } else if (account == null && change != null) {
+      path.write("/0'");
+    }
+
+    if (change != null) {
+      path.write("/$change'");
+    }
+
+    return path.toString();
+  }
 
   /// The address or public key of this wallet
   static final _ed25519 = Ed25519();

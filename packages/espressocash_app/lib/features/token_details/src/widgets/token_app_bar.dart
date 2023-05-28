@@ -15,9 +15,9 @@ import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {
   const TokenAppBar({
-    Key? key,
+    super.key,
     required this.token,
-  }) : super(key: key);
+  });
 
   final Token token;
 
@@ -120,8 +120,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({Key? key, required this.token, required this.opacity})
-      : super(key: key);
+  const _Buttons({required this.token, required this.opacity});
 
   final Token token;
   final double opacity;

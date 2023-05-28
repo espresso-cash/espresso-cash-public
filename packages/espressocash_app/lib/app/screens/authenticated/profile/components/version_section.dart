@@ -1,7 +1,7 @@
 part of 'profile_section.dart';
 
 class VersionSection extends StatefulWidget {
-  const VersionSection({Key? key}) : super(key: key);
+  const VersionSection({super.key});
 
   @override
   State<VersionSection> createState() => _VersionSectionState();

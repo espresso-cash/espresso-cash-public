@@ -33,7 +33,7 @@ class HomeRouterKey {
 }
 
 class AuthenticatedFlowScreen extends StatefulWidget {
-  const AuthenticatedFlowScreen({Key? key}) : super(key: key);
+  const AuthenticatedFlowScreen({super.key});
 
   @override
   State<AuthenticatedFlowScreen> createState() =>

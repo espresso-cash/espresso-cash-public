@@ -1,7 +1,7 @@
 part of 'profile_section.dart';
 
 class ShareSection extends StatelessWidget {
-  const ShareSection({Key? key}) : super(key: key);
+  const ShareSection({super.key});
 
   @override
   Widget build(BuildContext context) => Center(

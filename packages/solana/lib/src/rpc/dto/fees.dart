@@ -27,7 +27,7 @@ class Fees {
 
 @JsonSerializable(createToJson: false)
 class FeesResult extends ContextResult<Fees> {
-  FeesResult({required super.context, required super.value});
+  const FeesResult({required super.context, required super.value});
 
   factory FeesResult.fromJson(Map<String, dynamic> json) =>
       _$FeesResultFromJson(json);

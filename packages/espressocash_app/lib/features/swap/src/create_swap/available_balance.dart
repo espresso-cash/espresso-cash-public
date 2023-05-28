@@ -8,10 +8,10 @@ import '../../../../ui/colors.dart';
 
 class AvailableBalance extends StatelessWidget {
   const AvailableBalance({
-    Key? key,
+    super.key,
     required this.maxAmountAvailable,
     required this.onMaxAmountRequested,
-  }) : super(key: key);
+  });
 
   final CryptoAmount maxAmountAvailable;
   final VoidCallback? onMaxAmountRequested;

@@ -1,5 +1,3 @@
-library encoder;
-
 export '../crypto/signature.dart';
 export 'account_meta.dart';
 export 'address_lookup_table/address_lookup_table.dart';

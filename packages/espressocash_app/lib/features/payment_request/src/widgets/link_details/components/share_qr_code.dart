@@ -10,9 +10,9 @@ import '../../../../models/payment_request.dart';
 
 class ShareQrCode extends StatelessWidget {
   const ShareQrCode({
-    Key? key,
+    super.key,
     required this.paymentRequest,
-  }) : super(key: key);
+  });
 
   final PaymentRequest paymentRequest;
 
@@ -27,7 +27,7 @@ class ShareQrCode extends StatelessWidget {
     final qrData = paymentRequest.payRequest.toUrl();
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
           _Subtitle(text: context.l10n.sharePaymentRequestQrCodeDescription),
@@ -40,10 +40,9 @@ class ShareQrCode extends StatelessWidget {
 
 class _QrCodeWrapper extends StatelessWidget {
   const _QrCodeWrapper({
-    Key? key,
     required this.amount,
     required this.qrData,
-  }) : super(key: key);
+  });
 
   final String? amount;
   final String qrData;
@@ -90,7 +89,7 @@ class _QrCodeWrapper extends StatelessWidget {
 }
 
 class _Subtitle extends StatelessWidget {
-  const _Subtitle({Key? key, required this.text}) : super(key: key);
+  const _Subtitle({required this.text});
 
   final String text;
 

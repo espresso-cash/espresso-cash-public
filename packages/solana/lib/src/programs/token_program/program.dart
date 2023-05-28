@@ -13,27 +13,27 @@ abstract class TokenProgram {
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 
   // Instruction indexes
-  static final initializeMintInstructionIndex = ByteArray([0]);
-  static final initializeAccountInstructionIndex = ByteArray([1]);
-  static final initializeMultisigInstructionIndex = ByteArray([2]);
-  static final transferInstructionIndex = ByteArray([3]);
-  static final approveInstructionIndex = ByteArray([4]);
-  static final revokeInstructionIndex = ByteArray([5]);
-  static final setAuthorityInstructionIndex = ByteArray([6]);
-  static final mintToInstructionIndex = ByteArray([7]);
-  static final burnInstructionIndex = ByteArray([8]);
-  static final closeAccountInstructionIndex = ByteArray([9]);
-  static final freezeAccountInstructionIndex = ByteArray([10]);
-  static final thawAccountInstructionIndex = ByteArray([11]);
-  static final transferCheckedInstructionIndex = ByteArray([12]);
-  static final approveCheckedInstructionIndex = ByteArray([13]);
-  static final mintToCheckedInstructionIndex = ByteArray([14]);
-  static final burnCheckedInstructionIndex = ByteArray([15]);
-  static final initializeAccount2InstructionIndex = ByteArray([16]);
-  static final syncNativeInstructionIndex = ByteArray([17]);
-  static final initializeAccount3InstructionIndex = ByteArray([18]);
-  static final initializeMultisig2InstructionIndex = ByteArray([19]);
-  static final initializeMint2InstructionIndex = ByteArray([20]);
+  static final initializeMintInstructionIndex = ByteArray(const [0]);
+  static final initializeAccountInstructionIndex = ByteArray(const [1]);
+  static final initializeMultisigInstructionIndex = ByteArray(const [2]);
+  static final transferInstructionIndex = ByteArray(const [3]);
+  static final approveInstructionIndex = ByteArray(const [4]);
+  static final revokeInstructionIndex = ByteArray(const [5]);
+  static final setAuthorityInstructionIndex = ByteArray(const [6]);
+  static final mintToInstructionIndex = ByteArray(const [7]);
+  static final burnInstructionIndex = ByteArray(const [8]);
+  static final closeAccountInstructionIndex = ByteArray(const [9]);
+  static final freezeAccountInstructionIndex = ByteArray(const [10]);
+  static final thawAccountInstructionIndex = ByteArray(const [11]);
+  static final transferCheckedInstructionIndex = ByteArray(const [12]);
+  static final approveCheckedInstructionIndex = ByteArray(const [13]);
+  static final mintToCheckedInstructionIndex = ByteArray(const [14]);
+  static final burnCheckedInstructionIndex = ByteArray(const [15]);
+  static final initializeAccount2InstructionIndex = ByteArray(const [16]);
+  static final syncNativeInstructionIndex = ByteArray(const [17]);
+  static final initializeAccount3InstructionIndex = ByteArray(const [18]);
+  static final initializeMultisig2InstructionIndex = ByteArray(const [19]);
+  static final initializeMint2InstructionIndex = ByteArray(const [20]);
 
   // This is computed by adding the bytes in the following
   // structure

@@ -36,21 +36,21 @@ T parseWithEncoding<T>(
       return fromEncoded(_normalized(encoded));
     } else if (encoding == 'base58') {
       return fromEncoded(base58decode(encoded));
-    } else {
-      if (onUnknownEncoding != null) {
-        return onUnknownEncoding(encoding);
-      } else {
-        throw FormatException('unknown encoding $encoding');
-      }
     }
+
+    if (onUnknownEncoding != null) {
+      return onUnknownEncoding(encoding);
+    }
+
+    throw FormatException('unknown encoding $encoding');
   } else if (data is Map<String, dynamic>) {
     // In this case this is more convenient than a redirecting factory
     return fromParsed(data);
   } else if (data is String) {
     return fromEncoded(_normalized(data));
-  } else {
-    throw const FormatException('account data is in unknown format');
   }
+
+  throw const FormatException('account data is in unknown format');
 }
 
 List<int> _normalized(String data) {
