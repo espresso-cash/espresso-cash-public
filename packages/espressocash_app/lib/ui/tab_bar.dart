@@ -43,11 +43,10 @@ class CpTabBar extends StatelessWidget {
 Color _backgroundColor(CpTabBarVariant variant) {
   switch (variant) {
     case CpTabBarVariant.dark:
+    case CpTabBarVariant.light:
       return CpColors.darkBackground;
     case CpTabBarVariant.inverted:
       return CpColors.yellowColor;
-    case CpTabBarVariant.light:
-      return CpColors.darkBackground;
   }
 }
 
@@ -65,21 +64,19 @@ Color _indicatorBackground(CpTabBarVariant variant) {
 Color _labelColor(CpTabBarVariant variant) {
   switch (variant) {
     case CpTabBarVariant.dark:
+    case CpTabBarVariant.light:
       return Colors.black;
     case CpTabBarVariant.inverted:
       return Colors.white;
-    case CpTabBarVariant.light:
-      return Colors.black;
   }
 }
 
 Color _unselectedLabelColor(CpTabBarVariant variant) {
   switch (variant) {
     case CpTabBarVariant.dark:
+    case CpTabBarVariant.light:
       return Colors.white;
     case CpTabBarVariant.inverted:
       return Colors.black;
-    case CpTabBarVariant.light:
-      return Colors.white;
   }
 }

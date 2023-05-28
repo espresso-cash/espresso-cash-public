@@ -41,9 +41,9 @@ class JsonRpcClient {
       return elements
           .map((_JsonRpcObjectResponse item) => item.data)
           .toList(growable: false);
-    } else {
-      throw const FormatException('unexpected jsonrpc response type');
     }
+
+    throw const FormatException('unexpected jsonrpc response type');
   }
 
   /// Calls the [method] jsonrpc-2.0 method with [params] parameters
@@ -60,9 +60,9 @@ class JsonRpcClient {
     final response = await _postRequest(request);
     if (response is _JsonRpcObjectResponse) {
       return response.data;
-    } else {
-      throw const FormatException('unexpected jsonrpc response type');
     }
+
+    throw const FormatException('unexpected jsonrpc response type');
   }
 
   Future<_JsonRpcResponse> _postRequest(
@@ -85,9 +85,9 @@ class JsonRpcClient {
     // Handle the response
     if (response.statusCode == 200) {
       return _JsonRpcResponse._parse(json.decode(response.body));
-    } else {
-      throw HttpException(response.statusCode, response.body);
     }
+
+    throw HttpException(response.statusCode, response.body);
   }
 }
 
@@ -120,16 +120,16 @@ abstract class _JsonRpcResponse {
         response.map((dynamic r) {
           if (r is Map<String, dynamic>) {
             return _JsonRpcObjectResponse(r);
-          } else {
-            throw const FormatException('cannot parse the jsonrpc response');
           }
+
+          throw const FormatException('cannot parse the jsonrpc response');
         }).toList(growable: false),
       );
     } else if (response is Map<String, dynamic>) {
       return _JsonRpcResponse._fromObject(response);
-    } else {
-      throw const FormatException('cannot parse the jsonrpc response');
     }
+
+    throw const FormatException('cannot parse the jsonrpc response');
   }
 }
 

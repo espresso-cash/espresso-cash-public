@@ -17,11 +17,10 @@ abstract class Message {
     }
 
     final accountKeys = accountKeysJson.map(AccountKey.fromJson);
-    if (accountKeys.every((k) => k is ParsedAccountKey)) {
-      return ParsedMessage.fromJson(json);
-    } else {
-      return RawMessage.fromJson(json);
-    }
+
+    return accountKeys.every((k) => k is ParsedAccountKey)
+        ? ParsedMessage.fromJson(json)
+        : RawMessage.fromJson(json);
   }
 
   abstract final List<AccountKey> accountKeys;

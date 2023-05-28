@@ -36,7 +36,7 @@ void showSnackBar(
 }
 
 class _ErrorMessage implements Exception {
-  _ErrorMessage(this.message);
+  const _ErrorMessage(this.message);
 
   final String message;
 }

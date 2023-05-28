@@ -6,11 +6,11 @@ enum CpTextButtonVariant { light, dark, inverted }
 
 class CpTextButton extends StatelessWidget {
   const CpTextButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
     this.variant = CpTextButtonVariant.dark,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback? onPressed;
@@ -22,7 +22,7 @@ class CpTextButton extends StatelessWidget {
         return Colors.white;
       case CpTextButtonVariant.inverted:
         return Colors.black;
-      default:
+      case CpTextButtonVariant.light:
         return CpColors.primaryColor;
     }
   }

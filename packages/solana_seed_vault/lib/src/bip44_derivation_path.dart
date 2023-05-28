@@ -3,13 +3,9 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 class Bip44DerivationPath {
   static Uri toUri(List<BipLevel> bipLevels) {
     final pathSegments = bipLevels.map(
-      (it) {
-        if (it.hardened) {
-          return '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}';
-        } else {
-          return it.index.toString();
-        }
-      },
+      (it) => it.hardened
+          ? '${it.index}${WalletContractV1.bipUriHardenedIndexIdentifier}'
+          : it.index.toString(),
     );
 
     return Uri(

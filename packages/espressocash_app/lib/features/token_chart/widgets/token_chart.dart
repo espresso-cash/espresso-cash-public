@@ -68,11 +68,10 @@ class TokenChart extends StatelessWidget {
 
 class _ChartWidget extends StatelessWidget {
   const _ChartWidget({
-    Key? key,
     required this.data,
     required this.onSelect,
     required this.interval,
-  }) : super(key: key);
+  });
 
   final IList<TokenChartItem> data;
   final ValueSetter<TokenChartItem?> onSelect;
@@ -133,7 +132,7 @@ class _ChartWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
 
     double minY = spots.first.y;
     double maxY = spots.first.y;

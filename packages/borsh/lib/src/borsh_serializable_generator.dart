@@ -5,6 +5,8 @@ import 'package:source_gen/source_gen.dart';
 
 class BorshSerializableGenerator
     extends GeneratorForAnnotation<BorshSerializable> {
+  const BorshSerializableGenerator();
+
   @override
   String generateForAnnotatedElement(
     Element element,
@@ -81,13 +83,13 @@ Iterable<String> _generatePrivateClassFields(
   Iterable<ParameterElement> parameters,
 ) sync* {
   for (final p in parameters) {
-    yield 'final ${p.type.toString()} ${p.name};';
+    yield 'final ${p.type} ${p.name};';
   }
 }
 
 Iterable<String> _generateFields(Iterable<ParameterElement> parameters) sync* {
   for (final parameter in parameters) {
-    yield '${parameter.type.toString()} get ${parameter.name} => throw UnimplementedError();';
+    yield '${parameter.type} get ${parameter.name} => throw UnimplementedError();';
   }
 }
 

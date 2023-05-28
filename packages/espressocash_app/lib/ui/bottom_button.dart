@@ -4,10 +4,10 @@ import 'button.dart';
 
 class CpBottomButton extends StatelessWidget {
   const CpBottomButton({
-    Key? key,
+    super.key,
     required this.text,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   final String text;
   final VoidCallback? onPressed;

@@ -71,10 +71,9 @@ class OSKPConfirmationScreen extends StatelessWidget {
 
 class _TokenCreateLinkContent extends StatelessWidget {
   const _TokenCreateLinkContent({
-    Key? key,
     required this.amount,
     required this.fee,
-  }) : super(key: key);
+  });
 
   final Amount amount;
   final Amount fee;
@@ -104,10 +103,7 @@ const _mediumTextStyle = TextStyle(
 );
 
 class _AmountView extends StatelessWidget {
-  const _AmountView({
-    Key? key,
-    required this.amount,
-  }) : super(key: key);
+  const _AmountView({required this.amount});
 
   final Amount amount;
 

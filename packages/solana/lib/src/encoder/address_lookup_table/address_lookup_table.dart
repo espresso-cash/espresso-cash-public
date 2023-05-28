@@ -9,7 +9,7 @@ part 'address_lookup_table.freezed.dart';
 const int _lookupTableMetaSize = 56;
 
 class AddressLookupTableAccount {
-  AddressLookupTableAccount({
+  const AddressLookupTableAccount({
     required this.key,
     required this.state,
   });

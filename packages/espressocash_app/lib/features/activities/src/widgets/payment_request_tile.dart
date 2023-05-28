@@ -15,9 +15,9 @@ import '../../../payment_request/widgets/payment_request_verifier.dart';
 
 class PaymentRequestTile extends StatefulWidget {
   const PaymentRequestTile({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
 
@@ -40,30 +40,26 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
         builder: (context, snapshot) {
           final data = snapshot.data;
 
-          if (data == null) {
-            return SizedBox.shrink(
-              key: ValueKey(widget.id),
-            );
-          }
-
-          return PaymentRequestVerifier(
-            key: ValueKey(widget.id),
-            paymentRequest: data,
-            child: CpActivityTile(
-              title: context.l10n.paymentRequestTitle(data.label),
-              icon: Assets.icons.paymentIcon.svg(),
-              timestamp: context.formatDate(data.created),
-              incomingAmount:
-                  data.formattedAmount(DeviceLocale.localeOf(context)),
-              status: data.state.map(
-                initial: always(CpActivityTileStatus.inProgress),
-                completed: always(CpActivityTileStatus.success),
-                failure: always(CpActivityTileStatus.failure),
-              ),
-              onTap: () =>
-                  context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
-            ),
-          );
+          return data == null
+              ? SizedBox.shrink(key: ValueKey(widget.id))
+              : PaymentRequestVerifier(
+                  key: ValueKey(widget.id),
+                  paymentRequest: data,
+                  child: CpActivityTile(
+                    title: context.l10n.paymentRequestTitle(data.label),
+                    icon: Assets.icons.paymentIcon.svg(),
+                    timestamp: context.formatDate(data.created),
+                    incomingAmount:
+                        data.formattedAmount(DeviceLocale.localeOf(context)),
+                    status: data.state.map(
+                      initial: always(CpActivityTileStatus.inProgress),
+                      completed: always(CpActivityTileStatus.success),
+                      failure: always(CpActivityTileStatus.failure),
+                    ),
+                    onTap: () =>
+                        context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
+                  ),
+                );
         },
       );
 }

@@ -46,15 +46,11 @@ extension on ChartInterval {
   String get dtoInterval {
     switch (this) {
       case ChartInterval.oneDay:
-        return 'hourly';
       case ChartInterval.oneWeek:
         return 'hourly';
       case ChartInterval.oneMonth:
-        return 'daily';
       case ChartInterval.threeMonth:
-        return 'daily';
       case ChartInterval.oneYear:
-        return 'daily';
       case ChartInterval.all:
         return 'daily';
     }

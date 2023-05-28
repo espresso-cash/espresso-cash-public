@@ -76,9 +76,7 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
 }
 
 class _FollowingTitle extends StatelessWidget {
-  const _FollowingTitle({
-    Key? key,
-  }) : super(key: key);
+  const _FollowingTitle();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -98,7 +96,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final currentPrice = this.currentPrice.formatDisplayablePrice(
           locale: DeviceLocale.localeOf(context),
           currency: fiatCurrency,

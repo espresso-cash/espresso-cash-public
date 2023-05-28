@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CpContentPadding extends StatelessWidget {
   const CpContentPadding({
-    Key? key,
+    super.key,
     required this.child,
     this.bottom = true,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final bool bottom;

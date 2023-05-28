@@ -10,7 +10,7 @@ import 'src/swap/tx_created_watcher.dart';
 import 'src/swap/tx_sent_watcher.dart';
 
 class SwapModule extends SingleChildStatelessWidget {
-  const SwapModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const SwapModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

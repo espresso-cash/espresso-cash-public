@@ -45,15 +45,17 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
     await _repository.refresh(event.currency, event.tokens).doOnLeftAsync(
       (exception) {
         _logger.severe('Failed to fetch conversion rates', exception);
-        final e = ConversionRatesRequestException();
-        emit(state.copyWith(processingState: ProcessingState.error(e)));
+        const e = ConversionRatesRequestException();
+        emit(state.copyWith(processingState: const ProcessingState.error(e)));
       },
     );
     emit(state.copyWith(processingState: const ProcessingState.none()));
   }
 }
 
-class ConversionRatesRequestException implements Exception {}
+class ConversionRatesRequestException implements Exception {
+  const ConversionRatesRequestException();
+}
 
 @freezed
 class ConversionRatesEvent with _$ConversionRatesEvent {

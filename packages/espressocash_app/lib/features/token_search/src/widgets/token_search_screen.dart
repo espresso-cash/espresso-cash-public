@@ -56,7 +56,7 @@ class _ContentState extends State<_Content> {
   final TextEditingController _controller = TextEditingController();
   CryptoCategories? _selected;
 
-  void onCategoryTap(CryptoCategories val) {
+  void _onCategoryTap(CryptoCategories val) {
     _selected = _selected != val ? val : null;
     context.read<TokenSearchBloc>().add(SearchCategoryRequest(_selected));
   }
@@ -64,7 +64,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
-    context.read<CryptoCategories?>().maybeFlatMap(onCategoryTap);
+    context.read<CryptoCategories?>().maybeFlatMap(_onCategoryTap);
     _controller.addListener(() {
       _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));
@@ -84,7 +84,7 @@ class _ContentState extends State<_Content> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: CpTextField(
               controller: _controller,
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+              padding: const EdgeInsets.all(12),
               fontSize: 14,
               border: CpTextFieldBorder.stadium,
               placeholder: context.l10n.searchPlaceholder,
@@ -114,7 +114,7 @@ class _ContentState extends State<_Content> {
                       ),
                       child: DiscoverHeader(
                         selected: _selected,
-                        onTap: onCategoryTap,
+                        onTap: _onCategoryTap,
                       ),
                     ),
                   Expanded(
@@ -123,18 +123,15 @@ class _ContentState extends State<_Content> {
                         failure: (_) => Text(context.l10n.failedToSearch),
                         initial: Container.new,
                         processing: LoadingIndicator.new,
-                        success: (result) {
-                          if (result.isEmpty) {
-                            return Text(context.l10n.emptySearch);
-                          }
-
-                          return ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            itemCount: result.length,
-                            itemBuilder: (context, index) =>
-                                _TokenItem(result[index]),
-                          );
-                        },
+                        success: (result) => result.isEmpty
+                            ? Text(context.l10n.emptySearch)
+                            : ListView.builder(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                itemCount: result.length,
+                                itemBuilder: (context, index) =>
+                                    _TokenItem(result[index]),
+                              ),
                       ),
                     ),
                   ),
@@ -190,10 +187,7 @@ class _TokenItem extends StatelessWidget {
 }
 
 class _TokenSymbolWidget extends StatelessWidget {
-  const _TokenSymbolWidget(
-    this.symbol, {
-    Key? key,
-  }) : super(key: key);
+  const _TokenSymbolWidget(this.symbol);
 
   final String symbol;
 
@@ -201,10 +195,7 @@ class _TokenSymbolWidget extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: 57,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6,
-            horizontal: 6,
-          ),
+          padding: const EdgeInsets.all(6),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.lightPillBackgroundColor,

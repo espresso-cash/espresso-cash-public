@@ -28,6 +28,7 @@ class SeedVaultState with _$SeedVaultState {
   }) = _Loaded;
 }
 
+// ignore: avoid-cubits, just an example
 class SeedVaultBloc extends Cubit<SeedVaultState> {
   SeedVaultBloc(this._signatureVerifier) : super(const SeedVaultState.none());
 
@@ -55,9 +56,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
           SeedVault.instance.notificationStream.listen((_) => refreshUI());
 
       return refreshUI();
-    } else {
-      return emit(const SeedVaultState.unauthorized());
     }
+
+    return emit(const SeedVaultState.unauthorized());
   }
 
   Future<void> refreshUI() async {

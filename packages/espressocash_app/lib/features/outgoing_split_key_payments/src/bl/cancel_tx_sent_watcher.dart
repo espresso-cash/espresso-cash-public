@@ -31,7 +31,7 @@ class CancelTxSentWatcher extends PaymentWatcher {
 }
 
 class _OSKPCancelTxSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
-  _OSKPCancelTxSentJob(this.payment, this.sender);
+  const _OSKPCancelTxSentJob(this.payment, this.sender);
 
   final OutgoingSplitKeyPayment payment;
   final TxSender sender;
@@ -57,10 +57,6 @@ class _OSKPCancelTxSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

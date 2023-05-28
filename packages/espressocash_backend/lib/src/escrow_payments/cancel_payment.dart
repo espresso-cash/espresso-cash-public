@@ -22,7 +22,7 @@ Future<Product2<SignedTx, BigInt>> cancelPaymentTx({
   );
 
   if (escrow == null) {
-    throw EspressoCashException(
+    throw const EspressoCashException(
       error: EspressoCashError.invalidEscrowAccount,
     );
   }

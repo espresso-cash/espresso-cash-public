@@ -12,4 +12,6 @@ import 'ui/splash_screen.dart';
     signUpFlowRoutes,
   ],
 )
-class $AppRouter {}
+class $AppRouter {
+  const $AppRouter();
+}

@@ -8,7 +8,7 @@ class EscrowArgument with _$EscrowArgument {
     @BU64() required BigInt amount,
   }) = _EscrowArgument;
 
-  EscrowArgument._();
+  const EscrowArgument._();
 
   factory EscrowArgument.fromBorsh(Uint8List data) =>
       _$EscrowArgumentFromBorsh(data);

@@ -6,8 +6,7 @@ import '../../di.dart';
 import 'src/bl/repository.dart';
 
 class PaymentRequestModule extends SingleChildStatelessWidget {
-  const PaymentRequestModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const PaymentRequestModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => LogoutListener(

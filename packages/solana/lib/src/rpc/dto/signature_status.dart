@@ -37,7 +37,7 @@ class SignatureStatus {
 
 @JsonSerializable(createToJson: false)
 class SignatureStatusesResult extends ContextResult<List<SignatureStatus?>> {
-  SignatureStatusesResult({required super.context, required super.value});
+  const SignatureStatusesResult({required super.context, required super.value});
 
   factory SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusesResultFromJson(json);

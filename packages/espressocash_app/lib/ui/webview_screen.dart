@@ -5,9 +5,9 @@ import 'app_bar.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
-    Key? key,
+    super.key,
     required this.url,
-  }) : super(key: key);
+  });
 
   final Uri url;
 

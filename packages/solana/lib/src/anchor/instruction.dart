@@ -7,14 +7,10 @@ import 'package:solana/src/encoder/instruction.dart';
 
 class AnchorInstruction extends Instruction {
   const AnchorInstruction._({
-    required Ed25519HDPublicKey programId,
-    required List<AccountMeta> accounts,
-    required ByteArray data,
-  }) : super(
-          programId: programId,
-          accounts: accounts,
-          data: data,
-        );
+    required super.programId,
+    required super.accounts,
+    required super.data,
+  });
 
   factory AnchorInstruction.withDiscriminator({
     required Ed25519HDPublicKey programId,
