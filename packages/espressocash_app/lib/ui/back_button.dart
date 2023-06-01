@@ -15,7 +15,8 @@ class CpBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canPop = ModalRoute.of(context)?.canPop ?? false;
+    final canPop =
+        Navigator.maybeOf(context) != null && Navigator.of(context).canPop();
 
     return ensureBackNavigation && !canPop
         ? const SizedBox.shrink()
