@@ -14,16 +14,19 @@ class CpBackButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   @override
-  Widget build(BuildContext context) =>
-      ensureBackNavigation && !Navigator.of(context).canPop()
-          ? const SizedBox.shrink()
-          : CpIconButton(
-              icon: Assets.icons.arrow.svg(
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white
-                    : Colors.black,
-              ),
-              variant: CpIconButtonVariant.transparent,
-              onPressed: onPressed ?? () => Navigator.of(context).pop(),
-            );
+  Widget build(BuildContext context) {
+    final canPop = ModalRoute.of(context)?.canPop ?? false;
+
+    return ensureBackNavigation && !canPop
+        ? const SizedBox.shrink()
+        : CpIconButton(
+            icon: Assets.icons.arrow.svg(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Colors.white
+                  : Colors.black,
+            ),
+            variant: CpIconButtonVariant.transparent,
+            onPressed: onPressed ?? () => Navigator.of(context).pop(),
+          );
+  }
 }
