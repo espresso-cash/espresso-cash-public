@@ -1,3 +1,8 @@
+## 1.75.0
+
+ - **REFACTOR**: update lint rules.
+ - **FEAT**: update ramp network to latest version (#986).
+
 ## 1.74.1
 
  - **REFACTOR**: update linter.

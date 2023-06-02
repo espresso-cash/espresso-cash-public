@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.74.1
+version: 1.75.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -49,7 +49,7 @@ dependencies:
   localizely_sdk: ^2.5.1
   logging: ^1.1.0
   meta: ^1.7.0
-  mews_pedantic: ^0.15.0-dev.2
+  mews_pedantic: ^0.15.0-dev.3
   mobile_scanner: ^3.0.0-beta.4
   nested: ^1.0.0
   package_info_plus: ^4.0.1
