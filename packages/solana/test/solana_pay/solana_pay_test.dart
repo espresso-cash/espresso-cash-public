@@ -99,9 +99,13 @@ void main() {
     () async {
       final sender = await Ed25519HDKeyPair.fromMnemonic(
         'basic quantum jacket depart mass pigeon act chair helmet spike milk arm',
+        account: 0,
+        change: 0,
       );
       final recipient = await Ed25519HDKeyPair.fromMnemonic(
         'between oyster enroll fade illness dune build wage oyster hundred embrace decorate',
+        account: 0,
+        change: 0,
       );
 
       final amount = Decimal.parse('0.2');
