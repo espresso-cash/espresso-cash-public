@@ -8,9 +8,9 @@ import '../../../../../ui/number_formatter.dart';
 
 class DisplayHeader extends StatelessWidget {
   const DisplayHeader({
-    Key? key,
+    super.key,
     required this.displayAmount,
-  }) : super(key: key);
+  });
 
   final String displayAmount;
 

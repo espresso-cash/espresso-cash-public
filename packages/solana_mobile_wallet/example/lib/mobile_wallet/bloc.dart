@@ -11,20 +11,11 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 part 'bloc.freezed.dart';
 part 'state.dart';
 
+// ignore: avoid-cubits, just an example
 class MobileWalletBloc extends Cubit<MobileWalletState>
     implements ScenarioCallbacks {
   MobileWalletBloc(this._keyPair) : super(const MobileWalletState.none()) {
-    _init();
-  }
-
-  Scenario? _scenario;
-  Completer<Object?>? _completer;
-
-  final Ed25519HDKeyPair _keyPair;
-  late final _client = RpcClient('https://api.testnet.solana.com');
-
-  Future<void> _init() async {
-    _scenario = await Scenario.create(
+    Api.instance.setup(
       walletConfig: const MobileWalletAdapterConfig(
         supportsSignAndSendTransactions: true,
         maxTransactionsPerSigningRequest: 10,
@@ -34,8 +25,17 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
       issuerConfig: const AuthIssuerConfig(name: 'example_wallet'),
       callbacks: this,
     );
+  }
 
-    _scenario?.start();
+  Scenario? _scenario;
+  Completer<Object?>? _completer;
+
+  final Ed25519HDKeyPair _keyPair;
+  late final _client = RpcClient('https://api.testnet.solana.com');
+
+  @override
+  void onScenarioReady(Scenario scenario) {
+    _scenario = scenario;
   }
 
   Future<void> authorizeDapp({
@@ -340,9 +340,6 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
 
   @override
   void onScenarioError() {}
-
-  @override
-  void onScenarioReady() {}
 
   @override
   void onScenarioServingClients() {}

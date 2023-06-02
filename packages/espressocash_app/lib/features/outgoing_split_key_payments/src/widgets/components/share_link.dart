@@ -53,7 +53,7 @@ class ShareLinks extends StatelessWidget {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
+      padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
           Padding(
@@ -76,10 +76,9 @@ class ShareLinks extends StatelessWidget {
 
 class _Links extends StatelessWidget {
   const _Links({
-    Key? key,
     required this.firstLink,
     required this.secondLink,
-  }) : super(key: key);
+  });
 
   final Uri firstLink;
   final Uri secondLink;
@@ -108,7 +107,7 @@ class _Links extends StatelessWidget {
 }
 
 class _Instructions extends StatelessWidget {
-  const _Instructions({Key? key}) : super(key: key);
+  const _Instructions();
 
   @override
   Widget build(BuildContext context) => Text.rich(

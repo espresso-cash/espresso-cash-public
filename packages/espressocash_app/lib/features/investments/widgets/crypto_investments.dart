@@ -33,33 +33,33 @@ class CryptoInvestments extends StatelessWidget {
       ignoreTokens: [Token.usdc],
     );
 
-    if (balance.decimal == Decimal.zero && !displayEmptyBalances) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
+    return balance.decimal == Decimal.zero && !displayEmptyBalances
+        ? const SliverToBoxAdapter(child: SizedBox.shrink())
+        : MultiSliver(
+            children: [
+              _Header(balance),
+              const SizedBox(height: 15),
+              BlocBuilder<BalancesBloc, BalancesState>(
+                builder: (context, state) {
+                  final tokens =
+                      state.userTokens.where((e) => e != Token.usdc).let(
+                            (tokens) => displayEmptyBalances
+                                ? tokens
+                                : tokens.where((token) {
+                                    final Decimal balance = context
+                                            .watchUserFiatBalance(token)
+                                            ?.decimal ??
+                                        Decimal.zero;
 
-    return MultiSliver(
-      children: [
-        _Header(balance),
-        const SizedBox(height: 15),
-        BlocBuilder<BalancesBloc, BalancesState>(
-          builder: (context, state) {
-            final tokens = state.userTokens.where((e) => e != Token.usdc).let(
-                  (tokens) => displayEmptyBalances
-                      ? tokens
-                      : tokens.where((token) {
-                          final Decimal balance =
-                              context.watchUserFiatBalance(token)?.decimal ??
-                                  Decimal.zero;
+                                    return balance >= _minimumUsdAmount;
+                                  }),
+                          );
 
-                          return balance >= _minimumUsdAmount;
-                        }),
-                );
-
-            return PortfolioWidget(tokens: IList(tokens));
-          },
-        ),
-      ],
-    );
+                  return PortfolioWidget(tokens: IList(tokens));
+                },
+              ),
+            ],
+          );
   }
 }
 

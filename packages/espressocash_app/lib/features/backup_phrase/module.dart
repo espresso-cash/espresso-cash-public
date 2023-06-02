@@ -13,10 +13,10 @@ import 'src/bl/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({
-    Key? key,
-    Widget? child,
+    super.key,
+    super.child,
     required this.mnemonic,
-  }) : super(key: key, child: child);
+  });
 
   final Future<String> mnemonic;
 
@@ -33,7 +33,7 @@ class BackupPhraseModule extends SingleChildStatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key, this.child}) : super(key: key);
+  const _Content({this.child});
 
   final Widget? child;
 

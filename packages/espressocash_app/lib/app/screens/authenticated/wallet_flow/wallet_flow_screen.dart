@@ -19,9 +19,7 @@ const _cryptoCurrency = Currency.usdc;
 final _minimumAmount = Decimal.parse('0.2');
 
 class WalletFlowScreen extends StatefulWidget {
-  const WalletFlowScreen({
-    Key? key,
-  }) : super(key: key);
+  const WalletFlowScreen({super.key});
 
   @override
   State<WalletFlowScreen> createState() => _State();
@@ -48,7 +46,11 @@ class _State extends State<WalletFlowScreen> {
     await context.launchQrScannerFlow(
       cryptoCurrency: _cryptoCurrency,
       defaultFiatAmount: _fiatAmount,
-      onFiatAmountChanged: (value) => setState(() => _fiatAmount = value),
+      onFiatAmountChanged: (value) {
+        if (!mounted) return;
+
+        setState(() => _fiatAmount = value);
+      },
     );
 
     if (!mounted) return;
@@ -95,6 +97,8 @@ class _State extends State<WalletFlowScreen> {
           if (!mounted) return;
 
           await context.router.replace(OSKPRoute(id: id));
+          if (!mounted) return;
+
           setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
         },
       ),

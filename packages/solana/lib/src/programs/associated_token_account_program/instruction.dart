@@ -51,10 +51,9 @@ class AssociatedTokenAccountInstruction extends Instruction {
       );
 
   AssociatedTokenAccountInstruction._({
-    required List<AccountMeta> accounts,
+    required super.accounts,
   }) : super(
           programId: AssociatedTokenAccountProgram.id,
-          accounts: accounts,
           data: const ByteArray.empty(),
         );
 }

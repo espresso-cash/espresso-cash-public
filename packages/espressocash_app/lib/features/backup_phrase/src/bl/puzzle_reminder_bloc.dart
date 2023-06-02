@@ -34,13 +34,12 @@ class PuzzleReminderBloc
 
   Future<PuzzleReminderData> _readSharedPreferences() async {
     final content = _sharedPreferences.getString(_spKey);
-    if (content == null) {
-      return const PuzzleReminderData.unset();
-    } else {
-      return PuzzleReminderData.fromJson(
-        json.decode(content) as Map<String, dynamic>,
-      );
-    }
+
+    return content == null
+        ? const PuzzleReminderData.unset()
+        : PuzzleReminderData.fromJson(
+            json.decode(content) as Map<String, dynamic>,
+          );
   }
 
   Future<void> _writeSharedPreferences(PuzzleReminderData data) =>

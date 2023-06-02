@@ -48,13 +48,9 @@ class JsonRpcException implements Exception {
   }
 
   @override
-  String toString() {
-    if (data != null) {
-      return 'jsonrpc-2.0 error ($code): $message\n\t$data';
-    } else {
-      return 'jsonrpc-2.0 error ($code): $message';
-    }
-  }
+  String toString() => data != null
+      ? 'jsonrpc-2.0 error ($code): $message\n\t$data'
+      : 'jsonrpc-2.0 error ($code): $message';
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)

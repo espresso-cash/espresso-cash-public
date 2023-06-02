@@ -7,10 +7,10 @@ import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountEdit extends StatefulWidget {
   const AccountEdit({
-    Key? key,
+    super.key,
     required this.authToken,
     required this.account,
-  }) : super(key: key);
+  });
 
   final AuthToken authToken;
   final Account account;
@@ -36,6 +36,12 @@ class _AccountEditState extends State<AccountEdit> {
         showSnackBar(context, it.map(always('Account name updated')));
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override

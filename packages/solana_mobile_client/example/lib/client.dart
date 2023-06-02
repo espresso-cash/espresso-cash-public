@@ -1,3 +1,5 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -7,6 +9,7 @@ import 'package:solana_mobile_client/solana_mobile_client.dart';
 
 part 'client.freezed.dart';
 
+// ignore: avoid-cubits, just an example
 class ClientBloc extends Cubit<ClientState> {
   ClientBloc(this._solanaClient) : super(const ClientState());
 
@@ -207,7 +210,7 @@ class ClientBloc extends Cubit<ClientState> {
 }
 
 extension<A> on Future<Iterable<A>> {
-  Future<Iterable<B>> thenMap<B>(B Function(A) f) =>
+  Future<Iterable<B>> thenMap<B>(B Function(A value) f) =>
       then((value) => value.map(f));
 }
 

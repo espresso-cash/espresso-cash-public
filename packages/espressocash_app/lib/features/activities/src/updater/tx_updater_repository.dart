@@ -10,7 +10,7 @@ import '../../models/transaction.dart';
 
 @injectable
 class TxUpdaterRepository {
-  TxUpdaterRepository(this._db, this._client);
+  const TxUpdaterRepository(this._db, this._client);
 
   final MyDatabase _db;
   final SolanaClient _client;
@@ -67,13 +67,15 @@ class TxUpdaterRepository {
 }
 
 class TransactionRows extends Table {
+  const TransactionRows();
+
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime().nullable()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 extension TransactionRowExt on TransactionRow {

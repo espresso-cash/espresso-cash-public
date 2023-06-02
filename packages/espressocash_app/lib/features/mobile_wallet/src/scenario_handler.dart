@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:injectable/injectable.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
@@ -12,14 +11,7 @@ import 'repository.dart';
 @injectable
 class ScenarioHandler implements ScenarioCallbacks {
   ScenarioHandler(this._repository) {
-    _init();
-  }
-
-  final MobileWalletRepository _repository;
-  late final Scenario? _scenario;
-
-  Future<void> _init() async {
-    _scenario = await Scenario.create(
+    Api.instance.setup(
       walletConfig: const MobileWalletAdapterConfig(
         supportsSignAndSendTransactions: true,
         maxTransactionsPerSigningRequest: maxPayloadsPerSigningRequest,
@@ -29,10 +21,10 @@ class ScenarioHandler implements ScenarioCallbacks {
       issuerConfig: const AuthIssuerConfig(name: 'Espresso Cash'),
       callbacks: this,
     );
-
-    _scenario?.start();
-    log('Scenario initialized');
   }
+
+  final MobileWalletRepository _repository;
+  Scenario? _scenario;
 
   @override
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) async {
@@ -95,7 +87,8 @@ class ScenarioHandler implements ScenarioCallbacks {
   void onScenarioError() {}
 
   @override
-  void onScenarioReady() {
+  void onScenarioReady(Scenario scenario) {
+    _scenario = scenario;
     _repository.notifyApp<void>(
       const MobileWalletNotification.initialized(),
     );

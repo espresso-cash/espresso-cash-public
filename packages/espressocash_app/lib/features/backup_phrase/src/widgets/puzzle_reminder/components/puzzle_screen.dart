@@ -6,11 +6,11 @@ import '../../../../../../ui/theme.dart';
 
 class PuzzleScreen extends StatelessWidget {
   const PuzzleScreen({
-    Key? key,
+    super.key,
     this.title,
     required this.child,
     this.backButton,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final String? title;

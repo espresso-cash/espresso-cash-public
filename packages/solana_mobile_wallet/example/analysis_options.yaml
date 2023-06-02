@@ -1,1 +1,5 @@
 include: package:mews_pedantic/analysis_options.yaml
+
+analyzer:
+  plugins:
+    - dart_code_metrics

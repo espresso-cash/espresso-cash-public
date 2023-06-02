@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class CpColors {
-  CpColors._();
+  const CpColors._();
 
   static const primaryColor = Color(0xffff6640); // red primary color
 

@@ -9,18 +9,24 @@ abstract class SystemProgram {
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 
-  static final createAccountInstructionIndex = ByteArray([0, 0, 0, 0]);
-  static final assignInstructionIndex = ByteArray([1, 0, 0, 0]);
-  static final transferInstructionIndex = ByteArray([2, 0, 0, 0]);
-  static final createAccountWithSeedInstructionIndex = ByteArray([3, 0, 0, 0]);
-  static final advanceNonceAccountInstructionIndex = ByteArray([4, 0, 0, 0]);
-  static final withdrawNonceAccountInstructionIndex = ByteArray([5, 0, 0, 0]);
-  static final initializeNonceAccountInstructionIndex = ByteArray([6, 0, 0, 0]);
-  static final authorizeNonceAccountInstructionIndex = ByteArray([7, 0, 0, 0]);
-  static final allocateInstructionIndex = ByteArray([8, 0, 0, 0]);
-  static final allocateWithSeedInstructionIndex = ByteArray([9, 0, 0, 0]);
-  static final assignWithSeedInstructionIndex = ByteArray([10, 0, 0, 0]);
-  static final transferWithSeedInstructionIndex = ByteArray([11, 0, 0, 0]);
+  static final createAccountInstructionIndex = ByteArray(const [0, 0, 0, 0]);
+  static final assignInstructionIndex = ByteArray(const [1, 0, 0, 0]);
+  static final transferInstructionIndex = ByteArray(const [2, 0, 0, 0]);
+  static final createAccountWithSeedInstructionIndex =
+      ByteArray(const [3, 0, 0, 0]);
+  static final advanceNonceAccountInstructionIndex =
+      ByteArray(const [4, 0, 0, 0]);
+  static final withdrawNonceAccountInstructionIndex =
+      ByteArray(const [5, 0, 0, 0]);
+  static final initializeNonceAccountInstructionIndex =
+      ByteArray(const [6, 0, 0, 0]);
+  static final authorizeNonceAccountInstructionIndex =
+      ByteArray(const [7, 0, 0, 0]);
+  static final allocateInstructionIndex = ByteArray(const [8, 0, 0, 0]);
+  static final allocateWithSeedInstructionIndex = ByteArray(const [9, 0, 0, 0]);
+  static final assignWithSeedInstructionIndex = ByteArray(const [10, 0, 0, 0]);
+  static final transferWithSeedInstructionIndex =
+      ByteArray(const [11, 0, 0, 0]);
 
   // Note: in the rust sdk this is computed dynamically.
   //

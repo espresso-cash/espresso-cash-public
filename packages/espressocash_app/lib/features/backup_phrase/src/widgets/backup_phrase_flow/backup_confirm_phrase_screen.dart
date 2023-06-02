@@ -13,9 +13,9 @@ import 'components/grid_phrase.dart';
 
 class BackupConfirmPhraseScreen extends StatefulWidget {
   const BackupConfirmPhraseScreen({
-    Key? key,
+    super.key,
     required this.correctPhrase,
-  }) : super(key: key);
+  });
 
   final String correctPhrase;
 

@@ -6,7 +6,7 @@ import 'package:wallet_example/presentation/account_list.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class SeedList extends StatelessWidget {
-  const SeedList({Key? key}) : super(key: key);
+  const SeedList({super.key});
 
   @override
   Widget build(BuildContext context) =>
@@ -27,9 +27,9 @@ class SeedList extends StatelessWidget {
 
 class SeedItem extends StatefulWidget {
   const SeedItem({
-    Key? key,
+    super.key,
     required this.seed,
-  }) : super(key: key);
+  });
 
   final Seed seed;
 

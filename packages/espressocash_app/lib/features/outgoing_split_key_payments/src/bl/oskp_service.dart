@@ -17,7 +17,7 @@ import 'repository.dart';
 
 @injectable
 class OSKPService {
-  OSKPService(this._client, this._repository);
+  const OSKPService(this._client, this._repository);
 
   final CryptopleaseClient _client;
   final OSKPRepository _repository;

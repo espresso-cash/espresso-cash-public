@@ -9,20 +9,23 @@ abstract class StakeProgram {
 
   static final Ed25519HDPublicKey id = Ed25519HDPublicKey.fromBase58(programId);
 
-  static final initializeInstructionIndex = ByteArray([0, 0, 0, 0]);
-  static final authorizeInstructionIndex = ByteArray([1, 0, 0, 0]);
-  static final delegateStakeInstructionIndex = ByteArray([2, 0, 0, 0]);
-  static final splitInstructionIndex = ByteArray([3, 0, 0, 0]);
-  static final withdrawInstructionIndex = ByteArray([4, 0, 0, 0]);
-  static final deactivateInstructionIndex = ByteArray([5, 0, 0, 0]);
-  static final setLockupInstructionIndex = ByteArray([6, 0, 0, 0]);
-  static final mergeInstructionIndex = ByteArray([7, 0, 0, 0]);
-  static final authorizeWithSeedInstructionIndex = ByteArray([8, 0, 0, 0]);
-  static final initializeCheckedInstructionIndex = ByteArray([9, 0, 0, 0]);
-  static final authorizeCheckedInstructionIndex = ByteArray([10, 0, 0, 0]);
+  static final initializeInstructionIndex = ByteArray(const [0, 0, 0, 0]);
+  static final authorizeInstructionIndex = ByteArray(const [1, 0, 0, 0]);
+  static final delegateStakeInstructionIndex = ByteArray(const [2, 0, 0, 0]);
+  static final splitInstructionIndex = ByteArray(const [3, 0, 0, 0]);
+  static final withdrawInstructionIndex = ByteArray(const [4, 0, 0, 0]);
+  static final deactivateInstructionIndex = ByteArray(const [5, 0, 0, 0]);
+  static final setLockupInstructionIndex = ByteArray(const [6, 0, 0, 0]);
+  static final mergeInstructionIndex = ByteArray(const [7, 0, 0, 0]);
+  static final authorizeWithSeedInstructionIndex =
+      ByteArray(const [8, 0, 0, 0]);
+  static final initializeCheckedInstructionIndex =
+      ByteArray(const [9, 0, 0, 0]);
+  static final authorizeCheckedInstructionIndex =
+      ByteArray(const [10, 0, 0, 0]);
   static final authorizeCheckedWithSeedInstructionIndex =
-      ByteArray([11, 0, 0, 0]);
-  static final setLockupCheckedIndex = ByteArray([12, 0, 0, 0]);
+      ByteArray(const [11, 0, 0, 0]);
+  static final setLockupCheckedIndex = ByteArray(const [12, 0, 0, 0]);
 
   // This is the maximum size that a stake account can use (192 bytes)
   // Meta                                (120 bytes)

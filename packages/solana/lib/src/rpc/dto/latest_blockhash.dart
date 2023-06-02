@@ -23,7 +23,7 @@ class LatestBlockhash {
 
 @JsonSerializable(createToJson: false)
 class LatestBlockhashResult extends ContextResult<LatestBlockhash> {
-  LatestBlockhashResult({required super.value, required super.context});
+  const LatestBlockhashResult({required super.value, required super.context});
 
   factory LatestBlockhashResult.fromJson(Map<String, dynamic> json) =>
       _$LatestBlockhashResultFromJson(json);

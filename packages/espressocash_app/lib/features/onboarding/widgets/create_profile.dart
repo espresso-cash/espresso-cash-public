@@ -12,10 +12,10 @@ import '../../../ui/back_button.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
-    Key? key,
+    super.key,
     required this.onSubmitted,
     required this.onBackButtonPressed,
-  }) : super(key: key);
+  });
 
   final void Function(String value, File? photo) onSubmitted;
   final VoidCallback onBackButtonPressed;

@@ -1,7 +1,7 @@
 part of 'profile_section.dart';
 
 class DangerSection extends StatelessWidget {
-  const DangerSection({Key? key}) : super(key: key);
+  const DangerSection({super.key});
 
   void _onLogOutPressed(BuildContext context) => showConfirmationDialog(
         context,

@@ -8,11 +8,11 @@ enum CpInfoVariant { light, dark }
 
 class CpInfoWidget extends StatelessWidget {
   const CpInfoWidget({
-    Key? key,
+    super.key,
     required this.message,
     this.variant = CpInfoVariant.light,
-    this.padding = const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
-  }) : super(key: key);
+    this.padding = const EdgeInsets.all(24),
+  });
 
   final Widget message;
   final EdgeInsetsGeometry padding;

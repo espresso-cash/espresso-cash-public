@@ -3,3 +3,6 @@ include: package:mews_pedantic/analysis_options.yaml
 analyzer:
   exclude:
     - "lib/src/api.dart"
+
+  plugins:
+    - dart_code_metrics

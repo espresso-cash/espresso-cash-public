@@ -18,7 +18,7 @@ Future<AnchorInstruction> createMasterEditionV3({
 
   return AnchorInstruction.withDiscriminator(
     programId: Ed25519HDPublicKey.fromBase58(metaplexMetadataProgramId),
-    discriminator: ByteArray([17]),
+    discriminator: ByteArray(const [17]),
     accounts: [
       AccountMeta.writeable(pubKey: programAddress, isSigner: false),
       AccountMeta.writeable(pubKey: mint, isSigner: false),
@@ -43,7 +43,7 @@ abstract class CreateMasterEditionV3Data with _$CreateMasterEditionV3Data {
     @BOption(BU64()) BigInt? maxSupply,
   }) = _CreateMasterEditionV3Data;
 
-  CreateMasterEditionV3Data._();
+  const CreateMasterEditionV3Data._();
 
   factory CreateMasterEditionV3Data.fromBorsh(Uint8List data) =>
       _$CreateMasterEditionV3DataFromBorsh(data);

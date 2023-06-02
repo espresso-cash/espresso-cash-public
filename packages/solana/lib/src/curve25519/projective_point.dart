@@ -3,7 +3,7 @@ import 'package:solana/src/curve25519/edwards_point.dart';
 import 'package:solana/src/curve25519/field_element.dart';
 
 class ProjectivePoint {
-  ProjectivePoint(this._x, this._y, this._z);
+  const ProjectivePoint(this._x, this._y, this._z);
 
   final FieldElement _x;
   final FieldElement _y;

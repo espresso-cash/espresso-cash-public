@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'filter.freezed.dart';
