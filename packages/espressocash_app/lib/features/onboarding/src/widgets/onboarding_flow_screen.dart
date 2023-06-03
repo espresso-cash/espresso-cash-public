@@ -32,8 +32,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
   }
 
   @override
-  void onMnemonicConfirmed() =>
-      _router?.push(const CreateProfileOnboardingRoute());
+  void onMnemonicConfirmed() => _router?.push(const CreateProfileRoute());
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.read<AccountsBloc>().state.account?.wallet is SagaWallet) {
-        _router?.push(const CreateProfileOnboardingRoute());
+        _router?.push(const CreateProfileRoute());
       } else {
         _router?.push(const NoEmailAndPasswordRoute());
       }
