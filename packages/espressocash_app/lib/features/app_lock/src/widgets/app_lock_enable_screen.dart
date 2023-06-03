@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,6 +8,7 @@ import '../../../../ui/decorated_window/decorated_window.dart';
 import 'app_lock_setup_flow_screen.dart';
 import 'components/pin_input_display_widget.dart';
 
+@RoutePage()
 class AppLockEnableScreen extends StatefulWidget {
   const AppLockEnableScreen({super.key});
 

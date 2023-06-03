@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import '../bl/sign_in_bloc.dart';
 import 'components/terms_disclaimer.dart';
 import 'sign_in_flow_screen.dart';
 
+@RoutePage()
 class GetStartedScreen extends StatelessWidget {
   const GetStartedScreen({super.key, required this.isSaga});
 

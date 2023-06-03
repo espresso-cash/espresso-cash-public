@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ import '../src/widgets/exchange_buttons.dart';
 import '../src/widgets/token_app_bar.dart';
 import '../src/widgets/token_details_widget.dart';
 
+@RoutePage()
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
 

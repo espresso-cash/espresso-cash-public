@@ -16,6 +16,7 @@ import '../../bl/create_payment_request/bloc.dart';
 import '../../bl/repository.dart';
 import 'request_note_screen.dart';
 
+@RoutePage()
 class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
     super.key,

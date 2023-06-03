@@ -11,6 +11,7 @@ import 'swap/extensions.dart';
 import 'swap_operation.dart';
 import 'swap_route.dart';
 
+@RoutePage()
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
     super.key,

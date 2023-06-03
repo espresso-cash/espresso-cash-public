@@ -13,6 +13,7 @@ import '../../../qr_scanner/models/qr_scanner_request.dart';
 import '../../extensions.dart';
 import 'components/terms_disclaimer.dart';
 
+@RoutePage()
 class FirstPartQrScreen extends StatefulWidget {
   const FirstPartQrScreen({super.key});
 

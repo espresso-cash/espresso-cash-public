@@ -18,6 +18,7 @@ import 'wallet_main_screen.dart';
 const _cryptoCurrency = Currency.usdc;
 final _minimumAmount = Decimal.parse('0.2');
 
+@RoutePage()
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({super.key});
 

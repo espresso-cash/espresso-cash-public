@@ -17,6 +17,7 @@ import '../../bl/payment_request_verifier/bloc.dart';
 import '../../bl/repository.dart';
 import 'tx_result_screen.dart';
 
+@RoutePage()
 class LinkDetailsFlowScreen extends StatefulWidget {
   const LinkDetailsFlowScreen({
     super.key,

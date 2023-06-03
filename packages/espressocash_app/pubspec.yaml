@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   async: ^2.10.0
-  auto_route: ^5.0.4
+  auto_route: ^7.4.0
   barcode_widget: ^2.0.3
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.0
@@ -20,7 +20,7 @@ dependencies:
   dio: ^4.0.0
   dio_cache_interceptor: ^3.4.0
   dio_cache_interceptor_db_store: ^5.1.0
-  drift: ^2.4.2
+  drift: ^2.8.1
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
   fast_immutable_collections: ^7.4.2
@@ -78,11 +78,11 @@ dependencies:
   webview_flutter: ^4.0.7
 
 dev_dependencies:
-  auto_route_generator: ^5.0.3
+  auto_route_generator: ^7.1.1
   bloc_test: ^9.1.0
   build_runner: ^2.2.0
   dart_code_metrics: ^5.7.3
-  drift_dev: ^2.4.1
+  drift_dev: ^2.8.3
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.0.0
