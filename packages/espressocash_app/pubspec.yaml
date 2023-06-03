@@ -20,7 +20,7 @@ dependencies:
   dio: ^4.0.0
   dio_cache_interceptor: ^3.4.0
   dio_cache_interceptor_db_store: ^5.1.0
-  drift: ^2.4.2
+  drift: ^2.8.1
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
   fast_immutable_collections: ^7.4.2
@@ -82,7 +82,7 @@ dev_dependencies:
   bloc_test: ^9.1.0
   build_runner: ^2.2.0
   dart_code_metrics: ^5.7.3
-  drift_dev: ^2.4.1
+  drift_dev: ^2.8.3
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.0.0

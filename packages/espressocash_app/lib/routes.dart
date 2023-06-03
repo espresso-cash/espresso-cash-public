@@ -104,7 +104,4 @@ final _signUpFlowRoutes = AutoRoute(
     AutoRoute(page: SignInProfileRoute.page),
     AutoRoute(page: WebViewRoute.page),
   ],
-)
-class $AppRouter {
-  const $AppRouter();
-}
+);
