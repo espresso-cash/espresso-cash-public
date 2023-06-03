@@ -14,10 +14,10 @@ import 'swap_route.dart';
 @RoutePage()
 class SwapFlowScreen extends StatefulWidget {
   const SwapFlowScreen({
-    Key? key,
+    super.key,
     required this.inputToken,
     required this.outputToken,
-  }) : super(key: key);
+  });
 
   final Token inputToken;
   final Token outputToken;

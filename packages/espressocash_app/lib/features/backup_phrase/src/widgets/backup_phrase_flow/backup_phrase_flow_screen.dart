@@ -7,7 +7,7 @@ import '../../bl/puzzle_reminder_bloc.dart';
 
 @RoutePage<bool>()
 class BackupPhraseFlowScreen extends StatefulWidget {
-  const BackupPhraseFlowScreen({Key? key}) : super(key: key);
+  const BackupPhraseFlowScreen({super.key});
 
   @override
   State<BackupPhraseFlowScreen> createState() => _BackupPhraseFlowScreenState();
@@ -49,6 +49,8 @@ class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
 }
 
 abstract class BackupPhraseRouter {
+  const BackupPhraseRouter();
+
   void onWarningConfirmed();
 
   void onGoToConfirmationScreen(String phrase);

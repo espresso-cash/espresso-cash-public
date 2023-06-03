@@ -7,13 +7,13 @@ import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
   const AmountKeypad({
-    Key? key,
+    super.key,
     required this.controller,
     required this.maxDecimals,
     this.height,
     this.width,
     this.isEnabled = true,
-  }) : super(key: key);
+  });
 
   final TextEditingController controller;
   final int maxDecimals;

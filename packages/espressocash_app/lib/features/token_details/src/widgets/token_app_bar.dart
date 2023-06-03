@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import '../../../../core/tokens/token.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/token_icon.dart';
 import '../../../favorite_tokens/widgets/favorite_button.dart';
@@ -14,9 +15,9 @@ import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {
   const TokenAppBar({
-    Key? key,
+    super.key,
     required this.token,
-  }) : super(key: key);
+  });
 
   final Token token;
 
@@ -119,8 +120,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons({Key? key, required this.token, required this.opacity})
-      : super(key: key);
+  const _Buttons({required this.token, required this.opacity});
 
   final Token token;
   final double opacity;
@@ -132,9 +132,7 @@ class _Buttons extends StatelessWidget {
         children: [
           SizedBox(
             height: _minExtent,
-            child: BackButton(
-              onPressed: () => context.router.pop(),
-            ),
+            child: CpBackButton(onPressed: () => context.router.pop()),
           ),
           if (!token.canBeSwapped)
             Expanded(

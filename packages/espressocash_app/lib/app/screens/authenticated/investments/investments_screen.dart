@@ -29,7 +29,7 @@ class InvestmentsRouterScreen extends AutoRouter {
 
 @RoutePage()
 class InvestmentsScreen extends StatefulWidget {
-  const InvestmentsScreen({Key? key}) : super(key: key);
+  const InvestmentsScreen({super.key});
 
   @override
   State<InvestmentsScreen> createState() => _InvestmentsScreenState();
@@ -93,7 +93,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
 }
 
 class _AppBarContent extends StatelessWidget {
-  const _AppBarContent({Key? key, required this.onQrScanner}) : super(key: key);
+  const _AppBarContent({required this.onQrScanner});
   final VoidCallback onQrScanner;
 
   @override

@@ -13,10 +13,10 @@ import 'components/share_qr.dart';
 @RoutePage()
 class ShareLinksScreen extends StatelessWidget {
   const ShareLinksScreen({
-    Key? key,
+    super.key,
     required this.amount,
     required this.status,
-  }) : super(key: key);
+  });
 
   final CryptoAmount amount;
   final OSKPStatusLinksReady status;

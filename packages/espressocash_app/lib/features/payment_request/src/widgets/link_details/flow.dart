@@ -9,6 +9,7 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/theme.dart';
 import '../../../formatted_amount.dart';
 import '../../../models/payment_request.dart';
@@ -19,9 +20,9 @@ import 'tx_result_screen.dart';
 @RoutePage()
 class LinkDetailsFlowScreen extends StatefulWidget {
   const LinkDetailsFlowScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
 
@@ -47,6 +48,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
             if (data == null) return const _Loader();
 
             return data.state.when(
+              // ignore: prefer-multi-bloc-provider, no nesting
               initial: () => BlocProvider<PaymentRequestVerifierBloc>(
                 create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
                 lazy: false,
@@ -70,22 +72,19 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
 }
 
 class _Loader extends StatelessWidget {
-  const _Loader({Key? key}) : super(key: key);
+  const _Loader();
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(
-          leading: BackButton(onPressed: () => context.router.pop()),
+          leading: CpBackButton(onPressed: () => context.router.pop()),
         ),
         body: const Center(child: CircularProgressIndicator()),
       );
 }
 
 class _Success extends StatelessWidget {
-  const _Success({
-    Key? key,
-    required this.request,
-  }) : super(key: key);
+  const _Success({required this.request});
 
   final PaymentRequest request;
 
@@ -102,9 +101,8 @@ class _Success extends StatelessWidget {
 
 class _Failure extends StatelessWidget {
   const _Failure({
-    Key? key,
     required this.request,
-  }) : super(key: key);
+  });
 
   final PaymentRequest request;
 

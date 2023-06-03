@@ -8,8 +8,7 @@ import 'src/bl/app_lock_bloc.dart';
 import 'src/widgets/app_lock_screen.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
-  const AppLockModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const AppLockModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
@@ -21,7 +20,7 @@ class AppLockModule extends SingleChildStatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key, this.child}) : super(key: key);
+  const _Content({this.child});
 
   final Widget? child;
 

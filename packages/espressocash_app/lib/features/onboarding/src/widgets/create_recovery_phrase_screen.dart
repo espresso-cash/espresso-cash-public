@@ -12,7 +12,7 @@ import 'onboarding_flow_screen.dart';
 
 @RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
-  const ViewRecoveryPhraseScreen({Key? key}) : super(key: key);
+  const ViewRecoveryPhraseScreen({super.key});
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>

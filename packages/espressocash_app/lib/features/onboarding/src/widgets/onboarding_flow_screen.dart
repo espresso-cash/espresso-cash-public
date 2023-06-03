@@ -14,7 +14,7 @@ import '../bl/onboarding_bloc.dart';
 
 @RoutePage()
 class OnboardingFlowScreen extends StatefulWidget {
-  const OnboardingFlowScreen({Key? key}) : super(key: key);
+  const OnboardingFlowScreen({super.key});
 
   @override
   State<OnboardingFlowScreen> createState() => _OnboardingFlowScreenState();
@@ -68,6 +68,8 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
 }
 
 abstract class OnboardingRouter {
+  const OnboardingRouter();
+
   void onExplainNoEmailAndPasswordCompleted();
   void onMnemonicConfirmed();
 }

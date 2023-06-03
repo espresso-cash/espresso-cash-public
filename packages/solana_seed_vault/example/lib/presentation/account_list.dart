@@ -7,10 +7,10 @@ import 'package:wallet_example/presentation/snack_bar.dart';
 
 class AccountList extends StatelessWidget {
   const AccountList({
-    Key? key,
+    super.key,
     required this.authToken,
     required this.accounts,
-  }) : super(key: key);
+  });
 
   final AuthToken authToken;
   final List<Account> accounts;
@@ -29,10 +29,10 @@ class AccountList extends StatelessWidget {
 
 class AccountItem extends StatefulWidget {
   const AccountItem({
-    Key? key,
+    super.key,
     required this.account,
     required this.authToken,
-  }) : super(key: key);
+  });
 
   final Account account;
   final AuthToken authToken;
@@ -98,7 +98,7 @@ class _AccountItemState extends State<AccountItem> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Path: ${widget.account.derivationPath.toString()}',
+                'Path: ${widget.account.derivationPath}',
                 style: _style,
               ),
               const SizedBox(height: 8),

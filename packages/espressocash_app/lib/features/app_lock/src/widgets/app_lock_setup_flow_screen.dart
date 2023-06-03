@@ -7,7 +7,7 @@ import '../bl/app_lock_bloc.dart';
 
 @RoutePage()
 class AppLockSetupFlowScreen extends StatefulWidget {
-  const AppLockSetupFlowScreen({Key? key}) : super(key: key);
+  const AppLockSetupFlowScreen({super.key});
 
   @override
   State<AppLockSetupFlowScreen> createState() => _AppLockSetupFlowScreenState();
@@ -49,6 +49,8 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
 }
 
 abstract class AppLockSetupRouter {
+  const AppLockSetupRouter();
+
   void onEnableFinished(String pin);
 
   void onEnable();

@@ -9,7 +9,7 @@ import '../../../ui/navigation_bar/navigation_button.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) => AutoTabsRouter(

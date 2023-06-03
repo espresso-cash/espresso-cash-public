@@ -7,7 +7,7 @@ import '../bl/sign_in_bloc.dart';
 
 @RoutePage()
 class SignInProfileScreen extends StatelessWidget {
-  const SignInProfileScreen({Key? key}) : super(key: key);
+  const SignInProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CreateProfile(

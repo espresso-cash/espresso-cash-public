@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/info_widget.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/theme.dart';
@@ -11,7 +12,7 @@ import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupWarningScreen extends StatelessWidget {
-  const BackupWarningScreen({Key? key}) : super(key: key);
+  const BackupWarningScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -24,9 +25,7 @@ class BackupWarningScreen extends StatelessWidget {
             ),
             children: [
               CpAppBar(
-                leading: BackButton(
-                  onPressed: () => context.router.pop(),
-                ),
+                leading: CpBackButton(onPressed: () => context.router.pop()),
               ),
               const OnboardingLogo(),
               OnboardingPadding(

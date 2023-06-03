@@ -89,13 +89,6 @@ class Amount with _$Amount {
       throw ArgumentError('cannot operate on different currencies');
     }
   }
-
-  @override
-  bool operator ==(Object other) =>
-      other is Amount && value == other.value && currency == other.currency;
-
-  @override
-  int get hashCode => Object.hash(value, currency);
 }
 
 extension AmountExt on Amount {

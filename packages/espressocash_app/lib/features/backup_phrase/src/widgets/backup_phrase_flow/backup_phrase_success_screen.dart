@@ -11,7 +11,7 @@ import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupPhraseSuccessScreen extends StatelessWidget {
-  const BackupPhraseSuccessScreen({Key? key}) : super(key: key);
+  const BackupPhraseSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

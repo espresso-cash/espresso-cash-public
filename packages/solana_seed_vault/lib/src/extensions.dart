@@ -1,6 +1,7 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/models/account.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
@@ -16,9 +17,9 @@ extension SeedVaultHelperExt on SeedVault {
   }) async {
     final result = await getAuthorizedSeeds();
 
-    return result
-        .map((it) => it.cursorToSeed(this, accountFilter))
-        .let(Future.wait);
+    return Future.wait(
+      result.map((it) => it.cursorToSeed(this, accountFilter)),
+    );
   }
 
   Future<Seed> getParsedAuthorizedSeed(
@@ -26,7 +27,7 @@ extension SeedVaultHelperExt on SeedVault {
     AccountFilter accountFilter = const AccountFilter(),
   }) =>
       getAuthorizedSeed(authToken: authToken)
-          .letAsync((it) => it.cursorToSeed(this, accountFilter));
+          .then((it) => it.cursorToSeed(this, accountFilter));
 
   Future<List<Account>> getParsedAccounts(
     AuthToken authToken, {
@@ -36,20 +37,20 @@ extension SeedVaultHelperExt on SeedVault {
         authToken: authToken,
         filterOnColumn: filter.toColumn(),
         value: filter.toValue(),
-      ).letAsync((it) => it.map((it) => it.cursorToAccount()).toList());
+      ).then((it) => it.map((it) => it.cursorToAccount()).toList());
 
   Future<Account> getParsedAccount({
     required AuthToken authToken,
     required int accountId,
   }) =>
       getAccount(authToken: authToken, id: accountId)
-          .letAsync((it) => it.cursorToAccount());
+          .then((it) => it.cursorToAccount());
 
   Future<ImplementationLimits> getParsedImplementationLimitsForPurpose(
     Purpose purpose,
   ) =>
       getImplementationLimitsForPurpose(purpose)
-          .letAsync((it) => it.cursorToImplementationLimits());
+          .then((it) => it.cursorToImplementationLimits());
 }
 
 extension CursorToModelExt on CursorData {
@@ -73,9 +74,9 @@ extension CursorToModelExt on CursorData {
   Account cursorToAccount() => Account(
         id: this[WalletContractV1.accountsAccountId] as int,
         name: this[WalletContractV1.accountsAccountName] as String,
-        derivationPath:
-            (this[WalletContractV1.accountsBip32DerivationPath] as String)
-                .let(Uri.parse),
+        derivationPath: Uri.parse(
+          this[WalletContractV1.accountsBip32DerivationPath] as String,
+        ),
         publicKeyEncoded:
             this[WalletContractV1.accountsPublicKeyEncoded] as String,
         publicKeyRaw: this[WalletContractV1.accountsPublicKeyRaw] as Uint8List,
@@ -100,20 +101,20 @@ extension CursorToModelExt on CursorData {
 extension on AccountFilter {
   String? toColumn() => when(
         () => null,
-        byId: always(WalletContractV1.accountsAccountId),
-        byName: always(WalletContractV1.accountsAccountName),
-        byDerivationPath: always(WalletContractV1.accountsBip32DerivationPath),
-        byPublicKeyEncoded: always(WalletContractV1.accountsPublicKeyEncoded),
-        byIsUserWallet: always(WalletContractV1.accountsAccountIsUserWallet),
-        byIsValid: always(WalletContractV1.accountsAccountIsValid),
+        byId: (_) => WalletContractV1.accountsAccountId,
+        byName: (_) => WalletContractV1.accountsAccountName,
+        byDerivationPath: (_) => WalletContractV1.accountsBip32DerivationPath,
+        byPublicKeyEncoded: (_) => WalletContractV1.accountsPublicKeyEncoded,
+        byIsUserWallet: (_) => WalletContractV1.accountsAccountIsUserWallet,
+        byIsValid: (_) => WalletContractV1.accountsAccountIsValid,
       );
 
-  Object? toValue() => when(
+  dynamic toValue() => when(
         () => null,
-        byId: identity,
-        byName: identity,
+        byId: (it) => it,
+        byName: (it) => it,
         byDerivationPath: (it) => it.toString(),
-        byPublicKeyEncoded: identity,
+        byPublicKeyEncoded: (it) => it,
         byIsUserWallet: (it) => it ? '1' : '0',
         byIsValid: (it) => it ? '1' : '0',
       );

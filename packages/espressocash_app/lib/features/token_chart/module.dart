@@ -7,8 +7,7 @@ import '../../di.dart';
 import 'src/bloc.dart';
 
 class TokenChartModule extends SingleChildStatelessWidget {
-  const TokenChartModule(this.token, {Key? key, Widget? child})
-      : super(key: key, child: child);
+  const TokenChartModule(this.token, {super.key, super.child});
 
   final Token token;
 

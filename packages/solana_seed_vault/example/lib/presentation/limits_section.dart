@@ -7,7 +7,7 @@ import 'package:wallet_example/bl/bloc.dart';
 import 'package:wallet_example/presentation/snack_bar.dart';
 
 class LimitsSection extends StatefulWidget {
-  const LimitsSection({Key? key}) : super(key: key);
+  const LimitsSection({super.key});
 
   @override
   State<LimitsSection> createState() => _LimitsSectionState();
@@ -82,10 +82,9 @@ class _LimitsSectionState extends State<LimitsSection> {
 
 class _LimitTile extends StatelessWidget {
   const _LimitTile({
-    Key? key,
     required this.title,
     this.onExceeded,
-  }) : super(key: key);
+  });
 
   final String title;
   final VoidCallback? onExceeded;

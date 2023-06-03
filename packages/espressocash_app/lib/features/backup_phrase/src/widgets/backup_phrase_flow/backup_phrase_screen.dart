@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
@@ -12,7 +13,7 @@ import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupPhraseScreen extends StatefulWidget {
-  const BackupPhraseScreen({Key? key}) : super(key: key);
+  const BackupPhraseScreen({super.key});
 
   @override
   State<BackupPhraseScreen> createState() => _BackupPhraseScreenState();
@@ -45,7 +46,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
             ),
             children: [
               CpAppBar(
-                leading: BackButton(onPressed: () => context.router.pop()),
+                leading: CpBackButton(onPressed: () => context.router.pop()),
               ),
               const OnboardingLogo(),
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),

@@ -17,9 +17,16 @@ class ShakeState extends State<Shake> with SingleTickerProviderStateMixin {
     duration: const Duration(milliseconds: 250),
   );
 
+  // ignore: prefer-widget-private-members, used for controlling the animation
   void shake() => _controller
     ..reset()
     ..forward();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(

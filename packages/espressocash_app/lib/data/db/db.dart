@@ -17,12 +17,14 @@ import 'open_connection.dart';
 part 'db.g.dart';
 
 class OutgoingTransferRows extends Table {
+  const OutgoingTransferRows();
+
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime()();
   TextColumn get data => text()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 const int latestVersion = 36;

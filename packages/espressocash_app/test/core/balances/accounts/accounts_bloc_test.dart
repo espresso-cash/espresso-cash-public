@@ -24,7 +24,7 @@ Future<void> main() async {
     firstName: 'Test',
     accessMode: const AccessMode.loaded(),
   );
-  final fileManager = FileManager();
+  const fileManager = FileManager();
 
   tearDown(() {
     reset(storage);

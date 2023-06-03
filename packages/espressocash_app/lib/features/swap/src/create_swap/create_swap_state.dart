@@ -16,7 +16,7 @@ class CreateSwapState with _$CreateSwapState {
     SwapRoute? bestRoute,
     DateTime? expiresAt,
     @Default(Flow<CreateSwapException, SwapRoute>.initial())
-        Flow<CreateSwapException, SwapRoute> flowState,
+    Flow<CreateSwapException, SwapRoute> flowState,
   }) = Initialized;
 }
 
@@ -62,11 +62,10 @@ extension CreateSwapExt on CreateSwapState {
     }
 
     final route = bestRoute;
-    if (route == null) {
-      return const Either.left(CreateSwapException.routeNotFound());
-    }
 
-    return Either.right(route);
+    return route == null
+        ? const Either.left(CreateSwapException.routeNotFound())
+        : Either.right(route);
   }
 }
 

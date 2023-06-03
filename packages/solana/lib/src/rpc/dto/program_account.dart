@@ -24,7 +24,7 @@ class ProgramAccount {
 
 @JsonSerializable(createToJson: false)
 class ProgramAccountsResult extends ContextResult<List<ProgramAccount>> {
-  ProgramAccountsResult({required super.context, required super.value});
+  const ProgramAccountsResult({required super.context, required super.value});
 
   factory ProgramAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$ProgramAccountsResultFromJson(json);

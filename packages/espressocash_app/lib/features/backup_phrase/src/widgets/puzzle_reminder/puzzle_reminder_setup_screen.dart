@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/message_info_widget.dart';
@@ -16,7 +17,7 @@ class PuzzleReminderRouteScreen extends AutoRouter {
 
 @RoutePage()
 class PuzzleReminderSetupScreen extends StatefulWidget {
-  const PuzzleReminderSetupScreen({Key? key}) : super(key: key);
+  const PuzzleReminderSetupScreen({super.key});
 
   @override
   State<PuzzleReminderSetupScreen> createState() =>
@@ -66,7 +67,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   @override
   Widget build(BuildContext context) => PuzzleScreen(
         title: context.l10n.protectWalletTitle,
-        backButton: BackButton(onPressed: () => context.router.pop()),
+        backButton: CpBackButton(onPressed: () => context.router.pop()),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(

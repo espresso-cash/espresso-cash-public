@@ -10,7 +10,7 @@ import '../../../../ui/tab_bar.dart';
 
 @RoutePage()
 class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({Key? key}) : super(key: key);
+  const ActivitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import '../bl/onboarding_bloc.dart';
 
 @RoutePage(name: 'CreateProfileOnboardingRoute')
 class CreateProfileScreen extends StatelessWidget {
-  const CreateProfileScreen({Key? key}) : super(key: key);
+  const CreateProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CreateProfile(

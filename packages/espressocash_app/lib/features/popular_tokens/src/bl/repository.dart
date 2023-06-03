@@ -27,11 +27,9 @@ class PopularTokenRepository {
   AsyncResult<IMap<Token, double>> get({required String currency}) async {
     final cachedResult = await _cache.get();
 
-    if (cachedResult != null && cachedResult.isNotEmpty) {
-      return Either.right(cachedResult);
-    }
-
-    return refresh(currency: currency);
+    return cachedResult.isNotEmpty
+        ? Either.right(cachedResult)
+        : await refresh(currency: currency);
   }
 
   AsyncResult<IMap<Token, double>> refresh({required String currency}) =>

@@ -17,7 +17,7 @@ import 'incoming_split_key_payment.dart';
 
 @injectable
 class ISKPRepository {
-  ISKPRepository(this._db);
+  const ISKPRepository(this._db);
 
   final MyDatabase _db;
 
@@ -77,6 +77,8 @@ class ISKPRepository {
 }
 
 class ISKPRows extends Table with EntityMixin, TxStatusMixin {
+  const ISKPRows();
+
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ISKPStatusDto>()();
   IntColumn get apiVersion =>
@@ -125,11 +127,13 @@ extension on ISKPStatusDto {
           reason: TxFailureReason.unknown,
         );
       case ISKPStatusDto.txCreated:
+      case ISKPStatusDto.txSendFailure:
         return ISKPStatus.txCreated(
           tx!,
           slot: slot ?? BigInt.zero,
         );
       case ISKPStatusDto.txSent:
+      case ISKPStatusDto.txWaitFailure:
         return ISKPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           slot: slot ?? BigInt.zero,
@@ -139,16 +143,6 @@ extension on ISKPStatusDto {
       case ISKPStatusDto.txFailure:
         return ISKPStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
-        );
-      case ISKPStatusDto.txSendFailure:
-        return ISKPStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        );
-      case ISKPStatusDto.txWaitFailure:
-        return ISKPStatus.txSent(
-          tx ?? StubSignedTx(txId!),
-          slot: slot ?? BigInt.zero,
         );
       case ISKPStatusDto.txEscrowFailure:
         return const ISKPStatus.txFailure(

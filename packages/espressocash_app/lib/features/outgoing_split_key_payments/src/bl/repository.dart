@@ -20,7 +20,7 @@ import '../../models/outgoing_split_key_payment.dart';
 
 @injectable
 class OSKPRepository {
-  OSKPRepository(this._db, this._tokens);
+  const OSKPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
@@ -121,6 +121,8 @@ class OSKPRepository {
 }
 
 class OSKPRows extends Table with AmountMixin, EntityMixin {
+  const OSKPRows();
+
   IntColumn get status => intEnum<OSKPStatusDto>()();
 
   // Status fields
@@ -195,18 +197,21 @@ extension on OSKPStatusDto {
     final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
+      case OSKPStatusDto.txSendFailure:
       case OSKPStatusDto.txCreated:
         return OSKPStatus.txCreated(
           tx!,
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
+      case OSKPStatusDto.txWaitFailure:
       case OSKPStatusDto.txSent:
         return OSKPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
+      case OSKPStatusDto.txLinksFailure:
       case OSKPStatusDto.txConfirmed:
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.linksReady:
@@ -228,27 +233,14 @@ extension on OSKPStatusDto {
             txId: withdrawTxId,
             timestamp: resolvedAt,
           );
-        } else {
-          return OSKPStatus.canceled(txId: cancelTxId, timestamp: resolvedAt);
         }
+
+        return OSKPStatus.canceled(txId: cancelTxId, timestamp: resolvedAt);
       case OSKPStatusDto.txFailure:
         return OSKPStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
-      case OSKPStatusDto.txSendFailure:
-        return OSKPStatus.txCreated(
-          tx!,
-          escrow: escrow!,
-          slot: slot ?? BigInt.zero,
-        );
-      case OSKPStatusDto.txWaitFailure:
-        return OSKPStatus.txSent(
-          tx ?? StubSignedTx(txId!),
-          escrow: escrow!,
-          slot: slot ?? BigInt.zero,
-        );
-      case OSKPStatusDto.txLinksFailure:
-        return OSKPStatus.txConfirmed(escrow: escrow!);
+      case OSKPStatusDto.cancelTxSendFailure:
       case OSKPStatusDto.cancelTxCreated:
         return OSKPStatus.cancelTxCreated(
           cancelTx!,
@@ -260,19 +252,8 @@ extension on OSKPStatusDto {
           escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
-      case OSKPStatusDto.cancelTxSent:
-        return OSKPStatus.cancelTxSent(
-          cancelTx!,
-          escrow: escrow!,
-          slot: slot ?? BigInt.zero,
-        );
-      case OSKPStatusDto.cancelTxSendFailure:
-        return OSKPStatus.cancelTxCreated(
-          cancelTx!,
-          escrow: escrow!,
-          slot: slot ?? BigInt.zero,
-        );
       case OSKPStatusDto.cancelTxWaitFailure:
+      case OSKPStatusDto.cancelTxSent:
         return OSKPStatus.cancelTxSent(
           cancelTx!,
           escrow: escrow!,

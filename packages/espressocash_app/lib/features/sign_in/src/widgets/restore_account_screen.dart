@@ -13,7 +13,7 @@ import 'sign_in_flow_screen.dart';
 
 @RoutePage()
 class RestoreAccountScreen extends StatefulWidget {
-  const RestoreAccountScreen({Key? key}) : super(key: key);
+  const RestoreAccountScreen({super.key});
 
   @override
   State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
@@ -45,8 +45,8 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

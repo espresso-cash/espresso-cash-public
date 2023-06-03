@@ -14,7 +14,8 @@ class InvestmentsZeroBalanceSwitch extends StatelessWidget {
           label: context.l10n.displayEmptyBalanceTitle,
           subtitle: context.l10n.displayEmptyBalanceSubtitle,
           value: state.displayEmptyBalances,
-          onChanged: state.toggleDisplayEmptyBalances,
+          onChanged: (value) =>
+              state.toggleDisplayEmptyBalances(isEnabled: value),
         ),
       );
 }

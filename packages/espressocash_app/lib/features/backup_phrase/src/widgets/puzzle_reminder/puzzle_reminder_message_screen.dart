@@ -9,7 +9,7 @@ import 'components/puzzle_screen.dart';
 
 @RoutePage()
 class PuzzleReminderMessageScreen extends StatelessWidget {
-  const PuzzleReminderMessageScreen({Key? key}) : super(key: key);
+  const PuzzleReminderMessageScreen({super.key});
 
   void _remindMeLater(BuildContext context) {
     context.router.push(const PuzzleReminderSetupRoute());
