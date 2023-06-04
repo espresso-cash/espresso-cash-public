@@ -109,7 +109,8 @@ jobs:
       DEVNET_RPC_URL: "http://localhost:8899"
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="solana"
-
+      METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+      METAPLEX_SO: "packages/solana/test/bpf-programs/metaplex.so"
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
@@ -128,6 +129,8 @@ jobs:
         with:
           solana-version: ${{ matrix.solanaVersion }}
           cluster: mainnet
+          args:
+            --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
