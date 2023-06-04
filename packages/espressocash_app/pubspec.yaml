@@ -42,7 +42,7 @@ dependencies:
   freezed_annotation: ^2.2.0
   get_it: ^7.2.0
   http: ^0.13.5
-  image_picker: ^0.8.6
+  image_picker: ^0.8.7+5
   injectable: ^2.1.1
   intl: ^0.18.0
   json_annotation: ^4.4.0
