@@ -129,3 +129,9 @@ test/generated/
 **/failures/*.png
 
 *.dot
+
+prod.json
+
+saga_publishing/node_modules/
+saga_publishing/*.apk
+saga_publishing/publisher.json

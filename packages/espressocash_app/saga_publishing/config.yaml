@@ -1,0 +1,65 @@
+publisher:
+  name: Espresso Cash
+  address: 6NQrcqRXWufvRwgBuBy5U3JN86tkkPMmv6XfoWW5GnsE
+  website: https://espressocash.com
+  email: contact@espressocash.com
+  media:
+    - purpose: icon
+      uri: ./launcher.png
+app:
+  name: Espresso Cash
+  address: 51JPznhxioF6vahnvc5ZypA9Rw58iPZC9MHZnPoFLEk2
+  android_package: com.pleasecrypto.flutter
+  urls:
+    license_url: https://www.espressocash.com/docs/legal/terms/
+    copyright_url: https://espressocash.com
+    privacy_policy_url: https://www.espressocash.com/docs/legal/privacy/
+    website: https://espressocash.com
+  media:
+    - purpose: icon
+      uri: ./launcher.png
+release:
+  address: CmSENKn4BQx3k9e5sDB4Ja3a3i6BsYQxEta4u8F1o9CZ
+  media:
+    - purpose: icon
+      uri: ./launcher.png
+    - purpose: screenshot
+      uri: ./screen_1.png
+    - purpose: screenshot
+      uri: ./screen_2.png
+    - purpose: screenshot
+      uri: ./screen_3.png
+    - purpose: screenshot
+      uri: ./screen_4.png
+  files:
+    - purpose: install
+      uri: ./app-release.apk
+  catalog:
+    en-US:
+      name: Espresso Cash
+      short_description: Easy way to send money across the globe.
+      long_description: >
+        Espresso Cash is the easy way to send money across the globe. It's a
+        SAFE, FAST, and UNIVERSAL mobile finance app.
+
+        SAFE: Our secure passcode protects your transactions when you send or
+        receive money.
+
+        FAST: Creating a wallet takes less than 20 seconds. Converting your
+        money has never been easier with Espresso Cash. Instantly send and
+        receive to and from friends.
+
+        UNIVERSAL: Espresso Cash is available in more than 150 countries!
+
+        HERE'S HOW IT WORKS:
+
+        Transfer money safely via stablecoins to any person or entity with just
+        a link securely. After you choose the amount you want to send, the app
+        automatically generates a link which can then be sent to a recipient
+        through your desired messaging app like Whatsapp, Telegram, Signal,
+        email or even the good old SMS. Sending money has never been easier!
+      new_in_version: The first Saga release.
+      saga_features: Integration with Saga seed vault.
+solana_mobile_dapp_publisher_portal:
+  google_store_package: com.pleasecrypto.flutter
+  testing_instructions: ''
