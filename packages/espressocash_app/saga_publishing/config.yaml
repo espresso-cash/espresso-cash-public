@@ -19,7 +19,7 @@ app:
     - purpose: icon
       uri: ./launcher.png
 release:
-  address: CmSENKn4BQx3k9e5sDB4Ja3a3i6BsYQxEta4u8F1o9CZ
+  address: HEPsJL7rMTGXuKvcyuJEqTzWNxj2hekzxngNTbLSVnWP
   media:
     - purpose: icon
       uri: ./launcher.png
