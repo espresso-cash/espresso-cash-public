@@ -94,7 +94,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
             messages: (it) async => zip2(
               it.payloads,
               await _account.wallet.sign(it.payloads),
-            ).map((it) => it.item1 + it.item2.bytes),
+            ).map((it) => it.$1 + it.$2.bytes),
           );
 
           return SignedPayloadResult(
