@@ -16,7 +16,7 @@ dependencies:
   collection: ^1.15.0
   date_time_format: ^2.0.1
   decimal: ^2.3.0
-  dfunc: ^0.8.0+1
+  dfunc: ^0.9.0
   dio: ^4.0.0
   dio_cache_interceptor: ^3.4.0
   dio_cache_interceptor_db_store: ^5.1.0

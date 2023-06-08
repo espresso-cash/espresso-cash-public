@@ -18,7 +18,6 @@ class PaymentRequestVerifier extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      // ignore: prefer-multi-bloc-provider, no nesting
       BlocProvider<PaymentRequestVerifierBloc>(
         create: (_) => sl<PaymentRequestVerifierBloc>(param1: paymentRequest),
         lazy: false,

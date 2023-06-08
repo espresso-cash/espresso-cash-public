@@ -48,7 +48,6 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
             if (data == null) return const _Loader();
 
             return data.state.when(
-              // ignore: prefer-multi-bloc-provider, no nesting
               initial: () => BlocProvider<PaymentRequestVerifierBloc>(
                 create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
                 lazy: false,
