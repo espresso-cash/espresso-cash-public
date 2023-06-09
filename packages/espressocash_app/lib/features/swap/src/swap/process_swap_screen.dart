@@ -14,6 +14,7 @@ import '../../models/swap.dart';
 import 'extensions.dart';
 import 'swap_repository.dart';
 
+@RoutePage()
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({
     super.key,

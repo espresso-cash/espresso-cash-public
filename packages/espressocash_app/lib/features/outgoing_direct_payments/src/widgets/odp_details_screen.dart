@@ -17,6 +17,7 @@ import '../../models/outgoing_direct_payment.dart';
 import '../../widgets/extensions.dart';
 import '../bl/repository.dart';
 
+@RoutePage()
 class ODPDetailsScreen extends StatefulWidget {
   const ODPDetailsScreen({
     super.key,

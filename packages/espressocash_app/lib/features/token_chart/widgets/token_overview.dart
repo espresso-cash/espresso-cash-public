@@ -31,7 +31,7 @@ class ChartPriceOverview extends StatelessWidget {
           return _PriceOverviewWidget(
             value: valueChange,
             percent: percentageChange,
-            timeFrame: state.interval.timeFrameLabel,
+            timeFrame: state.interval.timeFrameLabel(context),
           );
         },
       );

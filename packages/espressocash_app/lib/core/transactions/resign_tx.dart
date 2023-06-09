@@ -22,8 +22,8 @@ extension ResignMultipleTx on Iterable<SignedTx> {
 
     return zip2(this, signatures).map(
       (it) {
-        final tx = it.item1;
-        final signature = it.item2;
+        final tx = it.$1;
+        final signature = it.$2;
 
         return SignedTx(
           signatures: tx.signatures

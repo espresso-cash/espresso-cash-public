@@ -19,6 +19,7 @@ import '../../models/crypto_categories.dart';
 import '../../widgets/discover_header.dart';
 import '../bl/bloc.dart';
 
+@RoutePage()
 class TokenSearchScreen extends StatelessWidget {
   const TokenSearchScreen({
     super.key,

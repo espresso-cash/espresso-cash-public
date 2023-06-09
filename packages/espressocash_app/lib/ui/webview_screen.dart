@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'app_bar.dart';
 
+@RoutePage()
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
     super.key,

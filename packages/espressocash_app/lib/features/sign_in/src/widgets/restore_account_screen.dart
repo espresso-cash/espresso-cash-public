@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,6 +11,7 @@ import '../bl/sign_in_bloc.dart';
 import 'components/mnemonic_input_formatter.dart';
 import 'sign_in_flow_screen.dart';
 
+@RoutePage()
 class RestoreAccountScreen extends StatefulWidget {
   const RestoreAccountScreen({super.key});
 

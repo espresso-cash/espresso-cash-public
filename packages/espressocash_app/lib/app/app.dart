@@ -9,6 +9,7 @@ import '../core/analytics/analytics_manager.dart';
 import '../di.dart';
 import '../features/app_lock/module.dart';
 import '../l10n/localizely_updater.dart';
+import '../routes.dart';
 import '../routes.gr.dart';
 import '../ui/theme.dart';
 
