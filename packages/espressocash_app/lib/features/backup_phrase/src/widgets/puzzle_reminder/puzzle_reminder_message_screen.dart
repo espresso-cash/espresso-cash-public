@@ -7,6 +7,7 @@ import '../../../../../ui/button.dart';
 import '../../../../../ui/message_info_widget.dart';
 import 'components/puzzle_screen.dart';
 
+@RoutePage()
 class PuzzleReminderMessageScreen extends StatelessWidget {
   const PuzzleReminderMessageScreen({super.key});
 

@@ -17,6 +17,7 @@ import '../../../../ui/content_padding.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
 
+@RoutePage()
 class OSKPConfirmationScreen extends StatelessWidget {
   const OSKPConfirmationScreen({
     super.key,

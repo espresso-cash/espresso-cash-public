@@ -17,6 +17,7 @@ import '../../bl/payment_request_verifier/bloc.dart';
 import '../../bl/repository.dart';
 import 'tx_result_screen.dart';
 
+@RoutePage()
 class LinkDetailsFlowScreen extends StatefulWidget {
   const LinkDetailsFlowScreen({
     super.key,
@@ -47,7 +48,6 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
             if (data == null) return const _Loader();
 
             return data.state.when(
-              // ignore: prefer-multi-bloc-provider, no nesting
               initial: () => BlocProvider<PaymentRequestVerifierBloc>(
                 create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
                 lazy: false,

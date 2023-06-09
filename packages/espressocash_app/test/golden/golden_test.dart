@@ -23,7 +23,6 @@ import 'golden_test.mocks.dart';
 import 'utils.dart';
 
 @GenerateMocks([
-  ConversionRatesRepository,
   ConversionRatesBloc,
   BalancesBloc,
   AppLockBloc,
@@ -40,7 +39,7 @@ void main() {
   );
 
   group('HomeScreen', () {
-    final conversionRatesRepository = MockConversionRatesRepository();
+    final conversionRatesRepository = FakeRepository();
     final conversionRatesBloc = MockConversionRatesBloc();
     final balancesBloc = MockBalancesBloc();
     final appLockBloc = MockAppLockBloc();
@@ -82,8 +81,6 @@ void main() {
         conversionRatesBloc,
         initialState: const ConversionRatesState(),
       );
-      when(conversionRatesRepository.readRate(any, to: anyNamed('to')))
-          .thenReturn(Decimal.one);
       whenListen(
         appLockBloc,
         initialState: const AppLockStateNone(),
@@ -91,7 +88,6 @@ void main() {
     });
 
     tearDown(() {
-      reset(conversionRatesRepository);
       reset(conversionRatesBloc);
       reset(balancesBloc);
       reset(appLockBloc);
@@ -102,4 +98,10 @@ void main() {
       withProviders(const Scaffold(body: WalletFlowScreen())),
     );
   });
+}
+
+class FakeRepository extends Fake implements ConversionRatesRepository {
+  @override
+  Decimal readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
+      Decimal.one;
 }

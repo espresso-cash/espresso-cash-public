@@ -23,6 +23,7 @@ import '../../models/outgoing_split_key_payment.dart';
 import '../../widgets/extensions.dart';
 import '../bl/repository.dart';
 
+@RoutePage()
 class OSKPScreen extends StatefulWidget {
   const OSKPScreen({super.key, required this.id});
 

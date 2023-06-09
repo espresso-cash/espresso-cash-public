@@ -20,6 +20,7 @@ import '../../../legal/flow.dart';
 import '../../extensions.dart';
 import '../bl/pending_iskp_repository.dart';
 
+@RoutePage()
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
 

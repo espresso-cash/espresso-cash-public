@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ import 'components/learning_section.dart';
 import 'components/profile_section.dart';
 import 'components/security_section.dart';
 
+@RoutePage()
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 

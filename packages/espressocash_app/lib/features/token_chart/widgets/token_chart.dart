@@ -9,6 +9,7 @@ import '../../../core/presentation/extensions.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../src/bloc.dart';
 import '../src/chart_interval.dart';
@@ -308,20 +309,20 @@ extension ChartIntervalExt on ChartInterval {
     }
   }
 
-  String get timeFrameLabel {
+  String timeFrameLabel(BuildContext context) {
     switch (this) {
       case ChartInterval.oneDay:
-        return 'Past Day';
+        return context.l10n.chartPastDay;
       case ChartInterval.oneWeek:
-        return 'Past Week';
+        return context.l10n.chartPastWeek;
       case ChartInterval.oneMonth:
-        return 'Past Month';
+        return context.l10n.chartPastMonth;
       case ChartInterval.threeMonth:
-        return 'Past Three Months';
+        return context.l10n.chartPastThreeMonths;
       case ChartInterval.oneYear:
-        return 'Past Year';
+        return context.l10n.chartPastYear;
       case ChartInterval.all:
-        return 'All';
+        return context.l10n.chartAllTime;
     }
   }
 }

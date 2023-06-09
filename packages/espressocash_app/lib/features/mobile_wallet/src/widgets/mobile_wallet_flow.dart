@@ -13,6 +13,7 @@ import '../../../../ui/theme.dart';
 import '../bl/bloc.dart';
 import '../models/remote_request.dart';
 
+@RoutePage()
 class RemoteRequestScreen extends StatelessWidget {
   const RemoteRequestScreen({
     super.key,
