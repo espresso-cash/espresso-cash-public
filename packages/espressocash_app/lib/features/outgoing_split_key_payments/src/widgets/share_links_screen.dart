@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
@@ -9,6 +10,7 @@ import '../../models/outgoing_split_key_payment.dart';
 import 'components/share_link.dart';
 import 'components/share_qr.dart';
 
+@RoutePage()
 class ShareLinksScreen extends StatelessWidget {
   const ShareLinksScreen({
     super.key,

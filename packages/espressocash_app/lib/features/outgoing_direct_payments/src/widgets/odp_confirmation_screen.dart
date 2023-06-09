@@ -17,6 +17,7 @@ import '../../../../ui/dialogs.dart';
 import '../../../../ui/number_formatter.dart';
 import '../../../../ui/theme.dart';
 
+@RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {
   const ODPConfirmationScreen({
     super.key,

@@ -751,5 +751,11 @@
       }
     }
   },
-  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our "
+  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our ",
+  "chartPastDay": "Past Day",
+  "chartPastWeek": "Past Week",
+  "chartPastMonth": "Past Month",
+  "chartPastThreeMonths": "Past Three Months",
+  "chartPastYear": "Past Year",
+  "chartAllTime": "All"
 }

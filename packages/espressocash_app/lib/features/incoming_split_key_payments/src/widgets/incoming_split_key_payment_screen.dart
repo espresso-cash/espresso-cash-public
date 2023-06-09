@@ -12,6 +12,7 @@ import '../../widgets/invalid_escrow_error_widget.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_repository.dart';
 
+@RoutePage()
 class IncomingSplitKeyPaymentScreen extends StatefulWidget {
   const IncomingSplitKeyPaymentScreen({
     super.key,

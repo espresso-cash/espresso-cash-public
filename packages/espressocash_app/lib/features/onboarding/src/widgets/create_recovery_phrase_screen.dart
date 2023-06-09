@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,6 +10,7 @@ import '../../../../ui/theme.dart';
 import '../../../backup_phrase/mnemonic_getter.dart';
 import 'onboarding_flow_screen.dart';
 
+@RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
   const ViewRecoveryPhraseScreen({super.key});
 
