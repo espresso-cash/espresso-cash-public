@@ -11,6 +11,7 @@ import '../../../../core/router_wrapper.dart';
 import '../../../../core/split_key_payments.dart';
 import '../../../../di.dart';
 import '../../../../routes.gr.dart';
+import '../../../../saga.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/loader.dart';
 import '../bl/sign_in_bloc.dart';
@@ -33,8 +34,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
 
   @override
-  PageRouteInfo get initialRoute =>
-      GetStartedRoute(isSaga: sl<bool>(instanceName: 'isSaga'));
+  PageRouteInfo get initialRoute => GetStartedRoute(isSaga: isSaga);
 
   @override
   void didChangeDependencies() {

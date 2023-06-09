@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../../di.dart';
+import '../../../../saga.dart';
 import '../../../../ui/splash_screen.dart';
 import '../bl/sign_in_bloc.dart';
 
@@ -18,8 +19,6 @@ class CreateWalletLoadingScreen extends StatefulWidget {
 
 class _CreateWalletLoadingScreenState extends State<CreateWalletLoadingScreen> {
   Future<void> _createWallet() async {
-    final isSaga = sl<bool>(instanceName: 'isSaga');
-
     SignInEvent event = const SignInEvent.newLocalWalletRequested();
 
     if (isSaga) {
