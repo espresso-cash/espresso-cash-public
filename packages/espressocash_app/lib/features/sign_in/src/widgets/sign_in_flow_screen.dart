@@ -92,10 +92,5 @@ extension SignInRouterExt on BuildContext {
 bool _parseUri(Uri? link) {
   if (link == null) return false;
 
-  final firstPartLink = SplitKeyFirstLink.tryParse(link);
-  if (firstPartLink != null) {
-    return true;
-  }
-
-  return false;
+  return SplitKeyFirstLink.tryParse(link) != null;
 }
