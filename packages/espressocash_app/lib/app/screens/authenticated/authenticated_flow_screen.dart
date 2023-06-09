@@ -70,7 +70,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 ),
                 const ODPModule(),
                 const OSKPModule(),
-                const ISKPModule(),
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const FavoriteTokensModule(),
@@ -79,7 +78,15 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const MobileWalletModule(),
                 OnboardingModule(mnemonic: mnemonic),
               ],
-              child: AutoRouter(key: _homeRouterKey),
+              child: AutoRouter(
+                key: _homeRouterKey,
+                builder: (context, child) => MultiProvider(
+                  providers: const [
+                    ISKPModule(),
+                  ],
+                  child: child,
+                ),
+              ),
             );
           },
         ),
