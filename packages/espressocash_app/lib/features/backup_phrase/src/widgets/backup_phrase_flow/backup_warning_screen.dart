@@ -10,6 +10,7 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/theme.dart';
 import 'backup_phrase_flow_screen.dart';
 
+@RoutePage()
 class BackupWarningScreen extends StatelessWidget {
   const BackupWarningScreen({super.key});
 

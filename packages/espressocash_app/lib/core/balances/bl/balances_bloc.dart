@@ -63,7 +63,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
           final data = account.data;
 
           if (data is ParsedAccountData) {
-            // ignore: prefer-return-await, not needed here
             return data.maybeWhen<Future<_MainTokenAccount?>>(
               splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
                 account: (a) =>
