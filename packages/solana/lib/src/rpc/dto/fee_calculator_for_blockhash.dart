@@ -21,7 +21,7 @@ class FeeCalculatorForBlockhash {
 @JsonSerializable(createToJson: false)
 class FeeCalculatorForBlockhashResult
     extends ContextResult<FeeCalculatorForBlockhash?> {
-  FeeCalculatorForBlockhashResult({
+  const FeeCalculatorForBlockhashResult({
     required super.context,
     required super.value,
   });

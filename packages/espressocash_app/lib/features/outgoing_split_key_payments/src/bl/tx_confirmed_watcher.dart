@@ -33,7 +33,7 @@ class TxConfirmedWatcher extends PaymentWatcher {
 }
 
 class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
-  _OSKPConfirmedJob(this.payment, this._linkShortener);
+  const _OSKPConfirmedJob(this.payment, this._linkShortener);
 
   final OutgoingSplitKeyPayment payment;
   final LinkShortener _linkShortener;

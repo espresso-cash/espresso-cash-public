@@ -36,12 +36,6 @@ class FavoritesBloc extends Bloc<_Event, _State> {
         refreshRequested: (event) => _onRefreshRequested(event, emit),
       );
 
-  Future<void> refresh() {
-    add(const FavoritesEvent.refreshRequested());
-
-    return stream.firstWhere((state) => !state.isProcessing);
-  }
-
   Future<void> _onRefreshRequested(RefreshRequested _, _Emitter emit) async {
     final tokens = await _favoriteTokenRepository.read();
 
@@ -53,6 +47,14 @@ class FavoritesBloc extends Bloc<_Event, _State> {
 
     emit(newState);
     emit(none());
+  }
+}
+
+extension FavoritesBlocExt on FavoritesBloc {
+  Future<void> refresh() {
+    add(const FavoritesEvent.refreshRequested());
+
+    return stream.firstWhere((state) => !state.isProcessing);
   }
 }
 

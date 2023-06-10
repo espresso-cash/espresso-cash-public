@@ -6,11 +6,11 @@ enum CpChipPadding { small, normal }
 
 class CpChip extends StatelessWidget {
   const CpChip({
-    Key? key,
+    super.key,
     required this.child,
     this.padding = CpChipPadding.normal,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   final Widget child;
   final CpChipPadding padding;

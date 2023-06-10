@@ -16,11 +16,12 @@ import '../../bl/create_payment_request/bloc.dart';
 import '../../bl/repository.dart';
 import 'request_note_screen.dart';
 
+@RoutePage()
 class LinkRequestFlowScreen extends StatefulWidget {
   const LinkRequestFlowScreen({
-    Key? key,
+    super.key,
     required this.initialAmount,
-  }) : super(key: key);
+  });
 
   final CryptoAmount initialAmount;
 
@@ -29,34 +30,40 @@ class LinkRequestFlowScreen extends StatefulWidget {
 }
 
 class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
-  late final CreatePaymentRequestBloc paymentRequestBloc;
+  late final CreatePaymentRequestBloc _paymentRequestBloc;
 
   @override
   void initState() {
     super.initState();
     final amount = widget.initialAmount;
 
-    paymentRequestBloc = CreatePaymentRequestBloc(
+    _paymentRequestBloc = CreatePaymentRequestBloc(
       userCurrency: context.read<UserPreferences>().fiatCurrency,
       repository: sl<PaymentRequestRepository>(),
       conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
 
-    paymentRequestBloc.add(
+    _paymentRequestBloc.add(
       CreatePaymentRequestEvent.tokenAmountUpdated(amount.decimal),
     );
   }
 
   @override
+  void dispose() {
+    _paymentRequestBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) =>
       Provider<CreatePaymentRequestBloc>.value(
-        value: paymentRequestBloc,
+        value: _paymentRequestBloc,
         child: _Content(amount: widget.initialAmount),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key, required this.amount}) : super(key: key);
+  const _Content({required this.amount});
 
   final Amount amount;
 

@@ -17,6 +17,7 @@ import '../bl/qr_scanner_bloc.dart';
 import 'components/input_address_bottom_sheet.dart';
 import 'components/qr_scanner_background.dart';
 
+@RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({
     super.key,
@@ -188,7 +189,7 @@ class _ContentState extends State<_Content> {
 }
 
 class _PermissionText extends StatelessWidget {
-  const _PermissionText({Key? key}) : super(key: key);
+  const _PermissionText();
 
   @override
   Widget build(BuildContext context) => Padding(

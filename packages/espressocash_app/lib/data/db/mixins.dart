@@ -12,7 +12,7 @@ mixin EntityMixin on Table {
   DateTimeColumn get created => dateTime()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 // TODO(rhbrunetto): use it on other entities

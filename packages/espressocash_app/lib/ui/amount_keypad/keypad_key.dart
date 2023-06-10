@@ -6,7 +6,7 @@ import '../../l10n/device_locale.dart';
 import '../theme.dart';
 
 class _NumericKey extends KeypadKey {
-  const _NumericKey({Key? key, required this.number}) : super(key: key);
+  const _NumericKey({required this.number});
 
   final int number;
 
@@ -21,7 +21,7 @@ class _NumericKey extends KeypadKey {
 }
 
 class _BackspaceKey extends KeypadKey {
-  const _BackspaceKey({Key? key}) : super(key: key);
+  const _BackspaceKey();
 
   @override
   String get value => '<';
@@ -34,7 +34,7 @@ class _BackspaceKey extends KeypadKey {
 }
 
 class _DecimalSeparatorKey extends KeypadKey {
-  const _DecimalSeparatorKey({Key? key}) : super(key: key);
+  const _DecimalSeparatorKey();
 
   @override
   String get value => '.';
@@ -47,7 +47,7 @@ class _DecimalSeparatorKey extends KeypadKey {
 }
 
 abstract class KeypadKey extends StatelessWidget {
-  const KeypadKey({Key? key}) : super(key: key);
+  const KeypadKey({super.key});
 
   const factory KeypadKey.number({required int number}) = _NumericKey;
 

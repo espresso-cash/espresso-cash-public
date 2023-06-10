@@ -20,6 +20,8 @@ Future<void> configureDependencies() async => sl.init();
 
 @module
 abstract class AppModule {
+  const AppModule();
+
   @lazySingleton
   FlutterSecureStorage get secureStorage => const FlutterSecureStorage();
 

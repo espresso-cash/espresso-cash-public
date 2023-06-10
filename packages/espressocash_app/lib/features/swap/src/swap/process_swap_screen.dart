@@ -14,11 +14,12 @@ import '../../models/swap.dart';
 import 'extensions.dart';
 import 'swap_repository.dart';
 
+@RoutePage()
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final String id;
 
@@ -41,36 +42,34 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
         builder: (context, snapshot) {
           final swap = snapshot.data;
 
-          if (swap == null) {
-            return TransferProgress(
-              onBack: () => context.router.pop(),
-            );
-          }
-
-          return swap.status.maybeMap(
-            success: (status) => TransferSuccess(
-              onBack: () => context.router.pop(),
-              onOkPressed: () => context.router.pop(),
-              statusContent: swap.seed.inputToken == Token.usdc
-                  ? context.l10n.swapBuySuccess(swap.seed.outputToken.name)
-                  : context.l10n.swapSellSuccess(swap.seed.inputToken.name),
-              onMoreDetailsPressed: () {
-                final link = status.tx.id
-                    .let(createTransactionLink)
-                    .let(Uri.parse)
-                    .toString();
-                context.openLink(link);
-              },
-            ),
-            txFailure: (it) => TransferError(
-              onBack: () => context.router.pop(),
-              onRetry: () => context.retrySwap(swap),
-              reason: it.reason,
-            ),
-            orElse: () => TransferProgress(
-              onBack: () => context.router.pop(),
-            ),
-          );
+          return swap == null
+              ? TransferProgress(onBack: () => context.router.pop())
+              : swap.status.maybeMap(
+                  success: (status) => TransferSuccess(
+                    onBack: () => context.router.pop(),
+                    onOkPressed: () => context.router.pop(),
+                    statusContent: swap.seed.inputToken == Token.usdc
+                        ? context.l10n
+                            .swapBuySuccess(swap.seed.outputToken.name)
+                        : context.l10n
+                            .swapSellSuccess(swap.seed.inputToken.name),
+                    onMoreDetailsPressed: () {
+                      final link = status.tx.id
+                          .let(createTransactionLink)
+                          .let(Uri.parse)
+                          .toString();
+                      context.openLink(link);
+                    },
+                  ),
+                  txFailure: (it) => TransferError(
+                    onBack: () => context.router.pop(),
+                    onRetry: () => context.retrySwap(swap),
+                    reason: it.reason,
+                  ),
+                  orElse: () => TransferProgress(
+                    onBack: () => context.router.pop(),
+                  ),
+                );
         },
       );
 }

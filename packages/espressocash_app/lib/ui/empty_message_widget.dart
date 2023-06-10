@@ -4,9 +4,9 @@ import 'theme.dart';
 
 class CpEmptyMessageWidget extends StatelessWidget {
   const CpEmptyMessageWidget({
-    Key? key,
+    super.key,
     required this.message,
-  }) : super(key: key);
+  });
 
   final String message;
 

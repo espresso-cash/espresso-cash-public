@@ -12,8 +12,9 @@ import '../../../../ui/dialogs.dart';
 import '../../../../ui/loader.dart';
 import '../bl/onboarding_bloc.dart';
 
+@RoutePage()
 class OnboardingFlowScreen extends StatefulWidget {
-  const OnboardingFlowScreen({Key? key}) : super(key: key);
+  const OnboardingFlowScreen({super.key});
 
   @override
   State<OnboardingFlowScreen> createState() => _OnboardingFlowScreenState();
@@ -31,8 +32,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
   }
 
   @override
-  void onMnemonicConfirmed() =>
-      _router?.push(const CreateProfileOnboardingScreen());
+  void onMnemonicConfirmed() => _router?.push(const CreateProfileRoute());
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.read<AccountsBloc>().state.account?.wallet is SagaWallet) {
-        _router?.push(const CreateProfileOnboardingScreen());
+        _router?.push(const CreateProfileRoute());
       } else {
         _router?.push(const NoEmailAndPasswordRoute());
       }
@@ -67,6 +67,8 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
 }
 
 abstract class OnboardingRouter {
+  const OnboardingRouter();
+
   void onExplainNoEmailAndPasswordCompleted();
   void onMnemonicConfirmed();
 }

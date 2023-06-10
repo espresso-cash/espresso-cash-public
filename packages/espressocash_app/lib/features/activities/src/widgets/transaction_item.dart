@@ -11,9 +11,9 @@ import 'swap_tile.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.tx,
-  }) : super(key: key);
+  });
 
   final String tx;
 

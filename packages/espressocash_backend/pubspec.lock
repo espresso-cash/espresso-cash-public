@@ -210,13 +210,13 @@ packages:
     source: hosted
     version: "0.17.2"
   dart_code_metrics:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: dart_code_metrics
-      sha256: d44c456bc26d5d9e2479eeaa4f18cbbbee626b3055a66c58ab252103d2c3c6fc
+      sha256: "8d40e9fa6ba6b5f4f569768e267e9cb3e74350f98b30ac4b8160795792ce5414"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "5.7.4"
   dart_code_metrics_presets:
     dependency: transitive
     description:
@@ -443,10 +443,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mews_pedantic
-      sha256: "770570f085580765cc683d1949da31f0c0a6b30692db8d7fa8301b9186b3e7a1"
+      sha256: "4d2661e586cb989646af8a80773990ca75db39ea8f159eacfeb55ac87e02e4e6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.0"
+    version: "0.15.0-dev.3"
   mime:
     dependency: transitive
     description:
@@ -547,10 +547,10 @@ packages:
     dependency: transitive
     description:
       name: pub_updater
-      sha256: "42890302ab2672adf567dc2b20e55b4ecc29d7e19c63b6b98143ab68dd717d3a"
+      sha256: "05ae70703e06f7fdeb05f7f02dd680b8aad810e87c756a618f33e1794635115c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.4"
+    version: "0.3.0"
   pubspec_parse:
     dependency: transitive
     description:
@@ -808,4 +808,4 @@ packages:
     source: hosted
     version: "3.1.1"
 sdks:
-  dart: ">=2.19.0 <3.0.0"
+  dart: ">=2.19.0 <4.0.0"

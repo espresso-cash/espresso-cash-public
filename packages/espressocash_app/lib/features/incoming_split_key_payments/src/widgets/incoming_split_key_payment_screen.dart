@@ -12,6 +12,7 @@ import '../../widgets/invalid_escrow_error_widget.dart';
 import '../bl/incoming_split_key_payment.dart';
 import '../bl/iskp_repository.dart';
 
+@RoutePage()
 class IncomingSplitKeyPaymentScreen extends StatefulWidget {
   const IncomingSplitKeyPaymentScreen({
     super.key,
@@ -41,32 +42,26 @@ class _IncomingSplitKeyPaymentScreenState
         builder: (context, state) {
           final payment = state.data;
 
-          if (payment == null) {
-            return TransferProgress(
-              onBack: () => context.router.pop(),
-            );
-          }
-
-          return payment.status.maybeMap(
-            success: (_) => TransferSuccess(
-              onBack: () => context.router.pop(),
-              onOkPressed: () => context.router.pop(),
-              statusContent: context.l10n.moneyReceived,
-            ),
-            txFailure: (it) {
-              if (it.reason == TxFailureReason.escrowFailure) {
-                return const InvalidEscrowErrorWidget();
-              }
-
-              return TransferError(
-                onBack: () => context.router.pop(),
-                onRetry: () => context.retryISKP(payment),
-              );
-            },
-            orElse: () => TransferProgress(
-              onBack: () => context.router.pop(),
-            ),
-          );
+          return payment == null
+              ? TransferProgress(
+                  onBack: () => context.router.pop(),
+                )
+              : payment.status.maybeMap(
+                  success: (_) => TransferSuccess(
+                    onBack: () => context.router.pop(),
+                    onOkPressed: () => context.router.pop(),
+                    statusContent: context.l10n.moneyReceived,
+                  ),
+                  txFailure: (it) => it.reason == TxFailureReason.escrowFailure
+                      ? const InvalidEscrowErrorWidget()
+                      : TransferError(
+                          onBack: () => context.router.pop(),
+                          onRetry: () => context.retryISKP(payment),
+                        ),
+                  orElse: () => TransferProgress(
+                    onBack: () => context.router.pop(),
+                  ),
+                );
         },
       );
 }

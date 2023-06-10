@@ -37,7 +37,7 @@ class ParsedTransaction implements Transaction {
 }
 
 class RawTransaction implements Transaction {
-  RawTransaction(this.data);
+  const RawTransaction(this.data);
 
   final List<int> data;
 }

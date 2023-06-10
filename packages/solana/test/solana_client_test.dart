@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-first
-
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -80,7 +78,7 @@ void main() {
 
     // FIXME: check that it actual is this type
     final result = await solanaClient.rpcClient.getTransaction(
-      signature.toString(),
+      signature,
       encoding: Encoding.jsonParsed,
       commitment: Commitment.confirmed,
     );
@@ -226,7 +224,7 @@ void main() {
 
       // FIXME: check that this is of the correct type
       final result = await solanaClient.rpcClient.getTransaction(
-        signature.toString(),
+        signature,
         encoding: Encoding.jsonParsed,
         commitment: Commitment.confirmed,
       );

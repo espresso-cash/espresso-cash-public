@@ -20,6 +20,7 @@ import '../../../legal/flow.dart';
 import '../../extensions.dart';
 import '../bl/pending_iskp_repository.dart';
 
+@RoutePage()
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
 
@@ -136,7 +137,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -160,7 +161,7 @@ class _Header extends StatelessWidget {
 }
 
 class _TermsDisclaimer extends StatelessWidget {
-  const _TermsDisclaimer({Key? key}) : super(key: key);
+  const _TermsDisclaimer();
 
   @override
   Widget build(BuildContext context) => Padding(

@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/theme.dart';
 import 'onboarding_flow_screen.dart';
 
+@RoutePage()
 class NoEmailAndPasswordScreen extends StatelessWidget {
-  const NoEmailAndPasswordScreen({Key? key}) : super(key: key);
+  const NoEmailAndPasswordScreen({super.key});
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -22,9 +24,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
             ),
             children: [
               CpAppBar(
-                leading: BackButton(
-                  onPressed: () => context.router.pop(),
-                ),
+                leading: CpBackButton(onPressed: () => context.router.pop()),
               ),
               const OnboardingLogo(),
               OnboardingPadding(

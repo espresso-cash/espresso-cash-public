@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'back_button.dart';
+
 class CpAppBar extends AppBar {
   CpAppBar({
-    Key? key,
-    Widget? title,
+    super.key,
+    super.title,
     Widget? leading,
     Widget? nextButton,
-    bool automaticallyImplyLeading = true,
+    super.automaticallyImplyLeading,
   }) : super(
-          key: key,
-          leading: leading,
-          automaticallyImplyLeading: automaticallyImplyLeading,
+          leading: leading ?? const CpBackButton(ensureBackNavigation: true),
           actions: nextButton != null
               ? [
                   Center(
@@ -24,7 +24,6 @@ class CpAppBar extends AppBar {
                   ),
                 ]
               : null,
-          title: title,
           elevation: 0,
           shape: const Border(),
         );

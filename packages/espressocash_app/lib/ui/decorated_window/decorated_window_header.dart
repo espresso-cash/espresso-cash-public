@@ -5,12 +5,12 @@ import '../../gen/assets.gen.dart';
 
 class DecoratedWindowHeader extends StatelessWidget {
   const DecoratedWindowHeader({
-    Key? key,
+    super.key,
     this.title,
     this.message,
     this.hasLogo = true,
     this.markdownMessage = false,
-  }) : super(key: key);
+  });
 
   final String? title;
   final String? message;

@@ -7,8 +7,7 @@ import '../../di.dart';
 import 'src/data/repository.dart';
 
 class InvestmentModule extends SingleChildStatelessWidget {
-  const InvestmentModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const InvestmentModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

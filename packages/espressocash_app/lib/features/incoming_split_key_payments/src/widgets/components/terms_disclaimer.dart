@@ -6,7 +6,7 @@ import '../../../../../ui/colors.dart';
 import '../../../../legal/flow.dart';
 
 class TermsDisclaimer extends StatelessWidget {
-  const TermsDisclaimer({Key? key}) : super(key: key);
+  const TermsDisclaimer({super.key});
 
   @override
   Widget build(BuildContext context) => Text.rich(

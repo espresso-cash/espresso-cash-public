@@ -1,5 +1,3 @@
-// ignore_for_file: prefer-first
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'by_identity_value.g.dart';

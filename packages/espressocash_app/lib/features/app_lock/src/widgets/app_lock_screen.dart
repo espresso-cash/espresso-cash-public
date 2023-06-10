@@ -8,7 +8,7 @@ import 'components/local_auth_wrapper.dart';
 import 'components/pin_input_display_widget.dart';
 
 class AppLockScreen extends StatelessWidget {
-  const AppLockScreen({Key? key}) : super(key: key);
+  const AppLockScreen({super.key});
 
   @override
   Widget build(BuildContext context) => WillPopScope(

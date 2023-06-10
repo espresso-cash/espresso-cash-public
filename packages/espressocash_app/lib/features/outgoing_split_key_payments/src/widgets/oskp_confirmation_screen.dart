@@ -10,12 +10,14 @@ import '../../../../core/presentation/format_amount.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/chip.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
 
+@RoutePage()
 class OSKPConfirmationScreen extends StatelessWidget {
   const OSKPConfirmationScreen({
     super.key,
@@ -39,7 +41,7 @@ class OSKPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(
             child: _TokenCreateLinkContent(
@@ -70,10 +72,9 @@ class OSKPConfirmationScreen extends StatelessWidget {
 
 class _TokenCreateLinkContent extends StatelessWidget {
   const _TokenCreateLinkContent({
-    Key? key,
     required this.amount,
     required this.fee,
-  }) : super(key: key);
+  });
 
   final Amount amount;
   final Amount fee;
@@ -103,10 +104,7 @@ const _mediumTextStyle = TextStyle(
 );
 
 class _AmountView extends StatelessWidget {
-  const _AmountView({
-    Key? key,
-    required this.amount,
-  }) : super(key: key);
+  const _AmountView({required this.amount});
 
   final Amount amount;
 

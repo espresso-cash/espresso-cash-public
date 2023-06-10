@@ -31,7 +31,7 @@ class ChartPriceOverview extends StatelessWidget {
           return _PriceOverviewWidget(
             value: valueChange,
             percent: percentageChange,
-            timeFrame: state.interval.timeFrameLabel,
+            timeFrame: state.interval.timeFrameLabel(context),
           );
         },
       );
@@ -50,7 +50,7 @@ class _PriceOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
 
     final isNegative = value.isNegative;
     final prefix = isNegative ? '-' : '';

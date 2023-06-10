@@ -9,6 +9,7 @@ import '../../../core/presentation/extensions.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../src/bloc.dart';
 import '../src/chart_interval.dart';
@@ -67,11 +68,10 @@ class TokenChart extends StatelessWidget {
 
 class _ChartWidget extends StatelessWidget {
   const _ChartWidget({
-    Key? key,
     required this.data,
     required this.onSelect,
     required this.interval,
-  }) : super(key: key);
+  });
 
   final IList<TokenChartItem> data;
   final ValueSetter<TokenChartItem?> onSelect;
@@ -85,8 +85,9 @@ class _ChartWidget extends StatelessWidget {
     ),
     FlDotData(
       getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-        radius: 5,
+        radius: 6,
         color: CpColors.yellowColor,
+        strokeWidth: 0,
       ),
     ),
   );
@@ -131,6 +132,8 @@ class _ChartWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
+
     double minY = spots.first.y;
     double maxY = spots.first.y;
 
@@ -144,13 +147,10 @@ class _ChartWidget extends StatelessWidget {
     }
 
     final range = maxY - minY;
-    final interval = range / 4;
-
-    final padding = range * 12 / 100.0;
-    final chartMinY = minY - padding;
-    final chartMaxY = maxY + padding;
-
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final interval = range / 3;
+    final padding = range * 0.1;
+    final chartMinY = (minY / interval).floorToDouble() * interval - padding;
+    final chartMaxY = (maxY / interval).ceilToDouble() * interval + padding;
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
@@ -166,6 +166,8 @@ class _ChartWidget extends StatelessWidget {
                   dotData: FlDotData(show: false),
                   color: CpColors.chartLineColor,
                   barWidth: 5,
+                  isStrokeJoinRound: true,
+                  isStrokeCapRound: true,
                 )
               ],
               minY: chartMinY,
@@ -191,8 +193,9 @@ class _ChartWidget extends StatelessWidget {
                 topTitles: AxisTitles(sideTitles: SideTitles()),
                 bottomTitles: AxisTitles(sideTitles: SideTitles()),
                 rightTitles: AxisTitles(
+                  drawBehindEverything: true,
                   sideTitles: SideTitles(
-                    reservedSize: 70,
+                    reservedSize: 50,
                     showTitles: true,
                     interval: interval,
                     getTitlesWidget: (val, __) {
@@ -211,7 +214,7 @@ class _ChartWidget extends StatelessWidget {
                         child: Text(
                           formattedValue,
                           style: const TextStyle(
-                            fontSize: 11,
+                            fontSize: 10,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -306,20 +309,20 @@ extension ChartIntervalExt on ChartInterval {
     }
   }
 
-  String get timeFrameLabel {
+  String timeFrameLabel(BuildContext context) {
     switch (this) {
       case ChartInterval.oneDay:
-        return 'Past Day';
+        return context.l10n.chartPastDay;
       case ChartInterval.oneWeek:
-        return 'Past Week';
+        return context.l10n.chartPastWeek;
       case ChartInterval.oneMonth:
-        return 'Past Month';
+        return context.l10n.chartPastMonth;
       case ChartInterval.threeMonth:
-        return 'Past Three Months';
+        return context.l10n.chartPastThreeMonths;
       case ChartInterval.oneYear:
-        return 'Past Year';
+        return context.l10n.chartPastYear;
       case ChartInterval.all:
-        return 'All';
+        return context.l10n.chartAllTime;
     }
   }
 }

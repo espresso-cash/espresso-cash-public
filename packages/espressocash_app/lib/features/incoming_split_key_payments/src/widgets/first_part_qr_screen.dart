@@ -13,6 +13,7 @@ import '../../../qr_scanner/models/qr_scanner_request.dart';
 import '../../extensions.dart';
 import 'components/terms_disclaimer.dart';
 
+@RoutePage()
 class FirstPartQrScreen extends StatefulWidget {
   const FirstPartQrScreen({super.key});
 
@@ -86,7 +87,7 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
 }
 
 class _Header extends StatelessWidget {
-  const _Header({Key? key}) : super(key: key);
+  const _Header();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -100,7 +101,8 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({Key? key, required this.onScan}) : super(key: key);
+  const _Footer({required this.onScan});
+
   final VoidCallback onScan;
 
   @override
@@ -126,7 +128,7 @@ class _Footer extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key}) : super(key: key);
+  const _Body();
 
   @override
   Widget build(BuildContext context) => Padding(

@@ -1,19 +1,22 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../ui/text_field.dart';
 import '../../../../ui/theme.dart';
 
+@RoutePage()
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  const EditProfileScreen({super.key});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -45,6 +48,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<AccountsBloc>().state.isProcessing;
 
@@ -61,7 +70,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 onPressed: _updateProfile,
               ),
               children: [
-                CpAppBar(leading: BackButton(onPressed: _closeFlow)),
+                CpAppBar(
+                  leading: CpBackButton(onPressed: _closeFlow),
+                ),
                 ProfileImagePicker(
                   onChanged: (photo) => setState(() {
                     _photo = photo;

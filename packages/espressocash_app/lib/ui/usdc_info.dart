@@ -5,9 +5,9 @@ import 'info_widget.dart';
 
 class UsdcInfoWidget extends StatelessWidget {
   const UsdcInfoWidget({
-    Key? key,
+    super.key,
     required this.isSmall,
-  }) : super(key: key);
+  });
 
   final bool isSmall;
 

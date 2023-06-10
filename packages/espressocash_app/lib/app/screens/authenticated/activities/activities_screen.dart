@@ -1,3 +1,4 @@
+import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../../core/presentation/page_fade_wrapper.dart';
@@ -7,8 +8,9 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/tab_bar.dart';
 
+@RoutePage()
 class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({Key? key}) : super(key: key);
+  const ActivitiesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

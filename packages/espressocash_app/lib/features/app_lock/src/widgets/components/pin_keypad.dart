@@ -4,11 +4,10 @@ import '../../../../../ui/amount_keypad/keypad_key.dart';
 
 class PinKeypad extends StatelessWidget {
   const PinKeypad({
-    Key? key,
+    super.key,
     required this.maxDigits,
     required TextEditingController controller,
-  })  : _controller = controller,
-        super(key: key);
+  }) : _controller = controller;
 
   final TextEditingController _controller;
   final int maxDigits;

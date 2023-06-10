@@ -1,0 +1,9 @@
+{
+  "name": "saga_publishing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@solana-mobile/dapp-store-cli": "^0.4.2"
+  }
+}

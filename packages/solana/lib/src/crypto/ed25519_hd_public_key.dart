@@ -1,10 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:cryptography/cryptography.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/encoder.dart';
 import 'package:solana/src/helpers.dart';
 
+@immutable
 class Ed25519HDPublicKey implements PublicKey {
   const Ed25519HDPublicKey(this.bytes);
 
@@ -50,9 +52,9 @@ class Ed25519HDPublicKey implements PublicKey {
       throw const FormatException(
         'failed to create address with provided seeds',
       );
-    } else {
-      return Ed25519HDPublicKey(data);
     }
+
+    return Ed25519HDPublicKey(data);
   }
 
   /// Finds a valid program address.

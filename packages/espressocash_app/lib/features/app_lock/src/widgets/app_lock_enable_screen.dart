@@ -1,14 +1,17 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/decorated_window/decorated_window.dart';
 import 'app_lock_setup_flow_screen.dart';
 import 'components/local_auth_wrapper.dart';
 import 'components/pin_input_display_widget.dart';
 
+@RoutePage()
 class AppLockEnableScreen extends StatefulWidget {
-  const AppLockEnableScreen({Key? key}) : super(key: key);
+  const AppLockEnableScreen({super.key});
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();
@@ -30,13 +33,9 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
     }
   }
 
-  String get _instructions {
-    if (_firstPass == null) {
-      return context.l10n.enterPasscode;
-    }
-
-    return context.l10n.reEnterPasscode;
-  }
+  String get _instructions => _firstPass == null
+      ? context.l10n.enterPasscode
+      : context.l10n.reEnterPasscode;
 
   void _finish() {
     final passCode = _firstPass;
@@ -47,7 +46,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
 
   @override
   Widget build(BuildContext context) => DecoratedWindow(
-        backButton: BackButton(
+        backButton: CpBackButton(
           onPressed: () => context.read<AppLockSetupRouter>().closeFlow(),
         ),
         hasLogo: true,

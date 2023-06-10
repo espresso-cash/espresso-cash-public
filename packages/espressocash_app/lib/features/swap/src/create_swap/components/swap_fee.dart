@@ -11,9 +11,9 @@ import '../../../../../l10n/l10n.dart';
 
 class SwapFee extends StatelessWidget {
   const SwapFee({
-    Key? key,
+    super.key,
     required this.amount,
-  }) : super(key: key);
+  });
 
   final CryptoAmount amount;
 
@@ -22,7 +22,7 @@ class SwapFee extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
     final fiatAmount = amount.toFiatAmount(
       Currency.usd,
-      ratesRepository: context.read<ConversionRatesRepository>(),
+      ratesRepository: context.watch<ConversionRatesRepository>(),
     );
     final formatted = (fiatAmount ?? amount).format(locale);
 

@@ -47,10 +47,7 @@ class OnboardingNotice extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    Key? key,
-    required this.onPressed,
-  }) : super(key: key);
+  const _Content({required this.onPressed});
 
   final VoidCallback onPressed;
 
@@ -80,7 +77,7 @@ class _Content extends StatelessWidget {
 }
 
 class _Text extends StatelessWidget {
-  const _Text({Key? key}) : super(key: key);
+  const _Text();
 
   @override
   Widget build(BuildContext context) => Column(

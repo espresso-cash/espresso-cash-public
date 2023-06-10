@@ -28,12 +28,6 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   final FiatCurrency _userCurrency;
   final PopularTokenRepository _repository;
 
-  Future<void> refresh() {
-    add(const PopularTokenEvent.fetched());
-
-    return stream.firstWhere((state) => !state.processingState.isProcessing);
-  }
-
   _EventHandler get _eventHandler => (event, emit) => event.map(
         init: (event) => _onInit(emit),
         fetched: (event) => _onRefreshRequested(emit),
@@ -65,6 +59,14 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
           processingState: const ProcessingState.none(),
         ),
       );
+}
+
+extension PopularTokenBlocExt on PopularTokenBloc {
+  Future<void> refresh() {
+    add(const PopularTokenEvent.fetched());
+
+    return stream.firstWhere((state) => !state.processingState.isProcessing);
+  }
 }
 
 @freezed

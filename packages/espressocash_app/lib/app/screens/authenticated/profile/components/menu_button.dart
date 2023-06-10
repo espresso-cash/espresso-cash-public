@@ -5,12 +5,12 @@ import '../../../../../ui/colors.dart';
 
 class MenuButton extends StatelessWidget {
   const MenuButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.description,
     required this.icon,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final String title;
   final String description;

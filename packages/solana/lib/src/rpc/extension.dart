@@ -4,7 +4,7 @@ extension RpcClientExt on RpcClient {
   Future<TransactionId> signAndSendTransaction(
     Message message,
     List<Ed25519HDKeyPair> signers, {
-    FutureOr<void> Function(Signature)? onSigned,
+    FutureOr<void> Function(Signature signature)? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
     final recentBlockhash =

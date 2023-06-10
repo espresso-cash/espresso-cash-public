@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,8 +9,9 @@ import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
 import 'backup_phrase_flow_screen.dart';
 
+@RoutePage()
 class BackupPhraseSuccessScreen extends StatelessWidget {
-  const BackupPhraseSuccessScreen({Key? key}) : super(key: key);
+  const BackupPhraseSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Scaffold(

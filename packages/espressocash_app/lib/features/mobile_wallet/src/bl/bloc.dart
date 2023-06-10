@@ -94,7 +94,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
             messages: (it) async => zip2(
               it.payloads,
               await _account.wallet.sign(it.payloads),
-            ).map((it) => it.item1 + it.item2.bytes),
+            ).map((it) => it.$1 + it.$2.bytes),
           );
 
           return SignedPayloadResult(
@@ -124,16 +124,14 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
             ),
           );
 
-          if (results.any((e) => !e)) {
-            return SignaturesResult.invalidPayloads(valid: results);
-          }
-
-          return SignaturesResult(
-            signatures: signedTxs
-                .map((it) => it.signatures.first.bytes)
-                .map(Uint8List.fromList)
-                .toList(),
-          );
+          return results.any((e) => !e)
+              ? SignaturesResult.invalidPayloads(valid: results)
+              : SignaturesResult(
+                  signatures: signedTxs
+                      .map((it) => it.signatures.first.bytes)
+                      .map(Uint8List.fromList)
+                      .toList(),
+                );
         },
       );
 }
@@ -151,11 +149,10 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
   }
 
   final valids = payloads.map((it) => it.isNotEmpty).toList();
-  if (valids.any((i) => !i)) {
-    return Either.left(_ValidationError.invalidPayloads(valids));
-  }
 
-  return Either.right(payloads);
+  return valids.any((i) => !i)
+      ? Either.left(_ValidationError.invalidPayloads(valids))
+      : Either.right(payloads);
 }
 
 @freezed

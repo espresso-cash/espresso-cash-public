@@ -7,13 +7,14 @@ import '../../../routes.gr.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 
+@RoutePage()
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) => AutoTabsRouter(
         routes: _pages.map((e) => e.route).toList(),
-        builder: (context, child, animation) {
+        builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);
 
           return Scaffold(

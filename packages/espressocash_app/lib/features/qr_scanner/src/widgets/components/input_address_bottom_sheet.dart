@@ -5,7 +5,7 @@ import '../../../../../ui/button.dart';
 import '../../../../../ui/text_field.dart';
 
 class InputAddressBottomSheet extends StatefulWidget {
-  const InputAddressBottomSheet({Key? key}) : super(key: key);
+  const InputAddressBottomSheet({super.key});
 
   static Future<String?> show(BuildContext context) => showModalBottomSheet(
         context: context,
@@ -28,9 +28,15 @@ class InputAddressBottomSheet extends StatefulWidget {
 }
 
 class _InputAddressScreenState extends State<InputAddressBottomSheet> {
-  final controller = TextEditingController();
+  final _controller = TextEditingController();
 
   void _onSubmit(String address) => Navigator.of(context).pop(address);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -55,12 +61,12 @@ class _InputAddressScreenState extends State<InputAddressBottomSheet> {
             CpTextField(
               placeholder: context.l10n.qrInputAddressHint,
               border: CpTextFieldBorder.stadium,
-              controller: controller,
+              controller: _controller,
               fontSize: 16,
             ),
             const SizedBox(height: 32),
             ValueListenableBuilder<TextEditingValue>(
-              valueListenable: controller,
+              valueListenable: _controller,
               builder: (context, value, child) => CpButton(
                 text: context.l10n.pay,
                 width: 250,

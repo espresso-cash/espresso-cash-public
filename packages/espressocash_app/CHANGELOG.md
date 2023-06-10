@@ -1,3 +1,28 @@
+## 1.75.0
+
+ - **REFACTOR**: update lint rules.
+ - **FEAT**: update ramp network to latest version (#986).
+
+## 1.74.1
+
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: remove unused method.
+
+## 1.74.0
+
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: update scenario handler.
+ - **FEAT**: add custom icon to back button (#973).
+ - **FEAT**: update second link animation (#972).
+ - **FEAT**: add coingecko l10n support for token details page (#975).
+
+## 1.73.0
+
+ - **FIX**: second link animation artifacts (#960).
+ - **FIX**: update l10n key.
+ - **FEAT**: token details page enhancements  (#961).
+ - **FEAT**: truncate usdc amount on messages (#959).
+
 ## 1.72.0
 
  - **FIX**: correctly sign old cancellation tx (#957).

@@ -8,6 +8,7 @@ import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../../../ui/back_button.dart';
 import '../../../../../ui/bordered_row.dart';
 import '../../../../../ui/bottom_button.dart';
 import '../../../../../ui/colors.dart';
@@ -15,11 +16,13 @@ import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
 
 abstract class NoteSetter {
+  const NoteSetter();
+
   void onNoteSubmitted(String name);
 }
 
 class RequestNoteScreen extends StatefulWidget {
-  const RequestNoteScreen({Key? key, required this.amount}) : super(key: key);
+  const RequestNoteScreen({super.key, required this.amount});
 
   final Amount amount;
 
@@ -31,10 +34,16 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
   final _controller = TextEditingController();
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           appBar: CpAppBar(
-            leading: BackButton(onPressed: () => context.router.pop()),
+            leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -77,9 +86,8 @@ class _RequestNoteScreenState extends State<RequestNoteScreen> {
 
 class _BottomButton extends StatelessWidget {
   const _BottomButton({
-    Key? key,
     required this.controller,
-  }) : super(key: key);
+  });
 
   final TextEditingController controller;
 

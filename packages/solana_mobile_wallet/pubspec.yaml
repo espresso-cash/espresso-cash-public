@@ -19,11 +19,12 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.2.0
+  dart_code_metrics: ^5.7.3
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
-  mews_pedantic: ^0.13.0
+  mews_pedantic: ^0.15.0-dev.3
   pigeon: ^7.1.1
 
 flutter:
