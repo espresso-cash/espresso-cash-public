@@ -52,7 +52,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
         hasLogo: true,
         backgroundStyle: BackgroundStyle.dark,
         child: LocalAuthWrapper(
-          shouldAskForLocalAuth: _askForBiometrics,
+          shouldUseLocalAuth: _askForBiometrics,
           onLocalAuthComplete: _finish,
           onLocalAuthFailed: _finish,
           child: PinInputDisplayWidget(

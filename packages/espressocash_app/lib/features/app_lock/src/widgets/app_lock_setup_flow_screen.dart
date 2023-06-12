@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../routes.gr.dart';
 import '../bl/app_lock_bloc.dart';
+import '../bl/local_auth_repository.dart';
 
 @RoutePage()
 class AppLockSetupFlowScreen extends StatefulWidget {
@@ -33,6 +34,7 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
 
   @override
   void onDisableFinished() {
+    context.read<LocalAuthRepository>().clear();
     context.router.pop();
   }
 

@@ -758,5 +758,7 @@
   "chartPastThreeMonths": "Past Three Months",
   "chartPastYear": "Past Year",
   "chartAllTime": "All",
-  "localAuthReason": "Use your device method to authenticate to access Espresso Cash",
+  "localAuthReason": "Use your device authentication to access Espresso Cash",
+  "localAuthTitle": "Authenticate with device",
+  "localAuthMessage": "Would you like to use your device authentication to access Espresso Cash?"
 }
