@@ -58,8 +58,6 @@ class _ISKPTxCreatedJob extends CancelableJob<IncomingSplitKeyPayment> {
       failure: (it) => ISKPStatus.txFailure(reason: it.reason),
       networkError: (_) {
         Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-
-        return null;
       },
     );
 

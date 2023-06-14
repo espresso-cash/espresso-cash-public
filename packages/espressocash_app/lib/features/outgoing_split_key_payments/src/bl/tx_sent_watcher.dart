@@ -51,8 +51,6 @@ class _OSKPSentJob extends CancelableJob<OutgoingSplitKeyPayment> {
       failure: (tx) => OSKPStatus.txFailure(reason: tx.reason),
       networkError: (_) {
         Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-
-        return null;
       },
     );
 

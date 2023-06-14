@@ -39,7 +39,7 @@ class _State extends State<WebViewScreen> {
       if (!mounted) return;
       setState(() => _title = title);
     } on Exception {
-      return;
+      // ignore
     }
   }
 
