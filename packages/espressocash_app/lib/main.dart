@@ -1,8 +1,10 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:localizely_sdk/localizely_sdk.dart';
 import 'package:provider/provider.dart';
@@ -64,16 +66,24 @@ Future<void> _start() async {
   }
   await sharedPreferences.setBool(_firstRunKey, true);
 
-  final app = MultiProvider(
-    providers: [
-      const BalancesModule(),
-      const AccountsModule(),
-      ChangeNotifierProvider<DynamicLinksNotifier>(
-        create: (_) => sl<DynamicLinksNotifier>(),
-        lazy: false,
+  final app = DevicePreview(
+    enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),
+    builder: (context) => ScreenUtilInit(
+      designSize: const Size(428, 926),
+      useInheritedMediaQuery: true,
+      minTextAdapt: true,
+      builder: (context, child) => MultiProvider(
+        providers: [
+          const BalancesModule(),
+          const AccountsModule(),
+          ChangeNotifierProvider<DynamicLinksNotifier>(
+            create: (_) => sl<DynamicLinksNotifier>(),
+            lazy: false,
+          ),
+        ],
+        child: const CryptopleaseApp(),
       ),
-    ],
-    child: const CryptopleaseApp(),
+    ),
   );
 
   runApp(app);
