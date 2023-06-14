@@ -44,6 +44,8 @@
   },
   "buy": "Buy",
   "@buy": {},
+  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our ",
+  "@byClickingTheSecondLink": {},
   "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
   "@byCreatingWalletYouAgree": {},
   "camera": "Camera",
@@ -66,6 +68,18 @@
   "@cannotConnectToTheNetwork": {},
   "cashOut": "Cash Out",
   "@cashOut": {},
+  "chartAllTime": "All",
+  "@chartAllTime": {},
+  "chartPastDay": "Past Day",
+  "@chartPastDay": {},
+  "chartPastMonth": "Past Month",
+  "@chartPastMonth": {},
+  "chartPastThreeMonths": "Past Three Months",
+  "@chartPastThreeMonths": {},
+  "chartPastWeek": "Past Week",
+  "@chartPastWeek": {},
+  "chartPastYear": "Past Year",
+  "@chartPastYear": {},
   "comingSoon": "Coming soon!",
   "@comingSoon": {},
   "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
@@ -178,6 +192,8 @@
   "@invalidEscrowError": {},
   "investmentHeaderButtonsTitle": "I want to",
   "@investmentHeaderButtonsTitle": {},
+  "isWaitingForYou": "is waiting for you.",
+  "@isWaitingForYou": {},
   "iUnderstand": "I Understand",
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
@@ -212,6 +228,56 @@
       }
     }
   },
+  "mobileWalletAcceptAuthorization": "Authorize",
+  "@mobileWalletAcceptAuthorization": {},
+  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
+  "@mobileWalletAcceptSignAndSendPayloads": {},
+  "mobileWalletAcceptSignMessages": "Sign Messages",
+  "@mobileWalletAcceptSignMessages": {},
+  "mobileWalletAcceptSignTransactions": "Sign Transactions",
+  "@mobileWalletAcceptSignTransactions": {},
+  "mobileWalletAuthorize": "Authorize {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSendTransactions": "These transactions will be immediately submitted after signing.",
+  "@mobileWalletSendTransactions": {},
+  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
+  "@mobileWalletSignAndSendTransactions": {},
+  "mobileWalletSignMessages": "Sign Message",
+  "@mobileWalletSignMessages": {},
+  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Sign Transaction",
+  "@mobileWalletSignTransactions": {},
+  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletTitle": "Espresso Cash Wallet",
+  "@mobileWalletTitle": {},
+  "money": "Money",
+  "@money": {},
   "moneyReceived": "Money has been received",
   "@moneyReceived": {},
   "more": "more",
@@ -244,6 +310,8 @@
   "@oneMonth": {},
   "oneWeek": "1 week",
   "@oneWeek": {},
+  "openInAppScanner": "Open in-app QR Scanner",
+  "@openInAppScanner": {},
   "operationSend": "sent",
   "@operationSend": {},
   "outgoingTransferSuccess": "{amount} has been sent",
@@ -342,8 +410,16 @@
   "@qrInputAddressMessage": {},
   "qrInputAddressTitle": "Send manually",
   "@qrInputAddressTitle": {},
+  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
+  "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
   "@qrPaymentSubtitle": {},
+  "qrScanInfo1": "If the recipient has the app installed:",
+  "@qrScanInfo1": {},
+  "qrScanInfo2": "They should use the in-app QR scanner.",
+  "@qrScanInfo2": {},
+  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
+  "@qrTermsDisclaimer": {},
   "receive": "Request",
   "@receive": {},
   "receivedBy": "Received by {address}",
@@ -380,6 +456,14 @@
   "@retry": {},
   "save": "Save",
   "@save": {},
+  "scanToReceive": "Scan to receive {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "search": "Search",
   "@search": {},
   "searchPlaceholder": "Search...",
@@ -467,14 +551,14 @@
   "@signIn1": {},
   "signIn2": "Continue here",
   "@signIn2": {},
+  "signInWithSaga": "Sign in with Saga",
+  "@signInWithSaga": {},
   "signOut": "Delete Wallet",
   "@signOut": {},
   "signOutConfirmation": "Are you sure you want to\ndelete the wallet?",
   "@signOutConfirmation": {},
   "signUp": "Create Wallet",
   "@signUp": {},
-  "signInWithSaga": "Sign in with Saga",
-  "@signInWithSaga": {},
   "soldToken": "Sold {amount}",
   "@soldToken": {
     "placeholders": {
@@ -617,6 +701,7 @@
   "@tomorrow": {},
   "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
   "@toRestoreYourAccount": {},
+  "transactions": "Transactions",
   "@transactions": {},
   "transferErrorTitle": "OOPS!",
   "@transferErrorTitle": {},
@@ -626,6 +711,14 @@
   "@transferSuccessTitle": {},
   "tryAgainLater": "Please, try again later",
   "@tryAgainLater": {},
+  "unavailableToken": "{tokenName} is currently unavailable for purchase. You can still follow to track pricing.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+        "type": "String"
+      }
+    }
+  },
   "uploadPhoto": "Upload A Photo",
   "@uploadPhoto": {},
   "usdcExplanation": "The USD Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar.",
@@ -643,7 +736,6 @@
       }
     }
   },
-  "transactions": "Transactions",
   "view": "View",
   "@view": {},
   "viewRecoveryPhrase": "View secret recovery phrase",
@@ -679,83 +771,5 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {},
-  "paymentInitiated": "Payment initiated",
-  "@paymentInitiated": {},
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "@qrScanInfo2": {},
-  "scanToReceive": "Scan to receive {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "openInAppScanner": "Open in-app QR Scanner",
-  "@openInAppScanner": {},
-  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
-  "@qrPaymentInstructions": {},
-  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
-  "@qrTermsDisclaimer": {},
-  "money": "Money",
-  "@money": {},
-  "isWaitingForYou": "is waiting for you.",
-  "@isWaitingForYou": {},
-  "mobileWalletTitle": "Espresso Cash Wallet",
-  "mobileWalletAuthorize": "Authorize {appName}?",
-  "@mobileWalletAuthorize": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      }
-    }
-  },
-  "mobileWalletSignTransactions": "Sign Transaction",
-  "mobileWalletSignMessages": "Sign Message",
-  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
-  "@mobileWalletSignMessagesRequest": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
-  "@mobileWalletSignTransactionsRequest": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
-  "mobileWalletSendTransactions": "Thesze transactions will be immediately submitted after signing.",
-  "mobileWalletAcceptSignTransactions": "Sign Transactions",
-  "mobileWalletAcceptSignMessages": "Sign Messages",
-  "mobileWalletAcceptAuthorization": "Authorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
-  "unavailableToken": "{tokenName} is currently unavailable for purchase. You can still follow to track pricing.",
-  "@unavailableToken": {
-    "placeholders": {
-      "tokenName": {
-        "type": "String"
-      }
-    }
-  },
-  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our ",
-  "chartPastDay": "Past Day",
-  "chartPastWeek": "Past Week",
-  "chartPastMonth": "Past Month",
-  "chartPastThreeMonths": "Past Three Months",
-  "chartPastYear": "Past Year",
-  "chartAllTime": "All"
+  "@zeroAmountTitle": {}
 }
