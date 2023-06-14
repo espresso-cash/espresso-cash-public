@@ -15,10 +15,11 @@ void testGoldensWidget(
   Widget widget, {
   FutureOr<void> Function()? setUp,
   CustomPump? customPump,
+  bool? skip,
 }) {
   final snakeName = name.snakeCase;
 
-  testGoldens(name, (tester) async {
+  testGoldens(name, skip: skip, (tester) async {
     await setUp?.call();
 
     final builder = DeviceBuilder()
