@@ -53,8 +53,6 @@ class _ISKPTxSentJob extends CancelableJob<IncomingSplitKeyPayment> {
       ),
       networkError: (_) {
         Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-
-        return null;
       },
     );
 
