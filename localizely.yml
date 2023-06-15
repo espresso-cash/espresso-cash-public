@@ -12,16 +12,16 @@ upload:
       - removed
 download:
   files:
-    - file: lib/l10n/intl_en.arb
+    - file: packages/espressocash_app/lib/l10n/intl_en.arb
       locale_code: en
-    - file: lib/l10n/intl_es.arb
+    - file: packages/espressocash_app/lib/l10n/intl_es.arb
       locale_code: es
-    - file: lib/l10n/intl_fr.arb
+    - file: packages/espressocash_app/lib/l10n/intl_fr.arb
       locale_code: fr
-    - file: lib/l10n/intl_pt.arb
+    - file: packages/espressocash_app/lib/l10n/intl_pt.arb
       locale_code: pt
-    - file: lib/l10n/intl_ru.arb
-      locale_code: ru
+    # - file: packages/espressocash_app/lib/l10n/intl_ru.arb
+    #   locale_code: ru
   params:
     export_empty_as: skip
     exclude_tags:

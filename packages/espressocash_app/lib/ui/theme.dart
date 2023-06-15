@@ -25,6 +25,7 @@ class CpTheme extends StatelessWidget {
           child: child,
         );
 
+  // ignore: avoid-watch-outside-build, valid usage
   static CpThemeData of(BuildContext context) => context.watch<CpThemeData>();
 
   final CpThemeData theme;
