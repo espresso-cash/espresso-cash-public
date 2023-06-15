@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:espressocash_app/features/ramp/db.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/transactions/tx_sender.dart';
@@ -27,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 36;
+const int latestVersion = 37;
 
 const _tables = [
   OutgoingTransferRows,
@@ -41,6 +42,7 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
+  ORPRows,
 ];
 
 @lazySingleton
@@ -150,6 +152,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 36) {
             await m.deleteTable('i_s_l_p_rows');
+          }
+          if (from < 37) {
+            await m.createTable(oRPRows);
           }
         },
       );

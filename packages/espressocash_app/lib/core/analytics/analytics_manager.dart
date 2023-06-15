@@ -40,4 +40,8 @@ class AnalyticsManager {
   // User creates a direct payment
   void directPaymentCreated() =>
       _analytics.logEvent(name: 'directPaymentCreated');
+
+  // User create off ramp payment (cashing out)
+  void offRampPaymentCreated() =>
+      _analytics.logEvent(name: 'offRampPaymentCreated');
 }

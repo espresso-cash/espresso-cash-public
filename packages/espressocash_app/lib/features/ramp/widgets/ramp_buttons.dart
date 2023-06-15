@@ -8,7 +8,6 @@ import '../../../config.dart';
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/balances/context_ext.dart';
 import '../../../ui/button.dart';
-import '../src/widgets/off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -54,7 +53,7 @@ class CashOutButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.cashOut,
-          onPressed: () => OffRampBottomSheet.show(context),
+          onPressed: () {},
         ),
       );
 }
