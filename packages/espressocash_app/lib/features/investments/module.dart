@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/module.dart';
 import '../../di.dart';
-import 'src/data/repository.dart';
+import 'data/repository.dart';
 
 class InvestmentModule extends SingleChildStatelessWidget {
   const InvestmentModule({super.key, super.child});

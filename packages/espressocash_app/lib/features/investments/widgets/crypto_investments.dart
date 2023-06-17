@@ -15,7 +15,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../src/data/repository.dart';
+import '../data/repository.dart';
 import 'portfolio_widget.dart';
 
 class CryptoInvestments extends StatelessWidget {

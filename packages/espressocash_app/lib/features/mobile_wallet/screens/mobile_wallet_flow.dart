@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
-import '../../../../core/accounts/bl/account.dart';
-import '../../../../di.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/theme.dart';
-import '../bl/bloc.dart';
+import '../../../core/accounts/bl/account.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/button.dart';
+import '../../../ui/theme.dart';
 import '../models/remote_request.dart';
+import '../services/bloc.dart';
 
 @RoutePage()
 class RemoteRequestScreen extends StatelessWidget {

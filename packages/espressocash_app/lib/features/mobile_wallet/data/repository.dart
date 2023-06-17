@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-import 'models/notification.dart';
+import '../models/notification.dart';
 
 typedef NotificationHanlder = FutureOr<Object?> Function(
   MobileWalletNotification notification,
