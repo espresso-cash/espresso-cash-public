@@ -2,11 +2,11 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../config.dart';
-import '../../../../core/presentation/utils.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import 'components/profile_button.dart';
+import '../../../../../config.dart';
+import '../../../../../core/presentation/utils.dart';
+import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/app_bar.dart';
+import '../widgets/profile_button.dart';
 
 @RoutePage()
 class HelpScreen extends StatelessWidget {

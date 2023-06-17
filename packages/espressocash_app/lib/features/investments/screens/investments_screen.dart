@@ -3,24 +3,24 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/balances/presentation/refresh_balance_wrapper.dart';
-import '../../../../core/currency.dart';
-import '../../../../core/presentation/page_fade_wrapper.dart';
-import '../../../../features/favorite_tokens/widgets/extensions.dart';
-import '../../../../features/favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../../../features/investments/widgets/crypto_investments.dart';
-import '../../../../features/onboarding/widgets/onboarding_notice.dart';
-import '../../../../features/popular_tokens/widgets/extensions.dart';
-import '../../../../features/popular_tokens/widgets/popular_token_list.dart';
-import '../../../../features/qr_scanner/widgets/build_context_ext.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/icon_button.dart';
-import '../../../../ui/navigation_bar/navigation_bar.dart';
-import 'components/investment_header.dart';
-import 'components/popular_crypto_header.dart';
-import 'components/start_investing_header.dart';
+import '../../../core/balances/widgets/refresh_balance_wrapper.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/page_fade_wrapper.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/icon_button.dart';
+import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../favorite_tokens/widgets/extensions.dart';
+import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
+import '../../onboarding/widgets/onboarding_notice.dart';
+import '../../popular_tokens/widgets/extensions.dart';
+import '../../popular_tokens/widgets/popular_token_list.dart';
+import '../../qr_scanner/widgets/build_context_ext.dart';
+import '../widgets/crypto_investments.dart';
+import '../widgets/investment_header.dart';
+import '../widgets/popular_crypto_header.dart';
+import '../widgets/start_investing_header.dart';
 
 @RoutePage(name: 'InvestmentsRouter')
 class InvestmentsRouterScreen extends AutoRouter {

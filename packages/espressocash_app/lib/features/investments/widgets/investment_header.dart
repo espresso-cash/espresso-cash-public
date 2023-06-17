@@ -3,21 +3,21 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/balances/presentation/watch_balance.dart';
-import '../../../../../core/currency.dart';
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/tokens/token.dart';
-import '../../../../../features/ramp/widgets/ramp_buttons.dart';
-import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/info_icon.dart';
-import '../../../../../ui/info_widget.dart';
-import '../../../../../ui/token_icon.dart';
+import '../../../core/amount.dart';
+import '../../../core/balances/widgets/watch_balance.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/tokens/token.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/info_icon.dart';
+import '../../../ui/info_widget.dart';
+import '../../../ui/token_icon.dart';
+import '../../ramp/widgets/ramp_buttons.dart';
 
 class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});

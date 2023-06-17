@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/crypto_header.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/crypto_header.dart';
 import 'context_ext.dart';
 
 class PopularCryptoHeader extends StatelessWidget {

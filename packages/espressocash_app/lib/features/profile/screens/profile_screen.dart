@@ -9,15 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/accounts/bl/account.dart';
-import '../../../../core/presentation/utils.dart';
-import '../../../../features/qr_scanner/models/qr_address_data.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../ui/icon_button.dart';
-import '../../../../ui/user_avatar.dart';
-import 'components/learning_section.dart';
-import 'components/profile_section.dart';
-import 'components/security_section.dart';
+import '../../../../../core/accounts/bl/account.dart';
+import '../../../../../core/presentation/utils.dart';
+import '../../../../../features/qr_scanner/models/qr_address_data.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../../../../../ui/icon_button.dart';
+import '../../../../../ui/user_avatar.dart';
+import '../widgets/learning_section.dart';
+import '../widgets/profile_section.dart';
+import '../widgets/security_section.dart';
 
 @RoutePage()
 class ProfileScreen extends StatelessWidget {

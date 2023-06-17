@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/balances/presentation/watch_balance.dart';
+import '../../../core/balances/widgets/watch_balance.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';

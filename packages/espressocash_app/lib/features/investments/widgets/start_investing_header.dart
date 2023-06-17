@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../features/token_search/widgets/discover_header.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/crypto_header.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/crypto_header.dart';
+import '../../token_search/widgets/discover_header.dart';
 import 'context_ext.dart';
 
 class StartInvestingHeader extends StatelessWidget {

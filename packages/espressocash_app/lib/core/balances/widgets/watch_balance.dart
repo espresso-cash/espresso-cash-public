@@ -6,7 +6,7 @@ import '../../conversion_rates/context_ext.dart';
 import '../../currency.dart';
 import '../../tokens/token.dart';
 import '../../user_preferences.dart';
-import '../bl/balances_bloc.dart';
+import '../services/balances_bloc.dart';
 
 extension WatchBalance on BuildContext {
   Amount watchUserCryptoBalance(Token token) =>

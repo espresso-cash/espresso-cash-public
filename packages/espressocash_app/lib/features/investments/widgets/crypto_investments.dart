@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/balances/bl/balances_bloc.dart';
-import '../../../core/balances/presentation/watch_balance.dart';
+import '../../../core/balances/services/balances_bloc.dart';
+import '../../../core/balances/widgets/watch_balance.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';

@@ -11,7 +11,7 @@ import '../../accounts/bl/account.dart';
 import '../../conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../processing_state.dart';
 import '../../user_preferences.dart';
-import '../bl/balances_bloc.dart';
+import '../services/balances_bloc.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 

@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart' hide Notification;
 
-import '../../../../core/presentation/page_fade_wrapper.dart';
-import '../../../../features/activities/widgets/pending_activities_list.dart';
-import '../../../../features/activities/widgets/transaction_list.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/tab_bar.dart';
+import '../../../core/presentation/page_fade_wrapper.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/tab_bar.dart';
+import '../widgets/pending_activities_list.dart';
+import '../widgets/transaction_list.dart';
 
 @RoutePage()
 class ActivitiesScreen extends StatelessWidget {

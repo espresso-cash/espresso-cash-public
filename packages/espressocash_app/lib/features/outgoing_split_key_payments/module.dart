@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/module.dart';
-import '../../core/balances/context_ext.dart';
+import '../../core/balances/widgets/context_ext.dart';
 import '../../di.dart';
 import 'data/repository.dart';
 import 'services/cancel_tx_created_watcher.dart';

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
-import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/balances/services/balances_bloc.dart';
 import '../../../core/callback.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';

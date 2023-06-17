@@ -7,23 +7,23 @@ import 'package:provider/provider.dart';
 
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../core/balances/bl/balances_bloc.dart';
+import '../../../core/balances/services/balances_bloc.dart';
 import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
 import '../../../core/conversion_rates/module.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
-import '../../../features/activities/module.dart';
-import '../../../features/backup_phrase/module.dart';
-import '../../../features/favorite_tokens/module.dart';
-import '../../../features/incoming_split_key_payments/module.dart';
-import '../../../features/investments/module.dart';
-import '../../../features/mobile_wallet/module.dart';
-import '../../../features/onboarding/module.dart';
-import '../../../features/outgoing_direct_payments/module.dart';
-import '../../../features/outgoing_split_key_payments/module.dart';
-import '../../../features/payment_request/module.dart';
-import '../../../features/popular_tokens/module.dart';
-import '../../../features/swap/module.dart';
+import '../../activities/module.dart';
+import '../../backup_phrase/module.dart';
+import '../../favorite_tokens/module.dart';
+import '../../incoming_split_key_payments/module.dart';
+import '../../investments/module.dart';
+import '../../mobile_wallet/module.dart';
+import '../../onboarding/module.dart';
+import '../../outgoing_direct_payments/module.dart';
+import '../../outgoing_split_key_payments/module.dart';
+import '../../payment_request/module.dart';
+import '../../popular_tokens/module.dart';
+import '../../swap/module.dart';
 
 @immutable
 class HomeRouterKey {

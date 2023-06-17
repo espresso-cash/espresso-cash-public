@@ -3,16 +3,16 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/conversion_rates/amount_ext.dart';
-import '../../../../core/conversion_rates/bl/repository.dart';
-import '../../../../core/currency.dart';
-import '../../../../features/outgoing_split_key_payments/widgets/extensions.dart';
-import '../../../../features/qr_scanner/widgets/build_context_ext.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/shake.dart';
-import '../../../../ui/theme.dart';
+import '../../../core/amount.dart';
+import '../../../core/conversion_rates/amount_ext.dart';
+import '../../../core/conversion_rates/bl/repository.dart';
+import '../../../core/currency.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/shake.dart';
+import '../../../ui/theme.dart';
+import '../../outgoing_split_key_payments/widgets/extensions.dart';
+import '../../qr_scanner/widgets/build_context_ext.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;

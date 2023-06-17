@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/app.dart';
+import 'app.dart';
 import 'config.dart';
 import 'core/accounts/module.dart';
 import 'core/balances/module.dart';

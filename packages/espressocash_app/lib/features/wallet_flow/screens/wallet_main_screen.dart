@@ -1,18 +1,18 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/tokens/token.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/amount_keypad/amount_keypad.dart';
-import '../../../../ui/amount_with_equivalent.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/icon_button.dart';
-import '../../../../ui/number_formatter.dart';
-import '../../../../ui/tab_bar.dart';
-import '../../../../ui/usdc_info.dart';
+import '../../../core/amount.dart';
+import '../../../core/tokens/token.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../ui/amount_with_equivalent.dart';
+import '../../../ui/button.dart';
+import '../../../ui/icon_button.dart';
+import '../../../ui/number_formatter.dart';
+import '../../../ui/tab_bar.dart';
+import '../../../ui/usdc_info.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
