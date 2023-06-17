@@ -4,8 +4,8 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/tokens/token.dart';
+import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
-import 'swap_route.dart';
 
 @injectable
 class RouteRepository {

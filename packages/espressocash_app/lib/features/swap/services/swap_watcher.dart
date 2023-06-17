@@ -5,9 +5,9 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../../core/cancelable_job.dart';
-import '../../models/swap.dart';
-import 'swap_repository.dart';
+import '../../../core/cancelable_job.dart';
+import '../data/swap_repository.dart';
+import '../models/swap.dart';
 
 abstract class SwapWatcher {
   SwapWatcher(this._repository);

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/cancelable_job.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/swap.dart';
-import 'swap_repository.dart';
+import '../../../core/cancelable_job.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../data/swap_repository.dart';
+import '../models/swap.dart';
 import 'swap_watcher.dart';
 
 /// Watches for [SwapStatus.txCreated] swaps and and sends the tx.

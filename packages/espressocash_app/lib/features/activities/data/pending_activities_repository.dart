@@ -9,7 +9,7 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
-import '../../swap/db.dart';
+import '../../swap/data/swap_repository.dart';
 import '../models/activity.dart';
 import 'activity_builder.dart';
 

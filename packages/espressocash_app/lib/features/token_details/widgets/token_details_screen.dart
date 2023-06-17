@@ -20,7 +20,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../swap/token_ext.dart';
+import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';

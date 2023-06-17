@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/amount_ext.dart';
-import '../../../../../core/conversion_rates/bl/repository.dart';
-import '../../../../../core/currency.dart';
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
+import '../../../core/amount.dart';
+import '../../../core/conversion_rates/amount_ext.dart';
+import '../../../core/conversion_rates/bl/repository.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 
 class SwapFee extends StatelessWidget {
   const SwapFee({

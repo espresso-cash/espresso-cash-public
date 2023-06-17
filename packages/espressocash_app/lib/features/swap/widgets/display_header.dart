@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../l10n/decimal_separator.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/number_formatter.dart';
+import '../../../l10n/decimal_separator.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/number_formatter.dart';
 
 class DisplayHeader extends StatelessWidget {
   const DisplayHeader({

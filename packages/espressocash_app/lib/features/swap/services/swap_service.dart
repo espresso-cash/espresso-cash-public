@@ -2,14 +2,14 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/accounts/bl/ec_wallet.dart';
-import '../../../../core/transactions/resign_tx.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/swap.dart';
-import '../../models/swap_seed.dart';
-import '../route_repository.dart';
-import '../swap_route.dart';
-import 'swap_repository.dart';
+import '../../../core/accounts/bl/ec_wallet.dart';
+import '../../../core/transactions/resign_tx.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../data/route_repository.dart';
+import '../data/swap_repository.dart';
+import '../models/swap.dart';
+import '../models/swap_route.dart';
+import '../models/swap_seed.dart';
 
 @injectable
 class SwapService {

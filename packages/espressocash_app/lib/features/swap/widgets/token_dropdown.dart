@@ -1,8 +1,8 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/tokens/token.dart';
-import '../../../../../ui/colors.dart';
+import '../../../core/tokens/token.dart';
+import '../../../ui/colors.dart';
 
 class TokenDropDown extends StatelessWidget {
   const TokenDropDown({

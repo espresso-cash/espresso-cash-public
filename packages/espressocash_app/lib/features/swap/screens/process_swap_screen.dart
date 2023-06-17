@@ -2,17 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/utils.dart';
-import '../../../../core/tokens/token.dart';
-import '../../../../core/transactions/create_transaction_link.dart';
-import '../../../../di.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/transfer_status/transfer_error.dart';
-import '../../../../ui/transfer_status/transfer_progress.dart';
-import '../../../../ui/transfer_status/transfer_success.dart';
-import '../../models/swap.dart';
-import 'extensions.dart';
-import 'swap_repository.dart';
+import '../../../core/presentation/utils.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/transactions/create_transaction_link.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/transfer_status/transfer_error.dart';
+import '../../../ui/transfer_status/transfer_progress.dart';
+import '../../../ui/transfer_status/transfer_success.dart';
+import '../data/swap_repository.dart';
+import '../models/swap.dart';
+import '../widgets/extensions.dart';
 
 @RoutePage()
 class ProcessSwapScreen extends StatefulWidget {

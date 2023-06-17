@@ -10,7 +10,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
-import '../../features/swap/db.dart';
+import '../../features/swap/data/swap_repository.dart';
 import 'deprecated.dart';
 import 'open_connection.dart';
 
