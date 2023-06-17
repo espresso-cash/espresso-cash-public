@@ -4,13 +4,13 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/cancelable_job.dart';
-import '../../../../core/link_shortener.dart';
-import '../../../../core/split_key_payments.dart';
-import '../../models/outgoing_split_key_payment.dart';
+import '../../../core/amount.dart';
+import '../../../core/cancelable_job.dart';
+import '../../../core/link_shortener.dart';
+import '../../../core/split_key_payments.dart';
+import '../data/repository.dart';
+import '../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';
-import 'repository.dart';
 
 /// Watches for [OSKPStatus.txConfirmed] payments and generates the links.
 @injectable

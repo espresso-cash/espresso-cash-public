@@ -4,11 +4,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../../../core/cancelable_job.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/outgoing_split_key_payment.dart';
+import '../../../core/cancelable_job.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../data/repository.dart';
+import '../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';
-import 'repository.dart';
 
 /// Watches for [OSKPStatus.txSent] payments and waits for the tx to be
 /// confirmed.

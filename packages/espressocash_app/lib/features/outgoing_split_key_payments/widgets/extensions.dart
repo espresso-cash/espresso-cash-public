@@ -10,7 +10,7 @@ import '../../../core/analytics/analytics_manager.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../models/outgoing_split_key_payment.dart';
-import '../src/bl/oskp_service.dart';
+import '../services/oskp_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createOSKP({required CryptoAmount amount}) async =>

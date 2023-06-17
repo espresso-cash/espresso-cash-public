@@ -1,14 +1,14 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/tab_bar.dart';
-import '../../../../ui/theme.dart';
-import '../../models/outgoing_split_key_payment.dart';
-import 'components/share_link.dart';
-import 'components/share_qr.dart';
+import '../../../core/amount.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/tab_bar.dart';
+import '../../../ui/theme.dart';
+import '../models/outgoing_split_key_payment.dart';
+import '../widgets/share_link.dart';
+import '../widgets/share_qr.dart';
 
 @RoutePage()
 class ShareLinksScreen extends StatelessWidget {

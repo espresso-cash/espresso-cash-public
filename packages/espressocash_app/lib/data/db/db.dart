@@ -7,7 +7,7 @@ import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
 import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
-import '../../features/outgoing_split_key_payments/db.dart';
+import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/db.dart';
 import '../../features/popular_tokens/db.dart';
 import '../../features/swap/db.dart';

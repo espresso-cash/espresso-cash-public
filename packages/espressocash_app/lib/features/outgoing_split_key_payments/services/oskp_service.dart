@@ -5,15 +5,15 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../config.dart';
-import '../../../../core/accounts/bl/ec_wallet.dart';
-import '../../../../core/amount.dart';
-import '../../../../core/api_version.dart';
-import '../../../../core/escrow_private_key.dart';
-import '../../../../core/transactions/resign_tx.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/outgoing_split_key_payment.dart';
-import 'repository.dart';
+import '../../../config.dart';
+import '../../../core/accounts/bl/ec_wallet.dart';
+import '../../../core/amount.dart';
+import '../../../core/api_version.dart';
+import '../../../core/escrow_private_key.dart';
+import '../../../core/transactions/resign_tx.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../data/repository.dart';
+import '../models/outgoing_split_key_payment.dart';
 
 @injectable
 class OSKPService {
