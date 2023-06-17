@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import '../../core/accounts/module.dart';
 import '../../core/user_preferences.dart';
 import '../../di.dart';
-import 'src/bl/bloc.dart';
-import 'src/bl/repository.dart';
+import 'data/repository.dart';
+import 'services/bloc.dart';
 
 class PopularTokensModule extends SingleChildStatelessWidget {
   const PopularTokensModule({super.key, super.child});

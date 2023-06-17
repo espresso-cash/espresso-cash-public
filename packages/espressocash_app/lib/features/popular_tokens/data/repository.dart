@@ -3,10 +3,10 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/tokens/token.dart';
-import '../../../../core/tokens/token_list.dart';
-import '../data/coingecko_client.dart';
-import '../data/popular_token_cache.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/tokens/token_list.dart';
+import 'coingecko_client.dart';
+import 'popular_token_cache.dart';
 
 @injectable
 class PopularTokenRepository {

@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/currency.dart';
-import '../../../../core/processing_state.dart';
-import '../../../../core/tokens/token.dart';
-import 'repository.dart';
+import '../../../core/currency.dart';
+import '../../../core/processing_state.dart';
+import '../../../core/tokens/token.dart';
+import '../data/repository.dart';
 
 part 'bloc.freezed.dart';
 
