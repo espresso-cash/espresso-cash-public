@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../core/transactions/tx_sender.dart';
-import '../../features/activities/db.dart';
+import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/db.dart';
 import '../../features/incoming_split_key_payments/db.dart';

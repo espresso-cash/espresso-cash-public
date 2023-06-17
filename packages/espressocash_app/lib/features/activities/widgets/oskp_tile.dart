@@ -9,7 +9,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../activity.dart';
+import '../models/activity.dart';
 
 class OSKPTile extends StatelessWidget {
   const OSKPTile({super.key, required this.activity});

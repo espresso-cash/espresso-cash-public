@@ -3,7 +3,7 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../swap/db.dart';
-import 'activity.dart';
+import '../models/activity.dart';
 
 extension PaymentRequestRowToActivityExt on PaymentRequestRow {
   Activity toActivity() => Activity.outgoingPaymentRequest(

@@ -9,7 +9,7 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../activity.dart';
+import '../models/activity.dart';
 
 class ODPTile extends StatelessWidget {
   const ODPTile({super.key, required this.activity});

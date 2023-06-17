@@ -6,7 +6,7 @@ import '../../../../core/presentation/utils.dart';
 import '../../../../core/transactions/create_transaction_link.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../models/transaction.dart';
+import '../models/transaction.dart';
 
 class CommonTile extends StatelessWidget {
   const CommonTile({

@@ -10,7 +10,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
 import '../../../../ui/token_icon.dart';
-import '../activity.dart';
+import '../models/activity.dart';
 
 class SwapTile extends StatelessWidget {
   const SwapTile({super.key, required this.activity});

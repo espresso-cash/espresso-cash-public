@@ -14,10 +14,10 @@ import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../payment_request/db.dart';
 import '../../swap/db.dart';
+import '../models/activity.dart';
 import '../models/transaction.dart';
-import 'activity.dart';
 import 'activity_builder.dart';
-import 'updater/tx_updater_repository.dart';
+import 'tx_updater_repository.dart';
 
 @injectable
 class TransactionRepository {

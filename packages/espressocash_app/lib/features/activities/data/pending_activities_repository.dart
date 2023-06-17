@@ -10,7 +10,7 @@ import '../../outgoing_direct_payments/db.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../payment_request/db.dart';
 import '../../swap/db.dart';
-import 'activity.dart';
+import '../models/activity.dart';
 import 'activity_builder.dart';
 
 @injectable

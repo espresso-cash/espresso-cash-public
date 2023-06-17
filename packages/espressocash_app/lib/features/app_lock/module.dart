@@ -4,8 +4,8 @@ import 'package:nested/nested.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import 'src/bl/app_lock_bloc.dart';
-import 'src/widgets/app_lock_screen.dart';
+import 'screens/app_lock_screen.dart';
+import 'services/app_lock_bloc.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
   const AppLockModule({super.key, super.child});

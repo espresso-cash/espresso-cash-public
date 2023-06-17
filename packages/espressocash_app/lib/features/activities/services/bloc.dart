@@ -4,9 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../core/accounts/bl/ec_wallet.dart';
-import '../../../../core/processing_state.dart';
-import 'tx_updater_repository.dart';
+import '../../../core/accounts/bl/ec_wallet.dart';
+import '../../../core/processing_state.dart';
+import '../data/tx_updater_repository.dart';
 
 part 'bloc.freezed.dart';
 

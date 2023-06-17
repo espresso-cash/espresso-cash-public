@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../../core/accounts/bl/account.dart';
 import '../../core/accounts/module.dart';
 import '../../di.dart';
-import 'src/updater/bloc.dart';
+import 'services/bloc.dart';
 
 class ActivitiesModule extends SingleChildStatelessWidget {
   const ActivitiesModule({super.key, super.child});

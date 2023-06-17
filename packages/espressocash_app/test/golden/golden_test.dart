@@ -9,7 +9,7 @@ import 'package:espressocash_app/core/conversion_rates/bl/repository.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
-import 'package:espressocash_app/features/app_lock/src/bl/app_lock_bloc.dart';
+import 'package:espressocash_app/features/app_lock/services/app_lock_bloc.dart';
 import 'package:espressocash_app/features/onboarding/src/widgets/no_email_and_password_screen.dart';
 import 'package:espressocash_app/features/sign_in/src/widgets/get_started_screen.dart';
 import 'package:flutter/material.dart';
