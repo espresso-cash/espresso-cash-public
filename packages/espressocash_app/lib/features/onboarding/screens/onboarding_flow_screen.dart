@@ -5,12 +5,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../core/accounts/bl/ec_wallet.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/loader.dart';
-import '../bl/onboarding_bloc.dart';
+import '../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../core/accounts/bl/ec_wallet.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../services/onboarding_bloc.dart';
 
 @RoutePage()
 class OnboardingFlowScreen extends StatefulWidget {

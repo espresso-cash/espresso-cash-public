@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/file_manager.dart';
-import '../../../../core/flow.dart';
+import '../../../core/file_manager.dart';
+import '../../../core/flow.dart';
 
 part 'onboarding_bloc.freezed.dart';
 
