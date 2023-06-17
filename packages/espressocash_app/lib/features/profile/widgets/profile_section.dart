@@ -6,7 +6,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../config.dart';
-import '../../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../features/investments/widgets/investments_zero_balance_switch.dart';
 import '../../../../../gen/assets.gen.dart';
@@ -14,6 +13,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
+import '../../accounts/services/accounts_bloc.dart';
 import 'profile_button.dart';
 
 part 'danger_section.dart';

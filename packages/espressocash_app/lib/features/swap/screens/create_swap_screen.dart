@@ -5,7 +5,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/callback.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -18,6 +17,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/slider.dart';
+import '../../accounts/models/account.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../models/swap_operation.dart';
 import '../models/swap_route.dart';

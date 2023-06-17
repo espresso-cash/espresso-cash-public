@@ -1,10 +1,10 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_app/core/accounts/bl/account.dart';
-import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
+import 'package:espressocash_app/features/accounts/models/account.dart';
+import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
 import 'package:espressocash_app/features/app_lock/services/app_lock_bloc.dart';
 import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
 import 'package:espressocash_app/features/conversion_rates/data/repository.dart';

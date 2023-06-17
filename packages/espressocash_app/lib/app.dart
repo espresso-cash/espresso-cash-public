@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/localizely_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'core/accounts/bl/accounts_bloc.dart';
 import 'core/analytics/analytics_manager.dart';
 import 'di.dart';
+import 'features/accounts/services/accounts_bloc.dart';
 import 'features/app_lock/module.dart';
 import 'l10n/localizely_updater.dart';
 import 'routes.dart';

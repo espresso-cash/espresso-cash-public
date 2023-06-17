@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../models/swap.dart';
 import '../models/swap_route.dart';
 import '../services/swap_service.dart';

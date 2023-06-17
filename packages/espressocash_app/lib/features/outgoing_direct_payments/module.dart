@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/module.dart';
 import '../../di.dart';
+import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
 import 'data/repository.dart';
 import 'services/tx_created_watcher.dart';

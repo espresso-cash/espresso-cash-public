@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/module.dart';
 import '../../core/user_preferences.dart';
 import '../../di.dart';
+import '../accounts/module.dart';
 import 'data/repository.dart';
 import 'services/bloc.dart';
 

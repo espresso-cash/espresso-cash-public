@@ -2,9 +2,9 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../core/accounts/bl/ec_wallet.dart';
 import '../../../core/transactions/resign_tx.dart';
 import '../../../core/transactions/tx_sender.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../data/route_repository.dart';
 import '../data/swap_repository.dart';
 import '../models/swap.dart';

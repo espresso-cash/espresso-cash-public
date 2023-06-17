@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../../core/api_version.dart';
-import '../../../core/accounts/bl/account.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../models/incoming_split_key_payment.dart';
 import '../services/iskp_service.dart';
 

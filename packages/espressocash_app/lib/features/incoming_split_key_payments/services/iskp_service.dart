@@ -7,12 +7,12 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../config.dart';
-import '../../../core/accounts/bl/ec_wallet.dart';
 import '../../../core/api_version.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../core/extensions.dart';
 import '../../../core/transactions/resign_tx.dart';
 import '../../../core/transactions/tx_sender.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../data/iskp_repository.dart';
 import '../models/incoming_split_key_payment.dart';
 

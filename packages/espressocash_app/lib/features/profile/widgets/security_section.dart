@@ -2,12 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../../features/app_lock/widgets/app_lock_menu_item.dart';
 import '../../../../../features/legal/flow.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routes.gr.dart';
+import '../../accounts/models/ec_wallet.dart';
+import '../../accounts/services/accounts_bloc.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 

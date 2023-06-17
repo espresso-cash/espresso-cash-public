@@ -3,11 +3,11 @@ import 'dart:typed_data';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/transactions/tx_sender.dart';
+import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/data/repository.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_service.dart';

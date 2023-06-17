@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/currency.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../models/outgoing_direct_payment.dart';
 import '../services/odp_service.dart';
 

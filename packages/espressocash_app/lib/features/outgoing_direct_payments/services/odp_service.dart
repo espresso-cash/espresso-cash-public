@@ -6,10 +6,10 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../config.dart';
-import '../../../core/accounts/bl/ec_wallet.dart';
 import '../../../core/amount.dart';
 import '../../../core/transactions/resign_tx.dart';
 import '../../../core/transactions/tx_sender.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../data/repository.dart';
 import '../models/outgoing_direct_payment.dart';
 

@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
+import '../../accounts/models/account.dart';
+import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/module.dart';
 import '../../balances/services/balances_bloc.dart';

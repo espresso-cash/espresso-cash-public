@@ -11,9 +11,9 @@ import 'package:solana/encoder.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../config.dart';
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/transactions/resign_tx.dart';
 import '../../../core/transactions/tx_sender.dart';
+import '../../accounts/models/account.dart';
 import '../models/remote_request.dart';
 
 part 'bloc.freezed.dart';

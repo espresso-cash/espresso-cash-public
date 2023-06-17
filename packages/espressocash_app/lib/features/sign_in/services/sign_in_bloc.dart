@@ -9,11 +9,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/accounts/bl/mnemonic.dart';
 import '../../../core/file_manager.dart';
 import '../../../core/flow.dart';
 import '../../../core/wallet.dart';
+import '../../accounts/models/account.dart';
+import '../../accounts/models/mnemonic.dart';
 
 part 'sign_in_bloc.freezed.dart';
 

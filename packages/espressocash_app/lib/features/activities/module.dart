@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/module.dart';
 import '../../di.dart';
+import '../accounts/models/account.dart';
+import '../accounts/module.dart';
 import 'services/bloc.dart';
 
 class ActivitiesModule extends SingleChildStatelessWidget {

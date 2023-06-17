@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/module.dart';
 import '../../di.dart';
+import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
 import 'data/iskp_repository.dart';
 import 'services/pending_iskp_listener.dart';

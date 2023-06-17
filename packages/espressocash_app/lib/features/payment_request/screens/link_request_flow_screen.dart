@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../data/repository.dart';
 import '../services/create_payment_request_bloc.dart';

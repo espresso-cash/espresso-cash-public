@@ -9,11 +9,11 @@ import 'package:injectable/injectable.dart';
 import 'package:path/path.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../file_manager.dart';
-import '../../wallet.dart';
-import 'account.dart';
-import 'ec_wallet.dart';
-import 'mnemonic.dart';
+import '../../../core/file_manager.dart';
+import '../../../core/wallet.dart';
+import '../models/account.dart';
+import '../models/ec_wallet.dart';
+import '../models/mnemonic.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';

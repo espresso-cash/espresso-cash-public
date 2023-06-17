@@ -5,8 +5,8 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
-import '../../../core/accounts/bl/account.dart';
 import '../../../ui/button.dart';
+import '../../accounts/models/account.dart';
 import '../../balances/widgets/context_ext.dart';
 import 'off_ramp_bottom_sheet.dart';
 

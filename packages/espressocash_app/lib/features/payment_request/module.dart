@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 
-import '../../core/accounts/module.dart';
 import '../../di.dart';
+import '../accounts/module.dart';
 import 'data/repository.dart';
 
 class PaymentRequestModule extends SingleChildStatelessWidget {

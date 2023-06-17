@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/back_button.dart';
@@ -13,6 +12,7 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../accounts/services/accounts_bloc.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {

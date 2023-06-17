@@ -6,12 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
+import '../../core/callback.dart';
+import '../../core/extensions.dart';
 import '../../di.dart';
-import '../callback.dart';
-import '../extensions.dart';
-import 'bl/account.dart';
-import 'bl/accounts_bloc.dart';
-import 'bl/ec_wallet.dart';
+import 'models/account.dart';
+import 'models/ec_wallet.dart';
+import 'services/accounts_bloc.dart';
 
 class AccountsModule extends SingleChildStatelessWidget {
   const AccountsModule({super.key, super.child});
