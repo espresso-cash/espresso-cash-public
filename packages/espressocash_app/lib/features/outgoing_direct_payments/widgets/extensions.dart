@@ -10,7 +10,7 @@ import '../../../core/currency.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../models/outgoing_direct_payment.dart';
-import '../src/bl/odp_service.dart';
+import '../services/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createODP({

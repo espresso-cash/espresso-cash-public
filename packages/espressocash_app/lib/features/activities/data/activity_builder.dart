@@ -1,6 +1,6 @@
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
-import '../../outgoing_direct_payments/db.dart';
+import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/db.dart';
 import '../../swap/db.dart';
 import '../models/activity.dart';

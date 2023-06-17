@@ -2,20 +2,20 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/format_amount.dart';
-import '../../../../core/presentation/format_date.dart';
-import '../../../../core/presentation/utils.dart';
-import '../../../../core/transactions/create_transaction_link.dart';
-import '../../../../di.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/timeline.dart';
-import '../../../../ui/transfer_status/transfer_error.dart';
-import '../../../../ui/transfer_status/transfer_progress.dart';
-import '../../../../ui/transfer_status/transfer_success.dart';
-import '../../models/outgoing_direct_payment.dart';
-import '../../widgets/extensions.dart';
-import '../bl/repository.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/format_date.dart';
+import '../../../core/presentation/utils.dart';
+import '../../../core/transactions/create_transaction_link.dart';
+import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/timeline.dart';
+import '../../../ui/transfer_status/transfer_error.dart';
+import '../../../ui/transfer_status/transfer_progress.dart';
+import '../../../ui/transfer_status/transfer_success.dart';
+import '../data/repository.dart';
+import '../models/outgoing_direct_payment.dart';
+import '../widgets/extensions.dart';
 
 @RoutePage()
 class ODPDetailsScreen extends StatefulWidget {

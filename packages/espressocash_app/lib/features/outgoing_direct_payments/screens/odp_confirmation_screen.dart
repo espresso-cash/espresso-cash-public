@@ -4,18 +4,18 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../core/fee_label.dart';
-import '../../../../core/tokens/token.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/amount_keypad/amount_keypad.dart';
-import '../../../../ui/amount_with_equivalent.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/bordered_row.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/number_formatter.dart';
-import '../../../../ui/theme.dart';
+import '../../../core/fee_label.dart';
+import '../../../core/tokens/token.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../ui/amount_with_equivalent.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/bordered_row.dart';
+import '../../../ui/button.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/number_formatter.dart';
+import '../../../ui/theme.dart';
 
 @RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {
