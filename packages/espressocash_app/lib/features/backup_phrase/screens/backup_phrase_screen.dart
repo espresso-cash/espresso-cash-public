@@ -8,7 +8,7 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
-import '../../../mnemonic_getter.dart';
+import '../data/mnemonic_getter.dart';
 import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()

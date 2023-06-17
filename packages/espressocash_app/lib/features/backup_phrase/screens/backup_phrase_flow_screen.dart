@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../routes.gr.dart';
-import '../../bl/puzzle_reminder_bloc.dart';
+import '../services/puzzle_reminder_bloc.dart';
 
 @RoutePage<bool>()
 class BackupPhraseFlowScreen extends StatefulWidget {

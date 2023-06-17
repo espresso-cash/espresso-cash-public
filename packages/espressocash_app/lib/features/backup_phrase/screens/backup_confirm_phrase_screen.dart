@@ -8,8 +8,8 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
+import '../widgets/grid_phrase.dart';
 import 'backup_phrase_flow_screen.dart';
-import 'components/grid_phrase.dart';
 
 @RoutePage()
 class BackupConfirmPhraseScreen extends StatefulWidget {
