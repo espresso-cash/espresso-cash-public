@@ -33,7 +33,7 @@ class ORPService {
       amount: amount,
     );
 
-    final payment = OffRampPayment(
+    final payment = OffRampPayment.transferFunds(
       id: id,
       receiver: receiver,
       amount: amount,
@@ -47,7 +47,7 @@ class ORPService {
   }
 
   Future<OffRampPayment> retry(
-    OffRampPayment payment, {
+    ORPTransferFunds payment, {
     required ECWallet account,
   }) async {
     final status = await _createTx(

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid-non-null-assertion
 
-import 'package:dfunc/dfunc.dart';
+import 'package:dfunc/dfunc.dart' hide map;
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -76,8 +76,9 @@ class ORPRepository {
 }
 
 class ORPRows extends Table with AmountMixin, EntityMixin {
-  TextColumn get receiver => text()();
+  TextColumn get receiver => text().nullable()();
   IntColumn get status => intEnum<ORPStatusDto>()();
+  IntColumn get type => intEnum<ORPTypeDto>()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -93,17 +94,30 @@ enum ORPStatusDto {
   txFailure,
 }
 
+enum ORPTypeDto {
+  transferFunds,
+  signTransaction,
+}
+
 extension ORPRowExt on ORPRow {
-  OffRampPayment toModel(TokenList tokens) => OffRampPayment(
-        id: id,
-        receiver: Ed25519HDPublicKey.fromBase58(receiver),
-        amount: CryptoAmount(
-          value: amount,
-          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
-        ),
-        created: created,
-        status: status.toModel(this),
-      );
+  OffRampPayment toModel(TokenList tokens) => switch (type) {
+        ORPTypeDto.transferFunds => OffRampPayment.transferFunds(
+            id: id,
+            receiver: Ed25519HDPublicKey.fromBase58(receiver!),
+            amount: CryptoAmount(
+              value: amount,
+              cryptoCurrency:
+                  CryptoCurrency(token: tokens.findTokenByMint(token)!),
+            ),
+            created: created,
+            status: status.toModel(this),
+          ),
+        ORPTypeDto.signTransaction => OffRampPayment.signTransaction(
+            id: id,
+            created: created,
+            status: status.toModel(this),
+          ),
+      };
 }
 
 extension on ORPStatusDto {
@@ -133,20 +147,32 @@ extension on ORPStatusDto {
 extension on OffRampPayment {
   ORPRow toDto() => ORPRow(
         id: id,
-        receiver: receiver.toBase58(),
-        amount: amount.value,
-        token: amount.cryptoCurrency.token.address,
+        receiver: mapOrNull(
+          transferFunds: (it) => it.receiver.toBase58(),
+        ),
+        amount: map(
+          transferFunds: (it) => it.amount.value,
+          signTransaction: always(0), //TODO review
+        ),
+        token: map(
+          transferFunds: (it) => it.amount.cryptoCurrency.token.address,
+          signTransaction: always(''), //TODO review
+        ),
         created: created,
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
         slot: status.toSlot()?.toString(),
+        type: map(
+          transferFunds: always(ORPTypeDto.transferFunds),
+          signTransaction: always(ORPTypeDto.signTransaction),
+        ),
       );
 }
 
 extension on ORPStatus {
-  ORPStatusDto toDto() => this.map(
+  ORPStatusDto toDto() => map(
         txCreated: always(ORPStatusDto.txCreated),
         txSent: always(ORPStatusDto.txSent),
         success: always(ORPStatusDto.success),

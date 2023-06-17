@@ -9,13 +9,19 @@ part 'off_ramp_payment.freezed.dart';
 
 @freezed
 class OffRampPayment with _$OffRampPayment {
-  const factory OffRampPayment({
+  const factory OffRampPayment.transferFunds({
     required String id,
     required Ed25519HDPublicKey receiver,
     required CryptoAmount amount,
     required DateTime created,
     required ORPStatus status,
-  }) = _OffRampPayment;
+  }) = ORPTransferFunds;
+
+  const factory OffRampPayment.signTransaction({
+    required String id,
+    required DateTime created,
+    required ORPStatus status,
+  }) = ORPSignTransaction;
 }
 
 @freezed

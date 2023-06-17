@@ -1,1 +1,2 @@
-export 'src/bl/repository.dart' show ORPRowExt, ORPRows, ORPStatusDto;
+export 'src/bl/repository.dart'
+    show ORPRowExt, ORPRows, ORPStatusDto, ORPTypeDto;

@@ -52,21 +52,22 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             success: (status) => TransferSuccess(
               onBack: () => context.router.pop(),
               onOkPressed: () => context.router.pop(),
-              statusContent: context.l10n.outgoingTransferSuccess(
-                payment.amount.format(DeviceLocale.localeOf(context)),
-              ),
+              statusContent: 'TODO',
+              // statusContent: context.l10n.outgoingTransferSuccess( //TODO update if sign only
+              //   payment.amount.format(DeviceLocale.localeOf(context)),
+              // ),
               content: CpTimeline(
                 animated: false,
                 status: CpTimelineStatus.success,
                 active: 1,
                 items: [
                   CpTimelineItem(title: context.l10n.transferInitiated),
-                  CpTimelineItem(
-                    title: context.l10n.receivedBy(
-                      payment.receiver.toBase58().toShortAddress(),
-                    ),
-                    subtitle: context.formatDate(payment.created),
-                  ),
+                  // CpTimelineItem( //TODO update if sign only
+                  //   title: context.l10n.receivedBy(
+                  //     payment.receiver.toBase58().toShortAddress(),
+                  //   ),
+                  //   subtitle: context.formatDate(payment.created),
+                  // ),
                 ],
               ),
               onMoreDetailsPressed: () {
@@ -79,7 +80,10 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             ),
             txFailure: (it) => TransferError(
               onBack: () => context.router.pop(),
-              onRetry: () => context.retryORP(payment: payment),
+              onRetry: () {
+                //TODO retry based on payment
+                // context.retryORP(payment: payment);
+              },
               reason: it.reason,
             ),
             orElse: () => TransferProgress(

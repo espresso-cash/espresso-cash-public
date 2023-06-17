@@ -13,6 +13,7 @@ import '../models/off_ramp_payment.dart';
 import '../src/bl/orp_service.dart';
 
 extension BuildContextExt on BuildContext {
+  //TODO create methods for transfer and sign
   Future<String> createORP({
     required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
@@ -33,7 +34,7 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryORP({required OffRampPayment payment}) async =>
+  Future<void> retryORP({required ORPTransferFunds payment}) async =>
       runWithLoader(this, () async {
         await sl<ORPService>().retry(
           payment,
