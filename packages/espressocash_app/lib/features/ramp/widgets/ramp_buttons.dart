@@ -8,7 +8,7 @@ import '../../../config.dart';
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/balances/context_ext.dart';
 import '../../../ui/button.dart';
-import '../src/widgets/off_ramp_bottom_sheet.dart';
+import 'off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
