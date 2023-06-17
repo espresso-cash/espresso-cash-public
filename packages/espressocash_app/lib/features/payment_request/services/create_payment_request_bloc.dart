@@ -6,11 +6,11 @@ import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/conversion_rates/amount_ext.dart';
-import '../../../core/conversion_rates/bl/repository.dart';
 import '../../../core/currency.dart';
 import '../../../core/flow.dart';
 import '../../../core/tokens/token.dart';
+import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/services/amount_ext.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
 

@@ -8,14 +8,14 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../config.dart';
 import '../../../core/amount.dart';
-import '../../../core/conversion_rates/amount_ext.dart';
-import '../../../core/conversion_rates/bl/repository.dart';
 import '../../../core/currency.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routes.gr.dart';
+import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/services/amount_ext.dart';
 import 'extensions.dart';
 
 class ODPLinkListener extends StatefulWidget {

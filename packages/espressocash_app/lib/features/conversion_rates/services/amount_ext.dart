@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
 
-import '../amount.dart';
-import '../currency.dart';
-import '../tokens/token.dart';
-import 'bl/repository.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
+import '../data/repository.dart';
 
 extension CryptoAmountExt on CryptoAmount {
   FiatAmount? toFiatAmount(

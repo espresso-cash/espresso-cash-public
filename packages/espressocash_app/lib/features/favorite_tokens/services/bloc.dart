@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/processing_state.dart';
+import '../../conversion_rates/data/repository.dart';
 import '../data/repository.dart';
 
 part 'bloc.freezed.dart';

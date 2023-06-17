@@ -7,13 +7,13 @@ import 'package:provider/provider.dart';
 
 import '../../../core/accounts/bl/account.dart';
 import '../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../core/conversion_rates/bl/conversion_rates_bloc.dart';
-import '../../../core/conversion_rates/module.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/module.dart';
 import '../../balances/services/balances_bloc.dart';
+import '../../conversion_rates/module.dart';
+import '../../conversion_rates/services/conversion_rates_bloc.dart';
 import '../../favorite_tokens/module.dart';
 import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';

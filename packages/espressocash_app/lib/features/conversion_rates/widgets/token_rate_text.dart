@@ -2,12 +2,12 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/amount.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
-import '../../amount.dart';
-import '../../presentation/format_amount.dart';
-import '../../tokens/token.dart';
-import '../../user_preferences.dart';
-import '../context_ext.dart';
+import 'context_ext.dart';
 
 class TokenRateText extends StatelessWidget {
   const TokenRateText({super.key, required this.token, this.style});

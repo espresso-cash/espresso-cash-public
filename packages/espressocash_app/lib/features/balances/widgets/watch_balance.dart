@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
+import '../../conversion_rates/widgets/context_ext.dart';
 import '../services/balances_bloc.dart';
 
 extension WatchBalance on BuildContext {

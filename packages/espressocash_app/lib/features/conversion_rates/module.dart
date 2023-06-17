@@ -4,8 +4,8 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import 'bl/conversion_rates_bloc.dart';
-import 'bl/repository.dart';
+import 'data/repository.dart';
+import 'services/conversion_rates_bloc.dart';
 
 class ConversionRatesModule extends SingleChildStatelessWidget {
   const ConversionRatesModule({super.key, super.child});

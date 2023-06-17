@@ -2,19 +2,19 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../core/amount.dart';
-import '../core/conversion_rates/amount_ext.dart';
-import '../core/conversion_rates/bl/repository.dart';
-import '../core/currency.dart';
-import '../core/presentation/format_amount.dart';
-import '../core/tokens/token.dart';
-import '../l10n/decimal_separator.dart';
-import '../l10n/device_locale.dart';
-import '../l10n/l10n.dart';
-import 'chip.dart';
-import 'colors.dart';
-import 'number_formatter.dart';
-import 'shake.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/tokens/token.dart';
+import '../../../l10n/decimal_separator.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/chip.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/number_formatter.dart';
+import '../../../ui/shake.dart';
+import '../data/repository.dart';
+import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({
