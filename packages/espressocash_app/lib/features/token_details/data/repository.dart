@@ -2,8 +2,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/tokens/token.dart';
-import 'coingecko_client.dart';
 import '../models/token_details.dart';
+import 'coingecko_client.dart';
 
 @injectable
 class TokenDetailsRepository {

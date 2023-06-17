@@ -5,10 +5,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../core/flow.dart';
-import '../../../../core/tokens/token.dart';
-import '../../models/crypto_categories.dart';
-import 'repository.dart';
+import '../../../core/flow.dart';
+import '../../../core/tokens/token.dart';
+import '../data/repository.dart';
+import '../models/crypto_categories.dart';
 
 part 'bloc.freezed.dart';
 
