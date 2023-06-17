@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
-import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/theme.dart';
-import '../../models/qr_scanner_request.dart';
-import '../bl/qr_scanner_bloc.dart';
-import 'components/input_address_bottom_sheet.dart';
-import 'components/qr_scanner_background.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/theme.dart';
+import '../models/qr_scanner_request.dart';
+import '../services/qr_scanner_bloc.dart';
+import '../widgets/input_address_bottom_sheet.dart';
+import '../widgets/qr_scanner_background.dart';
 
 @RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
