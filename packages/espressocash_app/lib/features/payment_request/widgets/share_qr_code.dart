@@ -1,12 +1,12 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../core/presentation/format_amount.dart';
-import '../../../../../../core/tokens/token_list.dart';
-import '../../../../../../di.dart';
-import '../../../../../../l10n/l10n.dart';
-import '../../../../../../ui/rounded_rectangle.dart';
-import '../../../../models/payment_request.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/tokens/token_list.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/rounded_rectangle.dart';
+import '../models/payment_request.dart';
 
 class ShareQrCode extends StatelessWidget {
   const ShareQrCode({

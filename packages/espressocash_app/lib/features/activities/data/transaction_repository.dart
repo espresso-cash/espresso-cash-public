@@ -12,7 +12,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/data/repository.dart';
-import '../../payment_request/db.dart';
+import '../../payment_request/data/repository.dart';
 import '../../swap/db.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';

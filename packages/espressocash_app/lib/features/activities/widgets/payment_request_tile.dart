@@ -8,9 +8,9 @@ import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/activity_tile.dart';
-import '../../payment_request/formatted_amount.dart';
+import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
-import '../../payment_request/watch_payment_request.dart';
+import '../../payment_request/widgets/formatted_amount.dart';
 import '../../payment_request/widgets/payment_request_verifier.dart';
 
 class PaymentRequestTile extends StatefulWidget {

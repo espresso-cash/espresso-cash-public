@@ -11,12 +11,34 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../models/payment_request.dart';
-import '../repository.dart';
+import '../data/repository.dart';
+import '../models/payment_request.dart';
 
-part 'bloc.freezed.dart';
-part 'event.dart';
-part 'state.dart';
+part 'payment_request_verifier_bloc.freezed.dart';
+
+@freezed
+class PaymentRequestVerifierEvent with _$PaymentRequestVerifierEvent {
+  const factory PaymentRequestVerifierEvent.waitingFailed(Exception e) =
+      WaitingFailed;
+
+  const factory PaymentRequestVerifierEvent.txAdded(TransactionId id) = TxAdded;
+
+  const factory PaymentRequestVerifierEvent.verificationFailed(
+    Exception error, {
+    required TransactionId transactionId,
+  }) = VerificationFailed;
+
+  const factory PaymentRequestVerifierEvent.suceeded() = Succeeded;
+}
+
+@freezed
+class PaymentRequestVerifierState with _$PaymentRequestVerifierState {
+  const factory PaymentRequestVerifierState.waiting() = Waiting;
+  const factory PaymentRequestVerifierState.retrying() = Retrying;
+  const factory PaymentRequestVerifierState.verifying() = Verifying;
+  const factory PaymentRequestVerifierState.success() = Success;
+  const factory PaymentRequestVerifierState.failure() = Failure;
+}
 
 typedef _Event = PaymentRequestVerifierEvent;
 typedef _State = PaymentRequestVerifierState;

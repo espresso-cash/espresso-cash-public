@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-import '../../../../../../core/presentation/format_amount.dart';
-import '../../../../../../core/presentation/utils.dart';
-import '../../../../../../core/tokens/token_list.dart';
-import '../../../../../../di.dart';
-import '../../../../../../l10n/l10n.dart';
-import '../../../../../../ui/button.dart';
-import '../../../../../../ui/colors.dart';
-import '../../../../../../ui/share_message/share_message_bubble.dart';
-import '../../../../../../ui/share_message/share_message_header.dart';
-import '../../../../models/payment_request.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/utils.dart';
+import '../../../core/tokens/token_list.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/share_message/share_message_bubble.dart';
+import '../../../ui/share_message/share_message_header.dart';
+import '../models/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
   const ShareLink({

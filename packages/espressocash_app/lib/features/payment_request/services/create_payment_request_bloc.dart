@@ -5,18 +5,49 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/amount_ext.dart';
-import '../../../../../core/conversion_rates/bl/repository.dart';
-import '../../../../../core/currency.dart';
-import '../../../../../core/flow.dart';
-import '../../../../../core/tokens/token.dart';
-import '../../../models/payment_request.dart';
-import '../repository.dart';
+import '../../../core/amount.dart';
+import '../../../core/conversion_rates/amount_ext.dart';
+import '../../../core/conversion_rates/bl/repository.dart';
+import '../../../core/currency.dart';
+import '../../../core/flow.dart';
+import '../../../core/tokens/token.dart';
+import '../data/repository.dart';
+import '../models/payment_request.dart';
 
-part 'bloc.freezed.dart';
-part 'event.dart';
-part 'state.dart';
+part 'create_payment_request_bloc.freezed.dart';
+
+@freezed
+class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
+  const factory CreatePaymentRequestEvent.labelUpdated(String value) =
+      LabelUpdated;
+
+  const factory CreatePaymentRequestEvent.tokenAmountUpdated(
+    Decimal amount,
+  ) = TokenAmountUpdated;
+
+  const factory CreatePaymentRequestEvent.fiatAmountUpdated(
+    Decimal amount,
+  ) = FiatAmountUpdated;
+
+  const factory CreatePaymentRequestEvent.submitted({
+    required Ed25519HDPublicKey recipient,
+  }) = Submitted;
+}
+
+@freezed
+class CreatePaymentRequestState with _$CreatePaymentRequestState {
+  const factory CreatePaymentRequestState({
+    @Default('') String label,
+    required CryptoAmount tokenAmount,
+    required FiatAmount fiatAmount,
+    @Default(Flow<Exception, PaymentRequest>.initial())
+    Flow<Exception, PaymentRequest> flow,
+  }) = _CreatePaymentRequestState;
+
+  const CreatePaymentRequestState._();
+
+  Token get token => tokenAmount.cryptoCurrency.token;
+}
 
 typedef _Event = CreatePaymentRequestEvent;
 typedef _State = CreatePaymentRequestState;

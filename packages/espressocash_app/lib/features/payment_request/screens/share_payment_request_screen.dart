@@ -2,18 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../di.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/back_button.dart';
-import '../../../../../ui/dialogs.dart';
-import '../../../../../ui/tab_bar.dart';
-import '../../../../../ui/text_button.dart';
-import '../../../../../ui/theme.dart';
-import '../../../models/payment_request.dart';
-import '../../bl/repository.dart';
-import 'components/share_link.dart';
-import 'components/share_qr_code.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/back_button.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/tab_bar.dart';
+import '../../../ui/text_button.dart';
+import '../../../ui/theme.dart';
+import '../data/repository.dart';
+import '../models/payment_request.dart';
+import '../widgets/share_link.dart';
+import '../widgets/share_qr_code.dart';
 
 @RoutePage()
 class SharePaymentRequestScreen extends StatelessWidget {

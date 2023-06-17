@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/balances/context_ext.dart';
-import '../../../../../di.dart';
-import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/back_button.dart';
-import '../../../../../ui/theme.dart';
-import '../../../formatted_amount.dart';
-import '../../../models/payment_request.dart';
-import '../../bl/payment_request_verifier/bloc.dart';
-import '../../bl/repository.dart';
-import 'tx_result_screen.dart';
+import '../../../core/balances/context_ext.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/back_button.dart';
+import '../../../ui/theme.dart';
+import '../data/repository.dart';
+import '../models/payment_request.dart';
+import '../services/payment_request_verifier_bloc.dart';
+import '../widgets/formatted_amount.dart';
+import '../widgets/tx_result_screen.dart';
 
 @RoutePage()
 class LinkDetailsFlowScreen extends StatefulWidget {

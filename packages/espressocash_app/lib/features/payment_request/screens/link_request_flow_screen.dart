@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../../core/accounts/bl/account.dart';
-import '../../../../../core/amount.dart';
-import '../../../../../core/conversion_rates/bl/repository.dart';
-import '../../../../../core/user_preferences.dart';
-import '../../../../../di.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/dialogs.dart';
-import '../../../../../ui/loader.dart';
-import '../../bl/create_payment_request/bloc.dart';
-import '../../bl/repository.dart';
-import 'request_note_screen.dart';
+import '../../../core/accounts/bl/account.dart';
+import '../../../core/amount.dart';
+import '../../../core/conversion_rates/bl/repository.dart';
+import '../../../core/user_preferences.dart';
+import '../../../di.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../data/repository.dart';
+import '../services/create_payment_request_bloc.dart';
+import '../widgets/request_note_screen.dart';
 
 @RoutePage()
 class LinkRequestFlowScreen extends StatefulWidget {
