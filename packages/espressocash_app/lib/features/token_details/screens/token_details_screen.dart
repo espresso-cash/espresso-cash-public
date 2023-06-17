@@ -24,12 +24,12 @@ import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';
-import '../src/token_details.dart';
-import '../src/token_details_bloc.dart';
-import '../src/widgets/balance_widget.dart';
-import '../src/widgets/exchange_buttons.dart';
-import '../src/widgets/token_app_bar.dart';
-import '../src/widgets/token_details_widget.dart';
+import '../models/token_details.dart';
+import '../services/token_details_bloc.dart';
+import '../widgets/balance_widget.dart';
+import '../widgets/exchange_buttons.dart';
+import '../widgets/token_app_bar.dart';
+import '../widgets/token_details_widget.dart';
 
 @RoutePage()
 class TokenDetailsScreen extends StatelessWidget {

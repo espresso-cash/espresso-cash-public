@@ -7,8 +7,8 @@ import 'package:injectable/injectable.dart';
 import '../../../core/currency.dart';
 import '../../../core/flow.dart';
 import '../../../core/tokens/token.dart';
-import '../src/repository.dart';
-import 'token_details.dart';
+import '../data/repository.dart';
+import '../models/token_details.dart';
 
 part 'token_details_bloc.freezed.dart';
 

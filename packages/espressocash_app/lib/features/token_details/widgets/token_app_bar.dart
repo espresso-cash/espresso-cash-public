@@ -5,12 +5,12 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../../../core/tokens/token.dart';
-import '../../../../ui/back_button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/token_icon.dart';
-import '../../../favorite_tokens/widgets/favorite_button.dart';
-import '../../../swap/services/token_ext.dart';
+import '../../../core/tokens/token.dart';
+import '../../../ui/back_button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/token_icon.dart';
+import '../../favorite_tokens/widgets/favorite_button.dart';
+import '../../swap/services/token_ext.dart';
 import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {

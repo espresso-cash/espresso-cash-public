@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../../../l10n/l10n.dart';
+import '../../../l10n/l10n.dart';
 
 class ExpandableText extends StatefulWidget {
   const ExpandableText({

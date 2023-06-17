@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/info_icon.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/info_icon.dart';
 
 class UnavailableTokenNotice extends StatelessWidget {
   const UnavailableTokenNotice({super.key, required this.tokenName});
