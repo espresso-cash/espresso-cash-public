@@ -5,15 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/bullet_item.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/theme.dart';
-import '../bl/sign_in_bloc.dart';
-import 'components/terms_disclaimer.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/bullet_item.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/theme.dart';
+import '../services/sign_in_bloc.dart';
+import '../widgets/terms_disclaimer.dart';
 import 'sign_in_flow_screen.dart';
 
 @RoutePage()

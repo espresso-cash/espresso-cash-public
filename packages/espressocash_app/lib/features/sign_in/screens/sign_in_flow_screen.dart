@@ -5,16 +5,16 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/accounts/bl/accounts_bloc.dart';
-import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/router_wrapper.dart';
-import '../../../../core/split_key_payments.dart';
-import '../../../../di.dart';
-import '../../../../routes.gr.dart';
-import '../../../../saga.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/loader.dart';
-import '../bl/sign_in_bloc.dart';
+import '../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/router_wrapper.dart';
+import '../../../core/split_key_payments.dart';
+import '../../../di.dart';
+import '../../../routes.gr.dart';
+import '../../../saga.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../services/sign_in_bloc.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {

@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../../di.dart';
-import '../../../../saga.dart';
-import '../../../../ui/splash_screen.dart';
-import '../bl/sign_in_bloc.dart';
+import '../../../di.dart';
+import '../../../saga.dart';
+import '../../../ui/splash_screen.dart';
+import '../services/sign_in_bloc.dart';
 
 @RoutePage()
 class CreateWalletLoadingScreen extends StatefulWidget {
