@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/processing_state.dart';
 import '../../../core/tokens/token.dart';
-import 'chart_interval.dart';
-import 'repository.dart';
-import 'token_chart_item.dart';
+import '../data/repository.dart';
+import '../models/chart_interval.dart';
+import '../models/token_chart_item.dart';
 
 part 'bloc.freezed.dart';
 

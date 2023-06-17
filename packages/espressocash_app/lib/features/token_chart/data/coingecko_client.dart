@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../../core/coingecko_client.dart';
+import '../../../core/coingecko_client.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';
