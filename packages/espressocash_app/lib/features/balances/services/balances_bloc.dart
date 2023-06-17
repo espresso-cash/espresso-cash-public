@@ -15,7 +15,6 @@ import '../../../core/solana_helpers.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
 
-
 part 'balances_bloc.freezed.dart';
 part 'balances_event.dart';
 part 'balances_state.dart';
