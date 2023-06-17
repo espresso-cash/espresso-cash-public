@@ -4,8 +4,8 @@ import 'package:nested/nested.dart';
 
 import '../../core/accounts/module.dart';
 import '../../di.dart';
-import 'src/bl/bloc.dart';
-import 'src/bl/repository.dart';
+import 'data/repository.dart';
+import 'services/bloc.dart';
 
 class FavoriteTokensModule extends SingleChildStatelessWidget {
   const FavoriteTokensModule({super.key, super.child});

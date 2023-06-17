@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../core/transactions/tx_sender.dart';
 import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
-import '../../features/favorite_tokens/db.dart';
+import '../../features/favorite_tokens/data/repository.dart';
 import '../../features/incoming_split_key_payments/db.dart';
 import '../../features/outgoing_direct_payments/db.dart';
 import '../../features/outgoing_split_key_payments/db.dart';

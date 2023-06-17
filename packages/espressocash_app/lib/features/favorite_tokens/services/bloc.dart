@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/processing_state.dart';
-import 'repository.dart';
+import '../data/repository.dart';
 
 part 'bloc.freezed.dart';
 
