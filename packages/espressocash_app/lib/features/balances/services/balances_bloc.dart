@@ -9,11 +9,12 @@ import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../amount.dart';
-import '../../processing_state.dart';
-import '../../solana_helpers.dart';
-import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
+import '../../../core/amount.dart';
+import '../../../core/processing_state.dart';
+import '../../../core/solana_helpers.dart';
+import '../../../core/tokens/token.dart';
+import '../../../core/tokens/token_list.dart';
+
 
 part 'balances_bloc.freezed.dart';
 part 'balances_event.dart';

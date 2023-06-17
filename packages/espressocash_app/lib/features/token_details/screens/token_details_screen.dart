@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/balances/widgets/watch_balance.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
@@ -19,6 +18,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
+import '../../balances/widgets/watch_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';

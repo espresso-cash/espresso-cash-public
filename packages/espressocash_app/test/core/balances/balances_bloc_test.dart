@@ -3,10 +3,10 @@ import 'package:espressocash_app/config.dart';
 import 'package:espressocash_app/core/accounts/bl/account.dart';
 import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
-import 'package:espressocash_app/core/balances/services/balances_bloc.dart';
 import 'package:espressocash_app/core/processing_state.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/tokens/token_list.dart';
+import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 

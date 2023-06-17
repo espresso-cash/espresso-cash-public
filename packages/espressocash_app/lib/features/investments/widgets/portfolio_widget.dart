@@ -9,7 +9,7 @@ import '../../../../../l10n/device_locale.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../../core/balances/widgets/watch_balance.dart';
+import '../../balances/widgets/watch_balance.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key, required this.tokens});

@@ -3,8 +3,8 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/accounts/module.dart';
-import '../../core/balances/widgets/context_ext.dart';
 import '../../di.dart';
+import '../balances/widgets/context_ext.dart';
 import 'data/iskp_repository.dart';
 import 'services/pending_iskp_listener.dart';
 import 'services/tx_created_watcher.dart';

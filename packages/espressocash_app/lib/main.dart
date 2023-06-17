@@ -14,9 +14,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app.dart';
 import 'config.dart';
 import 'core/accounts/module.dart';
-import 'core/balances/module.dart';
 import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
+import 'features/balances/module.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 

@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/balances/widgets/watch_balance.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
@@ -17,6 +16,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/token_icon.dart';
+import '../../balances/widgets/watch_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 
 class InvestmentHeader extends StatelessWidget {

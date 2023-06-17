@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/balances/widgets/refresh_balance_wrapper.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../gen/assets.gen.dart';
@@ -11,6 +10,7 @@ import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../favorite_tokens/widgets/extensions.dart';
 import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../onboarding/widgets/onboarding_notice.dart';
