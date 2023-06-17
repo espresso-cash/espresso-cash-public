@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/l10n.dart';
-import '../button.dart';
-import '../status_screen.dart';
-import '../status_widget.dart';
-import '../text_button.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/status_screen.dart';
+import '../../../ui/status_widget.dart';
+import '../../../ui/text_button.dart';
 
 class TransferSuccess extends StatelessWidget {
   const TransferSuccess({

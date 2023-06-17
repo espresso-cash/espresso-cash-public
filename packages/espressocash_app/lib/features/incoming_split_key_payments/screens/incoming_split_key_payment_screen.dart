@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/transactions/tx_sender.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/transfer_status/transfer_error.dart';
-import '../../../ui/transfer_status/transfer_progress.dart';
-import '../../../ui/transfer_status/transfer_success.dart';
+import '../../transactions/models/tx_sender.dart';
+import '../../transactions/widgets/transfer_error.dart';
+import '../../transactions/widgets/transfer_progress.dart';
+import '../../transactions/widgets/transfer_success.dart';
 import '../data/iskp_repository.dart';
 import '../models/incoming_split_key_payment.dart';
 import '../widgets/extensions.dart';

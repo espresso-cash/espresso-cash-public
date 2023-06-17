@@ -10,9 +10,9 @@ import 'package:solana/encoder.dart';
 
 import '../../../core/api_version.dart';
 import '../../../core/escrow_private_key.dart';
-import '../../../core/transactions/tx_sender.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../transactions/models/tx_sender.dart';
 import '../models/incoming_split_key_payment.dart';
 
 @injectable

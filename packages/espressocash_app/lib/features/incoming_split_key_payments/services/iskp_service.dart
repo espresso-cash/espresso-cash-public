@@ -10,9 +10,9 @@ import '../../../config.dart';
 import '../../../core/api_version.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../core/extensions.dart';
-import '../../../core/transactions/resign_tx.dart';
-import '../../../core/transactions/tx_sender.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../transactions/models/tx_sender.dart';
+import '../../transactions/services/resign_tx.dart';
 import '../data/iskp_repository.dart';
 import '../models/incoming_split_key_payment.dart';
 

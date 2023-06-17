@@ -1,4 +1,5 @@
-import 'package:espressocash_app/core/transactions/tx_sender.dart';
+import 'package:espressocash_app/features/transactions/models/tx_sender.dart';
+import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';

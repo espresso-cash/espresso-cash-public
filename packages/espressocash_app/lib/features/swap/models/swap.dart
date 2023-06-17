@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../core/transactions/tx_sender.dart';
+import '../../transactions/models/tx_sender.dart';
 import 'swap_seed.dart';
 
 part 'swap.freezed.dart';

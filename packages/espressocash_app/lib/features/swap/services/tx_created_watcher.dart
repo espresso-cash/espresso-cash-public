@@ -4,7 +4,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/cancelable_job.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../transactions/models/tx_sender.dart';
+import '../../transactions/services/tx_sender.dart';
 import '../data/swap_repository.dart';
 import '../models/swap.dart';
 import 'swap_watcher.dart';

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:dfunc/dfunc.dart';
 import 'package:solana/encoder.dart';
 
-import '../../features/accounts/models/ec_wallet.dart';
+import '../../accounts/models/ec_wallet.dart';
 
 extension ResignTx on SignedTx {
   Future<SignedTx> resign(ECWallet wallet) async =>

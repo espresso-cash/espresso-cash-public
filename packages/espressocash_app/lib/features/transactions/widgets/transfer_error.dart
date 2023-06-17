@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/transactions/tx_sender.dart';
-import '../../l10n/l10n.dart';
-import '../button.dart';
-import '../status_screen.dart';
-import '../status_widget.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/status_screen.dart';
+import '../../../ui/status_widget.dart';
+import '../models/tx_sender.dart';
 
 class TransferError extends StatelessWidget {
   const TransferError({

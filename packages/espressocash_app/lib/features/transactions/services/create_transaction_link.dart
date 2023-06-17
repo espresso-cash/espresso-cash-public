@@ -1,4 +1,4 @@
-import '../../config.dart';
+import '../../../config.dart';
 
 String createTransactionLink(String signature) {
   final sb = StringBuffer()

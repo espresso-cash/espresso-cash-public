@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../l10n/l10n.dart';
-import '../colors.dart';
-import '../status_screen.dart';
-import '../status_widget.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/status_screen.dart';
+import '../../../ui/status_widget.dart';
 
 class TransferProgress extends StatelessWidget {
   const TransferProgress({

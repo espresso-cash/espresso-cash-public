@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../core/cancelable_job.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';

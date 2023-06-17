@@ -9,7 +9,7 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/api_version.dart';
-import '../../../core/transactions/tx_destinations.dart';
+import '../../transactions/services/tx_destinations.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 

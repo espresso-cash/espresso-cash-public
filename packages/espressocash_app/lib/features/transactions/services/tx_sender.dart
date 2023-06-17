@@ -1,14 +1,11 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../config.dart';
-
-part 'tx_sender.freezed.dart';
+import '../../../config.dart';
+import '../models/tx_sender.dart';
 
 @injectable
 class TxSender {
@@ -127,72 +124,6 @@ class TxSender {
       waitForSignatureStatus(),
     ]);
   }
-}
-
-// TODO(KB): should be removed after full migration to waiting status with
-// SignedTx
-class StubSignedTx implements SignedTx {
-  const StubSignedTx(this.id);
-
-  @override
-  String get blockhash => base58encode(List.filled(32, 0));
-
-  @override
-  String encode() => throw UnimplementedError();
-
-  @override
-  final String id;
-
-  @override
-  ByteArray toByteArray() => throw UnimplementedError();
-
-  @override
-  TransactionVersion get version => throw UnimplementedError();
-
-  @override
-  $SignedTxCopyWith<SignedTx> get copyWith => throw UnimplementedError();
-
-  @override
-  Message decompileMessage({
-    List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-  }) {
-    throw UnimplementedError();
-  }
-
-  @override
-  CompiledMessage get compiledMessage => throw UnimplementedError();
-
-  @override
-  List<Signature> get signatures => throw UnimplementedError();
-}
-
-@freezed
-class TxSendResult with _$TxSendResult {
-  const factory TxSendResult.sent() = TxSendSent;
-  const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
-  const factory TxSendResult.failure({
-    required TxFailureReason reason,
-  }) = TxSendFailure;
-  const factory TxSendResult.networkError() = TxSendNetworkError;
-}
-
-@freezed
-class TxWaitResult with _$TxWaitResult {
-  const factory TxWaitResult.success() = TxWaitSuccess;
-  const factory TxWaitResult.failure({
-    required TxFailureReason reason,
-  }) = TxWaitFailure;
-  const factory TxWaitResult.networkError() = TxWaitNetworkError;
-}
-
-enum TxFailureReason {
-  insufficientFunds,
-  invalidBlockhashSending,
-  invalidBlockhashWaiting,
-  creatingFailure,
-  txError,
-  unknown,
-  escrowFailure,
 }
 
 extension on JsonRpcException {
