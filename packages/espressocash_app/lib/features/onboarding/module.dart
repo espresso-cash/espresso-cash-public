@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import '../backup_phrase/mnemonic_getter.dart';
+import '../backup_phrase/data/mnemonic_getter.dart';
 import 'src/bl/onboarding_bloc.dart';
 
 class OnboardingModule extends SingleChildStatelessWidget {

@@ -7,7 +7,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../ui/theme.dart';
-import '../../../backup_phrase/mnemonic_getter.dart';
+import '../../../backup_phrase/data/mnemonic_getter.dart';
 import 'onboarding_flow_screen.dart';
 
 @RoutePage()
