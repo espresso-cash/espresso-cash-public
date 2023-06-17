@@ -1,16 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/transactions/tx_sender.dart';
-import '../../../../di.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/transfer_status/transfer_error.dart';
-import '../../../../ui/transfer_status/transfer_progress.dart';
-import '../../../../ui/transfer_status/transfer_success.dart';
-import '../../extensions.dart';
-import '../../widgets/invalid_escrow_error_widget.dart';
-import '../bl/incoming_split_key_payment.dart';
-import '../bl/iskp_repository.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/transfer_status/transfer_error.dart';
+import '../../../ui/transfer_status/transfer_progress.dart';
+import '../../../ui/transfer_status/transfer_success.dart';
+import '../data/iskp_repository.dart';
+import '../models/incoming_split_key_payment.dart';
+import '../widgets/extensions.dart';
+import '../widgets/invalid_escrow_error_widget.dart';
 
 @RoutePage()
 class IncomingSplitKeyPaymentScreen extends StatefulWidget {

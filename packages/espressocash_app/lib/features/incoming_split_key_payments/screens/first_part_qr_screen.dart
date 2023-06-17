@@ -1,17 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/wallet.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/bullet_item.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/theme.dart';
-import '../../../qr_scanner/models/qr_scanner_request.dart';
-import '../../extensions.dart';
-import 'components/terms_disclaimer.dart';
+import '../../../core/wallet.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/bullet_item.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/theme.dart';
+import '../../qr_scanner/models/qr_scanner_request.dart';
+import '../widgets/extensions.dart';
+import '../widgets/terms_disclaimer.dart';
 
 @RoutePage()
 class FirstPartQrScreen extends StatefulWidget {

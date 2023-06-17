@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../legal/flow.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/colors.dart';
+import '../../legal/flow.dart';
 
 class TermsDisclaimer extends StatelessWidget {
   const TermsDisclaimer({super.key});

@@ -8,12 +8,12 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../../core/api_version.dart';
-import '../../../../core/escrow_private_key.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../../../data/db/db.dart';
-import '../../../../data/db/mixins.dart';
-import 'incoming_split_key_payment.dart';
+import '../../../core/api_version.dart';
+import '../../../core/escrow_private_key.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../../../data/db/db.dart';
+import '../../../data/db/mixins.dart';
+import '../models/incoming_split_key_payment.dart';
 
 @injectable
 class ISKPRepository {

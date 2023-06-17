@@ -3,22 +3,22 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/analytics/analytics_manager.dart';
-import '../../../../core/dynamic_links_notifier.dart';
-import '../../../../core/split_key_payments.dart';
-import '../../../../core/wallet.dart';
-import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/bullet_item.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/dialogs.dart';
-import '../../../../ui/theme.dart';
-import '../../../legal/flow.dart';
-import '../../extensions.dart';
-import '../bl/pending_iskp_repository.dart';
+import '../../../core/analytics/analytics_manager.dart';
+import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/split_key_payments.dart';
+import '../../../core/wallet.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/bullet_item.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/theme.dart';
+import '../../legal/flow.dart';
+import '../data/pending_iskp_repository.dart';
+import '../widgets/extensions.dart';
 
 @RoutePage()
 class FirstPartReadyScreen extends StatefulWidget {

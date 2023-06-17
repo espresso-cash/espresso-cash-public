@@ -4,10 +4,10 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../../../core/cancelable_job.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import 'incoming_split_key_payment.dart';
-import 'iskp_repository.dart';
+import '../../../core/cancelable_job.dart';
+import '../../../core/transactions/tx_sender.dart';
+import '../data/iskp_repository.dart';
+import '../models/incoming_split_key_payment.dart';
 import 'payment_watcher.dart';
 
 /// Watches for [ISKPStatus.txSent] payments and waits for the tx to be

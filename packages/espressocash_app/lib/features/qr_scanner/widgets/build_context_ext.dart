@@ -15,7 +15,7 @@ import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routes.gr.dart';
-import '../../incoming_split_key_payments/extensions.dart';
+import '../../incoming_split_key_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../models/qr_scanner_request.dart';

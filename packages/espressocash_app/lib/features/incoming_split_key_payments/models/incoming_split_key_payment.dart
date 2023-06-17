@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../../core/api_version.dart';
-import '../../../../core/escrow_private_key.dart';
-import '../../../../core/transactions/tx_sender.dart';
+import '../../../core/api_version.dart';
+import '../../../core/escrow_private_key.dart';
+import '../../../core/transactions/tx_sender.dart';
 
 part 'incoming_split_key_payment.freezed.dart';
 
