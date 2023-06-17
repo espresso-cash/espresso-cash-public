@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
 import '../../routes.gr.dart';
-import 'mnemonic_getter.dart';
-import 'src/bl/puzzle_reminder_bloc.dart';
+import '../accounts/models/account.dart';
+import '../accounts/services/accounts_bloc.dart';
+import 'data/mnemonic_getter.dart';
+import 'services/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({

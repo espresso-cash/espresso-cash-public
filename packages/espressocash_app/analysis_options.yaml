@@ -25,25 +25,25 @@ dart_code_metrics:
     avoid-banned-imports:
       severity: error
       entries:
-        - paths: [".*/lib/.+\\.dart"]
-          deny: ["[^./]+/src/.*"]
-          message: "Do not import from src directory outside of the module"
+        - paths: [".*/models/.+\\.dart"]
+          deny: [".*/(data|services|widgets|screens|ui|l10n)/.*"]
+          message: "Do not import data|services|widgets|screens|ui|l10n from models"
 
-        - paths: [".*/lib/core/.+\\.dart"]
-          deny: ["/(app|data|features|storybook)/"]
-          message: "Core should not depend on these modules"
+        - paths: [".*/data/.+\\.dart"]
+          deny: [".*/(services|widgets|screens|ui|l10n)/.*"]
+          message: "Do not import services|widgets|screens|ui|l10n from data"
 
-        - paths: [".*/lib/data/.+\\.dart"]
-          deny: ["/(app|storybook|ui)/"]
-          message: "Data should not depend on these modules"
+        - paths: [".*/services/.+\\.dart"]
+          deny: [".*/(widgets|screens|ui|l10n)/.*"]
+          message: "Do not import widgets|screens|ui|l10n from services"
 
-        - paths: [".*/lib/features/.+\\.dart"]
-          deny: ["/(app|storybook)/"]
-          message: "Features should not depend on these modules"
+        - paths: [".*/widgets/.+\\.dart"]
+          deny: [".*/screens/.*"]
+          message: "Do not import screens from widgets"
 
-        - paths: [".*/lib/ui/.+\\.dart"]
-          deny: ["/(app|data|features|storybook)/"]
-          message: "UI should not depend on these modules"
+        - paths: [".*/ui/.+\\.dart"]
+          deny: [".*/features/.*"]
+          message: "Do not import features from ui"
 
   rules-exclude:
     - "**/*.gr.dart"

@@ -1,10 +1,10 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
-import 'package:espressocash_app/core/accounts/bl/account.dart';
-import 'package:espressocash_app/core/accounts/bl/accounts_bloc.dart';
-import 'package:espressocash_app/core/accounts/bl/mnemonic.dart';
 import 'package:espressocash_app/core/file_manager.dart';
 import 'package:espressocash_app/core/wallet.dart';
+import 'package:espressocash_app/features/accounts/models/account.dart';
+import 'package:espressocash_app/features/accounts/models/mnemonic.dart';
+import 'package:espressocash_app/features/accounts/services/accounts_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

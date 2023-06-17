@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../di.dart';
 import '../../routes.gr.dart';
-import 'src/repository.dart';
-import 'src/scenario_handler.dart';
+import 'data/repository.dart';
+import 'services/scenario_handler.dart';
 
 class MobileWalletModule extends SingleChildStatelessWidget {
   const MobileWalletModule({
