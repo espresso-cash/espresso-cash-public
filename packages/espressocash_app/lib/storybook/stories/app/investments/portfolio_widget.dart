@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../../core/conversion_rates/bl/repository.dart';
 import '../../../../core/tokens/token_list.dart';
 import '../../../../core/user_preferences.dart';
 import '../../../../di.dart';
+import '../../../../features/conversion_rates/data/repository.dart';
 import '../../../../features/investments/widgets/portfolio_widget.dart';
 import '../app_wrapper.dart';
 

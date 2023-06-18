@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import '../backup_phrase/mnemonic_getter.dart';
-import 'src/bl/onboarding_bloc.dart';
+import '../accounts/services/accounts_bloc.dart';
+import '../backup_phrase/data/mnemonic_getter.dart';
+import 'services/onboarding_bloc.dart';
 
 class OnboardingModule extends SingleChildStatelessWidget {
   const OnboardingModule({

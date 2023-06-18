@@ -8,15 +8,15 @@ import '../../../../../core/tokens/token.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
-import '../src/bl/bloc.dart';
-import '../src/bl/repository.dart';
+import '../../conversion_rates/widgets/context_ext.dart';
+import '../data/repository.dart';
+import '../services/bloc.dart';
 
 class FavoriteTokenList extends StatefulWidget {
   const FavoriteTokenList({super.key});

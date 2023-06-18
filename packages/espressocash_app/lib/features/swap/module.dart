@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/module.dart';
-import '../../core/balances/context_ext.dart';
 import '../../di.dart';
-import 'src/swap/swap_repository.dart';
-import 'src/swap/tx_created_watcher.dart';
-import 'src/swap/tx_sent_watcher.dart';
+import '../accounts/module.dart';
+import '../balances/widgets/context_ext.dart';
+import 'data/swap_repository.dart';
+import 'services/tx_created_watcher.dart';
+import 'services/tx_sent_watcher.dart';
 
 class SwapModule extends SingleChildStatelessWidget {
   const SwapModule({super.key, super.child});
