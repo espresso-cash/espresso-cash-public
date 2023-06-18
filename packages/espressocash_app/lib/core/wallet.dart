@@ -4,7 +4,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import 'accounts/bl/ec_wallet.dart';
+import '../features/accounts/models/ec_wallet.dart';
 import 'extensions.dart';
 
 Future<LocalWallet> createLocalWallet({required String mnemonic}) async {

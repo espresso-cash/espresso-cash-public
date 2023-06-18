@@ -11,12 +11,12 @@ import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
-import '../src/bloc.dart';
-import '../src/chart_interval.dart';
-import '../src/date_format.dart';
-import '../src/token_chart_item.dart';
+import '../models/chart_interval.dart';
+import '../models/token_chart_item.dart';
+import '../services/bloc.dart';
+import 'date_format.dart';
 
-export '../src/token_chart_item.dart';
+export '../models/token_chart_item.dart';
 
 class TokenChart extends StatelessWidget {
   const TokenChart({

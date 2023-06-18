@@ -5,7 +5,7 @@ import 'package:solana/solana.dart';
 import '../../../core/amount.dart';
 import '../../../core/api_version.dart';
 import '../../../core/escrow_private_key.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../transactions/models/tx_sender.dart';
 
 part 'outgoing_split_key_payment.freezed.dart';
 

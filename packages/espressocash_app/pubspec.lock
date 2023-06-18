@@ -401,6 +401,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  device_preview:
+    dependency: "direct main"
+    description:
+      name: device_preview
+      sha256: "2f097bf31b929e15e6756dbe0ec1bcb63952ab9ed51c25dc5a2c722d2b21fdaf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   dfunc:
     dependency: "direct main"
     description:
@@ -719,6 +727,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.7"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      sha256: "1b61f8c4cbf965104b6ca7160880ff1af6755aad7fec70b58444245132453745"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.8.4"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -1070,10 +1086,10 @@ packages:
     dependency: "direct main"
     description:
       name: mews_pedantic
-      sha256: "4d2661e586cb989646af8a80773990ca75db39ea8f159eacfeb55ac87e02e4e6"
+      sha256: b1e57633e02789e54bf4db54b1a5ce4d6e2df3c9d7458d9cb48b7a1c731094df
       url: "https://pub.dev"
     source: hosted
-    version: "0.15.0-dev.3"
+    version: "0.15.0"
   mime:
     dependency: transitive
     description:
@@ -1974,4 +1990,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.10.0"

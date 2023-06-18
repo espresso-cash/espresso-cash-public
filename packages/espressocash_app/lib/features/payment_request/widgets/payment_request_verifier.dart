@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/balances/context_ext.dart';
 import '../../../di.dart';
+import '../../balances/widgets/context_ext.dart';
 import '../models/payment_request.dart';
-import '../src/bl/payment_request_verifier/bloc.dart';
+import '../services/payment_request_verifier_bloc.dart';
 
 class PaymentRequestVerifier extends StatelessWidget {
   const PaymentRequestVerifier({

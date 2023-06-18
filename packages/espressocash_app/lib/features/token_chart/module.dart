@@ -4,7 +4,7 @@ import 'package:nested/nested.dart';
 
 import '../../core/tokens/token.dart';
 import '../../di.dart';
-import 'src/bloc.dart';
+import 'services/bloc.dart';
 
 class TokenChartModule extends SingleChildStatelessWidget {
   const TokenChartModule(this.token, {super.key, super.child});
