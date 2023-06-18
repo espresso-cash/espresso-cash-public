@@ -2,13 +2,13 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
-import '../src/activity.dart';
-import '../src/pending_activities_repository.dart';
-import '../src/widgets/no_activity.dart';
-import '../src/widgets/odp_tile.dart';
-import '../src/widgets/oskp_tile.dart';
-import '../src/widgets/payment_request_tile.dart';
-import '../src/widgets/swap_tile.dart';
+import '../data/pending_activities_repository.dart';
+import '../models/activity.dart';
+import 'no_activity.dart';
+import 'odp_tile.dart';
+import 'oskp_tile.dart';
+import 'payment_request_tile.dart';
+import 'swap_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({

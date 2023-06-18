@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/accounts/bl/accounts_bloc.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
+import '../../accounts/services/accounts_bloc.dart';
 
 class OnboardingNotice extends StatelessWidget {
   const OnboardingNotice({super.key});

@@ -1,3 +1,14 @@
+## 1.76.0
+
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update dfunc (#992).
+ - **FIX**: back button on app locked screen (#987).
+ - **FEAT**: update get started screen (#996).
+ - **FEAT**: skip wallet creation when receiving links on new wallet (#936).
+ - **FEAT**: curated list of popular tokens (#926).
+ - **FEAT**: localize chart time interval (#971).
+ - **FEAT**: upgrade auto router, refactor routes (#932).
+
 ## 1.75.0
 
  - **REFACTOR**: update lint rules.
