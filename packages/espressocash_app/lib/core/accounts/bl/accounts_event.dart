@@ -15,6 +15,7 @@ class AccountsEvent with _$AccountsEvent {
   const factory AccountsEvent.profileUpdated({
     required String name,
     File? photo,
+    String? country,
   }) = ProfileUpdated;
 
   const factory AccountsEvent.loggedOut() = LoggedOut;

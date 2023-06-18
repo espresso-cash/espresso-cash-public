@@ -12,6 +12,7 @@ class MyAccount with _$MyAccount {
     required String firstName,
     required AccessMode accessMode,
     String? photoPath,
+    String? country,
   }) = _MyAccount;
 
   const MyAccount._();

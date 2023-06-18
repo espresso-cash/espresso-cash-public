@@ -44,10 +44,17 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
             loggedOut: (_) => _onLoggedOut(emit),
           );
 
-  Future<void> _saveNameAndPhoto({required String name, String? photo}) async {
+  Future<void> _saveUserInfo({
+    required String name,
+    String? photo,
+    String? country,
+  }) async {
     await _storage.write(key: nameKey, value: name);
     if (photo != null) {
       await _storage.write(key: photoKey, value: basename(photo));
+    }
+    if (country != null) {
+      await _storage.write(key: countryKey, value: country);
     }
   }
 
@@ -89,9 +96,10 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
     await _storage.saveAccountSource(event.source);
 
-    await _saveNameAndPhoto(
+    await _saveUserInfo(
       name: event.account.firstName,
       photo: event.account.photoPath,
+      country: event.account.country,
     );
 
     await _saveOnboardingState(
@@ -126,7 +134,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     final photo = await event.photo?.let(_fileManager.copyToAppDir);
     emit(state.copyWith(isProcessing: true));
 
-    await _saveNameAndPhoto(name: event.name, photo: photo?.path);
+    await _saveUserInfo(
+      name: event.name,
+      photo: photo?.path,
+      country: event.country,
+    );
 
     await _saveOnboardingState(hasFinishedOnboarding: true);
 
@@ -135,6 +147,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
         account: state.account?.copyWith(
           firstName: event.name,
           photoPath: photo?.path,
+          country: event.country,
         ),
         isProcessing: false,
         hasFinishedOnboarding: true,
@@ -182,6 +195,7 @@ extension on FlutterSecureStorage {
       photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
       accessMode: const AccessMode.loaded(),
       wallet: wallet,
+      country: await read(key: countryKey),
     );
   }
 }
@@ -200,3 +214,6 @@ const photoKey = 'photo';
 
 @visibleForTesting
 const onboardingKey = 'onboarding';
+
+@visibleForTesting
+const countryKey = 'country';
