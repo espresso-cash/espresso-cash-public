@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/analytics/analytics_manager.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../models/outgoing_split_key_payment.dart';
-import '../src/bl/oskp_service.dart';
+import '../services/oskp_service.dart';
 
 extension BuildContextExt on BuildContext {
   Future<String> createOSKP({required CryptoAmount amount}) async =>

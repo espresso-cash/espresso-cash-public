@@ -44,9 +44,9 @@ class AmountKeypad extends StatelessWidget {
       }
     } else if (key == '.') {
       // If we already have it, ignore it
-      if (value.contains(decimalSeparator)) {
-        return;
-      } else if (value.isEmpty) {
+      if (value.contains(decimalSeparator)) return;
+
+      if (value.isEmpty) {
         value = '0$decimalSeparator';
       } else {
         value = '$value$decimalSeparator';
