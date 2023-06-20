@@ -76,6 +76,7 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
         AutoRoute(page: EditProfileRoute.page),
+        AutoRoute(page: CountryPickerRoute.page),
         AutoRoute(page: HelpRoute.page),
         AutoRoute(page: TokenSearchRoute.page),
         AutoRoute(
@@ -98,6 +99,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: SignInProfileRoute.page),
         AutoRoute(page: WebViewRoute.page),
+        AutoRoute(page: CountryPickerRoute.page),
       ],
     ),
   ];

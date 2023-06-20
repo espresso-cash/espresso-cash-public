@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_const
+
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -12,6 +14,8 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/colors.dart';
 import '../../accounts/services/accounts_bloc.dart';
 
 @RoutePage()
@@ -23,7 +27,8 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final TextEditingController _controller = TextEditingController();
+  final _nameController = TextEditingController();
+  final _countryCodeController = TextEditingController();
   File? _photo;
 
   @override
@@ -31,16 +36,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     final state = context.read<AccountsBloc>().state;
     final photoPath = state.account?.photoPath;
-    _controller.text = state.account?.firstName ?? '';
+    _nameController.text = state.account?.firstName ?? '';
     if (photoPath != null) {
       _photo = File(photoPath);
+    }
+
+    final countryCode = state.account?.country;
+    if (countryCode != null) {
+      _countryCodeController.text = countryCode;
     }
   }
 
   void _updateProfile() {
-    context
-        .read<AccountsBloc>()
-        .add(ProfileUpdated(name: _controller.text, photo: _photo));
+    context.read<AccountsBloc>().add(
+          ProfileUpdated(
+            name: _nameController.text,
+            photo: _photo,
+            country: _countryCodeController.text,
+          ),
+        );
+  }
+
+  Future<void> _onUpdateCountry() async {
+    final code = await context.router.push<String?>(
+      CountryPickerRoute(initialCountryCode: _countryCodeController.text),
+    );
+
+    if (!mounted) return;
+
+    if (code != null) {
+      setState(() {
+        _countryCodeController.text = code;
+      });
+    }
   }
 
   void _closeFlow() {
@@ -49,7 +77,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _nameController.dispose();
+    _countryCodeController.dispose();
     super.dispose();
   }
 
@@ -95,8 +124,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: CpTextField(
                     margin: const EdgeInsets.only(top: 16),
                     placeholder: context.l10n.yourFirstNamePlaceholder,
-                    controller: _controller,
+                    controller: _nameController,
                     disabled: isLoading,
+                  ),
+                ),
+                OnboardingPadding(
+                  child: InkWell(
+                    onTap: _onUpdateCountry,
+                    child: IgnorePointer(
+                      child: CpTextField(
+                        margin: const EdgeInsets.only(top: 16),
+                        placeholder: context.l10n.countryOfResidence,
+                        backgroundColor: CpColors.darkBackground,
+                        placeholderColor: Colors.white,
+                        suffix: const Padding(
+                          padding: EdgeInsets.only(right: 16),
+                          child: const Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.white,
+                            size: 36,
+                          ),
+                        ),
+                        readOnly: true,
+                        disabled: isLoading,
+                        textColor: Colors.white,
+                        controller: _countryCodeController,
+                      ),
+                    ),
                   ),
                 ),
               ],

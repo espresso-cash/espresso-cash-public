@@ -106,6 +106,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final myAccount = MyAccount(
         firstName: event.name,
         photoPath: photo?.path,
+        country: event.country,
         wallet: wallet,
         accessMode: accessMode,
       );
@@ -160,6 +161,7 @@ class SignInEvent with _$SignInEvent {
   const factory SignInEvent.submitted({
     required String name,
     File? photo,
+    String? country,
   }) = SignInSubmitted;
 }
 

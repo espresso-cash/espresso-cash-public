@@ -32,7 +32,15 @@ class OnboardingBloc extends Bloc<OnboardingEvent, OnboardingState> {
     try {
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
-      emit(Flow.success(OnboardingResult(name: event.name, photo: photo)));
+      emit(
+        Flow.success(
+          OnboardingResult(
+            name: event.name,
+            photo: photo,
+            country: event.country,
+          ),
+        ),
+      );
     } on Exception catch (e) {
       emit(Flow.failure(e));
     }
@@ -44,6 +52,7 @@ class OnboardingResult with _$OnboardingResult {
   const factory OnboardingResult({
     required String name,
     required File? photo,
+    required String? country,
   }) = _OnboardingResult;
 }
 
@@ -54,5 +63,6 @@ class OnboardingEvent with _$OnboardingEvent {
   const factory OnboardingEvent.submitted({
     required String name,
     File? photo,
+    String? country,
   }) = OnboardingSubmitted;
 }

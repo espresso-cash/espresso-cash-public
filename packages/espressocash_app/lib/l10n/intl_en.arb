@@ -771,5 +771,11 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "countryOfResidence" : "Country of residence",
+  "@countryOfResidence" : {},
+  "selectCountryTitle" : "SELECT YOUR COUNTRY",
+  "@selectCountryTitle": {},
+  "noResultsFound" : "No results found",
+  "@noResultsFound" : {}
 }

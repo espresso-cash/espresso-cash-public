@@ -11,10 +11,14 @@ class CreateProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CreateProfile(
-        onSubmitted: (name, photo) async {
-          context
-              .read<OnboardingBloc>()
-              .add(OnboardingEvent.submitted(name: name, photo: photo));
+        onSubmitted: (name, photo, country) async {
+          context.read<OnboardingBloc>().add(
+                OnboardingEvent.submitted(
+                  name: name,
+                  photo: photo,
+                  country: country,
+                ),
+              );
         },
         onBackButtonPressed: () => context.router.pop(),
       );
