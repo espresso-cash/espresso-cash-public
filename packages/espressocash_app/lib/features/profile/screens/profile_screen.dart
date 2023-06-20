@@ -26,9 +26,10 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MyAccount>();
-    final name = state.firstName;
-    final photoPath = state.photoPath;
     final address = state.publicKey;
+    final profile = state.profile;
+    final name = profile.firstName;
+    final photoPath = profile.photoPath;
 
     return Scaffold(
       body: Material(

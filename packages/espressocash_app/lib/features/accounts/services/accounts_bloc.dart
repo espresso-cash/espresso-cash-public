@@ -14,6 +14,7 @@ import '../../../core/wallet.dart';
 import '../models/account.dart';
 import '../models/ec_wallet.dart';
 import '../models/mnemonic.dart';
+import '../models/profile.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';
@@ -97,9 +98,9 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     await _storage.saveAccountSource(event.source);
 
     await _saveUserInfo(
-      name: event.account.firstName,
-      photo: event.account.photoPath,
-      country: event.account.country,
+      name: event.account.profile.firstName,
+      photo: event.account.profile.photoPath,
+      country: event.account.profile.country,
     );
 
     await _saveOnboardingState(
@@ -145,9 +146,11 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     emit(
       AccountsState(
         account: state.account?.copyWith(
-          firstName: event.name,
-          photoPath: photo?.path,
-          country: event.country,
+          profile: Profile(
+            firstName: event.name,
+            photoPath: photo?.path,
+            country: event.country,
+          ),
         ),
         isProcessing: false,
         hasFinishedOnboarding: true,
@@ -191,11 +194,16 @@ extension on FlutterSecureStorage {
     final photoPath = await read(key: photoKey);
 
     return MyAccount(
-      firstName: (await read(key: nameKey)) ?? '',
-      photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
+      // firstName: (await read(key: nameKey)) ?? '',
+      // photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
+      // country: await read(key: countryKey),
+      profile: Profile(
+        firstName: (await read(key: nameKey)) ?? '',
+        photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
+        country: await read(key: countryKey),
+      ),
       accessMode: const AccessMode.loaded(),
       wallet: wallet,
-      country: await read(key: countryKey),
     );
   }
 }

@@ -14,6 +14,7 @@ import '../../../core/flow.dart';
 import '../../../core/wallet.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/mnemonic.dart';
+import '../../accounts/models/profile.dart';
 
 part 'sign_in_bloc.freezed.dart';
 
@@ -104,9 +105,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
       final myAccount = MyAccount(
-        firstName: event.name,
-        photoPath: photo?.path,
-        country: event.country,
+        // firstName: event.name,
+        // photoPath: photo?.path,
+        // country: event.country,
+        profile: Profile(
+          firstName: event.name,
+          photoPath: photo?.path,
+          country: event.country,
+        ),
         wallet: wallet,
         accessMode: accessMode,
       );

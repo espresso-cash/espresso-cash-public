@@ -35,13 +35,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     super.initState();
     final state = context.read<AccountsBloc>().state;
-    final photoPath = state.account?.photoPath;
-    _nameController.text = state.account?.firstName ?? '';
+    final profile = state.account?.profile;
+
+    final photoPath = profile?.photoPath;
+    _nameController.text = profile?.firstName ?? '';
     if (photoPath != null) {
       _photo = File(photoPath);
     }
 
-    final countryCode = state.account?.country;
+    final countryCode = profile?.country;
     if (countryCode != null) {
       _countryCodeController.text = countryCode;
     }
