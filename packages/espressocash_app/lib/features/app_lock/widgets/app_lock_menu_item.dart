@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/profile_switch.dart';
-import '../src/bl/app_lock_bloc.dart';
+import '../services/app_lock_bloc.dart';
 
 class AppLockMenuItem extends StatelessWidget {
   const AppLockMenuItem({super.key});

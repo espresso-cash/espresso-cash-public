@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
-import '../../core/transactions/tx_sender.dart';
-import '../../features/outgoing_split_key_payments/db.dart';
+import '../../features/outgoing_split_key_payments/data/repository.dart';
+import '../../features/transactions/models/tx_sender.dart';
 import 'mixins.dart';
 
 class ITRows extends Table with EntityMixin {
