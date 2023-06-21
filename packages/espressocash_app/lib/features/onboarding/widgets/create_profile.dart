@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -12,14 +13,17 @@ import '../../../../../ui/theme.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
+import '../../accounts/models/profile.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
     super.key,
     required this.onSubmitted,
     required this.onBackButtonPressed,
+    this.initial,
   });
 
+  final Profile? initial;
   final void Function(String value, File? photo, String country) onSubmitted;
   final VoidCallback onBackButtonPressed;
 
@@ -28,19 +32,33 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
-  final _controller = TextEditingController();
+  final _nameController = TextEditingController();
   final _countryCodeController = TextEditingController();
   File? _photo;
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() => setState(() {}));
+
+    final profile = widget.initial;
+
+    _nameController.addListener(() => setState(() {}));
+
+    if (profile != null) {
+      _nameController.text = profile.firstName;
+
+      _photo = profile.photoPath?.let(File.new);
+
+      final country = profile.country;
+      if (country != null) {
+        _countryCodeController.text = country;
+      }
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _nameController.dispose();
     _countryCodeController.dispose();
     super.dispose();
   }
@@ -59,18 +77,23 @@ class _CreateProfileState extends State<CreateProfile> {
     }
   }
 
-  void _handleSubmitted() =>
-      widget.onSubmitted(_controller.text, _photo, _countryCodeController.text);
+  void _handleSubmitted() => widget.onSubmitted(
+        _nameController.text,
+        _photo,
+        _countryCodeController.text,
+      );
 
   bool get _isValid =>
-      _controller.text.isNotEmpty && _countryCodeController.text.isNotEmpty;
+      _nameController.text.isNotEmpty && _countryCodeController.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
-              text: context.l10n.next,
+              text: widget.initial == null
+                  ? context.l10n.next
+                  : context.l10n.save,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
             children: [
@@ -88,7 +111,7 @@ class _CreateProfileState extends State<CreateProfile> {
                   key: keyCreateProfileName,
                   margin: const EdgeInsets.only(top: 16),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
-                  controller: _controller,
+                  controller: _nameController,
                   backgroundColor: Colors.white,
                 ),
               ),
