@@ -11,7 +11,7 @@ class CreateProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CreateProfile(
-        onSubmitted: (name, photo, country) async {
+        onSubmitted: (name, photo, country) {
           context.read<OnboardingBloc>().add(
                 OnboardingEvent.submitted(
                   name: name,

@@ -58,10 +58,11 @@ class __ContentState extends State<_Content> {
       setState(() {});
     });
 
-    if (_selectedCountry != null) {
+    final country = _selectedCountry;
+    if (country != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final index = _countries.indexOf(_selectedCountry!);
-        final centerOffset = (context.size!.height - _tileHeight) / 2.5;
+        final index = _countries.indexOf(country);
+        final centerOffset = (context.size?.height ?? 0 - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
         _scrollController.animateTo(
           offset,

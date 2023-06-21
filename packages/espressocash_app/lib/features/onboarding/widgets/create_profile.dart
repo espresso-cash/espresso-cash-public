@@ -16,6 +16,12 @@ import '../../../ui/colors.dart';
 import '../../accounts/models/profile.dart';
 import '../../profile/models/country.dart';
 
+typedef ProfileCallback = void Function(
+  String name,
+  File? photo,
+  String countryCode,
+);
+
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
     super.key,
@@ -25,7 +31,7 @@ class CreateProfile extends StatefulWidget {
   });
 
   final Profile? initial;
-  final void Function(String value, File? photo, String country) onSubmitted;
+  final ProfileCallback onSubmitted;
   final VoidCallback onBackButtonPressed;
 
   @override
@@ -77,10 +83,10 @@ class _CreateProfileState extends State<CreateProfile> {
     }
   }
 
-  void _handleSubmitted() => widget.onSubmitted(
+  void _handleSubmitted() => widget.onSubmitted.call(
         _nameController.text,
         _photo,
-        _country!.code,
+        _country?.code ?? '',
       );
 
   bool get _isValid => _nameController.text.isNotEmpty && _country != null;

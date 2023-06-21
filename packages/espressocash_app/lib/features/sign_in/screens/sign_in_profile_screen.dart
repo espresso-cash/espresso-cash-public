@@ -11,7 +11,7 @@ class SignInProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CreateProfile(
-        onSubmitted: (name, photo, country) async {
+        onSubmitted: (name, photo, country) {
           context.read<SignInBloc>().add(
                 SignInEvent.submitted(
                   name: name,
