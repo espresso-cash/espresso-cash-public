@@ -14,6 +14,7 @@ import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/profile.dart';
+import '../../profile/models/country.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
@@ -33,7 +34,7 @@ class CreateProfile extends StatefulWidget {
 
 class _CreateProfileState extends State<CreateProfile> {
   final _nameController = TextEditingController();
-  final _countryCodeController = TextEditingController();
+  Country? _country;
   File? _photo;
 
   @override
@@ -51,7 +52,7 @@ class _CreateProfileState extends State<CreateProfile> {
 
       final country = profile.country;
       if (country != null) {
-        _countryCodeController.text = country;
+        _country = Country.findByCode(country);
       }
     }
   }
@@ -59,20 +60,19 @@ class _CreateProfileState extends State<CreateProfile> {
   @override
   void dispose() {
     _nameController.dispose();
-    _countryCodeController.dispose();
     super.dispose();
   }
 
   Future<void> _onUpdateCountry() async {
-    final code = await context.router.push<String?>(
-      CountryPickerRoute(initialCountryCode: _countryCodeController.text),
+    final code = await context.router.push<Country?>(
+      CountryPickerRoute(initial: _country),
     );
 
     if (!mounted) return;
 
     if (code != null) {
       setState(() {
-        _countryCodeController.text = code;
+        _country = code;
       });
     }
   }
@@ -80,11 +80,10 @@ class _CreateProfileState extends State<CreateProfile> {
   void _handleSubmitted() => widget.onSubmitted(
         _nameController.text,
         _photo,
-        _countryCodeController.text,
+        _country!.code,
       );
 
-  bool get _isValid =>
-      _nameController.text.isNotEmpty && _countryCodeController.text.isNotEmpty;
+  bool get _isValid => _nameController.text.isNotEmpty && _country != null;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -115,31 +114,51 @@ class _CreateProfileState extends State<CreateProfile> {
                   backgroundColor: Colors.white,
                 ),
               ),
-              OnboardingPadding(
-                child: InkWell(
-                  onTap: _onUpdateCountry,
-                  child: IgnorePointer(
-                    child: CpTextField(
-                      margin: const EdgeInsets.only(top: 16),
-                      placeholder: context.l10n.countryOfResidence,
-                      backgroundColor: CpColors.darkBackground,
-                      placeholderColor: Colors.white,
-                      suffix: const Padding(
-                        padding: EdgeInsets.only(right: 16),
-                        child: Icon(
-                          Icons.keyboard_arrow_down_outlined,
-                          color: Colors.white,
-                          size: 36,
-                        ),
-                      ),
-                      readOnly: true,
-                      textColor: Colors.white,
-                      controller: _countryCodeController,
-                    ),
-                  ),
-                ),
+              _CountryPickerItem(
+                country: _country,
+                onTap: _onUpdateCountry,
               ),
             ],
+          ),
+        ),
+      );
+}
+
+class _CountryPickerItem extends StatelessWidget {
+  const _CountryPickerItem({
+    this.country,
+    required this.onTap,
+  });
+  final Country? country;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => OnboardingPadding(
+        child: Container(
+          margin: const EdgeInsets.only(top: 16),
+          // padding: const EdgeInsets.all(24),
+          decoration: const ShapeDecoration(
+            color: CpColors.darkBackground,
+            shape: StadiumBorder(),
+          ),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            onTap: onTap,
+            title: Text(
+              country?.name ?? context.l10n.countryOfResidence,
+              style: const TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+                height: 1.2,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.keyboard_arrow_down_outlined,
+              color: Colors.white,
+              size: 34,
+            ),
           ),
         ),
       );

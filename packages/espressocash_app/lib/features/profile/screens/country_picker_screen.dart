@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/presentation/page_fade_wrapper.dart';
@@ -8,16 +7,16 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
-import 'countries.dart';
+import '../models/country.dart';
 
-@RoutePage<String?>()
+@RoutePage<Country?>()
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
-    this.initialCountryCode,
+    this.initial,
   });
 
-  final String? initialCountryCode;
+  final Country? initial;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -26,16 +25,15 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body:
-              _Wrapper(child: _Content(initialCountryCode: initialCountryCode)),
+          body: _Wrapper(child: _Content(initial)),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({this.initialCountryCode});
+  const _Content(this.initial);
 
-  final String? initialCountryCode;
+  final Country? initial;
 
   @override
   State<_Content> createState() => __ContentState();
@@ -45,18 +43,16 @@ class __ContentState extends State<_Content> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
-  Map<String, String>? _selectedCountry;
+  Country? _selectedCountry;
   String get _searchText => _searchController.text;
+
+  final _countries = Country.all;
 
   @override
   void initState() {
     super.initState();
 
-    _selectedCountry = widget.initialCountryCode != null
-        ? countryCodes.firstWhereOrNull(
-            (country) => country['code'] == widget.initialCountryCode,
-          )
-        : null;
+    _selectedCountry = widget.initial;
 
     _searchController.addListener(() {
       setState(() {});
@@ -64,7 +60,7 @@ class __ContentState extends State<_Content> {
 
     if (_selectedCountry != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final index = countryCodes.indexOf(_selectedCountry!);
+        final index = _countries.indexOf(_selectedCountry!);
         final centerOffset = (context.size!.height - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
         _scrollController.animateTo(
@@ -85,13 +81,12 @@ class __ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredCountries = countryCodes.where((country) {
+    final filteredCountries = _countries.where((country) {
       final nameMatches =
-          country['name']?.toLowerCase().contains(_searchText.toLowerCase()) ??
-              false;
+          country.name.toLowerCase().contains(_searchText.toLowerCase());
+
       final codeMatches =
-          country['code']?.toLowerCase().contains(_searchText.toLowerCase()) ??
-              false;
+          country.code.toLowerCase().contains(_searchText.toLowerCase());
 
       return nameMatches || codeMatches;
     }).toList();
@@ -144,7 +139,7 @@ class __ContentState extends State<_Content> {
                   child: ListTile(
                     dense: true,
                     title: Text(
-                      country['name'] ?? '',
+                      country.name,
                       style: TextStyle(
                         fontSize: selected ? 19 : 17,
                       ),
@@ -152,7 +147,7 @@ class __ContentState extends State<_Content> {
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
                     onTap: () {
-                      context.router.pop(country['code']);
+                      context.router.pop(country);
                     },
                   ),
                 );
