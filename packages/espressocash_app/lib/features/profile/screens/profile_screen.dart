@@ -33,9 +33,9 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       body: Material(
         color: const Color(0xffF4F4F4),
-        child: SafeArea(
-          maintainBottomViewPadding: true,
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            maintainBottomViewPadding: true,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
