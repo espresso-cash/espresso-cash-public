@@ -23,7 +23,7 @@ Future<void> main() async {
   final testAccount = MyAccount(
     wallet: wallet,
     accessMode: const AccessMode.loaded(),
-    profile: const Profile(firstName: 'Test'),
+    profile: const Profile(firstName: 'Test', country: 'US'),
   );
   const fileManager = FileManager();
 
@@ -74,6 +74,9 @@ Future<void> main() async {
       when(
         storage.read(key: nameKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => testAccount.profile.firstName);
+      when(
+        storage.read(key: countryKey, iOptions: anyNamed('iOptions')),
+      ).thenAnswer((_) async => testAccount.profile.country);
       when(
         storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => null);
