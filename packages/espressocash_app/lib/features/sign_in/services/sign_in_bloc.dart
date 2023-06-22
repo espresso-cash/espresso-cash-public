@@ -105,9 +105,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       final photo = await event.photo?.let(_fileManager.copyToAppDir);
 
       final myAccount = MyAccount(
-        // firstName: event.name,
-        // photoPath: photo?.path,
-        // country: event.country,
         profile: Profile(
           firstName: event.name,
           photoPath: photo?.path,

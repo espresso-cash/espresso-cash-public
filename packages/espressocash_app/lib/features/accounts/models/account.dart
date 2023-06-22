@@ -10,11 +10,8 @@ part 'account.freezed.dart';
 class MyAccount with _$MyAccount {
   const factory MyAccount({
     required ECWallet wallet,
-    // required String firstName,
     required AccessMode accessMode,
     required Profile profile,
-    // String? photoPath,
-    // String? country,
   }) = _MyAccount;
 
   const MyAccount._();

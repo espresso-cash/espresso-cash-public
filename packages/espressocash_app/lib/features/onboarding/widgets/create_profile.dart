@@ -142,7 +142,6 @@ class _CountryPickerItem extends StatelessWidget {
   Widget build(BuildContext context) => OnboardingPadding(
         child: Container(
           margin: const EdgeInsets.only(top: 16),
-          // padding: const EdgeInsets.all(24),
           decoration: const ShapeDecoration(
             color: CpColors.darkBackground,
             shape: StadiumBorder(),

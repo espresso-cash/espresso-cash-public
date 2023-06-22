@@ -97,10 +97,12 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
     await _storage.saveAccountSource(event.source);
 
+    final profile = event.account.profile;
+
     await _saveUserInfo(
-      name: event.account.profile.firstName,
-      photo: event.account.profile.photoPath,
-      country: event.account.profile.country,
+      name: profile.firstName,
+      photo: profile.photoPath,
+      country: profile.country,
     );
 
     await _saveOnboardingState(
@@ -194,9 +196,6 @@ extension on FlutterSecureStorage {
     final photoPath = await read(key: photoKey);
 
     return MyAccount(
-      // firstName: (await read(key: nameKey)) ?? '',
-      // photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
-      // country: await read(key: countryKey),
       profile: Profile(
         firstName: (await read(key: nameKey)) ?? '',
         photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
