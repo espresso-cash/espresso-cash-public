@@ -10,17 +10,16 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../core/file_manager.dart';
+import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
-import '../../accounts/models/profile.dart';
-import '../../profile/models/country.dart';
-
-typedef ProfileCallback = void Function(
-  String name,
-  File? photo,
-  String countryCode,
-);
+import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
+import '../data/profile_repository.dart';
+import '../models/country.dart';
+import '../models/profile.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
@@ -31,7 +30,7 @@ class CreateProfile extends StatefulWidget {
   });
 
   final Profile? initial;
-  final ProfileCallback onSubmitted;
+  final VoidCallback onSubmitted;
   final VoidCallback onBackButtonPressed;
 
   @override
@@ -83,13 +82,27 @@ class _CreateProfileState extends State<CreateProfile> {
     }
   }
 
-  void _handleSubmitted() => widget.onSubmitted.call(
-        _nameController.text,
-        _photo,
-        _country?.code ?? '',
-      );
+  void _handleSubmitted() => runWithLoader(context, () async {
+        try {
+          final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-  bool get _isValid => _nameController.text.isNotEmpty && _country != null;
+          sl<ProfileRepository>().profile = Profile(
+            firstName: _nameController.text,
+            country: _country?.code,
+            photoPath: photo?.path,
+          );
+
+          if (!mounted) return;
+
+          widget.onSubmitted();
+        } on Exception catch (e) {
+          if (!mounted) return;
+
+          showErrorDialog(context, 'Error', e);
+        }
+      });
+
+  bool get _isValid => _nameController.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(

@@ -6,7 +6,6 @@ import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/tokens/token_list.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
-import 'package:espressocash_app/features/accounts/models/profile.dart';
 import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
@@ -29,7 +28,6 @@ void main() {
         final wallet = LocalWallet(await Wallet.random());
 
         account = MyAccount(
-          profile: const Profile(firstName: 'Tester'),
           wallet: wallet,
           accessMode: const AccessMode.created(),
         );

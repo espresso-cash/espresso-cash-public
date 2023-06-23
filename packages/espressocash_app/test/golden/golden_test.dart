@@ -5,7 +5,6 @@ import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
-import 'package:espressocash_app/features/accounts/models/profile.dart';
 import 'package:espressocash_app/features/app_lock/services/app_lock_bloc.dart';
 import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
 import 'package:espressocash_app/features/conversion_rates/data/repository.dart';
@@ -37,7 +36,7 @@ void main() {
 
   testGoldensWidget(
     'No email and password screen',
-    const NoEmailAndPasswordScreen(),
+    NoEmailAndPasswordScreen(onDone: () {}),
   );
 
   group('HomeScreen', () {
@@ -60,7 +59,6 @@ void main() {
             Provider<MyAccount>(
               create: (_) => MyAccount(
                 wallet: wallet,
-                profile: const Profile(firstName: 'Test'),
                 accessMode: const AccessMode.created(),
               ),
             ),

@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
 import 'ec_wallet.dart';
-import 'profile.dart';
 
 part 'account.freezed.dart';
 
@@ -11,7 +10,6 @@ class MyAccount with _$MyAccount {
   const factory MyAccount({
     required ECWallet wallet,
     required AccessMode accessMode,
-    required Profile profile,
   }) = _MyAccount;
 
   const MyAccount._();

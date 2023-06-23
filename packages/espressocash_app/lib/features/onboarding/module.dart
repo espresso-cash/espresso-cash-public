@@ -1,13 +1,8 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../di.dart';
-import '../accounts/services/accounts_bloc.dart';
 import '../backup_phrase/data/mnemonic_getter.dart';
-import 'services/onboarding_bloc.dart';
 
 class OnboardingModule extends SingleChildStatelessWidget {
   const OnboardingModule({
@@ -21,21 +16,8 @@ class OnboardingModule extends SingleChildStatelessWidget {
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
-          BlocProvider(create: (_) => sl<OnboardingBloc>()),
           Provider<MnemonicGetter>(create: (_) => MnemonicGetter(mnemonic)),
         ],
-        child: BlocListener<OnboardingBloc, OnboardingState>(
-          listener: (context, state) => state.maybeWhen(
-            success: (result) => context.read<AccountsBloc>().add(
-                  AccountsEvent.profileUpdated(
-                    name: result.name,
-                    photo: result.photo,
-                    country: result.country,
-                  ),
-                ),
-            orElse: ignore,
-          ),
-          child: child,
-        ),
+        child: child,
       );
 }
