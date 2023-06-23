@@ -14,6 +14,7 @@ import '../../../core/wallet.dart';
 import '../models/account.dart';
 import '../models/ec_wallet.dart';
 import '../models/mnemonic.dart';
+import '../models/profile.dart';
 
 part 'accounts_bloc.freezed.dart';
 part 'accounts_event.dart';
@@ -44,10 +45,17 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
             loggedOut: (_) => _onLoggedOut(emit),
           );
 
-  Future<void> _saveNameAndPhoto({required String name, String? photo}) async {
+  Future<void> _saveUserInfo({
+    required String name,
+    String? photo,
+    String? country,
+  }) async {
     await _storage.write(key: nameKey, value: name);
     if (photo != null) {
       await _storage.write(key: photoKey, value: basename(photo));
+    }
+    if (country != null) {
+      await _storage.write(key: countryKey, value: country);
     }
   }
 
@@ -89,9 +97,12 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
 
     await _storage.saveAccountSource(event.source);
 
-    await _saveNameAndPhoto(
-      name: event.account.firstName,
-      photo: event.account.photoPath,
+    final profile = event.account.profile;
+
+    await _saveUserInfo(
+      name: profile.firstName,
+      photo: profile.photoPath,
+      country: profile.country,
     );
 
     await _saveOnboardingState(
@@ -126,15 +137,22 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
     final photo = await event.photo?.let(_fileManager.copyToAppDir);
     emit(state.copyWith(isProcessing: true));
 
-    await _saveNameAndPhoto(name: event.name, photo: photo?.path);
+    await _saveUserInfo(
+      name: event.name,
+      photo: photo?.path,
+      country: event.country,
+    );
 
     await _saveOnboardingState(hasFinishedOnboarding: true);
 
     emit(
       AccountsState(
         account: state.account?.copyWith(
-          firstName: event.name,
-          photoPath: photo?.path,
+          profile: Profile(
+            firstName: event.name,
+            photoPath: photo?.path,
+            country: event.country,
+          ),
         ),
         isProcessing: false,
         hasFinishedOnboarding: true,
@@ -178,8 +196,11 @@ extension on FlutterSecureStorage {
     final photoPath = await read(key: photoKey);
 
     return MyAccount(
-      firstName: (await read(key: nameKey)) ?? '',
-      photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
+      profile: Profile(
+        firstName: (await read(key: nameKey)) ?? '',
+        photoPath: (await photoPath?.let(manager.loadFromAppDir))?.path,
+        country: await read(key: countryKey),
+      ),
       accessMode: const AccessMode.loaded(),
       wallet: wallet,
     );
@@ -200,3 +221,6 @@ const photoKey = 'photo';
 
 @visibleForTesting
 const onboardingKey = 'onboarding';
+
+@visibleForTesting
+const countryKey = 'country';

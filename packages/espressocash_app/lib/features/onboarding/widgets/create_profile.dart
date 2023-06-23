@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -8,16 +10,28 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
+import '../../../ui/colors.dart';
+import '../../accounts/models/profile.dart';
+import '../../profile/models/country.dart';
+
+typedef ProfileCallback = void Function(
+  String name,
+  File? photo,
+  String countryCode,
+);
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
     super.key,
     required this.onSubmitted,
     required this.onBackButtonPressed,
+    this.initial,
   });
 
-  final void Function(String value, File? photo) onSubmitted;
+  final Profile? initial;
+  final ProfileCallback onSubmitted;
   final VoidCallback onBackButtonPressed;
 
   @override
@@ -25,31 +39,66 @@ class CreateProfile extends StatefulWidget {
 }
 
 class _CreateProfileState extends State<CreateProfile> {
-  final _controller = TextEditingController();
+  final _nameController = TextEditingController();
+  Country? _country;
   File? _photo;
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() => setState(() {}));
+
+    final profile = widget.initial;
+
+    _nameController.addListener(() => setState(() {}));
+
+    if (profile != null) {
+      _nameController.text = profile.firstName;
+
+      _photo = profile.photoPath?.let(File.new);
+
+      final country = profile.country;
+      if (country != null) {
+        _country = Country.findByCode(country);
+      }
+    }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
-  void _handleSubmitted() => widget.onSubmitted(_controller.text, _photo);
+  Future<void> _onUpdateCountry() async {
+    final code = await context.router.push<Country?>(
+      CountryPickerRoute(initial: _country),
+    );
 
-  bool get _isValid => _controller.text.isNotEmpty;
+    if (!mounted) return;
+
+    if (code != null) {
+      setState(() {
+        _country = code;
+      });
+    }
+  }
+
+  void _handleSubmitted() => widget.onSubmitted.call(
+        _nameController.text,
+        _photo,
+        _country?.code ?? '',
+      );
+
+  bool get _isValid => _nameController.text.isNotEmpty && _country != null;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
-              text: context.l10n.next,
+              text: widget.initial == null
+                  ? context.l10n.next
+                  : context.l10n.save,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
             children: [
@@ -67,11 +116,54 @@ class _CreateProfileState extends State<CreateProfile> {
                   key: keyCreateProfileName,
                   margin: const EdgeInsets.only(top: 16),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
-                  controller: _controller,
+                  controller: _nameController,
                   backgroundColor: Colors.white,
                 ),
               ),
+              _CountryPickerItem(
+                country: _country,
+                onTap: _onUpdateCountry,
+              ),
             ],
+          ),
+        ),
+      );
+}
+
+class _CountryPickerItem extends StatelessWidget {
+  const _CountryPickerItem({
+    this.country,
+    required this.onTap,
+  });
+  final Country? country;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => OnboardingPadding(
+        child: Container(
+          margin: const EdgeInsets.only(top: 16),
+          decoration: const ShapeDecoration(
+            color: CpColors.darkBackground,
+            shape: StadiumBorder(),
+          ),
+          child: ListTile(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+            onTap: onTap,
+            title: Text(
+              country?.name ?? context.l10n.countryOfResidence,
+              style: const TextStyle(
+                fontWeight: FontWeight.normal,
+                fontSize: 20,
+                color: Colors.white,
+                height: 1.2,
+              ),
+            ),
+            trailing: const Icon(
+              Icons.keyboard_arrow_down_outlined,
+              color: Colors.white,
+              size: 34,
+            ),
           ),
         ),
       );

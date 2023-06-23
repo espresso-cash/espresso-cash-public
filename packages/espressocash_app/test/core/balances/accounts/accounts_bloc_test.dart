@@ -4,6 +4,7 @@ import 'package:espressocash_app/core/file_manager.dart';
 import 'package:espressocash_app/core/wallet.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/mnemonic.dart';
+import 'package:espressocash_app/features/accounts/models/profile.dart';
 import 'package:espressocash_app/features/accounts/services/accounts_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,8 +22,8 @@ Future<void> main() async {
   final wallet = await createLocalWallet(mnemonic: mnemonic);
   final testAccount = MyAccount(
     wallet: wallet,
-    firstName: 'Test',
     accessMode: const AccessMode.loaded(),
+    profile: const Profile(firstName: 'Test', country: 'US'),
   );
   const fileManager = FileManager();
 
@@ -72,7 +73,10 @@ Future<void> main() async {
       ).thenAnswer((_) async => mnemonic);
       when(
         storage.read(key: nameKey, iOptions: anyNamed('iOptions')),
-      ).thenAnswer((_) async => testAccount.firstName);
+      ).thenAnswer((_) async => testAccount.profile.firstName);
+      when(
+        storage.read(key: countryKey, iOptions: anyNamed('iOptions')),
+      ).thenAnswer((_) async => testAccount.profile.country);
       when(
         storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => null);
@@ -143,7 +147,7 @@ Future<void> main() async {
       verify(
         storage.write(
           key: nameKey,
-          value: testAccount.firstName,
+          value: testAccount.profile.firstName,
           iOptions: anyNamed('iOptions'),
         ),
       ).called(1);

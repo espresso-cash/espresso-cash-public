@@ -30,6 +30,7 @@ class OnboardingModule extends SingleChildStatelessWidget {
                   AccountsEvent.profileUpdated(
                     name: result.name,
                     photo: result.photo,
+                    country: result.country,
                   ),
                 ),
             orElse: ignore,

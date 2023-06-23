@@ -11,10 +11,14 @@ class SignInProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CreateProfile(
-        onSubmitted: (name, photo) async {
-          context
-              .read<SignInBloc>()
-              .add(SignInEvent.submitted(name: name, photo: photo));
+        onSubmitted: (name, photo, country) {
+          context.read<SignInBloc>().add(
+                SignInEvent.submitted(
+                  name: name,
+                  photo: photo,
+                  country: country,
+                ),
+              );
         },
         onBackButtonPressed: () => context.router.pop(),
       );
