@@ -13,7 +13,7 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<AccountsBloc>().state.isProcessing;
-    final state = context.read<AccountsBloc>().state;
+    final state = context.watch<AccountsBloc>().state;
     final profile = state.account?.profile;
 
     return BlocListener<AccountsBloc, AccountsState>(
