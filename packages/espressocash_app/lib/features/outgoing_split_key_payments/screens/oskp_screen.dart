@@ -170,7 +170,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             cancelTxFailure: (it) => [
               context.l10n.splitKeyCancelErrorMessage,
               if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.cancelErrorMessageInsufficientFunds,
+                context.l10n.outgoingSplitKeyPayments_lblMoneyWithdrawn,
             ].join(' '),
             orElse: always(
               context.l10n.splitKeyProgressOngoing(
