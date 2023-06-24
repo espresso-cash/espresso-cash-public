@@ -98,18 +98,20 @@ class CreateSwap {
     final feesFromJupiter = route.totalFees + lamportsPerSignature;
 
     if (feesFromJupiter != feesFromTransaction) {
+      await Sentry.configureScope(
+        (s) => s.setContexts('transaction', {
+          'feesFromTransaction': feesFromTransaction,
+          'feesFromJupiter': feesFromJupiter,
+          'inputToken': inputToken,
+          'outputToken': outputToken,
+        }),
+      );
       await Sentry.captureEvent(
         SentryEvent(
           level: SentryLevel.warning,
           message: const SentryMessage(
             'Fees from Jupiter and transaction do not match.',
           ),
-          extra: {
-            'feesFromTransaction': feesFromTransaction,
-            'feesFromJupiter': feesFromJupiter,
-            'inputToken': inputToken,
-            'outputToken': outputToken,
-          },
         ),
       );
     }

@@ -43,7 +43,7 @@ Future<void> main() async {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await sender.resign(result.item1);
+    final resignedTx = await sender.resign(result.$1);
 
     final signature = await client.rpcClient.sendTransaction(
       resignedTx.encode(),
@@ -91,7 +91,7 @@ Future<void> main() async {
     );
 
     final signature = client.rpcClient.sendTransaction(
-      result.item1.encode(),
+      result.$1.encode(),
       preflightCommitment: Commitment.confirmed,
     );
 

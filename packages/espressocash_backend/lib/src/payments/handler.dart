@@ -48,8 +48,8 @@ Future<Response> createPaymentHandler(Request request) async =>
         );
 
         return CreatePaymentResponseDto(
-          transaction: result.item1.encode(),
-          slot: result.item2,
+          transaction: result.$1.encode(),
+          slot: result.$2,
         );
       },
     );
@@ -71,8 +71,8 @@ Future<Response> receivePaymentHandler(Request request) async =>
         );
 
         return ReceivePaymentResponseDto(
-          transaction: result.item1.encode(),
-          slot: result.item2,
+          transaction: result.$1.encode(),
+          slot: result.$2,
         );
       },
     );
