@@ -98,6 +98,8 @@
   "@copiedToClipboard": {},
   "copy": "Copy",
   "@copy": {},
+  "countryOfResidence": "Country of residence",
+  "@countryOfResidence": {},
   "create": "Create",
   "@create": {},
   "crypto": "Crypto",
@@ -294,6 +296,8 @@
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
   "@noEmailInCryptoParagraph": {},
+  "noResultsFound": "No results found",
+  "@noResultsFound": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "Crypto investing made simple whether you’re new or a seasoned pro!",
@@ -470,6 +474,8 @@
   "@searchPlaceholder": {},
   "securitySectionTitle": "SECURITY AND PRIVACY",
   "@securitySectionTitle": {},
+  "selectCountryTitle": "SELECT YOUR COUNTRY",
+  "@selectCountryTitle": {},
   "sell": "Sell",
   "@sell": {},
   "send": "Send",
@@ -771,11 +777,5 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {},
-  "countryOfResidence": "Country of residence",
-  "@countryOfResidence": {},
-  "selectCountryTitle": "SELECT YOUR COUNTRY",
-  "@selectCountryTitle": {},
-  "noResultsFound": "No results found",
-  "@noResultsFound": {}
+  "@zeroAmountTitle": {}
 }
