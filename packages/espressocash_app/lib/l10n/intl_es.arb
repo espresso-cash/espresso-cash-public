@@ -1,13 +1,5 @@
 {
   "@@locale": "es",
-  "aboutTokenLabel": "Acerca de {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblBoughtToken": "Compró {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -26,56 +18,12 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Actividad",
   "@activities_lblTitle": {},
-  "activitiesTitle": "Actividad",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Cancelada",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Falla",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "En curso",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Éxito",
-  "@activityStatusSuccess": {},
-  "addCash": "Depositar",
-  "@addCash": {},
-  "all": "Toda",
-  "@all": {},
-  "amount": "Cantidad",
-  "@amount": {},
-  "and": " y ",
-  "@and": {},
-  "appLock": "Bloqueo automático",
-  "@appLock": {},
-  "appLockDescription": "Requiere contraseña para acceder a la aplicación",
-  "@appLockDescription": {},
   "appLock_lblAutoLock": "Bloqueo automático",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Requiere contraseña para acceder a la aplicación",
   "@appLock_lblAutoLockDescription": {},
   "backupPhrase_lblSuccessMessage": "Has guardado con éxito tu frase de recuperación secreta en un lugar seguro.¡Asegúrate de mantenerlo privado!",
   "@backupPhrase_lblSuccessMessage": {},
-  "backupPhraseSuccessMessage": "Has guardado con éxito tu frase de recuperación secreta en un lugar seguro.¡Asegúrate de mantenerlo privado!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Saldo",
-  "@balance": {},
-  "boughtToken": "Compró {amount}",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Comprar",
-  "@buy": {},
-  "byClickingTheSecondLink": "Al hacer clic en el segundo enlace del mensaje o en el botón de cancelación, aceptas nuestra ",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "Al crear una billetera o usar una billetera existente, usted acepta nuestro ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Camera",
-  "@camera": {},
-  "cancel": "Cancelar",
-  "@cancel": {},
   "cancelErrorMessageInsufficientFunds": "El dinero ya ha sido retirado.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "¿Estás seguro que desea cancelar esta solicitud de pago?",

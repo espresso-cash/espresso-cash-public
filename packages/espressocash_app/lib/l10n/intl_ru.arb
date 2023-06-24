@@ -1,13 +1,5 @@
 {
   "@@locale": "ru",
-  "aboutTokenLabel": "Про {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblBoughtToken": "Куплено {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -26,54 +18,12 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Операции",
   "@activities_lblTitle": {},
-  "activitiesTitle": "Операции",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Отменено",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Сбой",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "Выполняется",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Успех",
-  "@activityStatusSuccess": {},
-  "addCash": "Ввести",
-  "@addCash": {},
-  "amount": "Сумма",
-  "@amount": {},
-  "and": "и",
-  "@and": {},
-  "appLock": "Автоматическая блокировка",
-  "@appLock": {},
-  "appLockDescription": "Требовать пин-код для доступа к приложению",
-  "@appLockDescription": {},
   "appLock_lblAutoLock": "Автоматическая блокировка",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
   "@appLock_lblAutoLockDescription": {},
   "backupPhrase_lblSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
   "@backupPhrase_lblSuccessMessage": {},
-  "backupPhraseSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Баланс",
-  "@balance": {},
-  "boughtToken": "Куплено {amount}",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Купить",
-  "@buy": {},
-  "byClickingTheSecondLink": "Нажав на вторую ссылку в сообщении или кнопку \"Отмена\", вы соглашаетесь с нашими",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Камера",
-  "@camera": {},
-  "cancel": "Отменить",
-  "@cancel": {},
   "cancelErrorMessageInsufficientFunds": "Деньги уже сняты.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "Вы уверены, что хотите отменить этот платежный запрос?",

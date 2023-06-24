@@ -1,13 +1,5 @@
 {
   "@@locale": "en",
-  "aboutTokenLabel": "About {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblBoughtToken": "Bought {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -26,56 +18,12 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activity",
   "@activities_lblTitle": {},
-  "activitiesTitle": "Activity",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Canceled",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Failure",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "In Progress",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Success",
-  "@activityStatusSuccess": {},
-  "addCash": "Add Cash",
-  "@addCash": {},
-  "all": "All",
-  "@all": {},
-  "amount": "Amount",
-  "@amount": {},
-  "and": " and ",
-  "@and": {},
-  "appLock": "Auto-Lock",
-  "@appLock": {},
-  "appLockDescription": "Require passcode to access the app",
-  "@appLockDescription": {},
   "appLock_lblAutoLock": "Auto-Lock",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Require passcode to access the app",
   "@appLock_lblAutoLockDescription": {},
   "backupPhrase_lblSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
   "@backupPhrase_lblSuccessMessage": {},
-  "backupPhraseSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Balance",
-  "@balance": {},
-  "boughtToken": "Bought {amount}",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Buy",
-  "@buy": {},
-  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our ",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Camera",
-  "@camera": {},
-  "cancel": "Cancel",
-  "@cancel": {},
   "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?",

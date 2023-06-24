@@ -1,13 +1,5 @@
 {
   "@@locale": "fr",
-  "aboutTokenLabel": "A propos de {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblBoughtToken": "{amount} Acheté",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -26,56 +18,12 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activité",
   "@activities_lblTitle": {},
-  "activitiesTitle": "Activité",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Annulé",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Echec",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "En cours",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Succès",
-  "@activityStatusSuccess": {},
-  "addCash": "Déposer",
-  "@addCash": {},
-  "all": "Tous",
-  "@all": {},
-  "amount": "Montant",
-  "@amount": {},
-  "and": " et ",
-  "@and": {},
-  "appLock": "Verrouillage automatique",
-  "@appLock": {},
-  "appLockDescription": "Exiger le code d'accès pour accéder à l'application",
-  "@appLockDescription": {},
   "appLock_lblAutoLock": "Verrouillage automatique",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Exiger le code d'accès pour accéder à l'application",
   "@appLock_lblAutoLockDescription": {},
   "backupPhrase_lblSuccessMessage": "Vous avez réussi à enregistrer votre phrase de récupération secrète dans un endroit sûr. Assurez-vous de la garder privée!",
   "@backupPhrase_lblSuccessMessage": {},
-  "backupPhraseSuccessMessage": "Vous avez réussi à enregistrer votre phrase de récupération secrète dans un endroit sûr. Assurez-vous de la garder privée!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Solde",
-  "@balance": {},
-  "boughtToken": "{amount} Acheté",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Acheter",
-  "@buy": {},
-  "byClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Caméra",
-  "@camera": {},
-  "cancel": "Annuler",
-  "@cancel": {},
   "cancelErrorMessageInsufficientFunds": "L'argent a déjà été retiré.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "Êtes-vous sûr que vous souhaitez annuler cette demande de paiement?",

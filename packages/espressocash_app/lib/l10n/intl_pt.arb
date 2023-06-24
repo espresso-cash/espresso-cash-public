@@ -1,13 +1,5 @@
 {
   "@@locale": "pt",
-  "aboutTokenLabel": "Sobre {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblBoughtToken": "Comprou {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -26,56 +18,12 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Atividade",
   "@activities_lblTitle": {},
-  "activitiesTitle": "Atividade",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Cancelada",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Falha",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "Em andamento",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Sucesso",
-  "@activityStatusSuccess": {},
-  "addCash": "Depositar",
-  "@addCash": {},
-  "all": "Todos",
-  "@all": {},
-  "amount": "Quantia",
-  "@amount": {},
-  "and": " e ",
-  "@and": {},
-  "appLock": "Bloqueio automático",
-  "@appLock": {},
-  "appLockDescription": "Requer senha para acessar o aplicativo",
-  "@appLockDescription": {},
   "appLock_lblAutoLock": "Bloqueio automático",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Requer senha para acessar o aplicativo",
   "@appLock_lblAutoLockDescription": {},
   "backupPhrase_lblSuccessMessage": "Você salvou com sucesso sua frase de recuperação secreta em um local seguro. Certifique-se de mantê-la em segredo!",
   "@backupPhrase_lblSuccessMessage": {},
-  "backupPhraseSuccessMessage": "Você salvou com sucesso sua frase de recuperação secreta em um local seguro. Certifique-se de mantê-la em segredo!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Saldo",
-  "@balance": {},
-  "boughtToken": "Comprou {amount}",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Comprar",
-  "@buy": {},
-  "byClickingTheSecondLink": "Ao clicar no segundo link da mensagem ou no botão de cancelar, você concorda com nossos ",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Câmera",
-  "@camera": {},
-  "cancel": "Cancelar",
-  "@cancel": {},
   "cancelErrorMessageInsufficientFunds": "O dinheiro já foi retirado.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "Tem certeza de que deseja cancelar esta solicitação de pagamento?",
