@@ -8,15 +8,15 @@ import '../../../../../core/tokens/token.dart';
 import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
-import '../../../core/conversion_rates/context_ext.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
-import '../src/bl/bloc.dart';
-import '../src/bl/repository.dart';
+import '../../conversion_rates/widgets/context_ext.dart';
+import '../data/repository.dart';
+import '../services/bloc.dart';
 
 class FavoriteTokenList extends StatefulWidget {
   const FavoriteTokenList({super.key});
@@ -76,9 +76,7 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
 }
 
 class _FollowingTitle extends StatelessWidget {
-  const _FollowingTitle({
-    Key? key,
-  }) : super(key: key);
+  const _FollowingTitle();
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -98,7 +96,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final currentPrice = this.currentPrice.formatDisplayablePrice(
           locale: DeviceLocale.localeOf(context),
           currency: fiatCurrency,

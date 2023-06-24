@@ -37,7 +37,7 @@ void main() {
 
     // Sender and Escrow has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await result.item1
+    final resignedTx = await result.$1
         .resign(testData.sender)
         .letAsync((tx) => tx.resign(escrowAccount));
 
@@ -60,7 +60,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await receiveResult.item1.resign(testData.sender);
+    final resignedReceiveTx = await receiveResult.$1.resign(testData.sender);
 
     final signatureReceive = await client.rpcClient.sendTransaction(
       resignedReceiveTx.encode(),

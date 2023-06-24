@@ -42,7 +42,7 @@ class TransactionStatus {
 
 @JsonSerializable(createToJson: false)
 class TransactionStatusResult extends ContextResult<TransactionStatus> {
-  TransactionStatusResult({required super.context, required super.value});
+  const TransactionStatusResult({required super.context, required super.value});
 
   factory TransactionStatusResult.fromJson(Map<String, dynamic> json) =>
       _$TransactionStatusResultFromJson(json);

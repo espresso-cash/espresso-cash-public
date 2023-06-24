@@ -1,3 +1,32 @@
+## 1.76.0
+
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update dfunc (#992).
+ - **FIX**: back button on app locked screen (#987).
+ - **FEAT**: update get started screen (#996).
+ - **FEAT**: skip wallet creation when receiving links on new wallet (#936).
+ - **FEAT**: curated list of popular tokens (#926).
+ - **FEAT**: localize chart time interval (#971).
+ - **FEAT**: upgrade auto router, refactor routes (#932).
+
+## 1.75.0
+
+ - **REFACTOR**: update lint rules.
+ - **FEAT**: update ramp network to latest version (#986).
+
+## 1.74.1
+
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: remove unused method.
+
+## 1.74.0
+
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: update scenario handler.
+ - **FEAT**: add custom icon to back button (#973).
+ - **FEAT**: update second link animation (#972).
+ - **FEAT**: add coingecko l10n support for token details page (#975).
+
 ## 1.73.0
 
  - **FIX**: second link animation artifacts (#960).

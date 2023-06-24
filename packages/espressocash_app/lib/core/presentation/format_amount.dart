@@ -2,9 +2,9 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../features/conversion_rates/widgets/context_ext.dart';
 import '../../l10n/device_locale.dart';
 import '../amount.dart';
-import '../conversion_rates/context_ext.dart';
 import '../currency.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {

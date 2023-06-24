@@ -57,6 +57,7 @@ class CreateSwap {
       ),
       _repository.getUsdcPrice(),
     ]);
+    // ignore: cast_nullable_to_non_nullable, required info
     final route = responses.first as RouteInfo;
     final price = responses.last as double?;
 
@@ -97,18 +98,20 @@ class CreateSwap {
     final feesFromJupiter = route.totalFees + lamportsPerSignature;
 
     if (feesFromJupiter != feesFromTransaction) {
+      await Sentry.configureScope(
+        (s) => s.setContexts('transaction', {
+          'feesFromTransaction': feesFromTransaction,
+          'feesFromJupiter': feesFromJupiter,
+          'inputToken': inputToken,
+          'outputToken': outputToken,
+        }),
+      );
       await Sentry.captureEvent(
         SentryEvent(
           level: SentryLevel.warning,
           message: const SentryMessage(
             'Fees from Jupiter and transaction do not match.',
           ),
-          extra: {
-            'feesFromTransaction': feesFromTransaction,
-            'feesFromJupiter': feesFromJupiter,
-            'inputToken': inputToken,
-            'outputToken': outputToken,
-          },
         ),
       );
     }
@@ -224,28 +227,26 @@ extension on Message {
         TokenProgram.closeAccountInstructionIndex,
       )) return [ix];
 
-      if (ix.accounts.first.pubKey != wrappedSolAccount) {
-        return [
-          Instruction(
-            programId: ix.programId,
-            accounts: [
-              ix.accounts.first,
-              AccountMeta.writeable(pubKey: platform, isSigner: false),
-              ...ix.accounts.skip(2),
-            ],
-            data: ix.data,
-          ),
-        ];
-      } else {
-        return [
-          ix,
-          SystemInstruction.transfer(
-            fundingAccount: sender,
-            lamports: tokenProgramRent,
-            recipientAccount: platform,
-          ),
-        ];
-      }
+      return ix.accounts.first.pubKey != wrappedSolAccount
+          ? [
+              Instruction(
+                programId: ix.programId,
+                accounts: [
+                  ix.accounts.first,
+                  AccountMeta.writeable(pubKey: platform, isSigner: false),
+                  ...ix.accounts.skip(2),
+                ],
+                data: ix.data,
+              ),
+            ]
+          : [
+              ix,
+              SystemInstruction.transfer(
+                fundingAccount: sender,
+                lamports: tokenProgramRent,
+                recipientAccount: platform,
+              ),
+            ];
     }).toList();
 
     return Message(instructions: instructions);

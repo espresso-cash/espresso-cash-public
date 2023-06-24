@@ -64,11 +64,8 @@ class _StructReader {
     _offset += length + 4;
     // It is a zero terminated string a'la C
     final lastZero = rawBytes.indexOf(0);
-    if (lastZero == -1) {
-      return '';
-    }
 
-    return utf8.decode(rawBytes.sublist(0, lastZero));
+    return lastZero == -1 ? '' : utf8.decode(rawBytes.sublist(0, lastZero));
   }
 
   Uint8List nextBytes(int length) {

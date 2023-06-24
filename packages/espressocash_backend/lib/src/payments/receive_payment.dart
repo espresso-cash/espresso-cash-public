@@ -1,10 +1,9 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/payments/escrow_account.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-Future<Product2<SignedTx, BigInt>> receivePaymentTx({
+Future<(SignedTx, BigInt)> receivePaymentTx({
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey aReceiver,
   required Ed25519HDPublicKey mint,
@@ -21,7 +20,7 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
   );
 
   if (escrow == null) {
-    throw EspressoCashException(
+    throw const EspressoCashException(
       error: EspressoCashError.invalidEscrowAccount,
     );
   }
@@ -89,5 +88,5 @@ Future<Product2<SignedTx, BigInt>> receivePaymentTx({
     ],
   );
 
-  return Product2(tx, latestBlockhash.context.slot);
+  return (tx, latestBlockhash.context.slot);
 }

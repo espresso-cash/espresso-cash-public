@@ -44,6 +44,8 @@
   },
   "buy": "Comprar",
   "@buy": {},
+  "byClickingTheSecondLink": "Ao clicar no segundo link da mensagem ou no botão de cancelar, você concorda com nossos ",
+  "@byClickingTheSecondLink": {},
   "byCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
   "@byCreatingWalletYouAgree": {},
   "camera": "Câmera",
@@ -178,6 +180,8 @@
   "@invalidEscrowError": {},
   "investmentHeaderButtonsTitle": "Eu quero",
   "@investmentHeaderButtonsTitle": {},
+  "isWaitingForYou": "está esperando por você.",
+  "@isWaitingForYou": {},
   "iUnderstand": "Eu entendi",
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Entendo que, se perder minha frase de recuperação secreta, não poderei acessar os ativos.",
@@ -212,6 +216,56 @@
       }
     }
   },
+  "mobileWalletAcceptAuthorization": "Autorizar",
+  "@mobileWalletAcceptAuthorization": {},
+  "mobileWalletAcceptSignAndSendPayloads": "Assinar e enviar",
+  "@mobileWalletAcceptSignAndSendPayloads": {},
+  "mobileWalletAcceptSignMessages": "Assinar mensagens",
+  "@mobileWalletAcceptSignMessages": {},
+  "mobileWalletAcceptSignTransactions": "Assinar transações",
+  "@mobileWalletAcceptSignTransactions": {},
+  "mobileWalletAuthorize": "Autorizar {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSendTransactions": "Essas transações serão imediatamente enviadas após serem assinadas.",
+  "@mobileWalletSendTransactions": {},
+  "mobileWalletSignAndSendTransactions": "Assinar e Enviar Transações",
+  "@mobileWalletSignAndSendTransactions": {},
+  "mobileWalletSignMessages": "Assinar mensagem",
+  "@mobileWalletSignMessages": {},
+  "mobileWalletSignMessagesRequest": "{appName} está solicitando que você assine {count} mensagem(ns).",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Assinar transação",
+  "@mobileWalletSignTransactions": {},
+  "mobileWalletSignTransactionsRequest": "{appName} está solicitando que você assine {count} transação(ões).",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletTitle": "Carteira Espresso Cash",
+  "@mobileWalletTitle": {},
+  "money": "Dinheiro",
+  "@money": {},
   "moneyReceived": "Dinheiro recebido",
   "@moneyReceived": {},
   "more": "mais",
@@ -232,12 +286,20 @@
   "@ok": {},
   "onboardingBullet": "Investimento em Cripto simplificado, seja você novato ou profissional experiente!",
   "@onboardingBullet": {},
-  "onboardingIntro": "Uma forma rápida e simples de enviar & receber dinheiro na hora.",
+  "onboardingIntro": "Uma forma rápida e simples de enviar & receber dinheiro.",
   "@onboardingIntro": {},
+  "onboardingNoticeFinishSetup": "Concluir configuração",
+  "@onboardingNoticeFinishSetup": {},
+  "onboardingNoticeMessage": "Conclua a configuração protegendo sua conta.",
+  "@onboardingNoticeMessage": {},
+  "onboardingNoticeTitle": "Quase tudo pronto!",
+  "@onboardingNoticeTitle": {},
   "oneMonth": "1 mês",
   "@oneMonth": {},
   "oneWeek": "1 semana",
   "@oneWeek": {},
+  "openInAppScanner": "Abrir o leitor de QR code do app",
+  "@openInAppScanner": {},
   "operationSend": "enviada",
   "@operationSend": {},
   "outgoingTransferSuccess": "{amount} foi enviado",
@@ -336,8 +398,16 @@
   "@qrInputAddressMessage": {},
   "qrInputAddressTitle": "Enviar manualmente",
   "@qrInputAddressTitle": {},
+  "qrPaymentInstructions": "Por questões de segurança, por favor leia o QR code enviado utilizando o scanner do app.",
+  "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "O destinatário receberá o dinheiro escaneando este QR Code:",
   "@qrPaymentSubtitle": {},
+  "qrScanInfo1": "Se o destinatário tem o app instalado:",
+  "@qrScanInfo1": {},
+  "qrScanInfo2": "Eles devem utilizar o leitor de QR code do app.",
+  "@qrScanInfo2": {},
+  "qrTermsDisclaimer": "Ao abrir o leitor de QR code, você concorda com os nossos ",
+  "@qrTermsDisclaimer": {},
   "receive": "Solicitar",
   "@receive": {},
   "receivedBy": "Recebido por {address}",
@@ -374,6 +444,14 @@
   "@retry": {},
   "save": "Salvar",
   "@save": {},
+  "scanToReceive": "Digitalize para receber {amount} ",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "search": "Buscar",
   "@search": {},
   "searchPlaceholder": "Buscar...",
@@ -461,6 +539,8 @@
   "@signIn1": {},
   "signIn2": "Continue aqui",
   "@signIn2": {},
+  "signInWithSaga": "Entrar com Saga",
+  "@signInWithSaga": {},
   "signOut": "Apagar Carteira",
   "@signOut": {},
   "signOutConfirmation": "Tem certeza que você deseja\napagar a carteira?",
@@ -619,6 +699,14 @@
   "@transferSuccessTitle": {},
   "tryAgainLater": "Por favor, tente novamente mais tarde",
   "@tryAgainLater": {},
+  "unavailableToken": "{tokenName} está atualmente indisponível para compra. Você ainda pode seguir para acompanhar o preço.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+        "type": "String"
+      }
+    }
+  },
   "uploadPhoto": "Carregar uma Foto",
   "@uploadPhoto": {},
   "usdcExplanation": "O USD Coin (USDC) é uma moeda digital estável (Stablecoin) vinculada ao dólar dos Estados Unidos.",
@@ -636,33 +724,6 @@
       }
     }
   },
-  "mobileWalletTitle": "Espresso Cash Wallet",
-  "mobileWalletAuthorize": "Authorizar {appName}?",
-  "@mobileWalletAuthorize": {
-    "placeholders": {
-      "appName": {
-            "type": "String"
-      }
-    }
-  },
-  "mobileWalletSignTransactions": "Assinar transações",
-  "mobileWalletSignMessages": "Assinar mensagens",
-   "mobileWalletSignRequesting": "{appName} está pedindo que você assine {payloadCount} transação(ões)",
-  "@mobileWalletSignRequesting": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "payloadCount": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignAndSendTransactions": "Assinar e Enviar Transações",
-  "mobileWalletSendTransactions": "Essas transações serão enviadas imediatamente após a assinatura.",
-  "mobileWalletAcceptSignPayloads": "Sim, assine",
-  "mobileWalletAcceptAuthorization": "Sim, autorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Sim, assine e envie",
   "view": "Visualizar",
   "@view": {},
   "viewRecoveryPhrase": "Ver a frase de recuperação secreta",
@@ -698,29 +759,5 @@
     }
   },
   "zeroAmountTitle": "Quantia inválida",
-  "@zeroAmountTitle": {},
-  "paymentInitiated": "Payment initiated",
-  "@paymentInitiated": {},
-  "qrScanInfo1": "Se o destinatário estiver com o app instalado:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "Eles devem usar o leitor de QR Code do app.",
-  "@qrScanInfo2": {},
-  "scanToReceive": "Escaneie para receber {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "openInAppScanner": "Abra o leitor de QR Code do aplicaitvo.",
-  "@openInAppScanner": {},
-  "qrPaymentInstructions": "Por motivos de segurança, escaneie o QR Code do remetente usando o leitor do aplicativo.",
-  "@qrPaymentInstructions": {},
-  "qrTermsDisclaimer": "Ao abrir o leitor de QR Code, você concorda com o nosso ",
-  "@qrTermsDisclaimer": {},
-  "money": "O dinheiro",
-  "@money": {},
-  "isWaitingForYou": "Está esperando por você.",
-  "@isWaitingForYou": {}
+  "@zeroAmountTitle": {}
 }

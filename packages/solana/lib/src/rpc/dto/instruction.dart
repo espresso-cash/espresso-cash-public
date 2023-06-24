@@ -9,8 +9,8 @@ abstract class Instruction {
       return ParsedInstruction.fromJson(json);
     } else if (json['programIdIndex'] != null) {
       return RawInstruction.fromJson(json);
-    } else {
-      return SimpleInstruction.fromJson(json);
     }
+
+    return SimpleInstruction.fromJson(json);
   }
 }

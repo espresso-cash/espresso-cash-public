@@ -1,28 +1,30 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/transactions/tx_sender.dart';
-import '../../features/activities/db.dart';
+import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
-import '../../features/favorite_tokens/db.dart';
-import '../../features/incoming_split_key_payments/db.dart';
-import '../../features/outgoing_direct_payments/db.dart';
-import '../../features/outgoing_split_key_payments/db.dart';
-import '../../features/payment_request/db.dart';
-import '../../features/popular_tokens/db.dart';
-import '../../features/swap/db.dart';
+import '../../features/favorite_tokens/data/repository.dart';
+import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
+import '../../features/outgoing_direct_payments/data/repository.dart';
+import '../../features/outgoing_split_key_payments/data/repository.dart';
+import '../../features/payment_request/data/repository.dart';
+import '../../features/popular_tokens/data/popular_token_cache.dart';
+import '../../features/swap/data/swap_repository.dart';
+import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
 
 class OutgoingTransferRows extends Table {
+  const OutgoingTransferRows();
+
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime()();
   TextColumn get data => text()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 const int latestVersion = 36;

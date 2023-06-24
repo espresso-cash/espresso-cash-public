@@ -16,12 +16,10 @@ enum AuthorityType {
 /// A spl token program instruction.
 class TokenInstruction extends Instruction {
   TokenInstruction._({
-    required List<AccountMeta> accounts,
-    required ByteArray data,
+    required super.accounts,
+    required super.data,
   }) : super(
           programId: TokenProgram.id,
-          accounts: accounts,
-          data: data,
         );
 
   /// Construct an instruction to initialize a new spl token with address

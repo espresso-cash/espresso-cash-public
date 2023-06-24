@@ -1,7 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_address_data.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
-import 'package:espressocash_app/features/qr_scanner/src/bl/qr_scanner_bloc.dart';
+import 'package:espressocash_app/features/qr_scanner/services/qr_scanner_bloc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';

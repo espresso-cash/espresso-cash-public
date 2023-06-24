@@ -3,7 +3,7 @@ import 'package:solana/src/curve25519/field_element.dart';
 import 'package:solana/src/curve25519/projective_point.dart';
 
 class CompletedPoint {
-  CompletedPoint(this._x, this._y, this._z, this._t);
+  const CompletedPoint(this._x, this._y, this._z, this._t);
 
   final FieldElement _x;
   final FieldElement _y;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../ui/colors.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
 
 class PageFadeWrapper extends StatelessWidget {
@@ -26,15 +27,19 @@ class PageFadeWrapper extends StatelessWidget {
 
 enum FadeGradientDirection { topDown, bottomUp }
 
+enum FadeGradientColor { white, dark }
+
 class FadeGradient extends StatelessWidget {
   const FadeGradient({
     super.key,
     required this.height,
     required this.direction,
+    this.color = FadeGradientColor.white,
   });
 
   final double height;
   final FadeGradientDirection direction;
+  final FadeGradientColor color;
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
@@ -44,10 +49,15 @@ class FadeGradient extends StatelessWidget {
             gradient: LinearGradient(
               begin: direction.begin,
               end: direction.end,
-              colors: [
-                Colors.white,
-                Colors.white.withOpacity(0),
-              ],
+              colors: color == FadeGradientColor.white
+                  ? [
+                      Colors.white,
+                      Colors.white.withOpacity(0),
+                    ]
+                  : [
+                      CpColors.darkBackground,
+                      CpColors.darkBackground.withOpacity(0),
+                    ],
             ),
           ),
         ),

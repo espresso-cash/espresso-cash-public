@@ -26,7 +26,7 @@ dart_get:
 
 dart_analyze:
 	dart analyze --fatal-infos .
-	dart pub run mews_pedantic:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
+	dart pub run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
 
 dart_test:
 	dart test
@@ -46,11 +46,11 @@ flutter_generate_test_schemas:
 
 flutter_analyze:
 	flutter analyze --fatal-infos
-	flutter pub run mews_pedantic:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
+	flutter pub run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
 
 flutter_check_unused_code:
-	flutter pub run mews_pedantic:metrics check-unused-code lib --fatal-unused --exclude=$(excludeUnused)
-	flutter pub run mews_pedantic:metrics check-unused-files lib --fatal-unused --exclude=$(excludeUnused)
+	flutter pub run dart_code_metrics:metrics check-unused-code lib --fatal-unused --exclude=$(excludeUnused)
+	flutter pub run dart_code_metrics:metrics check-unused-files lib --fatal-unused --exclude=$(excludeUnused)
 
 flutter_test:
 	flutter test

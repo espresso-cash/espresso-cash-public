@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 
-import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import 'src/bl/app_lock_bloc.dart';
-import 'src/widgets/app_lock_screen.dart';
+import '../accounts/services/accounts_bloc.dart';
+import 'screens/app_lock_screen.dart';
+import 'services/app_lock_bloc.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {
-  const AppLockModule({Key? key, Widget? child})
-      : super(key: key, child: child);
+  const AppLockModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
@@ -21,7 +20,7 @@ class AppLockModule extends SingleChildStatelessWidget {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key, this.child}) : super(key: key);
+  const _Content({this.child});
 
   final Widget? child;
 

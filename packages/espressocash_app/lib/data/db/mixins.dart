@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-import '../../core/transactions/tx_sender.dart';
+import '../../features/transactions/models/tx_sender.dart';
 
 mixin AmountMixin on Table {
   IntColumn get amount => integer()();
@@ -12,7 +12,7 @@ mixin EntityMixin on Table {
   DateTimeColumn get created => dateTime()();
 
   @override
-  Set<Column<Object>>? get primaryKey => {id};
+  Set<Column<Object>> get primaryKey => {id};
 }
 
 // TODO(rhbrunetto): use it on other entities

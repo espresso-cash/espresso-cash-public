@@ -27,15 +27,15 @@ abstract class SubscriptionMessage {
         return SubscribedMessage.fromJson(json);
       } else if (json['result'] is bool) {
         return UnsubscribedMessage.fromJson(json);
-      } else {
-        throw const FormatException('cannot understand this message');
       }
+
+      throw const FormatException('cannot understand this message');
     } else if (json.containsKey('error')) {
       // If the 'error' field is present in the received json, it means a
       // request has failed.
       return ErrorMessage.fromJson(json);
-    } else {
-      throw const FormatException('cannot understand this message');
     }
+
+    throw const FormatException('cannot understand this message');
   }
 }

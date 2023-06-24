@@ -44,6 +44,8 @@
   },
   "buy": "Acheter",
   "@buy": {},
+  "byClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
+  "@byClickingTheSecondLink": {},
   "byCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
   "@byCreatingWalletYouAgree": {},
   "camera": "Caméra",
@@ -178,6 +180,8 @@
   "@invalidEscrowError": {},
   "investmentHeaderButtonsTitle": "Je veux",
   "@investmentHeaderButtonsTitle": {},
+  "isWaitingForYou": "vous attend.",
+  "@isWaitingForYou": {},
   "iUnderstand": "Je comprends",
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Je comprends que si je perds ma phrase de récupération secrète, je ne pourrai pas accéder aux fonds.",
@@ -212,6 +216,56 @@
       }
     }
   },
+  "mobileWalletAcceptAuthorization": "Autoriser",
+  "@mobileWalletAcceptAuthorization": {},
+  "mobileWalletAcceptSignAndSendPayloads": "Signer et envoyer",
+  "@mobileWalletAcceptSignAndSendPayloads": {},
+  "mobileWalletAcceptSignMessages": "Signer des messages",
+  "@mobileWalletAcceptSignMessages": {},
+  "mobileWalletAcceptSignTransactions": "Signer des transactions",
+  "@mobileWalletAcceptSignTransactions": {},
+  "mobileWalletAuthorize": "Autoriser {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSendTransactions": "Ces transactions seront envoyées immédiatement après la signature.",
+  "@mobileWalletSendTransactions": {},
+  "mobileWalletSignAndSendTransactions": "Signer et envoyer les transactions",
+  "@mobileWalletSignAndSendTransactions": {},
+  "mobileWalletSignMessages": "Signer le message",
+  "@mobileWalletSignMessages": {},
+  "mobileWalletSignMessagesRequest": "{appName} vous demande de signer {count} message(s)",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Signer la transaction",
+  "@mobileWalletSignTransactions": {},
+  "mobileWalletSignTransactionsRequest": "{appName} vous demande de signer {count} transaction(s)",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletTitle": "Portefeuille Espresso Cash",
+  "@mobileWalletTitle": {},
+  "money": "De l'argent",
+  "@money": {},
   "moneyReceived": "L'argent a bien été reçu",
   "@moneyReceived": {},
   "more": "more",
@@ -232,7 +286,7 @@
   "@ok": {},
   "onboardingBullet": "L'investissement crypto en toute simplicité, que vous soyez nouveau ou professionnel chevronné !",
   "@onboardingBullet": {},
-  "onboardingIntro": "Un moyen plus simple de payer et de recevoir de l'argent instantanément.",
+  "onboardingIntro": "Un moyen plus simple d'envoyer et de recevoir de l'argent.",
   "@onboardingIntro": {},
   "onboardingNoticeFinishSetup": "Terminer la configuration",
   "@onboardingNoticeFinishSetup": {},
@@ -244,6 +298,8 @@
   "@oneMonth": {},
   "oneWeek": "1 semaine",
   "@oneWeek": {},
+  "openInAppScanner": "Ouvrez le scanner QR intégré à l'application",
+  "@openInAppScanner": {},
   "operationSend": "envoyer",
   "@operationSend": {},
   "outgoingTransferSuccess": "{amount}a été envoyé",
@@ -342,8 +398,16 @@
   "@qrInputAddressMessage": {},
   "qrInputAddressTitle": "Envoyer manuellement",
   "@qrInputAddressTitle": {},
+  "qrPaymentInstructions": "Pour des raisons de sécurité, veuillez scanner le code QR de l'expéditeur à l'aide du scanner intégré à l'application.",
+  "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "Le destinataire recevra l'argent en scannant ce code QR:",
   "@qrPaymentSubtitle": {},
+  "qrScanInfo1": "Si l'application est installée sur le destinataire :",
+  "@qrScanInfo1": {},
+  "qrScanInfo2": "Ils doivent utiliser le scanner QR intégré à l'application.",
+  "@qrScanInfo2": {},
+  "qrTermsDisclaimer": "En ouvrant le lecteur de code QR sécurisé, vous acceptez notre ",
+  "@qrTermsDisclaimer": {},
   "receive": "Recevoir",
   "@receive": {},
   "receivedBy": "Reçu par {address}",
@@ -380,6 +444,14 @@
   "@retry": {},
   "save": "Sauvegarder",
   "@save": {},
+  "scanToReceive": "Scannez pour recevoir {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "search": "Recherche",
   "@search": {},
   "searchPlaceholder": "Recherche...",
@@ -467,6 +539,8 @@
   "@signIn1": {},
   "signIn2": "Continuez ici",
   "@signIn2": {},
+  "signInWithSaga": "Connectez-vous avec Saga",
+  "@signInWithSaga": {},
   "signOut": "Supprimer le portefeuille",
   "@signOut": {},
   "signOutConfirmation": "Êtes-vous sûr de vouloir supprimer le portefeuille?",
@@ -625,6 +699,14 @@
   "@transferSuccessTitle": {},
   "tryAgainLater": "Veuillez réessayer plus tard",
   "@tryAgainLater": {},
+  "unavailableToken": "{tokenName} n'est actuellement pas disponible à l'achat. Vous pouvez toujours suivre les prix.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+        "type": "String"
+      }
+    }
+  },
   "uploadPhoto": "Ajouter une photo",
   "@uploadPhoto": {},
   "usdcExplanation": "La jeton USD (USDC) est un stablecoin numérique qui devrait être fixé au dollar américain.",
@@ -677,29 +759,5 @@
     }
   },
   "zeroAmountTitle": "Montant invalide",
-  "@zeroAmountTitle": {},
-  "paymentInitiated": "Payment initiated",
-  "@paymentInitiated": {},
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "@qrScanInfo2": {},
-  "scanToReceive": "Scan to receive {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "openInAppScanner": "Open in-app QR Scanner",
-  "@openInAppScanner": {},
-  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
-  "@qrPaymentInstructions": {},
-  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
-  "@qrTermsDisclaimer": {},
-  "money": "Money",
-  "@money": {},
-  "isWaitingForYou": "is waiting for you.",
-  "@isWaitingForYou": {}
+  "@zeroAmountTitle": {}
 }

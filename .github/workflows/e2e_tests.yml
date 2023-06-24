@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: '3.7.8'
+  FLUTTER_VERSION: "3.10.2"
 
 jobs:
   e2e:
@@ -26,7 +26,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: 'stable'
+          channel: "stable"
           cache: true
 
       - id: "auth"

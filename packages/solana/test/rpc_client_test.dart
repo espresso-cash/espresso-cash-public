@@ -1,3 +1,5 @@
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'dart:async';
 
 import 'package:bip39/bip39.dart';

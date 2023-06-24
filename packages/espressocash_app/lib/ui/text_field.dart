@@ -7,7 +7,7 @@ enum CpTextFieldBorder { rounded, stadium }
 
 class CpTextField extends StatelessWidget {
   const CpTextField({
-    Key? key,
+    super.key,
     this.controller,
     this.placeholder,
     this.margin,
@@ -21,7 +21,8 @@ class CpTextField extends StatelessWidget {
     this.suffix,
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
-  }) : super(key: key);
+    this.textColor = CpColors.primaryTextColor,
+  });
 
   final TextEditingController? controller;
   final EdgeInsetsGeometry padding;
@@ -36,6 +37,7 @@ class CpTextField extends StatelessWidget {
   final Widget? suffix;
   final Widget? prefix;
   final CpTextFieldBorder border;
+  final Color? textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,7 @@ class CpTextField extends StatelessWidget {
         style: TextStyle(
           fontWeight: FontWeight.normal,
           fontSize: fontSize,
-          color: CpColors.primaryTextColor,
+          color: textColor,
           height: 1.2,
         ),
         placeholder: placeholder,

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'colors.dart';
 
 class CpBulletItemWidget extends StatelessWidget {
   const CpBulletItemWidget({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   final String text;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 8),
+        padding: EdgeInsets.only(left: 12.w, right: 39.w),
         child: IntrinsicHeight(
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -20,8 +21,8 @@ class CpBulletItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                width: 20,
-                margin: const EdgeInsets.only(right: 12, top: 2),
+                width: 23.w,
+                margin: EdgeInsets.only(right: 19.w, top: 2.h, bottom: 2.h),
                 decoration: const ShapeDecoration(
                   color: CpColors.yellowColor,
                   shape: StadiumBorder(),
@@ -35,9 +36,9 @@ class CpBulletItemWidget extends StatelessWidget {
                   textHeightBehavior: const TextHeightBehavior(
                     leadingDistribution: TextLeadingDistribution.even,
                   ),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w500,
-                    fontSize: 18,
+                    fontSize: 20.sp,
                   ),
                 ),
               )

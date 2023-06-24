@@ -9,13 +9,14 @@ import '../../../core/presentation/extensions.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
-import '../src/bloc.dart';
-import '../src/chart_interval.dart';
-import '../src/date_format.dart';
-import '../src/token_chart_item.dart';
+import '../models/chart_interval.dart';
+import '../models/token_chart_item.dart';
+import '../services/bloc.dart';
+import 'date_format.dart';
 
-export '../src/token_chart_item.dart';
+export '../models/token_chart_item.dart';
 
 class TokenChart extends StatelessWidget {
   const TokenChart({
@@ -67,11 +68,10 @@ class TokenChart extends StatelessWidget {
 
 class _ChartWidget extends StatelessWidget {
   const _ChartWidget({
-    Key? key,
     required this.data,
     required this.onSelect,
     required this.interval,
-  }) : super(key: key);
+  });
 
   final IList<TokenChartItem> data;
   final ValueSetter<TokenChartItem?> onSelect;
@@ -132,7 +132,7 @@ class _ChartWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
+    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
 
     double minY = spots.first.y;
     double maxY = spots.first.y;
@@ -309,20 +309,20 @@ extension ChartIntervalExt on ChartInterval {
     }
   }
 
-  String get timeFrameLabel {
+  String timeFrameLabel(BuildContext context) {
     switch (this) {
       case ChartInterval.oneDay:
-        return 'Past Day';
+        return context.l10n.chartPastDay;
       case ChartInterval.oneWeek:
-        return 'Past Week';
+        return context.l10n.chartPastWeek;
       case ChartInterval.oneMonth:
-        return 'Past Month';
+        return context.l10n.chartPastMonth;
       case ChartInterval.threeMonth:
-        return 'Past Three Months';
+        return context.l10n.chartPastThreeMonths;
       case ChartInterval.oneYear:
-        return 'Past Year';
+        return context.l10n.chartPastYear;
       case ChartInterval.all:
-        return 'All';
+        return context.l10n.chartAllTime;
     }
   }
 }

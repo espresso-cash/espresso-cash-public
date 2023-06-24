@@ -11,7 +11,7 @@ import 'package:shelf/shelf.dart';
 Future<Response> commonHandler(
   Request request, {
   required String templateName,
-  required Map<String, dynamic> Function(Map<String, dynamic>) updateData,
+  required Map<String, dynamic> Function(Map<String, dynamic> data) updateData,
 }) async {
   final appId = request.url.queryParameters['appId']?.toLowerCase();
 
@@ -50,13 +50,11 @@ Future<Response> commonHandler(
   final bool shouldCopy;
   switch (platform) {
     case Platform.android:
+    case Platform.web:
       shouldCopy = false;
       break;
     case Platform.ios:
       shouldCopy = true;
-      break;
-    case Platform.web:
-      shouldCopy = false;
       break;
   }
 

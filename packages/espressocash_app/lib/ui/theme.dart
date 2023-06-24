@@ -6,10 +6,10 @@ import 'colors.dart';
 
 class CpTheme extends StatelessWidget {
   const CpTheme({
-    Key? key,
+    super.key,
     required this.theme,
     required this.child,
-  }) : super(key: key);
+  });
 
   const CpTheme.light({Key? key, required Widget child})
       : this(
@@ -25,6 +25,7 @@ class CpTheme extends StatelessWidget {
           child: child,
         );
 
+  // ignore: avoid-watch-outside-build, valid usage
   static CpThemeData of(BuildContext context) => context.watch<CpThemeData>();
 
   final CpThemeData theme;
