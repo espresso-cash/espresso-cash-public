@@ -1,25 +1,25 @@
 {
   "@@locale": "fr",
-  "aboutTokenLabel": "A propos de {name}",
-  "@aboutTokenLabel": {
+  "tokenDetails_lblAboutToken": "A propos de {name}",
+  "@tokenDetails_lblAboutToken": {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "activitiesTitle": "Activité",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Annulé",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Echec",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "En cours",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Succès",
-  "@activityStatusSuccess": {},
-  "addCash": "Déposer",
-  "@addCash": {},
+  "activities_lblTitle": "Activité",
+  "@activities_lblTitle": {},
+  "activities_lblCanceled": "Annulé",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Echec",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "En cours",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Succès",
+  "@activities_lblSuccess": {},
+  "ramp_btnAddCash": "Déposer",
+  "@ramp_btnAddCash": {},
   "all": "Tous",
   "@all": {},
   "amount": "Montant",

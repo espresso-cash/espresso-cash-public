@@ -1,25 +1,25 @@
 {
   "@@locale": "pt",
-  "aboutTokenLabel": "Sobre {name}",
-  "@aboutTokenLabel": {
+  "tokenDetails_lblAboutToken": "Sobre {name}",
+  "@tokenDetails_lblAboutToken": {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "activitiesTitle": "Atividade",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Cancelada",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Falha",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "Em andamento",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Sucesso",
-  "@activityStatusSuccess": {},
-  "addCash": "Depositar",
-  "@addCash": {},
+  "activities_lblTitle": "Atividade",
+  "@activities_lblTitle": {},
+  "activities_lblCanceled": "Cancelada",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Falha",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "Em andamento",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Sucesso",
+  "@activities_lblSuccess": {},
+  "ramp_btnAddCash": "Depositar",
+  "@ramp_btnAddCash": {},
   "all": "Todos",
   "@all": {},
   "amount": "Quantia",

@@ -1,25 +1,25 @@
 {
   "@@locale": "es",
-  "aboutTokenLabel": "Acerca de {name}",
-  "@aboutTokenLabel": {
+  "tokenDetails_lblAboutToken": "Acerca de {name}",
+  "@tokenDetails_lblAboutToken": {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "activitiesTitle": "Actividad",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Cancelada",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Falla",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "En curso",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Éxito",
-  "@activityStatusSuccess": {},
-  "addCash": "Depositar",
-  "@addCash": {},
+  "activities_lblTitle": "Actividad",
+  "@activities_lblTitle": {},
+  "activities_lblCanceled": "Cancelada",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Falla",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "En curso",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Éxito",
+  "@activities_lblSuccess": {},
+  "ramp_btnAddCash": "Depositar",
+  "@ramp_btnAddCash": {},
   "all": "Toda",
   "@all": {},
   "amount": "Cantidad",

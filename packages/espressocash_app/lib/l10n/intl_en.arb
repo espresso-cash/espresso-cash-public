@@ -1,25 +1,25 @@
 {
   "@@locale": "en",
-  "aboutTokenLabel": "About {name}",
-  "@aboutTokenLabel": {
+  "tokenDetails_lblAboutToken": "About {name}",
+  "@tokenDetails_lblAboutToken": {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "activitiesTitle": "Activity",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Canceled",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Failure",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "In Progress",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Success",
-  "@activityStatusSuccess": {},
-  "addCash": "Add Cash",
-  "@addCash": {},
+  "activities_lblTitle": "Activity",
+  "@activities_lblTitle": {},
+  "activities_lblCanceled": "Canceled",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Failure",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "In Progress",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Success",
+  "@activities_lblSuccess": {},
+  "ramp_btnAddCash": "Add Cash",
+  "@ramp_btnAddCash": {},
   "all": "All",
   "@all": {},
   "amount": "Amount",

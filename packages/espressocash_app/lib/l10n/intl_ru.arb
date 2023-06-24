@@ -1,25 +1,25 @@
 {
   "@@locale": "ru",
-  "aboutTokenLabel": "Про {name}",
-  "@aboutTokenLabel": {
+  "tokenDetails_lblAboutToken": "Про {name}",
+  "@tokenDetails_lblAboutToken": {
     "placeholders": {
       "name": {
         "type": "String"
       }
     }
   },
-  "activitiesTitle": "Операции",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Отменено",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Сбой",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "Выполняется",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Успех",
-  "@activityStatusSuccess": {},
-  "addCash": "Ввести",
-  "@addCash": {},
+  "activities_lblTitle": "Операции",
+  "@activities_lblTitle": {},
+  "activities_lblCanceled": "Отменено",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Сбой",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "Выполняется",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Успех",
+  "@activities_lblSuccess": {},
+  "ramp_btnAddCash": "Ввести",
+  "@ramp_btnAddCash": {},
   "amount": "Сумма",
   "@amount": {},
   "and": "и",

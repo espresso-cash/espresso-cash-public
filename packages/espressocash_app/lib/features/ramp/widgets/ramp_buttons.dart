@@ -24,7 +24,7 @@ class AddCashButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.addCash,
+          text: context.l10n.ramp_btnAddCash,
           onPressed: () {
             final configuration = _defaultConfiguration
               ..selectedCountryCode = DeviceLocale.localeOf(context).countryCode

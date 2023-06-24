@@ -8,9 +8,9 @@ import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/activity_tile.dart';
 import '../../../../ui/token_icon.dart';
 import '../models/activity.dart';
+import 'activity_tile.dart';
 
 class SwapTile extends StatelessWidget {
   const SwapTile({super.key, required this.activity});
