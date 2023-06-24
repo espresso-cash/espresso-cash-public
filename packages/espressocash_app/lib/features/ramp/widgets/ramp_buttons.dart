@@ -55,7 +55,7 @@ class CashOutButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.cashOut,
+          text: context.l10n.ramp_btnCashOut,
           onPressed: () => OffRampBottomSheet.show(context),
         ),
       );

@@ -75,8 +75,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           void onCancel() => showConfirmationDialog(
                 context,
-                title: context.l10n.cancelTransferConfirmationTitle,
-                message: context.l10n.cancelTransferConfirmationSubtitle,
+                title: context
+                    .l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle,
+                message: context.l10n
+                    .outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
                 onConfirm: () {
                   context.cancelOSKP(payment: payment);
                 },
@@ -88,7 +90,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               bottom: MediaQuery.of(context).padding.bottom + 16,
             ),
             child: CpTextButton(
-              text: context.l10n.cancelTransfer,
+              text: context.l10n.outgoingSplitKeyPayments_btnCancel,
               variant: CpTextButtonVariant.light,
               onPressed: onCancel,
             ),

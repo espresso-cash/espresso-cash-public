@@ -108,7 +108,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
 
 void _showFetchBalancesErrorToast(BuildContext context) => showCpSnackbar(
       context,
-      message: context.l10n.cannotConnectToTheNetwork,
+      message: context.l10n.balances_lblConnectionError,
       icon: Assets.icons.toastWarning.image(),
     );
 
