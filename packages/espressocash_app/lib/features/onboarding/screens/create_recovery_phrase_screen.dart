@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
 import '../../../ui/theme.dart';
-import '../../backup_phrase/data/mnemonic_getter.dart';
+import '../../accounts/data/account_repository.dart';
 
 @RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MnemonicGetter>().mnemonic.then((String? phrase) {
+    sl<AccountRepository>().loadMnemonic().then((String? phrase) {
       if (phrase != null) {
         setState(() => _phrase = phrase);
       }
