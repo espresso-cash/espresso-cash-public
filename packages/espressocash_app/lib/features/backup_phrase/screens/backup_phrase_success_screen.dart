@@ -31,7 +31,7 @@ class BackupPhraseSuccessScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(32),
                     child: Text(
-                      context.l10n.backupPhraseSuccessMessage,
+                      context.l10n.backupPhrase_lblSuccessMessage,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: CpTheme.of(context).primaryTextColor,

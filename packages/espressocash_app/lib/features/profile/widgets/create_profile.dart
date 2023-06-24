@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/onboarding_screen.dart';
-import '../../../../../ui/profile_image_picker/pick_profile_picture.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
 import '../../../core/file_manager.dart';
@@ -20,6 +19,7 @@ import '../../../ui/loader.dart';
 import '../data/profile_repository.dart';
 import '../models/country.dart';
 import '../models/profile.dart';
+import 'pick_profile_picture.dart';
 
 class CreateProfile extends StatefulWidget {
   const CreateProfile({

@@ -173,7 +173,7 @@ class _Balance extends StatelessWidget {
                     ),
                   ),
                   PriceWidget(
-                    label: context.l10n.balance,
+                    label: context.l10n.tokenDetails_lblBalance,
                     amount: fiatAmount.format(
                       DeviceLocale.localeOf(context),
                       roundInteger: true,

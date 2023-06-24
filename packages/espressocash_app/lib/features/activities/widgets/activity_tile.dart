@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../l10n/l10n.dart';
-import 'colors.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/colors.dart';
 
 enum CpActivityTileStatus { inProgress, success, failure, canceled }
 
@@ -90,13 +90,13 @@ extension on CpActivityTileStatus {
   String text(BuildContext context) {
     switch (this) {
       case CpActivityTileStatus.inProgress:
-        return context.l10n.activityStatusInProgress;
+        return context.l10n.activities_lblInProgress;
       case CpActivityTileStatus.success:
-        return context.l10n.activityStatusSuccess;
+        return context.l10n.activities_lblSuccess;
       case CpActivityTileStatus.failure:
-        return context.l10n.activityStatusFailure;
+        return context.l10n.activities_lblFailure;
       case CpActivityTileStatus.canceled:
-        return context.l10n.activityStatusCanceled;
+        return context.l10n.activities_lblCanceled;
     }
   }
 }
