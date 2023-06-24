@@ -50,7 +50,7 @@ Future<void> main() async {
     ],
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
-          .called(3);
+          .called(2);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
