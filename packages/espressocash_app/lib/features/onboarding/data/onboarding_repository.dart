@@ -10,7 +10,7 @@ import '../../authenticated/auth_scope.dart';
 @Singleton(scope: authScope)
 class OnboardingRepository implements Disposable {
   OnboardingRepository(this._storage) {
-    _storage.read(key: onboardingKey).then((value) {
+    _storage.read(key: _onboardingKey).then((value) {
       if (value == 'true') {
         hasFinishedOnboarding = true;
       }
@@ -25,14 +25,14 @@ class OnboardingRepository implements Disposable {
 
   set hasFinishedOnboarding(bool value) {
     _subject.add(value);
-    _storage.write(key: onboardingKey, value: value.toString());
+    _storage.write(key: _onboardingKey, value: value.toString());
   }
 
   @override
   FutureOr<void> onDispose() {
     _subject.add(false);
-    _storage.delete(key: onboardingKey);
+    _storage.delete(key: _onboardingKey);
   }
 }
 
-const onboardingKey = 'onboarding';
+const _onboardingKey = 'onboarding';
