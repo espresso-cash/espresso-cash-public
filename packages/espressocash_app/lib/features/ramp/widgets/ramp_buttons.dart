@@ -5,7 +5,6 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
-import '../../../core/balances/context_ext.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
