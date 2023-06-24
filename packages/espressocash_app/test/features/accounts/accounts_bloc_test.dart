@@ -1,6 +1,7 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
 import 'package:espressocash_app/core/wallet.dart';
+import 'package:espressocash_app/features/accounts/data/account_repository.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/mnemonic.dart';
 import 'package:espressocash_app/features/accounts/services/accounts_bloc.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
     wallet: wallet,
     accessMode: const AccessMode.loaded(),
   );
+  final repository = AccountRepository(storage);
 
   tearDown(() {
     reset(storage);
@@ -30,6 +32,7 @@ Future<void> main() async {
   AccountsBloc createBloc() => AccountsBloc(
         storage: storage,
         seedVault: seedVault,
+        repository: repository,
       );
 
   blocTest<AccountsBloc, AccountsState>(

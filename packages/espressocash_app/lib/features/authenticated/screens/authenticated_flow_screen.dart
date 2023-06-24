@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/user_preferences.dart';
@@ -19,7 +18,6 @@ import '../../favorite_tokens/module.dart';
 import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
-import '../../onboarding/module.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import '../../payment_request/module.dart';
@@ -69,14 +67,10 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
             final account = state.account;
             if (account == null) return Container();
 
-            final mnemonic = loadMnemonic(sl<FlutterSecureStorage>());
-
             return MultiProvider(
               providers: [
                 Provider<MyAccount>.value(value: account),
-                BackupPhraseModule(
-                  mnemonic: mnemonic,
-                ),
+                const BackupPhraseModule(),
                 const PaymentRequestModule(),
                 _balanceListener,
                 Provider<HomeRouterKey>(
@@ -90,7 +84,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const SwapModule(),
                 const PopularTokensModule(),
                 const MobileWalletModule(),
-                OnboardingModule(mnemonic: mnemonic),
               ],
               child: AutoRouter(
                 key: _homeRouterKey,
