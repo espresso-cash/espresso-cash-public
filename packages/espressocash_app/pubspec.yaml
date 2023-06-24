@@ -11,7 +11,7 @@ dependencies:
   auto_route: ^7.4.0
   barcode_widget: ^2.0.3
   bip39: ^1.0.6
-  bloc_concurrency: ^0.2.0
+  bloc_concurrency: ^0.2.2
   cached_network_image: ^3.2.3
   collection: ^1.15.0
   date_time_format: ^2.0.1
