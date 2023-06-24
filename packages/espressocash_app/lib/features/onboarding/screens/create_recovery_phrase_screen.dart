@@ -8,11 +8,12 @@ import '../../../ui/onboarding_screen.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
 import '../../../ui/theme.dart';
 import '../../backup_phrase/data/mnemonic_getter.dart';
-import 'onboarding_flow_screen.dart';
 
 @RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
-  const ViewRecoveryPhraseScreen({super.key});
+  const ViewRecoveryPhraseScreen({super.key, required this.onDone});
+
+  final VoidCallback onDone;
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>
@@ -38,7 +39,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: context.l10n.next,
-              onPressed: () => context.onboardingRouter.onMnemonicConfirmed(),
+              onPressed: widget.onDone,
             ),
             children: [
               CpAppBar(),

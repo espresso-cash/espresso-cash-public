@@ -42,10 +42,10 @@ dependencies:
   flutter_svg: ^1.1.5
   flutter_svg_provider: ^1.0.3
   freezed_annotation: ^2.2.0
-  get_it: ^7.2.0
+  get_it: ^7.6.0
   http: ^0.13.5
   image_picker: ^0.8.7+5
-  injectable: ^2.1.1
+  injectable: ^2.1.2
   intl: ^0.18.0
   json_annotation: ^4.4.0
   localizely_sdk: ^2.5.1
@@ -93,7 +93,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.3.0
   golden_toolkit: ^0.14.0
-  injectable_generator: ^2.1.5
+  injectable_generator: ^2.1.6
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.4

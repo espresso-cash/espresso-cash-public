@@ -65,7 +65,6 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
                   AccountsEvent.created(
                     account: result.account,
                     source: state.source,
-                    hasFinishedOnboarding: result.hasFinishedOnboarding,
                   ),
                 ),
             orElse: ignore,

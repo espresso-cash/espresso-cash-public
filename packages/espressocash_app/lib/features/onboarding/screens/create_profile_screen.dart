@@ -1,25 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../services/onboarding_bloc.dart';
-import '../widgets/create_profile.dart';
+import '../../../di.dart';
+import '../../profile/data/profile_repository.dart';
+import '../../profile/widgets/create_profile.dart';
 
 @RoutePage()
 class CreateProfileScreen extends StatelessWidget {
-  const CreateProfileScreen({super.key});
+  const CreateProfileScreen({super.key, required this.onDone});
+
+  final VoidCallback onDone;
 
   @override
   Widget build(BuildContext context) => CreateProfile(
-        onSubmitted: (name, photo, country) {
-          context.read<OnboardingBloc>().add(
-                OnboardingEvent.submitted(
-                  name: name,
-                  photo: photo,
-                  country: country,
-                ),
-              );
-        },
+        onSubmitted: onDone,
         onBackButtonPressed: () => context.router.pop(),
+        initial: sl<ProfileRepository>().profile,
       );
 }

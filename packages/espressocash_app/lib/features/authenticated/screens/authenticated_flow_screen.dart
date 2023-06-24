@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/user_preferences.dart';
+import '../../../di.config.dart';
 import '../../../di.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
@@ -24,6 +25,7 @@ import '../../outgoing_split_key_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
+import '../auth_scope.dart';
 
 @immutable
 class HomeRouterKey {
@@ -43,6 +45,18 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   final _homeRouterKey = GlobalKey<AutoRouterState>();
+
+  @override
+  void initState() {
+    super.initState();
+    sl.initAuthScope();
+  }
+
+  @override
+  void dispose() {
+    sl.dropScope(authScope);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext _) => MultiProvider(
