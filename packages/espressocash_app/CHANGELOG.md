@@ -1,3 +1,7 @@
+## 1.77.1
+
+ - **REFACTOR**: update l10n keys (#1007).
+
 ## 1.77.0
 
  - **REFACTOR**: add AccountRepository (#1002).
