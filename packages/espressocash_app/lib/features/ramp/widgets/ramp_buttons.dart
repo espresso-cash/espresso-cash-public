@@ -5,6 +5,7 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../balances/widgets/context_ext.dart';
@@ -26,6 +27,7 @@ class AddCashButton extends StatelessWidget {
           text: context.l10n.addCash,
           onPressed: () {
             final configuration = _defaultConfiguration
+              ..selectedCountryCode = DeviceLocale.localeOf(context).countryCode
               ..defaultFlow = 'ONRAMP'
               ..userAddress =
                   context.read<MyAccount>().wallet.publicKey.toBase58();
