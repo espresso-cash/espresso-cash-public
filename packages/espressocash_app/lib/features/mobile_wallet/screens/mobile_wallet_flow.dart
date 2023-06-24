@@ -129,7 +129,7 @@ class _Buttons extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            CpButton(text: context.l10n.cancel, onPressed: onDecline),
+            CpButton(text: context.l10n.core_btnCancel, onPressed: onDecline),
             CpButton(text: acceptLabel, onPressed: onAccept),
           ],
         ),

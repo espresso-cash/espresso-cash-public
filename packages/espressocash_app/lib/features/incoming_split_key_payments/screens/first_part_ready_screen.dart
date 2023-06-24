@@ -112,7 +112,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                         CpButton(
                           onPressed: () => showConfirmationDialog(
                             context,
-                            title: context.l10n.cancel,
+                            title: context.l10n.core_btnCancel,
                             message:
                                 context.l10n.splitKeyConfirmationDialogContent,
                             onConfirm: () {
@@ -120,7 +120,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                               widget.onCancel();
                             },
                           ),
-                          text: context.l10n.cancel,
+                          text: context.l10n.core_btnCancel,
                           size: CpButtonSize.micro,
                         ),
                         const SizedBox(height: 16),
@@ -168,7 +168,8 @@ class _TermsDisclaimer extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 8),
         child: Text.rich(
           TextSpan(
-            text: context.l10n.byClickingTheSecondLink,
+            text: context
+                .l10n.incomingSplitKeyPayments_lblByClickingTheSecondLink,
             children: [
               TextSpan(
                 text: context.l10n.terms,
@@ -178,7 +179,7 @@ class _TermsDisclaimer extends StatelessWidget {
                   color: CpColors.yellowColor,
                 ),
               ),
-              TextSpan(text: context.l10n.and),
+              TextSpan(text: context.l10n.core_and),
               TextSpan(
                 text: context.l10n.privacyPolicy,
                 recognizer: TapGestureRecognizer()

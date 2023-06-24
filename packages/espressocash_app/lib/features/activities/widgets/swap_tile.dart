@@ -34,7 +34,7 @@ class SwapTile extends StatelessWidget {
 
     return CpActivityTile(
       title: isBuyOperation
-          ? context.l10n.boughtToken(targetToken.name)
+          ? context.l10n.activities_lblBoughtToken(targetToken.name)
           : context.l10n.soldToken(targetToken.name),
       incomingAmount: inAmount,
       outgoingAmount: outAmount,
