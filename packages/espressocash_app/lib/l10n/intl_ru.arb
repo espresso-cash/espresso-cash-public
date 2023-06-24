@@ -1,37 +1,5 @@
 {
   "@@locale": "ru",
-  "tokenDetails_lblAboutToken": "Про {name}",
-  "@tokenDetails_lblAboutToken": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "activities_lblTitle": "Операции",
-  "@activities_lblTitle": {},
-  "activities_lblCanceled": "Отменено",
-  "@activities_lblCanceled": {},
-  "activities_lblFailure": "Сбой",
-  "@activities_lblFailure": {},
-  "activities_lblInProgress": "Выполняется",
-  "@activities_lblInProgress": {},
-  "activities_lblSuccess": "Успех",
-  "@activities_lblSuccess": {},
-  "ramp_btnAddCash": "Ввести",
-  "@ramp_btnAddCash": {},
-  "amount": "Сумма",
-  "@amount": {},
-  "core_and": " и ",
-  "@core_and": {},
-  "appLock_lblAutoLock": "Автоматическая блокировка",
-  "@appLock_lblAutoLock": {},
-  "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
-  "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
-  "@backupPhrase_lblSuccessMessage": {},
-  "tokenDetails_lblBalance": "Баланс",
-  "@tokenDetails_lblBalance": {},
   "activities_lblBoughtToken": "Куплено {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -40,16 +8,22 @@
       }
     }
   },
-  "tokenDetails_btnBuy": "Купить",
-  "@tokenDetails_btnBuy": {},
-  "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Нажав на вторую ссылку в сообщении или кнопку \"Отмена\", вы соглашаетесь с нашими",
-  "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
-  "signIn_lblByCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
-  "@signIn_lblByCreatingWalletYouAgree": {},
-  "profile_lblCamera": "Камера",
-  "@profile_lblCamera": {},
-  "core_btnCancel": "Отменить",
-  "@core_btnCancel": {},
+  "activities_lblCanceled": "Отменено",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Сбой",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "Выполняется",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Успех",
+  "@activities_lblSuccess": {},
+  "activities_lblTitle": "Операции",
+  "@activities_lblTitle": {},
+  "appLock_lblAutoLock": "Автоматическая блокировка",
+  "@appLock_lblAutoLock": {},
+  "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
+  "@appLock_lblAutoLockDescription": {},
+  "backupPhrase_lblSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
+  "@backupPhrase_lblSuccessMessage": {},
   "cancelErrorMessageInsufficientFunds": "Деньги уже сняты.",
   "@cancelErrorMessageInsufficientFunds": {},
   "cancelPaymentRequestConfirmationSubtitle": "Вы уверены, что хотите отменить этот платежный запрос?",
@@ -84,6 +58,10 @@
   "@copiedToClipboard": {},
   "copy": "Копировать",
   "@copy": {},
+  "core_and": " и ",
+  "@core_and": {},
+  "core_btnCancel": "Отменить",
+  "@core_btnCancel": {},
   "create": "Создать",
   "@create": {},
   "cryptoCashBalance": " Ваш криптобаланс",
@@ -146,6 +124,8 @@
   "@fundYourAccount": {},
   "help": "Помощь",
   "@help": {},
+  "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Нажав на вторую ссылку в сообщении или кнопку \"Отмена\", вы соглашаетесь с нашими",
+  "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
   "incorrectPasscode": "Неверный пин-код. Попробуйте еще раз.",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "У вас недостаточно {feeToken} для оплаты комиссии сети, вам нужно как минимум {amount}.",
@@ -370,6 +350,8 @@
   "@privacyPolicy": {},
   "processing": "Обработка...",
   "@processing": {},
+  "profile_lblCamera": "Камера",
+  "@profile_lblCamera": {},
   "protectWallet": "Защитите кошелек",
   "@protectWallet": {},
   "protectWalletTitle": "ЗАЩИТА КОШЕЛЬКА",
@@ -402,6 +384,8 @@
   "@qrScanInfo2": {},
   "qrTermsDisclaimer": "Открывая безопасный сканер QR-кода, вы соглашаетесь с нашими",
   "@qrTermsDisclaimer": {},
+  "ramp_btnAddCash": "Внести",
+  "@ramp_btnAddCash": {},
   "receive": "Запросить",
   "@receive": {},
   "receivedBy": "Полученный от {address}",
@@ -533,6 +517,8 @@
   "@signIn1": {},
   "signIn2": "Продолжить здесь",
   "@signIn2": {},
+  "signIn_lblByCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
+  "@signIn_lblByCreatingWalletYouAgree": {},
   "signInWithSaga": "Войти с помощью Saga",
   "@signInWithSaga": {},
   "signOut": "Удалить кошелек",
@@ -666,6 +652,18 @@
       }
     }
   },
+  "tokenDetails_btnBuy": "Купить",
+  "@tokenDetails_btnBuy": {},
+  "tokenDetails_lblAboutToken": "Про {name}",
+  "@tokenDetails_lblAboutToken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenDetails_lblBalance": "Баланс",
+  "@tokenDetails_lblBalance": {},
   "tokenEquivalent": "Эквивалентно {value} {symbol}",
   "@tokenEquivalent": {
     "placeholders": {
