@@ -61,7 +61,7 @@ class ProfileScreen extends StatelessWidget {
                                   image: profile.photoPath?.let(
                                     (it) => FileImage(File(it)),
                                   ),
-                                  userName: profile.firstName,
+                                  userName: profile.firstName.orDefault,
                                 ),
                               ),
                             ),
@@ -80,7 +80,7 @@ class ProfileScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(8),
                         child: ProfileBuilder(
                           builder: (context, profile) => Text(
-                            profile.firstName,
+                            profile.firstName.orDefault,
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                         ),
@@ -89,7 +89,7 @@ class ProfileScreen extends StatelessWidget {
                       ProfileBuilder(
                         builder: (context, profile) => _QrCodeWidget(
                           address: address,
-                          name: profile.firstName,
+                          name: profile.firstName.orDefault,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -116,6 +116,10 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+extension on String {
+  String get orDefault => ifEmpty(() => 'My Wallet');
 }
 
 const double _buttonSpacing = 22;

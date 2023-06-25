@@ -9,7 +9,9 @@ class EditProfileSection extends StatelessWidget {
         actions: [
           ProfileButton(
             label: context.l10n.editProfile,
-            onPressed: () => context.router.push(const EditProfileRoute()),
+            onPressed: () => context.router.push(
+              ManageProfileRoute(onSubmitted: () => context.router.pop()),
+            ),
           ),
           const InvestmentsZeroBalanceSwitch(),
         ],
