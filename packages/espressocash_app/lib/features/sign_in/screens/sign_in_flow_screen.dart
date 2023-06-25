@@ -31,7 +31,13 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   void onSignIn() => context.router.push(const RestoreAccountRoute());
 
   @override
-  void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
+  void onMnemonicConfirmed() => context.router.push(
+        ManageProfileRoute(
+          onSubmitted: () {
+            context.read<SignInBloc>().add(const SignInEvent.submitted());
+          },
+        ),
+      );
 
   @override
   PageRouteInfo get initialRoute => GetStartedRoute(isSaga: isSaga);

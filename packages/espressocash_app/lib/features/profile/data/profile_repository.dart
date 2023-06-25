@@ -16,7 +16,7 @@ class ProfileRepository implements Disposable {
 
   late final BehaviorSubject<Profile> _subject = BehaviorSubject.seeded(
     Profile(
-      firstName: _sharedPreferences.getString(nameKey) ?? 'My Wallet',
+      firstName: _sharedPreferences.getString(nameKey) ?? '',
       photoPath: _sharedPreferences.getString(photoKey),
       country: _sharedPreferences.getString(countryKey),
     ),
@@ -49,7 +49,7 @@ class ProfileRepository implements Disposable {
       ..remove(nameKey)
       ..remove(photoKey)
       ..remove(countryKey);
-    _subject.add(const Profile(firstName: 'My Wallet'));
+    _subject.add(const Profile(firstName: ''));
   }
 }
 

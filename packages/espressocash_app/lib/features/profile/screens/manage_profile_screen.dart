@@ -19,25 +19,22 @@ import '../../../ui/loader.dart';
 import '../data/profile_repository.dart';
 import '../models/country.dart';
 import '../models/profile.dart';
-import 'pick_profile_picture.dart';
+import '../widgets/pick_profile_picture.dart';
 
-class CreateProfile extends StatefulWidget {
-  const CreateProfile({
+@RoutePage()
+class ManageProfileScreen extends StatefulWidget {
+  const ManageProfileScreen({
     super.key,
     required this.onSubmitted,
-    required this.onBackButtonPressed,
-    this.initial,
   });
 
-  final Profile? initial;
   final VoidCallback onSubmitted;
-  final VoidCallback onBackButtonPressed;
 
   @override
-  State<CreateProfile> createState() => _CreateProfileState();
+  State<ManageProfileScreen> createState() => _ManageProfileScreenState();
 }
 
-class _CreateProfileState extends State<CreateProfile> {
+class _ManageProfileScreenState extends State<ManageProfileScreen> {
   final _nameController = TextEditingController();
   Country? _country;
   File? _photo;
@@ -46,19 +43,17 @@ class _CreateProfileState extends State<CreateProfile> {
   void initState() {
     super.initState();
 
-    final profile = widget.initial;
+    final profile = sl<ProfileRepository>().profile;
 
-    _nameController.addListener(() => setState(() {}));
+    _nameController
+      ..addListener(() => setState(() {}))
+      ..text = profile.firstName;
 
-    if (profile != null) {
-      _nameController.text = profile.firstName;
+    _photo = profile.photoPath?.let(File.new);
 
-      _photo = profile.photoPath?.let(File.new);
-
-      final country = profile.country;
-      if (country != null) {
-        _country = Country.findByCode(country);
-      }
+    final country = profile.country;
+    if (country != null) {
+      _country = Country.findByCode(country);
     }
   }
 
@@ -109,14 +104,14 @@ class _CreateProfileState extends State<CreateProfile> {
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
-              text: widget.initial == null
-                  ? context.l10n.next
-                  : context.l10n.save,
+              text: context.l10n.save,
               onPressed: _isValid ? _handleSubmitted : null,
             ),
             children: [
               CpAppBar(
-                leading: CpBackButton(onPressed: widget.onBackButtonPressed),
+                leading: CpBackButton(
+                  onPressed: () => context.router.pop(),
+                ),
               ),
               ProfileImagePicker(
                 photo: _photo,

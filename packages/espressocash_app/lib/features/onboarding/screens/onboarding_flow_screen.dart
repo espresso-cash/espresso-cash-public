@@ -21,15 +21,15 @@ class OnboardingFlowScreen extends StatefulWidget {
 class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
     with RouterWrapper {
   void _handleNoEmailAndPasswordCompleted() =>
-      router?.push(ViewRecoveryPhraseRoute(onDone: _handleMnemonicConfirmed));
-
-  void _handleMnemonicConfirmed() =>
-      router?.push(CreateProfileRoute(onDone: _handleComplete));
+      router?.push(ViewRecoveryPhraseRoute(onDone: _openProfileScreen));
 
   void _handleComplete() {
     sl<OnboardingRepository>().hasFinishedOnboarding = true;
     router?.parent()?.pop();
   }
+
+  void _openProfileScreen() =>
+      router?.push(ManageProfileRoute(onSubmitted: _handleComplete));
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (context.read<AccountsBloc>().state.account?.wallet is SagaWallet) {
-        router?.push(CreateProfileRoute(onDone: _handleComplete));
+        _openProfileScreen();
       } else {
         router?.push(
           NoEmailAndPasswordRoute(onDone: _handleNoEmailAndPasswordCompleted),
