@@ -1,17 +1,17 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_app/app/screens/authenticated/wallet_flow/wallet_flow_screen.dart';
-import 'package:espressocash_app/core/accounts/bl/account.dart';
-import 'package:espressocash_app/core/accounts/bl/ec_wallet.dart';
 import 'package:espressocash_app/core/amount.dart';
-import 'package:espressocash_app/core/balances/bl/balances_bloc.dart';
-import 'package:espressocash_app/core/conversion_rates/bl/conversion_rates_bloc.dart';
-import 'package:espressocash_app/core/conversion_rates/bl/repository.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
-import 'package:espressocash_app/features/app_lock/src/bl/app_lock_bloc.dart';
-import 'package:espressocash_app/features/onboarding/src/widgets/no_email_and_password_screen.dart';
-import 'package:espressocash_app/features/sign_in/src/widgets/get_started_screen.dart';
+import 'package:espressocash_app/features/accounts/models/account.dart';
+import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
+import 'package:espressocash_app/features/app_lock/services/app_lock_bloc.dart';
+import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
+import 'package:espressocash_app/features/conversion_rates/data/repository.dart';
+import 'package:espressocash_app/features/conversion_rates/services/conversion_rates_bloc.dart';
+import 'package:espressocash_app/features/onboarding/screens/no_email_and_password_screen.dart';
+import 'package:espressocash_app/features/sign_in/screens/get_started_screen.dart';
+import 'package:espressocash_app/features/wallet_flow/screens/wallet_flow_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -36,7 +36,7 @@ void main() {
 
   testGoldensWidget(
     'No email and password screen',
-    const NoEmailAndPasswordScreen(),
+    NoEmailAndPasswordScreen(onDone: () {}),
   );
 
   group('HomeScreen', () {
@@ -59,7 +59,6 @@ void main() {
             Provider<MyAccount>(
               create: (_) => MyAccount(
                 wallet: wallet,
-                firstName: 'Test',
                 accessMode: const AccessMode.created(),
               ),
             ),

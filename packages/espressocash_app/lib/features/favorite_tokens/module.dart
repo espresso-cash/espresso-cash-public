@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 
-import '../../core/accounts/module.dart';
 import '../../di.dart';
-import 'src/bl/bloc.dart';
-import 'src/bl/repository.dart';
+import '../accounts/module.dart';
+import 'data/repository.dart';
+import 'services/bloc.dart';
 
 class FavoriteTokensModule extends SingleChildStatelessWidget {
   const FavoriteTokensModule({super.key, super.child});

@@ -42,10 +42,10 @@ create_saga_release:
 ifndef SOLANA_RPC_URL
 	$(error "SOLANA_RPC_URL must be set")
 endif
-	npx dapp-store create release -k publisher.json -b ~/Library/Android/sdk/build-tools/33.0.1/ -u $(SOLANA_RPC_URL)
+	cd saga_publishing && npx dapp-store create release -k publisher.json -b ~/Library/Android/sdk/build-tools/33.0.1/ -u $(SOLANA_RPC_URL)
 
 publish_saga_release:
 ifndef SOLANA_RPC_URL
 	$(error "SOLANA_RPC_URL must be set")
 endif
-	npx dapp-store publish submit -k publisher.json -u $(SOLANA_RPC_URL) --requestor-is-authorized --complies-with-solana-dapp-store-policies
+	cd saga_publishing &&  npx dapp-store publish submit -k publisher.json -u $(SOLANA_RPC_URL) --requestor-is-authorized --complies-with-solana-dapp-store-policies

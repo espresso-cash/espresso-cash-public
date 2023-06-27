@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../ui/activity_tile.dart';
+import '../../features/activities/widgets/activity_tile.dart';
 import '../utils.dart';
 
 final cpActivityTile = Story(

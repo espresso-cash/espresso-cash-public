@@ -117,10 +117,10 @@ packages:
     dependency: "direct main"
     description:
       name: bloc_concurrency
-      sha256: "0af76bfdbdcf21d897c743bb376fbe0d356e2b9e76dc787397077391074d985d"
+      sha256: "44535c9f429cd7e91d548cf89fde1c23a8b4b3637decdb1865bb583091a00d4e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.0"
+    version: "0.2.2"
   bloc_test:
     dependency: "direct dev"
     description:
@@ -842,10 +842,10 @@ packages:
     dependency: "direct main"
     description:
       name: get_it
-      sha256: "290fde3a86072e4b37dbb03c07bec6126f0ecc28dad403c12ffe2e5a2d751ab7"
+      sha256: "529de303c739fca98cd7ece5fca500d8ff89649f1bb4b4e94fb20954abcd7468"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.0"
+    version: "7.6.0"
   glob:
     dependency: transitive
     description:
@@ -962,18 +962,18 @@ packages:
     dependency: "direct main"
     description:
       name: injectable
-      sha256: c0cc829eb71c950889e2ae363f0755a9686852b5ea21584b5aefc106bce64d0c
+      sha256: fbe4b673f8c344e03eb4ab50fa853405872f401bbf6a7ba84b2b7447ac81ed1b
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.1.2"
   injectable_generator:
     dependency: "direct dev"
     description:
       name: injectable_generator
-      sha256: "0670348cfeb5f62de97977f21e11c826c41e4fcf2a34e686de3aa94f1d47a190"
+      sha256: "4fe3db041b680098ce3af40b680734906e955a0ce89170d3993626d48d27b2f3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.5"
+    version: "2.1.6"
   integration_test:
     dependency: "direct dev"
     description: flutter

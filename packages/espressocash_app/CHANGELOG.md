@@ -1,3 +1,28 @@
+## 1.77.1
+
+ - **REFACTOR**: update l10n keys (#1007).
+
+## 1.77.0
+
+ - **REFACTOR**: add AccountRepository (#1002).
+ - **REFACTOR**: decouple profile and account modules (#1001).
+ - **REFACTOR**: restructure code (#997).
+ - **FIX**: remove duplicated LogoutListener (#1000).
+ - **FIX**: padding in ProfileScreen (#998).
+ - **FEAT**: add l10n to ramp network add cash flow (#974).
+ - **FEAT**: add country selector on profile screen (#999).
+
+## 1.76.0
+
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update dfunc (#992).
+ - **FIX**: back button on app locked screen (#987).
+ - **FEAT**: update get started screen (#996).
+ - **FEAT**: skip wallet creation when receiving links on new wallet (#936).
+ - **FEAT**: curated list of popular tokens (#926).
+ - **FEAT**: localize chart time interval (#971).
+ - **FEAT**: upgrade auto router, refactor routes (#932).
+
 ## 1.75.0
 
  - **REFACTOR**: update lint rules.

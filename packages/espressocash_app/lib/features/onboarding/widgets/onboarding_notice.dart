@@ -1,21 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/accounts/bl/accounts_bloc.dart';
+import '../../../core/presentation/value_stream_builder.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
+import '../data/onboarding_repository.dart';
 
 class OnboardingNotice extends StatelessWidget {
   const OnboardingNotice({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<AccountsBloc, AccountsState>(
-        builder: (context, state) {
-          if (state.hasFinishedOnboarding) return const SizedBox.shrink();
+  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
+        create: () => sl<OnboardingRepository>().hasFinishedOnboardingStream,
+        builder: (context, hasFinishedOnboarding) {
+          if (hasFinishedOnboarding) return const SizedBox.shrink();
 
           void onPressed() =>
               context.router.navigate(const OnboardingFlowRoute());
