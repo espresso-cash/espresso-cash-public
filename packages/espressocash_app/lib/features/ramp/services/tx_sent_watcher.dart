@@ -5,10 +5,10 @@ import 'package:injectable/injectable.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../core/cancelable_job.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/off_ramp_payment.dart';
+import '../../transactions/services/tx_sender.dart';
+import '../data/repository.dart';
+import '../models/off_ramp_payment.dart';
 import 'payment_watcher.dart';
-import 'repository.dart';
 
 /// Watches for [ORPStatus.txSent] payments and waits for the tx to be
 /// confirmed.

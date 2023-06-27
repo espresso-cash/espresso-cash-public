@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/accounts/bl/account.dart';
 import '../../../core/amount.dart';
 import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/currency.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../models/off_ramp_payment.dart';
-import '../src/bl/orp_service.dart';
+import '../services/orp_service.dart';
 
 extension BuildContextExt on BuildContext {
   //TODO create methods for transfer and sign

@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:espressocash_app/features/ramp/db.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../features/activities/data/tx_updater_repository.dart';
@@ -10,6 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
+import '../../features/ramp/data/repository.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';

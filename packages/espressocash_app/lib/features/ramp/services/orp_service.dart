@@ -6,12 +6,12 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../config.dart';
-import '../../../../core/accounts/bl/ec_wallet.dart';
 import '../../../../core/amount.dart';
-import '../../../../core/transactions/resign_tx.dart';
-import '../../../../core/transactions/tx_sender.dart';
-import '../../models/off_ramp_payment.dart';
-import 'repository.dart';
+import '../../accounts/models/ec_wallet.dart';
+import '../../transactions/models/tx_sender.dart';
+import '../../transactions/services/resign_tx.dart';
+import '../data/repository.dart';
+import '../models/off_ramp_payment.dart';
 
 @injectable
 class ORPService {
