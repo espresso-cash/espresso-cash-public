@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
@@ -7,10 +8,27 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
+import '../../accounts/models/account.dart';
+import '../../accounts/services/accounts_bloc.dart';
 import '../data/onboarding_repository.dart';
 
-class OnboardingNotice extends StatelessWidget {
+class OnboardingNotice extends StatefulWidget {
   const OnboardingNotice({super.key});
+
+  @override
+  State<OnboardingNotice> createState() => _OnboardingNoticeState();
+}
+
+class _OnboardingNoticeState extends State<OnboardingNotice> {
+  @override
+  void initState() {
+    super.initState();
+
+    final account = context.read<AccountsBloc>().state.account;
+    if (account?.accessMode == const AccessMode.seedInputted()) {
+      sl<OnboardingRepository>().hasFinishedOnboarding = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<bool>(
