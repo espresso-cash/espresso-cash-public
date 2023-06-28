@@ -1,3 +1,11 @@
+## 1.77.2
+
+ - **REFACTOR**: consolidate profile screens (#1009).
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **FIX**: sign-in flow (#1010).
+
 ## 1.77.1
 
  - **REFACTOR**: update l10n keys (#1007).

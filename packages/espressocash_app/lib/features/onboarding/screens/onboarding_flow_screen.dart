@@ -32,18 +32,12 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
       router?.push(ManageProfileRoute(onSubmitted: _handleComplete));
 
   @override
-  void initState() {
-    super.initState();
+  PageRouteInfo get initialRoute {
+    final account = context.read<AccountsBloc>().state.account;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (context.read<AccountsBloc>().state.account?.wallet is SagaWallet) {
-        _openProfileScreen();
-      } else {
-        router?.push(
-          NoEmailAndPasswordRoute(onDone: _handleNoEmailAndPasswordCompleted),
-        );
-      }
-    });
+    return account?.wallet is SagaWallet
+        ? ManageProfileRoute(onSubmitted: _handleComplete) as PageRouteInfo
+        : NoEmailAndPasswordRoute(onDone: _handleNoEmailAndPasswordCompleted);
   }
 
   @override
