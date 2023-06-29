@@ -75,7 +75,8 @@ class AppRouter extends $AppRouter {
           ],
         ),
         AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
-        AutoRoute(page: EditProfileRoute.page),
+        AutoRoute(page: ManageProfileRoute.page),
+        AutoRoute(page: CountryPickerRoute.page),
         AutoRoute(page: HelpRoute.page),
         AutoRoute(page: TokenSearchRoute.page),
         AutoRoute(
@@ -83,7 +84,7 @@ class AppRouter extends $AppRouter {
           children: [
             AutoRoute(page: NoEmailAndPasswordRoute.page),
             AutoRoute(page: ViewRecoveryPhraseRoute.page),
-            AutoRoute(page: CreateProfileRoute.page),
+            AutoRoute(page: ManageProfileRoute.page),
           ],
         ),
         AutoRoute(page: RemoteRequestRoute.page),
@@ -96,8 +97,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(path: '', page: GetStartedRoute.page),
         AutoRoute(page: CreateWalletLoadingRoute.page),
         AutoRoute(page: RestoreAccountRoute.page),
-        AutoRoute(page: SignInProfileRoute.page),
         AutoRoute(page: WebViewRoute.page),
+        AutoRoute(page: CountryPickerRoute.page),
       ],
     ),
   ];

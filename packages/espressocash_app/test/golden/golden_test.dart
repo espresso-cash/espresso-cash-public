@@ -30,13 +30,13 @@ import 'utils.dart';
 void main() {
   testGoldensWidget(
     'Get started screen',
-    const GetStartedScreen(isSaga: false),
+    GetStartedScreen(isSaga: false, onSignInPressed: () {}),
     skip: true, // Need to resolve issues with screenutil
   );
 
   testGoldensWidget(
     'No email and password screen',
-    const NoEmailAndPasswordScreen(),
+    NoEmailAndPasswordScreen(onDone: () {}),
   );
 
   group('HomeScreen', () {
@@ -59,7 +59,6 @@ void main() {
             Provider<MyAccount>(
               create: (_) => MyAccount(
                 wallet: wallet,
-                firstName: 'Test',
                 accessMode: const AccessMode.created(),
               ),
             ),

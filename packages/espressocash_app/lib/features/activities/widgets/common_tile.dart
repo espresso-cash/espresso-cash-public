@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/presentation/format_date.dart';
 import '../../../../core/presentation/utils.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../ui/activity_tile.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../models/transaction.dart';
+import 'activity_tile.dart';
 
 class CommonTile extends StatelessWidget {
   const CommonTile({

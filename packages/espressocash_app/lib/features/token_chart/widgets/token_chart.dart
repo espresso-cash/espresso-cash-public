@@ -312,17 +312,17 @@ extension ChartIntervalExt on ChartInterval {
   String timeFrameLabel(BuildContext context) {
     switch (this) {
       case ChartInterval.oneDay:
-        return context.l10n.chartPastDay;
+        return context.l10n.tokenChart_lblPastDay;
       case ChartInterval.oneWeek:
-        return context.l10n.chartPastWeek;
+        return context.l10n.tokenChart_lblPastWeek;
       case ChartInterval.oneMonth:
-        return context.l10n.chartPastMonth;
+        return context.l10n.tokenChart_lblPastMonth;
       case ChartInterval.threeMonth:
-        return context.l10n.chartPastThreeMonths;
+        return context.l10n.tokenChart_lblPastThreeMonths;
       case ChartInterval.oneYear:
-        return context.l10n.chartPastYear;
+        return context.l10n.tokenChart_lblPastYear;
       case ChartInterval.all:
-        return context.l10n.chartAllTime;
+        return context.l10n.tokenChart_lblAllTime;
     }
   }
 }

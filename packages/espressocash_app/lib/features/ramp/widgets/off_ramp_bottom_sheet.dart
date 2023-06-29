@@ -27,7 +27,7 @@ class OffRampBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                context.l10n.cashOut.toUpperCase(),
+                context.l10n.ramp_btnCashOut.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 17,

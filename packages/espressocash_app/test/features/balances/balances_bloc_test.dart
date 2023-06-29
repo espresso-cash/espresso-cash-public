@@ -28,7 +28,6 @@ void main() {
         final wallet = LocalWallet(await Wallet.random());
 
         account = MyAccount(
-          firstName: 'Tester',
           wallet: wallet,
           accessMode: const AccessMode.created(),
         );

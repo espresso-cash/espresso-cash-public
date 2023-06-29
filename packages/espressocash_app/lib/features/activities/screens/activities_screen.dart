@@ -24,7 +24,7 @@ class ActivitiesScreen extends StatelessWidget {
         child: Column(
           children: [
             CpAppBar(
-              title: Text(context.l10n.activitiesTitle.toUpperCase()),
+              title: Text(context.l10n.activities_lblTitle.toUpperCase()),
             ),
             const SizedBox(height: 20),
             Padding(

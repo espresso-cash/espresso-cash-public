@@ -8,9 +8,9 @@ import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/activity_tile.dart';
 import '../../../../ui/token_icon.dart';
 import '../models/activity.dart';
+import 'activity_tile.dart';
 
 class SwapTile extends StatelessWidget {
   const SwapTile({super.key, required this.activity});
@@ -34,7 +34,7 @@ class SwapTile extends StatelessWidget {
 
     return CpActivityTile(
       title: isBuyOperation
-          ? context.l10n.boughtToken(targetToken.name)
+          ? context.l10n.activities_lblBoughtToken(targetToken.name)
           : context.l10n.soldToken(targetToken.name),
       incomingAmount: inAmount,
       outgoingAmount: outAmount,

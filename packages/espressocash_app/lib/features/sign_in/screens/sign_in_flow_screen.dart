@@ -25,16 +25,29 @@ class SignInFlowScreen extends StatefulWidget {
 }
 
 class _SignInFlowScreenState extends State<SignInFlowScreen>
-    with RouterWrapper
-    implements SignInRouter {
-  @override
-  void onSignIn() => context.router.push(const RestoreAccountRoute());
+    with RouterWrapper {
+  late final SignInBloc _signInBloc;
+
+  void _handleSignInPressed() => router?.push(
+        RestoreAccountRoute(
+          onMnemonicConfirmed: _handleMnemonicConfirmed,
+        ),
+      );
+
+  void _handleMnemonicConfirmed() =>
+      _signInBloc.add(const SignInEvent.submitted());
 
   @override
-  void onMnemonicConfirmed() => context.router.push(const SignInProfileRoute());
+  PageRouteInfo get initialRoute => GetStartedRoute(
+        isSaga: isSaga,
+        onSignInPressed: _handleSignInPressed,
+      );
 
   @override
-  PageRouteInfo get initialRoute => GetStartedRoute(isSaga: isSaga);
+  void initState() {
+    super.initState();
+    _signInBloc = sl<SignInBloc>();
+  }
 
   @override
   void didChangeDependencies() {
@@ -50,10 +63,15 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   }
 
   @override
+  void dispose() {
+    _signInBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => MultiProvider(
         providers: [
-          BlocProvider(create: (_) => sl<SignInBloc>()),
-          Provider<SignInRouter>.value(value: this),
+          BlocProvider<SignInBloc>.value(value: _signInBloc),
         ],
         child: BlocConsumer<SignInBloc, SignInState>(
           listener: (context, state) => state.processingState.maybeWhen(
@@ -65,7 +83,6 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
                   AccountsEvent.created(
                     account: result.account,
                     source: state.source,
-                    hasFinishedOnboarding: result.hasFinishedOnboarding,
                   ),
                 ),
             orElse: ignore,
@@ -76,17 +93,6 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
           ),
         ),
       );
-}
-
-abstract class SignInRouter {
-  const SignInRouter();
-
-  void onSignIn();
-  void onMnemonicConfirmed();
-}
-
-extension SignInRouterExt on BuildContext {
-  SignInRouter get signInRouter => read<SignInRouter>();
 }
 
 bool _parseUri(Uri? link) {

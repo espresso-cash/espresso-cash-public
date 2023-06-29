@@ -8,7 +8,8 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
-import '../data/mnemonic_getter.dart';
+import '../../../di.dart';
+import '../../accounts/data/account_repository.dart';
 import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
@@ -25,7 +26,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MnemonicGetter>().mnemonic.then((String? phrase) {
+    sl<AccountRepository>().loadMnemonic().then((String? phrase) {
       if (phrase != null) {
         setState(() => _phrase = phrase);
       }

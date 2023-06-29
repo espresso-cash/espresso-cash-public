@@ -7,11 +7,12 @@ import '../../../ui/back_button.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
-import 'onboarding_flow_screen.dart';
 
 @RoutePage()
 class NoEmailAndPasswordScreen extends StatelessWidget {
-  const NoEmailAndPasswordScreen({super.key});
+  const NoEmailAndPasswordScreen({super.key, required this.onDone});
+
+  final VoidCallback onDone;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -19,8 +20,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: context.l10n.iUnderstand,
-              onPressed: () => context.onboardingRouter
-                  .onExplainNoEmailAndPasswordCompleted(),
+              onPressed: onDone,
             ),
             children: [
               CpAppBar(

@@ -1,7 +1,7 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_test/bloc_test.dart';
-import 'package:espressocash_app/core/file_manager.dart';
 import 'package:espressocash_app/core/wallet.dart';
+import 'package:espressocash_app/features/accounts/data/account_repository.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/mnemonic.dart';
 import 'package:espressocash_app/features/accounts/services/accounts_bloc.dart';
@@ -21,10 +21,9 @@ Future<void> main() async {
   final wallet = await createLocalWallet(mnemonic: mnemonic);
   final testAccount = MyAccount(
     wallet: wallet,
-    firstName: 'Test',
     accessMode: const AccessMode.loaded(),
   );
-  const fileManager = FileManager();
+  final repository = AccountRepository(storage);
 
   tearDown(() {
     reset(storage);
@@ -32,8 +31,8 @@ Future<void> main() async {
 
   AccountsBloc createBloc() => AccountsBloc(
         storage: storage,
-        fileManager: fileManager,
         seedVault: seedVault,
+        repository: repository,
       );
 
   blocTest<AccountsBloc, AccountsState>(
@@ -54,7 +53,7 @@ Future<void> main() async {
     ],
     verify: (_) {
       verify(storage.read(key: anyNamed('key'), iOptions: anyNamed('iOptions')))
-          .called(3);
+          .called(2);
       verifyNever(
         storage.write(key: anyNamed('key'), value: anyNamed('value')),
       );
@@ -70,15 +69,6 @@ Future<void> main() async {
       when(
         storage.read(key: mnemonicKey, iOptions: anyNamed('iOptions')),
       ).thenAnswer((_) async => mnemonic);
-      when(
-        storage.read(key: nameKey, iOptions: anyNamed('iOptions')),
-      ).thenAnswer((_) async => testAccount.firstName);
-      when(
-        storage.read(key: photoKey, iOptions: anyNamed('iOptions')),
-      ).thenAnswer((_) async => null);
-      when(
-        storage.read(key: onboardingKey, iOptions: anyNamed('iOptions')),
-      ).thenAnswer((_) async => 'true');
       when(storage.write(key: anyNamed('key'), value: anyNamed('value')))
           .thenAnswer((_) async {});
     },
@@ -94,10 +84,6 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
-        predicate(
-          (AccountsState a) => a.hasFinishedOnboarding,
-          'has finished onboarding',
-        ),
       ),
     ],
   );
@@ -114,7 +100,6 @@ Future<void> main() async {
         AccountsEvent.created(
           source: AccountSource.local(Mnemonic.generated(mnemonic)),
           account: testAccount,
-          hasFinishedOnboarding: false,
         ),
       );
     },
@@ -126,10 +111,6 @@ Future<void> main() async {
           'has correct account address',
         ),
         predicate((AccountsState a) => !a.isProcessing, 'is not processing'),
-        predicate(
-          (AccountsState a) => !a.hasFinishedOnboarding,
-          'has not finished onboarding',
-        ),
       ),
     ],
     verify: (_) {
@@ -137,20 +118,6 @@ Future<void> main() async {
         storage.write(
           key: mnemonicKey,
           value: mnemonic,
-          iOptions: anyNamed('iOptions'),
-        ),
-      ).called(1);
-      verify(
-        storage.write(
-          key: nameKey,
-          value: testAccount.firstName,
-          iOptions: anyNamed('iOptions'),
-        ),
-      ).called(1);
-      verify(
-        storage.write(
-          key: onboardingKey,
-          value: 'false',
           iOptions: anyNamed('iOptions'),
         ),
       ).called(1);

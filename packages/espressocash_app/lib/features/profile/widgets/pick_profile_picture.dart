@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../l10n/l10n.dart';
-import 'pick_image_container.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/pick_image_container.dart';
 
 class ProfileImagePicker extends StatefulWidget {
   const ProfileImagePicker({
@@ -83,7 +83,7 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
               ),
               _getListItem(
                 context,
-                context.l10n.camera,
+                context.l10n.profile_lblCamera,
                 const Icon(Icons.photo_camera),
                 () => _onImageButtonPressed(context, ImageSource.camera),
               ),
