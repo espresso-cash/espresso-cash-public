@@ -1547,10 +1547,10 @@ packages:
     dependency: "direct main"
     description:
       name: sliver_tools
-      sha256: bfa69411ebb203cc1a115b1e8bc7935b893eb381fdcf8d453b40c0d4e1db3247
+      sha256: ccdc502098a8bfa07b3ec582c282620031481300035584e1bb3aca296a505e8c
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.9"
+    version: "0.2.10"
   solana:
     dependency: "direct main"
     description:
