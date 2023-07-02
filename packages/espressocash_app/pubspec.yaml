@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   async: ^2.10.0
-  auto_route: ^7.4.0
+  auto_route: ^7.6.0
   barcode_widget: ^2.0.3
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.2
