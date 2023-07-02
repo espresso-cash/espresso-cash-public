@@ -65,7 +65,7 @@ dependencies:
   sentry_flutter: ^7.6.2
   share: ^2.0.4
   shared_preferences: ^2.0.15
-  sliver_tools: ^0.2.8
+  sliver_tools: ^0.2.10
   solana:
     path: ../solana/
   solana_mobile_wallet:
