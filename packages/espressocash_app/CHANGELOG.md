@@ -1,3 +1,7 @@
+## 1.77.3
+
+ - **FIX**: center button in onboarding notice (#1021).
+
 ## 1.77.2
 
  - **REFACTOR**: consolidate profile screens (#1009).
