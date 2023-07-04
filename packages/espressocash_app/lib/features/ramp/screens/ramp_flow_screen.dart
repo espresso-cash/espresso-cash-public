@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 import '../../../core/router_wrapper.dart';
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
+import '../models/ramp_providers.dart';
 import '../models/ramp_type.dart';
 
 @RoutePage()
@@ -24,7 +26,7 @@ class RampFlowScreen extends StatefulWidget {
 class _RampFlowScreenState extends State<RampFlowScreen> with RouterWrapper {
   void _showSnackbar() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showCpSnackbar(context, message: 'Please setup your profile first.');
+      showCpSnackbar(context, message: context.l10n.ramp_lblUpdateProfile);
     });
   }
 
@@ -33,29 +35,24 @@ class _RampFlowScreenState extends State<RampFlowScreen> with RouterWrapper {
 
     return ManageProfileRoute(
       onSubmitted: () {
-        context.router.pop();
-        _handleRedirect();
+        router?.pop();
+        router?.push(_handleRedirect());
       },
     );
   }
 
   PageRouteInfo _handleRedirect() {
-    final profile = sl<ProfileRepository>().profile;
+    const onRampProvider = OnRampProviders.rampNetwork;
+    const offRampProvider = OffRampProviders.none;
 
     return switch (widget.type) {
-      // RampType.onRamp => {},
-      // RampType.offRamp => {},
-      _ => _openProfileRoute()
+      RampType.onRamp => switch (onRampProvider) {
+          OnRampProviders.rampNetwork => const RampNetworkRampRoute(),
+        },
+      RampType.offRamp => switch (offRampProvider) {
+          OffRampProviders.none => const ComingSoonRoute(),
+        }
     };
-
-    // return switch (widget.type) {
-    //   case RampType.onRamp:
-    //     onRampOnRamp(context);
-    //     break;
-    //   case RampType.offRamp:
-    //     break;
-    // }
-    // }
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-
 import 'routes.gr.dart';
 
 @AutoRouterConfig(
@@ -89,11 +88,18 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: RemoteRequestRoute.page),
         AutoRoute(page: WebViewRoute.page),
-        AutoRoute(
+        CustomRoute(
           page: RampFlowRoute.page,
           children: [
             AutoRoute(page: ManageProfileRoute.page),
+            //Ramp Network
+            AutoRoute(page: RampNetworkRampRoute.page),
+            // Coming Soon
+            AutoRoute(page: ComingSoonRoute.page),
           ],
+          transitionsBuilder: TransitionsBuilders.fadeIn,
+          fullscreenDialog: true,
+          opaque: false,
         )
       ],
     ),
