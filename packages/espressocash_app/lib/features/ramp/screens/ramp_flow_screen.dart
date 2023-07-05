@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../../core/router_wrapper.dart';
 import '../../../di.dart';
-import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
+import '../../profile/models/country.dart';
+import '../../profile/models/profile.dart';
 import '../models/ramp_providers.dart';
 import '../models/ramp_type.dart';
 
@@ -24,22 +24,24 @@ class RampFlowScreen extends StatefulWidget {
 }
 
 class _RampFlowScreenState extends State<RampFlowScreen> with RouterWrapper {
-  void _showSnackbar() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showCpSnackbar(context, message: context.l10n.ramp_lblUpdateProfile);
-    });
-  }
+  void _saveCountry(Country country) {
+    final profile = sl<ProfileRepository>().profile;
 
-  PageRouteInfo _openProfileRoute() {
-    _showSnackbar();
-
-    return ManageProfileRoute(
-      onSubmitted: () {
-        router?.pop();
-        router?.push(_handleRedirect());
-      },
+    sl<ProfileRepository>().profile = Profile(
+      firstName: profile.firstName,
+      photoPath: profile.photoPath,
+      country: country.code,
     );
   }
+
+  PageRouteInfo countrySelectorRoute() => CountryPickerRoute(
+        onSubmitted: (country) {
+          _saveCountry(country);
+
+          router?.pop();
+          router?.push(_handleRedirect());
+        },
+      );
 
   PageRouteInfo _handleRedirect() {
     const onRampProvider = OnRampProviders.rampNetwork;
@@ -59,7 +61,7 @@ class _RampFlowScreenState extends State<RampFlowScreen> with RouterWrapper {
   PageRouteInfo get initialRoute {
     final profile = sl<ProfileRepository>().profile;
 
-    return profile.country == null ? _openProfileRoute() : _handleRedirect();
+    return profile.country == null ? countrySelectorRoute() : _handleRedirect();
   }
 
   @override

@@ -9,14 +9,16 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';
 
-@RoutePage<Country?>()
+@RoutePage()
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
+    required this.onSubmitted,
   });
 
   final Country? initial;
+  final void Function(Country) onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -25,15 +27,24 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(child: _Content(initial)),
+          body: _Wrapper(
+            child: _Content(
+              initial: initial,
+              onSubmitted: onSubmitted,
+            ),
+          ),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content(this.initial);
+  const _Content({
+    this.initial,
+    required this.onSubmitted,
+  });
 
   final Country? initial;
+  final void Function(Country) onSubmitted;
 
   @override
   State<_Content> createState() => __ContentState();
@@ -148,7 +159,7 @@ class __ContentState extends State<_Content> {
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
                     onTap: () {
-                      context.router.pop(country);
+                      widget.onSubmitted.call(country);
                     },
                   ),
                 );

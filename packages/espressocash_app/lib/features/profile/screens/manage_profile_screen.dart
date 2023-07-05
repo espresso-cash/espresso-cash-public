@@ -63,18 +63,18 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  Future<void> _onUpdateCountry() async {
-    final code = await context.router.push<Country?>(
-      CountryPickerRoute(initial: _country),
+  void _onUpdateCountry() {
+    context.router.push(
+      CountryPickerRoute(
+        initial: _country,
+        onSubmitted: (country) {
+          context.router.pop();
+          setState(() {
+            _country = country;
+          });
+        },
+      ),
     );
-
-    if (!mounted) return;
-
-    if (code != null) {
-      setState(() {
-        _country = code;
-      });
-    }
   }
 
   void _handleSubmitted() => runWithLoader(context, () async {

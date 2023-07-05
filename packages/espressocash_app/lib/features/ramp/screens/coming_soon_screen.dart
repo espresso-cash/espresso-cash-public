@@ -16,10 +16,9 @@ class _ComingSoonScreenState extends State<ComingSoonScreen> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await OffRampBottomSheet.show(context);
-      if (!mounted) return;
-      await context.router.pop();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.router.pop();
+      OffRampBottomSheet.show(context);
     });
   }
 

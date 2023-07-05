@@ -91,7 +91,7 @@ class AppRouter extends $AppRouter {
         CustomRoute(
           page: RampFlowRoute.page,
           children: [
-            AutoRoute(page: ManageProfileRoute.page),
+            AutoRoute(page: CountryPickerRoute.page),
             //Ramp Network
             AutoRoute(page: RampNetworkRampRoute.page),
             // Coming Soon

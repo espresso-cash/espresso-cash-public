@@ -49,9 +49,7 @@ class OffRampBottomSheet extends StatelessWidget {
               CpButton(
                 text: context.l10n.ok,
                 minWidth: 250,
-                onPressed: () {
-                  context.router.pop();
-                },
+                onPressed: () => context.router.pop(),
               ),
             ],
           ),
