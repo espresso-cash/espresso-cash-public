@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ramp_flutter/configuration.dart';
@@ -6,6 +7,7 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../balances/widgets/context_ext.dart';
@@ -55,7 +57,7 @@ class CashOutButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
-          onPressed: () {},
+          onPressed: () => context.router.push(const CoinflowOffRampRoute()),
         ),
       );
 }

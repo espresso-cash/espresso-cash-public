@@ -6,6 +6,7 @@ import '../../../../core/presentation/utils.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/timeline.dart';
+import '../../../core/presentation/format_date.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -15,9 +16,10 @@ import '../models/off_ramp_payment.dart';
 
 @RoutePage()
 class OffRampDetailsScreen extends StatefulWidget {
-  const OffRampDetailsScreen({super.key, required this.id});
+  const OffRampDetailsScreen({super.key, required this.id, this.onSuccess});
 
   final String id;
+  final VoidCallback? onSuccess;
 
   @override
   State<OffRampDetailsScreen> createState() => _OffRampDetailsScreenState();
@@ -30,6 +32,12 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
   void initState() {
     super.initState();
     _payment = sl<ORPRepository>().watch(widget.id);
+
+    _payment.listen((e) {
+      if (e.status is ORPStatusSuccess) {
+        widget.onSuccess?.call();
+      }
+    });
   }
 
   @override
@@ -48,22 +56,17 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             success: (status) => TransferSuccess(
               onBack: () => context.router.pop(),
               onOkPressed: () => context.router.pop(),
-              statusContent: 'TODO',
-              // statusContent: context.l10n.outgoingTransferSuccess( //TODO update if sign only
-              //   payment.amount.format(DeviceLocale.localeOf(context)),
-              // ),
+              statusContent: 'Cash out',
               content: CpTimeline(
                 animated: false,
                 status: CpTimelineStatus.success,
                 active: 1,
                 items: [
                   CpTimelineItem(title: context.l10n.transferInitiated),
-                  // CpTimelineItem( //TODO update if sign only
-                  //   title: context.l10n.receivedBy(
-                  //     payment.receiver.toBase58().toShortAddress(),
-                  //   ),
-                  //   subtitle: context.formatDate(payment.created),
-                  // ),
+                  CpTimelineItem(
+                    title: 'Transaction Approved',
+                    subtitle: context.formatDate(payment.created),
+                  ),
                 ],
               ),
               onMoreDetailsPressed: () {

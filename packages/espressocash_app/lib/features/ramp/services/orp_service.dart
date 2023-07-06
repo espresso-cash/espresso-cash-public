@@ -20,7 +20,7 @@ class ORPService {
   final CryptopleaseClient _client;
   final ORPRepository _repository;
 
-  Future<OffRampPayment> create({
+  Future<OffRampPayment> createTransfer({
     required ECWallet account,
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
@@ -46,7 +46,7 @@ class ORPService {
     return payment;
   }
 
-  Future<OffRampPayment> retry(
+  Future<OffRampPayment> retryTransfer(
     ORPTransferFunds payment, {
     required ECWallet account,
   }) async {
@@ -88,5 +88,26 @@ class ORPService {
         reason: TxFailureReason.creatingFailure,
       );
     }
+  }
+
+  Future<OffRampPayment> createSigned({
+    required ECWallet account,
+    required SignedTx tx,
+  }) async {
+    final id = const Uuid().v4();
+
+    final signedTx = await tx.resign(account);
+
+    final status = ORPStatus.txCreated(signedTx, slot: BigInt.zero);
+
+    final payment = OffRampPayment.signTransaction(
+      id: id,
+      created: DateTime.now(),
+      status: status,
+    );
+
+    await _repository.save(payment);
+
+    return payment;
   }
 }
