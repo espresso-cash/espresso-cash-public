@@ -89,16 +89,11 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: RemoteRequestRoute.page),
         AutoRoute(page: WebViewRoute.page),
-        AutoRoute(
-          page: RampFlowRoute.page,
-          children: [
-            AutoRoute(page: OffRampConfirmationRoute.page),
-            AutoRoute(page: OffRampDetailsRoute.page),
-            AutoRoute(page: ManageProfileRoute.page),
-            // Coinflow
-            AutoRoute(page: CoinflowOffRampRoute.page),
-          ],
-        )
+        //TEMP
+        AutoRoute(page: OffRampConfirmationRoute.page),
+        AutoRoute(page: OffRampDetailsRoute.page),
+        AutoRoute(page: CoinflowOffRampRoute.page),
+        //TEMP
       ],
     ),
     AutoRoute(

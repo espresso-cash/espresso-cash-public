@@ -1,1 +1,0 @@
-enum RampType { onRamp, offRamp }
