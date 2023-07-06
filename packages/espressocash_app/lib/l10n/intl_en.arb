@@ -394,8 +394,6 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Cash Out",
   "@ramp_btnCashOut": {},
-  "ramp_lblUpdateProfile": "Please setup your profile first.",
-  "@ramp_lblUpdateProfile": {},
   "receive": "Request",
   "@receive": {},
   "receivedBy": "Received by {address}",
