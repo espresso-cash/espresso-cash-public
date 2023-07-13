@@ -75,11 +75,7 @@ class _ContentState extends State<_Content> {
         final index = _countries.indexOf(country);
         final centerOffset = (context.size?.height ?? 0 - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
-        _scrollController.animateTo(
-          offset,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+        _scrollController.jumpTo(offset);
       });
     }
   }
@@ -136,31 +132,27 @@ class _ContentState extends State<_Content> {
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: filteredCountries.length,
+              itemExtent: _tileHeight,
               itemBuilder: (BuildContext context, int index) {
                 final country = filteredCountries[index];
                 final selected = country == _selectedCountry;
 
-                return Container(
-                  height: _tileHeight,
+                return DecoratedBox(
                   decoration: selected
                       ? const ShapeDecoration(
                           color: Color(0xff404040),
                           shape: StadiumBorder(),
                         )
-                      : null,
+                      : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
                     title: Text(
                       country.name,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                      ),
+                      style: TextStyle(fontSize: selected ? 19 : 17),
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () {
-                      widget.onSubmitted(country);
-                    },
+                    onTap: () => widget.onSubmitted(country),
                   ),
                 );
               },
