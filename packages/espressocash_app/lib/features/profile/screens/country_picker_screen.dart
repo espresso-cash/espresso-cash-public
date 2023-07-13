@@ -9,14 +9,16 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';
 
-@RoutePage<Country?>()
+@RoutePage()
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
+    required this.onSubmitted,
   });
 
   final Country? initial;
+  final void Function(Country country) onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -25,26 +27,35 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(child: _Content(initial)),
+          body: _Wrapper(
+            child: _Content(
+              initial: initial,
+              onSubmitted: onSubmitted,
+            ),
+          ),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content(this.initial);
+  const _Content({
+    this.initial,
+    required this.onSubmitted,
+  });
 
   final Country? initial;
+  final ValueSetter<Country> onSubmitted;
 
   @override
-  State<_Content> createState() => __ContentState();
+  State<_Content> createState() => _ContentState();
 }
 
-class __ContentState extends State<_Content> {
+class _ContentState extends State<_Content> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   Country? _selectedCountry;
-  String get _searchText => _searchController.text;
+  String _searchText = '';
 
   final _countries = Country.all;
 
@@ -55,7 +66,7 @@ class __ContentState extends State<_Content> {
     _selectedCountry = widget.initial;
 
     _searchController.addListener(() {
-      setState(() {});
+      setState(() => _searchText = _searchController.text);
     });
 
     final country = _selectedCountry;
@@ -64,11 +75,7 @@ class __ContentState extends State<_Content> {
         final index = _countries.indexOf(country);
         final centerOffset = (context.size?.height ?? 0 - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
-        _scrollController.animateTo(
-          offset,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+        _scrollController.jumpTo(offset);
       });
     }
   }
@@ -125,31 +132,27 @@ class __ContentState extends State<_Content> {
               controller: _scrollController,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: filteredCountries.length,
+              itemExtent: _tileHeight,
               itemBuilder: (BuildContext context, int index) {
                 final country = filteredCountries[index];
                 final selected = country == _selectedCountry;
 
-                return Container(
-                  height: _tileHeight,
+                return DecoratedBox(
                   decoration: selected
                       ? const ShapeDecoration(
                           color: Color(0xff404040),
                           shape: StadiumBorder(),
                         )
-                      : null,
+                      : const BoxDecoration(),
                   child: ListTile(
                     dense: true,
                     title: Text(
                       country.name,
-                      style: TextStyle(
-                        fontSize: selected ? 19 : 17,
-                      ),
+                      style: TextStyle(fontSize: selected ? 19 : 17),
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () {
-                      context.router.pop(country);
-                    },
+                    onTap: () => widget.onSubmitted(country),
                   ),
                 );
               },

@@ -63,19 +63,15 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  Future<void> _onUpdateCountry() async {
-    final code = await context.router.push<Country?>(
-      CountryPickerRoute(initial: _country),
-    );
-
-    if (!mounted) return;
-
-    if (code != null) {
-      setState(() {
-        _country = code;
-      });
-    }
-  }
+  void _handleCountryPressed() => context.router.push<Country>(
+        CountryPickerRoute(
+          initial: _country,
+          onSubmitted: (country) {
+            context.router.pop();
+            setState(() => _country = country);
+          },
+        ),
+      );
 
   void _handleSubmitted() => runWithLoader(context, () async {
         try {
@@ -130,7 +126,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               ),
               _CountryPickerItem(
                 country: _country,
-                onTap: _onUpdateCountry,
+                onTap: _handleCountryPressed,
               ),
             ],
           ),

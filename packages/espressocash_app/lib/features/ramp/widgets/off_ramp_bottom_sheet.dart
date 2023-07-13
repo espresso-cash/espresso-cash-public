@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -48,7 +49,7 @@ class OffRampBottomSheet extends StatelessWidget {
               CpButton(
                 text: context.l10n.ok,
                 minWidth: 250,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.router.pop(),
               ),
             ],
           ),
