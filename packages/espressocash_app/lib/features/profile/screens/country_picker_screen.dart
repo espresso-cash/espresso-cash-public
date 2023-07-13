@@ -18,7 +18,7 @@ class CountryPickerScreen extends StatelessWidget {
   });
 
   final Country? initial;
-  final void Function(Country) onSubmitted;
+  final void Function(Country country) onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -44,7 +44,7 @@ class _Content extends StatefulWidget {
   });
 
   final Country? initial;
-  final void Function(Country) onSubmitted;
+  final void Function(Country country) onSubmitted;
 
   @override
   State<_Content> createState() => __ContentState();
@@ -159,7 +159,7 @@ class __ContentState extends State<_Content> {
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
                     onTap: () {
-                      widget.onSubmitted.call(country);
+                      widget.onSubmitted(country);
                     },
                   ),
                 );
