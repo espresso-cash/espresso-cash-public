@@ -44,7 +44,7 @@ class _Content extends StatefulWidget {
   });
 
   final Country? initial;
-  final void Function(Country country) onSubmitted;
+  final ValueSetter<Country> onSubmitted;
 
   @override
   State<_Content> createState() => __ContentState();
