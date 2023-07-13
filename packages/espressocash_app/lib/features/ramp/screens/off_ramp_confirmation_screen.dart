@@ -1,12 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../l10n/decimal_separator.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/bordered_row.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/number_formatter.dart';
 import '../../../../ui/theme.dart';
 
 @RoutePage<bool?>()

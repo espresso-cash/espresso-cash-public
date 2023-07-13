@@ -24,7 +24,7 @@ class CoinflowOffRampScreen extends StatefulWidget {
 class _State extends State<CoinflowOffRampScreen> {
   late final WebViewController _controller;
 
-  final channelName = 'flutterChannel';
+  final channelName = 'coinflowChannel';
 
   @override
   void initState() {
@@ -38,25 +38,12 @@ class _State extends State<CoinflowOffRampScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.white)
       ..loadRequest(uri)
-      ..addJavaScriptChannel(channelName, onMessageReceived: onMessageReceived)
-      ..setNavigationDelegate(
-        NavigationDelegate(onPageFinished: (_) => _onPageFinished()),
-      );
+      ..addJavaScriptChannel(channelName, onMessageReceived: onMessageReceived);
   }
 
   Future<void> onMessageReceived(
     JavaScriptMessage message,
   ) async {
-    // final tx = await message.message
-    //     .let(SignedTx.decode)
-    //     .let((it) => it.resign(context.read<MyAccount>().wallet));
-
-    // final txSender = TxSender(client: sl<SolanaClient>());
-
-    // final res = await txSender.send(tx, minContextSlot: BigInt.zero);
-
-    // print(res);
-
     final confirmed =
         await context.router.push<bool?>(const OffRampConfirmationRoute());
 
@@ -78,15 +65,6 @@ class _State extends State<CoinflowOffRampScreen> {
     );
   }
 
-  Future<void> _onPageFinished() async {
-    try {
-      //TODO check if needed
-      if (!mounted) return;
-    } on Exception {
-      // ignore
-    }
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(
@@ -100,7 +78,7 @@ class _State extends State<CoinflowOffRampScreen> {
 
 Uri _buildUri({required String userAddress}) => Uri(
       scheme: 'http',
-      host: 'localhost',
+      host: 'localhost', //TODO upd url
       port: 3000,
       path: '/',
       queryParameters: <String, String>{
