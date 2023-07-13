@@ -55,7 +55,7 @@ class _ContentState extends State<_Content> {
   final ScrollController _scrollController = ScrollController();
 
   Country? _selectedCountry;
-  String get _searchText => _searchController.text;
+  String _searchText = '';
 
   final _countries = Country.all;
 
@@ -66,7 +66,7 @@ class _ContentState extends State<_Content> {
     _selectedCountry = widget.initial;
 
     _searchController.addListener(() {
-      setState(() {});
+      setState(() => _searchText = _searchController.text);
     });
 
     final country = _selectedCountry;
