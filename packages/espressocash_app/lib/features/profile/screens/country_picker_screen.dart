@@ -47,10 +47,10 @@ class _Content extends StatefulWidget {
   final ValueSetter<Country> onSubmitted;
 
   @override
-  State<_Content> createState() => __ContentState();
+  State<_Content> createState() => _ContentState();
 }
 
-class __ContentState extends State<_Content> {
+class _ContentState extends State<_Content> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
