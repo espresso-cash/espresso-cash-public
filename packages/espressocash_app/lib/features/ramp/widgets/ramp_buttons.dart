@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -24,9 +27,12 @@ class AddCashButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnAddCash,
-          onPressed: () => context.ensureCountry(() {
-            context.showRampNetworkOnRamp();
-          }),
+          onPressed: () async {
+            final country = await context.ensureCountry();
+            if (context.mounted) {
+              context.showRampNetworkOnRamp(country.code);
+            }
+          },
         ),
       );
 }
@@ -45,26 +51,35 @@ class CashOutButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
-          onPressed: () => context.ensureCountry(() {
-            OffRampBottomSheet.show(context);
-          }),
+          onPressed: () async {
+            await context.ensureCountry();
+            if (context.mounted) {
+              unawaited(OffRampBottomSheet.show(context));
+            }
+          },
         ),
       );
 }
 
 extension on BuildContext {
-  void ensureCountry(VoidCallback onSubmitted) {
+  Future<Country> ensureCountry() {
+    final completer = Completer<Country>();
+
     void onCountrySelected(Country country) {
       router.pop();
       sl<ProfileRepository>().profile =
           sl<ProfileRepository>().profile.copyWith(country: country.code);
-      onSubmitted();
+      completer.complete(country);
     }
 
-    if (sl<ProfileRepository>().profile.country == null) {
+    final country =
+        sl<ProfileRepository>().profile.country?.let(Country.findByCode);
+    if (country == null) {
       router.push<Country>(CountryPickerRoute(onSubmitted: onCountrySelected));
     } else {
-      onSubmitted();
+      completer.complete(country);
     }
+
+    return completer.future;
   }
 }

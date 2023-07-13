@@ -4,14 +4,13 @@ import 'package:ramp_flutter/configuration.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../config.dart';
-import '../../../l10n/device_locale.dart';
 import '../../accounts/models/account.dart';
 import '../../balances/widgets/context_ext.dart';
 
 extension BuildContextExt on BuildContext {
-  void showRampNetworkOnRamp() {
+  void showRampNetworkOnRamp(String countryCode) {
     final configuration = _defaultConfiguration
-      ..selectedCountryCode = DeviceLocale.localeOf(this).countryCode
+      ..selectedCountryCode = countryCode
       ..defaultFlow = 'ONRAMP'
       ..userAddress = read<MyAccount>().wallet.publicKey.toBase58();
 
