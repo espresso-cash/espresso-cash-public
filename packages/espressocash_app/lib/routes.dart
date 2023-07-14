@@ -43,7 +43,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: BackupPhraseFlowRoute.page,
           children: [
-            AutoRoute(path: '', page: BackupWarningRoute.page),
+            AutoRoute(page: BackupWarningRoute.page),
             AutoRoute(page: BackupPhraseRoute.page),
             AutoRoute(page: BackupConfirmPhraseRoute.page),
             AutoRoute(page: BackupPhraseSuccessRoute.page),
