@@ -54,5 +54,5 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
       };
 
   @override
-  Widget build(BuildContext context) => AutoRouter(key: router?.key);
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }

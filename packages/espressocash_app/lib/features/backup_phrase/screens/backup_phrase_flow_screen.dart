@@ -48,5 +48,5 @@ class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
       );
 
   @override
-  Widget build(BuildContext context) => AutoRouter(key: router?.key);
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }
