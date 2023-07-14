@@ -13,9 +13,7 @@ import '../../widgets/extensions.dart';
 
 @RoutePage()
 class CoinflowOffRampScreen extends StatefulWidget {
-  const CoinflowOffRampScreen({
-    super.key,
-  });
+  const CoinflowOffRampScreen({super.key});
 
   @override
   State<CoinflowOffRampScreen> createState() => _State();
@@ -41,11 +39,9 @@ class _State extends State<CoinflowOffRampScreen> {
       ..addJavaScriptChannel(channelName, onMessageReceived: onMessageReceived);
   }
 
-  Future<void> onMessageReceived(
-    JavaScriptMessage message,
-  ) async {
-    final confirmed =
-        await context.router.push<bool?>(const OffRampConfirmationRoute());
+  Future<void> onMessageReceived(JavaScriptMessage message) async {
+    final confirmed = await context.router
+        .push<bool?>(OffRampConfirmationRoute(provider: 'Coinflow'));
 
     if (confirmed != true) return;
 
@@ -70,16 +66,14 @@ class _State extends State<CoinflowOffRampScreen> {
         appBar: CpAppBar(
           title: const Text('Coinflow | Espresso Cash'),
         ),
-        body: WebViewWidget(
-          controller: _controller,
-        ),
+        body: WebViewWidget(controller: _controller),
       );
 }
 
 Uri _buildUri({required String userAddress}) => Uri(
-      scheme: 'http',
-      host: 'localhost', //TODO upd url
-      port: 3000,
+      scheme: 'http', //TODO https
+      host: coinflowHost,
+      port: 3000, //TODO remove
       path: '/',
       queryParameters: <String, String>{
         'publicKey': userAddress,

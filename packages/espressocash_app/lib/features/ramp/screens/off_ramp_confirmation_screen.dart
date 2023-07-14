@@ -5,10 +5,15 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/bordered_row.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
+import '../../../l10n/l10n.dart';
 
 @RoutePage<bool?>()
 class OffRampConfirmationScreen extends StatelessWidget {
-  const OffRampConfirmationScreen({super.key});
+  const OffRampConfirmationScreen({
+    super.key,
+    required this.provider,
+  });
+  final String provider;
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +22,14 @@ class OffRampConfirmationScreen extends StatelessWidget {
     return CpTheme.dark(
       child: Scaffold(
         appBar: CpAppBar(
-          title: const Text('Approve Transaction'),
+          title: Text(context.l10n.ramp_approveTransactionTitle),
         ),
         body: Column(
           children: [
-            const CpBorderedRow(
-              title: Text('Provider'),
+            CpBorderedRow(
+              title: Text(context.l10n.ramp_providerTitle),
               content: BorderedRowChip(
-                child: Text('CoinFlow', style: _textStyle),
+                child: Text(provider, style: _textStyle),
               ),
             ),
             const Spacer(),
@@ -32,7 +37,7 @@ class OffRampConfirmationScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: CpButton(
-                text: 'Approve',
+                text: context.l10n.ramp_btnApprove,
                 minWidth: width,
                 onPressed: () => context.router.pop(true),
                 size: CpButtonSize.big,

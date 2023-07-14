@@ -70,6 +70,7 @@ const solanaPayHost = 'solanapay.$cpLinkDomain';
 const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const moonpayHost = 'moonpay.$cpLinkDomain';
 const espressoCashDeepLinkHost = 'espressocash.page.link';
+const coinflowHost = 'localhost'; //TODO update url once deployed
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
