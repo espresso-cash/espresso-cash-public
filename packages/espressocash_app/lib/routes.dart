@@ -21,10 +21,11 @@ class AppRouter extends $AppRouter {
           page: HomeRoute.page,
           children: [
             CustomRoute(
-              page: InvestmentsRouter.page,
+              page: InvestmentsFlowRoute.page,
               path: '',
               children: [
-                CustomRoute(initial: true, page: InvestmentsRoute.page),
+                CustomRoute(page: InvestmentsRoute.page, path: ''),
+                AutoRoute(page: TokenSearchRoute.page),
                 AutoRoute(page: TokenDetailsRoute.page),
               ],
             ),
@@ -43,7 +44,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: BackupPhraseFlowRoute.page,
           children: [
-            AutoRoute(path: '', page: BackupWarningRoute.page),
+            AutoRoute(page: BackupWarningRoute.page),
             AutoRoute(page: BackupPhraseRoute.page),
             AutoRoute(page: BackupConfirmPhraseRoute.page),
             AutoRoute(page: BackupPhraseSuccessRoute.page),
@@ -78,7 +79,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ManageProfileRoute.page),
         AutoRoute(page: CountryPickerRoute.page),
         AutoRoute(page: HelpRoute.page),
-        AutoRoute(page: TokenSearchRoute.page),
         AutoRoute(
           page: OnboardingFlowRoute.page,
           children: [

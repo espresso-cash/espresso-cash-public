@@ -8,11 +8,16 @@ import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/accounts_bloc.dart';
+import '../../profile/screens/manage_profile_screen.dart';
 import '../data/onboarding_repository.dart';
+import 'no_email_and_password_screen.dart';
+import 'view_recovery_phrase_screen.dart';
 
 @RoutePage()
 class OnboardingFlowScreen extends StatefulWidget {
   const OnboardingFlowScreen({super.key});
+
+  static const route = OnboardingFlowRoute.new;
 
   @override
   State<OnboardingFlowScreen> createState() => _OnboardingFlowScreenState();
@@ -21,7 +26,7 @@ class OnboardingFlowScreen extends StatefulWidget {
 class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
     with RouterWrapper {
   void _handleNoEmailAndPasswordCompleted() =>
-      router?.push(ViewRecoveryPhraseRoute(onDone: _openProfileScreen));
+      router?.push(ViewRecoveryPhraseScreen.route(onDone: _openProfileScreen));
 
   void _handleComplete() {
     sl<OnboardingRepository>().hasFinishedOnboarding = true;
@@ -29,15 +34,18 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
   }
 
   void _openProfileScreen() =>
-      router?.push(ManageProfileRoute(onSubmitted: _handleComplete));
+      router?.push(ManageProfileScreen.route(onSubmitted: _handleComplete));
 
   @override
   PageRouteInfo get initialRoute {
     final account = context.read<AccountsBloc>().state.account;
 
     return account?.wallet is SagaWallet
-        ? ManageProfileRoute(onSubmitted: _handleComplete) as PageRouteInfo
-        : NoEmailAndPasswordRoute(onDone: _handleNoEmailAndPasswordCompleted);
+        ? ManageProfileScreen.route(onSubmitted: _handleComplete)
+            as PageRouteInfo
+        : NoEmailAndPasswordScreen.route(
+            onDone: _handleNoEmailAndPasswordCompleted,
+          );
   }
 
   @override

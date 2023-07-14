@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/profile_switch.dart';
+import '../screens/app_lock_setup_flow_screen.dart';
 import '../services/app_lock_bloc.dart';
 
 class AppLockMenuItem extends StatelessWidget {
@@ -17,10 +17,9 @@ class AppLockMenuItem extends StatelessWidget {
           subtitle: context.l10n.appLock_lblAutoLockDescription,
           value: state is AppLockStateEnabled,
           onChanged: (value) {
-            final screen = value
-                ? const AppLockEnableRoute()
-                : const AppLockDisableRoute();
-            context.router.push(AppLockSetupFlowRoute(children: [screen]));
+            final flow =
+                value ? AppLockSetupFlow.enable : AppLockSetupFlow.disable;
+            context.router.push(AppLockSetupFlowScreen.route(flow: flow));
           },
         ),
       );

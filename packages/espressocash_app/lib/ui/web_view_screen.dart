@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+import '../routes.gr.dart';
 import 'app_bar.dart';
 
 @RoutePage()
@@ -10,6 +11,8 @@ class WebViewScreen extends StatefulWidget {
     super.key,
     required this.url,
   });
+
+  static const route = WebViewRoute.new;
 
   final Uri url;
 

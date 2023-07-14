@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
@@ -12,6 +13,8 @@ import '../../accounts/data/account_repository.dart';
 @RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
   const ViewRecoveryPhraseScreen({super.key, required this.onDone});
+
+  static const route = ViewRecoveryPhraseRoute.new;
 
   final VoidCallback onDone;
 

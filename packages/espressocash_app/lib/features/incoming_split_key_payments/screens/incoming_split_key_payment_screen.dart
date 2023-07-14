@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../transactions/models/tx_sender.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -18,6 +19,8 @@ class IncomingSplitKeyPaymentScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static const route = IncomingSplitKeyPaymentRoute.new;
 
   final String id;
 

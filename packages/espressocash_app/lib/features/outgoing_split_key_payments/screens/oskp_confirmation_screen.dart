@@ -8,6 +8,7 @@ import '../../../core/fee_label.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -25,6 +26,8 @@ class OSKPConfirmationScreen extends StatelessWidget {
     required this.fee,
     required this.onSubmit,
   });
+
+  static const route = OSKPConfirmationRoute.new;
 
   final Amount tokenAmount;
   final Amount fee;

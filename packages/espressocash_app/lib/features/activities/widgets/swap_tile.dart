@@ -7,8 +7,8 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
 import '../../../../ui/token_icon.dart';
+import '../../swap/screens/process_swap_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 
@@ -49,7 +49,8 @@ class SwapTile extends StatelessWidget {
         success: always(CpActivityTileStatus.success),
         txFailure: always(CpActivityTileStatus.failure),
       ),
-      onTap: () => context.router.navigate(ProcessSwapRoute(id: activity.id)),
+      onTap: () =>
+          context.router.navigate(ProcessSwapScreen.route(id: activity.id)),
     );
   }
 }

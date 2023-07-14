@@ -6,9 +6,9 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
 import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
+import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/formatted_amount.dart';
 import '../../payment_request/widgets/payment_request_verifier.dart';
 import 'activity_tile.dart';
@@ -56,8 +56,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                       completed: always(CpActivityTileStatus.success),
                       failure: always(CpActivityTileStatus.failure),
                     ),
-                    onTap: () =>
-                        context.navigateTo(LinkDetailsFlowRoute(id: data.id)),
+                    onTap: () => context
+                        .navigateTo(LinkDetailsFlowScreen.route(id: data.id)),
                   ),
                 );
         },

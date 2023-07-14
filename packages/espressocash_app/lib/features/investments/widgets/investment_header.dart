@@ -10,7 +10,6 @@ import '../../../core/tokens/token.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
@@ -18,6 +17,8 @@ import '../../../ui/info_widget.dart';
 import '../../../ui/token_icon.dart';
 import '../../balances/widgets/watch_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../token_details/screens/token_details_screen.dart';
+import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 class InvestmentHeader extends StatelessWidget {
   const InvestmentHeader({super.key});
@@ -78,7 +79,7 @@ class _Buttons extends StatelessWidget {
                         size: CpButtonSize.wide,
                         text: context.l10n.sendMoney,
                         onPressed: () =>
-                            context.router.navigate(const WalletFlowRoute()),
+                            context.router.navigate(WalletFlowScreen.route()),
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -164,7 +165,8 @@ class _Amount extends StatelessWidget {
     );
 
     return GestureDetector(
-      onTap: () => context.router.push(TokenDetailsRoute(token: Token.usdc)),
+      onTap: () =>
+          context.router.push(TokenDetailsScreen.route(token: Token.usdc)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,

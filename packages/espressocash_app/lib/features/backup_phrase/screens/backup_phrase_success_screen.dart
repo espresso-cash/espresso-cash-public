@@ -1,17 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
-import 'backup_phrase_flow_screen.dart';
+import '../../../routes.gr.dart';
 
 @RoutePage()
 class BackupPhraseSuccessScreen extends StatelessWidget {
-  const BackupPhraseSuccessScreen({super.key});
+  const BackupPhraseSuccessScreen({super.key, required this.onSolved});
+
+  final VoidCallback onSolved;
+
+  static const route = BackupPhraseSuccessRoute.new;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -45,9 +48,7 @@ class BackupPhraseSuccessScreen extends StatelessWidget {
                     size: CpButtonSize.big,
                     width: double.infinity,
                     text: context.l10n.ok,
-                    onPressed: () => context
-                        .read<BackupPhraseRouter>()
-                        .closeFlow(solved: true),
+                    onPressed: onSolved,
                   )
                 ],
               ),

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.config.dart';
 import '../../../di.dart';
+import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
@@ -35,6 +36,8 @@ class HomeRouterKey {
 @RoutePage()
 class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({super.key});
+
+  static const route = AuthenticatedFlowRoute.new;
 
   @override
   State<AuthenticatedFlowScreen> createState() =>

@@ -8,6 +8,7 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -22,6 +23,8 @@ class GetStartedScreen extends StatelessWidget {
     required this.isSaga,
     required this.onSignInPressed,
   });
+
+  static const route = GetStartedRoute.new;
 
   final bool isSaga;
   final VoidCallback onSignInPressed;

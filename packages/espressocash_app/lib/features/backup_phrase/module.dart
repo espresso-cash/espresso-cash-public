@@ -5,9 +5,9 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../../routes.gr.dart';
 import '../accounts/models/account.dart';
 import '../accounts/services/accounts_bloc.dart';
+import 'screens/puzzle_reminder_setup_screen.dart';
 import 'services/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
@@ -49,7 +49,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _showPuzzleReminderDialog() {
-    context.router.push(const PuzzleReminderRoute());
+    context.router.push(PuzzleReminderRouteScreen.route());
   }
 
   @override

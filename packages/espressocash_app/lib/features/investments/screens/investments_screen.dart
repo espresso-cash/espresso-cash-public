@@ -16,20 +16,19 @@ import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../onboarding/widgets/onboarding_notice.dart';
 import '../../popular_tokens/widgets/extensions.dart';
 import '../../popular_tokens/widgets/popular_token_list.dart';
+import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
+import '../../token_search/screens/token_search_screen.dart';
 import '../widgets/crypto_investments.dart';
 import '../widgets/investment_header.dart';
 import '../widgets/popular_crypto_header.dart';
 import '../widgets/start_investing_header.dart';
 
-@RoutePage(name: 'InvestmentsRouter')
-class InvestmentsRouterScreen extends AutoRouter {
-  const InvestmentsRouterScreen({super.key});
-}
-
 @RoutePage()
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({super.key});
+
+  static const route = InvestmentsRoute.new;
 
   @override
   State<InvestmentsScreen> createState() => _InvestmentsScreenState();
@@ -127,12 +126,13 @@ class _AppBarContent extends StatelessWidget {
                 children: [
                   CpIconButton(
                     icon: Assets.icons.searchButtonIcon.svg(),
-                    onPressed: () => context.router.push(TokenSearchRoute()),
+                    onPressed: () =>
+                        context.router.push(TokenSearchScreen.route()),
                   ),
                   const SizedBox(width: 12),
                   CpIconButton(
                     icon: Assets.icons.settingsButtonIcon.svg(),
-                    onPressed: () => context.router.push(const ProfileRoute()),
+                    onPressed: () => context.router.push(ProfileScreen.route()),
                   )
                 ],
               ),

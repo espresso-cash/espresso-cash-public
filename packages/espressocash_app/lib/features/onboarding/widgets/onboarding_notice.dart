@@ -6,11 +6,11 @@ import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../data/onboarding_repository.dart';
+import '../screens/onboarding_flow_screen.dart';
 
 class OnboardingNotice extends StatefulWidget {
   const OnboardingNotice({super.key});
@@ -30,7 +30,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _onPressed() => context.router.navigate(const OnboardingFlowRoute());
+  void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<bool>(
