@@ -14,9 +14,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
-import '../../authenticated/screens/home_screen.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
-import '../../investments/screens/investments_screen.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../models/crypto_categories.dart';
 import '../services/bloc.dart';
@@ -157,15 +155,8 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         child: ListTile(
-          onTap: () => context.router.push(
-            HomeScreen.route(
-              children: [
-                InvestmentsRouterScreen.route(
-                  children: [TokenDetailsScreen.route(token: token)],
-                ),
-              ],
-            ),
-          ),
+          onTap: () =>
+              context.router.push(TokenDetailsScreen.route(token: token)),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

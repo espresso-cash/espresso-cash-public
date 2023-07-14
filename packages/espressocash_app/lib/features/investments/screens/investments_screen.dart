@@ -24,13 +24,6 @@ import '../widgets/investment_header.dart';
 import '../widgets/popular_crypto_header.dart';
 import '../widgets/start_investing_header.dart';
 
-@RoutePage(name: 'InvestmentsRouter')
-class InvestmentsRouterScreen extends AutoRouter {
-  const InvestmentsRouterScreen({super.key});
-
-  static const route = InvestmentsRouter.new;
-}
-
 @RoutePage()
 class InvestmentsScreen extends StatefulWidget {
   const InvestmentsScreen({super.key});

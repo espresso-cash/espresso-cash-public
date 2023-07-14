@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -75,8 +77,11 @@ class TokenDetailsScreen extends StatelessWidget {
                           _Balance(token: token),
                           _Content(token: token),
                           SizedBox(
-                            height: MediaQuery.of(context).padding.bottom -
-                                cpNavigationBarheight,
+                            height: max(
+                              MediaQuery.paddingOf(context).bottom -
+                                  cpNavigationBarheight,
+                              0,
+                            ),
                           )
                         ],
                       ),

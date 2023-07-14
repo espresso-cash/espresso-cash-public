@@ -7,7 +7,7 @@ import '../../../routes.gr.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
 import '../../activities/screens/activities_screen.dart';
-import '../../investments/screens/investments_screen.dart';
+import '../../investments/screens/investments_flow_screen.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 @RoutePage()
@@ -34,7 +34,10 @@ class HomeScreen extends StatelessWidget {
                       active: tabsRouter.activeIndex == i,
                       onPressed: () {
                         if (tabsRouter.activeIndex == i) {
-                          tabsRouter.popTop();
+                          final child = tabsRouter.childControllers.firstOrNull;
+                          if (child is StackRouter) {
+                            child.popUntilRoot();
+                          }
                         } else {
                           tabsRouter.setActiveIndex(i);
                         }
@@ -50,7 +53,7 @@ class HomeScreen extends StatelessWidget {
 
 final _pages = [
   _Page(
-    route: InvestmentsRouterScreen.route(),
+    route: InvestmentsFlowScreen.route(),
     icon: Assets.icons.home,
   ),
   _Page(
