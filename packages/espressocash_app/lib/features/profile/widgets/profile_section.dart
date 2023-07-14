@@ -10,10 +10,10 @@ import '../../../../../core/presentation/utils.dart';
 import '../../../../../features/investments/widgets/investments_zero_balance_switch.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../accounts/services/accounts_bloc.dart';
+import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 
 part 'danger_section.dart';

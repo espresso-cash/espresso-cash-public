@@ -4,10 +4,15 @@ import 'package:provider/provider.dart';
 
 import '../../../../../routes.gr.dart';
 import '../services/puzzle_reminder_bloc.dart';
+import 'backup_confirm_phrase_screen.dart';
+import 'backup_phrase_screen.dart';
+import 'backup_phrase_success_screen.dart';
 
 @RoutePage<bool>()
 class BackupPhraseFlowScreen extends StatefulWidget {
   const BackupPhraseFlowScreen({super.key});
+
+  static const route = BackupPhraseFlowRoute.new;
 
   @override
   State<BackupPhraseFlowScreen> createState() => _BackupPhraseFlowScreenState();
@@ -19,13 +24,13 @@ class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
 
   @override
   void onWarningConfirmed() {
-    _navigatorKey.currentState?.controller?.replace(const BackupPhraseRoute());
+    _navigatorKey.currentState?.controller?.replace(BackupPhraseScreen.route());
   }
 
   @override
   void onGoToConfirmationScreen(String phrase) {
     _navigatorKey.currentState?.controller
-        ?.push(BackupConfirmPhraseRoute(correctPhrase: phrase));
+        ?.push(BackupConfirmPhraseScreen.route(correctPhrase: phrase));
   }
 
   @override
@@ -33,7 +38,7 @@ class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
     context.read<PuzzleReminderBloc>().add(const PuzzleReminderEvent.solved());
 
     _navigatorKey.currentState?.controller
-        ?.replaceAll([const BackupPhraseSuccessRoute()]);
+        ?.replaceAll([BackupPhraseSuccessScreen.route()]);
   }
 
   @override

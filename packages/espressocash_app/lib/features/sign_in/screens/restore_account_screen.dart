@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/onboarding_screen.dart';
@@ -16,6 +17,8 @@ class RestoreAccountScreen extends StatefulWidget {
     super.key,
     required this.onMnemonicConfirmed,
   });
+
+  static const route = RestoreAccountRoute.new;
 
   final VoidCallback onMnemonicConfirmed;
 

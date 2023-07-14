@@ -4,10 +4,14 @@ import 'package:provider/provider.dart';
 
 import '../../../routes.gr.dart';
 import '../services/app_lock_bloc.dart';
+import 'app_lock_disable_screen.dart';
+import 'app_lock_enable_screen.dart';
 
 @RoutePage()
 class AppLockSetupFlowScreen extends StatefulWidget {
   const AppLockSetupFlowScreen({super.key});
+
+  static const route = AppLockSetupFlowRoute.new;
 
   @override
   State<AppLockSetupFlowScreen> createState() => _AppLockSetupFlowScreenState();
@@ -23,12 +27,12 @@ class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
 
   @override
   void onEnable() {
-    context.router.push(const AppLockEnableRoute());
+    context.router.push(AppLockEnableScreen.route());
   }
 
   @override
   Future<void> onDisable() async {
-    await context.router.push<bool>(const AppLockDisableRoute());
+    await context.router.push<bool>(AppLockDisableScreen.route());
   }
 
   @override

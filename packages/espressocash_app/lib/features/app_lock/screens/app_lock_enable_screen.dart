@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/decorated_window/decorated_window.dart';
 import '../widgets/pin_input_display_widget.dart';
@@ -11,6 +12,8 @@ import 'app_lock_setup_flow_screen.dart';
 @RoutePage()
 class AppLockEnableScreen extends StatefulWidget {
   const AppLockEnableScreen({super.key});
+
+  static const route = AppLockEnableRoute.new;
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();

@@ -14,7 +14,10 @@ import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
+import '../../authenticated/screens/home_screen.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
+import '../../investments/screens/investments_screen.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../models/crypto_categories.dart';
 import '../services/bloc.dart';
 import '../widgets/discover_header.dart';
@@ -25,6 +28,8 @@ class TokenSearchScreen extends StatelessWidget {
     super.key,
     this.category,
   });
+
+  static const route = TokenSearchRoute.new;
 
   final CryptoCategories? category;
 
@@ -153,10 +158,10 @@ class _TokenItem extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 2),
         child: ListTile(
           onTap: () => context.router.push(
-            HomeRoute(
+            HomeScreen.route(
               children: [
-                InvestmentsRouter(
-                  children: [TokenDetailsRoute(token: token)],
+                InvestmentsRouterScreen.route(
+                  children: [TokenDetailsScreen.route(token: token)],
                 ),
               ],
             ),

@@ -7,11 +7,14 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/button.dart';
 import '../../../../../ui/content_padding.dart';
 import '../../../../../ui/theme.dart';
+import '../../../routes.gr.dart';
 import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupPhraseSuccessScreen extends StatelessWidget {
   const BackupPhraseSuccessScreen({super.key});
+
+  static const route = BackupPhraseSuccessRoute.new;
 
   @override
   Widget build(BuildContext context) => Scaffold(

@@ -6,10 +6,15 @@ import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
+import '../../activities/screens/activities_screen.dart';
+import '../../investments/screens/investments_screen.dart';
+import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+
+  static const route = HomeRoute.new;
 
   @override
   Widget build(BuildContext context) => AutoTabsRouter(
@@ -45,15 +50,15 @@ class HomeScreen extends StatelessWidget {
 
 final _pages = [
   _Page(
-    route: const InvestmentsRouter(),
+    route: InvestmentsRouterScreen.route(),
     icon: Assets.icons.home,
   ),
   _Page(
-    route: const WalletFlowRoute(),
+    route: WalletFlowScreen.route(),
     icon: Assets.icons.wallet,
   ),
   _Page(
-    route: const ActivitiesRoute(),
+    route: ActivitiesScreen.route(),
     icon: Assets.icons.notifications,
   ),
 ];

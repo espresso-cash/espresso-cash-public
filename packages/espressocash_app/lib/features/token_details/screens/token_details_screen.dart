@@ -13,6 +13,7 @@ import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
@@ -34,6 +35,8 @@ import '../widgets/token_details_widget.dart';
 @RoutePage()
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
+
+  static const route = TokenDetailsRoute.new;
 
   final Token token;
 

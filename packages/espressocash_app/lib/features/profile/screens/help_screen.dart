@@ -6,11 +6,14 @@ import '../../../../../config.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
+import '../../../routes.gr.dart';
 import '../widgets/profile_button.dart';
 
 @RoutePage()
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
+
+  static const route = HelpRoute.new;
 
   @override
   Widget build(BuildContext context) => Scaffold(

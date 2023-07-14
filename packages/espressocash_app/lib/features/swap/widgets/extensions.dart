@@ -4,23 +4,23 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../models/swap.dart';
 import '../models/swap_route.dart';
+import '../screens/swap_flow_screen.dart';
 import '../services/swap_service.dart';
 
 extension BuildContextExt on BuildContext {
   void navigateToBuyToken(Token token) => navigateTo(
-        SwapFlowRoute(
+        SwapFlowScreen.route(
           inputToken: Token.usdc,
           outputToken: token,
         ),
       );
 
   void navigateToSellToken(Token token) => navigateTo(
-        SwapFlowRoute(
+        SwapFlowScreen.route(
           inputToken: token,
           outputToken: Token.usdc,
         ),

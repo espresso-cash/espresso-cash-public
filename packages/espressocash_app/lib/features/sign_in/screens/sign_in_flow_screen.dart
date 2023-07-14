@@ -15,10 +15,15 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../services/sign_in_bloc.dart';
+import 'create_wallet_loading_screen.dart';
+import 'get_started_screen.dart';
+import 'restore_account_screen.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {
   const SignInFlowScreen({super.key});
+
+  static const route = SignInFlowRoute.new;
 
   @override
   State<SignInFlowScreen> createState() => _SignInFlowScreenState();
@@ -29,7 +34,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   late final SignInBloc _signInBloc;
 
   void _handleSignInPressed() => router?.push(
-        RestoreAccountRoute(
+        RestoreAccountScreen.route(
           onMnemonicConfirmed: _handleMnemonicConfirmed,
         ),
       );
@@ -38,7 +43,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
       _signInBloc.add(const SignInEvent.submitted());
 
   @override
-  PageRouteInfo get initialRoute => GetStartedRoute(
+  PageRouteInfo get initialRoute => GetStartedScreen.route(
         isSaga: isSaga,
         onSignInPressed: _handleSignInPressed,
       );
@@ -56,7 +61,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
     context.watch<DynamicLinksNotifier>().link?.let(_parseUri).let((valid) {
       if (valid) {
         WidgetsBinding.instance.addPostFrameCallback(
-          (_) => context.router.push(const CreateWalletLoadingRoute()),
+          (_) => context.router.push(CreateWalletLoadingScreen.route()),
         );
       }
     });

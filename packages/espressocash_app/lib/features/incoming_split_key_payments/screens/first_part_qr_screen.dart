@@ -10,12 +10,16 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../qr_scanner/models/qr_scanner_request.dart';
+import '../../qr_scanner/screens/qr_scanner_screen.dart';
 import '../widgets/extensions.dart';
 import '../widgets/terms_disclaimer.dart';
+import 'incoming_split_key_payment_screen.dart';
 
 @RoutePage()
 class FirstPartQrScreen extends StatefulWidget {
   const FirstPartQrScreen({super.key});
+
+  static const route = FirstPartQrRoute.new;
 
   @override
   State<FirstPartQrScreen> createState() => _FirstPartQrScreenState();
@@ -24,7 +28,7 @@ class FirstPartQrScreen extends StatefulWidget {
 class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
   Future<void> _onQrScanner() async {
     final request = await context.router
-        .push<QrScannerRequest>(QrScannerRoute(showManualInput: false));
+        .push<QrScannerRequest>(QrScannerScreen.route(showManualInput: false));
 
     if (request == null) return;
     if (!mounted) return;
@@ -42,7 +46,7 @@ class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
       );
 
       if (!mounted) return;
-      await context.router.replace(IncomingSplitKeyPaymentRoute(id: id));
+      await context.router.replace(IncomingSplitKeyPaymentScreen.route(id: id));
     }
   }
 

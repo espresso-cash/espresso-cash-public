@@ -6,10 +6,10 @@ import 'package:sliver_tools/sliver_tools.dart';
 import '../../../../../core/presentation/format_amount.dart';
 import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
-import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../balances/widgets/watch_balance.dart';
+import '../../token_details/screens/token_details_screen.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key, required this.tokens});
@@ -42,7 +42,8 @@ class _BalanceItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),

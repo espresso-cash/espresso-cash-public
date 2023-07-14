@@ -8,11 +8,11 @@ import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token.dart';
 import '../../../../../../core/user_preferences.dart';
 import '../../../../../../l10n/device_locale.dart';
-import '../../../../../../routes.gr.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../services/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
@@ -67,7 +67,8 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
       child: ListTile(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         leading: CpTokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,

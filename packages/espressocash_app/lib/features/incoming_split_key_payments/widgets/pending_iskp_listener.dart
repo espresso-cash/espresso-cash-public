@@ -6,8 +6,9 @@ import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/split_key_payments.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
 import '../data/pending_iskp_repository.dart';
+import '../screens/first_part_qr_screen.dart';
+import '../screens/first_part_ready_screen.dart';
 
 class PendingISKPListener extends StatefulWidget {
   const PendingISKPListener({super.key, required this.child});
@@ -36,7 +37,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
 
   void _openFirstPartReadyScreen() {
     context.router.push(
-      FirstPartReadyRoute(
+      FirstPartReadyScreen.route(
         onCancel: () => sl<PendingISKPRepository>().clear(),
       ),
     );
@@ -51,7 +52,7 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
         switch (firstPartLink.source) {
           case SplitKeySource.qr:
             sl<AnalyticsManager>().firstLinkReceived();
-            context.router.push(const FirstPartQrRoute()).ignore();
+            context.router.push(FirstPartQrScreen.route()).ignore();
             break;
           case SplitKeySource.other:
             sl<PendingISKPRepository>().save(firstPartLink);

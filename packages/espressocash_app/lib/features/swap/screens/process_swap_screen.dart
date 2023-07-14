@@ -6,6 +6,7 @@ import '../../../core/presentation/utils.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -20,6 +21,8 @@ class ProcessSwapScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static const route = ProcessSwapRoute.new;
 
   final String id;
 

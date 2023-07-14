@@ -8,11 +8,14 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/info_widget.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/theme.dart';
+import '../../../routes.gr.dart';
 import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupWarningScreen extends StatelessWidget {
   const BackupWarningScreen({super.key});
+
+  static const route = BackupWarningRoute.new;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(

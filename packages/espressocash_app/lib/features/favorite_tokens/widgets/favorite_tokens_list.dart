@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../../core/tokens/token.dart';
-import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
 import '../../../core/presentation/extensions.dart';
@@ -15,6 +14,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/context_ext.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../data/repository.dart';
 import '../services/bloc.dart';
 
@@ -105,7 +105,8 @@ class _TokenItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),

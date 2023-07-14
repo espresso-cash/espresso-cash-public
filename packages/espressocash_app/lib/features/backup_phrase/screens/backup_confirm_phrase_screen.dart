@@ -8,6 +8,7 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
+import '../../../routes.gr.dart';
 import '../widgets/grid_phrase.dart';
 import 'backup_phrase_flow_screen.dart';
 
@@ -17,6 +18,8 @@ class BackupConfirmPhraseScreen extends StatefulWidget {
     super.key,
     required this.correctPhrase,
   });
+
+  static const route = BackupConfirmPhraseRoute.new;
 
   final String correctPhrase;
 

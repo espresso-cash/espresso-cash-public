@@ -10,6 +10,7 @@ import '../models/swap_operation.dart';
 import '../models/swap_route.dart';
 import '../widgets/extensions.dart';
 import 'create_swap_screen.dart';
+import 'process_swap_screen.dart';
 
 @RoutePage()
 class SwapFlowScreen extends StatefulWidget {
@@ -18,6 +19,8 @@ class SwapFlowScreen extends StatefulWidget {
     required this.inputToken,
     required this.outputToken,
   });
+
+  static const route = SwapFlowRoute.new;
 
   final Token inputToken;
   final Token outputToken;
@@ -31,7 +34,7 @@ class _FlowState extends State<SwapFlowScreen> {
     final swapId = await context.createSwap(route);
 
     if (!mounted) return;
-    await context.router.replace(ProcessSwapRoute(id: swapId));
+    await context.router.replace(ProcessSwapScreen.route(id: swapId));
   }
 
   @override

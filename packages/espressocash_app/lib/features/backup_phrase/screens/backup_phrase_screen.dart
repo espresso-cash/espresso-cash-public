@@ -9,12 +9,15 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
 import '../../../di.dart';
+import '../../../routes.gr.dart';
 import '../../accounts/data/account_repository.dart';
 import 'backup_phrase_flow_screen.dart';
 
 @RoutePage()
 class BackupPhraseScreen extends StatefulWidget {
   const BackupPhraseScreen({super.key});
+
+  static const route = BackupPhraseRoute.new;
 
   @override
   State<BackupPhraseScreen> createState() => _BackupPhraseScreenState();
