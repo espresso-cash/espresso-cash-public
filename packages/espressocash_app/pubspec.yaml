@@ -58,7 +58,7 @@ dependencies:
   path: ^1.8.0
   path_provider: ^2.0.2
   provider: ^6.0.0
-  ramp_flutter: ^2.0.1
+  ramp_flutter: ^2.0.2
   retrofit: ^3.0.1
   rive: ^0.10.1
   rxdart: ^0.27.1

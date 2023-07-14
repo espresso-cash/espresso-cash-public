@@ -1,16 +1,17 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ramp_flutter/configuration.dart';
-import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../config.dart';
-import '../../../l10n/device_locale.dart';
+import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
-import '../../accounts/models/account.dart';
-import '../../balances/widgets/context_ext.dart';
+import '../../profile/data/profile_repository.dart';
+import '../../profile/models/country.dart';
+import 'off_ramp_bottom_sheet.dart';
+import 'on_ramp.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -26,18 +27,11 @@ class AddCashButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnAddCash,
-          onPressed: () {
-            final configuration = _defaultConfiguration
-              ..selectedCountryCode = DeviceLocale.localeOf(context).countryCode
-              ..defaultFlow = 'ONRAMP'
-              ..userAddress =
-                  context.read<MyAccount>().wallet.publicKey.toBase58();
-
-            RampFlutter()
-              ..onRampClosed = () {
-                context.notifyBalanceAffected();
-              }
-              ..showRamp(configuration);
+          onPressed: () async {
+            final country = await context.ensureCountry();
+            if (context.mounted) {
+              context.showRampNetworkOnRamp(country.code);
+            }
           },
         ),
       );
@@ -57,15 +51,36 @@ class CashOutButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
-          onPressed: () => context.router.push(const CoinflowOffRampRoute()),
+          // onPressed: () => context.router.push(const CoinflowOffRampRoute()),
+          onPressed: () async {
+            await context.ensureCountry();
+            if (context.mounted) {
+              unawaited(OffRampBottomSheet.show(context));
+            }
+          },
         ),
       );
 }
 
-final _defaultConfiguration = Configuration()
-  ..hostAppName = 'Espresso Cash'
-  ..hostLogoUrl =
-      'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
-  ..hostApiKey = rampApiKey
-  ..swapAsset = 'SOLANA_USDC'
-  ..defaultAsset = 'SOLANA_USDC';
+extension on BuildContext {
+  Future<Country> ensureCountry() {
+    final completer = Completer<Country>();
+
+    void onCountrySelected(Country country) {
+      router.pop();
+      sl<ProfileRepository>().profile =
+          sl<ProfileRepository>().profile.copyWith(country: country.code);
+      completer.complete(country);
+    }
+
+    final country =
+        sl<ProfileRepository>().profile.country?.let(Country.findByCode);
+    if (country == null) {
+      router.push<Country>(CountryPickerRoute(onSubmitted: onCountrySelected));
+    } else {
+      completer.complete(country);
+    }
+
+    return completer.future;
+  }
+}

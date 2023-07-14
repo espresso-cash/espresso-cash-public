@@ -1366,10 +1366,10 @@ packages:
     dependency: "direct main"
     description:
       name: ramp_flutter
-      sha256: "7137622b6f33afaa1eb078b1b3ca72ecea7f6e03ee7bc227b1478df87db31793"
+      sha256: "7ef189f4e84882ad3c1cb4fd4553fc1a5ccde30ab71a8c0cf5b31659471e2374"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   rational:
     dependency: transitive
     description:
