@@ -51,11 +51,14 @@ class CashOutButton extends StatelessWidget {
           size: size,
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
-          // onPressed: () => context.router.push(const CoinflowOffRampRoute()),
           onPressed: () async {
-            await context.ensureCountry();
+            final country = await context.ensureCountry();
             if (context.mounted) {
-              unawaited(OffRampBottomSheet.show(context));
+              if (country == Country.findByCode('US')) {
+                unawaited(context.router.push(const CoinflowOffRampRoute()));
+              } else {
+                unawaited(OffRampBottomSheet.show(context));
+              }
             }
           },
         ),
@@ -76,7 +79,7 @@ extension on BuildContext {
     final country =
         sl<ProfileRepository>().profile.country?.let(Country.findByCode);
     if (country == null) {
-      router.push<Country>(CountryPickerRoute(onSubmitted: onCountrySelected));
+      router.push(CountryPickerRoute(onSubmitted: onCountrySelected));
     } else {
       completer.complete(country);
     }

@@ -63,7 +63,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleCountryPressed() => context.router.push<Country>(
+  void _handleCountryPressed() => context.router.push(
         CountryPickerRoute(
           initial: _country,
           onSubmitted: (country) {
