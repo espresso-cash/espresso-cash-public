@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/extensions.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -34,7 +35,9 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<bool>(
-        create: () => sl<OnboardingRepository>().hasFinishedOnboardingStream,
+        create: () => sl<OnboardingRepository>()
+            .hasFinishedOnboardingStream
+            .withInitial(),
         builder: (context, hasFinishedOnboarding) {
           if (hasFinishedOnboarding) return const SizedBox.shrink();
 

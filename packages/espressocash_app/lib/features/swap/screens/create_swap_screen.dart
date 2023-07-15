@@ -18,7 +18,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/slider.dart';
 import '../../accounts/models/account.dart';
-import '../../balances/services/balances_bloc.dart';
 import '../models/swap_operation.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
@@ -62,7 +61,6 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
         initialEditingMode: widget.operation.toInitialEditingMode(),
         userAccount: context.read<MyAccount>().wallet.publicKey,
       ),
-      param2: context.read<BalancesBloc>().state.balances,
     );
     _amountController.addListener(_updateValue);
   }

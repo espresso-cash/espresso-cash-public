@@ -1,8 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:rxdart/rxdart.dart';
 
 typedef ValueWidgetBuilder<T> = Widget Function(BuildContext context, T value);
-typedef ValueStreamFactory<T> = ValueStream<T> Function();
+typedef ValueStreamFactory<T> = (Stream<T>, T) Function();
 
 class ValueStreamBuilder<T> extends StatefulWidget {
   const ValueStreamBuilder({
@@ -22,9 +21,9 @@ class _ValueStreamBuilderState<T> extends State<ValueStreamBuilder<T>> {
   late final _stream = widget.create();
 
   @override
-  Widget build(BuildContext context) => StreamBuilder(
-        stream: _stream,
-        initialData: _stream.value,
+  Widget build(BuildContext context) => StreamBuilder<T>(
+        stream: _stream.$1,
+        initialData: _stream.$2,
         builder: (context, snapshot) => widget.builder(
           context,
           snapshot.data as T,
