@@ -6,6 +6,7 @@ import '../../../../ui/bordered_row.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 
 @RoutePage<bool?>()
 class OffRampConfirmationScreen extends StatelessWidget {
@@ -13,6 +14,9 @@ class OffRampConfirmationScreen extends StatelessWidget {
     super.key,
     required this.provider,
   });
+
+  static const route = OffRampConfirmationRoute.new;
+
   final String provider;
 
   @override

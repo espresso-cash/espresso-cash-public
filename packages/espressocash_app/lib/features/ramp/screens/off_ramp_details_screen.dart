@@ -7,6 +7,7 @@ import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/timeline.dart';
 import '../../../core/presentation/format_date.dart';
+import '../../../routes.gr.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -16,7 +17,13 @@ import '../models/off_ramp_payment.dart';
 
 @RoutePage()
 class OffRampDetailsScreen extends StatefulWidget {
-  const OffRampDetailsScreen({super.key, required this.id, this.onSuccess});
+  const OffRampDetailsScreen({
+    super.key,
+    required this.id,
+    this.onSuccess,
+  });
+
+  static const route = OffRampDetailsRoute.new;
 
   final String id;
   final VoidCallback? onSuccess;

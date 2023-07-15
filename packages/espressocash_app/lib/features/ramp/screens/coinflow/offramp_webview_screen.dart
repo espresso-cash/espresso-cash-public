@@ -10,10 +10,14 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../accounts/models/account.dart';
 import '../../widgets/extensions.dart';
+import '../off_ramp_confirmation_screen.dart';
+import '../off_ramp_details_screen.dart';
 
 @RoutePage()
 class CoinflowOffRampScreen extends StatefulWidget {
   const CoinflowOffRampScreen({super.key});
+
+  static const route = CoinflowOffRampRoute.new;
 
   @override
   State<CoinflowOffRampScreen> createState() => _State();
@@ -41,7 +45,7 @@ class _State extends State<CoinflowOffRampScreen> {
 
   Future<void> onMessageReceived(JavaScriptMessage message) async {
     final confirmed = await context.router
-        .push<bool?>(OffRampConfirmationRoute(provider: 'Coinflow'));
+        .push<bool?>(OffRampConfirmationScreen.route(provider: 'Coinflow'));
 
     if (confirmed != true) return;
 
@@ -52,7 +56,7 @@ class _State extends State<CoinflowOffRampScreen> {
 
     if (!mounted) return;
     await context.router.push(
-      OffRampDetailsRoute(
+      OffRampDetailsScreen.route(
         id: id,
         onSuccess: () {
           _controller.runJavaScript('fromFlutter("${tx.id}")');
