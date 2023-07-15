@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/flow.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -110,7 +111,7 @@ class _ContentState extends State<_Content> {
             child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
               builder: (context, state) => Column(
                 children: [
-                  if (_selected != null || state.isInitial())
+                  if (_selected != null || state.isInitial)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -123,20 +124,21 @@ class _ContentState extends State<_Content> {
                     ),
                   Expanded(
                     child: Center(
-                      child: state.when(
-                        failure: (_) => Text(context.l10n.failedToSearch),
-                        initial: Container.new,
-                        processing: LoadingIndicator.new,
-                        success: (result) => result.isEmpty
+                      child: switch (state) {
+                        FlowFailure() => Text(context.l10n.failedToSearch),
+                        FlowInitial() => const SizedBox.shrink(),
+                        FlowProcessing() => const LoadingIndicator(),
+                        FlowSuccess(:final result) => result.isEmpty
                             ? Text(context.l10n.emptySearch)
                             : ListView.builder(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
                                 itemCount: result.length,
                                 itemBuilder: (context, index) =>
                                     _TokenItem(result[index]),
                               ),
-                      ),
+                      },
                     ),
                   ),
                 ],
