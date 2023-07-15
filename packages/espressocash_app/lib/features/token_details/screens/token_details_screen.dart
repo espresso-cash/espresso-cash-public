@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../core/amount.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
 import '../../../di.dart';
@@ -21,6 +22,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
+import '../../balances/data/balances_repository.dart';
 import '../../balances/widgets/watch_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../swap/services/token_ext.dart';
@@ -158,6 +160,13 @@ class _Balance extends StatelessWidget {
   Widget build(BuildContext context) {
     final Amount cryptoAmount = context.watchUserCryptoBalance(token);
     final Amount? fiatAmount = context.watchUserFiatBalance(token);
+
+    return ValueStreamBuilder(
+      create: () {
+        final repo = sl<BalancesRepository>();
+      },
+      builder: builder,
+    );
 
     return cryptoAmount.value != 0 && fiatAmount != null
         ? CpContentPadding(

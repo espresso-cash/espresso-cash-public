@@ -6,11 +6,13 @@ import 'package:logging/logging.dart';
 
 import '../../../core/processing_state.dart';
 import '../../../core/user_preferences.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../conversion_rates/services/conversion_rates_bloc.dart';
+import '../data/balances_repository.dart';
 import '../services/balances_bloc.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
@@ -34,18 +36,18 @@ class RefreshBalancesWrapper extends StatefulWidget {
 
 class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _listenForProcessingStateAndThrowOnError(
-    Stream<StateWithProcessingState> stream,
+    Stream<ProcessingState> stream,
   ) async =>
       stream
           .firstWhere(
-            (state) => state.processingState.when(
+            (state) => state.when(
               processing: F,
               error: T,
               none: T,
             ),
           )
           .then(
-            (s) => s.processingState.maybeMap(
+            (s) => s.maybeMap(
               error: (s) => Either.left(s.e),
               orElse: () => const Either.right(null),
             ),
@@ -57,11 +59,13 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
 
     final conversionEvent = ConversionRatesEvent.refreshRequested(
       currency: currency,
-      tokens: context.read<BalancesBloc>().state.userTokens,
+      tokens: sl<BalancesRepository>().readUserTokens(),
     );
     bloc.add(conversionEvent);
 
-    return _listenForProcessingStateAndThrowOnError(bloc.stream);
+    return _listenForProcessingStateAndThrowOnError(
+      bloc.stream.map((it) => it.processingState),
+    );
   }
 
   AsyncResult<void> _updateBalances() async {

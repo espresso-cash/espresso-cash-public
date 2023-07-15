@@ -62,7 +62,6 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
         initialEditingMode: widget.operation.toInitialEditingMode(),
         userAccount: context.read<MyAccount>().wallet.publicKey,
       ),
-      param2: context.read<BalancesBloc>().state.balances,
     );
     _amountController.addListener(_updateValue);
   }

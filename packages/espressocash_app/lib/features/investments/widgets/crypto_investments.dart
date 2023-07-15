@@ -7,13 +7,15 @@ import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../../balances/services/balances_bloc.dart';
+import '../../balances/data/balances_repository.dart';
 import '../../balances/widgets/watch_balance.dart';
 import '../data/repository.dart';
 import 'portfolio_widget.dart';
@@ -39,21 +41,21 @@ class CryptoInvestments extends StatelessWidget {
             children: [
               _Header(balance),
               const SizedBox(height: 15),
-              BlocBuilder<BalancesBloc, BalancesState>(
-                builder: (context, state) {
-                  final tokens =
-                      state.userTokens.where((e) => e != Token.usdc).let(
-                            (tokens) => displayEmptyBalances
-                                ? tokens
-                                : tokens.where((token) {
-                                    final Decimal balance = context
-                                            .watchUserFiatBalance(token)
-                                            ?.decimal ??
-                                        Decimal.zero;
+              ValueStreamBuilder(
+                create: () => sl<BalancesRepository>().watchUserTokens(),
+                builder: (context, value) {
+                  final tokens = value.where((e) => e != Token.usdc).let(
+                        (tokens) => displayEmptyBalances
+                            ? tokens
+                            : tokens.where((token) {
+                                final Decimal balance = context
+                                        .watchUserFiatBalance(token)
+                                        ?.decimal ??
+                                    Decimal.zero;
 
-                                    return balance >= _minimumUsdAmount;
-                                  }),
-                          );
+                                return balance >= _minimumUsdAmount;
+                              }),
+                      );
 
                   return PortfolioWidget(tokens: IList(tokens));
                 },

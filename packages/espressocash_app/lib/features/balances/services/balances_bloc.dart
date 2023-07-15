@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -10,30 +10,34 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
+import '../data/balances_repository.dart';
 
 part 'balances_bloc.freezed.dart';
-part 'balances_event.dart';
-part 'balances_state.dart';
 
 final _logger = Logger('BalancesBloc');
+typedef BalancesState = ProcessingState;
 
 @injectable
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
   BalancesBloc({
     required SolanaClient solanaClient,
     required TokenList tokens,
+    required BalancesRepository repository,
   })  : _solanaClient = solanaClient,
         _tokens = tokens,
-        super(BalancesState()) {
+        _repository = repository,
+        super(const ProcessingStateNone()) {
     on<BalancesEvent>(_eventHandler);
   }
 
   final SolanaClient _solanaClient;
   final TokenList _tokens;
+  final BalancesRepository _repository;
 
   EventHandler<BalancesEvent, BalancesState> get _eventHandler =>
       (event, emit) => event.map(
@@ -44,12 +48,12 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     BalancesEventRequested event,
     Emitter<BalancesState> emit,
   ) async {
-    if (state.processingState.isProcessing) return;
+    if (state.isProcessing) return;
 
-    final balances = <Token, Amount>{};
+    final balances = <Token, CryptoAmount>{};
 
     try {
-      emit(state.copyWith(processingState: const ProcessingState.processing()));
+      emit(const ProcessingState.processing());
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
 
       final allAccounts = await _solanaClient.getSplAccounts(
@@ -78,32 +82,32 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
       final tokenBalances = mainAccounts.map(
         (a) => MapEntry(
           a.token,
-          Amount.fromToken(
+          CryptoAmount(
             value: int.parse(a.info.tokenAmount.amount),
-            token: a.token,
+            cryptoCurrency: CryptoCurrency(token: a.token),
           ),
         ),
       );
       balances.addEntries(tokenBalances);
 
-      emit(
-        state.copyWith(
-          processingState: const ProcessingState.none(),
-          balances: balances.sorted,
-        ),
-      );
+      if (isClosed) return;
+
+      emit(const ProcessingState.none());
+      _repository.saveAll(balances.lock);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 
-      emit(
-        state.copyWith(
-          processingState:
-              const ProcessingState.error(BalancesRequestException()),
-        ),
-      );
-      emit(state.copyWith(processingState: const ProcessingState.none()));
+      emit(const ProcessingState.error(BalancesRequestException()));
+      emit(const ProcessingState.none());
     }
   }
+}
+
+@freezed
+class BalancesEvent with _$BalancesEvent {
+  const factory BalancesEvent.requested({
+    required String address,
+  }) = BalancesEventRequested;
 }
 
 class BalancesRequestException implements Exception {
@@ -152,7 +156,7 @@ extension SortedBalance on Map<Token, Amount> {
 }
 
 extension on SolanaClient {
-  Future<Amount> getSolBalance(String address) async {
+  Future<CryptoAmount> getSolBalance(String address) async {
     final lamports = await rpcClient
         .getBalance(
           address,
@@ -160,6 +164,6 @@ extension on SolanaClient {
         )
         .value;
 
-    return Amount.sol(value: lamports);
+    return CryptoAmount(value: lamports, cryptoCurrency: Currency.sol);
   }
 }

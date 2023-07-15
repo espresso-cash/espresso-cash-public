@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -18,7 +19,6 @@ final _logger = Logger('ConversionRatesBloc');
 
 typedef _Event = ConversionRatesEvent;
 typedef _State = ConversionRatesState;
-typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
@@ -27,14 +27,19 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository repository,
   })  : _repository = repository,
         super(const _State()) {
-    on<_Event>(_eventHandler, transformer: restartable());
+    on<Init>(_onInit);
+    on<RefreshRequested>(_onRefreshRequested, transformer: restartable());
   }
 
   final ConversionRatesRepository _repository;
+  StreamSubscription<void>? _userTokensSubscription;
 
-  _EventHandler get _eventHandler => (event, emit) => event.map(
-        refreshRequested: (event) => _onRefreshRequested(event, emit),
-      );
+  void _onInit(Init event, Emitter<_State> emit) {
+    _userTokensSubscription?.cancel();
+    _userTokensSubscription = event.userTokens.distinct().listen((userTokens) {
+      add(RefreshRequested(currency: event.currency, tokens: userTokens));
+    });
+  }
 
   Future<void> _onRefreshRequested(
     RefreshRequested event,
@@ -51,6 +56,13 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
     );
     emit(state.copyWith(processingState: const ProcessingState.none()));
   }
+
+  @override
+  Future<void> close() {
+    _userTokensSubscription?.cancel();
+
+    return super.close();
+  }
 }
 
 class ConversionRatesRequestException implements Exception {
@@ -58,7 +70,12 @@ class ConversionRatesRequestException implements Exception {
 }
 
 @freezed
-class ConversionRatesEvent with _$ConversionRatesEvent {
+sealed class ConversionRatesEvent with _$ConversionRatesEvent {
+  const factory ConversionRatesEvent.init({
+    required Stream<ISet<Token>> userTokens,
+    required FiatCurrency currency,
+  }) = Init;
+
   const factory ConversionRatesEvent.refreshRequested({
     required FiatCurrency currency,
     required Iterable<Token> tokens,
