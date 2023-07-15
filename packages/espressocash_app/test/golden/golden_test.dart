@@ -1,7 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_app/core/amount.dart';
 import 'package:espressocash_app/core/currency.dart';
-import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
@@ -69,14 +67,7 @@ void main() {
     setUp(() async {
       wallet = LocalWallet(await Ed25519HDKeyPair.random());
 
-      whenListen(
-        balancesBloc,
-        initialState: BalancesState(
-          balances: {
-            Token.usdc: Amount(currency: Currency.usdc, value: 1230000)
-          },
-        ),
-      );
+      whenListen(balancesBloc, initialState: const BalancesState.none());
       whenListen(
         conversionRatesBloc,
         initialState: const ConversionRatesState(),

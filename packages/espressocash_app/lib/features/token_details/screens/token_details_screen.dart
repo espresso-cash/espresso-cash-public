@@ -6,8 +6,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
@@ -23,7 +23,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
 import '../../balances/data/balances_repository.dart';
-import '../../balances/widgets/watch_balance.dart';
+import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
@@ -157,51 +157,58 @@ class _Balance extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) {
-    final Amount cryptoAmount = context.watchUserCryptoBalance(token);
-    final Amount? fiatAmount = context.watchUserFiatBalance(token);
-
-    return ValueStreamBuilder(
-      create: () {
-        final repo = sl<BalancesRepository>();
-      },
-      builder: builder,
-    );
-
-    return cryptoAmount.value != 0 && fiatAmount != null
-        ? CpContentPadding(
-            bottom: false,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              width: double.infinity,
-              decoration: const ShapeDecoration(
-                shape: StadiumBorder(),
-                color: CpColors.darkBackgroundColor,
+  Widget build(BuildContext context) => ValueStreamBuilder(
+        create: () => sl<WatchUserFiatBalance>()
+            .call(token)
+            .withLatestFrom(
+              sl<BalancesRepository>().watch(token),
+              (fiatAmount, cryptoAmount) => (
+                fiatAmount: fiatAmount,
+                cryptoAmount: cryptoAmount,
               ),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
-                children: [
-                  PriceWidget(
-                    label: context.l10n.youOwn,
-                    amount: cryptoAmount.format(
-                      DeviceLocale.localeOf(context),
-                      roundInteger: true,
+            )
+            .shareValue(),
+        builder: (context, value) {
+          final (:cryptoAmount, :fiatAmount) = value;
+
+          return cryptoAmount.value != 0 && fiatAmount != null
+              ? CpContentPadding(
+                  bottom: false,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    width: double.infinity,
+                    decoration: const ShapeDecoration(
+                      shape: StadiumBorder(),
+                      color: CpColors.darkBackgroundColor,
+                    ),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      children: [
+                        PriceWidget(
+                          label: context.l10n.youOwn,
+                          amount: cryptoAmount.format(
+                            DeviceLocale.localeOf(context),
+                            roundInteger: true,
+                          ),
+                        ),
+                        PriceWidget(
+                          label: context.l10n.tokenDetails_lblBalance,
+                          amount: fiatAmount.format(
+                            DeviceLocale.localeOf(context),
+                            roundInteger: true,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  PriceWidget(
-                    label: context.l10n.tokenDetails_lblBalance,
-                    amount: fiatAmount.format(
-                      DeviceLocale.localeOf(context),
-                      roundInteger: true,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
-        : const SizedBox.shrink();
-  }
+                )
+              : const SizedBox.shrink();
+        },
+      );
 }
 
 class _Chart extends StatefulWidget {

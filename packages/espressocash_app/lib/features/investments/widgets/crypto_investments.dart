@@ -1,6 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -15,54 +13,41 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../../balances/data/balances_repository.dart';
-import '../../balances/widgets/watch_balance.dart';
+import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
 import '../data/repository.dart';
+import '../services/watch_investments.dart';
 import 'portfolio_widget.dart';
 
 class CryptoInvestments extends StatelessWidget {
   const CryptoInvestments({super.key});
 
-  static final Decimal _minimumUsdAmount = Decimal.parse('0.01');
-
   @override
-  Widget build(BuildContext context) {
-    final displayEmptyBalances =
-        context.watch<InvestmentSettingsRepository>().displayEmptyBalances;
+  Widget build(BuildContext context) => ValueStreamBuilder(
+        create: () => sl<WatchUserTotalFiatBalance>().call(
+          context.read<UserPreferences>().fiatCurrency,
+          ignoreTokens: [Token.usdc],
+        ),
+        builder: (context, balance) {
+          final displayEmptyBalances = context
+              .watch<InvestmentSettingsRepository>()
+              .displayEmptyBalances;
 
-    final balance = context.watchUserTotalFiatBalance(
-      context.watch<UserPreferences>().fiatCurrency,
-      ignoreTokens: [Token.usdc],
-    );
-
-    return balance.decimal == Decimal.zero && !displayEmptyBalances
-        ? const SliverToBoxAdapter(child: SizedBox.shrink())
-        : MultiSliver(
-            children: [
-              _Header(balance),
-              const SizedBox(height: 15),
-              ValueStreamBuilder(
-                create: () => sl<BalancesRepository>().watchUserTokens(),
-                builder: (context, value) {
-                  final tokens = value.where((e) => e != Token.usdc).let(
-                        (tokens) => displayEmptyBalances
-                            ? tokens
-                            : tokens.where((token) {
-                                final Decimal balance = context
-                                        .watchUserFiatBalance(token)
-                                        ?.decimal ??
-                                    Decimal.zero;
-
-                                return balance >= _minimumUsdAmount;
-                              }),
-                      );
-
-                  return PortfolioWidget(tokens: IList(tokens));
-                },
-              ),
-            ],
-          );
-  }
+          return balance.decimal == Decimal.zero && !displayEmptyBalances
+              ? const SliverToBoxAdapter(child: SizedBox.shrink())
+              : MultiSliver(
+                  children: [
+                    _Header(balance),
+                    const SizedBox(height: 15),
+                    ValueStreamBuilder(
+                      create: () => sl<WatchInvestments>()
+                          .call(displayEmptyBalances: displayEmptyBalances),
+                      builder: (context, tokens) =>
+                          PortfolioWidget(tokens: tokens),
+                    ),
+                  ],
+                );
+        },
+      );
 }
 
 class _Header extends StatelessWidget {

@@ -59,7 +59,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   @override
   Widget build(BuildContext _) => MultiProvider(
         providers: [
-          Provider<UserPreferences>(create: (_) => UserPreferences()),
+          Provider<UserPreferences>(create: (_) => sl<UserPreferences>()),
           const ConversionRatesModule(),
         ],
         child: BlocBuilder<AccountsBloc, AccountsState>(

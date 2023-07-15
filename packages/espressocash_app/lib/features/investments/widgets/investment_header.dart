@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -15,7 +18,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/token_icon.dart';
-import '../../balances/widgets/watch_balance.dart';
+import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
@@ -40,58 +43,63 @@ class _Buttons extends StatelessWidget {
   const _Buttons();
 
   @override
-  Widget build(BuildContext context) {
-    final isZeroAmount = context.watchUsdcBalance().isZero;
-
-    return isZeroAmount
-        ? const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [AddCashButton()],
-            ),
-          )
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Divider(color: CpColors.darkDividerColor),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                child: Text(
-                  context.l10n.investmentHeaderButtonsTitle,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: CpButton(
-                        minWidth: 250,
-                        size: CpButtonSize.wide,
-                        text: context.l10n.sendMoney,
-                        onPressed: () =>
-                            context.router.navigate(WalletFlowScreen.route()),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    const AddCashButton(size: CpButtonSize.wide),
-                    const SizedBox(width: 8),
-                    const CashOutButton(size: CpButtonSize.wide),
-                  ],
+  Widget build(BuildContext context) => ValueStreamBuilder(
+        create: () => sl<WatchUserFiatBalance>()
+            .call(Token.usdc)
+            .map((event) => event ?? Amount.zero(currency: Currency.usd))
+            .map((event) => event.isZero)
+            .shareValue(),
+        builder: (context, isZeroAmount) => isZeroAmount
+            ? const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [AddCashButton()],
                 ),
               )
-            ],
-          );
-  }
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Divider(color: CpColors.darkDividerColor),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 8,
+                    ),
+                    child: Text(
+                      context.l10n.investmentHeaderButtonsTitle,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 8, 24, 24),
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: CpButton(
+                            minWidth: 250,
+                            size: CpButtonSize.wide,
+                            text: context.l10n.sendMoney,
+                            onPressed: () => context.router
+                                .navigate(WalletFlowScreen.route()),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        const AddCashButton(size: CpButtonSize.wide),
+                        const SizedBox(width: 8),
+                        const CashOutButton(size: CpButtonSize.wide),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+      );
 }
 
 class _Balance extends StatefulWidget {
@@ -157,48 +165,53 @@ class _Amount extends StatelessWidget {
   const _Amount();
 
   @override
-  Widget build(BuildContext context) {
-    final amount = context.watchUsdcBalance();
-    final formattedAmount = amount.format(
-      DeviceLocale.localeOf(context),
-      roundInteger: amount.isZero,
-    );
+  Widget build(BuildContext context) => ValueStreamBuilder(
+        create: () => sl<WatchUserFiatBalance>()
+            .call(Token.usdc)
+            .map((event) => event ?? Amount.zero(currency: Currency.usd))
+            .shareValue(),
+        builder: (context, amount) {
+          final formattedAmount = amount.format(
+            DeviceLocale.localeOf(context),
+            roundInteger: amount.isZero,
+          );
 
-    return GestureDetector(
-      onTap: () =>
-          context.router.push(TokenDetailsScreen.route(token: Token.usdc)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          FittedBox(
-            child: Text(
-              formattedAmount,
-              style: const TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
+          return GestureDetector(
+            onTap: () => context.router
+                .push(TokenDetailsScreen.route(token: Token.usdc)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FittedBox(
+                  child: Text(
+                    formattedAmount,
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ).let((it) => amount.isZero ? it : Flexible(child: it)),
+                const SizedBox(width: 8),
+                const CpTokenIcon(token: Token.usdc, size: 30),
+                const SizedBox(width: 8),
+                if (amount.isZero)
+                  Flexible(
+                    child: Text(
+                      context.l10n.fundYourAccount,
+                      style: const TextStyle(
+                        fontSize: 14.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+              ],
             ),
-          ).let((it) => amount.isZero ? it : Flexible(child: it)),
-          const SizedBox(width: 8),
-          const CpTokenIcon(token: Token.usdc, size: 30),
-          const SizedBox(width: 8),
-          if (amount.isZero)
-            Flexible(
-              child: Text(
-                context.l10n.fundYourAccount,
-                style: const TextStyle(
-                  fontSize: 14.5,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
+          );
+        },
+      );
 }
 
 class _Headline extends StatelessWidget {
@@ -253,11 +266,6 @@ class _Headline extends StatelessWidget {
 
 extension on Amount {
   bool get isZero => decimal == Decimal.zero;
-}
-
-extension on BuildContext {
-  Amount watchUsdcBalance() => watchUserFiatBalance(Token.usdc)
-      .ifNull(() => Amount.zero(currency: Currency.usd));
 }
 
 class _HeaderSwitcher extends StatefulWidget {
