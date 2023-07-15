@@ -8,7 +8,6 @@ import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -25,7 +24,6 @@ class CryptoInvestments extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
         create: () => sl<WatchUserTotalFiatBalance>().call(
-          context.read<UserPreferences>().fiatCurrency,
           ignoreTokens: [Token.usdc],
         ),
         builder: (context, balance) {

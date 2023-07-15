@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/amount.dart';
 import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token.dart';
-import '../../../../../../core/user_preferences.dart';
 import '../../../../../../l10n/device_locale.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
+import '../../../core/currency.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../token_details/screens/token_details_screen.dart';
@@ -57,10 +57,8 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
-
     final Amount tokenRate = Amount.fromDecimal(
-      currency: fiatCurrency,
+      currency: defaultFiatCurrency,
       value: Decimal.parse(currentPrice.toString()),
     );
 

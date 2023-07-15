@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/core/processing_state.dart';
-import 'package:espressocash_app/core/user_preferences.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
 import 'package:espressocash_app/features/app_lock/services/app_lock_bloc.dart';
@@ -54,7 +53,6 @@ void main() {
             Provider<ConversionRatesBloc>.value(value: conversionRatesBloc),
             Provider<BalancesBloc>.value(value: balancesBloc),
             Provider<AppLockBloc>.value(value: appLockBloc),
-            Provider(create: (_) => UserPreferences()),
             Provider<MyAccount>(
               create: (_) => MyAccount(
                 wallet: wallet,

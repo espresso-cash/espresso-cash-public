@@ -56,18 +56,17 @@ typedef _Emitter = Emitter<_State>;
 
 class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   CreatePaymentRequestBloc({
-    required FiatCurrency userCurrency,
     required PaymentRequestRepository repository,
     required ConversionRatesRepository conversionRatesRepository,
   })  : _repository = repository,
         _conversionRatesRepository = conversionRatesRepository,
         super(
-          CreatePaymentRequestState(
-            tokenAmount: const CryptoAmount(
+          const CreatePaymentRequestState(
+            tokenAmount: CryptoAmount(
               value: 0,
               cryptoCurrency: Currency.usdc,
             ),
-            fiatAmount: FiatAmount(value: 0, fiatCurrency: userCurrency),
+            fiatAmount: FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency),
           ),
         ) {
     on<_Event>(_eventHandler);

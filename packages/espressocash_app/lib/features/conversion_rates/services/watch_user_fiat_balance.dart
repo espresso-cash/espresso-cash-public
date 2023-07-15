@@ -5,25 +5,21 @@ import 'package:rxdart/rxdart.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../balances/data/balances_repository.dart';
 import '../data/repository.dart';
 
 @injectable
 class WatchUserFiatBalance {
   const WatchUserFiatBalance(
-    this._userPreferences,
     this._conversionRatesRepository,
     this._balancesRepository,
   );
 
-  final UserPreferences _userPreferences;
   final ConversionRatesRepository _conversionRatesRepository;
   final BalancesRepository _balancesRepository;
 
   (Stream<FiatAmount?>, FiatAmount?) call(Token token) {
-    final fiatCurrency = _userPreferences.fiatCurrency;
-
+    const fiatCurrency = defaultFiatCurrency;
     final conversionRate = _conversionRatesRepository
         .watchRate(CryptoCurrency(token: token), to: fiatCurrency);
 
