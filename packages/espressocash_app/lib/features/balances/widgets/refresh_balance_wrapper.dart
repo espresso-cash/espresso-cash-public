@@ -40,17 +40,16 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   ) async =>
       stream
           .firstWhere(
-            (state) => state.when(
-              processing: F,
-              error: T,
-              none: T,
-            ),
+            (state) => switch (state) {
+              ProcessingStateProcessing() => false,
+              ProcessingStateError() || ProcessingStateNone() => true,
+            },
           )
           .then(
-            (s) => s.maybeMap(
-              error: (s) => Either.left(s.e),
-              orElse: () => const Either.right(null),
-            ),
+            (s) => switch (s) {
+              ProcessingStateError(:final e) => Either.left(e),
+              _ => const Either.right(null),
+            },
           );
 
   AsyncResult<void> _updateConversionRates() {
