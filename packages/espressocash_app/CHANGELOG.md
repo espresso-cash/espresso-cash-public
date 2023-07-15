@@ -1,3 +1,13 @@
+## 1.78.0
+
+ - **REFACTOR**: clean Amount and Currency (#1028).
+ - **REFACTOR**: remove UserPreferences (#1027).
+ - **REFACTOR**: update balances logic (#1026).
+ - **REFACTOR**: update routes handling (#1024).
+ - **FIX**: provide valid router keys.
+ - **FIX**: add padding to country selector.
+ - **FEAT**: add ramp flow logic (#1022).
+
 ## 1.77.3
 
  - **FIX**: center button in onboarding notice (#1021).
