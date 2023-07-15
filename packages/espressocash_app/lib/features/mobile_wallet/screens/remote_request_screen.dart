@@ -6,6 +6,7 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
@@ -19,6 +20,8 @@ class RemoteRequestScreen extends StatelessWidget {
     super.key,
     required this.request,
   });
+
+  static const route = RemoteRequestRoute.new;
 
   final RemoteRequest request;
 

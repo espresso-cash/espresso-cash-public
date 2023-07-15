@@ -15,6 +15,7 @@ import '../../conversion_rates/data/repository.dart';
 import '../data/repository.dart';
 import '../services/create_payment_request_bloc.dart';
 import '../widgets/request_note_screen.dart';
+import 'link_details_flow_screen.dart';
 
 @RoutePage()
 class LinkRequestFlowScreen extends StatefulWidget {
@@ -22,6 +23,8 @@ class LinkRequestFlowScreen extends StatefulWidget {
     super.key,
     required this.initialAmount,
   });
+
+  static const route = LinkRequestFlowRoute.new;
 
   final CryptoAmount initialAmount;
 
@@ -104,7 +107,7 @@ class _ContentState extends State<_Content> implements NoteSetter {
             ),
             success: (request) {
               context.router.popUntilRoot();
-              context.navigateTo(LinkDetailsFlowRoute(id: request.id));
+              context.navigateTo(LinkDetailsFlowScreen.route(id: request.id));
             },
             orElse: ignore,
           ),

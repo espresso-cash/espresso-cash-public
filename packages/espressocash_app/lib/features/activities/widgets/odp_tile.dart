@@ -7,7 +7,7 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
+import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 
@@ -29,6 +29,7 @@ class ODPTile extends StatelessWidget {
           success: always(CpActivityTileStatus.success),
           txFailure: always(CpActivityTileStatus.failure),
         ),
-        onTap: () => context.router.navigate(ODPDetailsRoute(id: activity.id)),
+        onTap: () =>
+            context.router.navigate(ODPDetailsScreen.route(id: activity.id)),
       );
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -13,6 +15,7 @@ import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
@@ -34,6 +37,8 @@ import '../widgets/token_details_widget.dart';
 @RoutePage()
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
+
+  static const route = TokenDetailsRoute.new;
 
   final Token token;
 
@@ -72,8 +77,11 @@ class TokenDetailsScreen extends StatelessWidget {
                           _Balance(token: token),
                           _Content(token: token),
                           SizedBox(
-                            height: MediaQuery.of(context).padding.bottom -
-                                cpNavigationBarheight,
+                            height: max(
+                              MediaQuery.paddingOf(context).bottom -
+                                  cpNavigationBarheight,
+                              0,
+                            ),
                           )
                         ],
                       ),

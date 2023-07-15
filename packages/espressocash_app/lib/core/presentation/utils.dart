@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../l10n/l10n.dart';
-import '../../routes.gr.dart';
 import '../../ui/snackbar.dart';
+import '../../ui/web_view_screen.dart';
 
 extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
       final url = Uri.parse(link);
-      await router.push(WebViewRoute(url: url));
+      await router.push(WebViewScreen.route(url: url));
     } on FormatException catch (_) {
       showCpErrorSnackbar(
         this,

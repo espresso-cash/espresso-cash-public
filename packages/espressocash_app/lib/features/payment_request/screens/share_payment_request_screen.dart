@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/dialogs.dart';
@@ -18,6 +19,8 @@ import '../widgets/share_qr_code.dart';
 @RoutePage()
 class SharePaymentRequestScreen extends StatelessWidget {
   const SharePaymentRequestScreen({super.key});
+
+  static const route = SharePaymentRequestRoute.new;
 
   @override
   Widget build(BuildContext context) {

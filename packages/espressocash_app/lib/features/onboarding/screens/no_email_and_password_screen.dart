@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/info_widget.dart';
@@ -11,6 +12,8 @@ import '../../../ui/theme.dart';
 @RoutePage()
 class NoEmailAndPasswordScreen extends StatelessWidget {
   const NoEmailAndPasswordScreen({super.key, required this.onDone});
+
+  static const route = NoEmailAndPasswordRoute.new;
 
   final VoidCallback onDone;
 

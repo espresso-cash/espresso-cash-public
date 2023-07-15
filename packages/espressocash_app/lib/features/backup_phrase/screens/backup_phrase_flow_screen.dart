@@ -3,59 +3,50 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../routes.gr.dart';
+import '../../../core/router_wrapper.dart';
 import '../services/puzzle_reminder_bloc.dart';
+import 'backup_confirm_phrase_screen.dart';
+import 'backup_phrase_screen.dart';
+import 'backup_phrase_success_screen.dart';
+import 'backup_warning_screen.dart';
 
 @RoutePage<bool>()
 class BackupPhraseFlowScreen extends StatefulWidget {
   const BackupPhraseFlowScreen({super.key});
+
+  static const route = BackupPhraseFlowRoute.new;
 
   @override
   State<BackupPhraseFlowScreen> createState() => _BackupPhraseFlowScreenState();
 }
 
 class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
-    implements BackupPhraseRouter {
-  final _navigatorKey = GlobalKey<AutoRouterState>();
+    with RouterWrapper {
+  void _handleWarningConfirmed() => router
+      ?.replace(BackupPhraseScreen.route(onConfirmed: _handlePhraseConfirmed));
 
-  @override
-  void onWarningConfirmed() {
-    _navigatorKey.currentState?.controller?.replace(const BackupPhraseRoute());
+  void _handlePhraseConfirmed(String phrase) {
+    router?.push(
+      BackupConfirmPhraseScreen.route(
+        correctPhrase: phrase,
+        onConfirmed: _handleCompleted,
+      ),
+    );
   }
 
-  @override
-  void onGoToConfirmationScreen(String phrase) {
-    _navigatorKey.currentState?.controller
-        ?.push(BackupConfirmPhraseRoute(correctPhrase: phrase));
-  }
-
-  @override
-  void onConfirmed() {
+  void _handleCompleted() {
     context.read<PuzzleReminderBloc>().add(const PuzzleReminderEvent.solved());
 
-    _navigatorKey.currentState?.controller
-        ?.replaceAll([const BackupPhraseSuccessRoute()]);
+    router?.replaceAll([
+      BackupPhraseSuccessScreen.route(onSolved: () => context.router.pop(true)),
+    ]);
   }
 
   @override
-  void closeFlow({required bool solved}) {
-    context.router.pop(solved);
-  }
-
-  @override
-  Widget build(BuildContext context) => Provider<BackupPhraseRouter>.value(
-        value: this,
-        child: AutoRouter(key: _navigatorKey),
+  PageRouteInfo get initialRoute => BackupWarningScreen.route(
+        onConfirmed: _handleWarningConfirmed,
       );
-}
 
-abstract class BackupPhraseRouter {
-  const BackupPhraseRouter();
-
-  void onWarningConfirmed();
-
-  void onGoToConfirmationScreen(String phrase);
-
-  void onConfirmed();
-
-  void closeFlow({required bool solved});
+  @override
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }

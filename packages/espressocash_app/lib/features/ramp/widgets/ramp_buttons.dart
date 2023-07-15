@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/models/country.dart';
+import '../../profile/screens/country_picker_screen.dart';
 import 'off_ramp_bottom_sheet.dart';
 import 'on_ramp.dart';
 
@@ -79,7 +79,9 @@ extension on BuildContext {
     final country =
         sl<ProfileRepository>().profile.country?.let(Country.findByCode);
     if (country == null) {
-      router.push(CountryPickerRoute(onSubmitted: onCountrySelected));
+      router.push<Country>(
+        CountryPickerScreen.route(onSubmitted: onCountrySelected),
+      );
     } else {
       completer.complete(country);
     }

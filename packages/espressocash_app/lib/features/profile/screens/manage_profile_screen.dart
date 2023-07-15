@@ -20,6 +20,7 @@ import '../data/profile_repository.dart';
 import '../models/country.dart';
 import '../models/profile.dart';
 import '../widgets/pick_profile_picture.dart';
+import 'country_picker_screen.dart';
 
 @RoutePage()
 class ManageProfileScreen extends StatefulWidget {
@@ -27,6 +28,8 @@ class ManageProfileScreen extends StatefulWidget {
     super.key,
     required this.onSubmitted,
   });
+
+  static const route = ManageProfileRoute.new;
 
   final VoidCallback onSubmitted;
 
@@ -63,8 +66,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleCountryPressed() => context.router.push(
-        CountryPickerRoute(
+  void _handleCountryPressed() => context.router.push<Country>(
+        CountryPickerScreen.route(
           initial: _country,
           onSubmitted: (country) {
             context.router.pop();

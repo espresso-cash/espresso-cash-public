@@ -1,18 +1,22 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/presentation/utils.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
+import '../../../ui/loader.dart';
+import '../../accounts/models/account.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/swap_repository.dart';
 import '../models/swap.dart';
-import '../widgets/extensions.dart';
+import '../services/swap_service.dart';
 
 @RoutePage()
 class ProcessSwapScreen extends StatefulWidget {
@@ -20,6 +24,8 @@ class ProcessSwapScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static const route = ProcessSwapRoute.new;
 
   final String id;
 
@@ -71,5 +77,15 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
                   ),
                 );
         },
+      );
+}
+
+extension on BuildContext {
+  Future<void> retrySwap(Swap swap) async => runWithLoader(
+        this,
+        () => sl<SwapService>().retry(
+          swap,
+          account: read<MyAccount>().wallet,
+        ),
       );
 }

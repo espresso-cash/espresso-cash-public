@@ -8,6 +8,7 @@ import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/timeline.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
@@ -23,6 +24,8 @@ class ODPDetailsScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static const route = ODPDetailsRoute.new;
 
   final String id;
 

@@ -14,6 +14,7 @@ import '../../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
+import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../widgets/learning_section.dart';
 import '../widgets/profile_builder.dart';
@@ -23,6 +24,8 @@ import '../widgets/security_section.dart';
 @RoutePage()
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  static const route = ProfileRoute.new;
 
   @override
   Widget build(BuildContext context) {

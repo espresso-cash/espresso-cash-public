@@ -9,6 +9,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
@@ -23,6 +24,8 @@ class QrScannerScreen extends StatelessWidget {
     super.key,
     this.showManualInput = true,
   });
+
+  static const route = QrScannerRoute.new;
 
   final bool showManualInput;
 

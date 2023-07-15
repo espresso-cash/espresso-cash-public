@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../di.dart';
+import '../../../routes.gr.dart';
 import '../../../saga.dart';
 import '../../../ui/splash_screen.dart';
 import '../services/sign_in_bloc.dart';
@@ -11,6 +12,8 @@ import '../services/sign_in_bloc.dart';
 @RoutePage()
 class CreateWalletLoadingScreen extends StatefulWidget {
   const CreateWalletLoadingScreen({super.key});
+
+  static const route = CreateWalletLoadingRoute.new;
 
   @override
   State<CreateWalletLoadingScreen> createState() =>

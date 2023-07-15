@@ -3,6 +3,7 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../widgets/pending_activities_list.dart';
@@ -11,6 +12,8 @@ import '../widgets/transaction_list.dart';
 @RoutePage()
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({super.key});
+
+  static const route = ActivitiesRoute.new;
 
   @override
   Widget build(BuildContext context) {

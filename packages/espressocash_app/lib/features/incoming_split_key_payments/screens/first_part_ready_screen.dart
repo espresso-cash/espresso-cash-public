@@ -19,10 +19,13 @@ import '../../../ui/theme.dart';
 import '../../legal/flow.dart';
 import '../data/pending_iskp_repository.dart';
 import '../widgets/extensions.dart';
+import 'incoming_split_key_payment_screen.dart';
 
 @RoutePage()
 class FirstPartReadyScreen extends StatefulWidget {
   const FirstPartReadyScreen({super.key, required this.onCancel});
+
+  static const route = FirstPartReadyRoute.new;
 
   final VoidCallback onCancel;
 
@@ -74,7 +77,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
 
       if (!mounted) return;
       await context.router.replace(
-        IncomingSplitKeyPaymentRoute(id: id),
+        IncomingSplitKeyPaymentScreen.route(id: id),
       );
     } on Object {
       context.router.popForced();

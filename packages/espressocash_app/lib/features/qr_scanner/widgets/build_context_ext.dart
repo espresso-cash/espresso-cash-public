@@ -12,13 +12,16 @@ import '../../../core/tokens/token_list.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
-import '../../../routes.gr.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../incoming_split_key_payments/screens/incoming_split_key_payment_screen.dart';
 import '../../incoming_split_key_payments/widgets/extensions.dart';
+import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
+import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../models/qr_scanner_request.dart';
+import '../screens/qr_scanner_screen.dart';
 
 extension BuilContextExt on BuildContext {
   Future<void> launchQrScannerFlow({
@@ -26,7 +29,8 @@ extension BuilContextExt on BuildContext {
     required CryptoCurrency cryptoCurrency,
     FiatAmount? defaultFiatAmount,
   }) async {
-    final request = await router.push<QrScannerRequest>(QrScannerRoute());
+    final request =
+        await router.push<QrScannerRequest>(QrScannerScreen.route());
 
     if (request == null) return;
     if (!mounted) return;
@@ -44,7 +48,7 @@ extension BuilContextExt on BuildContext {
       );
 
       if (!mounted) return;
-      unawaited(router.push(IncomingSplitKeyPaymentRoute(id: id)));
+      unawaited(router.push(IncomingSplitKeyPaymentScreen.route(id: id)));
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;
@@ -68,7 +72,7 @@ extension BuilContextExt on BuildContext {
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
 
       final fiatDecimal = await router.push<Decimal>(
-        ODPConfirmationRoute(
+        ODPConfirmationScreen.route(
           initialAmount: formatted,
           recipient: recipient,
           label: name,
@@ -95,7 +99,7 @@ extension BuilContextExt on BuildContext {
         );
 
         if (!mounted) return;
-        await router.push(ODPDetailsRoute(id: id));
+        await router.push(ODPDetailsScreen.route(id: id));
       }
     }
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
@@ -17,8 +18,10 @@ class CountryPickerScreen extends StatelessWidget {
     required this.onSubmitted,
   });
 
+  static const route = CountryPickerRoute.new;
+
   final Country? initial;
-  final void Function(Country country) onSubmitted;
+  final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -130,7 +133,11 @@ class _ContentState extends State<_Content> {
           Expanded(
             child: ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: MediaQuery.paddingOf(context).bottom,
+              ),
               itemCount: filteredCountries.length,
               itemExtent: _tileHeight,
               itemBuilder: (BuildContext context, int index) {
