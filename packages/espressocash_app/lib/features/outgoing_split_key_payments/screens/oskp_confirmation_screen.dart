@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
@@ -114,14 +113,14 @@ class _AmountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const currency = Currency.usd;
-    final fiatAmount = amount.map(
-      crypto: (crypto) => context.convertToFiat(
-        fiatCurrency: currency,
-        token: crypto.token,
-        amount: crypto.value,
-      ),
-      fiat: identity,
-    );
+    final fiatAmount = switch (amount) {
+      CryptoAmount(:final token, :final value) => context.convertToFiat(
+          fiatCurrency: currency,
+          token: token,
+          amount: value,
+        ),
+      FiatAmount() => amount,
+    };
 
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = amount.format(

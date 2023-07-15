@@ -40,8 +40,7 @@ class CreatePaymentRequestState with _$CreatePaymentRequestState {
     @Default('') String label,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
-    @Default(Flow<Exception, PaymentRequest>.initial())
-    Flow<Exception, PaymentRequest> flow,
+    required Flow<Exception, PaymentRequest> flow,
   }) = _CreatePaymentRequestState;
 
   const CreatePaymentRequestState._();
@@ -61,12 +60,15 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   })  : _repository = repository,
         _conversionRatesRepository = conversionRatesRepository,
         super(
-          const CreatePaymentRequestState(
-            tokenAmount: CryptoAmount(
+          // ignore: prefer_const_constructors, analyzer complains about flow
+          CreatePaymentRequestState(
+            tokenAmount: const CryptoAmount(
               value: 0,
               cryptoCurrency: Currency.usdc,
             ),
-            fiatAmount: FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency),
+            fiatAmount:
+                const FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency),
+            flow: const Flow<Exception, PaymentRequest>.initial(),
           ),
         ) {
     on<_Event>(_eventHandler);
