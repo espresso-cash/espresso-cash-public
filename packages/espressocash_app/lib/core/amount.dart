@@ -6,13 +6,14 @@ import 'tokens/token.dart';
 
 part 'amount.freezed.dart';
 
-@freezed
-class Amount with _$Amount {
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+sealed class Amount with _$Amount {
   factory Amount({required int value, required Currency currency}) =>
-      currency.map(
-        fiat: (c) => Amount.fiat(value: value, fiatCurrency: c),
-        crypto: (c) => Amount.crypto(value: value, cryptoCurrency: c),
-      );
+      switch (currency) {
+        FiatCurrency() => Amount.fiat(value: value, fiatCurrency: currency),
+        CryptoCurrency() =>
+          Amount.crypto(value: value, cryptoCurrency: currency),
+      };
 
   const factory Amount.fiat({
     required int value,
@@ -41,10 +42,10 @@ class Amount with _$Amount {
 
   const Amount._();
 
-  Currency get currency => map(
-        fiat: (a) => a.fiatCurrency,
-        crypto: (a) => a.cryptoCurrency,
-      );
+  Currency get currency => switch (this) {
+        FiatAmount(:final fiatCurrency) => fiatCurrency,
+        CryptoAmount(:final cryptoCurrency) => cryptoCurrency,
+      };
 
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
 
