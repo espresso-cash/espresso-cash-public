@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -50,11 +49,11 @@ class _FeeLabelState extends State<FeeLabel> {
   Widget build(BuildContext context) => FutureBuilder<String>(
         future: _amount,
         builder: (context, snapshot) {
-          final String text = snapshot.toResult().when(
-                loading: always(context.l10n.feesCalculating),
-                error: always(context.l10n.feesFailed),
-                data: identity,
-              );
+          final String text = switch (snapshot.toResult()) {
+            AsyncSnapshotLoading() => context.l10n.feesCalculating,
+            AsyncSnapshotError() => context.l10n.feesFailed,
+            AsyncSnapshotData(:final data) => data,
+          };
 
           return Text(
             context.l10n.feeAmount(text),
