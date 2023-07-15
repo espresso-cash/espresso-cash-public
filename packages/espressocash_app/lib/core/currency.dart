@@ -46,3 +46,5 @@ class Currency with _$Currency {
   int decimalToInt(Decimal value) =>
       value.shift(decimals).round().toBigInt().toInt();
 }
+
+const defaultFiatCurrency = Currency.usd;

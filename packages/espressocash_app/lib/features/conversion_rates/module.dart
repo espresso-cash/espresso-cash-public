@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/user_preferences.dart';
+import '../../core/currency.dart';
 import '../../di.dart';
 import '../balances/data/balances_repository.dart';
 import 'data/repository.dart';
@@ -23,7 +23,7 @@ class ConversionRatesModule extends SingleChildStatelessWidget {
               ..add(
                 ConversionRatesEvent.init(
                   userTokens: sl<BalancesRepository>().watchUserTokens(),
-                  userCurrency: context.read<UserPreferences>().fiatCurrency,
+                  userCurrency: defaultFiatCurrency,
                 ),
               ),
           )

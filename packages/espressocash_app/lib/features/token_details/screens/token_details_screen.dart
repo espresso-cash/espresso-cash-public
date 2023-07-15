@@ -9,11 +9,11 @@ import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/currency.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -49,10 +49,8 @@ class TokenDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<TokenDetailsBloc>(
-              param1: token,
-              param2: context.read<UserPreferences>().fiatCurrency,
-            )..add(const FetchDetailsRequested()),
+            create: (context) => sl<TokenDetailsBloc>(param1: token)
+              ..add(const FetchDetailsRequested()),
           ),
           TokenChartModule(token),
         ],
@@ -109,11 +107,10 @@ class _TokenPrice extends StatelessWidget {
             orElse: () => '-',
             success: (data) {
               final price = data.marketPrice?.toString().let(Decimal.parse);
-              final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
 
               return price.formatDisplayablePrice(
                 locale: DeviceLocale.localeOf(context),
-                currency: fiatCurrency,
+                currency: defaultFiatCurrency,
               );
             },
           );
@@ -230,11 +227,10 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final price = _selected?.price.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
       locale: DeviceLocale.localeOf(context),
-      currency: fiatCurrency,
+      currency: defaultFiatCurrency,
     );
 
     return Column(

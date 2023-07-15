@@ -18,8 +18,7 @@ class WatchUserTotalFiatBalance {
   final WatchUserFiatBalance _watchUserFiatBalance;
   final BalancesRepository _balancesRepository;
 
-  (Stream<Amount>, Amount) call(
-    Currency currency, {
+  (Stream<Amount>, Amount) call({
     Iterable<Token> ignoreTokens = const [],
   }) =>
       (
@@ -30,7 +29,7 @@ class WatchUserTotalFiatBalance {
               (tokens) => Rx.combineLatest(
                 tokens.map((t) => _watchUserFiatBalance(t).$1),
                 (values) => values.whereNotNull().fold(
-                      Amount.zero(currency: currency),
+                      Amount.zero(currency: defaultFiatCurrency),
                       (total, next) => total + next,
                     ),
               ),
@@ -42,7 +41,7 @@ class WatchUserTotalFiatBalance {
             .map((t) => _watchUserFiatBalance(t).$2)
             .whereNotNull()
             .fold(
-              Amount.zero(currency: currency),
+              Amount.zero(currency: defaultFiatCurrency),
               (total, next) => total + next,
             ),
       );

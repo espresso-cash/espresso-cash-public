@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/user_preferences.dart';
 import '../../../di.config.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
@@ -58,9 +57,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
 
   @override
   Widget build(BuildContext _) => MultiProvider(
-        providers: [
-          Provider<UserPreferences>(create: (_) => sl<UserPreferences>()),
-          const ConversionRatesModule(),
+        providers: const [
+          ConversionRatesModule(),
         ],
         child: BlocBuilder<AccountsBloc, AccountsState>(
           builder: (context, state) {

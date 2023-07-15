@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/dialogs.dart';
@@ -41,7 +40,6 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
     final amount = widget.initialAmount;
 
     _paymentRequestBloc = CreatePaymentRequestBloc(
-      userCurrency: context.read<UserPreferences>().fiatCurrency,
       repository: sl<PaymentRequestRepository>(),
       conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
