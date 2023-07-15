@@ -13,24 +13,26 @@ class StartInvestingHeader extends StatelessWidget {
   const StartInvestingHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
+  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
         create: () => sl<WatchUserHasInvestments>().call(),
-        builder: (context, hasInvestments) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              CpCryptoHeader(
-                title: context.l10n.startInvestingTitle,
-                subtitle: context.l10n.startInvestingSubtitle,
+        builder: (context, hasInvestments) => hasInvestments
+            ? const SizedBox.shrink()
+            : Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    CpCryptoHeader(
+                      title: context.l10n.startInvestingTitle,
+                      subtitle: context.l10n.startInvestingSubtitle,
+                    ),
+                    const SizedBox(height: 12),
+                    DiscoverHeader(
+                      showTitle: false,
+                      onTap: (it) => context.router
+                          .push(TokenSearchScreen.route(category: it)),
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 12),
-              DiscoverHeader(
-                showTitle: false,
-                onTap: (it) =>
-                    context.router.push(TokenSearchScreen.route(category: it)),
-              ),
-            ],
-          ),
-        ),
       );
 }

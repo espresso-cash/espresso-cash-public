@@ -63,9 +63,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     );
     bloc.add(conversionEvent);
 
-    return _listenForProcessingStateAndThrowOnError(
-      bloc.stream.map((it) => it.processingState),
-    );
+    return _listenForProcessingStateAndThrowOnError(bloc.stream);
   }
 
   AsyncResult<void> _updateBalances() async {

@@ -18,21 +18,32 @@ class WatchUserTotalFiatBalance {
   final WatchUserFiatBalance _watchUserFiatBalance;
   final BalancesRepository _balancesRepository;
 
-  ValueStream<Amount> call(
+  (Stream<Amount>, Amount) call(
     Currency currency, {
     Iterable<Token> ignoreTokens = const [],
   }) =>
-      _balancesRepository
-          .watchUserTokens()
-          .map((event) => event.where((token) => !ignoreTokens.contains(token)))
-          .flatMap(
-            (tokens) => Rx.combineLatest(
-              tokens.map(_watchUserFiatBalance.call),
-              (values) => values.whereNotNull().fold(
-                    Amount.zero(currency: currency),
-                    (total, next) => total + next,
-                  ),
+      (
+        _balancesRepository
+            .watchUserTokens()
+            .map((tokens) => tokens.where((t) => !ignoreTokens.contains(t)))
+            .flatMap(
+              (tokens) => Rx.combineLatest(
+                tokens.map((t) => _watchUserFiatBalance(t).$1),
+                (values) => values.whereNotNull().fold(
+                      Amount.zero(currency: currency),
+                      (total, next) => total + next,
+                    ),
+              ),
+            )
+            .distinct(),
+        _balancesRepository
+            .readUserTokens()
+            .where((t) => !ignoreTokens.contains(t))
+            .map((t) => _watchUserFiatBalance(t).$2)
+            .whereNotNull()
+            .fold(
+              Amount.zero(currency: currency),
+              (total, next) => total + next,
             ),
-          )
-          .shareValue();
+      );
 }

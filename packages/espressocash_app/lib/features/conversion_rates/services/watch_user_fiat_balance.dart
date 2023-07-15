@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -20,19 +21,31 @@ class WatchUserFiatBalance {
   final ConversionRatesRepository _conversionRatesRepository;
   final BalancesRepository _balancesRepository;
 
-  ValueStream<Amount?> call(Token token) {
+  (Stream<FiatAmount?>, FiatAmount?) call(Token token) {
     final fiatCurrency = _userPreferences.fiatCurrency;
 
     final conversionRate = _conversionRatesRepository
         .watchRate(CryptoCurrency(token: token), to: fiatCurrency);
 
-    return _balancesRepository.watch(token).withLatestFrom(
-      conversionRate,
-      (cryptoAmount, rate) {
-        if (rate == null) return null;
+    final balance = _balancesRepository.watch(token);
 
-        return cryptoAmount.convert(rate: rate, to: fiatCurrency);
-      },
-    ).shareValue();
+    return (
+      Rx.combineLatest2(
+        balance.$1,
+        conversionRate,
+        (cryptoAmount, rate) {
+          if (rate == null) return null;
+
+          return cryptoAmount.convert(rate: rate, to: fiatCurrency)
+              as FiatAmount;
+        },
+      ).distinct(),
+      _conversionRatesRepository
+          .readRate(CryptoCurrency(token: token), to: fiatCurrency)
+          ?.let(
+            (rate) =>
+                balance.$2.convert(rate: rate, to: fiatCurrency) as FiatAmount,
+          ),
+    );
   }
 }

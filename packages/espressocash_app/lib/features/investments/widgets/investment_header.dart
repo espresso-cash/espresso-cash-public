@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -43,12 +42,15 @@ class _Buttons extends StatelessWidget {
   const _Buttons();
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
-        create: () => sl<WatchUserFiatBalance>()
-            .call(Token.usdc)
-            .map((event) => event ?? Amount.zero(currency: Currency.usd))
-            .map((event) => event.isZero)
-            .shareValue(),
+  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
+        create: () => (
+          sl<WatchUserFiatBalance>()
+              .call(Token.usdc)
+              .$1
+              .map((event) => event ?? Amount.zero(currency: Currency.usd))
+              .map((event) => event.isZero),
+          true,
+        ),
         builder: (context, isZeroAmount) => isZeroAmount
             ? const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -165,11 +167,14 @@ class _Amount extends StatelessWidget {
   const _Amount();
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
-        create: () => sl<WatchUserFiatBalance>()
-            .call(Token.usdc)
-            .map((event) => event ?? Amount.zero(currency: Currency.usd))
-            .shareValue(),
+  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
+        create: () => (
+          sl<WatchUserFiatBalance>()
+              .call(Token.usdc)
+              .$1
+              .map((event) => event ?? Amount.zero(currency: Currency.usd)),
+          Amount.zero(currency: Currency.usd),
+        ),
         builder: (context, amount) {
           final formattedAmount = amount.format(
             DeviceLocale.localeOf(context),

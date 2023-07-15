@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import '../../../core/extensions.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../data/profile_repository.dart';
@@ -17,7 +18,7 @@ class ProfileBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder(
-        create: () => sl<ProfileRepository>().profileStream,
+        create: () => sl<ProfileRepository>().profileStream.withInitial(),
         builder: builder,
       );
 }

@@ -23,7 +23,7 @@ class ConversionRatesModule extends SingleChildStatelessWidget {
               ..add(
                 ConversionRatesEvent.init(
                   userTokens: sl<BalancesRepository>().watchUserTokens(),
-                  currency: context.read<UserPreferences>().fiatCurrency,
+                  userCurrency: context.read<UserPreferences>().fiatCurrency,
                 ),
               ),
           )

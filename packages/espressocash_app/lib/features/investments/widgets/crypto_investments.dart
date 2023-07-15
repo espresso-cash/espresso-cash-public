@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -22,7 +23,7 @@ class CryptoInvestments extends StatelessWidget {
   const CryptoInvestments({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
+  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
         create: () => sl<WatchUserTotalFiatBalance>().call(
           context.read<UserPreferences>().fiatCurrency,
           ignoreTokens: [Token.usdc],
@@ -38,15 +39,26 @@ class CryptoInvestments extends StatelessWidget {
                   children: [
                     _Header(balance),
                     const SizedBox(height: 15),
-                    ValueStreamBuilder(
-                      create: () => sl<WatchInvestments>()
-                          .call(displayEmptyBalances: displayEmptyBalances),
-                      builder: (context, tokens) =>
-                          PortfolioWidget(tokens: tokens),
-                    ),
+                    _Portfolio(displayEmptyBalances: displayEmptyBalances),
                   ],
                 );
         },
+      );
+}
+
+class _Portfolio extends StatelessWidget {
+  const _Portfolio({required this.displayEmptyBalances});
+
+  final bool displayEmptyBalances;
+
+  @override
+  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
+        create: () => (
+          sl<WatchInvestments>()
+              .call(displayEmptyBalances: displayEmptyBalances),
+          const IListConst([]),
+        ),
+        builder: (context, tokens) => PortfolioWidget(tokens: tokens),
       );
 }
 

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../core/amount.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
@@ -157,21 +158,25 @@ class _Balance extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
-        create: () => sl<WatchUserFiatBalance>()
-            .call(token)
-            .withLatestFrom(
-              sl<BalancesRepository>().watch(token),
-              (fiatAmount, cryptoAmount) => (
-                fiatAmount: fiatAmount,
-                cryptoAmount: cryptoAmount,
-              ),
-            )
-            .shareValue(),
-        builder: (context, value) {
-          final (:cryptoAmount, :fiatAmount) = value;
+  Widget build(BuildContext context) =>
+      ValueStreamBuilder<({Amount? fiat, CryptoAmount crypto})>(
+        create: () {
+          final fiat = sl<WatchUserFiatBalance>().call(token);
+          final crypto = sl<BalancesRepository>().watch(token);
 
-          return cryptoAmount.value != 0 && fiatAmount != null
+          return (
+            Rx.combineLatest2(
+              fiat.$1,
+              crypto.$1,
+              (fiat, crypto) => (fiat: fiat, crypto: crypto),
+            ),
+            (fiat: fiat.$2, crypto: crypto.$2),
+          );
+        },
+        builder: (context, value) {
+          final (:crypto, :fiat) = value;
+
+          return crypto.value != 0 && fiat != null
               ? CpContentPadding(
                   bottom: false,
                   child: Container(
@@ -190,14 +195,14 @@ class _Balance extends StatelessWidget {
                       children: [
                         PriceWidget(
                           label: context.l10n.youOwn,
-                          amount: cryptoAmount.format(
+                          amount: crypto.format(
                             DeviceLocale.localeOf(context),
                             roundInteger: true,
                           ),
                         ),
                         PriceWidget(
                           label: context.l10n.tokenDetails_lblBalance,
-                          amount: fiatAmount.format(
+                          amount: fiat.format(
                             DeviceLocale.localeOf(context),
                             roundInteger: true,
                           ),

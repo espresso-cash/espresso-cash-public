@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/core/currency.dart';
+import 'package:espressocash_app/core/processing_state.dart';
 import 'package:espressocash_app/core/user_preferences.dart';
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
@@ -70,7 +71,7 @@ void main() {
       whenListen(balancesBloc, initialState: const BalancesState.none());
       whenListen(
         conversionRatesBloc,
-        initialState: const ConversionRatesState(),
+        initialState: const ProcessingStateNone(),
       );
       whenListen(
         appLockBloc,

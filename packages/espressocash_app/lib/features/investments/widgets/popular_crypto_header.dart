@@ -10,7 +10,7 @@ class PopularCryptoHeader extends StatelessWidget {
   const PopularCryptoHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder(
+  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
         create: () => sl<WatchUserHasInvestments>().call(),
         builder: (context, hasInvestments) => !hasInvestments
             ? const SizedBox.shrink()

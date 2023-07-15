@@ -23,20 +23,20 @@ class BalancesRepository implements Disposable {
       _data.value[token] ??
       CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
 
-  ValueStream<CryptoAmount> watch(Token token) => _data
-      .map(
-        (data) =>
-            data[token] ??
-            CryptoAmount(
-              value: 0,
-              cryptoCurrency: CryptoCurrency(token: token),
-            ),
-      )
-      .shareValue();
+  (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
+        _data.map(
+          (data) =>
+              data[token] ??
+              CryptoAmount(
+                value: 0,
+                cryptoCurrency: CryptoCurrency(token: token),
+              ),
+        ),
+        read(token),
+      );
 
-  ValueStream<ISet<Token>> watchUserTokens() => _data
-      .map((data) => {...data.keys, Token.sol, Token.usdc}.lock)
-      .shareValue();
+  Stream<ISet<Token>> watchUserTokens() =>
+      _data.map((data) => {...data.keys, Token.sol, Token.usdc}.lock);
 
   ISet<Token> readUserTokens() =>
       {..._data.value.keys, Token.sol, Token.usdc}.lock;

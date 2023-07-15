@@ -8,6 +8,7 @@ import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
+import '../../../core/amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
@@ -40,7 +41,7 @@ class _BalanceItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    return ValueStreamBuilder(
+    return ValueStreamBuilder<Amount?>(
       create: () => sl<WatchUserFiatBalance>().call(token),
       builder: (context, fiatAmount) => Material(
         color: Colors.transparent,

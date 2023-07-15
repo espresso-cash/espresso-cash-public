@@ -19,7 +19,7 @@ class WatchInvestments {
 
   static final Decimal _minimumUsdAmount = Decimal.parse('0.01');
 
-  ValueStream<IList<Token>> call({
+  Stream<IList<Token>> call({
     required bool displayEmptyBalances,
   }) =>
       _balancesRepository
@@ -30,8 +30,9 @@ class WatchInvestments {
                 ? Stream.value(tokens)
                 : Rx.combineLatest(
                     tokens.map(
-                      (t) => _watchUserFiatBalance(t)
-                          .map((event) => (t, event?.decimal ?? Decimal.zero)),
+                      (t) => _watchUserFiatBalance(t).$1.map(
+                            (event) => (t, event?.decimal ?? Decimal.zero),
+                          ),
                     ),
                     (values) => values
                         .where((v) => v.$2 >= _minimumUsdAmount)
@@ -39,5 +40,5 @@ class WatchInvestments {
                   ),
           )
           .map((event) => event.toIList())
-          .shareValue();
+          .distinct();
 }

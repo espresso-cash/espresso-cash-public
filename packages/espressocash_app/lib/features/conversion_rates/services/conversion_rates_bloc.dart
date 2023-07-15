@@ -18,7 +18,7 @@ part 'conversion_rates_bloc.freezed.dart';
 final _logger = Logger('ConversionRatesBloc');
 
 typedef _Event = ConversionRatesEvent;
-typedef _State = ConversionRatesState;
+typedef _State = ProcessingState;
 typedef _Emitter = Emitter<_State>;
 
 @injectable
@@ -26,7 +26,7 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
   ConversionRatesBloc({
     required ConversionRatesRepository repository,
   })  : _repository = repository,
-        super(const _State()) {
+        super(const ProcessingStateNone()) {
     on<Init>(_onInit);
     on<RefreshRequested>(_onRefreshRequested, transformer: restartable());
   }
@@ -37,7 +37,7 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
   void _onInit(Init event, Emitter<_State> emit) {
     _userTokensSubscription?.cancel();
     _userTokensSubscription = event.userTokens.distinct().listen((userTokens) {
-      add(RefreshRequested(currency: event.currency, tokens: userTokens));
+      add(RefreshRequested(currency: event.userCurrency, tokens: userTokens));
     });
   }
 
@@ -45,16 +45,16 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
     RefreshRequested event,
     _Emitter emit,
   ) async {
-    emit(state.copyWith(processingState: const ProcessingState.processing()));
+    emit(const ProcessingState.processing());
 
     await _repository.refresh(event.currency, event.tokens).doOnLeftAsync(
       (exception) {
         _logger.severe('Failed to fetch conversion rates', exception);
         const e = ConversionRatesRequestException();
-        emit(state.copyWith(processingState: const ProcessingState.error(e)));
+        emit(const ProcessingState.error(e));
       },
     );
-    emit(state.copyWith(processingState: const ProcessingState.none()));
+    emit(const ProcessingState.none());
   }
 
   @override
@@ -73,20 +73,11 @@ class ConversionRatesRequestException implements Exception {
 sealed class ConversionRatesEvent with _$ConversionRatesEvent {
   const factory ConversionRatesEvent.init({
     required Stream<ISet<Token>> userTokens,
-    required FiatCurrency currency,
+    required FiatCurrency userCurrency,
   }) = Init;
 
   const factory ConversionRatesEvent.refreshRequested({
     required FiatCurrency currency,
     required Iterable<Token> tokens,
   }) = RefreshRequested;
-}
-
-@freezed
-class ConversionRatesState
-    with _$ConversionRatesState
-    implements StateWithProcessingState {
-  const factory ConversionRatesState({
-    @Default(ProcessingStateNone()) ProcessingState processingState,
-  }) = _ConversionRatesState;
 }

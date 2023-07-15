@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../core/tokens/token.dart';
 import '../../../core/user_preferences.dart';
@@ -16,8 +15,15 @@ class WatchUserHasInvestments {
   final WatchUserTotalFiatBalance _watchUserTotalFiatBalance;
   final UserPreferences _userPreferences;
 
-  ValueStream<bool> call() => _watchUserTotalFiatBalance(
-        _userPreferences.fiatCurrency,
-        ignoreTokens: [Token.usdc],
-      ).map((it) => it.decimal != Decimal.zero).shareValue();
+  (Stream<bool>, bool) call() {
+    final result = _watchUserTotalFiatBalance(
+      _userPreferences.fiatCurrency,
+      ignoreTokens: [Token.usdc],
+    );
+
+    return (
+      result.$1.map((it) => it.decimal != Decimal.zero).distinct(),
+      result.$2.decimal != Decimal.zero,
+    );
+  }
 }
