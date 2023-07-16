@@ -132,10 +132,8 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
     switch (widget.operation) {
       case SwapOperation.buy:
         label = context.l10n.pressAndHoldToBuy(widget.outputToken.symbol);
-        break;
       case SwapOperation.sell:
         label = context.l10n.pressAndHoldToSell(widget.inputToken.symbol);
-        break;
     }
 
     return BlocListener<CreateSwapBloc, CreateSwapState>(

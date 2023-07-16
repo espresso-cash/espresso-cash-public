@@ -118,10 +118,8 @@ class _State extends State<WalletFlowScreen> {
       switch (operation) {
         case WalletOperation.request:
           _errorMessage = context.l10n.minimumAmountToRequest(r'$0.20');
-          break;
         case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
-          break;
       }
     });
   }

@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
-import 'package:mews_pedantic/mews_pedantic.dart';
+import 'package:meta/meta.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 

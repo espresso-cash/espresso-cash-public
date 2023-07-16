@@ -86,13 +86,10 @@ extension SwapSlippageExt on SwapSlippage {
     switch (this) {
       case SwapSlippage.zpOne:
         slippage = 0.1;
-        break;
       case SwapSlippage.zpFive:
         slippage = 0.5;
-        break;
       case SwapSlippage.onePercent:
         slippage = 1.0;
-        break;
     }
 
     return slippage.ceil().toDouble().toInt() * 100;

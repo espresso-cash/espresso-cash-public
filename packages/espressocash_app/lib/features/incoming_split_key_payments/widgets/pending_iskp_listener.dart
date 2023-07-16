@@ -53,12 +53,10 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
           case SplitKeySource.qr:
             sl<AnalyticsManager>().firstLinkReceived();
             context.router.push(FirstPartQrScreen.route()).ignore();
-            break;
           case SplitKeySource.other:
             sl<PendingISKPRepository>().save(firstPartLink);
             sl<AnalyticsManager>().firstLinkReceived();
             _openFirstPartReadyScreen();
-            break;
         }
 
         return true;

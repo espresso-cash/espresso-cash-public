@@ -139,10 +139,8 @@ class _ScreenState extends State<WalletMainScreen> {
                   switch (_action) {
                     case WalletOperation.pay:
                       widget.onPay();
-                      break;
                     case WalletOperation.request:
                       widget.onRequest();
-                      break;
                   }
                 },
                 size: CpButtonSize.big,

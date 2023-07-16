@@ -51,7 +51,6 @@ dependencies:
   localizely_sdk: ^2.5.1
   logging: ^1.1.0
   meta: ^1.7.0
-  mews_pedantic: ^0.15.0
   mobile_scanner: ^3.0.0-beta.4
   nested: ^1.0.0
   package_info_plus: ^4.0.1
@@ -97,6 +96,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.1.4
+  mews_pedantic: ^0.16.0
   mockito: ^5.4.1
   recase: ^4.1.0
   retrofit_generator: ^4.0.0
