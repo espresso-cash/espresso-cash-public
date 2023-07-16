@@ -10,6 +10,7 @@ import '../../../../../../l10n/device_locale.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
 import '../../../core/currency.dart';
+import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../token_details/screens/token_details_screen.dart';
@@ -37,13 +38,16 @@ class PopularTokenList extends StatelessWidget {
                         .toList(),
                   ),
                 )
-              : state.processingState.when(
-                  none: () => loader,
-                  processing: () => loader,
-                  error: (_) => SliverToBoxAdapter(
-                    child: Center(child: Text(context.l10n.failedToLoadTokens)),
-                  ),
-                );
+              : switch (state.processingState) {
+                  ProcessingStateNone() ||
+                  ProcessingStateProcessing() =>
+                    loader,
+                  ProcessingStateError() => SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(context.l10n.failedToLoadTokens),
+                      ),
+                    ),
+                };
         },
       );
 }

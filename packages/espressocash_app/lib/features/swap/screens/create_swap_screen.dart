@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/callback.dart';
+import '../../../core/flow.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
@@ -144,10 +145,11 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
       child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
         bloc: _bloc,
         listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-        listener: (context, state) => state.flowState.whenOrNull(
-          failure: _onSwapException,
-          success: widget.onRouteReady,
-        ),
+        listener: (context, state) => switch (state.flowState) {
+          FlowFailure(:final error) => _onSwapException(error),
+          FlowSuccess(:final result) => widget.onRouteReady(result),
+          _ => null,
+        },
         builder: (context, state) => SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +171,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               EquivalentHeader(
                 inputAmount: state.inputAmount,
                 outputAmount: state.outputAmount,
-                isLoadingRoute: state.flowState.isProcessing(),
+                isLoadingRoute: state.flowState.isProcessing,
                 feeAmount: state.fee,
               ),
               const SizedBox(height: 6),
@@ -196,10 +198,10 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               CpContentPadding(
                 child: CpSlider(
                   text: label,
-                  onSlideCompleted: (state.bestRoute == null ||
-                          state.flowState.isProcessing())
-                      ? null
-                      : _onSubmit,
+                  onSlideCompleted:
+                      (state.bestRoute == null || state.flowState.isProcessing)
+                          ? null
+                          : _onSubmit,
                 ),
               ),
             ],

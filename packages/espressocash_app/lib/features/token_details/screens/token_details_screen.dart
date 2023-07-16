@@ -10,6 +10,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/flow.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
@@ -103,17 +104,17 @@ class _TokenPrice extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<TokenDetailsBloc, TokenDetailsState>(
         builder: (context, state) {
-          final tokenRate = state.maybeWhen(
-            orElse: () => '-',
-            success: (data) {
-              final price = data.marketPrice?.toString().let(Decimal.parse);
-
-              return price.formatDisplayablePrice(
-                locale: DeviceLocale.localeOf(context),
-                currency: defaultFiatCurrency,
-              );
-            },
-          );
+          final tokenRate = switch (state) {
+            FlowSuccess(:final result) => result.marketPrice
+                    ?.toString()
+                    .let(Decimal.parse)
+                    .formatDisplayablePrice(
+                      locale: DeviceLocale.localeOf(context),
+                      currency: defaultFiatCurrency,
+                    ) ??
+                '-',
+            _ => '-',
+          };
 
           return PriceWidget(
             label: context.l10n.price,
@@ -137,14 +138,12 @@ class _Content extends StatelessWidget {
             child: LoadingIndicator(),
           );
 
-          return state.when(
-            initial: () => loader,
-            processing: () => loader,
-            failure: (_) => TokenDetailsWidget(
-              data: TokenDetails(name: token.name),
-            ),
-            success: (data) => TokenDetailsWidget(data: data),
-          );
+          return switch (state) {
+            FlowInitial() || FlowProcessing() => loader,
+            FlowFailure() =>
+              TokenDetailsWidget(data: TokenDetails(name: token.name)),
+            FlowSuccess(:final result) => TokenDetailsWidget(data: result),
+          };
         },
       );
 }
