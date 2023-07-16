@@ -15,6 +15,7 @@ dependencies:
     path: espressocash_api
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.1
+  meta: ^1.9.1
   mustache_template: ^2.0.0
   sentry: ^7.8.0
   shelf: ^1.4.0
@@ -28,5 +29,5 @@ dev_dependencies:
   dart_code_metrics: ^5.7.3
   freezed: ^2.1.0+1
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.15.0
+  mews_pedantic: ^0.16.0
   test: ^1.24.2
