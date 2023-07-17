@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
+import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
-import '../../../core/user_preferences.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
 import '../../conversion_rates/services/conversion_rates_bloc.dart';
+import '../data/balances_repository.dart';
 import '../services/balances_bloc.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
@@ -34,30 +36,28 @@ class RefreshBalancesWrapper extends StatefulWidget {
 
 class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _listenForProcessingStateAndThrowOnError(
-    Stream<StateWithProcessingState> stream,
+    Stream<ProcessingState> stream,
   ) async =>
       stream
           .firstWhere(
-            (state) => state.processingState.when(
-              processing: F,
-              error: T,
-              none: T,
-            ),
+            (state) => switch (state) {
+              ProcessingStateProcessing() => false,
+              ProcessingStateError() || ProcessingStateNone() => true,
+            },
           )
           .then(
-            (s) => s.processingState.maybeMap(
-              error: (s) => Either.left(s.e),
-              orElse: () => const Either.right(null),
-            ),
+            (s) => switch (s) {
+              ProcessingStateError(:final e) => Either.left(e),
+              _ => const Either.right(null),
+            },
           );
 
   AsyncResult<void> _updateConversionRates() {
     final bloc = context.read<ConversionRatesBloc>();
-    final currency = context.read<UserPreferences>().fiatCurrency;
 
     final conversionEvent = ConversionRatesEvent.refreshRequested(
-      currency: currency,
-      tokens: context.read<BalancesBloc>().state.userTokens,
+      currency: defaultFiatCurrency,
+      tokens: sl<BalancesRepository>().readUserTokens(),
     );
     bloc.add(conversionEvent);
 

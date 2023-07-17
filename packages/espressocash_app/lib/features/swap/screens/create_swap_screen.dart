@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/callback.dart';
+import '../../../core/flow.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
@@ -18,7 +19,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/slider.dart';
 import '../../accounts/models/account.dart';
-import '../../balances/services/balances_bloc.dart';
 import '../models/swap_operation.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
@@ -62,7 +62,6 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
         initialEditingMode: widget.operation.toInitialEditingMode(),
         userAccount: context.read<MyAccount>().wallet.publicKey,
       ),
-      param2: context.read<BalancesBloc>().state.balances,
     );
     _amountController.addListener(_updateValue);
   }
@@ -133,10 +132,8 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
     switch (widget.operation) {
       case SwapOperation.buy:
         label = context.l10n.pressAndHoldToBuy(widget.outputToken.symbol);
-        break;
       case SwapOperation.sell:
         label = context.l10n.pressAndHoldToSell(widget.inputToken.symbol);
-        break;
     }
 
     return BlocListener<CreateSwapBloc, CreateSwapState>(
@@ -146,10 +143,11 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
       child: BlocConsumer<CreateSwapBloc, CreateSwapState>(
         bloc: _bloc,
         listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-        listener: (context, state) => state.flowState.whenOrNull(
-          failure: _onSwapException,
-          success: widget.onRouteReady,
-        ),
+        listener: (context, state) => switch (state.flowState) {
+          FlowFailure(:final error) => _onSwapException(error),
+          FlowSuccess(:final result) => widget.onRouteReady(result),
+          _ => null,
+        },
         builder: (context, state) => SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -171,7 +169,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               EquivalentHeader(
                 inputAmount: state.inputAmount,
                 outputAmount: state.outputAmount,
-                isLoadingRoute: state.flowState.isProcessing(),
+                isLoadingRoute: state.flowState.isProcessing,
                 feeAmount: state.fee,
               ),
               const SizedBox(height: 6),
@@ -198,10 +196,10 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               CpContentPadding(
                 child: CpSlider(
                   text: label,
-                  onSlideCompleted: (state.bestRoute == null ||
-                          state.flowState.isProcessing())
-                      ? null
-                      : _onSubmit,
+                  onSlideCompleted:
+                      (state.bestRoute == null || state.flowState.isProcessing)
+                          ? null
+                          : _onSubmit,
                 ),
               ),
             ],

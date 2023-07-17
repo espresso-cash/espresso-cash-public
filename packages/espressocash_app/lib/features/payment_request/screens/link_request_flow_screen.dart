@@ -1,11 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/user_preferences.dart';
+import '../../../core/flow.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/dialogs.dart';
@@ -41,7 +40,6 @@ class _LinkRequestFlowScreenState extends State<LinkRequestFlowScreen> {
     final amount = widget.initialAmount;
 
     _paymentRequestBloc = CreatePaymentRequestBloc(
-      userCurrency: context.read<UserPreferences>().fiatCurrency,
       repository: sl<PaymentRequestRepository>(),
       conversionRatesRepository: sl<ConversionRatesRepository>(),
     );
@@ -99,20 +97,16 @@ class _ContentState extends State<_Content> implements NoteSetter {
         child:
             BlocConsumer<CreatePaymentRequestBloc, CreatePaymentRequestState>(
           listenWhen: (s1, s2) => s1.flow != s2.flow,
-          listener: (context, state) => state.flow.maybeWhen(
-            failure: (error) => showErrorDialog(
-              context,
-              'Failed to send money',
-              error,
-            ),
-            success: (request) {
-              context.router.popUntilRoot();
-              context.navigateTo(LinkDetailsFlowScreen.route(id: request.id));
-            },
-            orElse: ignore,
-          ),
+          listener: (context, state) => switch (state.flow) {
+            FlowFailure(:final error) =>
+              showErrorDialog(context, 'Failed to send money', error),
+            FlowSuccess(:final result) => context
+              ..router.popUntilRoot()
+              ..navigateTo(LinkDetailsFlowScreen.route(id: result.id)),
+            _ => null,
+          },
           builder: (context, state) => CpLoader(
-            isLoading: state.flow.isProcessing(),
+            isLoading: state.flow.isProcessing,
             child: RequestNoteScreen(amount: widget.amount),
           ),
           buildWhen: (s1, s2) => s1.flow != s2.flow,

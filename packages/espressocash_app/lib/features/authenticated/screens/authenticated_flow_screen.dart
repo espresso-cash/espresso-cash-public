@@ -1,10 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/user_preferences.dart';
 import '../../../di.config.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
@@ -12,9 +10,7 @@ import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/module.dart';
-import '../../balances/services/balances_bloc.dart';
 import '../../conversion_rates/module.dart';
-import '../../conversion_rates/services/conversion_rates_bloc.dart';
 import '../../favorite_tokens/module.dart';
 import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';
@@ -62,9 +58,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
 
   @override
   Widget build(BuildContext _) => MultiProvider(
-        providers: [
-          Provider<UserPreferences>(create: (_) => UserPreferences()),
-          const ConversionRatesModule(),
+        providers: const [
+          ConversionRatesModule(),
         ],
         child: BlocBuilder<AccountsBloc, AccountsState>(
           builder: (context, state) {
@@ -76,7 +71,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
-                _balanceListener,
                 Provider<HomeRouterKey>(
                   create: (_) => HomeRouterKey(_homeRouterKey),
                 ),
@@ -104,19 +98,3 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         ),
       );
 }
-
-/// Requests conversion rates update whenever the list of user tokens changes.
-final _balanceListener = BlocListener<BalancesBloc, BalancesState>(
-  listener: (context, state) {
-    final currency = context.read<UserPreferences>().fiatCurrency;
-    final event = ConversionRatesEvent.refreshRequested(
-      currency: currency,
-      tokens: state.userTokens,
-    );
-    context.read<ConversionRatesBloc>().add(event);
-  },
-  listenWhen: (previous, current) => !setEquals(
-    previous.userTokens,
-    current.userTokens,
-  ),
-);

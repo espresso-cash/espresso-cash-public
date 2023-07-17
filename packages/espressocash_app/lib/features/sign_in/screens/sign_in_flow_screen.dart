@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/flow.dart';
 import '../../../core/router_wrapper.dart';
 import '../../../core/split_key_payments.dart';
 import '../../../di.dart';
@@ -79,21 +80,21 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
           BlocProvider<SignInBloc>.value(value: _signInBloc),
         ],
         child: BlocConsumer<SignInBloc, SignInState>(
-          listener: (context, state) => state.processingState.maybeWhen(
-            failure: (it) => it.when(
-              seedVaultActionCanceled: ignore,
-              generic: (e) => showErrorDialog(context, 'Error', e),
-            ),
-            success: (result) => context.read<AccountsBloc>().add(
+          listener: (context, state) => switch (state.processingState) {
+            FlowFailure(:final error) => error.when(
+                seedVaultActionCanceled: ignore,
+                generic: (e) => showErrorDialog(context, 'Error', e),
+              ),
+            FlowSuccess(:final result) => context.read<AccountsBloc>().add(
                   AccountsEvent.created(
                     account: result.account,
                     source: state.source,
                   ),
                 ),
-            orElse: ignore,
-          ),
+            _ => null,
+          },
           builder: (context, state) => CpLoader(
-            isLoading: state.processingState.isProcessing(),
+            isLoading: state.processingState.isProcessing,
             child: AutoRouter(key: routerKey),
           ),
         ),

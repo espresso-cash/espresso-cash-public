@@ -15,7 +15,10 @@ import 'di.config.dart';
 
 final sl = GetIt.instance;
 
-@InjectableInit(preferRelativeImports: false)
+@InjectableInit(
+  preferRelativeImports: false,
+  throwOnMissingDependencies: true,
+)
 Future<void> configureDependencies() async => sl.init();
 
 @module

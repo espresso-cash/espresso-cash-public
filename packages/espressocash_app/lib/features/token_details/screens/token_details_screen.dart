@@ -6,12 +6,15 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/flow.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../core/presentation/value_stream_builder.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -21,7 +24,8 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
-import '../../balances/widgets/watch_balance.dart';
+import '../../balances/data/balances_repository.dart';
+import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
@@ -46,10 +50,8 @@ class TokenDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) => MultiProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<TokenDetailsBloc>(
-              param1: token,
-              param2: context.read<UserPreferences>().fiatCurrency,
-            )..add(const FetchDetailsRequested()),
+            create: (context) => sl<TokenDetailsBloc>(param1: token)
+              ..add(const FetchDetailsRequested()),
           ),
           TokenChartModule(token),
         ],
@@ -102,18 +104,17 @@ class _TokenPrice extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<TokenDetailsBloc, TokenDetailsState>(
         builder: (context, state) {
-          final tokenRate = state.maybeWhen(
-            orElse: () => '-',
-            success: (data) {
-              final price = data.marketPrice?.toString().let(Decimal.parse);
-              final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
-              return price.formatDisplayablePrice(
-                locale: DeviceLocale.localeOf(context),
-                currency: fiatCurrency,
-              );
-            },
-          );
+          final tokenRate = switch (state) {
+            FlowSuccess(:final result) => result.marketPrice
+                    ?.toString()
+                    .let(Decimal.parse)
+                    .formatDisplayablePrice(
+                      locale: DeviceLocale.localeOf(context),
+                      currency: defaultFiatCurrency,
+                    ) ??
+                '-',
+            _ => '-',
+          };
 
           return PriceWidget(
             label: context.l10n.price,
@@ -137,14 +138,12 @@ class _Content extends StatelessWidget {
             child: LoadingIndicator(),
           );
 
-          return state.when(
-            initial: () => loader,
-            processing: () => loader,
-            failure: (_) => TokenDetailsWidget(
-              data: TokenDetails(name: token.name),
-            ),
-            success: (data) => TokenDetailsWidget(data: data),
-          );
+          return switch (state) {
+            FlowInitial() || FlowProcessing() => loader,
+            FlowFailure() =>
+              TokenDetailsWidget(data: TokenDetails(name: token.name)),
+            FlowSuccess(:final result) => TokenDetailsWidget(data: result),
+          };
         },
       );
 }
@@ -155,44 +154,62 @@ class _Balance extends StatelessWidget {
   final Token token;
 
   @override
-  Widget build(BuildContext context) {
-    final Amount cryptoAmount = context.watchUserCryptoBalance(token);
-    final Amount? fiatAmount = context.watchUserFiatBalance(token);
+  Widget build(BuildContext context) =>
+      ValueStreamBuilder<({Amount? fiat, CryptoAmount crypto})>(
+        create: () {
+          final fiat = sl<WatchUserFiatBalance>().call(token);
+          final crypto = sl<BalancesRepository>().watch(token);
 
-    return cryptoAmount.value != 0 && fiatAmount != null
-        ? CpContentPadding(
-            bottom: false,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              width: double.infinity,
-              decoration: const ShapeDecoration(
-                shape: StadiumBorder(),
-                color: CpColors.darkBackgroundColor,
-              ),
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 16,
-                children: [
-                  PriceWidget(
-                    label: context.l10n.youOwn,
-                    amount: cryptoAmount.format(
-                      DeviceLocale.localeOf(context),
-                      roundInteger: true,
-                    ),
-                  ),
-                  PriceWidget(
-                    label: context.l10n.tokenDetails_lblBalance,
-                    amount: fiatAmount.format(
-                      DeviceLocale.localeOf(context),
-                      roundInteger: true,
-                    ),
-                  ),
-                ],
-              ),
+          return (
+            Rx.combineLatest2(
+              fiat.$1,
+              crypto.$1,
+              (fiat, crypto) => (fiat: fiat, crypto: crypto),
             ),
-          )
-        : const SizedBox.shrink();
-  }
+            (fiat: fiat.$2, crypto: crypto.$2),
+          );
+        },
+        builder: (context, value) {
+          final (:crypto, :fiat) = value;
+
+          return crypto.value != 0 && fiat != null
+              ? CpContentPadding(
+                  bottom: false,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    width: double.infinity,
+                    decoration: const ShapeDecoration(
+                      shape: StadiumBorder(),
+                      color: CpColors.darkBackgroundColor,
+                    ),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      children: [
+                        PriceWidget(
+                          label: context.l10n.youOwn,
+                          amount: crypto.format(
+                            DeviceLocale.localeOf(context),
+                            roundInteger: true,
+                          ),
+                        ),
+                        PriceWidget(
+                          label: context.l10n.tokenDetails_lblBalance,
+                          amount: fiat.format(
+                            DeviceLocale.localeOf(context),
+                            roundInteger: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink();
+        },
+      );
 }
 
 class _Chart extends StatefulWidget {
@@ -209,11 +226,10 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final price = _selected?.price.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
       locale: DeviceLocale.localeOf(context),
-      currency: fiatCurrency,
+      currency: defaultFiatCurrency,
     );
 
     return Column(

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../ui/colors.dart';
+import '../../../core/currency.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
@@ -132,8 +132,6 @@ class _ChartWidget extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
-
     double minY = spots.first.y;
     double maxY = spots.first.y;
 
@@ -206,7 +204,7 @@ class _ChartWidget extends StatelessWidget {
                       final formattedValue =
                           Decimal.parse(val.toString()).formatDisplayablePrice(
                         locale: DeviceLocale.localeOf(context),
-                        currency: fiatCurrency,
+                        currency: defaultFiatCurrency,
                         skipSymbol: true,
                       );
 

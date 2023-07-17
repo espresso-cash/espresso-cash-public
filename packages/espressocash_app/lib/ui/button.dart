@@ -83,15 +83,12 @@ class CpButton extends StatelessWidget {
     switch (size) {
       case CpButtonSize.micro:
         horizontalPadding = 8;
-        break;
       case CpButtonSize.wide:
         horizontalPadding = 4;
-        break;
       case CpButtonSize.normal:
       case CpButtonSize.big:
       case CpButtonSize.small:
         horizontalPadding = 16;
-        break;
     }
 
     final button = TextButton(
