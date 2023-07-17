@@ -75,9 +75,9 @@ class _State extends State<CoinflowOffRampScreen> {
 }
 
 Uri _buildUri({required String userAddress}) => Uri(
-      scheme: 'http', //TODO https
+      scheme: 'http', // TODO(Justin): update url once deployed
       host: coinflowHost,
-      port: 3000, //TODO remove
+      port: 3000, // TODO(Justin): update url once deployed
       path: '/',
       queryParameters: <String, String>{
         'publicKey': userAddress,

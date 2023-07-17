@@ -10,7 +10,7 @@ import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
 
 class ORPModule extends SingleChildStatelessWidget {
-  const ORPModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const ORPModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
