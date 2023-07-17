@@ -1,22 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
-
-import '../../../core/amount.dart';
 import '../../transactions/models/tx_sender.dart';
 
 part 'off_ramp_payment.freezed.dart';
 
 @freezed
 class OffRampPayment with _$OffRampPayment {
-  const factory OffRampPayment.transferFunds({
-    required String id,
-    required Ed25519HDPublicKey receiver,
-    required CryptoAmount amount,
-    required DateTime created,
-    required ORPStatus status,
-  }) = ORPTransferFunds;
-
   const factory OffRampPayment.signTransaction({
     required String id,
     required DateTime created,
@@ -43,6 +32,6 @@ class ORPStatus with _$ORPStatus {
 
   /// There was an error while creating the tx, or the tx was rejected. In any
   /// case, it's safe to recreate the tx.
-  const factory ORPStatus.txFailure({TxFailureReason? reason}) =
+  const factory ORPStatus.txFailure(SignedTx tx, {TxFailureReason? reason}) =
       ORPStatusTxFailure;
 }

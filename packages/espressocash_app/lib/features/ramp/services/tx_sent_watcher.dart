@@ -49,7 +49,7 @@ class _ORPTxSentJob extends CancelableJob<OffRampPayment> {
 
     final ORPStatus? newStatus = tx.map(
       success: (_) => ORPStatus.success(txId: status.tx.id),
-      failure: (tx) => ORPStatus.txFailure(reason: tx.reason),
+      failure: (tx) => ORPStatus.txFailure(status.tx, reason: tx.reason),
       networkError: (_) => null,
     );
 

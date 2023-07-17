@@ -14,6 +14,7 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/repository.dart';
 import '../models/off_ramp_payment.dart';
+import '../widgets/extensions.dart';
 
 @RoutePage()
 class OffRampDetailsScreen extends StatefulWidget {
@@ -87,8 +88,10 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             txFailure: (it) => TransferError(
               onBack: () => context.router.pop(),
               onRetry: () {
-                //TODO retry based on payment
-                // context.retryORP(payment: payment);
+                context.retryORP(
+                  payment: payment,
+                  tx: it.tx,
+                );
               },
               reason: it.reason,
             ),

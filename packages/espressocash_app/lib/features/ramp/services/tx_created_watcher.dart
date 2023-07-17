@@ -52,10 +52,11 @@ class _ORPTxCreatedJob extends CancelableJob<OffRampPayment> {
         status.tx,
         slot: status.slot,
       ),
-      invalidBlockhash: (_) => const ORPStatus.txFailure(
+      invalidBlockhash: (_) => ORPStatus.txFailure(
+        status.tx,
         reason: TxFailureReason.invalidBlockhashSending,
       ),
-      failure: (it) => ORPStatus.txFailure(reason: it.reason),
+      failure: (it) => ORPStatus.txFailure(status.tx, reason: it.reason),
       networkError: (_) => null,
     );
 

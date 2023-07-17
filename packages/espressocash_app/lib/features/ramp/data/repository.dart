@@ -6,11 +6,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
-
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
 import '../../transactions/models/tx_sender.dart';
@@ -18,21 +13,20 @@ import '../models/off_ramp_payment.dart';
 
 @injectable
 class ORPRepository {
-  ORPRepository(this._db, this._tokens);
+  ORPRepository(this._db);
 
   final MyDatabase _db;
-  final TokenList _tokens;
 
   Future<OffRampPayment?> load(String id) {
     final query = _db.select(_db.oRPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
+    return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Stream<OffRampPayment> watch(String id) {
     final query = _db.select(_db.oRPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingle().map((row) => row.toModel(_tokens));
+    return query.watchSingle().map((row) => row.toModel());
   }
 
   Future<void> save(OffRampPayment payment) async {
@@ -70,15 +64,14 @@ class ORPRepository {
 
     return query
         .watch()
-        .map((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((rows) => rows.map((row) => row.toModel()))
         .map((event) => event.toIList());
   }
 }
 
-class ORPRows extends Table with AmountMixin, EntityMixin {
+class ORPRows extends Table with EntityMixin {
   TextColumn get receiver => text().nullable()();
   IntColumn get status => intEnum<ORPStatusDto>()();
-  IntColumn get type => intEnum<ORPTypeDto>()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -94,30 +87,12 @@ enum ORPStatusDto {
   txFailure,
 }
 
-enum ORPTypeDto {
-  transferFunds,
-  signTransaction,
-}
-
 extension ORPRowExt on ORPRow {
-  OffRampPayment toModel(TokenList tokens) => switch (type) {
-        ORPTypeDto.transferFunds => OffRampPayment.transferFunds(
-            id: id,
-            receiver: Ed25519HDPublicKey.fromBase58(receiver!),
-            amount: CryptoAmount(
-              value: amount,
-              cryptoCurrency:
-                  CryptoCurrency(token: tokens.findTokenByMint(token)!),
-            ),
-            created: created,
-            status: status.toModel(this),
-          ),
-        ORPTypeDto.signTransaction => OffRampPayment.signTransaction(
-            id: id,
-            created: created,
-            status: status.toModel(this),
-          ),
-      };
+  OffRampPayment toModel() => OffRampPayment.signTransaction(
+        id: id,
+        created: created,
+        status: status.toModel(this),
+      );
 }
 
 extension on ORPStatusDto {
@@ -139,7 +114,10 @@ extension on ORPStatusDto {
       case ORPStatusDto.success:
         return ORPStatus.success(txId: row.txId!);
       case ORPStatusDto.txFailure:
-        return ORPStatus.txFailure(reason: row.txFailureReason);
+        return ORPStatus.txFailure(
+          tx!,
+          reason: row.txFailureReason,
+        );
     }
   }
 }
@@ -147,27 +125,12 @@ extension on ORPStatusDto {
 extension on OffRampPayment {
   ORPRow toDto() => ORPRow(
         id: id,
-        receiver: mapOrNull(
-          transferFunds: (it) => it.receiver.toBase58(),
-        ),
-        amount: map(
-          transferFunds: (it) => it.amount.value,
-          signTransaction: always(0), //TODO review
-        ),
-        token: map(
-          transferFunds: (it) => it.amount.cryptoCurrency.token.address,
-          signTransaction: always(''), //TODO review
-        ),
         created: created,
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
         slot: status.toSlot()?.toString(),
-        type: map(
-          transferFunds: always(ORPTypeDto.transferFunds),
-          signTransaction: always(ORPTypeDto.signTransaction),
-        ),
       );
 }
 

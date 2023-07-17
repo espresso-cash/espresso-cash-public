@@ -52,7 +52,7 @@ class _State extends State<CoinflowOffRampScreen> {
     final tx = message.message.let(SignedTx.decode);
 
     if (!mounted) return;
-    final id = await context.createORPSigned(tx: tx);
+    final id = await context.createORP(tx: tx);
 
     if (!mounted) return;
     await context.router.push(
