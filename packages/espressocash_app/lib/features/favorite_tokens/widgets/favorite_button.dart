@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../src/bl/bloc.dart';
-import '../src/bl/repository.dart';
+import '../data/repository.dart';
+import '../services/bloc.dart';
 
 enum FavoriteButtonVariant {
   dark,

@@ -32,7 +32,7 @@ class Supply {
 
 @JsonSerializable(createToJson: false)
 class SupplyResult extends ContextResult<Supply> {
-  SupplyResult({required super.context, required super.value});
+  const SupplyResult({required super.context, required super.value});
 
   factory SupplyResult.fromJson(Map<String, dynamic> json) =>
       _$SupplyResultFromJson(json);

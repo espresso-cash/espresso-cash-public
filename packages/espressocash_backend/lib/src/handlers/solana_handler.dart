@@ -9,9 +9,11 @@ Future<Response> Function(Request) createSolanaHandler({
 }) =>
     (Request request) async {
       final host = request.requestedUri.host;
-      if (host == link1Host || host == link2Host) {
+      if (host == link1Host ||
+          host == link2Host ||
+          host == espressocashLinkHost) {
         return _solanaShareableHandler(request);
-      } else if (host == solanaPayHost) {
+      } else if (host == solanaPayHost || host == solanaPayEspressoCashHost) {
         return _solanaPayHandler(request, tokens, network);
       }
 

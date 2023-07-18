@@ -2,18 +2,19 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../features/conversion_rates/widgets/context_ext.dart';
 import '../../l10n/device_locale.dart';
 import '../amount.dart';
-import '../conversion_rates/context_ext.dart';
 import '../currency.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
+    const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
-    final formattedAmount = format(locale);
+    final formattedAmount = format(locale, maxDecimals: fiat.decimals);
     final conversionRate = context.watchConversionRate(
       from: cryptoCurrency.token,
-      to: Currency.usd,
+      to: fiat,
     );
     if (conversionRate == null) return formattedAmount;
 
@@ -28,25 +29,26 @@ extension FormatAmountExt on Amount {
     Locale locale, {
     bool skipSymbol = false,
     bool roundInteger = false,
+    int? maxDecimals,
   }) =>
-      currency.map(
-        fiat: (FiatCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: currency.decimals,
-          symbol: skipSymbol ? null : currency.sign,
-          prefixedSymbol: true,
-          roundInteger: roundInteger,
-        ),
-        crypto: (CryptoCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: currency.decimals,
-          symbol: skipSymbol ? null : currency.symbol,
-          prefixedSymbol: false,
-          roundInteger: roundInteger,
-        ),
-      );
+      switch (currency) {
+        FiatCurrency(:final sign) => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : sign,
+            prefixedSymbol: true,
+            roundInteger: roundInteger,
+          ),
+        CryptoCurrency() => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : currency.symbol,
+            prefixedSymbol: false,
+            roundInteger: roundInteger,
+          ),
+      };
 }
 
 String formatAmount({

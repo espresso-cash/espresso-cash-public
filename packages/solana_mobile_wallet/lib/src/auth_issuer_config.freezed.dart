@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'auth_issuer_config.dart';
 
@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-AuthIssuerConfig _$AuthIssuerConfigFromJson(Map<String, dynamic> json) {
-  return _AuthIssuerConfig.fromJson(json);
-}
-
 /// @nodoc
 mixin _$AuthIssuerConfig {
   String get name => throw _privateConstructorUsedError;
@@ -26,7 +22,6 @@ mixin _$AuthIssuerConfig {
   Duration get reauthorizationValidity => throw _privateConstructorUsedError;
   Duration get reauthorizationNopDuration => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $AuthIssuerConfigCopyWith<AuthIssuerConfig> get copyWith =>
       throw _privateConstructorUsedError;
@@ -149,7 +144,7 @@ class __$$_AuthIssuerConfigCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
 class _$_AuthIssuerConfig implements _AuthIssuerConfig {
   const _$_AuthIssuerConfig(
       {required this.name,
@@ -157,9 +152,6 @@ class _$_AuthIssuerConfig implements _AuthIssuerConfig {
       this.authorizationValidity = const Duration(hours: 1),
       this.reauthorizationValidity = const Duration(days: 30),
       this.reauthorizationNopDuration = const Duration(minutes: 10)});
-
-  factory _$_AuthIssuerConfig.fromJson(Map<String, dynamic> json) =>
-      _$$_AuthIssuerConfigFromJson(json);
 
   @override
   final String name;
@@ -202,7 +194,6 @@ class _$_AuthIssuerConfig implements _AuthIssuerConfig {
                     reauthorizationNopDuration));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -217,13 +208,6 @@ class _$_AuthIssuerConfig implements _AuthIssuerConfig {
   @pragma('vm:prefer-inline')
   _$$_AuthIssuerConfigCopyWith<_$_AuthIssuerConfig> get copyWith =>
       __$$_AuthIssuerConfigCopyWithImpl<_$_AuthIssuerConfig>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$_AuthIssuerConfigToJson(
-      this,
-    );
-  }
 }
 
 abstract class _AuthIssuerConfig implements AuthIssuerConfig {
@@ -233,9 +217,6 @@ abstract class _AuthIssuerConfig implements AuthIssuerConfig {
       final Duration authorizationValidity,
       final Duration reauthorizationValidity,
       final Duration reauthorizationNopDuration}) = _$_AuthIssuerConfig;
-
-  factory _AuthIssuerConfig.fromJson(Map<String, dynamic> json) =
-      _$_AuthIssuerConfig.fromJson;
 
   @override
   String get name;

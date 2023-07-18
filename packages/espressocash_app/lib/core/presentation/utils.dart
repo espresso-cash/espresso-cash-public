@@ -1,18 +1,20 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/l10n.dart';
 import '../../ui/snackbar.dart';
+import '../../ui/web_view_screen.dart';
 
 extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
-      await launchUrl(Uri.parse(link));
-    } on PlatformException catch (_) {
+      final url = Uri.parse(link);
+      await router.push(WebViewScreen.route(url: url));
+    } on FormatException catch (_) {
       showCpErrorSnackbar(
         this,
         message: l10n.tryAgainLater,

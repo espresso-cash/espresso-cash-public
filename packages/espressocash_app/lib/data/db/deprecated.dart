@@ -1,10 +1,12 @@
 import 'package:drift/drift.dart';
 
-import '../../core/transactions/tx_sender.dart';
-import '../../features/outgoing_split_key_payments/db.dart';
+import '../../features/outgoing_split_key_payments/data/repository.dart';
+import '../../features/transactions/models/tx_sender.dart';
 import 'mixins.dart';
 
 class ITRows extends Table with EntityMixin {
+  const ITRows();
+
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ITStatusDto>()();
 
@@ -25,6 +27,8 @@ enum ITStatusDto {
 }
 
 class OTRows extends Table with AmountMixin, EntityMixin {
+  const OTRows();
+
   IntColumn get status => intEnum<OTStatusDto>()();
 
   // Status fields
@@ -65,7 +69,6 @@ extension OTStatusDtoExt on OTStatusDto {
       case OTStatusDto.txSent:
         return OSKPStatusDto.txSent;
       case OTStatusDto.txConfirmed:
-        return OSKPStatusDto.txConfirmed;
       case OTStatusDto.linkReady:
         // Since we do not have both links coming from OTP but we have escrow,
         // we can use txConfirmed status so that bloc will generate links.

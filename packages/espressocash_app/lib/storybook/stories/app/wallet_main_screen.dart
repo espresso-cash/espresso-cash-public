@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../app/screens/authenticated/wallet_flow/wallet_main_screen.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../features/wallet_flow/screens/wallet_main_screen.dart';
 import '../../../ui/theme.dart';
 import 'app_wrapper.dart';
 
@@ -18,7 +18,8 @@ final appWalletMainScreen = Story(
           onAmountChanged: (_) {},
           onRequest: () {},
           onPay: () {},
-          amount: const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+          amount: const FiatAmount(value: 0, fiatCurrency: Currency.usd),
+          token: Currency.usdc.token,
         ),
       ),
     ),

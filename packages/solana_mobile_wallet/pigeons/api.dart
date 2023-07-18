@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:pigeon/pigeon.dart';
 
 class AuthorizeRequestDto {
-  AuthorizeRequestDto({
+  const AuthorizeRequestDto({
     required this.identityName,
     required this.identityUri,
     required this.iconUri,
@@ -13,7 +15,7 @@ class AuthorizeRequestDto {
 }
 
 class AuthorizeResultDto {
-  AuthorizeResultDto({
+  const AuthorizeResultDto({
     required this.publicKey,
     required this.accountLabel,
     required this.walletUriBase,
@@ -27,7 +29,7 @@ class AuthorizeResultDto {
 }
 
 abstract class BaseVerifiableIdentityRequestDto {
-  BaseVerifiableIdentityRequestDto({
+  const BaseVerifiableIdentityRequestDto({
     required this.identityName,
     required this.identityUri,
     required this.iconRelativeUri,
@@ -43,7 +45,7 @@ abstract class BaseVerifiableIdentityRequestDto {
 }
 
 class ReauthorizeRequestDto implements BaseVerifiableIdentityRequestDto {
-  ReauthorizeRequestDto({
+  const ReauthorizeRequestDto({
     required this.identityUri,
     required this.identityName,
     required this.iconRelativeUri,
@@ -68,7 +70,7 @@ class ReauthorizeRequestDto implements BaseVerifiableIdentityRequestDto {
 }
 
 class SignPayloadsRequestDto implements BaseVerifiableIdentityRequestDto {
-  SignPayloadsRequestDto({
+  const SignPayloadsRequestDto({
     required this.identityUri,
     required this.identityName,
     required this.iconRelativeUri,
@@ -93,7 +95,7 @@ class SignPayloadsRequestDto implements BaseVerifiableIdentityRequestDto {
 }
 
 class SignedPayloadsResultDto {
-  SignedPayloadsResultDto({
+  const SignedPayloadsResultDto({
     required this.payloads,
     required this.error,
     required this.validPayloads,
@@ -112,20 +114,26 @@ enum MobileWalletAdapterServerException {
   notSubmitted,
 }
 
-class RequestDeclinedException {}
+class RequestDeclinedException {
+  const RequestDeclinedException();
+}
 
 class InvalidPayloadsException {
-  InvalidPayloadsException({required this.valid});
+  const InvalidPayloadsException({required this.valid});
 
   final List<bool?> valid;
 }
 
-class TooManyPayloadsException {}
+class TooManyPayloadsException {
+  const TooManyPayloadsException();
+}
 
-class AuthorizationNotValidException {}
+class AuthorizationNotValidException {
+  const AuthorizationNotValidException();
+}
 
 class SignTransactionsRequestDto implements SignPayloadsRequestDto {
-  SignTransactionsRequestDto({
+  const SignTransactionsRequestDto({
     required this.payloads,
     required this.identityUri,
     required this.identityName,
@@ -153,7 +161,7 @@ class SignTransactionsRequestDto implements SignPayloadsRequestDto {
 }
 
 class SignMessagesRequestDto implements SignPayloadsRequestDto {
-  SignMessagesRequestDto({
+  const SignMessagesRequestDto({
     required this.payloads,
     required this.identityUri,
     required this.identityName,
@@ -182,7 +190,7 @@ class SignMessagesRequestDto implements SignPayloadsRequestDto {
 
 class SignAndSendTransactionsRequestDto
     implements BaseVerifiableIdentityRequestDto {
-  SignAndSendTransactionsRequestDto({
+  const SignAndSendTransactionsRequestDto({
     required this.minContextSlot,
     required this.transactions,
     required this.publicKey,
@@ -216,7 +224,7 @@ class SignAndSendTransactionsRequestDto
 }
 
 class SignaturesResultDto {
-  SignaturesResultDto({
+  const SignaturesResultDto({
     required this.signatures,
     required this.error,
     required this.validSignatures,
@@ -227,14 +235,73 @@ class SignaturesResultDto {
   final List<bool?>? validSignatures;
 }
 
+class DeauthorizeEventDto implements BaseVerifiableIdentityRequestDto {
+  const DeauthorizeEventDto({
+    required this.identityUri,
+    required this.identityName,
+    required this.iconRelativeUri,
+    required this.cluster,
+    required this.authorizationScope,
+  });
+
+  @override
+  final String? identityName;
+
+  @override
+  final String? identityUri;
+
+  @override
+  final String? iconRelativeUri;
+
+  @override
+  final String cluster;
+
+  @override
+  final Uint8List authorizationScope;
+}
+
+class WalletConfigDto {
+  const WalletConfigDto({
+    required this.supportsSignAndSendTransactions,
+    required this.maxTransactionsPerSigningRequest,
+    required this.maxMessagesPerSigningRequest,
+    required this.supportedTransactionVersions,
+    required this.noConnectionWarningTimeoutInMs,
+  });
+
+  final bool supportsSignAndSendTransactions;
+  final int maxTransactionsPerSigningRequest;
+  final int maxMessagesPerSigningRequest;
+  final List<String?> supportedTransactionVersions;
+  final int noConnectionWarningTimeoutInMs;
+}
+
+class AuthIssuerConfigDto {
+  const AuthIssuerConfigDto({
+    required this.name,
+    required this.authorizationValidityInMs,
+    required this.maxOutstandingTokensPerIdentility,
+    required this.reauthorizationNopDurationInMs,
+    required this.reauthorizationValidityInMs,
+  });
+
+  final String name;
+  final int maxOutstandingTokensPerIdentility;
+  final int authorizationValidityInMs;
+  final int reauthorizationValidityInMs;
+  final int reauthorizationNopDurationInMs;
+}
+
 @FlutterApi()
 abstract class ApiFlutter {
+  const ApiFlutter();
   void onScenarioReady(int id);
   void onScenarioServingClients(int id);
   void onScenarioServingComplete(int id);
   void onScenarioComplete(int id);
   void onScenarioError(int id);
   void onScenarioTeardownComplete(int id);
+  void onLowPowerAndNoConnection(int id);
 
   @async
   AuthorizeResultDto? authorize(AuthorizeRequestDto request, int id);
@@ -259,10 +326,26 @@ abstract class ApiFlutter {
     SignAndSendTransactionsRequestDto request,
     int id,
   );
+
+  @async
+  void deauthorize(
+    DeauthorizeEventDto event,
+    int id,
+  );
+
+  void onNewIntent(bool isInitialIntent);
 }
 
 @HostApi()
 abstract class ApiHost {
+  const ApiHost();
   void start(int id);
   void close(int id);
+
+  @async
+  Uint8List? createScenario(
+    int id,
+    WalletConfigDto walletConfig,
+    AuthIssuerConfigDto authIssuerConfig,
+  );
 }

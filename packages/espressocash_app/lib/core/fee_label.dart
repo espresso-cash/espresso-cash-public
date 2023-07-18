@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,10 +15,14 @@ import 'tokens/token.dart';
 
 part 'fee_label.freezed.dart';
 
-@freezed
-class FeeType with _$FeeType {
-  const factory FeeType.direct(Ed25519HDPublicKey address) = _FeeTypeDirect;
-  const factory FeeType.splitKey() = _FeeTypeSplitKey;
+@Freezed(
+  when: FreezedWhenOptions.none,
+  map: FreezedMapOptions.none,
+  copyWith: false,
+)
+sealed class FeeType with _$FeeType {
+  const factory FeeType.direct(Ed25519HDPublicKey address) = FeeTypeDirect;
+  const factory FeeType.splitKey() = FeeTypeSplitKey;
 }
 
 class FeeLabel extends StatefulWidget {
@@ -46,11 +49,11 @@ class _FeeLabelState extends State<FeeLabel> {
   Widget build(BuildContext context) => FutureBuilder<String>(
         future: _amount,
         builder: (context, snapshot) {
-          final String text = snapshot.toResult().when(
-                loading: always(context.l10n.feesCalculating),
-                error: always(context.l10n.feesFailed),
-                data: identity,
-              );
+          final String text = switch (snapshot.toResult()) {
+            AsyncSnapshotLoading() => context.l10n.feesCalculating,
+            AsyncSnapshotError() => context.l10n.feesFailed,
+            AsyncSnapshotData(:final data) => data,
+          };
 
           return Text(
             context.l10n.feeAmount(text),
@@ -65,27 +68,26 @@ class _FeeLabelState extends State<FeeLabel> {
 
 @injectable
 class FeeCalculator {
-  FeeCalculator(this._cryptopleaseClient, this._solanaClient);
+  const FeeCalculator(this._cryptopleaseClient, this._solanaClient);
 
   final CryptopleaseClient _cryptopleaseClient;
   final SolanaClient _solanaClient;
 
-  Future<Amount> call(FeeType type) => _cryptopleaseClient
-      .getFees()
-      .then(
-        (fees) async => type.map(
-          direct: (type) async {
-            final hasAta = await _solanaClient.hasAssociatedTokenAccount(
-              owner: type.address,
-              mint: Token.usdc.publicKey,
-            );
+  Future<Amount> call(FeeType type) => _cryptopleaseClient.getFees().then(
+        (fees) async {
+          switch (type) {
+            case FeeTypeDirect(:final address):
+              final hasAta = await _solanaClient.hasAssociatedTokenAccount(
+                owner: address,
+                mint: Token.usdc.publicKey,
+              );
 
-            return hasAta
-                ? fees.directPayment.ataExists
-                : fees.directPayment.ataDoesNotExist;
-          },
-          splitKey: (_) async => fees.splitKeyPayment,
-        ),
-      )
-      .then((fee) => Amount(value: fee, currency: Currency.usdc));
+              return hasAta
+                  ? fees.directPayment.ataExists
+                  : fees.directPayment.ataDoesNotExist;
+            case FeeTypeSplitKey():
+              return fees.escrowPayment;
+          }
+        },
+      ).then((fee) => Amount(value: fee, currency: Currency.usdc));
 }

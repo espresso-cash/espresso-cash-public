@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'auth_issuer_config.g.dart';
 part 'auth_issuer_config.freezed.dart';
 
 @freezed
@@ -12,7 +11,4 @@ class AuthIssuerConfig with _$AuthIssuerConfig {
     @Default(Duration(days: 30)) Duration reauthorizationValidity,
     @Default(Duration(minutes: 10)) Duration reauthorizationNopDuration,
   }) = _AuthIssuerConfig;
-
-  factory AuthIssuerConfig.fromJson(Map<String, dynamic> json) =>
-      _$AuthIssuerConfigFromJson(json);
 }

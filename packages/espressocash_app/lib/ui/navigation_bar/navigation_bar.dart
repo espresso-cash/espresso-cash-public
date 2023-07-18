@@ -5,9 +5,9 @@ import 'navigation_button.dart';
 
 class CPNavigationBar extends StatelessWidget {
   const CPNavigationBar({
-    Key? key,
+    super.key,
     required this.items,
-  }) : super(key: key);
+  });
 
   final List<CpNavigationButton> items;
 

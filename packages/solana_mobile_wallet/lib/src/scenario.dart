@@ -3,31 +3,51 @@ import 'dart:typed_data';
 import 'package:meta/meta.dart';
 import 'package:solana_mobile_wallet/src/api.dart';
 import 'package:solana_mobile_wallet/src/auth_issuer_config.dart';
+import 'package:solana_mobile_wallet/src/events/deauthorize.dart';
 import 'package:solana_mobile_wallet/src/requests/authorize.dart';
 import 'package:solana_mobile_wallet/src/requests/reauthorize.dart';
 import 'package:solana_mobile_wallet/src/requests/sign_and_send_transactions.dart';
 import 'package:solana_mobile_wallet/src/requests/sign_transactions.dart';
-import 'package:solana_mobile_wallet/src/solana_mobile_wallet_platform.dart';
 import 'package:solana_mobile_wallet/src/wallet_config.dart';
 
 class Scenario {
-  Scenario._({
+  const Scenario._({
     required this.associationPublicKey,
     required this.callbacks,
     required this.id,
   });
 
-  static Future<Scenario?> create({
+  static Future<Scenario?> _create({
     required MobileWalletAdapterConfig walletConfig,
     required AuthIssuerConfig issuerConfig,
     required ScenarioCallbacks callbacks,
   }) async {
     final id = _nextId++;
-    final associationPublicKey =
-        await SmsWalletPlatform.instance.createScenario(
-      walletConfig: walletConfig,
-      issuerConfig: issuerConfig,
-      id: id,
+    final associationPublicKey = await _host.createScenario(
+      id,
+      WalletConfigDto(
+        supportsSignAndSendTransactions:
+            walletConfig.supportsSignAndSendTransactions,
+        maxTransactionsPerSigningRequest:
+            walletConfig.maxTransactionsPerSigningRequest,
+        maxMessagesPerSigningRequest: walletConfig.maxMessagesPerSigningRequest,
+        supportedTransactionVersions: walletConfig.supportedTransactionVersions
+            .whereType<String>()
+            .toList(),
+        noConnectionWarningTimeoutInMs:
+            walletConfig.noConnectionWarningTimeout.inMilliseconds,
+      ),
+      AuthIssuerConfigDto(
+        name: issuerConfig.name,
+        maxOutstandingTokensPerIdentility:
+            issuerConfig.maxOutstandingTokensPerIdentity,
+        authorizationValidityInMs:
+            issuerConfig.authorizationValidity.inMilliseconds,
+        reauthorizationValidityInMs:
+            issuerConfig.reauthorizationValidity.inMilliseconds,
+        reauthorizationNopDurationInMs:
+            issuerConfig.reauthorizationNopDuration.inMilliseconds,
+      ),
     );
     if (associationPublicKey == null) {
       return null;
@@ -45,12 +65,12 @@ class Scenario {
   }
 
   static int _nextId = 1;
+  static final _host = ApiHost();
 
   final int id;
 
   final Uint8List associationPublicKey;
   final ScenarioCallbacks callbacks;
-  final _host = ApiHost();
 
   void start() {
     _host.start(id);
@@ -62,13 +82,15 @@ class Scenario {
 }
 
 abstract class ScenarioCallbacks {
+  const ScenarioCallbacks();
   // Scenario state callbacks
-  void onScenarioReady();
+  void onScenarioReady(Scenario scenario);
   void onScenarioServingClients();
   void onScenarioServingComplete();
   void onScenarioComplete();
   void onScenarioError();
   void onScenarioTeardownComplete();
+  void onLowPowerAndNoConnection();
 
   // Request callbacks
   Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request);
@@ -82,6 +104,7 @@ abstract class ScenarioCallbacks {
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
   );
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event);
 }
 
 class Api implements ApiFlutter {
@@ -91,6 +114,20 @@ class Api implements ApiFlutter {
   Api._() {
     ApiFlutter.setup(this);
   }
+
+  void setup({
+    required MobileWalletAdapterConfig walletConfig,
+    required AuthIssuerConfig issuerConfig,
+    required ScenarioCallbacks callbacks,
+  }) {
+    _walletConfig = walletConfig;
+    _issuerConfig = issuerConfig;
+    _callbacks = callbacks;
+  }
+
+  MobileWalletAdapterConfig? _walletConfig;
+  AuthIssuerConfig? _issuerConfig;
+  ScenarioCallbacks? _callbacks;
 
   static var _instance = Api._();
 
@@ -255,7 +292,9 @@ class Api implements ApiFlutter {
 
   @override
   void onScenarioReady(int id) {
-    _scenarios[id]?.callbacks.onScenarioReady();
+    final scenario = _scenarios[id];
+    if (scenario == null) return;
+    scenario.callbacks.onScenarioReady(scenario);
   }
 
   @override
@@ -279,8 +318,44 @@ class Api implements ApiFlutter {
   }
 
   @override
+  void onLowPowerAndNoConnection(int id) {
+    _scenarios[id]?.callbacks.onLowPowerAndNoConnection();
+  }
+
+  @override
   void onScenarioTeardownComplete(int id) {
     _scenarios[id]?.callbacks.onScenarioTeardownComplete();
     unregister(id);
+  }
+
+  @override
+  Future<void> deauthorize(DeauthorizeEventDto event, int id) async {
+    final r = DeauthorizeEvent(
+      identityName: event.identityName,
+      identityUri: Uri.tryParse(event.identityUri ?? ''),
+      iconUri: Uri.tryParse(event.iconRelativeUri ?? ''),
+    );
+
+    await _scenarios[id]?.callbacks.onDeauthorizeEvent(r);
+  }
+
+  @override
+  Future<void> onNewIntent(bool isInitialIntent) async {
+    if (isInitialIntent) return;
+
+    final walletConfig = _walletConfig;
+    final issuerConfig = _issuerConfig;
+    final callbacks = _callbacks;
+
+    if (walletConfig == null || issuerConfig == null || callbacks == null) {
+      throw Exception('Not initialized');
+    }
+
+    final scenario = await Scenario._create(
+      walletConfig: walletConfig,
+      issuerConfig: issuerConfig,
+      callbacks: callbacks,
+    );
+    scenario?.start();
   }
 }

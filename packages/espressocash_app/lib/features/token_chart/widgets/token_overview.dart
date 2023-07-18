@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/user_preferences.dart';
-import '../src/bloc.dart';
+import '../../../core/currency.dart';
+import '../services/bloc.dart';
 import 'token_chart.dart';
 
-export '../src/token_chart_item.dart';
+export '../models/token_chart_item.dart';
 
 class ChartPriceOverview extends StatelessWidget {
   const ChartPriceOverview({super.key});
@@ -31,7 +31,7 @@ class ChartPriceOverview extends StatelessWidget {
           return _PriceOverviewWidget(
             value: valueChange,
             percent: percentageChange,
-            timeFrame: state.interval.timeFrameLabel,
+            timeFrame: state.interval.timeFrameLabel(context),
           );
         },
       );
@@ -50,11 +50,9 @@ class _PriceOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
     final isNegative = value.isNegative;
     final prefix = isNegative ? '-' : '';
-    final sign = fiatCurrency.sign;
+    final sign = defaultFiatCurrency.sign;
 
     return Text.rich(
       TextSpan(

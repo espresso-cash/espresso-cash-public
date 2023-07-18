@@ -11,20 +11,11 @@ import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 part 'bloc.freezed.dart';
 part 'state.dart';
 
+// ignore: avoid-cubits, just an example
 class MobileWalletBloc extends Cubit<MobileWalletState>
     implements ScenarioCallbacks {
   MobileWalletBloc(this._keyPair) : super(const MobileWalletState.none()) {
-    _init();
-  }
-
-  Scenario? _scenario;
-  Completer<Object?>? _completer;
-
-  final Ed25519HDKeyPair _keyPair;
-  late final _client = RpcClient('https://api.testnet.solana.com');
-
-  Future<void> _init() async {
-    _scenario = await Scenario.create(
+    Api.instance.setup(
       walletConfig: const MobileWalletAdapterConfig(
         supportsSignAndSendTransactions: true,
         maxTransactionsPerSigningRequest: 10,
@@ -34,8 +25,17 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
       issuerConfig: const AuthIssuerConfig(name: 'example_wallet'),
       callbacks: this,
     );
+  }
 
-    _scenario?.start();
+  Scenario? _scenario;
+  Completer<Object?>? _completer;
+
+  final Ed25519HDKeyPair _keyPair;
+  late final _client = RpcClient('https://api.testnet.solana.com');
+
+  @override
+  void onScenarioReady(Scenario scenario) {
+    _scenario = scenario;
   }
 
   Future<void> authorizeDapp({
@@ -79,8 +79,10 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
             final tx = SignedTx.fromBytes(e);
 
             return SignedTx(
-              messageBytes: tx.messageBytes,
-              signatures: [await _keyPair.sign(tx.messageBytes)],
+              compiledMessage: tx.compiledMessage,
+              signatures: [
+                await _keyPair.sign(tx.compiledMessage.toByteArray()),
+              ],
             ).toByteArray().toList();
           },
         ),
@@ -147,8 +149,8 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
           final tx = SignedTx.fromBytes(e);
 
           return SignedTx(
-            messageBytes: tx.messageBytes,
-            signatures: [await _keyPair.sign(tx.messageBytes)],
+            compiledMessage: tx.compiledMessage,
+            signatures: [await _keyPair.sign(tx.compiledMessage.toByteArray())],
           );
         },
       ),
@@ -340,10 +342,10 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   void onScenarioError() {}
 
   @override
-  void onScenarioReady() {}
+  void onScenarioServingClients() {}
 
   @override
-  void onScenarioServingClients() {}
+  void onLowPowerAndNoConnection() {}
 
   @override
   void onScenarioServingComplete() {
@@ -352,6 +354,11 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
 
   @override
   void onScenarioTeardownComplete() {
+    emit(const MobileWalletState.sessionTerminated());
+  }
+
+  @override
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
     emit(const MobileWalletState.sessionTerminated());
   }
 }

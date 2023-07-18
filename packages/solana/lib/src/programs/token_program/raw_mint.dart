@@ -1,6 +1,5 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/borsh_ext.dart';
 
 part 'raw_mint.g.dart';
 
@@ -16,7 +15,7 @@ class RawMint with _$RawMint {
     @BPublicKey() required Ed25519HDPublicKey freezeAuthority,
   }) = _RawMint;
 
-  RawMint._();
+  const RawMint._();
 
   factory RawMint.fromBorsh(Uint8List data) => _$RawMintFromBorsh(data);
 }

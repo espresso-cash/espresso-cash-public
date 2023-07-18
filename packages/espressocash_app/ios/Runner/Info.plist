@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 	<dict>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>fr</string>
+			<string>Spanish</string>
+		</array>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -36,6 +42,7 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>cryptoplease-sol</string>
+					<string>espressocash</string>
 				</array>
 			</dict>
 			<dict>
@@ -98,6 +105,6 @@
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
-</dict>
+		<true/>
+	</dict>
 </plist>

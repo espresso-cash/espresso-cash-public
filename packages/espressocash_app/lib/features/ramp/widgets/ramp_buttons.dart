@@ -1,20 +1,23 @@
+import 'dart:async';
+
+import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../config.dart';
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/balances/context_ext.dart';
+import '../../../di.dart';
 import '../../../ui/button.dart';
-import '../src/widgets/off_ramp_bottom_sheet.dart';
+import '../../profile/data/profile_repository.dart';
+import '../../profile/models/country.dart';
+import '../../profile/screens/country_picker_screen.dart';
+import 'off_ramp_bottom_sheet.dart';
+import 'on_ramp.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
-    Key? key,
+    super.key,
     this.size = CpButtonSize.normal,
-  }) : super(key: key);
+  });
 
   final CpButtonSize size;
 
@@ -23,18 +26,12 @@ class AddCashButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.addCash,
-          onPressed: () {
-            final configuration = _defaultConfiguration
-              ..userAddress =
-                  context.read<MyAccount>().wallet.publicKey.toBase58();
-
-            RampFlutter.showRamp(
-              configuration,
-              (_, __, ___) {},
-              () => context.notifyBalanceAffected(),
-              ignore,
-            );
+          text: context.l10n.ramp_btnAddCash,
+          onPressed: () async {
+            final country = await context.ensureCountry();
+            if (context.mounted) {
+              context.showRampNetworkOnRamp(country.code);
+            }
           },
         ),
       );
@@ -42,9 +39,9 @@ class AddCashButton extends StatelessWidget {
 
 class CashOutButton extends StatelessWidget {
   const CashOutButton({
-    Key? key,
+    super.key,
     this.size = CpButtonSize.normal,
-  }) : super(key: key);
+  });
 
   final CpButtonSize size;
 
@@ -53,16 +50,38 @@ class CashOutButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.cashOut,
-          onPressed: () => OffRampBottomSheet.show(context),
+          text: context.l10n.ramp_btnCashOut,
+          onPressed: () async {
+            await context.ensureCountry();
+            if (context.mounted) {
+              unawaited(OffRampBottomSheet.show(context));
+            }
+          },
         ),
       );
 }
 
-final _defaultConfiguration = Configuration()
-  ..hostAppName = 'Espresso Cash'
-  ..hostLogoUrl =
-      'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
-  ..hostApiKey = rampApiKey
-  ..swapAsset = 'SOLANA_USDC'
-  ..defaultAsset = 'SOLANA_USDC';
+extension on BuildContext {
+  Future<Country> ensureCountry() {
+    final completer = Completer<Country>();
+
+    void onCountrySelected(Country country) {
+      router.pop();
+      sl<ProfileRepository>().profile =
+          sl<ProfileRepository>().profile.copyWith(country: country.code);
+      completer.complete(country);
+    }
+
+    final country =
+        sl<ProfileRepository>().profile.country?.let(Country.findByCode);
+    if (country == null) {
+      router.push<Country>(
+        CountryPickerScreen.route(onSubmitted: onCountrySelected),
+      );
+    } else {
+      completer.complete(country);
+    }
+
+    return completer.future;
+  }
+}

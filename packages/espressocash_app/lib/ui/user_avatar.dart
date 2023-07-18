@@ -5,11 +5,11 @@ import 'colors.dart';
 
 class CpUserAvatar extends StatelessWidget {
   const CpUserAvatar({
-    Key? key,
+    super.key,
     required this.userName,
     this.image,
     this.radius = 24,
-  }) : super(key: key);
+  });
 
   final String userName;
   final double radius;

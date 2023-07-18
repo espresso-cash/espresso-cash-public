@@ -11,7 +11,7 @@ import 'package:shelf/shelf.dart';
 Future<Response> commonHandler(
   Request request, {
   required String templateName,
-  required Map<String, dynamic> Function(Map<String, dynamic>) updateData,
+  required Map<String, dynamic> Function(Map<String, dynamic> data) updateData,
 }) async {
   final appId = request.url.queryParameters['appId']?.toLowerCase();
 
@@ -23,13 +23,10 @@ Future<Response> commonHandler(
   switch (platform) {
     case Platform.android:
       app = candidate.androidOptions == null ? espressoCashApp : candidate;
-      break;
     case Platform.ios:
       app = candidate.iOSOptions == null ? espressoCashApp : candidate;
-      break;
     case Platform.web:
       app = candidate;
-      break;
   }
 
   final template = Template(
@@ -40,21 +37,20 @@ Future<Response> commonHandler(
     htmlEscapeValues: false,
   );
 
-  final deepLink = app.deepLink(request.requestedUri);
+  final deepLink = app.deepLink(
+    request.requestedUri,
+    host: request.requestedUri.host,
+  );
   // ignore: avoid-non-null-assertion, should not be null at this point
   final String installLink = app.installLink(deepLink, platform)!;
 
   final bool shouldCopy;
   switch (platform) {
     case Platform.android:
-      shouldCopy = false;
-      break;
-    case Platform.ios:
-      shouldCopy = true;
-      break;
     case Platform.web:
       shouldCopy = false;
-      break;
+    case Platform.ios:
+      shouldCopy = true;
   }
 
   final data = <String, dynamic>{
@@ -82,8 +78,10 @@ Future<Response> commonHandler(
 }
 
 extension on App {
-  Uri deepLink(Uri requestLink) => requestLink.replace(
-        scheme: deeplinkScheme,
+  Uri deepLink(Uri requestLink, {required String host}) => requestLink.replace(
+        scheme: host == espressocashLinkHost
+            ? espressocashLinkScheme
+            : deeplinkScheme,
         host: protocolMap[requestLink.host],
       );
 

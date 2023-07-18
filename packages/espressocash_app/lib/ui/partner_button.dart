@@ -4,11 +4,11 @@ import '../gen/assets.gen.dart';
 
 class PartnerButton extends StatelessWidget {
   const PartnerButton({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.backgroundColor,
     required this.image,
-  }) : super(key: key);
+  });
 
   final VoidCallback onTap;
   final Color backgroundColor;

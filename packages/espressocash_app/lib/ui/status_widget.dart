@@ -7,11 +7,11 @@ enum CpStatusType { success, info, error, neutral }
 
 class CpStatusWidget extends StatelessWidget {
   const CpStatusWidget({
-    Key? key,
+    super.key,
     this.title,
     required this.content,
     this.statusType = CpStatusType.info,
-  }) : super(key: key);
+  });
 
   final Widget? title;
   final Widget content;

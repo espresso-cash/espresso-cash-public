@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
@@ -15,7 +14,7 @@ import 'package:solana/solana.dart';
 ///
 /// [commitment] is used for checking the ATA for [aSender] and for retrieving
 /// the latest blockhash.
-Future<Product2<SignedTx, BigInt>> createPaymentTx({
+Future<(SignedTx, BigInt)> createPaymentTx({
   required Ed25519HDPublicKey aSender,
   required Ed25519HDPublicKey aEscrow,
   required Ed25519HDPublicKey mint,
@@ -96,5 +95,5 @@ Future<Product2<SignedTx, BigInt>> createPaymentTx({
     ],
   );
 
-  return Product2(tx, latestBlockhash.context.slot);
+  return (tx, latestBlockhash.context.slot);
 }

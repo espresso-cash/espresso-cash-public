@@ -4,9 +4,9 @@ import '../rounded_rectangle.dart';
 
 class ShareMessageBubble extends StatefulWidget {
   const ShareMessageBubble({
-    Key? key,
+    super.key,
     required this.textSpan,
-  }) : super(key: key);
+  });
 
   final TextSpan textSpan;
 

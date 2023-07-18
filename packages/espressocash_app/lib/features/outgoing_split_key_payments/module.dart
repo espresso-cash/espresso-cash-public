@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/module.dart';
-import '../../core/balances/context_ext.dart';
 import '../../di.dart';
-import 'src/bl/cancel_tx_created_watcher.dart';
-import 'src/bl/cancel_tx_sent_watcher.dart';
-import 'src/bl/repository.dart';
-import 'src/bl/tx_confirmed_watcher.dart';
-import 'src/bl/tx_created_watcher.dart';
-import 'src/bl/tx_ready_watcher.dart';
-import 'src/bl/tx_sent_watcher.dart';
+import '../accounts/models/account.dart';
+import '../accounts/module.dart';
+import '../balances/widgets/context_ext.dart';
+import 'data/repository.dart';
+import 'services/cancel_tx_created_watcher.dart';
+import 'services/cancel_tx_sent_watcher.dart';
+import 'services/tx_confirmed_watcher.dart';
+import 'services/tx_created_watcher.dart';
+import 'services/tx_ready_watcher.dart';
+import 'services/tx_sent_watcher.dart';
 
 class OSKPModule extends SingleChildStatelessWidget {
-  const OSKPModule({Key? key, Widget? child}) : super(key: key, child: child);
+  const OSKPModule({super.key, super.child});
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(

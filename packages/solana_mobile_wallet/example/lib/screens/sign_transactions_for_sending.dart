@@ -5,9 +5,9 @@ import 'package:solana_mobile_wallet_example/mobile_wallet/bloc.dart';
 
 class SignTransactionsForSendingScreen extends StatelessWidget {
   const SignTransactionsForSendingScreen({
-    Key? key,
+    super.key,
     required this.request,
-  }) : super(key: key);
+  });
 
   final SignAndSendTransactionsRequest request;
 

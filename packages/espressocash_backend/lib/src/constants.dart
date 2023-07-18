@@ -2,19 +2,25 @@ import 'dart:io';
 
 import 'package:solana/solana.dart';
 
+const espressocashLinkHost = 'link.espressocash.com';
+const espressocashLinkScheme = 'espressocash';
 const cpLinkDomain = 'cryptoplease.link';
 const link1Host = 'solana1.$cpLinkDomain';
 const link2Host = 'solana2.$cpLinkDomain';
 const solanaPayHost = 'solanapay.$cpLinkDomain';
+const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const deeplinkScheme = 'cryptoplease-sol';
 const protocolMap = {
   link1Host: '1',
   link2Host: '2',
+  espressocashLinkHost: '',
 };
 const moonpayHost = 'moonpay.$cpLinkDomain';
 
 const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC
+const escrowPaymentFee = 10000; // 0.01 USDC
+const escrowPaymentAccountCreationFee = 100000; // 0.1 USDC
 const directPaymentWithAccountCreationFee = 100000; // 0.1 USDC
 const minimumSwapFee = 10000; // 0.01 USDC
 

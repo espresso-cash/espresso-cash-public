@@ -4,21 +4,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/accounts/bl/account.dart';
-import '../../core/accounts/bl/accounts_bloc.dart';
 import '../../di.dart';
-import '../../routes.gr.dart';
-import 'mnemonic_getter.dart';
-import 'src/bl/puzzle_reminder_bloc.dart';
+import '../accounts/models/account.dart';
+import '../accounts/services/accounts_bloc.dart';
+import 'screens/puzzle_reminder_setup_screen.dart';
+import 'services/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({
-    Key? key,
-    Widget? child,
-    required this.mnemonic,
-  }) : super(key: key, child: child);
-
-  final Future<String> mnemonic;
+    super.key,
+    super.child,
+  });
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
@@ -26,14 +22,13 @@ class BackupPhraseModule extends SingleChildStatelessWidget {
           BlocProvider<PuzzleReminderBloc>(
             create: (_) => sl<PuzzleReminderBloc>(),
           ),
-          Provider<MnemonicGetter>(create: (_) => MnemonicGetter(mnemonic)),
         ],
         child: _Content(child: child),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({Key? key, this.child}) : super(key: key);
+  const _Content({this.child});
 
   final Widget? child;
 
@@ -46,14 +41,15 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
 
-    final accessMode = context.read<MyAccount>().accessMode;
-    context
-        .read<PuzzleReminderBloc>()
-        .add(PuzzleReminderEvent.checkRequested(accessMode));
+    final event = PuzzleReminderEvent.checkRequested(
+      accessMode: context.read<MyAccount>().accessMode,
+      wallet: context.read<MyAccount>().wallet,
+    );
+    context.read<PuzzleReminderBloc>().add(event);
   }
 
   void _showPuzzleReminderDialog() {
-    context.router.push(const PuzzleReminderRoute());
+    context.router.push(PuzzleReminderRouteScreen.route());
   }
 
   @override

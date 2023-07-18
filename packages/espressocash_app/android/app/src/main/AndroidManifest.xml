@@ -55,13 +55,19 @@
                     android:scheme="https" />
                 <data android:host="solana2.cryptoplease.link"
                     android:scheme="https" />
+                <data android:host="link.espressocash.com"
+                    android:scheme="https" />
 
                 <!-- Support for requests -->
                 <data android:host="solanapay.cryptoplease.link"
                     android:scheme="https" />
+                <data android:host="solanapay.espressocash.com"
+                    android:scheme="https" />
 
                 <!-- Firebase deep link for installing the app -->
                 <data android:host="cryptoplease.page.link"
+                    android:scheme="https" />
+                <data android:host="espressocash.page.link"
                     android:scheme="https" />
             </intent-filter>
 
@@ -73,6 +79,13 @@
 
                 <data android:scheme="cryptoplease-sol" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="espressocash" />
+            </intent-filter>
 
             <!-- Support for requests  -->
             <intent-filter>
@@ -80,6 +93,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="solana" />
+            </intent-filter>
+
+            <!-- Default solana-wallet URI from a browser or native dapp -->
+            <intent-filter android:order="1">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="solana-wallet" />
+            </intent-filter>
+
+            <!-- Any other uncategorized solana-wallet URI not covered by above -->
+            <intent-filter android:order="0">
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="solana-wallet" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

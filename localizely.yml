@@ -1,0 +1,28 @@
+config_version: 1.0
+project_id: 26ea7631-e069-45a2-9669-78525342abfd
+file_type: flutter_arb
+upload:
+  files:
+    - file: packages/espressocash_app/lib/l10n/intl_en.arb
+      locale_code: en
+  params:
+    overwrite: false
+    reviewed: false
+    tag_removed:
+      - removed
+download:
+  files:
+    - file: packages/espressocash_app/lib/l10n/intl_en.arb
+      locale_code: en
+    - file: packages/espressocash_app/lib/l10n/intl_es.arb
+      locale_code: es
+    - file: packages/espressocash_app/lib/l10n/intl_fr.arb
+      locale_code: fr
+    - file: packages/espressocash_app/lib/l10n/intl_pt.arb
+      locale_code: pt
+    - file: packages/espressocash_app/lib/l10n/intl_ru.arb
+      locale_code: ru
+  params:
+    export_empty_as: skip
+    exclude_tags:
+      - removed

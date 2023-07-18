@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_positional_boolean_parameters
+
 import 'package:pigeon/pigeon.dart';
 
 class SigningRequestDto {
-  SigningRequestDto({
+  const SigningRequestDto({
     required this.payload,
     required this.requestedSignatures,
   });
@@ -11,7 +13,7 @@ class SigningRequestDto {
 }
 
 class SigningResponseDto {
-  SigningResponseDto({
+  const SigningResponseDto({
     required this.signatures,
     required this.resolvedDerivationPaths,
   });
@@ -21,7 +23,7 @@ class SigningResponseDto {
 }
 
 class PublicKeyResponseDto {
-  PublicKeyResponseDto({
+  const PublicKeyResponseDto({
     required this.publicKey,
     required this.publicKeyEncoded,
     required this.resolvedDerivationPath,
@@ -34,6 +36,7 @@ class PublicKeyResponseDto {
 
 @HostApi()
 abstract class WalletApiHost {
+  const WalletApiHost();
   @async
   int authorizeSeed(int purpose);
 
@@ -127,5 +130,6 @@ abstract class WalletApiHost {
 
 @FlutterApi()
 abstract class SeedVaultFlutterApi {
+  const SeedVaultFlutterApi();
   void onChangeNotified(List<String?> uris, int flags);
 }

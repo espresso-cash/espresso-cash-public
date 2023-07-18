@@ -7,13 +7,13 @@ import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
   const AmountKeypad({
-    Key? key,
+    super.key,
     required this.controller,
     required this.maxDecimals,
     this.height,
     this.width,
     this.isEnabled = true,
-  }) : super(key: key);
+  });
 
   final TextEditingController controller;
   final int maxDecimals;
@@ -44,9 +44,9 @@ class AmountKeypad extends StatelessWidget {
       }
     } else if (key == '.') {
       // If we already have it, ignore it
-      if (value.contains(decimalSeparator)) {
-        return;
-      } else if (value.isEmpty) {
+      if (value.contains(decimalSeparator)) return;
+
+      if (value.isEmpty) {
         value = '0$decimalSeparator';
       } else {
         value = '$value$decimalSeparator';

@@ -4,13 +4,9 @@ part 'transaction_version.g.dart';
 
 @JsonSerializable(createFactory: false)
 abstract class TransactionVersion {
-  factory TransactionVersion.fromJson(dynamic value) {
-    if (value is String) {
-      return LegacyTransactionVersion();
-    } else {
-      return VersionedTransactionVersion(value as num);
-    }
-  }
+  factory TransactionVersion.fromJson(dynamic value) => value is String
+      ? LegacyTransactionVersion()
+      : VersionedTransactionVersion(value as num);
 
   abstract final num? version;
 }

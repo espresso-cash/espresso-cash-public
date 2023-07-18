@@ -1,5 +1,5 @@
 name: solana
-version: 0.29.0
+version: 0.29.1
 repository: https://github.com/espresso-cash/espresso-cash-public
 description: >-
   Dart implementation of Solana JSON RPC API client.
@@ -25,9 +25,10 @@ dependencies:
 dev_dependencies:
   borsh: ^0.3.1+2
   build_runner: ^2.1.1
+  dart_code_metrics: ^5.7.3
   freezed: ^2.0.0
   json_serializable: ^6.0.0
   jsonrpc_client:
     path: ../jsonrpc_client
-  mews_pedantic: ^0.13.0
+  mews_pedantic: ^0.16.0
   test: ^1.17.11

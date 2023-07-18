@@ -1,3 +1,126 @@
+## 1.78.0
+
+ - **REFACTOR**: clean Amount and Currency (#1028).
+ - **REFACTOR**: remove UserPreferences (#1027).
+ - **REFACTOR**: update balances logic (#1026).
+ - **REFACTOR**: update routes handling (#1024).
+ - **FIX**: provide valid router keys.
+ - **FIX**: add padding to country selector.
+ - **FEAT**: add ramp flow logic (#1022).
+
+## 1.77.3
+
+ - **FIX**: center button in onboarding notice (#1021).
+
+## 1.77.2
+
+ - **REFACTOR**: consolidate profile screens (#1009).
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **FIX**: sign-in flow (#1010).
+
+## 1.77.1
+
+ - **REFACTOR**: update l10n keys (#1007).
+
+## 1.77.0
+
+ - **REFACTOR**: add AccountRepository (#1002).
+ - **REFACTOR**: decouple profile and account modules (#1001).
+ - **REFACTOR**: restructure code (#997).
+ - **FIX**: remove duplicated LogoutListener (#1000).
+ - **FIX**: padding in ProfileScreen (#998).
+ - **FEAT**: add l10n to ramp network add cash flow (#974).
+ - **FEAT**: add country selector on profile screen (#999).
+
+## 1.76.0
+
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update dfunc (#992).
+ - **FIX**: back button on app locked screen (#987).
+ - **FEAT**: update get started screen (#996).
+ - **FEAT**: skip wallet creation when receiving links on new wallet (#936).
+ - **FEAT**: curated list of popular tokens (#926).
+ - **FEAT**: localize chart time interval (#971).
+ - **FEAT**: upgrade auto router, refactor routes (#932).
+
+## 1.75.0
+
+ - **REFACTOR**: update lint rules.
+ - **FEAT**: update ramp network to latest version (#986).
+
+## 1.74.1
+
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: remove unused method.
+
+## 1.74.0
+
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: update scenario handler.
+ - **FEAT**: add custom icon to back button (#973).
+ - **FEAT**: update second link animation (#972).
+ - **FEAT**: add coingecko l10n support for token details page (#975).
+
+## 1.73.0
+
+ - **FIX**: second link animation artifacts (#960).
+ - **FIX**: update l10n key.
+ - **FEAT**: token details page enhancements  (#961).
+ - **FEAT**: truncate usdc amount on messages (#959).
+
+## 1.72.0
+
+ - **FIX**: correctly sign old cancellation tx (#957).
+ - **FEAT**: update sign in with saga flow (#958).
+
+## 1.71.0
+
+ - **FEAT**: don't show manual input button after first qr scanned (#954).
+
+## 1.70.0
+
+ - **FEAT**: update solanapay host (#951).
+
+## 1.69.0
+
+ - **FIX**: center iskp screen content (#887).
+ - **FIX**: add safe area to screens (#917).
+ - **FIX**: update iskp failure reason (#886).
+ - **FIX**: investment header overflow  (#896).
+ - **FIX**: usdc conversion rate on wallet main flow (#870).
+ - **FIX**: add padding on navigation bar overlap (#868).
+ - **FIX**: remove blank home screen after keyboard interaction (#906).
+ - **FEAT**: updated token chart design (#929).
+ - **FEAT**: update splash screen (#937).
+ - **FEAT**: use smart contract for escrow payments app (#894).
+ - **FEAT**: add mobile wallet adapter to app (#873).
+ - **FEAT**: add seed vault integration (#851).
+ - **FEAT**: remove intercom (#948).
+ - **FEAT**: remove duplicate edit profile menu option (#918).
+ - **FEAT**: cache coingecko results (#904).
+ - **FEAT**: pins app bar on token details screen (#915).
+ - **FEAT**: add custom route to open links in-app (#908).
+ - **FEAT**: add token unavailable to swap notice (#931).
+ - **FEAT**: add sentry logs to iskp (#930).
+ - **FEAT**: add Brazilian Portuguese language support (#880).
+ - **FEAT**: re tapping nav bar pops route (#905).
+ - **FEAT**: enable languages for ios (#901).
+ - **FEAT**: storybook updates (#871).
+ - **FEAT**: Spanish translation (#895).
+ - **FEAT**: qr links update (#909).
+ - **FEAT**: style cancel popup on first link screen (#885).
+ - **FEAT**: udpate minimum amount to send and request (#946).
+ - **FEAT**: add dynamic texts to onboarding notice (#890).
+ - **FEAT**: add scan qr button in investment screen (#916).
+ - **FEAT**: add french translation (#892).
+ - **FEAT**: polling to avoid websocket broken connection when waiting for transactions statuses (#866).
+ - **FEAT**: remove hardcoded strings (#891).
+ - **FEAT**: update first link screen (#940).
+ - **FEAT**: set up localizely (#912).
+ - **DOCS**: readme updates (#888).
+
 ## 1.68.0
 
  - **FIX**: swap token dropdown splash (#852).

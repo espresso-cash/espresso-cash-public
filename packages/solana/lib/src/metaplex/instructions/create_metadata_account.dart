@@ -2,7 +2,6 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:solana/anchor.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/borsh_ext.dart';
 import 'package:solana/src/metaplex/instructions/fixed_string.dart';
 import 'package:solana/src/metaplex/utils.dart';
 
@@ -18,7 +17,7 @@ Future<AnchorInstruction> createMetadataAccountV3({
   final programAddress = await findMetaplexMetadataProgramAddress(mint);
 
   return AnchorInstruction.withDiscriminator(
-    discriminator: ByteArray([33]),
+    discriminator: ByteArray(const [33]),
     programId: Ed25519HDPublicKey.fromBase58(metaplexMetadataProgramId),
     accounts: [
       AccountMeta.writeable(pubKey: programAddress, isSigner: false),
@@ -50,7 +49,7 @@ abstract class CreateMetadataAccountV3Data with _$CreateMetadataAccountV3Data {
     @BBool() required bool colectionDetails,
   }) = _CreateMetadataAccountV3Data;
 
-  CreateMetadataAccountV3Data._();
+  const CreateMetadataAccountV3Data._();
 
   factory CreateMetadataAccountV3Data.fromBorsh(Uint8List data) =>
       _$CreateMetadataAccountV3DataFromBorsh(data);
@@ -64,7 +63,7 @@ abstract class MetadataCreator with _$MetadataCreator {
     @BU8() required int share,
   }) = _MetadataCreator;
 
-  MetadataCreator._();
+  const MetadataCreator._();
 
   factory MetadataCreator.fromBorsh(Uint8List data) =>
       _$MetadataCreatorFromBorsh(data);
@@ -77,7 +76,7 @@ abstract class MetadataCollection with _$MetadataCollection {
     @BPublicKey() required Ed25519HDPublicKey key,
   }) = _MetadataCollection;
 
-  MetadataCollection._();
+  const MetadataCollection._();
 
   factory MetadataCollection.fromBorsh(Uint8List data) =>
       _$MetadataCollectionFromBorsh(data);
@@ -91,7 +90,7 @@ abstract class MetadataUses with _$MetadataUses {
     @BU64() required BigInt total,
   }) = _MetadataUses;
 
-  MetadataUses._();
+  const MetadataUses._();
 
   factory MetadataUses.fromBorsh(Uint8List data) =>
       _$MetadataUsesFromBorsh(data);

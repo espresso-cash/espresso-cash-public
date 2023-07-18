@@ -6,8 +6,12 @@ part 'flow.freezed.dart';
 /// of type [E].
 ///
 /// If you don't care about the result, you can use `ProcessingState` insted.
-@freezed
-class Flow<E extends Exception, R> with _$Flow<E, R> {
+@Freezed(
+  when: FreezedWhenOptions.none,
+  map: FreezedMapOptions.none,
+  copyWith: false,
+)
+sealed class Flow<E extends Exception, R> with _$Flow<E, R> {
   const factory Flow.initial() = FlowInitial;
 
   const factory Flow.processing() = FlowProcessing;
@@ -18,11 +22,11 @@ class Flow<E extends Exception, R> with _$Flow<E, R> {
 
   const Flow._();
 
-  bool isInitial() => this is FlowInitial;
+  bool get isInitial => this is FlowInitial;
 
-  bool isProcessing() => this is FlowProcessing;
+  bool get isProcessing => this is FlowProcessing;
 
-  bool isFailure() => this is FlowFailure;
+  bool get isFailure => this is FlowFailure;
 
-  bool isSuccess() => this is FlowSuccess;
+  bool get isSuccess => this is FlowSuccess;
 }

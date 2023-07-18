@@ -4,40 +4,12 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import com.solana.mobilewalletadapter.walletlib.scenario.*
-import io.flutter.plugin.common.BinaryMessenger
-import java.lang.IllegalArgumentException
-
-object ApiHost : Api.ApiHost {
-    private val scenarios = mutableMapOf<Long, Scenario>()
-
-    fun init(binaryMessenger: BinaryMessenger) {
-        Api.ApiHost.setup(binaryMessenger, this)
-    }
-
-    fun register(id: Long, scenario: Scenario) {
-        scenarios[id] = scenario
-    }
-
-    fun unregister(id: Long) {
-        scenarios.remove(id)
-    }
-
-    override fun start(id: Long) {
-        scenarios[id]?.start()
-    }
-
-    override fun close(id: Long) {
-        scenarios[id]?.close()
-    }
-}
 
 class Callbacks(
     private val id: Long,
-    binaryMessenger: BinaryMessenger,
+    private val api: Api.ApiFlutter,
     private val onTeardownComplete: () -> Unit
-) : Scenario.Callbacks {
-    private val api = Api.ApiFlutter(binaryMessenger)
-
+) : LocalScenario.Callbacks {
     override fun onScenarioReady() {
         Handler(Looper.getMainLooper()).post { api.onScenarioReady(id) {} }
     }
@@ -119,10 +91,12 @@ class Callbacks(
         Handler(Looper.getMainLooper()).post {
             api.signTransactions(dto, id) {
                 when (it.error) {
-                    Api.MobileWalletAdapterServerException.requestDeclined -> request.completeWithDecline()
-                    Api.MobileWalletAdapterServerException.invalidPayloads -> request.completeWithInvalidPayloads(it.validPayloads!!.toBooleanArray())
-                    Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
-                    Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
+                    Api.MobileWalletAdapterServerException.REQUEST_DECLINED -> request.completeWithDecline()
+                    Api.MobileWalletAdapterServerException.INVALID_PAYLOADS -> request.completeWithInvalidPayloads(
+                        it.validPayloads!!.toBooleanArray()
+                    )
+                    Api.MobileWalletAdapterServerException.TOO_MANY_PAYLOADS -> request.completeWithTooManyPayloads()
+                    Api.MobileWalletAdapterServerException.AUTHORIZATION_NOT_VALID -> request.completeWithAuthorizationNotValid()
                     null -> request.completeWithSignedPayloads(it.payloads!!.toTypedArray())
                     else -> request.completeWithInternalError(IllegalArgumentException(it.error.toString()))
                 }
@@ -143,10 +117,12 @@ class Callbacks(
         Handler(Looper.getMainLooper()).post {
             api.signMessages(dto, id) {
                 when (it.error) {
-                    Api.MobileWalletAdapterServerException.requestDeclined -> request.completeWithDecline()
-                    Api.MobileWalletAdapterServerException.invalidPayloads -> request.completeWithInvalidPayloads(it.validPayloads!!.toBooleanArray())
-                    Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
-                    Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
+                    Api.MobileWalletAdapterServerException.REQUEST_DECLINED -> request.completeWithDecline()
+                    Api.MobileWalletAdapterServerException.INVALID_PAYLOADS -> request.completeWithInvalidPayloads(
+                        it.validPayloads!!.toBooleanArray()
+                    )
+                    Api.MobileWalletAdapterServerException.TOO_MANY_PAYLOADS -> request.completeWithTooManyPayloads()
+                    Api.MobileWalletAdapterServerException.AUTHORIZATION_NOT_VALID -> request.completeWithAuthorizationNotValid()
                     null -> request.completeWithSignedPayloads(it.payloads!!.toTypedArray())
                     else -> request.completeWithInternalError(IllegalArgumentException(it.error.toString()))
                 }
@@ -169,15 +145,38 @@ class Callbacks(
         Handler(Looper.getMainLooper()).post {
             api.signAndSendTransactions(dto, id) {
                 when (it.error) {
-                    Api.MobileWalletAdapterServerException.requestDeclined -> request.completeWithDecline()
-                    Api.MobileWalletAdapterServerException.invalidPayloads -> request.completeWithInvalidSignatures(it.validSignatures!!.toBooleanArray())
-                    Api.MobileWalletAdapterServerException.tooManyPayloads -> request.completeWithTooManyPayloads()
-                    Api.MobileWalletAdapterServerException.authorizationNotValid -> request.completeWithAuthorizationNotValid()
-                    Api.MobileWalletAdapterServerException.notSubmitted -> request.completeWithNotSubmitted(it.signatures!!.toTypedArray())
+                    Api.MobileWalletAdapterServerException.NOT_SUBMITTED -> request.completeWithNotSubmitted(
+                        it.signatures!!.toTypedArray()
+                    )
+                    Api.MobileWalletAdapterServerException.INVALID_PAYLOADS -> request.completeWithInvalidSignatures(
+                        it.validSignatures!!.toBooleanArray()
+                    )
+                    Api.MobileWalletAdapterServerException.TOO_MANY_PAYLOADS -> request.completeWithTooManyPayloads()
+                    Api.MobileWalletAdapterServerException.AUTHORIZATION_NOT_VALID -> request.completeWithAuthorizationNotValid()
+                    Api.MobileWalletAdapterServerException.REQUEST_DECLINED -> request.completeWithDecline()
                     null -> request.completeWithSignatures(it.signatures!!.toTypedArray())
                 }
             }
         }
     }
 
+    override fun onDeauthorizedEvent(event: DeauthorizedEvent) {
+        val dto = Api.DeauthorizeEventDto.Builder()
+            .setIdentityName(event.identityName)
+            .setIdentityUri(event.identityUri?.toString())
+            .setIconRelativeUri(event.iconRelativeUri?.toString())
+            .setCluster(event.cluster)
+            .setAuthorizationScope(event.authorizationScope)
+            .build()
+
+        Handler(Looper.getMainLooper()).post {
+            api.deauthorize(dto, id) {
+                event.complete()
+            }
+        }
+    }
+
+    override fun onLowPowerAndNoConnection() {
+        Handler(Looper.getMainLooper()).post { api.onLowPowerAndNoConnection(id) {} }
+    }
 }

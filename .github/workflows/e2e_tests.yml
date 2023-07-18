@@ -8,6 +8,9 @@ concurrency:
   group: ${{ github.head_ref }}-e2e
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: "3.10.5"
+
 jobs:
   e2e:
     defaults:
@@ -17,10 +20,14 @@ jobs:
       contents: write
       packages: read
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/espresso-cash/flutter:3.7.7
     steps:
       - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+          cache: true
 
       - id: "auth"
         name: "Authenticate to Google Cloud"

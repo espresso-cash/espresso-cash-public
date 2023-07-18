@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:solana_seed_vault/src/api.dart';
 import 'package:solana_seed_vault/src/models/auth_token.dart';
@@ -39,7 +38,7 @@ class SeedVault implements SeedVaultFlutterApi {
   void onChangeNotified(List<String?> uris, int flags) {
     _eventStream.add(
       SeedVaultNotification(
-        uris: uris.compact().map(Uri.parse).toList(),
+        uris: uris.whereType<String>().map(Uri.parse).toList(),
         flags: flags,
       ),
     );
@@ -60,7 +59,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getAuthorizedSeeds(projection, filterOnColumn, value)
-          .letAsync(_compact);
+          .then(_compact);
 
   Future<CursorData> getAuthorizedSeed({
     required AuthToken authToken,
@@ -75,7 +74,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getUnauthorizedSeeds(projection, filterOnColumn, value)
-          .letAsync(_compact);
+          .then(_compact);
 
   Future<List<CursorData>> getAccounts({
     required AuthToken authToken,
@@ -85,7 +84,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getAccounts(authToken, projection, filterOnColumn, value)
-          .letAsync(_compact);
+          .then(_compact);
 
   Future<CursorData> getAccount({
     required int authToken,
@@ -125,7 +124,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .resolveDerivationPath(derivationPath.toString(), purpose.index)
-          .letAsync(Uri.parse);
+          .then(Uri.parse);
 
   Future<void> deauthorizeSeed(AuthToken authToken) =>
       _platform.deauthorizeSeed(authToken);
@@ -137,7 +136,7 @@ class SeedVault implements SeedVaultFlutterApi {
   }) =>
       _platform
           .getImplementationLimits(projection, filterOnColumn, value)
-          .letAsync(_compact);
+          .then(_compact);
 
   Future<CursorData> getImplementationLimitsForPurpose(Purpose purpose) =>
       _platform.getImplementationLimitsForPurpose(purpose.index);
@@ -163,7 +162,7 @@ class SeedVault implements SeedVaultFlutterApi {
     final results = await _platform.requestPublicKeys(authToken, paths);
 
     return results
-        .compact()
+        .whereType<PublicKeyResponseDto>()
         .map(
           (it) => PublicKeyResponse(
             publicKey: it.publicKey,
@@ -182,7 +181,10 @@ class SeedVault implements SeedVaultFlutterApi {
 
     final results = await _platform.signMessages(authToken, requests);
 
-    return results.compact().map((it) => it.toModel()).toList();
+    return results
+        .whereType<SigningResponseDto>()
+        .map((it) => it.toModel())
+        .toList();
   }
 
   Future<List<SigningResponse>> signTransactions({
@@ -193,7 +195,10 @@ class SeedVault implements SeedVaultFlutterApi {
 
     final results = await _platform.signTransactions(authToken, requests);
 
-    return results.compact().map((it) => it.toModel()).toList();
+    return results
+        .whereType<SigningResponseDto>()
+        .map((it) => it.toModel())
+        .toList();
   }
 }
 
@@ -207,11 +212,11 @@ extension on SigningRequest {
 
 extension on SigningResponseDto {
   SigningResponse toModel() => SigningResponse(
-        signatures: signatures.compact().toList(),
+        signatures: signatures.whereType<Uint8List>().toList(),
         resolvedDerivationPaths:
-            resolvedDerivationPaths.compact().map(Uri.parse).toList(),
+            resolvedDerivationPaths.whereType<String>().map(Uri.parse).toList(),
       );
 }
 
 List<CursorData> _compact(List<Map<Object?, Object?>?> list) =>
-    list.compact().toList();
+    list.whereType<Map<Object?, Object?>>().toList();

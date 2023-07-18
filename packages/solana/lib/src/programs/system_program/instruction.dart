@@ -10,12 +10,10 @@ import 'package:solana/src/programs/system_program/program.dart';
 /// transaction fees.
 class SystemInstruction extends Instruction {
   SystemInstruction._({
-    required List<AccountMeta> accounts,
-    required ByteArray data,
+    required super.accounts,
+    required super.data,
   }) : super(
           programId: SystemProgram.id,
-          accounts: accounts,
-          data: data,
         );
 
   /// Create a new account.

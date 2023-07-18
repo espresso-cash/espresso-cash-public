@@ -18,7 +18,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -73,8 +73,8 @@ class MyApp extends StatelessWidget {
                       : null,
                   text: 'Request airdrop',
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Expanded(
                       flex: 3,
                       child: SignTxButton(count: 1, text: 'Sign txn x1'),
@@ -88,8 +88,8 @@ class MyApp extends StatelessWidget {
                       context.read<ClientBloc>().authorizeAndSignTransactions(),
                   text: 'Combined authorize and sign txn x1',
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Expanded(
                       flex: 3,
                       child: SignMsgButton(count: 1, text: 'Sign msg x1'),
@@ -98,8 +98,8 @@ class MyApp extends StatelessWidget {
                     Expanded(child: SignMsgButton(count: 20, text: 'x20')),
                   ],
                 ),
-                Row(
-                  children: const [
+                const Row(
+                  children: [
                     Expanded(
                       flex: 3,
                       child: SignAndSendTxButton(
@@ -207,11 +207,11 @@ class Button extends StatelessWidget {
 
 class Footer extends StatelessWidget {
   const Footer({
-    Key? key,
+    super.key,
     required this.hasAuthToken,
     required this.accountName,
     required this.walletUriPrefix,
-  }) : super(key: key);
+  });
 
   final bool hasAuthToken;
   final String? accountName;
@@ -245,10 +245,10 @@ class Footer extends StatelessWidget {
 
 class FooterRow extends StatelessWidget {
   const FooterRow({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
-  }) : super(key: key);
+  });
 
   final String title;
   final Widget value;

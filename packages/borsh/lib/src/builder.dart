@@ -3,4 +3,4 @@ import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 Builder borsh(BuilderOptions _) =>
-    SharedPartBuilder([BorshSerializableGenerator()], 'borsh');
+    SharedPartBuilder([const BorshSerializableGenerator()], 'borsh');

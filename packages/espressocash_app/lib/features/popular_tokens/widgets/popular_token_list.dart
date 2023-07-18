@@ -6,14 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/amount.dart';
 import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token.dart';
-import '../../../../../../core/user_preferences.dart';
 import '../../../../../../l10n/device_locale.dart';
-import '../../../../../../routes.gr.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
+import '../../../core/currency.dart';
+import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
-import '../src/bl/bloc.dart';
+import '../../token_details/screens/token_details_screen.dart';
+import '../services/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
   const PopularTokenList({super.key});
@@ -29,23 +30,24 @@ class PopularTokenList extends StatelessWidget {
             ),
           );
 
-          if (state.tokens.isNotEmpty) {
-            return SliverList(
-              delegate: SliverChildListDelegate(
-                state.tokens.entries
-                    .map((e) => _TokenItem(e.key, e.value))
-                    .toList(),
-              ),
-            );
-          }
-
-          return state.processingState.when(
-            none: () => loader,
-            processing: () => loader,
-            error: (_) => SliverToBoxAdapter(
-              child: Center(child: Text(context.l10n.failedToLoadTokens)),
-            ),
-          );
+          return state.tokens.isNotEmpty
+              ? SliverList(
+                  delegate: SliverChildListDelegate(
+                    state.tokens.entries
+                        .map((e) => _TokenItem(e.key, e.value))
+                        .toList(),
+                  ),
+                )
+              : switch (state.processingState) {
+                  ProcessingStateNone() ||
+                  ProcessingStateProcessing() =>
+                    loader,
+                  ProcessingStateError() => SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(context.l10n.failedToLoadTokens),
+                      ),
+                    ),
+                };
         },
       );
 }
@@ -59,17 +61,16 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final fiatCurrency = context.read<UserPreferences>().fiatCurrency;
-
     final Amount tokenRate = Amount.fromDecimal(
-      currency: fiatCurrency,
+      currency: defaultFiatCurrency,
       value: Decimal.parse(currentPrice.toString()),
     );
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
       child: ListTile(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         leading: CpTokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -111,10 +112,7 @@ class _TokenItem extends StatelessWidget {
 }
 
 class _TokenSymbolWidget extends StatelessWidget {
-  const _TokenSymbolWidget(
-    this.symbol, {
-    Key? key,
-  }) : super(key: key);
+  const _TokenSymbolWidget(this.symbol);
 
   final String symbol;
 
@@ -122,10 +120,7 @@ class _TokenSymbolWidget extends StatelessWidget {
   Widget build(BuildContext context) => SizedBox(
         width: 57,
         child: Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 6,
-            horizontal: 6,
-          ),
+          padding: const EdgeInsets.all(6),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.lightPillBackgroundColor,

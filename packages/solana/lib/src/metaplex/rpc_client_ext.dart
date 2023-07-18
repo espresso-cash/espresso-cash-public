@@ -21,11 +21,7 @@ extension GetMetaplexMetadata on RpcClient {
 
     final data = account.data;
 
-    if (data is BinaryAccountData) {
-      return Metadata.fromBinary(data.data);
-    } else {
-      return null;
-    }
+    return data is BinaryAccountData ? Metadata.fromBinary(data.data) : null;
   }
 
   Future<MasterEdition?> getMasterEdition({
@@ -44,10 +40,8 @@ extension GetMetaplexMetadata on RpcClient {
 
     final data = account.data;
 
-    if (data is BinaryAccountData) {
-      return MasterEdition.fromBorsh(Uint8List.fromList(data.data));
-    } else {
-      return null;
-    }
+    return data is BinaryAccountData
+        ? MasterEdition.fromBorsh(Uint8List.fromList(data.data))
+        : null;
   }
 }

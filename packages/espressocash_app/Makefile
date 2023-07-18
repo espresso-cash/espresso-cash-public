@@ -26,7 +26,26 @@ flutter_test:
 	@$(MAKE) -f ../../Makefile $@
 
 deps_graph_all:
-	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,gen/**,routes.gr.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,routes.gr.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
 
 deps_cycles:
 	python3 ./tool/cycles.py deps.dot --only-shortest
+
+build_saga_release:
+ifndef BUILD_NUMBER
+	$(error "BUILD_NUMBER must be set")
+endif
+	flutter build apk --build-number=$(BUILD_NUMBER) --dart-define-from-file=prod.json
+	cp build/app/outputs/flutter-apk/app-release.apk saga_publishing/
+
+create_saga_release:
+ifndef SOLANA_RPC_URL
+	$(error "SOLANA_RPC_URL must be set")
+endif
+	cd saga_publishing && npx dapp-store create release -k publisher.json -b ~/Library/Android/sdk/build-tools/33.0.1/ -u $(SOLANA_RPC_URL)
+
+publish_saga_release:
+ifndef SOLANA_RPC_URL
+	$(error "SOLANA_RPC_URL must be set")
+endif
+	cd saga_publishing &&  npx dapp-store publish submit -k publisher.json -u $(SOLANA_RPC_URL) --requestor-is-authorized --complies-with-solana-dapp-store-policies

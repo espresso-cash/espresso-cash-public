@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 abstract class CpColors {
-  CpColors._();
+  const CpColors._();
 
   static const primaryColor = Color(0xffff6640); // red primary color
 
@@ -58,6 +58,8 @@ abstract class CpColors {
   static const sliderDisabledColor = Color(0xff323232);
 
   static const incomingAmountColor = Color(0xff24BE20);
+
+  static const darkSplashBackgroundColor = Color(0xff2D2B2C);
 }
 
 const bgGradient = LinearGradient(
