@@ -8,6 +8,7 @@ part 'off_ramp_payment.freezed.dart';
 class OffRampPayment with _$OffRampPayment {
   const factory OffRampPayment.signTransaction({
     required String id,
+    required String provider,
     required DateTime created,
     required ORPStatus status,
   }) = ORPSignTransaction;
@@ -27,8 +28,14 @@ class ORPStatus with _$ORPStatus {
     required BigInt slot,
   }) = ORPStatusTxSent;
 
-  /// Money is received by the recipient address. The payment is complete.
+  /// Money is received by the recipient address.
   const factory ORPStatus.success({required String txId}) = ORPStatusSuccess;
+
+  /// Fiat Money is received by the user.
+  const factory ORPStatus.withdrawn({
+    required String txId,
+    required DateTime? timestamp,
+  }) = ORPStatusWithdrawn;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
   /// case, it's safe to recreate the tx.

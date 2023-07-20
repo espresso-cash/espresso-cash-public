@@ -48,6 +48,9 @@ class ORPRepository {
 
   Future<void> clear() => _db.delete(_db.oRPRows).go();
 
+  Stream<IList<OffRampPayment>> watchReady() =>
+      _watchWithStatuses([ORPStatusDto.success]);
+
   Stream<IList<OffRampPayment>> watchTxCreated() => _watchWithStatuses([
         ORPStatusDto.txCreated,
       ]);
@@ -70,8 +73,9 @@ class ORPRepository {
 }
 
 class ORPRows extends Table with EntityMixin {
-  TextColumn get receiver => text().nullable()();
+  TextColumn get provider => text()();
   IntColumn get status => intEnum<ORPStatusDto>()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
 
   // Status fields
   TextColumn get tx => text().nullable()();
@@ -85,11 +89,13 @@ enum ORPStatusDto {
   txSent,
   success,
   txFailure,
+  withdrawn,
 }
 
 extension ORPRowExt on ORPRow {
   OffRampPayment toModel() => OffRampPayment.signTransaction(
         id: id,
+        provider: provider,
         created: created,
         status: status.toModel(this),
       );
@@ -99,38 +105,41 @@ extension on ORPStatusDto {
   ORPStatus toModel(ORPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final slot = row.slot?.let(BigInt.tryParse);
+    final resolvedAt = row.resolvedAt;
 
-    switch (this) {
-      case ORPStatusDto.txCreated:
-        return ORPStatus.txCreated(
+    return switch (this) {
+      ORPStatusDto.txCreated => ORPStatus.txCreated(
           tx!,
           slot: slot ?? BigInt.zero,
-        );
-      case ORPStatusDto.txSent:
-        return ORPStatus.txSent(
+        ),
+      ORPStatusDto.txSent => ORPStatus.txSent(
           tx ?? StubSignedTx(row.txId!),
           slot: slot ?? BigInt.zero,
-        );
-      case ORPStatusDto.success:
-        return ORPStatus.success(txId: row.txId!);
-      case ORPStatusDto.txFailure:
-        return ORPStatus.txFailure(
+        ),
+      ORPStatusDto.success => ORPStatus.success(txId: row.txId!),
+      ORPStatusDto.txFailure => ORPStatus.txFailure(
           tx!,
           reason: row.txFailureReason,
-        );
-    }
+        ),
+      ORPStatusDto.withdrawn => ORPStatus.withdrawn(
+          txId: row.txId ?? '',
+          timestamp: resolvedAt,
+        ),
+    };
   }
 }
 
 extension on OffRampPayment {
   ORPRow toDto() => ORPRow(
         id: id,
+        provider: provider,
         created: created,
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
         slot: status.toSlot()?.toString(),
+        resolvedAt: status.toResolvedAt(),
       );
 }
 
@@ -140,6 +149,7 @@ extension on ORPStatus {
         txSent: always(ORPStatusDto.txSent),
         success: always(ORPStatusDto.success),
         txFailure: always(ORPStatusDto.txFailure),
+        withdrawn: always(ORPStatusDto.withdrawn),
       );
 
   String? toTx() => mapOrNull(
@@ -158,5 +168,9 @@ extension on ORPStatus {
   BigInt? toSlot() => mapOrNull(
         txCreated: (it) => it.slot,
         txSent: (it) => it.slot,
+      );
+
+  DateTime? toResolvedAt() => mapOrNull(
+        withdrawn: (it) => it.timestamp,
       );
 }

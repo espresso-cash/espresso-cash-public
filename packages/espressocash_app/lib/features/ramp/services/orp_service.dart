@@ -16,6 +16,7 @@ class ORPService {
   Future<OffRampPayment> createORP({
     required ECWallet account,
     required SignedTx tx,
+    required String provider,
   }) async {
     final id = const Uuid().v4();
 
@@ -27,6 +28,7 @@ class ORPService {
       id: id,
       created: DateTime.now(),
       status: status,
+      provider: provider,
     );
 
     await _repository.save(payment);
