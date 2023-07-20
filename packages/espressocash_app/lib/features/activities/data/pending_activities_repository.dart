@@ -9,6 +9,7 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../ramp/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
 import '../models/activity.dart';
 import 'activity_builder.dart';
@@ -32,6 +33,8 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(OSKPStatusDto.canceled).not());
     final swap = _db.select(_db.swapRows)
       ..where((tbl) => tbl.status.equalsValue(SwapStatusDto.success).not());
+    final orp = _db.select(_db.oRPRows)
+      ..where((tbl) => tbl.status.equalsValue(ORPStatusDto.withdrawn).not());
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
@@ -43,6 +46,8 @@ class PendingActivitiesRepository {
         .asyncMap(Future.wait);
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
+    final orpStream =
+        orp.watch().map((rows) => rows.map((r) => r.toActivity()));
 
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
       [
@@ -50,6 +55,7 @@ class PendingActivitiesRepository {
         odpStream,
         oskpStream,
         swapStream,
+        orpStream,
       ],
       (values) => values
           .expand(identity)
