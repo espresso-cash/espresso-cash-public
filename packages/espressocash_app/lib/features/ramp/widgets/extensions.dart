@@ -11,11 +11,13 @@ import '../services/orp_service.dart';
 extension BuildContextExt on BuildContext {
   Future<String> createORP({
     required SignedTx tx,
+    required String provider,
   }) async =>
       runWithLoader(this, () async {
         final payment = await sl<ORPService>().createORP(
           account: read<MyAccount>().wallet,
           tx: tx,
+          provider: provider,
         );
 
         sl<AnalyticsManager>().offRampPaymentCreated();

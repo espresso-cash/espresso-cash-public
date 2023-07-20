@@ -72,5 +72,6 @@ extension on ORPStatus {
         txSent: F,
         txFailure: F,
         success: T,
+        withdrawn: F,
       );
 }
