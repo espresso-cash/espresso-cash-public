@@ -10,6 +10,7 @@ import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/module.dart';
+import '../../balances/module.dart';
 import '../../conversion_rates/module.dart';
 import '../../favorite_tokens/module.dart';
 import '../../incoming_split_key_payments/module.dart';
@@ -58,6 +59,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   @override
   Widget build(BuildContext _) => MultiProvider(
         providers: const [
+          BalancesModule(),
           ConversionRatesModule(),
         ],
         child: BlocBuilder<AccountsBloc, AccountsState>(
