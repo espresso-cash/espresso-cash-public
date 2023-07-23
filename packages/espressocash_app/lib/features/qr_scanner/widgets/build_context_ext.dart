@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -12,7 +11,6 @@ import '../../../core/tokens/token_list.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
-import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../incoming_split_key_payments/screens/incoming_split_key_payment_screen.dart';
 import '../../incoming_split_key_payments/widgets/extensions.dart';
@@ -86,10 +84,7 @@ extension BuilContextExt on BuildContext {
         final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
         onFiatAmountChanged?.call(finalAmount);
 
-        final cryptoAmount = finalAmount.toTokenAmount(
-              cryptoCurrency.token,
-              ratesRepository: read<ConversionRatesRepository>(),
-            ) ??
+        final cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
             CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
 
         final id = await createODP(

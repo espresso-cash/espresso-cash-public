@@ -5,6 +5,7 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/fee_label.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
@@ -15,7 +16,7 @@ import '../../../ui/chip.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/widgets/context_ext.dart';
+import '../../conversion_rates/services/convert_to_fiat.dart';
 
 @RoutePage()
 class OSKPConfirmationScreen extends StatelessWidget {
@@ -112,20 +113,12 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const currency = Currency.usd;
-    final fiatAmount = switch (amount) {
-      CryptoAmount(:final token, :final value) => context.convertToFiat(
-          fiatCurrency: currency,
-          token: token,
-          amount: value,
-        ),
-      FiatAmount() => amount,
-    };
+    final fiatAmount = sl<ConvertToFiat>().call(amount);
 
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = amount.format(
       locale,
-      maxDecimals: currency.decimals,
+      maxDecimals: amount.currency.decimals,
     );
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 
