@@ -59,14 +59,9 @@ void main() {
 
       blocTest<BalancesBloc, BalancesState>(
         'counts only main accounts',
-        build: () => BalancesBloc(
-          solanaClient: solanaClient,
-          tokens: TokenList(),
-          repository: repository,
-        ),
-        act: (bloc) => bloc.add(
-          BalancesEvent.requested(address: account.address),
-        ),
+        build: () => BalancesBloc(solanaClient, TokenList(), repository),
+        act: (bloc) =>
+            bloc.add(BalancesEventRequested(address: account.address)),
         expect: () =>
             [const ProcessingState.processing(), const ProcessingState.none()],
         verify: (_) {

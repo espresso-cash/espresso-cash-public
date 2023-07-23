@@ -1,64 +1,54 @@
 import 'dart:async';
 
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/disposable_bloc.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
 import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
+import '../../authenticated/auth_scope.dart';
 import '../data/balances_repository.dart';
-
-part 'balances_bloc.freezed.dart';
 
 final _logger = Logger('BalancesBloc');
 typedef BalancesState = ProcessingState;
 
-@injectable
-class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
-  BalancesBloc({
-    required SolanaClient solanaClient,
-    required TokenList tokens,
-    required BalancesRepository repository,
-  })  : _solanaClient = solanaClient,
-        _tokens = tokens,
-        _repository = repository,
-        super(const ProcessingStateNone()) {
-    on<BalancesEvent>(_eventHandler);
+@Singleton(scope: authScope)
+class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
+    with DisposableBloc {
+  BalancesBloc(
+    this._solanaClient,
+    this._tokens,
+    this._repository,
+  ) : super(const ProcessingStateNone()) {
+    on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
 
   final SolanaClient _solanaClient;
   final TokenList _tokens;
   final BalancesRepository _repository;
 
-  EventHandler<BalancesEvent, BalancesState> get _eventHandler =>
-      (event, emit) => event.map(
-            requested: (event) => _onRequested(event, emit),
-          );
-
-  Future<void> _onRequested(
+  Future<void> _handleRequested(
     BalancesEventRequested event,
     Emitter<BalancesState> emit,
   ) async {
-    if (state.isProcessing) return;
-
     final balances = <Token, CryptoAmount>{};
 
     try {
       emit(const ProcessingState.processing());
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
 
-      final allAccounts = await _solanaClient.getSplAccounts(
-        event.address,
-      );
+      final allAccounts = await _solanaClient.getSplAccounts(event.address);
 
       final mainAccounts = await Future.wait<_MainTokenAccount?>(
         allAccounts.map((programAccount) async {
@@ -97,17 +87,23 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState> {
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 
+      if (isClosed) return;
+
       emit(const ProcessingState.error(BalancesRequestException()));
       emit(const ProcessingState.none());
     }
   }
 }
 
-@freezed
-class BalancesEvent with _$BalancesEvent {
-  const factory BalancesEvent.requested({
-    required String address,
-  }) = BalancesEventRequested;
+sealed class BalancesEvent {
+  const BalancesEvent();
+}
+
+@immutable
+final class BalancesEventRequested extends BalancesEvent {
+  const BalancesEventRequested({required this.address});
+
+  final String address;
 }
 
 class BalancesRequestException implements Exception {

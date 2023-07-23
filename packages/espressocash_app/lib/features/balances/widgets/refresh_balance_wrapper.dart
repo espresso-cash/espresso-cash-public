@@ -10,10 +10,10 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
-import '../../accounts/models/account.dart';
 import '../../conversion_rates/services/conversion_rates_bloc.dart';
 import '../data/balances_repository.dart';
 import '../services/balances_bloc.dart';
+import 'context_ext.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 
@@ -65,12 +65,9 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   }
 
   AsyncResult<void> _updateBalances() async {
-    final bloc = context.read<BalancesBloc>();
-    final account = context.read<MyAccount>();
+    context.notifyBalanceAffected();
 
-    bloc.add(BalancesEvent.requested(address: account.address));
-
-    return _listenForProcessingStateAndThrowOnError(bloc.stream);
+    return _listenForProcessingStateAndThrowOnError(sl<BalancesBloc>().stream);
   }
 
   AsyncResult<void> _onPulledToRefreshBalances() {
