@@ -16,7 +16,7 @@ import '../../../ui/chip.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/services/convert_to_fiat.dart';
+import '../../conversion_rates/services/convert_to_usd.dart';
 
 @RoutePage()
 class OSKPConfirmationScreen extends StatelessWidget {
@@ -113,7 +113,7 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatAmount = sl<ConvertToFiat>().call(amount);
+    final fiatAmount = sl<ConvertToUsd>().call(amount);
 
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = amount.format(

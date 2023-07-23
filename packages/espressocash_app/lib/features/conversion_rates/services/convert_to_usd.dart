@@ -6,14 +6,13 @@ import '../../../core/tokens/token.dart';
 import '../data/repository.dart';
 
 @injectable
-class ConvertToFiat {
-  const ConvertToFiat(this._repository);
+class ConvertToUsd {
+  const ConvertToUsd(this._repository);
 
   final ConversionRatesRepository _repository;
 
   Amount? call(Amount amount) => switch (amount) {
         CryptoAmount(:final token, :final value) => _convert(
-            fiatCurrency: Currency.usd,
             token: token,
             amount: value,
           ),
@@ -21,10 +20,10 @@ class ConvertToFiat {
       };
 
   Amount? _convert({
-    required FiatCurrency fiatCurrency,
     required Token token,
     required int amount,
   }) {
+    const fiatCurrency = Currency.usd;
     final conversionRate = _repository.readRate(
       CryptoCurrency(token: token),
       to: fiatCurrency,
