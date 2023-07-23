@@ -79,7 +79,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
     final confirmedCryptoAmount = amount
         .copyWithDecimal(confirmedFiatAmount)
-        .toTokenAmount(Token.usdc, ratesRepository: rates)
+        .toTokenAmount(Token.usdc)
         ?.decimal;
 
     if (confirmedCryptoAmount == null) return;

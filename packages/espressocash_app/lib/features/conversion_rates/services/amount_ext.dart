@@ -3,6 +3,7 @@ import 'package:decimal/decimal.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token.dart';
+import '../../../di.dart';
 import '../data/repository.dart';
 
 extension CryptoAmountExt on CryptoAmount {
@@ -19,11 +20,8 @@ extension CryptoAmountExt on CryptoAmount {
 }
 
 extension FiatAmountExt on FiatAmount {
-  CryptoAmount? toTokenAmount(
-    Token token, {
-    required ConversionRatesRepository ratesRepository,
-  }) {
-    final rate = ratesRepository.readRate(
+  CryptoAmount? toTokenAmount(Token token) {
+    final rate = sl<ConversionRatesRepository>().readRate(
       CryptoCurrency(token: token),
       to: fiatCurrency,
     );
