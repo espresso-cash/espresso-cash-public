@@ -3,9 +3,11 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
+import '../accounts/models/account.dart';
 import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
 import 'data/repository.dart';
+import 'services/coinflow_withdrawn_watcher.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
 
@@ -25,6 +27,13 @@ class ORPModule extends SingleChildStatelessWidget {
             lazy: false,
             create: (context) => sl<TxSentWatcher>()
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
+            dispose: (_, value) => value.dispose(),
+          ),
+          Provider<CoinflowWithdrawWatcher>(
+            lazy: false,
+            create: (context) => sl<CoinflowWithdrawWatcher>(
+              param1: context.read<MyAccount>().wallet.publicKey,
+            )..init(),
             dispose: (_, value) => value.dispose(),
           ),
         ],

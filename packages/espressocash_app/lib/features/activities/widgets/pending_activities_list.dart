@@ -6,6 +6,7 @@ import '../data/pending_activities_repository.dart';
 import '../models/activity.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
+import 'orp_tile.dart';
 import 'oskp_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
@@ -62,6 +63,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         activity: p,
                       ),
                       swap: (p) => SwapTile(
+                        key: ValueKey(p.id),
+                        activity: p,
+                      ),
+                      offRampPayment: (p) => ORPTile(
                         key: ValueKey(p.id),
                         activity: p,
                       ),

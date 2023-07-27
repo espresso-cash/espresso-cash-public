@@ -13,6 +13,7 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../ramp/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
@@ -76,8 +77,20 @@ class TransactionRepository {
       ].contains(row.status).not(),
     );
 
+    final orp = _db.oRPRows.findActivityOrNull(
+      where: (row) => row.txId.equals(txId),
+      builder: (pr) => pr.toActivity(),
+      ignoreWhen: (row) => row.status != ORPStatusDto.withdrawn,
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, oskp].map((it) => it.onErrorReturn(null)),
+      [
+        pr,
+        odp,
+        swap,
+        oskp,
+        orp,
+      ].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

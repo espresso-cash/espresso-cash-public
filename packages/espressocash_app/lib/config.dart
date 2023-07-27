@@ -82,3 +82,7 @@ const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
 const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 
 const maxPayloadsPerSigningRequest = 10;
+
+const coinflowApiUrl = isProd
+    ? 'https://api.coinflow.cash/api/'
+    : 'https://api-sandbox.coinflow.cash/api/';
