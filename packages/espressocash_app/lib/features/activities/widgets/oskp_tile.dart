@@ -7,9 +7,9 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/activity_tile.dart';
+import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
 import '../models/activity.dart';
+import 'activity_tile.dart';
 
 class OSKPTile extends StatelessWidget {
   const OSKPTile({super.key, required this.activity});
@@ -29,6 +29,6 @@ class OSKPTile extends StatelessWidget {
           txFailure: always(CpActivityTileStatus.failure),
           orElse: always(CpActivityTileStatus.inProgress),
         ),
-        onTap: () => context.router.navigate(OSKPRoute(id: activity.id)),
+        onTap: () => context.router.navigate(OSKPScreen.route(id: activity.id)),
       );
 }

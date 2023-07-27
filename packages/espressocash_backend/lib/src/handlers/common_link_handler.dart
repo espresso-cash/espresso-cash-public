@@ -23,13 +23,10 @@ Future<Response> commonHandler(
   switch (platform) {
     case Platform.android:
       app = candidate.androidOptions == null ? espressoCashApp : candidate;
-      break;
     case Platform.ios:
       app = candidate.iOSOptions == null ? espressoCashApp : candidate;
-      break;
     case Platform.web:
       app = candidate;
-      break;
   }
 
   final template = Template(
@@ -52,10 +49,8 @@ Future<Response> commonHandler(
     case Platform.android:
     case Platform.web:
       shouldCopy = false;
-      break;
     case Platform.ios:
       shouldCopy = true;
-      break;
   }
 
   final data = <String, dynamic>{

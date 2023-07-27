@@ -9,13 +9,7 @@ class AccountsEvent with _$AccountsEvent {
   const factory AccountsEvent.created({
     required MyAccount account,
     required AccountSource source,
-    @Default(false) bool hasFinishedOnboarding,
   }) = Created;
-
-  const factory AccountsEvent.profileUpdated({
-    required String name,
-    File? photo,
-  }) = ProfileUpdated;
 
   const factory AccountsEvent.loggedOut() = LoggedOut;
 }

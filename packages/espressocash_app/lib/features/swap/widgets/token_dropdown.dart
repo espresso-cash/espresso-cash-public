@@ -101,7 +101,7 @@ class _TokenDropDownState extends State<_TokenDropDown>
   final LayerLink _layerLink = LayerLink();
   final ScrollController _scrollController =
       ScrollController(initialScrollOffset: 0);
-  late OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
   bool _isOpen = false;
   late AnimationController _animationController;
   late Animation<double> _expandAnimation;
@@ -124,7 +124,7 @@ class _TokenDropDownState extends State<_TokenDropDown>
   void dispose() {
     _scrollController.dispose();
     _animationController.dispose();
-    _overlayEntry.dispose();
+    _overlayEntry?.dispose();
     super.dispose();
   }
 
@@ -207,13 +207,12 @@ class _TokenDropDownState extends State<_TokenDropDown>
   Future<void> _toggleDropdown({bool close = false}) async {
     if (_isOpen || close) {
       await _animationController.reverse();
-      _overlayEntry.remove();
+      _overlayEntry?.remove();
       if (!mounted) return;
 
       setState(() => _isOpen = false);
     } else {
-      _overlayEntry = _createOverlayEntry();
-      Overlay.of(context).insert(_overlayEntry);
+      _overlayEntry = _createOverlayEntry().also(Overlay.of(context).insert);
       if (!mounted) return;
       setState(() => _isOpen = true);
 

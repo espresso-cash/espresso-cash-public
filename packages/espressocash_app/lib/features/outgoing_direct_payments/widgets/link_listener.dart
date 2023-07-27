@@ -13,9 +13,10 @@ import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
-import '../../../routes.gr.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../screens/odp_confirmation_screen.dart';
+import '../screens/odp_details_screen.dart';
 import 'extensions.dart';
 
 class ODPLinkListener extends StatefulWidget {
@@ -64,7 +65,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
     final confirmedFiatAmount = await context.router.push<Decimal>(
-      ODPConfirmationRoute(
+      ODPConfirmationScreen.route(
         initialAmount: formatted,
         recipient: request.recipient,
         label: request.label,
@@ -78,7 +79,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
     final confirmedCryptoAmount = amount
         .copyWithDecimal(confirmedFiatAmount)
-        .toTokenAmount(Token.usdc, ratesRepository: rates)
+        .toTokenAmount(Token.usdc)
         ?.decimal;
 
     if (confirmedCryptoAmount == null) return;
@@ -90,7 +91,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
     );
 
     if (!mounted) return;
-    await context.router.push(ODPDetailsRoute(id: id));
+    await context.router.push(ODPDetailsScreen.route(id: id));
   }
 
   @override

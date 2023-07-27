@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/user_preferences.dart';
+import '../../../core/currency.dart';
 import '../services/bloc.dart';
 import 'token_chart.dart';
 
@@ -50,11 +50,9 @@ class _PriceOverviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
-
     final isNegative = value.isNegative;
     final prefix = isNegative ? '-' : '';
-    final sign = fiatCurrency.sign;
+    final sign = defaultFiatCurrency.sign;
 
     return Text.rich(
       TextSpan(

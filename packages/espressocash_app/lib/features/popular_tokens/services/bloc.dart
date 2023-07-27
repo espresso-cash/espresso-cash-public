@@ -17,15 +17,12 @@ typedef _EventHandler = EventHandler<PopularTokenEvent, PopularTokenState>;
 @injectable
 class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   PopularTokenBloc({
-    @factoryParam required FiatCurrency userCurrency,
     required PopularTokenRepository repository,
   })  : _repository = repository,
-        _userCurrency = userCurrency,
         super(const PopularTokenState()) {
     on<PopularTokenEvent>(_eventHandler, transformer: restartable());
   }
 
-  final FiatCurrency _userCurrency;
   final PopularTokenRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
@@ -36,8 +33,9 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   Future<void> _onInit(Emitter<PopularTokenState> emit) async {
     emit(PopularTokenState(processingState: processing()));
 
-    final PopularTokenState newState =
-        await _repository.get(currency: _userCurrency.symbol).let(_toState);
+    final PopularTokenState newState = await _repository
+        .get(currency: defaultFiatCurrency.symbol)
+        .let(_toState);
 
     emit(newState);
   }
@@ -45,8 +43,9 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   Future<void> _onRefreshRequested(Emitter<PopularTokenState> emit) async {
     emit(PopularTokenState(processingState: processing()));
 
-    final PopularTokenState newState =
-        await _repository.refresh(currency: _userCurrency.symbol).let(_toState);
+    final PopularTokenState newState = await _repository
+        .refresh(currency: defaultFiatCurrency.symbol)
+        .let(_toState);
 
     emit(newState);
   }

@@ -6,9 +6,9 @@ import '../../di.dart';
 import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
 import 'data/iskp_repository.dart';
-import 'services/pending_iskp_listener.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
+import 'widgets/pending_iskp_listener.dart';
 
 class ISKPModule extends SingleChildStatelessWidget {
   const ISKPModule({super.key, super.child});

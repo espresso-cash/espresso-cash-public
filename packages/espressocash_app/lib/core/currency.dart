@@ -5,8 +5,12 @@ import 'tokens/token.dart';
 
 part 'currency.freezed.dart';
 
-@freezed
-class Currency with _$Currency {
+@Freezed(
+  when: FreezedWhenOptions.none,
+  map: FreezedMapOptions.none,
+  copyWith: false,
+)
+sealed class Currency with _$Currency {
   const factory Currency.fiat({
     required String name,
     required int decimals,
@@ -31,18 +35,23 @@ class Currency with _$Currency {
     decimals: 2,
   );
 
-  String get name => map(fiat: (c) => c.name, crypto: (c) => c.token.name);
+  String get name => switch (this) {
+        FiatCurrency(:final name) => name,
+        CryptoCurrency(:final token) => token.name,
+      };
 
-  int get decimals => map(
-        fiat: (c) => c.decimals,
-        crypto: (c) => c.token.decimals,
-      );
+  int get decimals => switch (this) {
+        FiatCurrency(:final decimals) => decimals,
+        CryptoCurrency(:final token) => token.decimals,
+      };
 
-  String get symbol => map(
-        fiat: (c) => c.symbol,
-        crypto: (c) => c.token.symbol,
-      );
+  String get symbol => switch (this) {
+        FiatCurrency(:final symbol) => symbol,
+        CryptoCurrency(:final token) => token.symbol,
+      };
 
   int decimalToInt(Decimal value) =>
       value.shift(decimals).round().toBigInt().toInt();
 }
+
+const defaultFiatCurrency = Currency.usd;

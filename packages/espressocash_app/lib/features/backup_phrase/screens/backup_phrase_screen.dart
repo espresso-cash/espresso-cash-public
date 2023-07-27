@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -8,12 +7,17 @@ import '../../../../../ui/back_button.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../../ui/theme.dart';
-import '../data/mnemonic_getter.dart';
-import 'backup_phrase_flow_screen.dart';
+import '../../../di.dart';
+import '../../../routes.gr.dart';
+import '../../accounts/data/account_repository.dart';
 
 @RoutePage()
 class BackupPhraseScreen extends StatefulWidget {
-  const BackupPhraseScreen({super.key});
+  const BackupPhraseScreen({super.key, required this.onConfirmed});
+
+  final ValueSetter<String> onConfirmed;
+
+  static const route = BackupPhraseRoute.new;
 
   @override
   State<BackupPhraseScreen> createState() => _BackupPhraseScreenState();
@@ -25,15 +29,11 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<MnemonicGetter>().mnemonic.then((String? phrase) {
+    sl<AccountRepository>().loadMnemonic().then((String? phrase) {
       if (phrase != null) {
         setState(() => _phrase = phrase);
       }
     });
-  }
-
-  void _goToConfirmPage() {
-    context.read<BackupPhraseRouter>().onGoToConfirmationScreen(_phrase);
   }
 
   @override
@@ -42,7 +42,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: context.l10n.next,
-              onPressed: _goToConfirmPage,
+              onPressed: () => widget.onConfirmed(_phrase),
             ),
             children: [
               CpAppBar(

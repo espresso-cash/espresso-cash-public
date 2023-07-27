@@ -14,8 +14,10 @@ import '../../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
+import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../widgets/learning_section.dart';
+import '../widgets/profile_builder.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -23,11 +25,11 @@ import '../widgets/security_section.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  static const route = ProfileRoute.new;
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<MyAccount>();
-    final name = state.firstName;
-    final photoPath = state.photoPath;
     final address = state.publicKey;
 
     return Scaffold(
@@ -56,12 +58,14 @@ class ProfileScreen extends StatelessWidget {
                         child: Stack(
                           children: [
                             Center(
-                              child: CpUserAvatar(
-                                radius: _imageSize / 2,
-                                image: photoPath?.let(
-                                  (it) => FileImage(File(it)),
+                              child: ProfileBuilder(
+                                builder: (context, profile) => CpUserAvatar(
+                                  radius: _imageSize / 2,
+                                  image: profile.photoPath?.let(
+                                    (it) => FileImage(File(it)),
+                                  ),
+                                  userName: profile.firstName.orDefault,
                                 ),
-                                userName: name,
                               ),
                             ),
                             Positioned(
@@ -77,13 +81,20 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Text(
-                          name,
-                          style: Theme.of(context).textTheme.displaySmall,
+                        child: ProfileBuilder(
+                          builder: (context, profile) => Text(
+                            profile.firstName.orDefault,
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 24),
-                      _QrCodeWidget(address: address, name: name),
+                      ProfileBuilder(
+                        builder: (context, profile) => _QrCodeWidget(
+                          address: address,
+                          name: profile.firstName.orDefault,
+                        ),
+                      ),
                       const SizedBox(height: 12),
                     ],
                   ),
@@ -108,6 +119,10 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+extension on String {
+  String get orDefault => ifEmpty(() => 'My Wallet');
 }
 
 const double _buttonSpacing = 22;

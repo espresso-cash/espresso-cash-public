@@ -37,10 +37,6 @@ dart_code_metrics:
           deny: [".*/(widgets|screens|ui|l10n)/.*"]
           message: "Do not import widgets|screens|ui|l10n from services"
 
-        - paths: [".*/widgets/.+\\.dart"]
-          deny: [".*/screens/.*"]
-          message: "Do not import screens from widgets"
-
         - paths: [".*/ui/.+\\.dart"]
           deny: [".*/features/.*"]
           message: "Do not import features from ui"

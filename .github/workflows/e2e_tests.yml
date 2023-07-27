@@ -9,7 +9,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.10.2"
+  FLUTTER_VERSION: "3.10.5"
 
 jobs:
   e2e:
@@ -27,7 +27,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - id: "auth"
         name: "Authenticate to Google Cloud"

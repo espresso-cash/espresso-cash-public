@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
@@ -27,7 +28,7 @@ class OffRampBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                context.l10n.cashOut.toUpperCase(),
+                context.l10n.ramp_btnCashOut.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 17,
@@ -48,7 +49,7 @@ class OffRampBottomSheet extends StatelessWidget {
               CpButton(
                 text: context.l10n.ok,
                 minWidth: 250,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.router.pop(),
               ),
             ],
           ),
