@@ -8,17 +8,16 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/timeline.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../routes.gr.dart';
+import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
+import '../../../ui/text_button.dart';
 import '../../transactions/models/tx_sender.dart';
 import '../../transactions/services/create_transaction_link.dart';
-import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../../transactions/widgets/transfer_success.dart';
 import '../data/repository.dart';
 import '../models/off_ramp_payment.dart';
-import '../widgets/extensions.dart';
 
 @RoutePage()
 class OffRampDetailsScreen extends StatefulWidget {
@@ -64,54 +63,22 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             );
           }
 
-          // return payment.status.maybeMap(
-          //   success: (status) => TransferSuccess(
-          //     onBack: () => context.router.pop(),
-          //     onOkPressed: () => context.router.pop(),
-          //     statusContent: 'Cash out',
-          //     content: CpTimeline(
-          //       animated: false,
-          //       status: CpTimelineStatus.success,
-          //       active: 1,
-          //       items: [
-          //         CpTimelineItem(title: context.l10n.transferInitiated),
-          //         CpTimelineItem(
-          //           title: 'Transaction Approved',
-          //           subtitle: context.formatDate(payment.created),
-          //         ),
-          //       ],
-          //     ),
-          //     onMoreDetailsPressed: () {
-          //       final link = status.txId
-          //           .let(createTransactionLink)
-          //           .let(Uri.parse)
-          //           .toString();
-          //       context.openLink(link);
-          //     },
-          //   ),
-          //   txFailure: (it) => TransferError(
-          //     onBack: () => context.router.pop(),
-          //     onRetry: () {
-          //       context.retryORP(
-          //         payment: payment,
-          //         tx: it.tx,
-          //       );
-          //     },
-          //     reason: it.reason,
-          //   ),
-          //   orElse: () => TransferProgress(
-          //     onBack: () => context.router.pop(),
-          //   ),
-          // );
-
           final transferInitiated =
-              CpTimelineItem(title: 'Withdrawal Initiated');
+              CpTimelineItem(title: context.l10n.withdrawalInitiated);
           final transferSent = CpTimelineItem(
-            title: 'Withdrawal Sent',
+            title: context.l10n.withdrawalSent,
             subtitle: context.formatDate(payment.created),
           );
           final withdrawSuccess = CpTimelineItem(
-            title: 'Money Received in your account',
+            title: context.l10n.withdrawalReceived,
+            subtitle: payment.status.mapOrNull(
+              success: always(context.l10n.withdrawalTimelineNotice),
+              withdrawn: (s) {
+                final timestamp = s.timestamp;
+
+                return timestamp != null ? context.formatDate(timestamp) : null;
+              },
+            ),
           );
 
           final items = [
@@ -119,6 +86,53 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             transferSent,
             withdrawSuccess,
           ];
+
+          final List<Widget> actions = payment.status.maybeMap(
+            success: (s) => [
+              CpButton(
+                size: CpButtonSize.big,
+                width: double.infinity,
+                text: context.l10n.ok,
+                onPressed: () => context.router.pop(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: CpTextButton(
+                  variant: CpTextButtonVariant.light,
+                  text: context.l10n.moreDetails,
+                  onPressed: () {
+                    final link = s.txId
+                        .let(createTransactionLink)
+                        .let(Uri.parse)
+                        .toString();
+                    context.openLink(link);
+                  },
+                ),
+              ),
+            ],
+            withdrawn: (s) => [
+              Padding(
+                padding: const EdgeInsets.only(top: 24),
+                child: CpTextButton(
+                  variant: CpTextButtonVariant.light,
+                  text: context.l10n.moreDetails,
+                  onPressed: () {
+                    final link = s.txId
+                        .let(createTransactionLink)
+                        .let(Uri.parse)
+                        .toString();
+                    context.openLink(link);
+                  },
+                ),
+              ),
+            ],
+            orElse: () => const [],
+          );
+
+          final String? statusTitle = payment.status.mapOrNull(
+            success: always(context.l10n.withdrawalSentTitle),
+            withdrawn: always(context.l10n.transferSuccessTitle),
+          );
 
           final CpStatusType statusType = payment.status.map(
             txCreated: always(CpStatusType.info),
@@ -131,8 +145,8 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
           final String statusContent = payment.status.map(
             txCreated: always(context.l10n.splitKeyTransactionLoading),
             txSent: always(context.l10n.splitKeyTransactionLoading),
-            success: always('SUCCESS'), //TODO
-            withdrawn: always('WITHDRAWN'), //TODO
+            success: always(context.l10n.withdrawalSuccessMessage),
+            withdrawn: always(context.l10n.withdrawalReceivedMessage),
             txFailure: (it) => [
               context.l10n.splitKeyErrorMessage2,
               if (it.reason == TxFailureReason.insufficientFunds)
@@ -153,17 +167,18 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             txFailure: always(0),
             txCreated: always(0),
             txSent: always(1),
-            success: always(2),
-            withdrawn: always(3),
+            success: always(1),
+            withdrawn: always(2),
           );
 
-          final animated = timelineStatus == CpTimelineStatus.inProgress;
+          final animated = timelineStatus == CpTimelineStatus.inProgress &&
+              payment.status.maybeMap(orElse: T, success: F);
 
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),
-            title: 'WITHDRAWAL PROGRESS',
+            title: context.l10n.withdrawalTitle,
             statusType: statusType,
-            // statusTitle: statusTitle?.let(Text.new),
+            statusTitle: statusTitle?.let(Text.new),
             statusContent: Text(statusContent),
             content: CpContentPadding(
               child: Column(
@@ -176,7 +191,8 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
                     animated: animated,
                   ),
                   const Spacer(flex: 4),
-                  // ...actions,
+                  ...actions,
+                  const SizedBox(height: 40),
                 ],
               ),
             ),

@@ -62,23 +62,24 @@ class CoinflowWithdrawWatcher {
     required String walletId,
     required String txId,
   }) {
-    Duration backoff = const Duration(seconds: 1);
+    Duration backoff = const Duration(seconds: 30);
 
     Stream<WithdrawResponseDataDto?> streamSignatures(void _) =>
         _client.getWithdrawalStatus(txId: txId, walletId: walletId).asStream();
 
     Stream<void> retryWhen(void _, void __) async* {
       await Future<void>.delayed(backoff);
-      if (backoff < const Duration(seconds: 30)) backoff *= 2;
+      if (backoff < const Duration(seconds: 120)) backoff *= 2;
 
       yield null;
     }
 
     return RetryWhenStream(
-      () => Stream<void>.periodic(const Duration(seconds: 10))
+      () => Stream<void>.periodic(const Duration(seconds: 60))
           .startWith(null)
           .flatMap(streamSignatures)
-          .whereNotNull(),
+          .whereNotNull()
+          .where((e) => e.status != 'pending'),
       retryWhen,
     );
   }

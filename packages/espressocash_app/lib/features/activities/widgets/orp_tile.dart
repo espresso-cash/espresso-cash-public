@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/l10n.dart';
+import '../../../l10n/l10n.dart';
 import '../../ramp/screens/off_ramp_details_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -16,11 +16,9 @@ class ORPTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
-        title: context.l10n.sentDirectly,
+        title: context.l10n.activities_lblCashOutOngoing,
         timestamp: context.formatDate(activity.created),
         icon: Assets.icons.paymentIcon.svg(),
-        // outgoingAmount: //TODO amount
-        //     activity.data.amount.format(DeviceLocale.localeOf(context)),
         status: activity.data.status.map(
           txCreated: always(CpActivityTileStatus.inProgress),
           txSent: always(CpActivityTileStatus.inProgress),
