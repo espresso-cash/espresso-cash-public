@@ -27,7 +27,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - id: "auth"
         name: "Authenticate to Google Cloud"

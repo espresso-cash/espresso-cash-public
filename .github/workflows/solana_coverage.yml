@@ -32,7 +32,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
@@ -42,8 +41,7 @@ jobs:
         with:
           solana-version: stable
           cluster: mainnet
-          args:
-            --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
+          args: --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get

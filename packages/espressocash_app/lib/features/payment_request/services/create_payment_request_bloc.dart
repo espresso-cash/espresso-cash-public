@@ -92,10 +92,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       state.fiatAmount.copyWith(value: 0);
 
   CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) =>
-      fiatAmount.toTokenAmount(
-        state.token,
-        ratesRepository: _conversionRatesRepository,
-      );
+      fiatAmount.toTokenAmount(state.token);
 
   Future<void> _onLabelUpdated(
     LabelUpdated event,

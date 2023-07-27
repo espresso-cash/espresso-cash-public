@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -9,7 +8,6 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
@@ -40,10 +38,9 @@ class _State extends State<WalletFlowScreen> {
   );
 
   CryptoAmount get _cryptoAmount =>
-      _fiatAmount.toTokenAmount(
-        _cryptoCurrency.token,
-        ratesRepository: context.read<ConversionRatesRepository>(),
-      ) ??
+      _fiatAmount
+          .toTokenAmount(_cryptoCurrency.token)
+          ?.round(Currency.usd.decimals) ??
       const CryptoAmount(value: 0, cryptoCurrency: _cryptoCurrency);
 
   String _errorMessage = '';

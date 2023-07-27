@@ -71,7 +71,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
@@ -119,7 +118,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
@@ -189,7 +187,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
