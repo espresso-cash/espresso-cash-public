@@ -6,7 +6,9 @@ import '../../../../core/presentation/utils.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/timeline.dart';
+import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
@@ -56,6 +58,7 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
         stream: _payment,
         builder: (context, snapshot) {
           final payment = snapshot.data;
+          final locale = DeviceLocale.localeOf(context);
 
           if (payment == null) {
             return TransferProgress(
@@ -63,21 +66,19 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             );
           }
 
-          final transferInitiated =
-              CpTimelineItem(title: context.l10n.withdrawalInitiated);
+          final transferInitiated = CpTimelineItem(
+            title: context.l10n.withdrawalInitiated,
+            subtitle: context.formatDate(payment.created),
+            trailing: payment.amount.format(locale),
+          );
           final transferSent = CpTimelineItem(
             title: context.l10n.withdrawalSent,
-            subtitle: context.formatDate(payment.created),
           );
           final withdrawSuccess = CpTimelineItem(
             title: context.l10n.withdrawalReceived,
             subtitle: payment.status.mapOrNull(
               success: always(context.l10n.withdrawalTimelineNotice),
-              withdrawn: (s) {
-                final timestamp = s.timestamp;
-
-                return timestamp != null ? context.formatDate(timestamp) : null;
-              },
+              withdrawn: (s) => s.timestamp?.let(context.formatDate),
             ),
           );
 

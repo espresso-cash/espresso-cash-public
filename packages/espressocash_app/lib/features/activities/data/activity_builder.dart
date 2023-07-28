@@ -39,9 +39,9 @@ extension SwapRowToActivityExt on SwapRow {
 }
 
 extension ORPRowToActivityExt on ORPRow {
-  Activity toActivity() => Activity.offRampPayment(
+  Activity toActivity(TokenList tokens) => Activity.offRampPayment(
         id: id,
         created: created,
-        data: toModel(),
+        data: toModel(tokens),
       );
 }

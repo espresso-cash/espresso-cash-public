@@ -10,7 +10,7 @@ import '../../../ui/button.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/models/country.dart';
 import '../../profile/screens/country_picker_screen.dart';
-import '../screens/coinflow/offramp_webview_screen.dart';
+import '../screens/coinflow/coinflow_withdraw_screen.dart';
 import 'off_ramp_bottom_sheet.dart';
 import 'on_ramp.dart';
 

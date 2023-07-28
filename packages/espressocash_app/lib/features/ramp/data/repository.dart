@@ -6,6 +6,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
 import '../../transactions/models/tx_sender.dart';
@@ -13,20 +16,21 @@ import '../models/off_ramp_payment.dart';
 
 @injectable
 class ORPRepository {
-  ORPRepository(this._db);
+  ORPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
+  final TokenList _tokens;
 
   Future<OffRampPayment?> load(String id) {
     final query = _db.select(_db.oRPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel());
+    return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
   }
 
   Stream<OffRampPayment> watch(String id) {
     final query = _db.select(_db.oRPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingle().map((row) => row.toModel());
+    return query.watchSingle().map((row) => row.toModel(_tokens));
   }
 
   Future<void> save(OffRampPayment payment) async {
@@ -67,12 +71,12 @@ class ORPRepository {
 
     return query
         .watch()
-        .map((rows) => rows.map((row) => row.toModel()))
+        .map((rows) => rows.map((row) => row.toModel(_tokens)))
         .map((event) => event.toIList());
   }
 }
 
-class ORPRows extends Table with EntityMixin {
+class ORPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get provider => text()();
   IntColumn get status => intEnum<ORPStatusDto>()();
   DateTimeColumn get resolvedAt => dateTime().nullable()();
@@ -93,11 +97,15 @@ enum ORPStatusDto {
 }
 
 extension ORPRowExt on ORPRow {
-  OffRampPayment toModel() => OffRampPayment.signTransaction(
+  OffRampPayment toModel(TokenList tokens) => OffRampPayment.signTransaction(
         id: id,
         provider: provider,
         created: created,
         status: status.toModel(this),
+        amount: CryptoAmount(
+          value: amount,
+          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+        ),
       );
 }
 
@@ -140,6 +148,8 @@ extension on OffRampPayment {
         txFailureReason: status.toTxFailureReason(),
         slot: status.toSlot()?.toString(),
         resolvedAt: status.toResolvedAt(),
+        amount: amount.value,
+        token: amount.cryptoCurrency.token.address,
       );
 }
 

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../ramp/screens/off_ramp_details_screen.dart';
 import '../models/activity.dart';
@@ -19,6 +21,8 @@ class ORPTile extends StatelessWidget {
         title: context.l10n.activities_lblCashOutOngoing,
         timestamp: context.formatDate(activity.created),
         icon: Assets.icons.paymentIcon.svg(),
+        outgoingAmount:
+            activity.data.amount.format(DeviceLocale.localeOf(context)),
         status: activity.data.status.map(
           txCreated: always(CpActivityTileStatus.inProgress),
           txSent: always(CpActivityTileStatus.inProgress),

@@ -79,7 +79,7 @@ class TransactionRepository {
 
     final orp = _db.oRPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(),
+      builder: (pr) => pr.toActivity(_tokens),
       ignoreWhen: (row) => row.status != ORPStatusDto.withdrawn,
     );
 

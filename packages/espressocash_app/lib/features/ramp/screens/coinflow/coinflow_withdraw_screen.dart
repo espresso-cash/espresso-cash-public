@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +7,8 @@ import 'package:solana/encoder.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../config.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../accounts/models/account.dart';
@@ -44,15 +47,36 @@ class _State extends State<CoinflowOffRampScreen> {
   }
 
   Future<void> onMessageReceived(JavaScriptMessage message) async {
-    final confirmed = await context.router
-        .push<bool?>(OffRampConfirmationScreen.route(provider: 'Coinflow'));
+    final tx = message.message.let(SignedTx.decode);
+
+    final data = tx.decompileMessage().instructions.first.data;
+
+    final reader = BinaryReader(
+      Uint8List.fromList(data.toList()).buffer.asByteData(),
+    )..offset = 1;
+
+    final value = reader.readU64().toInt();
+
+    final amount = CryptoAmount(
+      value: value,
+      cryptoCurrency: Currency.usdc,
+    );
+
+    final confirmed = await context.router.push<bool?>(
+      OffRampConfirmationScreen.route(
+        provider: 'Coinflow',
+        amount: amount,
+      ),
+    );
 
     if (confirmed != true) return;
 
-    final tx = message.message.let(SignedTx.decode);
-
     if (!mounted) return;
-    final id = await context.createORP(tx: tx, provider: 'coinflow');
+    final id = await context.createORP(
+      tx: tx,
+      provider: 'coinflow',
+      amount: amount,
+    );
 
     if (!mounted) return;
     await context.router.push(

@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../core/amount.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/repository.dart';
@@ -17,6 +18,7 @@ class ORPService {
     required ECWallet account,
     required SignedTx tx,
     required String provider,
+    required CryptoAmount amount,
   }) async {
     final id = const Uuid().v4();
 
@@ -29,6 +31,7 @@ class ORPService {
       created: DateTime.now(),
       status: status,
       provider: provider,
+      amount: amount,
     );
 
     await _repository.save(payment);

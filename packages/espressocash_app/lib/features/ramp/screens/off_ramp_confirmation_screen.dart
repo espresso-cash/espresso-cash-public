@@ -5,6 +5,9 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/bordered_row.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
+import '../../../core/amount.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 
@@ -13,15 +16,23 @@ class OffRampConfirmationScreen extends StatelessWidget {
   const OffRampConfirmationScreen({
     super.key,
     required this.provider,
+    required this.amount,
   });
 
   static const route = OffRampConfirmationRoute.new;
 
   final String provider;
+  final CryptoAmount amount;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+
+    final locale = DeviceLocale.localeOf(context);
+    final formattedAmount = amount.format(
+      locale,
+      maxDecimals: amount.currency.decimals,
+    );
 
     return CpTheme.dark(
       child: Scaffold(
@@ -34,6 +45,12 @@ class OffRampConfirmationScreen extends StatelessWidget {
               title: Text(context.l10n.ramp_providerTitle),
               content: BorderedRowChip(
                 child: Text(provider, style: _textStyle),
+              ),
+            ),
+            CpBorderedRow(
+              title: Text(context.l10n.amount),
+              content: BorderedRowChip(
+                child: Text(formattedAmount, style: _textStyle),
               ),
             ),
             const Spacer(),

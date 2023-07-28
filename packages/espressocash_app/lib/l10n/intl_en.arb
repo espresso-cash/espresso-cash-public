@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "amount": "Amount",
+  "@amount": {},
   "activities_lblBoughtToken": "Bought {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {

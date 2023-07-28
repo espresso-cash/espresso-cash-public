@@ -47,7 +47,7 @@ class PendingActivitiesRepository {
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final orpStream =
-        orp.watch().map((rows) => rows.map((r) => r.toActivity()));
+        orp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
 
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
       [

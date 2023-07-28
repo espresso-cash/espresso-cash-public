@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
+import '../../../core/amount.dart';
 import '../../transactions/models/tx_sender.dart';
 
 part 'off_ramp_payment.freezed.dart';
@@ -9,6 +10,7 @@ class OffRampPayment with _$OffRampPayment {
   const factory OffRampPayment.signTransaction({
     required String id,
     required String provider,
+    required CryptoAmount amount,
     required DateTime created,
     required ORPStatus status,
   }) = ORPSignTransaction;
