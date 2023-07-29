@@ -22,10 +22,13 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 import '../widgets/extensions.dart';
+import 'share_links_screen.dart';
 
 @RoutePage()
 class OSKPScreen extends StatefulWidget {
   const OSKPScreen({super.key, required this.id});
+
+  static const route = OSKPRoute.new;
 
   final String id;
 
@@ -50,8 +53,9 @@ class _OSKPScreenState extends State<OSKPScreen> {
         .listen((payment) {
       final status = payment.status as OSKPStatusLinksReady;
 
-      context.router
-          .popAndPush(ShareLinksRoute(amount: payment.amount, status: status));
+      context.router.popAndPush(
+        ShareLinksScreen.route(amount: payment.amount, status: status),
+      );
       _shareLinksSubscription?.cancel();
     });
   }
@@ -75,8 +79,10 @@ class _OSKPScreenState extends State<OSKPScreen> {
 
           void onCancel() => showConfirmationDialog(
                 context,
-                title: context.l10n.cancelTransferConfirmationTitle,
-                message: context.l10n.cancelTransferConfirmationSubtitle,
+                title: context
+                    .l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle,
+                message: context.l10n
+                    .outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
                 onConfirm: () {
                   context.cancelOSKP(payment: payment);
                 },
@@ -88,7 +94,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
               bottom: MediaQuery.of(context).padding.bottom + 16,
             ),
             child: CpTextButton(
-              text: context.l10n.cancelTransfer,
+              text: context.l10n.outgoingSplitKeyPayments_btnCancel,
               variant: CpTextButtonVariant.light,
               onPressed: onCancel,
             ),
@@ -108,7 +114,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
                 width: double.infinity,
                 text: context.l10n.resendLink,
                 onPressed: () => context.router.push(
-                  ShareLinksRoute(
+                  ShareLinksScreen.route(
                     amount: payment.amount,
                     status: s,
                   ),
@@ -170,7 +176,7 @@ class _OSKPScreenState extends State<OSKPScreen> {
             cancelTxFailure: (it) => [
               context.l10n.splitKeyCancelErrorMessage,
               if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.cancelErrorMessageInsufficientFunds,
+                context.l10n.outgoingSplitKeyPayments_lblMoneyWithdrawn,
             ].join(' '),
             orElse: always(
               context.l10n.splitKeyProgressOngoing(

@@ -18,7 +18,7 @@ class TokenDetailsWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              context.l10n.aboutTokenLabel(data.name),
+              context.l10n.tokenDetails_lblAboutToken(data.name),
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 30,

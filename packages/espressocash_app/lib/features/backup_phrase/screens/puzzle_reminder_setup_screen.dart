@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -13,11 +14,15 @@ import '../widgets/puzzle_screen.dart';
 @RoutePage(name: 'PuzzleReminderRoute')
 class PuzzleReminderRouteScreen extends AutoRouter {
   const PuzzleReminderRouteScreen({super.key});
+
+  static const route = PuzzleReminderRoute.new;
 }
 
 @RoutePage()
 class PuzzleReminderSetupScreen extends StatefulWidget {
   const PuzzleReminderSetupScreen({super.key});
+
+  static const route = PuzzleReminderSetupRoute.new;
 
   @override
   State<PuzzleReminderSetupScreen> createState() =>

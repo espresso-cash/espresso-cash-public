@@ -31,24 +31,24 @@ extension FormatAmountExt on Amount {
     bool roundInteger = false,
     int? maxDecimals,
   }) =>
-      currency.map(
-        fiat: (FiatCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : currency.sign,
-          prefixedSymbol: true,
-          roundInteger: roundInteger,
-        ),
-        crypto: (CryptoCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : currency.symbol,
-          prefixedSymbol: false,
-          roundInteger: roundInteger,
-        ),
-      );
+      switch (currency) {
+        FiatCurrency(:final sign) => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : sign,
+            prefixedSymbol: true,
+            roundInteger: roundInteger,
+          ),
+        CryptoCurrency() => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : currency.symbol,
+            prefixedSymbol: false,
+            roundInteger: roundInteger,
+          ),
+      };
 }
 
 String formatAmount({

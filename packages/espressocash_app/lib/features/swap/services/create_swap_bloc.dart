@@ -14,6 +14,7 @@ import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
+import '../../balances/data/balances_repository.dart';
 import '../data/route_repository.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
@@ -40,16 +41,19 @@ class SwapSetup with _$SwapSetup {
 class CreateSwapBloc extends Bloc<_Event, _State> {
   CreateSwapBloc({
     @factoryParam required SwapSetup setup,
-    @factoryParam required Map<Token, Amount> balances,
     required RouteRepository routeRepository,
     required AnalyticsManager analyticsManager,
+    required BalancesRepository balancesRepository,
   })  : _routeRepository = routeRepository,
         _analyticsManager = analyticsManager,
         _userAccount = setup.userAccount,
-        _balances = balances.lock.add(
-          Token.wrappedSol,
-          balances[Token.sol] ?? Token.wrappedSol.toZeroAmount(),
-        ),
+        _balances = balancesRepository.readAll().add(
+              Token.wrappedSol,
+              balancesRepository.read(Token.sol).copyWith(
+                    cryptoCurrency:
+                        const CryptoCurrency(token: Token.wrappedSol),
+                  ),
+            ),
         super(
           CreateSwapState(
             editingMode: setup.initialEditingMode,

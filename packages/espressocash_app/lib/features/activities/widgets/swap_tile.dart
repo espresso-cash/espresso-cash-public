@@ -7,10 +7,10 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/activity_tile.dart';
 import '../../../../ui/token_icon.dart';
+import '../../swap/screens/process_swap_screen.dart';
 import '../models/activity.dart';
+import 'activity_tile.dart';
 
 class SwapTile extends StatelessWidget {
   const SwapTile({super.key, required this.activity});
@@ -34,7 +34,7 @@ class SwapTile extends StatelessWidget {
 
     return CpActivityTile(
       title: isBuyOperation
-          ? context.l10n.boughtToken(targetToken.name)
+          ? context.l10n.activities_lblBoughtToken(targetToken.name)
           : context.l10n.soldToken(targetToken.name),
       incomingAmount: inAmount,
       outgoingAmount: outAmount,
@@ -49,7 +49,8 @@ class SwapTile extends StatelessWidget {
         success: always(CpActivityTileStatus.success),
         txFailure: always(CpActivityTileStatus.failure),
       ),
-      onTap: () => context.router.navigate(ProcessSwapRoute(id: activity.id)),
+      onTap: () =>
+          context.router.navigate(ProcessSwapScreen.route(id: activity.id)),
     );
   }
 }

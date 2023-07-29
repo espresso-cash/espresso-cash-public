@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.10.2"
-  DART_VERSION: "3.0.2"
+  FLUTTER_VERSION: "3.10.5"
+  DART_VERSION: "3.0.5"
 
 jobs:
   formatting:
@@ -71,7 +71,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
@@ -119,7 +118,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils
@@ -129,8 +127,7 @@ jobs:
         with:
           solana-version: ${{ matrix.solanaVersion }}
           cluster: mainnet
-          args:
-            --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
+          args: --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -190,7 +187,6 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
 
       - name: Activate utils
         run: make activate_utils

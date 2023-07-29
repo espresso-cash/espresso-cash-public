@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../../core/tokens/token_list.dart';
-import '../../../../core/user_preferences.dart';
 import '../../../../di.dart';
 import '../../../../features/conversion_rates/data/repository.dart';
 import '../../../../features/investments/widgets/portfolio_widget.dart';
@@ -14,7 +13,6 @@ final appPortfolioWidget = Story(
   name: 'App/Investments/PortfolioWidget',
   builder: (context) => MultiProvider(
     providers: [
-      Provider(create: (_) => UserPreferences()),
       ChangeNotifierProvider.value(value: sl<ConversionRatesRepository>())
     ],
     child: AppWrapper(

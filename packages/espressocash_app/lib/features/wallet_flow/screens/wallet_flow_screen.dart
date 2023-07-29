@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -9,9 +8,11 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
+import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
 import '../../outgoing_split_key_payments/widgets/extensions.dart';
+import '../../payment_request/screens/link_request_flow_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import 'wallet_main_screen.dart';
 
@@ -21,6 +22,8 @@ final _minimumAmount = Decimal.parse('0.2');
 @RoutePage()
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({super.key});
+
+  static const route = WalletFlowRoute.new;
 
   @override
   State<WalletFlowScreen> createState() => _State();
@@ -35,10 +38,9 @@ class _State extends State<WalletFlowScreen> {
   );
 
   CryptoAmount get _cryptoAmount =>
-      _fiatAmount.toTokenAmount(
-        _cryptoCurrency.token,
-        ratesRepository: context.read<ConversionRatesRepository>(),
-      ) ??
+      _fiatAmount
+          .toTokenAmount(_cryptoCurrency.token)
+          ?.round(Currency.usd.decimals) ??
       const CryptoAmount(value: 0, cryptoCurrency: _cryptoCurrency);
 
   String _errorMessage = '';
@@ -72,7 +74,8 @@ class _State extends State<WalletFlowScreen> {
       return _handleSmallAmount(WalletOperation.request);
     }
 
-    context.navigateTo(LinkRequestFlowRoute(initialAmount: _cryptoAmount));
+    context
+        .navigateTo(LinkRequestFlowScreen.route(initialAmount: _cryptoAmount));
     setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
@@ -86,7 +89,7 @@ class _State extends State<WalletFlowScreen> {
     final cryptoAmount = _cryptoAmount;
 
     context.router.push(
-      OSKPConfirmationRoute(
+      OSKPConfirmationScreen.route(
         tokenAmount: cryptoAmount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
@@ -97,7 +100,7 @@ class _State extends State<WalletFlowScreen> {
           final id = await context.createOSKP(amount: cryptoAmount);
           if (!mounted) return;
 
-          await context.router.replace(OSKPRoute(id: id));
+          await context.router.replace(OSKPScreen.route(id: id));
           if (!mounted) return;
 
           setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
@@ -112,10 +115,8 @@ class _State extends State<WalletFlowScreen> {
       switch (operation) {
         case WalletOperation.request:
           _errorMessage = context.l10n.minimumAmountToRequest(r'$0.20');
-          break;
         case WalletOperation.pay:
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
-          break;
       }
     });
   }

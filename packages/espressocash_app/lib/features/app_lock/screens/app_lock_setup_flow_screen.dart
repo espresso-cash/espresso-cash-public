@@ -2,62 +2,57 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/router_wrapper.dart';
 import '../../../routes.gr.dart';
 import '../services/app_lock_bloc.dart';
+import 'app_lock_disable_screen.dart';
+import 'app_lock_enable_screen.dart';
+
+enum AppLockSetupFlow { enable, disable }
 
 @RoutePage()
 class AppLockSetupFlowScreen extends StatefulWidget {
-  const AppLockSetupFlowScreen({super.key});
+  const AppLockSetupFlowScreen({super.key, required this.flow});
+
+  final AppLockSetupFlow flow;
+
+  static const route = AppLockSetupFlowRoute.new;
 
   @override
   State<AppLockSetupFlowScreen> createState() => _AppLockSetupFlowScreenState();
 }
 
 class _AppLockSetupFlowScreenState extends State<AppLockSetupFlowScreen>
-    implements AppLockSetupRouter {
-  @override
-  void onEnableFinished(String pin) {
+    with RouterWrapper {
+  void _handleEnableFinished(String pin) {
     context.read<AppLockBloc>().add(AppLockEvent.enable(pin));
     context.router.pop();
   }
 
-  @override
-  void onEnable() {
-    context.router.push(const AppLockEnableRoute());
-  }
-
-  @override
-  Future<void> onDisable() async {
-    await context.router.push<bool>(const AppLockDisableRoute());
-  }
-
-  @override
-  void onDisableFinished() {
+  void _handleDisabledFinished() {
     context.router.pop();
   }
 
-  @override
-  void closeFlow() {
+  void _handleCanceled() {
     Navigator.of(context).pop();
   }
 
-  @override
-  Widget build(BuildContext context) => Provider<AppLockSetupRouter>.value(
-        value: this,
-        child: const AutoRouter(),
+  PageRouteInfo get _enableRoute => AppLockEnableScreen.route(
+        onCanceled: _handleCanceled,
+        onFinished: _handleEnableFinished,
       );
-}
 
-abstract class AppLockSetupRouter {
-  const AppLockSetupRouter();
+  PageRouteInfo get _disableRoute => AppLockDisableScreen.route(
+        onCanceled: _handleCanceled,
+        onFinished: _handleDisabledFinished,
+      );
 
-  void onEnableFinished(String pin);
+  @override
+  PageRouteInfo get initialRoute => switch (widget.flow) {
+        AppLockSetupFlow.enable => _enableRoute,
+        AppLockSetupFlow.disable => _disableRoute,
+      };
 
-  void onEnable();
-
-  void onDisable();
-
-  void onDisableFinished();
-
-  void closeFlow();
+  @override
+  Widget build(BuildContext context) => AutoRouter(key: routerKey);
 }

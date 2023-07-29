@@ -9,4 +9,4 @@ environment:
 
 dev_dependencies:
   dart_code_metrics: ^5.7.3
-  mews_pedantic: ^0.15.0
+  mews_pedantic: ^0.16.0

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
+import '../screens/help_screen.dart';
 import 'menu_button.dart';
 import 'profile_section.dart';
 
@@ -19,7 +19,7 @@ class LearningSection extends StatelessWidget {
             title: context.l10n.learnAboutCrypto,
             description: context.l10n.learnAboutCryptoDescription,
             icon: Assets.icons.info,
-            onTap: () => context.router.push(const HelpRoute()),
+            onTap: () => context.router.push(HelpScreen.route()),
           ),
         ],
       );

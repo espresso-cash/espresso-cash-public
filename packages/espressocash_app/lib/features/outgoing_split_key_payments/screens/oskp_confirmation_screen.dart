@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/fee_label.dart';
 import '../../../core/presentation/format_amount.dart';
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -15,7 +16,7 @@ import '../../../ui/chip.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/widgets/context_ext.dart';
+import '../../conversion_rates/services/convert_to_usd.dart';
 
 @RoutePage()
 class OSKPConfirmationScreen extends StatelessWidget {
@@ -25,6 +26,8 @@ class OSKPConfirmationScreen extends StatelessWidget {
     required this.fee,
     required this.onSubmit,
   });
+
+  static const route = OSKPConfirmationRoute.new;
 
   final Amount tokenAmount;
   final Amount fee;
@@ -110,20 +113,12 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const currency = Currency.usd;
-    final fiatAmount = amount.map(
-      crypto: (crypto) => context.convertToFiat(
-        fiatCurrency: currency,
-        token: crypto.token,
-        amount: crypto.value,
-      ),
-      fiat: identity,
-    );
+    final fiatAmount = sl<ConvertToUsd>().call(amount);
 
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = amount.format(
       locale,
-      maxDecimals: currency.decimals,
+      maxDecimals: amount.currency.decimals,
     );
     final formattedFiatAmount = fiatAmount.formatMinimum(locale);
 

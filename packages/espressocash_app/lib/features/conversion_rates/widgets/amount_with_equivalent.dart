@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -13,7 +12,6 @@ import '../../../ui/chip.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
-import '../data/repository.dart';
 import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
@@ -90,19 +88,9 @@ class _EquivalentDisplay extends StatelessWidget {
     if (shouldDisplay) {
       formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
           .let((it) => it as FiatAmount)
-          .let(
-            (it) => it.toTokenAmount(
-              token,
-              ratesRepository: context.read<ConversionRatesRepository>(),
-            ),
-          )
+          .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
           .maybeFlatMap(
-            (it) => it.format(
-              locale,
-              roundInteger: true,
-              skipSymbol: true,
-              maxDecimals: Currency.usd.decimals,
-            ),
+            (it) => it.format(locale, roundInteger: true, skipSymbol: true),
           )
           .ifNull(() => '0');
     } else {

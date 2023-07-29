@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
@@ -17,6 +18,8 @@ class ShareLinksScreen extends StatelessWidget {
     required this.amount,
     required this.status,
   });
+
+  static const route = ShareLinksRoute.new;
 
   final CryptoAmount amount;
   final OSKPStatusLinksReady status;

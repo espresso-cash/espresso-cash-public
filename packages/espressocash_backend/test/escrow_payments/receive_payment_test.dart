@@ -40,7 +40,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await result.item1
+    final resignedTx = await result.$1
         .resign(testData.sender)
         .then((tx) => tx.resign(escrowAccount));
 
@@ -67,7 +67,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await receiveResult.item1
+    final resignedReceiveTx = await receiveResult.$1
         .resign(escrowAccount)
         .then((it) => it.resign(receiverAccount));
 
@@ -130,7 +130,7 @@ void main() {
 
     // Sender has to resign the transaction with their private key. The tx is
     // already partially signed by the platform.
-    final resignedTx = await createPaymentResult.item1
+    final resignedTx = await createPaymentResult.$1
         .resign(testData.sender)
         .then((tx) => tx.resign(escrowAccount));
 
@@ -157,7 +157,7 @@ void main() {
       commitment: Commitment.confirmed,
     );
 
-    final resignedReceiveTx = await receiveResult.item1
+    final resignedReceiveTx = await receiveResult.$1
         .resign(escrowAccount)
         .then((it) => it.resign(receiverAccount));
 
