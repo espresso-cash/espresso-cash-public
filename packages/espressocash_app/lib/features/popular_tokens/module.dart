@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/user_preferences.dart';
 import '../../di.dart';
 import '../accounts/module.dart';
 import 'data/repository.dart';
@@ -16,9 +15,7 @@ class PopularTokensModule extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
           BlocProvider<PopularTokenBloc>(
-            create: (context) => sl<PopularTokenBloc>(
-              param1: context.read<UserPreferences>().fiatCurrency,
-            )..add(const Init()),
+            create: (context) => sl<PopularTokenBloc>()..add(const Init()),
           ),
           LogoutListener(
             onLogout: (_) => sl<PopularTokenRepository>().clear(),

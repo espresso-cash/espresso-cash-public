@@ -1,11 +1,10 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token.dart';
-import '../../../core/user_preferences.dart';
 import '../../../l10n/device_locale.dart';
 import 'context_ext.dart';
 
@@ -19,10 +18,10 @@ class TokenRateText extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
+    const fiat = defaultFiatCurrency;
     final Amount? tokenRate = context
-        .watchConversionRate(from: token, to: fiatCurrency)
-        ?.let((it) => Amount.fromDecimal(value: it, currency: fiatCurrency));
+        .watchConversionRate(from: token, to: fiat)
+        ?.let((it) => Amount.fromDecimal(value: it, currency: fiat));
 
     return Text(
       tokenRate?.format(locale) ?? '-',

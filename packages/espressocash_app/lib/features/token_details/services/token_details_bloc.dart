@@ -21,7 +21,6 @@ typedef _Emitter = Emitter<_State>;
 class TokenDetailsBloc extends Bloc<_Event, _State> {
   TokenDetailsBloc({
     @factoryParam required this.token,
-    @factoryParam required this.userCurrency,
     required TokenDetailsRepository repository,
   })  : _repository = repository,
         super(const Flow.initial()) {
@@ -29,7 +28,6 @@ class TokenDetailsBloc extends Bloc<_Event, _State> {
   }
 
   final Token token;
-  final FiatCurrency userCurrency;
 
   final TokenDetailsRepository _repository;
 
@@ -43,7 +41,7 @@ class TokenDetailsBloc extends Bloc<_Event, _State> {
     final _State newState = await _repository
         .getTokenDetails(
           token: token,
-          fiatCurrency: userCurrency.symbol.toLowerCase(),
+          fiatCurrency: defaultFiatCurrency.symbol.toLowerCase(),
         )
         .foldAsync(Flow.failure, Flow.success);
 

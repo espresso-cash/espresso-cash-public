@@ -40,8 +40,7 @@ class CreatePaymentRequestState with _$CreatePaymentRequestState {
     @Default('') String label,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
-    @Default(Flow<Exception, PaymentRequest>.initial())
-    Flow<Exception, PaymentRequest> flow,
+    required Flow<Exception, PaymentRequest> flow,
   }) = _CreatePaymentRequestState;
 
   const CreatePaymentRequestState._();
@@ -56,18 +55,20 @@ typedef _Emitter = Emitter<_State>;
 
 class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   CreatePaymentRequestBloc({
-    required FiatCurrency userCurrency,
     required PaymentRequestRepository repository,
     required ConversionRatesRepository conversionRatesRepository,
   })  : _repository = repository,
         _conversionRatesRepository = conversionRatesRepository,
         super(
+          // ignore: prefer_const_constructors, analyzer complains about flow
           CreatePaymentRequestState(
             tokenAmount: const CryptoAmount(
               value: 0,
               cryptoCurrency: Currency.usdc,
             ),
-            fiatAmount: FiatAmount(value: 0, fiatCurrency: userCurrency),
+            fiatAmount:
+                const FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency),
+            flow: const Flow<Exception, PaymentRequest>.initial(),
           ),
         ) {
     on<_Event>(_eventHandler);
@@ -91,10 +92,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
       state.fiatAmount.copyWith(value: 0);
 
   CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) =>
-      fiatAmount.toTokenAmount(
-        state.token,
-        ratesRepository: _conversionRatesRepository,
-      );
+      fiatAmount.toTokenAmount(state.token);
 
   Future<void> _onLabelUpdated(
     LabelUpdated event,
@@ -107,7 +105,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     TokenAmountUpdated event,
     _Emitter emit,
   ) async {
-    if (!state.flow.isInitial()) return;
+    if (!state.flow.isInitial) return;
 
     final tokenAmount = state.tokenAmount.copyWithDecimal(event.amount);
     final fiatAmount = _toFiatAmount(tokenAmount);
@@ -119,7 +117,7 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     FiatAmountUpdated event,
     _Emitter emit,
   ) async {
-    if (!state.flow.isInitial()) return;
+    if (!state.flow.isInitial) return;
 
     final fiatAmount = state.fiatAmount.copyWithDecimal(event.amount);
     final tokenAmount = _toTokenAmount(fiatAmount);

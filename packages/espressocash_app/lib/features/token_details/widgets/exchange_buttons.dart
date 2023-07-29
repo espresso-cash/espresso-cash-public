@@ -21,7 +21,7 @@ class ExchangeButtons extends StatelessWidget {
           children: [
             Flexible(
               child: CpButton(
-                text: context.l10n.buy,
+                text: context.l10n.tokenDetails_btnBuy,
                 width: double.infinity,
                 onPressed: () => context.navigateToBuyToken(token),
               ),

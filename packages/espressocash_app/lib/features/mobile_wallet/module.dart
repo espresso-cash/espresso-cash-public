@@ -6,8 +6,8 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../../routes.gr.dart';
 import 'data/repository.dart';
+import 'screens/remote_request_screen.dart';
 import 'services/scenario_handler.dart';
 
 class MobileWalletModule extends SingleChildStatelessWidget {
@@ -46,7 +46,8 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
             initialized: ignore,
             sessionTerminated: SystemNavigator.pop,
             deauthorized: SystemNavigator.pop,
-            request: (r) => context.pushRoute(RemoteRequestRoute(request: r)),
+            request: (r) =>
+                context.pushRoute(RemoteRequestScreen.route(request: r)),
           ),
         );
   }

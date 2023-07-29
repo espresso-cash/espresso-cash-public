@@ -21,7 +21,7 @@ class TermsDisclaimer extends StatelessWidget {
                 color: CpColors.yellowColor,
               ),
             ),
-            TextSpan(text: context.l10n.and),
+            TextSpan(text: context.l10n.core_and),
             TextSpan(
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()

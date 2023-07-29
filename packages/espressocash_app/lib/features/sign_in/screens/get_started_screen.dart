@@ -8,19 +8,26 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
-import 'sign_in_flow_screen.dart';
 
 @RoutePage()
 class GetStartedScreen extends StatelessWidget {
-  const GetStartedScreen({super.key, required this.isSaga});
+  const GetStartedScreen({
+    super.key,
+    required this.isSaga,
+    required this.onSignInPressed,
+  });
+
+  static const route = GetStartedRoute.new;
 
   final bool isSaga;
+  final VoidCallback onSignInPressed;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -49,7 +56,12 @@ class GetStartedScreen extends StatelessWidget {
                             const _Header(),
                             32.verticalSpace,
                             const _Body(),
-                            Expanded(child: _Footer(isSaga: isSaga)),
+                            Expanded(
+                              child: _Footer(
+                                isSaga: isSaga,
+                                onSignInPressed: onSignInPressed,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -75,9 +87,10 @@ class _Header extends StatelessWidget {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({required this.isSaga});
+  const _Footer({required this.isSaga, required this.onSignInPressed});
 
   final bool isSaga;
+  final VoidCallback onSignInPressed;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -100,7 +113,7 @@ class _Footer extends StatelessWidget {
                     TextSpan(
                       text: context.l10n.signIn2,
                       recognizer: TapGestureRecognizer()
-                        ..onTap = () => context.signInRouter.onSignIn(),
+                        ..onTap = onSignInPressed,
                       style: const TextStyle(color: CpColors.yellowColor),
                     ),
                   ],

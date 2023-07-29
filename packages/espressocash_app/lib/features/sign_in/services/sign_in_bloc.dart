@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
@@ -9,7 +7,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-import '../../../core/file_manager.dart';
 import '../../../core/flow.dart';
 import '../../../core/wallet.dart';
 import '../../accounts/models/account.dart';
@@ -19,7 +16,7 @@ part 'sign_in_bloc.freezed.dart';
 
 @injectable
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
-  SignInBloc(this._fileManager, this._seedVault)
+  SignInBloc(this._seedVault)
       // A value of type '_$FlowInitial<Exception, dynamic>' can't be assigned
       // to a parameter of type 'Flow<Exception, SignInResult>' in a const
       // constructor.
@@ -29,7 +26,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     on<SignInEvent>(_eventHandler, transformer: sequential());
   }
 
-  final FileManager _fileManager;
   final SeedVault _seedVault;
 
   EventHandler<SignInEvent, SignInState> get _eventHandler =>
@@ -50,7 +46,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           : await _seedVault.importSeed(purpose);
 
       emit(state.copyWith(source: AccountSource.saga(token)));
-      add(const SignInSubmitted(name: 'My Wallet'));
+      add(const SignInSubmitted());
     } on PlatformException {
       emit(state.toSeedVaultException());
     } on Exception catch (e) {
@@ -67,7 +63,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
             .let(AccountSource.local),
       ),
     );
-    add(const SignInSubmitted(name: 'My Wallet'));
+    add(const SignInSubmitted());
   }
 
   Future<void> _onExistingLocalWalletRequested(
@@ -82,7 +78,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 
   Future<void> _onSubmitted(
-    SignInSubmitted event,
+    SignInSubmitted _,
     Emitter<SignInState> emit,
   ) async {
     emit(state.copyWith(processingState: const Flow.processing()));
@@ -101,11 +97,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         saga: always(const AccessMode.created()),
       );
 
-      final photo = await event.photo?.let(_fileManager.copyToAppDir);
-
       final myAccount = MyAccount(
-        firstName: event.name,
-        photoPath: photo?.path,
         wallet: wallet,
         accessMode: accessMode,
       );
@@ -157,10 +149,7 @@ class SignInEvent with _$SignInEvent {
   const factory SignInEvent.existingLocalWalletRequested(String phrase) =
       SignInExistingLocalWalletRequested;
 
-  const factory SignInEvent.submitted({
-    required String name,
-    File? photo,
-  }) = SignInSubmitted;
+  const factory SignInEvent.submitted() = SignInSubmitted;
 }
 
 @freezed

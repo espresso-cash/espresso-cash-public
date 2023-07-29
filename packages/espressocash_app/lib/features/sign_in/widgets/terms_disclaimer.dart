@@ -12,7 +12,7 @@ class TermsDisclaimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
-          text: context.l10n.byCreatingWalletYouAgree,
+          text: context.l10n.signIn_lblByCreatingWalletYouAgree,
           children: [
             TextSpan(
               text: context.l10n.terms,
@@ -22,7 +22,7 @@ class TermsDisclaimer extends StatelessWidget {
                 color: CpColors.yellowColor,
               ),
             ),
-            TextSpan(text: context.l10n.and),
+            TextSpan(text: context.l10n.core_and),
             TextSpan(
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()

@@ -5,20 +5,16 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../../routes.gr.dart';
 import '../accounts/models/account.dart';
 import '../accounts/services/accounts_bloc.dart';
-import 'data/mnemonic_getter.dart';
+import 'screens/puzzle_reminder_setup_screen.dart';
 import 'services/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends SingleChildStatelessWidget {
   const BackupPhraseModule({
     super.key,
     super.child,
-    required this.mnemonic,
   });
-
-  final Future<String> mnemonic;
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
@@ -26,7 +22,6 @@ class BackupPhraseModule extends SingleChildStatelessWidget {
           BlocProvider<PuzzleReminderBloc>(
             create: (_) => sl<PuzzleReminderBloc>(),
           ),
-          Provider<MnemonicGetter>(create: (_) => MnemonicGetter(mnemonic)),
         ],
         child: _Content(child: child),
       );
@@ -54,7 +49,7 @@ class _ContentState extends State<_Content> {
   }
 
   void _showPuzzleReminderDialog() {
-    context.router.push(const PuzzleReminderRoute());
+    context.router.push(PuzzleReminderRouteScreen.route());
   }
 
   @override

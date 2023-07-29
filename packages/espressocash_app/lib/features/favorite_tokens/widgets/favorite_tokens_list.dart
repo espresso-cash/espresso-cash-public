@@ -5,16 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../../core/tokens/token.dart';
-import '../../../../../routes.gr.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/token_icon.dart';
+import '../../../core/currency.dart';
 import '../../../core/presentation/extensions.dart';
-import '../../../core/user_preferences.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/context_ext.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../data/repository.dart';
 import '../services/bloc.dart';
 
@@ -36,43 +36,40 @@ class _FavoriteTokenListState extends State<FavoriteTokenList> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final currency = context.watch<UserPreferences>().fiatCurrency;
+  Widget build(BuildContext context) => StreamBuilder<List<Token>>(
+        stream: _stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
 
-    return StreamBuilder<List<Token>>(
-      stream: _stream,
-      builder: (context, snapshot) {
-        final data = snapshot.data;
+          if (data == null || data.isEmpty) {
+            return const SliverToBoxAdapter(
+              child: SizedBox.shrink(),
+            );
+          }
 
-        if (data == null || data.isEmpty) {
-          return const SliverToBoxAdapter(
-            child: SizedBox.shrink(),
-          );
-        }
+          final items = data.map((e) {
+            final price =
+                context.watchConversionRate(from: e, to: defaultFiatCurrency);
 
-        final items = data.map((e) {
-          final price = context.watchConversionRate(from: e, to: currency);
+            return _TokenItem(e, price);
+          }).toList();
 
-          return _TokenItem(e, price);
-        }).toList();
-
-        return SliverPadding(
-          padding: const EdgeInsets.only(top: 32, left: 24, right: 24),
-          sliver: MultiSliver(
-            children: [
-              const SliverToBoxAdapter(child: _FollowingTitle()),
-              SliverPadding(
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                sliver: SliverList(
-                  delegate: SliverChildListDelegate(items),
+          return SliverPadding(
+            padding: const EdgeInsets.only(top: 32, left: 24, right: 24),
+            sliver: MultiSliver(
+              children: [
+                const SliverToBoxAdapter(child: _FollowingTitle()),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  sliver: SliverList(
+                    delegate: SliverChildListDelegate(items),
+                  ),
                 ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
+              ],
+            ),
+          );
+        },
+      );
 }
 
 class _FollowingTitle extends StatelessWidget {
@@ -96,16 +93,16 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
     final currentPrice = this.currentPrice.formatDisplayablePrice(
           locale: DeviceLocale.localeOf(context),
-          currency: fiatCurrency,
+          currency: defaultFiatCurrency,
         );
 
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
