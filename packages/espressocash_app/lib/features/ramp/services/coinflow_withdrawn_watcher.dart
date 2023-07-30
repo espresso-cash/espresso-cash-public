@@ -31,16 +31,16 @@ class CoinflowWithdrawWatcher {
         Future<void> onSuccess(
           WithdrawResponseDataDto withdrawalDetails,
         ) async {
-          if (withdrawalDetails.status == 'completed') {
-            final newStatus = ORPStatus.withdrawn(
-              txId: payment.id,
-              timestamp: withdrawalDetails.updatedAt,
-            );
+          if (withdrawalDetails.status != 'completed') return;
 
-            await _repository.save(payment.copyWith(status: newStatus));
-            await _subscriptions[payment.id]?.cancel();
-            _subscriptions.remove(payment.id);
-          }
+          final newStatus = ORPStatus.withdrawn(
+            txId: payment.id,
+            timestamp: withdrawalDetails.updatedAt,
+          );
+
+          await _repository.save(payment.copyWith(status: newStatus));
+          await _subscriptions[payment.id]?.cancel();
+          _subscriptions.remove(payment.id);
         }
 
         if (payment.provider != 'coinflow') continue;

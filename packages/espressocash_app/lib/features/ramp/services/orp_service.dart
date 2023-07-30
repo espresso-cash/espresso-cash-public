@@ -10,7 +10,7 @@ import '../models/off_ramp_payment.dart';
 
 @injectable
 class ORPService {
-  ORPService(this._repository);
+  const ORPService(this._repository);
 
   final ORPRepository _repository;
 

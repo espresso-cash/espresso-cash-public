@@ -39,20 +39,18 @@ abstract class PaymentWatcher {
 
       for (final payment in payments) {
         final job = _operations[payment.id];
-        if (job != null) {
-          return;
-        } else {
-          _operations[payment.id] =
-              createJob(payment).call().then((newPayment) async {
-            if (payment != newPayment) {
-              if (newPayment.status.affectsBalance) {
-                onBalanceAffected();
-              }
-              await _repository.save(newPayment);
+        if (job != null) return;
+
+        _operations[payment.id] =
+            createJob(payment).call().then((newPayment) async {
+          if (payment != newPayment) {
+            if (newPayment.status.affectsBalance) {
+              onBalanceAffected();
             }
-            _operations.remove(payment.id);
-          });
-        }
+            await _repository.save(newPayment);
+          }
+          _operations.remove(payment.id);
+        });
       }
     });
   }

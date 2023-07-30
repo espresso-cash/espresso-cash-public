@@ -32,7 +32,7 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _ORPTxSentJob extends CancelableJob<OffRampPayment> {
-  _ORPTxSentJob(this.payment, this.sender, this.ramp);
+  const _ORPTxSentJob(this.payment, this.sender, this.ramp);
 
   final OffRampPayment payment;
   final TxSender sender;

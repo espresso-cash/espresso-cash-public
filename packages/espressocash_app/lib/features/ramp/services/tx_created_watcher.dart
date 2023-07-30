@@ -33,7 +33,7 @@ class TxCreatedWatcher extends PaymentWatcher {
 }
 
 class _ORPTxCreatedJob extends CancelableJob<OffRampPayment> {
-  _ORPTxCreatedJob(this.payment, this.sender);
+  const _ORPTxCreatedJob(this.payment, this.sender);
 
   final OffRampPayment payment;
   final TxSender sender;
@@ -60,10 +60,6 @@ class _ORPTxCreatedJob extends CancelableJob<OffRampPayment> {
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

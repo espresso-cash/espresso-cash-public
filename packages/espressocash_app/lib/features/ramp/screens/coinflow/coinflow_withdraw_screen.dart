@@ -29,7 +29,7 @@ class CoinflowOffRampScreen extends StatefulWidget {
 class _State extends State<CoinflowOffRampScreen> {
   late final WebViewController _controller;
 
-  final channelName = 'coinflowChannel';
+  static const _channelName = 'coinflowChannel';
 
   @override
   void initState() {
@@ -43,10 +43,13 @@ class _State extends State<CoinflowOffRampScreen> {
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(Colors.white)
       ..loadRequest(uri)
-      ..addJavaScriptChannel(channelName, onMessageReceived: onMessageReceived);
+      ..addJavaScriptChannel(
+        _channelName,
+        onMessageReceived: _onMessageReceived,
+      );
   }
 
-  Future<void> onMessageReceived(JavaScriptMessage message) async {
+  Future<void> _onMessageReceived(JavaScriptMessage message) async {
     final tx = message.message.let(SignedTx.decode);
 
     final data = tx.decompileMessage().instructions.first.data;

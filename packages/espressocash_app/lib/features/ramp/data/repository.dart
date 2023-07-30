@@ -16,7 +16,7 @@ import '../models/off_ramp_payment.dart';
 
 @injectable
 class ORPRepository {
-  ORPRepository(this._db, this._tokens);
+  const ORPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
