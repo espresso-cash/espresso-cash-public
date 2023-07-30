@@ -109,5 +109,6 @@ Uri _buildUri({required String userAddress}) => Uri(
       queryParameters: <String, String>{
         'publicKey': userAddress,
         'cluster': isProd ? 'prod' : 'staging',
+        'rpcUrl': solanaRpcUrl,
       },
     );
