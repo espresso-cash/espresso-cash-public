@@ -76,10 +76,12 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
           );
           final withdrawSuccess = CpTimelineItem(
             title: context.l10n.withdrawalReceived,
-            subtitle: payment.status.mapOrNull(
-              success: always(context.l10n.withdrawalTimelineNotice),
-              withdrawn: (s) => s.timestamp?.let(context.formatDate),
-            ),
+            subtitle: switch (payment.status) {
+              ORPStatusSuccess() => context.l10n.withdrawalTimelineNotice,
+              ORPStatusWithdrawn(:final timestamp) =>
+                timestamp?.let(context.formatDate),
+              _ => null,
+            },
           );
 
           final items = [
@@ -88,92 +90,92 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             withdrawSuccess,
           ];
 
-          final List<Widget> actions = payment.status.maybeMap(
-            success: (s) => [
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.ok,
-                onPressed: () => context.router.pop(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: CpTextButton(
-                  variant: CpTextButtonVariant.light,
-                  text: context.l10n.moreDetails,
-                  onPressed: () {
-                    final link = s.txId
-                        .let(createTransactionLink)
-                        .let(Uri.parse)
-                        .toString();
-                    context.openLink(link);
-                  },
+          final List<Widget> actions = switch (payment.status) {
+            ORPStatusSuccess(:final tx) => [
+                CpButton(
+                  size: CpButtonSize.big,
+                  width: double.infinity,
+                  text: context.l10n.ok,
+                  onPressed: () => context.router.pop(),
                 ),
-              ),
-            ],
-            withdrawn: (s) => [
-              Padding(
-                padding: const EdgeInsets.only(top: 24),
-                child: CpTextButton(
-                  variant: CpTextButtonVariant.light,
-                  text: context.l10n.moreDetails,
-                  onPressed: () {
-                    final link = s.txId
-                        .let(createTransactionLink)
-                        .let(Uri.parse)
-                        .toString();
-                    context.openLink(link);
-                  },
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: CpTextButton(
+                    variant: CpTextButtonVariant.light,
+                    text: context.l10n.moreDetails,
+                    onPressed: () {
+                      final link = tx.id
+                          .let(createTransactionLink)
+                          .let(Uri.parse)
+                          .toString();
+                      context.openLink(link);
+                    },
+                  ),
                 ),
-              ),
-            ],
-            orElse: () => const [],
-          );
+              ],
+            ORPStatusWithdrawn(:final tx) => [
+                Padding(
+                  padding: const EdgeInsets.only(top: 24),
+                  child: CpTextButton(
+                    variant: CpTextButtonVariant.light,
+                    text: context.l10n.moreDetails,
+                    onPressed: () {
+                      final link = tx.id
+                          .let(createTransactionLink)
+                          .let(Uri.parse)
+                          .toString();
+                      context.openLink(link);
+                    },
+                  ),
+                ),
+              ],
+            _ => const [],
+          };
 
-          final String? statusTitle = payment.status.mapOrNull(
-            success: always(context.l10n.withdrawalSentTitle),
-            withdrawn: always(context.l10n.transferSuccessTitle),
-          );
+          final String? statusTitle = switch (payment.status) {
+            ORPStatusSuccess() => context.l10n.withdrawalSentTitle,
+            ORPStatusWithdrawn() => context.l10n.transferSuccessTitle,
+            _ => null,
+          };
 
-          final CpStatusType statusType = payment.status.map(
-            txCreated: always(CpStatusType.info),
-            txSent: always(CpStatusType.info),
-            success: always(CpStatusType.info),
-            withdrawn: always(CpStatusType.success),
-            txFailure: always(CpStatusType.error),
-          );
+          final CpStatusType statusType = switch (payment.status) {
+            ORPStatusTxCreated() ||
+            ORPStatusTxSent() ||
+            ORPStatusSuccess() =>
+              CpStatusType.info,
+            ORPStatusWithdrawn() => CpStatusType.success,
+            ORPStatusTxFailure() => CpStatusType.error,
+          };
 
-          final String statusContent = payment.status.map(
-            txCreated: always(context.l10n.splitKeyTransactionLoading),
-            txSent: always(context.l10n.splitKeyTransactionLoading),
-            success: always(context.l10n.withdrawalSuccessMessage),
-            withdrawn: always(context.l10n.withdrawalReceivedMessage),
-            txFailure: (it) => [
-              context.l10n.splitKeyErrorMessage2,
-              if (it.reason == TxFailureReason.insufficientFunds)
-                context.l10n.errorMessageInsufficientFunds
-              else
-                context.l10n.splitKeyErrorRetry,
-            ].join(' '),
-          );
+          final String statusContent = switch (payment.status) {
+            ORPStatusTxCreated() ||
+            ORPStatusTxSent() =>
+              context.l10n.splitKeyTransactionLoading,
+            ORPStatusSuccess() => context.l10n.withdrawalSuccessMessage,
+            ORPStatusWithdrawn() => context.l10n.withdrawalReceivedMessage,
+            ORPStatusTxFailure(:final reason) => [
+                context.l10n.splitKeyErrorMessage2,
+                if (reason == TxFailureReason.insufficientFunds)
+                  context.l10n.errorMessageInsufficientFunds
+                else
+                  context.l10n.splitKeyErrorRetry,
+              ].join(' '),
+          };
 
-          final CpTimelineStatus timelineStatus = payment.status.mapOrNull(
-                success: always(CpTimelineStatus.inProgress),
-                withdrawn: always(CpTimelineStatus.success),
-                txFailure: always(CpTimelineStatus.failure),
-              ) ??
-              CpTimelineStatus.inProgress;
+          final CpTimelineStatus timelineStatus = switch (payment.status) {
+            ORPStatusWithdrawn() => CpTimelineStatus.success,
+            ORPStatusTxFailure() => CpTimelineStatus.failure,
+            _ => CpTimelineStatus.inProgress,
+          };
 
-          final int activeItem = payment.status.map(
-            txFailure: always(0),
-            txCreated: always(0),
-            txSent: always(1),
-            success: always(1),
-            withdrawn: always(2),
-          );
+          final int activeItem = switch (payment.status) {
+            ORPStatusTxFailure() || ORPStatusTxCreated() => 0,
+            ORPStatusTxSent() || ORPStatusSuccess() => 1,
+            ORPStatusWithdrawn() => 2,
+          };
 
           final animated = timelineStatus == CpTimelineStatus.inProgress &&
-              payment.status.maybeMap(orElse: T, success: F);
+              payment.status is! ORPStatusSuccess;
 
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),

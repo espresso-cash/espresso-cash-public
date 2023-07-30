@@ -19,15 +19,11 @@ class TxSentWatcher extends PaymentWatcher {
   final TxSender _sender;
 
   @override
-  CancelableJob<OffRampPayment> createJob(
-    OffRampPayment payment,
-  ) =>
+  CancelableJob<OffRampPayment> createJob(OffRampPayment payment) =>
       _ORPTxSentJob(payment, _sender, RampFlutter());
 
   @override
-  Stream<IList<OffRampPayment>> watchPayments(
-    ORPRepository repository,
-  ) =>
+  Stream<IList<OffRampPayment>> watchPayments(ORPRepository repository) =>
       repository.watchTxSent();
 }
 
@@ -41,24 +37,20 @@ class _ORPTxSentJob extends CancelableJob<OffRampPayment> {
   @override
   Future<OffRampPayment?> process() async {
     final status = payment.status;
-    if (status is! ORPStatusTxSent) {
-      return payment;
-    }
+    if (status is! ORPStatusTxSent) return payment;
 
     final tx = await sender.wait(status.tx, minContextSlot: BigInt.zero);
 
     final ORPStatus? newStatus = tx.map(
-      success: (_) => ORPStatus.success(txId: status.tx.id),
+      success: (_) => ORPStatus.success(tx: status.tx),
       failure: (tx) => ORPStatus.txFailure(status.tx, reason: tx.reason),
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
+    if (newStatus == null) return null;
 
     if (newStatus is ORPStatusSuccess) {
-      await ramp.sendCrypto(newStatus.txId);
+      await ramp.sendCrypto(newStatus.tx.id);
     }
 
     return payment.copyWith(status: newStatus);

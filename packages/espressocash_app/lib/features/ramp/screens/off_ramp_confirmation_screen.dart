@@ -11,7 +11,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 
-@RoutePage<bool?>()
+@RoutePage<bool>()
 class OffRampConfirmationScreen extends StatelessWidget {
   const OffRampConfirmationScreen({
     super.key,

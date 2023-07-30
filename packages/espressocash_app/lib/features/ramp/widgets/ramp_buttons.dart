@@ -55,7 +55,7 @@ class CashOutButton extends StatelessWidget {
           onPressed: () async {
             final country = await context.ensureCountry();
             if (context.mounted) {
-              if (country == Country.findByCode('US')) {
+              if (country.code == 'US') {
                 unawaited(context.router.push(CoinflowOffRampScreen.route()));
               } else {
                 unawaited(OffRampBottomSheet.show(context));

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:async/async.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
@@ -18,14 +17,10 @@ abstract class PaymentWatcher {
   final Map<String, CancelableOperation<void>> _operations = {};
 
   @protected
-  Stream<IList<OffRampPayment>> watchPayments(
-    ORPRepository repository,
-  );
+  Stream<IList<OffRampPayment>> watchPayments(ORPRepository repository);
 
   @protected
-  CancelableJob<OffRampPayment> createJob(
-    OffRampPayment payment,
-  );
+  CancelableJob<OffRampPayment> createJob(OffRampPayment payment);
 
   void call({required VoidCallback onBalanceAffected}) {
     _repoSubscription =
@@ -65,11 +60,5 @@ abstract class PaymentWatcher {
 }
 
 extension on ORPStatus {
-  bool get affectsBalance => this.map(
-        txCreated: F,
-        txSent: F,
-        txFailure: F,
-        success: T,
-        withdrawn: F,
-      );
+  bool get affectsBalance => this is ORPStatusSuccess;
 }

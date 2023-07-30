@@ -20,15 +20,11 @@ class TxCreatedWatcher extends PaymentWatcher {
   final TxSender _sender;
 
   @override
-  CancelableJob<OffRampPayment> createJob(
-    OffRampPayment payment,
-  ) =>
+  CancelableJob<OffRampPayment> createJob(OffRampPayment payment) =>
       _ORPTxCreatedJob(payment, _sender);
 
   @override
-  Stream<IList<OffRampPayment>> watchPayments(
-    ORPRepository repository,
-  ) =>
+  Stream<IList<OffRampPayment>> watchPayments(ORPRepository repository) =>
       repository.watchTxCreated();
 }
 
@@ -41,9 +37,7 @@ class _ORPTxCreatedJob extends CancelableJob<OffRampPayment> {
   @override
   Future<OffRampPayment?> process() async {
     final status = payment.status;
-    if (status is! ORPStatusTxCreated) {
-      return payment;
-    }
+    if (status is! ORPStatusTxCreated) return payment;
 
     final tx = await sender.send(status.tx, minContextSlot: status.slot);
 

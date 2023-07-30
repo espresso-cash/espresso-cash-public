@@ -34,7 +34,7 @@ class CoinflowWithdrawWatcher {
           if (withdrawalDetails.status != 'completed') return;
 
           final newStatus = ORPStatus.withdrawn(
-            txId: payment.id,
+            tx: payment.status.tx,
             timestamp: withdrawalDetails.updatedAt,
           );
 
@@ -51,7 +51,7 @@ class CoinflowWithdrawWatcher {
         if (!_subscriptions.containsKey(payment.id)) {
           _subscriptions[payment.id] = _createStream(
             walletId: _userPublicKey.toBase58(),
-            txId: status.txId,
+            txId: status.tx.id,
           ).listen(onSuccess);
         }
       }

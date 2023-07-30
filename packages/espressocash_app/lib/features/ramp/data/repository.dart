@@ -6,6 +6,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
+
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token_list.dart';
@@ -34,18 +35,18 @@ class ORPRepository {
   }
 
   Future<void> save(OffRampPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
+    switch (payment.status) {
+      case ORPStatusTxFailure(:final reason):
         await Sentry.captureMessage(
           'ORP tx failure',
           level: SentryLevel.warning,
           withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
+            'reason': reason,
           }),
         );
-      },
-      orElse: () async {},
-    );
+      default:
+        break;
+    }
 
     await _db.into(_db.oRPRows).insertOnConflictUpdate(payment.toDto());
   }
@@ -82,8 +83,8 @@ class ORPRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get resolvedAt => dateTime().nullable()();
 
   // Status fields
-  TextColumn get tx => text().nullable()();
-  TextColumn get txId => text().nullable()();
+  TextColumn get tx => text()();
+  TextColumn get txId => text()();
   IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
   TextColumn get slot => text().nullable()();
 }
@@ -111,28 +112,19 @@ extension ORPRowExt on ORPRow {
 
 extension on ORPStatusDto {
   ORPStatus toModel(ORPRow row) {
-    final tx = row.tx?.let(SignedTx.decode);
+    final tx = SignedTx.decode(row.tx);
     final slot = row.slot?.let(BigInt.tryParse);
     final resolvedAt = row.resolvedAt;
 
     return switch (this) {
-      ORPStatusDto.txCreated => ORPStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        ),
-      ORPStatusDto.txSent => ORPStatus.txSent(
-          tx ?? StubSignedTx(row.txId!),
-          slot: slot ?? BigInt.zero,
-        ),
-      ORPStatusDto.success => ORPStatus.success(txId: row.txId!),
-      ORPStatusDto.txFailure => ORPStatus.txFailure(
-          tx!,
-          reason: row.txFailureReason,
-        ),
-      ORPStatusDto.withdrawn => ORPStatus.withdrawn(
-          txId: row.txId ?? '',
-          timestamp: resolvedAt,
-        ),
+      ORPStatusDto.txCreated =>
+        ORPStatus.txCreated(tx, slot: slot ?? BigInt.zero),
+      ORPStatusDto.txSent => ORPStatus.txSent(tx, slot: slot ?? BigInt.zero),
+      ORPStatusDto.success => ORPStatus.success(tx: tx),
+      ORPStatusDto.txFailure =>
+        ORPStatus.txFailure(tx, reason: row.txFailureReason),
+      ORPStatusDto.withdrawn =>
+        ORPStatus.withdrawn(tx: tx, timestamp: resolvedAt),
     };
   }
 }
@@ -144,7 +136,7 @@ extension on OffRampPayment {
         created: created,
         status: status.toDto(),
         tx: status.toTx(),
-        txId: status.toTxId(),
+        txId: status.tx.id,
         txFailureReason: status.toTxFailureReason(),
         slot: status.toSlot()?.toString(),
         resolvedAt: status.toResolvedAt(),
@@ -154,33 +146,28 @@ extension on OffRampPayment {
 }
 
 extension on ORPStatus {
-  ORPStatusDto toDto() => map(
-        txCreated: always(ORPStatusDto.txCreated),
-        txSent: always(ORPStatusDto.txSent),
-        success: always(ORPStatusDto.success),
-        txFailure: always(ORPStatusDto.txFailure),
-        withdrawn: always(ORPStatusDto.withdrawn),
-      );
+  ORPStatusDto toDto() => switch (this) {
+        ORPStatusTxCreated() => ORPStatusDto.txCreated,
+        ORPStatusTxSent() => ORPStatusDto.txSent,
+        ORPStatusSuccess() => ORPStatusDto.success,
+        ORPStatusTxFailure() => ORPStatusDto.txFailure,
+        ORPStatusWithdrawn() => ORPStatusDto.withdrawn,
+      };
 
-  String? toTx() => mapOrNull(
-        txCreated: (it) => it.tx.encode(),
-        txSent: (it) => it.tx.encode(),
-      );
+  String toTx() => tx.encode();
 
-  String? toTxId() => mapOrNull(
-        success: (it) => it.txId,
-      );
+  TxFailureReason? toTxFailureReason() => switch (this) {
+        ORPStatusTxFailure(:final reason) => reason,
+        _ => null,
+      };
 
-  TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
-        txFailure: (it) => it.reason,
-      );
+  BigInt? toSlot() => switch (this) {
+        ORPStatusTxCreated(:final slot) || ORPStatusTxSent(:final slot) => slot,
+        _ => null,
+      };
 
-  BigInt? toSlot() => mapOrNull(
-        txCreated: (it) => it.slot,
-        txSent: (it) => it.slot,
-      );
-
-  DateTime? toResolvedAt() => mapOrNull(
-        withdrawn: (it) => it.timestamp,
-      );
+  DateTime? toResolvedAt() => switch (this) {
+        ORPStatusWithdrawn(:final timestamp) => timestamp,
+        _ => null,
+      };
 }

@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_date.dart';
@@ -7,6 +6,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../ramp/models/off_ramp_payment.dart';
 import '../../ramp/screens/off_ramp_details_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -23,13 +23,14 @@ class ORPTile extends StatelessWidget {
         icon: Assets.icons.paymentIcon.svg(),
         outgoingAmount:
             activity.data.amount.format(DeviceLocale.localeOf(context)),
-        status: activity.data.status.map(
-          txCreated: always(CpActivityTileStatus.inProgress),
-          txSent: always(CpActivityTileStatus.inProgress),
-          success: always(CpActivityTileStatus.inProgress),
-          txFailure: always(CpActivityTileStatus.failure),
-          withdrawn: always(CpActivityTileStatus.success),
-        ),
+        status: switch (activity.data.status) {
+          ORPStatusTxCreated() ||
+          ORPStatusTxSent() ||
+          ORPStatusSuccess() =>
+            CpActivityTileStatus.inProgress,
+          ORPStatusTxFailure() => CpActivityTileStatus.failure,
+          ORPStatusWithdrawn() => CpActivityTileStatus.success,
+        },
         onTap: () => context.router
             .navigate(OffRampDetailsScreen.route(id: activity.id)),
       );

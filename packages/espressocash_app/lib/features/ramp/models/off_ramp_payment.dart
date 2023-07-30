@@ -16,8 +16,8 @@ class OffRampPayment with _$OffRampPayment {
   }) = ORPSignTransaction;
 }
 
-@freezed
-class ORPStatus with _$ORPStatus {
+@Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)
+sealed class ORPStatus with _$ORPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
   const factory ORPStatus.txCreated(
     SignedTx tx, {
@@ -31,11 +31,11 @@ class ORPStatus with _$ORPStatus {
   }) = ORPStatusTxSent;
 
   /// Money is received by the recipient address.
-  const factory ORPStatus.success({required String txId}) = ORPStatusSuccess;
+  const factory ORPStatus.success({required SignedTx tx}) = ORPStatusSuccess;
 
   /// Fiat Money is received by the user.
   const factory ORPStatus.withdrawn({
-    required String txId,
+    required SignedTx tx,
     required DateTime? timestamp,
   }) = ORPStatusWithdrawn;
 
