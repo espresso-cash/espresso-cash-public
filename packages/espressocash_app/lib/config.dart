@@ -70,7 +70,6 @@ const solanaPayHost = 'solanapay.$cpLinkDomain';
 const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const moonpayHost = 'moonpay.$cpLinkDomain';
 const espressoCashDeepLinkHost = 'espressocash.page.link';
-const coinflowHost = 'localhost'; // TODO(Justin): update url once deployed
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
@@ -83,6 +82,7 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 
 const maxPayloadsPerSigningRequest = 10;
 
+const coinflowAppUrl = 'https://espresso-cash.github.io/ec-coinflow/';
 const coinflowApiUrl = isProd
     ? 'https://api.coinflow.cash/api/'
     : 'https://api-sandbox.coinflow.cash/api/';
