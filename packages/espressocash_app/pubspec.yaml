@@ -25,7 +25,7 @@ dependencies:
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
   fast_immutable_collections: ^9.1.1
-  firebase_analytics: ^10.1.0
+  firebase_analytics: ^10.4.4
   firebase_app_installations: ^0.2.1+8
   firebase_core: ^2.4.1
   firebase_dynamic_links: ^5.0.11
