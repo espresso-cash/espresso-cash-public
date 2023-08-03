@@ -1,73 +1,31 @@
 {
   "@@locale": "fr",
-  "aboutTokenLabel": "A propos de {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "activitiesTitle": "Activité",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Annulé",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Echec",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "En cours",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Succès",
-  "@activityStatusSuccess": {},
-  "addCash": "Déposer",
-  "@addCash": {},
-  "all": "Tous",
-  "@all": {},
-  "amount": "Montant",
-  "@amount": {},
-  "and": " et ",
-  "@and": {},
-  "appLock": "Verrouillage automatique",
-  "@appLock": {},
-  "appLockDescription": "Exiger le code d'accès pour accéder à l'application",
-  "@appLockDescription": {},
-  "backupPhraseSuccessMessage": "Vous avez réussi à enregistrer votre phrase de récupération secrète dans un endroit sûr. Assurez-vous de la garder privée!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Solde",
-  "@balance": {},
-  "boughtToken": "{amount} Acheté",
-  "@boughtToken": {
+  "activities_lblBoughtToken": "{amount} Acheté",
+  "@activities_lblBoughtToken": {
     "placeholders": {
       "amount": {
         "type": "String"
       }
     }
   },
-  "buy": "Acheter",
-  "@buy": {},
-  "byClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
-  "@byClickingTheSecondLink": {},
-  "byCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Caméra",
-  "@camera": {},
-  "cancel": "Annuler",
-  "@cancel": {},
-  "cancelErrorMessageInsufficientFunds": "L'argent a déjà été retiré.",
-  "@cancelErrorMessageInsufficientFunds": {},
-  "cancelPaymentRequestConfirmationSubtitle": "Êtes-vous sûr que vous souhaitez annuler cette demande de paiement?",
-  "@cancelPaymentRequestConfirmationSubtitle": {},
-  "cancelPaymentRequestConfirmationTitle": "Annuler la demande de paiement",
-  "@cancelPaymentRequestConfirmationTitle": {},
-  "cancelTransfer": "Annuler le transfert",
-  "@cancelTransfer": {},
-  "cancelTransferConfirmationSubtitle": "Êtes-vous sûr de vouloir annuler ce transfert?",
-  "@cancelTransferConfirmationSubtitle": {},
-  "cancelTransferConfirmationTitle": "Annuler le transfert",
-  "@cancelTransferConfirmationTitle": {},
-  "cannotConnectToTheNetwork": "Impossible de se connecter au réseau!",
-  "@cannotConnectToTheNetwork": {},
-  "cashOut": "Retirer",
-  "@cashOut": {},
+  "activities_lblCanceled": "Annulé",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Echec",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "En cours",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Succès",
+  "@activities_lblSuccess": {},
+  "activities_lblTitle": "Activité",
+  "@activities_lblTitle": {},
+  "appLock_lblAutoLock": "Verrouillage automatique",
+  "@appLock_lblAutoLock": {},
+  "appLock_lblAutoLockDescription": "Exiger le code d'accès pour accéder à l'application",
+  "@appLock_lblAutoLockDescription": {},
+  "backupPhrase_lblSuccessMessage": "Vous avez réussi à enregistrer votre phrase de récupération secrète dans un endroit sûr. Assurez-vous de la garder privée!",
+  "@backupPhrase_lblSuccessMessage": {},
+  "balances_lblConnectionError": "Impossible de se connecter au réseau!",
+  "@balances_lblConnectionError": {},
   "comingSoon": "À venir!",
   "@comingSoon": {},
   "completeThePuzzle": "Avez-vous écrit correctement votre phrase de récupération? Testez-le ici:",
@@ -86,6 +44,10 @@
   "@copiedToClipboard": {},
   "copy": "Copier",
   "@copy": {},
+  "core_and": " and ",
+  "@core_and": {},
+  "core_btnCancel": "Annuler",
+  "@core_btnCancel": {},
   "create": "Créer",
   "@create": {},
   "crypto": "Crypto",
@@ -150,6 +112,8 @@
   "@fundYourAccount": {},
   "help": "Aide",
   "@help": {},
+  "incomingSplitKeyPayments_lblByClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
+  "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
   "incorrectPasscode": "Code d'accès incorrect. Réessayer à nouveau",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",
@@ -302,6 +266,14 @@
   "@openInAppScanner": {},
   "operationSend": "envoyer",
   "@operationSend": {},
+  "outgoingSplitKeyPayments_btnCancel": "Annuler le transfert",
+  "@outgoingSplitKeyPayments_btnCancel": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Êtes-vous sûr de vouloir annuler ce transfert?",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationTitle": "Annuler le transfert",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationTitle": {},
+  "outgoingSplitKeyPayments_lblMoneyWithdrawn": "L'argent a déjà été retiré.",
+  "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
   "outgoingTransferSuccess": "{amount}a été envoyé",
   "@outgoingTransferSuccess": {
     "placeholders": {
@@ -327,6 +299,10 @@
       }
     }
   },
+  "paymentRequest_lblCancelConfirmationSubtitle": "Êtes-vous sûr que vous souhaitez annuler cette demande de paiement?",
+  "@paymentRequest_lblCancelConfirmationSubtitle": {},
+  "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
+  "@paymentRequest_lblCancelConfirmationTitle": {},
   "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} pour {label} a été payée.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
@@ -376,6 +352,8 @@
   "@privacyPolicy": {},
   "processing": "En cours...",
   "@processing": {},
+  "profile_lblCamera": "Caméra",
+  "@profile_lblCamera": {},
   "protectWallet": "Protéger le portefeuille",
   "@protectWallet": {},
   "protectWalletTitle": "Protection du portefeuille",
@@ -408,6 +386,10 @@
   "@qrScanInfo2": {},
   "qrTermsDisclaimer": "En ouvrant le lecteur de code QR sécurisé, vous acceptez notre ",
   "@qrTermsDisclaimer": {},
+  "ramp_btnAddCash": "Déposer",
+  "@ramp_btnAddCash": {},
+  "ramp_btnCashOut": "Retirer",
+  "@ramp_btnCashOut": {},
   "receive": "Recevoir",
   "@receive": {},
   "receivedBy": "Reçu par {address}",
@@ -539,6 +521,8 @@
   "@signIn1": {},
   "signIn2": "Continuez ici",
   "@signIn2": {},
+  "signIn_lblByCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
+  "@signIn_lblByCreatingWalletYouAgree": {},
   "signInWithSaga": "Connectez-vous avec Saga",
   "@signInWithSaga": {},
   "signOut": "Supprimer le portefeuille",
@@ -674,6 +658,18 @@
       }
     }
   },
+  "tokenDetails_btnBuy": "Acheter",
+  "@tokenDetails_btnBuy": {},
+  "tokenDetails_lblAboutToken": "A propos de {name}",
+  "@tokenDetails_lblAboutToken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenDetails_lblBalance": "Solde",
+  "@tokenDetails_lblBalance": {},
   "tokenEquivalent": "Équivalent à {value} {symbol}",
   "@tokenEquivalent": {
     "placeholders": {

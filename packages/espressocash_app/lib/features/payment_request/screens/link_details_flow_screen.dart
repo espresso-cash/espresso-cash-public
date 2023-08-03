@@ -7,6 +7,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/theme.dart';
@@ -23,6 +24,8 @@ class LinkDetailsFlowScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static const route = LinkDetailsFlowRoute.new;
 
   final String id;
 

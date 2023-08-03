@@ -46,10 +46,8 @@ class TxReadyWatcher {
           switch (payment.apiVersion) {
             case SplitKeyApiVersion.manual:
               destinationAccounts = tx.getDestinations();
-              break;
             case SplitKeyApiVersion.smartContract:
               destinationAccounts = txDetails.getInnerDestinations();
-              break;
           }
 
           final newStatus = await destinationAccounts.let(

@@ -1,3 +1,39 @@
+## 1.78.0
+
+ - **REFACTOR**: clean Amount and Currency (#1028).
+ - **REFACTOR**: remove UserPreferences (#1027).
+ - **REFACTOR**: update balances logic (#1026).
+ - **REFACTOR**: update routes handling (#1024).
+ - **FIX**: provide valid router keys.
+ - **FIX**: add padding to country selector.
+ - **FEAT**: add ramp flow logic (#1022).
+
+## 1.77.3
+
+ - **FIX**: center button in onboarding notice (#1021).
+
+## 1.77.2
+
+ - **REFACTOR**: consolidate profile screens (#1009).
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **REFACTOR**: update l10n keys.
+ - **FIX**: sign-in flow (#1010).
+
+## 1.77.1
+
+ - **REFACTOR**: update l10n keys (#1007).
+
+## 1.77.0
+
+ - **REFACTOR**: add AccountRepository (#1002).
+ - **REFACTOR**: decouple profile and account modules (#1001).
+ - **REFACTOR**: restructure code (#997).
+ - **FIX**: remove duplicated LogoutListener (#1000).
+ - **FIX**: padding in ProfileScreen (#998).
+ - **FEAT**: add l10n to ramp network add cash flow (#974).
+ - **FEAT**: add country selector on profile screen (#999).
+
 ## 1.76.0
 
  - **REFACTOR**: bump linter (#993).

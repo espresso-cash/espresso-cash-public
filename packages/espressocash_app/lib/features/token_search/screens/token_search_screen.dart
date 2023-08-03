@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/flow.dart';
 import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -15,6 +16,7 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../models/crypto_categories.dart';
 import '../services/bloc.dart';
 import '../widgets/discover_header.dart';
@@ -25,6 +27,8 @@ class TokenSearchScreen extends StatelessWidget {
     super.key,
     this.category,
   });
+
+  static const route = TokenSearchRoute.new;
 
   final CryptoCategories? category;
 
@@ -107,7 +111,7 @@ class _ContentState extends State<_Content> {
             child: BlocBuilder<TokenSearchBloc, TokenSearchState>(
               builder: (context, state) => Column(
                 children: [
-                  if (_selected != null || state.isInitial())
+                  if (_selected != null || state.isInitial)
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -120,20 +124,21 @@ class _ContentState extends State<_Content> {
                     ),
                   Expanded(
                     child: Center(
-                      child: state.when(
-                        failure: (_) => Text(context.l10n.failedToSearch),
-                        initial: Container.new,
-                        processing: LoadingIndicator.new,
-                        success: (result) => result.isEmpty
+                      child: switch (state) {
+                        FlowFailure() => Text(context.l10n.failedToSearch),
+                        FlowInitial() => const SizedBox.shrink(),
+                        FlowProcessing() => const LoadingIndicator(),
+                        FlowSuccess(:final result) => result.isEmpty
                             ? Text(context.l10n.emptySearch)
                             : ListView.builder(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ),
                                 itemCount: result.length,
                                 itemBuilder: (context, index) =>
                                     _TokenItem(result[index]),
                               ),
-                      ),
+                      },
                     ),
                   ),
                 ],
@@ -152,15 +157,8 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         child: ListTile(
-          onTap: () => context.router.push(
-            HomeRoute(
-              children: [
-                InvestmentsRouter(
-                  children: [TokenDetailsRoute(token: token)],
-                ),
-              ],
-            ),
-          ),
+          onTap: () =>
+              context.router.push(TokenDetailsScreen.route(token: token)),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

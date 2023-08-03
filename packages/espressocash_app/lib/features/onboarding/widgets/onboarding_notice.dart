@@ -1,29 +1,50 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/extensions.dart';
+import '../../../core/presentation/value_stream_builder.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
+import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
+import '../data/onboarding_repository.dart';
+import '../screens/onboarding_flow_screen.dart';
 
-class OnboardingNotice extends StatelessWidget {
+class OnboardingNotice extends StatefulWidget {
   const OnboardingNotice({super.key});
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<AccountsBloc, AccountsState>(
-        builder: (context, state) {
-          if (state.hasFinishedOnboarding) return const SizedBox.shrink();
+  State<OnboardingNotice> createState() => _OnboardingNoticeState();
+}
 
-          void onPressed() =>
-              context.router.navigate(const OnboardingFlowRoute());
+class _OnboardingNoticeState extends State<OnboardingNotice> {
+  @override
+  void initState() {
+    super.initState();
+
+    final account = context.read<AccountsBloc>().state.account;
+    if (account?.accessMode == const AccessMode.seedInputted()) {
+      sl<OnboardingRepository>().hasFinishedOnboarding = true;
+    }
+  }
+
+  void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
+
+  @override
+  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
+        create: () => sl<OnboardingRepository>()
+            .hasFinishedOnboardingStream
+            .withInitial(),
+        builder: (context, hasFinishedOnboarding) {
+          if (hasFinishedOnboarding) return const SizedBox.shrink();
 
           return AspectRatio(
             aspectRatio: 433 / 123,
             child: GestureDetector(
-              onTap: onPressed,
+              onTap: _onPressed,
               child: RepaintBoundary(
                 child: Stack(
                   children: [
@@ -33,9 +54,7 @@ class OnboardingNotice extends StatelessWidget {
                     ),
                     Align(
                       alignment: Alignment.centerRight,
-                      child: _Content(
-                        onPressed: onPressed,
-                      ),
+                      child: _Content(onPressed: _onPressed),
                     ),
                   ],
                 ),
@@ -54,24 +73,27 @@ class _Content extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: FractionallySizedBox(
-          widthFactor: 0.75,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Flexible(
+              child: FractionallySizedBox(
+                widthFactor: 0.75,
                 child: _Text(),
               ),
-              const SizedBox(height: 8),
-              Flexible(
+            ),
+            const SizedBox(height: 8, width: double.infinity),
+            Flexible(
+              child: Align(
+                alignment: Alignment.center,
                 child: CpButton(
                   text: context.l10n.onboardingNoticeFinishSetup,
                   size: CpButtonSize.micro,
                   onPressed: onPressed,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }

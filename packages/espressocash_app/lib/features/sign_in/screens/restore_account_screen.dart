@@ -3,17 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/mnemonic_input_formatter.dart';
-import 'sign_in_flow_screen.dart';
 
 @RoutePage()
 class RestoreAccountScreen extends StatefulWidget {
-  const RestoreAccountScreen({super.key});
+  const RestoreAccountScreen({
+    super.key,
+    required this.onMnemonicConfirmed,
+  });
+
+  static const route = RestoreAccountRoute.new;
+
+  final VoidCallback onMnemonicConfirmed;
 
   @override
   State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
@@ -27,7 +34,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
     context
         .read<SignInBloc>()
         .add(SignInEvent.existingLocalWalletRequested(_controller.text.trim()));
-    context.signInRouter.onMnemonicConfirmed();
+    widget.onMnemonicConfirmed();
   }
 
   @override

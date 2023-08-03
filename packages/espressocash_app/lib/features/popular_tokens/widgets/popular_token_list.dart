@@ -6,13 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/amount.dart';
 import '../../../../../../core/presentation/format_amount.dart';
 import '../../../../../../core/tokens/token.dart';
-import '../../../../../../core/user_preferences.dart';
 import '../../../../../../l10n/device_locale.dart';
-import '../../../../../../routes.gr.dart';
 import '../../../../../../ui/colors.dart';
 import '../../../../../../ui/token_icon.dart';
+import '../../../core/currency.dart';
+import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../services/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
@@ -37,13 +38,16 @@ class PopularTokenList extends StatelessWidget {
                         .toList(),
                   ),
                 )
-              : state.processingState.when(
-                  none: () => loader,
-                  processing: () => loader,
-                  error: (_) => SliverToBoxAdapter(
-                    child: Center(child: Text(context.l10n.failedToLoadTokens)),
-                  ),
-                );
+              : switch (state.processingState) {
+                  ProcessingStateNone() ||
+                  ProcessingStateProcessing() =>
+                    loader,
+                  ProcessingStateError() => SliverToBoxAdapter(
+                      child: Center(
+                        child: Text(context.l10n.failedToLoadTokens),
+                      ),
+                    ),
+                };
         },
       );
 }
@@ -57,17 +61,16 @@ class _TokenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
-    final fiatCurrency = context.watch<UserPreferences>().fiatCurrency;
-
     final Amount tokenRate = Amount.fromDecimal(
-      currency: fiatCurrency,
+      currency: defaultFiatCurrency,
       value: Decimal.parse(currentPrice.toString()),
     );
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
       child: ListTile(
-        onTap: () => context.router.push(TokenDetailsRoute(token: token)),
+        onTap: () =>
+            context.router.push(TokenDetailsScreen.route(token: token)),
         leading: CpTokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,

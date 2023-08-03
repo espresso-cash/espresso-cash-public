@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
+import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 class NoActivity extends StatelessWidget {
   const NoActivity({super.key});
@@ -25,7 +25,8 @@ class NoActivity extends StatelessWidget {
               text: context.l10n.requestOrSendPayment,
               width: double.infinity,
               size: CpButtonSize.big,
-              onPressed: () => context.router.navigate(const WalletFlowRoute()),
+              onPressed: () =>
+                  context.router.navigate(WalletFlowScreen.route()),
             ),
             const Spacer(),
             const SizedBox(height: cpNavigationBarheight),

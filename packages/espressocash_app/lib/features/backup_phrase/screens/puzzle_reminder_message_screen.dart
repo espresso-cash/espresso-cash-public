@@ -6,13 +6,17 @@ import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
 import '../widgets/puzzle_screen.dart';
+import 'backup_phrase_flow_screen.dart';
+import 'puzzle_reminder_setup_screen.dart';
 
 @RoutePage()
 class PuzzleReminderMessageScreen extends StatelessWidget {
   const PuzzleReminderMessageScreen({super.key});
 
+  static const route = PuzzleReminderMessageRoute.new;
+
   void _remindMeLater(BuildContext context) {
-    context.router.push(const PuzzleReminderSetupRoute());
+    context.router.push(PuzzleReminderSetupScreen.route());
   }
 
   @override
@@ -40,7 +44,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 minWidth: 300,
                 onPressed: () async {
                   final result = await context.router
-                      .push<bool>(const BackupPhraseFlowRoute());
+                      .push<bool>(BackupPhraseFlowScreen.route());
                   if (result == true && context.mounted) {
                     await context.router.pop();
                   }
