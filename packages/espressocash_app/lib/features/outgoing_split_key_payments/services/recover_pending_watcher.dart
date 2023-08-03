@@ -17,7 +17,7 @@ import '../models/outgoing_split_key_payment.dart';
 
 @injectable
 class RecoverPendingWatcher {
-  RecoverPendingWatcher(
+  const RecoverPendingWatcher(
     this._client,
     this._repository, {
     @factoryParam required Ed25519HDPublicKey userPublicKey,
@@ -49,61 +49,58 @@ class RecoverPendingWatcher {
         Ed25519HDPublicKey.fromBase58(escrowScAddress),
       );
 
-      if (hasInteractedWithEscrow) {
-        // Find the escrow address from accounts. It should either be in index 1 or 2.
-        // Index 0 is the platforms account, index 1 or 2 should either be the user or the escrow.
-        final escrow = accounts
-            .getRange(1, 2)
-            .where((e) => e != _userPublicKey)
-            .firstOrNull;
+      if (!hasInteractedWithEscrow) continue;
 
-        if (escrow != null) {
-          if (pendingEscrows.contains(escrow)) continue;
+      // Find the escrow address from accounts. It should either be in index 1 or 2.
+      // Index 0 is the platforms account, index 1 or 2 should either be the user or the escrow.
+      final escrow =
+          accounts.getRange(1, 2).where((e) => e != _userPublicKey).firstOrNull;
 
-          final txList = await _client.rpcClient.getTransactionsList(
-            escrow,
-            limit: 2,
-            commitment: Commitment.confirmed,
-            encoding: Encoding.jsonParsed,
-          );
+      if (escrow == null) continue;
 
-          if (txList.length < 2) {
-            final id = const Uuid().v4();
+      if (pendingEscrows.contains(escrow)) continue;
 
-            final tx = txList.first;
+      final txList = await _client.rpcClient.getTransactionsList(
+        escrow,
+        limit: 2,
+        commitment: Commitment.confirmed,
+        encoding: Encoding.jsonParsed,
+      );
 
-            int amount = 0;
+      if (txList.length < 2) {
+        final id = const Uuid().v4();
 
-            for (final ix
-                in tx.meta?.innerInstructions?.last.instructions ?? []) {
-              if (ix is ParsedInstructionSplToken &&
-                  ix.parsed is ParsedSplTokenTransferInstruction) {
-                final parsed = ix.parsed as ParsedSplTokenTransferInstruction;
+        final tx = txList.first;
 
-                amount = int.parse(parsed.info.amount);
-              }
-            }
+        int amount = 0;
 
-            final timestamp = detail.blockTime?.let(
-                  (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
-                ) ??
-                DateTime.now();
+        for (final ix in tx.meta?.innerInstructions?.last.instructions ?? []) {
+          if (ix is ParsedInstructionSplToken &&
+              ix.parsed is ParsedSplTokenTransferInstruction) {
+            final parsed = ix.parsed as ParsedSplTokenTransferInstruction;
 
-            await _repository.save(
-              OutgoingSplitKeyPayment(
-                id: id,
-                amount: CryptoAmount(
-                  value: amount,
-                  cryptoCurrency: const CryptoCurrency(token: Token.usdc),
-                ),
-                status: OSKPStatus.recovered(escrowPubKey: escrow),
-                created: timestamp,
-                linksGeneratedAt: timestamp,
-                apiVersion: SplitKeyApiVersion.smartContract,
-              ),
-            );
+            amount = int.parse(parsed.info.amount);
           }
         }
+
+        final timestamp = detail.blockTime?.let(
+              (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+            ) ??
+            DateTime.now();
+
+        await _repository.save(
+          OutgoingSplitKeyPayment(
+            id: id,
+            amount: CryptoAmount(
+              value: amount,
+              cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+            ),
+            status: OSKPStatus.recovered(escrowPubKey: escrow),
+            created: timestamp,
+            linksGeneratedAt: timestamp,
+            apiVersion: SplitKeyApiVersion.smartContract,
+          ),
+        );
       }
     }
   }

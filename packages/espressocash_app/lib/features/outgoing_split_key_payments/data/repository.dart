@@ -160,7 +160,7 @@ class OSKPRows extends Table with AmountMixin, EntityMixin {
   TextColumn get slot => text().nullable()();
   IntColumn get apiVersion =>
       intEnum<OskpApiVersionDto>().withDefault(const Constant(0))();
-  TextColumn get publicKey => text().nullable()(); //recheck if needed
+  TextColumn get publicKey => text().nullable()();
 }
 
 enum OSKPStatusDto {

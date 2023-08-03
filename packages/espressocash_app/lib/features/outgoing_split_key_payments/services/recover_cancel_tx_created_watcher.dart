@@ -34,7 +34,7 @@ class RecoverCancelTxCreatedWatcher extends PaymentWatcher {
 
 class _OSKPRecoverCancelTxCreatedJob
     extends CancelableJob<OutgoingSplitKeyPayment> {
-  _OSKPRecoverCancelTxCreatedJob(this.payment, this.sender);
+  const _OSKPRecoverCancelTxCreatedJob(this.payment, this.sender);
 
   final OutgoingSplitKeyPayment payment;
   final TxSender sender;
@@ -42,9 +42,7 @@ class _OSKPRecoverCancelTxCreatedJob
   @override
   Future<OutgoingSplitKeyPayment?> process() async {
     final status = payment.status;
-    if (status is! OSKPStatusRecoveredCancelTxCreated) {
-      return payment;
-    }
+    if (status is! OSKPStatusRecoveredCancelTxCreated) return payment;
 
     final tx = await sender.send(status.tx, minContextSlot: status.slot);
 
@@ -65,10 +63,6 @@ class _OSKPRecoverCancelTxCreatedJob
       networkError: (_) => null,
     );
 
-    if (newStatus == null) {
-      return null;
-    }
-
-    return payment.copyWith(status: newStatus);
+    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }
