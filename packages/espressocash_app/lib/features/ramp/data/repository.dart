@@ -114,7 +114,6 @@ extension on ORPStatusDto {
   ORPStatus toModel(ORPRow row) {
     final tx = SignedTx.decode(row.tx);
     final slot = row.slot?.let(BigInt.tryParse);
-    final resolvedAt = row.resolvedAt;
 
     return switch (this) {
       ORPStatusDto.txCreated =>
@@ -122,9 +121,9 @@ extension on ORPStatusDto {
       ORPStatusDto.txSent => ORPStatus.txSent(tx, slot: slot ?? BigInt.zero),
       ORPStatusDto.success => ORPStatus.success(tx: tx),
       ORPStatusDto.txFailure =>
-        ORPStatus.txFailure(tx, reason: row.txFailureReason),
+        ORPStatus.txFailure(tx, reason: row.txFailureReason!),
       ORPStatusDto.withdrawn =>
-        ORPStatus.withdrawn(tx: tx, timestamp: resolvedAt),
+        ORPStatus.withdrawn(tx: tx, timestamp: row.resolvedAt!),
     };
   }
 }

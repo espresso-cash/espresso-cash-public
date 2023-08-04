@@ -36,11 +36,13 @@ sealed class ORPStatus with _$ORPStatus {
   /// Fiat Money is received by the user.
   const factory ORPStatus.withdrawn({
     required SignedTx tx,
-    required DateTime? timestamp,
+    required DateTime timestamp,
   }) = ORPStatusWithdrawn;
 
   /// There was an error while creating the tx, or the tx was rejected. In any
   /// case, it's safe to recreate the tx.
-  const factory ORPStatus.txFailure(SignedTx tx, {TxFailureReason? reason}) =
-      ORPStatusTxFailure;
+  const factory ORPStatus.txFailure(
+    SignedTx tx, {
+    required TxFailureReason reason,
+  }) = ORPStatusTxFailure;
 }

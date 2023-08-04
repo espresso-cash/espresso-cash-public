@@ -79,7 +79,7 @@ class _OffRampDetailsScreenState extends State<OffRampDetailsScreen> {
             subtitle: switch (payment.status) {
               ORPStatusSuccess() => context.l10n.withdrawalTimelineNotice,
               ORPStatusWithdrawn(:final timestamp) =>
-                timestamp?.let(context.formatDate),
+                context.formatDate(timestamp),
               _ => null,
             },
           );
