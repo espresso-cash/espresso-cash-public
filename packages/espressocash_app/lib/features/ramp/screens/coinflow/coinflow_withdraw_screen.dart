@@ -105,7 +105,7 @@ Uri _buildUri({required String userAddress}) =>
     Uri.parse(coinflowAppUrl).replace(
       queryParameters: <String, String>{
         'publicKey': userAddress,
-        'cluster': isProd ? 'prod' : 'staging',
+        'cluster': isProd ? 'mainnet' : 'staging',
         'rpcUrl': solanaRpcUrl,
       },
     );
