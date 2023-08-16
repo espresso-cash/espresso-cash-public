@@ -45,8 +45,6 @@ abstract class CancelableJob<T extends Object> {
         completer.complete(result);
 
         await finishTransaction();
-
-        return;
       }
     }
 

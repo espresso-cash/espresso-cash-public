@@ -37,6 +37,12 @@ jobs:
         with:
           sdk: ${{ env.DART_VERSION }}
 
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: "1.8.3"
+
       - name: Activate utils
         run: make activate_utils
 
@@ -71,6 +77,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: "1.8.3"
 
       - name: Activate utils
         run: make activate_utils
@@ -119,6 +131,12 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
 
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: "1.8.3"
+
       - name: Activate utils
         run: make activate_utils
 
@@ -157,6 +175,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: "1.8.3"
+
       - name: Activate utils
         run: make activate_utils
 
@@ -187,6 +211,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: "1.8.3"
 
       - name: Activate utils
         run: make activate_utils
