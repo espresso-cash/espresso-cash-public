@@ -13,7 +13,7 @@ dependencies:
   dfunc: ^0.9.0
   espressocash_api:
     path: espressocash_api
-  freezed_annotation: ^2.2.0
+  freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   meta: ^1.9.1
   mustache_template: ^2.0.0
