@@ -41,7 +41,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.8.3"
+          version: "1.8.4"
 
       - name: Activate utils
         run: make activate_utils
@@ -82,7 +82,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.8.3"
+          version: "1.8.4"
 
       - name: Activate utils
         run: make activate_utils
@@ -135,7 +135,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.8.3"
+          version: "1.8.4"
 
       - name: Activate utils
         run: make activate_utils
@@ -179,7 +179,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.8.3"
+          version: "1.8.4"
 
       - name: Activate utils
         run: make activate_utils
@@ -216,7 +216,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.8.3"
+          version: "1.8.4"
 
       - name: Activate utils
         run: make activate_utils
