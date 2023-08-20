@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/router_wrapper.dart';
-import '../../../routes.gr.dart';
+import '../../../../core/router_wrapper.dart';
+import '../../../../routes.gr.dart';
 import '../services/app_lock_bloc.dart';
 import 'app_lock_disable_screen.dart';
 import 'app_lock_enable_screen.dart';

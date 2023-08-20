@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../gen/assets.gen.dart';
-import '../../../ui/switch.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../ui/switch.dart';
 
 class MenuSwitch extends StatelessWidget {
   const MenuSwitch({
