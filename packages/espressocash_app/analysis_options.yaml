@@ -5,9 +5,6 @@ linter:
     - prefer_relative_imports
 
 analyzer:
-  plugins:
-    - dart_code_metrics
-
   exclude:
     - "**/*.mocks.dart"
     - "**/*.gr.dart"
@@ -25,6 +22,10 @@ dart_code_metrics:
     avoid-banned-imports:
       severity: error
       entries:
+        - paths: [".*/lib/.+\\.dart"]
+          deny: ["[^./]+/src/.*"]
+          message: "Do not import from src directory outside of the module"
+
         - paths: [".*/models/.+\\.dart"]
           deny: [".*/(data|services|widgets|screens|ui|l10n)/.*"]
           message: "Do not import data|services|widgets|screens|ui|l10n from models"

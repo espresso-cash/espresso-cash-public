@@ -11,6 +11,7 @@ import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/usdc_info.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
 
@@ -103,51 +104,53 @@ class _ScreenState extends State<WalletMainScreen> {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const SizedBox(height: 24),
-            AmountWithEquivalent(
-              inputController: _amountController,
-              token: widget.token,
-              collapsed: false,
-              shakeKey: widget.shakeKey,
-              error: widget.error,
-            ),
-            const SizedBox(height: 8),
-            UsdcInfoWidget(
-              isSmall: height < 700,
-            ),
-            Flexible(
-              child: LayoutBuilder(
-                builder: (context, constraints) => AmountKeypad(
-                  height: constraints.maxHeight,
-                  width: width,
-                  controller: _amountController,
-                  maxDecimals: 2,
+    return CpTheme.dark(
+      child: Scaffold(
+        appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
+        body: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 24),
+              AmountWithEquivalent(
+                inputController: _amountController,
+                token: widget.token,
+                collapsed: false,
+                shakeKey: widget.shakeKey,
+                error: widget.error,
+              ),
+              const SizedBox(height: 8),
+              UsdcInfoWidget(
+                isSmall: height < 700,
+              ),
+              Flexible(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => AmountKeypad(
+                    height: constraints.maxHeight,
+                    width: width,
+                    controller: _amountController,
+                    maxDecimals: 2,
+                  ),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: CpButton(
-                text: _action.buttonLabel(context),
-                minWidth: width,
-                onPressed: () {
-                  switch (_action) {
-                    case WalletOperation.pay:
-                      widget.onPay();
-                    case WalletOperation.request:
-                      widget.onRequest();
-                  }
-                },
-                size: CpButtonSize.big,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: CpButton(
+                  text: _action.buttonLabel(context),
+                  minWidth: width,
+                  onPressed: () {
+                    switch (_action) {
+                      case WalletOperation.pay:
+                        widget.onPay();
+                      case WalletOperation.request:
+                        widget.onRequest();
+                    }
+                  },
+                  size: CpButtonSize.big,
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-          ],
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );

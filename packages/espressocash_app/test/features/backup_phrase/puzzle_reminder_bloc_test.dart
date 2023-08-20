@@ -1,4 +1,4 @@
-import 'package:espressocash_app/features/backup_phrase/services/puzzle_reminder_bloc.dart';
+import 'package:espressocash_app/features/backup_phrase/src/services/puzzle_reminder_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

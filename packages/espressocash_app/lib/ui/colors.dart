@@ -24,6 +24,7 @@ abstract class CpColors {
 
   static const purple = Color(0xffA695FF);
 
+  static const dashboardBackgroundColor = Color(0xFFF8F7F1);
   static const darkBackground = Color(0xff2d2b2b);
   static const shadowPrimaryColor = Color(0xffeb5f3a);
   static const accentDarkBackground = Color(0xff2c2d31);

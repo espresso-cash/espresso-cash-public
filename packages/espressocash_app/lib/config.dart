@@ -72,12 +72,8 @@ const moonpayHost = 'moonpay.$cpLinkDomain';
 const espressoCashDeepLinkHost = 'espressocash.page.link';
 
 const kadoBaseUrl = 'https://app.kado.money/';
-const kadoApiKey = String.fromEnvironment('KADO_API_KEY');
+const kadoApiKey = '789fc144-32ff-46c8-85af-339354fa314d';
 
-const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
-const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
-const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
-
-const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
+const rampApiKey = 'q3xw9q8ejb9js36czw8htg8qj4bf62q6hua8bvh9';
 
 const maxPayloadsPerSigningRequest = 10;
