@@ -6,8 +6,35 @@ import 'package:injectable/injectable.dart';
 
 part 'app_lock_bloc.freezed.dart';
 
-part 'app_lock_event.dart';
-part 'app_lock_state.dart';
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+sealed class AppLockEvent with _$AppLockEvent {
+  const factory AppLockEvent.unlock(String pin) = AppLockEventUnlock;
+
+  const factory AppLockEvent.lock() = AppLockEventLock;
+
+  const factory AppLockEvent.enable(String pin) = AppLockEventEnable;
+
+  const factory AppLockEvent.disable(String pin) = AppLockEventDisable;
+
+  const factory AppLockEvent.init() = AppLockEventInit;
+
+  const factory AppLockEvent.logout() = AppLockEventLogout;
+}
+
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+sealed class AppLockState with _$AppLockState {
+  const factory AppLockState.none() = AppLockStateNone;
+
+  const factory AppLockState.enabled({
+    required bool disableFailed,
+  }) = AppLockStateEnabled;
+
+  const factory AppLockState.locked({
+    required bool isRetrying,
+  }) = AppLockStateLocked;
+
+  const factory AppLockState.disabled() = AppLockStateDisabled;
+}
 
 typedef _Emitter = Emitter<AppLockState>;
 
@@ -23,14 +50,14 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
   final FlutterSecureStorage _secureStorage;
 
   EventHandler<AppLockEvent, AppLockState> get _eventHandler =>
-      (e, emit) => e.map(
-            init: (e) => _onInit(e, emit),
-            enable: (e) => _onEnable(e, emit),
-            disable: (e) => _onDisable(e, emit),
-            lock: (e) => _onLock(e, emit),
-            unlock: (e) => _onUnlock(e, emit),
-            logout: (e) => _onLogout(e, emit),
-          );
+      (e, emit) => switch (e) {
+            AppLockEventInit() => _onInit(e, emit),
+            AppLockEventEnable() => _onEnable(e, emit),
+            AppLockEventDisable() => _onDisable(e, emit),
+            AppLockEventLock() => _onLock(e, emit),
+            AppLockEventUnlock() => _onUnlock(e, emit),
+            AppLockEventLogout() => _onLogout(e, emit),
+          };
 
   Future<void> _onInit(AppLockEventInit _, _Emitter emit) async {
     final pin = await _secureStorage.read(key: _key);

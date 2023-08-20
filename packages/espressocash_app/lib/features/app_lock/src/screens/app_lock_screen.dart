@@ -17,12 +17,12 @@ class AppLockScreen extends StatelessWidget {
             hasLogo: true,
             backgroundStyle: BackgroundStyle.dark,
             child: PinInputDisplayWidget(
-              message: state.maybeMap(
-                locked: (state) => state.isRetrying
+              message: switch (state) {
+                AppLockStateLocked() => state.isRetrying
                     ? context.l10n.incorrectPasscode
                     : context.l10n.enterPasscode,
-                orElse: () => context.l10n.enterPasscode,
-              ),
+                _ => context.l10n.enterPasscode,
+              },
               onCompleted: (pin) =>
                   context.read<AppLockBloc>().add(AppLockEvent.unlock(pin)),
             ),
