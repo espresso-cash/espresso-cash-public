@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../authenticated/auth_scope.dart';
+import '../../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
 class OnboardingRepository implements Disposable {

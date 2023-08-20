@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/router_wrapper.dart';
-import '../../../di.dart';
-import '../../../routes.gr.dart';
-import '../../accounts/models/ec_wallet.dart';
-import '../../accounts/services/accounts_bloc.dart';
-import '../../profile/screens/manage_profile_screen.dart';
+import '../../../../core/router_wrapper.dart';
+import '../../../../di.dart';
+import '../../../../routes.gr.dart';
+import '../../../accounts/models/ec_wallet.dart';
+import '../../../accounts/services/accounts_bloc.dart';
+import '../../../profile/screens/manage_profile_screen.dart';
 import '../data/onboarding_repository.dart';
 import 'no_email_and_password_screen.dart';
 import 'view_recovery_phrase_screen.dart';
