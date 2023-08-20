@@ -7,7 +7,6 @@ import '../../../core/currency.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
-import '../../../ui/theme.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
@@ -122,19 +121,17 @@ class _State extends State<WalletFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: DefaultTabController(
-          length: 2,
-          child: WalletMainScreen(
-            shakeKey: _shakeKey,
-            onScan: _onQrScanner,
-            onAmountChanged: _onFiatAmountUpdate,
-            onRequest: _onRequest,
-            onPay: _onPay,
-            amount: _fiatAmount,
-            token: _cryptoCurrency.token,
-            error: _errorMessage,
-          ),
+  Widget build(BuildContext context) => DefaultTabController(
+        length: 2,
+        child: WalletMainScreen(
+          shakeKey: _shakeKey,
+          onScan: _onQrScanner,
+          onAmountChanged: _onFiatAmountUpdate,
+          onRequest: _onRequest,
+          onPay: _onPay,
+          amount: _fiatAmount,
+          token: _cryptoCurrency.token,
+          error: _errorMessage,
         ),
       );
 }

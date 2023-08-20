@@ -1,8 +1,10 @@
+// ignore_for_file: prefer_function_declarations_over_variables, avoid-non-null-assertion
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../../../ui/theme.dart';
+import '../../ui/theme.dart';
 
 class AppWrapper extends StatelessWidget {
   const AppWrapper({super.key, required this.child});
@@ -23,3 +25,7 @@ class AppWrapper extends StatelessWidget {
         ),
       );
 }
+
+final TransitionBuilder appWrapper = (context, child) => AppWrapper(
+      child: child!,
+    );
