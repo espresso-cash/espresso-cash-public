@@ -23,6 +23,7 @@ class CpButton extends StatelessWidget {
     this.minWidth,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
+    this.trailing,
   });
 
   final String text;
@@ -32,6 +33,7 @@ class CpButton extends StatelessWidget {
   final double? minWidth;
   final CpButtonSize size;
   final CpButtonAlignment alignment;
+  final Widget? trailing;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -119,7 +121,20 @@ class CpButton extends StatelessWidget {
         ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
-      child: Text(text),
+      child: SizedBox(
+        width: trailing == null ? null : double.infinity,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Text(text),
+            if (trailing case final leading?)
+              Positioned(
+                right: 0,
+                child: leading,
+              ),
+          ],
+        ),
+      ),
     );
 
     return width != null ? SizedBox(width: width, child: button) : button;
