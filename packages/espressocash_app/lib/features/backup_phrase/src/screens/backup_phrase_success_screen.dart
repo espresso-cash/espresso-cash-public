@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/content_padding.dart';
-import '../../../../../ui/theme.dart';
-import '../../../routes.gr.dart';
+import '../../../../../../gen/assets.gen.dart';
+import '../../../../../../l10n/l10n.dart';
+import '../../../../../../ui/button.dart';
+import '../../../../../../ui/content_padding.dart';
+import '../../../../../../ui/theme.dart';
+import '../../../../routes.gr.dart';
 
 @RoutePage()
 class BackupPhraseSuccessScreen extends StatelessWidget {

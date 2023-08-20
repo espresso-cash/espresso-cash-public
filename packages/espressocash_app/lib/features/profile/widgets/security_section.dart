@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,7 +6,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../app_lock/app_lock.dart';
-import '../../backup_phrase/screens/backup_phrase_flow_screen.dart';
+import '../../backup_phrase/backup_phrase.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 
@@ -29,8 +28,7 @@ class SecuritySection extends StatelessWidget {
           ProfileButton(
             label: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
-            onPressed: () =>
-                context.router.push(BackupPhraseFlowScreen.route()),
+            onPressed: () => context.launchBackupPhraseFlow(),
           ),
         ProfileButton(
           label: context.l10n.termsOfUse,

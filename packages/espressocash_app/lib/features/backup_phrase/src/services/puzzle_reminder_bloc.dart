@@ -6,13 +6,39 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../accounts/models/account.dart';
-import '../../accounts/models/ec_wallet.dart';
+import '../../../accounts/models/account.dart';
+import '../../../accounts/models/ec_wallet.dart';
 
 part 'puzzle_reminder_bloc.freezed.dart';
 part 'puzzle_reminder_bloc.g.dart';
-part 'puzzle_reminder_event.dart';
-part 'puzzle_reminder_state.dart';
+
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+sealed class PuzzleReminderState with _$PuzzleReminderState {
+  /// The base state which requires no action
+  const factory PuzzleReminderState.none() = PuzzleReminderStateNone;
+
+  /// Means that the user needs to be reminded now
+  const factory PuzzleReminderState.remindNow() = PuzzleReminderStateRemindNow;
+}
+
+@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+sealed class PuzzleReminderEvent with _$PuzzleReminderEvent {
+  /// Indicates that the state of resolution has to be checked
+  const factory PuzzleReminderEvent.checkRequested({
+    required AccessMode accessMode,
+    required ECWallet wallet,
+  }) = PuzzleReminderEventCheckRequested;
+
+  /// Indicates that the user solved the puzzle
+  const factory PuzzleReminderEvent.solved() = PuzzleReminderEventSolved;
+
+  /// Indicates that the user postponed the puzzle
+  const factory PuzzleReminderEvent.postponed({
+    required Duration postponedBy,
+  }) = PuzzleReminderEventPostponed;
+
+  const factory PuzzleReminderEvent.loggedOut() = PuzzleReminderEventLoggedOut;
+}
 
 @injectable
 class PuzzleReminderBloc
@@ -25,12 +51,13 @@ class PuzzleReminderBloc
   final SharedPreferences _sharedPreferences;
 
   EventHandler<PuzzleReminderEvent, PuzzleReminderState> get _eventHandler =>
-      (event, emit) => event.map(
-            checkRequested: (e) => _onCheckRequested(e, emit),
-            solved: (_) => _onSolved(),
-            postponed: _onPostponed,
-            loggedOut: (_) => _onLoggedOut(),
-          );
+      (event, emit) => switch (event) {
+            PuzzleReminderEventCheckRequested() =>
+              _onCheckRequested(event, emit),
+            PuzzleReminderEventSolved() => _onSolved(),
+            PuzzleReminderEventPostponed() => _onPostponed(event),
+            PuzzleReminderEventLoggedOut() => _onLoggedOut(),
+          };
 
   Future<PuzzleReminderData> _readSharedPreferences() async {
     final content = _sharedPreferences.getString(_spKey);

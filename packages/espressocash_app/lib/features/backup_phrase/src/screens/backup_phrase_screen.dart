@@ -1,15 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/back_button.dart';
-import '../../../../../ui/onboarding_screen.dart';
-import '../../../../../ui/recovery_phrase_text_view.dart';
-import '../../../../../ui/theme.dart';
-import '../../../di.dart';
-import '../../../routes.gr.dart';
-import '../../accounts/data/account_repository.dart';
+import '../../../../../../l10n/l10n.dart';
+import '../../../../../../ui/app_bar.dart';
+import '../../../../../../ui/back_button.dart';
+import '../../../../../../ui/onboarding_screen.dart';
+import '../../../../../../ui/recovery_phrase_text_view.dart';
+import '../../../../../../ui/theme.dart';
+import '../../../../di.dart';
+import '../../../../routes.gr.dart';
+import '../../../accounts/data/account_repository.dart';
 
 @RoutePage()
 class BackupPhraseScreen extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
-import '../../../ui/button.dart';
-import '../../../ui/message_info_widget.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/message_info_widget.dart';
 import '../widgets/puzzle_screen.dart';
 import 'backup_phrase_flow_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';

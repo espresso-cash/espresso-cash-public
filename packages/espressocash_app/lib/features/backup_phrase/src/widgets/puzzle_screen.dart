@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../ui/app_bar.dart';
-import '../../../ui/decorated_window/decorated_window_header.dart';
-import '../../../ui/theme.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/decorated_window/decorated_window_header.dart';
+import '../../../../ui/theme.dart';
 
 class PuzzleScreen extends StatelessWidget {
   const PuzzleScreen({
