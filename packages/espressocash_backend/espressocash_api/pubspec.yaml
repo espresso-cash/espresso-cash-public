@@ -16,7 +16,6 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.1.10
-  dart_code_metrics: ^5.7.3
   freezed: ^2.0.2
   json_serializable: ^6.3.1
   mews_pedantic: ^0.16.0

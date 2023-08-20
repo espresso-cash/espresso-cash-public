@@ -362,7 +362,7 @@ SPEC CHECKSUMS:
   sentry_flutter: 354c51276054f9f8a9b276967172aeb2e91d8a69
   SentryPrivate: 760a9fd5d134c4d926c4c0afe9c4deceadbf4557
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences_foundation: 297b3ebca31b34ec92be11acd7fb0ba932c822ca
+  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904
   sqlite3: 88dd99ef4ac3945f5a15facdd752933c52fd93bf
   sqlite3_flutter_libs: c00751e981228acb63595236703da79d31282b63

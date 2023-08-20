@@ -26,7 +26,7 @@ abstract class CancelableJob<T extends Object> {
     }
 
     Future<void> doProcess() async {
-      while (true) {
+      while (!completer.isCompleted) {
         if (completer.isCanceled) {
           await finishTransaction();
 
@@ -45,8 +45,6 @@ abstract class CancelableJob<T extends Object> {
         completer.complete(result);
 
         await finishTransaction();
-
-        return;
       }
     }
 
