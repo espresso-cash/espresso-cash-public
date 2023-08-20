@@ -9,7 +9,7 @@ import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
-import '../../backup_phrase/module.dart';
+import '../../backup_phrase/backup_phrase.dart';
 import '../../conversion_rates/module.dart';
 import '../../favorite_tokens/module.dart';
 import '../../incoming_split_key_payments/module.dart';

@@ -1632,10 +1632,10 @@ packages:
     dependency: "direct main"
     description:
       name: storybook_flutter
-      sha256: "0ef97a82741e12734af3c104ef6c913af1ed808756214d23bff2bd115e547887"
+      sha256: bd8e3d215aad611df6668721a28912eab8a65c33f9b7d092365922f90f5fd5df
       url: "https://pub.dev"
     source: hosted
-    version: "0.12.0"
+    version: "0.14.0"
   stream_channel:
     dependency: transitive
     description:

@@ -799,5 +799,19 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampTopPartnerTitle": "Transfer Money Into Espresso Using Our Top Payment Partner",
+  "@onRampTopPartnerTitle": {},
+  "offRampTopPartnerTitle": "Cash Out To Your Bank Account Using Our Top Partner",
+  "@offRampTopPartnerTitle": {},
+  "rampOtherPartnersTitle": "Other Partners:",
+  "@rampOtherPartnersTitle": {}
 }
