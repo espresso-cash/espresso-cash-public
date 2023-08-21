@@ -1,5 +1,4 @@
 enum ChartInterval {
-  oneDay,
   oneWeek,
   oneMonth,
   threeMonth,
