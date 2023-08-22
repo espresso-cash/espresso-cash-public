@@ -1,3 +1,14 @@
+## 1.79.0
+
+ - **REFACTOR**: restructure some modules (#1048).
+ - **REFACTOR**: move BalancesBloc to get_it.
+ - **REFACTOR**: update linter (#1030).
+ - **REFACTOR**: migrate some freezed classes to sealed (#1029).
+ - **FIX**: remove 1d from token chart (#1049).
+ - **FIX**: make amount formatting more consistent (#1034).
+ - **FIX**: move BalancesBloc under authenticated flow.
+ - **FEAT**: add kado on-ramp (#1047).
+
 ## 1.78.0
 
  - **REFACTOR**: clean Amount and Currency (#1028).
