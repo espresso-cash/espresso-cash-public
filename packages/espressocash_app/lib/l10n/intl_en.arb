@@ -676,8 +676,6 @@
   },
   "tokenChart_lblAllTime": "All",
   "@tokenChart_lblAllTime": {},
-  "tokenChart_lblPastDay": "Past Day",
-  "@tokenChart_lblPastDay": {},
   "tokenChart_lblPastMonth": "Past Month",
   "@tokenChart_lblPastMonth": {},
   "tokenChart_lblPastThreeMonths": "Past Three Months",

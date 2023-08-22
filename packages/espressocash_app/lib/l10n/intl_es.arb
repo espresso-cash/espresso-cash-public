@@ -660,8 +660,6 @@
   },
   "tokenChart_lblAllTime": "Todo",
   "@tokenChart_lblAllTime": {},
-  "tokenChart_lblPastDay": "Ultimo dia ",
-  "@tokenChart_lblPastDay": {},
   "tokenChart_lblPastMonth": "Ultimo mes",
   "@tokenChart_lblPastMonth": {},
   "tokenChart_lblPastThreeMonths": "Ultimos tres meses",
