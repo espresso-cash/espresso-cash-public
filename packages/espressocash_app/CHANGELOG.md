@@ -1,3 +1,7 @@
+## 1.79.1
+
+ - **FIX**: kado onramp parameters (#1050).
+
 ## 1.79.0
 
  - **REFACTOR**: restructure some modules (#1048).
