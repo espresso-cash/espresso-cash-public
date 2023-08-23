@@ -11,8 +11,11 @@ extension BuildContextExt on BuildContext {
         'apiKey': kadoApiKey,
         'cryptoList': ['USDC'],
         'networkList': ['SOLANA'],
+        'network': 'SOLANA',
+        'onRevCurrency': 'USDC',
+        'theme': 'light',
         'productList': ['BUY'],
-        'mode': 'minimal',
+        'mode': 'full',
         'onToAddress': address,
       },
     );
