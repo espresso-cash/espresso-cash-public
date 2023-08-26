@@ -1,3 +1,7 @@
+## 1.80.0
+
+ - **FEAT**: Integrate guardarian onramp (#1051).
+
 ## 1.79.1
 
  - **FIX**: kado onramp parameters (#1050).
