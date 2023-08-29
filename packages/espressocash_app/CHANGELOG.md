@@ -1,3 +1,7 @@
+## 1.81.0
+
+ - **FEAT**: migrate to flutter_inappwebview (#1052).
+
 ## 1.80.0
 
  - **FEAT**: Integrate guardarian onramp (#1051).
