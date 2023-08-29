@@ -13,7 +13,7 @@ import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../favorite_tokens/widgets/extensions.dart';
 import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../onboarding/widgets/onboarding_notice.dart';
+import '../../onboarding/onboarding.dart';
 import '../../popular_tokens/widgets/extensions.dart';
 import '../../popular_tokens/widgets/popular_token_list.dart';
 import '../../profile/screens/profile_screen.dart';

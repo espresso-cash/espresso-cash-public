@@ -5,8 +5,6 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../di.dart';
 import '../ui/theme.dart';
 import 'stories/activity_tile.dart';
-import 'stories/app/investments/portfolio_widget.dart';
-import 'stories/app/wallet_main_screen.dart';
 import 'stories/app_bar.dart';
 import 'stories/background_gradient.dart';
 import 'stories/bordered_row.dart';
@@ -23,6 +21,8 @@ import 'stories/info_widget.dart';
 import 'stories/loader.dart';
 import 'stories/navigation_bar.dart';
 import 'stories/rounded_rectangle.dart';
+import 'stories/screens/ramp_partner_select_screen.dart';
+import 'stories/screens/wallet_main_screen.dart';
 import 'stories/shake.dart';
 import 'stories/slider.dart';
 import 'stories/snackbar.dart';
@@ -46,10 +46,6 @@ class StorybookApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Storybook(
-        plugins: initializePlugins(
-          contentsSidePanel: true,
-          knobsSidePanel: true,
-        ),
         wrapperBuilder: (context, child) => MaterialApp(
           theme: ThemeData.light(),
           darkTheme: ThemeData.dark(),
@@ -70,8 +66,8 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
-          appPortfolioWidget,
-          appWalletMainScreen,
+          onRampPartnerSelectScreen,
+          walletMainScreen,
           cpActivityTile,
           cpAppBar,
           cpBackgroundGradient,

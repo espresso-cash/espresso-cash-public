@@ -292,8 +292,6 @@ class _ChartRangeSelector extends StatelessWidget {
 extension ChartIntervalExt on ChartInterval {
   String get label {
     switch (this) {
-      case ChartInterval.oneDay:
-        return '1D';
       case ChartInterval.oneWeek:
         return '1W';
       case ChartInterval.oneMonth:
@@ -309,8 +307,6 @@ extension ChartIntervalExt on ChartInterval {
 
   String timeFrameLabel(BuildContext context) {
     switch (this) {
-      case ChartInterval.oneDay:
-        return context.l10n.tokenChart_lblPastDay;
       case ChartInterval.oneWeek:
         return context.l10n.tokenChart_lblPastWeek;
       case ChartInterval.oneMonth:
