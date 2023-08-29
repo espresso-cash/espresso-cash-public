@@ -45,9 +45,7 @@ extension on List<num> {
 extension on ChartInterval {
   String get dtoInterval {
     switch (this) {
-      case ChartInterval.oneDay:
       case ChartInterval.oneWeek:
-        return 'hourly';
       case ChartInterval.oneMonth:
       case ChartInterval.threeMonth:
       case ChartInterval.oneYear:
@@ -58,8 +56,6 @@ extension on ChartInterval {
 
   String get dtoDays {
     switch (this) {
-      case ChartInterval.oneDay:
-        return '1';
       case ChartInterval.oneWeek:
         return '7';
       case ChartInterval.oneMonth:
