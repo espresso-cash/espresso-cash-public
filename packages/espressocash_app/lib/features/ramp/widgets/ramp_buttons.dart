@@ -14,6 +14,7 @@ import '../../profile/data/profile_repository.dart';
 import '../../profile/models/country.dart';
 import '../../profile/screens/country_picker_screen.dart';
 import '../coinflow.dart';
+import '../guardarian.dart';
 import '../kado.dart';
 import '../models/ramp_partner.dart';
 import '../ramp_network.dart';
@@ -158,8 +159,9 @@ extension on BuildContext {
         launchRampNetworkOnRamp(countryCode: countryCode, address: address);
       case RampPartner.kado:
         launchKadoOnRamp(address: address);
-      case RampPartner.coinflow:
       case RampPartner.guardarian:
+        launchGuardarianOnRamp(address: address);
+      case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -183,10 +185,15 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
         top: RampPartner.kado,
         other: [RampPartner.rampNetwork].lock,
       )
-    : (
-        top: RampPartner.rampNetwork,
-        other: <RampPartner>[].lock,
-      );
+    : _eeaCountries.contains(countryCode)
+        ? (
+            top: RampPartner.guardarian,
+            other: [RampPartner.rampNetwork].lock,
+          )
+        : (
+            top: RampPartner.rampNetwork,
+            other: <RampPartner>[].lock,
+          );
 
 PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
     ? (
@@ -194,3 +201,9 @@ PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
         other: <RampPartner>[].lock,
       )
     : null;
+
+const _eeaCountries = {
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
+  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
+  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
+};

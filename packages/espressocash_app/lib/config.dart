@@ -76,6 +76,9 @@ const kadoApiKey = '789fc144-32ff-46c8-85af-339354fa314d';
 
 const rampApiKey = 'q3xw9q8ejb9js36czw8htg8qj4bf62q6hua8bvh9';
 
+const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
+const guardarianApiKey = 'ef6d4999-80ad-4ab2-bcfc-4c0669d2e070';
+
 const maxPayloadsPerSigningRequest = 10;
 
 const coinflowAppUrl = 'https://espresso-cash.github.io/ec-coinflow/';
