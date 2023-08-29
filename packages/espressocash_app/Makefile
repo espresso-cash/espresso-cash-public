@@ -28,6 +28,9 @@ flutter_test:
 deps_graph_all:
 	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,routes.gr.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
 
+deps_graph_features:
+	lakos lib/features -i "{**.freezed.dart,**.g.dart,**/src/**}" --metrics > features.dot
+
 deps_cycles:
 	python3 ./tool/cycles.py deps.dot --only-shortest
 

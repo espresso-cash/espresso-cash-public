@@ -18,7 +18,7 @@ typedef _State = TokenChartState;
 typedef _EventHandler = EventHandler<_Event, _State>;
 typedef _Emitter = Emitter<_State>;
 
-const defaultChartInterval = ChartInterval.oneDay;
+const defaultChartInterval = ChartInterval.oneWeek;
 
 @injectable
 class TokenChartBloc extends Bloc<_Event, _State> {
