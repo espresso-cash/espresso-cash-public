@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../l10n/l10n.dart';
 import '../routes.gr.dart';
 import 'app_bar.dart';
 
@@ -24,7 +25,7 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  String _title = '';
+  String? _title;
 
   Future<void> _handleLoaded(InAppWebViewController controller) async {
     if (widget.title != null) return;
@@ -52,7 +53,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(title: Text(widget.title ?? _title)),
+        appBar: CpAppBar(
+          title: Text(widget.title ?? _title ?? context.l10n.loading),
+        ),
         body: InAppWebView(
           initialUrlRequest: URLRequest(url: widget.url),
           androidOnPermissionRequest: (_, __, resources) =>

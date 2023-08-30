@@ -5,9 +5,13 @@ import 'package:flutter/material.dart';
 
 import '../../config.dart';
 import '../../ui/web_view_screen.dart';
+import 'models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
-  void launchGuardarianOnRamp({required String address}) {
+  void launchGuardarianOnRamp({
+    required String address,
+    required ProfileData profile,
+  }) {
     final uri = Uri.parse(guardarianBaseUrl).replace(
       queryParameters: {
         'partner_api_token': guardarianApiKey,
@@ -21,6 +25,7 @@ extension BuildContextExt on BuildContext {
         'default_side': 'buy_crypto',
         'side_toggle_disabled': 'true',
         'is_frame_checkout': 'false',
+        'email': profile.email,
       },
     );
     router.push(WebViewScreen.route(url: uri, title: 'Guardarian'));
