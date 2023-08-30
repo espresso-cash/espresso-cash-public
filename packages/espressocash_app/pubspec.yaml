@@ -106,7 +106,6 @@ flutter_gen:
     rive: true
 
 flutter:
-  generate: true
   uses-material-design: true
 
   assets:
