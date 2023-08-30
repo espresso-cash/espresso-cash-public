@@ -230,8 +230,10 @@ jobs:
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
 
-      - name: Run build_runner
-        run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
+      - name: Generate code
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="flutter_localizations" -- flutter gen-l10n
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
 
       - name: Generate test schemas
         run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
