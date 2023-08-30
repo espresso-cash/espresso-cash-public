@@ -1,38 +1,37 @@
-import 'dart:async';
-
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../authenticated/auth_scope.dart';
+import '../../../profile/data/profile_repository.dart';
 
 @Singleton(scope: authScope)
-class OnboardingRepository implements Disposable {
-  OnboardingRepository(this._storage) {
-    _storage.read(key: _onboardingKey).then((value) {
-      if (value == 'true') {
-        hasFinishedOnboarding = true;
-      }
-    });
+class OnboardingRepository extends ChangeNotifier {
+  OnboardingRepository(this._storage, this._profileRepository) {
+    _profileRepository.addListener(_handleProfileUpdated);
   }
 
-  final FlutterSecureStorage _storage;
+  final SharedPreferences _storage;
+  final ProfileRepository _profileRepository;
 
-  final BehaviorSubject<bool> _subject = BehaviorSubject.seeded(false);
+  void _handleProfileUpdated() => notifyListeners();
 
-  ValueStream<bool> get hasFinishedOnboardingStream => _subject.stream;
+  bool get hasFinishedOnboarding =>
+      hasConfirmedPassphrase && _profileRepository.hasAllRequiredFields;
 
-  set hasFinishedOnboarding(bool value) {
-    _subject.add(value);
-    _storage.write(key: _onboardingKey, value: value.toString());
-  }
+  bool get hasConfirmedPassphrase =>
+      _storage.getBool(_passphraseConfirmedKey) ?? false;
+
+  set hasConfirmedPassphrase(bool value) =>
+      _storage.setBool(_passphraseConfirmedKey, value);
 
   @override
-  FutureOr<void> onDispose() {
-    _subject.add(false);
-    _storage.delete(key: _onboardingKey);
+  @disposeMethod
+  void dispose() {
+    _profileRepository.removeListener(_handleProfileUpdated);
+    _storage.remove(_passphraseConfirmedKey);
+    super.dispose();
   }
 }
 
-const _onboardingKey = 'onboarding';
+const _passphraseConfirmedKey = 'passphraseConfirmed';

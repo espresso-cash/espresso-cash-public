@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/extensions.dart';
-import '../../../../core/presentation/value_stream_builder.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../accounts/models/account.dart';
+import '../../../accounts/models/ec_wallet.dart';
 import '../../../accounts/services/accounts_bloc.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_flow_screen.dart';
@@ -26,42 +25,40 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     super.initState();
 
     final account = context.read<AccountsBloc>().state.account;
-    if (account?.accessMode == const AccessMode.seedInputted()) {
-      sl<OnboardingRepository>().hasFinishedOnboarding = true;
+    if (account?.accessMode == const AccessMode.seedInputted() ||
+        account?.wallet is SagaWallet) {
+      sl<OnboardingRepository>().hasConfirmedPassphrase = true;
     }
   }
 
   void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
-        create: () => sl<OnboardingRepository>()
-            .hasFinishedOnboardingStream
-            .withInitial(),
-        builder: (context, hasFinishedOnboarding) {
-          if (hasFinishedOnboarding) return const SizedBox.shrink();
-
-          return AspectRatio(
-            aspectRatio: 433 / 123,
-            child: GestureDetector(
-              onTap: _onPressed,
-              child: RepaintBoundary(
-                child: Stack(
-                  children: [
-                    Assets.rive.onboardingNotice.rive(
-                      alignment: Alignment.topCenter,
-                      fit: BoxFit.fitWidth,
+  Widget build(BuildContext context) => ListenableBuilder(
+        listenable: sl<OnboardingRepository>(),
+        builder: (context, child) =>
+            sl<OnboardingRepository>().hasFinishedOnboarding
+                ? const SizedBox.shrink()
+                : AspectRatio(
+                    aspectRatio: 433 / 123,
+                    child: GestureDetector(
+                      onTap: _onPressed,
+                      child: RepaintBoundary(
+                        child: Stack(
+                          children: [
+                            Assets.rive.onboardingNotice.rive(
+                              alignment: Alignment.topCenter,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: _Content(onPressed: _onPressed),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: _Content(onPressed: _onPressed),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+                  ),
       );
 }
 
