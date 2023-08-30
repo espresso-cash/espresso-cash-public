@@ -18,7 +18,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../data/profile_repository.dart';
 import '../models/country.dart';
-import '../models/profile.dart';
 import '../widgets/pick_profile_picture.dart';
 import 'country_picker_screen.dart';
 
@@ -46,15 +45,15 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   void initState() {
     super.initState();
 
-    final profile = sl<ProfileRepository>().profile;
+    final repository = sl<ProfileRepository>();
 
     _nameController
       ..addListener(() => setState(() {}))
-      ..text = profile.firstName;
+      ..text = repository.firstName;
 
-    _photo = profile.photoPath?.let(File.new);
+    _photo = repository.photoPath?.let(File.new);
 
-    final country = profile.country;
+    final country = repository.country;
     if (country != null) {
       _country = Country.findByCode(country);
     }
@@ -80,13 +79,12 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
         try {
           final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-          sl<ProfileRepository>().profile = Profile(
-            firstName: _nameController.text,
-            country: _country?.code,
-            photoPath: photo?.path,
-          );
-
           if (!mounted) return;
+
+          sl<ProfileRepository>()
+            ..firstName = _nameController.text
+            ..country = _country?.code
+            ..photoPath = photo?.path;
 
           widget.onSubmitted();
         } on Exception catch (e) {

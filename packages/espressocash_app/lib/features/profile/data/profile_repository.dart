@@ -1,55 +1,52 @@
-import 'dart:async';
-
-import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticated/auth_scope.dart';
-import '../models/profile.dart';
 
 @Singleton(scope: authScope)
-class ProfileRepository implements Disposable {
+class ProfileRepository extends ChangeNotifier {
   ProfileRepository(this._sharedPreferences);
 
   final SharedPreferences _sharedPreferences;
 
-  late final BehaviorSubject<Profile> _subject = BehaviorSubject.seeded(
-    Profile(
-      firstName: _sharedPreferences.getString(nameKey) ?? '',
-      photoPath: _sharedPreferences.getString(photoKey),
-      country: _sharedPreferences.getString(countryKey),
-    ),
-  );
+  String get firstName => _sharedPreferences.getString(nameKey) ?? '';
 
-  ValueStream<Profile> get profileStream => _subject.stream;
+  set firstName(String value) {
+    _sharedPreferences.setString(nameKey, value);
+    notifyListeners();
+  }
 
-  Profile get profile => _subject.value;
+  String? get photoPath => _sharedPreferences.getString(photoKey);
 
-  set profile(Profile value) {
-    _sharedPreferences.setString(nameKey, value.firstName);
-    final photoPath = value.photoPath;
-    if (photoPath == null) {
+  set photoPath(String? value) {
+    if (value == null) {
       _sharedPreferences.remove(photoKey);
     } else {
-      _sharedPreferences.setString(photoKey, photoPath);
+      _sharedPreferences.setString(photoKey, value);
     }
-    final country = value.country;
-    if (country == null) {
+    notifyListeners();
+  }
+
+  String? get country => _sharedPreferences.getString(countryKey);
+
+  set country(String? value) {
+    if (value == null) {
       _sharedPreferences.remove(countryKey);
     } else {
-      _sharedPreferences.setString(countryKey, country);
+      _sharedPreferences.setString(countryKey, value);
     }
-    _subject.add(value);
+    notifyListeners();
   }
 
   @override
-  FutureOr<void> onDispose() {
+  @disposeMethod
+  void dispose() {
     _sharedPreferences
       ..remove(nameKey)
       ..remove(photoKey)
       ..remove(countryKey);
-    _subject.add(const Profile(firstName: ''));
+    super.dispose();
   }
 }
 

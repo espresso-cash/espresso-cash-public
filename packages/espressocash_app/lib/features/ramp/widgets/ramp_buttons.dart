@@ -77,13 +77,11 @@ extension on BuildContext {
 
     void onCountrySelected(Country country) {
       router.pop();
-      sl<ProfileRepository>().profile =
-          sl<ProfileRepository>().profile.copyWith(country: country.code);
+      sl<ProfileRepository>().country = country.code;
       completer.complete(country);
     }
 
-    final country =
-        sl<ProfileRepository>().profile.country?.let(Country.findByCode);
+    final country = sl<ProfileRepository>().country?.let(Country.findByCode);
     if (country == null) {
       router.push<Country>(
         CountryPickerScreen.route(onSubmitted: onCountrySelected),
