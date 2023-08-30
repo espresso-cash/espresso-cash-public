@@ -10,6 +10,9 @@ class ProfileRepository extends ChangeNotifier {
 
   final SharedPreferences _sharedPreferences;
 
+  bool get hasAllRequiredFields =>
+      firstName.isNotEmpty && email.isNotEmpty && country != null;
+
   String get firstName => _sharedPreferences.getString(nameKey) ?? '';
 
   set firstName(String value) {
@@ -39,13 +42,21 @@ class ProfileRepository extends ChangeNotifier {
     notifyListeners();
   }
 
+  String get email => _sharedPreferences.getString(emailKey) ?? '';
+
+  set email(String value) {
+    _sharedPreferences.setString(emailKey, value);
+    notifyListeners();
+  }
+
   @override
   @disposeMethod
   void dispose() {
     _sharedPreferences
       ..remove(nameKey)
       ..remove(photoKey)
-      ..remove(countryKey);
+      ..remove(countryKey)
+      ..remove(emailKey);
     super.dispose();
   }
 }
@@ -53,3 +64,4 @@ class ProfileRepository extends ChangeNotifier {
 const nameKey = 'name';
 const photoKey = 'photo';
 const countryKey = 'country';
+const emailKey = 'email';
