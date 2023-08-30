@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../config.dart';
+import '../../ui/web_view_screen.dart';
 
 extension BuildContextExt on BuildContext {
   void launchKadoOnRamp({required String address}) {
@@ -18,6 +19,6 @@ extension BuildContextExt on BuildContext {
         'onToAddress': address,
       },
     );
-    launchUrl(uri, mode: LaunchMode.externalApplication);
+    router.push(WebViewScreen.route(url: uri));
   }
 }
