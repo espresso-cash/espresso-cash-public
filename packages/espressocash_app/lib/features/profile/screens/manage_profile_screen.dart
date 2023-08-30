@@ -18,7 +18,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../data/profile_repository.dart';
 import '../models/country.dart';
-import '../models/profile.dart';
 import '../widgets/pick_profile_picture.dart';
 import 'country_picker_screen.dart';
 
@@ -39,6 +38,7 @@ class ManageProfileScreen extends StatefulWidget {
 
 class _ManageProfileScreenState extends State<ManageProfileScreen> {
   final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   Country? _country;
   File? _photo;
 
@@ -46,15 +46,14 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   void initState() {
     super.initState();
 
-    final profile = sl<ProfileRepository>().profile;
+    final repository = sl<ProfileRepository>();
 
-    _nameController
-      ..addListener(() => setState(() {}))
-      ..text = profile.firstName;
+    _nameController.text = repository.firstName;
+    _emailController.text = repository.email;
 
-    _photo = profile.photoPath?.let(File.new);
+    _photo = repository.photoPath?.let(File.new);
 
-    final country = profile.country;
+    final country = repository.country;
     if (country != null) {
       _country = Country.findByCode(country);
     }
@@ -63,6 +62,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   @override
   void dispose() {
     _nameController.dispose();
+    _emailController.dispose();
     super.dispose();
   }
 
@@ -80,13 +80,13 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
         try {
           final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-          sl<ProfileRepository>().profile = Profile(
-            firstName: _nameController.text,
-            country: _country?.code,
-            photoPath: photo?.path,
-          );
-
           if (!mounted) return;
+
+          sl<ProfileRepository>()
+            ..firstName = _nameController.text
+            ..country = _country?.code
+            ..photoPath = photo?.path
+            ..email = _emailController.text;
 
           widget.onSubmitted();
         } on Exception catch (e) {
@@ -96,15 +96,21 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
         }
       });
 
-  bool get _isValid => _nameController.text.isNotEmpty;
+  bool get _isValid =>
+      _nameController.text.isNotEmpty &&
+      _emailController.text.isValidEmail &&
+      _country != null;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           body: OnboardingScreen(
-            footer: OnboardingFooterButton(
-              text: context.l10n.save,
-              onPressed: _isValid ? _handleSubmitted : null,
+            footer: ListenableBuilder(
+              listenable: Listenable.merge([_nameController, _emailController]),
+              builder: (context, child) => OnboardingFooterButton(
+                text: context.l10n.save,
+                onPressed: _isValid ? _handleSubmitted : null,
+              ),
             ),
             children: [
               CpAppBar(
@@ -127,6 +133,26 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   backgroundColor: Colors.white,
                 ),
               ),
+              OnboardingPadding(
+                child: CpTextField(
+                  margin: const EdgeInsets.only(top: 16),
+                  placeholder: context.l10n.yourEmailPlaceholder,
+                  controller: _emailController,
+                  backgroundColor: Colors.white,
+                ),
+              ),
+              const SizedBox(height: 8),
+              OnboardingPadding(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: Text(
+                    context.l10n.yourEmailDisclaimer,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
               _CountryPickerItem(
                 country: _country,
                 onTap: _handleCountryPressed,
@@ -177,3 +203,7 @@ class _CountryPickerItem extends StatelessWidget {
 }
 
 const keyCreateProfileName = Key('createProfileName');
+
+extension on String {
+  bool get isValidEmail => RegExp(r'^.+@.+\..+$').hasMatch(this);
+}
