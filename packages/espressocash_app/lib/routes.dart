@@ -85,6 +85,7 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: NoEmailAndPasswordRoute.page),
             AutoRoute(page: ViewRecoveryPhraseRoute.page),
             AutoRoute(page: ManageProfileRoute.page),
+            AutoRoute(page: CountryPickerRoute.page),
           ],
         ),
         AutoRoute(page: RemoteRequestRoute.page),

@@ -26,7 +26,7 @@ flutter_test:
 	@$(MAKE) -f ../../Makefile $@
 
 deps_graph_all:
-	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,routes.gr.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,l10n/gen/**,routes.gr.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
 
 deps_graph_features:
 	lakos lib/features -i "{**.freezed.dart,**.g.dart,**/src/**}" --metrics > features.dot

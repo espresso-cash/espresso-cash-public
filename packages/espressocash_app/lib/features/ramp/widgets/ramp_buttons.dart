@@ -12,10 +12,11 @@ import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/models/country.dart';
-import '../../profile/screens/country_picker_screen.dart';
+import '../../profile/screens/manage_profile_screen.dart';
 import '../coinflow.dart';
 import '../guardarian.dart';
 import '../kado.dart';
+import '../models/profile_data.dart';
 import '../models/ramp_partner.dart';
 import '../ramp_network.dart';
 import '../screens/ramp_partner_select_screen.dart';
@@ -36,10 +37,10 @@ class AddCashButton extends StatelessWidget {
           minWidth: 250,
           text: context.l10n.ramp_btnAddCash,
           onPressed: () async {
-            final country = await context.ensureCountry();
-            if (context.mounted) {
+            final data = await context.ensureProfileData();
+            if (context.mounted && data != null) {
               context.launchOnRampFlow(
-                countryCode: country.code,
+                profile: data,
                 address: context.read<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
@@ -63,8 +64,9 @@ class CashOutButton extends StatelessWidget {
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
           onPressed: () async {
-            final country = await context.ensureCountry();
-            if (context.mounted) {
+            final data = await context.ensureProfileData();
+
+            if (context.mounted && data != null) {
               context.launchOffRampFlow(
                 countryCode: country.code,
               );
@@ -75,37 +77,39 @@ class CashOutButton extends StatelessWidget {
 }
 
 extension on BuildContext {
-  Future<Country> ensureCountry() {
-    final completer = Completer<Country>();
-
-    void onCountrySelected(Country country) {
+  Future<ProfileData?> ensureProfileData() async {
+    void handleSubmitted() {
       router.pop();
-      sl<ProfileRepository>().profile =
-          sl<ProfileRepository>().profile.copyWith(country: country.code);
-      completer.complete(country);
     }
 
-    final country =
-        sl<ProfileRepository>().profile.country?.let(Country.findByCode);
-    if (country == null) {
-      router.push(CountryPickerScreen.route(onSubmitted: onCountrySelected));
-    } else {
-      completer.complete(country);
+    final repository = sl<ProfileRepository>();
+    Country? country = repository.country?.let(Country.findByCode);
+    String email = repository.email;
+
+    if (country != null && email.isNotEmpty) {
+      return (country: country, email: email);
     }
 
-    return completer.future;
+    await router.push(ManageProfileScreen.route(onSubmitted: handleSubmitted));
+
+    country = repository.country?.let(Country.findByCode);
+    email = repository.email;
+
+    return country != null && email.isNotEmpty
+        ? (country: country, email: email)
+        : null;
   }
 
   void launchOnRampFlow({
-    required String countryCode,
+    required ProfileData profile,
     required String address,
   }) {
-    final partners = _getOnRampPartners(countryCode);
+    final partners = _getOnRampPartners(profile.country.code);
 
     if (partners.other.isEmpty) {
       return _launchOnRampPartner(
         partners.top,
-        countryCode: countryCode,
+        profile: profile,
         address: address,
       );
     }
@@ -117,7 +121,7 @@ extension on BuildContext {
         type: RampType.onRamp,
         onPartnerSelected: (p) {
           router.pop();
-          _launchOnRampPartner(p, countryCode: countryCode, address: address);
+          _launchOnRampPartner(p, profile: profile, address: address);
         },
       ),
     );
@@ -151,16 +155,16 @@ extension on BuildContext {
 
   void _launchOnRampPartner(
     RampPartner partner, {
-    required String countryCode,
+    required ProfileData profile,
     required String address,
   }) {
     switch (partner) {
       case RampPartner.rampNetwork:
-        launchRampNetworkOnRamp(countryCode: countryCode, address: address);
+        launchRampNetworkOnRamp(profile: profile, address: address);
       case RampPartner.kado:
-        launchKadoOnRamp(address: address);
+        launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
-        launchGuardarianOnRamp(address: address);
+        launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }

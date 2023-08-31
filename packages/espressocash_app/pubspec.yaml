@@ -50,7 +50,6 @@ dependencies:
   injectable: ^2.1.2
   intl: ^0.18.0
   json_annotation: ^4.4.0
-  localizely_sdk: ^2.5.1
   logging: ^1.1.0
   meta: ^1.7.0
   mobile_scanner: ^3.0.0-beta.4
@@ -108,7 +107,6 @@ flutter_gen:
     rive: true
 
 flutter:
-  generate: true
   uses-material-design: true
 
   assets:
