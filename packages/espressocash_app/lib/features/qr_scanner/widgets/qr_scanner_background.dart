@@ -60,7 +60,7 @@ class _Painter extends CustomPainter {
     );
 
     final rect = center & frameSize;
-    final rrect = RRect.fromRectXY(rect.deflate(5), 35, 35);
+    final rrect = RRect.fromRectXY(rect.deflate(8), 61.5, 61.5);
 
     canvas
       ..drawPath(
