@@ -10,6 +10,7 @@ class CpAppBar extends AppBar {
     Widget? nextButton,
     super.automaticallyImplyLeading,
   }) : super(
+          clipBehavior: Clip.none,
           leading: leading ?? const CpBackButton(ensureBackNavigation: true),
           actions: nextButton != null
               ? [
