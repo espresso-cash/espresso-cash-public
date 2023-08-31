@@ -68,7 +68,8 @@ class CashOutButton extends StatelessWidget {
 
             if (context.mounted && data != null) {
               context.launchOffRampFlow(
-                countryCode: country.code,
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
           },
@@ -128,16 +129,21 @@ extension on BuildContext {
   }
 
   void launchOffRampFlow({
-    required String countryCode,
+    required ProfileData profile,
+    required String address,
   }) {
-    final partners = _getOffRampPartners(countryCode);
+    final partners = _getOffRampPartners(profile.country.code);
 
     if (partners == null) {
       return unawaited(OffRampBottomSheet.show(this));
     }
 
     if (partners.other.isEmpty) {
-      return _launchOffRampPartner(partners.top);
+      return _launchOffRampPartner(
+        partners.top,
+        profile: profile,
+        address: address,
+      );
     }
 
     router.push(
@@ -147,7 +153,7 @@ extension on BuildContext {
         type: RampType.offRamp,
         onPartnerSelected: (p) {
           router.pop();
-          _launchOffRampPartner(p);
+          _launchOffRampPartner(p, profile: profile, address: address);
         },
       ),
     );
@@ -170,10 +176,14 @@ extension on BuildContext {
     }
   }
 
-  void _launchOffRampPartner(RampPartner partner) {
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
     switch (partner) {
       case RampPartner.coinflow:
-        launchCoinflowOffRamp();
+        launchCoinflowOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.kado:
       case RampPartner.guardarian:

@@ -2,23 +2,29 @@ import 'package:auto_route/auto_route.dart';
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:solana/encoder.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../../../config.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
-import '../../../accounts/models/account.dart';
+import '../../models/profile_data.dart';
 import '../../widgets/extensions.dart';
 import '../off_ramp_confirmation_screen.dart';
 import '../off_ramp_details_screen.dart';
 
 @RoutePage()
 class CoinflowOffRampScreen extends StatefulWidget {
-  const CoinflowOffRampScreen({super.key});
+  const CoinflowOffRampScreen({
+    super.key,
+    required this.profile,
+    required this.address,
+  });
+
+  final ProfileData profile;
+  final String address;
 
   static const route = CoinflowOffRampRoute.new;
 
@@ -27,30 +33,16 @@ class CoinflowOffRampScreen extends StatefulWidget {
 }
 
 class _State extends State<CoinflowOffRampScreen> {
-  late final WebViewController _controller;
-
   static const _channelName = 'coinflowChannel';
 
-  @override
-  void initState() {
-    super.initState();
+  late final Uri uri =
+      _buildUri(userAddress: widget.address, email: widget.profile.email);
 
-    final userAddress = context.read<MyAccount>().wallet.publicKey.toBase58();
-
-    final uri = _buildUri(userAddress: userAddress);
-
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.white)
-      ..loadRequest(uri)
-      ..addJavaScriptChannel(
-        _channelName,
-        onMessageReceived: _onMessageReceived,
-      );
-  }
-
-  Future<void> _onMessageReceived(JavaScriptMessage message) async {
-    final tx = message.message.let(SignedTx.decode);
+  Future<void> _onMessageReceived(
+    InAppWebViewController controller, {
+    required String encodedTx,
+  }) async {
+    final tx = encodedTx.let(SignedTx.decode);
 
     final data = tx.decompileMessage().instructions.first.data;
 
@@ -86,9 +78,23 @@ class _State extends State<CoinflowOffRampScreen> {
       OffRampDetailsScreen.route(
         id: id,
         onSuccess: () {
-          _controller.runJavaScript('fromFlutter("${tx.id}")');
+          controller.evaluateJavascript(source: 'fromFlutter("${tx.id}")');
         },
       ),
+    );
+  }
+
+  Future<void> _handleLoaded(InAppWebViewController controller) async {
+    controller.addJavaScriptHandler(
+      handlerName: _channelName,
+      callback: (args) async {
+        if (args.isNotEmpty && args.first is String) {
+          await _onMessageReceived(
+            controller,
+            encodedTx: args.first as String,
+          );
+        }
+      },
     );
   }
 
@@ -97,14 +103,18 @@ class _State extends State<CoinflowOffRampScreen> {
         appBar: CpAppBar(
           title: const Text('Coinflow | Espresso Cash'),
         ),
-        body: WebViewWidget(controller: _controller),
+        body: InAppWebView(
+          initialUrlRequest: URLRequest(url: uri),
+          onLoadStop: (controller, _) => _handleLoaded(controller),
+        ),
       );
 }
 
-Uri _buildUri({required String userAddress}) =>
+Uri _buildUri({required String userAddress, required String email}) =>
     Uri.parse(coinflowAppUrl).replace(
       queryParameters: <String, String>{
         'publicKey': userAddress,
+        'email': email,
         'cluster': isProd ? 'mainnet' : 'staging',
         'rpcUrl': solanaRpcUrl,
       },
