@@ -1,3 +1,9 @@
+## 1.82.0
+
+ - **FEAT**: remove localizely ota (#1055).
+ - **FEAT**: provide email to onramp partners (#1054).
+ - **FEAT**: add email to profile (#1053).
+
 ## 1.81.0
 
  - **FEAT**: migrate to flutter_inappwebview (#1052).

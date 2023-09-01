@@ -54,13 +54,36 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               child: CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    leading: Center(
+                      child: CpIconButton(
+                        icon: Assets.icons.qrScanner.svg(),
+                        variant: CpIconButtonVariant.black,
+                        onPressed: _onQrScanner,
+                      ),
+                    ),
                     shape: const Border(),
-                    title: _AppBarContent(onQrScanner: _onQrScanner),
+                    title: Center(
+                      child: Assets.images.logoDark.image(height: 32),
+                    ),
                     pinned: true,
                     snap: false,
                     floating: false,
                     elevation: 0,
                     backgroundColor: Colors.white,
+                    actions: [
+                      CpIconButton(
+                        icon: Assets.icons.searchButtonIcon.svg(),
+                        onPressed: () =>
+                            context.router.push(TokenSearchScreen.route()),
+                      ),
+                      const SizedBox(width: 12),
+                      CpIconButton(
+                        icon: Assets.icons.settingsButtonIcon.svg(),
+                        onPressed: () =>
+                            context.router.push(ProfileScreen.route()),
+                      ),
+                      const SizedBox(width: 12),
+                    ],
                   ),
                   const SliverToBoxAdapter(child: InvestmentHeader()),
                   const SliverToBoxAdapter(child: OnboardingNotice()),
@@ -87,57 +110,6 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
               ),
             ),
           ),
-        ),
-      );
-}
-
-class _AppBarContent extends StatelessWidget {
-  const _AppBarContent({required this.onQrScanner});
-  final VoidCallback onQrScanner;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-        height: kToolbarHeight,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              child: Row(
-                children: [
-                  CpIconButton(
-                    icon: Assets.icons.qrScanner
-                        .svg(color: const Color(0xFF2B2D2C)),
-                    onPressed: onQrScanner,
-                  ),
-                ],
-              ),
-            ),
-            Center(
-              child: Assets.images.logoDark.image(height: 32),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              bottom: 0,
-              child: Row(
-                children: [
-                  CpIconButton(
-                    icon: Assets.icons.searchButtonIcon.svg(),
-                    onPressed: () =>
-                        context.router.push(TokenSearchScreen.route()),
-                  ),
-                  const SizedBox(width: 12),
-                  CpIconButton(
-                    icon: Assets.icons.settingsButtonIcon.svg(),
-                    onPressed: () => context.router.push(ProfileScreen.route()),
-                  )
-                ],
-              ),
-            ),
-          ],
         ),
       );
 }
