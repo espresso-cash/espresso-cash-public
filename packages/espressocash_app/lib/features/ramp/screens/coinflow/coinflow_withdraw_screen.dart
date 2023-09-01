@@ -35,7 +35,7 @@ class CoinflowOffRampScreen extends StatefulWidget {
 class _State extends State<CoinflowOffRampScreen> {
   static const _channelName = 'coinflowChannel';
 
-  late final Uri uri =
+  late final Uri _uri =
       _buildUri(userAddress: widget.address, email: widget.profile.email);
 
   Future<void> _onMessageReceived(
@@ -104,7 +104,7 @@ class _State extends State<CoinflowOffRampScreen> {
           title: const Text('Coinflow | Espresso Cash'),
         ),
         body: InAppWebView(
-          initialUrlRequest: URLRequest(url: uri),
+          initialUrlRequest: URLRequest(url: _uri),
           onLoadStop: (controller, _) => _handleLoaded(controller),
         ),
       );
