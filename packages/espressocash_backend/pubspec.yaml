@@ -28,5 +28,5 @@ dev_dependencies:
   build_runner: ^2.4.6
   freezed: ^2.4.1
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.18.0
   test: ^1.24.6
