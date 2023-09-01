@@ -37,7 +37,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.12
+  flutter_markdown: ^0.6.17+2
   flutter_screenutil: ^5.8.4
   flutter_secure_storage: ^8.0.0
   flutter_svg: ^1.1.5
