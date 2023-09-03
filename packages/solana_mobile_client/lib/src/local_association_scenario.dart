@@ -5,6 +5,8 @@ import 'package:solana_mobile_client/src/mobile_wallet_adapter_client.dart';
 class LocalAssociationScenario {
   const LocalAssociationScenario._(this._instanceId);
 
+  static Future<bool> isAvailable() => api.isWalletEndpointAvailable();
+
   Future<MobileWalletAdapterClient> start() async {
     await api.start(_instanceId);
 

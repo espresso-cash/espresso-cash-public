@@ -4,13 +4,22 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import android.os.Looper
+import androidx.lifecycle.LifecycleOwner
 import com.solana.mobilewalletadapter.clientlib.protocol.MobileWalletAdapterClient
 import com.solana.mobilewalletadapter.clientlib.scenario.LocalAssociationIntentCreator
 import com.solana.mobilewalletadapter.clientlib.scenario.LocalAssociationScenario
 import com.solana.mobilewalletadapter.clientlib.scenario.Scenario
+import com.solana.mobilewalletadapter.common.util.NotifyOnCompleteFuture
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.plugin.common.PluginRegistry
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.runInterruptible
+import java.lang.Exception
+import java.util.concurrent.Future
+import java.util.logging.Handler
 
 @SuppressLint("StaticFieldLeak")
 object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAware,
@@ -20,6 +29,9 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
     private var activity: Activity? = null
     private var activityResult: Api.Result<Void>? = null
 
+    override fun isWalletEndpointAvailable(): Boolean {
+        return LocalAssociationIntentCreator.isWalletEndpointAvailable(activity!!.packageManager)
+    }
 
     override fun create(id: Long, result: Api.Result<Void>?) {
         val scenario = LocalAssociationScenario(Scenario.DEFAULT_CLIENT_TIMEOUT_MS)
@@ -28,12 +40,11 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
     }
 
     override fun start(id: Long, result: Api.Result<Void>?) {
-        val scenario = getScenario(id)
+        runWithResult(result) {
+            val scenario = getScenario(id)
+            clients[id] = scenario.start().get()
 
-        scenario.start().notifyOnComplete {
-            clients[id] = it.get()
-
-            activity?.runOnUiThread { result?.success(null) }
+            null
         }
     }
 
@@ -88,18 +99,16 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
     }
 
     override fun getCapabilities(id: Long, result: Api.Result<Api.GetCapabilitiesResultDto>?) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
+            val capabilities = client.capabilities.get()
 
-        client.capabilities.notifyOnComplete {
-            val capabilities = it.get()
-            val dto = Api.GetCapabilitiesResultDto.Builder()
+            Api.GetCapabilitiesResultDto.Builder()
                 .setMaxMessagesPerSigningRequest(capabilities.maxMessagesPerSigningRequest.toLong())
                 .setMaxTransactionsPerSigningRequest(capabilities.maxTransactionsPerSigningRequest.toLong())
                 .setSupportsCloneAuthorization(capabilities.supportsCloneAuthorization)
                 .setSupportsSignAndSendTransactions(capabilities.supportsSignAndSendTransactions)
                 .build()
-
-            activity?.runOnUiThread { result?.success(dto) }
         }
     }
 
@@ -111,27 +120,22 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         cluster: String?,
         result: Api.Result<Api.AuthorizationResultDto>?
     ) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
 
-        client.authorize(
-            identityUri?.let(Uri::parse),
-            iconUri?.let(Uri::parse),
-            identityName,
-            cluster,
-        ).notifyOnComplete {
-            try {
-                val authResult = it.get()
-                val dto = Api.AuthorizationResultDto.Builder()
-                    .setAuthToken(authResult.authToken)
-                    .setPublicKey(authResult.publicKey)
-                    .setAccountLabel(authResult.accountLabel)
-                    .setWalletUriBase(authResult.walletUriBase?.toString())
-                    .build()
+            val authResult = client.authorize(
+                identityUri?.let(Uri::parse),
+                iconUri?.let(Uri::parse),
+                identityName,
+                cluster,
+            ).get()
 
-                activity?.runOnUiThread { result?.success(dto) }
-            } catch (e: Throwable) {
-                activity?.runOnUiThread { result?.error(e) }
-            }
+            Api.AuthorizationResultDto.Builder()
+                .setAuthToken(authResult.authToken)
+                .setPublicKey(authResult.publicKey)
+                .setAccountLabel(authResult.accountLabel)
+                .setWalletUriBase(authResult.walletUriBase?.toString())
+                .build()
         }
     }
 
@@ -143,35 +147,32 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         authToken: String,
         result: Api.Result<Api.AuthorizationResultDto>?
     ) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
 
-        client.reauthorize(
-            identityUri?.let(Uri::parse),
-            iconUri?.let(Uri::parse),
-            identityName,
-            authToken,
-        ).notifyOnComplete {
-            try {
-                val authResult = it.get()
-                val dto = Api.AuthorizationResultDto.Builder()
-                    .setAuthToken(authResult.authToken)
-                    .setPublicKey(authResult.publicKey)
-                    .setAccountLabel(authResult.accountLabel)
-                    .setWalletUriBase(authResult.walletUriBase?.toString())
-                    .build()
+            val authResult = client.reauthorize(
+                identityUri?.let(Uri::parse),
+                iconUri?.let(Uri::parse),
+                identityName,
+                authToken,
+            ).get()
 
-                activity?.runOnUiThread { result?.success(dto) }
-            } catch (e: Throwable) {
-                activity?.runOnUiThread { result?.error(e) }
-            }
+            Api.AuthorizationResultDto.Builder()
+                .setAuthToken(authResult.authToken)
+                .setPublicKey(authResult.publicKey)
+                .setAccountLabel(authResult.accountLabel)
+                .setWalletUriBase(authResult.walletUriBase?.toString())
+                .build()
         }
     }
 
     override fun deauthorize(id: Long, authToken: String, result: Api.Result<Void>?) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
+            client.deauthorize(authToken).get()
 
-        client.deauthorize(authToken)
-            .notifyOnComplete { activity?.runOnUiThread { result?.success(null) } }
+            null
+        }
     }
 
     override fun signTransactions(
@@ -179,19 +180,14 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         transactions: MutableList<ByteArray>,
         result: Api.Result<Api.SignPayloadsResultDto>?
     ) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
 
-        client.signTransactions(transactions.toTypedArray()).notifyOnComplete {
-            try {
-                val response = it.get()
-                val dto = Api.SignPayloadsResultDto.Builder()
-                    .setSignedPayloads(response.signedPayloads.toList())
-                    .build()
+            val response = client.signTransactions(transactions.toTypedArray()).get()
 
-                activity?.runOnUiThread { result?.success(dto) }
-            } catch (e: Throwable) {
-                activity?.runOnUiThread { result?.error(e) }
-            }
+            Api.SignPayloadsResultDto.Builder()
+                .setSignedPayloads(response.signedPayloads.toList())
+                .build()
         }
     }
 
@@ -201,29 +197,23 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         addresses: MutableList<ByteArray>,
         result: Api.Result<Api.SignMessagesResultDto>?
     ) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
 
-        client.signMessagesDetached(messages.toTypedArray(), addresses.toTypedArray())
-            .notifyOnComplete {
-                try {
-                    val response = it.get()
-                    val messages = response.messages.map {
-                        r ->
-                        Api.SignedMessageDto.Builder()
-                            .setMessage(r.message)
-                            .setSignatures(r.signatures.toList())
-                            .setAddresses(r.addresses.toList())
-                            .build()
-                    }
-                    val dto = Api.SignMessagesResultDto.Builder()
-                        .setMessages(messages.toList())
-                        .build()
-
-                    activity?.runOnUiThread { result?.success(dto) }
-                } catch (e: Throwable) {
-                    activity?.runOnUiThread { result?.error(e) }
-                }
+            val response = client
+                .signMessagesDetached(messages.toTypedArray(), addresses.toTypedArray())
+                .get()
+            val messages = response.messages.map { r ->
+                Api.SignedMessageDto.Builder().setMessage(r.message)
+                    .setSignatures(r.signatures.toList())
+                    .setAddresses(r.addresses.toList())
+                    .build()
             }
+
+            Api.SignMessagesResultDto.Builder()
+                .setMessages(messages.toList())
+                .build()
+        }
     }
 
     override fun signAndSendTransactions(
@@ -232,21 +222,28 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
         minContextSlot: Long?,
         result: Api.Result<Api.SignAndSendTransactionsResultDto>?
     ) {
-        val client = getClient(id)
+        runWithResult(result) {
+            val client = getClient(id)
 
-        client.signAndSendTransactions(transactions.toTypedArray(), minContextSlot?.toInt())
-            .notifyOnComplete {
-                try {
-                    val response = it.get()
-                    val dto = Api.SignAndSendTransactionsResultDto.Builder()
-                        .setSignatures(response.signatures.toList())
-                        .build()
+            val response = client
+                .signAndSendTransactions(transactions.toTypedArray(), minContextSlot?.toInt())
+                .get()
 
-                    activity?.runOnUiThread { result?.success(dto) }
-                } catch (e: Throwable) {
-                    activity?.runOnUiThread { result?.error(e) }
-                }
+            Api.SignAndSendTransactionsResultDto.Builder()
+                .setSignatures(response.signatures.toList())
+                .build()
+        }
+    }
+
+    private fun <T> runWithResult(result: Api.Result<T>?, block: () -> T?) {
+        Thread().run {
+            try {
+                val taskResult = block()
+                activity?.runOnUiThread { result?.success(taskResult) }
+            } catch (e: Throwable) {
+                activity?.runOnUiThread { result?.error(e) }
             }
+        }
     }
 
     private fun getScenario(id: Long): LocalAssociationScenario =
