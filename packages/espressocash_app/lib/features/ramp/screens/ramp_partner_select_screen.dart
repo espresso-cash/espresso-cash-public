@@ -32,57 +32,84 @@ class RampPartnerSelectScreen extends StatelessWidget {
   final ValueSetter<RampPartner> onPartnerSelected;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(
-          leading: const CpTheme.dark(child: CpBackButton()),
-        ),
-        extendBodyBehindAppBar: true,
-        backgroundColor: CpColors.dashboardBackgroundColor,
-        body: Column(
-          children: [
-            _TopPartner(
-              partner: topPartner,
-              type: type,
-              onPartnerSelected: onPartnerSelected,
+  Widget build(BuildContext context) => CpTheme.dark(
+        child: Scaffold(
+          appBar: CpAppBar(
+            leading: const CpBackButton(),
+            title: Text(
+              switch (type) {
+                RampType.onRamp => context.l10n.ramp_btnAddCash,
+                RampType.offRamp => context.l10n.ramp_btnCashOut,
+              }
+                  .toUpperCase(),
             ),
-            const SizedBox(height: 27),
-            Text(
-              context.l10n.rampOtherPartnersTitle,
-              style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 5),
-            for (final partner in otherPartners)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 7, horizontal: 18),
-                child: ListTile(
-                  tileColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          extendBodyBehindAppBar: true,
+          backgroundColor: CpColors.dashboardBackgroundColor,
+          body: CpTheme.light(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _TopPartner(
+                    partner: topPartner,
+                    type: type,
+                    onPartnerSelected: onPartnerSelected,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-                  title: Text(
-                    partner.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF2D2B2C),
+                  const SizedBox(height: 27),
+                  const _OtherPartnersTitle(),
+                  const SizedBox(height: 5),
+                  for (final partner in otherPartners)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 7,
+                        horizontal: 18,
+                      ),
+                      child: ListTile(
+                        tileColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 28),
+                        title: Text(
+                          partner.title,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF2D2B2C),
+                          ),
+                        ),
+                        subtitle: Text(
+                          context.l10n
+                              .rampMinimumTransferAmount(partner.minimumAmount),
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: CpColors.menuPrimaryTextColor,
+                          ),
+                        ),
+                        trailing: const _Arrow(),
+                        onTap: () => onPartnerSelected(partner),
+                      ),
                     ),
-                  ),
-                  subtitle: Text(
-                    context.l10n
-                        .rampMinimumTransferAmount(partner.minimumAmount),
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: CpColors.menuPrimaryTextColor,
-                    ),
-                  ),
-                  trailing: const _Arrow(),
-                  onTap: () => onPartnerSelected(partner),
-                ),
+                ],
               ),
-          ],
+            ),
+          ),
+        ),
+      );
+}
+
+class _OtherPartnersTitle extends StatelessWidget {
+  const _OtherPartnersTitle();
+
+  @override
+  Widget build(BuildContext context) => Text(
+        context.l10n.rampOtherPartnersTitle,
+        style: TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w500,
+          color: CpTheme.of(context).primaryTextColor,
         ),
       );
 }
@@ -112,8 +139,8 @@ class _TopPartner extends StatelessWidget {
   final ValueSetter<RampPartner> onPartnerSelected;
 
   AssetGenImage get image => switch (type) {
-        RampType.onRamp => Assets.images.onRampTopPartner,
-        RampType.offRamp => Assets.images.offRampTopPartner,
+        RampType.onRamp => Assets.images.cashInBg,
+        RampType.offRamp => Assets.images.cashOutBg,
       };
 
   @override
@@ -122,12 +149,6 @@ class _TopPartner extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            Image.asset(
-              image.path,
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.cover,
-            ),
             image.image(
               fit: BoxFit.cover,
               width: double.infinity,
@@ -136,9 +157,24 @@ class _TopPartner extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  SizedBox(
+                    height: MediaQuery.paddingOf(context).top,
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: switch (type) {
+                        RampType.onRamp => Assets.images.cashInGraphic.image(),
+                        RampType.offRamp =>
+                          Assets.images.cashOutGraphic.image(),
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 18),
                   SizedBox(
                     width: 300,
                     child: Text(
