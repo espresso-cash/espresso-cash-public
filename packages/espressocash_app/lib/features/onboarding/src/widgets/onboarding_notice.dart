@@ -40,7 +40,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
             sl<OnboardingRepository>().hasFinishedOnboarding
                 ? const SizedBox.shrink()
                 : AspectRatio(
-                    aspectRatio: 433 / 123,
+                    aspectRatio: 450 / 100,
                     child: GestureDetector(
                       onTap: _onPressed,
                       child: RepaintBoundary(
@@ -51,7 +51,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
                               fit: BoxFit.fitWidth,
                             ),
                             Align(
-                              alignment: Alignment.centerRight,
+                              alignment: Alignment.center,
                               child: _Content(onPressed: _onPressed),
                             ),
                           ],
@@ -68,62 +68,31 @@ class _Content extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Flexible(
-              child: FractionallySizedBox(
-                widthFactor: 0.75,
-                child: _Text(),
-              ),
-            ),
-            const SizedBox(height: 8, width: double.infinity),
-            Flexible(
-              child: Align(
-                alignment: Alignment.center,
-                child: CpButton(
-                  text: context.l10n.onboardingNoticeFinishSetup,
-                  size: CpButtonSize.micro,
-                  onPressed: onPressed,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-}
-
-class _Text extends StatelessWidget {
-  const _Text();
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Flexible(
+          SizedBox(
+            width: 150,
             child: FittedBox(
               child: Text(
-                context.l10n.onboardingNoticeTitle,
+                context.l10n.onboardingNoticeMessage,
+                maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
           ),
-          FittedBox(
-            child: Text(
-              context.l10n.onboardingNoticeMessage,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          const SizedBox(width: 12),
+          CpButton(
+            text: context.l10n.onboardingNoticeFinishSetup,
+            size: CpButtonSize.micro,
+            onPressed: onPressed,
           ),
+          const SizedBox(width: 24)
         ],
       );
 }
