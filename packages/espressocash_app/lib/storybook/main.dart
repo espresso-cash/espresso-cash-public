@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../di.dart';
+import '../l10n/gen/app_localizations.dart';
 import '../ui/theme.dart';
 import 'stories/activity_tile.dart';
 import 'stories/app_bar.dart';

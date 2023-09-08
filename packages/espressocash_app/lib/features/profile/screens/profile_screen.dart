@@ -14,10 +14,11 @@ import '../../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
+import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
+import '../data/profile_repository.dart';
 import '../widgets/learning_section.dart';
-import '../widgets/profile_builder.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -58,13 +59,16 @@ class ProfileScreen extends StatelessWidget {
                         child: Stack(
                           children: [
                             Center(
-                              child: ProfileBuilder(
-                                builder: (context, profile) => CpUserAvatar(
+                              child: ListenableBuilder(
+                                listenable: sl<ProfileRepository>(),
+                                builder: (context, child) => CpUserAvatar(
                                   radius: _imageSize / 2,
-                                  image: profile.photoPath?.let(
-                                    (it) => FileImage(File(it)),
-                                  ),
-                                  userName: profile.firstName.orDefault,
+                                  image: sl<ProfileRepository>().photoPath?.let(
+                                        (it) => FileImage(File(it)),
+                                      ),
+                                  userName: sl<ProfileRepository>()
+                                      .firstName
+                                      .orDefault,
                                 ),
                               ),
                             ),
@@ -81,18 +85,20 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8),
-                        child: ProfileBuilder(
-                          builder: (context, profile) => Text(
-                            profile.firstName.orDefault,
+                        child: ListenableBuilder(
+                          listenable: sl<ProfileRepository>(),
+                          builder: (context, child) => Text(
+                            sl<ProfileRepository>().firstName.orDefault,
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                         ),
                       ),
                       const SizedBox(height: 24),
-                      ProfileBuilder(
-                        builder: (context, profile) => _QrCodeWidget(
+                      ListenableBuilder(
+                        listenable: sl<ProfileRepository>(),
+                        builder: (context, child) => _QrCodeWidget(
                           address: address,
-                          name: profile.firstName.orDefault,
+                          name: sl<ProfileRepository>().firstName.orDefault,
                         ),
                       ),
                       const SizedBox(height: 12),

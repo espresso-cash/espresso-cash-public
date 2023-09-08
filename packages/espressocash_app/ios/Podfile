@@ -56,7 +56,7 @@ post_install do |installer|
             '$(inherited)',
             'PERMISSION_EVENTS=0',
             'PERMISSION_REMINDERS=0',
-            'PERMISSION_CAMERA=0',
+            'PERMISSION_CAMERA=1',
             'PERMISSION_MICROPHONE=0',
             'PERMISSION_SPEECH_RECOGNIZER=0',
             'PERMISSION_SENSORS=0',

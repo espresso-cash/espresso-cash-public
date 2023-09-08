@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/localizely_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'core/analytics/analytics_manager.dart';
@@ -10,7 +9,7 @@ import 'features/accounts/services/accounts_bloc.dart';
 import 'features/app_lock/app_lock.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
-import 'l10n/localizely_updater.dart';
+import 'l10n/gen/app_localizations.dart';
 import 'routes.dart';
 import 'ui/splash_screen.dart';
 import 'ui/theme.dart';
@@ -57,15 +56,12 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
               sl<AnalyticsManager>().analyticsObserver,
             ],
           ),
-          localizationsDelegates:
-              LocalizelyLocalizations.localizationsDelegates,
-          supportedLocales: LocalizelyLocalizations.supportedLocales,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
           debugShowCheckedModeBanner: false,
           title: 'Espresso Cash',
           theme: context.watch<CpThemeData>().toMaterialTheme(),
-          builder: (context, child) => LocalizelyUpdater(
-            child: AppLockModule(child: child),
-          ),
+          builder: (context, child) => AppLockModule(child: child),
         ),
       ),
     );
