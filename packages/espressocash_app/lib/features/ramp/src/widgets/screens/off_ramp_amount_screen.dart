@@ -95,7 +95,6 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
                 ),
                 const Spacer(),
                 AmountKeypad(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   controller: _controller,
                   maxDecimals: 2,
                 ),

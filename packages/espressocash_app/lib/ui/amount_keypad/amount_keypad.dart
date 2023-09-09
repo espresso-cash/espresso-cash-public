@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -12,18 +10,12 @@ class AmountKeypad extends StatelessWidget {
     super.key,
     required this.controller,
     required this.maxDecimals,
-    this.height,
-    this.width,
     this.isEnabled = true,
-    this.padding = const EdgeInsets.all(16),
   });
 
   final TextEditingController controller;
   final int maxDecimals;
-  final double? height;
-  final double? width;
   final bool isEnabled;
-  final EdgeInsets padding;
 
   static const _keys = [
     KeypadKey.number(number: 1),
@@ -82,21 +74,14 @@ class AmountKeypad extends StatelessWidget {
           final decimalSeparator =
               getDecimalSeparator(DeviceLocale.localeOf(context));
 
-          final height =
-              this.height ?? min(MediaQuery.sizeOf(context).height / 2, 400);
-          final width = this.width ?? min(height, constraints.maxWidth);
-
-          final childAspectRatio = 4 / 3 * width / height;
-
-          return SizedBox(
-            height: width,
-            width: height,
+          return AspectRatio(
+            aspectRatio: 1,
             child: Padding(
-              padding: padding,
+              padding: const EdgeInsets.all(16),
               child: GridView.count(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                childAspectRatio: childAspectRatio,
+                childAspectRatio: 4 / 3,
                 crossAxisCount: 3,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
