@@ -16,9 +16,7 @@ import '../../../../../ui/button.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/theme.dart';
 
-typedef AmountCalculator = AsyncResult<FiatAmount> Function(
-  CryptoAmount amount,
-);
+typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
 
 @RoutePage()
 class OffRampAmountScreen extends StatefulWidget {
@@ -32,9 +30,9 @@ class OffRampAmountScreen extends StatefulWidget {
 
   static const route = OffRampAmountRoute.new;
 
-  final ValueSetter<CryptoAmount> onSubmitted;
+  final ValueSetter<Amount> onSubmitted;
   final Decimal minAmount;
-  final CryptoCurrency currency;
+  final Currency currency;
   final AmountCalculator calculateEquivalent;
 
   @override
@@ -50,15 +48,15 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
     super.dispose();
   }
 
-  CryptoAmount get _amount {
+  Amount get _amount {
     final text = _controller.text;
     final value = Decimal.tryParse(text);
 
     return value == null
-        ? CryptoAmount(value: 0, cryptoCurrency: widget.currency)
-        : CryptoAmount(
+        ? Amount(value: 0, currency: widget.currency)
+        : Amount(
             value: widget.currency.decimalToInt(value),
-            cryptoCurrency: widget.currency,
+            currency: widget.currency,
           );
   }
 
@@ -77,68 +75,22 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
-                  child: SizedBox(
-                    height: 82,
-                    child: ValueListenableBuilder(
-                      valueListenable: _controller,
-                      builder: (context, value, child) => FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          value.text.isEmpty
-                              ? context.l10n.enterAmount
-                              : '${value.text} ${widget.currency.symbol}',
-                          style: TextStyle(
-                            fontSize: 70,
-                            fontWeight: FontWeight.w700,
-                            color: value.text.isEmpty
-                                ? const Color(0xFF8F8F8F)
-                                : Colors.white,
-                          ),
-                        ),
-                      ),
+                  child: ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, value, child) => _EnteredAmount(
+                      enteredText: value.text,
+                      currency: widget.currency,
                     ),
                   ),
                 ),
                 const SizedBox(height: 27),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 40),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  height: 55,
-                  width: double.infinity,
-                  decoration: const ShapeDecoration(
-                    shape: StadiumBorder(),
-                    color: Colors.black,
-                  ),
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: ValueListenableBuilder(
-                      valueListenable: _controller,
-                      builder: (context, value, child) {
-                        final amount = _amount;
-
-                        return DefaultTextStyle(
-                          style: const TextStyle(fontSize: 15),
-                          child: amount.decimal < widget.minAmount
-                              ? Text(
-                                  context.l10n.minAmountToOffRamp(
-                                    CryptoAmount(
-                                      value: widget.currency
-                                          .decimalToInt(widget.minAmount),
-                                      cryptoCurrency: widget.currency,
-                                    ).format(
-                                      DeviceLocale.localeOf(context),
-                                      roundInteger: true,
-                                    ),
-                                  ),
-                                )
-                              : _Calculator(
-                                  calculateEquivalent:
-                                      widget.calculateEquivalent,
-                                  amount: amount,
-                                ),
-                        );
-                      },
-                    ),
+                ValueListenableBuilder(
+                  valueListenable: _controller,
+                  builder: (context, value, child) => _InfoLabel(
+                    amount: _amount,
+                    calculateEquivalent: widget.calculateEquivalent,
+                    minAmount: widget.minAmount,
+                    currency: widget.currency,
                   ),
                 ),
                 const Spacer(),
@@ -172,6 +124,83 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
       );
 }
 
+class _InfoLabel extends StatelessWidget {
+  const _InfoLabel({
+    required this.amount,
+    required this.minAmount,
+    required this.currency,
+    required this.calculateEquivalent,
+  });
+
+  final Amount amount;
+  final Decimal minAmount;
+  final Currency currency;
+  final AmountCalculator calculateEquivalent;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 40),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        height: 55,
+        width: double.infinity,
+        decoration: const ShapeDecoration(
+          shape: StadiumBorder(),
+          color: Colors.black,
+        ),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: DefaultTextStyle(
+            style: const TextStyle(fontSize: 15),
+            child: amount.decimal < minAmount
+                ? Text(
+                    context.l10n.minAmountToOffRamp(
+                      Amount(
+                        value: currency.decimalToInt(minAmount),
+                        currency: currency,
+                      ).format(
+                        DeviceLocale.localeOf(context),
+                        roundInteger: true,
+                      ),
+                    ),
+                  )
+                : _Calculator(
+                    calculateEquivalent: calculateEquivalent,
+                    amount: amount,
+                  ),
+          ),
+        ),
+      );
+}
+
+class _EnteredAmount extends StatelessWidget {
+  const _EnteredAmount({
+    required this.currency,
+    required this.enteredText,
+  });
+
+  final Currency currency;
+  final String enteredText;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: 82,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            enteredText.isEmpty
+                ? context.l10n.enterAmount
+                : '$enteredText ${currency.symbol}',
+            style: TextStyle(
+              fontSize: 70,
+              fontWeight: FontWeight.w700,
+              color:
+                  enteredText.isEmpty ? const Color(0xFF8F8F8F) : Colors.white,
+            ),
+          ),
+        ),
+      );
+}
+
 class _Calculator extends StatefulWidget {
   const _Calculator({
     required this.calculateEquivalent,
@@ -179,14 +208,14 @@ class _Calculator extends StatefulWidget {
   });
 
   final AmountCalculator calculateEquivalent;
-  final CryptoAmount amount;
+  final Amount amount;
 
   @override
-  State<_Calculator> createState() => __CalculatorState();
+  State<_Calculator> createState() => _CalculatorState();
 }
 
-class __CalculatorState extends State<_Calculator> {
-  AsyncResult<FiatAmount>? _result;
+class _CalculatorState extends State<_Calculator> {
+  AsyncResult<Amount>? _result;
 
   @override
   void initState() {
