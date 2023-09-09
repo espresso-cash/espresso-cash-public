@@ -157,10 +157,7 @@ class _InfoLabel extends StatelessWidget {
                       Amount(
                         value: currency.decimalToInt(minAmount),
                         currency: currency,
-                      ).format(
-                        DeviceLocale.localeOf(context),
-                        roundInteger: true,
-                      ),
+                      ).format(context.locale, roundInteger: true),
                     ),
                   )
                 : _Calculator(
@@ -244,9 +241,8 @@ class _CalculatorState extends State<_Calculator> {
               : Text(
                   data.fold(
                     (_) => context.l10n.rampAmountEquivalentError,
-                    (amount) => context.l10n.rampAmountEquivalent(
-                      amount.format(DeviceLocale.localeOf(context)),
-                    ),
+                    (amount) => context.l10n
+                        .rampAmountEquivalent(amount.format(context.locale)),
                   ),
                 );
         },
