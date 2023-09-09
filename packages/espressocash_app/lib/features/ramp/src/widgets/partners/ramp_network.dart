@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ramp_flutter/configuration.dart';
 import 'package:ramp_flutter/ramp_flutter.dart';
 
-import '../../config.dart';
-import '../balances/widgets/context_ext.dart';
-import 'models/profile_data.dart';
+import '../../../../../config.dart';
+import '../../../../balances/widgets/context_ext.dart';
+import '../../models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
   void launchRampNetworkOnRamp({

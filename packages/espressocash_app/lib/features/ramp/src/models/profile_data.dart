@@ -1,3 +1,3 @@
-import '../../profile/models/country.dart';
+import '../../../country_picker/models/country.dart';
 
 typedef ProfileData = ({Country country, String email});
