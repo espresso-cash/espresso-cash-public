@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,7 @@ class AmountKeypad extends StatelessWidget {
     this.height,
     this.width,
     this.isEnabled = true,
+    this.padding = const EdgeInsets.all(16),
   });
 
   final TextEditingController controller;
@@ -20,6 +23,7 @@ class AmountKeypad extends StatelessWidget {
   final double? height;
   final double? width;
   final bool isEnabled;
+  final EdgeInsets padding;
 
   static const _keys = [
     KeypadKey.number(number: 1),
@@ -73,43 +77,45 @@ class AmountKeypad extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final decimalSeparator =
-        getDecimalSeparator(DeviceLocale.localeOf(context));
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          final decimalSeparator =
+              getDecimalSeparator(DeviceLocale.localeOf(context));
 
-    final height = this.height ?? MediaQuery.of(context).size.height / 2;
-    final width = this.width ?? height;
+          final height =
+              this.height ?? min(MediaQuery.sizeOf(context).height / 2, 400);
+          final width = this.width ?? min(height, constraints.maxWidth);
 
-    final baseAspectRatio = width / height;
-    final childAspectRatio = 3 / 2 * baseAspectRatio;
+          final childAspectRatio = 4 / 3 * width / height;
 
-    return SizedBox(
-      height: height,
-      width: width,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          childAspectRatio: childAspectRatio,
-          crossAxisCount: 3,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-          children: _keys
-              .map(
-                (KeypadKey child) => Opacity(
-                  opacity: isEnabled ? 1 : 0.5,
-                  child: InkWell(
-                    onTap: isEnabled
-                        ? () => _manageKey(child.value, decimalSeparator)
-                        : null,
-                    child: Center(child: child),
-                  ),
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
-  }
+          return SizedBox(
+            height: width,
+            width: height,
+            child: Padding(
+              padding: padding,
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                childAspectRatio: childAspectRatio,
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                children: _keys
+                    .map(
+                      (KeypadKey child) => Opacity(
+                        opacity: isEnabled ? 1 : 0.5,
+                        child: InkWell(
+                          onTap: isEnabled
+                              ? () => _manageKey(child.value, decimalSeparator)
+                              : null,
+                          child: Center(child: child),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          );
+        },
+      );
 }
