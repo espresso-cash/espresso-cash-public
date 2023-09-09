@@ -93,12 +93,14 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
                     currency: widget.currency,
                   ),
                 ),
-                const Spacer(),
-                AmountKeypad(
-                  controller: _controller,
-                  maxDecimals: 2,
+                Expanded(
+                  child: Center(
+                    child: AmountKeypad(
+                      controller: _controller,
+                      maxDecimals: 2,
+                    ),
+                  ),
                 ),
-                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: ValueListenableBuilder(
