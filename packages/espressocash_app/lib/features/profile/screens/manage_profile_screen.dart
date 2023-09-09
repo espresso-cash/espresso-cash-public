@@ -9,17 +9,17 @@ import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../core/email.dart';
 import '../../../core/file_manager.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/country_picker.dart';
 import '../data/profile_repository.dart';
-import '../models/country.dart';
 import '../widgets/pick_profile_picture.dart';
-import 'country_picker_screen.dart';
 
 @RoutePage()
 class ManageProfileScreen extends StatefulWidget {
@@ -65,16 +65,6 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     _emailController.dispose();
     super.dispose();
   }
-
-  void _handleCountryPressed() => context.router.push<Country>(
-        CountryPickerScreen.route(
-          initial: _country,
-          onSubmitted: (country) {
-            context.router.pop();
-            setState(() => _country = country);
-          },
-        ),
-      );
 
   void _handleSubmitted() => runWithLoader(context, () async {
         try {
@@ -152,10 +142,12 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              _CountryPickerItem(
-                country: _country,
-                onTap: _handleCountryPressed,
+              const SizedBox(height: 40),
+              OnboardingPadding(
+                child: CountryPicker(
+                  country: _country,
+                  onSubmitted: (country) => setState(() => _country = country),
+                ),
               ),
             ],
           ),
@@ -163,47 +155,4 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       );
 }
 
-class _CountryPickerItem extends StatelessWidget {
-  const _CountryPickerItem({
-    this.country,
-    required this.onTap,
-  });
-  final Country? country;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => OnboardingPadding(
-        child: Container(
-          margin: const EdgeInsets.only(top: 16),
-          decoration: const ShapeDecoration(
-            color: CpColors.darkBackground,
-            shape: StadiumBorder(),
-          ),
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-            onTap: onTap,
-            title: Text(
-              country?.name ?? context.l10n.countryOfResidence,
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-                color: Colors.white,
-                height: 1.2,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: Colors.white,
-              size: 34,
-            ),
-          ),
-        ),
-      );
-}
-
 const keyCreateProfileName = Key('createProfileName');
-
-extension on String {
-  bool get isValidEmail => RegExp(r'^.+@.+\..+$').hasMatch(this);
-}

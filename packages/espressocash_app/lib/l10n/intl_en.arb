@@ -758,7 +758,7 @@
   "@yourFirstNamePlaceholder": {},
   "yourEmailPlaceholder": "Email Address",
   "@yourEmailPlaceholder": {},
-  "yourEmailDisclaimer": "Your email address is only stored locally and only shared with cash in and cash out partners",
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
   "@yourEmailDisclaimer": {},
   "yourLinkIsReady": "Your link is ready",
   "@yourLinkIsReady": {},
@@ -789,5 +789,7 @@
   "offRampTopPartnerTitle": "Cash Out To Your Bank Account Using Our Top Partner",
   "@offRampTopPartnerTitle": {},
   "rampOtherPartnersTitle": "Other Partners:",
-  "@rampOtherPartnersTitle": {}
+  "@rampOtherPartnersTitle": {},
+  "rampBasicInfoRequired": "To get started, we need some basic information from you.",
+  "@rampBasicInfoRequired": {}
 }

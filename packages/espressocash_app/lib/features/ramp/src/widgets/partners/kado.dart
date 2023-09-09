@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../config.dart';
-import '../../ui/web_view_screen.dart';
-import 'models/profile_data.dart';
+import '../../../../../config.dart';
+import '../../../../../ui/web_view_screen.dart';
+import '../../models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
   void launchKadoOnRamp({

@@ -1,9 +1,12 @@
+// ignore_for_file: avoid-banned-imports
+
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../features/ramp/models/ramp_partner.dart';
-import '../../../features/ramp/screens/ramp_partner_select_screen.dart';
+import '../../../features/ramp/src/models/ramp_partner.dart';
+import '../../../features/ramp/src/models/ramp_type.dart';
+import '../../../features/ramp/src/widgets/screens/ramp_partner_select_screen.dart';
 import '../../utils.dart';
 import '../../utils/app_wrapper.dart';
 
