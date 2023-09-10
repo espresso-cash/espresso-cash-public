@@ -22,6 +22,7 @@ class CpTextField extends StatelessWidget {
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
     this.textColor = CpColors.primaryTextColor,
+    this.textInputAction,
   });
 
   final TextEditingController? controller;
@@ -38,6 +39,7 @@ class CpTextField extends StatelessWidget {
   final Widget? prefix;
   final CpTextFieldBorder border;
   final Color? textColor;
+  final TextInputAction? textInputAction;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +76,7 @@ class CpTextField extends StatelessWidget {
         keyboardType: inputType,
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
+        textInputAction: textInputAction,
         prefix: prefix == null
             ? null
             : Padding(

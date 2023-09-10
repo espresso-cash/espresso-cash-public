@@ -10,17 +10,18 @@ import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
+import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
-import '../../profile/models/country.dart';
-import '../../profile/screens/manage_profile_screen.dart';
 import '../coinflow.dart';
-import '../guardarian.dart';
-import '../kado.dart';
-import '../models/profile_data.dart';
-import '../models/ramp_partner.dart';
-import '../ramp_network.dart';
-import '../screens/ramp_partner_select_screen.dart';
-import 'off_ramp_bottom_sheet.dart';
+import '../src/models/profile_data.dart';
+import '../src/models/ramp_partner.dart';
+import '../src/models/ramp_type.dart';
+import '../src/widgets/off_ramp_bottom_sheet.dart';
+import '../src/widgets/partners/guardarian.dart';
+import '../src/widgets/partners/kado.dart';
+import '../src/widgets/partners/ramp_network.dart';
+import '../src/widgets/screens/ramp_onboarding_screen.dart';
+import '../src/widgets/screens/ramp_partner_select_screen.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -37,7 +38,7 @@ class AddCashButton extends StatelessWidget {
           minWidth: 250,
           text: context.l10n.ramp_btnAddCash,
           onPressed: () async {
-            final data = await context.ensureProfileData();
+            final data = await context.ensureProfileData(RampType.onRamp);
             if (context.mounted && data != null) {
               context.launchOnRampFlow(
                 profile: data,
@@ -64,8 +65,7 @@ class CashOutButton extends StatelessWidget {
           minWidth: 250,
           text: context.l10n.ramp_btnCashOut,
           onPressed: () async {
-            final data = await context.ensureProfileData();
-
+            final data = await context.ensureProfileData(RampType.offRamp);
             if (context.mounted && data != null) {
               context.launchOffRampFlow(
                 profile: data,
@@ -78,7 +78,7 @@ class CashOutButton extends StatelessWidget {
 }
 
 extension on BuildContext {
-  Future<ProfileData?> ensureProfileData() async {
+  Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
       router.pop();
     }
@@ -91,7 +91,12 @@ extension on BuildContext {
       return (country: country, email: email);
     }
 
-    await router.push(ManageProfileScreen.route(onSubmitted: handleSubmitted));
+    await router.push(
+      RampOnboardingScreen.route(
+        onConfirmed: handleSubmitted,
+        rampType: rampType,
+      ),
+    );
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
