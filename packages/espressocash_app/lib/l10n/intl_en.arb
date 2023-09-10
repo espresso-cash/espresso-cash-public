@@ -791,5 +791,23 @@
   "rampOtherPartnersTitle": "Other Partners:",
   "@rampOtherPartnersTitle": {},
   "rampBasicInfoRequired": "To get started, we need some basic information from you.",
-  "@rampBasicInfoRequired": {}
+  "@rampBasicInfoRequired": {},
+  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalent": "You will get approx. {amount}",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalentError": "Error loading data",
+  "@rampAmountEquivalentError": {}
 }

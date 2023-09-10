@@ -107,8 +107,6 @@ class _ScreenState extends State<ODPConfirmationScreen> {
               child: LayoutBuilder(
                 builder: (context, constraints) => widget.isEnabled
                     ? AmountKeypad(
-                        height: constraints.maxHeight,
-                        width: width,
                         controller: _amountController,
                         maxDecimals: 2,
                       )
