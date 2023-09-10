@@ -6,8 +6,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../ramp/models/off_ramp_payment.dart';
-import '../../ramp/screens/off_ramp_details_screen.dart';
+import '../../ramp/ramp.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 

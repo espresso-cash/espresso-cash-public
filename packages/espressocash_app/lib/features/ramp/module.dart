@@ -6,10 +6,10 @@ import '../../di.dart';
 import '../accounts/models/account.dart';
 import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
-import 'data/repository.dart';
-import 'services/coinflow_withdrawn_watcher.dart';
-import 'services/tx_created_watcher.dart';
-import 'services/tx_sent_watcher.dart';
+import 'src/data/repository.dart';
+import 'src/services/coinflow_withdrawn_watcher.dart';
+import 'src/services/tx_created_watcher.dart';
+import 'src/services/tx_sent_watcher.dart';
 
 class ORPModule extends SingleChildStatelessWidget {
   const ORPModule({super.key, super.child});

@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import '../../outgoing_split_key_payments/models/outgoing_split_key_payment.dart';
-import '../../ramp/models/off_ramp_payment.dart';
+import '../../ramp/ramp.dart';
 import '../../swap/models/swap.dart';
 
 part 'activity.freezed.dart';

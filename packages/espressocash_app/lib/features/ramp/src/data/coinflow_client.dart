@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../config.dart';
+import '../../../../config.dart';
 
 part 'coinflow_client.freezed.dart';
 part 'coinflow_client.g.dart';

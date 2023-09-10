@@ -9,7 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
-import '../../features/ramp/data/repository.dart';
+import '../../features/ramp/ramp.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';

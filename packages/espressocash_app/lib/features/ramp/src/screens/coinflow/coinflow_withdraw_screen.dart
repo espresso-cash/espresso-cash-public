@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../../config.dart';
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/app_bar.dart';
+import '../../../../../config.dart';
+import '../../../../../core/amount.dart';
+import '../../../../../core/currency.dart';
+import '../../../../../routes.gr.dart';
+import '../../../../../ui/app_bar.dart';
 import '../../models/profile_data.dart';
 import '../../widgets/extensions.dart';
 import '../off_ramp_confirmation_screen.dart';
