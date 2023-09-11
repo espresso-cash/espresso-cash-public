@@ -21,6 +21,7 @@ import 'stories/info_widget.dart';
 import 'stories/loader.dart';
 import 'stories/navigation_bar.dart';
 import 'stories/rounded_rectangle.dart';
+import 'stories/screens/off_ramp_amount_screen.dart';
 import 'stories/screens/ramp_partner_select_screen.dart';
 import 'stories/screens/wallet_main_screen.dart';
 import 'stories/shake.dart';
@@ -66,6 +67,7 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
+          offRampAmountScreenStory,
           onRampPartnerSelectScreen,
           walletMainScreen,
           cpActivityTile,

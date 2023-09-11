@@ -21,6 +21,7 @@ class UsdcInfoWidget extends StatelessWidget {
           message: Text(
             context.l10n.usdcExplanation,
             style: TextStyle(fontSize: isSmall ? 12 : 14.5),
+            maxLines: 2,
           ),
           padding: EdgeInsets.all(isSmall ? 12 : 20),
         ),

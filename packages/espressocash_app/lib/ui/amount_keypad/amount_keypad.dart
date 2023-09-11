@@ -10,15 +10,11 @@ class AmountKeypad extends StatelessWidget {
     super.key,
     required this.controller,
     required this.maxDecimals,
-    this.height,
-    this.width,
     this.isEnabled = true,
   });
 
   final TextEditingController controller;
   final int maxDecimals;
-  final double? height;
-  final double? width;
   final bool isEnabled;
 
   static const _keys = [
@@ -73,43 +69,38 @@ class AmountKeypad extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final decimalSeparator =
-        getDecimalSeparator(DeviceLocale.localeOf(context));
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          final decimalSeparator =
+              getDecimalSeparator(DeviceLocale.localeOf(context));
 
-    final height = this.height ?? MediaQuery.of(context).size.height / 2;
-    final width = this.width ?? height;
-
-    final baseAspectRatio = width / height;
-    final childAspectRatio = 3 / 2 * baseAspectRatio;
-
-    return SizedBox(
-      height: height,
-      width: width,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          childAspectRatio: childAspectRatio,
-          crossAxisCount: 3,
-          crossAxisSpacing: 5,
-          mainAxisSpacing: 5,
-          children: _keys
-              .map(
-                (KeypadKey child) => Opacity(
-                  opacity: isEnabled ? 1 : 0.5,
-                  child: InkWell(
-                    onTap: isEnabled
-                        ? () => _manageKey(child.value, decimalSeparator)
-                        : null,
-                    child: Center(child: child),
-                  ),
-                ),
-              )
-              .toList(),
-        ),
-      ),
-    );
-  }
+          return AspectRatio(
+            aspectRatio: 1,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                childAspectRatio: 4 / 3,
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+                children: _keys
+                    .map(
+                      (KeypadKey child) => Opacity(
+                        opacity: isEnabled ? 1 : 0.5,
+                        child: InkWell(
+                          onTap: isEnabled
+                              ? () => _manageKey(child.value, decimalSeparator)
+                              : null,
+                          child: Center(child: child),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+            ),
+          );
+        },
+      );
 }

@@ -91,6 +91,8 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: RemoteRequestRoute.page),
         AutoRoute(page: WebViewRoute.page),
         AutoRoute(page: RampPartnerSelectRoute.page),
+        AutoRoute(page: RampOnboardingRoute.page),
+        AutoRoute(page: OffRampAmountRoute.page),
       ],
     ),
     AutoRoute(

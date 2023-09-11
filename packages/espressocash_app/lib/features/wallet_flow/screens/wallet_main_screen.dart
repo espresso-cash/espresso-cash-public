@@ -102,8 +102,7 @@ class _ScreenState extends State<WalletMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width;
 
     return CpTheme.dark(
       child: Scaffold(
@@ -141,17 +140,11 @@ class _ScreenState extends State<WalletMainScreen> {
                 error: widget.error,
               ),
               const SizedBox(height: 8),
-              UsdcInfoWidget(
-                isSmall: height < 700,
-              ),
-              Flexible(
-                child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: width,
-                    controller: _amountController,
-                    maxDecimals: 2,
-                  ),
+              UsdcInfoWidget(isSmall: width < 400),
+              Expanded(
+                child: AmountKeypad(
+                  controller: _amountController,
+                  maxDecimals: 2,
                 ),
               ),
               Padding(
@@ -167,7 +160,6 @@ class _ScreenState extends State<WalletMainScreen> {
                         widget.onRequest();
                     }
                   },
-                  size: CpButtonSize.big,
                 ),
               ),
               const SizedBox(height: 24),
