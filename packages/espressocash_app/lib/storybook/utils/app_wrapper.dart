@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_function_declarations_over_variables, avoid-non-null-assertion
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../l10n/gen/app_localizations.dart';
 import '../../ui/theme.dart';
 
 class AppWrapper extends StatelessWidget {
