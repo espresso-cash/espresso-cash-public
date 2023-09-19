@@ -1,21 +1,17 @@
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
 
 @injectable
 class DynamicLinksNotifier extends ChangeNotifier {
-  DynamicLinksNotifier(this._firebaseDynamicLinks) {
+  DynamicLinksNotifier() {
     _init();
   }
 
   Uri? _link;
   StreamSubscription<dynamic>? _subscription;
-
-  final FirebaseDynamicLinks _firebaseDynamicLinks;
 
   Uri? get link => _link;
 
@@ -29,19 +25,12 @@ class DynamicLinksNotifier extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    final initialLink = await _firebaseDynamicLinks
-        .getInitialLink()
-        .then((value) => value?.link)
-        .ifNull(getInitialUri);
+    final initialLink = await getInitialUri();
 
     if (initialLink != null) {
       _link = initialLink;
       notifyListeners();
     }
-
-    _subscription = _firebaseDynamicLinks.onLink
-        .map((event) => event.link)
-        .listen(_processLink);
 
     uriLinkStream.listen(_processLink);
   }

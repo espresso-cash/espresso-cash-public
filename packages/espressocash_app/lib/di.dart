@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -42,10 +41,6 @@ abstract class AppModule {
 
   @lazySingleton
   RpcClient get rpcClient => solanaClient.rpcClient;
-
-  @lazySingleton
-  FirebaseDynamicLinks get firebaseDynamicLinks =>
-      FirebaseDynamicLinks.instance;
 
   @lazySingleton
   CryptopleaseClient get cryptopleaseClient => CryptopleaseClient();
