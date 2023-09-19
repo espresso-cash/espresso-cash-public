@@ -5,10 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/split_key_payments.dart';
+import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../data/pending_iskp_repository.dart';
-import '../screens/first_part_qr_screen.dart';
-import '../screens/first_part_ready_screen.dart';
+import '../screens/incoming_split_key_payment_screen.dart';
+import 'extensions.dart';
 
 class PendingISKPListener extends StatefulWidget {
   const PendingISKPListener({super.key, required this.child});
@@ -20,26 +21,23 @@ class PendingISKPListener extends StatefulWidget {
 }
 
 class _PendingISKPListenerState extends State<PendingISKPListener> {
-  @override
-  void initState() {
-    super.initState();
-    _loadExisting();
-  }
+  Future<void> _processLink(SplitKeyFirstLink paymentData) async {
+    final repository = sl<PendingISKPRepository>();
 
-  Future<void> _loadExisting() async {
-    final existing = await sl<PendingISKPRepository>().load();
-    if (existing != null) {
-      if (!mounted) return;
+    final key = paymentData.key;
 
-      _openFirstPartReadyScreen();
-    }
-  }
+    final escrow = await walletFromKey(encodedKey: key);
+    if (!mounted) return;
 
-  void _openFirstPartReadyScreen() {
-    context.router.push(
-      FirstPartReadyScreen.route(
-        onCancel: () => sl<PendingISKPRepository>().clear(),
-      ),
+    final id = await context.createISKP(
+      escrow: escrow,
+      version: paymentData.apiVersion,
+    );
+    await repository.clear();
+
+    if (!mounted) return;
+    await context.router.push(
+      IncomingSplitKeyPaymentScreen.route(id: id),
     );
   }
 
@@ -48,16 +46,10 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
       final firstPartLink = SplitKeyFirstLink.tryParse(link);
+
       if (firstPartLink != null) {
-        switch (firstPartLink.source) {
-          case SplitKeySource.qr:
-            sl<AnalyticsManager>().firstLinkReceived();
-            context.router.push(FirstPartQrScreen.route()).ignore();
-          case SplitKeySource.other:
-            sl<PendingISKPRepository>().save(firstPartLink);
-            sl<AnalyticsManager>().firstLinkReceived();
-            _openFirstPartReadyScreen();
-        }
+        sl<AnalyticsManager>().firstLinkReceived();
+        _processLink(firstPartLink);
 
         return true;
       }

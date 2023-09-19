@@ -48,36 +48,19 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final token = payment.amount.token;
 
     final privateKey = status.escrow.bytes.lock;
-    final keyParts = _splitKey(privateKey);
+    final key = base58encode(privateKey.toList());
 
-    final rawFirstLink = SplitKeyFirstLink(
-      key: keyParts.first,
+    final rawLink = SplitKeyFirstLink(
+      key: key,
       token: token.publicKey,
       apiVersion: payment.apiVersion,
       source: SplitKeySource.other,
     ).toUri();
 
-    final firstLink = await _linkShortener.buildShortUrl(rawFirstLink) ??
-        _linkShortener.buildFullUrl(rawFirstLink);
-
-    final secondLink = SplitKeySecondLink(
-      key: keyParts.last,
-      apiVersion: payment.apiVersion,
-    ).toUri();
-
-    final rawQrLink = SplitKeyFirstLink(
-      key: keyParts.first,
-      token: token.publicKey,
-      apiVersion: payment.apiVersion,
-      source: SplitKeySource.qr,
-    ).toUri();
-
-    final qrLink = _linkShortener.buildFullUrl(rawQrLink);
+    final link = _linkShortener.buildFullUrl(rawLink);
 
     final newStatus = OSKPStatus.linksReady(
-      link1: firstLink,
-      link2: secondLink,
-      qrLink: qrLink,
+      link: link,
       escrow: status.escrow,
     );
 
@@ -86,13 +69,4 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
       linksGeneratedAt: DateTime.now(),
     );
   }
-}
-
-List<String> _splitKey(IList<int> privateKey) {
-  final parts = privateKey.splitAt(privateKey.length ~/ 2);
-
-  return [
-    base58encode(parts.first.toList()),
-    base58encode(parts.second.toList()),
-  ];
 }

@@ -509,16 +509,13 @@
   "@shareStep1": {},
   "shareStep2": "Step 2 – When the application asks you, click on the second link:",
   "@shareStep2": {},
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\n",
   "@shareText": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
       "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
         "type": "Uri"
       }
     }

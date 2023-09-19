@@ -14,12 +14,10 @@ class ShareQr extends StatelessWidget {
     super.key,
     required this.amount,
     required this.qrLink,
-    required this.secondLink,
   });
 
   final CryptoAmount amount;
   final Uri qrLink;
-  final Uri secondLink;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class ShareQr extends StatelessWidget {
               child: _QrBody(
                 amount: amount,
                 qrLink: qrLink.toString(),
-                secondLink: secondLink.toString(),
+                // secondLink: secondLink.toString(),
               ),
             ),
           ],
@@ -92,12 +90,12 @@ class _QrBody extends StatelessWidget {
   const _QrBody({
     required this.amount,
     required this.qrLink,
-    required this.secondLink,
+    // required this.secondLink,
   });
 
   final String amount;
   final String qrLink;
-  final String secondLink;
+  // final String secondLink;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -120,7 +118,7 @@ class _QrBody extends StatelessWidget {
               Expanded(
                 child: _CustomQrCode(
                   qrLink: qrLink,
-                  secondLink: secondLink,
+                  // secondLink: secondLink,
                   height: constraints.maxWidth,
                 ),
               ),
@@ -133,12 +131,12 @@ class _QrBody extends StatelessWidget {
 class _CustomQrCode extends StatelessWidget {
   const _CustomQrCode({
     required this.qrLink,
-    required this.secondLink,
+    // required this.secondLink,
     required this.height,
   });
 
   final String qrLink;
-  final String secondLink;
+  // final String secondLink;
   final double height;
 
   @override
@@ -155,23 +153,23 @@ class _CustomQrCode extends StatelessWidget {
               padding: EdgeInsets.zero,
               color: Colors.white,
             ),
-            SizedBox.square(
-              dimension: 120,
-              child: BarcodeWidget(
-                barcode: Barcode.aztec(),
-                data: secondLink,
-                padding: const EdgeInsets.all(8),
-                color: CpColors.darkBackground,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  border: Border.all(
-                    color: CpColors.darkBackground,
-                    width: 4,
-                  ),
-                ),
-              ),
-            ),
+            // SizedBox.square(
+            //   dimension: 120,
+            //   child: BarcodeWidget(
+            //     barcode: Barcode.aztec(),
+            //     data: secondLink,
+            //     padding: const EdgeInsets.all(8),
+            //     color: CpColors.darkBackground,
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: const BorderRadius.all(Radius.circular(8)),
+            //       border: Border.all(
+            //         color: CpColors.darkBackground,
+            //         width: 4,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       );

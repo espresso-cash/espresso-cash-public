@@ -33,10 +33,9 @@ extension BuilContextExt on BuildContext {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerSplitKeyPayment) {
-      final escrow = await walletFromParts(
-        firstPart: request.firstPart.key,
-        secondPart: request.secondPart.key,
+    if (request is QrScannerSingleKeyPayment) {
+      final escrow = await walletFromKey(
+        encodedKey: request.firstPart.key,
       );
       if (!mounted) return;
 

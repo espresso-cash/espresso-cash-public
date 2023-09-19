@@ -65,12 +65,10 @@ class KeyPairParams {
   final int change;
 }
 
-Future<Wallet> walletFromParts({
-  required String firstPart,
-  required String secondPart,
+Future<Wallet> walletFromKey({
+  required String encodedKey,
 }) async {
-  final keyPart1 = ByteArray.fromBase58(firstPart).toList();
-  final keyPart2 = ByteArray.fromBase58(secondPart).toList();
+  final key = ByteArray.fromBase58(encodedKey).toList();
 
-  return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
+  return Wallet.fromPrivateKeyBytes(privateKey: key);
 }

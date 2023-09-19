@@ -27,8 +27,7 @@ class ShareLinks extends StatelessWidget {
 
     final message = context.l10n.shareText(
       formattedAmount,
-      status.link1,
-      status.link2,
+      status.link,
     );
 
     final messageBubble = ShareMessageBubble(
@@ -40,7 +39,10 @@ class ShareLinks extends StatelessWidget {
           ),
           const WidgetSpan(child: _Instructions()),
           WidgetSpan(
-            child: _Links(firstLink: status.link1, secondLink: status.link2),
+            child: _Links(
+              firstLink: status.link,
+              // secondLink: status.link2,
+            ),
           ),
         ],
       ),
@@ -77,11 +79,11 @@ class ShareLinks extends StatelessWidget {
 class _Links extends StatelessWidget {
   const _Links({
     required this.firstLink,
-    required this.secondLink,
+    // required this.secondLink,
   });
 
   final Uri firstLink;
-  final Uri secondLink;
+  // final Uri secondLink;
 
   @override
   Widget build(BuildContext context) => Text.rich(
@@ -96,10 +98,10 @@ class _Links extends StatelessWidget {
             _newLine,
             TextSpan(text: context.l10n.shareStep2),
             _newLine,
-            TextSpan(
-              text: secondLink.toString().withZeroWidthSpaces(),
-              style: _linkStyle,
-            ),
+            // TextSpan(
+            //   text: secondLink.toString().withZeroWidthSpaces(),
+            //   style: _linkStyle,
+            // ),
           ],
           style: _baseStyle,
         ),

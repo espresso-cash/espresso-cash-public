@@ -503,16 +503,13 @@
   "@shareStep1": {},
   "shareStep2": "Etapa 2 - Quando o aplicativo pedir, clique no segundo link:",
   "@shareStep2": {},
-  "shareText": "Olá!\n\nAcabei de te enviar {amount}.\n\nPara receber, você precisa clicar em dois links. Siga estas duas etapas abaixo:\n\nEtapa 1 - Clique no primeiro link:\n\n{firstLink}\n\nEtapa 2 - Quando o aplicativo pedir, clique no segundo link:\n\n{secondLink}",
+  "shareText": "Olá!\n\nAcabei de te enviar {amount}.\n\nPara receber, você precisa clicar em dois links. Siga estas duas etapas abaixo:\n\nEtapa 1 - Clique no primeiro link:\n\n{firstLink}\n\nEtapa 2 - Quando o aplicativo pedir, clique no segundo link:",
   "@shareText": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
       "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
         "type": "Uri"
       }
     }

@@ -8,8 +8,9 @@ import 'tokens/token.dart';
 part 'split_key_payments.freezed.dart';
 part 'split_key_payments.g.dart';
 
-enum SplitKeySource { qr, other }
+enum SplitKeySource { qr, other } //TODO deprecate
 
+//TODO rename
 @freezed
 class SplitKeyFirstLink with _$SplitKeyFirstLink {
   const factory SplitKeyFirstLink({
@@ -88,57 +89,6 @@ class SplitKeyFirstLink with _$SplitKeyFirstLink {
           queryParameters: <String, String>{
             'k1': key,
             if (source == SplitKeySource.qr) 'source': _qrSource,
-          },
-        );
-    }
-  }
-}
-
-@freezed
-class SplitKeySecondLink with _$SplitKeySecondLink {
-  const factory SplitKeySecondLink({
-    required String key,
-    required SplitKeyApiVersion apiVersion,
-  }) = _SplitKeySecondLink;
-
-  const SplitKeySecondLink._();
-
-  static SplitKeySecondLink? tryParse(Uri link) {
-    if (link.scheme == 'https' && link.host == espressoCashLinkDomain ||
-        link.scheme == espressoCashLinkProtocol) {
-      final secondPart = link.queryParameters['k2'];
-      if (secondPart == null) return null;
-
-      return SplitKeySecondLink(
-        key: secondPart,
-        apiVersion: SplitKeyApiVersion.smartContract,
-      );
-    }
-
-    if (link.scheme == 'cryptoplease-sol' && link.host == '2' ||
-        link.scheme == 'https' && link.host == link2Host) {
-      final String? secondPart;
-      secondPart = link.queryParameters['key'];
-      if (secondPart == null) return null;
-
-      return SplitKeySecondLink(
-        key: secondPart,
-        apiVersion: SplitKeyApiVersion.manual,
-      );
-    }
-  }
-
-  Uri toUri() {
-    switch (apiVersion) {
-      case SplitKeyApiVersion.manual:
-        return Uri.parse('https://$link2Host/?key=$key');
-      case SplitKeyApiVersion.smartContract:
-        return Uri(
-          scheme: 'https',
-          host: espressoCashLinkDomain,
-          path: '',
-          queryParameters: <String, String>{
-            'k2': key,
           },
         );
     }

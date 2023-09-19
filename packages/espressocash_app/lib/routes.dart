@@ -55,8 +55,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: OSKPRoute.page),
         AutoRoute(page: OSKPConfirmationRoute.page),
         AutoRoute(page: ShareLinksRoute.page),
-        AutoRoute(page: FirstPartReadyRoute.page),
-        AutoRoute(page: FirstPartQrRoute.page),
         AutoRoute(page: IncomingSplitKeyPaymentRoute.page),
         AutoRoute(page: QrScannerRoute.page),
         AutoRoute(

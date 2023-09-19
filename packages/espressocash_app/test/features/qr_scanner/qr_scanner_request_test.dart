@@ -2,7 +2,6 @@ import 'package:espressocash_app/core/api_version.dart';
 import 'package:espressocash_app/core/split_key_payments.dart';
 import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -14,20 +13,18 @@ void main() {
         '&ibi=com.pleasecrypto.flutter';
     const link2 = 'https://link.espressocash.com?k2=BBBBB';
 
-    final request = QrScannerRequest.tryParseMultiple([link1, link2].lock);
+    //TODO fix and test links
+
+    final request = QrScannerRequest.tryParse(link1);
 
     expect(
       request,
-      QrScannerRequest.splitKeyPayment(
-        firstPart: SplitKeyFirstLink(
+      QrScannerRequest.singleKeyPayment(
+        SplitKeyFirstLink(
           apiVersion: SplitKeyApiVersion.smartContract,
           key: 'AAAAA',
           source: SplitKeySource.qr,
           token: Token.usdc.publicKey,
-        ),
-        secondPart: const SplitKeySecondLink(
-          key: 'BBBBB',
-          apiVersion: SplitKeyApiVersion.smartContract,
         ),
       ),
     );

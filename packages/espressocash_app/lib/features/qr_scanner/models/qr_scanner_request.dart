@@ -1,11 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../config.dart';
 import '../../../core/split_key_payments.dart';
 import 'qr_address_data.dart';
 
@@ -19,10 +17,8 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.splitKeyPayment({
-    required SplitKeyFirstLink firstPart,
-    required SplitKeySecondLink secondPart,
-  }) = QrScannerSplitKeyPayment;
+  const factory QrScannerRequest.singleKeyPayment(SplitKeyFirstLink firstPart) =
+      QrScannerSingleKeyPayment;
 
   const QrScannerRequest._();
 
@@ -36,46 +32,24 @@ class QrScannerRequest with _$QrScannerRequest {
     if (request != null) {
       return QrScannerRequest.solanaPay(request);
     }
-  }
 
-  static QrScannerRequest? tryParseMultiple(IList<String> codes) {
-    if (codes.isEmpty) return null;
+    final uri = Uri.tryParse(code);
+    if (uri != null) {
+      final link = uri.queryParameters['link'];
 
-    final code = codes.map(tryParse).firstWhereOrNull((it) => it != null);
-    if (code != null) return code;
+      if (link == null) return null;
 
-    final firstLink =
-        codes.firstWhereOrNull((e) => e.contains(espressoCashDeepLinkHost));
-    final secondLink = codes.firstWhereOrNull(
-      (e) => e.contains(espressoCashLinkDomain) && e.contains('k2'),
-    );
-
-    if (firstLink == null || secondLink == null) {
-      return null;
+      final payment = Uri.tryParse(link)?.let(SplitKeyFirstLink.tryParse);
+      if (payment != null) {
+        return QrScannerRequest.singleKeyPayment(payment);
+      }
     }
-
-    final firstLongLink = Uri.tryParse(firstLink);
-    final reversedLink = firstLongLink?.queryParameters['link'];
-
-    if (reversedLink == null) return null;
-
-    final firstPart =
-        Uri.tryParse(reversedLink)?.let(SplitKeyFirstLink.tryParse);
-    final secondPart =
-        Uri.tryParse(secondLink)?.let(SplitKeySecondLink.tryParse);
-
-    if (firstPart == null || secondPart == null) return null;
-
-    return QrScannerRequest.splitKeyPayment(
-      firstPart: firstPart,
-      secondPart: secondPart,
-    );
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
         solanaPay: (r) => r.request.recipient,
         address: (r) => r.addressData.address,
-        splitKeyPayment: always(null),
+        singleKeyPayment: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
