@@ -17,7 +17,7 @@ class MobileView extends StatelessWidget {
   Widget build(BuildContext context) => LandingScreenWidget(
         children: [
           Assets.images.logoIcon.image(height: 120),
-          const SizedBox(height: 80),
+          const SizedBox(height: 60),
           Text(
             context.l10n.landingTitle,
             textAlign: TextAlign.center,
