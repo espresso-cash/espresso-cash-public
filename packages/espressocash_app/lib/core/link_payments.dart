@@ -24,11 +24,11 @@ abstract class LinkPayments with _$LinkPayments {
       return null;
     }
 
-    final firstPart = link.queryParameters['k'];
-    if (firstPart == null) return null;
+    final key = link.queryParameters['k'];
+    if (key == null) return null;
 
     return LinkPayments(
-      key: firstPart,
+      key: key,
       token: Token.usdc.publicKey,
     );
   }
