@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: depend_on_referenced_packages, flutter_web_plugins url_strategy
 import 'package:flutter_web_plugins/url_strategy.dart';
 
 import '../l10n/gen/app_localizations.dart';
