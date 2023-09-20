@@ -77,3 +77,6 @@ const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = 'ef6d4999-80ad-4ab2-bcfc-4c0669d2e070';
 
 const maxPayloadsPerSigningRequest = 10;
+
+const playstoreName = 'com.pleasecrypto.flutter';
+const appstoreId = '1559625715';

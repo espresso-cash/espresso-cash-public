@@ -112,6 +112,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/rive/
+    - assets/landing/
 
   fonts:
     - family: RobotoApp

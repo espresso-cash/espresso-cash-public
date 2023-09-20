@@ -809,5 +809,19 @@
     }
   },
   "rampAmountEquivalentError": "Error loading data",
-  "@rampAmountEquivalentError": {}
+  "@rampAmountEquivalentError": {},
+  "landingTitle": "Money has been sent to you.",
+  "@landingTitle": {},
+  "landingSubtitle": "To complete the transaction, follow the steps below.",
+  "@landingSubtitle": {},
+  "landingInstallApp": "Install Espresso Cash",
+  "@landingInstallApp": {},
+  "landingReceiveMoney": "Receive Your Money",
+  "@landingReceiveMoney": {},
+  "landingAlreadyInstalled": "Already have Espresso installed? Skip to step 2",
+  "@landingAlreadyInstalled": {},
+  "landingScanQr": "Scan the QR code",
+  "@landingScanQr": {},
+  "landingCopyright": "Copyright ©2022 Violette SAS. All rights reserved. Terms Privacy Trust Center Community Standards Legal & Compliance Do Not Sell My Personal Information Cookie Preferences",
+  "@landingScanQr": {}
 }
