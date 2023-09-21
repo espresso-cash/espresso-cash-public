@@ -13,8 +13,8 @@ class LandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uri =
-        LinkPayments(key: encodedKey, token: Token.usdc.publicKey).toUri();
+    final uri = LinkPayments(key: encodedKey, token: Token.usdc.publicKey)
+        .toDeepLinkUri();
 
     return Scaffold(
       body: isMobile ? MobileView(uri) : DesktopView(uri),

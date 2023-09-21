@@ -33,9 +33,9 @@ abstract class LinkPayments with _$LinkPayments {
     );
   }
 
-  Uri toUri() => Uri(
-        scheme: 'https',
-        host: espressoCashLinkDomain,
+  Uri toDeepLinkUri() => Uri(
+        scheme: espressoCashLinkProtocol,
+        host: '',
         path: '',
         queryParameters: <String, String>{
           'k': key,
