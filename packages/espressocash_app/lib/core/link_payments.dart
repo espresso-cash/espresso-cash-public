@@ -20,7 +20,9 @@ abstract class LinkPayments with _$LinkPayments {
   const LinkPayments._();
 
   static LinkPayments? tryParse(Uri link) {
-    if (link.scheme != 'https' || link.host != espressoCashLinkDomain) {
+    if (link.scheme != 'https' &&
+        link.host != espressoCashLinkDomain &&
+        link.scheme != espressoCashLinkProtocol) {
       return null;
     }
 
@@ -33,9 +35,9 @@ abstract class LinkPayments with _$LinkPayments {
     );
   }
 
-  Uri toUri() => Uri(
-        scheme: 'https',
-        host: espressoCashLinkDomain,
+  Uri toDeepLinkUri() => Uri(
+        scheme: espressoCashLinkProtocol,
+        host: '',
         path: '',
         queryParameters: <String, String>{
           'k': key,
@@ -44,10 +46,10 @@ abstract class LinkPayments with _$LinkPayments {
 
   Uri toShareableLink() => Uri(
         scheme: 'https',
-        host: 'espressoCashLinkDomain', //TODO upd
-        path: 'pay',
+        host: espressoCashLinkDomain,
+        path: '',
         queryParameters: <String, String>{
-          'link': toUri().toString(),
+          'k': key,
         },
       );
 }
