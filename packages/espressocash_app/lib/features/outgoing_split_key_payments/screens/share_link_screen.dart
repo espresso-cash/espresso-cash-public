@@ -54,7 +54,7 @@ class ShareLinksScreen extends StatelessWidget {
                 Expanded(
                   child: TabBarView(
                     children: [
-                      ShareLinks(status: status, amount: amount),
+                      ShareLink(status: status, amount: amount),
                       ShareQr(
                         qrLink: status.link,
                         amount: amount,
