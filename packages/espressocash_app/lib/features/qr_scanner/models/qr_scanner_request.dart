@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/split_key_payments.dart';
+import '../../../core/link_payments.dart';
 import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
@@ -17,7 +17,7 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.singleKeyPayment(SplitKeyFirstLink firstPart) =
+  const factory QrScannerRequest.singleKeyPayment(LinkPayments payment) =
       QrScannerSingleKeyPayment;
 
   const QrScannerRequest._();
@@ -33,16 +33,9 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.solanaPay(request);
     }
 
-    final uri = Uri.tryParse(code);
-    if (uri != null) {
-      final link = uri.queryParameters['link'];
-
-      if (link == null) return null;
-
-      final payment = Uri.tryParse(link)?.let(SplitKeyFirstLink.tryParse);
-      if (payment != null) {
-        return QrScannerRequest.singleKeyPayment(payment);
-      }
+    final payment = Uri.tryParse(code)?.let(LinkPayments.tryParse);
+    if (payment != null) {
+      return QrScannerRequest.singleKeyPayment(payment);
     }
   }
 

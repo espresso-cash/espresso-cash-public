@@ -5,6 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
+import '../../../core/api_version.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token_list.dart';
@@ -35,13 +36,13 @@ extension BuilContextExt on BuildContext {
 
     if (request is QrScannerSingleKeyPayment) {
       final escrow = await walletFromKey(
-        encodedKey: request.firstPart.key,
+        encodedKey: request.payment.key,
       );
       if (!mounted) return;
 
       final id = await createISKP(
         escrow: escrow,
-        version: request.firstPart.apiVersion,
+        version: SplitKeyApiVersion.smartContract,
       );
 
       if (!mounted) return;

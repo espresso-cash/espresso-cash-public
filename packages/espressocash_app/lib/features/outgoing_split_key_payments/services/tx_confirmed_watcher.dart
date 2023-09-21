@@ -6,8 +6,7 @@ import 'package:solana/base58.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/cancelable_job.dart';
-import '../../../core/link_shortener.dart';
-import '../../../core/split_key_payments.dart';
+import '../../../core/link_payments.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';
@@ -15,15 +14,13 @@ import 'payment_watcher.dart';
 /// Watches for [OSKPStatus.txConfirmed] payments and generates the links.
 @injectable
 class TxConfirmedWatcher extends PaymentWatcher {
-  TxConfirmedWatcher(super._repository, this._shortener);
-
-  final LinkShortener _shortener;
+  TxConfirmedWatcher(super._repository);
 
   @override
   CancelableJob<OutgoingSplitKeyPayment> createJob(
     OutgoingSplitKeyPayment payment,
   ) =>
-      _OSKPConfirmedJob(payment, _shortener);
+      _OSKPConfirmedJob(payment);
 
   @override
   Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
@@ -33,10 +30,9 @@ class TxConfirmedWatcher extends PaymentWatcher {
 }
 
 class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
-  const _OSKPConfirmedJob(this.payment, this._linkShortener);
+  const _OSKPConfirmedJob(this.payment);
 
   final OutgoingSplitKeyPayment payment;
-  final LinkShortener _linkShortener;
 
   @override
   Future<OutgoingSplitKeyPayment?> process() async {
@@ -50,14 +46,10 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final privateKey = status.escrow.bytes.lock;
     final key = base58encode(privateKey.toList());
 
-    final rawLink = SplitKeyFirstLink(
+    final link = LinkPayments(
       key: key,
       token: token.publicKey,
-      apiVersion: payment.apiVersion,
-      source: SplitKeySource.other,
-    ).toUri();
-
-    final link = _linkShortener.buildFullUrl(rawLink);
+    ).toShareableLink();
 
     final newStatus = OSKPStatus.linksReady(
       link: link,

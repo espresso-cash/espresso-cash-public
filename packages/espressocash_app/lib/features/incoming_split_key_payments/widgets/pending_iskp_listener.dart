@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/analytics/analytics_manager.dart';
+import '../../../core/api_version.dart';
 import '../../../core/dynamic_links_notifier.dart';
-import '../../../core/split_key_payments.dart';
+import '../../../core/link_payments.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
-import '../data/pending_iskp_repository.dart';
 import '../screens/incoming_split_key_payment_screen.dart';
 import 'extensions.dart';
 
@@ -21,9 +21,7 @@ class PendingISKPListener extends StatefulWidget {
 }
 
 class _PendingISKPListenerState extends State<PendingISKPListener> {
-  Future<void> _processLink(SplitKeyFirstLink paymentData) async {
-    final repository = sl<PendingISKPRepository>();
-
+  Future<void> _processLink(LinkPayments paymentData) async {
     final key = paymentData.key;
 
     final escrow = await walletFromKey(encodedKey: key);
@@ -31,9 +29,8 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
 
     final id = await context.createISKP(
       escrow: escrow,
-      version: paymentData.apiVersion,
+      version: SplitKeyApiVersion.smartContract,
     );
-    await repository.clear();
 
     if (!mounted) return;
     await context.router.push(
@@ -45,11 +42,11 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final firstPartLink = SplitKeyFirstLink.tryParse(link);
+      final payment = LinkPayments.tryParse(link);
 
-      if (firstPartLink != null) {
+      if (payment != null) {
         sl<AnalyticsManager>().firstLinkReceived();
-        _processLink(firstPartLink);
+        _processLink(payment);
 
         return true;
       }
