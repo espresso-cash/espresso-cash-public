@@ -1,3 +1,15 @@
+## 0.30.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: update linter (#1030).
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update lint rules.
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: getFeeForMessage response parsing (#1023).
+ - **BREAKING** **FIX**: update solana seed derivation (#970).
+
 ## 0.29.1
 
  - **FIX**: update Ed25519HDKeyPairData interface (#874).

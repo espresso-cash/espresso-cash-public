@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../di.dart';
+import '../l10n/gen/app_localizations.dart';
 import '../ui/theme.dart';
 import 'stories/activity_tile.dart';
 import 'stories/app_bar.dart';
@@ -21,6 +21,7 @@ import 'stories/info_widget.dart';
 import 'stories/loader.dart';
 import 'stories/navigation_bar.dart';
 import 'stories/rounded_rectangle.dart';
+import 'stories/screens/off_ramp_amount_screen.dart';
 import 'stories/screens/ramp_partner_select_screen.dart';
 import 'stories/screens/wallet_main_screen.dart';
 import 'stories/shake.dart';
@@ -66,6 +67,7 @@ class StorybookApp extends StatelessWidget {
           ),
         ),
         stories: [
+          offRampAmountScreenStory,
           onRampPartnerSelectScreen,
           walletMainScreen,
           cpActivityTile,

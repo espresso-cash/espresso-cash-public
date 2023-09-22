@@ -1,8 +1,8 @@
 import 'package:pigeon/pigeon.dart';
 
 @HostApi()
+// ignore: prefer-declaring-const-constructor, not supported
 abstract class ApiLocalAssociationScenario {
-  const ApiLocalAssociationScenario();
   @async
   void create(int id);
 
@@ -14,6 +14,8 @@ abstract class ApiLocalAssociationScenario {
 
   @async
   void startActivityForResult(int id, String? uriPrefix);
+
+  bool isWalletEndpointAvailable();
 
   @async
   GetCapabilitiesResultDto getCapabilities(int id);

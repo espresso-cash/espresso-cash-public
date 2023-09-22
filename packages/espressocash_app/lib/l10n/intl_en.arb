@@ -754,8 +754,12 @@
   "@youAreCreatingUniqueLink": {},
   "youOwn": "You own",
   "@youOwn": {},
-  "yourFirstNamePlaceholder": "Choose a username",
+  "yourFirstNamePlaceholder": "Your Name",
   "@yourFirstNamePlaceholder": {},
+  "yourEmailPlaceholder": "Email Address",
+  "@yourEmailPlaceholder": {},
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
+  "@yourEmailDisclaimer": {},
   "yourLinkIsReady": "Your link is ready",
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
@@ -785,5 +789,25 @@
   "offRampTopPartnerTitle": "Cash Out To Your Bank Account Using Our Top Partner",
   "@offRampTopPartnerTitle": {},
   "rampOtherPartnersTitle": "Other Partners:",
-  "@rampOtherPartnersTitle": {}
+  "@rampOtherPartnersTitle": {},
+  "rampBasicInfoRequired": "To get started, we need some basic information from you.",
+  "@rampBasicInfoRequired": {},
+  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalent": "You will get approx. {amount}",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalentError": "Error loading data",
+  "@rampAmountEquivalentError": {}
 }

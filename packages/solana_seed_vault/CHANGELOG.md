@@ -1,3 +1,21 @@
+## 0.2.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: update linter (#1030).
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update lint rules.
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: remove dependency on dfunc.
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **REFACTOR**: remove minSDK constraint.
+ - **REFACTOR**: update lints (#783).
+ - **FIX**: use latest solana version (#941).
+ - **FIX**: bump seedvault-wallet-sdk from 0.2.6 to 0.2.7 (#920).
+ - **FIX**: seed vault notification stream, account filter for parsed seeds (#859).
+ - **FIX**: update RequiresApi annotation.
+ - **BREAKING** **REFACTOR**: update isAvailable method signature.
+
 ## 0.1.0+1
 
  - **REFACTOR**: rename packages.

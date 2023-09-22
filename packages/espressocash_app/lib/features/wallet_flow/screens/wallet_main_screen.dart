@@ -7,6 +7,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
@@ -101,12 +102,32 @@ class _ScreenState extends State<WalletMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width;
 
     return CpTheme.dark(
       child: Scaffold(
-        appBar: _QrScannerAppBar(onQrScanner: widget.onScan),
+        appBar: CpAppBar(
+          leading: Center(
+            child: CpIconButton(
+              onPressed: widget.onScan,
+              icon: Assets.icons.qrScanner.svg(color: Colors.white),
+              variant: CpIconButtonVariant.black,
+            ),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: SizedBox(
+              width: 220,
+              child: CpTabBar(
+                tabs: [
+                  Tab(text: context.l10n.pay),
+                  Tab(text: context.l10n.receive),
+                ],
+                variant: CpTabBarVariant.light,
+              ),
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Column(
             children: [
@@ -119,17 +140,11 @@ class _ScreenState extends State<WalletMainScreen> {
                 error: widget.error,
               ),
               const SizedBox(height: 8),
-              UsdcInfoWidget(
-                isSmall: height < 700,
-              ),
-              Flexible(
-                child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: width,
-                    controller: _amountController,
-                    maxDecimals: 2,
-                  ),
+              UsdcInfoWidget(isSmall: width < 400),
+              Expanded(
+                child: AmountKeypad(
+                  controller: _amountController,
+                  maxDecimals: 2,
                 ),
               ),
               Padding(
@@ -145,7 +160,6 @@ class _ScreenState extends State<WalletMainScreen> {
                         widget.onRequest();
                     }
                   },
-                  size: CpButtonSize.big,
                 ),
               ),
               const SizedBox(height: 24),
@@ -155,50 +169,6 @@ class _ScreenState extends State<WalletMainScreen> {
       ),
     );
   }
-}
-
-class _QrScannerAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _QrScannerAppBar({required this.onQrScanner});
-
-  final VoidCallback onQrScanner;
-
-  @override
-  Size get preferredSize => const Size.fromHeight(2 * kToolbarHeight);
-
-  @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 28, top: 12),
-          child: SizedBox(
-            height: kToolbarHeight - 10,
-            child: Stack(
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: CpIconButton(
-                    onPressed: onQrScanner,
-                    icon: Assets.icons.qrScanner.svg(color: Colors.white),
-                    variant: CpIconButtonVariant.black,
-                    size: CpIconButtonSize.big,
-                  ),
-                ),
-                Align(
-                  child: SizedBox(
-                    width: 220,
-                    child: CpTabBar(
-                      tabs: [
-                        Tab(text: context.l10n.pay),
-                        Tab(text: context.l10n.receive),
-                      ],
-                      variant: CpTabBarVariant.light,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
 }
 
 extension on WalletOperation {
