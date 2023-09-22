@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
+import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
@@ -43,7 +44,7 @@ const _tables = [
   OTRows,
   ITRows,
   OLPRows,
-  //TODO add incoming
+  ILPRows,
 ];
 
 @lazySingleton
@@ -156,7 +157,7 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 37) {
             await m.createTable(oLPRows);
-            //TODO add incoming
+            await m.createTable(iLPRows);
           }
         },
       );

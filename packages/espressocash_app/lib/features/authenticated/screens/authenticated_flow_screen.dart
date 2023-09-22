@@ -12,6 +12,7 @@ import '../../activities/module.dart';
 import '../../backup_phrase/backup_phrase.dart';
 import '../../conversion_rates/module.dart';
 import '../../favorite_tokens/module.dart';
+import '../../incoming_link_payments/module.dart';
 import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
@@ -88,7 +89,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 key: _homeRouterKey,
                 builder: (context, child) => MultiProvider(
                   providers: const [
-                    ISKPModule(),
+                    ISKPModule(), // TODO to remove
+                    ILPModule(),
                   ],
                   child: child,
                 ),
