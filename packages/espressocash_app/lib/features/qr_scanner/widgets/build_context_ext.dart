@@ -5,7 +5,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/api_version.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/tokens/token_list.dart';
@@ -13,8 +12,8 @@ import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../conversion_rates/services/amount_ext.dart';
-import '../../incoming_split_key_payments/screens/incoming_split_key_payment_screen.dart';
-import '../../incoming_split_key_payments/widgets/extensions.dart';
+import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
+import '../../incoming_link_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
@@ -40,13 +39,10 @@ extension BuilContextExt on BuildContext {
       );
       if (!mounted) return;
 
-      final id = await createISKP(
-        escrow: escrow,
-        version: SplitKeyApiVersion.smartContract,
-      );
+      final id = await createILP(escrow: escrow);
 
       if (!mounted) return;
-      unawaited(router.push(IncomingSplitKeyPaymentScreen.route(id: id)));
+      unawaited(router.push(IncomingLinkPaymentScreen.route(id: id)));
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;
