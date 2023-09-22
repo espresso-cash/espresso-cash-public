@@ -3,13 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/analytics/analytics_manager.dart';
-import '../../../core/api_version.dart';
 import '../../../core/dynamic_links_notifier.dart';
-import '../../../core/link_payments.dart';
-import '../../../core/wallet.dart';
+import '../../../core/split_key_payments.dart';
 import '../../../di.dart';
-import '../screens/incoming_split_key_payment_screen.dart';
-import 'extensions.dart';
+import '../data/pending_iskp_repository.dart';
+import '../screens/first_part_qr_screen.dart';
+import '../screens/first_part_ready_screen.dart';
 
 class PendingISKPListener extends StatefulWidget {
   const PendingISKPListener({super.key, required this.child});
@@ -21,20 +20,26 @@ class PendingISKPListener extends StatefulWidget {
 }
 
 class _PendingISKPListenerState extends State<PendingISKPListener> {
-  Future<void> _processLink(LinkPayments paymentData) async {
-    final key = paymentData.key;
+  @override
+  void initState() {
+    super.initState();
+    _loadExisting();
+  }
 
-    final escrow = await walletFromKey(encodedKey: key);
-    if (!mounted) return;
+  Future<void> _loadExisting() async {
+    final existing = await sl<PendingISKPRepository>().load();
+    if (existing != null) {
+      if (!mounted) return;
 
-    final id = await context.createISKP(
-      escrow: escrow,
-      version: SplitKeyApiVersion.smartContract,
-    );
+      _openFirstPartReadyScreen();
+    }
+  }
 
-    if (!mounted) return;
-    await context.router.push(
-      IncomingSplitKeyPaymentScreen.route(id: id),
+  void _openFirstPartReadyScreen() {
+    context.router.push(
+      FirstPartReadyScreen.route(
+        onCancel: () => sl<PendingISKPRepository>().clear(),
+      ),
     );
   }
 
@@ -42,11 +47,17 @@ class _PendingISKPListenerState extends State<PendingISKPListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final payment = LinkPayments.tryParse(link);
-
-      if (payment != null) {
-        sl<AnalyticsManager>().firstLinkReceived();
-        _processLink(payment);
+      final firstPartLink = SplitKeyFirstLink.tryParse(link);
+      if (firstPartLink != null) {
+        switch (firstPartLink.source) {
+          case SplitKeySource.qr:
+            sl<AnalyticsManager>().firstLinkReceived();
+            context.router.push(FirstPartQrScreen.route()).ignore();
+          case SplitKeySource.other:
+            sl<PendingISKPRepository>().save(firstPartLink);
+            sl<AnalyticsManager>().firstLinkReceived();
+            _openFirstPartReadyScreen();
+        }
 
         return true;
       }

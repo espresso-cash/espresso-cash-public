@@ -46,10 +46,11 @@ class OSKPStatus with _$OSKPStatus {
     required EscrowPrivateKey escrow,
   }) = OSKPStatusTxConfirmed;
 
-  /// Link is ready to be sent to the recipient.
+  /// Links are ready to be sent to the recipient.
   const factory OSKPStatus.linksReady({
-    // TODO rename to linkReady
-    required Uri link,
+    required Uri link1,
+    required Uri link2,
+    required Uri? qrLink,
     required EscrowPrivateKey escrow,
   }) = OSKPStatusLinksReady;
 

@@ -22,7 +22,7 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 import '../widgets/extensions.dart';
-import 'share_link_screen.dart';
+import 'share_links_screen.dart';
 
 @RoutePage()
 class OSKPScreen extends StatefulWidget {

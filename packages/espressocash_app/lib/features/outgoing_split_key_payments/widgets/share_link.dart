@@ -11,8 +11,8 @@ import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
 import '../models/outgoing_split_key_payment.dart';
 
-class ShareLink extends StatelessWidget {
-  const ShareLink({
+class ShareLinks extends StatelessWidget {
+  const ShareLinks({
     super.key,
     required this.status,
     required this.amount,
@@ -27,7 +27,8 @@ class ShareLink extends StatelessWidget {
 
     final message = context.l10n.shareText(
       formattedAmount,
-      status.link,
+      status.link1,
+      // status.link2,
     );
 
     final messageBubble = ShareMessageBubble(
@@ -38,7 +39,9 @@ class ShareLink extends StatelessWidget {
             amount: formattedAmount,
           ),
           const WidgetSpan(child: _Instructions()),
-          WidgetSpan(child: _Link(link: status.link)),
+          WidgetSpan(
+            child: _Links(firstLink: status.link1, secondLink: status.link2),
+          ),
         ],
       ),
     );
@@ -71,17 +74,30 @@ class ShareLink extends StatelessWidget {
   }
 }
 
-class _Link extends StatelessWidget {
-  const _Link({required this.link});
+class _Links extends StatelessWidget {
+  const _Links({
+    required this.firstLink,
+    required this.secondLink,
+  });
 
-  final Uri link;
+  final Uri firstLink;
+  final Uri secondLink;
 
   @override
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
           children: [
+            TextSpan(text: context.l10n.shareStep1),
+            _newLine,
             TextSpan(
-              text: link.toString().withZeroWidthSpaces(),
+              text: firstLink.toString().withZeroWidthSpaces(),
+              style: _linkStyle,
+            ),
+            _newLine,
+            TextSpan(text: context.l10n.shareStep2),
+            _newLine,
+            TextSpan(
+              text: secondLink.toString().withZeroWidthSpaces(),
               style: _linkStyle,
             ),
           ],

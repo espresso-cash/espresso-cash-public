@@ -6,7 +6,8 @@ import 'package:solana/base58.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/cancelable_job.dart';
-import '../../../core/link_payments.dart';
+import '../../../core/link_shortener.dart';
+import '../../../core/split_key_payments.dart';
 import '../data/repository.dart';
 import '../models/outgoing_split_key_payment.dart';
 import 'payment_watcher.dart';
@@ -14,13 +15,15 @@ import 'payment_watcher.dart';
 /// Watches for [OSKPStatus.txConfirmed] payments and generates the links.
 @injectable
 class TxConfirmedWatcher extends PaymentWatcher {
-  TxConfirmedWatcher(super._repository);
+  TxConfirmedWatcher(super._repository, this._shortener);
+
+  final LinkShortener _shortener;
 
   @override
   CancelableJob<OutgoingSplitKeyPayment> createJob(
     OutgoingSplitKeyPayment payment,
   ) =>
-      _OSKPConfirmedJob(payment);
+      _OSKPConfirmedJob(payment, _shortener);
 
   @override
   Stream<IList<OutgoingSplitKeyPayment>> watchPayments(
@@ -30,9 +33,10 @@ class TxConfirmedWatcher extends PaymentWatcher {
 }
 
 class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
-  const _OSKPConfirmedJob(this.payment);
+  const _OSKPConfirmedJob(this.payment, this._linkShortener);
 
   final OutgoingSplitKeyPayment payment;
+  final LinkShortener _linkShortener;
 
   @override
   Future<OutgoingSplitKeyPayment?> process() async {
@@ -44,15 +48,35 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
     final token = payment.amount.token;
 
     final privateKey = status.escrow.bytes.lock;
-    final key = base58encode(privateKey.toList());
+    final keyParts = _splitKey(privateKey);
 
-    final link = LinkPayments(
-      key: key,
+    final rawFirstLink = SplitKeyFirstLink(
+      key: keyParts.first,
       token: token.publicKey,
-    ).toShareableLink();
+      apiVersion: payment.apiVersion,
+      source: SplitKeySource.other,
+    ).toUri();
+
+    final firstLink = _linkShortener.buildFullUrl(rawFirstLink);
+
+    final secondLink = SplitKeySecondLink(
+      key: keyParts.last,
+      apiVersion: payment.apiVersion,
+    ).toUri();
+
+    final rawQrLink = SplitKeyFirstLink(
+      key: keyParts.first,
+      token: token.publicKey,
+      apiVersion: payment.apiVersion,
+      source: SplitKeySource.qr,
+    ).toUri();
+
+    final qrLink = _linkShortener.buildFullUrl(rawQrLink);
 
     final newStatus = OSKPStatus.linksReady(
-      link: link,
+      link1: firstLink,
+      link2: secondLink,
+      qrLink: qrLink,
       escrow: status.escrow,
     );
 
@@ -61,4 +85,13 @@ class _OSKPConfirmedJob extends CancelableJob<OutgoingSplitKeyPayment> {
       linksGeneratedAt: DateTime.now(),
     );
   }
+}
+
+List<String> _splitKey(IList<int> privateKey) {
+  final parts = privateKey.splitAt(privateKey.length ~/ 2);
+
+  return [
+    base58encode(parts.first.toList()),
+    base58encode(parts.second.toList()),
+  ];
 }

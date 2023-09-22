@@ -188,7 +188,9 @@ extension on OSKPStatusDto {
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
-    final link = row.link1?.let(Uri.parse);
+    final link1 = row.link1?.let(Uri.parse);
+    final link2 = row.link2?.let(Uri.parse);
+    final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final cancelTxId = row.cancelTxId;
     final resolvedAt = row.resolvedAt;
@@ -214,7 +216,9 @@ extension on OSKPStatusDto {
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.linksReady:
         return OSKPStatus.linksReady(
-          link: link!,
+          link1: link1!,
+          link2: link2!,
+          qrLink: link3,
           escrow: escrow!,
         );
       case OSKPStatusDto.success:
@@ -270,7 +274,9 @@ extension on OutgoingSplitKeyPayment {
         txId: status.toTxId(),
         withdrawTxId: status.toWithdrawTxId(),
         privateKey: await status.toPrivateKey(),
-        link1: status.toLink(),
+        link1: status.toLink1(),
+        link2: status.toLink2(),
+        link3: status.toLink3(),
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
@@ -331,8 +337,16 @@ extension on OSKPStatus {
         cancelTxSent: (it) async => base58encode(it.escrow.bytes),
       );
 
-  String? toLink() => mapOrNull(
-        linksReady: (it) => it.link.toString(),
+  String? toLink1() => mapOrNull(
+        linksReady: (it) => it.link1.toString(),
+      );
+
+  String? toLink2() => mapOrNull(
+        linksReady: (it) => it.link2.toString(),
+      );
+
+  String? toLink3() => mapOrNull(
+        linksReady: (it) => it.qrLink.toString(),
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
