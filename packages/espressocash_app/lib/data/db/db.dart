@@ -6,6 +6,7 @@ import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
 import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
+import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
@@ -27,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 36;
+const int latestVersion = 37;
 
 const _tables = [
   OutgoingTransferRows,
@@ -41,6 +42,8 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
+  OLPRows,
+  //TODO add incoming
 ];
 
 @lazySingleton
@@ -150,6 +153,10 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 36) {
             await m.deleteTable('i_s_l_p_rows');
+          }
+          if (from < 37) {
+            await m.createTable(oLPRows);
+            //TODO add incoming
           }
         },
       );

@@ -8,9 +8,9 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
 import '../../conversion_rates/services/amount_ext.dart';
-import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
-import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
-import '../../outgoing_split_key_payments/widgets/extensions.dart';
+import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
+import '../../outgoing_link_payments/screens/olp_screen.dart';
+import '../../outgoing_link_payments/widgets/extensions.dart';
 import '../../payment_request/screens/link_request_flow_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import 'wallet_main_screen.dart';
@@ -88,7 +88,7 @@ class _State extends State<WalletFlowScreen> {
     final cryptoAmount = _cryptoAmount;
 
     context.router.push(
-      OSKPConfirmationScreen.route(
+      OLPConfirmationScreen.route(
         tokenAmount: cryptoAmount,
         // TODO(KB): do not hardcode
         fee: Amount.fromDecimal(
@@ -96,10 +96,10 @@ class _State extends State<WalletFlowScreen> {
           currency: Currency.usdc,
         ),
         onSubmit: () async {
-          final id = await context.createOSKP(amount: cryptoAmount);
+          final id = await context.createOLP(amount: cryptoAmount);
           if (!mounted) return;
 
-          await context.router.replace(OSKPScreen.route(id: id));
+          await context.router.replace(OLPScreen.route(id: id));
           if (!mounted) return;
 
           setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));

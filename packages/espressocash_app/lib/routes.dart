@@ -52,9 +52,12 @@ class AppRouter extends $AppRouter {
         ),
         AutoRoute(page: ODPDetailsRoute.page),
         AutoRoute(page: ODPConfirmationRoute.page),
-        AutoRoute(page: OSKPRoute.page),
-        AutoRoute(page: OSKPConfirmationRoute.page),
-        AutoRoute(page: ShareLinksRoute.page),
+        AutoRoute(page: OSKPRoute.page), // TODO to remove
+        AutoRoute(page: OSKPConfirmationRoute.page), // TODO to remove
+        AutoRoute(page: ShareLinksRoute.page), // TODO to remove
+        AutoRoute(page: OLPRoute.page),
+        AutoRoute(page: OLPConfirmationRoute.page),
+        AutoRoute(page: ShareLinkRoute.page),
         AutoRoute(page: IncomingSplitKeyPaymentRoute.page),
         AutoRoute(page: QrScannerRoute.page),
         AutoRoute(

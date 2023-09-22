@@ -16,6 +16,7 @@ import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
 import '../../outgoing_direct_payments/module.dart';
+import '../../outgoing_link_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
@@ -74,7 +75,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                   create: (_) => HomeRouterKey(_homeRouterKey),
                 ),
                 const ODPModule(),
-                const OSKPModule(),
+                const OSKPModule(), // TODO to remove
+                const OLPModule(),
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const FavoriteTokensModule(),
