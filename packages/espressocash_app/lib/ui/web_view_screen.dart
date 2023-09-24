@@ -13,12 +13,19 @@ class WebViewScreen extends StatefulWidget {
     super.key,
     required this.url,
     this.title,
+    this.onLoaded,
+    this.onConsoleMessage,
   });
 
   static const route = WebViewRoute.new;
 
   final Uri url;
   final String? title;
+  final ValueSetter<InAppWebViewController>? onLoaded;
+  final void Function(
+    InAppWebViewController controller,
+    ConsoleMessage consoleMessage,
+  )? onConsoleMessage;
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -34,6 +41,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     if (!mounted) return;
 
     setState(() => _title = title ?? '');
+    widget.onLoaded?.call(controller);
   }
 
   Future<PermissionRequestResponse?> _handleAndroidPermissionRequest(
@@ -60,7 +68,11 @@ class _WebViewScreenState extends State<WebViewScreen> {
           initialUrlRequest: URLRequest(url: widget.url),
           androidOnPermissionRequest: (_, __, resources) =>
               _handleAndroidPermissionRequest(resources),
-          onLoadStop: (controller, _) => _handleLoaded(controller),
+          onLoadStop: (controller, url) {
+            print(url);
+            _handleLoaded(controller);
+          },
+          onConsoleMessage: widget.onConsoleMessage,
         ),
       );
 }

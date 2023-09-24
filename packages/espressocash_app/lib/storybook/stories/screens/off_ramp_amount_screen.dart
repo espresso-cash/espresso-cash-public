@@ -6,7 +6,7 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../features/ramp/src/widgets/screens/off_ramp_amount_screen.dart';
+import '../../../features/ramp/src/screens/off_ramp_amount_screen.dart';
 
 final offRampAmountScreenStory = Story(
   name: 'Screens/OffRampAmountScreen',

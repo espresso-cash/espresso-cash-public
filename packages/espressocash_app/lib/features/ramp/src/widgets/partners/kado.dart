@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../../../config.dart';
 import '../../../../../ui/web_view_screen.dart';
@@ -19,11 +20,42 @@ extension BuildContextExt on BuildContext {
         'onRevCurrency': 'USDC',
         'theme': 'light',
         'productList': ['BUY'],
-        'mode': 'full',
+        'mode': 'minimal',
         'onToAddress': address,
+        'onPayCurrency': 'USD',
+        'onPayAmount': '100',
         'email': profile.email,
       },
     );
-    router.push(WebViewScreen.route(url: uri));
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      controller.addJavaScriptHandler(
+        handlerName: 'kado',
+        callback: (args) {
+          print(args);
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('kado', event.data);
+}, false);
+''',
+      );
+    }
+
+    void handleConsoleMessage(
+      InAppWebViewController _,
+      ConsoleMessage consoleMessage,
+    ) {
+      // print(consoleMessage);
+    }
+
+    router.push(
+      WebViewScreen.route(
+        url: uri,
+        onLoaded: handleLoaded,
+        onConsoleMessage: handleConsoleMessage,
+      ),
+    );
   }
 }
