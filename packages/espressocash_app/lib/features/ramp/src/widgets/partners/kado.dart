@@ -43,18 +43,10 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    void handleConsoleMessage(
-      InAppWebViewController _,
-      ConsoleMessage consoleMessage,
-    ) {
-      // print(consoleMessage);
-    }
-
     router.push(
       WebViewScreen.route(
         url: uri,
         onLoaded: handleLoaded,
-        onConsoleMessage: handleConsoleMessage,
       ),
     );
   }
