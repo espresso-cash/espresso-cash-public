@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
-import 'extensions.dart';
 import 'footer.dart';
 
 class LandingScreenWidget extends StatelessWidget {
@@ -9,45 +8,52 @@ class LandingScreenWidget extends StatelessWidget {
 
   final List<Widget> children;
 
-  AssetGenImage get backgroundImage =>
-      isMobile ? Assets.landing.bgMobile : Assets.landing.bgDesktop;
-
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(gradient: _bgGradient),
-        child: Stack(
-          children: [
-            SizedBox(
-              height: double.infinity,
-              child: backgroundImage.image(alignment: Alignment.bottomCenter),
-            ),
-            SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: constraints.copyWith(
-                      minHeight: constraints.maxHeight,
-                      maxHeight: double.infinity,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24),
-                        child: Center(
-                          child: Column(
-                            children: [
-                              ...children,
-                              const Spacer(),
-                              const Footer(),
-                            ],
-                          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final image = constraints.maxWidth < 550
+                ? Assets.landing.bgMobile
+                : Assets.landing.bgDesktop;
+
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: constraints.copyWith(
+                  minHeight: constraints.maxHeight,
+                  maxHeight: double.infinity,
+                ),
+                child: IntrinsicHeight(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: image.image(
+                          width: double.infinity,
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
-                    ),
+                      Center(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(24),
+                              child: Column(children: children),
+                            ),
+                            const Spacer(),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 24),
+                              child: Footer(),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       );
 }

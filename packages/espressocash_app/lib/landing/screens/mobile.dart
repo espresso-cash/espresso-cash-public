@@ -23,7 +23,7 @@ class MobileView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 25,
+              fontSize: 24,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -33,7 +33,7 @@ class MobileView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 19,
+              fontSize: 18,
               fontWeight: FontWeight.w500,
             ),
           ),

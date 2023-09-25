@@ -82,19 +82,21 @@ class DesktopView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 50),
-        if (width > 800)
+        if (width > 750)
           IntrinsicHeight(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Spacer(),
                 first,
                 const VerticalDivider(
                   color: Colors.white,
                   thickness: 1.5,
                   width: 32,
                 ),
-                second
+                second,
+                const Spacer(),
               ],
             ),
           )
@@ -138,12 +140,18 @@ class _InstructionItem extends StatelessWidget {
               children: [
                 StepCircle(step),
                 const SizedBox(width: 16),
-                Column(
-                  children: [
-                    content,
-                    const SizedBox(height: 24),
-                    text,
-                  ],
+                SizedBox(
+                  height: 225,
+                  child: Column(
+                    children: [
+                      content,
+                      const Spacer(),
+                      SizedBox(
+                        height: 40,
+                        child: text,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),
