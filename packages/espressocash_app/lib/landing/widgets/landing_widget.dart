@@ -13,7 +13,7 @@ class LandingScreenWidget extends StatelessWidget {
         decoration: const BoxDecoration(gradient: _bgGradient),
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final image = constraints.maxWidth < 550
+            final image = constraints.maxWidth < 430
                 ? Assets.landing.bgMobile
                 : Assets.landing.bgDesktop;
 
@@ -28,9 +28,14 @@ class LandingScreenWidget extends StatelessWidget {
                     children: [
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: image.image(
+                        child: SizedBox(
                           width: double.infinity,
-                          fit: BoxFit.fitWidth,
+                          child: SingleChildScrollView(
+                            child: image.image(
+                              alignment: Alignment.bottomCenter,
+                              repeat: ImageRepeat.repeatX,
+                            ),
+                          ),
                         ),
                       ),
                       Center(
