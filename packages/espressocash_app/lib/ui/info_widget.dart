@@ -4,7 +4,7 @@ import 'colors.dart';
 import 'info_icon.dart';
 import 'rounded_rectangle.dart';
 
-enum CpInfoVariant { light, dark }
+enum CpInfoVariant { light, dark, black }
 
 class CpInfoWidget extends StatelessWidget {
   const CpInfoWidget({
@@ -24,6 +24,8 @@ class CpInfoWidget extends StatelessWidget {
         return CpColors.backgroundAccentColor;
       case CpInfoVariant.dark:
         return CpColors.darkBackgroundColor;
+      case CpInfoVariant.black:
+        return Colors.black;
     }
   }
 
@@ -61,6 +63,12 @@ class CpInfoWidget extends StatelessWidget {
       case CpInfoVariant.light:
         return CpRoundedRectangle(
           backgroundColor: CpColors.backgroundAccentColor,
+          padding: padding,
+          child: content,
+        );
+      case CpInfoVariant.black:
+        return CpRoundedRectangle(
+          backgroundColor: Colors.black,
           padding: padding,
           child: content,
         );
