@@ -3,43 +3,46 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/currency.dart';
-import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../l10n/device_locale.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/amount_keypad/amount_keypad.dart';
-import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/back_button.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/theme.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/amount_keypad/amount_keypad.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/theme.dart';
+import '../models/ramp_type.dart';
 
 typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
 
 @RoutePage()
-class OffRampAmountScreen extends StatefulWidget {
-  const OffRampAmountScreen({
+class RampAmountScreen extends StatefulWidget {
+  const RampAmountScreen({
     super.key,
     required this.onSubmitted,
     required this.minAmount,
     required this.currency,
     required this.calculateEquivalent,
+    required this.type,
   });
 
-  static const route = OffRampAmountRoute.new;
+  static const route = RampAmountRoute.new;
 
   final ValueSetter<Amount> onSubmitted;
   final Decimal minAmount;
   final Currency currency;
-  final AmountCalculator calculateEquivalent;
+  final AmountCalculator? calculateEquivalent;
+  final RampType type;
 
   @override
-  State<OffRampAmountScreen> createState() => _OffRampAmountScreenState();
+  State<RampAmountScreen> createState() => _RampAmountScreenState();
 }
 
-class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
+class _RampAmountScreenState extends State<RampAmountScreen> {
   final _controller = TextEditingController();
 
   @override
@@ -66,7 +69,13 @@ class _OffRampAmountScreenState extends State<OffRampAmountScreen> {
           backgroundColor: CpColors.darkBackground,
           appBar: CpAppBar(
             leading: const CpBackButton(),
-            title: Text(context.l10n.ramp_btnCashOut.toUpperCase()),
+            title: Text(
+              switch (widget.type) {
+                RampType.onRamp => context.l10n.ramp_btnAddCash,
+                RampType.offRamp => context.l10n.ramp_btnCashOut,
+              }
+                  .toUpperCase(),
+            ),
           ),
           body: SafeArea(
             top: false,
@@ -136,38 +145,47 @@ class _InfoLabel extends StatelessWidget {
   final Amount amount;
   final Decimal minAmount;
   final Currency currency;
-  final AmountCalculator calculateEquivalent;
+  final AmountCalculator? calculateEquivalent;
 
   @override
-  Widget build(BuildContext context) => Container(
-        margin: const EdgeInsets.symmetric(horizontal: 40),
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        height: 55,
-        width: double.infinity,
-        decoration: const ShapeDecoration(
-          shape: StadiumBorder(),
-          color: Colors.black,
-        ),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: DefaultTextStyle(
-            style: const TextStyle(fontSize: 15),
-            child: amount.decimal < minAmount
-                ? Text(
-                    context.l10n.minAmountToOffRamp(
-                      Amount(
-                        value: currency.decimalToInt(minAmount),
-                        currency: currency,
-                      ).format(context.locale, roundInteger: true),
-                    ),
-                  )
-                : _Calculator(
-                    calculateEquivalent: calculateEquivalent,
-                    amount: amount,
-                  ),
-          ),
+  Widget build(BuildContext context) {
+    Widget? child;
+    if (amount.decimal < minAmount) {
+      child = Text(
+        context.l10n.minAmountToOffRamp(
+          Amount(
+            value: currency.decimalToInt(minAmount),
+            currency: currency,
+          ).format(context.locale, roundInteger: true),
         ),
       );
+    } else if (calculateEquivalent case final calculateEquivalent?) {
+      child = _Calculator(
+        calculateEquivalent: calculateEquivalent,
+        amount: amount,
+      );
+    }
+
+    return child == null
+        ? const SizedBox(height: 55)
+        : Container(
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: 55,
+            width: double.infinity,
+            decoration: const ShapeDecoration(
+              shape: StadiumBorder(),
+              color: Colors.black,
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: DefaultTextStyle(
+                style: const TextStyle(fontSize: 15),
+                child: child,
+              ),
+            ),
+          );
+  }
 }
 
 class _EnteredAmount extends StatelessWidget {

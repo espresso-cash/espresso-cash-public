@@ -30,4 +30,9 @@ class Activity with _$Activity {
     required DateTime created,
     required Swap data,
   }) = SwapActivity;
+
+  const factory Activity.onRamp({
+    required String id,
+    required DateTime created,
+  }) = OnRampActivity;
 }
