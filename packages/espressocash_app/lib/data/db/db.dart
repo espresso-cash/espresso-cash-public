@@ -197,4 +197,5 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get machineStatus => text()();
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
+  TextColumn get txHash => text()();
 }

@@ -38,6 +38,7 @@ class OnRampOrderService {
             machineStatus: '',
             isCompleted: false,
             created: DateTime.now(),
+            txHash: '',
           ),
         );
   }
