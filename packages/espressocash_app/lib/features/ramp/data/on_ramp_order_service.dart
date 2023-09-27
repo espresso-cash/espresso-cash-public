@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -11,7 +12,8 @@ typedef OnRampOrder = ({
   String orderId,
   String humanStatus,
   DateTime created,
-  CryptoAmount amount,
+  CryptoAmount? amount,
+  CryptoAmount? receiveAmount,
   bool isCompleted,
 });
 
@@ -54,6 +56,14 @@ class OnRampOrderService {
               value: row.amount,
               cryptoCurrency: CryptoCurrency(
                 token: _tokens.requireTokenByMint(row.token),
+              ),
+            ),
+            receiveAmount: row.receiveAmount?.let(
+              (amount) => CryptoAmount(
+                value: amount,
+                cryptoCurrency: CryptoCurrency(
+                  token: _tokens.requireTokenByMint(row.token),
+                ),
               ),
             ),
           ),

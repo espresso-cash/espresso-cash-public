@@ -68,8 +68,8 @@ const solanaPayEspressoCashHost = 'solanapay.espressocash.com';
 const moonpayHost = 'moonpay.$cpLinkDomain';
 const espressoCashDeepLinkHost = 'espressocash.page.link';
 
-const kadoBaseUrl = 'https://sandbox--kado.netlify.app/';
-const kadoApiBaseUrl = 'https://test-api.kado.money';
+const kadoBaseUrl = 'https://app.kado.money/';
+const kadoApiBaseUrl = 'https://api.kado.money';
 const kadoApiKey = '789fc144-32ff-46c8-85af-339354fa314d';
 
 const rampApiKey = 'q3xw9q8ejb9js36czw8htg8qj4bf62q6hua8bvh9';

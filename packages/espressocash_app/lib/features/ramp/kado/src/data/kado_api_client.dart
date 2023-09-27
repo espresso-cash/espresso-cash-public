@@ -25,10 +25,33 @@ class OrderDataDto with _$OrderDataDto {
   const factory OrderDataDto({
     required String humanStatusField,
     required String machineStatusField,
+    required QuoteDto quote,
+    required AmountDto totalFee,
+    required AmountDto payAmount,
   }) = _OrderDataDto;
 
   factory OrderDataDto.fromJson(Map<String, dynamic> json) =>
       _$OrderDataDtoFromJson(json);
+}
+
+@Freezed(toJson: false)
+class QuoteDto with _$QuoteDto {
+  const factory QuoteDto({
+    required num price,
+  }) = _QuoteDto;
+
+  factory QuoteDto.fromJson(Map<String, dynamic> json) =>
+      _$QuoteDtoFromJson(json);
+}
+
+@Freezed(toJson: false)
+class AmountDto with _$AmountDto {
+  const factory AmountDto({
+    required num amount,
+  }) = _AmountDto;
+
+  factory AmountDto.fromJson(Map<String, dynamic> json) =>
+      _$AmountDtoFromJson(json);
 }
 
 @Freezed(toJson: false)

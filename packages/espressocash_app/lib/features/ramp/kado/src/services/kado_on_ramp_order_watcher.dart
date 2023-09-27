@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../../../../core/currency.dart';
 import '../../../../../data/db/db.dart';
 import '../data/kado_api_client.dart';
 
@@ -48,6 +50,12 @@ class KadoOnRampOrderWatcher {
                 humanStatus: Value(data.humanStatusField),
                 machineStatus: Value(data.machineStatusField),
                 isCompleted: Value(isCompleted),
+                receiveAmount: Value(
+                  ((data.payAmount.amount - data.totalFee.amount) /
+                          data.quote.price *
+                          pow(10, Currency.usdc.decimals))
+                      .toInt(),
+                ),
               ),
             );
           }
