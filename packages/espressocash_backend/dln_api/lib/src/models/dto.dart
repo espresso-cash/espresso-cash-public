@@ -111,3 +111,28 @@ class OrderStatusResponseDto with _$OrderStatusResponseDto {
   factory OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusResponseDtoFromJson(json);
 }
+
+@freezed
+class OrderIdTxResponseDto with _$OrderIdTxResponseDto {
+  const factory OrderIdTxResponseDto({
+    required List<String> orderIds,
+  }) = _OrderIdTxResponseDto;
+
+  factory OrderIdTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$OrderIdTxResponseDtoFromJson(json);
+}
+
+@freezed
+class CancelTxResponseDto with _$CancelTxResponseDto {
+  const factory CancelTxResponseDto({
+    required String to,
+    required String data,
+    required String value,
+    required double chainId,
+    required String from,
+    String? cancelBeneficiary,
+  }) = _CancelTxResponseDto;
+
+  factory CancelTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$CancelTxResponseDtoFromJson(json);
+}

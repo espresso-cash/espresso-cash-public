@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('DlnApiClient - ', () {
-    test('create instant', () {
+    test('create instance', () {
       final client = DlnApiClient();
       expect(client, isNotNull);
     });
@@ -70,6 +70,17 @@ void main() {
 
       expect(status, isNotNull);
       expect(status, isA<OrderResponseDto>());
+    });
+
+    test('getOrderIdByHash', () async {
+      final client = DlnApiClient();
+
+      final status = await client.getOrderIdByHash(
+        '0x40ee524d5bb9c4ecd8e55d23c66c5465a3f137be7ae24df366c3fd06daf7de7e',
+      );
+
+      expect(status, isNotNull);
+      expect(status, isA<OrderIdTxResponseDto>());
     });
   });
 }

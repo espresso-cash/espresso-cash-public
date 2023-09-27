@@ -2008,3 +2008,392 @@ abstract class _OrderStatusResponseDto implements OrderStatusResponseDto {
   _$$_OrderStatusResponseDtoCopyWith<_$_OrderStatusResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+OrderIdTxResponseDto _$OrderIdTxResponseDtoFromJson(Map<String, dynamic> json) {
+  return _OrderIdTxResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OrderIdTxResponseDto {
+  List<String> get orderIds => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OrderIdTxResponseDtoCopyWith<OrderIdTxResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrderIdTxResponseDtoCopyWith<$Res> {
+  factory $OrderIdTxResponseDtoCopyWith(OrderIdTxResponseDto value,
+          $Res Function(OrderIdTxResponseDto) then) =
+      _$OrderIdTxResponseDtoCopyWithImpl<$Res, OrderIdTxResponseDto>;
+  @useResult
+  $Res call({List<String> orderIds});
+}
+
+/// @nodoc
+class _$OrderIdTxResponseDtoCopyWithImpl<$Res,
+        $Val extends OrderIdTxResponseDto>
+    implements $OrderIdTxResponseDtoCopyWith<$Res> {
+  _$OrderIdTxResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderIds = null,
+  }) {
+    return _then(_value.copyWith(
+      orderIds: null == orderIds
+          ? _value.orderIds
+          : orderIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_OrderIdTxResponseDtoCopyWith<$Res>
+    implements $OrderIdTxResponseDtoCopyWith<$Res> {
+  factory _$$_OrderIdTxResponseDtoCopyWith(_$_OrderIdTxResponseDto value,
+          $Res Function(_$_OrderIdTxResponseDto) then) =
+      __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<String> orderIds});
+}
+
+/// @nodoc
+class __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>
+    extends _$OrderIdTxResponseDtoCopyWithImpl<$Res, _$_OrderIdTxResponseDto>
+    implements _$$_OrderIdTxResponseDtoCopyWith<$Res> {
+  __$$_OrderIdTxResponseDtoCopyWithImpl(_$_OrderIdTxResponseDto _value,
+      $Res Function(_$_OrderIdTxResponseDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderIds = null,
+  }) {
+    return _then(_$_OrderIdTxResponseDto(
+      orderIds: null == orderIds
+          ? _value._orderIds
+          : orderIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_OrderIdTxResponseDto implements _OrderIdTxResponseDto {
+  const _$_OrderIdTxResponseDto({required final List<String> orderIds})
+      : _orderIds = orderIds;
+
+  factory _$_OrderIdTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_OrderIdTxResponseDtoFromJson(json);
+
+  final List<String> _orderIds;
+  @override
+  List<String> get orderIds {
+    if (_orderIds is EqualUnmodifiableListView) return _orderIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_orderIds);
+  }
+
+  @override
+  String toString() {
+    return 'OrderIdTxResponseDto(orderIds: $orderIds)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OrderIdTxResponseDto &&
+            const DeepCollectionEquality().equals(other._orderIds, _orderIds));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_orderIds));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OrderIdTxResponseDtoCopyWith<_$_OrderIdTxResponseDto> get copyWith =>
+      __$$_OrderIdTxResponseDtoCopyWithImpl<_$_OrderIdTxResponseDto>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_OrderIdTxResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OrderIdTxResponseDto implements OrderIdTxResponseDto {
+  const factory _OrderIdTxResponseDto({required final List<String> orderIds}) =
+      _$_OrderIdTxResponseDto;
+
+  factory _OrderIdTxResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_OrderIdTxResponseDto.fromJson;
+
+  @override
+  List<String> get orderIds;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OrderIdTxResponseDtoCopyWith<_$_OrderIdTxResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CancelTxResponseDto _$CancelTxResponseDtoFromJson(Map<String, dynamic> json) {
+  return _CancelTxResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CancelTxResponseDto {
+  String get to => throw _privateConstructorUsedError;
+  String get data => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
+  double get chainId => throw _privateConstructorUsedError;
+  String get from => throw _privateConstructorUsedError;
+  String? get cancelBeneficiary => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CancelTxResponseDtoCopyWith<CancelTxResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CancelTxResponseDtoCopyWith<$Res> {
+  factory $CancelTxResponseDtoCopyWith(
+          CancelTxResponseDto value, $Res Function(CancelTxResponseDto) then) =
+      _$CancelTxResponseDtoCopyWithImpl<$Res, CancelTxResponseDto>;
+  @useResult
+  $Res call(
+      {String to,
+      String data,
+      String value,
+      double chainId,
+      String from,
+      String? cancelBeneficiary});
+}
+
+/// @nodoc
+class _$CancelTxResponseDtoCopyWithImpl<$Res, $Val extends CancelTxResponseDto>
+    implements $CancelTxResponseDtoCopyWith<$Res> {
+  _$CancelTxResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
+    Object? chainId = null,
+    Object? from = null,
+    Object? cancelBeneficiary = freezed,
+  }) {
+    return _then(_value.copyWith(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      chainId: null == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as double,
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as String,
+      cancelBeneficiary: freezed == cancelBeneficiary
+          ? _value.cancelBeneficiary
+          : cancelBeneficiary // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CancelTxResponseDtoCopyWith<$Res>
+    implements $CancelTxResponseDtoCopyWith<$Res> {
+  factory _$$_CancelTxResponseDtoCopyWith(_$_CancelTxResponseDto value,
+          $Res Function(_$_CancelTxResponseDto) then) =
+      __$$_CancelTxResponseDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String to,
+      String data,
+      String value,
+      double chainId,
+      String from,
+      String? cancelBeneficiary});
+}
+
+/// @nodoc
+class __$$_CancelTxResponseDtoCopyWithImpl<$Res>
+    extends _$CancelTxResponseDtoCopyWithImpl<$Res, _$_CancelTxResponseDto>
+    implements _$$_CancelTxResponseDtoCopyWith<$Res> {
+  __$$_CancelTxResponseDtoCopyWithImpl(_$_CancelTxResponseDto _value,
+      $Res Function(_$_CancelTxResponseDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
+    Object? chainId = null,
+    Object? from = null,
+    Object? cancelBeneficiary = freezed,
+  }) {
+    return _then(_$_CancelTxResponseDto(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+      chainId: null == chainId
+          ? _value.chainId
+          : chainId // ignore: cast_nullable_to_non_nullable
+              as double,
+      from: null == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as String,
+      cancelBeneficiary: freezed == cancelBeneficiary
+          ? _value.cancelBeneficiary
+          : cancelBeneficiary // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CancelTxResponseDto implements _CancelTxResponseDto {
+  const _$_CancelTxResponseDto(
+      {required this.to,
+      required this.data,
+      required this.value,
+      required this.chainId,
+      required this.from,
+      this.cancelBeneficiary});
+
+  factory _$_CancelTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CancelTxResponseDtoFromJson(json);
+
+  @override
+  final String to;
+  @override
+  final String data;
+  @override
+  final String value;
+  @override
+  final double chainId;
+  @override
+  final String from;
+  @override
+  final String? cancelBeneficiary;
+
+  @override
+  String toString() {
+    return 'CancelTxResponseDto(to: $to, data: $data, value: $value, chainId: $chainId, from: $from, cancelBeneficiary: $cancelBeneficiary)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CancelTxResponseDto &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.value, value) || other.value == value) &&
+            (identical(other.chainId, chainId) || other.chainId == chainId) &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.cancelBeneficiary, cancelBeneficiary) ||
+                other.cancelBeneficiary == cancelBeneficiary));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, to, data, value, chainId, from, cancelBeneficiary);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CancelTxResponseDtoCopyWith<_$_CancelTxResponseDto> get copyWith =>
+      __$$_CancelTxResponseDtoCopyWithImpl<_$_CancelTxResponseDto>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CancelTxResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CancelTxResponseDto implements CancelTxResponseDto {
+  const factory _CancelTxResponseDto(
+      {required final String to,
+      required final String data,
+      required final String value,
+      required final double chainId,
+      required final String from,
+      final String? cancelBeneficiary}) = _$_CancelTxResponseDto;
+
+  factory _CancelTxResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_CancelTxResponseDto.fromJson;
+
+  @override
+  String get to;
+  @override
+  String get data;
+  @override
+  String get value;
+  @override
+  double get chainId;
+  @override
+  String get from;
+  @override
+  String? get cancelBeneficiary;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CancelTxResponseDtoCopyWith<_$_CancelTxResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}

@@ -13,7 +13,7 @@ class _DlnApiClient implements DlnApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.dln.trade/v1.0/dln/order';
+    baseUrl ??= 'https://api.dln.trade/v1.0/dln';
   }
 
   final Dio _dio;
@@ -35,7 +35,7 @@ class _DlnApiClient implements DlnApiClient {
     )
             .compose(
               _dio.options,
-              '/quote',
+              '/order/quote',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -59,7 +59,7 @@ class _DlnApiClient implements DlnApiClient {
     )
             .compose(
               _dio.options,
-              '/create-tx',
+              '/order/create-tx',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -82,7 +82,7 @@ class _DlnApiClient implements DlnApiClient {
     )
             .compose(
               _dio.options,
-              '/${id}',
+              '/order/${id}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -105,12 +105,58 @@ class _DlnApiClient implements DlnApiClient {
     )
             .compose(
               _dio.options,
-              '/${id}/status',
+              '/order/${id}/status',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = OrderStatusResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OrderIdTxResponseDto> getOrderIdByHash(hash) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OrderIdTxResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/tx/${hash}/order-ids',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = OrderIdTxResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<CancelTxResponseDto> cancelTx(id) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CancelTxResponseDto>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/order/${id}/cancel-tx',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = CancelTxResponseDto.fromJson(_result.data!);
     return value;
   }
 

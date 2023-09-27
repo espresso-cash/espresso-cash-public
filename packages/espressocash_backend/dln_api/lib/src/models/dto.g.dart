@@ -228,3 +228,47 @@ Map<String, dynamic> _$$_OrderStatusResponseDtoToJson(
       'orderId': instance.orderId,
       'status': instance.status,
     };
+
+_$_OrderIdTxResponseDto _$$_OrderIdTxResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_OrderIdTxResponseDto(
+      orderIds:
+          (json['orderIds'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$$_OrderIdTxResponseDtoToJson(
+        _$_OrderIdTxResponseDto instance) =>
+    <String, dynamic>{
+      'orderIds': instance.orderIds,
+    };
+
+_$_CancelTxResponseDto _$$_CancelTxResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_CancelTxResponseDto(
+      to: json['to'] as String,
+      data: json['data'] as String,
+      value: json['value'] as String,
+      chainId: (json['chainId'] as num).toDouble(),
+      from: json['from'] as String,
+      cancelBeneficiary: json['cancelBeneficiary'] as String?,
+    );
+
+Map<String, dynamic> _$$_CancelTxResponseDtoToJson(
+    _$_CancelTxResponseDto instance) {
+  final val = <String, dynamic>{
+    'to': instance.to,
+    'data': instance.data,
+    'value': instance.value,
+    'chainId': instance.chainId,
+    'from': instance.from,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('cancelBeneficiary', instance.cancelBeneficiary);
+  return val;
+}
