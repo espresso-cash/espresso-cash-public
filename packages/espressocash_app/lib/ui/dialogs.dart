@@ -98,7 +98,6 @@ Future<void> showWarningDialog(
       builder: (context) => CpTheme.dark(
         child: Dialog(
           elevation: 0,
-          backgroundColor: CpColors.primaryColor,
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
