@@ -63,7 +63,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           initialUrlRequest: URLRequest(url: widget.url),
           androidOnPermissionRequest: (_, __, resources) =>
               _handleAndroidPermissionRequest(resources),
-          onLoadStop: (controller, url) => _handleLoaded(controller),
+          onLoadStop: (controller, _) => _handleLoaded(controller),
         ),
       );
 }
