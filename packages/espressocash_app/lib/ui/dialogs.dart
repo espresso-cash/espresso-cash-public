@@ -34,14 +34,14 @@ Future<void> showConfirmationDialog(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.primaryColor,
+      backgroundColor: CpColors.darkSplashBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),
           topRight: Radius.circular(44),
         ),
       ),
-      builder: (context) => CpTheme.dark(
+      builder: (context) => CpTheme.black(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(64, 40, 64, 64),
           child: Column(
