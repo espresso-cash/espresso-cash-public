@@ -20,18 +20,42 @@ import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
-class InvestmentHeader extends StatelessWidget {
+class InvestmentHeader extends StatefulWidget {
   const InvestmentHeader({super.key});
 
   @override
-  Widget build(BuildContext context) => const DecoratedBox(
-        decoration: BoxDecoration(color: CpColors.darkBackground),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _Balance(),
-            _Buttons(),
-          ],
+  State<InvestmentHeader> createState() => _InvestmentHeaderState();
+}
+
+class _InvestmentHeaderState extends State<InvestmentHeader> {
+  bool _showMore = false;
+
+  void _toggleUsdcInfo() => setState(() => _showMore = !_showMore);
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: const BoxDecoration(color: CpColors.darkBackground),
+        child: _HeaderSwitcher(
+          first: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _Headline(onInfo: _toggleUsdcInfo),
+                    const SizedBox(height: 4),
+                    const _Amount(),
+                    const SizedBox(height: 8),
+                  ],
+                ),
+              ),
+              const _Buttons(),
+            ],
+          ),
+          second: _Info(onClose: _toggleUsdcInfo),
+          showMore: _showMore,
         ),
       );
 }
@@ -98,38 +122,6 @@ class _Buttons extends StatelessWidget {
             ),
           ),
         ),
-      );
-}
-
-class _Balance extends StatefulWidget {
-  const _Balance();
-
-  @override
-  State<_Balance> createState() => _BalanceState();
-}
-
-class _BalanceState extends State<_Balance> {
-  bool _showMore = false;
-
-  void _toggleInfo() => setState(() => _showMore = !_showMore);
-
-  @override
-  Widget build(BuildContext context) => _HeaderSwitcher(
-        first: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _Headline(onInfo: _toggleInfo),
-              const SizedBox(height: 4),
-              const _Amount(),
-              const SizedBox(height: 8),
-            ],
-          ),
-        ),
-        second: _Info(onClose: _toggleInfo),
-        showMore: _showMore,
       );
 }
 
