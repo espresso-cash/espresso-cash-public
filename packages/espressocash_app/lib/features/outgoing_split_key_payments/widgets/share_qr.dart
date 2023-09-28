@@ -28,6 +28,7 @@ class ShareQr extends StatelessWidget {
     return CpContentPadding(
       child: CpRoundedRectangle(
         scrollable: false,
+        backgroundColor: Colors.black,
         child: Column(
           children: [
             const _QrInfoHeader(),

@@ -53,11 +53,11 @@ extension on CpStatusType {
       case CpStatusType.success:
         return CpColors.successBackgroundColor;
       case CpStatusType.info:
-        return CpColors.infoBackgroundColor;
+        return Colors.black;
       case CpStatusType.error:
         return CpColors.errorBackgroundColor;
       case CpStatusType.neutral:
-        return CpColors.darkBackground;
+        return CpColors.neutralBackgroundColor;
     }
   }
 }

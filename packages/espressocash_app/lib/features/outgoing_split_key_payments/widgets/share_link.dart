@@ -32,6 +32,7 @@ class ShareLinks extends StatelessWidget {
     );
 
     final messageBubble = ShareMessageBubble(
+      backgroundColor: Colors.black,
       textSpan: TextSpan(
         children: [
           ShareMessageHeader(
