@@ -34,7 +34,7 @@ class OSKPConfirmationScreen extends StatelessWidget {
   final VoidCallback onSubmit;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
             title: Text(
@@ -94,7 +94,10 @@ class _TokenCreateLinkContent extends StatelessWidget {
           _AmountView(amount: amount),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: CpInfoWidget(message: Text(context.l10n.sendExplanation)),
+            child: CpInfoWidget(
+              message: Text(context.l10n.sendExplanation),
+              variant: CpInfoVariant.black,
+            ),
           ),
           const Spacer(),
         ],
