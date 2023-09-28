@@ -33,6 +33,7 @@ class AppRouter extends $AppRouter {
             CustomRoute(page: ActivitiesRoute.page, maintainState: false),
           ],
         ),
+        CustomRoute(page: PayFlowRoute.page, maintainState: false),
         AutoRoute(
           page: PuzzleReminderRoute.page,
           fullscreenDialog: true,
@@ -50,6 +51,7 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: BackupPhraseSuccessRoute.page),
           ],
         ),
+        AutoRoute(page: ODPInputRoute.page),
         AutoRoute(page: ODPDetailsRoute.page),
         AutoRoute(page: ODPConfirmationRoute.page),
         AutoRoute(page: OSKPRoute.page),
@@ -93,6 +95,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: RampPartnerSelectRoute.page),
         AutoRoute(page: RampOnboardingRoute.page),
         AutoRoute(page: RampAmountRoute.page),
+        AutoRoute(page: NetworkPickerRoute.page),
       ],
     ),
     AutoRoute(

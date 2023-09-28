@@ -8,11 +8,13 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
 import '../../outgoing_split_key_payments/widgets/extensions.dart';
 import '../../payment_request/screens/link_request_flow_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
+import 'pay_flow_screen.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
@@ -88,21 +90,30 @@ class _State extends State<WalletFlowScreen> {
     final cryptoAmount = _cryptoAmount;
 
     context.router.push(
-      OSKPConfirmationScreen.route(
-        tokenAmount: cryptoAmount,
-        // TODO(KB): do not hardcode
-        fee: Amount.fromDecimal(
-          value: Decimal.parse('0.1'),
-          currency: Currency.usdc,
-        ),
-        onSubmit: () async {
-          final id = await context.createOSKP(amount: cryptoAmount);
-          if (!mounted) return;
+      PayFlowScreen.route(
+        onLink: () {
+          context.router.push(
+            OSKPConfirmationScreen.route(
+              tokenAmount: cryptoAmount,
+              // TODO(KB): do not hardcode
+              fee: Amount.fromDecimal(
+                value: Decimal.parse('0.1'),
+                currency: Currency.usdc,
+              ),
+              onSubmit: () async {
+                final id = await context.createOSKP(amount: cryptoAmount);
+                if (!mounted) return;
 
-          await context.router.replace(OSKPScreen.route(id: id));
-          if (!mounted) return;
+                await context.router.replace(OSKPScreen.route(id: id));
+                if (!mounted) return;
 
-          setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+                setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+              },
+            ),
+          );
+        },
+        onManual: () {
+          context.router.push(ODPInputScreen.route());
         },
       ),
     );
