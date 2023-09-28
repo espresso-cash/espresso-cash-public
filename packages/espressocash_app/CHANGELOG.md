@@ -1,3 +1,11 @@
+## 1.83.0
+
+ - **FIX**: small ui fixes (#1056).
+ - **FEAT**: update kado on-ramp (#1074).
+ - **FEAT**: add off-ramp amount screen (#1067).
+ - **FEAT**: add ramp onboarding screen (#1066).
+ - **FEAT**: update partner select screen layout (#1064).
+
 ## 1.82.0
 
  - **FEAT**: remove localizely ota (#1055).
