@@ -112,7 +112,7 @@ class _ContentState extends State<_Content> {
             fontSize: 16,
             border: CpTextFieldBorder.stadium,
             placeholder: context.l10n.searchPlaceholder,
-            backgroundColor: const Color(0xff404040),
+            backgroundColor: CpColors.blackTextFieldBackgroundColor,
             textColor: Colors.white,
             inputType: TextInputType.text,
           ),
@@ -147,7 +147,7 @@ class _ContentState extends State<_Content> {
                 return DecoratedBox(
                   decoration: selected
                       ? const ShapeDecoration(
-                          color: Color(0xff404040),
+                          color: CpColors.blackTextFieldBackgroundColor,
                           shape: StadiumBorder(),
                         )
                       : const BoxDecoration(),

@@ -37,7 +37,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
@@ -50,9 +50,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
               OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
               OnboardingPadding(
-                child: RecoveryPhraseTextView(
-                  phrase: _phrase,
-                ),
+                child: RecoveryPhraseTextView(phrase: _phrase),
               ),
             ],
           ),

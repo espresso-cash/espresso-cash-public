@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import '../l10n/l10n.dart';
 import 'button.dart';
-import 'colors.dart';
 import 'snackbar.dart';
 import 'theme.dart';
 
@@ -22,7 +21,7 @@ class RecoveryPhraseTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: BoxDecoration(
-          color: backgroundColor ?? CpColors.darkBackground,
+          color: backgroundColor ?? Colors.black,
           borderRadius: const BorderRadius.all(Radius.circular(30)),
         ),
         child: Column(

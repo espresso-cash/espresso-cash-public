@@ -18,7 +18,7 @@ class BackupWarningScreen extends StatelessWidget {
   static const route = BackupWarningRoute.new;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
@@ -33,6 +33,7 @@ class BackupWarningScreen extends StatelessWidget {
               OnboardingPadding(
                 child: CpInfoWidget(
                   message: Text(context.l10n.recoveryWarningInfo),
+                  variant: CpInfoVariant.black,
                 ),
               ),
               const SizedBox(height: 38),
