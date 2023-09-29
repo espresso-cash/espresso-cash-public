@@ -5,6 +5,7 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
+import '../../../l10n/l10n.dart';
 import '../data/blockchain.dart';
 
 @RoutePage()
@@ -25,7 +26,7 @@ class NetworkPickerScreen extends StatelessWidget {
         child: Scaffold(
           backgroundColor: CpColors.darkBackground,
           appBar: CpAppBar(
-            title: Text('Networks'.toUpperCase()),
+            title: Text(context.l10n.walletNetworks.toUpperCase()),
           ),
           body: _Content(
             initial: initial,

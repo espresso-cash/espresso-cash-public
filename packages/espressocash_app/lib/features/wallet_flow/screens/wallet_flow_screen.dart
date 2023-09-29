@@ -126,6 +126,8 @@ class _State extends State<WalletFlowScreen> {
           context.router.push(
             ODPInputScreen.route(
               onSubmit: (Blockchain network, String address) async {
+                if (network != Blockchain.solana) return;
+
                 final formatted = _cryptoAmount
                     .format(DeviceLocale.localeOf(context), skipSymbol: true);
 
@@ -146,6 +148,7 @@ class _State extends State<WalletFlowScreen> {
 
                 final confirmedCryptoAmount = _cryptoAmount.decimal;
 
+                if (!mounted) return;
                 final id = await context.createODP(
                   amountInUsdc: confirmedCryptoAmount,
                   receiver: recipient,
@@ -153,10 +156,14 @@ class _State extends State<WalletFlowScreen> {
                 );
 
                 if (!mounted) return;
-                await context.router.pop(); //TODO
+                await context.router.pop();
 
                 if (!mounted) return;
-                await context.router.push(ODPDetailsScreen.route(id: id));
+                await context.router.replace(ODPDetailsScreen.route(id: id));
+
+                if (!mounted) return;
+
+                setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
               },
             ),
           );

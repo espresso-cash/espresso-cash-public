@@ -9,7 +9,8 @@ import '../../../ui/bottom_button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
-import '../../wallet_flow/screens/pay_flow_screen.dart';
+import '../../qr_scanner/widgets/build_context_ext.dart';
+import '../../wallet_flow/widgets/pay_item.dart';
 import '../data/blockchain.dart';
 import 'network_picker_screen.dart';
 
@@ -54,9 +55,13 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
       );
 
   Future<void> _handleOnQrScan() async {
-    // TODO launch qr
+    final code = await context.launchQrForAddress();
+
+    if (code == null) return;
+    if (!mounted) return;
+
     setState(() {
-      _walletAddressController.text = 'TODO';
+      _walletAddressController.text = code;
     });
   }
 
@@ -70,15 +75,15 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
-            title: Text('SEND TO A WALLET ADDRESS'.toUpperCase()),
+            title: Text(context.l10n.walletSendToAddressTitle),
           ),
           body: SafeArea(
             child: Center(
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-                  PayItem(
-                    title: 'Networks',
+                  PayMethodItem(
+                    title: context.l10n.walletNetworks,
                     buttonText: _selectedNetwork.name,
                     onPressed: _showNetworkPicker ? _handleOnNetworkTap : null,
                     buttonTrailing: _showNetworkPicker
@@ -90,7 +95,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                         : null,
                   ),
                   _WalletTextField(
-                    title: 'Wallet Address',
+                    title: context.l10n.walletAddress,
                     controller: _walletAddressController,
                     onQrScan: _handleOnQrScan,
                   ),
@@ -141,7 +146,7 @@ class _WalletTextField extends StatelessWidget {
             const SizedBox(height: 12),
             CpTextField(
               controller: controller,
-              placeholder: 'Type, Paste or Scan Address Here',
+              placeholder: context.l10n.walletAddressFieldHint,
               backgroundColor: const Color(0xFF4D4B4C),
               padding: const EdgeInsets.symmetric(
                 horizontal: 24,

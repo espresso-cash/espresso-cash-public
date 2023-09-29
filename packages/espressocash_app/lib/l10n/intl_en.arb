@@ -809,5 +809,27 @@
     }
   },
   "rampAmountEquivalentError": "Error loading data",
-  "@rampAmountEquivalentError": {}
+  "@rampAmountEquivalentError": {},
+  "walletTransactionMethodTitle" : "TRANSACTION METHOD",
+  "@walletTransactionMethodTitle": {},
+  "walletEspressoPayTitle" : "Espresso Pay",
+  "@walletEspressoPayTitle": {},
+  "walletEspressoPaySubtitle" : "Send money to friends or family via any messaging platform.",
+  "@walletEspressoPaySubtitle": {},
+  "walletEspressoPayBtnTitle" : "Using a Secure Link",
+  "@walletEspressoPayBtnTitle": {},
+  "walletManualPayTitle" : "Manual",
+  "@walletManualPayTitle": {},
+  "walletManualPaySubtitle" : "Pay a person or a business using their wallet address.",
+  "@walletManualPaySubtitle": {},
+  "walletManualPayBtnTitle" : "Using a Wallet Address",
+  "@walletManualPayBtnTitle": {},
+  "walletSendToAddressTitle" : "SEND TO A WALLET ADDRESS",
+  "@walletSendToAddressTitle": {},
+  "walletNetworks" : "Networks",
+  "@walletNetworks": {},
+  "walletAddress" : "Wallet Address",
+  "@walletAddress": {},
+  "walletAddressFieldHint" : "Type, Paste or Scan Address Here",
+  "@walletAddressFieldHint": {}
 }
