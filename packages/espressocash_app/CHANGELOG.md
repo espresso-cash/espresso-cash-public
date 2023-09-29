@@ -1,3 +1,11 @@
+## 1.84.0
+
+ - **REFACTOR**: migrate to Flutter 3.13.6 (#1077).
+ - **FEAT**: add pay method selection (#1075).
+ - **FEAT**: update remaning screens to black theme (#1076).
+ - **FEAT**: investment screen ui updates (#1065).
+ - **FEAT**: update to black theme (#1073).
+
 ## 1.83.0
 
  - **FIX**: small ui fixes (#1056).
