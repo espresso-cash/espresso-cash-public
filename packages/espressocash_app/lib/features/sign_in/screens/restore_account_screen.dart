@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
@@ -57,7 +56,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
@@ -79,7 +78,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
                       borderRadius: BorderRadius.all(Radius.circular(30)),
                       borderSide: BorderSide.none,
                     ),
-                    fillColor: CpColors.darkBackground,
+                    fillColor: Colors.black,
                     filled: true,
                   ),
                   inputFormatters: [MnemonicInputFormatter()],

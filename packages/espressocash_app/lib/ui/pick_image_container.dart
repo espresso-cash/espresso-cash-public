@@ -36,6 +36,7 @@ class PickImageContainer extends StatelessWidget {
             height: 164,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
+              color: Colors.black,
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: image == null
@@ -50,7 +51,7 @@ class PickImageContainer extends StatelessWidget {
           CpButton(
             text: label,
             onPressed: pickImageClicked,
-            variant: CpButtonVariant.inverted,
+            variant: CpButtonVariant.black,
             size: CpButtonSize.small,
           ),
         ],
