@@ -52,10 +52,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
               OnboardingDescription(text: context.l10n.recoverySubHeading),
               OnboardingPadding(
-                child: RecoveryPhraseTextView(
-                  phrase: _phrase,
-                  backgroundColor: Colors.black,
-                ),
+                child: RecoveryPhraseTextView(phrase: _phrase),
               ),
             ],
           ),

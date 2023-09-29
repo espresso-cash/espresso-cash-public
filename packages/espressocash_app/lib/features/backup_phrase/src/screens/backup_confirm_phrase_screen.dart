@@ -53,7 +53,6 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
               child: RecoveryPhraseTextView(
                 phrase: _currentPhrase,
                 hasCopyButton: false,
-                backgroundColor: Colors.black,
               ),
             ),
             const SizedBox(height: 32),
