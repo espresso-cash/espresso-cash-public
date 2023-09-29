@@ -35,7 +35,7 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
   Widget build(BuildContext context) {
     final correctPhrase = widget.correctPhrase;
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
         body: OnboardingScreen(
           footer: OnboardingFooterButton(
@@ -53,6 +53,7 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
               child: RecoveryPhraseTextView(
                 phrase: _currentPhrase,
                 hasCopyButton: false,
+                backgroundColor: Colors.black,
               ),
             ),
             const SizedBox(height: 32),
