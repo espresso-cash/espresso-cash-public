@@ -121,7 +121,7 @@ class _ContentState extends State<_Content> {
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
         listener: _onBlocChange,
-        child: CpTheme.dark(
+        child: CpTheme.black(
           child: Scaffold(
             body: Stack(
               children: [

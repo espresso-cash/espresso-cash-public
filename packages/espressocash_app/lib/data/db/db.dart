@@ -14,6 +14,7 @@ import '../../features/popular_tokens/data/popular_token_cache.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';
+import 'mixins.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
@@ -45,12 +46,16 @@ const _tables = [
   ITRows,
   OLPRows,
   ILPRows,
+  OnRampOrderRows,
 ];
 
 @lazySingleton
 @DriftDatabase(tables: _tables)
 class MyDatabase extends _$MyDatabase {
+  @factoryMethod
   MyDatabase() : super(openConnection());
+
+  MyDatabase.withExecutor(super.e);
 
   MyDatabase.connect(DatabaseConnection connection)
       : super(connection.executor);
@@ -156,8 +161,7 @@ class MyDatabase extends _$MyDatabase {
             await m.deleteTable('i_s_l_p_rows');
           }
           if (from < 37) {
-            await m.createTable(oLPRows);
-            await m.createTable(iLPRows);
+            await m.createTable(onRampOrderRows);
           }
         },
       );
@@ -187,4 +191,15 @@ class MyDatabase extends _$MyDatabase {
       );
     }
   }
+}
+
+class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
+  const OnRampOrderRows();
+
+  BoolColumn get isCompleted => boolean()();
+  TextColumn get humanStatus => text()();
+  TextColumn get machineStatus => text()();
+  TextColumn get partnerOrderId => text()();
+  IntColumn get receiveAmount => integer().nullable()();
+  TextColumn get txHash => text()();
 }
