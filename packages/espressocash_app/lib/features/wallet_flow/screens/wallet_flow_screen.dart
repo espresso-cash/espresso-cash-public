@@ -1,14 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../outgoing_direct_payments/data/blockchain.dart';
+import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
+import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
+import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
 import '../../outgoing_split_key_payments/widgets/extensions.dart';
@@ -104,6 +111,9 @@ class _State extends State<WalletFlowScreen> {
                 final id = await context.createOSKP(amount: cryptoAmount);
                 if (!mounted) return;
 
+                await context.router.pop();
+                if (!mounted) return;
+
                 await context.router.replace(OSKPScreen.route(id: id));
                 if (!mounted) return;
 
@@ -113,7 +123,43 @@ class _State extends State<WalletFlowScreen> {
           );
         },
         onManual: () {
-          context.router.push(ODPInputScreen.route());
+          context.router.push(
+            ODPInputScreen.route(
+              onSubmit: (Blockchain network, String address) async {
+                final formatted = _cryptoAmount
+                    .format(DeviceLocale.localeOf(context), skipSymbol: true);
+
+                final recipient = Ed25519HDPublicKey.fromBase58(address);
+
+                final confirmedFiatAmount = await context.router.push<Decimal>(
+                  ODPConfirmationScreen.route(
+                    initialAmount: formatted,
+                    recipient: recipient,
+                    label: null,
+                    token: _cryptoCurrency.token,
+                    isEnabled: false,
+                  ),
+                );
+
+                if (confirmedFiatAmount == null) return;
+                if (!mounted) return;
+
+                final confirmedCryptoAmount = _cryptoAmount.decimal;
+
+                final id = await context.createODP(
+                  amountInUsdc: confirmedCryptoAmount,
+                  receiver: recipient,
+                  reference: null,
+                );
+
+                if (!mounted) return;
+                await context.router.pop(); //TODO
+
+                if (!mounted) return;
+                await context.router.push(ODPDetailsScreen.route(id: id));
+              },
+            ),
+          );
         },
       ),
     );

@@ -2,18 +2,24 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bottom_button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
-import '../../network_picker/models/network.dart';
 import '../../wallet_flow/screens/pay_flow_screen.dart';
+import '../data/blockchain.dart';
+import 'network_picker_screen.dart';
+
+typedef ODPInputResponse = void Function(Blockchain network, String address);
 
 @RoutePage()
 class ODPInputScreen extends StatefulWidget {
-  const ODPInputScreen({super.key});
+  const ODPInputScreen({super.key, required this.onSubmit});
+
+  final ODPInputResponse onSubmit;
 
   static const route = ODPInputRoute.new;
 
@@ -22,7 +28,43 @@ class ODPInputScreen extends StatefulWidget {
 }
 
 class _ODPInputScreenState extends State<ODPInputScreen> {
-  final Network _selectedNetwork = networks.first;
+  late final TextEditingController _walletAddressController =
+      TextEditingController();
+
+  Blockchain _selectedNetwork = Blockchain.solana;
+  final bool _showNetworkPicker = Blockchain.values.length > 1;
+
+  bool get _isValid => _selectedNetwork.validate(_walletAddressController.text);
+
+  void _handleSubmitted() => widget.onSubmit(
+        _selectedNetwork,
+        _walletAddressController.text,
+      );
+
+  void _handleOnNetworkTap() => context.router.push(
+        NetworkPickerScreen.route(
+          initial: _selectedNetwork,
+          onSubmitted: (network) {
+            context.router.pop();
+            setState(() {
+              _selectedNetwork = network;
+            });
+          },
+        ),
+      );
+
+  Future<void> _handleOnQrScan() async {
+    // TODO launch qr
+    setState(() {
+      _walletAddressController.text = 'TODO';
+    });
+  }
+
+  @override
+  void dispose() {
+    _walletAddressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -38,20 +80,27 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                   PayItem(
                     title: 'Networks',
                     buttonText: _selectedNetwork.name,
-                    onPressed: () {},
-                    buttonTrailing: const Icon(
-                      Icons.keyboard_arrow_down_outlined,
-                      color: Colors.white,
-                      size: 34,
-                    ),
+                    onPressed: _showNetworkPicker ? _handleOnNetworkTap : null,
+                    buttonTrailing: _showNetworkPicker
+                        ? const Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.white,
+                            size: 34,
+                          )
+                        : null,
                   ),
-                  const _Item(
+                  _WalletTextField(
                     title: 'Wallet Address',
+                    controller: _walletAddressController,
+                    onQrScan: _handleOnQrScan,
                   ),
                   const Spacer(),
-                  CpBottomButton(
-                    text: 'Next',
-                    onPressed: () {},
+                  ListenableBuilder(
+                    listenable: _walletAddressController,
+                    builder: (context, child) => CpBottomButton(
+                      text: context.l10n.next,
+                      onPressed: _isValid ? _handleSubmitted : null,
+                    ),
                   )
                 ],
               ),
@@ -61,12 +110,16 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
       );
 }
 
-class _Item extends StatelessWidget {
-  const _Item({
+class _WalletTextField extends StatelessWidget {
+  const _WalletTextField({
     required this.title,
+    required this.controller,
+    required this.onQrScan,
   });
 
   final String title;
+  final TextEditingController controller;
+  final VoidCallback onQrScan;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -87,7 +140,7 @@ class _Item extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             CpTextField(
-              controller: TextEditingController(),
+              controller: controller,
               placeholder: 'Type, Paste or Scan Address Here',
               backgroundColor: const Color(0xFF4D4B4C),
               padding: const EdgeInsets.symmetric(
@@ -99,7 +152,7 @@ class _Item extends StatelessWidget {
               suffix: Padding(
                 padding: const EdgeInsets.only(right: 24),
                 child: CpIconButton(
-                  onPressed: () {},
+                  onPressed: onQrScan,
                   icon: Assets.icons.qrScanner.svg(color: Colors.white),
                   variant: CpIconButtonVariant.black,
                 ),

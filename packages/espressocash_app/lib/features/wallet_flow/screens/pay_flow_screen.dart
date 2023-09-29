@@ -32,6 +32,11 @@ class PayFlowScreen extends StatelessWidget {
                     'Send money to friends or family via any messaging platform.',
                 buttonText: 'Using a Secure Link',
                 onPressed: onLink,
+                buttonTrailing: const Icon(
+                  Icons.keyboard_arrow_right_outlined,
+                  color: Colors.white,
+                  size: 34,
+                ),
               ),
               const Divider(
                 color: Color(0xff454243),
@@ -43,6 +48,11 @@ class PayFlowScreen extends StatelessWidget {
                     'Pay a person or a business using their wallet address.',
                 buttonText: 'Using a Wallet Address',
                 onPressed: onManual,
+                buttonTrailing: const Icon(
+                  Icons.keyboard_arrow_right_outlined,
+                  color: Colors.white,
+                  size: 34,
+                ),
               ),
             ],
           ),
@@ -56,15 +66,16 @@ class PayItem extends StatelessWidget {
     required this.title,
     this.subtitle,
     required this.buttonText,
-    required this.onPressed,
+    this.onPressed,
     this.buttonTrailing,
   });
 
   final String title;
   final String? subtitle;
+
   final String buttonText;
   final Widget? buttonTrailing;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -84,10 +95,25 @@ class PayItem extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            ItemSelector(
-              text: buttonText,
-              onPressed: onPressed,
-              trailing: buttonTrailing,
+            DecoratedBox(
+              decoration: const ShapeDecoration(
+                color: Colors.black,
+                shape: StadiumBorder(),
+              ),
+              child: ListTile(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                onTap: onPressed,
+                title: Text(
+                  buttonText,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                trailing: buttonTrailing,
+              ),
             ),
             const SizedBox(height: 12),
             if (subtitle case final subtitle?)
@@ -103,46 +129,6 @@ class PayItem extends StatelessWidget {
                 ),
               ),
           ],
-        ),
-      );
-}
-
-class ItemSelector extends StatelessWidget {
-  const ItemSelector({
-    super.key,
-    required this.text,
-    required this.onPressed,
-    this.trailing,
-  });
-
-  final String text;
-  final Widget? trailing;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: Colors.black,
-          shape: StadiumBorder(),
-        ),
-        child: ListTile(
-          contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: onPressed,
-          title: Text(
-            text,
-            maxLines: 1,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          trailing: trailing ??
-              const Icon(
-                Icons.keyboard_arrow_right_outlined,
-                color: Colors.white,
-                size: 34,
-              ),
         ),
       );
 }

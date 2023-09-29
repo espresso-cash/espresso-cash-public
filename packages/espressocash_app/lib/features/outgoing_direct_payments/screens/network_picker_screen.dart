@@ -5,7 +5,7 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import '../models/network.dart';
+import '../data/blockchain.dart';
 
 @RoutePage()
 class NetworkPickerScreen extends StatelessWidget {
@@ -17,8 +17,8 @@ class NetworkPickerScreen extends StatelessWidget {
 
   static const route = NetworkPickerRoute.new;
 
-  final Network? initial;
-  final ValueSetter<Network> onSubmitted;
+  final Blockchain? initial;
+  final ValueSetter<Blockchain> onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -41,50 +41,33 @@ class _Content extends StatefulWidget {
     required this.onSubmitted,
   });
 
-  final Network? initial;
-  final ValueSetter<Network> onSubmitted;
+  final Blockchain? initial;
+  final ValueSetter<Blockchain> onSubmitted;
 
   @override
   State<_Content> createState() => _ContentState();
 }
 
 class _ContentState extends State<_Content> {
-  final ScrollController _scrollController = ScrollController();
+  Blockchain? _selectedNetwork;
 
-  Network? _selectedNetwork;
-
-  final _networks = networks;
+  final _networks = Blockchain.values;
 
   @override
   void initState() {
     super.initState();
 
     _selectedNetwork = widget.initial;
-
-    final network = _selectedNetwork;
-    if (network != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final index = _networks.indexOf(network);
-        final centerOffset = (context.size?.height ?? 0 - _tileHeight) / 2.5;
-        final offset = index * _tileHeight - centerOffset;
-        _scrollController.jumpTo(offset);
-      });
-    }
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
+          const SizedBox(height: 32),
           Expanded(
             child: ListView.builder(
-              controller: _scrollController,
               padding: EdgeInsets.only(
+                top: 32,
                 left: 20,
                 right: 20,
                 bottom: MediaQuery.paddingOf(context).bottom,
