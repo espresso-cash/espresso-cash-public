@@ -61,6 +61,7 @@ abstract class CpColors {
   static const incomingAmountColor = Color(0xff24BE20);
 
   static const darkSplashBackgroundColor = Color(0xff2D2B2C);
+  static const blackTextFieldBackgroundColor = Color(0xff404040);
 }
 
 const bgGradient = LinearGradient(

@@ -14,6 +14,7 @@ import '../../../core/file_manager.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../country_picker/models/country.dart';
@@ -92,7 +93,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       _country != null;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           body: OnboardingScreen(
             footer: ListenableBuilder(
@@ -120,7 +121,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   margin: const EdgeInsets.only(top: 16),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
                   controller: _nameController,
-                  backgroundColor: Colors.white,
+                  textColor: Colors.white,
+                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
                 ),
               ),
               OnboardingPadding(
@@ -128,7 +130,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   margin: const EdgeInsets.only(top: 16),
                   placeholder: context.l10n.yourEmailPlaceholder,
                   controller: _emailController,
-                  backgroundColor: Colors.white,
+                  textColor: Colors.white,
+                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
                 ),
               ),
               const SizedBox(height: 8),
