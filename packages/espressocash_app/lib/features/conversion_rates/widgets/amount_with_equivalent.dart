@@ -61,7 +61,7 @@ class AmountWithEquivalent extends StatelessWidget {
                           backgroundColor: Colors.black,
                         ),
                 ),
-              )
+              ),
           ],
         ),
       );

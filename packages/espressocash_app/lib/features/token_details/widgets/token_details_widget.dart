@@ -44,7 +44,7 @@ class TokenDetailsWidget extends StatelessWidget {
                     value: Text('#${data.marketCapRank}'),
                   ),
                 ],
-              )
+              ),
           ],
         ),
       );

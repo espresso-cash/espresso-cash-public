@@ -41,7 +41,7 @@ class CpBulletItemWidget extends StatelessWidget {
                     fontSize: 20.sp,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

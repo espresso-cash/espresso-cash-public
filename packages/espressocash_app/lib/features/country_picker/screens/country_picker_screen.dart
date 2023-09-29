@@ -188,7 +188,7 @@ class _Wrapper extends StatelessWidget {
               direction: FadeGradientDirection.bottomUp,
               color: FadeGradientColor.dark,
             ),
-          )
+          ),
         ],
       );
 }

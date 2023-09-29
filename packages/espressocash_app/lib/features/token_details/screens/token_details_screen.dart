@@ -84,7 +84,7 @@ class TokenDetailsScreen extends StatelessWidget {
                                   cpNavigationBarheight,
                               0,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

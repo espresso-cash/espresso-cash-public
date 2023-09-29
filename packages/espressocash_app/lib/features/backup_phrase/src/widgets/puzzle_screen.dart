@@ -43,7 +43,7 @@ class PuzzleScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: DecoratedWindowHeader(),
             ),
-            Expanded(child: child)
+            Expanded(child: child),
           ],
         ),
       ),

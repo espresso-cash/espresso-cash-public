@@ -106,7 +106,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                       text: context.l10n.next,
                       onPressed: _isValid ? _handleSubmitted : null,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

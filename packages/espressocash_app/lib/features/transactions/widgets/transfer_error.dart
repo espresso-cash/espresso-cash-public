@@ -43,7 +43,7 @@ class TransferError extends StatelessWidget {
                 width: double.infinity,
                 text: context.l10n.retry,
                 onPressed: onRetry,
-              )
+              ),
             ],
           ),
         ),

@@ -143,7 +143,7 @@ void main() {
       final message = Message(instructions: instructions);
 
       final addressLookupTableAccounts = [
-        await createTestAddressLookUpTable(keys)
+        await createTestAddressLookUpTable(keys),
       ];
 
       final blockhash = base58encode(List.filled(32, 0));
@@ -188,7 +188,7 @@ void main() {
         await Ed25519HDKeyPair.random(),
         await Ed25519HDKeyPair.random(),
         await Ed25519HDKeyPair.random(),
-        await Ed25519HDKeyPair.random()
+        await Ed25519HDKeyPair.random(),
       ];
 
       final payer = keys.first;
