@@ -107,7 +107,7 @@ class _Instructions extends StatelessWidget {
       );
 }
 
-const _newLine = TextSpan(text: '\n\n');
+const _newLine = TextSpan(text: '\n');
 
 const _baseStyle = TextStyle(fontSize: 18);
 

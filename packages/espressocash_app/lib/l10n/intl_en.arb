@@ -472,7 +472,7 @@
   "@settings": {},
   "share": "Share",
   "@share": {},
-  "shareInstructions": "To receive it, you need to click on the link.",
+  "shareInstructions": "To receive it, you need to click on the link:",
   "@shareInstructions": {},
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "@shareIntroFt": {},
@@ -509,7 +509,7 @@
   "@shareStep1": {},
   "shareStep2": "Step 2 – When the application asks you, click on the second link:",
   "@shareStep2": {},
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link.\n\n{firstLink}\n\n",
+  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link:\n\n{firstLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
