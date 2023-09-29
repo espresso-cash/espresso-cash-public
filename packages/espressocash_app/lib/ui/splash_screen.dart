@@ -22,8 +22,8 @@ class SplashScreen extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Assets.icons.logoDark
-                    .svg(alignment: Alignment.bottomCenter),
+                child:
+                    Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
               ),
               Align(
                 alignment: const Alignment(0, -0.7),

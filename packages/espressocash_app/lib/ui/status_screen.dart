@@ -44,8 +44,7 @@ class StatusScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: double.infinity,
-              child: Assets.icons.statusLogoBg
-                  .svg(alignment: Alignment.bottomCenter),
+              child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
             ),
             SizedBox(
               width: double.infinity,
