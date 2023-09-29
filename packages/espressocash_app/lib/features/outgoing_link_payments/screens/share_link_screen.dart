@@ -31,7 +31,7 @@ class ShareLinkScreen extends StatelessWidget {
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
         appBar: CpAppBar(title: title),
         body: SafeArea(
@@ -43,7 +43,7 @@ class ShareLinkScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(48, 24, 48, 16),
                   child: CpTabBar(
-                    variant: CpTabBarVariant.inverted,
+                    variant: CpTabBarVariant.black,
                     tabs: [
                       Tab(text: context.l10n.sharePaymentRequestLinkTitle),
                       Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
