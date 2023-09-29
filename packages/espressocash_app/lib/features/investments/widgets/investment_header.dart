@@ -114,7 +114,7 @@ class _Buttons extends StatelessWidget {
                     if (!isZeroAmount) ...[
                       const SizedBox(width: 8),
                       const CashOutButton(size: CpButtonSize.wide),
-                    ]
+                    ],
                   ],
                 ),
                 const SizedBox(height: 8),

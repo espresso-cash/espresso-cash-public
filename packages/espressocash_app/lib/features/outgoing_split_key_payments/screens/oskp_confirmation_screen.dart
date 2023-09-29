@@ -159,7 +159,7 @@ class _AmountView extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

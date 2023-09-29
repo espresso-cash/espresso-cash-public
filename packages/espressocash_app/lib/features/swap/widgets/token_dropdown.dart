@@ -56,7 +56,7 @@ class _Item extends StatelessWidget {
         children: [
           const SizedBox(width: _iconSize),
           Expanded(child: title),
-          const Icon(Icons.expand_more, size: _iconSize)
+          const Icon(Icons.expand_more, size: _iconSize),
         ],
       );
     } else {

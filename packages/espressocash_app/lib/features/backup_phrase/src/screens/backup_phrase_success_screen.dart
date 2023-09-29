@@ -45,7 +45,7 @@ class BackupPhraseSuccessScreen extends StatelessWidget {
                   width: double.infinity,
                   text: context.l10n.ok,
                   onPressed: onSolved,
-                )
+                ),
               ],
             ),
           ),

@@ -64,7 +64,7 @@ class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
                   callback: (phrase) => setState(() => _currentPhrase = phrase),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

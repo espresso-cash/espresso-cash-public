@@ -126,7 +126,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                       );
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -48,7 +48,7 @@ class TokenChart extends StatelessWidget {
                         onSelect: onSelect,
                         interval: state.interval,
                       ),
-                      if (isLoading) const LoadingIndicator()
+                      if (isLoading) const LoadingIndicator(),
                     ],
                   ),
                 ),
@@ -166,7 +166,7 @@ class _ChartWidget extends StatelessWidget {
                   barWidth: 5,
                   isStrokeJoinRound: true,
                   isStrokeCapRound: true,
-                )
+                ),
               ],
               minY: chartMinY,
               maxY: chartMaxY,

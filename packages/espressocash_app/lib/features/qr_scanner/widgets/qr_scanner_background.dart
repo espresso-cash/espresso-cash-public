@@ -1,10 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../../gen/assets.gen.dart';
 
 class QrScannerBackground extends StatelessWidget {
   const QrScannerBackground({
@@ -14,39 +10,22 @@ class QrScannerBackground extends StatelessWidget {
 
   final Widget child;
 
-  Future<DrawableRoot> _readFrame() async {
-    final byteData = await rootBundle.load(Assets.images.qrFrame.path);
-
-    return svg.fromSvgBytes(Uint8List.view(byteData.buffer), 'qrFrame');
-  }
-
   @override
-  Widget build(BuildContext context) => FutureBuilder<DrawableRoot>(
-        future: _readFrame(),
-        builder: (context, frame) => CustomPaint(
-          foregroundPainter: _Painter(
-            frame: frame.data,
-            dimension: 350,
-          ),
-          child: child,
-        ),
+  Widget build(BuildContext context) => CustomPaint(
+        foregroundPainter: const _Painter(dimension: 350),
+        child: child,
       );
 }
 
 class _Painter extends CustomPainter {
   const _Painter({
-    required this.frame,
     required this.dimension,
   });
 
-  final DrawableRoot? frame;
   final double dimension;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final frame = this.frame;
-    if (frame == null) return;
-
     final frameSize = Size.square(dimension);
 
     final topDisplacement = min(
@@ -72,10 +51,6 @@ class _Painter extends CustomPainter {
         Paint()..color = Colors.black.withOpacity(0.5),
       )
       ..translate(center.dx, center.dy);
-
-    frame
-      ..scaleCanvasToViewBox(canvas, frameSize)
-      ..draw(canvas, rect);
   }
 
   @override

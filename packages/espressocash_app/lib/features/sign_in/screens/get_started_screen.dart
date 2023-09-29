@@ -155,7 +155,8 @@ class _SignInWithSagaButton extends StatefulWidget {
 class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
   Future<void> _onPressed() async {
     final hasPermission = await sl<SeedVault>().checkPermission();
-    if (!mounted || !hasPermission) return;
+    if (!mounted) return;
+    if (!hasPermission) return;
 
     context
         .read<SignInBloc>()

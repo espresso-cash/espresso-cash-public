@@ -72,7 +72,7 @@ class TransactionRepository {
       ignoreWhen: (row) => const [
         OSKPStatusDto.success,
         OSKPStatusDto.withdrawn,
-        OSKPStatusDto.canceled
+        OSKPStatusDto.canceled,
       ].contains(row.status).not(),
     );
 

@@ -81,7 +81,7 @@ class _AccountEditState extends State<AccountEdit> {
                     child: const Text('Submit'),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

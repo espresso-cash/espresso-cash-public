@@ -92,7 +92,7 @@ class _Content extends StatelessWidget {
             size: CpButtonSize.micro,
             onPressed: onPressed,
           ),
-          const SizedBox(width: 24)
+          const SizedBox(width: 24),
         ],
       );
 }

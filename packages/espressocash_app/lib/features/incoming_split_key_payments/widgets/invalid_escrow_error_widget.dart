@@ -27,7 +27,7 @@ class InvalidEscrowErrorWidget extends StatelessWidget {
                 width: double.infinity,
                 text: context.l10n.ok,
                 onPressed: () => context.router.pop(),
-              )
+              ),
             ],
           ),
         ),

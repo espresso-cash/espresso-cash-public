@@ -46,7 +46,7 @@ class EquivalentHeader extends StatelessWidget {
               style: const TextStyle(fontSize: 15),
             ),
             const SizedBox(height: 6),
-            SwapFee(amount: feeAmount)
+            SwapFee(amount: feeAmount),
           ],
         ),
       );
