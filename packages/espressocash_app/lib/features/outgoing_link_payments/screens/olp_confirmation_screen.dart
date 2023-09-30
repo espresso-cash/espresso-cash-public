@@ -85,12 +85,7 @@ class _TokenCreateLinkContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(
-            context.l10n.youAreCreatingUniqueLink,
-            style: _mediumTextStyle,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 60),
           _AmountView(amount: amount),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -103,11 +98,6 @@ class _TokenCreateLinkContent extends StatelessWidget {
         ],
       );
 }
-
-const _mediumTextStyle = TextStyle(
-  fontSize: 18,
-  fontWeight: FontWeight.w500,
-);
 
 class _AmountView extends StatelessWidget {
   const _AmountView({required this.amount});
@@ -159,7 +149,7 @@ class _AmountView extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ),
       ],
     );
   }

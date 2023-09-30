@@ -85,11 +85,6 @@ class _TokenCreateLinkContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          Text(
-            context.l10n.youAreCreatingUniqueLink,
-            style: _mediumTextStyle,
-            textAlign: TextAlign.center,
-          ),
           const SizedBox(height: 40),
           _AmountView(amount: amount),
           Padding(
