@@ -182,7 +182,7 @@ const twelveWordsTextStyle = TextStyle(
 
 const dashboardSectionTitleTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 19,
+  fontSize: 18,
   color: CpColors.menuPrimaryTextColor,
 );
 
