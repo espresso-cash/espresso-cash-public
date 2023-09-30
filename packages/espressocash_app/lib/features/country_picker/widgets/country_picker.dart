@@ -23,7 +23,7 @@ class CountryPicker extends StatelessWidget {
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: () => context.router.push<Country>(
+          onTap: () => context.router.push(
             CountryPickerScreen.route(
               initial: country,
               onSubmitted: (country) {
