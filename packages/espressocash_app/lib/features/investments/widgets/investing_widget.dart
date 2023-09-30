@@ -22,9 +22,10 @@ class InvestingWidget extends StatelessWidget {
                 style: dashboardSectionTitleTextStyle,
               ),
             ),
+            const SizedBox(height: 12),
             GestureDetector(
               onTap: () => context.router.push(InvestmentsScreen.route()),
-              child: Assets.images.investingBanner.svg(),
+              child: Assets.images.investingBanner.image(),
             ),
           ],
         ),
