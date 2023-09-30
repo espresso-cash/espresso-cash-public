@@ -162,6 +162,7 @@ class _WalletTextField extends StatelessWidget {
                   variant: CpIconButtonVariant.black,
                 ),
               ),
+              multiLine: true,
             ),
           ],
         ),
