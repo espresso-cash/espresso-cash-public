@@ -57,7 +57,7 @@ class _GridPhraseState extends State<GridPhrase> {
                 size: CpButtonSize.micro,
                 onPressed: () => _onClicked(position, word),
                 variant:
-                    selected ? CpButtonVariant.dark : CpButtonVariant.inverted,
+                    selected ? CpButtonVariant.dark : CpButtonVariant.black,
                 text: word,
               );
             }).toList(),

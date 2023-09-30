@@ -16,7 +16,7 @@ extension BuildContextExt on BuildContext {
       queryParameters: {
         'partner_api_token': guardarianApiKey,
         'crypto_currencies_list': jsonEncode([
-          {'ticker': 'USDC', 'network': 'SOL'}
+          {'ticker': 'USDC', 'network': 'SOL'},
         ]),
         'theme': 'orange',
         'type': 'narrow',

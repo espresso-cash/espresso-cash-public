@@ -10,8 +10,8 @@ workflows:
       groups:
         - common
         - google_credentials
-      flutter: 3.10.5
-      xcode: 14.2
+      flutter: 3.13.6
+      xcode: 15.0
       android_signing:
         - app
       ios_signing:

@@ -9,7 +9,6 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
@@ -37,7 +36,7 @@ class GetStartedScreen extends StatelessWidget {
             children: [
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Assets.icons.logoDark.svg(
+                child: Assets.icons.logoBg.svg(
                   alignment: Alignment.bottomCenter,
                 ),
               ),
@@ -156,7 +155,8 @@ class _SignInWithSagaButton extends StatefulWidget {
 class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
   Future<void> _onPressed() async {
     final hasPermission = await sl<SeedVault>().checkPermission();
-    if (!mounted || !hasPermission) return;
+    if (!mounted) return;
+    if (!hasPermission) return;
 
     context
         .read<SignInBloc>()
@@ -189,8 +189,6 @@ class _Body extends StatelessWidget {
                 height: 0.9,
               ),
             ),
-            128.verticalSpace,
-            CpBulletItemWidget(text: context.l10n.onboardingBullet),
           ],
         ),
       );

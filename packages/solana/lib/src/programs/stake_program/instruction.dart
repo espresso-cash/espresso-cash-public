@@ -137,7 +137,7 @@ class StakeInstruction extends Instruction {
             AccountMeta.readonly(
               pubKey: lockupAuthority,
               isSigner: true,
-            )
+            ),
         ],
         data: ByteArray.merge([
           StakeProgram.withdrawInstructionIndex,
