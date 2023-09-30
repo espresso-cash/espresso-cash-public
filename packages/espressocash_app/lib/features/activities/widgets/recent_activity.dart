@@ -97,7 +97,7 @@ class _NoActivity extends StatelessWidget {
   @override
   Widget build(BuildContext context) => _Card(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(24),
           child: Column(
             children: [
               const Text(
@@ -108,7 +108,7 @@ class _NoActivity extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 16),
               CpButton(
                 minWidth: 120,
                 size: CpButtonSize.wide,
