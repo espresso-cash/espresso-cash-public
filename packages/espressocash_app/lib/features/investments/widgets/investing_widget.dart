@@ -3,17 +3,16 @@ import 'package:flutter/widgets.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../screens/investments_screen.dart';
+import 'home_widget.dart';
 
 class InvestingWidget extends StatelessWidget {
   const InvestingWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => Container(
-        color: CpColors.dashboardBackgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+  Widget build(BuildContext context) => HomeTile(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

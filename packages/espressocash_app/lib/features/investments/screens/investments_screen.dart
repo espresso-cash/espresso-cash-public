@@ -52,7 +52,7 @@ class InvestmentsScreen extends StatelessWidget {
                       backgroundColor: Colors.white,
                       shape: const Border(),
                       title: Center(
-                        child: Text(context.l10n.investingTitle),
+                        child: Text(context.l10n.investingTitle.toUpperCase()),
                       ),
                       pinned: false,
                       snap: true,

@@ -7,6 +7,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
+import 'home_widget.dart';
 
 class HomeCarouselWidget extends StatefulWidget {
   const HomeCarouselWidget({super.key});
@@ -66,30 +67,31 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
       ),
     ];
 
-    return Container(
-      color: CpColors.dashboardBackgroundColor,
-      height: 375,
-      child: Stack(
-        children: [
-          PageView(
-            controller: _controller,
-            children: items,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: SmoothPageIndicator(
+    return HomeTile(
+      child: SizedBox(
+        height: 375,
+        child: Stack(
+          children: [
+            PageView(
               controller: _controller,
-              count: items.length,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: CpColors.primaryColor,
-                dotColor: Colors.white,
-                dotHeight: 7,
-                dotWidth: 25,
-                expansionFactor: 2.4,
+              children: items,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: SmoothPageIndicator(
+                controller: _controller,
+                count: items.length,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: CpColors.primaryColor,
+                  dotColor: Colors.white,
+                  dotHeight: 7,
+                  dotWidth: 25,
+                  expansionFactor: 2.4,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

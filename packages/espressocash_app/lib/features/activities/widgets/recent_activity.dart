@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/theme.dart';
+import '../../investments/widgets/home_widget.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
 import '../data/transaction_repository.dart';
 import '../screens/activities_screen.dart';
@@ -47,9 +47,8 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
             (value) => value.state.isProcessing,
           );
 
-          return Container(
-            color: CpColors.dashboardBackgroundColor,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          return HomeTile(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
