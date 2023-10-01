@@ -49,7 +49,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
 
           return Container(
             color: CpColors.dashboardBackgroundColor,
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
