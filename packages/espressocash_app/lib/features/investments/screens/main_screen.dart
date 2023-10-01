@@ -16,7 +16,7 @@ import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../onboarding/onboarding.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../widgets/carousel_widget.dart';
+import '../widgets/home_carousel.dart';
 import '../widgets/investing_widget.dart';
 import '../widgets/investment_header.dart';
 

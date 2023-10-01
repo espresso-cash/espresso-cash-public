@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
@@ -27,13 +28,12 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
   Widget build(BuildContext context) {
     final items = [
       _Item(
-        title: 'Welcome to Espresso Cash!',
-        subtitle:
-            'Instant & Low Fee Money Transfers to 200+ Countries & Territories.',
+        title: context.l10n.carousel1Title,
+        subtitle: context.l10n.carousel1Subtitle,
         button: CpButton(
           minWidth: 250,
           size: CpButtonSize.wide,
-          text: 'Send Money Now',
+          text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
         backgroundImage: Row(
@@ -49,21 +49,19 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
         ),
       ),
       _Item(
-        title: 'Local Currency Cash Out',
-        subtitle:
-            'Money Gets Transfered to Your Bank Account as Local Currency.',
+        title: context.l10n.carousel2Title,
+        subtitle: context.l10n.carousel2Subtitle,
         button: CpButton(
           minWidth: 250,
           size: CpButtonSize.wide,
-          text: 'Send Money Now',
+          text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
         backgroundImage: Assets.images.carousel2.image(),
       ),
       _Item(
-        title: 'Send With Messaging Platforms',
-        subtitle:
-            'Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.',
+        title: context.l10n.carousel3Title,
+        subtitle: context.l10n.carousel3Subtitle,
         backgroundImage: Assets.images.carousel3.image(),
       ),
     ];

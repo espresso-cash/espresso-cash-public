@@ -54,10 +54,10 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 12.0),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
                   child: Text(
-                    'Recent Activity',
+                    context.l10n.recentActivityLbl,
                     style: dashboardSectionTitleTextStyle,
                   ),
                 ),
@@ -78,7 +78,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       CpButton(
-                        text: 'See All',
+                        text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
                         onPressed: () =>
@@ -103,9 +103,9 @@ class _NoActivity extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              const Text(
-                'There is no recent activity. Do you want to send money to family now?',
-                style: TextStyle(
+              Text(
+                context.l10n.recentActivityEmpty,
+                style: const TextStyle(
                   color: Color(0xFF2D2B2C),
                   fontSize: 15,
                   fontWeight: FontWeight.w400,

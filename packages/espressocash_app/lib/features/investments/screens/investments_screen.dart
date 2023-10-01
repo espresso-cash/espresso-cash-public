@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
@@ -50,8 +51,8 @@ class InvestmentsScreen extends StatelessWidget {
                       ),
                       backgroundColor: Colors.white,
                       shape: const Border(),
-                      title: const Center(
-                        child: Text('INVESTING'),
+                      title: Center(
+                        child: Text(context.l10n.investingTitle),
                       ),
                       pinned: false,
                       snap: true,
