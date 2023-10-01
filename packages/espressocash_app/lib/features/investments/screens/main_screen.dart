@@ -11,6 +11,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
+import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../onboarding/onboarding.dart';
@@ -53,7 +54,10 @@ class _MainScreenState extends State<MainScreen> {
             child: RefreshBalancesWrapper(
               builder: (context, onRefresh) => RefreshIndicator(
                 displacement: 80,
-                onRefresh: onRefresh,
+                onRefresh: () => Future.wait([
+                  onRefresh(),
+                  context.refreshTransactions(),
+                ]),
                 color: CpColors.primaryColor,
                 backgroundColor: Colors.white,
                 child: CustomScrollView(

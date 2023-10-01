@@ -69,8 +69,14 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                 else ...[
                   _Card(
                     child: Column(
-                      children:
-                          data.map((e) => TransactionItem(tx: e)).toList(),
+                      children: data
+                          .map(
+                            (e) => _KeepAlive(
+                              key: ValueKey(e),
+                              child: TransactionItem(tx: e),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -81,8 +87,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () =>
-                            context.router.navigate(ActivitiesScreen.route()),
+                        onPressed: () => context.router.navigate(
+                          ActivitiesScreen.route(goToTransactions: true),
+                        ),
                       ),
                     ],
                   ),
@@ -154,4 +161,29 @@ class _Card extends StatelessWidget {
         ),
         child: child,
       );
+}
+
+class _KeepAlive extends StatefulWidget {
+  const _KeepAlive({
+    required Key key,
+    required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  State<_KeepAlive> createState() => _KeepAliveState();
+}
+
+class _KeepAliveState extends State<_KeepAlive>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return widget.child;
+  }
 }
