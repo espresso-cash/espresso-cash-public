@@ -12,6 +12,7 @@ workflows:
         - google_credentials
       flutter: 3.13.6
       xcode: 15.0
+      cocoapods: 1.13.0
       android_signing:
         - app
       ios_signing:

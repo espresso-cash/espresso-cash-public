@@ -21,7 +21,7 @@ class PuzzleScreen extends StatelessWidget {
     final title = this.title;
 
     return CpTheme(
-      theme: const CpThemeData.dark(),
+      theme: const CpThemeData.black(),
       child: Scaffold(
         appBar: CpAppBar(
           leading: backButton,
