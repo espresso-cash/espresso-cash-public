@@ -27,8 +27,8 @@ class FirstPartQrScreen extends StatefulWidget {
 
 class _FirstPartQrScreenState extends State<FirstPartQrScreen> {
   Future<void> _onQrScanner() async {
-    final request = await context.router
-        .push<QrScannerRequest>(QrScannerScreen.route(showManualInput: false));
+    final request =
+        await context.router.push<QrScannerRequest>(QrScannerScreen.route());
 
     if (request == null) return;
     if (!mounted) return;
