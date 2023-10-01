@@ -4,7 +4,9 @@ import 'package:flutter/material.dart' hide Notification;
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/theme.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
@@ -45,8 +47,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
             (value) => value.state.isProcessing,
           );
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+          return Container(
+            color: CpColors.dashboardBackgroundColor,
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -112,7 +115,7 @@ class _NoActivity extends StatelessWidget {
               CpButton(
                 minWidth: 120,
                 size: CpButtonSize.wide,
-                text: 'Yes',
+                text: context.l10n.yes,
                 onPressed: () =>
                     context.router.navigate(WalletFlowScreen.route()),
               ),

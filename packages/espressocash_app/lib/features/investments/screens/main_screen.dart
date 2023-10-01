@@ -39,7 +39,17 @@ class _MainScreenState extends State<MainScreen> {
         child: PageFadeWrapper(
           child: Container(
             padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
-            color: const Color(0xffF8F7F1),
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  CpColors.darkSplashBackgroundColor,
+                  CpColors.dashboardBackgroundColor,
+                ],
+                stops: [0.49, 0.51],
+              ),
+            ),
             child: RefreshBalancesWrapper(
               builder: (context, onRefresh) => RefreshIndicator(
                 displacement: 80,
@@ -86,7 +96,8 @@ class _MainScreenState extends State<MainScreen> {
                         height: max(
                           0,
                           MediaQuery.of(context).padding.bottom -
-                              cpNavigationBarheight,
+                              cpNavigationBarheight +
+                              8,
                         ),
                       ),
                     ),

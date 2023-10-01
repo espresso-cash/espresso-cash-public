@@ -68,7 +68,8 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
       ),
     ];
 
-    return SizedBox(
+    return Container(
+      color: CpColors.dashboardBackgroundColor,
       height: 375,
       child: Stack(
         children: [
@@ -122,7 +123,7 @@ class _Item extends StatelessWidget {
                 colors: [
                   Colors.black.withOpacity(0),
                   const Color(0x76CCCCCC),
-                  const Color(0xFFF8F7F1),
+                  CpColors.dashboardBackgroundColor,
                 ],
               ),
             ),
