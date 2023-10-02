@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -9,36 +8,29 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/button.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../models/qr_scanner_request.dart';
 import '../services/qr_scanner_bloc.dart';
-import '../widgets/input_address_bottom_sheet.dart';
 import '../widgets/qr_scanner_background.dart';
 
 @RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({
     super.key,
-    this.showManualInput = true,
   });
 
   static const route = QrScannerRoute.new;
 
-  final bool showManualInput;
-
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
-        child: _Content(showManualInput: showManualInput),
+        child: const _Content(),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({required this.showManualInput});
-
-  final bool showManualInput;
+  const _Content();
 
   @override
   State<_Content> createState() => _ContentState();
@@ -112,9 +104,6 @@ class _ContentState extends State<_Content> {
     }
   }
 
-  void _onManualInputRequested() => InputAddressBottomSheet.show(context)
-      .then((r) => r?.let(QrScannerRequest.tryParse)?.let(_onScanComplete));
-
   void _onScanComplete([QrScannerRequest? request]) =>
       context.router.pop(request);
 
@@ -147,21 +136,6 @@ class _ContentState extends State<_Content> {
                   const Align(
                     alignment: Alignment(0, -0.3),
                     child: _PermissionText(),
-                  ),
-                if (widget.showManualInput)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 32.0),
-                        child: CpButton(
-                          text: context.l10n.qrInputAddressTitle,
-                          size: CpButtonSize.big,
-                          minWidth: 250,
-                          onPressed: _onManualInputRequested,
-                        ),
-                      ),
-                    ),
                   ),
                 Align(
                   alignment: Alignment.topRight,

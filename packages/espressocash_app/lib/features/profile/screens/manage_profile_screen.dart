@@ -95,6 +95,12 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
+          appBar: CpAppBar(
+            leading: CpBackButton(
+              onPressed: () => context.router.pop(),
+            ),
+          ),
+          extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(
               listenable: Listenable.merge([_nameController, _emailController]),
@@ -104,11 +110,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               ),
             ),
             children: [
-              CpAppBar(
-                leading: CpBackButton(
-                  onPressed: () => context.router.pop(),
-                ),
-              ),
+              SizedBox(height: MediaQuery.of(context).padding.top + 24),
               ProfileImagePicker(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,
@@ -119,18 +121,28 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                 child: CpTextField(
                   key: keyCreateProfileName,
                   margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
                   controller: _nameController,
                   textColor: Colors.white,
+                  placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
                 ),
               ),
               OnboardingPadding(
                 child: CpTextField(
                   margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   placeholder: context.l10n.yourEmailPlaceholder,
                   controller: _emailController,
                   textColor: Colors.white,
+                  placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
                 ),
               ),
@@ -141,11 +153,14 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   child: Text(
                     context.l10n.yourEmailDisclaimer,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 35),
               OnboardingPadding(
                 child: CountryPicker(
                   country: _country,
@@ -158,4 +173,5 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       );
 }
 
+const _placeholderTextColor = Color(0xff858585);
 const keyCreateProfileName = Key('createProfileName');

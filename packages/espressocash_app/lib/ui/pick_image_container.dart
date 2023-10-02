@@ -32,8 +32,8 @@ class PickImageContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 164,
-            height: 164,
+            width: 114,
+            height: 114,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.black,
@@ -47,7 +47,7 @@ class PickImageContainer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           CpButton(
             text: label,
             onPressed: pickImageClicked,

@@ -28,6 +28,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 24),
               CpMessageInfoWidget(
+                backgroundColor: Colors.black,
                 padding: const EdgeInsets.all(32),
                 content: Wrap(
                   runSpacing: 20,

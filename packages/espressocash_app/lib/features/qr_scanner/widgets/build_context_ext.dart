@@ -96,9 +96,8 @@ extension BuilContextExt on BuildContext {
   }
 
   Future<String?> launchQrForAddress() async {
-    final request = await router.push<QrScannerRequest>(
-      QrScannerScreen.route(showManualInput: false),
-    );
+    final request =
+        await router.push<QrScannerRequest>(QrScannerScreen.route());
 
     if (request == null) return null;
     if (!mounted) return null;
