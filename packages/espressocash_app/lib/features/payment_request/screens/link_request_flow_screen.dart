@@ -75,10 +75,6 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> implements NoteSetter {
   @override
   void onNoteSubmitted(String name) {
-    context
-        .read<CreatePaymentRequestBloc>()
-        .add(CreatePaymentRequestEvent.labelUpdated(name));
-
     final state = context.read<CreatePaymentRequestBloc>().state;
 
     if (state.tokenAmount.value != 0) {

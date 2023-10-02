@@ -18,9 +18,6 @@ part 'create_payment_request_bloc.freezed.dart';
 
 @freezed
 class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
-  const factory CreatePaymentRequestEvent.labelUpdated(String value) =
-      LabelUpdated;
-
   const factory CreatePaymentRequestEvent.tokenAmountUpdated(
     Decimal amount,
   ) = TokenAmountUpdated;
@@ -37,7 +34,6 @@ class CreatePaymentRequestEvent with _$CreatePaymentRequestEvent {
 @freezed
 class CreatePaymentRequestState with _$CreatePaymentRequestState {
   const factory CreatePaymentRequestState({
-    @Default('') String label,
     required CryptoAmount tokenAmount,
     required FiatAmount fiatAmount,
     required Flow<Exception, PaymentRequest> flow,
@@ -78,7 +74,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   final ConversionRatesRepository _conversionRatesRepository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        labelUpdated: (event) => _onLabelUpdated(event, emit),
         tokenAmountUpdated: (event) => _onAmountUpdated(event, emit),
         fiatAmountUpdated: (event) => _onFiatAmountUpdated(event, emit),
         submitted: (event) => _onSubmitted(event, emit),
@@ -93,13 +88,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
 
   CryptoAmount? _toTokenAmount(FiatAmount fiatAmount) =>
       fiatAmount.toTokenAmount(state.token);
-
-  Future<void> _onLabelUpdated(
-    LabelUpdated event,
-    _Emitter emit,
-  ) async {
-    emit(state.copyWith(label: event.value));
-  }
 
   Future<void> _onAmountUpdated(
     TokenAmountUpdated event,
@@ -128,8 +116,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onSubmitted(Submitted event, _Emitter emit) async {
-    if (state.label.isEmpty) throw StateError('Label is empty.');
-
     emit(state.copyWith(flow: const Flow.processing()));
 
     final reference = (await Ed25519HDKeyPair.random()).publicKey;
@@ -146,7 +132,6 @@ class CreatePaymentRequestBloc extends Bloc<_Event, _State> {
     final paymentRequest = PaymentRequest(
       id: const Uuid().v4(),
       created: DateTime.now(),
-      label: state.label,
       payRequest: request,
       dynamicLink: request.toUniversalLink().toString(),
       state: const PaymentRequestState.initial(),

@@ -292,12 +292,9 @@
   "@paymentInitiated": {},
   "paymentRequestCancel": "Cancel request",
   "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      },
       "amount": {
         "type": "String"
       }
@@ -307,21 +304,18 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
+  "paymentRequestSuccessNotificationTitle": "Your request of {amount} was paid.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
-      },
-      "label": {
-        "type": "String"
       }
     }
   },
-  "paymentRequestTitle": "Payment request for {label}",
+  "paymentRequestTitle": "Payment request for {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
-      "label": {
+      "amount": {
         "type": "String"
       }
     }

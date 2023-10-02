@@ -38,7 +38,6 @@ enum PaymentRequestStateDto { initial, completed, error }
 class PaymentRequestRows extends Table with EntityMixin {
   const PaymentRequestRows();
 
-  TextColumn get payerName => text()();
   TextColumn get dynamicLink => text()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();
   TextColumn get transactionId => text().nullable()();
@@ -48,7 +47,6 @@ class PaymentRequestRows extends Table with EntityMixin {
   TextColumn get amount => text().nullable()();
   TextColumn get spltToken => text().nullable()();
   TextColumn get reference => text().nullable()();
-  TextColumn get label => text().nullable()();
   TextColumn get message => text().nullable()();
   TextColumn get memo => text().nullable()();
 }
@@ -57,7 +55,6 @@ extension on PaymentRequestRow {
   PaymentRequest toPaymentRequest() => PaymentRequest(
         id: id,
         created: created,
-        label: payerName,
         payRequest: SolanaPayRequest(
           amount: amount?.let(Decimal.parse),
           recipient: Ed25519HDPublicKey.fromBase58(recipient),
@@ -65,7 +62,6 @@ extension on PaymentRequestRow {
           reference: reference?.let(
             (it) => it.split(',').map(Ed25519HDPublicKey.fromBase58).toIList(),
           ),
-          label: label,
           message: message,
           memo: memo,
         ),
@@ -78,13 +74,11 @@ extension on PaymentRequest {
   PaymentRequestRow toRow() => PaymentRequestRow(
         id: id,
         created: created,
-        payerName: label,
         dynamicLink: dynamicLink,
         state: state.toPaymentRequestStateDto(),
         transactionId: state.transactionIdOrNull,
         recipient: payRequest.recipient.toBase58(),
         amount: payRequest.amount?.toString(),
-        label: payRequest.label,
         memo: payRequest.memo,
         message: payRequest.message,
         reference: payRequest.reference?.map((it) => it.toBase58()).join(','),
