@@ -67,7 +67,6 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: SharePaymentRequestRoute.page, initial: true),
           ],
         ),
-        AutoRoute(page: LinkRequestFlowRoute.page),
         AutoRoute(page: SwapFlowRoute.page),
         AutoRoute(page: ProcessSwapRoute.page),
         AutoRoute(

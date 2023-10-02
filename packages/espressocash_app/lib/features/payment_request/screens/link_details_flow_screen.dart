@@ -43,7 +43,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: StreamBuilder<PaymentRequest>(
           stream: _stream,
           builder: (context, snapshot) {
