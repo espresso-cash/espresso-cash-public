@@ -38,7 +38,7 @@ class DesktopView extends StatelessWidget {
               fontSize: 13,
               fontWeight: FontWeight.w400,
             ),
-          )
+          ),
         ],
       ),
     );
@@ -111,7 +111,7 @@ class DesktopView extends StatelessWidget {
                 second,
               ],
             ),
-          )
+          ),
       ],
     );
   }
@@ -149,7 +149,7 @@ class _InstructionItem extends StatelessWidget {
                       SizedBox(
                         height: 40,
                         child: text,
-                      )
+                      ),
                     ],
                   ),
                 ),

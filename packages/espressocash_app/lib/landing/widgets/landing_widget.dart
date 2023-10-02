@@ -49,7 +49,7 @@ class LandingScreenWidget extends StatelessWidget {
                             const Padding(
                               padding: EdgeInsets.symmetric(vertical: 24),
                               child: Footer(),
-                            )
+                            ),
                           ],
                         ),
                       ),
