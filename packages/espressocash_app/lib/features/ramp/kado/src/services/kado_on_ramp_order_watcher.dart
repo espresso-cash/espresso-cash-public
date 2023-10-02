@@ -41,14 +41,14 @@ class KadoOnRampOrderWatcher {
               );
 
             final isCompleted =
-                data.machineStatusField.toLowerCase() == 'success';
+                data.machineStatusField == MachineStatus.settled;
 
             if (isCompleted) await _subscription?.cancel();
 
             await statement.write(
               OnRampOrderRowsCompanion(
                 humanStatus: Value(data.humanStatusField),
-                machineStatus: Value(data.machineStatusField),
+                machineStatus: Value(data.machineStatusField.name),
                 isCompleted: Value(isCompleted),
                 receiveAmount: Value(
                   ((data.payAmount.amount - data.totalFee.amount) /
