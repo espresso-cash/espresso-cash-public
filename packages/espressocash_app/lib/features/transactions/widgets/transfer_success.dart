@@ -49,7 +49,7 @@ class TransferSuccess extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: CpTextButton(
-                  variant: CpTextButtonVariant.inverted,
+                  variant: CpTextButtonVariant.light,
                   text: context.l10n.moreDetails,
                   onPressed: onMoreDetailsPressed,
                 ),

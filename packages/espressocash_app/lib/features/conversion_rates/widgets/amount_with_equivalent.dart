@@ -58,10 +58,10 @@ class AmountWithEquivalent extends StatelessWidget {
                       : _EquivalentDisplay(
                           input: value.text,
                           token: token,
-                          backgroundColor: CpColors.backgroundAccentColor,
+                          backgroundColor: Colors.black,
                         ),
                 ),
-              )
+              ),
           ],
         ),
       );

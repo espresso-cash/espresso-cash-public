@@ -17,7 +17,6 @@ class TransferProgress extends StatelessWidget {
   Widget build(BuildContext context) => StatusScreen(
         onBackButtonPressed: onBack,
         title: context.l10n.splitKeyTransferTitle,
-        statusContent: Text(context.l10n.splitKeyTransactionLoading),
         statusType: CpStatusType.info,
         content: const Padding(
           padding: EdgeInsets.symmetric(horizontal: 24),

@@ -32,10 +32,11 @@ class PickImageContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 164,
-            height: 164,
+            width: 114,
+            height: 114,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
+              color: Colors.black,
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: image == null
@@ -46,11 +47,11 @@ class PickImageContainer extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 12),
           CpButton(
             text: label,
             onPressed: pickImageClicked,
-            variant: CpButtonVariant.inverted,
+            variant: CpButtonVariant.black,
             size: CpButtonSize.small,
           ),
         ],

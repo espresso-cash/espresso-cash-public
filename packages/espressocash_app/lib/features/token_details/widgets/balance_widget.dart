@@ -26,7 +26,7 @@ class PriceWidget extends StatelessWidget {
                 color: Colors.white,
                 fontSize: 18,
               ),
-            )
+            ),
           ],
         ),
         maxLines: 1,

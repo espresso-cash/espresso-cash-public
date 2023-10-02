@@ -18,7 +18,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
   final VoidCallback onDone;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
@@ -33,6 +33,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
               OnboardingPadding(
                 child: CpInfoWidget(
                   message: Text(context.l10n.noEmailInCryptoInfo),
+                  variant: CpInfoVariant.black,
                 ),
               ),
               const SizedBox(height: 38),

@@ -26,7 +26,7 @@ class ConversionRatesModule extends SingleChildStatelessWidget {
                   userCurrency: defaultFiatCurrency,
                 ),
               ),
-          )
+          ),
         ],
         child: child,
       );

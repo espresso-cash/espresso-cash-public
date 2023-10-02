@@ -70,7 +70,7 @@ class DiscoverHeader extends StatelessWidget {
                   size: CpIconButtonSize.small,
                 ),
               ],
-            )
+            ),
         ],
       ),
     );

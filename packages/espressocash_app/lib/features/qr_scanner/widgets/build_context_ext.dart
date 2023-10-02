@@ -98,4 +98,16 @@ extension BuilContextExt on BuildContext {
       }
     }
   }
+
+  Future<String?> launchQrForAddress() async {
+    final request =
+        await router.push<QrScannerRequest>(QrScannerScreen.route());
+
+    if (request == null) return null;
+    if (!mounted) return null;
+
+    if (request is QrScannerAddressRequest) {
+      return request.addressData.address.toBase58();
+    }
+  }
 }

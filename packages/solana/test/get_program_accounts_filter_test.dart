@@ -10,7 +10,7 @@ void main() {
           'memcmp': {
             'offset': 1,
             'bytes': 'HXRC',
-          }
+          },
         }),
       );
 
@@ -23,7 +23,7 @@ void main() {
           'memcmp': {
             'offset': 0,
             'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          }
+          },
         }),
       );
     });
@@ -38,7 +38,7 @@ void main() {
           'memcmp': {
             'offset': 1,
             'bytes': 'N8huH18outpM8wBvyyeH9z6tiL',
-          }
+          },
         }),
       );
     });

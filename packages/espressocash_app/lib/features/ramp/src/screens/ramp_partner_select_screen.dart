@@ -2,15 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/colors.dart';
-import '../../../../../ui/theme.dart';
-import '../../models/ramp_partner.dart';
-import '../../models/ramp_type.dart';
-import '../ramp_page.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/theme.dart';
+import '../models/ramp_partner.dart';
+import '../models/ramp_type.dart';
+import '../widgets/ramp_page.dart';
 
 @RoutePage()
 class RampPartnerSelectScreen extends StatelessWidget {

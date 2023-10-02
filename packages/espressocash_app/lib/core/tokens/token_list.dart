@@ -50,6 +50,9 @@ class TokenList {
       ? Token.sol
       : tokens.firstWhereOrNull((t) => t.address == mint);
 
+  // ignore: avoid-non-null-assertion, required here
+  Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
+
   Token fromCoingecko({
     required String? coingeckoId,
     required String? symbol,

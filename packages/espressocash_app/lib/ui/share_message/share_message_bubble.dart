@@ -6,9 +6,11 @@ class ShareMessageBubble extends StatefulWidget {
   const ShareMessageBubble({
     super.key,
     required this.textSpan,
+    this.backgroundColor,
   });
 
   final TextSpan textSpan;
+  final Color? backgroundColor;
 
   @override
   State<ShareMessageBubble> createState() => _ShareMessageBubbleState();
@@ -28,6 +30,7 @@ class _ShareMessageBubbleState extends State<ShareMessageBubble> {
         width: double.infinity,
         child: CpRoundedRectangle(
           scrollable: true,
+          backgroundColor: widget.backgroundColor,
           margin: const EdgeInsets.symmetric(vertical: 24),
           padding: const EdgeInsets.symmetric(
             horizontal: 32,

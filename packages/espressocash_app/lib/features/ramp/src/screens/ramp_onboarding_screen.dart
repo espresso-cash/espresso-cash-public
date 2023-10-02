@@ -1,18 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/email.dart';
-import '../../../../../di.dart';
-import '../../../../../gen/assets.gen.dart';
-import '../../../../../l10n/l10n.dart';
-import '../../../../../routes.gr.dart';
-import '../../../../../ui/button.dart';
-import '../../../../../ui/text_field.dart';
-import '../../../../country_picker/models/country.dart';
-import '../../../../country_picker/widgets/country_picker.dart';
-import '../../../../profile/data/profile_repository.dart';
-import '../../models/ramp_type.dart';
-import '../ramp_page.dart';
+import '../../../../core/email.dart';
+import '../../../../di.dart';
+import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../routes.gr.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/text_field.dart';
+import '../../../country_picker/models/country.dart';
+import '../../../country_picker/widgets/country_picker.dart';
+import '../../../profile/data/profile_repository.dart';
+import '../models/ramp_type.dart';
+import '../widgets/ramp_page.dart';
 
 @RoutePage()
 class RampOnboardingScreen extends StatefulWidget {
