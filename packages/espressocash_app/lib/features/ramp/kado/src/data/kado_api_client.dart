@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -24,7 +26,8 @@ abstract class KadoApiClient {
 class OrderDataDto with _$OrderDataDto {
   const factory OrderDataDto({
     required String humanStatusField,
-    required String machineStatusField,
+    @JsonKey(unknownEnumValue: MachineStatus.unknown)
+    required MachineStatus machineStatusField,
     required QuoteDto quote,
     required AmountDto totalFee,
     required AmountDto payAmount,
@@ -32,6 +35,17 @@ class OrderDataDto with _$OrderDataDto {
 
   factory OrderDataDto.fromJson(Map<String, dynamic> json) =>
       _$OrderDataDtoFromJson(json);
+}
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum MachineStatus {
+  settled,
+  cardPaymentFailed,
+  achPaymentFailed,
+  wireTransferPending,
+  pendingPayment,
+  delayedSettlement,
+  unknown,
 }
 
 @Freezed(toJson: false)
