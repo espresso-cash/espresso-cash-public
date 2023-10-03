@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Test program account filter serialization', () {
-    test('can serialize a simple filter', () async {
+    test('can serialize a simple filter', () {
       expect(
         ProgramDataFilter.memcmp(offset: 1, bytes: '123'.codeUnits).toJson(),
         equals(<String, dynamic>{
@@ -28,7 +28,7 @@ void main() {
       );
     });
 
-    test('can serialize a filter built with base58 factory', () async {
+    test('can serialize a filter built with base58 factory', () {
       expect(
         ProgramDataFilter.memcmpBase58(
           offset: 1,

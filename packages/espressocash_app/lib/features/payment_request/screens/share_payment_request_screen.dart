@@ -61,7 +61,7 @@ class SharePaymentRequestScreen extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).padding.bottom + 24,
+                  bottom: MediaQuery.paddingOf(context).bottom + 24,
                 ),
                 child: CpTextButton(
                   text: context.l10n.paymentRequestCancel,

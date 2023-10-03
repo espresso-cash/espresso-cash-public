@@ -93,7 +93,7 @@ void main() {
     });
 
     test('Create an associated token account', () async {
-      var accounts = await solanaClient.rpcClient
+      List<ProgramAccount> accounts = await solanaClient.rpcClient
           .getTokenAccountsByOwner(
             owner.address,
             TokenAccountsFilter.byMint(newToken.address.toBase58()),

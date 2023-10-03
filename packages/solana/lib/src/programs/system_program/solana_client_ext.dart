@@ -14,7 +14,7 @@ extension SolanaClientSystemProgram on SolanaClient {
     String? memo,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
-  }) async {
+  }) {
     final instructions = [
       SystemInstruction.transfer(
         fundingAccount: source.publicKey,

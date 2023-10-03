@@ -122,14 +122,11 @@ class ClientBloc extends Cubit<ClientState> {
       final blockhash = await _solanaClient.rpcClient
           .getLatestBlockhash()
           .then((it) => it.value.blockhash);
-      final txs = await _generateTransactions(
+      final txs = _generateTransactions(
         number: number,
         signer: signer,
         blockhash: blockhash,
-      )
-          .thenMap((e) => e.toByteArray().toList())
-          .thenMap(Uint8List.fromList)
-          .then((value) => value.toList());
+      ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
       await client.signAndSendTransactions(transactions: txs);
     }
@@ -169,14 +166,11 @@ class ClientBloc extends Cubit<ClientState> {
     final blockhash = await _solanaClient.rpcClient
         .getLatestBlockhash()
         .then((it) => it.value.blockhash);
-    final txs = await _generateTransactions(
+    final txs = _generateTransactions(
       number: number,
       signer: signer,
       blockhash: blockhash,
-    )
-        .thenMap((e) => e.toByteArray().toList())
-        .thenMap(Uint8List.fromList)
-        .then((value) => value.toList());
+    ).map((e) => e.toByteArray().toList()).map(Uint8List.fromList).toList();
 
     await client.signTransactions(transactions: txs);
   }
@@ -211,11 +205,6 @@ class ClientBloc extends Cubit<ClientState> {
   }
 }
 
-extension<A> on Future<Iterable<A>> {
-  Future<Iterable<B>> thenMap<B>(B Function(A value) f) =>
-      then((value) => value.map(f));
-}
-
 @freezed
 class ClientState with _$ClientState {
   const factory ClientState({
@@ -240,11 +229,11 @@ class ClientState with _$ClientState {
   String? get address => publicKey?.toBase58();
 }
 
-Future<List<SignedTx>> _generateTransactions({
+List<SignedTx> _generateTransactions({
   required int number,
   required Ed25519HDPublicKey signer,
   required String blockhash,
-}) async {
+}) {
   final instructions = List.generate(
     number,
     (index) => MemoInstruction(signers: [signer], memo: 'Memo #$index'),

@@ -8,11 +8,11 @@ import 'package:espressocash_backend/src/platform.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:shelf/shelf.dart';
 
-Future<Response> commonHandler(
+Response commonHandler(
   Request request, {
   required String templateName,
   required Map<String, dynamic> Function(Map<String, dynamic> data) updateData,
-}) async {
+}) {
   final appId = request.url.queryParameters['appId']?.toLowerCase();
 
   final platform = request.platform;

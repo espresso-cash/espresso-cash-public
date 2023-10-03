@@ -80,10 +80,10 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             ..email = _emailController.text;
 
           widget.onSubmitted();
-        } on Exception catch (e) {
+        } on Exception catch (error) {
           if (!mounted) return;
 
-          showErrorDialog(context, 'Error', e);
+          showErrorDialog(context, 'Error', error);
         }
       });
 
@@ -110,7 +110,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               ),
             ),
             children: [
-              SizedBox(height: MediaQuery.of(context).padding.top + 24),
+              SizedBox(height: MediaQuery.paddingOf(context).top + 24),
               ProfileImagePicker(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,

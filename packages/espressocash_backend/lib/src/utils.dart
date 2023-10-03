@@ -26,9 +26,9 @@ Future<Response> processRequest<T, R>(
         'content-type': 'application/json',
       },
     );
-  } on EspressoCashException catch (e) {
+  } on EspressoCashException catch (error) {
     return Response.badRequest(
-      body: json.encode(e.toJson()),
+      body: json.encode(error.toJson()),
       headers: {
         'content-type': 'application/json',
       },

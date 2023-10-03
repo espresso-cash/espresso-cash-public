@@ -11,7 +11,7 @@ import 'package:shelf_router/shelf_router.dart' as shelf_router;
 Handler addFundsHandler() =>
     (shelf_router.Router()..post('/addFunds', _handler)).call;
 
-Future<Response> _handler(Request request) async =>
+Future<Response> _handler(Request request) =>
     processRequest<AddFundsRequestDto, AddFundsResponseDto>(
       request,
       AddFundsRequestDto.fromJson,

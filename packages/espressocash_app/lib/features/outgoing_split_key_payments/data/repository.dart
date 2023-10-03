@@ -113,10 +113,8 @@ class OSKPRepository {
 
     return query
         .watch()
-        .asyncMap(
-          (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
-        )
-        .map((event) => event.lock);
+        .map((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((event) => event.toIList());
   }
 }
 
@@ -163,15 +161,14 @@ enum OSKPStatusDto {
 }
 
 extension OSKPRowExt on OSKPRow {
-  Future<OutgoingSplitKeyPayment> toModel(TokenList tokens) async =>
-      OutgoingSplitKeyPayment(
+  OutgoingSplitKeyPayment toModel(TokenList tokens) => OutgoingSplitKeyPayment(
         id: id,
         created: created,
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
-        status: await status.toOSKPStatus(this),
+        status: status.toOSKPStatus(this),
         linksGeneratedAt: generatedLinksAt,
         apiVersion: apiVersion.toModel(),
       );
@@ -183,16 +180,12 @@ enum OskpApiVersionDto {
 }
 
 extension on OSKPStatusDto {
-  Future<OSKPStatus> toOSKPStatus(OSKPRow row) async {
+  OSKPStatus toOSKPStatus(OSKPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
-    final link1 = row.link1?.let(Uri.parse);
-    final link2 = row.link2?.let(Uri.parse);
-    final link3 = row.link3?.let(Uri.tryParse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
-    final cancelTxId = row.cancelTxId;
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
 
@@ -215,6 +208,10 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.txConfirmed:
         return OSKPStatus.txConfirmed(escrow: escrow!);
       case OSKPStatusDto.linksReady:
+        final link1 = row.link1?.let(Uri.parse);
+        final link2 = row.link2?.let(Uri.parse);
+        final link3 = row.link3?.let(Uri.tryParse);
+
         return OSKPStatus.linksReady(
           link1: link1!,
           link2: link2!,
@@ -227,6 +224,7 @@ extension on OSKPStatusDto {
       case OSKPStatusDto.withdrawn:
         return OSKPStatus.withdrawn(txId: withdrawTxId!, timestamp: resolvedAt);
       case OSKPStatusDto.canceled:
+        final cancelTxId = row.cancelTxId;
         if (cancelTxId == null && withdrawTxId != null) {
           // For compatibility with old versions
           return OSKPStatus.canceled(
@@ -324,7 +322,7 @@ extension on OSKPStatus {
         canceled: (it) => it.txId,
       );
 
-  Future<String?> toPrivateKey() async => this.map(
+  Future<String?> toPrivateKey() => this.map(
         txCreated: (it) async => base58encode(it.escrow.bytes),
         txSent: (it) async => base58encode(it.escrow.bytes),
         txConfirmed: (it) async => base58encode(it.escrow.bytes),

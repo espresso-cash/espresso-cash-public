@@ -9,7 +9,7 @@ import '../services/payment_request_service.dart';
 extension PaymentRequestExt on BuildContext {
   Future<String> createPayRequest({
     required CryptoAmount tokenAmount,
-  }) async =>
+  }) =>
       runWithLoader(this, () async {
         final recipient = read<MyAccount>().wallet.publicKey;
 
