@@ -22,6 +22,8 @@ class CpTextField extends StatelessWidget {
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
     this.textColor = CpColors.primaryTextColor,
+    this.textInputAction,
+    this.multiLine = false,
   });
 
   final TextEditingController? controller;
@@ -38,10 +40,13 @@ class CpTextField extends StatelessWidget {
   final Widget? prefix;
   final CpTextFieldBorder border;
   final Color? textColor;
+  final TextInputAction? textInputAction;
+  final bool? multiLine;
 
   @override
   Widget build(BuildContext context) {
     final prefix = this.prefix;
+    final multiLine = this.multiLine ?? false;
 
     return Container(
       margin: margin,
@@ -62,7 +67,7 @@ class CpTextField extends StatelessWidget {
         readOnly: readOnly,
         textAlignVertical: TextAlignVertical.center,
         controller: controller,
-        maxLines: 1,
+        maxLines: multiLine ? null : 1,
         cursorColor: CpColors.yellowColor,
         style: TextStyle(
           fontWeight: FontWeight.normal,
@@ -74,6 +79,7 @@ class CpTextField extends StatelessWidget {
         keyboardType: inputType,
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
+        textInputAction: textInputAction,
         prefix: prefix == null
             ? null
             : Padding(

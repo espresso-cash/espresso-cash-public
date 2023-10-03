@@ -20,7 +20,7 @@ class PopularTokenCache {
   Future<IMap<Token, double>> get() =>
       _db.select(_db.popularTokenRows).get().then(
             (rows) =>
-                IMap({for (var e in rows) e.toToken(_tokenList): e.price}),
+                IMap({for (final e in rows) e.toToken(_tokenList): e.price}),
           );
 
   Future<void> set(IMap<Token, double> result) => _db.transaction(() async {

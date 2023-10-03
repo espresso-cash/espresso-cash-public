@@ -15,6 +15,8 @@ class ClientBloc extends Cubit<ClientState> {
 
   final SolanaClient _solanaClient;
 
+  Future<bool> isWalletAvailable() => LocalAssociationScenario.isAvailable();
+
   Future<void> requestCapabilities() async {
     final session = await LocalAssociationScenario.create();
 

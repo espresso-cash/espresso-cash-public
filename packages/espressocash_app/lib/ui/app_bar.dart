@@ -8,8 +8,11 @@ class CpAppBar extends AppBar {
     super.title,
     Widget? leading,
     Widget? nextButton,
+    Color backgroundColor = Colors.transparent,
     super.automaticallyImplyLeading,
   }) : super(
+          backgroundColor: backgroundColor,
+          clipBehavior: Clip.none,
           leading: leading ?? const CpBackButton(ensureBackNavigation: true),
           actions: nextButton != null
               ? [

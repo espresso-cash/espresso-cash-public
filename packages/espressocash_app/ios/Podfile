@@ -56,7 +56,7 @@ post_install do |installer|
             '$(inherited)',
             'PERMISSION_EVENTS=0',
             'PERMISSION_REMINDERS=0',
-            'PERMISSION_CAMERA=0',
+            'PERMISSION_CAMERA=1',
             'PERMISSION_MICROPHONE=0',
             'PERMISSION_SPEECH_RECOGNIZER=0',
             'PERMISSION_SENSORS=0',
@@ -66,4 +66,25 @@ post_install do |installer|
           ]
     end
   end
+end
+
+# https://github.com/pichillilorenzo/flutter_inappwebview/issues/1807#issuecomment-1738699112
+post_integrate do |installer|
+  compiler_flags_key = 'COMPILER_FLAGS'
+  project_path = 'Pods/Pods.xcodeproj'
+
+  project = Xcodeproj::Project.open(project_path)
+  project.targets.each do |target|
+    target.build_phases.each do |build_phase|
+      if build_phase.is_a?(Xcodeproj::Project::Object::PBXSourcesBuildPhase)
+        build_phase.files.each do |file|
+          if !file.settings.nil? && file.settings.key?(compiler_flags_key)
+            compiler_flags = file.settings[compiler_flags_key]
+            file.settings[compiler_flags_key] = compiler_flags.gsub(/-DOS_OBJECT_USE_OBJC=0\s*/, '')
+          end
+        end
+      end
+    end
+  end
+  project.save()
 end

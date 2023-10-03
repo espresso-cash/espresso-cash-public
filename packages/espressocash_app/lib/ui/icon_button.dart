@@ -41,7 +41,7 @@ class CpIconButton extends StatelessWidget {
       case CpIconButtonVariant.light:
         return Colors.white;
       case CpIconButtonVariant.black:
-        return CpColors.darkBackground;
+        return Colors.black;
       case CpIconButtonVariant.transparent:
         return Colors.transparent;
     }

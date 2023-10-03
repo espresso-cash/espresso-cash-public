@@ -34,7 +34,7 @@ class ShareLinksScreen extends StatelessWidget {
     final qrLink = status.qrLink;
     final hasQrLink = qrLink != null && qrLink.path != 'null';
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
         appBar: CpAppBar(title: title),
         body: SafeArea(
@@ -47,7 +47,7 @@ class ShareLinksScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(48, 24, 48, 16),
                     child: CpTabBar(
-                      variant: CpTabBarVariant.inverted,
+                      variant: CpTabBarVariant.black,
                       tabs: [
                         Tab(text: context.l10n.sharePaymentRequestLinkTitle),
                         Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),

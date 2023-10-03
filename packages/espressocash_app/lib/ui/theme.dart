@@ -25,6 +25,13 @@ class CpTheme extends StatelessWidget {
           child: child,
         );
 
+  const CpTheme.black({Key? key, required Widget child})
+      : this(
+          key: key,
+          theme: const CpThemeData.black(),
+          child: child,
+        );
+
   // ignore: avoid-watch-outside-build, valid usage
   static CpThemeData of(BuildContext context) => context.watch<CpThemeData>();
 
@@ -66,6 +73,15 @@ class CpThemeData {
       : this._(
           brightness: Brightness.dark,
           backgroundColor: CpColors.primaryColor,
+          primaryTextColor: Colors.white,
+          secondaryTextColor: CpColors.secondaryTextColor,
+          dividerColor: Colors.white,
+        );
+
+  const CpThemeData.black()
+      : this._(
+          brightness: Brightness.dark,
+          backgroundColor: CpColors.darkSplashBackgroundColor,
           primaryTextColor: Colors.white,
           secondaryTextColor: CpColors.secondaryTextColor,
           dividerColor: Colors.white,

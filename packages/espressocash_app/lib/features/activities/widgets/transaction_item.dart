@@ -5,6 +5,7 @@ import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
 import 'common_tile.dart';
 import 'odp_tile.dart';
+import 'on_ramp_tile.dart';
 import 'oskp_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
@@ -58,6 +59,10 @@ class _TransactionItemState extends State<TransactionItem> {
               swap: (p) => SwapTile(
                 key: ValueKey(p.id),
                 activity: p,
+              ),
+              onRamp: (it) => OnRampTile(
+                key: ValueKey(it.id),
+                activity: it,
               ),
             ),
           );

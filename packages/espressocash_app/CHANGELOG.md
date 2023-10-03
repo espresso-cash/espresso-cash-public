@@ -1,3 +1,29 @@
+## 1.84.0
+
+ - **REFACTOR**: migrate to Flutter 3.13.6 (#1077).
+ - **FEAT**: add pay method selection (#1075).
+ - **FEAT**: update remaning screens to black theme (#1076).
+ - **FEAT**: investment screen ui updates (#1065).
+ - **FEAT**: update to black theme (#1073).
+
+## 1.83.0
+
+ - **FIX**: small ui fixes (#1056).
+ - **FEAT**: update kado on-ramp (#1074).
+ - **FEAT**: add off-ramp amount screen (#1067).
+ - **FEAT**: add ramp onboarding screen (#1066).
+ - **FEAT**: update partner select screen layout (#1064).
+
+## 1.82.0
+
+ - **FEAT**: remove localizely ota (#1055).
+ - **FEAT**: provide email to onramp partners (#1054).
+ - **FEAT**: add email to profile (#1053).
+
+## 1.81.0
+
+ - **FEAT**: migrate to flutter_inappwebview (#1052).
+
 ## 1.80.0
 
  - **FEAT**: Integrate guardarian onramp (#1051).

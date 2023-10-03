@@ -8,18 +8,20 @@ class CpBorderedRow extends StatelessWidget {
     super.key,
     required this.title,
     required this.content,
+    this.dividerColor,
   });
 
   final Widget title;
   final Widget content;
+  final Color? dividerColor;
 
   @override
   Widget build(BuildContext context) => Container(
         height: MediaQuery.of(context).size.height < 700 ? 56 : 74,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: CpColors.accentDisabledColor,
+              color: dividerColor ?? CpColors.accentDisabledColor,
               width: 1,
             ),
           ),
@@ -45,9 +47,10 @@ class CpBorderedRow extends StatelessWidget {
 }
 
 class BorderedRowChip extends StatelessWidget {
-  const BorderedRowChip({super.key, required this.child});
+  const BorderedRowChip({super.key, required this.child, this.backgroundColor});
 
   final Widget child;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) => Expanded(
@@ -55,6 +58,7 @@ class BorderedRowChip extends StatelessWidget {
           children: [
             CpChip(
               padding: CpChipPadding.small,
+              backgroundColor: backgroundColor,
               child: child,
             ),
           ],

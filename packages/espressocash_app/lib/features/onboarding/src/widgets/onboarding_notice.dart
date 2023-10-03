@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/extensions.dart';
-import '../../../../core/presentation/value_stream_builder.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../accounts/models/account.dart';
+import '../../../accounts/models/ec_wallet.dart';
 import '../../../accounts/services/accounts_bloc.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_flow_screen.dart';
@@ -26,42 +25,40 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     super.initState();
 
     final account = context.read<AccountsBloc>().state.account;
-    if (account?.accessMode == const AccessMode.seedInputted()) {
-      sl<OnboardingRepository>().hasFinishedOnboarding = true;
+    if (account?.accessMode == const AccessMode.seedInputted() ||
+        account?.wallet is SagaWallet) {
+      sl<OnboardingRepository>().hasConfirmedPassphrase = true;
     }
   }
 
   void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<bool>(
-        create: () => sl<OnboardingRepository>()
-            .hasFinishedOnboardingStream
-            .withInitial(),
-        builder: (context, hasFinishedOnboarding) {
-          if (hasFinishedOnboarding) return const SizedBox.shrink();
-
-          return AspectRatio(
-            aspectRatio: 433 / 123,
-            child: GestureDetector(
-              onTap: _onPressed,
-              child: RepaintBoundary(
-                child: Stack(
-                  children: [
-                    Assets.rive.onboardingNotice.rive(
-                      alignment: Alignment.topCenter,
-                      fit: BoxFit.fitWidth,
+  Widget build(BuildContext context) => ListenableBuilder(
+        listenable: sl<OnboardingRepository>(),
+        builder: (context, child) =>
+            sl<OnboardingRepository>().hasFinishedOnboarding
+                ? const SizedBox.shrink()
+                : AspectRatio(
+                    aspectRatio: 450 / 100,
+                    child: GestureDetector(
+                      onTap: _onPressed,
+                      child: RepaintBoundary(
+                        child: Stack(
+                          children: [
+                            Assets.rive.onboardingNotice.rive(
+                              alignment: Alignment.topCenter,
+                              fit: BoxFit.fitWidth,
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: _Content(onPressed: _onPressed),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: _Content(onPressed: _onPressed),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+                  ),
       );
 }
 
@@ -71,62 +68,31 @@ class _Content extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Flexible(
-              child: FractionallySizedBox(
-                widthFactor: 0.75,
-                child: _Text(),
-              ),
-            ),
-            const SizedBox(height: 8, width: double.infinity),
-            Flexible(
-              child: Align(
-                alignment: Alignment.center,
-                child: CpButton(
-                  text: context.l10n.onboardingNoticeFinishSetup,
-                  size: CpButtonSize.micro,
-                  onPressed: onPressed,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-}
-
-class _Text extends StatelessWidget {
-  const _Text();
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Flexible(
+          SizedBox(
+            width: 150,
             child: FittedBox(
               child: Text(
-                context.l10n.onboardingNoticeTitle,
+                context.l10n.onboardingNoticeMessage,
+                maxLines: 2,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
           ),
-          FittedBox(
-            child: Text(
-              context.l10n.onboardingNoticeMessage,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+          const SizedBox(width: 12),
+          CpButton(
+            text: context.l10n.onboardingNoticeFinishSetup,
+            size: CpButtonSize.micro,
+            onPressed: onPressed,
           ),
+          const SizedBox(width: 24),
         ],
       );
 }

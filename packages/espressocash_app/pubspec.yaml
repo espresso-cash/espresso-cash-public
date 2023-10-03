@@ -1,14 +1,14 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.80.0
+version: 1.84.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   async: ^2.10.0
-  auto_route: ^7.7.0
+  auto_route: ^7.8.3
   barcode_widget: ^2.0.3
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.2
@@ -34,21 +34,23 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
+  flutter_inappwebview: ^5.7.2+3
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.12
   flutter_screenutil: ^5.8.4
   flutter_secure_storage: ^8.0.0
-  flutter_svg: ^1.1.5
-  flutter_svg_provider: ^1.0.3
+  flutter_svg: ^2.0.7
+  flutter_svg_provider: ^1.0.6
+  flutter_web_plugins:
+    sdk: flutter
   freezed_annotation: ^2.4.1
   get_it: ^7.6.0
-  http: ^0.13.5
+  http: ^1.1.0
   image_picker: ^0.8.7+5
-  injectable: ^2.1.2
+  injectable: ^2.3.0
   intl: ^0.18.0
-  json_annotation: ^4.4.0
-  localizely_sdk: ^2.5.1
+  json_annotation: ^4.8.1
   logging: ^1.1.0
   meta: ^1.7.0
   mobile_scanner: ^3.0.0-beta.4
@@ -56,10 +58,11 @@ dependencies:
   package_info_plus: ^4.0.1
   path: ^1.8.0
   path_provider: ^2.0.2
+  permission_handler: ^10.4.3
   provider: ^6.0.0
   ramp_flutter: ^2.0.2
-  retrofit: ^3.0.1
-  rive: ^0.10.1
+  retrofit: ^3.3.1
+  rive: ^0.11.17
   rxdart: ^0.27.1
   sentry_flutter: ^7.6.2
   share: ^2.0.4
@@ -76,29 +79,28 @@ dependencies:
   uni_links: ^0.5.1
   url_launcher: ^6.1.10
   uuid: ^3.0.4
-  webview_flutter: ^4.0.7
 
 dev_dependencies:
-  auto_route_generator: ^7.2.0
+  auto_route_generator: ^7.3.1
   bloc_test: ^9.1.0
-  build_runner: ^2.2.0
+  build_runner: ^2.4.6
   drift_dev: ^2.8.3
   flutter_driver:
     sdk: flutter
-  flutter_gen_runner: ^5.0.0
+  flutter_gen_runner: ^5.3.2
   flutter_native_splash: ^2.3.1
   flutter_test:
     sdk: flutter
   freezed: ^2.4.1
   golden_toolkit: ^0.14.0
-  injectable_generator: ^2.1.6
+  injectable_generator: ^2.4.0
   integration_test:
     sdk: flutter
-  json_serializable: ^6.1.4
+  json_serializable: ^6.7.1
   mews_pedantic: ^0.16.0
   mockito: ^5.4.2
   recase: ^4.1.0
-  retrofit_generator: ^4.0.0
+  retrofit_generator: ^4.2.0
 
 flutter_gen:
   integrations:
@@ -106,13 +108,13 @@ flutter_gen:
     rive: true
 
 flutter:
-  generate: true
   uses-material-design: true
 
   assets:
     - assets/images/
     - assets/icons/
     - assets/rive/
+    - assets/landing/
 
   fonts:
     - family: RobotoApp

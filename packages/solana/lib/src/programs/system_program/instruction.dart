@@ -282,6 +282,6 @@ class SystemInstruction extends Instruction {
         SystemInstruction.initializeNonceAccount(
           nonce: noncePubKey,
           nonceAuthority: noceAuthorityPubKey,
-        )
+        ),
       ];
 }

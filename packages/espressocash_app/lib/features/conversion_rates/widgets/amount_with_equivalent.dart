@@ -58,10 +58,10 @@ class AmountWithEquivalent extends StatelessWidget {
                       : _EquivalentDisplay(
                           input: value.text,
                           token: token,
-                          backgroundColor: CpColors.backgroundAccentColor,
+                          backgroundColor: Colors.black,
                         ),
                 ),
-              )
+              ),
           ],
         ),
       );
@@ -155,15 +155,19 @@ class _InputDisplay extends StatelessWidget {
     final amount = input.formatted(context);
     final formatted = '$sign$amount';
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: FittedBox(
-        child: Text(
-          formatted,
-          textAlign: TextAlign.right,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontWeight: FontWeight.w700,
+    return SizedBox(
+      height: 94,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            formatted,
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),

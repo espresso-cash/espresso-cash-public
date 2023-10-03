@@ -10,6 +10,7 @@ analyzer:
     - "**/*.gr.dart"
     - "test/generated/**"
     - "lib/gen/**"
+    - "lib/l10n/gen/**"
     - "lib/di.config.dart"
 
   errors:

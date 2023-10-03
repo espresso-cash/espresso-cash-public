@@ -80,7 +80,7 @@ class _QrCodeWrapper extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 color: Colors.white,
               ),
-            )
+            ),
           ],
         ),
       ),

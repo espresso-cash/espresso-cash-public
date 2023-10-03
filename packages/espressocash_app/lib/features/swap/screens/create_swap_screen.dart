@@ -184,13 +184,9 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 onSlippageChanged: _onSlippageChanged,
               ),
               Flexible(
-                child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: constraints.maxWidth,
-                    controller: _amountController,
-                    maxDecimals: state.requestAmount.token.decimals,
-                  ),
+                child: AmountKeypad(
+                  controller: _amountController,
+                  maxDecimals: state.requestAmount.token.decimals,
                 ),
               ),
               CpContentPadding(

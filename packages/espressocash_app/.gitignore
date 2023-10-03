@@ -135,3 +135,5 @@ prod.json
 saga_publishing/node_modules/
 saga_publishing/*.apk
 saga_publishing/publisher.json
+
+lib/l10n/gen/

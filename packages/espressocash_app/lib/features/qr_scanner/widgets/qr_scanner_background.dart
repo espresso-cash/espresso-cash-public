@@ -14,14 +14,17 @@ class QrScannerBackground extends StatelessWidget {
 
   final Widget child;
 
-  Future<DrawableRoot> _readFrame() async {
+  Future<PictureInfo> _readFrame() async {
     final byteData = await rootBundle.load(Assets.images.qrFrame.path);
 
-    return svg.fromSvgBytes(Uint8List.view(byteData.buffer), 'qrFrame');
+    return vg.loadPicture(
+      SvgBytesLoader(Uint8List.view(byteData.buffer)),
+      null,
+    );
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<DrawableRoot>(
+  Widget build(BuildContext context) => FutureBuilder<PictureInfo?>(
         future: _readFrame(),
         builder: (context, frame) => CustomPaint(
           foregroundPainter: _Painter(
@@ -39,7 +42,7 @@ class _Painter extends CustomPainter {
     required this.dimension,
   });
 
-  final DrawableRoot? frame;
+  final PictureInfo? frame;
   final double dimension;
 
   @override
@@ -60,7 +63,7 @@ class _Painter extends CustomPainter {
     );
 
     final rect = center & frameSize;
-    final rrect = RRect.fromRectXY(rect.deflate(5), 35, 35);
+    final rrect = RRect.fromRectXY(rect.deflate(8), 61.5, 61.5);
 
     canvas
       ..drawPath(
@@ -73,9 +76,17 @@ class _Painter extends CustomPainter {
       )
       ..translate(center.dx, center.dy);
 
-    frame
-      ..scaleCanvasToViewBox(canvas, frameSize)
-      ..draw(canvas, rect);
+    final Size svgSize = frame.size;
+    final matrix = Matrix4.identity()
+      ..scale(
+        frameSize.width / svgSize.width,
+        frameSize.height / svgSize.height,
+      );
+
+    canvas
+      ..transform(matrix.storage)
+      ..drawPicture(frame.picture)
+      ..restore();
   }
 
   @override

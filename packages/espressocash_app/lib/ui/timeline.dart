@@ -163,11 +163,11 @@ class _TileInfo extends StatelessWidget {
               children: [
                 Text(tile.title, style: _titleStyle),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 2)),
-                if (subtitle != null) Text(subtitle, style: _subtitleStyle)
+                if (subtitle != null) Text(subtitle, style: _subtitleStyle),
               ],
             ),
           ),
-          Text(tile.trailing ?? '', style: _titleStyle)
+          Text(tile.trailing ?? '', style: _titleStyle),
         ],
       ),
     );
@@ -261,7 +261,7 @@ class _Animation extends StatelessWidget {
             child: child,
           )
         else
-          child
+          child,
       ],
     );
   }
