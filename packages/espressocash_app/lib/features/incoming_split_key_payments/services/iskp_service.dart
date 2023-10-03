@@ -89,7 +89,8 @@ class ISKPService {
 
       return ISKPStatus.txCreated(tx, slot: response.slot);
     } on DioError catch (error) {
-      if (error.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
+      if (error.toEspressoCashError() ==
+          EspressoCashError.invalidEscrowAccount) {
         return const ISKPStatus.txFailure(
           reason: TxFailureReason.escrowFailure,
         );

@@ -93,7 +93,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> signMessageWithAccount(
     AuthToken authToken,
     Account account,
-  )  =>
+  ) =>
       _signMessages(
         authToken: authToken,
         signingRequests: [
@@ -107,7 +107,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> signTransactionWithAccount(
     AuthToken authToken,
     Account account,
-  )  =>
+  ) =>
       _signTransactions(
         authToken: authToken,
         signingRequests: [
