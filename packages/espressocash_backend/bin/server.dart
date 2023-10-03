@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 
+import 'package:espressocash_backend/src/dln_payments/handler.dart';
 import 'package:espressocash_backend/src/escrow_payments/handler.dart';
 import 'package:espressocash_backend/src/handlers/association_handlers.dart';
 import 'package:espressocash_backend/src/handlers/solana_handler.dart';
@@ -65,5 +66,6 @@ final _apiV1 = shelf_router.Router()
         .add(escrowPaymentsHandler())
         .add(addFundsHandler())
         .add(addSwapHandler())
+        .add(addDlnQuoteHandler())
         .handler,
   );

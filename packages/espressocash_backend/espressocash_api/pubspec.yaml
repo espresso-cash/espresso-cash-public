@@ -4,10 +4,12 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ">=2.17.6 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   dio: ^4.0.0
+  dln_api:
+    path: ../dln_api
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
   jupiter_aggregator:

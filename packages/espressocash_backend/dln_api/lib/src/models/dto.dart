@@ -32,7 +32,7 @@ class DlnQuoteResponseDto with _$DlnQuoteResponseDto {
   const factory DlnQuoteResponseDto({
     required OrderEstimation estimation,
     String? prependedOperatingExpenseCost,
-    required TxQuote tx,
+    TxQuote? tx,
     required Order order,
     required String fixFee,
   }) = _DlnQuoteResponseDto;

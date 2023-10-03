@@ -51,4 +51,9 @@ abstract class CryptopleaseClient {
   Future<CancelPaymentResponseDto> cancelPaymentEc(
     @Body() CancelPaymentRequestDto request,
   );
+
+  @POST('/getDlnQuote')
+  Future<PaymentQuoteResponseDto> getDlnQuote(
+    @Body() PaymentQuoteRequestDto request,
+  );
 }
