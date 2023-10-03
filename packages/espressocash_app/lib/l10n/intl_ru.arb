@@ -294,7 +294,7 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount}.",
+  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount} был оплачен.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
