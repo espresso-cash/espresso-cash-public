@@ -53,6 +53,7 @@ class _QrCodeWrapper extends StatelessWidget {
 
     return Flexible(
       child: CpRoundedRectangle(
+        backgroundColor: Colors.black,
         scrollable: false,
         margin: const EdgeInsets.symmetric(vertical: 16),
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 42),

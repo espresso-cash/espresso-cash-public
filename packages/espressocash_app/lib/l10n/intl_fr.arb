@@ -286,12 +286,9 @@
   "@paymentInitiated": {},
   "paymentRequestCancel": "Annuler la demande",
   "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Paiement échoué de {amount} pour {label}.",
+  "paymentRequestFailureNotificationTitle": "Paiement échoué de {amount}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      },
       "amount": {
         "type": "String"
       }
@@ -301,21 +298,18 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} pour {label} a été payée.",
+  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount}.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
-      },
-      "label": {
-        "type": "String"
       }
     }
   },
-  "paymentRequestTitle": "Demande de paiement pour {label}",
+  "paymentRequestTitle": "Demande de paiement pour {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
-      "label": {
+      "amount": {
         "type": "String"
       }
     }

@@ -43,7 +43,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: StreamBuilder<PaymentRequest>(
           stream: _stream,
           builder: (context, snapshot) {
@@ -95,7 +95,6 @@ class _Success extends StatelessWidget {
         icon: Assets.icons.txSucceeded,
         text: context.l10n.paymentRequestSuccessNotificationTitle(
           request.formattedAmount(DeviceLocale.localeOf(context)),
-          request.label,
         ),
         signature: null,
       );
@@ -113,7 +112,6 @@ class _Failure extends StatelessWidget {
         icon: Assets.icons.txFailed,
         text: context.l10n.paymentRequestFailureNotificationTitle(
           request.formattedAmount(DeviceLocale.localeOf(context)),
-          request.label,
         ),
         signature: null,
       );
