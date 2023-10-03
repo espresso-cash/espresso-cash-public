@@ -115,7 +115,7 @@ class _AccountItemState extends State<AccountItem> {
                     child: const Text('Message', style: _style),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

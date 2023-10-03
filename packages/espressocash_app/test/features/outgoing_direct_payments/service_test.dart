@@ -116,7 +116,7 @@ Future<void> main() async {
           isA<OutgoingDirectPayment>()
               .having((it) => it.status, 'status', isA<ODPStatusTxSent>()),
           isA<OutgoingDirectPayment>()
-              .having((it) => it.status, 'status', isA<ODPStatusSuccess>())
+              .having((it) => it.status, 'status', isA<ODPStatusSuccess>()),
         ],
       ),
     );

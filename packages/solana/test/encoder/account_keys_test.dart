@@ -84,7 +84,7 @@ Future<void> main() async {
       programId: keys.first,
       accounts: [
         AccountMeta.writeable(pubKey: keys[1], isSigner: true),
-        AccountMeta.writeable(pubKey: keys[2], isSigner: true)
+        AccountMeta.writeable(pubKey: keys[2], isSigner: true),
       ],
       data: ByteArray.u8(0),
     );
@@ -127,10 +127,10 @@ Future<void> main() async {
         programId: keys.first,
         accounts: [
           AccountMeta.writeable(pubKey: keys[1], isSigner: true),
-          AccountMeta.writeable(pubKey: unknown.publicKey, isSigner: true)
+          AccountMeta.writeable(pubKey: unknown.publicKey, isSigner: true),
         ],
         data: ByteArray.u8(0),
-      )
+      ),
     ];
 
     for (final instruction in instructions) {

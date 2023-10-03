@@ -69,6 +69,7 @@ const moonpayHost = 'moonpay.$cpLinkDomain';
 const espressoCashDeepLinkHost = 'espressocash.page.link';
 
 const kadoBaseUrl = 'https://app.kado.money/';
+const kadoApiBaseUrl = 'https://api.kado.money';
 const kadoApiKey = '789fc144-32ff-46c8-85af-339354fa314d';
 
 const rampApiKey = 'q3xw9q8ejb9js36czw8htg8qj4bf62q6hua8bvh9';
@@ -77,3 +78,6 @@ const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = 'ef6d4999-80ad-4ab2-bcfc-4c0669d2e070';
 
 const maxPayloadsPerSigningRequest = 10;
+
+const playstoreName = 'com.pleasecrypto.flutter';
+const appstoreId = '1559625715';

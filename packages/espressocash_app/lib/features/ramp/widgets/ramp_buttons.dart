@@ -15,12 +15,12 @@ import '../../profile/data/profile_repository.dart';
 import '../src/models/profile_data.dart';
 import '../src/models/ramp_partner.dart';
 import '../src/models/ramp_type.dart';
+import '../src/screens/ramp_onboarding_screen.dart';
+import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
-import '../src/widgets/screens/ramp_onboarding_screen.dart';
-import '../src/widgets/screens/ramp_partner_select_screen.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({

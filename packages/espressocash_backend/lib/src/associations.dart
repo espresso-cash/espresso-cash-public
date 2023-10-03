@@ -8,7 +8,7 @@ List<Map<String, dynamic>> getAssetLinks(Iterable<AndroidOptions> apps) => apps
           'namespace': 'android_app',
           'package_name': app.package,
           'sha256_cert_fingerprints': app.sha256Fingerprints,
-        }
+        },
       },
     )
     .toList();
@@ -25,5 +25,5 @@ Map<String, dynamic> getAppAssociations(Iterable<IOSOptions> apps) =>
               },
             )
             .toList(),
-      }
+      },
     };

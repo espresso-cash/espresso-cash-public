@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../ui/colors.dart';
 import '../models/country.dart';
 import '../screens/country_picker_screen.dart';
 
@@ -19,12 +18,12 @@ class CountryPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const ShapeDecoration(
-          color: CpColors.darkBackground,
+          color: Colors.black,
           shape: StadiumBorder(),
         ),
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 24),
-          onTap: () => context.router.push<Country>(
+          onTap: () => context.router.push(
             CountryPickerScreen.route(
               initial: country,
               onSubmitted: (country) {

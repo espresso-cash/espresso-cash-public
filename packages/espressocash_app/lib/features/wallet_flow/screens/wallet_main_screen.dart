@@ -104,7 +104,7 @@ class _ScreenState extends State<WalletMainScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
         appBar: CpAppBar(
           leading: Center(
@@ -123,7 +123,7 @@ class _ScreenState extends State<WalletMainScreen> {
                   Tab(text: context.l10n.pay),
                   Tab(text: context.l10n.receive),
                 ],
-                variant: CpTabBarVariant.light,
+                variant: CpTabBarVariant.black,
               ),
             ),
           ),

@@ -86,7 +86,7 @@ void main() {
       final message = Message(instructions: instructions);
 
       final addressLookupTableAccounts = [
-        await createTestAddressLookUpTable(keys)
+        await createTestAddressLookUpTable(keys),
       ];
 
       final compiledMessage = message.compileV0(

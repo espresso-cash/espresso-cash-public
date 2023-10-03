@@ -80,6 +80,8 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
         IncomingSplitKeyPaymentScreen.route(id: id),
       );
     } on Object {
+      if (!mounted) return;
+
       context.router.popForced();
     }
   }
@@ -131,7 +133,7 @@ class _FirstPartReadyScreenState extends State<FirstPartReadyScreen> {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
