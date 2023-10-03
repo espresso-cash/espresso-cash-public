@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 import '../l10n/gen/app_localizations.dart';
 import 'screens/landing.dart';
 
-Future<void> main() async {
-  setUrlStrategy(const PathUrlStrategy());
+void main() {
+  setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const LandingPageApp());
