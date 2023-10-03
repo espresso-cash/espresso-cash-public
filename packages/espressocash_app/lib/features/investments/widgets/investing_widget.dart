@@ -27,7 +27,7 @@ class InvestingWidget extends StatelessWidget {
             const SizedBox(height: 12),
             GestureDetector(
               onTap: () => context.router.push(InvestmentsScreen.route()),
-              child: Assets.images.investingBanner.image(),
+              child: Center(child: Assets.images.investingBanner.image()),
             ),
           ],
         ),

@@ -113,18 +113,28 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Stack(
         children: [
-          backgroundImage,
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: const [0.1, 0.4, 0.6],
-                colors: [
-                  Colors.black.withOpacity(0),
-                  const Color(0x76CCCCCC),
-                  CpColors.dashboardBackgroundColor,
-                ],
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: _carouselMaxWidth),
+              child: backgroundImage,
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: _carouselMaxWidth),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.1, 0.4, 0.6],
+                  colors: [
+                    Colors.black.withOpacity(0),
+                    const Color(0x76CCCCCC),
+                    CpColors.dashboardBackgroundColor,
+                  ],
+                ),
               ),
             ),
           ),
@@ -167,3 +177,5 @@ class _Item extends StatelessWidget {
         ],
       );
 }
+
+const _carouselMaxWidth = 430.0;
