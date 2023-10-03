@@ -302,7 +302,7 @@
       }
     }
   },
-  "paymentRequestTitle": "Запрос на оплату за {amount}",
+  "paymentRequestTitle": "Запрос на оплату {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
       "amount": {
