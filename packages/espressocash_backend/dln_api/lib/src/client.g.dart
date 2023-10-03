@@ -21,14 +21,14 @@ class _DlnApiClient implements DlnApiClient {
   String? baseUrl;
 
   @override
-  Future<QuoteResponseDto> getQuote(quoteRequestDto) async {
+  Future<DlnQuoteResponseDto> getQuote(quoteRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(quoteRequestDto.toJson());
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<QuoteResponseDto>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<DlnQuoteResponseDto>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -40,7 +40,7 @@ class _DlnApiClient implements DlnApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = QuoteResponseDto.fromJson(_result.data!);
+    final value = DlnQuoteResponseDto.fromJson(_result.data!);
     return value;
   }
 

@@ -6,8 +6,9 @@ part of 'dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_QuoteRequestDto _$$_QuoteRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_QuoteRequestDto(
+_$_DlnQuoteRequestDto _$$_DlnQuoteRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_DlnQuoteRequestDto(
       srcChainId: json['srcChainId'] as String,
       srcChainTokenIn: json['srcChainTokenIn'] as String,
       srcChainTokenInAmount: json['srcChainTokenInAmount'] as String,
@@ -27,7 +28,8 @@ _$_QuoteRequestDto _$$_QuoteRequestDtoFromJson(Map<String, dynamic> json) =>
       prependOperatingExpenses: json['prependOperatingExpenses'] as bool?,
     );
 
-Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
+Map<String, dynamic> _$$_DlnQuoteRequestDtoToJson(
+    _$_DlnQuoteRequestDto instance) {
   final val = <String, dynamic>{
     'srcChainId': instance.srcChainId,
     'srcChainTokenIn': instance.srcChainTokenIn,
@@ -57,8 +59,9 @@ Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
   return val;
 }
 
-_$_QuoteResponseDto _$$_QuoteResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_QuoteResponseDto(
+_$_DlnQuoteResponseDto _$$_DlnQuoteResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_DlnQuoteResponseDto(
       estimation:
           OrderEstimation.fromJson(json['estimation'] as Map<String, dynamic>),
       prependedOperatingExpenseCost:
@@ -68,7 +71,8 @@ _$_QuoteResponseDto _$$_QuoteResponseDtoFromJson(Map<String, dynamic> json) =>
       fixFee: json['fixFee'] as String,
     );
 
-Map<String, dynamic> _$$_QuoteResponseDtoToJson(_$_QuoteResponseDto instance) {
+Map<String, dynamic> _$$_DlnQuoteResponseDtoToJson(
+    _$_DlnQuoteResponseDto instance) {
   final val = <String, dynamic>{
     'estimation': instance.estimation.toJson(),
   };

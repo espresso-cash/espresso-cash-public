@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-QuoteRequestDto _$QuoteRequestDtoFromJson(Map<String, dynamic> json) {
-  return _QuoteRequestDto.fromJson(json);
+DlnQuoteRequestDto _$DlnQuoteRequestDtoFromJson(Map<String, dynamic> json) {
+  return _DlnQuoteRequestDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$QuoteRequestDto {
+mixin _$DlnQuoteRequestDto {
   String get srcChainId => throw _privateConstructorUsedError;
   String get srcChainTokenIn => throw _privateConstructorUsedError;
   String get srcChainTokenInAmount => throw _privateConstructorUsedError;
@@ -38,15 +38,15 @@ mixin _$QuoteRequestDto {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $QuoteRequestDtoCopyWith<QuoteRequestDto> get copyWith =>
+  $DlnQuoteRequestDtoCopyWith<DlnQuoteRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $QuoteRequestDtoCopyWith<$Res> {
-  factory $QuoteRequestDtoCopyWith(
-          QuoteRequestDto value, $Res Function(QuoteRequestDto) then) =
-      _$QuoteRequestDtoCopyWithImpl<$Res, QuoteRequestDto>;
+abstract class $DlnQuoteRequestDtoCopyWith<$Res> {
+  factory $DlnQuoteRequestDtoCopyWith(
+          DlnQuoteRequestDto value, $Res Function(DlnQuoteRequestDto) then) =
+      _$DlnQuoteRequestDtoCopyWithImpl<$Res, DlnQuoteRequestDto>;
   @useResult
   $Res call(
       {String srcChainId,
@@ -66,9 +66,9 @@ abstract class $QuoteRequestDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
-    implements $QuoteRequestDtoCopyWith<$Res> {
-  _$QuoteRequestDtoCopyWithImpl(this._value, this._then);
+class _$DlnQuoteRequestDtoCopyWithImpl<$Res, $Val extends DlnQuoteRequestDto>
+    implements $DlnQuoteRequestDtoCopyWith<$Res> {
+  _$DlnQuoteRequestDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -156,11 +156,11 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_QuoteRequestDtoCopyWith<$Res>
-    implements $QuoteRequestDtoCopyWith<$Res> {
-  factory _$$_QuoteRequestDtoCopyWith(
-          _$_QuoteRequestDto value, $Res Function(_$_QuoteRequestDto) then) =
-      __$$_QuoteRequestDtoCopyWithImpl<$Res>;
+abstract class _$$_DlnQuoteRequestDtoCopyWith<$Res>
+    implements $DlnQuoteRequestDtoCopyWith<$Res> {
+  factory _$$_DlnQuoteRequestDtoCopyWith(_$_DlnQuoteRequestDto value,
+          $Res Function(_$_DlnQuoteRequestDto) then) =
+      __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -181,11 +181,11 @@ abstract class _$$_QuoteRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuoteRequestDtoCopyWithImpl<$Res>
-    extends _$QuoteRequestDtoCopyWithImpl<$Res, _$_QuoteRequestDto>
-    implements _$$_QuoteRequestDtoCopyWith<$Res> {
-  __$$_QuoteRequestDtoCopyWithImpl(
-      _$_QuoteRequestDto _value, $Res Function(_$_QuoteRequestDto) _then)
+class __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>
+    extends _$DlnQuoteRequestDtoCopyWithImpl<$Res, _$_DlnQuoteRequestDto>
+    implements _$$_DlnQuoteRequestDtoCopyWith<$Res> {
+  __$$_DlnQuoteRequestDtoCopyWithImpl(
+      _$_DlnQuoteRequestDto _value, $Res Function(_$_DlnQuoteRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -206,7 +206,7 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
     Object? affiliateFeePercent = freezed,
     Object? prependOperatingExpenses = freezed,
   }) {
-    return _then(_$_QuoteRequestDto(
+    return _then(_$_DlnQuoteRequestDto(
       srcChainId: null == srcChainId
           ? _value.srcChainId
           : srcChainId // ignore: cast_nullable_to_non_nullable
@@ -270,8 +270,8 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_QuoteRequestDto implements _QuoteRequestDto {
-  const _$_QuoteRequestDto(
+class _$_DlnQuoteRequestDto implements _DlnQuoteRequestDto {
+  const _$_DlnQuoteRequestDto(
       {required this.srcChainId,
       required this.srcChainTokenIn,
       required this.srcChainTokenInAmount,
@@ -287,8 +287,8 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
       this.affiliateFeePercent,
       this.prependOperatingExpenses});
 
-  factory _$_QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_QuoteRequestDtoFromJson(json);
+  factory _$_DlnQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_DlnQuoteRequestDtoFromJson(json);
 
   @override
   final String srcChainId;
@@ -321,14 +321,14 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
 
   @override
   String toString() {
-    return 'QuoteRequestDto(srcChainId: $srcChainId, srcChainTokenIn: $srcChainTokenIn, srcChainTokenInAmount: $srcChainTokenInAmount, dstChainId: $dstChainId, dstChainTokenOut: $dstChainTokenOut, dstChainTokenOutAmount: $dstChainTokenOutAmount, additionalTakerRewardBps: $additionalTakerRewardBps, srcIntermediaryTokenAddress: $srcIntermediaryTokenAddress, dstIntermediaryTokenAddress: $dstIntermediaryTokenAddress, dstIntermediaryTokenSpenderAddress: $dstIntermediaryTokenSpenderAddress, intermediaryTokenUSDPrice: $intermediaryTokenUSDPrice, slippage: $slippage, affiliateFeePercent: $affiliateFeePercent, prependOperatingExpenses: $prependOperatingExpenses)';
+    return 'DlnQuoteRequestDto(srcChainId: $srcChainId, srcChainTokenIn: $srcChainTokenIn, srcChainTokenInAmount: $srcChainTokenInAmount, dstChainId: $dstChainId, dstChainTokenOut: $dstChainTokenOut, dstChainTokenOutAmount: $dstChainTokenOutAmount, additionalTakerRewardBps: $additionalTakerRewardBps, srcIntermediaryTokenAddress: $srcIntermediaryTokenAddress, dstIntermediaryTokenAddress: $dstIntermediaryTokenAddress, dstIntermediaryTokenSpenderAddress: $dstIntermediaryTokenSpenderAddress, intermediaryTokenUSDPrice: $intermediaryTokenUSDPrice, slippage: $slippage, affiliateFeePercent: $affiliateFeePercent, prependOperatingExpenses: $prependOperatingExpenses)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteRequestDto &&
+            other is _$_DlnQuoteRequestDto &&
             (identical(other.srcChainId, srcChainId) ||
                 other.srcChainId == srcChainId) &&
             (identical(other.srcChainTokenIn, srcChainTokenIn) ||
@@ -388,19 +388,20 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuoteRequestDtoCopyWith<_$_QuoteRequestDto> get copyWith =>
-      __$$_QuoteRequestDtoCopyWithImpl<_$_QuoteRequestDto>(this, _$identity);
+  _$$_DlnQuoteRequestDtoCopyWith<_$_DlnQuoteRequestDto> get copyWith =>
+      __$$_DlnQuoteRequestDtoCopyWithImpl<_$_DlnQuoteRequestDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_QuoteRequestDtoToJson(
+    return _$$_DlnQuoteRequestDtoToJson(
       this,
     );
   }
 }
 
-abstract class _QuoteRequestDto implements QuoteRequestDto {
-  const factory _QuoteRequestDto(
+abstract class _DlnQuoteRequestDto implements DlnQuoteRequestDto {
+  const factory _DlnQuoteRequestDto(
       {required final String srcChainId,
       required final String srcChainTokenIn,
       required final String srcChainTokenInAmount,
@@ -414,10 +415,10 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       final int? intermediaryTokenUSDPrice,
       final int? slippage,
       final double? affiliateFeePercent,
-      final bool? prependOperatingExpenses}) = _$_QuoteRequestDto;
+      final bool? prependOperatingExpenses}) = _$_DlnQuoteRequestDto;
 
-  factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_QuoteRequestDto.fromJson;
+  factory _DlnQuoteRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_DlnQuoteRequestDto.fromJson;
 
   @override
   String get srcChainId;
@@ -449,16 +450,16 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
   bool? get prependOperatingExpenses;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteRequestDtoCopyWith<_$_QuoteRequestDto> get copyWith =>
+  _$$_DlnQuoteRequestDtoCopyWith<_$_DlnQuoteRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-QuoteResponseDto _$QuoteResponseDtoFromJson(Map<String, dynamic> json) {
-  return _QuoteResponseDto.fromJson(json);
+DlnQuoteResponseDto _$DlnQuoteResponseDtoFromJson(Map<String, dynamic> json) {
+  return _DlnQuoteResponseDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$QuoteResponseDto {
+mixin _$DlnQuoteResponseDto {
   OrderEstimation get estimation => throw _privateConstructorUsedError;
   String? get prependedOperatingExpenseCost =>
       throw _privateConstructorUsedError;
@@ -468,15 +469,15 @@ mixin _$QuoteResponseDto {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $QuoteResponseDtoCopyWith<QuoteResponseDto> get copyWith =>
+  $DlnQuoteResponseDtoCopyWith<DlnQuoteResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $QuoteResponseDtoCopyWith<$Res> {
-  factory $QuoteResponseDtoCopyWith(
-          QuoteResponseDto value, $Res Function(QuoteResponseDto) then) =
-      _$QuoteResponseDtoCopyWithImpl<$Res, QuoteResponseDto>;
+abstract class $DlnQuoteResponseDtoCopyWith<$Res> {
+  factory $DlnQuoteResponseDtoCopyWith(
+          DlnQuoteResponseDto value, $Res Function(DlnQuoteResponseDto) then) =
+      _$DlnQuoteResponseDtoCopyWithImpl<$Res, DlnQuoteResponseDto>;
   @useResult
   $Res call(
       {OrderEstimation estimation,
@@ -491,9 +492,9 @@ abstract class $QuoteResponseDtoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
-    implements $QuoteResponseDtoCopyWith<$Res> {
-  _$QuoteResponseDtoCopyWithImpl(this._value, this._then);
+class _$DlnQuoteResponseDtoCopyWithImpl<$Res, $Val extends DlnQuoteResponseDto>
+    implements $DlnQuoteResponseDtoCopyWith<$Res> {
+  _$DlnQuoteResponseDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -559,11 +560,11 @@ class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_QuoteResponseDtoCopyWith<$Res>
-    implements $QuoteResponseDtoCopyWith<$Res> {
-  factory _$$_QuoteResponseDtoCopyWith(
-          _$_QuoteResponseDto value, $Res Function(_$_QuoteResponseDto) then) =
-      __$$_QuoteResponseDtoCopyWithImpl<$Res>;
+abstract class _$$_DlnQuoteResponseDtoCopyWith<$Res>
+    implements $DlnQuoteResponseDtoCopyWith<$Res> {
+  factory _$$_DlnQuoteResponseDtoCopyWith(_$_DlnQuoteResponseDto value,
+          $Res Function(_$_DlnQuoteResponseDto) then) =
+      __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -582,11 +583,11 @@ abstract class _$$_QuoteResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuoteResponseDtoCopyWithImpl<$Res>
-    extends _$QuoteResponseDtoCopyWithImpl<$Res, _$_QuoteResponseDto>
-    implements _$$_QuoteResponseDtoCopyWith<$Res> {
-  __$$_QuoteResponseDtoCopyWithImpl(
-      _$_QuoteResponseDto _value, $Res Function(_$_QuoteResponseDto) _then)
+class __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>
+    extends _$DlnQuoteResponseDtoCopyWithImpl<$Res, _$_DlnQuoteResponseDto>
+    implements _$$_DlnQuoteResponseDtoCopyWith<$Res> {
+  __$$_DlnQuoteResponseDtoCopyWithImpl(_$_DlnQuoteResponseDto _value,
+      $Res Function(_$_DlnQuoteResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -598,7 +599,7 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
     Object? order = null,
     Object? fixFee = null,
   }) {
-    return _then(_$_QuoteResponseDto(
+    return _then(_$_DlnQuoteResponseDto(
       estimation: null == estimation
           ? _value.estimation
           : estimation // ignore: cast_nullable_to_non_nullable
@@ -625,16 +626,16 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_QuoteResponseDto implements _QuoteResponseDto {
-  const _$_QuoteResponseDto(
+class _$_DlnQuoteResponseDto implements _DlnQuoteResponseDto {
+  const _$_DlnQuoteResponseDto(
       {required this.estimation,
       this.prependedOperatingExpenseCost,
       required this.tx,
       required this.order,
       required this.fixFee});
 
-  factory _$_QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_QuoteResponseDtoFromJson(json);
+  factory _$_DlnQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_DlnQuoteResponseDtoFromJson(json);
 
   @override
   final OrderEstimation estimation;
@@ -649,14 +650,14 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
 
   @override
   String toString() {
-    return 'QuoteResponseDto(estimation: $estimation, prependedOperatingExpenseCost: $prependedOperatingExpenseCost, tx: $tx, order: $order, fixFee: $fixFee)';
+    return 'DlnQuoteResponseDto(estimation: $estimation, prependedOperatingExpenseCost: $prependedOperatingExpenseCost, tx: $tx, order: $order, fixFee: $fixFee)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteResponseDto &&
+            other is _$_DlnQuoteResponseDto &&
             (identical(other.estimation, estimation) ||
                 other.estimation == estimation) &&
             (identical(other.prependedOperatingExpenseCost,
@@ -676,27 +677,28 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
-      __$$_QuoteResponseDtoCopyWithImpl<_$_QuoteResponseDto>(this, _$identity);
+  _$$_DlnQuoteResponseDtoCopyWith<_$_DlnQuoteResponseDto> get copyWith =>
+      __$$_DlnQuoteResponseDtoCopyWithImpl<_$_DlnQuoteResponseDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_QuoteResponseDtoToJson(
+    return _$$_DlnQuoteResponseDtoToJson(
       this,
     );
   }
 }
 
-abstract class _QuoteResponseDto implements QuoteResponseDto {
-  const factory _QuoteResponseDto(
+abstract class _DlnQuoteResponseDto implements DlnQuoteResponseDto {
+  const factory _DlnQuoteResponseDto(
       {required final OrderEstimation estimation,
       final String? prependedOperatingExpenseCost,
       required final TxQuote tx,
       required final Order order,
-      required final String fixFee}) = _$_QuoteResponseDto;
+      required final String fixFee}) = _$_DlnQuoteResponseDto;
 
-  factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_QuoteResponseDto.fromJson;
+  factory _DlnQuoteResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_DlnQuoteResponseDto.fromJson;
 
   @override
   OrderEstimation get estimation;
@@ -710,7 +712,7 @@ abstract class _QuoteResponseDto implements QuoteResponseDto {
   String get fixFee;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
+  _$$_DlnQuoteResponseDtoCopyWith<_$_DlnQuoteResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
