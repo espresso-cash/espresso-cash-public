@@ -39,13 +39,13 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
           first: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _Headline(onInfo: _toggleUsdcInfo),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     const _Amount(),
                     const SizedBox(height: 8),
                   ],

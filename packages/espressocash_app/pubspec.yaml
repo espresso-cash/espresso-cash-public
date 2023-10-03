@@ -68,6 +68,7 @@ dependencies:
   share: ^2.0.4
   shared_preferences: ^2.2.0
   sliver_tools: ^0.2.10
+  smooth_page_indicator: ^1.1.0
   solana:
     path: ../solana/
   solana_mobile_wallet:
