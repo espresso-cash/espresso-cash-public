@@ -55,7 +55,7 @@ class ProfileScreen extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         height: _imageSize,
-                        width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.sizeOf(context).width,
                         child: Stack(
                           children: [
                             Center(

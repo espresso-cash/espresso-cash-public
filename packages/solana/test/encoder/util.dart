@@ -25,7 +25,7 @@ Future<AddressLookupTableAccount> createTestAddressLookUpTable(
 Future<List<Ed25519HDPublicKey>> createTestKeys(int count) async {
   final List<Ed25519HDPublicKey> keys = [];
 
-  for (var i = 0; i < count; i++) {
+  for (int i = 0; i < count; i++) {
     final key = await Ed25519HDKeyPair.random();
     keys.add(key.publicKey);
   }

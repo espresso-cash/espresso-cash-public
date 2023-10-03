@@ -32,7 +32,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<void> _onQrScanner() async =>
+  Future<void> _onQrScanner() =>
       context.launchQrScannerFlow(cryptoCurrency: Currency.usdc);
 
   @override
@@ -99,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
                       child: SizedBox(
                         height: max(
                           0,
-                          MediaQuery.of(context).padding.bottom -
+                          MediaQuery.paddingOf(context).bottom -
                               cpNavigationBarheight +
                               8,
                         ),

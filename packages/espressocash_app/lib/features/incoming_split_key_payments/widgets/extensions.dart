@@ -13,7 +13,7 @@ extension ISKPExt on BuildContext {
   Future<String> createISKP({
     required Ed25519HDKeyPair escrow,
     required SplitKeyApiVersion version,
-  }) async =>
+  }) =>
       runWithLoader(this, () async {
         final payment = await sl<ISKPService>().create(
           account: read<MyAccount>().wallet,
@@ -24,7 +24,7 @@ extension ISKPExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryISKP(IncomingSplitKeyPayment payment) async =>
+  Future<void> retryISKP(IncomingSplitKeyPayment payment) =>
       runWithLoader(this, () async {
         await sl<ISKPService>().retry(
           payment,

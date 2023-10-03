@@ -76,7 +76,7 @@ class _ContentState extends State<_Content> {
     if (country != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final index = _countries.indexOf(country);
-        final centerOffset = (context.size?.height ?? 0 - _tileHeight) / 2.5;
+        final centerOffset = ((context.size?.height ?? 0) - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
         _scrollController.jumpTo(offset);
       });

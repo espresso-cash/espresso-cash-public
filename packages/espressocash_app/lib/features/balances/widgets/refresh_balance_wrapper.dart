@@ -37,7 +37,7 @@ class RefreshBalancesWrapper extends StatefulWidget {
 class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _listenForProcessingStateAndThrowOnError(
     Stream<ProcessingState> stream,
-  ) async =>
+  ) =>
       stream
           .firstWhere(
             (state) => switch (state) {
@@ -64,7 +64,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     return _listenForProcessingStateAndThrowOnError(bloc.stream);
   }
 
-  AsyncResult<void> _updateBalances() async {
+  AsyncResult<void> _updateBalances() {
     context.notifyBalanceAffected();
 
     return _listenForProcessingStateAndThrowOnError(sl<BalancesBloc>().stream);

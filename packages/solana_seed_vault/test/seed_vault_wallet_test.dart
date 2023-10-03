@@ -10,7 +10,7 @@ import 'package:solana_seed_vault/src/api.dart';
 import 'seed_vault_wallet_test.mocks.dart';
 
 @GenerateMocks([WalletApiHost])
-Future<void> main() async {
+void main() {
   late MockWalletApiHost apiHost;
 
   setUp(() {

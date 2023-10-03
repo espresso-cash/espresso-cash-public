@@ -35,6 +35,8 @@ void showSnackBar(
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
+
+// ignore: prefer-public-exception-classes, intentionally private
 class _ErrorMessage implements Exception {
   const _ErrorMessage(this.message);
 

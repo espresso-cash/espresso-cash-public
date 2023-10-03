@@ -40,7 +40,7 @@ class OnboardingScreen extends StatelessWidget {
 }
 
 extension on BuildContext {
-  bool get isSmall => MediaQuery.of(this).size.width < 400;
+  bool get isSmall => MediaQuery.sizeOf(this).width < 400;
 }
 
 class OnboardingPadding extends StatelessWidget {

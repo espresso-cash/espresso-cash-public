@@ -12,7 +12,7 @@ import 'package:solana/solana.dart';
 Handler addSwapHandler() =>
     (shelf_router.Router()..post('/getSwapRoute', _swapRouteHandler)).call;
 
-Future<Response> _swapRouteHandler(Request request) async =>
+Future<Response> _swapRouteHandler(Request request) =>
     processRequest<SwapRouteRequestDto, SwapRouteResponseDto>(
       request,
       SwapRouteRequestDto.fromJson,

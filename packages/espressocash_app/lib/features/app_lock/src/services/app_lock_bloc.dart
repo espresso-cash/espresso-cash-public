@@ -89,7 +89,7 @@ class AppLockBloc extends Bloc<AppLockEvent, AppLockState> {
     }
   }
 
-  Future<void> _onLock(AppLockEventLock _, _Emitter emit) async {
+  void _onLock(AppLockEventLock _, _Emitter emit) {
     if (state is! AppLockStateEnabled) return;
     emit(const AppLockState.locked(isRetrying: false));
   }

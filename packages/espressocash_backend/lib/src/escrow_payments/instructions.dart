@@ -83,7 +83,7 @@ class EscrowInstruction {
 
 Future<Ed25519HDPublicKey> _calculatePda(
   Ed25519HDPublicKey escrowAccount,
-) async =>
+) =>
     Ed25519HDPublicKey.findProgramAddress(
       seeds: [
         'ec_shareable_links'.codeUnits,

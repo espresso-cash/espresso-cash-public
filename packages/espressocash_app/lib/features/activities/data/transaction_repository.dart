@@ -112,6 +112,7 @@ extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   }
 }
 
+// ignore: prefer-public-exception-classes, intentionally private
 class _Ignore implements Exception {
   const _Ignore();
 }

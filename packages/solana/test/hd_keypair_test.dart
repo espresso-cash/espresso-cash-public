@@ -22,7 +22,7 @@ void main() {
 
   test('Creating a keypair directly from private key bytes works', () async {
     // Test with a bunch different random keys
-    for (var i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++) {
       final randomKeyPair = await Ed25519HDKeyPair.random();
       final simpleKeyPairData = await randomKeyPair.extract();
       final testKeyPair = await Ed25519HDKeyPair.fromPrivateKeyBytes(
@@ -32,7 +32,7 @@ void main() {
       expect(randomKeyPair.address, equals(testKeyPair.address));
 
       // Sign a bunch of random messages to check that it works
-      for (var j = 0; j < 20; ++j) {
+      for (int j = 0; j < 20; ++j) {
         int random(int _) => _random.nextInt(256);
 
         // Create the seed
@@ -48,7 +48,7 @@ void main() {
 
   test(
     'Can derive a public key from another public key and a seed',
-    () async {
+    () {
       _withSeedKeyDerivationData.forEach((key, value) async {
         final derived = await Ed25519HDPublicKey.createWithSeed(
           fromPublicKey: Ed25519HDPublicKey.fromBase58(key),

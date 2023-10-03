@@ -264,7 +264,7 @@ class _ChartRangeSelector extends StatelessWidget {
         children: ChartInterval.values
             .map(
               (e) => GestureDetector(
-                onTap: () => onItemSelected.call(e),
+                onTap: () => onItemSelected(e),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,

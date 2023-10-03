@@ -17,7 +17,7 @@ extension BuildContextExt on BuildContext {
     required Decimal amountInUsdc,
     required Ed25519HDPublicKey receiver,
     required Ed25519HDPublicKey? reference,
-  }) async =>
+  }) =>
       runWithLoader(this, () async {
         const currency = Currency.usdc;
         final payment = await sl<ODPService>().create(
@@ -35,7 +35,7 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryODP({required OutgoingDirectPayment payment}) async =>
+  Future<void> retryODP({required OutgoingDirectPayment payment}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().retry(
           payment,

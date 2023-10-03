@@ -13,7 +13,7 @@ import '../models/outgoing_split_key_payment.dart';
 import '../services/oskp_service.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<String> createOSKP({required CryptoAmount amount}) async =>
+  Future<String> createOSKP({required CryptoAmount amount}) =>
       runWithLoader(this, () async {
         final payment = await sl<OSKPService>().create(
           amount: amount,
@@ -24,7 +24,7 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> cancelOSKP({required OutgoingSplitKeyPayment payment}) async =>
+  Future<void> cancelOSKP({required OutgoingSplitKeyPayment payment}) =>
       runWithLoader<void>(this, () async {
         await sl<OSKPService>().cancel(
           payment,
@@ -33,7 +33,7 @@ extension BuildContextExt on BuildContext {
         sl<AnalyticsManager>().linksCreated();
       });
 
-  Future<void> retryOSKP({required OutgoingSplitKeyPayment payment}) async =>
+  Future<void> retryOSKP({required OutgoingSplitKeyPayment payment}) =>
       runWithLoader<void>(this, () async {
         await sl<OSKPService>().retry(
           payment,

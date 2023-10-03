@@ -151,8 +151,8 @@ class _TokenDropDownState extends State<_TokenDropDown>
         onTap: () => _toggleDropdown(close: true),
         behavior: HitTestBehavior.translucent,
         child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.sizeOf(context).height,
+          width: MediaQuery.sizeOf(context).width,
           child: Stack(
             children: [
               Positioned(
@@ -183,7 +183,7 @@ class _TokenDropDownState extends State<_TokenDropDown>
                                 ),
                                 child: _Item(
                                   onTap: () {
-                                    widget.onChanged.call(item);
+                                    widget.onChanged(item);
                                     _toggleDropdown();
                                   },
                                   label: item.symbol,

@@ -129,7 +129,7 @@ class Api implements ApiFlutter {
   AuthIssuerConfig? _issuerConfig;
   ScenarioCallbacks? _callbacks;
 
-  static var _instance = Api._();
+  static Api _instance = Api._();
 
   static Api get instance => _instance;
 

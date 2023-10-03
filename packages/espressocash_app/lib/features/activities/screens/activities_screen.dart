@@ -22,7 +22,7 @@ class ActivitiesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).padding.bottom;
+    final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
     final isTransactions = goToTransactions ?? false;
 
