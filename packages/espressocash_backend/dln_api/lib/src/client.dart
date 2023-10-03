@@ -11,8 +11,8 @@ abstract class DlnApiClient {
 
   /// This endpoint returns the recommended take amount for creating DLN order.
   @GET('/order/quote')
-  Future<QuoteResponseDto> getQuote(
-    @Queries() QuoteRequestDto quoteRequestDto,
+  Future<DlnQuoteResponseDto> getQuote(
+    @Queries() DlnQuoteRequestDto quoteRequestDto,
   );
 
   /// This endpoint returns the data for a transaction to place a cross-chain DLN order.

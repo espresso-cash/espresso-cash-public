@@ -13,7 +13,7 @@ void main() {
       final client = DlnApiClient();
 
       final quote = await client.getQuote(
-        const QuoteRequestDto(
+        const DlnQuoteRequestDto(
           srcChainId: '56',
           srcChainTokenIn: '0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d',
           srcChainTokenInAmount: '100000000000000000000',
@@ -23,7 +23,7 @@ void main() {
       );
 
       expect(quote, isNotNull);
-      expect(quote, isA<QuoteResponseDto>());
+      expect(quote, isA<DlnQuoteResponseDto>());
     });
 
     test('createTx', () async {

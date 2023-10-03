@@ -5,8 +5,8 @@ part 'dto.freezed.dart';
 part 'dto.g.dart';
 
 @freezed
-class QuoteRequestDto with _$QuoteRequestDto {
-  const factory QuoteRequestDto({
+class DlnQuoteRequestDto with _$DlnQuoteRequestDto {
+  const factory DlnQuoteRequestDto({
     required String srcChainId,
     required String srcChainTokenIn,
     required String srcChainTokenInAmount,
@@ -21,24 +21,24 @@ class QuoteRequestDto with _$QuoteRequestDto {
     int? slippage,
     double? affiliateFeePercent,
     bool? prependOperatingExpenses,
-  }) = _QuoteRequestDto;
+  }) = _DlnQuoteRequestDto;
 
-  factory QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$QuoteRequestDtoFromJson(json);
+  factory DlnQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$DlnQuoteRequestDtoFromJson(json);
 }
 
 @freezed
-class QuoteResponseDto with _$QuoteResponseDto {
-  const factory QuoteResponseDto({
+class DlnQuoteResponseDto with _$DlnQuoteResponseDto {
+  const factory DlnQuoteResponseDto({
     required OrderEstimation estimation,
     String? prependedOperatingExpenseCost,
     required TxQuote tx,
     required Order order,
     required String fixFee,
-  }) = _QuoteResponseDto;
+  }) = _DlnQuoteResponseDto;
 
-  factory QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$QuoteResponseDtoFromJson(json);
+  factory DlnQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$DlnQuoteResponseDtoFromJson(json);
 }
 
 @freezed
