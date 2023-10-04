@@ -147,12 +147,6 @@ class OSKPService {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
-      final dto = CancelPaymentRequestDto(
-        senderAccount: account.address,
-        escrowAccount: escrow.address,
-        cluster: apiCluster,
-      );
-
       final String transaction;
       final BigInt slot;
       final SignedTx tx;
@@ -171,6 +165,11 @@ class OSKPService {
               .let(SignedTx.decode)
               .let((it) => it.resign(LocalWallet(escrow)));
         case SplitKeyApiVersion.smartContract:
+          final dto = CancelPaymentRequestDto(
+            senderAccount: account.address,
+            escrowAccount: escrow.address,
+            cluster: apiCluster,
+          );
           final response = await _client.cancelPaymentEc(dto);
           transaction = response.transaction;
           slot = response.slot;

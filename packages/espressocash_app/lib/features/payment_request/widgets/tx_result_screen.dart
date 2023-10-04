@@ -35,7 +35,7 @@ class _TxResultScreenState extends State<TxResultScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Builder(
           builder: (context) => Scaffold(
             appBar: CpAppBar(),

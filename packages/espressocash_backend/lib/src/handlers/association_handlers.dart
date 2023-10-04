@@ -5,7 +5,7 @@ import 'package:espressocash_backend/src/apps.dart';
 import 'package:espressocash_backend/src/associations.dart';
 import 'package:shelf/shelf.dart';
 
-Future<Response> assetLinksHandler(Request _) async {
+Response assetLinksHandler(Request _) {
   final assetLinks =
       getAssetLinks(apps.map((a) => a.androidOptions).whereNotNull());
 
@@ -15,7 +15,7 @@ Future<Response> assetLinksHandler(Request _) async {
   );
 }
 
-Future<Response> appAssociationsHandler(Request _) async {
+Response appAssociationsHandler(Request _) {
   final appAssociations =
       getAppAssociations(apps.map((a) => a.iOSOptions).whereNotNull());
 

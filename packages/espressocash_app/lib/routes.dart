@@ -24,7 +24,8 @@ class AppRouter extends $AppRouter {
               page: InvestmentsFlowRoute.page,
               path: '',
               children: [
-                CustomRoute(page: InvestmentsRoute.page, path: ''),
+                AutoRoute(page: MainRoute.page, path: ''),
+                AutoRoute(page: InvestmentsRoute.page),
                 AutoRoute(page: TokenSearchRoute.page),
                 AutoRoute(page: TokenDetailsRoute.page),
               ],
@@ -67,7 +68,6 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: SharePaymentRequestRoute.page, initial: true),
           ],
         ),
-        AutoRoute(page: LinkRequestFlowRoute.page),
         AutoRoute(page: SwapFlowRoute.page),
         AutoRoute(page: ProcessSwapRoute.page),
         AutoRoute(

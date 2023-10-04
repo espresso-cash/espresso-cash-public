@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
@@ -7,6 +10,7 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
+import '../../authenticated/auth_scope.dart';
 
 typedef OnRampOrder = ({
   String orderId,
@@ -17,8 +21,8 @@ typedef OnRampOrder = ({
   bool isCompleted,
 });
 
-@injectable
-class OnRampOrderService {
+@Singleton(scope: authScope)
+class OnRampOrderService implements Disposable {
   const OnRampOrderService(this._db, this._tokens);
 
   final MyDatabase _db;
@@ -80,4 +84,7 @@ class OnRampOrderService {
         .map((rows) => rows.map((r) => (id: r.id, created: r.created)))
         .map((rows) => rows.toIList());
   }
+
+  @override
+  Future<void> onDispose() => _db.delete(_db.onRampOrderRows).go();
 }

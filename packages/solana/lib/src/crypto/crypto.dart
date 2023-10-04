@@ -10,7 +10,7 @@ Future<bool> verifySignature({
   required List<int> message,
   required List<int> signature,
   required Ed25519HDPublicKey publicKey,
-}) async {
+}) {
   final alg = Ed25519();
 
   return alg.verify(

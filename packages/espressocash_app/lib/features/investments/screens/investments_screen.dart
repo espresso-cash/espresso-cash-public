@@ -3,10 +3,11 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/currency.dart';
 import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
@@ -14,35 +15,24 @@ import '../../../ui/theme.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../favorite_tokens/widgets/extensions.dart';
 import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
-import '../../onboarding/onboarding.dart';
 import '../../popular_tokens/widgets/extensions.dart';
 import '../../popular_tokens/widgets/popular_token_list.dart';
-import '../../profile/screens/profile_screen.dart';
-import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../token_search/screens/token_search_screen.dart';
 import '../widgets/crypto_investments.dart';
-import '../widgets/investment_header.dart';
 import '../widgets/popular_crypto_header.dart';
 import '../widgets/start_investing_header.dart';
 
 @RoutePage()
-class InvestmentsScreen extends StatefulWidget {
+class InvestmentsScreen extends StatelessWidget {
   const InvestmentsScreen({super.key});
 
   static const route = InvestmentsRoute.new;
 
   @override
-  State<InvestmentsScreen> createState() => _InvestmentsScreenState();
-}
-
-class _InvestmentsScreenState extends State<InvestmentsScreen> {
-  Future<void> _onQrScanner() async =>
-      context.launchQrScannerFlow(cryptoCurrency: Currency.usdc);
-
-  @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.light(
         child: PageFadeWrapper(
           child: Container(
+            color: Colors.white,
             padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
             child: RefreshBalancesWrapper(
               builder: (context, onRefresh) => RefreshIndicator(
@@ -56,22 +46,18 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                 child: CustomScrollView(
                   slivers: [
                     SliverAppBar(
-                      leading: Center(
-                        child: CpIconButton(
-                          icon: Assets.icons.qrScanner.svg(),
-                          variant: CpIconButtonVariant.black,
-                          onPressed: _onQrScanner,
-                        ),
+                      leading: const Center(
+                        child: CpBackButton(),
                       ),
+                      backgroundColor: Colors.white,
                       shape: const Border(),
                       title: Center(
-                        child: Assets.images.logo.image(height: 32),
+                        child: Text(context.l10n.investingTitle.toUpperCase()),
                       ),
-                      pinned: true,
-                      snap: false,
-                      floating: false,
+                      pinned: false,
+                      snap: true,
+                      floating: true,
                       elevation: 0,
-                      backgroundColor: CpColors.darkBackground,
                       actions: [
                         CpIconButton(
                           icon: Assets.icons.searchButtonIcon
@@ -81,20 +67,10 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                               context.router.push(TokenSearchScreen.route()),
                         ),
                         const SizedBox(width: 12),
-                        CpIconButton(
-                          icon: Assets.icons.settingsButtonIcon
-                              .svg(color: Colors.white),
-                          variant: CpIconButtonVariant.black,
-                          onPressed: () =>
-                              context.router.push(ProfileScreen.route()),
-                        ),
-                        const SizedBox(width: 12),
                       ],
                     ),
-                    const SliverToBoxAdapter(child: InvestmentHeader()),
-                    const SliverToBoxAdapter(child: OnboardingNotice()),
-                    const SliverToBoxAdapter(child: SizedBox(height: 45)),
                     const SliverToBoxAdapter(child: StartInvestingHeader()),
+                    const SliverToBoxAdapter(child: SizedBox(height: 24)),
                     const SliverPadding(
                       padding: EdgeInsets.symmetric(horizontal: 24),
                       sliver: CryptoInvestments(),
@@ -107,7 +83,7 @@ class _InvestmentsScreenState extends State<InvestmentsScreen> {
                       child: SizedBox(
                         height: max(
                           0,
-                          MediaQuery.of(context).padding.bottom -
+                          MediaQuery.paddingOf(context).bottom -
                               cpNavigationBarheight,
                         ),
                       ),

@@ -45,7 +45,7 @@ class Ed25519HDKeyPair extends KeyPair {
       );
 
   /// Generate a new random [Ed25519HDKeyPair]
-  static Future<Ed25519HDKeyPair> random() async {
+  static Future<Ed25519HDKeyPair> random() {
     int random(int _) => _random.nextInt(256);
 
     // Create the seed
@@ -78,7 +78,7 @@ class Ed25519HDKeyPair extends KeyPair {
     String mnemonic, {
     int? account,
     int? change,
-  }) async {
+  }) {
     final List<int> seed = bip39.mnemonicToSeed(mnemonic);
 
     return Ed25519HDKeyPair.fromSeedWithHdPath(

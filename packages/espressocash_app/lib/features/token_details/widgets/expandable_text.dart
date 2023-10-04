@@ -87,6 +87,7 @@ class _ExpandableTextState extends State<ExpandableText> {
     required GestureRecognizer tapRecognizer,
     required bool showLessButton,
   }) =>
+      // ignore: prefer-text-rich, valid case
       RichText(
         text: TextSpan(
           text: text,
@@ -103,6 +104,7 @@ class _ExpandableTextState extends State<ExpandableText> {
       );
 
   RichText _buildEllipsizedText(String text, GestureRecognizer tapRecognizer) =>
+      // ignore: prefer-text-rich, valid case
       RichText(
         text: TextSpan(
           text: text,

@@ -70,7 +70,7 @@ const _titleStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
   color: CpColors.menuPrimaryTextColor,
-  fontWeight: FontWeight.w500,
+  fontWeight: FontWeight.w600,
 );
 
 const _inAmountStyle = TextStyle(

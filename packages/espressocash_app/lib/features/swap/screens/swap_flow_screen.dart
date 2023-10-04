@@ -65,8 +65,7 @@ class _FlowState extends State<SwapFlowScreen> {
 }
 
 extension on BuildContext {
-  Future<String> createSwap(SwapRoute route) async =>
-      runWithLoader(this, () async {
+  Future<String> createSwap(SwapRoute route) => runWithLoader(this, () async {
         final swap = await sl<SwapService>().create(
           route: route,
           account: read<MyAccount>().wallet,

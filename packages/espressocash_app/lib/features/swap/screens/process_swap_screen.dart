@@ -81,7 +81,7 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
 }
 
 extension on BuildContext {
-  Future<void> retrySwap(Swap swap) async => runWithLoader(
+  Future<void> retrySwap(Swap swap) => runWithLoader(
         this,
         () => sl<SwapService>().retry(
           swap,

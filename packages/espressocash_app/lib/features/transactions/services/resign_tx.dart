@@ -6,7 +6,7 @@ import 'package:solana/encoder.dart';
 import '../../accounts/models/ec_wallet.dart';
 
 extension ResignTx on SignedTx {
-  Future<SignedTx> resign(ECWallet wallet) async =>
+  Future<SignedTx> resign(ECWallet wallet) =>
       [this].resignAll(wallet).then((it) => it.first);
 }
 

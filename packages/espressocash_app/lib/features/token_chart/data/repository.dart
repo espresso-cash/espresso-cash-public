@@ -18,7 +18,7 @@ class ChartRepository {
   AsyncResult<IList<TokenChartItem>> getMarketChart(
     Token crypto, {
     required ChartInterval interval,
-  }) async =>
+  }) =>
       _coingeckoClient
           .getCoinChart(
             crypto.extensions?.coingeckoId ?? crypto.name,

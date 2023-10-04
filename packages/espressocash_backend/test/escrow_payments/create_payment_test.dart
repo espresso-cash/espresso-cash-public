@@ -8,7 +8,7 @@ import '../config.dart';
 import '../payments/utils.dart';
 import 'utils.dart';
 
-Future<void> main() async {
+void main() {
   final client = createTestSolanaClient();
 
   /// Initial token amount for the sender after creation.

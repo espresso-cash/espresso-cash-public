@@ -16,7 +16,7 @@ void main() {
     'The map is ordered by the strict positive balances first, '
     'precedence criteria is the not-null coinGeckoId '
     'and amount is the tiebraker',
-    () async {
+    () {
       final random = Random(1);
       const baseToken = Token.sol;
       final baseAmount = Amount.sol(value: 10);

@@ -52,7 +52,7 @@ void main() {
     expect(account.lamports, lessThan(originalLamports));
   });
 
-  test('waitForSignatureStatus throws Exception on timout', () async {
+  test('waitForSignatureStatus throws Exception on timout', () {
     final client = SubscriptionClient.connect(devnetWebsocketUrl);
     expect(
       () => client.waitForSignatureStatus(

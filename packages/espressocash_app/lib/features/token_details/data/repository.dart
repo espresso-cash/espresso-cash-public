@@ -16,7 +16,7 @@ class TokenDetailsRepository {
   AsyncResult<TokenDetails> getTokenDetails({
     required Token token,
     required String fiatCurrency,
-  }) async =>
+  }) =>
       _coingeckoClient
           .getCoinDetails(
             token.extensions?.coingeckoId ?? token.name,

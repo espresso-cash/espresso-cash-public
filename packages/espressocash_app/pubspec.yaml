@@ -68,6 +68,7 @@ dependencies:
   share: ^2.0.4
   shared_preferences: ^2.2.0
   sliver_tools: ^0.2.10
+  smooth_page_indicator: ^1.1.0
   solana:
     path: ../solana/
   solana_mobile_wallet:
@@ -97,7 +98,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.19.0
   mockito: ^5.4.2
   recase: ^4.1.0
   retrofit_generator: ^4.2.0

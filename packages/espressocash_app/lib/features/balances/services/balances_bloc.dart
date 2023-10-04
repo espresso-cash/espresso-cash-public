@@ -52,15 +52,17 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
       final mainAccounts = await Future.wait<_MainTokenAccount?>(
         allAccounts.map((programAccount) async {
-          final pubKey = programAccount.pubkey;
           final account = programAccount.account;
           final data = account.data;
 
           if (data is ParsedAccountData) {
             return data.maybeWhen<Future<_MainTokenAccount?>>(
               splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                account: (a) =>
-                    _MainTokenAccount.create(pubKey, a.info, _tokens),
+                account: (a) => _MainTokenAccount.create(
+                  programAccount.pubkey,
+                  a.info,
+                  _tokens,
+                ),
                 orElse: () async => null,
               ),
               orElse: () async => null,

@@ -41,7 +41,7 @@ class TokenDetailsWidget extends StatelessWidget {
                 children: [
                   _DetailsRowItem(
                     label: context.l10n.marketCapRank,
-                    value: Text('#${data.marketCapRank}'),
+                    value: Text('#${data.marketCapRank ?? ''}'),
                   ),
                 ],
               ),

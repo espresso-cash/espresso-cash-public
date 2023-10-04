@@ -73,7 +73,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
 
   Duration _currentBackoff = _minBackoff;
 
-  Future<void> _waitForTx() async {
+  void _waitForTx() {
     if (!_request.state.isInitial) return;
 
     final reference = _request.payRequest.reference?.firstOrNull;
@@ -94,9 +94,9 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
         _txSubscription?.cancel();
         add(TxAdded(id));
       },
-      onError: (dynamic e) {
+      onError: (dynamic error) {
         _txSubscription?.cancel();
-        add(WaitingFailed(e is Exception ? e : Exception(e)));
+        add(WaitingFailed(error is Exception ? error : Exception(error)));
       },
     );
   }
@@ -114,8 +114,8 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
       final newState = PaymentRequestState.completed(transactionId: id);
       await _repository.save(_request.copyWith(state: newState));
       add(const Succeeded());
-    } on Exception catch (e) {
-      add(VerificationFailed(e, transactionId: id));
+    } on Exception catch (error) {
+      add(VerificationFailed(error, transactionId: id));
     }
   }
 
@@ -134,7 +134,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
     if (_currentBackoff > _maxBackoff) {
       _currentBackoff = _maxBackoff;
     }
-    await _waitForTx();
+    _waitForTx();
   }
 
   Future<void> _onTxAdded(TxAdded event, _Emitter emit) async {
@@ -165,7 +165,7 @@ class PaymentRequestVerifierBloc extends Bloc<_Event, _State> {
     await _verifyTx(event.transactionId);
   }
 
-  Future<void> _onSucceeded(Succeeded _, _Emitter emit) async {
+  void _onSucceeded(Succeeded _, _Emitter emit) {
     emit(const Success());
   }
 }

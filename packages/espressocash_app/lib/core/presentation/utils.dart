@@ -43,5 +43,5 @@ extension StringExt on String {
   }
 
   String withZeroWidthSpaces() =>
-      splitMapJoin('', onMatch: (m) => '${m.group(0)}\u200b');
+      splitMapJoin('', onMatch: (m) => '${m.group(0) ?? ''}\u200b');
 }

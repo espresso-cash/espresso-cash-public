@@ -39,13 +39,13 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
           first: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _Headline(onInfo: _toggleUsdcInfo),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     const _Amount(),
                     const SizedBox(height: 8),
                   ],
@@ -217,8 +217,8 @@ class _Headline extends StatelessWidget {
   final VoidCallback onInfo;
 
   @override
-  Widget build(BuildContext context) => RichText(
-        text: TextSpan(
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
           text: context.l10n.cryptoCashBalance,
           style: const TextStyle(
             color: Colors.white,
@@ -229,8 +229,8 @@ class _Headline extends StatelessWidget {
             WidgetSpan(
               child: GestureDetector(
                 onTap: onInfo,
-                child: RichText(
-                  text: TextSpan(
+                child: Text.rich(
+                  TextSpan(
                     text: context.l10n.inUsdc,
                     style: const TextStyle(
                       fontSize: 16,
@@ -278,7 +278,7 @@ class _HeaderSwitcherState extends State<_HeaderSwitcher> {
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           if (_firstChildHeight == null) {
-            WidgetsBinding.instance.addPostFrameCallback((_) async {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               setState(() {
                 _firstChildHeight = context.size?.height;
               });

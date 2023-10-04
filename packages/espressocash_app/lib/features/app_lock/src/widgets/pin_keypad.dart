@@ -46,7 +46,7 @@ class PinKeypad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.sizeOf(context).height * 0.5,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: GridView.count(

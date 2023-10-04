@@ -88,8 +88,9 @@ class ISKPService {
           .letAsync((it) => it.resign(account));
 
       return ISKPStatus.txCreated(tx, slot: response.slot);
-    } on DioError catch (e) {
-      if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
+    } on DioError catch (error) {
+      if (error.toEspressoCashError() ==
+          EspressoCashError.invalidEscrowAccount) {
         return const ISKPStatus.txFailure(
           reason: TxFailureReason.escrowFailure,
         );
