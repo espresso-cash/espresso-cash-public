@@ -14,7 +14,7 @@ Handler escrowPaymentsHandler() => (shelf_router.Router()
       ..post('/escrow/cancel', cancelPaymentHandler))
     .call;
 
-Future<Response> createPaymentHandler(Request request) async =>
+Future<Response> createPaymentHandler(Request request) =>
     processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
       request,
       CreatePaymentRequestDto.fromJson,
@@ -38,7 +38,7 @@ Future<Response> createPaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> receivePaymentHandler(Request request) async =>
+Future<Response> receivePaymentHandler(Request request) =>
     processRequest<ReceivePaymentRequestDto, ReceivePaymentResponseDto>(
       request,
       ReceivePaymentRequestDto.fromJson,
@@ -61,7 +61,7 @@ Future<Response> receivePaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> cancelPaymentHandler(Request request) async =>
+Future<Response> cancelPaymentHandler(Request request) =>
     processRequest<CancelPaymentRequestDto, CancelPaymentResponseDto>(
       request,
       CancelPaymentRequestDto.fromJson,

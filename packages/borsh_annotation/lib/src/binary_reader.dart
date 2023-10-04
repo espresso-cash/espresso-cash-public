@@ -81,10 +81,11 @@ BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
   BigInt result;
 
   if (list.length == 1) {
+    // ignore: avoid-unnecessary-reassignment, valid case
     result = BigInt.from(list.first);
   } else {
     result = BigInt.zero;
-    for (var i = 0; i < list.length; i++) {
+    for (int i = 0; i < list.length; i++) {
       final item = list[i];
       result |= BigInt.from(item) << (8 * i);
     }

@@ -168,7 +168,7 @@ class _AmountView extends StatelessWidget {
 extension on Amount? {
   String? formatMinimum(Locale locale) {
     final amount = this;
-    var formattedAmount = amount?.format(locale);
+    String? formattedAmount = amount?.format(locale);
 
     if (amount != null && amount < _minimumAmount) {
       final formattedMinimum = _minimumAmount.format(locale);

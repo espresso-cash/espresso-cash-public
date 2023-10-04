@@ -35,7 +35,7 @@ class FavoriteTokenRepository {
         .map((e) => e.map((e) => e.toToken(_tokenList)).toList());
   }
 
-  Future<List<Token>> read() async {
+  Future<List<Token>> read() {
     final query = _db.select(_db.favoriteTokenRows);
 
     return query

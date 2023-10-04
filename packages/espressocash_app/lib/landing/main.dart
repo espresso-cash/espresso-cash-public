@@ -4,7 +4,7 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'screens/landing.dart';
 
-Future<void> main() async {
+void main() {
   setUrlStrategy(const PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
 

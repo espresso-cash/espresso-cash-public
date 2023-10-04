@@ -37,17 +37,17 @@ class TxSender {
       );
 
       return const TxSendResult.sent();
-    } on JsonRpcException catch (e) {
-      if (e.code == JsonRpcErrorCode.minContextSlotNotReached) {
+    } on JsonRpcException catch (error) {
+      if (error.code == JsonRpcErrorCode.minContextSlotNotReached) {
         return const TxSendResult.networkError();
       }
 
-      if (e.isInsufficientFunds) {
+      if (error.isInsufficientFunds) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
         );
       }
-      switch (e.transactionError) {
+      switch (error.transactionError) {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
@@ -65,7 +65,7 @@ class TxSender {
   Future<TxWaitResult> wait(
     SignedTx tx, {
     required BigInt minContextSlot,
-  }) async {
+  }) {
     const commitment = Commitment.confirmed;
 
     Future<TxWaitResult?> getSignatureStatus() async {

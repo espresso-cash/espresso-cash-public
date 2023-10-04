@@ -49,8 +49,8 @@ class TxUpdaterBloc extends Bloc<_Event, _State> {
       await _fetchedRepository.update(_wallet.publicKey);
 
       emit(const TxUpdaterState.none());
-    } on Exception catch (e) {
-      emit(TxUpdaterState.error(e));
+    } on Exception catch (error) {
+      emit(TxUpdaterState.error(error));
       emit(const TxUpdaterState.none());
     }
   }

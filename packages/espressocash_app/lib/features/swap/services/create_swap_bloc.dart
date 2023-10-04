@@ -80,12 +80,12 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   final IMap<Token, Amount> _balances;
   final Ed25519HDPublicKey _userAccount;
 
-  Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async {
+  void _onSlippageUpdated(SlippageUpdated event, _Emitter emit) {
     emit(state.copyWith(slippage: event.slippage));
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async {
+  void _onAmountUpdated(AmountUpdated event, _Emitter emit) {
     emit(
       state.editingMode.map(
         input: always(
@@ -103,15 +103,15 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onEditingModeToggled(
+  void _onEditingModeToggled(
     EditingModeToggled _,
     _Emitter emit,
-  ) async {
+  ) {
     emit(state.toggleEditingMode());
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
+  void _onSubmitted(Submitted _, _Emitter emit) {
     state.validate(_balances).fold(
       (e) {
         emit(state.copyWith(flowState: Flow.failure(e)));
@@ -158,8 +158,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         input: () => emit(state.updateOutputFromRoute(bestRoute)),
         output: () => emit(state.updateInputFromRoute(bestRoute)),
       );
-    } on CreateSwapException catch (e) {
-      emit(state.error(e));
+    } on CreateSwapException catch (error) {
+      emit(state.error(error));
     } on Exception {
       emit(state.error(const CreateSwapException.routeNotFound()));
     }

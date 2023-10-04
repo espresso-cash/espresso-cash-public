@@ -26,8 +26,8 @@ class CompactU16 {
   final List<int> _data;
 
   int get value {
-    var len = 0;
-    var size = 0;
+    int len = 0;
+    int size = 0;
     for (final elem in _data) {
       len |= (elem & 0x7f) << (size * 7);
       size += 1;

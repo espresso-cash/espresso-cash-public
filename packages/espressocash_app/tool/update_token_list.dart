@@ -59,7 +59,7 @@ Future<_Json> _matchTokens(_CoinMap coins) async {
     );
 }
 
-FutureOr<void> _writeToFile(_Json coingecko) async {
+Future<void> _writeToFile(_Json coingecko) async {
   final file = File(_path);
 
   // Let's keep the old non-mainnet tokens, since coingecko only return mainnet

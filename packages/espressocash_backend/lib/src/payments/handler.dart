@@ -30,7 +30,7 @@ Future<Response> getFeesHandler(Request request) =>
       ),
     );
 
-Future<Response> createPaymentHandler(Request request) async =>
+Future<Response> createPaymentHandler(Request request) =>
     processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
       request,
       CreatePaymentRequestDto.fromJson,
@@ -54,7 +54,7 @@ Future<Response> createPaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> receivePaymentHandler(Request request) async =>
+Future<Response> receivePaymentHandler(Request request) =>
     processRequest<ReceivePaymentRequestDto, ReceivePaymentResponseDto>(
       request,
       ReceivePaymentRequestDto.fromJson,
@@ -77,9 +77,8 @@ Future<Response> receivePaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> createDirectPaymentHandler(Request request) async =>
-    processRequest<CreateDirectPaymentRequestDto,
-        CreateDirectPaymentResponseDto>(
+Future<Response> createDirectPaymentHandler(Request request) => processRequest<
+        CreateDirectPaymentRequestDto, CreateDirectPaymentResponseDto>(
       request,
       CreateDirectPaymentRequestDto.fromJson,
       (data) async {

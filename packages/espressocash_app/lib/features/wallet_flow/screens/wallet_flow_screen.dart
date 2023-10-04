@@ -19,7 +19,8 @@ import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../outgoing_split_key_payments/screens/oskp_confirmation_screen.dart';
 import '../../outgoing_split_key_payments/screens/oskp_screen.dart';
 import '../../outgoing_split_key_payments/widgets/extensions.dart';
-import '../../payment_request/screens/link_request_flow_screen.dart';
+import '../../payment_request/screens/link_details_flow_screen.dart';
+import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import 'pay_flow_screen.dart';
 import 'wallet_main_screen.dart';
@@ -77,13 +78,17 @@ class _State extends State<WalletFlowScreen> {
     });
   }
 
-  void _onRequest() {
+  Future<void> _onRequest() async {
     if (_fiatAmount.decimal < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.request);
     }
 
-    context
-        .navigateTo(LinkRequestFlowScreen.route(initialAmount: _cryptoAmount));
+    final id = await context.createPayRequest(tokenAmount: _cryptoAmount);
+    if (!mounted) return;
+
+    await context.router.navigate(LinkDetailsFlowScreen.route(id: id));
+    if (!mounted) return;
+
     setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 

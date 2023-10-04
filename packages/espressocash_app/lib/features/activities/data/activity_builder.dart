@@ -21,11 +21,10 @@ extension ODPRowToActivityExt on ODPRow {
 }
 
 extension OSKPRowToActivityExt on OSKPRow {
-  Future<Activity> toActivity(TokenList tokens) async =>
-      Activity.outgoingSplitKeyPayment(
+  Activity toActivity(TokenList tokens) => Activity.outgoingSplitKeyPayment(
         id: id,
         created: created,
-        data: await toModel(tokens),
+        data: toModel(tokens),
       );
 }
 

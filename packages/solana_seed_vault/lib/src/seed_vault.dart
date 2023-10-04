@@ -23,7 +23,7 @@ class SeedVault implements SeedVaultFlutterApi {
 
   final WalletApiHost _platform;
 
-  static var _instance = SeedVault._(WalletApiHost());
+  static SeedVault _instance = SeedVault._(WalletApiHost());
 
   static SeedVault get instance => _instance;
 
