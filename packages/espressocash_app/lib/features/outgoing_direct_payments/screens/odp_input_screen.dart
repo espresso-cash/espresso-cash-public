@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/blockchain.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
@@ -11,7 +12,6 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../wallet_flow/widgets/pay_item.dart';
-import '../data/blockchain.dart';
 import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);

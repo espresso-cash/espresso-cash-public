@@ -5,8 +5,8 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
+import '../../../core/blockchain.dart';
 import '../../../l10n/l10n.dart';
-import '../data/blockchain.dart';
 
 @RoutePage()
 class NetworkPickerScreen extends StatelessWidget {
