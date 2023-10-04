@@ -165,6 +165,8 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 38) {
             await m.alterTable(TableMigration(paymentRequestRows));
+            await m.createTable(oLPRows);
+            await m.createTable(iLPRows);
           }
         },
       );
