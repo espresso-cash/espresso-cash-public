@@ -38,10 +38,9 @@ extension SwapRowToActivityExt on SwapRow {
 }
 
 extension OLPRowToActivityExt on OLPRow {
-  Future<Activity> toActivity(TokenList tokens) async =>
-      Activity.outgoingLinkPayment(
+  Activity toActivity(TokenList tokens) => Activity.outgoingLinkPayment(
         id: id,
         created: created,
-        data: await toModel(tokens),
+        data: toModel(tokens),
       );
 }

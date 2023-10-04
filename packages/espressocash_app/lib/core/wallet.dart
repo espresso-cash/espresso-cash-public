@@ -77,7 +77,7 @@ Future<Wallet> walletFromParts({
 
 Future<Wallet> walletFromKey({
   required String encodedKey,
-}) async {
+}) {
   final key = ByteArray.fromBase58(encodedKey).toList();
 
   return Wallet.fromPrivateKeyBytes(privateKey: key);

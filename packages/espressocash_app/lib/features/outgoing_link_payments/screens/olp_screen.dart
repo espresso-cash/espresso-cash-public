@@ -91,7 +91,7 @@ class _OLPScreenState extends State<OLPScreen> {
           final cancelButton = Padding(
             padding: EdgeInsets.only(
               top: 24,
-              bottom: MediaQuery.of(context).padding.bottom + 16,
+              bottom: MediaQuery.paddingOf(context).bottom + 16,
             ),
             child: CpTextButton(
               text: context.l10n.outgoingSplitKeyPayments_btnCancel,

@@ -109,10 +109,8 @@ class OLPRepository {
 
     return query
         .watch()
-        .asyncMap(
-          (rows) => Future.wait(rows.map((row) => row.toModel(_tokens))),
-        )
-        .map((event) => event.lock);
+        .map((rows) => rows.map((row) => row.toModel(_tokens)))
+        .map((event) => event.toIList());
   }
 }
 
@@ -154,21 +152,20 @@ enum OLPStatusDto {
 }
 
 extension OLPRowExt on OLPRow {
-  Future<OutgoingLinkPayment> toModel(TokenList tokens) async =>
-      OutgoingLinkPayment(
+  OutgoingLinkPayment toModel(TokenList tokens) => OutgoingLinkPayment(
         id: id,
         created: created,
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
         ),
-        status: await status.toOLPStatus(this),
+        status: status.toOLPStatus(this),
         linksGeneratedAt: generatedLinksAt,
       );
 }
 
 extension on OLPStatusDto {
-  Future<OLPStatus> toOLPStatus(OLPRow row) async {
+  OLPStatus toOLPStatus(OLPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
     final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
@@ -299,7 +296,7 @@ extension on OLPStatus {
         canceled: (it) => it.txId,
       );
 
-  Future<String?> toPrivateKey() async => this.map(
+  Future<String?> toPrivateKey() => this.map(
         txCreated: (it) async => base58encode(it.escrow.bytes),
         txSent: (it) async => base58encode(it.escrow.bytes),
         txConfirmed: (it) async => base58encode(it.escrow.bytes),

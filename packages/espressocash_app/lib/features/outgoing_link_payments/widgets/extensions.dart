@@ -13,7 +13,7 @@ import '../models/outgoing_link_payment.dart';
 import '../services/olp_service.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<String> createOLP({required CryptoAmount amount}) async =>
+  Future<String> createOLP({required CryptoAmount amount}) =>
       runWithLoader(this, () async {
         final payment = await sl<OLPService>().create(
           amount: amount,
@@ -24,7 +24,7 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> cancelOLP({required OutgoingLinkPayment payment}) async =>
+  Future<void> cancelOLP({required OutgoingLinkPayment payment}) =>
       runWithLoader<void>(this, () async {
         await sl<OLPService>().cancel(
           payment,
@@ -33,7 +33,7 @@ extension BuildContextExt on BuildContext {
         sl<AnalyticsManager>().linksCreated();
       });
 
-  Future<void> retryOLP({required OutgoingLinkPayment payment}) async =>
+  Future<void> retryOLP({required OutgoingLinkPayment payment}) =>
       runWithLoader<void>(this, () async {
         await sl<OLPService>().retry(
           payment,

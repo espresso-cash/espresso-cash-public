@@ -11,7 +11,7 @@ import '../services/ilp_service.dart';
 extension BuildContextExt on BuildContext {
   Future<String> createILP({
     required Ed25519HDKeyPair escrow,
-  }) async =>
+  }) =>
       runWithLoader(this, () async {
         final payment = await sl<ILPService>().create(
           account: read<MyAccount>().wallet,
@@ -21,7 +21,7 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryILP(IncomingLinkPayment payment) async =>
+  Future<void> retryILP(IncomingLinkPayment payment) =>
       runWithLoader(this, () async {
         await sl<ILPService>().retry(
           payment,

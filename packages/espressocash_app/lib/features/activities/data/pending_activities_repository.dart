@@ -51,10 +51,8 @@ class PendingActivitiesRepository {
         oskp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
-    final olpStream = olp
-        .watch()
-        .map((rows) => rows.map((r) => r.toActivity(_tokens)))
-        .asyncMap(Future.wait);
+    final olpStream =
+        olp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
 
     final onRampStream = _onRampOrderService.watchPending().map(
           (rows) =>
