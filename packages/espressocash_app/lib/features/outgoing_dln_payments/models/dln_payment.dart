@@ -8,7 +8,7 @@ part 'dln_payment.freezed.dart';
 @freezed
 class DlnPayment with _$DlnPayment {
   const factory DlnPayment({
-    required CryptoAmount amount,
+    required CryptoAmount inputAmount,
     required String receiverAddress,
     required Blockchain receiverBlockchain,
   }) = _DlnPayment;

@@ -11,8 +11,8 @@ part 'payment.freezed.dart';
 @freezed
 class QuoteTransaction with _$QuoteTransaction {
   const factory QuoteTransaction({
-    required String amount,
-    required String outAmount,
+    required String senderDeductAmount,
+    required String receiverAmount,
     required int fee,
     required SignedTx transaction,
     required BigInt slot,
@@ -58,8 +58,7 @@ class DlnPayment {
       receiverChain: chain,
     );
 
-    final dlnTx =
-        SignedTx.fromBytes(hex.decode(quote.hexTx.replaceAll('0x', '')));
+    final dlnTx = SignedTx.fromBytes(hex.decode(quote.tx.replaceAll('0x', '')));
 
     final addressTableLookups = dlnTx.compiledMessage.map(
       legacy: (_) => <MessageAddressTableLookup>[],
@@ -91,9 +90,9 @@ class DlnPayment {
     );
 
     return QuoteTransaction(
-      amount: amount,
-      outAmount: '',
-      fee: 0,
+      senderDeductAmount: quote.senderDeductAmount,
+      receiverAmount: quote.receiverAmount,
+      fee: 0, //TODO
       transaction: tx,
       slot: latestBlockhash.context.slot,
     );

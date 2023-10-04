@@ -54,7 +54,7 @@ class _OutgoingDlnPaymentDetailsScreenState
                   success: (status) => TransferSuccess(
                     onBack: () => context.router.pop(),
                     onOkPressed: () => context.router.pop(),
-                    statusContent: 'success //TODO',
+                    statusContent: 'Transaction has been sent!',
                     onMoreDetailsPressed: () {
                       final link = status.tx.id
                           .let(createTransactionLink)

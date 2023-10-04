@@ -27,8 +27,8 @@ Map<String, dynamic> _$$_PaymentQuoteRequestDtoToJson(
 _$_PaymentQuoteResponseDto _$$_PaymentQuoteResponseDtoFromJson(
         Map<String, dynamic> json) =>
     _$_PaymentQuoteResponseDto(
-      amount: json['amount'] as String,
-      outAmount: json['outAmount'] as String,
+      senderDeductAmount: json['senderDeductAmount'] as String,
+      receiverAmount: json['receiverAmount'] as String,
       encodedTx: json['encodedTx'] as String,
       feeInUsdc: json['feeInUsdc'] as int,
       slot: BigInt.parse(json['slot'] as String),
@@ -37,8 +37,8 @@ _$_PaymentQuoteResponseDto _$$_PaymentQuoteResponseDtoFromJson(
 Map<String, dynamic> _$$_PaymentQuoteResponseDtoToJson(
         _$_PaymentQuoteResponseDto instance) =>
     <String, dynamic>{
-      'amount': instance.amount,
-      'outAmount': instance.outAmount,
+      'senderDeductAmount': instance.senderDeductAmount,
+      'receiverAmount': instance.receiverAmount,
       'encodedTx': instance.encodedTx,
       'feeInUsdc': instance.feeInUsdc,
       'slot': instance.slot.toString(),

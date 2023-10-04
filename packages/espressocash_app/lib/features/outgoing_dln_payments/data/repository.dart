@@ -102,7 +102,7 @@ extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {
         payment: DlnPayment(
           receiverAddress: receiverAddress,
           receiverBlockchain: receiverBlockchain.toModel(),
-          amount: CryptoAmount(
+          inputAmount: CryptoAmount(
             value: amount,
             cryptoCurrency: Currency.usdc,
           ),
@@ -158,7 +158,7 @@ extension on OutgoingDlnPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
-        amount: payment.amount.value,
+        amount: payment.inputAmount.value,
         slot: status.toSlot().toString(),
         receiverBlockchain: payment.receiverBlockchain.toDto(),
         receiverAddress: payment.receiverAddress,

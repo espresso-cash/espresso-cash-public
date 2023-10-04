@@ -50,7 +50,7 @@ class _OutgoingDlnConfirmationScreenState
 
     _bloc = sl<ConfirmPaymentBloc>(
       param1: DlnPayment(
-        amount: widget.amount,
+        inputAmount: widget.amount,
         receiverAddress: widget.receiverAddress,
         receiverBlockchain: widget.blockchain,
       ),
@@ -118,13 +118,26 @@ class _OutgoingDlnConfirmationScreenState
                   value: widget.receiverAddress,
                   backgroundColor: Colors.black,
                 ),
-                _Item(
-                  title: 'Amount',
-                  value: widget.amount.format(DeviceLocale.localeOf(context)),
-                  backgroundColor: Colors.black,
-                ),
-                const SizedBox(height: 6),
-                if (state.flowState.isProcessing) const _Loading(),
+                if (state.flowState.isProcessing && state.quote == null)
+                  const _Loading()
+                else ...[
+                  _Item(
+                    title: 'Receiver Receives',
+                    value: state.quote?.receiverAmount.format(
+                          DeviceLocale.localeOf(context),
+                        ) ??
+                        '',
+                    backgroundColor: Colors.black,
+                  ),
+                  _Item(
+                    title: 'You get deducted',
+                    value: state.quote?.senderDeductAmount.format(
+                          DeviceLocale.localeOf(context),
+                        ) ??
+                        '',
+                    backgroundColor: Colors.black,
+                  ),
+                ],
                 const Spacer(),
                 const SizedBox(height: 6),
                 CpContentPadding(

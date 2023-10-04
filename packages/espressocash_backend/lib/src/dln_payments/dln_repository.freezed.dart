@@ -16,9 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$QuoteInfo {
-  String get hexTx => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
-  String get outAmount => throw _privateConstructorUsedError;
+  String get tx => throw _privateConstructorUsedError;
+  String get inputAmount => throw _privateConstructorUsedError;
+  String get senderDeductAmount => throw _privateConstructorUsedError;
+  String get receiverAmount => throw _privateConstructorUsedError;
   num get totalFees => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -31,7 +32,12 @@ abstract class $QuoteInfoCopyWith<$Res> {
   factory $QuoteInfoCopyWith(QuoteInfo value, $Res Function(QuoteInfo) then) =
       _$QuoteInfoCopyWithImpl<$Res, QuoteInfo>;
   @useResult
-  $Res call({String hexTx, String amount, String outAmount, num totalFees});
+  $Res call(
+      {String tx,
+      String inputAmount,
+      String senderDeductAmount,
+      String receiverAmount,
+      num totalFees});
 }
 
 /// @nodoc
@@ -47,23 +53,28 @@ class _$QuoteInfoCopyWithImpl<$Res, $Val extends QuoteInfo>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hexTx = null,
-    Object? amount = null,
-    Object? outAmount = null,
+    Object? tx = null,
+    Object? inputAmount = null,
+    Object? senderDeductAmount = null,
+    Object? receiverAmount = null,
     Object? totalFees = null,
   }) {
     return _then(_value.copyWith(
-      hexTx: null == hexTx
-          ? _value.hexTx
-          : hexTx // ignore: cast_nullable_to_non_nullable
+      tx: null == tx
+          ? _value.tx
+          : tx // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      inputAmount: null == inputAmount
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
+      senderDeductAmount: null == senderDeductAmount
+          ? _value.senderDeductAmount
+          : senderDeductAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
               as String,
       totalFees: null == totalFees
           ? _value.totalFees
@@ -80,7 +91,12 @@ abstract class _$$_RouteInfoCopyWith<$Res> implements $QuoteInfoCopyWith<$Res> {
       __$$_RouteInfoCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String hexTx, String amount, String outAmount, num totalFees});
+  $Res call(
+      {String tx,
+      String inputAmount,
+      String senderDeductAmount,
+      String receiverAmount,
+      num totalFees});
 }
 
 /// @nodoc
@@ -94,23 +110,28 @@ class __$$_RouteInfoCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hexTx = null,
-    Object? amount = null,
-    Object? outAmount = null,
+    Object? tx = null,
+    Object? inputAmount = null,
+    Object? senderDeductAmount = null,
+    Object? receiverAmount = null,
     Object? totalFees = null,
   }) {
     return _then(_$_RouteInfo(
-      hexTx: null == hexTx
-          ? _value.hexTx
-          : hexTx // ignore: cast_nullable_to_non_nullable
+      tx: null == tx
+          ? _value.tx
+          : tx // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      inputAmount: null == inputAmount
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
+      senderDeductAmount: null == senderDeductAmount
+          ? _value.senderDeductAmount
+          : senderDeductAmount // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
               as String,
       totalFees: null == totalFees
           ? _value.totalFees
@@ -124,23 +145,26 @@ class __$$_RouteInfoCopyWithImpl<$Res>
 
 class _$_RouteInfo implements _RouteInfo {
   const _$_RouteInfo(
-      {required this.hexTx,
-      required this.amount,
-      required this.outAmount,
+      {required this.tx,
+      required this.inputAmount,
+      required this.senderDeductAmount,
+      required this.receiverAmount,
       required this.totalFees});
 
   @override
-  final String hexTx;
+  final String tx;
   @override
-  final String amount;
+  final String inputAmount;
   @override
-  final String outAmount;
+  final String senderDeductAmount;
+  @override
+  final String receiverAmount;
   @override
   final num totalFees;
 
   @override
   String toString() {
-    return 'QuoteInfo(hexTx: $hexTx, amount: $amount, outAmount: $outAmount, totalFees: $totalFees)';
+    return 'QuoteInfo(tx: $tx, inputAmount: $inputAmount, senderDeductAmount: $senderDeductAmount, receiverAmount: $receiverAmount, totalFees: $totalFees)';
   }
 
   @override
@@ -148,17 +172,20 @@ class _$_RouteInfo implements _RouteInfo {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RouteInfo &&
-            (identical(other.hexTx, hexTx) || other.hexTx == hexTx) &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
+            (identical(other.tx, tx) || other.tx == tx) &&
+            (identical(other.inputAmount, inputAmount) ||
+                other.inputAmount == inputAmount) &&
+            (identical(other.senderDeductAmount, senderDeductAmount) ||
+                other.senderDeductAmount == senderDeductAmount) &&
+            (identical(other.receiverAmount, receiverAmount) ||
+                other.receiverAmount == receiverAmount) &&
             (identical(other.totalFees, totalFees) ||
                 other.totalFees == totalFees));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, hexTx, amount, outAmount, totalFees);
+  int get hashCode => Object.hash(runtimeType, tx, inputAmount,
+      senderDeductAmount, receiverAmount, totalFees);
 
   @JsonKey(ignore: true)
   @override
@@ -169,17 +196,20 @@ class _$_RouteInfo implements _RouteInfo {
 
 abstract class _RouteInfo implements QuoteInfo {
   const factory _RouteInfo(
-      {required final String hexTx,
-      required final String amount,
-      required final String outAmount,
+      {required final String tx,
+      required final String inputAmount,
+      required final String senderDeductAmount,
+      required final String receiverAmount,
       required final num totalFees}) = _$_RouteInfo;
 
   @override
-  String get hexTx;
+  String get tx;
   @override
-  String get amount;
+  String get inputAmount;
   @override
-  String get outAmount;
+  String get senderDeductAmount;
+  @override
+  String get receiverAmount;
   @override
   num get totalFees;
   @override

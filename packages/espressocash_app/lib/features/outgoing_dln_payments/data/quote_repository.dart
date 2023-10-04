@@ -32,13 +32,22 @@ class QuoteRepository {
 
     return PaymentQuote(
       payment: DlnPayment(
-        amount: amount,
+        inputAmount: amount,
         receiverAddress: receiverAddress,
         receiverBlockchain: receiverBlockchain,
       ),
-      // outAmount: int.parse(quote.outAmount),
-      outAmount: 1, //TODO
-      fee: CryptoAmount(cryptoCurrency: Currency.usdc, value: quote.feeInUsdc),
+      receiverAmount: CryptoAmount(
+        cryptoCurrency: Currency.usdc,
+        value: int.parse(quote.receiverAmount),
+      ),
+      senderDeductAmount: CryptoAmount(
+        cryptoCurrency: Currency.usdc,
+        value: int.parse(quote.senderDeductAmount),
+      ),
+      fee: CryptoAmount(
+        cryptoCurrency: Currency.usdc,
+        value: quote.feeInUsdc,
+      ),
       encodedTx: quote.encodedTx,
       slot: quote.slot,
     );

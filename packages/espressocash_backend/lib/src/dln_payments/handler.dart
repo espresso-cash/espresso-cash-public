@@ -32,8 +32,8 @@ Future<Response?> _dlnQuoteHandler(Request request) =>
         );
 
         return PaymentQuoteResponseDto(
-          amount: tx.amount,
-          outAmount: tx.outAmount,
+          receiverAmount: tx.receiverAmount,
+          senderDeductAmount: tx.senderDeductAmount,
           feeInUsdc: tx.fee,
           slot: tx.slot,
           encodedTx: tx.transaction.encode(),

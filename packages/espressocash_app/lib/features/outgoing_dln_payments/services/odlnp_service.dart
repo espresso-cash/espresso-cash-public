@@ -57,7 +57,7 @@ class OutgoingDlnPaymentService {
   }) async {
     try {
       final route = await _routeRepository.getQuote(
-        amount: payment.amount,
+        amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
         receiverBlockchain: payment.receiverBlockchain,
         userPublicKey: account.address,

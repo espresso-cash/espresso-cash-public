@@ -80,7 +80,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
     try {
       final bestRoute = await _routeRepository.getQuote(
-        amount: payment.amount,
+        amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
         receiverBlockchain: payment.receiverBlockchain,
         userPublicKey: _userAccount.toBase58(),

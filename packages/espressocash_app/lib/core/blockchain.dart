@@ -1,3 +1,4 @@
+import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:solana/solana.dart';
 
 enum Blockchain { solana, arbitrum }
@@ -10,7 +11,7 @@ extension BlockchainExt on Blockchain {
 
   bool validate(String text) => switch (this) {
         Blockchain.solana => isValidAddress(text),
-        Blockchain.arbitrum => true, //TODO setup erc20 validation
+        Blockchain.arbitrum => isValidEthereumAddress(text),
       };
 
   String get value => switch (this) {

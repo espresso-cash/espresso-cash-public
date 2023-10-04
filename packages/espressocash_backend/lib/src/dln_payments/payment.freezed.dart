@@ -16,8 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$QuoteTransaction {
-  String get amount => throw _privateConstructorUsedError;
-  String get outAmount => throw _privateConstructorUsedError;
+  String get senderDeductAmount => throw _privateConstructorUsedError;
+  String get receiverAmount => throw _privateConstructorUsedError;
   int get fee => throw _privateConstructorUsedError;
   SignedTx get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
@@ -34,8 +34,8 @@ abstract class $QuoteTransactionCopyWith<$Res> {
       _$QuoteTransactionCopyWithImpl<$Res, QuoteTransaction>;
   @useResult
   $Res call(
-      {String amount,
-      String outAmount,
+      {String senderDeductAmount,
+      String receiverAmount,
       int fee,
       SignedTx transaction,
       BigInt slot});
@@ -56,20 +56,20 @@ class _$QuoteTransactionCopyWithImpl<$Res, $Val extends QuoteTransaction>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = null,
-    Object? outAmount = null,
+    Object? senderDeductAmount = null,
+    Object? receiverAmount = null,
     Object? fee = null,
     Object? transaction = null,
     Object? slot = null,
   }) {
     return _then(_value.copyWith(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      senderDeductAmount: null == senderDeductAmount
+          ? _value.senderDeductAmount
+          : senderDeductAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
               as String,
       fee: null == fee
           ? _value.fee
@@ -104,8 +104,8 @@ abstract class _$$_QuoteTransactionCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String amount,
-      String outAmount,
+      {String senderDeductAmount,
+      String receiverAmount,
       int fee,
       SignedTx transaction,
       BigInt slot});
@@ -125,20 +125,20 @@ class __$$_QuoteTransactionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? amount = null,
-    Object? outAmount = null,
+    Object? senderDeductAmount = null,
+    Object? receiverAmount = null,
     Object? fee = null,
     Object? transaction = null,
     Object? slot = null,
   }) {
     return _then(_$_QuoteTransaction(
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
+      senderDeductAmount: null == senderDeductAmount
+          ? _value.senderDeductAmount
+          : senderDeductAmount // ignore: cast_nullable_to_non_nullable
               as String,
-      outAmount: null == outAmount
-          ? _value.outAmount
-          : outAmount // ignore: cast_nullable_to_non_nullable
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
               as String,
       fee: null == fee
           ? _value.fee
@@ -160,16 +160,16 @@ class __$$_QuoteTransactionCopyWithImpl<$Res>
 
 class _$_QuoteTransaction implements _QuoteTransaction {
   const _$_QuoteTransaction(
-      {required this.amount,
-      required this.outAmount,
+      {required this.senderDeductAmount,
+      required this.receiverAmount,
       required this.fee,
       required this.transaction,
       required this.slot});
 
   @override
-  final String amount;
+  final String senderDeductAmount;
   @override
-  final String outAmount;
+  final String receiverAmount;
   @override
   final int fee;
   @override
@@ -179,7 +179,7 @@ class _$_QuoteTransaction implements _QuoteTransaction {
 
   @override
   String toString() {
-    return 'QuoteTransaction(amount: $amount, outAmount: $outAmount, fee: $fee, transaction: $transaction, slot: $slot)';
+    return 'QuoteTransaction(senderDeductAmount: $senderDeductAmount, receiverAmount: $receiverAmount, fee: $fee, transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -187,9 +187,10 @@ class _$_QuoteTransaction implements _QuoteTransaction {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_QuoteTransaction &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.outAmount, outAmount) ||
-                other.outAmount == outAmount) &&
+            (identical(other.senderDeductAmount, senderDeductAmount) ||
+                other.senderDeductAmount == senderDeductAmount) &&
+            (identical(other.receiverAmount, receiverAmount) ||
+                other.receiverAmount == receiverAmount) &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
@@ -197,8 +198,8 @@ class _$_QuoteTransaction implements _QuoteTransaction {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, amount, outAmount, fee, transaction, slot);
+  int get hashCode => Object.hash(
+      runtimeType, senderDeductAmount, receiverAmount, fee, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -209,16 +210,16 @@ class _$_QuoteTransaction implements _QuoteTransaction {
 
 abstract class _QuoteTransaction implements QuoteTransaction {
   const factory _QuoteTransaction(
-      {required final String amount,
-      required final String outAmount,
+      {required final String senderDeductAmount,
+      required final String receiverAmount,
       required final int fee,
       required final SignedTx transaction,
       required final BigInt slot}) = _$_QuoteTransaction;
 
   @override
-  String get amount;
+  String get senderDeductAmount;
   @override
-  String get outAmount;
+  String get receiverAmount;
   @override
   int get fee;
   @override

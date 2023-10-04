@@ -7,9 +7,10 @@ part 'dln_repository.freezed.dart';
 @freezed
 class QuoteInfo with _$QuoteInfo {
   const factory QuoteInfo({
-    required String hexTx,
-    required String amount,
-    required String outAmount,
+    required String tx,
+    required String inputAmount,
+    required String senderDeductAmount,
+    required String receiverAmount,
     required num totalFees,
   }) = _RouteInfo;
 }
@@ -30,6 +31,7 @@ class DlnRepository {
         srcChainTokenInAmount: amount,
         dstChainId: receiverChain.chainId,
         dstChainTokenOut: receiverChain.usdcAddress,
+        prependOperatingExpenses: true,
       ),
     );
 
@@ -40,7 +42,7 @@ class DlnRepository {
           CreateTxRequestDto(
             srcChainId: DlnChains.solana.chainId,
             srcChainTokenIn: mainnetUsdc.toBase58(),
-            srcChainTokenInAmount: amount,
+            srcChainTokenInAmount: estimation.srcChainTokenIn.amount,
             dstChainId: receiverChain.chainId,
             dstChainTokenOut: receiverChain.usdcAddress,
             dstChainTokenOutAmount:
@@ -53,9 +55,10 @@ class DlnRepository {
         .then((resp) => resp.tx.data);
 
     return QuoteInfo(
-      hexTx: tx,
-      amount: '',
-      outAmount: '',
+      tx: tx,
+      inputAmount: amount,
+      senderDeductAmount: estimation.srcChainTokenIn.amount,
+      receiverAmount: estimation.dstChainTokenOut.recommendedAmount,
       totalFees: 0, //TODO
     );
   }
