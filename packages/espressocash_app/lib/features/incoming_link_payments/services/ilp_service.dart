@@ -80,8 +80,9 @@ class ILPService {
           .letAsync((it) => it.resign(account));
 
       return ILPStatus.txCreated(tx, slot: response.slot);
-    } on DioError catch (e) {
-      if (e.toEspressoCashError() == EspressoCashError.invalidEscrowAccount) {
+    } on DioError catch (error) {
+      if (error.toEspressoCashError() ==
+          EspressoCashError.invalidEscrowAccount) {
         return const ILPStatus.txFailure(
           reason: TxFailureReason.escrowFailure,
         );

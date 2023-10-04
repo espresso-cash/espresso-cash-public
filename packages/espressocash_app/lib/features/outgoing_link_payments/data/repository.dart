@@ -167,12 +167,9 @@ extension OLPRowExt on OLPRow {
 extension on OLPStatusDto {
   OLPStatus toOLPStatus(OLPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
-    final txId = row.txId;
     final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
-    final link = row.link?.let(Uri.parse);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
-    final cancelTxId = row.cancelTxId;
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
 
@@ -186,6 +183,8 @@ extension on OLPStatusDto {
         );
       case OLPStatusDto.txWaitFailure:
       case OLPStatusDto.txSent:
+        final txId = row.txId;
+
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
@@ -195,6 +194,8 @@ extension on OLPStatusDto {
       case OLPStatusDto.txConfirmed:
         return OLPStatus.txConfirmed(escrow: escrow!);
       case OLPStatusDto.linkReady:
+        final link = row.link?.let(Uri.parse);
+
         return OLPStatus.linkReady(
           link: link!,
           escrow: escrow!,
@@ -202,6 +203,7 @@ extension on OLPStatusDto {
       case OLPStatusDto.withdrawn:
         return OLPStatus.withdrawn(txId: withdrawTxId!, timestamp: resolvedAt);
       case OLPStatusDto.canceled:
+        final cancelTxId = row.cancelTxId;
         if (cancelTxId == null && withdrawTxId != null) {
           // For compatibility with old versions
           return OLPStatus.canceled(

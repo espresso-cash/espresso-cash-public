@@ -64,9 +64,9 @@ class TxReadyWatcher {
         final status = payment.status;
         if (status is! OLPStatusLinkReady) continue;
 
-        final escrowAccount = await status.escrow.keyPair;
-
         if (!_subscriptions.containsKey(payment.id)) {
+          final escrowAccount = await status.escrow.keyPair;
+
           _subscriptions[payment.id] =
               _createStream(account: escrowAccount.publicKey).listen(onSuccess);
         }
