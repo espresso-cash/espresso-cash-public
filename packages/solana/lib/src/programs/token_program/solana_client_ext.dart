@@ -98,7 +98,7 @@ extension SolanaClientTokenProgram on SolanaClient {
     required Ed25519HDKeyPair authority,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
-  }) async {
+  }) {
     final instruction = TokenInstruction.mintTo(
       mint: mint,
       destination: destination,

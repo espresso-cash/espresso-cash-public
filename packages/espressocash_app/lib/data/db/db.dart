@@ -164,8 +164,7 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(onRampOrderRows);
           }
           if (from < 38) {
-            await m.createTable(oLPRows);
-            await m.createTable(iLPRows);
+            await m.alterTable(TableMigration(paymentRequestRows));
           }
         },
       );

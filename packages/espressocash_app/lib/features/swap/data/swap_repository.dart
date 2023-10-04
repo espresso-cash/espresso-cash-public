@@ -43,8 +43,8 @@ class SwapRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
-  Future<void> save(Swap payment) async =>
-      _db.into(_db.swapRows).insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(Swap payment) =>
+      _db.into(_db.swapRows).insertOnConflictUpdate(payment.toDto());
 
   Future<void> clear() => _db.delete(_db.swapRows).go();
 
@@ -151,7 +151,7 @@ extension on SlippageDto {
 }
 
 extension on Swap {
-  Future<SwapRow> toDto() async => SwapRow(
+  SwapRow toDto() => SwapRow(
         id: id,
         created: created,
         status: status.toDto(),

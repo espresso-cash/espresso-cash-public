@@ -123,14 +123,14 @@ class _TokenSymbolWidget extends StatelessWidget {
           padding: const EdgeInsets.all(6),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
-            color: CpColors.lightPillBackgroundColor,
+            color: CpColors.darkSplashBackgroundColor,
           ),
           child: Center(
             widthFactor: 1,
             child: Text(
               symbol.toUpperCase(),
               style: const TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
               ),

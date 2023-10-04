@@ -18,7 +18,7 @@ final sl = GetIt.instance;
   preferRelativeImports: false,
   throwOnMissingDependencies: true,
 )
-Future<void> configureDependencies() async => sl.init();
+Future<void> configureDependencies() => sl.init();
 
 @module
 abstract class AppModule {

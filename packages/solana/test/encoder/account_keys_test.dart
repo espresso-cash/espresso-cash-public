@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-Future<void> main() async {
+void main() {
   test('Key segments', () async {
     final keys = await createTestKeys(6);
     final staticAccountKeys = keys.getRange(0, 3).toList();

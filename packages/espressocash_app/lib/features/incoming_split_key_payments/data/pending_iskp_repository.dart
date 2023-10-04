@@ -23,12 +23,12 @@ class PendingISKPRepository {
     }
   }
 
-  Future<void> save(SplitKeyFirstLink firstPart) async =>
+  Future<void> save(SplitKeyFirstLink firstPart) =>
       SharedPreferences.getInstance().then(
         (value) => value.setString(_key, jsonEncode(firstPart.toJson())),
       );
 
-  Future<void> clear() async =>
+  Future<void> clear() =>
       SharedPreferences.getInstance().then((value) => value.remove(_key));
 
   static const _key = 'pending_iskp';

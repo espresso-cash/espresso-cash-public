@@ -282,12 +282,9 @@
   "@paymentInitiated": {},
   "paymentRequestCancel": "Отменить запрос",
   "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Не удалось произвести оплату {amount} за {label}.",
+  "paymentRequestFailureNotificationTitle": "Не удалось произвести оплату {amount}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      },
       "amount": {
         "type": "String"
       }
@@ -297,21 +294,18 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount} за {label} был оплачен.",
+  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount} был оплачен.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
-      },
-      "label": {
-        "type": "String"
       }
     }
   },
-  "paymentRequestTitle": "Запрос на оплату за {label}",
+  "paymentRequestTitle": "Запрос на оплату {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
-      "label": {
+      "amount": {
         "type": "String"
       }
     }

@@ -141,7 +141,7 @@ class _ContentState extends State<_Content> {
                   alignment: Alignment.topRight,
                   child: IconButton(
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 16,
+                      top: MediaQuery.paddingOf(context).top + 16,
                       right: 24,
                     ),
                     icon: const Icon(Icons.close, size: 28),

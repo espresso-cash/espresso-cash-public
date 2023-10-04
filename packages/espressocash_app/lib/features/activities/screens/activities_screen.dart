@@ -11,19 +11,25 @@ import '../widgets/transaction_list.dart';
 
 @RoutePage()
 class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({super.key});
+  const ActivitiesScreen({
+    super.key,
+    this.goToTransactions = false,
+  });
+
+  final bool? goToTransactions;
 
   static const route = ActivitiesRoute.new;
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).padding.bottom;
+    final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
+    final isTransactions = goToTransactions ?? false;
 
     return PageFadeWrapper(
       child: DefaultTabController(
         length: 2,
-        initialIndex: 0,
+        initialIndex: isTransactions ? 1 : 0,
         child: Column(
           children: [
             CpAppBar(

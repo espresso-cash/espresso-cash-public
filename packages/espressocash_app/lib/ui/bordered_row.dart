@@ -17,7 +17,7 @@ class CpBorderedRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: MediaQuery.of(context).size.height < 700 ? 56 : 74,
+        height: MediaQuery.sizeOf(context).height < 700 ? 56 : 74,
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(

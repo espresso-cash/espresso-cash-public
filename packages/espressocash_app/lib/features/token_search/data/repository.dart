@@ -18,13 +18,13 @@ class SearchRepository {
   final SearchCoingeckoClient _coingeckoClient;
   final TokenList _tokenList;
 
-  AsyncResult<IList<Token>> search(String query) async =>
+  AsyncResult<IList<Token>> search(String query) =>
       _coingeckoClient.search(query).toEither().mapAsync(
             (response) =>
                 response.coins.map((e) => e.toToken(_tokenList)).toIList(),
           );
 
-  AsyncResult<IList<Token>> category(CryptoCategories category) async =>
+  AsyncResult<IList<Token>> category(CryptoCategories category) =>
       _coingeckoClient
           .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
           .toEither()

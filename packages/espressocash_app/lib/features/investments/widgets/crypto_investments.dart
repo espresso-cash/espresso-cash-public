@@ -36,7 +36,7 @@ class CryptoInvestments extends StatelessWidget {
               : MultiSliver(
                   children: [
                     _Header(balance),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 8),
                     _Portfolio(displayEmptyBalances: displayEmptyBalances),
                   ],
                 );
@@ -68,13 +68,13 @@ class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
             child: Text(
               context.l10n.cryptoInvestments,
               style: dashboardSectionTitleTextStyle,
-              maxLines: 2,
             ),
           ),
           const SizedBox(width: 8),
@@ -83,7 +83,7 @@ class _Header extends StatelessWidget {
               child: Text(
                 balance.format(DeviceLocale.localeOf(context)),
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                      fontSize: 48,
+                      fontSize: 30,
                       fontWeight: FontWeight.w700,
                       color: CpColors.menuPrimaryTextColor,
                     ),

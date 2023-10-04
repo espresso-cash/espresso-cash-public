@@ -37,6 +37,17 @@ class TransactionRepository {
         .map((event) => event.whereNotNull().toIList());
   }
 
+  Stream<IList<String>> watchCount(int count) {
+    final query = _db.select(_db.transactionRows)
+      ..limit(count)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query
+        .map((row) => row.id)
+        .watch()
+        .map((event) => event.whereNotNull().toIList());
+  }
+
   Stream<Transaction> watch(String id) {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
@@ -110,6 +121,7 @@ extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   }
 }
 
+// ignore: prefer-public-exception-classes, intentionally private
 class _Ignore implements Exception {
   const _Ignore();
 }

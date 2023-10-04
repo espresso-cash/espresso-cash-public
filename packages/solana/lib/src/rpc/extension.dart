@@ -129,7 +129,7 @@ extension RpcClientExt on RpcClient {
 
   Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
     List<MessageAddressTableLookup> addressTableLookups,
-  ) async =>
+  ) =>
       Future.wait(
         addressTableLookups
             .map((lookup) async => getAddressLookupTable(lookup.accountKey))
@@ -140,7 +140,7 @@ extension RpcClientExt on RpcClient {
     final tx = SignedTx.decode(encodedTx);
 
     return tx.compiledMessage.map(
-      legacy: (_) async => tx.decompileMessage(),
+      legacy: (_) => tx.decompileMessage(),
       v0: (compiledMessage) async {
         final addressTableLookups = compiledMessage.addressTableLookups;
 

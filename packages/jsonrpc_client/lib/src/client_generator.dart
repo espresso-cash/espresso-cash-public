@@ -111,6 +111,7 @@ extension on DartType {
 
     if (isDartCoreList) {
       final type = (this as ParameterizedType).typeArguments.first;
+      // ignore: avoid-recursive-calls, valid case
       definition = '${nullCheck}fromJsonArray(v, ${type.convertFn()})';
     } else if (isPrimitive) {
       definition = '${nullCheck}v as $name';
@@ -202,6 +203,7 @@ extension on ParameterElement {
   }
 
   String asFormalInitializer() {
+    // ignore: avoid-nullable-interpolation, should be non-nullable
     final defaultValue = hasDefaultValue ? ' = $defaultValueCode' : '';
 
     return isRequiredNamed

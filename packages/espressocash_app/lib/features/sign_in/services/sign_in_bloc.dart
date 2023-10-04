@@ -49,12 +49,12 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       add(const SignInSubmitted());
     } on PlatformException {
       emit(state.toSeedVaultException());
-    } on Exception catch (e) {
-      emit(state.toGenericException(e));
+    } on Exception catch (error) {
+      emit(state.toGenericException(error));
     }
   }
 
-  Future<void> _onNewLocalWalletRequested(Emitter<SignInState> emit) async {
+  void _onNewLocalWalletRequested(Emitter<SignInState> emit) {
     emit(
       state.copyWith(
         source: bip39
@@ -66,10 +66,10 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     add(const SignInSubmitted());
   }
 
-  Future<void> _onExistingLocalWalletRequested(
+  void _onExistingLocalWalletRequested(
     SignInExistingLocalWalletRequested event,
     Emitter<SignInState> emit,
-  ) async {
+  ) {
     emit(
       state.copyWith(
         source: event.phrase.let(Mnemonic.typed).let(AccountSource.local),
@@ -112,8 +112,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           ),
         ),
       );
-    } on Exception catch (e) {
-      emit(state.toGenericException(e));
+    } on Exception catch (error) {
+      emit(state.toGenericException(error));
     }
 
     emit(state.copyWith(processingState: const Flow.initial()));
