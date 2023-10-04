@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
+import '../../outgoing_dln_payments/data/repository.dart';
 import '../../outgoing_split_key_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
@@ -39,6 +40,11 @@ class PendingActivitiesRepository {
     final swap = _db.select(_db.swapRows)
       ..where((tbl) => tbl.status.equalsValue(SwapStatusDto.success).not());
 
+    final outgoingDlnPayment = _db.select(_db.outgoingDlnPaymentRows)
+      ..where(
+        (tbl) => tbl.status.equalsValue(ODLNPaymentStatusDto.fulfilled).not(),
+      );
+
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
     final odpStream =
@@ -47,6 +53,10 @@ class PendingActivitiesRepository {
         oskp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final swapStream =
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
+
+    final outgoingDlnStream = outgoingDlnPayment
+        .watch()
+        .map((rows) => rows.map((r) => r.toActivity()));
 
     final onRampStream = _onRampOrderService.watchPending().map(
           (rows) =>
@@ -60,6 +70,7 @@ class PendingActivitiesRepository {
         oskpStream,
         swapStream,
         onRampStream,
+        outgoingDlnStream,
       ],
       (values) => values
           .expand(identity)

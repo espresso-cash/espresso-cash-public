@@ -12,7 +12,7 @@ import 'package:solana/solana.dart';
 Handler addDlnQuoteHandler() =>
     (shelf_router.Router()..post('/getDlnQuote', _dlnQuoteHandler)).call;
 
-Future<Response?> _dlnQuoteHandler(Request request) async =>
+Future<Response?> _dlnQuoteHandler(Request request) =>
     processRequest<PaymentQuoteRequestDto, PaymentQuoteResponseDto>(
       request,
       PaymentQuoteRequestDto.fromJson,

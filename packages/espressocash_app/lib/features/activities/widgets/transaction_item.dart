@@ -7,6 +7,7 @@ import 'common_tile.dart';
 import 'odp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'oskp_tile.dart';
+import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
 
@@ -61,6 +62,10 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: p,
               ),
               onRamp: (it) => OnRampTile(
+                key: ValueKey(it.id),
+                activity: it,
+              ),
+              outgoingDlnPayment: (it) => OutgoingDlnTile(
                 key: ValueKey(it.id),
                 activity: it,
               ),

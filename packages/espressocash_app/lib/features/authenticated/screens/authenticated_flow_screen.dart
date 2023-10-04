@@ -16,6 +16,7 @@ import '../../incoming_split_key_payments/module.dart';
 import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
 import '../../outgoing_direct_payments/module.dart';
+import '../../outgoing_dln_payments/module.dart';
 import '../../outgoing_split_key_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
@@ -81,6 +82,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const SwapModule(),
                 const PopularTokensModule(),
                 const MobileWalletModule(),
+                const OutgoingDlnModule(),
               ],
               child: AutoRouter(
                 key: _homeRouterKey,

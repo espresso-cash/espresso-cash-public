@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
+import '../../outgoing_dln_payments/models/outgoing_payment.dart';
 import '../../outgoing_split_key_payments/models/outgoing_split_key_payment.dart';
 import '../../swap/models/swap.dart';
 
@@ -35,4 +36,10 @@ class Activity with _$Activity {
     required String id,
     required DateTime created,
   }) = OnRampActivity;
+
+  const factory Activity.outgoingDlnPayment({
+    required String id,
+    required DateTime created,
+    required OutgoingDlnPayment data,
+  }) = OutgoingDlnPaymentActivity;
 }

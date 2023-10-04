@@ -1,0 +1,17 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+import '../../../../core/amount.dart';
+import 'dln_payment.dart';
+
+part 'payment_quote.freezed.dart';
+
+@freezed
+class PaymentQuote with _$PaymentQuote {
+  const factory PaymentQuote({
+    required int outAmount, //TODO possibly add cryptoamount
+    required CryptoAmount fee,
+    required String encodedTx,
+    required DlnPayment payment,
+    required BigInt slot,
+  }) = _PaymentQuote;
+}

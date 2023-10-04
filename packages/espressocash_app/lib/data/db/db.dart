@@ -6,6 +6,7 @@ import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
 import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
+import '../../features/outgoing_dln_payments/data/repository.dart';
 import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
@@ -43,6 +44,7 @@ const _tables = [
   OTRows,
   ITRows,
   OnRampOrderRows,
+  OutgoingDlnPaymentRows,
 ];
 
 @lazySingleton
@@ -161,6 +163,7 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 38) {
             await m.alterTable(TableMigration(paymentRequestRows));
+            await m.createTable(outgoingDlnPaymentRows);
           }
         },
       );
