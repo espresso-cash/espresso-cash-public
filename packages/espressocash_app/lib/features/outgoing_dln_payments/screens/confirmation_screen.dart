@@ -118,7 +118,7 @@ class _OutgoingDlnConfirmationScreenState
                   value: widget.receiverAddress,
                   backgroundColor: Colors.black,
                 ),
-                if (state.flowState.isProcessing && state.quote == null)
+                if (state.flowState.isProcessing || state.quote == null)
                   const _Loading()
                 else ...[
                   _Item(
