@@ -5,7 +5,7 @@ import '../l10n/gen/app_localizations.dart';
 import 'screens/landing.dart';
 
 void main() {
-  setUrlStrategy(PathUrlStrategy());
+  setUrlStrategy(const PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const LandingPageApp());
