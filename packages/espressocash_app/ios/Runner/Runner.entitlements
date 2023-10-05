@@ -11,9 +11,6 @@
 
 			<!-- Support for requests -->
 			<string>applinks:solanapay.espressocash.com</string>
-
-			<!-- Firebase deep link for installing the app -->
-			<string>applinks:espressocash.page.link</string>
 		</array>
 	</dict>
 </plist>

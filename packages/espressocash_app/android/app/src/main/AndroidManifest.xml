@@ -58,10 +58,6 @@
                 <!-- Support for requests -->
                 <data android:host="solanapay.espressocash.com"
                     android:scheme="https" />
-
-                <!-- Firebase deep link for installing the app -->
-                <data android:host="espressocash.page.link"
-                    android:scheme="https" />
             </intent-filter>
 
             <!-- Support for espressocash.link protocol -->
