@@ -100,10 +100,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
 SolanaPayRequest? tryParse(Uri link) {
   final linkWithCorrectScheme = link.scheme == 'https' &&
-          (link.host == 'solana.$cpLinkDomain' ||
-              link.host == 'sol.$cpLinkDomain' ||
-              link.host == solanaPayHost ||
-              link.host == solanaPayEspressoCashHost) &&
+          link.host == solanaPayHost &&
           link.pathSegments.any((s) => s.isNotEmpty)
       ? Uri(
           scheme: 'solana',

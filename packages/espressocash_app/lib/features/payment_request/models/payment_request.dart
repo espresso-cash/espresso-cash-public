@@ -32,7 +32,7 @@ class PaymentRequestState with _$PaymentRequestState {
 extension SolanaPayRequestExt on SolanaPayRequest {
   Uri toUniversalLink() => Uri.parse(toUrl()).replace(
         scheme: 'https',
-        host: solanaPayEspressoCashHost,
+        host: solanaPayHost,
       );
 
   CryptoAmount? cryptoAmount(TokenList tokenList) {
