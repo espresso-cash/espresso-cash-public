@@ -116,7 +116,6 @@ class _QrBody extends StatelessWidget {
               Expanded(
                 child: _CustomQrCode(
                   qrLink: qrLink,
-                  // secondLink: secondLink,
                   height: constraints.maxWidth,
                 ),
               ),
