@@ -12,8 +12,8 @@ import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../conversion_rates/services/amount_ext.dart';
-import '../../incoming_split_key_payments/screens/incoming_split_key_payment_screen.dart';
-import '../../incoming_split_key_payments/widgets/extensions.dart';
+import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
+import '../../incoming_link_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
@@ -33,20 +33,14 @@ extension BuilContextExt on BuildContext {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerSplitKeyPayment) {
-      final escrow = await walletFromParts(
-        firstPart: request.firstPart.key,
-        secondPart: request.secondPart.key,
-      );
+    if (request is QrScannerLinkPayment) {
+      final escrow = await walletFromKey(encodedKey: request.payment.key);
       if (!mounted) return;
 
-      final id = await createISKP(
-        escrow: escrow,
-        version: request.firstPart.apiVersion,
-      );
+      final id = await createILP(escrow: escrow);
 
       if (!mounted) return;
-      unawaited(router.push(IncomingSplitKeyPaymentScreen.route(id: id)));
+      unawaited(router.push(IncomingLinkPaymentScreen.route(id: id)));
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;

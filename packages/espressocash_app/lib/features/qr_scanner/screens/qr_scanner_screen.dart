@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -46,11 +45,7 @@ class _ContentState extends State<_Content> {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
     _qrViewController = MobileScannerController(
-      detectionSpeed: DetectionSpeed.noDuplicates,
-      formats: [
-        BarcodeFormat.aztec,
-        BarcodeFormat.qrCode,
-      ],
+      formats: [BarcodeFormat.qrCode],
     )..start()
         .then((it) => it != null)
         .then(_onPermissionSet)
@@ -103,11 +98,9 @@ class _ContentState extends State<_Content> {
   }
 
   void _onDetected(BarcodeCapture capture) {
-    final codes =
-        capture.barcodes.map((e) => e.rawValue).whereNotNull().toIList();
-
-    if (codes.isNotEmpty) {
-      context.read<QrScannerBloc>().add(QrScannerEvent.received(codes));
+    final code = capture.barcodes.firstOrNull?.rawValue;
+    if (code != null) {
+      context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
     }
   }
 

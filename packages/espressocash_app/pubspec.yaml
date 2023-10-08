@@ -28,7 +28,6 @@ dependencies:
   firebase_analytics: ^10.1.0
   firebase_app_installations: ^0.2.1+8
   firebase_core: ^2.4.1
-  firebase_dynamic_links: ^5.0.11
   firebase_remote_config: ^3.0.9
   fl_chart: ^0.60.0
   flutter:

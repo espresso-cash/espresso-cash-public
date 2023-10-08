@@ -30,10 +30,20 @@ class PaymentRequestState with _$PaymentRequestState {
 }
 
 extension SolanaPayRequestExt on SolanaPayRequest {
-  Uri toUniversalLink() => Uri.parse(toUrl()).replace(
-        scheme: 'https',
-        host: solanaPayEspressoCashHost,
-      );
+  Uri toUniversalLink() {
+    final link = Uri.parse(toUrl());
+
+    return link.replace(
+      scheme: 'https',
+      path: null,
+      host: espressoCashLinkDomain,
+      queryParameters: {
+        't': 'solanapay',
+        'recipient': link.path,
+        ...link.queryParameters,
+      },
+    );
+  }
 
   CryptoAmount? cryptoAmount(TokenList tokenList) {
     final amount = this.amount;

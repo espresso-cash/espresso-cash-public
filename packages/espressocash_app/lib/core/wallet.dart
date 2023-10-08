@@ -74,3 +74,11 @@ Future<Wallet> walletFromParts({
 
   return Wallet.fromPrivateKeyBytes(privateKey: keyPart1 + keyPart2);
 }
+
+Future<Wallet> walletFromKey({
+  required String encodedKey,
+}) {
+  final key = ByteArray.fromBase58(encodedKey).toList();
+
+  return Wallet.fromPrivateKeyBytes(privateKey: key);
+}
