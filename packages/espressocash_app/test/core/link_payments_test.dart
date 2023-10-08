@@ -4,26 +4,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Builds link', () {
-    final link = LinkPayments(
-      key: 'abcd',
-      token: Token.usdc.publicKey,
-    );
+    final link = LinkPayments(key: 'abcd', token: Token.usdc.publicKey);
 
     expect(
       link.toShareableLink().toString(),
-      'https://link.espressocash.com?k=abcd',
+      'https://pay.espressocash.com?t=link&k=abcd',
     );
   });
 
   test('Valid link', () {
     expect(
       LinkPayments.tryParse(
-        Uri.parse('https://link.espressocash.com?k=123'),
+        Uri.parse('https://pay.espressocash.com?t=link&k=123'),
       ),
-      LinkPayments(
-        key: '123',
-        token: Token.usdc.publicKey,
-      ),
+      LinkPayments(key: '123', token: Token.usdc.publicKey),
     );
   });
 

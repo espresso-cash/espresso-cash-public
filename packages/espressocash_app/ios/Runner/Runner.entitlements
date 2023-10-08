@@ -6,11 +6,8 @@
 		<string>development</string>
 		<key>com.apple.developer.associated-domains</key>
 		<array>
-			<!-- Support for espressocash.link protocol -->
-			<string>applinks:link.espressocash.com</string>
-
-			<!-- Support for requests -->
-			<string>applinks:solanapay.espressocash.com</string>
+			<!-- Support for espressocash link and solanapay protocol -->
+			<string>applinks:pay.espressocash.com</string>
 		</array>
 	</dict>
 </plist>

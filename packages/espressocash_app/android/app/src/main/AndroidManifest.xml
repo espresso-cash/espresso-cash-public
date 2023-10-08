@@ -51,16 +51,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Support for espressocash link protocol -->
-                <data android:host="link.espressocash.com"
-                    android:scheme="https" />
-
-                <!-- Support for requests -->
-                <data android:host="solanapay.espressocash.com"
+                <!-- Support for espressocash link and solanapay protocol -->
+                <data android:host="pay.espressocash.com"
                     android:scheme="https" />
             </intent-filter>
 
-            <!-- Support for espressocash.link protocol -->
+            <!-- Support for espressocash link protocol -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

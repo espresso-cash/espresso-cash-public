@@ -9,9 +9,16 @@ import '../widgets/landing_widget.dart';
 import '../widgets/step_circle.dart';
 
 class MobileView extends StatelessWidget {
-  const MobileView(this.uri, {super.key});
+  const MobileView({
+    super.key,
+    required this.actionLink,
+    required this.actionText,
+    required this.title,
+  });
 
-  final Uri uri;
+  final Uri actionLink;
+  final String actionText;
+  final String title;
 
   @override
   Widget build(BuildContext context) => LandingScreenWidget(
@@ -19,7 +26,7 @@ class MobileView extends StatelessWidget {
           Assets.images.logoIcon.image(height: 120),
           const SizedBox(height: 60),
           Text(
-            context.l10n.landingTitle,
+            title,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -57,10 +64,10 @@ class MobileView extends StatelessWidget {
           _MobileButton(
             step: 2,
             onTap: () => launchUrl(
-              uri,
+              actionLink,
               mode: LaunchMode.externalNonBrowserApplication,
             ),
-            text: context.l10n.landingReceiveMoney,
+            text: actionText,
           ),
         ],
       );

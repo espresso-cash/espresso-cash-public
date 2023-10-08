@@ -1,23 +1,32 @@
 import 'package:flutter/material.dart';
 
-import '../../core/link_payments.dart';
-import '../../core/tokens/token.dart';
 import '../widgets/extensions.dart';
 import 'desktop.dart';
 import 'mobile.dart';
 
 class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key, required this.encodedKey});
+  const LandingScreen({
+    super.key,
+    required this.actionLink,
+    required this.actionText,
+    required this.title,
+  });
 
-  final String encodedKey;
+  final Uri actionLink;
+  final String actionText;
+  final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final uri = LinkPayments(key: encodedKey, token: Token.usdc.publicKey)
-        .toDeepLinkUri();
-
-    return Scaffold(
-      body: isMobile ? MobileView(uri) : DesktopView(uri),
-    );
-  }
+  Widget build(BuildContext context) => Scaffold(
+        body: isMobile
+            ? MobileView(
+                actionLink: actionLink,
+                actionText: actionText,
+                title: title,
+              )
+            : DesktopView(
+                actionLink: actionLink,
+                title: title,
+              ),
+      );
 }
