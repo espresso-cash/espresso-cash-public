@@ -5,31 +5,20 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('valid links 1', () {
-    const link1 = 'https://link.espressocash.com/?k=AAAAA';
-    const link2 = 'espressocash://?k=BBBBB';
+    const link = 'https://pay.espressocash.com/?t=link&k=AAAAA';
+    final request = QrScannerRequest.tryParse(link);
 
-    final request1 = QrScannerRequest.tryParse(link1);
+    final expected = LinkPayments(key: 'AAAAA', token: Token.usdc.publicKey);
 
-    expect(
-      request1,
-      QrScannerRequest.linkPayment(
-        LinkPayments(
-          key: 'AAAAA',
-          token: Token.usdc.publicKey,
-        ),
-      ),
-    );
+    expect(request, QrScannerRequest.linkPayment(expected));
+  });
 
-    final request2 = QrScannerRequest.tryParse(link2);
+  test('valid links 2', () {
+    const link = 'espressocash://?k=BBBBB';
+    final request = QrScannerRequest.tryParse(link);
 
-    expect(
-      request2,
-      QrScannerRequest.linkPayment(
-        LinkPayments(
-          key: 'BBBBB',
-          token: Token.usdc.publicKey,
-        ),
-      ),
-    );
+    final expected = LinkPayments(key: 'BBBBB', token: Token.usdc.publicKey);
+
+    expect(request, QrScannerRequest.linkPayment(expected));
   });
 }
