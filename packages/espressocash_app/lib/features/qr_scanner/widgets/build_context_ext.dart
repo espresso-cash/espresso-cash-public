@@ -33,10 +33,8 @@ extension BuilContextExt on BuildContext {
     if (request == null) return;
     if (!mounted) return;
 
-    if (request is QrScannerSingleKeyPayment) {
-      final escrow = await walletFromKey(
-        encodedKey: request.payment.key,
-      );
+    if (request is QrScannerLinkPayment) {
+      final escrow = await walletFromKey(encodedKey: request.payment.key);
       if (!mounted) return;
 
       final id = await createILP(escrow: escrow);

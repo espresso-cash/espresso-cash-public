@@ -12,7 +12,7 @@ void main() {
 
     expect(
       request1,
-      QrScannerRequest.singleKeyPayment(
+      QrScannerRequest.linkPayment(
         LinkPayments(
           key: 'AAAAA',
           token: Token.usdc.publicKey,
@@ -24,7 +24,7 @@ void main() {
 
     expect(
       request2,
-      QrScannerRequest.singleKeyPayment(
+      QrScannerRequest.linkPayment(
         LinkPayments(
           key: 'BBBBB',
           token: Token.usdc.publicKey,

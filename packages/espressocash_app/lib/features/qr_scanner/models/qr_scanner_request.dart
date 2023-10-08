@@ -17,8 +17,8 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.singleKeyPayment(LinkPayments payment) =
-      QrScannerSingleKeyPayment;
+  const factory QrScannerRequest.linkPayment(LinkPayments payment) =
+      QrScannerLinkPayment;
 
   const QrScannerRequest._();
 
@@ -35,14 +35,14 @@ class QrScannerRequest with _$QrScannerRequest {
 
     final payment = Uri.tryParse(code)?.let(LinkPayments.tryParse);
     if (payment != null) {
-      return QrScannerRequest.singleKeyPayment(payment);
+      return QrScannerRequest.linkPayment(payment);
     }
   }
 
   Ed25519HDPublicKey? get recipient => this.map(
         solanaPay: (r) => r.request.recipient,
         address: (r) => r.addressData.address,
-        singleKeyPayment: always(null),
+        linkPayment: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(
