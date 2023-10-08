@@ -67,36 +67,29 @@ class OLPRepository {
   Stream<IList<OutgoingLinkPayment>> watchReady() => _watchWithStatuses([
         OLPStatusDto.linkReady,
         OLPStatusDto.cancelTxCreated,
-        OLPStatusDto.cancelTxSendFailure,
         OLPStatusDto.cancelTxSent,
-        OLPStatusDto.cancelTxWaitFailure,
         OLPStatusDto.cancelTxFailure,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxCreated() => _watchWithStatuses([
         OLPStatusDto.txCreated,
-        OLPStatusDto.txSendFailure,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxConfirmed() => _watchWithStatuses([
         OLPStatusDto.txConfirmed,
-        OLPStatusDto.txLinksFailure,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchCancelTxCreated() =>
       _watchWithStatuses([
         OLPStatusDto.cancelTxCreated,
-        OLPStatusDto.cancelTxSendFailure,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxSent() => _watchWithStatuses([
         OLPStatusDto.txSent,
-        OLPStatusDto.txWaitFailure,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchCancelTxSent() => _watchWithStatuses([
         OLPStatusDto.cancelTxSent,
-        OLPStatusDto.cancelTxWaitFailure,
       ]);
 
   Future<void> clear() => _db.delete(_db.oLPRows).go();
@@ -139,16 +132,11 @@ enum OLPStatusDto {
   txConfirmed,
   linkReady,
   txFailure,
-  txSendFailure,
-  txWaitFailure,
-  txLinksFailure,
   withdrawn,
   canceled,
   cancelTxCreated,
   cancelTxFailure,
   cancelTxSent,
-  cancelTxSendFailure,
-  cancelTxWaitFailure,
 }
 
 extension OLPRowExt on OLPRow {
@@ -157,7 +145,9 @@ extension OLPRowExt on OLPRow {
         created: created,
         amount: CryptoAmount(
           value: amount,
-          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(
+            token: tokens.requireTokenByMint(token),
+          ),
         ),
         status: status.toOLPStatus(this),
         linksGeneratedAt: generatedLinksAt,
@@ -167,21 +157,18 @@ extension OLPRowExt on OLPRow {
 extension on OLPStatusDto {
   OLPStatus toOLPStatus(OLPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
-    final withdrawTxId = row.withdrawTxId;
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
-      case OLPStatusDto.txSendFailure:
       case OLPStatusDto.txCreated:
         return OLPStatus.txCreated(
           tx!,
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
-      case OLPStatusDto.txWaitFailure:
       case OLPStatusDto.txSent:
         final txId = row.txId;
 
@@ -190,34 +177,23 @@ extension on OLPStatusDto {
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
-      case OLPStatusDto.txLinksFailure:
       case OLPStatusDto.txConfirmed:
         return OLPStatus.txConfirmed(escrow: escrow!);
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
 
-        return OLPStatus.linkReady(
-          link: link!,
-          escrow: escrow!,
-        );
+        return OLPStatus.linkReady(link: link!, escrow: escrow!);
       case OLPStatusDto.withdrawn:
-        return OLPStatus.withdrawn(txId: withdrawTxId!, timestamp: resolvedAt);
+        return OLPStatus.withdrawn(
+          txId: row.withdrawTxId!,
+          timestamp: resolvedAt,
+        );
       case OLPStatusDto.canceled:
-        final cancelTxId = row.cancelTxId;
-        if (cancelTxId == null && withdrawTxId != null) {
-          // For compatibility with old versions
-          return OLPStatus.canceled(
-            txId: withdrawTxId,
-            timestamp: resolvedAt,
-          );
-        }
-
-        return OLPStatus.canceled(txId: cancelTxId, timestamp: resolvedAt);
+        return OLPStatus.canceled(txId: row.cancelTxId, timestamp: resolvedAt);
       case OLPStatusDto.txFailure:
         return OLPStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
-      case OLPStatusDto.cancelTxSendFailure:
       case OLPStatusDto.cancelTxCreated:
         return OLPStatus.cancelTxCreated(
           cancelTx!,
@@ -229,7 +205,6 @@ extension on OLPStatusDto {
           escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
-      case OLPStatusDto.cancelTxWaitFailure:
       case OLPStatusDto.cancelTxSent:
         return OLPStatus.cancelTxSent(
           cancelTx!,
