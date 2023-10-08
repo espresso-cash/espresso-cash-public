@@ -1,3 +1,15 @@
+## 1.85.0
+
+ - **REFACTOR**: update lint rules (#1091).
+ - **FIX**: app bar on investments screen (#1092).
+ - **FIX**: clear on-ramp orders on logout (#1090).
+ - **FIX**: kado order status (#1089).
+ - **FIX**: various UI updates (#1080).
+ - **FEAT**: add single link payments (#1071).
+ - **FEAT**: investment screen redesign (#1081).
+ - **FEAT**: payment request creation (#1088).
+ - **FEAT**: add payment landing site (#1069).
+
 ## 1.84.0
 
  - **REFACTOR**: migrate to Flutter 3.13.6 (#1077).
