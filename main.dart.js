@@ -6891,11 +6891,9 @@ s.toString
 r.HT(new A.I8(s,B.Fg,new A.id(s,t.By)))
 r.yh()},
 CU:function CU(a){this.a=a},
-Yf:function Yf(a){this.a=a},
-Yc:function Yc(a,b){this.a=a
-this.b=b},
-Yd:function Yd(a,b){this.a=a
-this.b=b},
+Yf:function Yf(){},
+Yc:function Yc(a){this.a=a},
+Yd:function Yd(a){this.a=a},
 Ye:function Ye(){},
 Bo:function Bo(a,b,c){this.c=a
 this.d=b
@@ -32251,7 +32249,7 @@ gkR(){return u.Y},
 gn2(){return"Scan the QR code"},
 gn1(){return u.D}}
 A.CU.prototype={
-P(a){return new A.rh(new A.Yf(a),"Espresso Cash",A.ah8(null,"RobotoApp",null),B.jK,B.Fn,B.QG,!1,null)}}
+P(a){return new A.rh(new A.Yf(),"Espresso Cash",A.ah8(null,"RobotoApp",null),B.jK,B.Fn,B.QG,!1,null)}}
 A.Yf.prototype={
 $1(a){var s,r,q,p,o,n=null,m="recipient",l=String(window.location)
 l.toString
@@ -32263,29 +32261,28 @@ q.v(0,"t")
 q.v(0,m)
 p=A.oQ(n,n,l,q,"solana")}else p=s
 o=A.arl(p.j(0))
-if(r!=null)return A.Yy(new A.Yc(r,this.a),n,t.z)
-else if(o!=null)return A.Yy(new A.Yd(o,this.a),n,t.z)
+if(r!=null)return A.Yy(new A.Yc(r),n,t.z)
+else if(o!=null)return A.Yy(new A.Yd(o),n,t.z)
 return A.Yy(new A.Ye(),n,t.z)},
 $S:241}
 A.Yc.prototype={
-$1(a){var s,r,q,p=t.N
-p=A.oQ(null,"","",A.az(["k",this.a.a],p,p),"espressocash")
-s=this.b
-r=t.aM
-q=A.eP(s,B.au,r)
-q.toString
-q=q.gkT()
-r=A.eP(s,B.au,r)
+$1(a){var s,r,q=t.N
+q=A.oQ(null,"","",A.az(["k",this.a.a],q,q),"espressocash")
+s=t.aM
+r=A.eP(a,B.au,s)
 r.toString
-return new A.lc(p,q,r.gn3(),null)},
+r=r.gkT()
+s=A.eP(a,B.au,s)
+s.toString
+return new A.lc(q,r,s.gn3(),null)},
 $S:85}
 A.Yd.prototype={
-$1(a){var s=A.d6(this.a.ZK(0),0,null),r=this.b,q=t.aM,p=A.eP(r,B.au,q)
-p.toString
-p=p.gkT()
-q=A.eP(r,B.au,q)
+$1(a){var s=A.d6(this.a.ZK(0),0,null),r=t.aM,q=A.eP(a,B.au,r)
 q.toString
-return new A.lc(s,p,q.gnh(),null)},
+q=q.gkT()
+r=A.eP(a,B.au,r)
+r.toString
+return new A.lc(s,q,r.gnh(),null)},
 $S:85}
 A.Ye.prototype={
 $1(a){return B.di},
