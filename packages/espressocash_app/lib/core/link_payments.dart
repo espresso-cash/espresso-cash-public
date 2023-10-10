@@ -48,7 +48,7 @@ abstract class LinkPayments with _$LinkPayments {
   Uri toShareableLink() => Uri(
         scheme: 'https',
         host: espressoCashLinkDomain,
-        path: '',
+        path: '/',
         queryParameters: <String, String>{
           't': 'link',
           'k': key,
