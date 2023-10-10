@@ -35,7 +35,7 @@ extension SolanaPayRequestExt on SolanaPayRequest {
 
     return link.replace(
       scheme: 'https',
-      path: null,
+      path: '/',
       host: espressoCashLinkDomain,
       queryParameters: {
         't': 'solanapay',
