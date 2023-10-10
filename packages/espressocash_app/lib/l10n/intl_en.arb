@@ -468,8 +468,6 @@
   "@shareLink": {},
   "shareLinks": "Share Link",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
@@ -487,8 +485,6 @@
   },
   "sharePaymentRequestLinkTitle": "Share Link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Share QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Request has been created!",
@@ -850,5 +846,13 @@
   "carousel3Subtitle" : "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
   "@carousel3Subtitle": {},
   "carouselSendMoneyBtn" : "Send Money Now",
-  "@carouselSendMoneyBtn": {}
+  "@carouselSendMoneyBtn": {},
+  "scanToSend": "Scan to send {amount}",
+  "@scanToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -59,7 +59,6 @@ class ShareLink extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
-          _Subtitle(text: context.l10n.sharePaymentRequestLinkDescription),
           Flexible(child: messageBubble),
           shareButton,
         ],
@@ -98,22 +97,6 @@ class _Links extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: CpColors.yellowColor,
           ),
-        ),
-      );
-}
-
-class _Subtitle extends StatelessWidget {
-  const _Subtitle({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
       );
 }
