@@ -101,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
                           0,
                           MediaQuery.paddingOf(context).bottom -
                               cpNavigationBarheight +
-                              8,
+                              16,
                         ),
                       ),
                     ),
