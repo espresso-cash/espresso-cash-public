@@ -27,7 +27,7 @@ extension BuildContextExt on BuildContext {
           amount = value;
         },
         minAmount: Decimal.fromInt(30),
-        currency: Currency.usdc,
+        currency: Currency.usd,
         calculateEquivalent: null,
         type: RampType.onRamp,
       ),
