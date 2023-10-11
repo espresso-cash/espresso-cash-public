@@ -37,17 +37,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
-        backgroundImage: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Assets.images.carousel1.image(),
-            ),
-            Expanded(
-              child: Assets.images.carousel15.image(),
-            ),
-          ],
-        ),
+        backgroundImage: Assets.images.carousel1.image(),
       ),
       _Item(
         title: context.l10n.carousel2Title,
