@@ -26,8 +26,8 @@ extension BuildContextExt on BuildContext {
           router.pop();
           amount = value;
         },
-        minAmount: Decimal.fromInt(30),
-        currency: Currency.usd,
+        minAmount: Decimal.fromInt(10),
+        currency: Currency.usdc,
         calculateEquivalent: null,
         type: RampType.onRamp,
       ),
