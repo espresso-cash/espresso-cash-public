@@ -780,6 +780,14 @@
       }
     }
   },
+  "minAmountToOnRamp": "{amount} is the minimum you can add",
+  "@minAmountToOnRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "rampAmountEquivalent": "You will get approx. {amount}",
   "@rampAmountEquivalent": {
     "placeholders": {

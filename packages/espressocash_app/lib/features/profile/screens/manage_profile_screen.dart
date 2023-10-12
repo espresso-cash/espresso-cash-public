@@ -130,6 +130,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   textColor: Colors.white,
                   placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
+                  fontSize: 16,
                 ),
               ),
               OnboardingPadding(
@@ -144,6 +145,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   textColor: Colors.white,
                   placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
+                  fontSize: 16,
                 ),
               ),
               const SizedBox(height: 8),
