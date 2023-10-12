@@ -13,7 +13,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/usdc_info.dart';
-import '../../wallet_flow/screens/wallet_main_screen.dart';
+import '../../wallet_flow/widgets/extensions.dart';
 import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {

@@ -14,6 +14,7 @@ import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../widgets/extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -196,10 +197,6 @@ extension on WalletOperation {
         return context.l10n.receive;
     }
   }
-}
-
-extension BuildContextEtx on BuildContext {
-  bool get isSmall => MediaQuery.sizeOf(this).width < 380;
 }
 
 enum WalletOperation { pay, request }
