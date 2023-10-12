@@ -70,7 +70,7 @@ class AmountWithEquivalent extends StatelessWidget {
                               shouldDisplay: true,
                               backgroundColor: CpColors.errorChipColor,
                             ),
-                          (true, false, true) => const _UsdcInfoChip(),
+                          (true, false, true) => const _InfoChip(),
                           _ => _EquivalentDisplay(
                               input: value.text,
                               token: token,
@@ -87,8 +87,8 @@ class AmountWithEquivalent extends StatelessWidget {
       );
 }
 
-class _UsdcInfoChip extends StatelessWidget {
-  const _UsdcInfoChip();
+class _InfoChip extends StatelessWidget {
+  const _InfoChip();
 
   @override
   Widget build(BuildContext context) {
@@ -128,10 +128,34 @@ class _EquivalentDisplay extends StatelessWidget {
       formattedAmount = '0';
     }
 
-    return _DisplayChip(
+    final child = Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: context.l10n.tokenEquivalent(formattedAmount).toUpperCase(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          TextSpan(
+            text: ' ${token.symbol.toUpperCase()}',
+            style: const TextStyle(
+              color: CpColors.yellowColor,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+
+    return _Chip(
       shouldDisplay: shouldDisplay,
-      value: context.l10n.tokenEquivalent(formattedAmount, token.symbol),
       backgroundColor: backgroundColor,
+      child: child,
     );
   }
 }
@@ -149,6 +173,33 @@ class _DisplayChip extends StatelessWidget {
   final Color? backgroundColor;
 
   @override
+  Widget build(BuildContext context) => _Chip(
+        shouldDisplay: shouldDisplay,
+        backgroundColor: backgroundColor,
+        child: Text(
+          value.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+}
+
+class _Chip extends StatelessWidget {
+  const _Chip({
+    required this.shouldDisplay,
+    required this.child,
+    this.backgroundColor,
+  });
+
+  final bool shouldDisplay;
+  final Widget child;
+  final Color? backgroundColor;
+
+  @override
   Widget build(BuildContext context) => SizedBox(
         height: 45,
         child: AnimatedOpacity(
@@ -157,15 +208,7 @@ class _DisplayChip extends StatelessWidget {
           child: CpChip(
             padding: CpChipPadding.small,
             backgroundColor: backgroundColor,
-            child: Text(
-              value.toUpperCase(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: child,
           ),
         ),
       );
