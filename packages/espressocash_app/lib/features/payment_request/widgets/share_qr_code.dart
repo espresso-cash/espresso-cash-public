@@ -30,8 +30,7 @@ class ShareQrCode extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
-          _Subtitle(text: context.l10n.sharePaymentRequestQrCodeDescription),
-          _QrCodeWrapper(amount: amount, qrData: qrData),
+          Flexible(child: _QrCodeWrapper(amount: amount, qrData: qrData)),
         ],
       ),
     );
@@ -51,56 +50,37 @@ class _QrCodeWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final amount = this.amount;
 
-    return Flexible(
-      child: CpRoundedRectangle(
-        backgroundColor: Colors.black,
-        scrollable: false,
-        margin: const EdgeInsets.symmetric(vertical: 16),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 42),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (amount != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 32),
-                child: Text(
-                  amount,
-                  maxLines: 1,
-                  textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+    return CpRoundedRectangle(
+      backgroundColor: Colors.black,
+      scrollable: false,
+      margin: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (amount != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: Text(
+                context.l10n.scanToSend(amount),
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            Flexible(
-              child: BarcodeWidget(
-                barcode: Barcode.qrCode(),
-                data: qrData,
-                padding: EdgeInsets.zero,
-                color: Colors.white,
-              ),
             ),
-          ],
-        ),
+          BarcodeWidget(
+            height: 250,
+            barcode: Barcode.qrCode(),
+            data: qrData,
+            padding: EdgeInsets.zero,
+            color: Colors.white,
+          ),
+        ],
       ),
     );
   }
-}
-
-class _Subtitle extends StatelessWidget {
-  const _Subtitle({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-        ),
-      );
 }

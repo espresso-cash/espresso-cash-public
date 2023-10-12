@@ -162,8 +162,6 @@
   "@learningSectionTitle": {},
   "less": "less",
   "@less": {},
-  "linkSubtitle": "The recipient will need to click on the link below to redeem the money.",
-  "@linkSubtitle": {},
   "loading": "Loading...",
   "@loading": {},
   "marketCapRank": "Market Cap Rank",
@@ -372,10 +370,6 @@
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
   "@qrPaymentSubtitle": {},
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "@qrScanInfo2": {},
   "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
   "@qrTermsDisclaimer": {},
   "ramp_btnAddCash": "Add Cash",
@@ -468,8 +462,6 @@
   "@shareLink": {},
   "shareLinks": "Share Link",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
@@ -487,8 +479,6 @@
   },
   "sharePaymentRequestLinkTitle": "Share Link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Share QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Request has been created!",
@@ -855,5 +845,13 @@
   "carousel3Subtitle" : "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
   "@carousel3Subtitle": {},
   "carouselSendMoneyBtn" : "Send Money Now",
-  "@carouselSendMoneyBtn": {}
+  "@carouselSendMoneyBtn": {},
+  "scanToSend": "Scan to send {amount}",
+  "@scanToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
