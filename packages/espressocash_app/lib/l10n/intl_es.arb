@@ -669,13 +669,10 @@
   },
   "tokenDetails_lblBalance": "Saldo",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Equivalente a {value} {symbol}",
+  "tokenEquivalent": "Equivalente a {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }

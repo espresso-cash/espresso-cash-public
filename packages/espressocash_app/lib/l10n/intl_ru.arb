@@ -653,13 +653,10 @@
   },
   "tokenDetails_lblBalance": "Баланс",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Эквивалентно {value} {symbol}",
+  "tokenEquivalent": "Эквивалентно {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }

@@ -671,13 +671,10 @@
   },
   "tokenDetails_lblBalance": "Balance",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Equivalent to {value} {symbol}",
+  "tokenEquivalent": "Equivalent to {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
