@@ -109,7 +109,7 @@ class _ScreenState extends State<WalletMainScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 24),
+              SizedBox(height: context.isSmall ? 24 : 32),
               AmountWithEquivalent(
                 inputController: _amountController,
                 token: widget.token,
@@ -138,6 +138,8 @@ class _ScreenState extends State<WalletMainScreen> {
                         widget.onRequest();
                     }
                   },
+                  size:
+                      context.isSmall ? CpButtonSize.normal : CpButtonSize.big,
                 ),
               ),
               const SizedBox(height: 24),
@@ -194,6 +196,10 @@ extension on WalletOperation {
         return context.l10n.receive;
     }
   }
+}
+
+extension BuildContextEtx on BuildContext {
+  bool get isSmall => MediaQuery.sizeOf(this).width < 380;
 }
 
 enum WalletOperation { pay, request }

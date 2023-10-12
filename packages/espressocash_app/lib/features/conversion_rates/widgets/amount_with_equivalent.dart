@@ -13,6 +13,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/usdc_info.dart';
+import '../../wallet_flow/screens/wallet_main_screen.dart';
 import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
@@ -52,13 +53,13 @@ class AmountWithEquivalent extends StatelessWidget {
                 key: shakeKey,
                 child: _InputDisplay(
                   input: value.text,
-                  fontSize: collapsed ? 57 : 80,
+                  fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
                 ),
               ),
               if (!collapsed)
                 Container(
-                  height: showUsdcInfo ? 96 : null,
-                  padding: const EdgeInsets.only(top: 12.0),
+                  height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
+                  padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 100),
                     child: Column(
@@ -91,11 +92,8 @@ class _InfoChip extends StatelessWidget {
   const _InfoChip();
 
   @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-
-    return UsdcInfoWidget(isSmall: width < 380);
-  }
+  Widget build(BuildContext context) =>
+      UsdcInfoWidget(isSmall: context.isSmall);
 }
 
 class _EquivalentDisplay extends StatelessWidget {

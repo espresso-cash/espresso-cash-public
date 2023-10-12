@@ -24,7 +24,7 @@ class UsdcInfoWidget extends StatelessWidget {
             maxLines: 3,
           ),
           variant: CpInfoVariant.black,
-          padding: EdgeInsets.all(isSmall ? 14 : 16),
+          padding: EdgeInsets.all(isSmall ? 14 : 18),
         ),
       );
 }
