@@ -48,6 +48,8 @@
   "@core_and": {},
   "core_btnCancel": "Отменить",
   "@core_btnCancel": {},
+  "countryOfResidence": "Страна проживания",
+  "@countryOfResidence": {},
   "create": "Создать",
   "@create": {},
   "cryptoCashBalance": " Ваш криптобаланс",
@@ -148,6 +150,8 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Я понимаю, что если я потеряю свою секретную фразу восстановления, я не смогу получить доступ к средствам.",
   "@iUnderstandIfLoseMySecret": {},
+  "learnAboutCrypto": "Изучение криптографии",
+  "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Получите помощь по всем вопросам, связанным с криптовалютами",
   "@learnAboutCryptoDescription": {},
   "learningSectionTitle": "УЧЕБНЫЙ ЦЕНТР",
@@ -158,6 +162,14 @@
   "@loading": {},
   "marketCapRank": "Рейтинг рыночной капитализации",
   "@marketCapRank": {},
+  "minAmountToOffRamp": "{amount} это минимум, который вы можете обналичить",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "minimumAmountToRequest": "{amount} это минимум, который можно запросить",
   "@minimumAmountToRequest": {
     "placeholders": {
@@ -240,6 +252,10 @@
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "Вам нужна секретная фраза для восстановления. Эта фраза состоит из случайно сгенерированных секретных слов, которые будут предоставлены вам. Без этих слов вы не сможете получить доступ к своим средствам. Эти слова никогда не смогут быть восстановлены.\n\nБерегите их!",
   "@noEmailInCryptoParagraph": {},
+  "noResultsFound": "Результатов не найдено",
+  "@noResultsFound": {},
+  "offRampTopPartnerTitle": "Выводите наличные на Свой Банковский Счет с помощью нашего Ведущего Партнера",
+  "@offRampTopPartnerTitle": {},
   "ok": "ОК",
   "@ok": {},
   "onboardingBullet": "Криптоинвестирование стало простым, независимо от того, новичок вы или опытный профессионал!",
@@ -254,6 +270,8 @@
   "@oneMonth": {},
   "oneWeek": "1 неделя",
   "@oneWeek": {},
+  "onRampTopPartnerTitle": "Переведите деньги в Espresso с помощью нашего ведущего платежного партнера",
+  "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Открыть встроенный QR-сканер",
   "@openInAppScanner": {},
   "operationSend": "отправлено",
@@ -356,22 +374,38 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Сканирование не удалось",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Введите криптоадрес здесь",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Вы можете ввести адрес кошелька получателя Solana, чтобы отправить деньги непосредственно ему.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Отправить вручную",
-  "@qrInputAddressTitle": {},
   "qrPaymentInstructions": "В целях безопасности, пожалуйста, отсканируйте QR-код отправителя с помощью встроенного в приложение сканера.",
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "Получатель получит деньги, отсканировав этот QR-код:",
   "@qrPaymentSubtitle": {},
   "qrTermsDisclaimer": "Открывая безопасный сканер QR-кода, вы соглашаетесь с нашими",
   "@qrTermsDisclaimer": {},
+  "rampAmountEquivalent": "Вы получите приблизительно {amount}",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalentError": "Ошибка при загрузке данных",
+  "@rampAmountEquivalentError": {},
+  "rampBasicInfoRequired": "Чтобы начать, нам нужна от вас некоторая базовая информация.",
+  "@rampBasicInfoRequired": {},
   "ramp_btnAddCash": "Внести",
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Вывести",
   "@ramp_btnCashOut": {},
+  "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampOtherPartnersTitle": "Другие партнеры:",
+  "@rampOtherPartnersTitle": {},
   "receive": "Запросить",
   "@receive": {},
   "receivedBy": "Полученный от {address}",
@@ -422,6 +456,8 @@
   "@searchPlaceholder": {},
   "securitySectionTitle": "БЕЗОПАСНОСТЬ И КОНФИДЕНЦИАЛЬНОСТЬ",
   "@securitySectionTitle": {},
+  "selectCountryTitle": "ВЫБЕРИТЕ СВОЮ СТРАНУ",
+  "@selectCountryTitle": {},
   "sell": "Продать",
   "@sell": {},
   "send": "Отправить",
@@ -452,7 +488,7 @@
   "@shareInstructions": {},
   "shareIntroFt": "Привет!\n\nЯ только что отправил вам",
   "@shareIntroFt": {},
-  "shareLink": "Поделиться ссылками на оплату",
+  "shareLink": "Поделиться ссылкой на оплату",
   "@shareLink": {},
   "shareLinks": "Поделиться ссылками",
   "@shareLinks": {},
@@ -534,9 +570,9 @@
   "@splitKeyProgressCanceled": {},
   "splitKeyProgressCanceling": "Отмена перевода",
   "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Создаются ссылки",
+  "splitKeyProgressCreated": "Ссылка готова",
   "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Отправка {amount} по защищенным ссылкам...",
+  "splitKeyProgressOngoing": "Отправка {amount} по защищенной ссылке...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -631,6 +667,16 @@
       }
     }
   },
+  "tokenChart_lblAllTime": "Все",
+  "@tokenChart_lblAllTime": {},
+  "tokenChart_lblPastMonth": "Прошедший месяц",
+  "@tokenChart_lblPastMonth": {},
+  "tokenChart_lblPastThreeMonths": "Последние три месяца",
+  "@tokenChart_lblPastThreeMonths": {},
+  "tokenChart_lblPastWeek": "Прошедшая неделя",
+  "@tokenChart_lblPastWeek": {},
+  "tokenChart_lblPastYear": "Прошедший год",
+  "@tokenChart_lblPastYear": {},
   "tokenDetails_btnBuy": "Купить",
   "@tokenDetails_btnBuy": {},
   "tokenDetails_lblAboutToken": "Про {name}",
@@ -690,6 +736,8 @@
       }
     }
   },
+  "view": "Смотреть",
+  "@view": {},
   "viewRecoveryPhrase": "Просмотреть секретную фразу восстановления",
   "@viewRecoveryPhrase": {},
   "viewRecoveryPhraseDescription": "Слова, сгенерированные вашим криптокошельком",
@@ -702,11 +750,13 @@
   "@yes": {},
   "yesDeleteMyWallet": "Да, удалить кошелек",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Вы создаете защищенную ссылку, содержащую:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "У вас",
   "@youOwn": {},
-  "yourFirstNamePlaceholder": "Выберите имя пользователя",
+  "yourEmailDisclaimer": "Ваш адрес электронной почты хранится только локально и предоставляется только партнерам по вводу и обналичиванию средств",
+  "@yourEmailDisclaimer": {},
+  "yourEmailPlaceholder": "Адрес электронной почты",
+  "@yourEmailPlaceholder": {},
+  "yourFirstNamePlaceholder": "Ваше имя",
   "@yourFirstNamePlaceholder": {},
   "yourLinkIsReady": "Ссылка готова",
   "@yourLinkIsReady": {},

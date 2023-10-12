@@ -48,11 +48,13 @@
   "@core_and": {},
   "core_btnCancel": "Cancelar",
   "@core_btnCancel": {},
+  "countryOfResidence": "País de residencia",
+  "@countryOfResidence": {},
   "create": "Crear",
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Tu cripto efectivo\nSaldo ",
+  "cryptoCashBalance": "Tu Cripto Efectivo Saldo ",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Tu cripto\nInversiones",
   "@cryptoInvestments": {},
@@ -108,7 +110,7 @@
   },
   "following": "Following",
   "@following": {},
-  "fundYourAccount": "Fondo de tu cuenta para comenzar tu viaje criptográfico. Puedes enviar dinero a cualquier parte del mundo, o comprar y vender criptomonedas",
+  "fundYourAccount": "Añade fondos a tu cuenta para enviar dinero a cualquier parte del mundo.",
   "@fundYourAccount": {},
   "help": "Ayuda",
   "@help": {},
@@ -238,12 +240,14 @@
   "@next": {},
   "no": "No",
   "@no": {},
-  "noActivity": "¡No hay actividad todavía!",
+  "noActivity": "¡Aún no hay actividad!",
   "@noActivity": {},
   "noEmailInCryptoInfo": "Con Espresso Cash, ¡no hay necesidad de un correo electrónico y una contraseña para acceder a su dinero!",
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "Necesitas una frase de recuperación secreta. Esta frase está compuesta por palabras de seguridad generadas al azar que se le proporcionarán. Sin estas palabras, no podrá acceder a sus fondos. Estas palabras nunca se pueden recuperar.\n\n¡Mantenlos a salvo! ",
   "@noEmailInCryptoParagraph": {},
+  "noResultsFound": "Sin resultados encontrados.",
+  "@noResultsFound": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "¡La criptoinversión simplificada, tanto si eres nuevo como si eres un profesional experimentado!",
@@ -360,22 +364,34 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Escaneo falló",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Ingrese la dirección de cifrado aquí",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Puede ingresar la dirección de la billetera Solana del receptor para enviarles dinero directamente a ellos.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Enviar manualmente",
-  "@qrInputAddressTitle": {},
   "qrPaymentInstructions": "Por motivos de seguridad, escanea el código QR del remitente con el escáner integrado en la aplicación.",
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "El destinatario recibirá el dinero escaneando este código QR:",
   "@qrPaymentSubtitle": {},
   "qrTermsDisclaimer": "Al abrir el escáner seguro de códigos QR, aceptas nuestra ",
   "@qrTermsDisclaimer": {},
+  "rampAmountEquivalent": "Trendrás aproximadamente.",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampBasicInfoRequired": "Para comenzar, necesitamos informacion basica sobre ti.",
+  "@rampBasicInfoRequired": {},
   "ramp_btnAddCash": "Depositar",
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Retirar",
   "@ramp_btnCashOut": {},
+  "rampMinimumTransferAmount": "Monto minimo a transferir.",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "receive": "Recibir",
   "@receive": {},
   "receivedBy": "Recibido por {address}",
@@ -426,6 +442,8 @@
   "@searchPlaceholder": {},
   "securitySectionTitle": "SEGURIDAD Y PRIVACIDAD",
   "@securitySectionTitle": {},
+  "selectCountryTitle": "SELECCIONA TU PAÍS",
+  "@selectCountryTitle": {},
   "sell": "Vender",
   "@sell": {},
   "send": "Enviar",
@@ -485,17 +503,6 @@
   "@shareStep1": {},
   "shareStep2": "Paso 2: cuando la aplicación le pida, haga clic en el segundo enlace:",
   "@shareStep2": {},
-  "shareText": "¡Hola!\n\nTe acabo de enviar {amount}.\n\nPara recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:\n\nPaso 1: haga clic en el primer enlace:\n\n{firstLink}\n\nPaso 2: cuando la aplicación le pida, haga clic en el segundo enlace:",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "signIn1": "¿Ya tienes una billetera solana? ",
   "@signIn1": {},
   "signIn2": "Haz clic aquí",
@@ -691,9 +698,9 @@
   },
   "uploadPhoto": "Sube una foto",
   "@uploadPhoto": {},
-  "usdcExplanation": "El USDC es una modenda digital estable que equivale al dólar de los Estados Unidos.",
+  "usdcExplanation": "El USDC es una criptomoneda estable que suele mantener un valor equivalente al dólar Estadounidense.",
   "@usdcExplanation": {},
-  "usdcInfo": "El USDC es una moneda digital estable que equivale al dólar de los Estados Unidos. ($1 = 1USDC)",
+  "usdcInfo": "El USDC es una criptomoneda estable que suele mantener un valor equivalente al dolar Estadounidense. ($1 = 1USDC)",
   "@usdcInfo": {},
   "version": "Version {versionNumber} ({buildNumber})",
   "@version": {
@@ -720,10 +727,12 @@
   "@yes": {},
   "yesDeleteMyWallet": "Si, elimina mi billetera",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Estás creando un enlace seguro que contiene:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "Tu posees",
   "@youOwn": {},
+  "yourEmailDisclaimer": "Tu dirección de correo electrónico se guarda únicamente localmente y se comparte solamente con los socios de ingreso y salida de efectivo.",
+  "@yourEmailDisclaimer": {},
+  "yourEmailPlaceholder": "Correo electrónico",
+  "@yourEmailPlaceholder": {},
   "yourFirstNamePlaceholder": "Elige un nombre de usuario",
   "@yourFirstNamePlaceholder": {},
   "yourLinkIsReady": "Tu enlace está listo",

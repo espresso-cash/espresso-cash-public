@@ -52,7 +52,7 @@
   "@create": {},
   "crypto": "Cripto",
   "@crypto": {},
-  "cryptoCashBalance": "Seu Saldo\nCripto",
+  "cryptoCashBalance": "Seu Saldo Cripto",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Seus Investmentos\nem Cripto",
   "@cryptoInvestments": {},
@@ -108,7 +108,7 @@
   },
   "following": "Seguindo",
   "@following": {},
-  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode comprar e vender cripto ou enviar dinheiro para qualquer lugar do mundo!",
+  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode enviar dinheiro para qualquer lugar do mundo ou comprar e vender cripto !",
   "@fundYourAccount": {},
   "help": "Ajuda",
   "@help": {},
@@ -296,7 +296,7 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancelar a solicitação de pagamento",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount}.",
+  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount} foi paga.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -360,12 +360,6 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Falha ao escanear QR code",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Digite o endereço cripto aqui",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Você pode inserir o endereço da carteira Solana do destinatário para enviar dinheiro diretamente para ele.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Enviar manualmente",
-  "@qrInputAddressTitle": {},
   "qrPaymentInstructions": "Por questões de segurança, por favor leia o QR code enviado utilizando o scanner do app.",
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "O destinatário receberá o dinheiro escaneando este QR Code:",
@@ -485,17 +479,6 @@
   "@shareStep1": {},
   "shareStep2": "Etapa 2 - Quando o aplicativo pedir, clique no segundo link:",
   "@shareStep2": {},
-  "shareText": "Olá!\n\nAcabei de te enviar {amount}.\n\nPara receber, você precisa clicar em dois links. Siga estas duas etapas abaixo:\n\nEtapa 1 - Clique no primeiro link:\n\n{firstLink}\n\nEtapa 2 - Quando o aplicativo pedir, clique no segundo link:",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "signIn1": "Já tem uma carteira Solana? ",
   "@signIn1": {},
   "signIn2": "Continue aqui",
@@ -710,8 +693,6 @@
   "@yes": {},
   "yesDeleteMyWallet": "Sim, exclua minha carteira",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Você está criando um link seguro contendo:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "Você possui",
   "@youOwn": {},
   "yourFirstNamePlaceholder": "Escolha um nome de usuário",
