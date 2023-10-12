@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,9 +26,23 @@ class CryptopleaseApp extends StatefulWidget {
 
 class _CryptopleaseAppState extends State<CryptopleaseApp> {
   final _router = AppRouter();
+  StreamSubscription<void>? _nativeSplashSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _nativeSplashSubscription = context
+        .read<AccountsBloc>()
+        .stream
+        .map((event) => event.isProcessing)
+        .where((event) => !event)
+        .take(1)
+        .listen((event) => FlutterNativeSplash.remove());
+  }
 
   @override
   void dispose() {
+    _nativeSplashSubscription?.cancel();
     _router.dispose();
     super.dispose();
   }
@@ -37,10 +53,6 @@ class _CryptopleaseAppState extends State<CryptopleaseApp> {
         context.select<AccountsBloc, bool>((b) => b.state.isProcessing);
     final isAuthenticated =
         context.select<AccountsBloc, bool>((b) => b.state.account != null);
-
-    if (!isLoading) {
-      FlutterNativeSplash.remove();
-    }
 
     return CpTheme(
       theme: const CpThemeData.light(),

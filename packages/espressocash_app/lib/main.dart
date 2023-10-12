@@ -62,7 +62,7 @@ Future<void> _init() async {
 Future<void> _start() async {
   await Future.wait([
     _init(),
-    _delay(),
+    Future<void>.delayed(const Duration(seconds: 2)),
   ]);
 
   final app = DevicePreview(
@@ -88,6 +88,3 @@ Future<void> _start() async {
 }
 
 const _firstRunKey = 'hasPassedFirstRun';
-
-Future<void> _delay() =>
-    Future<void>.delayed(const Duration(milliseconds: 2000));
