@@ -4,13 +4,12 @@ import 'package:flutter/material.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/bottom_button.dart';
+import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../../wallet_flow/widgets/pay_item.dart';
+import '../../wallet_flow/widgets/pay_page.dart';
 import '../data/blockchain.dart';
 import 'network_picker_screen.dart';
 
@@ -72,44 +71,83 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(context.l10n.walletSendToAddressTitle),
-          ),
-          body: SafeArea(
-            child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 32),
-                  PayMethodItem(
-                    title: context.l10n.walletNetworks,
-                    buttonText: _selectedNetwork.name,
-                    onPressed: _showNetworkPicker ? _handleOnNetworkTap : null,
-                    buttonTrailing: _showNetworkPicker
-                        ? const Icon(
-                            Icons.keyboard_arrow_down_outlined,
-                            color: Colors.white,
-                            size: 34,
-                          )
-                        : null,
-                  ),
-                  _WalletTextField(
-                    title: context.l10n.walletAddress,
-                    controller: _walletAddressController,
-                    onQrScan: _handleOnQrScan,
-                  ),
-                  const Spacer(),
-                  ListenableBuilder(
-                    listenable: _walletAddressController,
-                    builder: (context, child) => CpBottomButton(
-                      text: context.l10n.next,
-                      onPressed: _isValid ? _handleSubmitted : null,
-                    ),
-                  ),
-                ],
+  Widget build(BuildContext context) => PayPage(
+        title: context.l10n.walletSendToAddressTitle,
+        headerBackground: Assets.images.sendManualBg,
+        headerContent: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 300,
+              child: Text(
+                '${context.l10n.walletNetworks}:',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
               ),
             ),
+            const SizedBox(height: 12),
+            DecoratedBox(
+              decoration: const ShapeDecoration(
+                color: Colors.black,
+                shape: StadiumBorder(),
+              ),
+              child: ListTile(
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
+                onTap: _showNetworkPicker ? _handleOnNetworkTap : null,
+                title: Text(
+                  _selectedNetwork.name,
+                  maxLines: 1,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                trailing: _showNetworkPicker
+                    ? const Icon(
+                        Icons.keyboard_arrow_down_outlined,
+                        color: Colors.white,
+                        size: 34,
+                      )
+                    : null,
+              ),
+            ),
+            const SizedBox(height: 36),
+          ],
+        ),
+        content: SafeArea(
+          top: false,
+          minimum: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            children: [
+              const SizedBox(height: 27),
+              const _OthersTitle(),
+              const SizedBox(height: 5),
+              _WalletTextField(
+                controller: _walletAddressController,
+                onQrScan: _handleOnQrScan,
+              ),
+              const Spacer(),
+              ListenableBuilder(
+                listenable: _walletAddressController,
+                builder: (context, child) => Container(
+                  margin: const EdgeInsets.symmetric(vertical: 24),
+                  child: CpButton(
+                    text: context.l10n.next,
+                    onPressed: _isValid ? _handleSubmitted : null,
+                    size: CpButtonSize.big,
+                    width: double.infinity,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -117,54 +155,49 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
 
 class _WalletTextField extends StatelessWidget {
   const _WalletTextField({
-    required this.title,
     required this.controller,
     required this.onQrScan,
   });
 
-  final String title;
   final TextEditingController controller;
   final VoidCallback onQrScan;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 24.0),
-              child: Text(
-                title,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: CpTextField(
+          controller: controller,
+          placeholder: context.l10n.walletAddressFieldHint,
+          backgroundColor: const Color(0xFF4D4B4C),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 18,
+          ),
+          textColor: Colors.white,
+          fontSize: 16,
+          suffix: Padding(
+            padding: const EdgeInsets.only(right: 24),
+            child: CpIconButton(
+              onPressed: onQrScan,
+              icon: Assets.icons.qrScanner.svg(color: Colors.white),
+              variant: CpIconButtonVariant.black,
             ),
-            const SizedBox(height: 12),
-            CpTextField(
-              controller: controller,
-              placeholder: context.l10n.walletAddressFieldHint,
-              backgroundColor: const Color(0xFF4D4B4C),
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 18,
-              ),
-              textColor: Colors.white,
-              fontSize: 16,
-              suffix: Padding(
-                padding: const EdgeInsets.only(right: 24),
-                child: CpIconButton(
-                  onPressed: onQrScan,
-                  icon: Assets.icons.qrScanner.svg(color: Colors.white),
-                  variant: CpIconButtonVariant.black,
-                ),
-              ),
-              multiLine: true,
-            ),
-          ],
+          ),
+          multiLine: true,
+        ),
+      );
+}
+
+class _OthersTitle extends StatelessWidget {
+  const _OthersTitle();
+
+  @override
+  Widget build(BuildContext context) => Text(
+        context.l10n.walletAddress,
+        style: TextStyle(
+          fontSize: 19,
+          fontWeight: FontWeight.w500,
+          color: CpTheme.of(context).primaryTextColor,
         ),
       );
 }
