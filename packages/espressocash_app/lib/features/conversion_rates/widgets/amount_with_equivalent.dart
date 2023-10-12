@@ -12,6 +12,7 @@ import '../../../ui/chip.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
+import '../../../ui/usdc_info.dart';
 import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
@@ -22,6 +23,7 @@ class AmountWithEquivalent extends StatelessWidget {
     required this.token,
     this.shakeKey,
     this.error = '',
+    this.showUsdcInfo = false,
   });
 
   final TextEditingController inputController;
@@ -29,42 +31,71 @@ class AmountWithEquivalent extends StatelessWidget {
   final bool collapsed;
   final Key? shakeKey;
   final String error;
+  final bool showUsdcInfo;
 
   @override
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
-        builder: (context, value, _) => Column(
-          children: [
-            Shake(
-              key: shakeKey,
-              child: _InputDisplay(
-                input: value.text,
-                fontSize: collapsed ? 57 : 80,
-              ),
-            ),
-            if (!collapsed)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: error.isNotEmpty
-                      ? _DisplayChip(
-                          key: ValueKey(error),
-                          value: error,
-                          shouldDisplay: true,
-                          backgroundColor: CpColors.errorChipColor,
-                        )
-                      : _EquivalentDisplay(
-                          input: value.text,
-                          token: token,
-                          backgroundColor: Colors.black,
-                        ),
+        builder: (context, value, _) {
+          final num =
+              value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+
+          final isZero = num.toDouble() == 0;
+          final hasError = error.isNotEmpty;
+
+          final state = (isZero, hasError, showUsdcInfo);
+
+          return Column(
+            children: [
+              Shake(
+                key: shakeKey,
+                child: _InputDisplay(
+                  input: value.text,
+                  fontSize: collapsed ? 57 : 80,
                 ),
               ),
-          ],
-        ),
+              if (!collapsed)
+                Container(
+                  height: showUsdcInfo ? 96 : null,
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 100),
+                    child: Column(
+                      children: [
+                        switch (state) {
+                          (_, true, _) => _DisplayChip(
+                              key: ValueKey(error),
+                              value: error,
+                              shouldDisplay: true,
+                              backgroundColor: CpColors.errorChipColor,
+                            ),
+                          (true, false, true) => const _UsdcInfoChip(),
+                          _ => _EquivalentDisplay(
+                              input: value.text,
+                              token: token,
+                              backgroundColor: Colors.black,
+                            ),
+                        },
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       );
+}
+
+class _UsdcInfoChip extends StatelessWidget {
+  const _UsdcInfoChip();
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
+    return UsdcInfoWidget(isSmall: width < 380);
+  }
 }
 
 class _EquivalentDisplay extends StatelessWidget {
