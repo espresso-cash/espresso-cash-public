@@ -853,5 +853,33 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "landingPaymentRequestTitle": "You have a payment request in the amount of",
+  "@landingPaymentRequestTitle": {},
+  "landingPaymentRequestTitle2": "You have a payment request.",
+  "@landingPaymentRequestTitle2": {},
+  "landingRequestPayEspressoButton": "Pay With Espresso Cash",
+  "@landingRequestPayEspressoButton": {},
+  "landingRequestPayOtherWalletButton": "Pay With Another Wallet",
+  "@landingRequestPayOtherWalletButton": {},
+  "landingRequestPaymentMethod": "Payment Method",
+  "@landingRequestPaymentMethod": {},
+  "landingRequestDestinationAddress": "Destination Address",
+  "@landingRequestDestinationAddress": {},
+  "landingRequestNetworkFee": "Network Fee: {amount}",
+  "@landingRequestNetworkFee": {
+     "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "landingRequestTotalAmount": "Total Amount: {amount}",
+  "@landingRequestTotalAmount": {
+     "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }

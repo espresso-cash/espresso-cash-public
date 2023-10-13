@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../ui/app_bar.dart';
 import 'footer.dart';
 
 class LandingScreenWidget extends StatelessWidget {
