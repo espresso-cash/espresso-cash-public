@@ -23,7 +23,7 @@ class PayFlowScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => PayPage(
         title: context.l10n.walletTransactionMethodTitle,
-        headerIcon: Assets.images.identityGraphic,
+        headerIcon: Assets.images.sendMoneyGraphic,
         headerBackground: Assets.images.sendMoneyBg,
         headerContent: Column(
           mainAxisSize: MainAxisSize.min,
@@ -97,15 +97,16 @@ class _Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 7,
-          horizontal: 18,
+          vertical: 8,
+          horizontal: 40,
         ),
         child: ListTile(
           tileColor: const Color(0xff413D3F),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(63)),
           ),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 28),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 28, vertical: 4),
           title: Text(
             title,
             textAlign: TextAlign.center,

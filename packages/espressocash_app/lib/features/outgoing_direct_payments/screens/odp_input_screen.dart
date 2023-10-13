@@ -98,7 +98,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
               ),
               child: ListTile(
                 contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                 onTap: _showNetworkPicker ? _handleOnNetworkTap : null,
                 title: Text(
                   _selectedNetwork.name,
@@ -171,7 +171,7 @@ class _WalletTextField extends StatelessWidget {
           backgroundColor: const Color(0xFF4D4B4C),
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
-            vertical: 18,
+            vertical: 20,
           ),
           textColor: Colors.white,
           fontSize: 16,
@@ -193,7 +193,7 @@ class _OthersTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        context.l10n.walletAddress,
+        '${context.l10n.walletAddress}:',
         style: TextStyle(
           fontSize: 19,
           fontWeight: FontWeight.w500,
