@@ -42,7 +42,8 @@ class SharePaymentRequestScreen extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(48, 32, 48, 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
                 child: CpTabBar(
                   variant: CpTabBarVariant.black,
                   tabs: [

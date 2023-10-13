@@ -54,9 +54,9 @@ class InvestmentsScreen extends StatelessWidget {
                       title: Center(
                         child: Text(context.l10n.investingTitle.toUpperCase()),
                       ),
-                      pinned: false,
-                      snap: true,
-                      floating: true,
+                      pinned: true,
+                      snap: false,
+                      floating: false,
                       elevation: 0,
                       actions: [
                         CpIconButton(
@@ -84,7 +84,8 @@ class InvestmentsScreen extends StatelessWidget {
                         height: max(
                           0,
                           MediaQuery.paddingOf(context).bottom -
-                              cpNavigationBarheight,
+                              cpNavigationBarheight +
+                              16,
                         ),
                       ),
                     ),

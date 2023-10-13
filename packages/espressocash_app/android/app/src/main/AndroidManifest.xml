@@ -51,35 +51,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Support for cryptoplease.link protocol -->
-                <data android:host="solana1.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="solana2.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="link.espressocash.com"
-                    android:scheme="https" />
-
-                <!-- Support for requests -->
-                <data android:host="solanapay.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="solanapay.espressocash.com"
-                    android:scheme="https" />
-
-                <!-- Firebase deep link for installing the app -->
-                <data android:host="cryptoplease.page.link"
-                    android:scheme="https" />
-                <data android:host="espressocash.page.link"
+                <!-- Support for espressocash link and solanapay protocol -->
+                <data android:host="pay.espressocash.com"
                     android:scheme="https" />
             </intent-filter>
 
-            <!-- Support for cryptoplease.link protocol -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="cryptoplease-sol" />
-            </intent-filter>
+            <!-- Support for espressocash link protocol -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

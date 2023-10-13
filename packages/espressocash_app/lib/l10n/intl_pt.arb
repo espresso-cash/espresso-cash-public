@@ -52,7 +52,7 @@
   "@create": {},
   "crypto": "Cripto",
   "@crypto": {},
-  "cryptoCashBalance": "Seu Saldo\nCripto",
+  "cryptoCashBalance": "Seu Saldo Cripto",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Seus Investmentos\nem Cripto",
   "@cryptoInvestments": {},
@@ -108,7 +108,7 @@
   },
   "following": "Seguindo",
   "@following": {},
-  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode comprar e vender cripto ou enviar dinheiro para qualquer lugar do mundo!",
+  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode enviar dinheiro para qualquer lugar do mundo ou comprar e vender cripto !",
   "@fundYourAccount": {},
   "help": "Ajuda",
   "@help": {},
@@ -158,8 +158,6 @@
   "@learningSectionTitle": {},
   "less": "menos",
   "@less": {},
-  "linkSubtitle": "O destinatário precisará clicar nos dois links abaixo para resgatar o dinheiro.",
-  "@linkSubtitle": {},
   "loading": "Carregando...",
   "@loading": {},
   "marketCapRank": "Ranking de Capitalização de Mercado",
@@ -298,7 +296,7 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancelar a solicitação de pagamento",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount}.",
+  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount} foi paga.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -362,20 +360,10 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Falha ao escanear QR code",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Digite o endereço cripto aqui",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Você pode inserir o endereço da carteira Solana do destinatário para enviar dinheiro diretamente para ele.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Enviar manualmente",
-  "@qrInputAddressTitle": {},
   "qrPaymentInstructions": "Por questões de segurança, por favor leia o QR code enviado utilizando o scanner do app.",
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "O destinatário receberá o dinheiro escaneando este QR Code:",
   "@qrPaymentSubtitle": {},
-  "qrScanInfo1": "Se o destinatário tem o app instalado:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "Eles devem utilizar o leitor de QR code do app.",
-  "@qrScanInfo2": {},
   "qrTermsDisclaimer": "Ao abrir o leitor de QR code, você concorda com os nossos ",
   "@qrTermsDisclaimer": {},
   "ramp_btnAddCash": "Depositar",
@@ -466,8 +454,6 @@
   "@shareLink": {},
   "shareLinks": "Compartilhar links",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "O destinatário precisará clicar no link abaixo para pagar você.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "Para me pagar com um clique, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Olá!\n\nEnviei uma solicitação de ",
@@ -485,8 +471,6 @@
   },
   "sharePaymentRequestLinkTitle": "Compartilhar link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "O destinatário pode pagar você com Espresso Cash (ou outra carteira Solana Pay), escaneando o QR Code abaixo.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Compartilhar QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Solicitação criada!",
@@ -495,20 +479,6 @@
   "@shareStep1": {},
   "shareStep2": "Etapa 2 - Quando o aplicativo pedir, clique no segundo link:",
   "@shareStep2": {},
-  "shareText": "Olá!\n\nAcabei de te enviar {amount}.\n\nPara receber, você precisa clicar em dois links. Siga estas duas etapas abaixo:\n\nEtapa 1 - Clique no primeiro link:\n\n{firstLink}\n\nEtapa 2 - Quando o aplicativo pedir, clique no segundo link:\n\n{secondLink}",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "signIn1": "Já tem uma carteira Solana? ",
   "@signIn1": {},
   "signIn2": "Continue aqui",
@@ -662,13 +632,10 @@
   },
   "tokenDetails_lblBalance": "Saldo",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Equivalente a {value} {symbol}",
+  "tokenEquivalent": "Equivalente a {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
@@ -726,8 +693,6 @@
   "@yes": {},
   "yesDeleteMyWallet": "Sim, exclua minha carteira",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Você está criando um link seguro contendo:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "Você possui",
   "@youOwn": {},
   "yourFirstNamePlaceholder": "Escolha um nome de usuário",

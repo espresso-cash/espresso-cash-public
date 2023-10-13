@@ -89,6 +89,7 @@ class _MainScreenState extends State<MainScreen> {
                         ),
                         const SizedBox(width: 12),
                       ],
+                      toolbarHeight: kToolbarHeight + 12,
                     ),
                     const SliverToBoxAdapter(child: InvestmentHeader()),
                     const SliverToBoxAdapter(child: OnboardingNotice()),
@@ -101,7 +102,7 @@ class _MainScreenState extends State<MainScreen> {
                           0,
                           MediaQuery.paddingOf(context).bottom -
                               cpNavigationBarheight +
-                              8,
+                              16,
                         ),
                       ),
                     ),

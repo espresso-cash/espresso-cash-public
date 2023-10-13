@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +17,11 @@ import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
 import 'features/accounts/module.dart';
 import 'logging.dart';
-import 'ui/splash_screen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final binding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: binding);
+
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -27,13 +29,6 @@ Future<void> main() async {
     ]);
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
-
-  runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    ),
-  );
 
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
@@ -47,7 +42,7 @@ Future<void> main() async {
       : _start();
 }
 
-Future<void> _start() async {
+Future<void> _init() async {
   await Firebase.initializeApp();
 
   await configureDependencies();
@@ -62,6 +57,13 @@ Future<void> _start() async {
     await const FlutterSecureStorage().deleteAll();
   }
   await sharedPreferences.setBool(_firstRunKey, true);
+}
+
+Future<void> _start() async {
+  await Future.wait([
+    _init(),
+    Future<void>.delayed(const Duration(seconds: 2)),
+  ]);
 
   final app = DevicePreview(
     enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),

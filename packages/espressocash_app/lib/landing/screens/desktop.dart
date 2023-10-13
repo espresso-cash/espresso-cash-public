@@ -8,9 +8,14 @@ import '../widgets/qr_code.dart';
 import '../widgets/step_circle.dart';
 
 class DesktopView extends StatelessWidget {
-  const DesktopView(this.uri, {super.key});
+  const DesktopView({
+    super.key,
+    required this.actionLink,
+    required this.title,
+  });
 
-  final Uri uri;
+  final Uri actionLink;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +50,7 @@ class DesktopView extends StatelessWidget {
 
     final second = _InstructionItem(
       step: 2,
-      content: ShareQr(qrLink: uri),
+      content: ShareQr(qrLink: actionLink),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
@@ -63,7 +68,7 @@ class DesktopView extends StatelessWidget {
         Assets.images.logoDark.image(height: 62),
         const SizedBox(height: 32),
         Text(
-          context.l10n.landingTitle,
+          title,
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.white,

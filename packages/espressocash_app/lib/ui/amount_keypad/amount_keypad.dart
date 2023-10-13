@@ -68,36 +68,49 @@ class AmountKeypad extends StatelessWidget {
     }
   }
 
+  Widget _buildRow(
+    List<KeypadKey> keys,
+    String decimalSeparator,
+  ) =>
+      Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: keys
+              .map(
+                (child) => Expanded(
+                  child: Center(
+                    child: Opacity(
+                      opacity: isEnabled ? 1 : 0.5,
+                      child: InkWell(
+                        onTap: isEnabled
+                            ? () => _manageKey(child.value, decimalSeparator)
+                            : null,
+                        child: Center(child: child),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+              .toList(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
           final decimalSeparator =
               getDecimalSeparator(DeviceLocale.localeOf(context));
 
-          return AspectRatio(
-            aspectRatio: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: GridView.count(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                childAspectRatio: 4 / 3,
-                crossAxisCount: 3,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-                children: _keys
-                    .map(
-                      (KeypadKey child) => Opacity(
-                        opacity: isEnabled ? 1 : 0.5,
-                        child: InkWell(
-                          onTap: isEnabled
-                              ? () => _manageKey(child.value, decimalSeparator)
-                              : null,
-                          child: Center(child: child),
-                        ),
-                      ),
-                    )
-                    .toList(),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            child: Column(
+              children: List.generate(
+                4,
+                (rowIndex) => _buildRow(
+                  _keys.sublist(rowIndex * 3, (rowIndex + 1) * 3),
+                  decimalSeparator,
+                ),
               ),
             ),
           );

@@ -12,11 +12,11 @@ import '../../activities/module.dart';
 import '../../backup_phrase/backup_phrase.dart';
 import '../../conversion_rates/module.dart';
 import '../../favorite_tokens/module.dart';
-import '../../incoming_split_key_payments/module.dart';
+import '../../incoming_link_payments/module.dart';
 import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
 import '../../outgoing_direct_payments/module.dart';
-import '../../outgoing_split_key_payments/module.dart';
+import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
@@ -74,7 +74,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                   create: (_) => HomeRouterKey(_homeRouterKey),
                 ),
                 const ODPModule(),
-                const OSKPModule(),
+                const OLPModule(),
                 const InvestmentModule(),
                 const ActivitiesModule(),
                 const FavoriteTokensModule(),
@@ -86,7 +86,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 key: _homeRouterKey,
                 builder: (context, child) => MultiProvider(
                   providers: const [
-                    ISKPModule(),
+                    ILPModule(),
                   ],
                   child: child,
                 ),
