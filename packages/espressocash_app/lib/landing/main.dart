@@ -9,7 +9,8 @@ import '../core/link_payments.dart';
 import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../l10n/l10n.dart';
-import 'screens/landing.dart';
+import 'features/pay/landing.dart';
+import 'features/request/landing.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -36,19 +37,11 @@ class LandingPageApp extends StatelessWidget {
 
           if (linkPayment != null) {
             return MaterialPageRoute(
-              builder: (context) => LandingScreen(
-                actionLink: linkPayment.toDeepLinkUri(),
-                actionText: context.l10n.landingReceiveMoney,
-                title: context.l10n.landingTitle,
-              ),
+              builder: (context) => EspressoPayScreen(payment: linkPayment),
             );
           } else if (solanaPay != null) {
             return MaterialPageRoute(
-              builder: (context) => LandingScreen(
-                actionLink: Uri.parse(solanaPay.toUrl()),
-                actionText: context.l10n.landingReceiveMoney,
-                title: context.l10n.pay,
-              ),
+              builder: (context) => PayRequestScreen(request: solanaPay),
             );
           }
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../gen/assets.gen.dart';
-import '../../l10n/l10n.dart';
-import '../../ui/button.dart';
-import '../widgets/extensions.dart';
-import '../widgets/landing_widget.dart';
-import '../widgets/step_circle.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../core/extensions.dart';
+import '../../core/landing_widget.dart';
+import '../../core/step_circle.dart';
 
 class MobileView extends StatelessWidget {
   const MobileView({

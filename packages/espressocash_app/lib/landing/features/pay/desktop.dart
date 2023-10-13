@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../gen/assets.gen.dart';
-import '../../l10n/l10n.dart';
-import '../widgets/extensions.dart';
-import '../widgets/landing_widget.dart';
-import '../widgets/qr_code.dart';
-import '../widgets/step_circle.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../core/extensions.dart';
+import '../../core/landing_widget.dart';
+import '../../core/qr_code.dart';
+import '../../core/step_circle.dart';
 
 class DesktopView extends StatelessWidget {
   const DesktopView({
