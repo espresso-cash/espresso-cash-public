@@ -13,8 +13,8 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
-import '../../../ui/usdc_info.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../widgets/extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -106,10 +106,67 @@ class _ScreenState extends State<WalletMainScreen> {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(
+        appBar: _AppBar(onQrScanner: widget.onScan),
+        body: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(height: context.isSmall ? 24 : 32),
+              AmountWithEquivalent(
+                inputController: _amountController,
+                token: widget.token,
+                collapsed: false,
+                shakeKey: widget.shakeKey,
+                error: widget.error,
+                showUsdcInfo: true,
+              ),
+              Expanded(
+                child: AmountKeypad(
+                  controller: _amountController,
+                  maxDecimals: 2,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: CpButton(
+                  text: _action.buttonLabel(context),
+                  minWidth: width,
+                  onPressed: () {
+                    switch (_action) {
+                      case WalletOperation.pay:
+                        widget.onPay();
+                      case WalletOperation.request:
+                        widget.onRequest();
+                    }
+                  },
+                  size:
+                      context.isSmall ? CpButtonSize.normal : CpButtonSize.big,
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AppBar({required this.onQrScanner});
+
+  final VoidCallback onQrScanner;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: CpAppBar(
           leading: Center(
             child: CpIconButton(
-              onPressed: widget.onScan,
+              onPressed: onQrScanner,
               icon: Assets.icons.qrScanner.svg(color: Colors.white),
               variant: CpIconButtonVariant.black,
             ),
@@ -128,47 +185,7 @@ class _ScreenState extends State<WalletMainScreen> {
             ),
           ),
         ),
-        body: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
-              AmountWithEquivalent(
-                inputController: _amountController,
-                token: widget.token,
-                collapsed: false,
-                shakeKey: widget.shakeKey,
-                error: widget.error,
-              ),
-              const SizedBox(height: 8),
-              UsdcInfoWidget(isSmall: width < 400),
-              Expanded(
-                child: AmountKeypad(
-                  controller: _amountController,
-                  maxDecimals: 2,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: CpButton(
-                  text: _action.buttonLabel(context),
-                  minWidth: width,
-                  onPressed: () {
-                    switch (_action) {
-                      case WalletOperation.pay:
-                        widget.onPay();
-                      case WalletOperation.request:
-                        widget.onRequest();
-                    }
-                  },
-                ),
-              ),
-              const SizedBox(height: 24),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+      );
 }
 
 extension on WalletOperation {

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
 import 'core/analytics/analytics_manager.dart';
@@ -23,9 +26,23 @@ class CryptopleaseApp extends StatefulWidget {
 
 class _CryptopleaseAppState extends State<CryptopleaseApp> {
   final _router = AppRouter();
+  StreamSubscription<void>? _nativeSplashSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _nativeSplashSubscription = context
+        .read<AccountsBloc>()
+        .stream
+        .map((event) => event.isProcessing)
+        .where((event) => !event)
+        .take(1)
+        .listen((event) => FlutterNativeSplash.remove());
+  }
 
   @override
   void dispose() {
+    _nativeSplashSubscription?.cancel();
     _router.dispose();
     super.dispose();
   }

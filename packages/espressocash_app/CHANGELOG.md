@@ -1,3 +1,13 @@
+## 1.86.0
+
+ - **FIX**: payment request link format (#1094).
+ - **FIX**: ramp ui updates (#1096).
+ - **FEAT**: update translations.
+ - **FEAT**: update splash screen (#1095).
+ - **FEAT**: various ui updates (#1097).
+ - **FEAT**: keypad and wallet ui (#1098).
+ - **FEAT**: update landing page config.
+
 ## 1.85.0
 
  - **REFACTOR**: update lint rules (#1091).

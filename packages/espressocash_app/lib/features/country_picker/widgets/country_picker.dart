@@ -36,7 +36,7 @@ class CountryPicker extends StatelessWidget {
             country?.name ?? context.l10n.countryOfResidence,
             style: const TextStyle(
               fontWeight: FontWeight.normal,
-              fontSize: 20,
+              fontSize: 16,
               color: Colors.white,
               height: 1.2,
             ),
@@ -44,7 +44,7 @@ class CountryPicker extends StatelessWidget {
           trailing: const Icon(
             Icons.keyboard_arrow_down_outlined,
             color: Colors.white,
-            size: 34,
+            size: 28,
           ),
         ),
       );

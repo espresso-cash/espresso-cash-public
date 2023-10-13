@@ -44,22 +44,16 @@ class ShareLink extends StatelessWidget {
       ),
     );
 
-    final subTitle = Text(
-      context.l10n.linkSubtitle,
-      textAlign: TextAlign.center,
-      style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
-    );
-
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: subTitle,
+          Flexible(
+            flex: 4,
+            child: messageBubble,
           ),
-          Flexible(child: messageBubble),
           const SizedBox(height: 24),
+          const Spacer(),
           CpButton(
             text: context.l10n.shareLink,
             width: double.infinity,

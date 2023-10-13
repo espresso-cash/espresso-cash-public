@@ -48,11 +48,13 @@
   "@core_and": {},
   "core_btnCancel": "Annuler",
   "@core_btnCancel": {},
+  "countryOfResidence": "Pays de résidence",
+  "@countryOfResidence": {},
   "create": "Créer",
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Votre Crypto Cash\nSolde ",
+  "cryptoCashBalance": "Votre Crypto Cash Solde ",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Vos investissements\ncrypto",
   "@cryptoInvestments": {},
@@ -64,7 +66,7 @@
   "@displayEmptyBalanceSubtitle": {},
   "displayEmptyBalanceTitle": "Afficher les soldes vides",
   "@displayEmptyBalanceTitle": {},
-  "editProfile": "Editer le profil",
+  "editProfile": "Editer mes infos",
   "@editProfile": {},
   "editProfileDescription": "Apporter des modifications à votre profil actuel",
   "@editProfileDescription": {},
@@ -108,7 +110,7 @@
   },
   "following": "Suivi",
   "@following": {},
-  "fundYourAccount": "Financez votre compte pour commencer votre voyage crypto. Vous pouvez acheter et vendre des cryptos ou envoyer de l'argent partout dans le monde !",
+  "fundYourAccount": "Faites un dépôt sur votre compte pour envoyer de l'argent partout dans le monde.",
   "@fundYourAccount": {},
   "help": "Aide",
   "@help": {},
@@ -158,12 +160,18 @@
   "@learningSectionTitle": {},
   "less": "less",
   "@less": {},
-  "linkSubtitle": "Le destinataire devra cliquer sur les deux liens ci-dessous pour recevoir l'argent.",
-  "@linkSubtitle": {},
   "loading": "Chargement...",
   "@loading": {},
   "marketCapRank": "Classement de capitalisation des crypto-monnaies",
   "@marketCapRank": {},
+  "minAmountToOffRamp": "{amount} est le montant minimum que vous pouvez retirer",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "minimumAmountToRequest": "{amount} est le minimum pour demander",
   "@minimumAmountToRequest": {
     "placeholders": {
@@ -240,12 +248,16 @@
   "@next": {},
   "no": "Non",
   "@no": {},
-  "noActivity": "Aucune activité encore!",
+  "noActivity": "Pas d'activité pour le moment !",
   "@noActivity": {},
   "noEmailInCryptoInfo": "Avec Espresso Cash, il n'y a pas besoin d'un e-mail et d'un mot de passe pour accéder à votre argent!",
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "Vous avez besoin d'une phrase de récupération secrète. Cette phrase est composée de 12 mots qui ont été générés au hasard et qui vous sont fournis. Sans ces mots, vous ne pourrez pas accéder à vos fonds. Ces mots ne peuvent jamais être récupérés.\n\nGarde les en sécurité!",
   "@noEmailInCryptoParagraph": {},
+  "noResultsFound": "Aucun résultat trouvé",
+  "@noResultsFound": {},
+  "offRampTopPartnerTitle": "Encaissez sur votre compte bancaire en utilisant notre meilleur partenaire",
+  "@offRampTopPartnerTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "L'investissement crypto en toute simplicité, que vous soyez nouveau ou professionnel chevronné !",
@@ -260,6 +272,8 @@
   "@oneMonth": {},
   "oneWeek": "1 semaine",
   "@oneWeek": {},
+  "onRampTopPartnerTitle": "Transférez de l'argent vers Espresso en utilisant notre meilleur partenaire de paiement",
+  "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Ouvrez le scanner QR intégré à l'application",
   "@openInAppScanner": {},
   "operationSend": "envoyer",
@@ -298,7 +312,7 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount}.",
+  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} a été payée.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
@@ -362,26 +376,38 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Échec du scan",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Entrez l'adresse crypto ici",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Vous pouvez saisir l'adresse du portefeuille Solana du destinataire pour leur envoyer de l'argent directement.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Envoyer manuellement",
-  "@qrInputAddressTitle": {},
   "qrPaymentInstructions": "Pour des raisons de sécurité, veuillez scanner le code QR de l'expéditeur à l'aide du scanner intégré à l'application.",
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "Le destinataire recevra l'argent en scannant ce code QR:",
   "@qrPaymentSubtitle": {},
-  "qrScanInfo1": "Si l'application est installée sur le destinataire :",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "Ils doivent utiliser le scanner QR intégré à l'application.",
-  "@qrScanInfo2": {},
   "qrTermsDisclaimer": "En ouvrant le lecteur de code QR sécurisé, vous acceptez notre ",
   "@qrTermsDisclaimer": {},
+  "rampAmountEquivalent": "Vous obtiendrez env. {amount}",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalentError": "Erreur de chargement",
+  "@rampAmountEquivalentError": {},
+  "rampBasicInfoRequired": "Pour commencer, nous avons besoin de quelques informations de votre part.",
+  "@rampBasicInfoRequired": {},
   "ramp_btnAddCash": "Déposer",
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Retirer",
   "@ramp_btnCashOut": {},
+  "rampMinimumTransferAmount": "Montant minimum à transférer {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampOtherPartnersTitle": "Autres partenaires :",
+  "@rampOtherPartnersTitle": {},
   "receive": "Recevoir",
   "@receive": {},
   "receivedBy": "Reçu par {address}",
@@ -396,7 +422,7 @@
   "@recoverySubHeading": {},
   "recoveryWarningInfo": "Veuillez lire attentivement les informations ci-dessous avant de consulter votre phrase de récupération secrète",
   "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "Pour récupérer votre portefeuille, vous aurez besoin de votre phrase de récupération secrète. Veuillez noter votre phrase de récupération secrète suivante et la stocker attentivement. \n\n N'importe qui qui a accès à votre phrase de récupération secrète a également un accès irrévocable à votre argent. \n\n Ne partagez jamais cette phrase de récupération secrète à un étranger et n'entrez jamais cette phrase de récupération secrète dans un formulaire ou une autre application.",
+  "recoveryWarningParagraph": "Pour récupérer votre portefeuille, vous aurez besoin de votre phrase de récupération secrète. Veuillez noter votre phrase de récupération secrète suivante et la stocker attentivement. \n\nQuiconque qui a accès à votre phrase de récupération secrète a également un accès irrévocable à votre argent. \n\nNe partagez jamais cette phrase de récupération secrète à un étranger et n'entrez jamais cette phrase de récupération secrète dans un formulaire ou une autre application.",
   "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Réentrez votre code d'accès",
   "@reEnterPasscode": {},
@@ -432,6 +458,8 @@
   "@searchPlaceholder": {},
   "securitySectionTitle": "SECURITE ET CONFIDENTIALITE",
   "@securitySectionTitle": {},
+  "selectCountryTitle": "SELECTIONNER VOTRE PAYS",
+  "@selectCountryTitle": {},
   "sell": "Vendre",
   "@sell": {},
   "send": "Send",
@@ -466,8 +494,6 @@
   "@shareLink": {},
   "shareLinks": "Partager les liens",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "Le destinataire devra cliquer sur le lien ci-dessous pour vous payer.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de paiement ",
@@ -485,8 +511,6 @@
   },
   "sharePaymentRequestLinkTitle": "Partager le lien",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "Le destinataire peut vous payer avec Espresso Cash (ou un autre portefeuille Solana Pay) en scannant le code QR ci-dessous.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Partager le code QR",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "La demande a été créée!",
@@ -495,17 +519,6 @@
   "@shareStep1": {},
   "shareStep2": "Étape 2 - Lorsque l'application te demande, clique sur le deuxième lien:",
   "@shareStep2": {},
-  "shareText": "Hello!\n\nJe viens de t'envoyer {amount}.\n\n Pour recevoir l'argent, tu dois cliquer sur deux liens. Suis ces deux étapes ci-dessous:\n\nÉtape 1 - Clique sur le premier lien:\n\n{firstLink}\n\nÉtape 2 - Lorsque l'application te demande, clique sur le deuxième lien:",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "signIn1": "Vous avez déjà un portefeuille Solana ? ",
   "@signIn1": {},
   "signIn2": "Continuez ici",
@@ -572,7 +585,7 @@
   "@splitKeyTransferTitle": {},
   "stablecoin": "Stablecoin",
   "@stablecoin": {},
-  "startInvestingSubtitle": "Nouveau à l'investissement cryptographique?\n Voici quelques crypto populaires que vous pourriez aimer.",
+  "startInvestingSubtitle": "Voici quelques crypto populaires que vous pourriez aimer.",
   "@startInvestingSubtitle": {},
   "startInvestingTitle": "Commencez à investir",
   "@startInvestingTitle": {},
@@ -594,7 +607,7 @@
       }
     }
   },
-  "swapEquivalent": "Pour {input} Vous obtiendrez approx. {output}",
+  "swapEquivalent": "Pour {input} vous obtiendrez approx. {output}",
   "@swapEquivalent": {
     "placeholders": {
       "input": {
@@ -647,6 +660,16 @@
       }
     }
   },
+  "tokenChart_lblAllTime": "Tout",
+  "@tokenChart_lblAllTime": {},
+  "tokenChart_lblPastMonth": "Dernier mois\n",
+  "@tokenChart_lblPastMonth": {},
+  "tokenChart_lblPastThreeMonths": "3 derniers mois",
+  "@tokenChart_lblPastThreeMonths": {},
+  "tokenChart_lblPastWeek": "Dernière semaine",
+  "@tokenChart_lblPastWeek": {},
+  "tokenChart_lblPastYear": "Dernière année",
+  "@tokenChart_lblPastYear": {},
   "tokenDetails_btnBuy": "Acheter",
   "@tokenDetails_btnBuy": {},
   "tokenDetails_lblAboutToken": "A propos de {name}",
@@ -659,13 +682,10 @@
   },
   "tokenDetails_lblBalance": "Solde",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Équivalent à {value} {symbol}",
+  "tokenEquivalent": "Équivalent à {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
@@ -684,7 +704,7 @@
   "@transferSuccessTitle": {},
   "tryAgainLater": "Veuillez réessayer plus tard",
   "@tryAgainLater": {},
-  "unavailableToken": "{tokenName} n'est actuellement pas disponible à l'achat. Vous pouvez toujours suivre les prix.",
+  "unavailableToken": "{tokenName} n'est pas disponible actuellement à l'achat. Vous pouvez toujours suivre les prix.",
   "@unavailableToken": {
     "placeholders": {
       "tokenName": {
@@ -723,10 +743,12 @@
   "@yes": {},
   "yesDeleteMyWallet": "Oui, supprimez mon portefeuille",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Vous créez un lien sécurisé contenant:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "Vous possédez",
   "@youOwn": {},
+  "yourEmailDisclaimer": "Votre email n'est stocké que localement et il n'est partagé qu'àvec nos partenaires lors des opérations de dépôt et de retrait.",
+  "@yourEmailDisclaimer": {},
+  "yourEmailPlaceholder": "Adresse e-mail",
+  "@yourEmailPlaceholder": {},
   "yourFirstNamePlaceholder": "Choisissez un nom d'utilisateur",
   "@yourFirstNamePlaceholder": {},
   "yourLinkIsReady": "Votre lien est prêt",

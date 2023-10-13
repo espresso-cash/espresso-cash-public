@@ -4,7 +4,6 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/back_button.dart';
-import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import '../models/ramp_type.dart';
 
@@ -23,7 +22,7 @@ class RampPage extends StatelessWidget {
   final RampType type;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
             leading: const CpBackButton(),
@@ -36,8 +35,7 @@ class RampPage extends StatelessWidget {
             ),
           ),
           extendBodyBehindAppBar: true,
-          backgroundColor: CpColors.dashboardBackgroundColor,
-          body: CpTheme.light(
+          body: CpTheme.black(
             child: LayoutBuilder(
               builder: (context, viewportConstraints) => SingleChildScrollView(
                 child: ConstrainedBox(

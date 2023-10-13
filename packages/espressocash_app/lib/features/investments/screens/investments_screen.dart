@@ -84,7 +84,8 @@ class InvestmentsScreen extends StatelessWidget {
                         height: max(
                           0,
                           MediaQuery.paddingOf(context).bottom -
-                              cpNavigationBarheight,
+                              cpNavigationBarheight +
+                              16,
                         ),
                       ),
                     ),
