@@ -49,6 +49,7 @@ class _RequestScreenState extends State<RequestScreen> {
   bool get _isValid =>
       isValidAddress(_destinationController.text) &&
       _amountController.text.isValidNumber &&
+      _amountController.text.isNotZero &&
       _isDisclaimerAccepted;
 
   Future<void> _onSubmit() async {
@@ -162,7 +163,7 @@ class _RequestScreenState extends State<RequestScreen> {
                 Listenable.merge([_destinationController, _amountController]),
             builder: (context, child) => CpButton(
               onPressed: _isValid ? _onSubmit : null,
-              text: 'Next',
+              text: 'Create Payment Request',
               size: CpButtonSize.big,
               width: 450,
             ),
@@ -245,6 +246,7 @@ class _DisclaimerCheckbox extends StatelessWidget {
 
 extension on String {
   bool get isValidNumber => RegExp(r'^[0-9]+(\.[0-9]*)?$').hasMatch(this);
+  bool get isNotZero => this != '0';
 }
 
 extension PaymentRequestExt on BuildContext {

@@ -7,16 +7,14 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 import '../core/link_payments.dart';
 import '../core/solana_helpers.dart';
-import '../di.dart';
+
 import '../l10n/gen/app_localizations.dart';
 import '../l10n/l10n.dart';
 import 'screens/landing.dart';
 
-Future<void> main() async {
+void main() {
   setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
-
-  await configureDependencies();
 
   runApp(const LandingPageApp());
 }

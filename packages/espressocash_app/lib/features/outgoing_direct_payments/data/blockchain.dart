@@ -1,12 +1,11 @@
 import 'package:solana/solana.dart';
 
-enum Blockchain { solana, ethereum, arbitrum, polygon }
+enum Blockchain { solana, ethereum, polygon }
 
 extension BlockchainExt on Blockchain {
   String get name => switch (this) {
         Blockchain.solana => 'Solana',
         Blockchain.ethereum => 'Ethereum',
-        Blockchain.arbitrum => 'Arbitrum',
         Blockchain.polygon => 'Polygon',
       };
 
