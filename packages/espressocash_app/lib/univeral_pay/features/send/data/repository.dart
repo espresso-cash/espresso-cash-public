@@ -8,11 +8,11 @@ class UniversalPayRepository {
   final Dio dio;
 
   Future<String> fetch({
-    required String destinationAddress,
+    required String receiver,
     required String reference,
   }) async {
     final data = {
-      'solanaAddress': destinationAddress,
+      'solanaAddress': receiver,
       'solanaReference': reference,
     };
 

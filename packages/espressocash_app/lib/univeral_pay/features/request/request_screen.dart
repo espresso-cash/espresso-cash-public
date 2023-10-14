@@ -34,13 +34,6 @@ class _RequestScreenState extends State<RequestScreen> {
   bool _isDisclaimerAccepted = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    _amountController.text = '0';
-  }
-
-  @override
   void dispose() {
     _destinationController.dispose();
     _amountController.dispose();
@@ -128,6 +121,8 @@ class _RequestScreenState extends State<RequestScreen> {
               child: CpTextField(
                 controller: _amountController,
                 padding: const EdgeInsets.symmetric(horizontal: 8),
+                placeholder: '0',
+                placeholderColor: Colors.white,
                 textColor: Colors.white,
                 backgroundColor: Colors.black,
                 inputType: TextInputType.number,

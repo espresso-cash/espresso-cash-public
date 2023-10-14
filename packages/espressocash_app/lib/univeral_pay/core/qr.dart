@@ -17,8 +17,8 @@ class QrWidget extends StatelessWidget {
         padding: const EdgeInsets.all(24),
         backgroundColor: Colors.black,
         child: BarcodeWidget(
-          width: 120,
-          height: 120,
+          width: 130,
+          height: 130,
           barcode: Barcode.qrCode(),
           data: qrLink.toString(),
           padding: EdgeInsets.zero,

@@ -1,4 +1,3 @@
-const urlScheme = 'http';
 const espressoUniversalPayDomain = 'localhost';
 
 const githubRepoUrl = 'https://github.com/espresso-cash/dln-forwarders';

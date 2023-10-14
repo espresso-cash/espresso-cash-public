@@ -40,7 +40,7 @@ class UniversalPayCubit extends Cubit<UniversalPayState> {
     if (reference == null) return;
 
     final destinationAddress = await _repository.fetch(
-      destinationAddress: _request.recipient.toBase58(),
+      receiver: _request.recipient.toBase58(),
       reference: reference.toBase58(),
     );
 

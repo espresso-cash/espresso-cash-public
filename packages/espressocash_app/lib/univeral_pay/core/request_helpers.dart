@@ -3,9 +3,9 @@ import 'package:solana/solana_pay.dart';
 import '../config.dart';
 
 SolanaPayRequest? tryParseUniversalPayRequest(Uri link) {
-  final linkWithCorrectScheme = link.scheme == urlScheme &&
+  final linkWithCorrectScheme = link.scheme == 'https' &&
           link.host == espressoUniversalPayDomain &&
-          link.queryParameters['t'] == 'solanapay' &&
+          link.queryParameters['t'] == 'universalpay' &&
           link.queryParameters['recipient'] != null
       ? Uri(
           scheme: 'solana',
@@ -24,11 +24,11 @@ extension SolanaPayRequestExt on SolanaPayRequest {
     final link = Uri.parse(toUrl());
 
     return link.replace(
-      scheme: urlScheme,
+      scheme: 'https',
       path: '/',
       host: espressoUniversalPayDomain,
       queryParameters: {
-        't': 'solanapay',
+        't': 'universalpay',
         'recipient': link.path,
         ...link.queryParameters,
       },
