@@ -1,6 +1,7 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../features/outgoing_direct_payments/data/blockchain.dart';
 import '../../../l10n/l10n.dart';
@@ -10,7 +11,9 @@ import '../../../ui/snackbar.dart';
 import '../../core/page.dart';
 
 class OtherWalletScreen extends StatefulWidget {
-  const OtherWalletScreen({super.key});
+  const OtherWalletScreen(this.request, {super.key});
+
+  final SolanaPayRequest request;
 
   @override
   State<OtherWalletScreen> createState() => _OtherWalletScreenState();

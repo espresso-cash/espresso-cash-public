@@ -1,10 +1,23 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
+import '../../../features/payment_request/models/payment_request.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/loader.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/text_field.dart';
 import '../../core/page.dart';
+import '../../core/request_helpers.dart';
+import 'link_screen.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
@@ -34,9 +47,34 @@ class _RequestScreenState extends State<RequestScreen> {
   }
 
   bool get _isValid =>
-      _destinationController.text.isNotEmpty &&
+      isValidAddress(_destinationController.text) &&
       _amountController.text.isValidNumber &&
       _isDisclaimerAccepted;
+
+  Future<void> _onSubmit() async {
+    final destination = _destinationController.text;
+
+    final locale = DeviceLocale.localeOf(context);
+    final amount = _amountController.text.toDecimalOrZero(locale);
+
+    final cryptoAmount = Amount.fromDecimal(
+      value: amount,
+      currency: Currency.usdc,
+    ) as CryptoAmount;
+
+    final request = await context.createPayRequest(
+      tokenAmount: cryptoAmount,
+      recipient: Ed25519HDPublicKey.fromBase58(destination),
+    );
+
+    if (!mounted) return;
+
+    await Navigator.of(context).pushReplacement(
+      MaterialPageRoute<void>(
+        builder: (context) => RequestLinkScreen(request),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) => PageWidget(
@@ -123,7 +161,7 @@ class _RequestScreenState extends State<RequestScreen> {
             listenable:
                 Listenable.merge([_destinationController, _amountController]),
             builder: (context, child) => CpButton(
-              onPressed: _isValid ? () {} : null,
+              onPressed: _isValid ? _onSubmit : null,
               text: 'Next',
               size: CpButtonSize.big,
               width: 450,
@@ -206,5 +244,33 @@ class _DisclaimerCheckbox extends StatelessWidget {
 }
 
 extension on String {
-  bool get isValidNumber => RegExp(r'^[0-9]+$').hasMatch(this);
+  bool get isValidNumber => RegExp(r'^[0-9]+(\.[0-9]*)?$').hasMatch(this);
+}
+
+extension PaymentRequestExt on BuildContext {
+  Future<PaymentRequest> createPayRequest({
+    required CryptoAmount tokenAmount,
+    required Ed25519HDPublicKey recipient,
+  }) =>
+      runWithLoader(this, () async {
+        final reference = (await Ed25519HDKeyPair.random()).publicKey;
+        final Token token = tokenAmount.token;
+        final Decimal amount = tokenAmount.decimal;
+
+        final request = SolanaPayRequest(
+          recipient: recipient,
+          amount: amount,
+          splToken: token == Token.sol ? null : token.publicKey,
+          reference: [reference],
+        );
+        final id = const Uuid().v4();
+
+        return PaymentRequest(
+          id: id,
+          created: DateTime.now(),
+          payRequest: request,
+          dynamicLink: request.toUniversalPayLink().toString(),
+          state: const PaymentRequestState.initial(),
+        );
+      });
 }
