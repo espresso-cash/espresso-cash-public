@@ -14,7 +14,7 @@ class PageWidget extends StatelessWidget {
           backgroundColor: Colors.black,
           elevation: 0,
           centerTitle: false,
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

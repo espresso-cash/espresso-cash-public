@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../ui/button.dart';
 import '../../core/arrow.dart';
 import '../../core/divider.dart';
 import '../../core/page.dart';
+import 'data/repository.dart';
 import 'other_wallet_screen.dart';
+import 'service/universal_pay_bloc.dart';
 import 'solana_screen.dart';
 
 class SenderInitialScreen extends StatelessWidget {
@@ -72,7 +75,13 @@ class SenderInitialScreen extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute<void>(
-                builder: (context) => OtherWalletScreen(request),
+                builder: (context) => BlocProvider(
+                  create: (context) => UniversalPayCubit(
+                    context.read<UniversalPayRepository>(),
+                    request,
+                  ),
+                  child: OtherWalletScreen(request),
+                ),
               ),
             );
           },
