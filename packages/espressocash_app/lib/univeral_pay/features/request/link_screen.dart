@@ -83,7 +83,7 @@ class RequestLinkScreen extends StatelessWidget {
                 letterSpacing: 0.19,
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 48),
             const _RequestStatus(),
           ],
         ),
