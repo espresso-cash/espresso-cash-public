@@ -8,6 +8,7 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/tokens/token.dart';
 import '../../../features/payment_request/models/payment_request.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -210,18 +211,8 @@ class _DisclaimerCheckbox extends StatelessWidget {
                       data: ThemeData(
                         unselectedWidgetColor: Colors.transparent,
                       ),
-                      child: Checkbox(
-                        value: value,
-                        onChanged: (bool? newValue) {
-                          if (newValue != null) {
-                            onChanged(newValue);
-                          }
-                        },
-                        activeColor: CpColors.yellowColor,
-                        checkColor: Colors.black,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
+                      child: SizedBox.square(
+                        child: value ? Assets.images.star.image() : null,
                       ),
                     ),
                   ),
@@ -229,7 +220,7 @@ class _DisclaimerCheckbox extends StatelessWidget {
                 const SizedBox(width: 18),
                 const Expanded(
                   child: Text(
-                    'Nullam in nisl eu metus tempor suscipit sed ut elit. Maecenas iaculis mi quis ipsum lobortis dapibus. Aliquam ultricies non diam vel lacinia. Ut iaculis, ipsum vitae rutrum tincidunt, ipsum ipsum consectetur leo, quis rhoncus dui urna sed est.',
+                    'I acknowledge that this project is in its alpha stages, and as such, there may be issues, bugs, or changes in functionality that could affect payment processing. I understand that payment may not go through as expected, and I am willing to proceed with this understanding.',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,

@@ -39,14 +39,8 @@ class UniversalPayCubit extends Cubit<UniversalPayState> {
     final reference = _request.reference?.firstOrNull;
     if (reference == null) return;
 
-    final destinationAta = await findAssociatedTokenAddress(
-      owner: _request.recipient,
-      mint: Token.usdc.publicKey,
-    );
-
     final destinationAddress = await _repository.fetch(
       destinationAddress: _request.recipient.toBase58(),
-      destinationAta: destinationAta.toBase58(),
       reference: reference.toBase58(),
     );
 

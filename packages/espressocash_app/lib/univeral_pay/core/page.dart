@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../gen/assets.gen.dart';
+import '../config.dart';
 
 class PageWidget extends StatelessWidget {
   const PageWidget({super.key, required this.children});
@@ -10,64 +12,73 @@ class PageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          elevation: 0,
-          centerTitle: false,
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                'This project is brought to you by ',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(width: 8),
-              GestureDetector(
-                child: Assets.images.logo.image(height: 29),
-                onTap: () {
-                  launchUrl(Uri.parse('https://www.espressocash.com/'));
-                },
-              ),
-            ],
-          ),
-          toolbarHeight: 44,
-          actions: const [
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'View the code on ',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'Github',
-                        style: TextStyle(
-                          color: Color(0xFFFFCC17),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
-                    ],
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(44),
+          child: Hero(
+            tag: 'appbar',
+            child: AppBar(
+              backgroundColor: Colors.black,
+              elevation: 0,
+              centerTitle: false,
+              automaticallyImplyLeading: false,
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    'This project is brought to you by ',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  textAlign: TextAlign.center,
-                ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    child: Assets.images.logo.image(height: 29),
+                    onTap: () {
+                      launchUrl(Uri.parse('https://www.espressocash.com/'));
+                    },
+                  ),
+                ],
               ),
+              toolbarHeight: 44,
+              actions: [
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          const TextSpan(
+                            text: 'View the code on ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Github',
+                            style: const TextStyle(
+                              color: Color(0xFFFFCC17),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.underline,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap =
+                                  () => launchUrl(Uri.parse(githubRepoUrl)),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
         body: DecoratedBox(
           decoration: BoxDecoration(
