@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'features/request/link_screen.dart';
 import 'features/request/request_screen.dart';
+import 'features/send/send_screen.dart';
 
 void main() {
   // setUrlStrategy(PathUrlStrategy());
@@ -39,7 +40,7 @@ class DemoPageApp extends StatelessWidget {
 
           // return MaterialPageRoute(builder: (_) => const SizedBox.shrink());
 
-          return MaterialPageRoute(builder: (_) => const RequestLinkScreen());
+          return MaterialPageRoute(builder: (_) => const SenderInitialScreen());
         },
       );
 }

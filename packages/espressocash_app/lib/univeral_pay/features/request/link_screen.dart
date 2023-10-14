@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/rounded_rectangle.dart';
@@ -17,7 +18,6 @@ class RequestLinkScreen extends StatelessWidget {
 
     return PageWidget(
       children: [
-        const SizedBox(height: 40),
         const Text(
           'Payment Link',
           textAlign: TextAlign.center,
@@ -53,7 +53,7 @@ class RequestLinkScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
                   child: CpButton(
-                    text: 'Copy',
+                    text: context.l10n.copy,
                     minWidth: 80,
                     onPressed: () {
                       const data = ClipboardData(text: link);
@@ -123,9 +123,7 @@ class _RequestStatus extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
-                        fontFamily: 'Roboto',
                         fontWeight: FontWeight.w500,
-                        height: 0,
                       ),
                     ),
                   ],
@@ -156,9 +154,7 @@ class _RequestStatus extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
-                        fontFamily: 'Roboto',
                         fontWeight: FontWeight.w500,
-                        height: 0,
                       ),
                     ),
                   ],

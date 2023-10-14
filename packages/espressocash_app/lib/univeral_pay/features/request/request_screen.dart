@@ -41,7 +41,6 @@ class _RequestScreenState extends State<RequestScreen> {
   @override
   Widget build(BuildContext context) => PageWidget(
         children: [
-          const SizedBox(height: 40),
           const Text(
             'Destination Address',
             textAlign: TextAlign.center,
@@ -77,7 +76,6 @@ class _RequestScreenState extends State<RequestScreen> {
             style: TextStyle(
               color: Colors.white,
               fontSize: 19,
-              fontFamily: 'Roboto',
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -196,9 +194,7 @@ class _DisclaimerCheckbox extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
-                      fontFamily: 'Roboto',
                       fontWeight: FontWeight.w500,
-                      height: 0,
                     ),
                   ),
                 ),

@@ -1,0 +1,228 @@
+import 'package:barcode_widget/barcode_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../../../features/outgoing_direct_payments/data/blockchain.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/rounded_rectangle.dart';
+import '../../../ui/snackbar.dart';
+import '../../core/page.dart';
+
+class OtherWalletScreen extends StatefulWidget {
+  const OtherWalletScreen({super.key});
+
+  @override
+  State<OtherWalletScreen> createState() => _OtherWalletScreenState();
+}
+
+class _OtherWalletScreenState extends State<OtherWalletScreen> {
+  Blockchain _blockchain = Blockchain.ethereum;
+
+  @override
+  Widget build(BuildContext context) => PageWidget(
+        children: [
+          const Text(
+            'You have a payment request.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.23,
+            ),
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            'Payment Method',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          _PaymentMethodDropdown(
+            current: _blockchain,
+            onChanged: (val) {
+              setState(() {
+                _blockchain = val;
+              });
+            },
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            'Destination Address',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const _DestinationWidget(
+            address: '0x43b2595b3e6C200EBfd7F058dddF9403Ac457c1D',
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            'Network Fee: 2 USDC',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.23,
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Total Amount: 134 USDC',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.23,
+            ),
+          ),
+        ],
+      );
+}
+
+class _PaymentMethodDropdown extends StatelessWidget {
+  const _PaymentMethodDropdown({
+    required this.current,
+    required this.onChanged,
+  });
+
+  final Blockchain current;
+  final ValueSetter<Blockchain> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final blockchains = Blockchain.values.where((e) => e != Blockchain.solana);
+
+    return SizedBox(
+      width: 325,
+      child: DecoratedBox(
+        decoration: const ShapeDecoration(
+          color: Colors.black,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(63),
+            ),
+          ),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<Blockchain>(
+            isExpanded: true,
+            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 4),
+            value: current,
+            onChanged: (value) {
+              if (value != null) {
+                onChanged(value);
+              }
+            },
+            selectedItemBuilder: (context) => blockchains
+                .map<Widget>(
+                  (value) => Center(
+                    child: Text(
+                      'With USDC on ${value.name}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+            items: blockchains
+                .map<DropdownMenuItem<Blockchain>>(
+                  (value) => DropdownMenuItem<Blockchain>(
+                    value: value,
+                    child: Text(value.name),
+                  ),
+                )
+                .toList(),
+            dropdownColor: Colors.black,
+            icon: const Icon(
+              Icons.expand_more,
+              color: Colors.white,
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+            ),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DestinationWidget extends StatelessWidget {
+  const _DestinationWidget({
+    required this.address,
+  });
+
+  final String address;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        width: 410,
+        height: 145,
+        child: CpRoundedRectangle(
+          padding: const EdgeInsets.all(24),
+          backgroundColor: Colors.black,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: BarcodeWidget(
+                  width: 100,
+                  height: 100,
+                  barcode: Barcode.qrCode(),
+                  data: address,
+                  padding: EdgeInsets.zero,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 24),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      address,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: CpButton(
+                        text: context.l10n.copy,
+                        minWidth: 80,
+                        onPressed: () {
+                          final data = ClipboardData(text: address);
+                          Clipboard.setData(data);
+                          showClipboardSnackbar(context);
+                        },
+                        size: CpButtonSize.micro,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+}
