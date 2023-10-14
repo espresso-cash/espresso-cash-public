@@ -42,41 +42,6 @@ class PageWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              toolbarHeight: 44,
-              actions: [
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 16.0),
-                    child: Text.rich(
-                      TextSpan(
-                        children: [
-                          const TextSpan(
-                            text: 'View the code on ',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextSpan(
-                            text: 'Github',
-                            style: const TextStyle(
-                              color: Color(0xFFFFCC17),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              decoration: TextDecoration.underline,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => launchUrl(Uri.parse(githubRepoUrl)),
-                          ),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ),
@@ -85,10 +50,6 @@ class PageWidget extends StatelessWidget {
             image: DecorationImage(
               image: AssetImage(Assets.demo.bg.path),
               fit: BoxFit.cover,
-              colorFilter: const ColorFilter.mode(
-                Color(0xD9FF8617),
-                BlendMode.srcATop,
-              ),
             ),
           ),
           child: LayoutBuilder(
@@ -99,26 +60,24 @@ class PageWidget extends StatelessWidget {
                   maxHeight: double.infinity,
                 ),
                 child: IntrinsicHeight(
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(24),
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 24),
-                                  const _Header(),
-                                  const SizedBox(height: 55),
-                                  ...children,
-                                ],
-                              ),
-                            ),
-                          ],
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 24),
+                              const _Header(),
+                              const SizedBox(height: 55),
+                              ...children,
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        const Spacer(),
+                        const _Footer(),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -176,5 +135,40 @@ class _Header extends StatelessWidget {
             ),
           ),
         ],
+      );
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.all(8),
+        child: Text.rich(
+          TextSpan(
+            children: [
+              const TextSpan(
+                text: 'View the code on ',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              TextSpan(
+                text: 'Github',
+                style: const TextStyle(
+                  color: Color(0xFFFFCC17),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.underline,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () => launchUrl(Uri.parse(githubRepoUrl)),
+              ),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
       );
 }

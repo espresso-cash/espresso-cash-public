@@ -195,7 +195,7 @@ class _DestinationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SizedBox(
         width: 410,
-        height: 145,
+        height: 155,
         child: CpRoundedRectangle(
           padding: const EdgeInsets.all(24),
           backgroundColor: Colors.black,

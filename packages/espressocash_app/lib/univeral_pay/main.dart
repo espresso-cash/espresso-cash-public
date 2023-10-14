@@ -43,7 +43,7 @@ class DemoPageApp extends StatelessWidget {
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(fontFamily: 'RobotoApp'),
-          color: const Color(0xD9FF8617),
+          color: Colors.black,
           onGenerateRoute: (settings) {
             final uri = Uri.parse(html.window.location.toString());
             final solanaPay = tryParseUniversalPayRequest(uri);
