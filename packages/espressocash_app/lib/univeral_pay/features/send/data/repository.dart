@@ -13,8 +13,6 @@ class UniversalPayRepository {
   }) async {
     final query = '$apiBaseUrl/generate/$receiver/$reference';
 
-    print(query);
-
     final result = await dio.get<Map<String, dynamic>>(query);
 
     return result.data!['result'] as String;
