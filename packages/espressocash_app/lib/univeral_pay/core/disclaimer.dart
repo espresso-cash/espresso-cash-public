@@ -20,7 +20,7 @@ class DisclaimerCheckbox extends StatelessWidget {
                 children: [
                   TextSpan(
                     text:
-                        'Disclaimer for Money Transfer Service Demo\nThis is a demonstration of our money transfer service and involves actual monetary transactions. By using this demo, you acknowledge and agree to the following terms:\n\n',
+                        'Disclaimer for UniversalPay.link\nThis is a demonstration which involves involves actual monetary transactions. By using this demo, you acknowledge and agree to the following terms:\n\n',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 12,
