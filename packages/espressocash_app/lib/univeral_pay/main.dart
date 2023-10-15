@@ -10,9 +10,10 @@ import 'package:solana/solana.dart';
 import '../config.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'core/request_helpers.dart';
-import 'features/request/request_screen.dart';
+import 'features/request/screens/request_screen.dart';
 import 'features/send/data/repository.dart';
-import 'features/send/send_screen.dart';
+import 'features/send/screens/disclaimer_screen.dart';
+import 'features/send/screens/send_screen.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -50,7 +51,16 @@ class DemoPageApp extends StatelessWidget {
 
             return solanaPay != null
                 ? MaterialPageRoute(
-                    builder: (context) => SenderInitialScreen(solanaPay),
+                    builder: (context) => DisclaimerScreen(
+                      onAccept: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute<void>(
+                            builder: (context) =>
+                                SenderInitialScreen(solanaPay),
+                          ),
+                        );
+                      },
+                    ),
                   )
                 : MaterialPageRoute(builder: (_) => const RequestScreen());
           },

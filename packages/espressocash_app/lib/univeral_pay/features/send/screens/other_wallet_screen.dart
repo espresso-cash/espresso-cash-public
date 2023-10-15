@@ -4,15 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/flow.dart';
-import '../../../features/outgoing_direct_payments/data/blockchain.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
-import '../../../ui/loader.dart';
-import '../../../ui/rounded_rectangle.dart';
-import '../../../ui/snackbar.dart';
-import '../../core/page.dart';
-import 'service/universal_pay_bloc.dart';
+import '../../../../core/flow.dart';
+import '../../../../features/outgoing_direct_payments/data/blockchain.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/loader.dart';
+import '../../../../ui/rounded_rectangle.dart';
+import '../../../../ui/snackbar.dart';
+import '../../../core/page.dart';
+import '../service/universal_pay_bloc.dart';
 
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen(this.request, {super.key});

@@ -1,20 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../../../ui/button.dart';
-import '../../core/arrow.dart';
-import '../../core/divider.dart';
-import '../../core/page.dart';
-import 'data/repository.dart';
+import '../../../../landing/widgets/extensions.dart';
+import '../../../../ui/button.dart';
+import '../../../core/arrow.dart';
+import '../../../core/divider.dart';
+import '../../../core/page.dart';
+import '../data/repository.dart';
+import '../service/universal_pay_bloc.dart';
 import 'other_wallet_screen.dart';
-import 'service/universal_pay_bloc.dart';
 import 'solana_screen.dart';
 
 class SenderInitialScreen extends StatelessWidget {
   const SenderInitialScreen(this.request, {super.key});
 
   final SolanaPayRequest request;
+
+  void _onSolanaPay(BuildContext context) {
+    final actionLink = Uri.parse(request.toUrl());
+
+    if (isMobile) {
+      launchUrl(
+        actionLink,
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
+    } else {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (context) => SolanaSendScreen(
+            amount: request.amount.toString(),
+            actionLink: actionLink,
+          ),
+        ),
+      );
+    }
+  }
+
+  void _onOtherWallet(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => BlocProvider(
+          create: (context) => UniversalPayCubit(
+            context.read<UniversalPayRepository>(),
+            request,
+          ),
+          child: OtherWalletScreen(request),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,16 +85,7 @@ class SenderInitialScreen extends StatelessWidget {
           size: CpButtonSize.big,
           width: 350,
           trailing: const Arrow(),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (context) => SolanaSendScreen(
-                  amount: amount,
-                  actionLink: Uri.parse(request.toUrl()),
-                ),
-              ),
-            );
-          },
+          onPressed: () => _onSolanaPay(context),
         ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
@@ -72,19 +99,7 @@ class SenderInitialScreen extends StatelessWidget {
           trailing: const Arrow(
             color: Colors.white,
           ),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (context) => BlocProvider(
-                  create: (context) => UniversalPayCubit(
-                    context.read<UniversalPayRepository>(),
-                    request,
-                  ),
-                  child: OtherWalletScreen(request),
-                ),
-              ),
-            );
-          },
+          onPressed: () => _onOtherWallet(context),
         ),
       ],
     );

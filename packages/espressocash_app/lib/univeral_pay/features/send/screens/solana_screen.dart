@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../core/page.dart';
-import '../../core/qr.dart';
+import '../../../core/page.dart';
+import '../../../core/qr.dart';
 
 class SolanaSendScreen extends StatelessWidget {
   const SolanaSendScreen({

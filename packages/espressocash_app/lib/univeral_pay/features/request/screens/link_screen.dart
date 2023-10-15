@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../features/payment_request/models/payment_request.dart';
-import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
-import '../../../ui/colors.dart';
-import '../../../ui/rounded_rectangle.dart';
-import '../../../ui/snackbar.dart';
-import '../../core/page.dart';
-import 'service/request_verifier_bloc.dart';
-import 'widgets/request_verifier.dart';
+import '../../../../features/payment_request/models/payment_request.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
+import '../../../../ui/rounded_rectangle.dart';
+import '../../../../ui/snackbar.dart';
+import '../../../core/page.dart';
+import '../service/request_verifier_bloc.dart';
+import '../widgets/request_verifier.dart';
 
 class RequestLinkScreen extends StatelessWidget {
   const RequestLinkScreen(this.paymentRequest, {super.key});

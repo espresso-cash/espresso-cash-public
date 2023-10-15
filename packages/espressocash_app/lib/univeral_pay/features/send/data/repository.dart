@@ -11,13 +11,11 @@ class UniversalPayRepository {
     required String receiver,
     required String reference,
   }) async {
-    final data = {
-      'solanaAddress': receiver,
-      'solanaReference': reference,
-    };
+    final query = '$apiBaseUrl/generate/$receiver/$reference';
 
-    final result =
-        await dio.get<Map<String, dynamic>>(apiBaseUrl, queryParameters: data);
+    print(query);
+
+    final result = await dio.get<Map<String, dynamic>>(query);
 
     return result.data!['result'] as String;
   }
