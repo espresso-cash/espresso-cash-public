@@ -52,36 +52,30 @@ class PageWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          child: LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: constraints.copyWith(
-                  minHeight: constraints.maxHeight,
-                  maxHeight: double.infinity,
-                ),
-                child: IntrinsicHeight(
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(24),
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 24),
-                              const _Header(),
-                              const SizedBox(height: 55),
-                              ...children,
-                            ],
-                          ),
-                        ),
-                        const Spacer(),
-                        const _Footer(),
-                      ],
-                    ),
+          child: CustomScrollView(
+            shrinkWrap: true,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 24),
+                      const _Header(),
+                      const SizedBox(height: 55),
+                      ...children,
+                    ],
                   ),
                 ),
               ),
-            ),
+              const SliverFillRemaining(
+                hasScrollBody: false,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _Footer(),
+                ),
+              ),
+            ],
           ),
         ),
       );
