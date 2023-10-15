@@ -21,26 +21,30 @@ class PageWidget extends StatelessWidget {
               elevation: 0,
               centerTitle: false,
               automaticallyImplyLeading: false,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    'This project is brought to you by ',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+              title: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 450),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'This project is brought to you by ',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    child: Assets.images.logo.image(height: 29),
-                    onTap: () {
-                      launchUrl(Uri.parse('https://www.espressocash.com/'));
-                    },
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      child: Assets.images.logo.image(height: 29),
+                      onTap: () {
+                        launchUrl(Uri.parse('https://www.espressocash.com/'));
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

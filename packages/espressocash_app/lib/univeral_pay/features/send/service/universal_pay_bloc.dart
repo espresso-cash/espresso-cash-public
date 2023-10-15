@@ -4,38 +4,38 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../../core/flow.dart';
-import '../../../../core/tokens/token.dart';
+import '../../../../core/processing_state.dart';
+import '../../../core/blockchain.dart';
 import '../data/repository.dart';
 
 part 'universal_pay_bloc.freezed.dart';
 
 @freezed
-class PayState with _$PayState {
-  const factory PayState({
-    required String destinationAddress,
-    required String fee,
-    required String totalAmount,
-  }) = _PayState;
+class UniversalPayState with _$UniversalPayState {
+  const factory UniversalPayState({
+    String? destinationAddress,
+    String? totalAmount,
+    @Default(Blockchain.ethereum) Blockchain blockchain,
+    @Default(ProcessingStateNone()) ProcessingState processingState,
+  }) = _UniversalPayState;
 }
-
-typedef UniversalPayState = Flow<Exception, PayState>;
 
 class UniversalPayCubit extends Cubit<UniversalPayState> {
   UniversalPayCubit(
     this._repository,
     this._request,
-  ) : super(const Flow.processing()) {
-    init();
+  ) : super(const UniversalPayState()) {
+    _init();
   }
 
   final UniversalPayRepository _repository;
   final SolanaPayRequest _request;
 
-  Future<void> init() async {
+  Future<void> _init() async {
+    emit(state.copyWith(processingState: const ProcessingStateProcessing()));
+
     final reference = _request.reference?.firstOrNull;
     if (reference == null) return;
 
@@ -44,16 +44,24 @@ class UniversalPayCubit extends Cubit<UniversalPayState> {
       reference: reference.toBase58(),
     );
 
-    final fee = Decimal.fromInt(1); // hardcoded fee
-    final totalAmount = _request.amount! + fee;
+    final Decimal totalAmount = _request.amount! + state.blockchain.fee;
 
     emit(
-      Flow.success(
-        PayState(
-          destinationAddress: destinationAddress,
-          fee: fee.toString(),
-          totalAmount: totalAmount.toString(),
-        ),
+      state.copyWith(
+        destinationAddress: destinationAddress,
+        totalAmount: totalAmount.toString(),
+        processingState: const ProcessingStateNone(),
+      ),
+    );
+  }
+
+  void changeBlockchain(Blockchain blockchain) {
+    final Decimal totalAmount = _request.amount! + blockchain.fee;
+
+    emit(
+      state.copyWith(
+        blockchain: blockchain,
+        totalAmount: totalAmount.toString(),
       ),
     );
   }
