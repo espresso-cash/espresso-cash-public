@@ -1,26 +1,25 @@
-import 'package:decimal/decimal.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
-import 'package:uuid/uuid.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
-import '../../../../core/tokens/token.dart';
-import '../../../../features/payment_request/models/payment_request.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../ui/button.dart';
-import '../../../../ui/loader.dart';
-import '../../../../ui/number_formatter.dart';
 import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/text_field.dart';
 import '../../../core/disclaimer.dart';
 import '../../../core/page.dart';
-import '../../../core/request_helpers.dart';
+import '../../../routes.gr.dart';
 import 'link_screen.dart';
 
+@RoutePage()
+class RequestRouterScreen extends AutoRouter {
+  const RequestRouterScreen({super.key});
+}
+
+@RoutePage()
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
+
+  static const route = RequestRoute.new;
 
   @override
   State<RequestScreen> createState() => _RequestScreenState();
@@ -47,25 +46,16 @@ class _RequestScreenState extends State<RequestScreen> {
 
   Future<void> _onSubmit() async {
     final destination = _destinationController.text;
-
-    final locale = DeviceLocale.localeOf(context);
-    final amount = _amountController.text.toDecimalOrZero(locale);
-
-    final cryptoAmount = Amount.fromDecimal(
-      value: amount,
-      currency: Currency.usdc,
-    ) as CryptoAmount;
-
-    final request = await context.createPayRequest(
-      tokenAmount: cryptoAmount,
-      recipient: Ed25519HDPublicKey.fromBase58(destination),
-    );
+    final reference = (await Ed25519HDKeyPair.random()).publicKey;
+    final amountA = _amountController.text;
 
     if (!mounted) return;
 
-    await Navigator.of(context).pushReplacement(
-      MaterialPageRoute<void>(
-        builder: (context) => RequestLinkScreen(request),
+    await context.router.push(
+      RequestLinkScreen.route(
+        amount: amountA,
+        receiver: destination,
+        reference: reference.toString(),
       ),
     );
   }
@@ -170,32 +160,4 @@ class _RequestScreenState extends State<RequestScreen> {
 extension on String {
   bool get isValidNumber => RegExp(r'^[0-9]+(\.[0-9]*)?$').hasMatch(this);
   bool get isNotZero => this != '0';
-}
-
-extension PaymentRequestExt on BuildContext {
-  Future<PaymentRequest> createPayRequest({
-    required CryptoAmount tokenAmount,
-    required Ed25519HDPublicKey recipient,
-  }) =>
-      runWithLoader(this, () async {
-        final reference = (await Ed25519HDKeyPair.random()).publicKey;
-        final Token token = tokenAmount.token;
-        final Decimal amount = tokenAmount.decimal;
-
-        final request = SolanaPayRequest(
-          recipient: recipient,
-          amount: amount,
-          splToken: token == Token.sol ? null : token.publicKey,
-          reference: [reference],
-        );
-        final id = const Uuid().v4();
-
-        return PaymentRequest(
-          id: id,
-          created: DateTime.now(),
-          payRequest: request,
-          dynamicLink: request.toUniversalPayLink().toString(),
-          state: const PaymentRequestState.initial(),
-        );
-      });
 }

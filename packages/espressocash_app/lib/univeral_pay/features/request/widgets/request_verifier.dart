@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
-import '../../../../features/payment_request/models/payment_request.dart';
 import '../service/request_verifier_bloc.dart';
 
 class PaymentRequestVerifier extends StatelessWidget {
@@ -13,7 +13,7 @@ class PaymentRequestVerifier extends StatelessWidget {
   });
 
   final Widget child;
-  final PaymentRequest paymentRequest;
+  final SolanaPayRequest paymentRequest;
 
   @override
   Widget build(BuildContext context) => BlocProvider<RequestVerifierBloc>(

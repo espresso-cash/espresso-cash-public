@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,15 +8,22 @@ import '../../../../ui/button.dart';
 import '../../../core/arrow.dart';
 import '../../../core/divider.dart';
 import '../../../core/page.dart';
-import '../data/repository.dart';
-import '../service/universal_pay_bloc.dart';
+import '../../../routes.gr.dart';
 import 'other_wallet_screen.dart';
 import 'solana_screen.dart';
 
+@RoutePage()
+class SenderRouterScreen extends AutoRouter {
+  const SenderRouterScreen({super.key});
+}
+
+@RoutePage()
 class SenderInitialScreen extends StatelessWidget {
   const SenderInitialScreen(this.request, {super.key});
 
   final SolanaPayRequest request;
+
+  static const route = SenderInitialRoute.new;
 
   void _onSolanaPay(BuildContext context) {
     final actionLink = Uri.parse(request.toUrl());
@@ -27,28 +34,18 @@ class SenderInitialScreen extends StatelessWidget {
         mode: LaunchMode.externalNonBrowserApplication,
       );
     } else {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (context) => SolanaSendScreen(
-            amount: request.amount.toString(),
-            actionLink: actionLink,
-          ),
+      context.router.push(
+        SolanaSendScreen.route(
+          amount: request.amount.toString(),
+          actionLink: actionLink,
         ),
       );
     }
   }
 
   void _onOtherWallet(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => BlocProvider(
-          create: (context) => UniversalPayCubit(
-            context.read<UniversalPayRepository>(),
-            request,
-          ),
-          child: OtherWalletScreen(request),
-        ),
-      ),
+    context.router.push(
+      OtherWalletScreen.route(request: request),
     );
   }
 

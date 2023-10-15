@@ -25,7 +25,7 @@ extension SolanaPayRequestExt on SolanaPayRequest {
 
     return link.replace(
       scheme: 'https',
-      path: '/',
+      path: '/send',
       host: espressoUniversalPayDomain,
       queryParameters: {
         't': 'universalpay',

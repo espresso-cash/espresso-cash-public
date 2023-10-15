@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,82 +12,91 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/page.dart';
+import '../../../routes.gr.dart';
+import '../data/repository.dart';
 import '../service/universal_pay_bloc.dart';
 
+@RoutePage()
 class OtherWalletScreen extends StatelessWidget {
   const OtherWalletScreen(this.request, {super.key});
 
   final SolanaPayRequest request;
+  static const route = OtherWalletRoute.new;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<UniversalPayCubit, UniversalPayState>(
-        builder: (context, state) => CpLoader(
-          isLoading: state.processingState.isProcessing,
-          child: PageWidget(
-            children: [
-              const Text(
-                'You have a payment request.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => UniversalPayCubit(
+          context.read<UniversalPayRepository>(),
+          request,
+        ),
+        child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
+          builder: (context, state) => CpLoader(
+            isLoading: state.processingState.isProcessing,
+            child: PageWidget(
+              children: [
+                const Text(
+                  'You have a payment request.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.23,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Payment Method',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 32),
+                const Text(
+                  'Payment Method',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              _PaymentMethodDropdown(
-                current: state.blockchain,
-                onChanged: context.read<UniversalPayCubit>().changeBlockchain,
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Destination Address',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 8),
+                _PaymentMethodDropdown(
+                  current: state.blockchain,
+                  onChanged: context.read<UniversalPayCubit>().changeBlockchain,
                 ),
-              ),
-              const SizedBox(height: 8),
-              _DestinationWidget(
-                address: state.destinationAddress ?? '',
-              ),
-              const SizedBox(height: 32),
-              Text(
-                'Network Fee: ${state.blockchain.fee} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.23,
+                const SizedBox(height: 32),
+                const Text(
+                  'Destination Address',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Total Amount: ${state.totalAmount ?? ''} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.23,
+                const SizedBox(height: 8),
+                _DestinationWidget(
+                  address: state.destinationAddress ?? '',
                 ),
-              ),
-            ],
+                const SizedBox(height: 32),
+                Text(
+                  'Network Fee: ${state.blockchain.fee} USDC',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.23,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Total Amount: ${state.totalAmount ?? ''} USDC',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.23,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );

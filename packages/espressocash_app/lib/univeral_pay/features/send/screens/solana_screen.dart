@@ -1,7 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+
 import '../../../core/page.dart';
 import '../../../core/qr.dart';
+import '../../../routes.gr.dart';
 
+@RoutePage()
 class SolanaSendScreen extends StatelessWidget {
   const SolanaSendScreen({
     super.key,
@@ -11,6 +15,8 @@ class SolanaSendScreen extends StatelessWidget {
 
   final Uri actionLink;
   final String amount;
+
+  static const route = SolanaSendRoute.new;
 
   @override
   Widget build(BuildContext context) => PageWidget(

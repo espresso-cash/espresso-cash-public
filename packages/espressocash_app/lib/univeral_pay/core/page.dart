@@ -20,7 +20,6 @@ class PageWidget extends StatelessWidget {
               backgroundColor: Colors.black,
               elevation: 0,
               centerTitle: false,
-              automaticallyImplyLeading: false,
               title: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 450),
                 child: Row(

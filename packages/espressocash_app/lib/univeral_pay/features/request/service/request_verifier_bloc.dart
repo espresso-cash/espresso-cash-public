@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -46,7 +45,7 @@ typedef _Emitter = Emitter<_State>;
 class RequestVerifierBloc extends Bloc<_Event, _State> {
   RequestVerifierBloc({
     required SolanaClient solanaClient,
-    required PaymentRequest request,
+    required SolanaPayRequest request,
   })  : _solanaClient = solanaClient,
         _request = request,
         super(const Waiting()) {
@@ -55,7 +54,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
   }
 
   final SolanaClient _solanaClient;
-  final PaymentRequest _request;
+  final SolanaPayRequest _request;
 
   StreamSubscription<TransactionId>? _txSubscription;
 
@@ -68,9 +67,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
   Duration _currentBackoff = _minBackoff;
 
   void _waitForTx() {
-    if (!_request.state.isInitial) return;
-
-    final reference = _request.payRequest.reference?.firstOrNull;
+    final reference = _request.reference?.firstOrNull;
     if (reference == null) return;
 
     Stream<TransactionId> solanaPayTransaction() => _solanaClient
@@ -99,10 +96,10 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     try {
       await _solanaClient.validateSolanaPayTransaction(
         signature: id,
-        recipient: _request.payRequest.recipient,
-        splToken: _request.payRequest.splToken,
-        reference: _request.payRequest.reference,
-        amount: _request.payRequest.amount ?? Decimal.zero,
+        recipient: _request.recipient,
+        splToken: _request.splToken,
+        reference: _request.reference,
+        amount: _request.amount ?? Decimal.zero,
         commitment: Commitment.confirmed,
       );
       PaymentRequestState.completed(transactionId: id);
@@ -164,7 +161,3 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
 const _backoffStep = 2;
 const _minBackoff = Duration(seconds: 2);
 const _maxBackoff = Duration(minutes: 1);
-
-extension on PaymentRequestState {
-  bool get isInitial => maybeWhen(initial: T, orElse: F);
-}
