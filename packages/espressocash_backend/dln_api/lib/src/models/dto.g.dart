@@ -6,9 +6,9 @@ part of 'dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_DlnQuoteRequestDto _$$_DlnQuoteRequestDtoFromJson(
+_$DlnQuoteRequestDtoImpl _$$DlnQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_DlnQuoteRequestDto(
+    _$DlnQuoteRequestDtoImpl(
       srcChainId: json['srcChainId'] as String,
       srcChainTokenIn: json['srcChainTokenIn'] as String,
       srcChainTokenInAmount: json['srcChainTokenInAmount'] as String,
@@ -28,8 +28,8 @@ _$_DlnQuoteRequestDto _$$_DlnQuoteRequestDtoFromJson(
       prependOperatingExpenses: json['prependOperatingExpenses'] as bool?,
     );
 
-Map<String, dynamic> _$$_DlnQuoteRequestDtoToJson(
-    _$_DlnQuoteRequestDto instance) {
+Map<String, dynamic> _$$DlnQuoteRequestDtoImplToJson(
+    _$DlnQuoteRequestDtoImpl instance) {
   final val = <String, dynamic>{
     'srcChainId': instance.srcChainId,
     'srcChainTokenIn': instance.srcChainTokenIn,
@@ -59,9 +59,9 @@ Map<String, dynamic> _$$_DlnQuoteRequestDtoToJson(
   return val;
 }
 
-_$_DlnQuoteResponseDto _$$_DlnQuoteResponseDtoFromJson(
+_$DlnQuoteResponseDtoImpl _$$DlnQuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_DlnQuoteResponseDto(
+    _$DlnQuoteResponseDtoImpl(
       estimation:
           OrderEstimation.fromJson(json['estimation'] as Map<String, dynamic>),
       prependedOperatingExpenseCost:
@@ -71,8 +71,8 @@ _$_DlnQuoteResponseDto _$$_DlnQuoteResponseDtoFromJson(
       fixFee: json['fixFee'] as String,
     );
 
-Map<String, dynamic> _$$_DlnQuoteResponseDtoToJson(
-    _$_DlnQuoteResponseDto instance) {
+Map<String, dynamic> _$$DlnQuoteResponseDtoImplToJson(
+    _$DlnQuoteResponseDtoImpl instance) {
   final val = <String, dynamic>{
     'estimation': instance.estimation.toJson(),
   };
@@ -91,9 +91,9 @@ Map<String, dynamic> _$$_DlnQuoteResponseDtoToJson(
   return val;
 }
 
-_$_CreateTxRequestDto _$$_CreateTxRequestDtoFromJson(
+_$CreateTxRequestDtoImpl _$$CreateTxRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CreateTxRequestDto(
+    _$CreateTxRequestDtoImpl(
       srcChainId: json['srcChainId'] as String,
       srcChainTokenIn: json['srcChainTokenIn'] as String,
       srcChainTokenInAmount: json['srcChainTokenInAmount'] as String,
@@ -128,8 +128,8 @@ _$_CreateTxRequestDto _$$_CreateTxRequestDtoFromJson(
       prependOperatingExpenses: json['prependOperatingExpenses'] as bool?,
     );
 
-Map<String, dynamic> _$$_CreateTxRequestDtoToJson(
-    _$_CreateTxRequestDto instance) {
+Map<String, dynamic> _$$CreateTxRequestDtoImplToJson(
+    _$CreateTxRequestDtoImpl instance) {
   final val = <String, dynamic>{
     'srcChainId': instance.srcChainId,
     'srcChainTokenIn': instance.srcChainTokenIn,
@@ -170,9 +170,9 @@ Map<String, dynamic> _$$_CreateTxRequestDtoToJson(
   return val;
 }
 
-_$_CreateTxResponseDto _$$_CreateTxResponseDtoFromJson(
+_$CreateTxResponseDtoImpl _$$CreateTxResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CreateTxResponseDto(
+    _$CreateTxResponseDtoImpl(
       estimation:
           OrderEstimation.fromJson(json['estimation'] as Map<String, dynamic>),
       tx: DlnTx.fromJson(json['tx'] as Map<String, dynamic>),
@@ -182,8 +182,8 @@ _$_CreateTxResponseDto _$$_CreateTxResponseDtoFromJson(
       fixFee: json['fixFee'] as String,
     );
 
-Map<String, dynamic> _$$_CreateTxResponseDtoToJson(
-    _$_CreateTxResponseDto instance) {
+Map<String, dynamic> _$$CreateTxResponseDtoImplToJson(
+    _$CreateTxResponseDtoImpl instance) {
   final val = <String, dynamic>{
     'estimation': instance.estimation.toJson(),
     'tx': instance.tx.toJson(),
@@ -202,8 +202,9 @@ Map<String, dynamic> _$$_CreateTxResponseDtoToJson(
   return val;
 }
 
-_$_OrderResponseDto _$$_OrderResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_OrderResponseDto(
+_$OrderResponseDtoImpl _$$OrderResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OrderResponseDtoImpl(
       orderId: json['orderId'] as String,
       status: json['status'] as String,
       externalCallState: json['externalCallState'] as String,
@@ -211,7 +212,8 @@ _$_OrderResponseDto _$$_OrderResponseDtoFromJson(Map<String, dynamic> json) =>
           OrderStruct.fromJson(json['orderStruct'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_OrderResponseDtoToJson(_$_OrderResponseDto instance) =>
+Map<String, dynamic> _$$OrderResponseDtoImplToJson(
+        _$OrderResponseDtoImpl instance) =>
     <String, dynamic>{
       'orderId': instance.orderId,
       'status': instance.status,
@@ -219,36 +221,48 @@ Map<String, dynamic> _$$_OrderResponseDtoToJson(_$_OrderResponseDto instance) =>
       'orderStruct': instance.orderStruct.toJson(),
     };
 
-_$_OrderStatusResponseDto _$$_OrderStatusResponseDtoFromJson(
+_$OrderStatusResponseDtoImpl _$$OrderStatusResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_OrderStatusResponseDto(
+    _$OrderStatusResponseDtoImpl(
       orderId: json['orderId'] as String,
-      status: json['status'] as String,
+      status: $enumDecode(_$OrderStatusEnumMap, json['status'],
+          unknownValue: OrderStatus.unknown),
     );
 
-Map<String, dynamic> _$$_OrderStatusResponseDtoToJson(
-        _$_OrderStatusResponseDto instance) =>
+Map<String, dynamic> _$$OrderStatusResponseDtoImplToJson(
+        _$OrderStatusResponseDtoImpl instance) =>
     <String, dynamic>{
       'orderId': instance.orderId,
-      'status': instance.status,
+      'status': _$OrderStatusEnumMap[instance.status]!,
     };
 
-_$_OrderIdTxResponseDto _$$_OrderIdTxResponseDtoFromJson(
+const _$OrderStatusEnumMap = {
+  OrderStatus.created: 'Created',
+  OrderStatus.fulfilled: 'Fulfilled',
+  OrderStatus.sentUnlock: 'SentUnlock',
+  OrderStatus.claimedUnlock: 'ClaimedUnlock',
+  OrderStatus.orderCancelled: 'OrderCancelled',
+  OrderStatus.sentOrderCancel: 'SentOrderCancel',
+  OrderStatus.claimedOrderCancel: 'ClaimedOrderCancel',
+  OrderStatus.unknown: 'Unknown',
+};
+
+_$OrderIdTxResponseDtoImpl _$$OrderIdTxResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_OrderIdTxResponseDto(
+    _$OrderIdTxResponseDtoImpl(
       orderIds:
           (json['orderIds'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$$_OrderIdTxResponseDtoToJson(
-        _$_OrderIdTxResponseDto instance) =>
+Map<String, dynamic> _$$OrderIdTxResponseDtoImplToJson(
+        _$OrderIdTxResponseDtoImpl instance) =>
     <String, dynamic>{
       'orderIds': instance.orderIds,
     };
 
-_$_CancelTxResponseDto _$$_CancelTxResponseDtoFromJson(
+_$CancelTxResponseDtoImpl _$$CancelTxResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_CancelTxResponseDto(
+    _$CancelTxResponseDtoImpl(
       to: json['to'] as String,
       data: json['data'] as String,
       value: json['value'] as String,
@@ -257,8 +271,8 @@ _$_CancelTxResponseDto _$$_CancelTxResponseDtoFromJson(
       cancelBeneficiary: json['cancelBeneficiary'] as String?,
     );
 
-Map<String, dynamic> _$$_CancelTxResponseDtoToJson(
-    _$_CancelTxResponseDto instance) {
+Map<String, dynamic> _$$CancelTxResponseDtoImplToJson(
+    _$CancelTxResponseDtoImpl instance) {
   final val = <String, dynamic>{
     'to': instance.to,
     'data': instance.data,

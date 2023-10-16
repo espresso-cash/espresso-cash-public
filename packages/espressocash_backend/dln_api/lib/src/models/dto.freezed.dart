@@ -156,11 +156,11 @@ class _$DlnQuoteRequestDtoCopyWithImpl<$Res, $Val extends DlnQuoteRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_DlnQuoteRequestDtoCopyWith<$Res>
+abstract class _$$DlnQuoteRequestDtoImplCopyWith<$Res>
     implements $DlnQuoteRequestDtoCopyWith<$Res> {
-  factory _$$_DlnQuoteRequestDtoCopyWith(_$_DlnQuoteRequestDto value,
-          $Res Function(_$_DlnQuoteRequestDto) then) =
-      __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>;
+  factory _$$DlnQuoteRequestDtoImplCopyWith(_$DlnQuoteRequestDtoImpl value,
+          $Res Function(_$DlnQuoteRequestDtoImpl) then) =
+      __$$DlnQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -181,11 +181,11 @@ abstract class _$$_DlnQuoteRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>
-    extends _$DlnQuoteRequestDtoCopyWithImpl<$Res, _$_DlnQuoteRequestDto>
-    implements _$$_DlnQuoteRequestDtoCopyWith<$Res> {
-  __$$_DlnQuoteRequestDtoCopyWithImpl(
-      _$_DlnQuoteRequestDto _value, $Res Function(_$_DlnQuoteRequestDto) _then)
+class __$$DlnQuoteRequestDtoImplCopyWithImpl<$Res>
+    extends _$DlnQuoteRequestDtoCopyWithImpl<$Res, _$DlnQuoteRequestDtoImpl>
+    implements _$$DlnQuoteRequestDtoImplCopyWith<$Res> {
+  __$$DlnQuoteRequestDtoImplCopyWithImpl(_$DlnQuoteRequestDtoImpl _value,
+      $Res Function(_$DlnQuoteRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -206,7 +206,7 @@ class __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>
     Object? affiliateFeePercent = freezed,
     Object? prependOperatingExpenses = freezed,
   }) {
-    return _then(_$_DlnQuoteRequestDto(
+    return _then(_$DlnQuoteRequestDtoImpl(
       srcChainId: null == srcChainId
           ? _value.srcChainId
           : srcChainId // ignore: cast_nullable_to_non_nullable
@@ -270,8 +270,8 @@ class __$$_DlnQuoteRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DlnQuoteRequestDto implements _DlnQuoteRequestDto {
-  const _$_DlnQuoteRequestDto(
+class _$DlnQuoteRequestDtoImpl implements _DlnQuoteRequestDto {
+  const _$DlnQuoteRequestDtoImpl(
       {required this.srcChainId,
       required this.srcChainTokenIn,
       required this.srcChainTokenInAmount,
@@ -287,8 +287,8 @@ class _$_DlnQuoteRequestDto implements _DlnQuoteRequestDto {
       this.affiliateFeePercent,
       this.prependOperatingExpenses});
 
-  factory _$_DlnQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_DlnQuoteRequestDtoFromJson(json);
+  factory _$DlnQuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DlnQuoteRequestDtoImplFromJson(json);
 
   @override
   final String srcChainId;
@@ -328,7 +328,7 @@ class _$_DlnQuoteRequestDto implements _DlnQuoteRequestDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DlnQuoteRequestDto &&
+            other is _$DlnQuoteRequestDtoImpl &&
             (identical(other.srcChainId, srcChainId) ||
                 other.srcChainId == srcChainId) &&
             (identical(other.srcChainTokenIn, srcChainTokenIn) ||
@@ -388,13 +388,13 @@ class _$_DlnQuoteRequestDto implements _DlnQuoteRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DlnQuoteRequestDtoCopyWith<_$_DlnQuoteRequestDto> get copyWith =>
-      __$$_DlnQuoteRequestDtoCopyWithImpl<_$_DlnQuoteRequestDto>(
+  _$$DlnQuoteRequestDtoImplCopyWith<_$DlnQuoteRequestDtoImpl> get copyWith =>
+      __$$DlnQuoteRequestDtoImplCopyWithImpl<_$DlnQuoteRequestDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DlnQuoteRequestDtoToJson(
+    return _$$DlnQuoteRequestDtoImplToJson(
       this,
     );
   }
@@ -415,10 +415,10 @@ abstract class _DlnQuoteRequestDto implements DlnQuoteRequestDto {
       final int? intermediaryTokenUSDPrice,
       final int? slippage,
       final double? affiliateFeePercent,
-      final bool? prependOperatingExpenses}) = _$_DlnQuoteRequestDto;
+      final bool? prependOperatingExpenses}) = _$DlnQuoteRequestDtoImpl;
 
   factory _DlnQuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_DlnQuoteRequestDto.fromJson;
+      _$DlnQuoteRequestDtoImpl.fromJson;
 
   @override
   String get srcChainId;
@@ -450,7 +450,7 @@ abstract class _DlnQuoteRequestDto implements DlnQuoteRequestDto {
   bool? get prependOperatingExpenses;
   @override
   @JsonKey(ignore: true)
-  _$$_DlnQuoteRequestDtoCopyWith<_$_DlnQuoteRequestDto> get copyWith =>
+  _$$DlnQuoteRequestDtoImplCopyWith<_$DlnQuoteRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -560,11 +560,11 @@ class _$DlnQuoteResponseDtoCopyWithImpl<$Res, $Val extends DlnQuoteResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_DlnQuoteResponseDtoCopyWith<$Res>
+abstract class _$$DlnQuoteResponseDtoImplCopyWith<$Res>
     implements $DlnQuoteResponseDtoCopyWith<$Res> {
-  factory _$$_DlnQuoteResponseDtoCopyWith(_$_DlnQuoteResponseDto value,
-          $Res Function(_$_DlnQuoteResponseDto) then) =
-      __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>;
+  factory _$$DlnQuoteResponseDtoImplCopyWith(_$DlnQuoteResponseDtoImpl value,
+          $Res Function(_$DlnQuoteResponseDtoImpl) then) =
+      __$$DlnQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -583,11 +583,11 @@ abstract class _$$_DlnQuoteResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>
-    extends _$DlnQuoteResponseDtoCopyWithImpl<$Res, _$_DlnQuoteResponseDto>
-    implements _$$_DlnQuoteResponseDtoCopyWith<$Res> {
-  __$$_DlnQuoteResponseDtoCopyWithImpl(_$_DlnQuoteResponseDto _value,
-      $Res Function(_$_DlnQuoteResponseDto) _then)
+class __$$DlnQuoteResponseDtoImplCopyWithImpl<$Res>
+    extends _$DlnQuoteResponseDtoCopyWithImpl<$Res, _$DlnQuoteResponseDtoImpl>
+    implements _$$DlnQuoteResponseDtoImplCopyWith<$Res> {
+  __$$DlnQuoteResponseDtoImplCopyWithImpl(_$DlnQuoteResponseDtoImpl _value,
+      $Res Function(_$DlnQuoteResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -599,7 +599,7 @@ class __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>
     Object? order = null,
     Object? fixFee = null,
   }) {
-    return _then(_$_DlnQuoteResponseDto(
+    return _then(_$DlnQuoteResponseDtoImpl(
       estimation: null == estimation
           ? _value.estimation
           : estimation // ignore: cast_nullable_to_non_nullable
@@ -626,16 +626,16 @@ class __$$_DlnQuoteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DlnQuoteResponseDto implements _DlnQuoteResponseDto {
-  const _$_DlnQuoteResponseDto(
+class _$DlnQuoteResponseDtoImpl implements _DlnQuoteResponseDto {
+  const _$DlnQuoteResponseDtoImpl(
       {required this.estimation,
       this.prependedOperatingExpenseCost,
       required this.tx,
       required this.order,
       required this.fixFee});
 
-  factory _$_DlnQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_DlnQuoteResponseDtoFromJson(json);
+  factory _$DlnQuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DlnQuoteResponseDtoImplFromJson(json);
 
   @override
   final OrderEstimation estimation;
@@ -657,7 +657,7 @@ class _$_DlnQuoteResponseDto implements _DlnQuoteResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DlnQuoteResponseDto &&
+            other is _$DlnQuoteResponseDtoImpl &&
             (identical(other.estimation, estimation) ||
                 other.estimation == estimation) &&
             (identical(other.prependedOperatingExpenseCost,
@@ -677,13 +677,13 @@ class _$_DlnQuoteResponseDto implements _DlnQuoteResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DlnQuoteResponseDtoCopyWith<_$_DlnQuoteResponseDto> get copyWith =>
-      __$$_DlnQuoteResponseDtoCopyWithImpl<_$_DlnQuoteResponseDto>(
+  _$$DlnQuoteResponseDtoImplCopyWith<_$DlnQuoteResponseDtoImpl> get copyWith =>
+      __$$DlnQuoteResponseDtoImplCopyWithImpl<_$DlnQuoteResponseDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DlnQuoteResponseDtoToJson(
+    return _$$DlnQuoteResponseDtoImplToJson(
       this,
     );
   }
@@ -695,10 +695,10 @@ abstract class _DlnQuoteResponseDto implements DlnQuoteResponseDto {
       final String? prependedOperatingExpenseCost,
       required final TxQuote tx,
       required final Order order,
-      required final String fixFee}) = _$_DlnQuoteResponseDto;
+      required final String fixFee}) = _$DlnQuoteResponseDtoImpl;
 
   factory _DlnQuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_DlnQuoteResponseDto.fromJson;
+      _$DlnQuoteResponseDtoImpl.fromJson;
 
   @override
   OrderEstimation get estimation;
@@ -712,7 +712,7 @@ abstract class _DlnQuoteResponseDto implements DlnQuoteResponseDto {
   String get fixFee;
   @override
   @JsonKey(ignore: true)
-  _$$_DlnQuoteResponseDtoCopyWith<_$_DlnQuoteResponseDto> get copyWith =>
+  _$$DlnQuoteResponseDtoImplCopyWith<_$DlnQuoteResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -930,11 +930,11 @@ class _$CreateTxRequestDtoCopyWithImpl<$Res, $Val extends CreateTxRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_CreateTxRequestDtoCopyWith<$Res>
+abstract class _$$CreateTxRequestDtoImplCopyWith<$Res>
     implements $CreateTxRequestDtoCopyWith<$Res> {
-  factory _$$_CreateTxRequestDtoCopyWith(_$_CreateTxRequestDto value,
-          $Res Function(_$_CreateTxRequestDto) then) =
-      __$$_CreateTxRequestDtoCopyWithImpl<$Res>;
+  factory _$$CreateTxRequestDtoImplCopyWith(_$CreateTxRequestDtoImpl value,
+          $Res Function(_$CreateTxRequestDtoImpl) then) =
+      __$$CreateTxRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -965,11 +965,11 @@ abstract class _$$_CreateTxRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CreateTxRequestDtoCopyWithImpl<$Res>
-    extends _$CreateTxRequestDtoCopyWithImpl<$Res, _$_CreateTxRequestDto>
-    implements _$$_CreateTxRequestDtoCopyWith<$Res> {
-  __$$_CreateTxRequestDtoCopyWithImpl(
-      _$_CreateTxRequestDto _value, $Res Function(_$_CreateTxRequestDto) _then)
+class __$$CreateTxRequestDtoImplCopyWithImpl<$Res>
+    extends _$CreateTxRequestDtoCopyWithImpl<$Res, _$CreateTxRequestDtoImpl>
+    implements _$$CreateTxRequestDtoImplCopyWith<$Res> {
+  __$$CreateTxRequestDtoImplCopyWithImpl(_$CreateTxRequestDtoImpl _value,
+      $Res Function(_$CreateTxRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1000,7 +1000,7 @@ class __$$_CreateTxRequestDtoCopyWithImpl<$Res>
     Object? externalCall = freezed,
     Object? prependOperatingExpenses = freezed,
   }) {
-    return _then(_$_CreateTxRequestDto(
+    return _then(_$CreateTxRequestDtoImpl(
       srcChainId: null == srcChainId
           ? _value.srcChainId
           : srcChainId // ignore: cast_nullable_to_non_nullable
@@ -1104,8 +1104,8 @@ class __$$_CreateTxRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CreateTxRequestDto implements _CreateTxRequestDto {
-  const _$_CreateTxRequestDto(
+class _$CreateTxRequestDtoImpl implements _CreateTxRequestDto {
+  const _$CreateTxRequestDtoImpl(
       {required this.srcChainId,
       required this.srcChainTokenIn,
       required this.srcChainTokenInAmount,
@@ -1131,8 +1131,8 @@ class _$_CreateTxRequestDto implements _CreateTxRequestDto {
       this.externalCall,
       this.prependOperatingExpenses});
 
-  factory _$_CreateTxRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CreateTxRequestDtoFromJson(json);
+  factory _$CreateTxRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateTxRequestDtoImplFromJson(json);
 
   @override
   final String srcChainId;
@@ -1192,7 +1192,7 @@ class _$_CreateTxRequestDto implements _CreateTxRequestDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreateTxRequestDto &&
+            other is _$CreateTxRequestDtoImpl &&
             (identical(other.srcChainId, srcChainId) ||
                 other.srcChainId == srcChainId) &&
             (identical(other.srcChainTokenIn, srcChainTokenIn) ||
@@ -1278,13 +1278,13 @@ class _$_CreateTxRequestDto implements _CreateTxRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreateTxRequestDtoCopyWith<_$_CreateTxRequestDto> get copyWith =>
-      __$$_CreateTxRequestDtoCopyWithImpl<_$_CreateTxRequestDto>(
+  _$$CreateTxRequestDtoImplCopyWith<_$CreateTxRequestDtoImpl> get copyWith =>
+      __$$CreateTxRequestDtoImplCopyWithImpl<_$CreateTxRequestDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CreateTxRequestDtoToJson(
+    return _$$CreateTxRequestDtoImplToJson(
       this,
     );
   }
@@ -1315,10 +1315,10 @@ abstract class _CreateTxRequestDto implements CreateTxRequestDto {
       final bool? enableEstimate,
       final String? allowedTaker,
       final String? externalCall,
-      final bool? prependOperatingExpenses}) = _$_CreateTxRequestDto;
+      final bool? prependOperatingExpenses}) = _$CreateTxRequestDtoImpl;
 
   factory _CreateTxRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_CreateTxRequestDto.fromJson;
+      _$CreateTxRequestDtoImpl.fromJson;
 
   @override
   String get srcChainId;
@@ -1370,7 +1370,7 @@ abstract class _CreateTxRequestDto implements CreateTxRequestDto {
   bool? get prependOperatingExpenses;
   @override
   @JsonKey(ignore: true)
-  _$$_CreateTxRequestDtoCopyWith<_$_CreateTxRequestDto> get copyWith =>
+  _$$CreateTxRequestDtoImplCopyWith<_$CreateTxRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1480,11 +1480,11 @@ class _$CreateTxResponseDtoCopyWithImpl<$Res, $Val extends CreateTxResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_CreateTxResponseDtoCopyWith<$Res>
+abstract class _$$CreateTxResponseDtoImplCopyWith<$Res>
     implements $CreateTxResponseDtoCopyWith<$Res> {
-  factory _$$_CreateTxResponseDtoCopyWith(_$_CreateTxResponseDto value,
-          $Res Function(_$_CreateTxResponseDto) then) =
-      __$$_CreateTxResponseDtoCopyWithImpl<$Res>;
+  factory _$$CreateTxResponseDtoImplCopyWith(_$CreateTxResponseDtoImpl value,
+          $Res Function(_$CreateTxResponseDtoImpl) then) =
+      __$$CreateTxResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1503,11 +1503,11 @@ abstract class _$$_CreateTxResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CreateTxResponseDtoCopyWithImpl<$Res>
-    extends _$CreateTxResponseDtoCopyWithImpl<$Res, _$_CreateTxResponseDto>
-    implements _$$_CreateTxResponseDtoCopyWith<$Res> {
-  __$$_CreateTxResponseDtoCopyWithImpl(_$_CreateTxResponseDto _value,
-      $Res Function(_$_CreateTxResponseDto) _then)
+class __$$CreateTxResponseDtoImplCopyWithImpl<$Res>
+    extends _$CreateTxResponseDtoCopyWithImpl<$Res, _$CreateTxResponseDtoImpl>
+    implements _$$CreateTxResponseDtoImplCopyWith<$Res> {
+  __$$CreateTxResponseDtoImplCopyWithImpl(_$CreateTxResponseDtoImpl _value,
+      $Res Function(_$CreateTxResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1519,7 +1519,7 @@ class __$$_CreateTxResponseDtoCopyWithImpl<$Res>
     Object? order = null,
     Object? fixFee = null,
   }) {
-    return _then(_$_CreateTxResponseDto(
+    return _then(_$CreateTxResponseDtoImpl(
       estimation: null == estimation
           ? _value.estimation
           : estimation // ignore: cast_nullable_to_non_nullable
@@ -1546,16 +1546,16 @@ class __$$_CreateTxResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CreateTxResponseDto implements _CreateTxResponseDto {
-  const _$_CreateTxResponseDto(
+class _$CreateTxResponseDtoImpl implements _CreateTxResponseDto {
+  const _$CreateTxResponseDtoImpl(
       {required this.estimation,
       required this.tx,
       this.prependedOperatingExpenseCost,
       required this.order,
       required this.fixFee});
 
-  factory _$_CreateTxResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CreateTxResponseDtoFromJson(json);
+  factory _$CreateTxResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CreateTxResponseDtoImplFromJson(json);
 
   @override
   final OrderEstimation estimation;
@@ -1577,7 +1577,7 @@ class _$_CreateTxResponseDto implements _CreateTxResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CreateTxResponseDto &&
+            other is _$CreateTxResponseDtoImpl &&
             (identical(other.estimation, estimation) ||
                 other.estimation == estimation) &&
             (identical(other.tx, tx) || other.tx == tx) &&
@@ -1597,13 +1597,13 @@ class _$_CreateTxResponseDto implements _CreateTxResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CreateTxResponseDtoCopyWith<_$_CreateTxResponseDto> get copyWith =>
-      __$$_CreateTxResponseDtoCopyWithImpl<_$_CreateTxResponseDto>(
+  _$$CreateTxResponseDtoImplCopyWith<_$CreateTxResponseDtoImpl> get copyWith =>
+      __$$CreateTxResponseDtoImplCopyWithImpl<_$CreateTxResponseDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CreateTxResponseDtoToJson(
+    return _$$CreateTxResponseDtoImplToJson(
       this,
     );
   }
@@ -1615,10 +1615,10 @@ abstract class _CreateTxResponseDto implements CreateTxResponseDto {
       required final DlnTx tx,
       final String? prependedOperatingExpenseCost,
       required final Order order,
-      required final String fixFee}) = _$_CreateTxResponseDto;
+      required final String fixFee}) = _$CreateTxResponseDtoImpl;
 
   factory _CreateTxResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_CreateTxResponseDto.fromJson;
+      _$CreateTxResponseDtoImpl.fromJson;
 
   @override
   OrderEstimation get estimation;
@@ -1632,7 +1632,7 @@ abstract class _CreateTxResponseDto implements CreateTxResponseDto {
   String get fixFee;
   @override
   @JsonKey(ignore: true)
-  _$$_CreateTxResponseDtoCopyWith<_$_CreateTxResponseDto> get copyWith =>
+  _$$CreateTxResponseDtoImplCopyWith<_$CreateTxResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1716,11 +1716,11 @@ class _$OrderResponseDtoCopyWithImpl<$Res, $Val extends OrderResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_OrderResponseDtoCopyWith<$Res>
+abstract class _$$OrderResponseDtoImplCopyWith<$Res>
     implements $OrderResponseDtoCopyWith<$Res> {
-  factory _$$_OrderResponseDtoCopyWith(
-          _$_OrderResponseDto value, $Res Function(_$_OrderResponseDto) then) =
-      __$$_OrderResponseDtoCopyWithImpl<$Res>;
+  factory _$$OrderResponseDtoImplCopyWith(_$OrderResponseDtoImpl value,
+          $Res Function(_$OrderResponseDtoImpl) then) =
+      __$$OrderResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1734,11 +1734,11 @@ abstract class _$$_OrderResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OrderResponseDtoCopyWithImpl<$Res>
-    extends _$OrderResponseDtoCopyWithImpl<$Res, _$_OrderResponseDto>
-    implements _$$_OrderResponseDtoCopyWith<$Res> {
-  __$$_OrderResponseDtoCopyWithImpl(
-      _$_OrderResponseDto _value, $Res Function(_$_OrderResponseDto) _then)
+class __$$OrderResponseDtoImplCopyWithImpl<$Res>
+    extends _$OrderResponseDtoCopyWithImpl<$Res, _$OrderResponseDtoImpl>
+    implements _$$OrderResponseDtoImplCopyWith<$Res> {
+  __$$OrderResponseDtoImplCopyWithImpl(_$OrderResponseDtoImpl _value,
+      $Res Function(_$OrderResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1749,7 +1749,7 @@ class __$$_OrderResponseDtoCopyWithImpl<$Res>
     Object? externalCallState = null,
     Object? orderStruct = null,
   }) {
-    return _then(_$_OrderResponseDto(
+    return _then(_$OrderResponseDtoImpl(
       orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
@@ -1772,15 +1772,15 @@ class __$$_OrderResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderResponseDto implements _OrderResponseDto {
-  const _$_OrderResponseDto(
+class _$OrderResponseDtoImpl implements _OrderResponseDto {
+  const _$OrderResponseDtoImpl(
       {required this.orderId,
       required this.status,
       required this.externalCallState,
       required this.orderStruct});
 
-  factory _$_OrderResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderResponseDtoFromJson(json);
+  factory _$OrderResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderResponseDtoImplFromJson(json);
 
   @override
   final String orderId;
@@ -1800,7 +1800,7 @@ class _$_OrderResponseDto implements _OrderResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderResponseDto &&
+            other is _$OrderResponseDtoImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.externalCallState, externalCallState) ||
@@ -1817,12 +1817,13 @@ class _$_OrderResponseDto implements _OrderResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderResponseDtoCopyWith<_$_OrderResponseDto> get copyWith =>
-      __$$_OrderResponseDtoCopyWithImpl<_$_OrderResponseDto>(this, _$identity);
+  _$$OrderResponseDtoImplCopyWith<_$OrderResponseDtoImpl> get copyWith =>
+      __$$OrderResponseDtoImplCopyWithImpl<_$OrderResponseDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderResponseDtoToJson(
+    return _$$OrderResponseDtoImplToJson(
       this,
     );
   }
@@ -1833,10 +1834,10 @@ abstract class _OrderResponseDto implements OrderResponseDto {
       {required final String orderId,
       required final String status,
       required final String externalCallState,
-      required final OrderStruct orderStruct}) = _$_OrderResponseDto;
+      required final OrderStruct orderStruct}) = _$OrderResponseDtoImpl;
 
   factory _OrderResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_OrderResponseDto.fromJson;
+      _$OrderResponseDtoImpl.fromJson;
 
   @override
   String get orderId;
@@ -1848,7 +1849,7 @@ abstract class _OrderResponseDto implements OrderResponseDto {
   OrderStruct get orderStruct;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderResponseDtoCopyWith<_$_OrderResponseDto> get copyWith =>
+  _$$OrderResponseDtoImplCopyWith<_$OrderResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1860,7 +1861,8 @@ OrderStatusResponseDto _$OrderStatusResponseDtoFromJson(
 /// @nodoc
 mixin _$OrderStatusResponseDto {
   String get orderId => throw _privateConstructorUsedError;
-  String get status => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
+  OrderStatus get status => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1874,7 +1876,9 @@ abstract class $OrderStatusResponseDtoCopyWith<$Res> {
           $Res Function(OrderStatusResponseDto) then) =
       _$OrderStatusResponseDtoCopyWithImpl<$Res, OrderStatusResponseDto>;
   @useResult
-  $Res call({String orderId, String status});
+  $Res call(
+      {String orderId,
+      @JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status});
 }
 
 /// @nodoc
@@ -1902,29 +1906,33 @@ class _$OrderStatusResponseDtoCopyWithImpl<$Res,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as OrderStatus,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_OrderStatusResponseDtoCopyWith<$Res>
+abstract class _$$OrderStatusResponseDtoImplCopyWith<$Res>
     implements $OrderStatusResponseDtoCopyWith<$Res> {
-  factory _$$_OrderStatusResponseDtoCopyWith(_$_OrderStatusResponseDto value,
-          $Res Function(_$_OrderStatusResponseDto) then) =
-      __$$_OrderStatusResponseDtoCopyWithImpl<$Res>;
+  factory _$$OrderStatusResponseDtoImplCopyWith(
+          _$OrderStatusResponseDtoImpl value,
+          $Res Function(_$OrderStatusResponseDtoImpl) then) =
+      __$$OrderStatusResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String orderId, String status});
+  $Res call(
+      {String orderId,
+      @JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status});
 }
 
 /// @nodoc
-class __$$_OrderStatusResponseDtoCopyWithImpl<$Res>
+class __$$OrderStatusResponseDtoImplCopyWithImpl<$Res>
     extends _$OrderStatusResponseDtoCopyWithImpl<$Res,
-        _$_OrderStatusResponseDto>
-    implements _$$_OrderStatusResponseDtoCopyWith<$Res> {
-  __$$_OrderStatusResponseDtoCopyWithImpl(_$_OrderStatusResponseDto _value,
-      $Res Function(_$_OrderStatusResponseDto) _then)
+        _$OrderStatusResponseDtoImpl>
+    implements _$$OrderStatusResponseDtoImplCopyWith<$Res> {
+  __$$OrderStatusResponseDtoImplCopyWithImpl(
+      _$OrderStatusResponseDtoImpl _value,
+      $Res Function(_$OrderStatusResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1933,7 +1941,7 @@ class __$$_OrderStatusResponseDtoCopyWithImpl<$Res>
     Object? orderId = null,
     Object? status = null,
   }) {
-    return _then(_$_OrderStatusResponseDto(
+    return _then(_$OrderStatusResponseDtoImpl(
       orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
@@ -1941,24 +1949,26 @@ class __$$_OrderStatusResponseDtoCopyWithImpl<$Res>
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as String,
+              as OrderStatus,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderStatusResponseDto implements _OrderStatusResponseDto {
-  const _$_OrderStatusResponseDto(
-      {required this.orderId, required this.status});
+class _$OrderStatusResponseDtoImpl implements _OrderStatusResponseDto {
+  const _$OrderStatusResponseDtoImpl(
+      {required this.orderId,
+      @JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status});
 
-  factory _$_OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderStatusResponseDtoFromJson(json);
+  factory _$OrderStatusResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderStatusResponseDtoImplFromJson(json);
 
   @override
   final String orderId;
   @override
-  final String status;
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
+  final OrderStatus status;
 
   @override
   String toString() {
@@ -1969,7 +1979,7 @@ class _$_OrderStatusResponseDto implements _OrderStatusResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderStatusResponseDto &&
+            other is _$OrderStatusResponseDtoImpl &&
             (identical(other.orderId, orderId) || other.orderId == orderId) &&
             (identical(other.status, status) || other.status == status));
   }
@@ -1981,13 +1991,13 @@ class _$_OrderStatusResponseDto implements _OrderStatusResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderStatusResponseDtoCopyWith<_$_OrderStatusResponseDto> get copyWith =>
-      __$$_OrderStatusResponseDtoCopyWithImpl<_$_OrderStatusResponseDto>(
-          this, _$identity);
+  _$$OrderStatusResponseDtoImplCopyWith<_$OrderStatusResponseDtoImpl>
+      get copyWith => __$$OrderStatusResponseDtoImplCopyWithImpl<
+          _$OrderStatusResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderStatusResponseDtoToJson(
+    return _$$OrderStatusResponseDtoImplToJson(
       this,
     );
   }
@@ -1996,19 +2006,21 @@ class _$_OrderStatusResponseDto implements _OrderStatusResponseDto {
 abstract class _OrderStatusResponseDto implements OrderStatusResponseDto {
   const factory _OrderStatusResponseDto(
       {required final String orderId,
-      required final String status}) = _$_OrderStatusResponseDto;
+      @JsonKey(unknownEnumValue: OrderStatus.unknown)
+      required final OrderStatus status}) = _$OrderStatusResponseDtoImpl;
 
   factory _OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_OrderStatusResponseDto.fromJson;
+      _$OrderStatusResponseDtoImpl.fromJson;
 
   @override
   String get orderId;
   @override
-  String get status;
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
+  OrderStatus get status;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderStatusResponseDtoCopyWith<_$_OrderStatusResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$OrderStatusResponseDtoImplCopyWith<_$OrderStatusResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 OrderIdTxResponseDto _$OrderIdTxResponseDtoFromJson(Map<String, dynamic> json) {
@@ -2060,22 +2072,22 @@ class _$OrderIdTxResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_OrderIdTxResponseDtoCopyWith<$Res>
+abstract class _$$OrderIdTxResponseDtoImplCopyWith<$Res>
     implements $OrderIdTxResponseDtoCopyWith<$Res> {
-  factory _$$_OrderIdTxResponseDtoCopyWith(_$_OrderIdTxResponseDto value,
-          $Res Function(_$_OrderIdTxResponseDto) then) =
-      __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>;
+  factory _$$OrderIdTxResponseDtoImplCopyWith(_$OrderIdTxResponseDtoImpl value,
+          $Res Function(_$OrderIdTxResponseDtoImpl) then) =
+      __$$OrderIdTxResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<String> orderIds});
 }
 
 /// @nodoc
-class __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>
-    extends _$OrderIdTxResponseDtoCopyWithImpl<$Res, _$_OrderIdTxResponseDto>
-    implements _$$_OrderIdTxResponseDtoCopyWith<$Res> {
-  __$$_OrderIdTxResponseDtoCopyWithImpl(_$_OrderIdTxResponseDto _value,
-      $Res Function(_$_OrderIdTxResponseDto) _then)
+class __$$OrderIdTxResponseDtoImplCopyWithImpl<$Res>
+    extends _$OrderIdTxResponseDtoCopyWithImpl<$Res, _$OrderIdTxResponseDtoImpl>
+    implements _$$OrderIdTxResponseDtoImplCopyWith<$Res> {
+  __$$OrderIdTxResponseDtoImplCopyWithImpl(_$OrderIdTxResponseDtoImpl _value,
+      $Res Function(_$OrderIdTxResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2083,7 +2095,7 @@ class __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? orderIds = null,
   }) {
-    return _then(_$_OrderIdTxResponseDto(
+    return _then(_$OrderIdTxResponseDtoImpl(
       orderIds: null == orderIds
           ? _value._orderIds
           : orderIds // ignore: cast_nullable_to_non_nullable
@@ -2094,12 +2106,12 @@ class __$$_OrderIdTxResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderIdTxResponseDto implements _OrderIdTxResponseDto {
-  const _$_OrderIdTxResponseDto({required final List<String> orderIds})
+class _$OrderIdTxResponseDtoImpl implements _OrderIdTxResponseDto {
+  const _$OrderIdTxResponseDtoImpl({required final List<String> orderIds})
       : _orderIds = orderIds;
 
-  factory _$_OrderIdTxResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderIdTxResponseDtoFromJson(json);
+  factory _$OrderIdTxResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderIdTxResponseDtoImplFromJson(json);
 
   final List<String> _orderIds;
   @override
@@ -2118,7 +2130,7 @@ class _$_OrderIdTxResponseDto implements _OrderIdTxResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderIdTxResponseDto &&
+            other is _$OrderIdTxResponseDtoImpl &&
             const DeepCollectionEquality().equals(other._orderIds, _orderIds));
   }
 
@@ -2130,13 +2142,14 @@ class _$_OrderIdTxResponseDto implements _OrderIdTxResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderIdTxResponseDtoCopyWith<_$_OrderIdTxResponseDto> get copyWith =>
-      __$$_OrderIdTxResponseDtoCopyWithImpl<_$_OrderIdTxResponseDto>(
-          this, _$identity);
+  _$$OrderIdTxResponseDtoImplCopyWith<_$OrderIdTxResponseDtoImpl>
+      get copyWith =>
+          __$$OrderIdTxResponseDtoImplCopyWithImpl<_$OrderIdTxResponseDtoImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderIdTxResponseDtoToJson(
+    return _$$OrderIdTxResponseDtoImplToJson(
       this,
     );
   }
@@ -2144,17 +2157,17 @@ class _$_OrderIdTxResponseDto implements _OrderIdTxResponseDto {
 
 abstract class _OrderIdTxResponseDto implements OrderIdTxResponseDto {
   const factory _OrderIdTxResponseDto({required final List<String> orderIds}) =
-      _$_OrderIdTxResponseDto;
+      _$OrderIdTxResponseDtoImpl;
 
   factory _OrderIdTxResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_OrderIdTxResponseDto.fromJson;
+      _$OrderIdTxResponseDtoImpl.fromJson;
 
   @override
   List<String> get orderIds;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderIdTxResponseDtoCopyWith<_$_OrderIdTxResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$OrderIdTxResponseDtoImplCopyWith<_$OrderIdTxResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 CancelTxResponseDto _$CancelTxResponseDtoFromJson(Map<String, dynamic> json) {
@@ -2241,11 +2254,11 @@ class _$CancelTxResponseDtoCopyWithImpl<$Res, $Val extends CancelTxResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_CancelTxResponseDtoCopyWith<$Res>
+abstract class _$$CancelTxResponseDtoImplCopyWith<$Res>
     implements $CancelTxResponseDtoCopyWith<$Res> {
-  factory _$$_CancelTxResponseDtoCopyWith(_$_CancelTxResponseDto value,
-          $Res Function(_$_CancelTxResponseDto) then) =
-      __$$_CancelTxResponseDtoCopyWithImpl<$Res>;
+  factory _$$CancelTxResponseDtoImplCopyWith(_$CancelTxResponseDtoImpl value,
+          $Res Function(_$CancelTxResponseDtoImpl) then) =
+      __$$CancelTxResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2258,11 +2271,11 @@ abstract class _$$_CancelTxResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_CancelTxResponseDtoCopyWithImpl<$Res>
-    extends _$CancelTxResponseDtoCopyWithImpl<$Res, _$_CancelTxResponseDto>
-    implements _$$_CancelTxResponseDtoCopyWith<$Res> {
-  __$$_CancelTxResponseDtoCopyWithImpl(_$_CancelTxResponseDto _value,
-      $Res Function(_$_CancelTxResponseDto) _then)
+class __$$CancelTxResponseDtoImplCopyWithImpl<$Res>
+    extends _$CancelTxResponseDtoCopyWithImpl<$Res, _$CancelTxResponseDtoImpl>
+    implements _$$CancelTxResponseDtoImplCopyWith<$Res> {
+  __$$CancelTxResponseDtoImplCopyWithImpl(_$CancelTxResponseDtoImpl _value,
+      $Res Function(_$CancelTxResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2275,7 +2288,7 @@ class __$$_CancelTxResponseDtoCopyWithImpl<$Res>
     Object? from = null,
     Object? cancelBeneficiary = freezed,
   }) {
-    return _then(_$_CancelTxResponseDto(
+    return _then(_$CancelTxResponseDtoImpl(
       to: null == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
@@ -2306,8 +2319,8 @@ class __$$_CancelTxResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_CancelTxResponseDto implements _CancelTxResponseDto {
-  const _$_CancelTxResponseDto(
+class _$CancelTxResponseDtoImpl implements _CancelTxResponseDto {
+  const _$CancelTxResponseDtoImpl(
       {required this.to,
       required this.data,
       required this.value,
@@ -2315,8 +2328,8 @@ class _$_CancelTxResponseDto implements _CancelTxResponseDto {
       required this.from,
       this.cancelBeneficiary});
 
-  factory _$_CancelTxResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_CancelTxResponseDtoFromJson(json);
+  factory _$CancelTxResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CancelTxResponseDtoImplFromJson(json);
 
   @override
   final String to;
@@ -2340,7 +2353,7 @@ class _$_CancelTxResponseDto implements _CancelTxResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CancelTxResponseDto &&
+            other is _$CancelTxResponseDtoImpl &&
             (identical(other.to, to) || other.to == to) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.value, value) || other.value == value) &&
@@ -2358,13 +2371,13 @@ class _$_CancelTxResponseDto implements _CancelTxResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CancelTxResponseDtoCopyWith<_$_CancelTxResponseDto> get copyWith =>
-      __$$_CancelTxResponseDtoCopyWithImpl<_$_CancelTxResponseDto>(
+  _$$CancelTxResponseDtoImplCopyWith<_$CancelTxResponseDtoImpl> get copyWith =>
+      __$$CancelTxResponseDtoImplCopyWithImpl<_$CancelTxResponseDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_CancelTxResponseDtoToJson(
+    return _$$CancelTxResponseDtoImplToJson(
       this,
     );
   }
@@ -2377,10 +2390,10 @@ abstract class _CancelTxResponseDto implements CancelTxResponseDto {
       required final String value,
       required final double chainId,
       required final String from,
-      final String? cancelBeneficiary}) = _$_CancelTxResponseDto;
+      final String? cancelBeneficiary}) = _$CancelTxResponseDtoImpl;
 
   factory _CancelTxResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_CancelTxResponseDto.fromJson;
+      _$CancelTxResponseDtoImpl.fromJson;
 
   @override
   String get to;
@@ -2396,6 +2409,6 @@ abstract class _CancelTxResponseDto implements CancelTxResponseDto {
   String? get cancelBeneficiary;
   @override
   @JsonKey(ignore: true)
-  _$$_CancelTxResponseDtoCopyWith<_$_CancelTxResponseDto> get copyWith =>
+  _$$CancelTxResponseDtoImplCopyWith<_$CancelTxResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

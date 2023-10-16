@@ -6,8 +6,9 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_OrderEstimation _$$_OrderEstimationFromJson(Map<String, dynamic> json) =>
-    _$_OrderEstimation(
+_$OrderEstimationImpl _$$OrderEstimationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OrderEstimationImpl(
       srcChainTokenIn: TokenWithApproximateOperatingExpense.fromJson(
           json['srcChainTokenIn'] as Map<String, dynamic>),
       srcChainTokenOut: json['srcChainTokenOut'] == null
@@ -20,7 +21,8 @@ _$_OrderEstimation _$$_OrderEstimationFromJson(Map<String, dynamic> json) =>
       costsDetails: json['costsDetails'] as List<dynamic>,
     );
 
-Map<String, dynamic> _$$_OrderEstimationToJson(_$_OrderEstimation instance) {
+Map<String, dynamic> _$$OrderEstimationImplToJson(
+    _$OrderEstimationImpl instance) {
   final val = <String, dynamic>{
     'srcChainTokenIn': instance.srcChainTokenIn.toJson(),
   };
@@ -38,9 +40,9 @@ Map<String, dynamic> _$$_OrderEstimationToJson(_$_OrderEstimation instance) {
   return val;
 }
 
-_$_TokenWithMaxRefundAmount _$$_TokenWithMaxRefundAmountFromJson(
+_$TokenWithMaxRefundAmountImpl _$$TokenWithMaxRefundAmountImplFromJson(
         Map<String, dynamic> json) =>
-    _$_TokenWithMaxRefundAmount(
+    _$TokenWithMaxRefundAmountImpl(
       address: json['address'] as String,
       name: json['name'] as String,
       symbol: json['symbol'] as String,
@@ -49,8 +51,8 @@ _$_TokenWithMaxRefundAmount _$$_TokenWithMaxRefundAmountFromJson(
       maxRefundAmount: json['maxRefundAmount'] as String,
     );
 
-Map<String, dynamic> _$$_TokenWithMaxRefundAmountToJson(
-        _$_TokenWithMaxRefundAmount instance) =>
+Map<String, dynamic> _$$TokenWithMaxRefundAmountImplToJson(
+        _$TokenWithMaxRefundAmountImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
       'name': instance.name,
@@ -60,10 +62,10 @@ Map<String, dynamic> _$$_TokenWithMaxRefundAmountToJson(
       'maxRefundAmount': instance.maxRefundAmount,
     };
 
-_$_TokenWithApproximateOperatingExpense
-    _$$_TokenWithApproximateOperatingExpenseFromJson(
+_$TokenWithApproximateOperatingExpenseImpl
+    _$$TokenWithApproximateOperatingExpenseImplFromJson(
             Map<String, dynamic> json) =>
-        _$_TokenWithApproximateOperatingExpense(
+        _$TokenWithApproximateOperatingExpenseImpl(
           address: json['address'] as String,
           name: json['name'] as String,
           symbol: json['symbol'] as String,
@@ -75,8 +77,8 @@ _$_TokenWithApproximateOperatingExpense
               json['mutatedWithOperatingExpense'] as bool,
         );
 
-Map<String, dynamic> _$$_TokenWithApproximateOperatingExpenseToJson(
-        _$_TokenWithApproximateOperatingExpense instance) =>
+Map<String, dynamic> _$$TokenWithApproximateOperatingExpenseImplToJson(
+        _$TokenWithApproximateOperatingExpenseImpl instance) =>
     <String, dynamic>{
       'address': instance.address,
       'name': instance.name,
@@ -87,9 +89,9 @@ Map<String, dynamic> _$$_TokenWithApproximateOperatingExpenseToJson(
       'mutatedWithOperatingExpense': instance.mutatedWithOperatingExpense,
     };
 
-_$_DstChainTokenOutResponseType _$$_DstChainTokenOutResponseTypeFromJson(
+_$DstChainTokenOutResponseTypeImpl _$$DstChainTokenOutResponseTypeImplFromJson(
         Map<String, dynamic> json) =>
-    _$_DstChainTokenOutResponseType(
+    _$DstChainTokenOutResponseTypeImpl(
       address: json['address'] as String,
       name: json['name'] as String,
       symbol: json['symbol'] as String,
@@ -100,8 +102,8 @@ _$_DstChainTokenOutResponseType _$$_DstChainTokenOutResponseTypeFromJson(
           json['withoutAdditionalTakerRewardsAmount'] as String?,
     );
 
-Map<String, dynamic> _$$_DstChainTokenOutResponseTypeToJson(
-    _$_DstChainTokenOutResponseType instance) {
+Map<String, dynamic> _$$DstChainTokenOutResponseTypeImplToJson(
+    _$DstChainTokenOutResponseTypeImpl instance) {
   final val = <String, dynamic>{
     'address': instance.address,
     'name': instance.name,
@@ -122,34 +124,36 @@ Map<String, dynamic> _$$_DstChainTokenOutResponseTypeToJson(
   return val;
 }
 
-_$_TxQuote _$$_TxQuoteFromJson(Map<String, dynamic> json) => _$_TxQuote(
+_$TxQuoteImpl _$$TxQuoteImplFromJson(Map<String, dynamic> json) =>
+    _$TxQuoteImpl(
       allowanceTarget: json['allowanceTarget'] as String,
       allowanceValue: json['allowanceValue'] as String,
     );
 
-Map<String, dynamic> _$$_TxQuoteToJson(_$_TxQuote instance) =>
+Map<String, dynamic> _$$TxQuoteImplToJson(_$TxQuoteImpl instance) =>
     <String, dynamic>{
       'allowanceTarget': instance.allowanceTarget,
       'allowanceValue': instance.allowanceValue,
     };
 
-_$_Order _$$_OrderFromJson(Map<String, dynamic> json) => _$_Order(
+_$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
       approximateFulfillmentDelay:
           (json['approximateFulfillmentDelay'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_OrderToJson(_$_Order instance) => <String, dynamic>{
+Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
+    <String, dynamic>{
       'approximateFulfillmentDelay': instance.approximateFulfillmentDelay,
     };
 
-_$_DlnTx _$$_DlnTxFromJson(Map<String, dynamic> json) => _$_DlnTx(
+_$DlnTxImpl _$$DlnTxImplFromJson(Map<String, dynamic> json) => _$DlnTxImpl(
       data: json['data'] as String,
       to: json['to'] as String?,
       value: json['value'] as String?,
       gasLimit: (json['gasLimit'] as num?)?.toDouble(),
     );
 
-Map<String, dynamic> _$$_DlnTxToJson(_$_DlnTx instance) {
+Map<String, dynamic> _$$DlnTxImplToJson(_$DlnTxImpl instance) {
   final val = <String, dynamic>{
     'data': instance.data,
   };
@@ -166,20 +170,21 @@ Map<String, dynamic> _$$_DlnTxToJson(_$_DlnTx instance) {
   return val;
 }
 
-_$_Offer _$$_OfferFromJson(Map<String, dynamic> json) => _$_Offer(
+_$OfferImpl _$$OfferImplFromJson(Map<String, dynamic> json) => _$OfferImpl(
       chainId: json['chainId'] as int,
       tokenAddress: json['tokenAddress'] as String,
       amount: json['amount'] as String,
     );
 
-Map<String, dynamic> _$$_OfferToJson(_$_Offer instance) => <String, dynamic>{
+Map<String, dynamic> _$$OfferImplToJson(_$OfferImpl instance) =>
+    <String, dynamic>{
       'chainId': instance.chainId,
       'tokenAddress': instance.tokenAddress,
       'amount': instance.amount,
     };
 
-_$_OrderStruct _$$_OrderStructFromJson(Map<String, dynamic> json) =>
-    _$_OrderStruct(
+_$OrderStructImpl _$$OrderStructImplFromJson(Map<String, dynamic> json) =>
+    _$OrderStructImpl(
       makerOrderNonce: json['makerOrderNonce'] as int,
       makerSrc: json['makerSrc'] as String,
       giveOffer: Offer.fromJson(json['giveOffer'] as Map<String, dynamic>),
@@ -193,7 +198,7 @@ _$_OrderStruct _$$_OrderStructFromJson(Map<String, dynamic> json) =>
       externalCall: json['externalCall'] as String?,
     );
 
-Map<String, dynamic> _$$_OrderStructToJson(_$_OrderStruct instance) {
+Map<String, dynamic> _$$OrderStructImplToJson(_$OrderStructImpl instance) {
   final val = <String, dynamic>{
     'makerOrderNonce': instance.makerOrderNonce,
     'makerSrc': instance.makerSrc,

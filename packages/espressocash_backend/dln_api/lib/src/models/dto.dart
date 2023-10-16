@@ -105,7 +105,7 @@ class OrderResponseDto with _$OrderResponseDto {
 class OrderStatusResponseDto with _$OrderStatusResponseDto {
   const factory OrderStatusResponseDto({
     required String orderId,
-    required String status,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown) required OrderStatus status,
   }) = _OrderStatusResponseDto;
 
   factory OrderStatusResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -135,4 +135,16 @@ class CancelTxResponseDto with _$CancelTxResponseDto {
 
   factory CancelTxResponseDto.fromJson(Map<String, dynamic> json) =>
       _$CancelTxResponseDtoFromJson(json);
+}
+
+@JsonEnum(fieldRename: FieldRename.pascal)
+enum OrderStatus {
+  created,
+  fulfilled,
+  sentUnlock,
+  claimedUnlock,
+  orderCancelled,
+  sentOrderCancel,
+  claimedOrderCancel,
+  unknown
 }

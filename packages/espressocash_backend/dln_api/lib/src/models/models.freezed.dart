@@ -129,11 +129,11 @@ class _$OrderEstimationCopyWithImpl<$Res, $Val extends OrderEstimation>
 }
 
 /// @nodoc
-abstract class _$$_OrderEstimationCopyWith<$Res>
+abstract class _$$OrderEstimationImplCopyWith<$Res>
     implements $OrderEstimationCopyWith<$Res> {
-  factory _$$_OrderEstimationCopyWith(
-          _$_OrderEstimation value, $Res Function(_$_OrderEstimation) then) =
-      __$$_OrderEstimationCopyWithImpl<$Res>;
+  factory _$$OrderEstimationImplCopyWith(_$OrderEstimationImpl value,
+          $Res Function(_$OrderEstimationImpl) then) =
+      __$$OrderEstimationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -152,11 +152,11 @@ abstract class _$$_OrderEstimationCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OrderEstimationCopyWithImpl<$Res>
-    extends _$OrderEstimationCopyWithImpl<$Res, _$_OrderEstimation>
-    implements _$$_OrderEstimationCopyWith<$Res> {
-  __$$_OrderEstimationCopyWithImpl(
-      _$_OrderEstimation _value, $Res Function(_$_OrderEstimation) _then)
+class __$$OrderEstimationImplCopyWithImpl<$Res>
+    extends _$OrderEstimationCopyWithImpl<$Res, _$OrderEstimationImpl>
+    implements _$$OrderEstimationImplCopyWith<$Res> {
+  __$$OrderEstimationImplCopyWithImpl(
+      _$OrderEstimationImpl _value, $Res Function(_$OrderEstimationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -168,7 +168,7 @@ class __$$_OrderEstimationCopyWithImpl<$Res>
     Object? recommendedSlippage = freezed,
     Object? costsDetails = null,
   }) {
-    return _then(_$_OrderEstimation(
+    return _then(_$OrderEstimationImpl(
       srcChainTokenIn: null == srcChainTokenIn
           ? _value.srcChainTokenIn
           : srcChainTokenIn // ignore: cast_nullable_to_non_nullable
@@ -195,8 +195,8 @@ class __$$_OrderEstimationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderEstimation implements _OrderEstimation {
-  const _$_OrderEstimation(
+class _$OrderEstimationImpl implements _OrderEstimation {
+  const _$OrderEstimationImpl(
       {required this.srcChainTokenIn,
       this.srcChainTokenOut,
       required this.dstChainTokenOut,
@@ -204,8 +204,8 @@ class _$_OrderEstimation implements _OrderEstimation {
       required final List<dynamic> costsDetails})
       : _costsDetails = costsDetails;
 
-  factory _$_OrderEstimation.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderEstimationFromJson(json);
+  factory _$OrderEstimationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderEstimationImplFromJson(json);
 
   @override
   final TokenWithApproximateOperatingExpense srcChainTokenIn;
@@ -232,7 +232,7 @@ class _$_OrderEstimation implements _OrderEstimation {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderEstimation &&
+            other is _$OrderEstimationImpl &&
             (identical(other.srcChainTokenIn, srcChainTokenIn) ||
                 other.srcChainTokenIn == srcChainTokenIn) &&
             (identical(other.srcChainTokenOut, srcChainTokenOut) ||
@@ -258,12 +258,13 @@ class _$_OrderEstimation implements _OrderEstimation {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderEstimationCopyWith<_$_OrderEstimation> get copyWith =>
-      __$$_OrderEstimationCopyWithImpl<_$_OrderEstimation>(this, _$identity);
+  _$$OrderEstimationImplCopyWith<_$OrderEstimationImpl> get copyWith =>
+      __$$OrderEstimationImplCopyWithImpl<_$OrderEstimationImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderEstimationToJson(
+    return _$$OrderEstimationImplToJson(
       this,
     );
   }
@@ -275,10 +276,10 @@ abstract class _OrderEstimation implements OrderEstimation {
       final TokenWithMaxRefundAmount? srcChainTokenOut,
       required final DstChainTokenOutResponseType dstChainTokenOut,
       final double? recommendedSlippage,
-      required final List<dynamic> costsDetails}) = _$_OrderEstimation;
+      required final List<dynamic> costsDetails}) = _$OrderEstimationImpl;
 
   factory _OrderEstimation.fromJson(Map<String, dynamic> json) =
-      _$_OrderEstimation.fromJson;
+      _$OrderEstimationImpl.fromJson;
 
   @override
   TokenWithApproximateOperatingExpense get srcChainTokenIn;
@@ -292,7 +293,7 @@ abstract class _OrderEstimation implements OrderEstimation {
   List<dynamic> get costsDetails;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderEstimationCopyWith<_$_OrderEstimation> get copyWith =>
+  _$$OrderEstimationImplCopyWith<_$OrderEstimationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -382,12 +383,12 @@ class _$TokenWithMaxRefundAmountCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TokenWithMaxRefundAmountCopyWith<$Res>
+abstract class _$$TokenWithMaxRefundAmountImplCopyWith<$Res>
     implements $TokenWithMaxRefundAmountCopyWith<$Res> {
-  factory _$$_TokenWithMaxRefundAmountCopyWith(
-          _$_TokenWithMaxRefundAmount value,
-          $Res Function(_$_TokenWithMaxRefundAmount) then) =
-      __$$_TokenWithMaxRefundAmountCopyWithImpl<$Res>;
+  factory _$$TokenWithMaxRefundAmountImplCopyWith(
+          _$TokenWithMaxRefundAmountImpl value,
+          $Res Function(_$TokenWithMaxRefundAmountImpl) then) =
+      __$$TokenWithMaxRefundAmountImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -400,12 +401,13 @@ abstract class _$$_TokenWithMaxRefundAmountCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TokenWithMaxRefundAmountCopyWithImpl<$Res>
+class __$$TokenWithMaxRefundAmountImplCopyWithImpl<$Res>
     extends _$TokenWithMaxRefundAmountCopyWithImpl<$Res,
-        _$_TokenWithMaxRefundAmount>
-    implements _$$_TokenWithMaxRefundAmountCopyWith<$Res> {
-  __$$_TokenWithMaxRefundAmountCopyWithImpl(_$_TokenWithMaxRefundAmount _value,
-      $Res Function(_$_TokenWithMaxRefundAmount) _then)
+        _$TokenWithMaxRefundAmountImpl>
+    implements _$$TokenWithMaxRefundAmountImplCopyWith<$Res> {
+  __$$TokenWithMaxRefundAmountImplCopyWithImpl(
+      _$TokenWithMaxRefundAmountImpl _value,
+      $Res Function(_$TokenWithMaxRefundAmountImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -418,7 +420,7 @@ class __$$_TokenWithMaxRefundAmountCopyWithImpl<$Res>
     Object? amount = null,
     Object? maxRefundAmount = null,
   }) {
-    return _then(_$_TokenWithMaxRefundAmount(
+    return _then(_$TokenWithMaxRefundAmountImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -449,8 +451,8 @@ class __$$_TokenWithMaxRefundAmountCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenWithMaxRefundAmount implements _TokenWithMaxRefundAmount {
-  const _$_TokenWithMaxRefundAmount(
+class _$TokenWithMaxRefundAmountImpl implements _TokenWithMaxRefundAmount {
+  const _$TokenWithMaxRefundAmountImpl(
       {required this.address,
       required this.name,
       required this.symbol,
@@ -458,8 +460,8 @@ class _$_TokenWithMaxRefundAmount implements _TokenWithMaxRefundAmount {
       required this.amount,
       required this.maxRefundAmount});
 
-  factory _$_TokenWithMaxRefundAmount.fromJson(Map<String, dynamic> json) =>
-      _$$_TokenWithMaxRefundAmountFromJson(json);
+  factory _$TokenWithMaxRefundAmountImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenWithMaxRefundAmountImplFromJson(json);
 
   @override
   final String address;
@@ -483,7 +485,7 @@ class _$_TokenWithMaxRefundAmount implements _TokenWithMaxRefundAmount {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenWithMaxRefundAmount &&
+            other is _$TokenWithMaxRefundAmountImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
@@ -502,13 +504,13 @@ class _$_TokenWithMaxRefundAmount implements _TokenWithMaxRefundAmount {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenWithMaxRefundAmountCopyWith<_$_TokenWithMaxRefundAmount>
-      get copyWith => __$$_TokenWithMaxRefundAmountCopyWithImpl<
-          _$_TokenWithMaxRefundAmount>(this, _$identity);
+  _$$TokenWithMaxRefundAmountImplCopyWith<_$TokenWithMaxRefundAmountImpl>
+      get copyWith => __$$TokenWithMaxRefundAmountImplCopyWithImpl<
+          _$TokenWithMaxRefundAmountImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenWithMaxRefundAmountToJson(
+    return _$$TokenWithMaxRefundAmountImplToJson(
       this,
     );
   }
@@ -521,10 +523,10 @@ abstract class _TokenWithMaxRefundAmount implements TokenWithMaxRefundAmount {
       required final String symbol,
       required final int decimals,
       required final String amount,
-      required final String maxRefundAmount}) = _$_TokenWithMaxRefundAmount;
+      required final String maxRefundAmount}) = _$TokenWithMaxRefundAmountImpl;
 
   factory _TokenWithMaxRefundAmount.fromJson(Map<String, dynamic> json) =
-      _$_TokenWithMaxRefundAmount.fromJson;
+      _$TokenWithMaxRefundAmountImpl.fromJson;
 
   @override
   String get address;
@@ -540,7 +542,7 @@ abstract class _TokenWithMaxRefundAmount implements TokenWithMaxRefundAmount {
   String get maxRefundAmount;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenWithMaxRefundAmountCopyWith<_$_TokenWithMaxRefundAmount>
+  _$$TokenWithMaxRefundAmountImplCopyWith<_$TokenWithMaxRefundAmountImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -640,12 +642,12 @@ class _$TokenWithApproximateOperatingExpenseCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_TokenWithApproximateOperatingExpenseCopyWith<$Res>
+abstract class _$$TokenWithApproximateOperatingExpenseImplCopyWith<$Res>
     implements $TokenWithApproximateOperatingExpenseCopyWith<$Res> {
-  factory _$$_TokenWithApproximateOperatingExpenseCopyWith(
-          _$_TokenWithApproximateOperatingExpense value,
-          $Res Function(_$_TokenWithApproximateOperatingExpense) then) =
-      __$$_TokenWithApproximateOperatingExpenseCopyWithImpl<$Res>;
+  factory _$$TokenWithApproximateOperatingExpenseImplCopyWith(
+          _$TokenWithApproximateOperatingExpenseImpl value,
+          $Res Function(_$TokenWithApproximateOperatingExpenseImpl) then) =
+      __$$TokenWithApproximateOperatingExpenseImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -659,13 +661,13 @@ abstract class _$$_TokenWithApproximateOperatingExpenseCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_TokenWithApproximateOperatingExpenseCopyWithImpl<$Res>
+class __$$TokenWithApproximateOperatingExpenseImplCopyWithImpl<$Res>
     extends _$TokenWithApproximateOperatingExpenseCopyWithImpl<$Res,
-        _$_TokenWithApproximateOperatingExpense>
-    implements _$$_TokenWithApproximateOperatingExpenseCopyWith<$Res> {
-  __$$_TokenWithApproximateOperatingExpenseCopyWithImpl(
-      _$_TokenWithApproximateOperatingExpense _value,
-      $Res Function(_$_TokenWithApproximateOperatingExpense) _then)
+        _$TokenWithApproximateOperatingExpenseImpl>
+    implements _$$TokenWithApproximateOperatingExpenseImplCopyWith<$Res> {
+  __$$TokenWithApproximateOperatingExpenseImplCopyWithImpl(
+      _$TokenWithApproximateOperatingExpenseImpl _value,
+      $Res Function(_$TokenWithApproximateOperatingExpenseImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -679,7 +681,7 @@ class __$$_TokenWithApproximateOperatingExpenseCopyWithImpl<$Res>
     Object? approximateOperatingExpense = null,
     Object? mutatedWithOperatingExpense = null,
   }) {
-    return _then(_$_TokenWithApproximateOperatingExpense(
+    return _then(_$TokenWithApproximateOperatingExpenseImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -714,9 +716,9 @@ class __$$_TokenWithApproximateOperatingExpenseCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenWithApproximateOperatingExpense
+class _$TokenWithApproximateOperatingExpenseImpl
     implements _TokenWithApproximateOperatingExpense {
-  const _$_TokenWithApproximateOperatingExpense(
+  const _$TokenWithApproximateOperatingExpenseImpl(
       {required this.address,
       required this.name,
       required this.symbol,
@@ -725,9 +727,9 @@ class _$_TokenWithApproximateOperatingExpense
       required this.approximateOperatingExpense,
       required this.mutatedWithOperatingExpense});
 
-  factory _$_TokenWithApproximateOperatingExpense.fromJson(
+  factory _$TokenWithApproximateOperatingExpenseImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_TokenWithApproximateOperatingExpenseFromJson(json);
+      _$$TokenWithApproximateOperatingExpenseImplFromJson(json);
 
   @override
   final String address;
@@ -753,7 +755,7 @@ class _$_TokenWithApproximateOperatingExpense
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenWithApproximateOperatingExpense &&
+            other is _$TokenWithApproximateOperatingExpenseImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
@@ -778,14 +780,14 @@ class _$_TokenWithApproximateOperatingExpense
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenWithApproximateOperatingExpenseCopyWith<
-          _$_TokenWithApproximateOperatingExpense>
-      get copyWith => __$$_TokenWithApproximateOperatingExpenseCopyWithImpl<
-          _$_TokenWithApproximateOperatingExpense>(this, _$identity);
+  _$$TokenWithApproximateOperatingExpenseImplCopyWith<
+          _$TokenWithApproximateOperatingExpenseImpl>
+      get copyWith => __$$TokenWithApproximateOperatingExpenseImplCopyWithImpl<
+          _$TokenWithApproximateOperatingExpenseImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenWithApproximateOperatingExpenseToJson(
+    return _$$TokenWithApproximateOperatingExpenseImplToJson(
       this,
     );
   }
@@ -801,11 +803,11 @@ abstract class _TokenWithApproximateOperatingExpense
           required final String amount,
           required final String approximateOperatingExpense,
           required final bool mutatedWithOperatingExpense}) =
-      _$_TokenWithApproximateOperatingExpense;
+      _$TokenWithApproximateOperatingExpenseImpl;
 
   factory _TokenWithApproximateOperatingExpense.fromJson(
           Map<String, dynamic> json) =
-      _$_TokenWithApproximateOperatingExpense.fromJson;
+      _$TokenWithApproximateOperatingExpenseImpl.fromJson;
 
   @override
   String get address;
@@ -823,8 +825,8 @@ abstract class _TokenWithApproximateOperatingExpense
   bool get mutatedWithOperatingExpense;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenWithApproximateOperatingExpenseCopyWith<
-          _$_TokenWithApproximateOperatingExpense>
+  _$$TokenWithApproximateOperatingExpenseImplCopyWith<
+          _$TokenWithApproximateOperatingExpenseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -925,12 +927,12 @@ class _$DstChainTokenOutResponseTypeCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_DstChainTokenOutResponseTypeCopyWith<$Res>
+abstract class _$$DstChainTokenOutResponseTypeImplCopyWith<$Res>
     implements $DstChainTokenOutResponseTypeCopyWith<$Res> {
-  factory _$$_DstChainTokenOutResponseTypeCopyWith(
-          _$_DstChainTokenOutResponseType value,
-          $Res Function(_$_DstChainTokenOutResponseType) then) =
-      __$$_DstChainTokenOutResponseTypeCopyWithImpl<$Res>;
+  factory _$$DstChainTokenOutResponseTypeImplCopyWith(
+          _$DstChainTokenOutResponseTypeImpl value,
+          $Res Function(_$DstChainTokenOutResponseTypeImpl) then) =
+      __$$DstChainTokenOutResponseTypeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -944,13 +946,13 @@ abstract class _$$_DstChainTokenOutResponseTypeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DstChainTokenOutResponseTypeCopyWithImpl<$Res>
+class __$$DstChainTokenOutResponseTypeImplCopyWithImpl<$Res>
     extends _$DstChainTokenOutResponseTypeCopyWithImpl<$Res,
-        _$_DstChainTokenOutResponseType>
-    implements _$$_DstChainTokenOutResponseTypeCopyWith<$Res> {
-  __$$_DstChainTokenOutResponseTypeCopyWithImpl(
-      _$_DstChainTokenOutResponseType _value,
-      $Res Function(_$_DstChainTokenOutResponseType) _then)
+        _$DstChainTokenOutResponseTypeImpl>
+    implements _$$DstChainTokenOutResponseTypeImplCopyWith<$Res> {
+  __$$DstChainTokenOutResponseTypeImplCopyWithImpl(
+      _$DstChainTokenOutResponseTypeImpl _value,
+      $Res Function(_$DstChainTokenOutResponseTypeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -964,7 +966,7 @@ class __$$_DstChainTokenOutResponseTypeCopyWithImpl<$Res>
     Object? recommendedAmount = null,
     Object? withoutAdditionalTakerRewardsAmount = freezed,
   }) {
-    return _then(_$_DstChainTokenOutResponseType(
+    return _then(_$DstChainTokenOutResponseTypeImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -1000,8 +1002,9 @@ class __$$_DstChainTokenOutResponseTypeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DstChainTokenOutResponseType implements _DstChainTokenOutResponseType {
-  const _$_DstChainTokenOutResponseType(
+class _$DstChainTokenOutResponseTypeImpl
+    implements _DstChainTokenOutResponseType {
+  const _$DstChainTokenOutResponseTypeImpl(
       {required this.address,
       required this.name,
       required this.symbol,
@@ -1010,8 +1013,9 @@ class _$_DstChainTokenOutResponseType implements _DstChainTokenOutResponseType {
       required this.recommendedAmount,
       this.withoutAdditionalTakerRewardsAmount});
 
-  factory _$_DstChainTokenOutResponseType.fromJson(Map<String, dynamic> json) =>
-      _$$_DstChainTokenOutResponseTypeFromJson(json);
+  factory _$DstChainTokenOutResponseTypeImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$DstChainTokenOutResponseTypeImplFromJson(json);
 
   @override
   final String address;
@@ -1037,7 +1041,7 @@ class _$_DstChainTokenOutResponseType implements _DstChainTokenOutResponseType {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DstChainTokenOutResponseType &&
+            other is _$DstChainTokenOutResponseTypeImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
@@ -1060,13 +1064,14 @@ class _$_DstChainTokenOutResponseType implements _DstChainTokenOutResponseType {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DstChainTokenOutResponseTypeCopyWith<_$_DstChainTokenOutResponseType>
-      get copyWith => __$$_DstChainTokenOutResponseTypeCopyWithImpl<
-          _$_DstChainTokenOutResponseType>(this, _$identity);
+  _$$DstChainTokenOutResponseTypeImplCopyWith<
+          _$DstChainTokenOutResponseTypeImpl>
+      get copyWith => __$$DstChainTokenOutResponseTypeImplCopyWithImpl<
+          _$DstChainTokenOutResponseTypeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DstChainTokenOutResponseTypeToJson(
+    return _$$DstChainTokenOutResponseTypeImplToJson(
       this,
     );
   }
@@ -1082,10 +1087,10 @@ abstract class _DstChainTokenOutResponseType
           required final String amount,
           required final String recommendedAmount,
           final String? withoutAdditionalTakerRewardsAmount}) =
-      _$_DstChainTokenOutResponseType;
+      _$DstChainTokenOutResponseTypeImpl;
 
   factory _DstChainTokenOutResponseType.fromJson(Map<String, dynamic> json) =
-      _$_DstChainTokenOutResponseType.fromJson;
+      _$DstChainTokenOutResponseTypeImpl.fromJson;
 
   @override
   String get address;
@@ -1103,7 +1108,8 @@ abstract class _DstChainTokenOutResponseType
   String? get withoutAdditionalTakerRewardsAmount;
   @override
   @JsonKey(ignore: true)
-  _$$_DstChainTokenOutResponseTypeCopyWith<_$_DstChainTokenOutResponseType>
+  _$$DstChainTokenOutResponseTypeImplCopyWith<
+          _$DstChainTokenOutResponseTypeImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1159,20 +1165,21 @@ class _$TxQuoteCopyWithImpl<$Res, $Val extends TxQuote>
 }
 
 /// @nodoc
-abstract class _$$_TxQuoteCopyWith<$Res> implements $TxQuoteCopyWith<$Res> {
-  factory _$$_TxQuoteCopyWith(
-          _$_TxQuote value, $Res Function(_$_TxQuote) then) =
-      __$$_TxQuoteCopyWithImpl<$Res>;
+abstract class _$$TxQuoteImplCopyWith<$Res> implements $TxQuoteCopyWith<$Res> {
+  factory _$$TxQuoteImplCopyWith(
+          _$TxQuoteImpl value, $Res Function(_$TxQuoteImpl) then) =
+      __$$TxQuoteImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String allowanceTarget, String allowanceValue});
 }
 
 /// @nodoc
-class __$$_TxQuoteCopyWithImpl<$Res>
-    extends _$TxQuoteCopyWithImpl<$Res, _$_TxQuote>
-    implements _$$_TxQuoteCopyWith<$Res> {
-  __$$_TxQuoteCopyWithImpl(_$_TxQuote _value, $Res Function(_$_TxQuote) _then)
+class __$$TxQuoteImplCopyWithImpl<$Res>
+    extends _$TxQuoteCopyWithImpl<$Res, _$TxQuoteImpl>
+    implements _$$TxQuoteImplCopyWith<$Res> {
+  __$$TxQuoteImplCopyWithImpl(
+      _$TxQuoteImpl _value, $Res Function(_$TxQuoteImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1181,7 +1188,7 @@ class __$$_TxQuoteCopyWithImpl<$Res>
     Object? allowanceTarget = null,
     Object? allowanceValue = null,
   }) {
-    return _then(_$_TxQuote(
+    return _then(_$TxQuoteImpl(
       allowanceTarget: null == allowanceTarget
           ? _value.allowanceTarget
           : allowanceTarget // ignore: cast_nullable_to_non_nullable
@@ -1196,12 +1203,12 @@ class __$$_TxQuoteCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TxQuote implements _TxQuote {
-  const _$_TxQuote(
+class _$TxQuoteImpl implements _TxQuote {
+  const _$TxQuoteImpl(
       {required this.allowanceTarget, required this.allowanceValue});
 
-  factory _$_TxQuote.fromJson(Map<String, dynamic> json) =>
-      _$$_TxQuoteFromJson(json);
+  factory _$TxQuoteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TxQuoteImplFromJson(json);
 
   @override
   final String allowanceTarget;
@@ -1217,7 +1224,7 @@ class _$_TxQuote implements _TxQuote {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TxQuote &&
+            other is _$TxQuoteImpl &&
             (identical(other.allowanceTarget, allowanceTarget) ||
                 other.allowanceTarget == allowanceTarget) &&
             (identical(other.allowanceValue, allowanceValue) ||
@@ -1231,12 +1238,12 @@ class _$_TxQuote implements _TxQuote {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TxQuoteCopyWith<_$_TxQuote> get copyWith =>
-      __$$_TxQuoteCopyWithImpl<_$_TxQuote>(this, _$identity);
+  _$$TxQuoteImplCopyWith<_$TxQuoteImpl> get copyWith =>
+      __$$TxQuoteImplCopyWithImpl<_$TxQuoteImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TxQuoteToJson(
+    return _$$TxQuoteImplToJson(
       this,
     );
   }
@@ -1245,9 +1252,9 @@ class _$_TxQuote implements _TxQuote {
 abstract class _TxQuote implements TxQuote {
   const factory _TxQuote(
       {required final String allowanceTarget,
-      required final String allowanceValue}) = _$_TxQuote;
+      required final String allowanceValue}) = _$TxQuoteImpl;
 
-  factory _TxQuote.fromJson(Map<String, dynamic> json) = _$_TxQuote.fromJson;
+  factory _TxQuote.fromJson(Map<String, dynamic> json) = _$TxQuoteImpl.fromJson;
 
   @override
   String get allowanceTarget;
@@ -1255,7 +1262,7 @@ abstract class _TxQuote implements TxQuote {
   String get allowanceValue;
   @override
   @JsonKey(ignore: true)
-  _$$_TxQuoteCopyWith<_$_TxQuote> get copyWith =>
+  _$$TxQuoteImplCopyWith<_$TxQuoteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1305,18 +1312,21 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
 }
 
 /// @nodoc
-abstract class _$$_OrderCopyWith<$Res> implements $OrderCopyWith<$Res> {
-  factory _$$_OrderCopyWith(_$_Order value, $Res Function(_$_Order) then) =
-      __$$_OrderCopyWithImpl<$Res>;
+abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
+  factory _$$OrderImplCopyWith(
+          _$OrderImpl value, $Res Function(_$OrderImpl) then) =
+      __$$OrderImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double approximateFulfillmentDelay});
 }
 
 /// @nodoc
-class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
-    implements _$$_OrderCopyWith<$Res> {
-  __$$_OrderCopyWithImpl(_$_Order _value, $Res Function(_$_Order) _then)
+class __$$OrderImplCopyWithImpl<$Res>
+    extends _$OrderCopyWithImpl<$Res, _$OrderImpl>
+    implements _$$OrderImplCopyWith<$Res> {
+  __$$OrderImplCopyWithImpl(
+      _$OrderImpl _value, $Res Function(_$OrderImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1324,7 +1334,7 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
   $Res call({
     Object? approximateFulfillmentDelay = null,
   }) {
-    return _then(_$_Order(
+    return _then(_$OrderImpl(
       approximateFulfillmentDelay: null == approximateFulfillmentDelay
           ? _value.approximateFulfillmentDelay
           : approximateFulfillmentDelay // ignore: cast_nullable_to_non_nullable
@@ -1335,11 +1345,11 @@ class __$$_OrderCopyWithImpl<$Res> extends _$OrderCopyWithImpl<$Res, _$_Order>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Order implements _Order {
-  const _$_Order({required this.approximateFulfillmentDelay});
+class _$OrderImpl implements _Order {
+  const _$OrderImpl({required this.approximateFulfillmentDelay});
 
-  factory _$_Order.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderFromJson(json);
+  factory _$OrderImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderImplFromJson(json);
 
   @override
   final double approximateFulfillmentDelay;
@@ -1353,7 +1363,7 @@ class _$_Order implements _Order {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Order &&
+            other is _$OrderImpl &&
             (identical(other.approximateFulfillmentDelay,
                     approximateFulfillmentDelay) ||
                 other.approximateFulfillmentDelay ==
@@ -1367,12 +1377,12 @@ class _$_Order implements _Order {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderCopyWith<_$_Order> get copyWith =>
-      __$$_OrderCopyWithImpl<_$_Order>(this, _$identity);
+  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
+      __$$OrderImplCopyWithImpl<_$OrderImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderToJson(
+    return _$$OrderImplToJson(
       this,
     );
   }
@@ -1380,15 +1390,15 @@ class _$_Order implements _Order {
 
 abstract class _Order implements Order {
   const factory _Order({required final double approximateFulfillmentDelay}) =
-      _$_Order;
+      _$OrderImpl;
 
-  factory _Order.fromJson(Map<String, dynamic> json) = _$_Order.fromJson;
+  factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
   double get approximateFulfillmentDelay;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderCopyWith<_$_Order> get copyWith =>
+  _$$OrderImplCopyWith<_$OrderImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1456,18 +1466,21 @@ class _$DlnTxCopyWithImpl<$Res, $Val extends DlnTx>
 }
 
 /// @nodoc
-abstract class _$$_DlnTxCopyWith<$Res> implements $DlnTxCopyWith<$Res> {
-  factory _$$_DlnTxCopyWith(_$_DlnTx value, $Res Function(_$_DlnTx) then) =
-      __$$_DlnTxCopyWithImpl<$Res>;
+abstract class _$$DlnTxImplCopyWith<$Res> implements $DlnTxCopyWith<$Res> {
+  factory _$$DlnTxImplCopyWith(
+          _$DlnTxImpl value, $Res Function(_$DlnTxImpl) then) =
+      __$$DlnTxImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String data, String? to, String? value, double? gasLimit});
 }
 
 /// @nodoc
-class __$$_DlnTxCopyWithImpl<$Res> extends _$DlnTxCopyWithImpl<$Res, _$_DlnTx>
-    implements _$$_DlnTxCopyWith<$Res> {
-  __$$_DlnTxCopyWithImpl(_$_DlnTx _value, $Res Function(_$_DlnTx) _then)
+class __$$DlnTxImplCopyWithImpl<$Res>
+    extends _$DlnTxCopyWithImpl<$Res, _$DlnTxImpl>
+    implements _$$DlnTxImplCopyWith<$Res> {
+  __$$DlnTxImplCopyWithImpl(
+      _$DlnTxImpl _value, $Res Function(_$DlnTxImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1478,7 +1491,7 @@ class __$$_DlnTxCopyWithImpl<$Res> extends _$DlnTxCopyWithImpl<$Res, _$_DlnTx>
     Object? value = freezed,
     Object? gasLimit = freezed,
   }) {
-    return _then(_$_DlnTx(
+    return _then(_$DlnTxImpl(
       data: null == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -1501,11 +1514,11 @@ class __$$_DlnTxCopyWithImpl<$Res> extends _$DlnTxCopyWithImpl<$Res, _$_DlnTx>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DlnTx implements _DlnTx {
-  const _$_DlnTx({required this.data, this.to, this.value, this.gasLimit});
+class _$DlnTxImpl implements _DlnTx {
+  const _$DlnTxImpl({required this.data, this.to, this.value, this.gasLimit});
 
-  factory _$_DlnTx.fromJson(Map<String, dynamic> json) =>
-      _$$_DlnTxFromJson(json);
+  factory _$DlnTxImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DlnTxImplFromJson(json);
 
   @override
   final String data;
@@ -1525,7 +1538,7 @@ class _$_DlnTx implements _DlnTx {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DlnTx &&
+            other is _$DlnTxImpl &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.to, to) || other.to == to) &&
             (identical(other.value, value) || other.value == value) &&
@@ -1540,12 +1553,12 @@ class _$_DlnTx implements _DlnTx {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DlnTxCopyWith<_$_DlnTx> get copyWith =>
-      __$$_DlnTxCopyWithImpl<_$_DlnTx>(this, _$identity);
+  _$$DlnTxImplCopyWith<_$DlnTxImpl> get copyWith =>
+      __$$DlnTxImplCopyWithImpl<_$DlnTxImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DlnTxToJson(
+    return _$$DlnTxImplToJson(
       this,
     );
   }
@@ -1556,9 +1569,9 @@ abstract class _DlnTx implements DlnTx {
       {required final String data,
       final String? to,
       final String? value,
-      final double? gasLimit}) = _$_DlnTx;
+      final double? gasLimit}) = _$DlnTxImpl;
 
-  factory _DlnTx.fromJson(Map<String, dynamic> json) = _$_DlnTx.fromJson;
+  factory _DlnTx.fromJson(Map<String, dynamic> json) = _$DlnTxImpl.fromJson;
 
   @override
   String get data;
@@ -1570,7 +1583,7 @@ abstract class _DlnTx implements DlnTx {
   double? get gasLimit;
   @override
   @JsonKey(ignore: true)
-  _$$_DlnTxCopyWith<_$_DlnTx> get copyWith =>
+  _$$DlnTxImplCopyWith<_$DlnTxImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1632,18 +1645,21 @@ class _$OfferCopyWithImpl<$Res, $Val extends Offer>
 }
 
 /// @nodoc
-abstract class _$$_OfferCopyWith<$Res> implements $OfferCopyWith<$Res> {
-  factory _$$_OfferCopyWith(_$_Offer value, $Res Function(_$_Offer) then) =
-      __$$_OfferCopyWithImpl<$Res>;
+abstract class _$$OfferImplCopyWith<$Res> implements $OfferCopyWith<$Res> {
+  factory _$$OfferImplCopyWith(
+          _$OfferImpl value, $Res Function(_$OfferImpl) then) =
+      __$$OfferImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int chainId, String tokenAddress, String amount});
 }
 
 /// @nodoc
-class __$$_OfferCopyWithImpl<$Res> extends _$OfferCopyWithImpl<$Res, _$_Offer>
-    implements _$$_OfferCopyWith<$Res> {
-  __$$_OfferCopyWithImpl(_$_Offer _value, $Res Function(_$_Offer) _then)
+class __$$OfferImplCopyWithImpl<$Res>
+    extends _$OfferCopyWithImpl<$Res, _$OfferImpl>
+    implements _$$OfferImplCopyWith<$Res> {
+  __$$OfferImplCopyWithImpl(
+      _$OfferImpl _value, $Res Function(_$OfferImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1653,7 +1669,7 @@ class __$$_OfferCopyWithImpl<$Res> extends _$OfferCopyWithImpl<$Res, _$_Offer>
     Object? tokenAddress = null,
     Object? amount = null,
   }) {
-    return _then(_$_Offer(
+    return _then(_$OfferImpl(
       chainId: null == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
@@ -1672,14 +1688,14 @@ class __$$_OfferCopyWithImpl<$Res> extends _$OfferCopyWithImpl<$Res, _$_Offer>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Offer implements _Offer {
-  const _$_Offer(
+class _$OfferImpl implements _Offer {
+  const _$OfferImpl(
       {required this.chainId,
       required this.tokenAddress,
       required this.amount});
 
-  factory _$_Offer.fromJson(Map<String, dynamic> json) =>
-      _$$_OfferFromJson(json);
+  factory _$OfferImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OfferImplFromJson(json);
 
   @override
   final int chainId;
@@ -1697,7 +1713,7 @@ class _$_Offer implements _Offer {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Offer &&
+            other is _$OfferImpl &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
             (identical(other.tokenAddress, tokenAddress) ||
                 other.tokenAddress == tokenAddress) &&
@@ -1711,12 +1727,12 @@ class _$_Offer implements _Offer {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OfferCopyWith<_$_Offer> get copyWith =>
-      __$$_OfferCopyWithImpl<_$_Offer>(this, _$identity);
+  _$$OfferImplCopyWith<_$OfferImpl> get copyWith =>
+      __$$OfferImplCopyWithImpl<_$OfferImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OfferToJson(
+    return _$$OfferImplToJson(
       this,
     );
   }
@@ -1726,9 +1742,9 @@ abstract class _Offer implements Offer {
   const factory _Offer(
       {required final int chainId,
       required final String tokenAddress,
-      required final String amount}) = _$_Offer;
+      required final String amount}) = _$OfferImpl;
 
-  factory _Offer.fromJson(Map<String, dynamic> json) = _$_Offer.fromJson;
+  factory _Offer.fromJson(Map<String, dynamic> json) = _$OfferImpl.fromJson;
 
   @override
   int get chainId;
@@ -1738,7 +1754,7 @@ abstract class _Offer implements Offer {
   String get amount;
   @override
   @JsonKey(ignore: true)
-  _$$_OfferCopyWith<_$_Offer> get copyWith =>
+  _$$OfferImplCopyWith<_$OfferImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1873,11 +1889,11 @@ class _$OrderStructCopyWithImpl<$Res, $Val extends OrderStruct>
 }
 
 /// @nodoc
-abstract class _$$_OrderStructCopyWith<$Res>
+abstract class _$$OrderStructImplCopyWith<$Res>
     implements $OrderStructCopyWith<$Res> {
-  factory _$$_OrderStructCopyWith(
-          _$_OrderStruct value, $Res Function(_$_OrderStruct) then) =
-      __$$_OrderStructCopyWithImpl<$Res>;
+  factory _$$OrderStructImplCopyWith(
+          _$OrderStructImpl value, $Res Function(_$OrderStructImpl) then) =
+      __$$OrderStructImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1899,11 +1915,11 @@ abstract class _$$_OrderStructCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OrderStructCopyWithImpl<$Res>
-    extends _$OrderStructCopyWithImpl<$Res, _$_OrderStruct>
-    implements _$$_OrderStructCopyWith<$Res> {
-  __$$_OrderStructCopyWithImpl(
-      _$_OrderStruct _value, $Res Function(_$_OrderStruct) _then)
+class __$$OrderStructImplCopyWithImpl<$Res>
+    extends _$OrderStructCopyWithImpl<$Res, _$OrderStructImpl>
+    implements _$$OrderStructImplCopyWith<$Res> {
+  __$$OrderStructImplCopyWithImpl(
+      _$OrderStructImpl _value, $Res Function(_$OrderStructImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1920,7 +1936,7 @@ class __$$_OrderStructCopyWithImpl<$Res>
     Object? allowedCancelBeneficiarySrc = freezed,
     Object? externalCall = freezed,
   }) {
-    return _then(_$_OrderStruct(
+    return _then(_$OrderStructImpl(
       makerOrderNonce: null == makerOrderNonce
           ? _value.makerOrderNonce
           : makerOrderNonce // ignore: cast_nullable_to_non_nullable
@@ -1967,8 +1983,8 @@ class __$$_OrderStructCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderStruct implements _OrderStruct {
-  const _$_OrderStruct(
+class _$OrderStructImpl implements _OrderStruct {
+  const _$OrderStructImpl(
       {required this.makerOrderNonce,
       required this.makerSrc,
       required this.giveOffer,
@@ -1980,8 +1996,8 @@ class _$_OrderStruct implements _OrderStruct {
       this.allowedCancelBeneficiarySrc,
       this.externalCall});
 
-  factory _$_OrderStruct.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderStructFromJson(json);
+  factory _$OrderStructImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OrderStructImplFromJson(json);
 
   @override
   final int makerOrderNonce;
@@ -2013,7 +2029,7 @@ class _$_OrderStruct implements _OrderStruct {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderStruct &&
+            other is _$OrderStructImpl &&
             (identical(other.makerOrderNonce, makerOrderNonce) ||
                 other.makerOrderNonce == makerOrderNonce) &&
             (identical(other.makerSrc, makerSrc) ||
@@ -2057,12 +2073,12 @@ class _$_OrderStruct implements _OrderStruct {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderStructCopyWith<_$_OrderStruct> get copyWith =>
-      __$$_OrderStructCopyWithImpl<_$_OrderStruct>(this, _$identity);
+  _$$OrderStructImplCopyWith<_$OrderStructImpl> get copyWith =>
+      __$$OrderStructImplCopyWithImpl<_$OrderStructImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderStructToJson(
+    return _$$OrderStructImplToJson(
       this,
     );
   }
@@ -2079,10 +2095,10 @@ abstract class _OrderStruct implements OrderStruct {
       required final String orderAuthorityAddressDst,
       final String? allowedTakerDst,
       final String? allowedCancelBeneficiarySrc,
-      final String? externalCall}) = _$_OrderStruct;
+      final String? externalCall}) = _$OrderStructImpl;
 
   factory _OrderStruct.fromJson(Map<String, dynamic> json) =
-      _$_OrderStruct.fromJson;
+      _$OrderStructImpl.fromJson;
 
   @override
   int get makerOrderNonce;
@@ -2106,6 +2122,6 @@ abstract class _OrderStruct implements OrderStruct {
   String? get externalCall;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderStructCopyWith<_$_OrderStruct> get copyWith =>
+  _$$OrderStructImplCopyWith<_$OrderStructImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
