@@ -99,7 +99,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
         recipient: _request.recipient,
         splToken: _request.splToken,
         reference: _request.reference,
-        amount: _request.amount ?? Decimal.zero,
+        amount: Decimal.zero,
         commitment: Commitment.confirmed,
       );
       PaymentRequestState.completed(transactionId: id);
