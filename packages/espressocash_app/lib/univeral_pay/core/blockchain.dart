@@ -9,9 +9,10 @@ extension BlockchainExt on Blockchain {
         Blockchain.polygon => 'Polygon',
       };
 
+  // Hardcoded fees. Update to fetch from api in the future.
   Decimal get fee => switch (this) {
         Blockchain.solana => Decimal.fromInt(0),
-        Blockchain.ethereum => Decimal.fromInt(2),
-        Blockchain.polygon => Decimal.fromInt(1),
+        Blockchain.ethereum => Decimal.fromInt(12),
+        Blockchain.polygon => Decimal.fromInt(3),
       };
 }
