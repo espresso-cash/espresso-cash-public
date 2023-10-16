@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 40;
 
 const _tables = [
   OutgoingTransferRows,
@@ -165,11 +165,13 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 38) {
             await m.alterTable(TableMigration(paymentRequestRows));
-            await m.createTable(outgoingDlnPaymentRows);
           }
           if (from < 39) {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
+          }
+          if (from < 40) {
+            await m.createTable(outgoingDlnPaymentRows);
           }
         },
       );
