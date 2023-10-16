@@ -26,6 +26,20 @@
   "@backupPhrase_lblSuccessMessage": {},
   "balances_lblConnectionError": "Cannot connect to the network!",
   "@balances_lblConnectionError": {},
+  "carousel1Subtitle": "Instant & Low Fee Money Transfers to 200+ Countries & Territories.",
+  "@carousel1Subtitle": {},
+  "carousel1Title": "Welcome to Espresso Cash!",
+  "@carousel1Title": {},
+  "carousel2Subtitle": "Money Gets Transferred to Your Bank Account as Local Currency.",
+  "@carousel2Subtitle": {},
+  "carousel2Title": "Local Currency Cash Out",
+  "@carousel2Title": {},
+  "carousel3Subtitle": "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
+  "@carousel3Subtitle": {},
+  "carousel3Title": "Send With Messaging Platforms",
+  "@carousel3Title": {},
+  "carouselSendMoneyBtn": "Send Money Now",
+  "@carouselSendMoneyBtn": {},
   "close": "Close",
   "@close": {},
   "comingSoon": "Coming soon!",
@@ -146,6 +160,8 @@
   "@inUsdc": {},
   "invalidEscrowError": "The link is incorrect or the money has already been withdrawn.",
   "@invalidEscrowError": {},
+  "investingTitle": "Investing",
+  "@investingTitle": {},
   "investmentHeaderButtonsTitle": "I want to",
   "@investmentHeaderButtonsTitle": {},
   "isWaitingForYou": "is waiting for you.",
@@ -154,6 +170,20 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
   "@iUnderstandIfLoseMySecret": {},
+  "landingAlreadyInstalled": "Already have Espresso installed? Skip to step 2",
+  "@landingAlreadyInstalled": {},
+  "landingCopyright": "Copyright ©2023 Espresso Cash Inc. All rights reserved.",
+  "@landingCopyright": {},
+  "landingInstallApp": "Install Espresso Cash",
+  "@landingInstallApp": {},
+  "landingReceiveMoney": "Receive Your Money",
+  "@landingReceiveMoney": {},
+  "landingScanQr": "Scan the QR code",
+  "@landingScanQr": {},
+  "landingSubtitle": "To complete the transaction, follow the steps below.",
+  "@landingSubtitle": {},
+  "landingTitle": "Money has been sent to you.",
+  "@landingTitle": {},
   "learnAboutCrypto": "Learning About Crypto",
   "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Get help with all things crypto",
@@ -162,12 +192,26 @@
   "@learningSectionTitle": {},
   "less": "less",
   "@less": {},
-  "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
-  "@linkSubtitle": {},
   "loading": "Loading...",
   "@loading": {},
   "marketCapRank": "Market Cap Rank",
   "@marketCapRank": {},
+  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minAmountToOnRamp": "{amount} is the minimum you can add",
+  "@minAmountToOnRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "minimumAmountToRequest": "{amount} is the minimum to request",
   "@minimumAmountToRequest": {
     "placeholders": {
@@ -252,6 +296,8 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "No results found",
   "@noResultsFound": {},
+  "offRampTopPartnerTitle": "Cash Out To Your Bank Account Using Our Top Partner",
+  "@offRampTopPartnerTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "Crypto investing made simple whether you’re new or a seasoned pro!",
@@ -266,6 +312,8 @@
   "@oneMonth": {},
   "oneWeek": "1 week",
   "@oneWeek": {},
+  "onRampTopPartnerTitle": "Transfer Money Into Espresso Using Our Top Payment Partner",
+  "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Open in-app QR Scanner",
   "@openInAppScanner": {},
   "operationSend": "sent",
@@ -372,16 +420,34 @@
   "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
   "@qrPaymentSubtitle": {},
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "@qrScanInfo2": {},
   "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
   "@qrTermsDisclaimer": {},
+  "rampAmountEquivalent": "You will get approx. {amount}",
+  "@rampAmountEquivalent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampAmountEquivalentError": "Error loading data",
+  "@rampAmountEquivalentError": {},
+  "rampBasicInfoRequired": "To get started, we need some basic information from you.",
+  "@rampBasicInfoRequired": {},
   "ramp_btnAddCash": "Add Cash",
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Cash Out",
   "@ramp_btnCashOut": {},
+  "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "rampOtherPartnersTitle": "Other Partners:",
+  "@rampOtherPartnersTitle": {},
   "receive": "Request",
   "@receive": {},
   "receivedBy": "Received by {address}",
@@ -392,6 +458,12 @@
       }
     }
   },
+  "recentActivityEmpty": "There is no recent activity. Do you want to send money to family now?",
+  "@recentActivityEmpty": {},
+  "recentActivityLbl": "Recent Activity",
+  "@recentActivityLbl": {},
+  "recentActivitySeeAll": "See All",
+  "@recentActivitySeeAll": {},
   "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "@recoverySubHeading": {},
   "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
@@ -412,7 +484,7 @@
   "@requestNoteRequesting": {},
   "requestOrSendPayment": "Request or send a payment",
   "@requestOrSendPayment": {},
-  "resendLink": "Resend Links",
+  "resendLink": "Resend Link",
   "@resendLink": {},
   "retry": "Retry",
   "@retry": {},
@@ -420,6 +492,14 @@
   "@save": {},
   "scanToReceive": "Scan to receive {amount}",
   "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "scanToSend": "Scan to send {amount}",
+  "@scanToSend": {
     "placeholders": {
       "amount": {
         "type": "String"
@@ -440,13 +520,13 @@
   "@send": {},
   "sendAs": "Send as",
   "@sendAs": {},
-  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
+  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the link.",
   "@sendExplanation": {},
   "sendMoney": "Send Money",
   "@sendMoney": {},
   "sentDirectly": "Sent",
   "@sentDirectly": {},
-  "sentViaLink": "Sent via links",
+  "sentViaLink": "Sent via link",
   "@sentViaLink": {},
   "setReminder": "SET A REMINDER FOR {duration}",
   "@setReminder": {
@@ -460,16 +540,14 @@
   "@settings": {},
   "share": "Share",
   "@share": {},
-  "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
+  "shareInstructions": "To receive it, you need to click on the link:",
   "@shareInstructions": {},
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "@shareIntroFt": {},
-  "shareLink": "Share payment links",
+  "shareLink": "Share payment link",
   "@shareLink": {},
-  "shareLinks": "Share Links",
+  "shareLinks": "Share Link",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
@@ -487,8 +565,6 @@
   },
   "sharePaymentRequestLinkTitle": "Share Link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Share QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Request has been created!",
@@ -497,16 +573,13 @@
   "@shareStep1": {},
   "shareStep2": "Step 2 – When the application asks you, click on the second link:",
   "@shareStep2": {},
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link:\n\n{firstLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
         "type": "String"
       },
       "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
         "type": "Uri"
       }
     }
@@ -553,9 +626,9 @@
   "@splitKeyProgressCanceled": {},
   "splitKeyProgressCanceling": "Canceling transfer",
   "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Links are created",
+  "splitKeyProgressCreated": "Link is created",
   "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
+  "splitKeyProgressOngoing": "Sending {amount} using secure link...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -674,13 +747,10 @@
   },
   "tokenDetails_lblBalance": "Balance",
   "@tokenDetails_lblBalance": {},
-  "tokenEquivalent": "Equivalent to {value} {symbol}",
+  "tokenEquivalent": "Equivalent to {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
@@ -732,22 +802,42 @@
   "@viewRecoveryPhraseDescription": {},
   "viewTransaction": "View Transaction",
   "@viewTransaction": {},
+  "walletAddress": "Wallet Address",
+  "@walletAddress": {},
+  "walletAddressFieldHint": "Type, Paste or Scan Address Here",
+  "@walletAddressFieldHint": {},
+  "walletEspressoPayBtnTitle": "Using a Secure Link",
+  "@walletEspressoPayBtnTitle": {},
+  "walletEspressoPaySubtitle": "Send money to friends or family via any messaging platform.",
+  "@walletEspressoPaySubtitle": {},
+  "walletEspressoPayTitle": "Espresso Pay",
+  "@walletEspressoPayTitle": {},
+  "walletManualPayBtnTitle": "Using a Wallet Address",
+  "@walletManualPayBtnTitle": {},
+  "walletManualPaySubtitle": "Pay a person or a business using their wallet address.",
+  "@walletManualPaySubtitle": {},
+  "walletManualPayTitle": "Manual",
+  "@walletManualPayTitle": {},
+  "walletNetworks": "Networks",
+  "@walletNetworks": {},
+  "walletSendToAddressTitle": "SEND TO A WALLET ADDRESS",
+  "@walletSendToAddressTitle": {},
+  "walletTransactionMethodTitle": "TRANSACTION METHOD",
+  "@walletTransactionMethodTitle": {},
   "weWereUnableToFetchTokenPrice": "We were unable to fetch token prices.",
   "@weWereUnableToFetchTokenPrice": {},
   "yes": "Yes",
   "@yes": {},
   "yesDeleteMyWallet": "Yes, delete my wallet",
   "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "You’re creating a secure link containing:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "You own",
   "@youOwn": {},
-  "yourFirstNamePlaceholder": "Your Name",
-  "@yourFirstNamePlaceholder": {},
-  "yourEmailPlaceholder": "Email Address",
-  "@yourEmailPlaceholder": {},
   "yourEmailDisclaimer": "Your email address is only stored locally and only shared with cash in and cash out partners",
   "@yourEmailDisclaimer": {},
+  "yourEmailPlaceholder": "Email Address",
+  "@yourEmailPlaceholder": {},
+  "yourFirstNamePlaceholder": "Your Name",
+  "@yourFirstNamePlaceholder": {},
   "yourLinkIsReady": "Your link is ready",
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
@@ -763,97 +853,5 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {},
-  "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
-  "@rampMinimumTransferAmount": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "onRampTopPartnerTitle": "Transfer Money Into Espresso Using Our Top Payment Partner",
-  "@onRampTopPartnerTitle": {},
-  "offRampTopPartnerTitle": "Cash Out To Your Bank Account Using Our Top Partner",
-  "@offRampTopPartnerTitle": {},
-  "rampOtherPartnersTitle": "Other Partners:",
-  "@rampOtherPartnersTitle": {},
-  "rampBasicInfoRequired": "To get started, we need some basic information from you.",
-  "@rampBasicInfoRequired": {},
-  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
-  "@minAmountToOffRamp": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "rampAmountEquivalent": "You will get approx. {amount}",
-  "@rampAmountEquivalent": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "rampAmountEquivalentError": "Error loading data",
-  "@rampAmountEquivalentError": {},
-  "landingTitle": "Money has been sent to you.",
-  "@landingTitle": {},
-  "landingSubtitle": "To complete the transaction, follow the steps below.",
-  "@landingSubtitle": {},
-  "landingInstallApp": "Install Espresso Cash",
-  "@landingInstallApp": {},
-  "landingReceiveMoney": "Receive Your Money",
-  "@landingReceiveMoney": {},
-  "landingAlreadyInstalled": "Already have Espresso installed? Skip to step 2",
-  "@landingAlreadyInstalled": {},
-  "landingScanQr": "Scan the QR code",
-  "@landingScanQr": {},
-  "landingCopyright": "Copyright ©2023 Espresso Cash Inc. All rights reserved.",
-  "@landingScanQr": {},
-  "walletTransactionMethodTitle" : "TRANSACTION METHOD",
-  "@walletTransactionMethodTitle": {},
-  "walletEspressoPayTitle" : "Espresso Pay",
-  "@walletEspressoPayTitle": {},
-  "walletEspressoPaySubtitle" : "Send money to friends or family via any messaging platform.",
-  "@walletEspressoPaySubtitle": {},
-  "walletEspressoPayBtnTitle" : "Using a Secure Link",
-  "@walletEspressoPayBtnTitle": {},
-  "walletManualPayTitle" : "Manual",
-  "@walletManualPayTitle": {},
-  "walletManualPaySubtitle" : "Pay a person or a business using their wallet address.",
-  "@walletManualPaySubtitle": {},
-  "walletManualPayBtnTitle" : "Using a Wallet Address",
-  "@walletManualPayBtnTitle": {},
-  "walletSendToAddressTitle" : "SEND TO A WALLET ADDRESS",
-  "@walletSendToAddressTitle": {},
-  "walletNetworks" : "Networks",
-  "@walletNetworks": {},
-  "walletAddress" : "Wallet Address",
-  "@walletAddress": {},
-  "walletAddressFieldHint" : "Type, Paste or Scan Address Here",
-  "@walletAddressFieldHint": {},
-  "investingTitle" : "Investing",
-  "@investingTitle": {},
-  "recentActivityLbl" : "Recent Activity",
-  "@recentActivityLbl": {},
-  "recentActivitySeeAll" : "See All",
-  "@recentActivitySeeAll": {},
-  "recentActivityEmpty" : "There is no recent activity. Do you want to send money to family now?",
-  "@recentActivityEmpty": {},
-  "carousel1Title" : "Welcome to Espresso Cash!",
-  "@carousel1Title": {},
-  "carousel1Subtitle" : "Instant & Low Fee Money Transfers to 200+ Countries & Territories.",
-  "@carousel1Subtitle": {},
-  "carousel2Title" : "Local Currency Cash Out",
-  "@carousel2Title": {},
-  "carousel2Subtitle" : "Money Gets Transferred to Your Bank Account as Local Currency.",
-  "@carousel2Subtitle": {},
-  "carousel3Title" : "Send With Messaging Platforms",
-  "@carousel3Title": {},
-  "carousel3Subtitle" : "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
-  "@carousel3Subtitle": {},
-  "carouselSendMoneyBtn" : "Send Money Now",
-  "@carouselSendMoneyBtn": {}
+  "@zeroAmountTitle": {}
 }

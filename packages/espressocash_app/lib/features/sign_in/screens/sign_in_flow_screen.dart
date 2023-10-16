@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/flow.dart';
+import '../../../core/link_payments.dart';
 import '../../../core/router_wrapper.dart';
-import '../../../core/split_key_payments.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../../saga.dart';
@@ -104,5 +104,5 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
 bool _parseUri(Uri? link) {
   if (link == null) return false;
 
-  return SplitKeyFirstLink.tryParse(link) != null;
+  return LinkPayments.tryParse(link) != null;
 }

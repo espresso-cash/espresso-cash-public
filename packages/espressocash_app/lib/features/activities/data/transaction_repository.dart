@@ -11,7 +11,7 @@ import 'package:solana/solana.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
-import '../../outgoing_split_key_payments/data/repository.dart';
+import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
 import '../models/activity.dart';
@@ -77,18 +77,16 @@ class TransactionRepository {
       ignoreWhen: (row) => row.status != SwapStatusDto.success,
     );
 
-    final oskp = _db.oSKPRows.findActivityOrNull(
+    final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
-      ignoreWhen: (row) => const [
-        OSKPStatusDto.success,
-        OSKPStatusDto.withdrawn,
-        OSKPStatusDto.canceled,
-      ].contains(row.status).not(),
+      ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled]
+          .contains(row.status)
+          .not(),
     );
 
     return Rx.combineLatest(
-      [pr, odp, swap, oskp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

@@ -100,6 +100,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                     calculateEquivalent: widget.calculateEquivalent,
                     minAmount: widget.minAmount,
                     currency: widget.currency,
+                    type: widget.type,
                   ),
                 ),
                 Expanded(
@@ -140,23 +141,40 @@ class _InfoLabel extends StatelessWidget {
     required this.minAmount,
     required this.currency,
     required this.calculateEquivalent,
+    required this.type,
   });
 
   final Amount amount;
   final Decimal minAmount;
   final Currency currency;
   final AmountCalculator? calculateEquivalent;
+  final RampType type;
 
   @override
   Widget build(BuildContext context) {
+    context.l10n.minAmountToOffRamp(
+      Amount(
+        value: currency.decimalToInt(minAmount),
+        currency: currency,
+      ).format(context.locale, roundInteger: true),
+    );
+
     Widget? child;
-    if (amount.decimal < minAmount) {
+    if (amount.decimal < minAmount || calculateEquivalent == null) {
+      final amount = Amount(
+        value: currency.decimalToInt(minAmount),
+        currency: currency,
+      ).format(context.locale, roundInteger: true);
+
       child = Text(
-        context.l10n.minAmountToOffRamp(
-          Amount(
-            value: currency.decimalToInt(minAmount),
-            currency: currency,
-          ).format(context.locale, roundInteger: true),
+        switch (type) {
+          RampType.onRamp => context.l10n.minAmountToOnRamp(amount),
+          RampType.offRamp => context.l10n.minAmountToOffRamp(amount),
+        }
+            .toUpperCase(),
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
         ),
       );
     } else if (calculateEquivalent case final calculateEquivalent?) {

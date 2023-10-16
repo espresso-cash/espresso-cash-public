@@ -4,10 +4,10 @@ import 'package:injectable/injectable.dart';
 import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
-import '../../features/incoming_split_key_payments/data/iskp_repository.dart';
+import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_dln_payments/data/repository.dart';
-import '../../features/outgoing_split_key_payments/data/repository.dart';
+import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
 import '../../features/swap/data/swap_repository.dart';
@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 38;
+const int latestVersion = 39;
 
 const _tables = [
   OutgoingTransferRows,
@@ -43,6 +43,8 @@ const _tables = [
   PopularTokenRows,
   OTRows,
   ITRows,
+  OLPRows,
+  ILPRows,
   OnRampOrderRows,
   OutgoingDlnPaymentRows,
 ];
@@ -164,6 +166,10 @@ class MyDatabase extends _$MyDatabase {
           if (from < 38) {
             await m.alterTable(TableMigration(paymentRequestRows));
             await m.createTable(outgoingDlnPaymentRows);
+          }
+          if (from < 39) {
+            await m.createTable(oLPRows);
+            await m.createTable(iLPRows);
           }
         },
       );

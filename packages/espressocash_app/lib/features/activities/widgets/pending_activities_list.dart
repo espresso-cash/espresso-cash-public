@@ -6,8 +6,8 @@ import '../data/pending_activities_repository.dart';
 import '../models/activity.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
+import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
-import 'oskp_tile.dart';
 import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
@@ -59,7 +59,7 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         key: ValueKey(p.id),
                         activity: p,
                       ),
-                      outgoingSplitKeyPayment: (p) => OSKPTile(
+                      outgoingLinkPayment: (p) => OLPTile(
                         key: ValueKey(p.id),
                         activity: p,
                       ),

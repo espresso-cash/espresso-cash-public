@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 
-import '../../features/outgoing_split_key_payments/data/repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'mixins.dart';
 
@@ -99,4 +98,80 @@ extension OTStatusDtoExt on OTStatusDto {
         return OSKPStatusDto.cancelTxWaitFailure;
     }
   }
+}
+
+class OSKPRows extends Table with AmountMixin, EntityMixin {
+  const OSKPRows();
+
+  IntColumn get status => intEnum<OSKPStatusDto>()();
+
+  // Status fields
+  TextColumn get tx => text().nullable()();
+  TextColumn get txId => text().nullable()();
+  TextColumn get withdrawTxId => text().nullable()();
+  TextColumn get privateKey => text().nullable()();
+  TextColumn get link1 => text().nullable()();
+  TextColumn get link2 => text().nullable()();
+  TextColumn get link3 => text().nullable()();
+  IntColumn get txFailureReason => intEnum<TxFailureReason>().nullable()();
+  TextColumn get cancelTx => text().nullable()();
+  TextColumn get cancelTxId => text().nullable()();
+  DateTimeColumn get generatedLinksAt => dateTime().nullable()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
+  TextColumn get slot => text().nullable()();
+  IntColumn get apiVersion =>
+      intEnum<OskpApiVersionDto>().withDefault(const Constant(0))();
+}
+
+enum OSKPStatusDto {
+  txCreated,
+  txSent,
+  txConfirmed,
+  linksReady,
+  success, // Legacy
+  txFailure,
+  txSendFailure,
+  txWaitFailure,
+  txLinksFailure,
+  withdrawn,
+  canceled,
+  cancelTxCreated,
+  cancelTxFailure,
+  cancelTxSent,
+  cancelTxSendFailure,
+  cancelTxWaitFailure,
+}
+
+enum OskpApiVersionDto {
+  manual,
+  smartContract,
+}
+
+class ISKPRows extends Table with EntityMixin, TxStatusMixin {
+  const ISKPRows();
+
+  TextColumn get privateKey => text()();
+  IntColumn get status => intEnum<ISKPStatusDto>()();
+  IntColumn get apiVersion =>
+      intEnum<IskpApiVersionDto>().withDefault(const Constant(0))();
+}
+
+enum ISKPStatusDto {
+  @Deprecated('State not valid. Use txCreated directly.')
+  privateKeyReady,
+  txCreated,
+  txSent,
+  success,
+  txFailure,
+  @Deprecated('Use txCreated instead.')
+  txSendFailure,
+  @Deprecated('Use txSent instead.')
+  txWaitFailure,
+  @Deprecated('Use txFailure instead.')
+  txEscrowFailure,
+}
+
+enum IskpApiVersionDto {
+  manual,
+  smartContract,
 }

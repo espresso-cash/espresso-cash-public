@@ -45,9 +45,9 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     _Headline(onInfo: _toggleUsdcInfo),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
                     const _Amount(),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 2),
                   ],
                 ),
               ),
@@ -76,7 +76,7 @@ class _Buttons extends StatelessWidget {
             true,
           ),
           builder: (context, isZeroAmount) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,11 +90,12 @@ class _Buttons extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                      fontSize: 17,
+                      letterSpacing: 0.23,
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -199,6 +200,7 @@ class _Amount extends StatelessWidget {
                       fontSize: 48,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
+                      letterSpacing: -1,
                     ),
                   ),
                 ).let((it) => amount.isZero ? it : Flexible(child: it)),
@@ -224,6 +226,7 @@ class _Headline extends StatelessWidget {
             color: Colors.white,
             fontSize: 16,
             fontWeight: FontWeight.w500,
+            letterSpacing: 0.23,
           ),
           children: [
             WidgetSpan(
@@ -236,6 +239,7 @@ class _Headline extends StatelessWidget {
                       fontSize: 16,
                       color: CpColors.yellowColor,
                       fontWeight: FontWeight.w500,
+                      letterSpacing: 0.23,
                     ),
                   ),
                 ),

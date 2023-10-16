@@ -4,9 +4,6 @@ PODS:
     - FirebaseAnalytics/WithoutAdIdSupport (~> 10.15.0)
   - Firebase/CoreOnly (10.15.0):
     - FirebaseCore (= 10.15.0)
-  - Firebase/DynamicLinks (10.15.0):
-    - Firebase/CoreOnly
-    - FirebaseDynamicLinks (~> 10.15.0)
   - Firebase/Installations (10.15.0):
     - Firebase/CoreOnly
     - FirebaseInstallations (~> 10.15.0)
@@ -23,10 +20,6 @@ PODS:
     - Flutter
   - firebase_core (2.16.0):
     - Firebase/CoreOnly (= 10.15.0)
-    - Flutter
-  - firebase_dynamic_links (5.3.6):
-    - Firebase/DynamicLinks (= 10.15.0)
-    - firebase_core
     - Flutter
   - firebase_remote_config (3.0.15):
     - Firebase/RemoteConfig (= 10.15.0)
@@ -49,8 +42,6 @@ PODS:
     - GoogleUtilities/Logger (~> 7.8)
   - FirebaseCoreInternal (10.15.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseDynamicLinks (10.15.0):
-    - FirebaseCore (~> 10.0)
   - FirebaseInstallations (10.15.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
@@ -210,7 +201,6 @@ DEPENDENCIES:
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_app_installations (from `.symlinks/plugins/firebase_app_installations/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_dynamic_links (from `.symlinks/plugins/firebase_dynamic_links/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
@@ -240,7 +230,6 @@ SPEC REPOS:
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
-    - FirebaseDynamicLinks
     - FirebaseInstallations
     - FirebaseRemoteConfig
     - FMDB
@@ -269,8 +258,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_app_installations/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
-  firebase_dynamic_links:
-    :path: ".symlinks/plugins/firebase_dynamic_links/ios"
   firebase_remote_config:
     :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
@@ -325,13 +312,11 @@ SPEC CHECKSUMS:
   firebase_analytics: ce9396167b403608fce42b6e676b72e488b24c86
   firebase_app_installations: e8e06703307ff6172640301d8eeaa13593613c62
   firebase_core: 77172d0a9d8d19d07606e24406e4c2fc14d3265b
-  firebase_dynamic_links: 27625ac999a9353d6e323c07db85c3b55c5c6839
   firebase_remote_config: e25524a585871048a75a36de690d788c75c20706
   FirebaseABTesting: 7fa3bca17f79ac433301d20d5cd33401f7738dca
   FirebaseAnalytics: 47cef43728f81a839cf1306576bdd77ffa2eac7e
   FirebaseCore: 2cec518b43635f96afe7ac3a9c513e47558abd2e
   FirebaseCoreInternal: 2f4bee5ed00301b5e56da0849268797a2dd31fb4
-  FirebaseDynamicLinks: 206d4ed3efd2b722822598017f3980d9fda89815
   FirebaseInstallations: cae95cab0f965ce05b805189de1d4c70b11c76fb
   FirebaseRemoteConfig: 64b6ada098c649304114a817effd7e5f87229b11
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854

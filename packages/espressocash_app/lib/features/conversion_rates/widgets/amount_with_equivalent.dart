@@ -12,6 +12,8 @@ import '../../../ui/chip.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
+import '../../../ui/usdc_info.dart';
+import '../../wallet_flow/widgets/extensions.dart';
 import '../services/amount_ext.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
@@ -22,6 +24,7 @@ class AmountWithEquivalent extends StatelessWidget {
     required this.token,
     this.shakeKey,
     this.error = '',
+    this.showUsdcInfo = false,
   });
 
   final TextEditingController inputController;
@@ -29,42 +32,68 @@ class AmountWithEquivalent extends StatelessWidget {
   final bool collapsed;
   final Key? shakeKey;
   final String error;
+  final bool showUsdcInfo;
 
   @override
   Widget build(BuildContext context) =>
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
-        builder: (context, value, _) => Column(
-          children: [
-            Shake(
-              key: shakeKey,
-              child: _InputDisplay(
-                input: value.text,
-                fontSize: collapsed ? 57 : 80,
-              ),
-            ),
-            if (!collapsed)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: error.isNotEmpty
-                      ? _DisplayChip(
-                          key: ValueKey(error),
-                          value: error,
-                          shouldDisplay: true,
-                          backgroundColor: CpColors.errorChipColor,
-                        )
-                      : _EquivalentDisplay(
-                          input: value.text,
-                          token: token,
-                          backgroundColor: Colors.black,
-                        ),
+        builder: (context, value, _) {
+          final num =
+              value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+
+          final isZero = num.toDouble() == 0;
+          final hasError = error.isNotEmpty;
+
+          final state = (isZero, hasError, showUsdcInfo);
+
+          return Column(
+            children: [
+              Shake(
+                key: shakeKey,
+                child: _InputDisplay(
+                  input: value.text,
+                  fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
                 ),
               ),
-          ],
-        ),
+              if (!collapsed)
+                Container(
+                  height: showUsdcInfo ? (context.isSmall ? 90 : 105) : null,
+                  padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 100),
+                    child: Column(
+                      children: [
+                        switch (state) {
+                          (_, true, _) => _DisplayChip(
+                              key: ValueKey(error),
+                              value: error,
+                              shouldDisplay: true,
+                              backgroundColor: CpColors.errorChipColor,
+                            ),
+                          (true, false, true) => const _InfoChip(),
+                          _ => _EquivalentDisplay(
+                              input: value.text,
+                              token: token,
+                              backgroundColor: Colors.black,
+                            ),
+                        },
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       );
+}
+
+class _InfoChip extends StatelessWidget {
+  const _InfoChip();
+
+  @override
+  Widget build(BuildContext context) =>
+      UsdcInfoWidget(isSmall: context.isSmall);
 }
 
 class _EquivalentDisplay extends StatelessWidget {
@@ -97,10 +126,34 @@ class _EquivalentDisplay extends StatelessWidget {
       formattedAmount = '0';
     }
 
-    return _DisplayChip(
+    final child = Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: context.l10n.tokenEquivalent(formattedAmount).toUpperCase(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          TextSpan(
+            text: ' ${token.symbol.toUpperCase()}',
+            style: const TextStyle(
+              color: CpColors.yellowColor,
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+      textAlign: TextAlign.center,
+    );
+
+    return _Chip(
       shouldDisplay: shouldDisplay,
-      value: context.l10n.tokenEquivalent(formattedAmount, token.symbol),
       backgroundColor: backgroundColor,
+      child: child,
     );
   }
 }
@@ -118,6 +171,33 @@ class _DisplayChip extends StatelessWidget {
   final Color? backgroundColor;
 
   @override
+  Widget build(BuildContext context) => _Chip(
+        shouldDisplay: shouldDisplay,
+        backgroundColor: backgroundColor,
+        child: Text(
+          value.toUpperCase(),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+}
+
+class _Chip extends StatelessWidget {
+  const _Chip({
+    required this.shouldDisplay,
+    required this.child,
+    this.backgroundColor,
+  });
+
+  final bool shouldDisplay;
+  final Widget child;
+  final Color? backgroundColor;
+
+  @override
   Widget build(BuildContext context) => SizedBox(
         height: 45,
         child: AnimatedOpacity(
@@ -126,15 +206,7 @@ class _DisplayChip extends StatelessWidget {
           child: CpChip(
             padding: CpChipPadding.small,
             backgroundColor: backgroundColor,
-            child: Text(
-              value.toUpperCase(),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: child,
           ),
         ),
       );
