@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../gen/assets.gen.dart';
 import '../config.dart';
+import '../routes.gr.dart';
 
 class PageWidget extends StatelessWidget {
   const PageWidget({super.key, required this.children});
@@ -20,13 +22,13 @@ class PageWidget extends StatelessWidget {
               backgroundColor: Colors.black,
               elevation: 0,
               centerTitle: false,
-              title: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 450),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
+              leadingWidth: 24,
+              title: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const FittedBox(
+                    child: Text(
                       'This project is brought to you by ',
                       textAlign: TextAlign.right,
                       style: TextStyle(
@@ -35,15 +37,15 @@ class PageWidget extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      child: Assets.images.logo.image(height: 29),
-                      onTap: () {
-                        launchUrl(Uri.parse('https://www.espressocash.com/'));
-                      },
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    child: Assets.images.logo.image(height: 29),
+                    onTap: () {
+                      launchUrl(Uri.parse('https://www.espressocash.com/'));
+                    },
+                  ),
+                ],
               ),
             ),
           ),
@@ -88,38 +90,43 @@ class _Header extends StatelessWidget {
   const _Header();
 
   @override
-  Widget build(BuildContext context) => const Column(
+  Widget build(BuildContext context) => Column(
         children: [
-          FittedBox(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'Universal',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 62,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w800,
+          GestureDetector(
+            onTap: () {
+              context.router.push(const RequestRoute());
+            },
+            child: const FittedBox(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Universal',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 62,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
-                  ),
-                  TextSpan(
-                    text: 'Pay',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 62,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w800,
+                    TextSpan(
+                      text: 'Pay',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 62,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
               ),
-              textAlign: TextAlign.center,
-              maxLines: 1,
             ),
           ),
-          SizedBox(height: 8),
-          FittedBox(
+          const SizedBox(height: 8),
+          const FittedBox(
             child: Text(
               'Accept USDC from any Blockchain and receive\n payments on Solana with individual tracking.',
               textAlign: TextAlign.center,

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,16 +11,13 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/page.dart';
-import '../../../routes.gr.dart';
 import '../data/repository.dart';
 import '../service/universal_pay_bloc.dart';
 
-@RoutePage()
 class OtherWalletScreen extends StatelessWidget {
   const OtherWalletScreen(this.request, {super.key});
 
   final SolanaPayRequest request;
-  static const route = OtherWalletRoute.new;
 
   @override
   Widget build(BuildContext context) => BlocProvider(

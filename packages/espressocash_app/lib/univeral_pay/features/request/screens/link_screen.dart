@@ -203,7 +203,7 @@ class _RequestStatus extends StatelessWidget {
       );
 }
 
-extension on BuildContext {
+extension SolanaPayExt on BuildContext {
   SolanaPayRequest createPayRequest({
     required String amount,
     required String receiver,

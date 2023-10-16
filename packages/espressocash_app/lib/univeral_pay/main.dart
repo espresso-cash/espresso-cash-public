@@ -1,7 +1,3 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
-import 'dart:html' as html;
-
-import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +6,6 @@ import 'package:solana/solana.dart';
 
 import '../config.dart';
 import '../l10n/gen/app_localizations.dart';
-import 'core/request_helpers.dart';
 import 'features/send/data/repository.dart';
 import 'routes.dart';
 
@@ -18,17 +13,17 @@ void main() {
   setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const DemoPageApp());
+  runApp(const UniversalPayPageApp());
 }
 
-class DemoPageApp extends StatefulWidget {
-  const DemoPageApp({super.key});
+class UniversalPayPageApp extends StatefulWidget {
+  const UniversalPayPageApp({super.key});
 
   @override
-  State<DemoPageApp> createState() => _DemoPageAppState();
+  State<UniversalPayPageApp> createState() => _UniversalPayPageAppState();
 }
 
-class _DemoPageAppState extends State<DemoPageApp> {
+class _UniversalPayPageAppState extends State<UniversalPayPageApp> {
   final _router = AppRouter();
 
   @override
@@ -57,38 +52,7 @@ class _DemoPageAppState extends State<DemoPageApp> {
           supportedLocales: AppLocalizations.supportedLocales,
           theme: ThemeData(fontFamily: 'RobotoApp'),
           color: Colors.black,
-          routerConfig: _router.config(
-            deepLinkBuilder: (deepLink) {
-              if (deepLink.path.startsWith('/request')) {
-                final uri = deepLink.uri;
-
-                final isValid = () {
-                  final queryParams = uri.queryParameters;
-
-                  return queryParams.containsKey('amount') &&
-                      queryParams.containsKey('receiver') &&
-                      queryParams.containsKey('reference');
-                }();
-
-                if (!isValid) {
-                  return DeepLink.defaultPath;
-                }
-
-                return deepLink;
-              } else if (deepLink.path.startsWith('/send')) {
-                final uri = Uri.parse(html.window.location.toString());
-                final request = tryParseUniversalPayRequest(uri);
-
-                if (request == null) {
-                  return const DeepLink.path('/request');
-                }
-
-                return deepLink;
-              }
-
-              return DeepLink.defaultPath;
-            },
-          ),
+          routerConfig: _router.config(),
         ),
       );
 }

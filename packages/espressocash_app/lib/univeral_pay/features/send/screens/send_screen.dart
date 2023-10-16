@@ -9,6 +9,7 @@ import '../../../core/arrow.dart';
 import '../../../core/divider.dart';
 import '../../../core/page.dart';
 import '../../../routes.gr.dart';
+import '../../request/screens/link_screen.dart';
 import 'other_wallet_screen.dart';
 import 'solana_screen.dart';
 
@@ -19,13 +20,20 @@ class SenderRouterScreen extends AutoRouter {
 
 @RoutePage()
 class SenderInitialScreen extends StatelessWidget {
-  const SenderInitialScreen(this.request, {super.key});
+  const SenderInitialScreen({
+    super.key,
+    @queryParam this.amount,
+    @queryParam this.recipient,
+    @queryParam this.reference,
+  });
 
-  final SolanaPayRequest request;
+  final String? amount;
+  final String? recipient;
+  final String? reference;
 
   static const route = SenderInitialRoute.new;
 
-  void _onSolanaPay(BuildContext context) {
+  void _onSolanaPay(BuildContext context, SolanaPayRequest request) {
     final actionLink = Uri.parse(request.toUrl());
 
     if (isMobile) {
@@ -34,24 +42,32 @@ class SenderInitialScreen extends StatelessWidget {
         mode: LaunchMode.externalNonBrowserApplication,
       );
     } else {
-      context.router.push(
-        SolanaSendScreen.route(
-          amount: request.amount.toString(),
-          actionLink: actionLink,
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (context) => SolanaSendScreen(
+            amount: request.amount.toString(),
+            actionLink: actionLink,
+          ),
         ),
       );
     }
   }
 
-  void _onOtherWallet(BuildContext context) {
-    context.router.push(
-      OtherWalletScreen.route(request: request),
+  void _onOtherWallet(BuildContext context, SolanaPayRequest request) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (context) => OtherWalletScreen(request),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final amount = request.amount.toString();
+    final request = context.createPayRequest(
+      amount: amount!,
+      receiver: recipient!,
+      reference: reference!,
+    );
 
     return PageWidget(
       children: [
@@ -67,7 +83,7 @@ class SenderInitialScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          '$amount USDC',
+          '${amount ?? 0} USDC',
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.white,
@@ -82,7 +98,7 @@ class SenderInitialScreen extends StatelessWidget {
           size: CpButtonSize.big,
           width: 350,
           trailing: const Arrow(),
-          onPressed: () => _onSolanaPay(context),
+          onPressed: () => _onSolanaPay(context, request),
         ),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8),
@@ -96,7 +112,7 @@ class SenderInitialScreen extends StatelessWidget {
           trailing: const Arrow(
             color: Colors.white,
           ),
-          onPressed: () => _onOtherWallet(context),
+          onPressed: () => _onOtherWallet(context, request),
         ),
       ],
     );

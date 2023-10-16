@@ -5,17 +5,19 @@ class DisclaimerCheckbox extends StatelessWidget {
     super.key,
     required this.value,
     required this.onChanged,
+    this.fontSize = 12,
   });
 
   final bool value;
   final ValueChanged<bool> onChanged;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) => SizedBox(
         width: 450,
         child: Column(
           children: [
-            const Text.rich(
+            Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
@@ -23,7 +25,7 @@ class DisclaimerCheckbox extends StatelessWidget {
                         'Disclaimer for UniversalPay.link\nThis is a demonstration which involves involves actual cryptocurrencies transactions. By using this demo, you acknowledge and agree to the following terms:\n\n',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -37,7 +39,7 @@ class DisclaimerCheckbox extends StatelessWidget {
 6. No Liability for Loss: In the event of a system error resulting in the loss of funds, we shall not be held liable for any associated inconvenience or any perceived loss. Any such loss would involve actual money.''',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -82,12 +84,12 @@ class DisclaimerCheckbox extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 18),
-                    const Expanded(
+                    Expanded(
                       child: Text(
                         'I have read and understood the above disclaimer and agree to use this demo solely for educational and demonstrative purposes.',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 12,
+                          fontSize: fontSize,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
