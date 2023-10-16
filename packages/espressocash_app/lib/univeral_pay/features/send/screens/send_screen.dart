@@ -8,8 +8,8 @@ import '../../../../ui/button.dart';
 import '../../../core/arrow.dart';
 import '../../../core/divider.dart';
 import '../../../core/page.dart';
+import '../../../core/request_helpers.dart';
 import '../../../routes.gr.dart';
-import '../../request/screens/link_screen.dart';
 import 'other_wallet_screen.dart';
 import 'solana_screen.dart';
 
@@ -63,7 +63,7 @@ class SenderInitialScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.createPayRequest(
+    final request = context.createUniversalRequest(
       amount: amount!,
       receiver: recipient!,
       reference: reference!,

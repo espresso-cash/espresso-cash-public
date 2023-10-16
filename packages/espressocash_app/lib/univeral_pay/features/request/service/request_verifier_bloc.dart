@@ -6,6 +6,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
@@ -25,7 +26,10 @@ class PaymentRequestVerifierEvent with _$PaymentRequestVerifierEvent {
     required TransactionId transactionId,
   }) = VerificationFailed;
 
-  const factory PaymentRequestVerifierEvent.suceeded() = Succeeded;
+  const factory PaymentRequestVerifierEvent.suceeded({
+    Decimal? receivedAmount,
+    String? txId,
+  }) = Succeeded;
 }
 
 @freezed
@@ -33,7 +37,10 @@ class PaymentRequestVerifierState with _$PaymentRequestVerifierState {
   const factory PaymentRequestVerifierState.waiting() = Waiting;
   const factory PaymentRequestVerifierState.retrying() = Retrying;
   const factory PaymentRequestVerifierState.verifying() = Verifying;
-  const factory PaymentRequestVerifierState.success() = Success;
+  const factory PaymentRequestVerifierState.success({
+    Decimal? receivedAmount,
+    String? txId,
+  }) = Success;
   const factory PaymentRequestVerifierState.failure() = Failure;
 }
 
@@ -94,7 +101,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
 
   Future<void> _verifyTx(TransactionId id) async {
     try {
-      await _solanaClient.validateSolanaPayTransaction(
+      final response = await _solanaClient.validateSolanaPayTransaction(
         signature: id,
         recipient: _request.recipient,
         splToken: _request.splToken,
@@ -102,8 +109,42 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
         amount: Decimal.zero,
         commitment: Commitment.confirmed,
       );
+
+      final meta = response.meta;
+
+      if (meta == null) {
+        return;
+      }
+
+      final Decimal preAmount, postAmount;
+
+      final recipientATA = await findAssociatedTokenAddress(
+        owner: _request.recipient,
+        mint: _request.splToken!,
+      );
+      final accountIndex = (response.transaction as ParsedTransaction)
+          .message
+          .accountKeys
+          .indexWhere((a) => a.pubkey == recipientATA.toBase58());
+      if (accountIndex == -1) {
+        return;
+      }
+
+      final preBalance = meta.preTokenBalances
+          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+      final postBalance = meta.postTokenBalances
+          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+
+      preAmount =
+          Decimal.parse(preBalance?.uiTokenAmount.uiAmountString ?? '0');
+      postAmount =
+          Decimal.parse(postBalance?.uiTokenAmount.uiAmountString ?? '0');
+
+      final receivedAmount = postAmount - preAmount;
+
       PaymentRequestState.completed(transactionId: id);
-      add(const Succeeded());
+
+      add(Succeeded(receivedAmount: receivedAmount, txId: id));
     } on Exception catch (error) {
       add(VerificationFailed(error, transactionId: id));
     }
@@ -153,8 +194,13 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     await _verifyTx(event.transactionId);
   }
 
-  void _onSucceeded(Succeeded _, _Emitter emit) {
-    emit(const Success());
+  void _onSucceeded(Succeeded e, _Emitter emit) {
+    emit(
+      Success(
+        receivedAmount: e.receivedAmount,
+        txId: e.txId,
+      ),
+    );
   }
 }
 
