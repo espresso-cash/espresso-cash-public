@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../gen/assets.gen.dart';
 import '../config.dart';
 import '../routes.gr.dart';
+import 'extensions.dart';
 
 class PageWidget extends StatelessWidget {
   const PageWidget({super.key, required this.children});
@@ -23,28 +24,13 @@ class PageWidget extends StatelessWidget {
               elevation: 0,
               centerTitle: false,
               leadingWidth: 24,
+              actions: const [SizedBox.shrink()],
               title: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const FittedBox(
-                    child: Text(
-                      'This project is brought to you by ',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    child: Assets.images.logo.image(height: 29),
-                    onTap: () {
-                      launchUrl(Uri.parse('https://www.espressocash.com/'));
-                    },
-                  ),
+                  const _EspressoProjectBranding(),
+                  if (!context.isSmall) const Center(child: _GithubText()),
                 ],
               ),
             ),
@@ -57,30 +43,96 @@ class PageWidget extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          child: CustomScrollView(
-            shrinkWrap: true,
-            slivers: [
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 24),
-                      const _Header(),
-                      const SizedBox(height: 55),
-                      ...children,
-                    ],
+          child: Stack(
+            children: [
+              CustomScrollView(
+                shrinkWrap: true,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        children: [
+                          if (context.isSmall)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _PageButton(
+                                  child: const _GithubText(),
+                                  onTap: () =>
+                                      launchUrl(Uri.parse(githubRepoUrl)),
+                                ),
+                              ],
+                            ),
+                          const SizedBox(height: 32),
+                          const _Header(),
+                          const SizedBox(height: 55),
+                          ...children,
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const SliverFillRemaining(
-                hasScrollBody: false,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: _Footer(),
-                ),
+                ],
               ),
             ],
+          ),
+        ),
+      );
+}
+
+class _EspressoProjectBranding extends StatelessWidget {
+  const _EspressoProjectBranding();
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          const FittedBox(
+            child: Text(
+              'This project is brought to you by ',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          GestureDetector(
+            child: Assets.images.logo.image(height: 29),
+            onTap: () {
+              launchUrl(Uri.parse('https://www.espressocash.com/'));
+            },
+          ),
+        ],
+      );
+}
+
+class _PageButton extends StatelessWidget {
+  const _PageButton({
+    required this.child,
+    this.onTap,
+  });
+
+  final Widget child;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        child: Container(
+          height: 33,
+          decoration: const ShapeDecoration(
+            color: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(35),
+              ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Center(child: child),
           ),
         ),
       );
@@ -94,7 +146,7 @@ class _Header extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.router.push(const RequestRoute());
+              context.router.navigate(const RequestRoute());
             },
             child: const FittedBox(
               child: Text.rich(
@@ -104,18 +156,16 @@ class _Header extends StatelessWidget {
                       text: 'Universal',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 62,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w800,
+                        fontSize: 64,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
                       text: 'Pay',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 62,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w800,
+                        fontSize: 64,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -133,7 +183,6 @@ class _Header extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22,
-                fontFamily: 'Inter',
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -142,37 +191,37 @@ class _Header extends StatelessWidget {
       );
 }
 
-class _Footer extends StatelessWidget {
-  const _Footer();
+class _GithubText extends StatelessWidget {
+  const _GithubText();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Text.rich(
-          TextSpan(
-            children: [
-              const TextSpan(
-                text: 'View the code on ',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: 'View the code on ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: context.isSmall ? 12 : 14,
+                fontWeight: FontWeight.w500,
               ),
-              TextSpan(
-                text: 'Github',
-                style: const TextStyle(
-                  color: Color(0xFFFFCC17),
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  decoration: TextDecoration.underline,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => launchUrl(Uri.parse(githubRepoUrl)),
+            ),
+            TextSpan(
+              text: 'Github',
+              style: TextStyle(
+                color: const Color(0xFFFFCC17),
+                fontSize: context.isSmall ? 12 : 14,
+                fontWeight: FontWeight.w500,
+                decoration: TextDecoration.underline,
               ),
-            ],
-          ),
-          textAlign: TextAlign.center,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  launchUrl(Uri.parse(githubRepoUrl));
+                },
+            ),
+          ],
         ),
+        textAlign: TextAlign.center,
+        maxLines: 1,
       );
 }

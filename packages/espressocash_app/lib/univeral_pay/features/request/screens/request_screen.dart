@@ -64,35 +64,6 @@ class _RequestScreenState extends State<RequestScreen> {
   Widget build(BuildContext context) => PageWidget(
         children: [
           const Text(
-            'Destination Address',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          SizedBox(
-            width: 450,
-            child: CpRoundedRectangle(
-              padding: const EdgeInsets.all(16),
-              backgroundColor: Colors.black,
-              child: CpTextField(
-                controller: _destinationController,
-                placeholder:
-                    'Enter the Solana address where you want to\n receive the money.',
-                placeholderColor: const Color(0xff9E9E9E),
-                padding: const EdgeInsets.all(16),
-                textColor: Colors.white,
-                backgroundColor: Colors.black,
-                fontSize: 16,
-                multiLine: true,
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-          const Text(
             'Request Amount',
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -130,6 +101,35 @@ class _RequestScreenState extends State<RequestScreen> {
                   fontSize: 60,
                   fontWeight: FontWeight.w500,
                 ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Destination Address',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 19,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: 450,
+            child: CpRoundedRectangle(
+              padding: const EdgeInsets.all(16),
+              backgroundColor: Colors.black,
+              child: CpTextField(
+                controller: _destinationController,
+                placeholder:
+                    'Enter the Solana address where you want to\n receive the money.',
+                placeholderColor: const Color(0xff9E9E9E),
+                padding: const EdgeInsets.all(16),
+                textColor: Colors.white,
+                backgroundColor: Colors.black,
+                fontSize: 16,
+                multiLine: true,
               ),
             ),
           ),
