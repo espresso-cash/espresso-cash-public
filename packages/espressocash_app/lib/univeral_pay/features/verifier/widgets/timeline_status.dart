@@ -23,7 +23,7 @@ class TimelineStatus extends StatelessWidget {
             children: [
               const SizedBox(height: 32),
               switch (state) {
-                Success(:final response) => _Success([response]),
+                Success(:final responses) => _Success(responses),
                 _ => _Pending(request.amount?.toString() ?? '0'),
               },
             ],
@@ -43,43 +43,46 @@ class _Success extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: responses
               .map(
-                (e) => Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text:
-                            '${formatDate(e.timestamp)} - Payment received! \n',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
+                (e) => Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text:
+                              '${formatDate(e.timestamp)} - Payment received\n',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: '${e.receivedAmount} USDC \n',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
+                        TextSpan(
+                          text: '${e.receivedAmount} USDC \n',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
-                      ),
-                      TextSpan(
-                        text: 'View transaction',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          decoration: TextDecoration.underline,
+                        TextSpan(
+                          text: 'View transaction',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            decoration: TextDecoration.underline,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              final link = e.signature
+                                  .let(createTransactionLink)
+                                  .let(Uri.parse);
+                              launchUrl(link);
+                            },
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            final link = e.signature
-                                .let(createTransactionLink)
-                                .let(Uri.parse);
-                            launchUrl(link);
-                          },
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -149,6 +152,4 @@ class _Pending extends StatelessWidget {
       );
 }
 
-String formatDate(DateTime date) => DateFormat(
-      'HH:MM',
-    ).format(date).toUpperCase();
+String formatDate(DateTime date) => DateFormat.Hm().format(date).toUpperCase();

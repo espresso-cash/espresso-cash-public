@@ -33,9 +33,9 @@ class RequestStatus extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             switch (state) {
-              Success(:final response) => _Success(
-                  receivedAmount: response.receivedAmount,
-                  txId: response.signature,
+              Success(:final responses) => _Success(
+                  receivedAmount: responses.first.receivedAmount,
+                  txId: responses.first.signature,
                 ),
               _ => const _Pending(),
             },

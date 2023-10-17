@@ -24,15 +24,16 @@ class PaymentRequestVerifierEvent with _$PaymentRequestVerifierEvent {
   const factory PaymentRequestVerifierEvent.waitingFailed(Exception e) =
       WaitingFailed;
 
-  const factory PaymentRequestVerifierEvent.txAdded(TransactionId id) = TxAdded;
+  const factory PaymentRequestVerifierEvent.txAdded(List<TransactionId> ids) =
+      TxAdded;
 
   const factory PaymentRequestVerifierEvent.verificationFailed(
     Exception error, {
-    required TransactionId transactionId,
+    required List<TransactionId> ids,
   }) = VerificationFailed;
 
   const factory PaymentRequestVerifierEvent.suceeded({
-    required PayResponse response,
+    required List<PayResponse> responses,
   }) = Succeeded;
 }
 
@@ -42,7 +43,7 @@ class PaymentRequestVerifierState with _$PaymentRequestVerifierState {
   const factory PaymentRequestVerifierState.retrying() = Retrying;
   const factory PaymentRequestVerifierState.verifying() = Verifying;
   const factory PaymentRequestVerifierState.success({
-    required PayResponse response,
+    required List<PayResponse> responses,
   }) = Success;
   const factory PaymentRequestVerifierState.failure() = Failure;
 }
@@ -66,7 +67,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
   final SolanaClient _solanaClient;
   final SolanaPayRequest _request;
 
-  StreamSubscription<TransactionId>? _txSubscription;
+  StreamSubscription<List<TransactionId>>? _txSubscription;
 
   @override
   Future<void> close() async {
@@ -80,13 +81,13 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     final reference = _request.reference?.firstOrNull;
     if (reference == null) return;
 
-    Stream<TransactionId> solanaPayTransaction() => _solanaClient
-        .findSolanaPayTransaction(
+    Stream<List<TransactionId>> solanaPayTransaction() => _solanaClient
+        .findSolanaPayTransactions(
           reference: reference,
           commitment: Commitment.confirmed,
         )
         .asStream()
-        .whereType<TransactionId>();
+        .whereType<List<TransactionId>>();
 
     _txSubscription = Stream<void>.periodic(const Duration(seconds: 10))
         .flatMap((a) => solanaPayTransaction())
@@ -102,22 +103,37 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<void> _verifyTx(TransactionId id) async {
+  Future<void> _verifyTx(List<TransactionId> ids) async {
     try {
-      final response = await _solanaClient.validateSolanaPayTransaction(
-        signature: id,
-        recipient: _request.recipient,
-        splToken: _request.splToken,
-        reference: _request.reference,
-        amount: Decimal.zero,
-        commitment: Commitment.confirmed,
+      final List<PayResponse> responses = [];
+
+      for (final id in ids) {
+        final response = await _solanaClient.validatePayTransaction(
+          signature: id,
+          reference: _request.reference,
+          commitment: Commitment.confirmed,
+        );
+
+        responses.add(await _parseTransaction(response));
+      }
+
+      final totalReceived = responses.fold<Decimal>(
+        Decimal.zero,
+        (previousValue, element) => previousValue + element.receivedAmount,
       );
 
-      final tx = await _parseTransaction(response);
+      add(Succeeded(responses: responses));
 
-      add(Succeeded(response: tx));
+      if (totalReceived < (_request.amount ?? Decimal.zero)) {
+        await Future<void>.delayed(_currentBackoff);
+        _currentBackoff *= _backoffStep;
+        if (_currentBackoff > _maxBackoff) {
+          _currentBackoff = _maxBackoff;
+        }
+        _waitForTx();
+      }
     } on Exception catch (error) {
-      add(VerificationFailed(error, transactionId: id));
+      add(VerificationFailed(error, ids: ids));
     }
   }
 
@@ -184,9 +200,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onTxAdded(TxAdded event, _Emitter emit) async {
-    emit(const Verifying());
-
-    await _verifyTx(event.id);
+    await _verifyTx(event.ids);
   }
 
   Future<void> _onVerificationFailed(
@@ -206,14 +220,66 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     if (_currentBackoff > _maxBackoff) {
       _currentBackoff = _maxBackoff;
     }
-    await _verifyTx(event.transactionId);
+    await _verifyTx(event.ids);
   }
 
   void _onSucceeded(Succeeded e, _Emitter emit) {
-    emit(Success(response: e.response));
+    emit(Success(responses: e.responses));
   }
 }
 
 const _backoffStep = 2;
 const _minBackoff = Duration(seconds: 2);
 const _maxBackoff = Duration(minutes: 1);
+
+extension on SolanaClient {
+  Future<List<TransactionId>?> findSolanaPayTransactions({
+    required Ed25519HDPublicKey reference,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final signatures = await rpcClient.getSignaturesForAddress(
+      reference.toBase58(),
+      commitment: commitment,
+    );
+
+    if (signatures.isEmpty) return null;
+
+    return signatures.map((a) => a.signature).toList();
+  }
+
+  Future<TransactionDetails> validatePayTransaction({
+    required TransactionId signature,
+    Iterable<Ed25519HDPublicKey>? reference,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final response = await rpcClient.getTransaction(
+      signature,
+      commitment: commitment,
+    );
+
+    if (response == null) {
+      throw const ValidateTransactionException('Transaction not found.');
+    }
+
+    final meta = response.meta;
+    if (meta == null) {
+      throw const ValidateTransactionException('Missing meta.');
+    }
+
+    if (meta.err != null) {
+      throw const ValidateTransactionException('Transaction error.');
+    }
+
+    if (reference != null) {
+      final keys = (response.transaction as ParsedTransaction)
+          .message
+          .accountKeys
+          .map((e) => e.pubkey);
+      if (reference.any((e) => !keys.contains(e.toBase58()))) {
+        throw const ValidateTransactionException('Reference not found.');
+      }
+    }
+
+    return response;
+  }
+}
