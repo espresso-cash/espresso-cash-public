@@ -11,11 +11,6 @@ import '../../../routes.gr.dart';
 import 'link_screen.dart';
 
 @RoutePage()
-class RequestRouterScreen extends AutoRouter {
-  const RequestRouterScreen({super.key});
-}
-
-@RoutePage()
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
 

@@ -14,11 +14,6 @@ import 'other_wallet_screen.dart';
 import 'solana_screen.dart';
 
 @RoutePage()
-class SenderRouterScreen extends AutoRouter {
-  const SenderRouterScreen({super.key});
-}
-
-@RoutePage()
 class SenderInitialScreen extends StatelessWidget {
   const SenderInitialScreen({
     super.key,
