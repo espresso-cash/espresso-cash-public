@@ -1,87 +1,200 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../ui/button.dart';
+import '../../ui/colors.dart';
 import '../config.dart';
+import '../features/verifier/service/request_verifier_bloc.dart';
+import '../features/verifier/widgets/timeline_screen.dart';
 import '../routes.gr.dart';
+import 'arrow.dart';
 import 'extensions.dart';
 
 class PageWidget extends StatelessWidget {
-  const PageWidget({super.key, required this.children});
+  const PageWidget({
+    super.key,
+    required this.children,
+    this.statusWidget,
+  });
 
   final List<Widget> children;
+  final Widget? statusWidget;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(44),
-          child: Hero(
-            tag: 'appbar',
-            child: AppBar(
-              backgroundColor: Colors.black,
-              elevation: 0,
-              centerTitle: false,
-              leadingWidth: 24,
-              actions: const [SizedBox.shrink()],
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const _EspressoProjectBranding(),
-                  if (!context.isSmall) const Center(child: _GithubText()),
-                ],
-              ),
+  Widget build(BuildContext context) {
+    final showStatus = statusWidget != null;
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(_appBarHeight),
+        child: Hero(
+          tag: 'appbar',
+          child: AppBar(
+            backgroundColor: Colors.black,
+            elevation: 0,
+            centerTitle: false,
+            leadingWidth: 24,
+            actions: const [SizedBox.shrink()],
+            title: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const EspressoProjectBranding(),
+                if (!context.isSmall) const Center(child: _GithubText()),
+              ],
             ),
           ),
         ),
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(Assets.demo.bg.path),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: Stack(
-            children: [
-              CustomScrollView(
-                shrinkWrap: true,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Column(
-                        children: [
-                          if (context.isSmall)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _PageButton(
-                                  child: const _GithubText(),
-                                  onTap: () =>
-                                      launchUrl(Uri.parse(githubRepoUrl)),
-                                ),
-                              ],
-                            ),
-                          const SizedBox(height: 32),
-                          const _Header(),
-                          const SizedBox(height: 55),
-                          ...children,
-                        ],
+      ),
+      drawerScrimColor: Colors.transparent,
+      endDrawerEnableOpenDragGesture: false,
+      endDrawer: (showStatus && !context.isSmall)
+          ? Drawer(
+              backgroundColor: CpColors.darkSplashBackgroundColor,
+              child: Column(
+                children: [
+                  Container(
+                    height: _appBarHeight,
+                    decoration: const BoxDecoration(color: Colors.black),
+                  ),
+                  Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Builder(
+                          builder: (context) => IconButton(
+                            padding: const EdgeInsets.all(24),
+                            icon: const Icon(Icons.close),
+                            color: Colors.white,
+                            onPressed: () {
+                              Scaffold.of(context).closeEndDrawer();
+                            },
+                          ),
+                        ),
                       ),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Payment Status',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (statusWidget case final statusWidget?)
+                    Expanded(child: statusWidget),
+                ],
+              ),
+            )
+          : null,
+      body: DecoratedBox(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(Assets.demo.bg.path),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        if (context.isSmall)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _PageButton(
+                                child: const _GithubText(),
+                                onTap: () =>
+                                    launchUrl(Uri.parse(githubRepoUrl)),
+                              ),
+                              if (showStatus)
+                                _PageButton(
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 12),
+                                    child: Text(
+                                      'Check Status',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    final widget = statusWidget;
+
+                                    if (widget == null) return;
+
+                                    final bloc =
+                                        context.read<RequestVerifierBloc>();
+
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute<void>(
+                                        builder: (context) => BlocProvider<
+                                            RequestVerifierBloc>.value(
+                                          value: bloc,
+                                          child: TimelineScreen(
+                                            child: widget,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                            ],
+                          ),
+                        const SizedBox(height: 32),
+                        const _Header(),
+                        const SizedBox(height: 55),
+                        ...children,
+                      ],
                     ),
                   ),
-                ],
+                ),
+              ],
+            ),
+            if (showStatus && !context.isSmall)
+              Align(
+                alignment: Alignment.topRight,
+                child: Builder(
+                  builder: (context) => Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: CpButton(
+                      text: 'Check Status',
+                      width: 170,
+                      variant: CpButtonVariant.black,
+                      trailing: const Arrow(color: Colors.white),
+                      onPressed: () {
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                    ),
+                  ),
+                ),
               ),
-            ],
-          ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
-class _EspressoProjectBranding extends StatelessWidget {
-  const _EspressoProjectBranding();
+class EspressoProjectBranding extends StatelessWidget {
+  const EspressoProjectBranding({super.key});
 
   @override
   Widget build(BuildContext context) => Row(
@@ -225,3 +338,5 @@ class _GithubText extends StatelessWidget {
         maxLines: 1,
       );
 }
+
+const _appBarHeight = 44.0;

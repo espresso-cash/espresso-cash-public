@@ -11,7 +11,8 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/page.dart';
-import '../data/repository.dart';
+import '../../verifier/widgets/request_verifier.dart';
+import '../../verifier/widgets/timeline_status.dart';
 import '../service/universal_pay_bloc.dart';
 
 class OtherWalletScreen extends StatelessWidget {
@@ -20,15 +21,13 @@ class OtherWalletScreen extends StatelessWidget {
   final SolanaPayRequest request;
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (context) => UniversalPayCubit(
-          context.read<UniversalPayRepository>(),
-          request,
-        ),
+  Widget build(BuildContext context) => PaymentRequestVerifier(
+        paymentRequest: request,
         child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
           builder: (context, state) => CpLoader(
             isLoading: state.processingState.isProcessing,
             child: PageWidget(
+              statusWidget: TimelineStatus(request),
               children: [
                 const Text(
                   'You have a payment request.',

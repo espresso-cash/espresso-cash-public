@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,9 +11,13 @@ import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../../features/payment_request/models/payment_request.dart';
-
 part 'request_verifier_bloc.freezed.dart';
+
+typedef PayResponse = ({
+  String signature,
+  Decimal receivedAmount,
+  DateTime timestamp,
+});
 
 @freezed
 class PaymentRequestVerifierEvent with _$PaymentRequestVerifierEvent {
@@ -27,8 +32,7 @@ class PaymentRequestVerifierEvent with _$PaymentRequestVerifierEvent {
   }) = VerificationFailed;
 
   const factory PaymentRequestVerifierEvent.suceeded({
-    Decimal? receivedAmount,
-    String? txId,
+    required PayResponse response,
   }) = Succeeded;
 }
 
@@ -38,8 +42,7 @@ class PaymentRequestVerifierState with _$PaymentRequestVerifierState {
   const factory PaymentRequestVerifierState.retrying() = Retrying;
   const factory PaymentRequestVerifierState.verifying() = Verifying;
   const factory PaymentRequestVerifierState.success({
-    Decimal? receivedAmount,
-    String? txId,
+    required PayResponse response,
   }) = Success;
   const factory PaymentRequestVerifierState.failure() = Failure;
 }
@@ -110,44 +113,56 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
         commitment: Commitment.confirmed,
       );
 
-      final meta = response.meta;
+      final tx = await _parseTransaction(response);
 
-      if (meta == null) {
-        return;
-      }
-
-      final Decimal preAmount, postAmount;
-
-      final recipientATA = await findAssociatedTokenAddress(
-        owner: _request.recipient,
-        mint: _request.splToken!,
-      );
-      final accountIndex = (response.transaction as ParsedTransaction)
-          .message
-          .accountKeys
-          .indexWhere((a) => a.pubkey == recipientATA.toBase58());
-      if (accountIndex == -1) {
-        return;
-      }
-
-      final preBalance = meta.preTokenBalances
-          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
-      final postBalance = meta.postTokenBalances
-          .firstWhereOrNull((a) => a.accountIndex == accountIndex);
-
-      preAmount =
-          Decimal.parse(preBalance?.uiTokenAmount.uiAmountString ?? '0');
-      postAmount =
-          Decimal.parse(postBalance?.uiTokenAmount.uiAmountString ?? '0');
-
-      final receivedAmount = postAmount - preAmount;
-
-      PaymentRequestState.completed(transactionId: id);
-
-      add(Succeeded(receivedAmount: receivedAmount, txId: id));
+      add(Succeeded(response: tx));
     } on Exception catch (error) {
       add(VerificationFailed(error, transactionId: id));
     }
+  }
+
+  Future<PayResponse> _parseTransaction(TransactionDetails tx) async {
+    final meta = tx.meta;
+
+    final timestamp = tx.blockTime?.let(
+          (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+        ) ??
+        DateTime.now();
+
+    if (meta == null) {
+      throw Exception();
+    }
+
+    final Decimal preAmount, postAmount;
+
+    final recipientATA = await findAssociatedTokenAddress(
+      owner: _request.recipient,
+      mint: _request.splToken!,
+    );
+    final accountIndex = (tx.transaction as ParsedTransaction)
+        .message
+        .accountKeys
+        .indexWhere((a) => a.pubkey == recipientATA.toBase58());
+    if (accountIndex == -1) {
+      throw Exception();
+    }
+
+    final preBalance = meta.preTokenBalances
+        .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+    final postBalance = meta.postTokenBalances
+        .firstWhereOrNull((a) => a.accountIndex == accountIndex);
+
+    preAmount = Decimal.parse(preBalance?.uiTokenAmount.uiAmountString ?? '0');
+    postAmount =
+        Decimal.parse(postBalance?.uiTokenAmount.uiAmountString ?? '0');
+
+    final receivedAmount = postAmount - preAmount;
+
+    return (
+      signature: (tx.transaction as ParsedTransaction).signatures.first,
+      receivedAmount: receivedAmount,
+      timestamp: timestamp,
+    );
   }
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
@@ -195,12 +210,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
   }
 
   void _onSucceeded(Succeeded e, _Emitter emit) {
-    emit(
-      Success(
-        receivedAmount: e.receivedAmount,
-        txId: e.txId,
-      ),
-    );
+    emit(Success(response: e.response));
   }
 }
 
