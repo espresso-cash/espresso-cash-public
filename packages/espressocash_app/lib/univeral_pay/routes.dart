@@ -58,6 +58,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
     AutoRoute(page: RequestLinkRoute.page, path: '/request'),
     AutoRoute(page: SenderInitialRoute.page, path: '/send'),
     AutoRoute(page: DisclaimerRoute.page, path: '/disclaimer'),
-    AutoRoute(page: DemoRoute.page, path: '/demo'),
+    AutoRoute(page: DemoRoute.page, path: '/videodemo'),
+    RedirectRoute(path: '*', redirectTo: '/'),
   ];
 }
