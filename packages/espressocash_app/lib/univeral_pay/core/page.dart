@@ -78,7 +78,7 @@ class PageWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       const Text(
-                        'Payment Status',
+                        'Transfer Status',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -269,19 +269,20 @@ class _Header extends StatelessWidget {
                       text: 'Universal',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     TextSpan(
                       text: 'Pay',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 64,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
+                ),
+                style: TextStyle(
+                  fontSize: 62,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w800,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 1,
@@ -296,6 +297,7 @@ class _Header extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22,
+                fontFamily: 'Inter',
                 fontWeight: FontWeight.w500,
               ),
             ),

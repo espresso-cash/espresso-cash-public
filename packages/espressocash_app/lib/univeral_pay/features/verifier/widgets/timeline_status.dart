@@ -97,57 +97,17 @@ class _Pending extends StatelessWidget {
   final String amount;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
+  Widget build(BuildContext context) => const SizedBox(
         width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text.rich(
-              TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Payment not yet received\n',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '$amount USDC',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
+        child: Center(
+          child: Text(
+            '• You have no activity •',
+            style: TextStyle(
+              color: Color(0xFF787174),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
             ),
-            const SizedBox(height: 16),
-            Text.rich(
-              TextSpan(
-                children: [
-                  const TextSpan(
-                    text: 'Payment processing\n',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '$amount USDC',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+          ),
         ),
       );
 }

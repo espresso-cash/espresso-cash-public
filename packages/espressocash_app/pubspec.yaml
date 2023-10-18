@@ -150,6 +150,12 @@ flutter:
         - asset: assets/fonts/Roboto-BlackItalic.ttf
           style: italic
           weight: 900
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+          weight: 800
 
 flutter_native_splash:
   color: "#2D2B2C"

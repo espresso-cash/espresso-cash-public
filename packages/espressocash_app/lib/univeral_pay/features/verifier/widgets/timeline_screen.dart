@@ -31,7 +31,7 @@ class TimelineScreen extends StatelessWidget {
             children: [
               CpAppBar(
                 title: const Text(
-                  'Request Status',
+                  'Transfer Status',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
