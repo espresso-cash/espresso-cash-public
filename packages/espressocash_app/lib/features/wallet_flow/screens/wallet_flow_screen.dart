@@ -66,8 +66,7 @@ class _State extends State<WalletFlowScreen> {
       },
     );
 
-    if (!mounted) return;
-    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+    _reset();
   }
 
   void _onFiatAmountUpdate(Decimal value) {
@@ -90,7 +89,7 @@ class _State extends State<WalletFlowScreen> {
     await context.router.navigate(LinkDetailsFlowScreen.route(id: id));
     if (!mounted) return;
 
-    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+    _reset();
   }
 
   void _onPay() {
@@ -123,7 +122,7 @@ class _State extends State<WalletFlowScreen> {
                 await context.router.replace(OLPScreen.route(id: id));
                 if (!mounted) return;
 
-                setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+                _reset();
               },
             ),
           );
@@ -167,8 +166,7 @@ class _State extends State<WalletFlowScreen> {
                   if (!mounted) return;
                   await context.router.replace(ODPDetailsScreen.route(id: id));
 
-                  if (!mounted) return;
-                  setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+                  _reset();
                 } else if (network == Blockchain.arbitrum) {
                   await context.router.push(
                     OutgoingDlnPaymentFlowScreen.route(
@@ -177,6 +175,8 @@ class _State extends State<WalletFlowScreen> {
                       receiverAddress: address,
                     ),
                   );
+
+                  _reset();
                 }
               },
             ),
@@ -196,6 +196,11 @@ class _State extends State<WalletFlowScreen> {
           _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
       }
     });
+  }
+
+  void _reset() {
+    if (!mounted) return;
+    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
   @override

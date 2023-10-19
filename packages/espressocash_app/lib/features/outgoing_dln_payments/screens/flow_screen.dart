@@ -39,7 +39,10 @@ class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
     final id = await context.createDlnPayment(route);
 
     if (!mounted) return;
-    await context.router.replace(OutgoingDlnPaymentDetailsScreen.route(id: id));
+    context.router.popUntilRoot();
+
+    if (!mounted) return;
+    await context.router.push(OutgoingDlnPaymentDetailsScreen.route(id: id));
   }
 
   @override
