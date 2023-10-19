@@ -18,7 +18,8 @@ class OutgoingDlnTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
-        title: context.l10n.sentDirectly,
+        title:
+            '${context.l10n.sentDirectly} to ${activity.data.payment.receiverBlockchain.name.toUpperCase()}',
         timestamp: context.formatDate(activity.created),
         icon: Assets.icons.paymentIcon.svg(),
         outgoingAmount: activity.data.payment.inputAmount

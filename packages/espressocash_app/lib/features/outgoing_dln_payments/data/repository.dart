@@ -58,6 +58,10 @@ class OutgoingDlnPaymentRepository {
         ODLNPaymentStatusDto.txSent,
       ]);
 
+  Stream<IList<OutgoingDlnPayment>> watchTxSuccess() => _watchWithStatuses([
+        ODLNPaymentStatusDto.success,
+      ]);
+
   Stream<IList<OutgoingDlnPayment>> _watchWithStatuses(
     Iterable<ODLNPaymentStatusDto> statuses,
   ) {
@@ -78,6 +82,8 @@ class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
   TextColumn get receiverAddress => text()();
   IntColumn get amount => integer()();
   IntColumn get status => intEnum<ODLNPaymentStatusDto>()();
+
+  TextColumn get orderId => text().nullable()();
 }
 
 enum BlockchainDto {
@@ -124,7 +130,10 @@ extension on ODLNPaymentStatusDto {
       case ODLNPaymentStatusDto.txSent:
         return OutgoingDlnPaymentStatus.txSent(tx!, slot: slot ?? BigInt.zero);
       case ODLNPaymentStatusDto.success:
-        return OutgoingDlnPaymentStatus.success(tx!);
+        return OutgoingDlnPaymentStatus.success(
+          tx!,
+          orderId: row.orderId,
+        );
       case ODLNPaymentStatusDto.txFailure:
         return OutgoingDlnPaymentStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
@@ -163,6 +172,7 @@ extension on OutgoingDlnPayment {
         receiverBlockchain: payment.receiverBlockchain.toDto(),
         receiverAddress: payment.receiverAddress,
         txFailureReason: status.toTxFailureReason(),
+        orderId: status.toOrderId(),
       );
 }
 
@@ -186,6 +196,10 @@ extension on OutgoingDlnPaymentStatus {
         txSent: (it) => it.tx.id,
         success: (it) => it.tx.id,
         txCreated: (it) => it.tx.id,
+      );
+
+  String? toOrderId() => mapOrNull(
+        success: (it) => it.orderId,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(

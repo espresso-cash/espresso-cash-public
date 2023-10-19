@@ -21,6 +21,8 @@ dependencies:
   dio: ^4.0.0
   dio_cache_interceptor: ^3.4.0
   dio_cache_interceptor_db_store: ^5.1.0
+  dln_api:
+    path: ../espressocash_backend/dln_api/
   drift: ^2.8.1
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/

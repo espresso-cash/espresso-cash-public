@@ -11,6 +11,7 @@ import 'package:solana/solana.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
+import '../../outgoing_dln_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
@@ -85,8 +86,17 @@ class TransactionRepository {
           .not(),
     );
 
+    final oDlnP = _db.outgoingDlnPaymentRows.findActivityOrNull(
+      where: (row) => row.txId.equals(txId),
+      builder: (pr) => pr.toActivity(),
+      ignoreWhen: (row) => const [
+        ODLNPaymentStatusDto.fulfilled,
+        ODLNPaymentStatusDto.cancelled,
+      ].contains(row.status).not(),
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, olp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp, oDlnP].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

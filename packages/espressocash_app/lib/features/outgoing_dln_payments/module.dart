@@ -8,6 +8,7 @@ import '../balances/widgets/context_ext.dart';
 import 'data/repository.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
+import 'services/tx_success_watcher.dart';
 
 class OutgoingDlnModule extends SingleChildStatelessWidget {
   const OutgoingDlnModule({super.key, super.child});
@@ -24,6 +25,12 @@ class OutgoingDlnModule extends SingleChildStatelessWidget {
           Provider<TxSentWatcher>(
             lazy: false,
             create: (context) => sl<TxSentWatcher>()
+              ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
+            dispose: (_, value) => value.dispose(),
+          ),
+          Provider<TxSuccessWatcher>(
+            lazy: false,
+            create: (context) => sl<TxSuccessWatcher>()
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),

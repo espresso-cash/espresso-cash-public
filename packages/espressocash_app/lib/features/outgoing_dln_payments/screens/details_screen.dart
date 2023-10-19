@@ -51,6 +51,18 @@ class _OutgoingDlnPaymentDetailsScreenState
           return order == null
               ? TransferProgress(onBack: () => context.router.pop())
               : order.status.maybeMap(
+                  fulfilled: (status) => TransferSuccess(
+                    onBack: () => context.router.pop(),
+                    onOkPressed: () => context.router.pop(),
+                    statusContent: 'Transaction has been fulfilled!',
+                    onMoreDetailsPressed: () {
+                      final link = status.tx.id
+                          .let(createTransactionLink)
+                          .let(Uri.parse)
+                          .toString();
+                      context.openLink(link);
+                    },
+                  ),
                   success: (status) => TransferSuccess(
                     onBack: () => context.router.pop(),
                     onOkPressed: () => context.router.pop(),

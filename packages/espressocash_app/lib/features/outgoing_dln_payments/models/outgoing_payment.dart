@@ -31,8 +31,10 @@ class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   }) = OutgoingDlnPaymentStatusTxSent;
 
   /// Tx is successfully confirmed and order awaiting fulfillment.
-  const factory OutgoingDlnPaymentStatus.success(SignedTx tx) =
-      OutgoingDlnPaymentStatusSuccess;
+  const factory OutgoingDlnPaymentStatus.success(
+    SignedTx tx, {
+    String? orderId,
+  }) = OutgoingDlnPaymentStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
   const factory OutgoingDlnPaymentStatus.txFailure({

@@ -61,4 +61,7 @@ abstract class AppModule {
   @Named('isSaga')
   Future<bool> isSaga(SeedVault vault) =>
       vault.isAvailable(allowSimulated: !isProd);
+
+  @lazySingleton
+  DlnApiClient get dlnClient => DlnApiClient();
 }

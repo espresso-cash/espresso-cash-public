@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
+import 'package:dln_api/dln_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
@@ -13,13 +15,14 @@ import 'payment_watcher.dart';
 /// confirmed.
 @injectable
 class TxSentWatcher extends OutgoingDlnPaymentWatcher {
-  TxSentWatcher(super._repository, this._sender);
+  TxSentWatcher(super._repository, this._sender, this._client);
 
   final TxSender _sender;
+  final DlnApiClient _client;
 
   @override
   CancelableJob<OutgoingDlnPayment> createJob(OutgoingDlnPayment payment) =>
-      _OrderTxSentJob(payment, _sender);
+      _OrderTxSentJob(payment, _sender, _client);
 
   @override
   Stream<IList<OutgoingDlnPayment>> watchOrders(
@@ -29,10 +32,11 @@ class TxSentWatcher extends OutgoingDlnPaymentWatcher {
 }
 
 class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
-  const _OrderTxSentJob(this.payment, this.sender);
+  const _OrderTxSentJob(this.payment, this.sender, this.client);
 
   final OutgoingDlnPayment payment;
   final TxSender sender;
+  final DlnApiClient client;
 
   @override
   Future<OutgoingDlnPayment?> process() async {
@@ -42,9 +46,15 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
     }
 
     final tx = await sender.wait(status.tx, minContextSlot: status.slot);
+    final orderId = await client
+        .getOrderIdByHash(status.tx.id)
+        .letAsync((p) => p.orderIds.firstOrNull);
 
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
-      success: (_) => OutgoingDlnPaymentStatus.success(status.tx),
+      success: (_) => OutgoingDlnPaymentStatus.success(
+        status.tx,
+        orderId: orderId,
+      ),
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );

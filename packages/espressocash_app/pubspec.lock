@@ -426,7 +426,7 @@ packages:
     source: hosted
     version: "5.1.0"
   dln_api:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "../espressocash_backend/dln_api"
       relative: true
