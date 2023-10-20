@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/widgets.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/material.dart';
+import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 import '../config.dart';
-import '../features/request/screens/request_screen.dart';
 
 @RoutePage()
 class DemoScreen extends StatefulWidget {
@@ -14,14 +13,50 @@ class DemoScreen extends StatefulWidget {
 }
 
 class _DemoScreenState extends State<DemoScreen> {
-  @override
-  void initState() {
-    super.initState();
+  final _controller = YoutubePlayerController.fromVideoId(
+    videoId: YoutubePlayerController.convertUrlToId(demoVideoUrl) ?? '',
+    autoPlay: false,
+    params: const YoutubePlayerParams(showFullscreenButton: true),
+  );
 
-    launchUrl(Uri.parse(demoVideoUrl));
-    context.router.replace(RequestScreen.route());
+  @override
+  void dispose() {
+    _controller.close();
+
+    super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => Container();
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'DEMO',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontFamily: 'Inter',
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                ),
+                const SizedBox(height: 32),
+                SizedBox(
+                  height: 500,
+                  child: YoutubePlayer(
+                    controller: _controller,
+                    aspectRatio: 16 / 9,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }

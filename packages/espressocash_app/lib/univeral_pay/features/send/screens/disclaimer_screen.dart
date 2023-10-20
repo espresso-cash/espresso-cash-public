@@ -4,6 +4,7 @@ import '../../../../ui/button.dart';
 import '../../../core/disclaimer.dart';
 import '../../../core/page.dart';
 import '../../../routes.gr.dart';
+import '../../request/screens/request_screen.dart';
 
 @RoutePage()
 class DisclaimerScreen extends StatefulWidget {
@@ -19,6 +20,15 @@ class DisclaimerScreen extends StatefulWidget {
 
 class _DisclaimerScreenState extends State<DisclaimerScreen> {
   bool _isAccepted = false;
+
+  void _onAccept() {
+    if (widget.onAccept != null) {
+      widget.onAccept?.call();
+    } else {
+      context.router.replace(RequestScreen.route());
+    }
+  }
+
   @override
   Widget build(BuildContext context) => PageWidget(
         children: [
@@ -33,7 +43,7 @@ class _DisclaimerScreenState extends State<DisclaimerScreen> {
           ),
           const SizedBox(height: 32),
           CpButton(
-            onPressed: _isAccepted ? widget.onAccept : null,
+            onPressed: _isAccepted ? _onAccept : null,
             text: 'Continue',
             size: CpButtonSize.big,
             width: 450,
