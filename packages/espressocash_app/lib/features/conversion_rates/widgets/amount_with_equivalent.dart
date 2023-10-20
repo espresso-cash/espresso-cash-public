@@ -62,6 +62,8 @@ class AmountWithEquivalent extends StatelessWidget {
                   padding: EdgeInsets.only(top: context.isSmall ? 2 : 16),
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 100),
+                    // TODO(KB): Check if needed
+                    // ignore: avoid-single-child-column-or-row
                     child: Column(
                       children: [
                         switch (state) {
