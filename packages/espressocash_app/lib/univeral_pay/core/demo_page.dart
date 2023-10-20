@@ -13,10 +13,10 @@ class DemoScreen extends StatefulWidget {
 }
 
 class _DemoScreenState extends State<DemoScreen> {
-  final _controller = YoutubePlayerController.fromVideoId(
-    videoId: YoutubePlayerController.convertUrlToId(demoVideoUrl) ?? '',
-    autoPlay: false,
-    params: const YoutubePlayerParams(showFullscreenButton: true),
+  final _controller = YoutubePlayerController(
+    initialVideoId: YoutubePlayerController.convertUrlToId(demoVideoUrl) ?? '',
+    params:
+        const YoutubePlayerParams(showFullscreenButton: true, autoPlay: false),
   );
 
   @override
@@ -49,7 +49,7 @@ class _DemoScreenState extends State<DemoScreen> {
                 const SizedBox(height: 32),
                 SizedBox(
                   height: 500,
-                  child: YoutubePlayer(
+                  child: YoutubePlayerIFrame(
                     controller: _controller,
                     aspectRatio: 16 / 9,
                   ),

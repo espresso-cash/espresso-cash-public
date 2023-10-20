@@ -80,7 +80,7 @@ dependencies:
   uni_links: ^0.5.1
   url_launcher: ^6.1.10
   uuid: ^3.0.4
-  youtube_player_iframe: ^4.0.4
+  youtube_player_iframe: 2.3.0
 
 dev_dependencies:
   auto_route_generator: ^7.3.1
