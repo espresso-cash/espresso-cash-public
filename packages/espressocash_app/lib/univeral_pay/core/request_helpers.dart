@@ -11,7 +11,6 @@ import '../config.dart';
 SolanaPayRequest? tryParseUniversalPayRequest(Uri link) {
   final linkWithCorrectScheme = link.scheme == 'https' &&
           link.host == espressoUniversalPayDomain &&
-          link.queryParameters['t'] == 'universalpay' &&
           link.queryParameters['recipient'] != null
       ? Uri(
           scheme: 'solana',
@@ -43,11 +42,15 @@ extension SolanaPayRequestExt on SolanaPayRequest {
 }
 
 extension SolanaPayExt on BuildContext {
-  SolanaPayRequest createUniversalRequest({
-    required String amount,
-    required String receiver,
-    required String reference,
+  SolanaPayRequest? createUniversalRequest({
+    required String? amount,
+    required String? receiver,
+    required String? reference,
   }) {
+    if (amount == null || receiver == null || reference == null) {
+      return null;
+    }
+
     final locale = DeviceLocale.localeOf(this);
     final decimalAmount = amount.toDecimalOrZero(locale);
 

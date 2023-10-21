@@ -30,10 +30,14 @@ class RequestLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.createUniversalRequest(
-      amount: amount!,
-      receiver: receiver!,
-      reference: reference!,
+      amount: amount,
+      receiver: receiver,
+      reference: reference,
     );
+
+    if (request == null) {
+      return const SizedBox.shrink();
+    }
 
     final link = request.toUniversalPayLink().toString();
 

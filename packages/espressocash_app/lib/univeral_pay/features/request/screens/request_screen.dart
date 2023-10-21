@@ -46,7 +46,7 @@ class _RequestScreenState extends State<RequestScreen> {
 
     if (!mounted) return;
 
-    await context.router.push(
+    await context.router.navigate(
       RequestLinkScreen.route(
         amount: amountA,
         receiver: destination,

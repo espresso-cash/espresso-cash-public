@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import '../../../../ui/button.dart';
 import '../../../core/disclaimer.dart';
+import '../../../core/disclaimer_service.dart';
 import '../../../core/page.dart';
 import '../../../routes.gr.dart';
 import '../../request/screens/request_screen.dart';
@@ -23,6 +24,7 @@ class _DisclaimerScreenState extends State<DisclaimerScreen> {
 
   void _onAccept() {
     if (widget.onAccept != null) {
+      DisclaimerService().acceptDisclaimer();
       widget.onAccept?.call();
     } else {
       context.router.replace(RequestScreen.route());
