@@ -78,6 +78,8 @@ class _Header extends StatelessWidget {
   const _Header();
 
   @override
+  // TODO(KB): Check if needed
+  // ignore: avoid-single-child-column-or-row
   Widget build(BuildContext context) => Column(
         children: [
           Assets.images.logo.image(width: 201.r, height: 43.r),
@@ -178,6 +180,8 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.only(left: 30.w, right: 25.w),
+        // TODO(KB): Check if needed
+        // ignore: avoid-single-child-column-or-row
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

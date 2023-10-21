@@ -22,6 +22,8 @@ class ShareQr extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+      // TODO(KB): Check if needed
+      // ignore: avoid-single-child-column-or-row
       child: Column(
         children: [
           Flexible(

@@ -1,3 +1,8 @@
+## 0.2.0+1
+
+ - **REFACTOR**: update lint rules (#1091).
+ - **REFACTOR**: migrate to Flutter 3.13.6 (#1077).
+
 ## 0.2.0
 
 > Note: This release has breaking changes.

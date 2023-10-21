@@ -1,3 +1,7 @@
+## 0.3.1+4
+
+ - **REFACTOR**: update lint rules (#1091).
+
 ## 0.3.1+3
 
  - **REFACTOR**: update linter (#1030).
