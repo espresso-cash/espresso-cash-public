@@ -199,7 +199,7 @@ class RequestVerifierBloc extends Bloc<_Event, _State> {
     _waitForTx();
   }
 
-  Future<void> _onTxAdded(TxAdded event, _Emitter emit) async {
+  Future<void> _onTxAdded(TxAdded event, _Emitter _) async {
     await _verifyTx(event.ids);
   }
 

@@ -10,55 +10,77 @@ import 'routes.gr.dart';
   replaceInRouteName: 'Screen,Route',
   deferredLoading: false,
 )
-class AppRouter extends $AppRouter implements AutoRouteGuard {
+class AppRouter extends $AppRouter {
   @override
   RouteType get defaultRouteType => const RouteType.material();
 
   @override
+  final List<AutoRoute> routes = [
+    AutoRoute(page: RequestRoute.page, path: '/', initial: true),
+    AutoRoute(
+      page: RequestLinkRoute.page,
+      path: '/request',
+      guards: const [RequestRouteGuard()],
+    ),
+    AutoRoute(
+      page: SenderRouterRoute.page,
+      path: '/send',
+      guards: const [SendRouteGuard()],
+      children: [
+        AutoRoute(page: SenderInitialRoute.page, path: ''),
+        AutoRoute(page: SolanaSendRoute.page, path: 'solana'),
+        AutoRoute(page: OtherWalletRoute.page, path: 'other'),
+        AutoRoute(page: DisclaimerRoute.page, path: 'disclaimer'),
+      ],
+    ),
+    AutoRoute(page: DemoRoute.page, path: '/videodemo'),
+    RedirectRoute(path: '*', redirectTo: '/'),
+  ];
+}
+
+class RequestRouteGuard extends AutoRouteGuard {
+  const RequestRouteGuard();
+  @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (resolver.route.path.contains('request')) {
-      final queryParams = resolver.route.queryParams;
+    final queryParams = resolver.route.queryParams;
 
-      final isValid = queryParams.optString('amount') != null &&
-          queryParams.optString('receiver') != null &&
-          queryParams.optString('reference') != null;
+    final isValid = queryParams.optString('amount') != null &&
+        queryParams.optString('receiver') != null &&
+        queryParams.optString('reference') != null;
 
-      if (!isValid) {
-        resolver.redirect(const RequestRoute());
-
-        return;
-      }
-    } else if (resolver.route.path.contains('send')) {
-      final uri = Uri.parse(html.window.location.toString());
-      final request = tryParseUniversalPayRequest(uri);
-
-      if (request == null) {
-        resolver.redirect(const RequestRoute());
-
-        return;
-      }
-
-      resolver.redirect(
-        DisclaimerRoute(
-          onAccept: () {
-            resolver.next();
-          },
-        ),
-      );
+    if (!isValid) {
+      resolver.redirect(const RequestRoute());
 
       return;
     }
 
     resolver.next();
   }
+}
 
+class SendRouteGuard extends AutoRouteGuard {
+  const SendRouteGuard();
   @override
-  final List<AutoRoute> routes = [
-    AutoRoute(page: RequestRoute.page, path: '/', initial: true),
-    AutoRoute(page: RequestLinkRoute.page, path: '/request'),
-    AutoRoute(page: SenderInitialRoute.page, path: '/send'),
-    AutoRoute(page: DisclaimerRoute.page, path: '/disclaimer'),
-    AutoRoute(page: DemoRoute.page, path: '/videodemo'),
-    RedirectRoute(path: '*', redirectTo: '/'),
-  ];
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    final uri = Uri.parse(html.window.location.toString());
+    final request = tryParseUniversalPayRequest(uri);
+
+    if (request == null) {
+      resolver.redirect(const RequestRoute());
+
+      return;
+    }
+
+    // resolver.redirect(
+    //   DisclaimerRoute(
+    //     onAccept: () {
+    //       resolver.next();
+    //     },
+    //   ),
+    // );
+
+    // return;
+
+    resolver.next();
+  }
 }

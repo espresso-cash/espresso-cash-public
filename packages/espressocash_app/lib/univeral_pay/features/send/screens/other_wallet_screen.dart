@@ -1,7 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
@@ -11,90 +13,129 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/page.dart';
+import '../../../core/request_helpers.dart';
+import '../../../routes.gr.dart';
 import '../../verifier/widgets/request_verifier.dart';
 import '../../verifier/widgets/timeline_status.dart';
+import '../data/repository.dart';
 import '../service/universal_pay_bloc.dart';
 
-class OtherWalletScreen extends StatelessWidget {
-  const OtherWalletScreen(this.request, {super.key});
+@RoutePage()
+class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
+  const OtherWalletScreen({
+    super.key,
+    @queryParam this.amount,
+    @queryParam this.recipient,
+    @queryParam this.reference,
+  });
 
-  final SolanaPayRequest request;
+  final String? amount;
+  final String? recipient;
+  final String? reference;
+
+  static const route = OtherWalletRoute.new;
 
   @override
-  Widget build(BuildContext context) => PaymentRequestVerifier(
-        paymentRequest: request,
-        child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
-          builder: (context, state) => CpLoader(
-            isLoading: state.processingState.isProcessing,
-            child: PageWidget(
-              statusWidget: TimelineStatus(request),
-              children: [
-                const Text(
-                  'You have a payment request.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.23,
-                  ),
+  Widget build(BuildContext context) {
+    final request = context.watch<SolanaPayRequest>();
+
+    return PaymentRequestVerifier(
+      paymentRequest: request,
+      child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
+        builder: (context, state) => CpLoader(
+          isLoading: state.processingState.isProcessing,
+          child: PageWidget(
+            statusWidget: TimelineStatus(request),
+            children: [
+              const Text(
+                'You have a payment request.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
                 ),
-                const SizedBox(height: 32),
-                const Text(
-                  'Payment Method',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                  ),
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                'Payment Method',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 8),
-                _PaymentMethodDropdown(
-                  current: state.blockchain,
-                  onChanged: context.read<UniversalPayCubit>().changeBlockchain,
+              ),
+              const SizedBox(height: 8),
+              _PaymentMethodDropdown(
+                current: state.blockchain,
+                onChanged: context.read<UniversalPayCubit>().changeBlockchain,
+              ),
+              const SizedBox(height: 32),
+              const Text(
+                'Destination Address',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
                 ),
-                const SizedBox(height: 32),
-                const Text(
-                  'Destination Address',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
-                  ),
+              ),
+              const SizedBox(height: 8),
+              _DestinationWidget(
+                address: state.destinationAddress ?? '',
+              ),
+              const SizedBox(height: 32),
+              Text(
+                'Network Fee: ${state.blockchain.fee} USDC',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.23,
                 ),
-                const SizedBox(height: 8),
-                _DestinationWidget(
-                  address: state.destinationAddress ?? '',
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Total Amount: ${state.totalAmount ?? ''} USDC',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.23,
                 ),
-                const SizedBox(height: 32),
-                Text(
-                  'Network Fee: ${state.blockchain.fee} USDC',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.23,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Total Amount: ${state.totalAmount ?? ''} USDC',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.23,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    final request = context.createUniversalRequest(
+      amount: amount,
+      receiver: recipient,
+      reference: reference,
+    );
+
+    return request != null
+        ? Provider<SolanaPayRequest>.value(
+            value: request,
+            child: BlocProvider(
+              create: (context) => UniversalPayCubit(
+                context.read<UniversalPayRepository>(),
+                request,
+              ),
+              child: this,
+            ),
+          )
+        : const SizedBox.shrink();
+  }
 }
 
 class _PaymentMethodDropdown extends StatelessWidget {

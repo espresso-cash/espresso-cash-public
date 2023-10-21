@@ -38,6 +38,8 @@ class PageWidget extends StatelessWidget {
             elevation: 0,
             centerTitle: false,
             leadingWidth: 24,
+            leading: null,
+            automaticallyImplyLeading: false,
             actions: const [SizedBox.shrink()],
             title: Row(
               mainAxisSize: MainAxisSize.max,
