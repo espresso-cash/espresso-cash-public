@@ -24,6 +24,7 @@ void main() {
   group(
     'BalancesBloc:',
     () {
+      // ignore: avoid-unnecessary-late, needed here
       late final MyAccount account;
       const initialAmount = 10 * lamportsPerSol;
       final repository = BalancesRepository();

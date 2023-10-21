@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-unnecessary-late
+
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';

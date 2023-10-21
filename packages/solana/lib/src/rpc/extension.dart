@@ -46,6 +46,7 @@ extension RpcClientExt on RpcClient {
     String? until,
     Commitment? commitment,
     Encoding? encoding,
+    // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
     num? maxSupportedTransactionVersion = 0,
     num? minContextSlot,
   }) async {
@@ -78,6 +79,7 @@ extension RpcClientExt on RpcClient {
     List<TransactionSignatureInformation> signatures, {
     Commitment? commitment,
     Encoding? encoding,
+    // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
     num? maxSupportedTransactionVersion = 0,
   }) async {
     final response = await _jsonRpcClient.bulkRequest(

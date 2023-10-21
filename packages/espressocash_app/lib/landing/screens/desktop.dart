@@ -135,6 +135,8 @@ class _InstructionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
+        // TODO(KB): Check if needed
+        // ignore: avoid-single-child-column-or-row
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

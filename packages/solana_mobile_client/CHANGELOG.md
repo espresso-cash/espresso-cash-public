@@ -1,3 +1,8 @@
+## 0.1.1+1
+
+ - **REFACTOR**: update lint rules (#1091).
+ - **FIX**: thread starting (#1101).
+
 ## 0.1.1
 
  - **REFACTOR**: update linter (#1030).

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-unnecessary-late
+
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
