@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../landing/widgets/extensions.dart';
 import '../../../../ui/button.dart';
 import '../../../core/arrow.dart';
+import '../../../core/disclaimer.dart';
 import '../../../core/divider.dart';
 import '../../../core/page.dart';
 import '../../../core/request_helpers.dart';
@@ -19,7 +20,7 @@ class SenderRouterScreen extends AutoRouter {
 }
 
 @RoutePage()
-class SenderInitialScreen extends StatelessWidget {
+class SenderInitialScreen extends StatefulWidget {
   const SenderInitialScreen({
     super.key,
     @queryParam this.amount,
@@ -33,7 +34,14 @@ class SenderInitialScreen extends StatelessWidget {
 
   static const route = SenderInitialRoute.new;
 
-  void _onSolanaPay(BuildContext context, SolanaPayRequest request) {
+  @override
+  State<SenderInitialScreen> createState() => _SenderInitialScreenState();
+}
+
+class _SenderInitialScreenState extends State<SenderInitialScreen> {
+  bool _isDisclaimerAccepted = false;
+
+  void _onSolanaPay(SolanaPayRequest request) {
     if (isMobile) {
       final actionLink = Uri.parse(request.toUrl());
 
@@ -44,20 +52,20 @@ class SenderInitialScreen extends StatelessWidget {
     } else {
       context.router.navigate(
         SolanaSendScreen.route(
-          amount: amount,
-          recipient: recipient,
-          reference: reference,
+          amount: widget.amount,
+          recipient: widget.recipient,
+          reference: widget.reference,
         ),
       );
     }
   }
 
-  void _onOtherWallet(BuildContext context) {
+  void _onOtherWallet() {
     context.router.navigate(
       OtherWalletScreen.route(
-        amount: amount,
-        recipient: recipient,
-        reference: reference,
+        amount: widget.amount,
+        recipient: widget.recipient,
+        reference: widget.reference,
       ),
     );
   }
@@ -65,9 +73,9 @@ class SenderInitialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final request = context.createUniversalRequest(
-      amount: amount,
-      receiver: recipient,
-      reference: reference,
+      amount: widget.amount,
+      receiver: widget.recipient,
+      reference: widget.reference,
     );
 
     return request != null
@@ -85,7 +93,7 @@ class SenderInitialScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '${amount ?? 0} USDC',
+                '${widget.amount ?? 0} USDC',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -95,12 +103,22 @@ class SenderInitialScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
+              DisclaimerCheckbox(
+                value: _isDisclaimerAccepted,
+                onChanged: (value) {
+                  setState(() {
+                    _isDisclaimerAccepted = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 40),
               CpButton(
                 text: 'Pay With USDC on Solana',
                 size: CpButtonSize.big,
                 width: 350,
                 trailing: const Arrow(),
-                onPressed: () => _onSolanaPay(context, request),
+                onPressed:
+                    _isDisclaimerAccepted ? () => _onSolanaPay(request) : null,
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
@@ -114,7 +132,7 @@ class SenderInitialScreen extends StatelessWidget {
                 trailing: const Arrow(
                   color: Colors.white,
                 ),
-                onPressed: () => _onOtherWallet(context),
+                onPressed: _isDisclaimerAccepted ? _onOtherWallet : null,
               ),
             ],
           )

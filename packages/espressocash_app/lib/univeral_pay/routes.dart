@@ -3,7 +3,6 @@ import 'dart:html' as html;
 
 import 'package:auto_route/auto_route.dart';
 
-import 'core/disclaimer_service.dart';
 import 'core/request_helpers.dart';
 import 'routes.gr.dart';
 
@@ -32,11 +31,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: SolanaSendRoute.page, path: 'solana'),
         AutoRoute(page: OtherWalletRoute.page, path: 'other'),
       ],
-    ),
-    AutoRoute(
-      page: DisclaimerRoute.page,
-      path: '/disclaimer',
-      keepHistory: false,
     ),
     AutoRoute(page: DemoRoute.page, path: '/videodemo'),
     RedirectRoute(path: '*', redirectTo: '/'),
@@ -68,27 +62,11 @@ class SendRouteGuard extends AutoRouteGuard {
 
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    final disclaimerService = DisclaimerService();
-
     final uri = Uri.parse(html.window.location.toString());
     final request = tryParseUniversalPayRequest(uri);
 
     if (request == null) {
       resolver.redirect(const RequestRoute());
-
-      return;
-    }
-
-    if (!disclaimerService.hasAccepted) {
-      resolver.redirect(
-        DisclaimerRoute(
-          onAccept: () {
-            resolver.next();
-
-            router.removeLast();
-          },
-        ),
-      );
 
       return;
     }
