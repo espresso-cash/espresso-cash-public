@@ -156,4 +156,5 @@ flutter_native_splash:
   web: false
 
   android_12:
+    image: assets/images/logo-android12.png
     color: "#2D2B2C"
