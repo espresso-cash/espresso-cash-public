@@ -76,5 +76,9 @@ extension on OLPStatus {
         cancelTxCreated: F,
         cancelTxFailure: F,
         cancelTxSent: F,
+        recovered: F,
+        recoveredCancelTxCreated: F,
+        recoveredCancelTxSent: F,
+        recoveredCancelTxFailure: F,
       );
 }

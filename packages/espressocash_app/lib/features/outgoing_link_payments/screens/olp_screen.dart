@@ -139,6 +139,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 onPressed: onCancel,
               ),
             ],
+            recovered: (s) => [cancelButton],
             orElse: () => const [],
           );
 
@@ -153,6 +154,10 @@ class _OLPScreenState extends State<OLPScreen> {
             cancelTxCreated: always(CpStatusType.info),
             cancelTxFailure: always(CpStatusType.error),
             cancelTxSent: always(CpStatusType.info),
+            recovered: always(CpStatusType.info),
+            recoveredCancelTxFailure: always(CpStatusType.error),
+            recoveredCancelTxCreated: always(CpStatusType.info),
+            recoveredCancelTxSent: always(CpStatusType.info),
           );
 
           final String? statusTitle = payment.status.mapOrNull(
@@ -190,6 +195,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 canceled: always(CpTimelineStatus.neutral),
                 txFailure: always(CpTimelineStatus.failure),
                 cancelTxFailure: always(CpTimelineStatus.failure),
+                recoveredCancelTxFailure: always(CpTimelineStatus.failure),
               ) ??
               CpTimelineStatus.inProgress;
 
@@ -204,6 +210,10 @@ class _OLPScreenState extends State<OLPScreen> {
             txConfirmed: always(1),
             linkReady: always(1),
             withdrawn: always(2),
+            recovered: always(1),
+            recoveredCancelTxFailure: always(0),
+            recoveredCancelTxCreated: always(1),
+            recoveredCancelTxSent: always(1),
           );
 
           final paymentInitiated = CpTimelineItem(
@@ -241,11 +251,14 @@ class _OLPScreenState extends State<OLPScreen> {
                 cancelTxCreated: always(cancelingItems),
                 cancelTxFailure: always(cancelingItems),
                 cancelTxSent: always(cancelingItems),
+                recoveredCancelTxCreated: always(cancelingItems),
+                recoveredCancelTxFailure: always(cancelingItems),
+                recoveredCancelTxSent: always(cancelingItems),
               ) ??
               normalItems;
 
           final animated = timelineStatus == CpTimelineStatus.inProgress &&
-              payment.status.maybeMap(orElse: T, linkReady: F);
+              payment.status.maybeMap(orElse: T, linkReady: F, recovered: F);
 
           return StatusScreen(
             onBackButtonPressed: () => context.router.pop(),

@@ -62,13 +62,21 @@ class TxReadyWatcher {
         }
 
         final status = payment.status;
-        if (status is! OLPStatusLinkReady) continue;
+        if (status is! OLPStatusLinkReady && status is! OLPStatusRecovered) {
+          continue;
+        }
+
+        final escrowAccount = await status.mapOrNull(
+          linkReady: (it) async => it.escrow.keyPair
+              .then((e) => Ed25519HDPublicKey.fromBase58(e.address)),
+          recovered: (it) async => it.escrowPubKey,
+        );
+
+        if (escrowAccount == null) continue;
 
         if (!_subscriptions.containsKey(payment.id)) {
-          final escrowAccount = await status.escrow.keyPair;
-
           _subscriptions[payment.id] =
-              _createStream(account: escrowAccount.publicKey).listen(onSuccess);
+              _createStream(account: escrowAccount).listen(onSuccess);
         }
       }
     });

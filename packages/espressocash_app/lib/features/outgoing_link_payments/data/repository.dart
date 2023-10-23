@@ -1,5 +1,6 @@
 // ignore_for_file: avoid-non-null-assertion
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -7,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -69,6 +71,7 @@ class OLPRepository {
         OLPStatusDto.cancelTxCreated,
         OLPStatusDto.cancelTxSent,
         OLPStatusDto.cancelTxFailure,
+        OLPStatusDto.recovered,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxCreated() => _watchWithStatuses([
@@ -91,6 +94,22 @@ class OLPRepository {
   Stream<IList<OutgoingLinkPayment>> watchCancelTxSent() => _watchWithStatuses([
         OLPStatusDto.cancelTxSent,
       ]);
+
+  Stream<IList<OutgoingLinkPayment>> watchRecoverCancelTxCreated() =>
+      _watchWithStatuses([
+        OLPStatusDto.recoveredCancelTxCreated,
+      ]);
+
+  Stream<IList<OutgoingLinkPayment>> watchRecoverCancelTxSent() =>
+      _watchWithStatuses([
+        OLPStatusDto.recoveredCancelTxSent,
+      ]);
+
+  Stream<IList<OutgoingLinkPayment>> watchPending() => _watchWithStatuses(
+        OLPStatusDto.values.whereNot(
+          (e) => e == OLPStatusDto.withdrawn || e == OLPStatusDto.canceled,
+        ),
+      );
 
   Future<void> clear() => _db.delete(_db.oLPRows).go();
 
@@ -124,6 +143,7 @@ class OLPRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get generatedLinksAt => dateTime().nullable()();
   DateTimeColumn get resolvedAt => dateTime().nullable()();
   TextColumn get slot => text().nullable()();
+  TextColumn get publicKey => text().nullable()();
 }
 
 enum OLPStatusDto {
@@ -137,6 +157,10 @@ enum OLPStatusDto {
   cancelTxCreated,
   cancelTxFailure,
   cancelTxSent,
+  recovered,
+  recoveredCancelTxFailure,
+  recoveredCancelTxSent,
+  recoveredCancelTxCreated,
 }
 
 extension OLPRowExt on OLPRow {
@@ -161,6 +185,7 @@ extension on OLPStatusDto {
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
+    final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
 
     switch (this) {
       case OLPStatusDto.txCreated:
@@ -211,6 +236,27 @@ extension on OLPStatusDto {
           escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
+      case OLPStatusDto.recovered:
+        return OLPStatus.recovered(
+          escrowPubKey: escrowPubkey!,
+        );
+      case OLPStatusDto.recoveredCancelTxFailure:
+        return OLPStatus.recoveredCancelTxFailure(
+          escrowPubKey: escrowPubkey!,
+          reason: row.txFailureReason ?? TxFailureReason.unknown,
+        );
+      case OLPStatusDto.recoveredCancelTxSent:
+        return OLPStatus.recoveredCancelTxSent(
+          cancelTx!,
+          escrowPubKey: escrowPubkey!,
+          slot: slot ?? BigInt.zero,
+        );
+      case OLPStatusDto.recoveredCancelTxCreated:
+        return OLPStatus.recoveredCancelTxCreated(
+          cancelTx!,
+          escrowPubKey: escrowPubkey!,
+          slot: slot ?? BigInt.zero,
+        );
     }
   }
 }
@@ -233,6 +279,7 @@ extension on OutgoingLinkPayment {
         slot: status.toSlot().toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
+        publicKey: status.toPublicKey(),
       );
 }
 
@@ -248,6 +295,10 @@ extension on OLPStatus {
         cancelTxCreated: always(OLPStatusDto.cancelTxCreated),
         cancelTxFailure: always(OLPStatusDto.cancelTxFailure),
         cancelTxSent: always(OLPStatusDto.cancelTxSent),
+        recovered: always(OLPStatusDto.recovered),
+        recoveredCancelTxFailure: always(OLPStatusDto.recoveredCancelTxFailure),
+        recoveredCancelTxSent: always(OLPStatusDto.recoveredCancelTxSent),
+        recoveredCancelTxCreated: always(OLPStatusDto.recoveredCancelTxCreated),
       );
 
   String? toTx() => mapOrNull(
@@ -265,12 +316,14 @@ extension on OLPStatus {
   String? toCancelTx() => mapOrNull(
         cancelTxCreated: (it) => it.tx.encode(),
         cancelTxSent: (it) => it.tx.encode(),
+        recoveredCancelTxCreated: (it) => it.tx.encode(),
       );
 
   String? toCancelTxId() => mapOrNull(
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
         canceled: (it) => it.txId,
+        recoveredCancelTxCreated: (it) => it.tx.id,
       );
 
   Future<String?> toPrivateKey() => this.map(
@@ -284,6 +337,10 @@ extension on OLPStatus {
         cancelTxCreated: (it) async => base58encode(it.escrow.bytes),
         cancelTxFailure: (it) async => base58encode(it.escrow.bytes),
         cancelTxSent: (it) async => base58encode(it.escrow.bytes),
+        recovered: (it) async => null,
+        recoveredCancelTxFailure: (it) async => null,
+        recoveredCancelTxSent: (it) async => null,
+        recoveredCancelTxCreated: (it) async => null,
       );
 
   String? toLink() => mapOrNull(
@@ -305,5 +362,12 @@ extension on OLPStatus {
         txSent: (it) => it.slot,
         cancelTxCreated: (it) => it.slot,
         cancelTxSent: (it) => it.slot,
+      );
+
+  String? toPublicKey() => mapOrNull(
+        recovered: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxCreated: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxSent: (it) => it.escrowPubKey.toBase58(),
+        recoveredCancelTxFailure: (it) => it.escrowPubKey.toBase58(),
       );
 }

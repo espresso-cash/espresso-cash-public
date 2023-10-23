@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/escrow_private_key.dart';
@@ -90,4 +91,30 @@ class OLPStatus with _$OLPStatus {
     required BigInt slot,
     required EscrowPrivateKey escrow,
   }) = OLPStatusCancelTxSent;
+
+  /// Tx was recovered from the blockchain.
+  /// These transactions cannot be resent, they can only be cancelled
+  const factory OLPStatus.recovered({
+    required EscrowPublicKey escrowPubKey,
+  }) = OLPStatusRecovered;
+
+  /// Similar to [OLPStatus.cancelTxCreated], but only contains public key
+  const factory OLPStatus.recoveredCancelTxCreated(
+    SignedTx tx, {
+    required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
+  }) = OLPStatusRecoveredCancelTxCreated;
+
+  /// Similar to [OLPStatus.cancelTxSent], but only contains public key
+  const factory OLPStatus.recoveredCancelTxSent(
+    SignedTx tx, {
+    required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
+  }) = OLPStatusRecoveredCancelTxSent;
+
+  /// Similar to [OLPStatus.cancelTxFailure], but only contains public key
+  const factory OLPStatus.recoveredCancelTxFailure({
+    required TxFailureReason reason,
+    required EscrowPublicKey escrowPubKey,
+  }) = OLPStatusRecoveredCancelTxFailure;
 }

@@ -72,6 +72,11 @@ class OLPService {
         txId: null,
         timestamp: DateTime.now(),
       );
+    } else if (status is OLPStatusRecovered) {
+      newStatus = await _createRecoveredCancelTx(
+        escrow: status.escrowPubKey,
+        account: account,
+      );
     } else {
       final escrow = status.mapOrNull(
         linkReady: (it) => it.escrow,
@@ -156,6 +161,38 @@ class OLPService {
     } on Exception {
       return OLPStatus.cancelTxFailure(
         escrow: privateKey,
+        reason: TxFailureReason.creatingFailure,
+      );
+    }
+  }
+
+  Future<OLPStatus> _createRecoveredCancelTx({
+    required EscrowPublicKey escrow,
+    required ECWallet account,
+  }) async {
+    try {
+      final dto = CancelPaymentRequestDto(
+        senderAccount: account.address,
+        escrowAccount: escrow.toBase58(),
+        cluster: apiCluster,
+      );
+
+      final response = await _client.cancelPaymentEc(dto);
+
+      final transaction = response.transaction;
+      final slot = response.slot;
+      final tx = await transaction
+          .let(SignedTx.decode)
+          .let((it) => it.resign(account));
+
+      return OLPStatus.recoveredCancelTxCreated(
+        tx,
+        escrowPubKey: escrow,
+        slot: slot,
+      );
+    } on Exception {
+      return OLPStatus.recoveredCancelTxFailure(
+        escrowPubKey: escrow,
         reason: TxFailureReason.creatingFailure,
       );
     }

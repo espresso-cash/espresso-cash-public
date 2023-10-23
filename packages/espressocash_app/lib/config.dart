@@ -74,3 +74,6 @@ const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';
 const appstoreId = '1559625715';
+
+// Escrow payment address
+const escrowScAddress = '7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL';
