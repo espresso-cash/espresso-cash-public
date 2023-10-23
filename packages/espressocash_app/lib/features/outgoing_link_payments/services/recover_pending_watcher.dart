@@ -1,8 +1,9 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/dto.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
@@ -11,96 +12,94 @@ import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/escrow_private_key.dart';
 import '../../../../core/tokens/token.dart';
+import '../../activities/data/transaction_repository.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
 @injectable
-class RecoverPendingWatcher {
-  const RecoverPendingWatcher(
+class RecoverPendingWatcher implements Disposable {
+  RecoverPendingWatcher(
     this._client,
-    this._repository, {
+    this._repository,
+    this._transactionRepository, {
     @factoryParam required Ed25519HDPublicKey userPublicKey,
   }) : _userPublicKey = userPublicKey;
 
   final SolanaClient _client;
+  final TransactionRepository _transactionRepository;
   final OLPRepository _repository;
   final Ed25519HDPublicKey _userPublicKey;
 
-  Future<void> init() async {
-    const fetchLimit = 100;
+  StreamSubscription<void>? _transactionSubscription;
 
-    final details = await _client.rpcClient.getTransactionsList(
-      limit: fetchLimit,
-      _userPublicKey,
-      encoding: Encoding.base64,
-      commitment: Commitment.confirmed,
-    );
+  void init() {
+    _transactionSubscription =
+        _transactionRepository.watchAllActivity().listen((transactions) async {
+      for (final detail in transactions) {
+        final tx = detail.tx;
 
-    final pendingEscrows = await _pendingEscrows();
-
-    for (final detail in details) {
-      final rawTx = detail.transaction as RawTransaction;
-      final tx = SignedTx.fromBytes(rawTx.data);
-
-      // Check if the transaction has interacted with the escrow smart contract
-      final accounts = tx.compiledMessage.accountKeys;
-      final hasInteractedWithEscrow = accounts.contains(
-        Ed25519HDPublicKey.fromBase58(escrowScAddress),
-      );
-
-      if (!hasInteractedWithEscrow) continue;
-
-      // Find the escrow address from accounts. It should either be in index 1 or 2.
-      // Index 0 is the platforms account, index 1 or 2 should either be the user or the escrow.
-      final escrow =
-          accounts.getRange(1, 2).where((e) => e != _userPublicKey).firstOrNull;
-
-      if (escrow == null) continue;
-
-      if (pendingEscrows.contains(escrow)) continue;
-
-      final txList = await _client.rpcClient.getTransactionsList(
-        escrow,
-        limit: 2,
-        commitment: Commitment.confirmed,
-        encoding: Encoding.jsonParsed,
-      );
-
-      if (txList.length < 2) {
-        final id = const Uuid().v4();
-
-        final tx = txList.first;
-
-        int amount = 0;
-
-        for (final ix in tx.meta?.innerInstructions?.last.instructions ?? []) {
-          if (ix is ParsedInstructionSplToken &&
-              ix.parsed is ParsedSplTokenTransferInstruction) {
-            final parsed = ix.parsed as ParsedSplTokenTransferInstruction;
-
-            amount = int.parse(parsed.info.amount);
-          }
-        }
-
-        final timestamp = detail.blockTime?.let(
-              (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
-            ) ??
-            DateTime.now();
-
-        await _repository.save(
-          OutgoingLinkPayment(
-            id: id,
-            amount: CryptoAmount(
-              value: amount,
-              cryptoCurrency: const CryptoCurrency(token: Token.usdc),
-            ),
-            status: OLPStatus.recovered(escrowPubKey: escrow),
-            created: timestamp,
-            linksGeneratedAt: timestamp,
-          ),
+        // Check if the transaction has interacted with the escrow smart contract
+        final accounts = tx.compiledMessage.accountKeys;
+        final hasInteractedWithEscrow = accounts.contains(
+          Ed25519HDPublicKey.fromBase58(escrowScAddress),
         );
+
+        if (!hasInteractedWithEscrow) continue;
+
+        // Find the escrow address from accounts. It should either be in index 1 or 2.
+        // Index 0 is the platforms account, index 1 or 2 should either be the user or the escrow.
+        final escrow = accounts
+            .getRange(1, 2)
+            .where((e) => e != _userPublicKey)
+            .firstOrNull;
+
+        if (escrow == null) continue;
+
+        final pendingEscrows = await _pendingEscrows();
+
+        if (pendingEscrows.contains(escrow)) continue;
+
+        final txList = await _client.rpcClient.getTransactionsList(
+          escrow,
+          limit: 2,
+          commitment: Commitment.confirmed,
+          encoding: Encoding.jsonParsed,
+        );
+
+        if (txList.length < 2) {
+          final id = const Uuid().v4();
+
+          final tx = txList.first;
+
+          int amount = 0;
+
+          for (final ix
+              in tx.meta?.innerInstructions?.last.instructions ?? []) {
+            if (ix is ParsedInstructionSplToken &&
+                ix.parsed is ParsedSplTokenTransferInstruction) {
+              final parsed = ix.parsed as ParsedSplTokenTransferInstruction;
+
+              amount = int.parse(parsed.info.amount);
+            }
+          }
+
+          final timestamp = detail.created ?? DateTime.now();
+
+          await _repository.save(
+            OutgoingLinkPayment(
+              id: id,
+              amount: CryptoAmount(
+                value: amount,
+                cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+              ),
+              status: OLPStatus.recovered(escrowPubKey: escrow),
+              created: timestamp,
+              linksGeneratedAt: timestamp,
+            ),
+          );
+        }
       }
-    }
+    });
   }
 
   Future<List<EscrowPublicKey>> _pendingEscrows() async {
@@ -129,4 +128,7 @@ class RecoverPendingWatcher {
 
     return results;
   }
+
+  @override
+  void onDispose() => _transactionSubscription?.cancel();
 }
