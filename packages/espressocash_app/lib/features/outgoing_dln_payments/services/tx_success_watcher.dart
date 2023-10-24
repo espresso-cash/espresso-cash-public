@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:dln_api/dln_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-
 import '../../../core/cancelable_job.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
@@ -59,6 +58,6 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
         ? payment.copyWith(
             status: OutgoingDlnPaymentStatus.fulfilled(status.tx),
           )
-        : payment;
+        : null;
   }
 }

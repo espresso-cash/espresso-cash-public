@@ -167,7 +167,7 @@ class _State extends State<WalletFlowScreen> {
                   await context.router.replace(ODPDetailsScreen.route(id: id));
 
                   _reset();
-                } else if (network == Blockchain.arbitrum) {
+                } else {
                   await context.router.push(
                     OutgoingDlnPaymentFlowScreen.route(
                       amount: _cryptoAmount,
