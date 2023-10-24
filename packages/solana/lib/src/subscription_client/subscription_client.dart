@@ -206,9 +206,7 @@ class SubscriptionClient {
       int? subscriptionId;
       final requestId = _requestId++;
 
-      late final StreamSubscription<dynamic> subscription;
-
-      subscription = _stream.listen(
+      final StreamSubscription<dynamic> subscription = _stream.listen(
         (dynamic event) {
           final message = _parse(event);
           if (message is SubscribedMessage) {

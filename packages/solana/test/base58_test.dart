@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-accessing-collections-by-constant-index
+
 import 'package:convert/convert.dart';
 import 'package:solana/base58.dart';
 import 'package:test/test.dart';

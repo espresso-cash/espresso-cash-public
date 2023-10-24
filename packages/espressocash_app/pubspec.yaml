@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.86.0
+version: 1.87.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -100,7 +100,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.19.0
+  mews_pedantic: ^0.20.0
   mockito: ^5.4.2
   recase: ^4.1.0
   retrofit_generator: ^4.2.0
@@ -159,4 +159,5 @@ flutter_native_splash:
   web: false
 
   android_12:
+    image: assets/images/logo-android12.png
     color: "#2D2B2C"

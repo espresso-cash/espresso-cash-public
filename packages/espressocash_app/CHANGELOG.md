@@ -1,3 +1,10 @@
+## 1.87.0
+
+ - **REFACTOR**: update lint rules (#1102).
+ - **FIX**: updated android 12 native splash (#1103).
+ - **FEAT**: reduce splash duration (#1100).
+ - **FEAT**: pay method ui update (#1099).
+
 ## 1.86.0
 
  - **FIX**: payment request link format (#1094).

@@ -79,6 +79,8 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                     ),
                   ),
                   const SizedBox(height: 4),
+                  // TODO(KB): Check if needed
+                  // ignore: avoid-single-child-column-or-row
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

@@ -236,14 +236,14 @@ object ApiLocalAssociationScenario : Api.ApiLocalAssociationScenario, ActivityAw
     }
 
     private fun <T> runWithResult(result: Api.Result<T>?, block: () -> T?) {
-        Thread().run {
+        Thread {
             try {
                 val taskResult = block()
                 activity?.runOnUiThread { result?.success(taskResult) }
             } catch (e: Throwable) {
                 activity?.runOnUiThread { result?.error(e) }
             }
-        }
+        }.start()
     }
 
     private fun getScenario(id: Long): LocalAssociationScenario =
