@@ -89,6 +89,8 @@ class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
 enum BlockchainDto {
   solana,
   arbitrum,
+  polygon,
+  ethereum,
 }
 
 enum ODLNPaymentStatusDto {
@@ -150,6 +152,8 @@ extension on Blockchain {
   BlockchainDto toDto() => switch (this) {
         Blockchain.solana => BlockchainDto.solana,
         Blockchain.arbitrum => BlockchainDto.arbitrum,
+        Blockchain.polygon => BlockchainDto.polygon,
+        Blockchain.ethereum => BlockchainDto.ethereum,
       };
 }
 
@@ -157,6 +161,8 @@ extension on BlockchainDto {
   Blockchain toModel() => switch (this) {
         BlockchainDto.solana => Blockchain.solana,
         BlockchainDto.arbitrum => Blockchain.arbitrum,
+        BlockchainDto.polygon => Blockchain.polygon,
+        BlockchainDto.ethereum => Blockchain.ethereum,
       };
 }
 
