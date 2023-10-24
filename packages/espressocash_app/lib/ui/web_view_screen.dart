@@ -64,6 +64,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
           androidOnPermissionRequest: (_, __, resources) =>
               _handleAndroidPermissionRequest(resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
+          initialOptions: InAppWebViewGroupOptions(
+            android: AndroidInAppWebViewOptions(
+              useHybridComposition: true,
+            ),
+            ios: IOSInAppWebViewOptions(
+              allowsInlineMediaPlayback: true,
+            ),
+          ),
         ),
       );
 }
