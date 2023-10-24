@@ -21,6 +21,7 @@ import '../src/widgets/off_ramp_bottom_sheet.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
+import '../src/widgets/partners/scalex.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -66,7 +67,10 @@ class CashOutButton extends StatelessWidget {
           onPressed: () async {
             final data = await context.ensureProfileData(RampType.offRamp);
             if (context.mounted && data != null) {
-              unawaited(OffRampBottomSheet.show(context));
+              context.launchOffRampFlow(
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+              );
             }
           },
         ),
@@ -129,6 +133,37 @@ extension on BuildContext {
     );
   }
 
+  void launchOffRampFlow({
+    required ProfileData profile,
+    required String address,
+  }) {
+    final partners = _getOffRampPartners(profile.country.code);
+
+    if (partners == null) {
+      return unawaited(OffRampBottomSheet.show(this));
+    }
+
+    if (partners.other.isEmpty) {
+      return _launchOffRampPartner(
+        partners.top,
+        profile: profile,
+        address: address,
+      );
+    }
+
+    router.push(
+      RampPartnerSelectScreen.route(
+        topPartner: partners.top,
+        otherPartners: partners.other,
+        type: RampType.offRamp,
+        onPartnerSelected: (p) {
+          router.pop();
+          _launchOffRampPartner(p, profile: profile, address: address);
+        },
+      ),
+    );
+  }
+
   void _launchOnRampPartner(
     RampPartner partner, {
     required ProfileData profile,
@@ -141,7 +176,33 @@ extension on BuildContext {
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.onRamp,
+        );
       case RampPartner.coinflow:
+        throw UnimplementedError('Not implemented for $partner');
+    }
+  }
+
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
+    switch (partner) {
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.offRamp,
+        );
+      case RampPartner.coinflow:
+      case RampPartner.rampNetwork:
+      case RampPartner.kado:
+      case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -159,13 +220,34 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
             top: RampPartner.guardarian,
             other: [RampPartner.rampNetwork].lock,
           )
-        : (
-            top: RampPartner.rampNetwork,
+        : _africanCountries.contains(countryCode)
+            ? (
+                top: RampPartner.scalex,
+                other: [RampPartner.rampNetwork].lock,
+              )
+            : (
+                top: RampPartner.rampNetwork,
+                other: <RampPartner>[].lock,
+              );
+
+PartnerOptions? _getOffRampPartners(String countryCode) =>
+    _africanCountries.contains(countryCode)
+        ? (
+            top: RampPartner.scalex,
             other: <RampPartner>[].lock,
-          );
+          )
+        : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
   'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
 };
+
+const _africanCountries = [
+  'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', //
+  'CD', 'DJ', 'EG', 'GQ', 'ER', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI',
+  'KE', 'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'MA', 'MZ', 'NA',
+  'NE', 'NG', 'RE', 'RW', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD',
+  'SZ', 'TZ', 'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW',
+];

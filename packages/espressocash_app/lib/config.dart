@@ -70,6 +70,12 @@ const rampApiKey = 'q3xw9q8ejb9js36czw8htg8qj4bf62q6hua8bvh9';
 const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = 'ef6d4999-80ad-4ab2-bcfc-4c0669d2e070';
 
+const scalexBaseUrl = 'https://ramp.scalex.africa';
+const scalexApiKey =
+    'test.sc.ey651c413fd36df7d23e338f53651c413fd36df7d23e338f54651c413fd36df7d23e338f55';
+const scalexSecretKey =
+    String.fromEnvironment('SCALEX_SECRET_KEY', defaultValue: '');
+
 const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';
