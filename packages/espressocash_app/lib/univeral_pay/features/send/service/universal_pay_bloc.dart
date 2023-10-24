@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-cubits
+// ignore_for_file: avoid-cubits, avoid-non-null-assertion
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
@@ -15,9 +15,10 @@ part 'universal_pay_bloc.freezed.dart';
 @freezed
 class UniversalPayState with _$UniversalPayState {
   const factory UniversalPayState({
-    String? destinationAddress,
-    String? totalAmount,
-    @Default(Blockchain.ethereum) Blockchain blockchain,
+    @Default('') String destinationEvmAddress,
+    @Default('0') String? totalAmount,
+    @Default({}) Map<Blockchain, Decimal> fees,
+    @Default(Blockchain.ethereum) Blockchain selectedBlockchain,
     @Default(ProcessingStateNone()) ProcessingState processingState,
   }) = _UniversalPayState;
 }
@@ -39,30 +40,68 @@ class UniversalPayCubit extends Cubit<UniversalPayState> {
     final reference = _request.reference?.firstOrNull;
     if (reference == null) return;
 
-    final destinationAddress = await _repository.fetch(
+    final destinationAddress = await _repository.getEvmAddress(
       receiver: _request.recipient.toBase58(),
       reference: reference.toBase58(),
     );
 
-    final Decimal totalAmount = _request.amount! + state.blockchain.fee;
+    final networkFee = await _repository.getBlockchainFee(
+      chainId: state.selectedBlockchain.chainId,
+      amount: _request.amount!.toString(),
+    );
+
+    final fee = Decimal.parse(networkFee.toStringAsFixed(2));
+
+    final Decimal totalAmount = _request.amount! + fee;
 
     emit(
       state.copyWith(
-        destinationAddress: destinationAddress,
+        destinationEvmAddress: destinationAddress,
         totalAmount: totalAmount.toString(),
+        fees: {
+          state.selectedBlockchain: fee,
+        },
         processingState: const ProcessingStateNone(),
       ),
     );
   }
 
-  void changeBlockchain(Blockchain blockchain) {
-    final Decimal totalAmount = _request.amount! + blockchain.fee;
+  Future<void> changeBlockchain(Blockchain blockchain) async {
+    if (!state.fees.containsKey(blockchain)) {
+      emit(state.copyWith(processingState: const ProcessingStateProcessing()));
 
-    emit(
-      state.copyWith(
-        blockchain: blockchain,
-        totalAmount: totalAmount.toString(),
-      ),
-    );
+      final networkFee = await _repository.getBlockchainFee(
+        chainId: blockchain.chainId,
+        amount: _request.amount!.toString(),
+      );
+
+      final fee = Decimal.parse(networkFee.toStringAsFixed(2));
+
+      final Decimal totalAmount = _request.amount! + fee;
+
+      final fees = {
+        ...state.fees,
+        blockchain: fee,
+      };
+
+      emit(
+        state.copyWith(
+          selectedBlockchain: blockchain,
+          totalAmount: totalAmount.toString(),
+          fees: fees,
+          processingState: const ProcessingStateNone(),
+        ),
+      );
+    } else {
+      final Decimal totalAmount = _request.amount! + state.fees[blockchain]!;
+
+      emit(
+        state.copyWith(
+          selectedBlockchain: blockchain,
+          totalAmount: totalAmount.toString(),
+          processingState: const ProcessingStateNone(),
+        ),
+      );
+    }
   }
 }

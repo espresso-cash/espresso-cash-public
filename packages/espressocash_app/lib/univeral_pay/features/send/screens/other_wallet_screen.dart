@@ -42,75 +42,79 @@ class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
     return PaymentRequestVerifier(
       paymentRequest: request,
       child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
-        builder: (context, state) => CpLoader(
-          isLoading: state.processingState.isProcessing,
-          child: PageWidget(
-            statusWidget: TimelineStatus(request),
-            children: [
-              const Text(
-                'You have a payment request.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
+        builder: (context, state) {
+          final fee = state.fees[state.selectedBlockchain] ?? 0.0;
+
+          return CpLoader(
+            isLoading: state.processingState.isProcessing,
+            child: PageWidget(
+              statusWidget: TimelineStatus(request),
+              children: [
+                const Text(
+                  'You have a payment request.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.23,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Payment Method',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 32),
+                const Text(
+                  'Payment Method',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              _PaymentMethodDropdown(
-                current: state.blockchain,
-                onChanged: context.read<UniversalPayCubit>().changeBlockchain,
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'Destination Address',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(height: 8),
+                _PaymentMethodDropdown(
+                  current: state.selectedBlockchain,
+                  onChanged: context.read<UniversalPayCubit>().changeBlockchain,
                 ),
-              ),
-              const SizedBox(height: 8),
-              _DestinationWidget(
-                address: state.destinationAddress ?? '',
-              ),
-              const SizedBox(height: 32),
-              Text(
-                'Network Fee: ${state.blockchain.fee} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.23,
+                const SizedBox(height: 32),
+                const Text(
+                  'Destination Address',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Total Amount: ${state.totalAmount ?? ''} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 0.23,
+                const SizedBox(height: 8),
+                _DestinationWidget(
+                  address: state.destinationEvmAddress,
                 ),
-              ),
-            ],
-          ),
-        ),
+                const SizedBox(height: 32),
+                Text(
+                  'Network Fee: $fee USDC',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.23,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Total Amount: ${state.totalAmount ?? ''} USDC',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.23,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

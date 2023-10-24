@@ -6,6 +6,7 @@ import 'package:solana/solana.dart';
 
 import '../config.dart';
 import '../l10n/gen/app_localizations.dart';
+import 'features/send/data/client.dart';
 import 'features/send/data/repository.dart';
 import 'routes.dart';
 
@@ -42,7 +43,8 @@ class _UniversalPayPageAppState extends State<UniversalPayPageApp> {
             ),
           ),
           RepositoryProvider(
-            create: (context) => UniversalPayRepository(Dio()),
+            create: (context) =>
+                UniversalPayRepository(UniversalPayApiClient(Dio())),
           ),
         ],
         child: MaterialApp.router(

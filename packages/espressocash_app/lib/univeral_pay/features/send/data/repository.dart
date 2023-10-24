@@ -1,20 +1,21 @@
-import 'package:dio/dio.dart';
+import 'package:dfunc/dfunc.dart';
 
-import '../../../config.dart';
+import 'client.dart';
 
 class UniversalPayRepository {
-  const UniversalPayRepository(this.dio);
+  const UniversalPayRepository(this._client);
 
-  final Dio dio;
+  final UniversalPayApiClient _client;
 
-  Future<String> fetch({
+  Future<String> getEvmAddress({
     required String receiver,
     required String reference,
-  }) async {
-    final query = '$apiBaseUrl/generate/$receiver/$reference';
+  }) =>
+      _client.generateEvmAddress(receiver, reference).letAsync((r) => r.result);
 
-    final result = await dio.get<Map<String, dynamic>>(query);
-
-    return result.data!['result'] as String;
-  }
+  Future<double> getBlockchainFee({
+    required String chainId,
+    required String amount,
+  }) =>
+      _client.getFees(chainId, amount).letAsync((r) => r.totalFees);
 }
