@@ -57,7 +57,7 @@ class _OutgoingDlnConfirmationScreenState
       param2: context.read<MyAccount>().wallet.publicKey,
     );
 
-    _bloc.add(const RouteInvalidated());
+    _bloc.add(const Invalidated());
   }
 
   void _resetTimer(DateTime? expiresAt) {
@@ -72,7 +72,7 @@ class _OutgoingDlnConfirmationScreenState
   }
 
   void _onQuoteExpired() {
-    const event = ConfirmPaymentEvent.routeInvalidated();
+    const event = ConfirmPaymentEvent.invalidated();
     _bloc.add(event);
   }
 
@@ -222,7 +222,7 @@ class _Loading extends StatelessWidget {
 
 extension on CreateOrderException {
   String description(BuildContext context) => this.map(
-        routeNotFound: always(context.l10n.swapFailRouteNotFound),
+        quoteNotFound: always('No quote found'),
         insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
           e.amount.format(DeviceLocale.localeOf(context)),
           e.balance.format(DeviceLocale.localeOf(context)),

@@ -35,8 +35,8 @@ class OutgoingDlnPaymentFlowScreen extends StatefulWidget {
 }
 
 class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
-  Future<void> _onConfirm(PaymentQuote route) async {
-    final id = await context.createDlnPayment(route);
+  Future<void> _onConfirm(PaymentQuote quote) async {
+    final id = await context.createDlnPayment(quote);
 
     if (!mounted) return;
     context.router.popUntilRoot();
@@ -63,10 +63,10 @@ class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
 }
 
 extension on BuildContext {
-  Future<String> createDlnPayment(PaymentQuote route) =>
+  Future<String> createDlnPayment(PaymentQuote quote) =>
       runWithLoader(this, () async {
         final payment = await sl<OutgoingDlnPaymentService>().create(
-          route: route,
+          quote: quote,
           account: read<MyAccount>().wallet,
         );
 

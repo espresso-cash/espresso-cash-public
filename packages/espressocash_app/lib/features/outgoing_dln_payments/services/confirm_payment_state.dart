@@ -14,7 +14,7 @@ class ConfirmPaymentState with _$ConfirmPaymentState {
 class CreateOrderException with _$CreateOrderException implements Exception {
   const factory CreateOrderException.other(Exception e) = OtherException;
 
-  const factory CreateOrderException.routeNotFound() = RouteNotFound;
+  const factory CreateOrderException.quoteNotFound() = QuoteNotFound;
 
   const factory CreateOrderException.insufficientBalance({
     required CryptoAmount balance,

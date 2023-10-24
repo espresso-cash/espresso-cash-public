@@ -11,7 +11,6 @@ import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
-import '../../balances/data/balances_repository.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -29,45 +28,27 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     @factoryParam required this.payment,
     @factoryParam required Ed25519HDPublicKey userAccount,
-    required QuoteRepository routeRepository,
-    required BalancesRepository balancesRepository,
-  })  : _routeRepository = routeRepository,
+    required QuoteRepository quoteRepository,
+  })  : _quoteRepository = quoteRepository,
         _userAccount = userAccount,
-        _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
-            Amount.zero(currency: Currency.usdc),
         super(
           // ignore: prefer_const_constructors
           ConfirmPaymentState(),
         ) {
     on<Confirmed>(_onConfirmed);
-    on<RouteInvalidated>(
-      _onRouteInvalidated,
+    on<Invalidated>(
+      _onInvalidated,
       transformer: (events, mapper) => events
           .debounceTime(const Duration(milliseconds: 500))
           .switchMap(mapper),
     );
   }
 
-  final QuoteRepository _routeRepository;
-  final Amount _usdcBalance;
+  final QuoteRepository _quoteRepository;
   final Ed25519HDPublicKey _userAccount;
   final DlnPayment payment;
 
   void _onConfirmed(Confirmed _, _Emitter emit) {
-    // state.validate(_usdcBalance).fold(
-    //   (e) {
-    //     emit(state.copyWith(flowState: Flow.failure(e)));
-    //     emit(state.copyWith(flowState: const Flow.initial()));
-    //   },
-    //   (r) {
-    //     emit(
-    //       state.copyWith(
-    //         flowState: Flow.success(r),
-    //       ),
-    //     );
-    //   },
-    // );
-
     emit(
       state.copyWith(
         flowState: Flow.success(state.quote!),
@@ -75,22 +56,22 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     );
   }
 
-  Future<void> _onRouteInvalidated(RouteInvalidated _, _Emitter emit) async {
+  Future<void> _onInvalidated(Invalidated _, _Emitter emit) async {
     emit(state.processing());
 
     try {
-      final bestRoute = await _routeRepository.getQuote(
+      final quote = await _quoteRepository.getQuote(
         amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
         receiverBlockchain: payment.receiverBlockchain,
         userPublicKey: _userAccount.toBase58(),
       );
 
-      emit(state.update(bestRoute));
+      emit(state.update(quote));
     } on CreateOrderException catch (error) {
       emit(state.error(error));
     } on Exception {
-      emit(state.error(const CreateOrderException.routeNotFound()));
+      emit(state.error(const CreateOrderException.quoteNotFound()));
     }
   }
 }

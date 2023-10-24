@@ -13,23 +13,23 @@ import '../models/payment_quote.dart';
 
 @injectable
 class OutgoingDlnPaymentService {
-  const OutgoingDlnPaymentService(this._repository, this._routeRepository);
+  const OutgoingDlnPaymentService(this._repository, this._quoteRepository);
 
   final OutgoingDlnPaymentRepository _repository;
-  final QuoteRepository _routeRepository;
+  final QuoteRepository _quoteRepository;
 
   Future<OutgoingDlnPayment> create({
-    required PaymentQuote route,
+    required PaymentQuote quote,
     required ECWallet account,
   }) async {
-    final status = await _createTx(route: route, account: account);
+    final status = await _createTx(quote: quote, account: account);
 
     final id = const Uuid().v4();
     final payment = OutgoingDlnPayment(
       id: id,
       created: DateTime.now(),
       status: status,
-      payment: route.payment,
+      payment: quote.payment,
     );
 
     await _repository.save(payment);
@@ -56,14 +56,14 @@ class OutgoingDlnPaymentService {
     required ECWallet account,
   }) async {
     try {
-      final route = await _routeRepository.getQuote(
+      final quote = await _quoteRepository.getQuote(
         amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
         receiverBlockchain: payment.receiverBlockchain,
         userPublicKey: account.address,
       );
 
-      return await _createTx(route: route, account: account);
+      return await _createTx(quote: quote, account: account);
     } on Exception {
       return const OutgoingDlnPaymentStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -72,13 +72,13 @@ class OutgoingDlnPaymentService {
   }
 
   Future<OutgoingDlnPaymentStatus> _createTx({
-    required PaymentQuote route,
+    required PaymentQuote quote,
     required ECWallet account,
   }) async {
     try {
       return OutgoingDlnPaymentStatus.txCreated(
-        await SignedTx.decode(route.encodedTx).resign(account),
-        slot: route.slot,
+        await SignedTx.decode(quote.encodedTx).resign(account),
+        slot: quote.slot,
       );
     } on Exception {
       return const OutgoingDlnPaymentStatus.txFailure(
