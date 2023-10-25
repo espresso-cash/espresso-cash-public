@@ -50,6 +50,10 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
         .getOrderIdByHash(status.tx.id)
         .letAsync((p) => p.orderIds.firstOrNull);
 
+    if (orderId == null) {
+      return null;
+    }
+
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
       success: (_) => OutgoingDlnPaymentStatus.success(
         status.tx,

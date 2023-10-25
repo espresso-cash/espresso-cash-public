@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:dln_api/dln_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -42,21 +41,15 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
       return payment;
     }
 
-    final String? orderId = status.orderId ??
-        await client
-            .getOrderIdByHash(status.tx.id)
-            .letAsync((p) => p.orderIds.firstOrNull);
-
-    if (orderId == null) {
-      return payment;
-    }
-
-    final orderStatus = await client.getStatus(orderId);
+    final orderStatus = await client.getStatus(status.orderId);
     final isFulfilled = orderStatus.status == OrderStatus.fulfilled;
 
     return isFulfilled
         ? payment.copyWith(
-            status: OutgoingDlnPaymentStatus.fulfilled(status.tx),
+            status: OutgoingDlnPaymentStatus.fulfilled(
+              status.tx,
+              orderId: status.orderId,
+            ),
           )
         : null;
   }

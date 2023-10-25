@@ -68,7 +68,7 @@ class DlnPayment {
     final lookUpTables = await _client.rpcClient
         .getAddressLookUpTableAccounts(addressTableLookups);
 
-    final dlnMessage = dlnTx.let(
+    final message = dlnTx.let(
       (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
     );
 
@@ -76,7 +76,7 @@ class DlnPayment {
       commitment: commitment,
     );
 
-    final compiled = dlnMessage.compileV0(
+    final compiled = message.compileV0(
       recentBlockhash: latestBlockhash.value.blockhash,
       feePayer: senderAccount,
       addressLookupTableAccounts: lookUpTables,
@@ -89,10 +89,12 @@ class DlnPayment {
       ],
     );
 
+    final fees = quote.totalFees.toInt();
+
     return QuoteTransaction(
       senderDeductAmount: quote.senderDeductAmount,
       receiverAmount: quote.receiverAmount,
-      fee: 0, //TODO
+      fee: fees,
       transaction: tx,
       slot: latestBlockhash.context.slot,
     );

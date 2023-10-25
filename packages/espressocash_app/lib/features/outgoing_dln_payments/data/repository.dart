@@ -50,23 +50,20 @@ class OutgoingDlnPaymentRepository {
 
   Future<void> clear() => _db.delete(_db.outgoingDlnPaymentRows).go();
 
-  Stream<IList<OutgoingDlnPayment>> watchTxCreated() => _watchWithStatuses([
-        ODLNPaymentStatusDto.txCreated,
-      ]);
+  Stream<IList<OutgoingDlnPayment>> watchTxCreated() =>
+      _watchWithStatus(ODLNPaymentStatusDto.txCreated);
 
-  Stream<IList<OutgoingDlnPayment>> watchTxSent() => _watchWithStatuses([
-        ODLNPaymentStatusDto.txSent,
-      ]);
+  Stream<IList<OutgoingDlnPayment>> watchTxSent() =>
+      _watchWithStatus(ODLNPaymentStatusDto.txSent);
 
-  Stream<IList<OutgoingDlnPayment>> watchTxSuccess() => _watchWithStatuses([
-        ODLNPaymentStatusDto.success,
-      ]);
+  Stream<IList<OutgoingDlnPayment>> watchTxSuccess() =>
+      _watchWithStatus(ODLNPaymentStatusDto.success);
 
-  Stream<IList<OutgoingDlnPayment>> _watchWithStatuses(
-    Iterable<ODLNPaymentStatusDto> statuses,
+  Stream<IList<OutgoingDlnPayment>> _watchWithStatus(
+    ODLNPaymentStatusDto status,
   ) {
     final query = _db.select(_db.outgoingDlnPaymentRows)
-      ..where((p) => p.status.isInValues(statuses));
+      ..where((p) => p.status.equalsValue(status));
 
     return query
         .watch()
@@ -134,14 +131,17 @@ extension on ODLNPaymentStatusDto {
       case ODLNPaymentStatusDto.success:
         return OutgoingDlnPaymentStatus.success(
           tx!,
-          orderId: row.orderId,
+          orderId: row.orderId ?? '',
         );
       case ODLNPaymentStatusDto.txFailure:
         return OutgoingDlnPaymentStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
         );
       case ODLNPaymentStatusDto.fulfilled:
-        return OutgoingDlnPaymentStatus.fulfilled(tx!);
+        return OutgoingDlnPaymentStatus.fulfilled(
+          tx!,
+          orderId: row.orderId ?? '',
+        );
       case ODLNPaymentStatusDto.cancelled:
         return OutgoingDlnPaymentStatus.cancelled(tx!);
     }

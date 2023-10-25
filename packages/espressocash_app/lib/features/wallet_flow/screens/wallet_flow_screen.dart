@@ -176,7 +176,7 @@ class _State extends State<WalletFlowScreen> {
                     ),
                   );
 
-                  _reset();
+                  // _reset(); //TODO update only if success
                 }
               },
             ),

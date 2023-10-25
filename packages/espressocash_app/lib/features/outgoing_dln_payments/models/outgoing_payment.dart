@@ -33,7 +33,7 @@ class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   /// Tx is successfully confirmed and order awaiting fulfillment.
   const factory OutgoingDlnPaymentStatus.success(
     SignedTx tx, {
-    String? orderId,
+    required String orderId,
   }) = OutgoingDlnPaymentStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
@@ -42,8 +42,10 @@ class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   }) = OutgoingDlnPaymentStatusTxFailure;
 
   /// Order is fulfilled and funds are sent to the recipient.
-  const factory OutgoingDlnPaymentStatus.fulfilled(SignedTx tx) =
-      OutgoingDlnPaymentStatusFulfilled;
+  const factory OutgoingDlnPaymentStatus.fulfilled(
+    SignedTx tx, {
+    required String orderId,
+  }) = OutgoingDlnPaymentStatusFulfilled;
 
   /// Order is cancelled and funds are returned to the sender.
   const factory OutgoingDlnPaymentStatus.cancelled(SignedTx tx) =

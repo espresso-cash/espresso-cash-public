@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +11,7 @@ import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
 import '../../../../core/tokens/token.dart';
+import '../../balances/data/balances_repository.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -29,8 +30,11 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     @factoryParam required this.payment,
     @factoryParam required Ed25519HDPublicKey userAccount,
     required QuoteRepository quoteRepository,
+    required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
         _userAccount = userAccount,
+        _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
+            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
         super(
           // ignore: prefer_const_constructors
           ConfirmPaymentState(),
@@ -46,13 +50,22 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
   final QuoteRepository _quoteRepository;
   final Ed25519HDPublicKey _userAccount;
+  final CryptoAmount _usdcBalance;
   final DlnPayment payment;
 
   void _onConfirmed(Confirmed _, _Emitter emit) {
-    emit(
-      state.copyWith(
-        flowState: Flow.success(state.quote!),
-      ),
+    state.validate(_usdcBalance).fold(
+      (e) {
+        emit(state.copyWith(flowState: Flow.failure(e)));
+        emit(state.copyWith(flowState: const Flow.initial()));
+      },
+      (r) {
+        emit(
+          state.copyWith(
+            flowState: Flow.success(r),
+          ),
+        );
+      },
     );
   }
 
@@ -76,24 +89,6 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   }
 }
 
-extension BalanceExt on IMap<Token, Amount> {
-  bool isPositive(Token token) {
-    final balance = this[token];
-
-    return balance != null && balance.value > 0;
-  }
-
-  CryptoAmount balanceFromToken(Token token) {
-    final balance = this[token];
-    final value = balance?.value ?? 0;
-
-    return CryptoAmount(
-      value: value,
-      cryptoCurrency: CryptoCurrency(token: token),
-    );
-  }
-}
-
 extension on ConfirmPaymentState {
   ConfirmPaymentState processing() => copyWith(
         flowState: const Flow.processing(),
@@ -108,19 +103,6 @@ extension on ConfirmPaymentState {
         quote: quote,
         flowState: const Flow.initial(),
         expiresAt: DateTime.now().add(_quoteDuration),
-      );
-
-  ConfirmPaymentState reset() => copyWith(
-        quote: null,
-        flowState: const Flow.initial(),
-        expiresAt: null,
-      );
-}
-
-extension on Token {
-  CryptoAmount toZeroAmount() => CryptoAmount(
-        value: 0,
-        cryptoCurrency: CryptoCurrency(token: this),
       );
 }
 

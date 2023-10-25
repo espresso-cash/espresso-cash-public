@@ -54,12 +54,15 @@ class DlnRepository {
         )
         .then((resp) => resp.tx.data);
 
+    final totalFees =
+        int.parse(estimation.srcChainTokenIn.amount) - int.parse(amount);
+
     return QuoteInfo(
       tx: tx,
       inputAmount: amount,
       senderDeductAmount: estimation.srcChainTokenIn.amount,
       receiverAmount: estimation.dstChainTokenOut.recommendedAmount,
-      totalFees: 0, //TODO
+      totalFees: totalFees,
     );
   }
 }
