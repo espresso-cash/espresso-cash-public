@@ -1,3 +1,7 @@
+## 1.87.1
+
+ - **FIX**: kado webview update (#1105).
+
 ## 1.87.0
 
  - **REFACTOR**: update lint rules (#1102).
