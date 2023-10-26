@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
-import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
+import '../widgets/transfer_error.dart';
 
 @RoutePage()
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
@@ -72,7 +72,6 @@ class _OutgoingDlnPaymentDetailsScreenState
                   ),
                   txFailure: (it) => TransferError(
                     onBack: () => context.router.pop(),
-                    onRetry: () => {}, //TODO remove
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
