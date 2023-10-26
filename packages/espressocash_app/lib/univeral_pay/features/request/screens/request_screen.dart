@@ -4,6 +4,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../ui/button.dart';
 import '../../../../ui/rounded_rectangle.dart';
+import '../../../../ui/snackbar.dart';
 import '../../../../ui/text_field.dart';
 import '../../../core/disclaimer.dart';
 import '../../../core/page.dart';
@@ -33,13 +34,29 @@ class _RequestScreenState extends State<RequestScreen> {
     super.dispose();
   }
 
-  bool get _isValid =>
-      isValidAddress(_destinationController.text) &&
-      _amountController.text.isValidNumber &&
-      _amountController.text.isNotZero &&
-      _isDisclaimerAccepted;
+  String? _validate() {
+    if (!_amountController.text.isValidNumber &&
+        _amountController.text.isNotZero) {
+      return 'Please enter a valid amount.';
+    }
+
+    if (!isValidAddress(_destinationController.text)) {
+      return 'Please enter a valid Solana address.';
+    }
+
+    if (!_isDisclaimerAccepted) {
+      return 'Please accept the disclaimer.';
+    }
+  }
 
   Future<void> _onSubmit() async {
+    final error = _validate();
+    if (error != null) {
+      showCpErrorSnackbar(context, message: error);
+
+      return;
+    }
+
     final destination = _destinationController.text;
     final reference = (await Ed25519HDKeyPair.random()).publicKey;
     final amountA = _amountController.text;
@@ -144,7 +161,7 @@ class _RequestScreenState extends State<RequestScreen> {
             listenable:
                 Listenable.merge([_destinationController, _amountController]),
             builder: (context, child) => CpButton(
-              onPressed: _isValid ? _onSubmit : null,
+              onPressed: _onSubmit,
               text: 'Create Payment Request',
               size: CpButtonSize.big,
               width: 450,
@@ -156,5 +173,5 @@ class _RequestScreenState extends State<RequestScreen> {
 
 extension on String {
   bool get isValidNumber => RegExp(r'^[0-9]+(\.[0-9]*)?$').hasMatch(this);
-  bool get isNotZero => this != '0';
+  bool get isNotZero => this != '0' || this != '';
 }
