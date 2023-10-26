@@ -168,4 +168,4 @@ class _Item extends StatelessWidget {
       );
 }
 
-const _carouselMaxWidth = 430.0;
+const _carouselMaxWidth = 510.0;
