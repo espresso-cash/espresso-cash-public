@@ -125,46 +125,58 @@ class _OutgoingDlnConfirmationScreenState
                 '';
 
             return SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(height: 32),
-                  _Item(
-                    title: 'Network',
-                    value: widget.blockchain.name,
-                    backgroundColor: Colors.black,
-                  ),
-                  _Item(
-                    title: 'Receiver Address',
-                    value: widget.receiverAddress,
-                    backgroundColor: Colors.black,
-                  ),
-                  if (state.flowState.isProcessing || state.quote == null)
-                    const _Loading()
-                  else ...[
-                    _Item(
-                      title: 'Receiver Receives',
-                      value: receiverAmount,
-                      backgroundColor: Colors.black,
+              child: LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: constraints.maxWidth,
+                      minHeight: constraints.maxHeight,
                     ),
-                    _Item(
-                      title: 'Total Amount Deducted',
-                      value: '$senderDeductAmount ($fees Fee)',
-                      backgroundColor: Colors.black,
-                    ),
-                  ],
-                  const Spacer(),
-                  const SizedBox(height: 6),
-                  CpContentPadding(
-                    child: CpSlider(
-                      text: 'Confirm',
-                      onSlideCompleted:
-                          (state.quote == null || state.flowState.isProcessing)
-                              ? null
-                              : _onSubmit,
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 32),
+                          _Item(
+                            title: 'Network',
+                            value: widget.blockchain.name,
+                            backgroundColor: Colors.black,
+                          ),
+                          _Item(
+                            title: 'Receiver Address',
+                            value: widget.receiverAddress,
+                            backgroundColor: Colors.black,
+                          ),
+                          if (state.flowState.isProcessing ||
+                              state.quote == null)
+                            const _Loading()
+                          else ...[
+                            _Item(
+                              title: 'Receiver Receives',
+                              value: receiverAmount,
+                              backgroundColor: Colors.black,
+                            ),
+                            _Item(
+                              title: 'Total Amount Deducted',
+                              value: '$senderDeductAmount ($fees Fee)',
+                              backgroundColor: Colors.black,
+                            ),
+                          ],
+                          const Spacer(),
+                          CpContentPadding(
+                            child: CpSlider(
+                              text: 'Confirm',
+                              onSlideCompleted: (state.quote == null ||
+                                      state.flowState.isProcessing)
+                                  ? null
+                                  : _onSubmit,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ],
+                ),
               ),
             );
           },
