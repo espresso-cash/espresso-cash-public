@@ -1,6 +1,7 @@
 import 'package:convert/convert.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/dln_payments/dln_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
@@ -53,7 +54,7 @@ class DlnPayment {
 
     final quote = await _repository.getQuoteAndTransaction(
       amount: amount,
-      senderAddress: senderAddress,
+      senderAddress: _platform.address,
       receiverAddress: receiverAddress,
       receiverChain: chain,
     );
@@ -68,9 +69,21 @@ class DlnPayment {
     final lookUpTables = await _client.rpcClient
         .getAddressLookUpTableAccounts(addressTableLookups);
 
-    final message = dlnTx.let(
+    final dlnMessage = dlnTx.let(
       (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
     );
+
+    final senderDeductAmount = int.parse(quote.senderDeductAmount);
+    final totalTransferAmount = crossChainPaymentFee + senderDeductAmount;
+
+    final feePayer = _platform.publicKey;
+    final feeIx = await _createTransferPayment(
+      aSender: senderAccount,
+      aReceiver: feePayer,
+      amount: totalTransferAmount,
+    );
+
+    final message = dlnMessage.let((m) => m.addToFirstInstruction(feeIx));
 
     final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
@@ -78,13 +91,14 @@ class DlnPayment {
 
     final compiled = message.compileV0(
       recentBlockhash: latestBlockhash.value.blockhash,
-      feePayer: senderAccount,
+      feePayer: feePayer,
       addressLookupTableAccounts: lookUpTables,
     );
 
     final tx = SignedTx(
       compiledMessage: compiled,
       signatures: [
+        await _platform.sign(compiled.toByteArray()),
         Signature(List.filled(64, 0), publicKey: senderAccount),
       ],
     );
@@ -99,6 +113,36 @@ class DlnPayment {
       slot: latestBlockhash.context.slot,
     );
   }
+}
+
+extension on Message {
+  Message addToFirstInstruction(Instruction ix) =>
+      Message(instructions: [ix, ...instructions]);
+}
+
+Future<Instruction> _createTransferPayment({
+  required Ed25519HDPublicKey aReceiver,
+  required Ed25519HDPublicKey aSender,
+  required int amount,
+}) async {
+  final mint = mainnetUsdc;
+
+  final ataSender = await findAssociatedTokenAddress(
+    owner: aSender,
+    mint: mint,
+  );
+
+  final ataReceiver = await findAssociatedTokenAddress(
+    owner: aReceiver,
+    mint: mint,
+  );
+
+  return TokenInstruction.transfer(
+    amount: amount,
+    source: ataSender,
+    destination: ataReceiver,
+    owner: aSender,
+  );
 }
 
 DlnChains? _fromString(String chain) => switch (chain) {
