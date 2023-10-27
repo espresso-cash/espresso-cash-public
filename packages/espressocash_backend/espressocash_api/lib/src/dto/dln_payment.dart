@@ -19,7 +19,7 @@ class PaymentQuoteRequestDto with _$PaymentQuoteRequestDto {
 @freezed
 abstract class PaymentQuoteResponseDto with _$PaymentQuoteResponseDto {
   const factory PaymentQuoteResponseDto({
-    required String senderDeductAmount,
+    required String inputAmount,
     required String receiverAmount,
     required String encodedTx,
     required int feeInUsdc,

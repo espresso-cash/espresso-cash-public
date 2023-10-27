@@ -104,25 +104,23 @@ class _OutgoingDlnConfirmationScreenState
             _ => null,
           },
           builder: (context, state) {
-            final receiverAmount = state.quote?.receiverAmount.format(
-                  DeviceLocale.localeOf(context),
-                  maxDecimals: 2,
-                  roundInteger: false,
-                ) ??
-                '';
-            final senderDeductAmount = state.quote?.senderDeductAmount.format(
-                  DeviceLocale.localeOf(context),
-                  maxDecimals: 2,
-                  roundInteger: false,
-                ) ??
-                '';
+            final receiverAmount = state.receiverAmount.format(
+              DeviceLocale.localeOf(context),
+              maxDecimals: 2,
+              roundInteger: false,
+            );
 
-            final fees = state.quote?.fee.format(
-                  DeviceLocale.localeOf(context),
-                  maxDecimals: 2,
-                  roundInteger: false,
-                ) ??
-                '';
+            final totalDeductedAmount = (state.inputAmount + state.fee).format(
+              DeviceLocale.localeOf(context),
+              maxDecimals: 2,
+              roundInteger: false,
+            );
+
+            final feeAmount = state.fee.format(
+              DeviceLocale.localeOf(context),
+              maxDecimals: 2,
+              roundInteger: false,
+            );
 
             return SafeArea(
               child: LayoutBuilder(
@@ -152,13 +150,13 @@ class _OutgoingDlnConfirmationScreenState
                             const _Loading()
                           else ...[
                             _Item(
-                              title: 'Receiver Receives',
-                              value: receiverAmount,
+                              title: 'Total Amount Deducted',
+                              value: '$totalDeductedAmount ($feeAmount Fee)',
                               backgroundColor: Colors.black,
                             ),
                             _Item(
-                              title: 'Total Amount Deducted',
-                              value: '$senderDeductAmount ($fees Fee)',
+                              title: 'Receiver Receives',
+                              value: receiverAmount,
                               backgroundColor: Colors.black,
                             ),
                           ],

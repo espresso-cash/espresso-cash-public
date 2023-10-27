@@ -8,11 +8,11 @@ part 'payment_quote.freezed.dart';
 @freezed
 class PaymentQuote with _$PaymentQuote {
   const factory PaymentQuote({
+    required DlnPayment payment,
+    required CryptoAmount inputAmount,
     required CryptoAmount receiverAmount,
-    required CryptoAmount senderDeductAmount,
     required CryptoAmount fee,
     required String encodedTx,
-    required DlnPayment payment,
     required BigInt slot,
   }) = _PaymentQuote;
 }

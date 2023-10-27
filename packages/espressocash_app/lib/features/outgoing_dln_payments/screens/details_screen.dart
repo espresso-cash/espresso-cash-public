@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
+import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/repository.dart';
@@ -45,47 +46,39 @@ class _OutgoingDlnPaymentDetailsScreenState
 
           return order == null
               ? TransferProgress(onBack: () => context.router.pop())
-              : order.status.maybeMap(
-                  fulfilled: (status) => TransferSuccess(
-                    onBack: () => context.router.pop(),
-                    onOkPressed: () => context.router.pop(),
-                    statusContent: 'Transaction has been fulfilled!',
-                    onMoreDetailsPressed: () {
-                      final link = status.orderId
-                          .let(_createDlnTransactionLink)
-                          .let(Uri.parse)
-                          .toString();
-                      context.openLink(link);
-                    },
-                  ),
-                  success: (status) => TransferSuccess(
-                    onBack: () => context.router.pop(),
-                    onOkPressed: () => context.router.pop(),
-                    statusContent: 'Transaction has been sent!',
-                    onMoreDetailsPressed: () {
-                      final link = status.orderId
-                          .let(_createDlnTransactionLink)
-                          .let(Uri.parse)
-                          .toString();
-                      context.openLink(link);
-                    },
-                  ),
-                  txFailure: (it) => TransferError(
-                    onBack: () => context.router.pop(),
-                    reason: it.reason,
-                  ),
-                  orElse: () => TransferProgress(
-                    onBack: () => context.router.pop(),
-                  ),
-                );
+              : switch (order.status) {
+                  OutgoingDlnPaymentStatusSuccess(:final tx) ||
+                  OutgoingDlnPaymentStatusFulfilled(:final tx) =>
+                    () {
+                      final content = order.status.maybeWhen(
+                        success: (tx, orderId) => 'Transaction has been sent',
+                        fulfilled: (tx, orderId) =>
+                            'Transaction has been fulfilled',
+                        orElse: () => '',
+                      );
+
+                      return TransferSuccess(
+                        onBack: () => context.router.pop(),
+                        onOkPressed: () => context.router.pop(),
+                        statusContent: content,
+                        onMoreDetailsPressed: () {
+                          final link = tx.id
+                              .let(createTransactionLink)
+                              .let(Uri.parse)
+                              .toString();
+                          context.openLink(link);
+                        },
+                      );
+                    }(),
+                  OutgoingDlnPaymentStatusTxFailure(:final reason) =>
+                    TransferError(
+                      onBack: () => context.router.pop(),
+                      reason: reason,
+                    ),
+                  _ => TransferProgress(
+                      onBack: () => context.router.pop(),
+                    ),
+                };
         },
       );
-}
-
-String _createDlnTransactionLink(String orderId) {
-  final sb = StringBuffer()
-    ..write('https://app.debridge.finance/order?orderId=')
-    ..write(orderId);
-
-  return sb.toString();
 }

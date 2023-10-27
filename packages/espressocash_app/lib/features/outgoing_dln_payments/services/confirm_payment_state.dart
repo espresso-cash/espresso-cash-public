@@ -15,7 +15,11 @@ extension ConfirmPaymentExt on ConfirmPaymentState {
       quote?.fee ?? const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
   CryptoAmount get inputAmount =>
-      quote?.payment.inputAmount ??
+      quote?.inputAmount ??
+      const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+
+  CryptoAmount get receiverAmount =>
+      quote?.receiverAmount ??
       const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
   Either<CreateOrderException, PaymentQuote> validate(

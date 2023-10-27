@@ -40,9 +40,9 @@ class QuoteRepository {
         cryptoCurrency: Currency.usdc,
         value: int.parse(quote.receiverAmount),
       ),
-      senderDeductAmount: CryptoAmount(
+      inputAmount: CryptoAmount(
         cryptoCurrency: Currency.usdc,
-        value: int.parse(quote.senderDeductAmount),
+        value: int.parse(quote.inputAmount),
       ),
       fee: CryptoAmount(
         cryptoCurrency: Currency.usdc,
