@@ -130,6 +130,8 @@ class _AmountView extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 24),
           child: CpChip(
+            // TODO(KB): Check if needed
+            // ignore: avoid-single-child-column-or-row
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

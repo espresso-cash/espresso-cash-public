@@ -59,10 +59,9 @@ String formatAmount({
   required bool roundInteger,
   String? symbol,
 }) {
-  late final NumberFormat formatter;
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
-  formatter = NumberFormat.decimalPattern(locale.languageCode)
+  final formatter = NumberFormat.decimalPattern(locale.languageCode)
     ..minimumFractionDigits = minimumDigits
     ..maximumFractionDigits = decimals;
 

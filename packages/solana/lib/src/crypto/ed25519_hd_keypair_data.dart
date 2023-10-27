@@ -7,12 +7,13 @@ import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 class Ed25519HDKeyPairData implements KeyPairData {
   Ed25519HDKeyPairData(
     List<int> bytes, {
-    required Ed25519HDPublicKey publicKey,
-  })  : _publicKey = publicKey,
-        _bytes = SensitiveBytes(bytes);
+    required this.publicKey,
+  }) : _bytes = SensitiveBytes(bytes);
 
   final SensitiveBytes _bytes;
-  final Ed25519HDPublicKey _publicKey;
+
+  @override
+  final Ed25519HDPublicKey publicKey;
 
   List<int> get bytes {
     if (hasBeenDestroyed) throw _destroyedError();
@@ -29,7 +30,7 @@ class Ed25519HDKeyPairData implements KeyPairData {
   }
 
   @override
-  Future<Ed25519HDPublicKey> extractPublicKey() async => _publicKey;
+  Future<Ed25519HDPublicKey> extractPublicKey() async => publicKey;
 
   @override
   KeyPairType<KeyPairData, PublicKey> get type => KeyPairType.ed25519;
@@ -46,9 +47,6 @@ class Ed25519HDKeyPairData implements KeyPairData {
 
   @override
   bool get hasBeenDestroyed => _bytes.hasBeenDestroyed;
-
-  @override
-  Ed25519HDPublicKey get publicKey => _publicKey;
 
   StateError _destroyedError() => StateError('$this has been destroyed.');
 }

@@ -81,7 +81,6 @@ BigInt _decodeBigInt(Iterable<int> bytes, {required bool isSigned}) {
   BigInt result;
 
   if (list.length == 1) {
-    // ignore: avoid-unnecessary-reassignment, valid case
     result = BigInt.from(list.first);
   } else {
     result = BigInt.zero;
