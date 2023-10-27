@@ -36,8 +36,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
         _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
             const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
         super(
-          // ignore: prefer_const_constructors
-          ConfirmPaymentState(),
+          ConfirmPaymentState(flowState: const Flow.initial()),
         ) {
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
@@ -60,11 +59,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
         emit(state.copyWith(flowState: const Flow.initial()));
       },
       (r) {
-        emit(
-          state.copyWith(
-            flowState: Flow.success(r),
-          ),
-        );
+        emit(state.copyWith(flowState: Flow.success(r)));
       },
     );
   }

@@ -2,7 +2,7 @@ part of 'confirm_payment_bloc.dart';
 
 @freezed
 class ConfirmPaymentState with _$ConfirmPaymentState {
-  const factory ConfirmPaymentState({
+  factory ConfirmPaymentState({
     PaymentQuote? quote,
     DateTime? expiresAt,
     @Default(Flow<CreateOrderException, PaymentQuote>.initial())
