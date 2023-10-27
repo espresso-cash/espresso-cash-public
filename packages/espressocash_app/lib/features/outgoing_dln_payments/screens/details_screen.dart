@@ -160,6 +160,7 @@ class _OutgoingDlnPaymentDetailsScreenState
                   ),
                   const Spacer(flex: 4),
                   ...actions,
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
