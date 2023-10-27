@@ -52,12 +52,42 @@ class DlnPayment {
       );
     }
 
+    final feePayer = _platform.publicKey;
+
+    final instructions = <Instruction>[];
+
+    const feesFromTransaction = 20400960;
+    final solTransferIx = SystemInstruction.transfer(
+      fundingAccount: feePayer,
+      recipientAccount: senderAccount,
+      lamports: feesFromTransaction,
+    );
+
+    instructions.add(solTransferIx);
+
+    final feeIx = await _createFeePayment(
+      aSender: senderAccount,
+      aReceiver: feePayer,
+      amount: crossChainPaymentFee,
+    );
+
+    instructions.add(feeIx);
+
     final quote = await _repository.getQuoteAndTransaction(
       amount: amount,
-      senderAddress: _platform.address,
+      senderAddress: senderAddress,
       receiverAddress: receiverAddress,
       receiverChain: chain,
     );
+
+    if (quote.senderDeductAmount !=
+        (quote.totalFees + int.parse(quote.inputAmount)).toString()) {
+      throw ArgumentError.value(
+        quote,
+        'quote',
+        'Invalid quote',
+      );
+    }
 
     final dlnTx = SignedTx.fromBytes(hex.decode(quote.tx.replaceAll('0x', '')));
 
@@ -73,17 +103,7 @@ class DlnPayment {
       (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
     );
 
-    final senderDeductAmount = int.parse(quote.senderDeductAmount);
-    final totalTransferAmount = crossChainPaymentFee + senderDeductAmount;
-
-    final feePayer = _platform.publicKey;
-    final feeIx = await _createTransferPayment(
-      aSender: senderAccount,
-      aReceiver: feePayer,
-      amount: totalTransferAmount,
-    );
-
-    final message = dlnMessage.let((m) => m.addToFirstInstruction(feeIx));
+    final message = dlnMessage.let((m) => m.addIxsToFront(instructions));
 
     final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
       commitment: commitment,
@@ -103,7 +123,7 @@ class DlnPayment {
       ],
     );
 
-    final fees = quote.totalFees.toInt();
+    final fees = quote.totalFees.toInt() + crossChainPaymentFee;
 
     return QuoteTransaction(
       senderDeductAmount: quote.senderDeductAmount,
@@ -116,11 +136,11 @@ class DlnPayment {
 }
 
 extension on Message {
-  Message addToFirstInstruction(Instruction ix) =>
-      Message(instructions: [ix, ...instructions]);
+  Message addIxsToFront(List<Instruction> ix) =>
+      Message(instructions: [...ix, ...instructions]);
 }
 
-Future<Instruction> _createTransferPayment({
+Future<Instruction> _createFeePayment({
   required Ed25519HDPublicKey aReceiver,
   required Ed25519HDPublicKey aSender,
   required int amount,
