@@ -136,12 +136,12 @@ class _OutgoingDlnConfirmationScreenState
                         children: [
                           const SizedBox(height: 32),
                           _Item(
-                            title: 'Network',
+                            title: context.l10n.walletNetwork,
                             value: widget.blockchain.name,
                             backgroundColor: Colors.black,
                           ),
                           _Item(
-                            title: 'Receiver Address',
+                            title: context.l10n.walletAddress,
                             value: widget.receiverAddress,
                             backgroundColor: Colors.black,
                           ),
@@ -150,12 +150,12 @@ class _OutgoingDlnConfirmationScreenState
                             const _Loading()
                           else ...[
                             _Item(
-                              title: 'Total Amount Deducted',
+                              title: context.l10n.totalAmount,
                               value: '$totalDeductedAmount ($feeAmount Fee)',
                               backgroundColor: Colors.black,
                             ),
                             _Item(
-                              title: 'Receiver Receives',
+                              title: context.l10n.transferReceiver,
                               value: receiverAmount,
                               backgroundColor: Colors.black,
                             ),
@@ -163,7 +163,7 @@ class _OutgoingDlnConfirmationScreenState
                           const Spacer(),
                           CpContentPadding(
                             child: CpSlider(
-                              text: 'Confirm',
+                              text: context.l10n.confirm,
                               onSlideCompleted: (state.quote == null ||
                                       state.flowState.isProcessing)
                                   ? null
@@ -248,7 +248,7 @@ class _Loading extends StatelessWidget {
 
 extension on CreateOrderException {
   String description(BuildContext context) => this.map(
-        quoteNotFound: always('No quote found'),
+        quoteNotFound: always(context.l10n.noQuoteFound),
         insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
           e.amount.format(
             DeviceLocale.localeOf(context),

@@ -8,6 +8,7 @@ import '../../../../ui/theme.dart';
 import '../../../core/amount.dart';
 import '../../../core/blockchain.dart';
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../models/payment_quote.dart';
@@ -49,7 +50,7 @@ class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
-            title: Text('Confirmation'.toUpperCase()),
+            title: Text(context.l10n.confirmation.toUpperCase()),
             leading: const CloseButton(),
           ),
           body: OutgoingDlnConfirmationScreen(

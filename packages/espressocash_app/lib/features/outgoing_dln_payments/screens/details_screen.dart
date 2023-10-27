@@ -71,13 +71,13 @@ class _OutgoingDlnPaymentDetailsScreenState
           final amount = order.amount.format(locale);
 
           final String statusContent = order.status.maybeMap(
-            fulfilled: always('Your order has been fulfilled'),
-            success: always('Your order is awaiting fulfillment'),
+            fulfilled: always(context.l10n.transactionFulfilled),
+            success: always(context.l10n.transactionAwaitingFulfillment),
             txFailure: (it) => [
               context.l10n.splitKeyErrorMessage2,
-              'Please try again later.',
+              context.l10n.tryAgainLater,
             ].join(' '),
-            orElse: always('Sending $amount'),
+            orElse: always(context.l10n.paymentProgressOngoing(amount)),
           );
 
           final CpTimelineStatus timelineStatus = order.status.mapOrNull(
@@ -91,11 +91,11 @@ class _OutgoingDlnPaymentDetailsScreenState
             trailing: order.amount.format(locale),
             subtitle: order.created.let((t) => context.formatDate(t)),
           );
-          const txCreated = CpTimelineItem(
-            title: 'Transaction has been sent',
+          final txCreated = CpTimelineItem(
+            title: context.l10n.transactionSentTimeline,
           );
-          const paymentSuccess = CpTimelineItem(
-            title: 'Money has been received',
+          final paymentSuccess = CpTimelineItem(
+            title: context.l10n.moneyReceived,
           );
 
           final int activeItem = order.status.map(
