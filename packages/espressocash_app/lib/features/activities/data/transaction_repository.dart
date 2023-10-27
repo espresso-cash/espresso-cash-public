@@ -91,7 +91,6 @@ class TransactionRepository {
       builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => const [
         ODLNPaymentStatusDto.fulfilled,
-        ODLNPaymentStatusDto.cancelled,
       ].contains(row.status).not(),
     );
 

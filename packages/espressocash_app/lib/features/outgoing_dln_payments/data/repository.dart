@@ -96,7 +96,6 @@ enum ODLNPaymentStatusDto {
   success,
   txFailure,
   fulfilled,
-  cancelled,
 }
 
 extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {
@@ -104,6 +103,10 @@ extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {
         id: id,
         status: status.toModel(this),
         created: created,
+        amount: CryptoAmount(
+          value: amount,
+          cryptoCurrency: Currency.usdc,
+        ),
         payment: DlnPayment(
           receiverAddress: receiverAddress,
           receiverBlockchain: receiverBlockchain.toModel(),
@@ -142,8 +145,6 @@ extension on ODLNPaymentStatusDto {
           tx!,
           orderId: row.orderId ?? '',
         );
-      case ODLNPaymentStatusDto.cancelled:
-        return OutgoingDlnPaymentStatus.cancelled(tx!);
     }
   }
 }
@@ -173,7 +174,7 @@ extension on OutgoingDlnPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
-        amount: payment.inputAmount.value,
+        amount: amount.value,
         slot: status.toSlot().toString(),
         receiverBlockchain: payment.receiverBlockchain.toDto(),
         receiverAddress: payment.receiverAddress,
@@ -189,7 +190,6 @@ extension on OutgoingDlnPaymentStatus {
         success: always(ODLNPaymentStatusDto.success),
         txFailure: always(ODLNPaymentStatusDto.txFailure),
         fulfilled: always(ODLNPaymentStatusDto.fulfilled),
-        cancelled: always(ODLNPaymentStatusDto.cancelled),
       );
 
   String? toTx() => mapOrNull(

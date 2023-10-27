@@ -27,6 +27,7 @@ class OutgoingDlnPaymentService {
       created: DateTime.now(),
       status: status,
       payment: quote.payment,
+      amount: quote.payment.inputAmount,
     );
 
     await _repository.save(payment);

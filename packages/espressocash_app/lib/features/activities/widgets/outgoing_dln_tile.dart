@@ -30,7 +30,6 @@ class OutgoingDlnTile extends StatelessWidget {
           success: always(CpActivityTileStatus.inProgress),
           txFailure: always(CpActivityTileStatus.failure),
           fulfilled: always(CpActivityTileStatus.success),
-          cancelled: always(CpActivityTileStatus.canceled),
         ),
         onTap: () => context.router
             .navigate(OutgoingDlnPaymentDetailsScreen.route(id: activity.id)),

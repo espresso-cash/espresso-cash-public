@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../core/amount.dart';
 import '../../transactions/models/tx_sender.dart';
 import 'dln_payment.dart';
 
@@ -10,6 +11,7 @@ part 'outgoing_payment.freezed.dart';
 class OutgoingDlnPayment with _$OutgoingDlnPayment {
   const factory OutgoingDlnPayment({
     required String id,
+    required CryptoAmount amount,
     required DateTime created,
     required OutgoingDlnPaymentStatus status,
     required DlnPayment payment,
@@ -46,8 +48,4 @@ class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
     SignedTx tx, {
     required String orderId,
   }) = OutgoingDlnPaymentStatusFulfilled;
-
-  /// Order is cancelled and funds are returned to the sender.
-  const factory OutgoingDlnPaymentStatus.cancelled(SignedTx tx) =
-      OutgoingDlnPaymentStatusCancelled;
 }
