@@ -73,7 +73,9 @@ extension BuildContextExt on BuildContext {
         );
 
         if (result.data?['code'] == 200) {
-          return result.data?['data']['link'] as String?;
+          final data = result.data?['data'] as Map<String, dynamic>?;
+
+          return data?['link'] as String?;
         }
       } on Exception {
         return null;
