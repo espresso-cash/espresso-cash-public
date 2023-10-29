@@ -15,7 +15,7 @@ dependencies:
     path: espressocash_api
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
-  meta: ^1.9.1
+  meta: ^1.11.0
   mustache_template: ^2.0.0
   sentry: ^7.8.0
   shelf: ^1.4.0
