@@ -499,10 +499,10 @@ packages:
     dependency: "direct main"
     description:
       name: sentry
-      sha256: "8f4f1d3ef3ca1801aa3138392bbf0851b39eff703008111765b265f76c8f0190"
+      sha256: "80cc1b38c7219c8072c8a79f124838bd668e0bc840e8a98c0fbf9f55a432997d"
       url: "https://pub.dev"
     source: hosted
-    version: "7.8.0"
+    version: "7.11.0"
   shelf:
     dependency: "direct main"
     description:
