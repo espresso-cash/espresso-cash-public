@@ -82,4 +82,64 @@ window.addEventListener("message", (event) => {
 
     await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
   }
+
+  Future<void> launchKadoOffRamp({
+    required String address,
+    required ProfileData profile,
+  }) async {
+    Amount? amount;
+
+    await router.push(
+      RampAmountScreen.route(
+        onSubmitted: (value) {
+          router.pop();
+          amount = value;
+        },
+        minAmount: Decimal.fromInt(10),
+        currency: Currency.usdc,
+        calculateEquivalent: null,
+        type: RampType.onRamp,
+      ),
+    );
+
+    final submittedAmount = amount;
+    if (submittedAmount is! CryptoAmount) return;
+
+    final uri = Uri.parse(kadoBaseUrl).replace(
+      queryParameters: {
+        'apiKey': kadoApiKey,
+        'cryptoList': ['USDC'],
+        'networkList': ['SOLANA'],
+        'network': 'SOLANA',
+        'offRevCurrency': 'USD',
+        'theme': 'light',
+        'product': 'SELL',
+        'productList': ['SELL'],
+        'mode': 'minimal',
+        'offFromAddress': address,
+        'offPayCurrency': 'USDC',
+        'offPayAmount': '${submittedAmount.decimal}',
+        'email': profile.email,
+      },
+    );
+
+    // bool orderWasCreated = false;
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      controller.addJavaScriptHandler(
+        handlerName: 'kado',
+        callback: (args) {
+          debugPrint(args.toString());
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('kado', event.data);
+}, false);
+''',
+      );
+    }
+
+    await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
+  }
 }
