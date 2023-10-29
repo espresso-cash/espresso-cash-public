@@ -53,7 +53,7 @@ dependencies:
   json_annotation: ^4.8.1
   logging: ^1.1.0
   meta: ^1.7.0
-  mobile_scanner: ^3.0.0-beta.4
+  mobile_scanner: ^3.5.1
   nested: ^1.0.0
   package_info_plus: ^4.0.1
   path: ^1.8.0
