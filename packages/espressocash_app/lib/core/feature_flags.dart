@@ -22,6 +22,7 @@ class FeatureFlagsManager {
 
   bool isExperimental({required String address}) => _remoteConfig
       .getString(FeatureFlag.isExperimental.name)
+      .let((p) => p.split(','))
       .let((p) => p.contains(address));
 }
 
