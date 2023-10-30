@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:injectable/injectable.dart';
 
@@ -18,4 +19,10 @@ class FeatureFlagsManager {
     );
     await _remoteConfig.fetchAndActivate();
   }
+
+  bool isExperimental({required String address}) => _remoteConfig
+      .getString(FeatureFlag.isExperimental.name)
+      .let((p) => p.contains(address));
 }
+
+enum FeatureFlag { isExperimental }
