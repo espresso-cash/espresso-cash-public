@@ -11,6 +11,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import '../../incoming_link_payments/widgets/extensions.dart';
@@ -58,7 +59,11 @@ extension BuilContextExt on BuildContext {
       final isEnabled = requestAmount == null || requestAmount.value == 0;
       defaultFiatAmount = defaultFiatAmount ??
           const FiatAmount(value: 0, fiatCurrency: Currency.usd);
-      final initialAmount = requestAmount ?? defaultFiatAmount;
+      final FiatAmount initialAmount = requestAmount?.toFiatAmount(
+            Currency.usd,
+            ratesRepository: sl<ConversionRatesRepository>(),
+          ) ??
+          defaultFiatAmount;
       final formatted = initialAmount.value == 0
           ? ''
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
@@ -75,11 +80,17 @@ extension BuilContextExt on BuildContext {
       if (!mounted) return;
 
       if (fiatDecimal != null) {
-        final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
-        onFiatAmountChanged?.call(finalAmount);
+        final CryptoAmount cryptoAmount;
 
-        final cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
-            CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
+        if (isEnabled) {
+          final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
+          onFiatAmountChanged?.call(finalAmount);
+
+          cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
+              CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
+        } else {
+          cryptoAmount = requestAmount;
+        }
 
         final id = await createODP(
           amountInUsdc: cryptoAmount.decimal,
