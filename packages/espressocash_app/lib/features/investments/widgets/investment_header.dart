@@ -219,35 +219,35 @@ class _Headline extends StatelessWidget {
   final VoidCallback onInfo;
 
   @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          text: context.l10n.cryptoCashBalance,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.23,
-          ),
-          children: [
-            WidgetSpan(
-              child: GestureDetector(
-                onTap: onInfo,
-                child: Text.rich(
-                  TextSpan(
-                    text: context.l10n.inUsdc,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: CpColors.yellowColor,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
+  Widget build(BuildContext context) {
+    const baseStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 0.23,
+    );
+
+    return Text.rich(
+      TextSpan(
+        text: context.l10n.cryptoCashBalance,
+        style: baseStyle,
+        children: [
+          const TextSpan(text: ' ', style: baseStyle),
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: onInfo,
+              child: Text.rich(
+                TextSpan(
+                  text: context.l10n.inUsdc,
+                  style: baseStyle.copyWith(color: CpColors.yellowColor),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 extension on Amount {
