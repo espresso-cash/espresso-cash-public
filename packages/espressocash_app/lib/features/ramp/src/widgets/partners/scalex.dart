@@ -5,6 +5,7 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../../../config.dart';
 import '../../../../../di.dart';
@@ -12,6 +13,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../data/on_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
 
@@ -36,8 +38,42 @@ extension BuildContextExt on BuildContext {
       return;
     }
 
+    bool orderWasCreated = false;
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      print('LOADED');
+      controller.addJavaScriptHandler(
+        handlerName: 'scalex',
+        callback: (args) {
+          print('CALLED');
+          print(args);
+
+          if (orderWasCreated) return;
+
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'type': 'RAMP_ORDER_ID',
+                'payload': {'orderId': final String orderId}
+              }) {
+            // sl<OnRampOrderService>()
+            //     .create(orderId: orderId, amount: submittedAmount);
+            orderWasCreated = true;
+          }
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('scalex', event.data);
+}, false);
+''',
+      );
+    }
+
     await router.push(
-      WebViewScreen.route(url: Uri.parse(link), title: 'Scalex'),
+      WebViewScreen.route(
+        url: Uri.parse(link),
+        onLoaded: handleLoaded,
+      ),
     );
   }
 
