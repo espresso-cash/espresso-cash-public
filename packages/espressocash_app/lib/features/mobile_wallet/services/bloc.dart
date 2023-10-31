@@ -155,7 +155,7 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
 }
 
 @freezed
-class _ValidationError with _$_ValidationError {
+class _ValidationError with _$ValidationError {
   const factory _ValidationError.invalidPayloads(List<bool> valids) =
       _InvalidPayload;
 

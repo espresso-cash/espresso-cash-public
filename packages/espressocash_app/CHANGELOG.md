@@ -1,3 +1,11 @@
+## 1.88.0
+
+ - **REFACTOR**: bump dependencies (#1113).
+ - **REFACTOR**: bump dependencies (#1109).
+ - **FIX**: crypto cash balance label (#1116).
+ - **FIX**: payment request amount (#1115).
+ - **FEAT**: update translations.
+
 ## 1.87.1
 
  - **FIX**: kado webview update (#1105).
