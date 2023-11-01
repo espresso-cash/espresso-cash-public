@@ -28,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 40;
 
 const _tables = [
   OutgoingTransferRows,
@@ -168,6 +168,9 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
           }
+          if (from >= 37 && from < 40) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
+          }
         },
       );
 
@@ -207,4 +210,13 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
+  TextColumn get partner => textEnum<RampPartnerDto>()();
+}
+
+enum RampPartnerDto {
+  kado,
+  rampNetwork,
+  coinflow,
+  guardarian,
+  scalex,
 }
