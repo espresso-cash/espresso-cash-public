@@ -27,7 +27,7 @@ dependencies:
   fast_immutable_collections: ^9.1.1
   firebase_analytics: ^10.1.0
   firebase_app_installations: ^0.2.1+8
-  firebase_core: ^2.4.1
+  firebase_core: ^2.21.0
   firebase_remote_config: ^4.3.2
   fl_chart: ^0.64.0
   flutter:
