@@ -20,10 +20,11 @@ class FeatureFlagsManager {
     await _remoteConfig.fetchAndActivate();
   }
 
-  bool isExperimental({required String address}) => _remoteConfig
-      .getString(FeatureFlag.isExperimental.name)
-      .let((p) => p.split(','))
-      .let((p) => p.contains(address));
+  bool get isUniversalPayEnabled =>
+      _remoteConfig.getBool(FeatureFlag.isUniversalPayEnabled.name);
+
+  bool get isCrossChainPaymentsEnabled =>
+      _remoteConfig.getBool(FeatureFlag.isCrossChainPaymentsEnabled.name);
 }
 
-enum FeatureFlag { isExperimental }
+enum FeatureFlag { isUniversalPayEnabled, isCrossChainPaymentsEnabled }
