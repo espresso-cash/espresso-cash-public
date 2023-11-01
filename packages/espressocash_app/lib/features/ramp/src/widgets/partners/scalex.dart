@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:auto_route/auto_route.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:decimal/decimal.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../../../config.dart';
+import '../../../../../core/amount.dart';
+import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
@@ -15,6 +18,7 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../models/profile_data.dart';
+import '../../models/ramp_partner.dart';
 import '../../models/ramp_type.dart';
 
 extension BuildContextExt on BuildContext {
@@ -40,22 +44,49 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
-      print('LOADED');
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
         callback: (args) {
-          print('CALLED');
-          print(args);
-
           if (orderWasCreated) return;
+
+          print(args);
 
           if (args.firstOrNull
               case <String, dynamic>{
-                'type': 'RAMP_ORDER_ID',
-                'payload': {'orderId': final String orderId}
+                'reference': final String reference,
+                'to_amount': final double toAmount,
               }) {
-            // sl<OnRampOrderService>()
-            //     .create(orderId: orderId, amount: submittedAmount);
+            if (type == RampType.offRamp) return;
+
+            final decimal = Decimal.parse(toAmount.toString());
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                    as CryptoAmount;
+
+            sl<OnRampOrderService>().create(
+              orderId: reference,
+              amount: amount,
+              partner: RampPartner.scalex,
+            );
+            orderWasCreated = true;
+          }
+
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'reference': final String reference,
+                'from_amount': final double toAmount,
+              }) {
+            if (type == RampType.onRamp) return;
+
+            final decimal = Decimal.parse(toAmount.toString());
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                    as CryptoAmount;
+
+            print('amount: $amount');
+            print('reference: $reference');
+
+            // create offramp
             orderWasCreated = true;
           }
         },
