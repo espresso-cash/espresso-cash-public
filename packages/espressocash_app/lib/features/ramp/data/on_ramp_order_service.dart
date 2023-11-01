@@ -8,6 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
@@ -17,7 +18,7 @@ typedef OnRampOrder = ({
   String orderId,
   String humanStatus,
   DateTime created,
-  CryptoAmount? amount,
+  FiatAmount? amount,
   CryptoAmount? receiveAmount,
   bool isCompleted,
   RampPartner partner,
@@ -32,21 +33,23 @@ class OnRampOrderService implements Disposable {
 
   Future<void> create({
     required String orderId,
-    required CryptoAmount amount,
     required RampPartner partner,
+    Amount? inputAmount,
+    CryptoAmount? receiveAmount,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: amount.value,
-            token: amount.token.address,
+            amount: inputAmount?.value ?? 0,
+            token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
             partner: partner.toDto(),
+            receiveAmount: receiveAmount?.value,
           ),
         );
   }
@@ -61,11 +64,9 @@ class OnRampOrderService implements Disposable {
             humanStatus: row.humanStatus,
             created: row.created,
             isCompleted: row.isCompleted,
-            amount: CryptoAmount(
+            amount: FiatAmount(
               value: row.amount,
-              cryptoCurrency: CryptoCurrency(
-                token: _tokens.requireTokenByMint(row.token),
-              ),
+              fiatCurrency: Currency.usd,
             ),
             receiveAmount: row.receiveAmount?.let(
               (amount) => CryptoAmount(
@@ -99,7 +100,6 @@ extension on RampPartner {
         RampPartner.coinflow => RampPartnerDto.coinflow,
         RampPartner.rampNetwork => RampPartnerDto.rampNetwork,
         RampPartner.kado => RampPartnerDto.kado,
-        RampPartner.scalex => RampPartnerDto.scalex,
         RampPartner.guardarian => RampPartnerDto.guardarian,
       };
 }
@@ -109,7 +109,6 @@ extension on RampPartnerDto {
         RampPartnerDto.coinflow => RampPartner.coinflow,
         RampPartnerDto.rampNetwork => RampPartner.rampNetwork,
         RampPartnerDto.kado => RampPartner.kado,
-        RampPartnerDto.scalex => RampPartner.scalex,
         RampPartnerDto.guardarian => RampPartner.guardarian,
       };
 }

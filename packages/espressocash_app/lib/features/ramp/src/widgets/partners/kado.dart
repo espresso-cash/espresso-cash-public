@@ -28,14 +28,14 @@ extension BuildContextExt on BuildContext {
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
-        currency: Currency.usdc,
+        currency: Currency.usd,
         calculateEquivalent: null,
         type: RampType.onRamp,
       ),
     );
 
     final submittedAmount = amount;
-    if (submittedAmount is! CryptoAmount) return;
+    if (submittedAmount is! FiatAmount) return;
 
     final uri = Uri.parse(kadoBaseUrl).replace(
       queryParameters: {
@@ -68,7 +68,7 @@ extension BuildContextExt on BuildContext {
               }) {
             sl<OnRampOrderService>().create(
               orderId: orderId,
-              amount: submittedAmount,
+              inputAmount: submittedAmount,
               partner: RampPartner.kado,
             );
             orderWasCreated = true;

@@ -218,5 +218,4 @@ enum RampPartnerDto {
   rampNetwork,
   coinflow,
   guardarian,
-  scalex,
 }
