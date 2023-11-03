@@ -49,12 +49,10 @@ extension BuildContextExt on BuildContext {
         callback: (args) {
           if (orderWasCreated) return;
 
-          print(args);
-
           if (args.firstOrNull
               case <String, dynamic>{
                 'reference': final String reference,
-                'to_amount': final double toAmount,
+                'to_amount': final num toAmount,
               }) {
             if (type == RampType.offRamp) return;
 
@@ -74,19 +72,21 @@ extension BuildContextExt on BuildContext {
           if (args.firstOrNull
               case <String, dynamic>{
                 'reference': final String reference,
-                'from_amount': final double toAmount,
+                'from_amount': final num fromAmount,
+                'address': final String address,
               }) {
             if (type == RampType.onRamp) return;
 
-            final decimal = Decimal.parse(toAmount.toString());
+            final decimal = Decimal.parse(fromAmount.toString());
             final amount =
                 Amount.fromDecimal(value: decimal, currency: Currency.usdc)
                     as CryptoAmount;
 
             print('amount: $amount');
             print('reference: $reference');
+            print('address: $address');
 
-            // create offramp
+            // TODO create offramp
             orderWasCreated = true;
           }
         },
