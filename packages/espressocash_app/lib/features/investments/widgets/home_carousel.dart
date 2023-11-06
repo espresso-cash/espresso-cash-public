@@ -116,15 +116,11 @@ class _Item extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.topCenter,
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: _carouselMaxWidth),
-              child: backgroundImage,
-            ),
+            child: backgroundImage,
           ),
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              constraints: const BoxConstraints(maxWidth: _carouselMaxWidth),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
@@ -178,5 +174,3 @@ class _Item extends StatelessWidget {
         ],
       );
 }
-
-const _carouselMaxWidth = 430.0;
