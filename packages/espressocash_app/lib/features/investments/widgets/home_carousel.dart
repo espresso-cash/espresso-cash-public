@@ -37,7 +37,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
-        backgroundImage: Assets.images.carousel1.image(),
+        backgroundImage: Assets.images.carousel2.image(),
       ),
       _Item(
         title: context.l10n.carousel2Title,
@@ -48,7 +48,18 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
-        backgroundImage: Assets.images.carousel2.image(),
+        backgroundImage: Assets.images.carousel1.image(),
+      ),
+      _Item(
+        title: context.l10n.carousel4Title,
+        subtitle: context.l10n.carousel4Subtitle,
+        button: CpButton(
+          minWidth: 250,
+          size: CpButtonSize.wide,
+          text: context.l10n.carouselSendMoneyBtn,
+          onPressed: () => context.router.navigate(WalletFlowScreen.route()),
+        ),
+        backgroundImage: Assets.images.carousel4.image(),
       ),
       _Item(
         title: context.l10n.carousel3Title,
