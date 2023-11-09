@@ -180,10 +180,36 @@
   "@landingReceiveMoney": {},
   "landingScanQr": "Scan the QR code",
   "@landingScanQr": {},
-  "landingSubtitle": "To complete the transaction, follow the steps below.",
-  "@landingSubtitle": {},
-  "landingTitle": "Money has been sent to you.",
-  "@landingTitle": {},
+  "landingInstruction": "To complete the transaction, follow the steps below.",
+  "@landingInstruction": {},
+  "landingLinkPaymentTitle": "Money has been sent to you.",
+  "@landingLinkPaymentTitle": {},
+  "landingPayEspresso": "Pay With Espresso Cash",
+  "@landingPayEspresso": {},
+  "landingPayOtherWallet": "Pay With Another Wallet",
+  "@landingPayOtherWallet": {},
+  "landingPaymentRequestTitle": "You have a payment request in the amount of",
+  "@landingPaymentRequestTitle": {},
+  "landingPaymentMethod": "Payment Method",
+  "@landingPaymentMethod": {},
+  "landingDestinationAddress": "Destination Address",
+  "@landingPaymentMethod": {},
+  "landingNetworkFee": "Network Fee: {amount} USDC",
+  "@landingNetworkFee": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "landingTotalAmount": "Total Amount: {amount} USDC",
+  "@landingTotalAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "learnAboutCrypto": "Learning About Crypto",
   "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Get help with all things crypto",

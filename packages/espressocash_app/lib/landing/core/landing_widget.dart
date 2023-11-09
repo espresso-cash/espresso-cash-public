@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
-import 'footer.dart';
+import 'presentation/footer.dart';
 
 class LandingScreenWidget extends StatelessWidget {
   const LandingScreenWidget({super.key, required this.children});

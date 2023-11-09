@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import '../widgets/extensions.dart';
-import '../widgets/landing_widget.dart';
-import '../widgets/qr_code.dart';
-import '../widgets/step_circle.dart';
+import 'extensions.dart';
+import 'landing_widget.dart';
+import 'presentation/header.dart';
+import 'presentation/qr_code.dart';
+import 'presentation/step_circle.dart';
 
 class DesktopView extends StatelessWidget {
   const DesktopView({
@@ -50,7 +51,7 @@ class DesktopView extends StatelessWidget {
 
     final second = _InstructionItem(
       step: 2,
-      content: ShareQr(qrLink: actionLink),
+      content: QrWidget(qrLink: actionLink),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
@@ -62,62 +63,66 @@ class DesktopView extends StatelessWidget {
       ),
     );
 
-    return LandingScreenWidget(
-      children: [
-        const SizedBox(height: 32),
-        Assets.images.logoDark.image(height: 62),
-        const SizedBox(height: 32),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 26,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          context.l10n.landingSubtitle,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 50),
-        if (width > 750)
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(),
-                first,
-                const VerticalDivider(
-                  color: Colors.white,
-                  thickness: 1.5,
-                  width: 32,
-                ),
-                second,
-                const Spacer(),
-              ],
-            ),
-          )
-        else
-          IntrinsicWidth(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                first,
-                const Divider(color: Colors.white, thickness: 1.5, height: 32),
-                second,
-              ],
+    return Scaffold(
+      body: LandingScreenWidget(
+        children: [
+          const EspressoHeader(),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 26,
+              fontWeight: FontWeight.w500,
             ),
           ),
-      ],
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.landingInstruction,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 50),
+          if (width > 750)
+            IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  first,
+                  const VerticalDivider(
+                    color: Colors.white,
+                    thickness: 1.5,
+                    width: 32,
+                  ),
+                  second,
+                  const Spacer(),
+                ],
+              ),
+            )
+          else
+            IntrinsicWidth(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  first,
+                  const Divider(
+                    color: Colors.white,
+                    thickness: 1.5,
+                    height: 32,
+                  ),
+                  second,
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -173,12 +178,12 @@ class _AppStoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          GestureDetector(
+          InkWell(
             onTap: context.launchPlayStore,
             child: Assets.landing.playstore.image(height: 64),
           ),
           const SizedBox(height: 16),
-          GestureDetector(
+          InkWell(
             onTap: context.launchAppStore,
             child: Assets.landing.appstore.image(height: 64),
           ),
