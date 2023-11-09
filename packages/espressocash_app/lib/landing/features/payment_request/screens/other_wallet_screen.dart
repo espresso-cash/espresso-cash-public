@@ -1,16 +1,18 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
+import '../../../../ui/loader.dart';
 import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/landing_widget.dart';
 import '../../../core/presentation/header.dart';
+import '../service/bloc.dart';
 
 class OtherWalletScreen extends StatelessWidget {
   const OtherWalletScreen({super.key, required this.request});
@@ -18,80 +20,84 @@ class OtherWalletScreen extends StatelessWidget {
   final SolanaPayRequest request;
 
   @override
-  Widget build(BuildContext context) {
-    const selectedChain = Blockchain.ethereum;
-    const evmAddress = 'asdfsFASDFasgdfasdfA';
-    final Decimal fee = Decimal.fromInt(1);
-    final total = request.amount! + fee;
+  Widget build(BuildContext context) =>
+      BlocBuilder<UniversalPayCubit, UniversalPayState>(
+        builder: (context, state) {
+          final fee = state.fees[state.selectedBlockchain] ?? 0.0;
 
-    return Scaffold(
-      body: LandingScreenWidget(
-        children: [
-          const EspressoHeader(),
-          Text(
-            '${context.l10n.landingPaymentRequestTitle} ${request.amount ?? 0} USDC',
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.w500,
+          return CpLoader(
+            isLoading: state.processingState.isProcessing,
+            child: Scaffold(
+              body: LandingScreenWidget(
+                children: [
+                  const EspressoHeader(),
+                  Text(
+                    '${context.l10n.landingPaymentRequestTitle} ${request.amount ?? 0} USDC',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 26,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 42),
+                  Text(
+                    context.l10n.landingPaymentMethod,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _PaymentMethodDropdown(
+                    current: state.selectedBlockchain,
+                    onChanged:
+                        context.read<UniversalPayCubit>().changeBlockchain,
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    context.l10n.landingDestinationAddress,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  _DestinationWidget(
+                    address: state.destinationEvmAddress,
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    context.l10n.landingNetworkFee(fee.toString()),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.23,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    context.l10n.landingTotalAmount(state.totalAmount ?? ''),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.23,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 42),
-          Text(
-            context.l10n.landingPaymentMethod,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          _PaymentMethodDropdown(
-            current: selectedChain,
-            onChanged: (chain) {},
-          ),
-          const SizedBox(height: 32),
-          Text(
-            context.l10n.landingDestinationAddress,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const _DestinationWidget(
-            address: evmAddress,
-          ),
-          const SizedBox(height: 32),
-          Text(
-            context.l10n.landingNetworkFee(fee.toString()),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 19,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.23,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            context.l10n.landingTotalAmount(total.toString()),
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.23,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          );
+        },
+      );
 }
 
 class _PaymentMethodDropdown extends StatelessWidget {

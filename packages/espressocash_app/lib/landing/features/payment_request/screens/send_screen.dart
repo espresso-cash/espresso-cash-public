@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../core/desktop.dart';
 import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
 import '../../../core/presentation/header.dart';
+import '../service/bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/divider.dart';
 import 'other_wallet_screen.dart';
@@ -45,7 +48,12 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
 
   void _onOtherWallet() => Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (context) => OtherWalletScreen(request: widget.request),
+          builder: (context) => BlocProvider(
+            create: (context) => sl<UniversalPayCubit>(
+              param1: widget.request,
+            ),
+            child: OtherWalletScreen(request: widget.request),
+          ),
         ),
       );
 

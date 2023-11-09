@@ -60,6 +60,7 @@ const _solanaHost = isProd
 
 const espressoCashLinkDomain = 'pay.espressocash.com';
 const espressoCashLinkProtocol = 'espressocash';
+const espressoCashApiUrl = 'https://app-4kaooywjoa-uc.a.run.app';
 
 const kadoBaseUrl = 'https://app.kado.money/';
 const kadoApiBaseUrl = 'https://api.kado.money';
