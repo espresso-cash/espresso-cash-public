@@ -1,17 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
-import '../../../../ui/rounded_rectangle.dart';
-import '../../../../ui/snackbar.dart';
-import '../../../core/blockchain.dart';
 import '../../../core/page.dart';
 import '../../../core/request_helpers.dart';
 import '../../../routes.gr.dart';
@@ -19,9 +13,12 @@ import '../../verifier/widgets/request_verifier.dart';
 import '../../verifier/widgets/timeline_status.dart';
 import '../data/repository.dart';
 import '../service/universal_pay_bloc.dart';
+import '../widgets/countdown_timer.dart';
+import '../widgets/destination_address.dart';
+import '../widgets/dropdown.dart';
 
 @RoutePage()
-class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
+class OtherWalletScreen extends StatelessWidget {
   const OtherWalletScreen({
     super.key,
     @queryParam this.amount,
@@ -37,18 +34,63 @@ class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<SolanaPayRequest>();
+    final request = context.createUniversalRequest(
+      amount: amount,
+      receiver: recipient,
+      reference: reference,
+    );
 
-    return PaymentRequestVerifier(
-      paymentRequest: request,
-      child: BlocBuilder<UniversalPayCubit, UniversalPayState>(
-        builder: (context, state) {
-          final fee = state.fees[state.selectedBlockchain] ?? 0.0;
+    return request == null
+        ? const SizedBox.shrink()
+        : BlocProvider(
+            create: (context) => UniversalPayBloc(
+              context.read<UniversalPayRepository>(),
+              request,
+            ),
+            child: PaymentRequestVerifier(
+              paymentRequest: request,
+              child: _Body(request),
+            ),
+          );
+  }
+}
 
-          return CpLoader(
+class _Body extends StatefulWidget {
+  const _Body(this.request);
+
+  final SolanaPayRequest request;
+
+  @override
+  State<_Body> createState() => _BodyState();
+}
+
+class _BodyState extends State<_Body> {
+  Timer? _timer;
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void _resetTimer(DateTime? expiresAt) {
+    _timer?.cancel();
+    if (expiresAt == null) return;
+    _timer = Timer(expiresAt.difference(DateTime.now()), _onRefresh);
+  }
+
+  void _onRefresh() => context.read<UniversalPayBloc>().refreshPrice();
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocListener<UniversalPayBloc, UniversalPayState>(
+        listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
+        listener: (context, state) => _resetTimer(state.expiresAt),
+        child: BlocBuilder<UniversalPayBloc, UniversalPayState>(
+          builder: (context, state) => CpLoader(
             isLoading: state.processingState.isProcessing,
             child: PageWidget(
-              statusWidget: TimelineStatus(request),
+              statusWidget: TimelineStatus(widget.request),
               children: [
                 const Text(
                   'You have a payment request.',
@@ -71,9 +113,9 @@ class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
                   ),
                 ),
                 const SizedBox(height: 8),
-                _PaymentMethodDropdown(
+                PaymentMethodDropdown(
                   current: state.selectedBlockchain,
-                  onChanged: context.read<UniversalPayCubit>().changeBlockchain,
+                  onChanged: context.read<UniversalPayBloc>().changeBlockchain,
                 ),
                 const SizedBox(height: 32),
                 const Text(
@@ -86,12 +128,14 @@ class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
                   ),
                 ),
                 const SizedBox(height: 8),
-                _DestinationWidget(
+                DestinationAddressWidget(
                   address: state.destinationEvmAddress,
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 24),
+                CountdownTimer(expiryDate: state.expiresAt ?? DateTime.now()),
+                const SizedBox(height: 12),
                 Text(
-                  'Network Fee: $fee USDC',
+                  'Network Fee: ${state.fee ?? ''} USDC',
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -113,166 +157,6 @@ class OtherWalletScreen extends StatelessWidget implements AutoRouteWrapper {
                 ),
               ],
             ),
-          );
-        },
-      ),
-    );
-  }
-
-  @override
-  Widget wrappedRoute(BuildContext context) {
-    final request = context.createUniversalRequest(
-      amount: amount,
-      receiver: recipient,
-      reference: reference,
-    );
-
-    return request != null
-        ? Provider<SolanaPayRequest>.value(
-            value: request,
-            child: BlocProvider(
-              create: (context) => UniversalPayCubit(
-                context.read<UniversalPayRepository>(),
-                request,
-              ),
-              child: this,
-            ),
-          )
-        : const SizedBox.shrink();
-  }
-}
-
-class _PaymentMethodDropdown extends StatelessWidget {
-  const _PaymentMethodDropdown({
-    required this.current,
-    required this.onChanged,
-  });
-
-  final Blockchain current;
-  final ValueSetter<Blockchain> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final blockchains = Blockchain.values.where((e) => e != Blockchain.solana);
-
-    return SizedBox(
-      width: 325,
-      child: DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(63),
-            ),
-          ),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<Blockchain>(
-            isExpanded: true,
-            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 4),
-            value: current,
-            onChanged: (value) {
-              if (value != null) {
-                onChanged(value);
-              }
-            },
-            selectedItemBuilder: (context) => blockchains
-                .map<Widget>(
-                  (value) => Center(
-                    child: Text(
-                      'With USDC on ${value.name}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            items: blockchains
-                .map<DropdownMenuItem<Blockchain>>(
-                  (value) => DropdownMenuItem<Blockchain>(
-                    value: value,
-                    child: Text(value.name),
-                  ),
-                )
-                .toList(),
-            dropdownColor: Colors.black,
-            icon: const Icon(
-              Icons.expand_more,
-              color: Colors.white,
-            ),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DestinationWidget extends StatelessWidget {
-  const _DestinationWidget({
-    required this.address,
-  });
-
-  final String address;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-        width: 410,
-        height: 155,
-        child: CpRoundedRectangle(
-          padding: const EdgeInsets.all(24),
-          backgroundColor: Colors.black,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: BarcodeWidget(
-                  width: 100,
-                  height: 100,
-                  barcode: Barcode.qrCode(),
-                  data: address,
-                  padding: EdgeInsets.zero,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 24),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      address,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CpButton(
-                        text: context.l10n.copy,
-                        minWidth: 80,
-                        onPressed: () {
-                          final data = ClipboardData(text: address);
-                          Clipboard.setData(data);
-                          showClipboardSnackbar(context);
-                        },
-                        size: CpButtonSize.micro,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
       );
