@@ -35,8 +35,10 @@ class GetStartedScreen extends StatelessWidget {
           body: Stack(
             children: [
               Align(
-                alignment: Alignment.bottomCenter,
-                child: Assets.images.dollarBg.image(),
+                child: Assets.images.dollarBg.image(
+                  fit: BoxFit.fitHeight,
+                  height: double.infinity,
+                ),
               ),
               SafeArea(
                 minimum: EdgeInsets.only(top: 70.h),
