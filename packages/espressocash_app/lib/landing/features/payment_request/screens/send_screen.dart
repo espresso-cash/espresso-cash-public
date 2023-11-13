@@ -36,10 +36,11 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
     } else {
       Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (context) => DesktopView(
+          builder: (context) => EspressoDesktopView(
             actionLink: Uri.parse(widget.request.toUrl()),
-            title:
-                '${context.l10n.landingPaymentRequestTitle} ${widget.request.amount ?? 0} USDC',
+            header: Text(
+              '${context.l10n.landingPaymentRequestTitle} ${widget.request.amount ?? 0} USDC',
+            ),
           ),
         ),
       );
@@ -59,7 +60,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: LandingScreenWidget(
+        body: LandingMobileWidget(
           children: [
             const EspressoHeader(),
             Text(

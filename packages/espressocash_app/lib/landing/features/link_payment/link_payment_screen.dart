@@ -18,18 +18,37 @@ class LinkPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actionLink = linkPayment.toDeepLinkUri();
-    final actionText = context.l10n.landingReceiveMoney;
     final title = context.l10n.landingLinkPaymentTitle;
 
     return isMobile
         ? _MobileView(
             actionLink: actionLink,
-            actionText: actionText,
             title: title,
           )
-        : DesktopView(
+        : EspressoDesktopView(
             actionLink: actionLink,
-            title: title,
+            header: Column(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Color(0xFF2D2B2C),
+                    fontSize: 26,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  context.l10n.landingInstruction,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xFF2D2B2C),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.23,
+                  ),
+                ),
+              ],
+            ),
           );
   }
 }
@@ -37,17 +56,15 @@ class LinkPaymentScreen extends StatelessWidget {
 class _MobileView extends StatelessWidget {
   const _MobileView({
     required this.actionLink,
-    required this.actionText,
     required this.title,
   });
 
   final Uri actionLink;
-  final String actionText;
   final String title;
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: LandingScreenWidget(
+        body: LandingMobileWidget(
           children: [
             const EspressoHeader(),
             Text(
@@ -92,7 +109,7 @@ class _MobileView extends StatelessWidget {
                 actionLink,
                 mode: LaunchMode.externalNonBrowserApplication,
               ),
-              text: actionText,
+              text: context.l10n.landingReceiveMoney,
             ),
           ],
         ),

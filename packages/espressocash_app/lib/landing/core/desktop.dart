@@ -4,19 +4,18 @@ import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
 import 'extensions.dart';
 import 'landing_widget.dart';
-import 'presentation/header.dart';
 import 'presentation/qr_code.dart';
 import 'presentation/step_circle.dart';
 
-class DesktopView extends StatelessWidget {
-  const DesktopView({
+class EspressoDesktopView extends StatelessWidget {
+  const EspressoDesktopView({
     super.key,
     required this.actionLink,
-    required this.title,
+    required this.header,
   });
 
   final Uri actionLink;
-  final String title;
+  final Widget header;
 
   @override
   Widget build(BuildContext context) {
@@ -64,64 +63,47 @@ class DesktopView extends StatelessWidget {
     );
 
     return Scaffold(
-      body: LandingScreenWidget(
-        children: [
-          const EspressoHeader(),
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 26,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            context.l10n.landingInstruction,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 50),
-          if (width > 750)
-            IntrinsicHeight(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Spacer(),
-                  first,
-                  const VerticalDivider(
-                    color: Colors.white,
-                    thickness: 1.5,
-                    width: 32,
-                  ),
-                  second,
-                  const Spacer(),
-                ],
+      body: LandingDesktopWidget(
+        header: header,
+        content: Column(
+          children: [
+            const SizedBox(height: 55),
+            if (width > 750)
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    first,
+                    const VerticalDivider(
+                      color: Color(0xFFE4E4E4),
+                      thickness: 1.5,
+                      width: 32,
+                    ),
+                    second,
+                    const Spacer(),
+                  ],
+                ),
+              )
+            else
+              IntrinsicWidth(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    first,
+                    const Divider(
+                      color: Color(0xFFE4E4E4),
+                      thickness: 1.5,
+                      height: 32,
+                    ),
+                    second,
+                  ],
+                ),
               ),
-            )
-          else
-            IntrinsicWidth(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  first,
-                  const Divider(
-                    color: Colors.white,
-                    thickness: 1.5,
-                    height: 32,
-                  ),
-                  second,
-                ],
-              ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

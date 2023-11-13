@@ -28,7 +28,7 @@ class OtherWalletScreen extends StatelessWidget {
           return CpLoader(
             isLoading: state.processingState.isProcessing,
             child: Scaffold(
-              body: LandingScreenWidget(
+              body: LandingMobileWidget(
                 children: [
                   const EspressoHeader(),
                   Text(

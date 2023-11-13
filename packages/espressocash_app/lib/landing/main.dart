@@ -31,7 +31,7 @@ class LandingPageApp extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(fontFamily: 'RobotoApp'),
-        color: const Color(0xffE36E0A),
+        color: const Color(0xffB4A270),
         onGenerateRoute: (settings) {
           final uri = Uri.parse(html.window.location.toString());
           final linkPayment = LinkPayments.tryParse(uri);

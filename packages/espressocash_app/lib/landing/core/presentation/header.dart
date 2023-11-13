@@ -12,11 +12,12 @@ class EspressoHeader extends StatelessWidget {
         child: Column(
           children: [
             if (isMobile) ...[
-              Assets.images.logoIcon.image(height: 120),
-              const SizedBox(height: 60),
+              const SizedBox(height: 32),
+              Assets.images.logo.image(height: 57),
+              const SizedBox(height: 32),
             ] else ...[
               const SizedBox(height: 32),
-              Assets.images.logoDark.image(height: 62),
+              Assets.images.logo.image(height: 62),
               const SizedBox(height: 32),
             ],
           ],

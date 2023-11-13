@@ -1,8 +1,6 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../ui/rounded_rectangle.dart';
-
 class QrWidget extends StatelessWidget {
   const QrWidget({
     super.key,
@@ -12,17 +10,13 @@ class QrWidget extends StatelessWidget {
   final Uri qrLink;
 
   @override
-  Widget build(BuildContext context) => CpRoundedRectangle(
-        scrollable: false,
-        backgroundColor: Colors.black,
-        padding: const EdgeInsets.all(24),
-        child: BarcodeWidget(
-          width: 120,
-          height: 120,
-          barcode: Barcode.qrCode(),
-          data: qrLink.toString(),
-          padding: EdgeInsets.zero,
-          color: Colors.white,
-        ),
+  Widget build(BuildContext context) => BarcodeWidget(
+        width: 160,
+        height: 160,
+        barcode: Barcode.qrCode(),
+        data: qrLink.toString(),
+        padding: const EdgeInsets.all(8),
+        color: Colors.black,
+        backgroundColor: const Color(0xFFF8EAC1),
       );
 }
