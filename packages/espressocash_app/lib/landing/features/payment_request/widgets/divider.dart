@@ -11,7 +11,7 @@ class DividerWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: Divider(color: Colors.white)),
+              Expanded(child: Divider(color: _dividerColor)),
               Padding(
                 padding: EdgeInsets.all(14.0),
                 child: Center(
@@ -19,17 +19,19 @@ class DividerWidget extends StatelessWidget {
                     'or ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
+                      color: Colors.black,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
                   ),
                 ),
               ),
-              Expanded(child: Divider(color: Colors.white)),
+              Expanded(child: Divider(color: _dividerColor)),
             ],
           ),
         ),
       );
 }
+
+const _dividerColor = Color(0xFFCECECE);

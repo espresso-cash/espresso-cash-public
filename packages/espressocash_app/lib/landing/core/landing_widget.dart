@@ -69,7 +69,6 @@ class LandingDesktopWidget extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 850),
             child: Column(
-              mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 32.0),

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/link_payments.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../core/desktop.dart';
 import '../../core/extensions.dart';
 import '../../core/landing_widget.dart';
-import '../../core/presentation/header.dart';
 import '../../core/presentation/step_circle.dart';
 
 class LinkPaymentScreen extends StatelessWidget {
@@ -66,7 +66,9 @@ class _MobileView extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: LandingMobileWidget(
           children: [
-            const EspressoHeader(),
+            const SizedBox(height: 32),
+            Assets.images.logo.image(height: 57),
+            const SizedBox(height: 32),
             Text(
               title,
               textAlign: TextAlign.center,

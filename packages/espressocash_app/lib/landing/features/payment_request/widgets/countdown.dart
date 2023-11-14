@@ -8,7 +8,7 @@ class CountdownTimer extends StatefulWidget {
     required this.expiryDate,
   });
 
-  final DateTime expiryDate;
+  final DateTime? expiryDate;
 
   @override
   State<CountdownTimer> createState() => _CountdownTimerState();
@@ -21,8 +21,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
   double _percent = 1;
 
   void _startTimer() {
-    _totalDurationSeconds =
-        widget.expiryDate.difference(DateTime.now()).inSeconds;
+    final expiryDate = widget.expiryDate;
+    if (expiryDate == null) return;
+
+    _totalDurationSeconds = expiryDate.difference(DateTime.now()).inSeconds;
     _remainingSeconds = _totalDurationSeconds;
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {

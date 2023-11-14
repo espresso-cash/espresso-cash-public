@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/button.dart';
 import '../../../core/blockchain.dart';
+import '../../../core/extensions.dart';
+import 'arrow.dart';
 
 class OtherWalletButton extends StatelessWidget {
   const OtherWalletButton({
@@ -18,20 +20,21 @@ class OtherWalletButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         size: CpButtonSize.big,
         variant: CpButtonVariant.black,
-        width: 250,
-        leading: _CircularLogoWidget(chain),
+        width: isMobile ? 350 : 250,
+        leading: UsdcLogoWidget(chain),
         text: 'USDC on ${chain.name}',
-        trailing: const SizedBox.shrink(),
+        trailing: isMobile
+            ? const Arrow(color: Colors.white)
+            : const SizedBox.shrink(),
         onPressed: onTap,
       );
 }
 
-class _CircularLogoWidget extends StatelessWidget {
-  const _CircularLogoWidget(this.chain);
+class UsdcLogoWidget extends StatelessWidget {
+  const UsdcLogoWidget(this.chain, {super.key, this.size = 40});
 
   final Blockchain chain;
-
-  static const size = 40.0;
+  final double size;
 
   @override
   Widget build(BuildContext context) => SizedBox(

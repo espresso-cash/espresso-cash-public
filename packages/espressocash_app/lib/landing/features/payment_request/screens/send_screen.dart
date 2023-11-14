@@ -13,6 +13,8 @@ import '../../../core/landing_widget.dart';
 import '../service/bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/button.dart';
+import '../widgets/divider.dart';
+import '../widgets/invoice.dart';
 import '../widgets/page.dart';
 import 'other_wallet_screen.dart';
 
@@ -63,7 +65,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) => BlocProvider(
-          create: (context) => sl<UniversalPayCubit>(
+          create: (context) => sl<UniversalPayBloc>(
             param1: widget.request,
             param2: chain,
           ),
@@ -79,9 +81,79 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
   @override
   Widget build(BuildContext context) => isMobile
       ? RequestMobilePage(
-          header: Container(),
-          content: const Column(
-            children: [], //TODO
+          header: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Antoine has requested',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 23,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
+              ),
+              Text(
+                '${widget.request.amount ?? 0} USDC',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 45,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -1,
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            children: [
+              const SizedBox(height: 24),
+              const Text(
+                'Express Checkout',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF2D2B2C),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
+              ),
+              const SizedBox(height: 16),
+              CpButton(
+                text: context.l10n.landingPayEspresso,
+                size: CpButtonSize.big,
+                width: 340,
+                trailing: const Arrow(),
+                onPressed: _onSolanaPay,
+              ),
+              const SizedBox(height: 16),
+              const DividerWidget(),
+              const SizedBox(height: 8),
+              const Text(
+                'Pay with another wallet',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Color(0xFF2D2B2C),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
+              ),
+              const SizedBox(height: 8),
+              ...Blockchain.values.map(
+                (e) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: OtherWalletButton(
+                    chain: e,
+                    onTap: () => _onOtherWallet(e),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 12),
+              if (widget.request.reference?.first case final reference?)
+                InvoiceWidget(address: reference.toBase58()),
+            ],
           ),
         )
       : Scaffold(
@@ -157,6 +229,10 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                       )
                       .toList(),
                 ),
+                if (widget.request.reference?.first case final reference?) ...[
+                  const SizedBox(height: 40),
+                  InvoiceWidget(address: reference.toBase58()),
+                ],
               ],
             ),
           ),

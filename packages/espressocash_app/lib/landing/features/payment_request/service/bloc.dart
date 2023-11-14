@@ -23,13 +23,14 @@ class UniversalPayState with _$UniversalPayState {
     Decimal? fee,
     DateTime? expiresAt,
     Blockchain? selectedChain,
+    String? reference,
     @Default(ProcessingStateNone()) ProcessingState processingState,
   }) = _UniversalPayState;
 }
 
 @Injectable(scope: 'landing')
-class UniversalPayCubit extends Cubit<UniversalPayState> {
-  UniversalPayCubit({
+class UniversalPayBloc extends Cubit<UniversalPayState> {
+  UniversalPayBloc({
     required UniversalPayRepository repository,
     @factoryParam required SolanaPayRequest request,
     @factoryParam required Blockchain blockchain,
@@ -59,6 +60,7 @@ class UniversalPayCubit extends Cubit<UniversalPayState> {
       state.copyWith(
         destinationEvmAddress: destinationAddress,
         selectedChain: _selectedChain,
+        reference: reference.toBase58(),
       ),
     );
 

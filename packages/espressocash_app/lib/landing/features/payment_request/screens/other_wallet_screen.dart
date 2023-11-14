@@ -12,10 +12,14 @@ import '../../../../ui/loader.dart';
 import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
+import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
 import '../../../core/presentation/qr_code.dart';
 import '../service/bloc.dart';
+import '../widgets/button.dart';
 import '../widgets/countdown.dart';
+import '../widgets/invoice.dart';
+import '../widgets/page.dart';
 
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen({
@@ -46,29 +50,148 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
     _timer = Timer(expiresAt.difference(DateTime.now()), _onRefresh);
   }
 
-  void _onRefresh() => context.read<UniversalPayCubit>().refreshPrice();
+  void _onRefresh() => context.read<UniversalPayBloc>().refreshPrice();
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: BlocListener<UniversalPayCubit, UniversalPayState>(
+        body: BlocListener<UniversalPayBloc, UniversalPayState>(
           listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
           listener: (context, state) => _resetTimer(state.expiresAt),
-          child: const _DesktopView(),
+          child: isMobile ? const _MobileView() : const _DesktopView(),
         ),
       );
 }
 
-class _DesktopView extends StatefulWidget {
+class _MobileView extends StatelessWidget {
+  const _MobileView();
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocBuilder<UniversalPayBloc, UniversalPayState>(
+        builder: (context, state) {
+          final chain = state.selectedChain ?? Blockchain.solana;
+
+          return CpLoader(
+            isLoading: state.processingState.isProcessing,
+            child: RequestMobilePage(
+              header: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: CountdownTimer(expiryDate: state.expiresAt),
+                    ),
+                  ),
+                  Align(
+                    child: QrWidget(code: state.destinationEvmAddress),
+                  ),
+                ],
+              ),
+              content: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
+                    Container(
+                      width: 75,
+                      height: 75,
+                      decoration: const ShapeDecoration(
+                        color: Color(0xFFEFEFEF),
+                        shape: OvalBorder(),
+                      ),
+                      child: Center(
+                        child: UsdcLogoWidget(
+                          chain,
+                          size: 45,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Pay Antoine With USDC On Polygon',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.23,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Text(
+                      '${chain.name} Address',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Color(0xFF2D2B2C),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.23,
+                      ),
+                    ),
+                    _BubbleWidget(
+                      content: Text(
+                        state.destinationEvmAddress,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      textToCopy: state.destinationEvmAddress,
+                    ),
+                    const Text(
+                      'Total Amount',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(0xFF2D2B2C),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.23,
+                      ),
+                    ),
+                    _BubbleWidget(
+                      content: Column(
+                        children: [
+                          Text(
+                            '${state.totalAmount ?? ''} USDC',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          Text(
+                            'Includes a ${chain.name} Network Fee of ${state.fee ?? ''} USDC',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                      textToCopy: state.fee.toString(),
+                    ),
+                    if (state.reference case final reference?)
+                      InvoiceWidget(address: reference),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+}
+
+class _DesktopView extends StatelessWidget {
   const _DesktopView();
 
   @override
-  State<_DesktopView> createState() => __DesktopViewState();
-}
-
-class __DesktopViewState extends State<_DesktopView> {
-  @override
   Widget build(BuildContext context) =>
-      BlocBuilder<UniversalPayCubit, UniversalPayState>(
+      BlocBuilder<UniversalPayBloc, UniversalPayState>(
         builder: (context, state) {
           final chain = state.selectedChain?.name ?? '';
 
@@ -90,9 +213,7 @@ class __DesktopViewState extends State<_DesktopView> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    CountdownTimer(
-                      expiryDate: state.expiresAt ?? DateTime.now(),
-                    ),
+                    CountdownTimer(expiryDate: state.expiresAt),
                   ],
                 ),
               ),
@@ -169,6 +290,8 @@ class __DesktopViewState extends State<_DesktopView> {
                     ),
                     textToCopy: state.totalAmount.toString(),
                   ),
+                  if (state.reference case final reference?)
+                    InvoiceWidget(address: reference),
                 ],
               ),
             ),
