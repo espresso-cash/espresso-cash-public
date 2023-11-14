@@ -1,3 +1,5 @@
+import '../../gen/assets.gen.dart';
+
 enum Blockchain { solana, ethereum, polygon }
 
 extension BlockchainExt on Blockchain {
@@ -12,5 +14,11 @@ extension BlockchainExt on Blockchain {
         Blockchain.solana => '7565164',
         Blockchain.ethereum => '1',
         Blockchain.polygon => '137',
+      };
+
+  AssetGenImage get logo => switch (this) {
+        Blockchain.solana => Assets.landing.solanaLogo,
+        Blockchain.ethereum => Assets.landing.ethLogo,
+        Blockchain.polygon => Assets.landing.polygonLogo,
       };
 }

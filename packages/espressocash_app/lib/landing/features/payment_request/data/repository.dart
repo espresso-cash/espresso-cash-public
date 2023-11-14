@@ -13,11 +13,16 @@ class UniversalPayRepository {
     required String receiver,
     required String reference,
   }) =>
-      _client.generateEvmAddress(receiver, reference).letAsync((r) => r.result);
+      _client
+          .generateEvmAddress(receiver: receiver, reference: reference)
+          .letAsync((r) => r.result);
 
-  Future<double> getBlockchainFee({
+  Future<int> getTotalAmount({
     required String chainId,
     required String amount,
+    required String address,
   }) =>
-      _client.getFees(chainId, amount).letAsync((r) => r.totalFees);
+      _client
+          .getFees(chainId: chainId, amount: amount, address: address)
+          .letAsync((r) => r.makerAmountRounded);
 }

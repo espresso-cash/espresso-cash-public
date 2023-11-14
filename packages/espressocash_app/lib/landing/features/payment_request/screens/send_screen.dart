@@ -65,6 +65,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
         builder: (context) => BlocProvider(
           create: (context) => sl<UniversalPayCubit>(
             param1: widget.request,
+            param2: chain,
           ),
           child: OtherWalletScreen(
             request: widget.request,
@@ -147,75 +148,17 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                   runSpacing: 8,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   alignment: WrapAlignment.center,
-                  children: [
-                    OtherWalletButton(
-                      chain: Blockchain.solana,
-                      onTap: () => _onOtherWallet(Blockchain.solana),
-                    ),
-                    OtherWalletButton(
-                      chain: Blockchain.ethereum,
-                      onTap: () => _onOtherWallet(Blockchain.ethereum),
-                    ),
-                    OtherWalletButton(
-                      chain: Blockchain.polygon,
-                      onTap: () => _onOtherWallet(Blockchain.polygon),
-                    ),
-                  ],
+                  children: Blockchain.values
+                      .map(
+                        (e) => OtherWalletButton(
+                          chain: e,
+                          onTap: () => _onOtherWallet(e),
+                        ),
+                      )
+                      .toList(),
                 ),
               ],
             ),
           ),
         );
-
-  // @override
-  // Widget build(BuildContext context) => Scaffold(
-  //       body: LandingMobileWidget(
-  //         children: [
-  //           const EspressoHeader(),
-  //           Text(
-  //             context.l10n.landingPaymentRequestTitle,
-  //             textAlign: TextAlign.center,
-  //             style: const TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 24,
-  //               fontWeight: FontWeight.w500,
-  //               letterSpacing: 0.23,
-  //             ),
-  //           ),
-  //           const SizedBox(height: 8),
-  //           Text(
-  //             '${widget.request.amount ?? 0} USDC',
-  //             textAlign: TextAlign.center,
-  //             style: const TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 41,
-  //               fontWeight: FontWeight.w700,
-  //               letterSpacing: -1,
-  //             ),
-  //           ),
-  //           const SizedBox(height: 40),
-  //           CpButton(
-  //             text: context.l10n.landingPayEspresso,
-  //             size: CpButtonSize.big,
-  //             width: 350,
-  //             trailing: const Arrow(),
-  //             onPressed: _onSolanaPay,
-  //           ),
-  //           const Padding(
-  //             padding: EdgeInsets.symmetric(vertical: 8),
-  //             child: DividerWidget(),
-  //           ),
-  //           CpButton(
-  //             text: context.l10n.landingPayOtherWallet,
-  //             size: CpButtonSize.big,
-  //             variant: CpButtonVariant.black,
-  //             width: 350,
-  //             trailing: const Arrow(
-  //               color: Colors.white,
-  //             ),
-  //             onPressed: _onOtherWallet,
-  //           ),
-  //         ],
-  //       ),
-  //     );
 }

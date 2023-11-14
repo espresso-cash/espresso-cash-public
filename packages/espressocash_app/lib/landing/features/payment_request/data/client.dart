@@ -15,16 +15,17 @@ abstract class UniversalPayApiClient {
   factory UniversalPayApiClient(Dio dio) = _UniversalPayApiClient;
 
   @GET('/generate/{receiver}/{reference}')
-  Future<GenerateAddressDto> generateEvmAddress(
-    @Path('receiver') String receiver,
-    @Path('reference') String reference,
-  );
+  Future<GenerateAddressDto> generateEvmAddress({
+    @Path('receiver') required String receiver,
+    @Path('reference') required String reference,
+  });
 
   @GET('/fee/{chainId}')
-  Future<FeeDto> getFees(
-    @Path('chainId') String chainId,
-    @Query('amount') String amount,
-  );
+  Future<FeeDto> getFees({
+    @Path('chainId') required String chainId,
+    @Query('amount') required String amount,
+    @Query('address') required String address,
+  });
 }
 
 @Freezed(toJson: false)
@@ -40,14 +41,13 @@ class GenerateAddressDto with _$GenerateAddressDto {
 @Freezed(toJson: false)
 class FeeDto with _$FeeDto {
   const factory FeeDto({
-    required double dlnFeeInUsdc,
-    required double relayerFeesToDeploy,
-    required double relayerFeesToForward,
-    required double takerFeeFix,
-    required double takerFeeVariable,
-    required double gasPriceInWei,
-    required double totalVariableFee,
-    required double totalFees,
+    required double gasPrice,
+    required double takerFeeFixInUsdc,
+    required double takerFeeVariableInUsdc,
+    required double makerAmount,
+    required int makerAmountRounded,
+    required double affiliateFee,
+    required double makerAmountMinusDeploy,
   }) = _FeeDto;
 
   factory FeeDto.fromJson(Map<String, dynamic> json) => _$FeeDtoFromJson(json);

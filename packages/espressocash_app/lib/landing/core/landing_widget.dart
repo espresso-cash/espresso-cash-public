@@ -37,7 +37,7 @@ class LandingMobileWidget extends StatelessWidget {
                           ),
                           const Spacer(),
                           const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 24),
+                            padding: EdgeInsets.symmetric(vertical: 12),
                             child: Footer(),
                           ),
                         ],
@@ -90,7 +90,7 @@ class LandingDesktopWidget extends StatelessWidget {
                       children: [
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 32),
+                          padding: const EdgeInsets.symmetric(vertical: 24),
                           decoration: const ShapeDecoration(
                             color: Color(0xFFFBC728),
                             shape: RoundedRectangleBorder(
@@ -114,8 +114,8 @@ class LandingDesktopWidget extends StatelessWidget {
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16.0),
-                          child: Footer(textColor: Colors.black),
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          child: Footer(textColor: Color(0xFFBDBDBD)),
                         ),
                       ],
                     ),

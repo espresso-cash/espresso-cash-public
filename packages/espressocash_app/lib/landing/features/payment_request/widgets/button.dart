@@ -33,12 +33,6 @@ class _CircularLogoWidget extends StatelessWidget {
 
   static const size = 40.0;
 
-  AssetGenImage get image => switch (chain) {
-        Blockchain.solana => Assets.landing.solanaLogo,
-        Blockchain.ethereum => Assets.landing.ethLogo,
-        Blockchain.polygon => Assets.landing.polygonLogo,
-      };
-
   @override
   Widget build(BuildContext context) => SizedBox(
         width: size,
@@ -60,7 +54,7 @@ class _CircularLogoWidget extends StatelessWidget {
                 child: SizedBox(
                   width: size * 0.4,
                   height: size * 0.4,
-                  child: image.image(),
+                  child: chain.logo.image(),
                 ),
               ),
             ),

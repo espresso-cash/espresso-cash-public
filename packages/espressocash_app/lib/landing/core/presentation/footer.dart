@@ -26,20 +26,21 @@ class Footer extends StatelessWidget {
               color: textColor,
               fontSize: 12,
               fontWeight: FontWeight.w400,
+              letterSpacing: 0.36,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text.rich(
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Terms',
+                  text: 'Terms of Use',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => launchUrl(Uri.parse(termsUrl)),
                 ),
-                const TextSpan(text: ' & '),
+                const WidgetSpan(child: SizedBox(width: 12)),
                 TextSpan(
-                  text: 'Privacy',
+                  text: 'Privacy Policy',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => launchUrl(Uri.parse(privacyUrl)),
                 ),
@@ -48,8 +49,9 @@ class Footer extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: textColor,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.20,
             ),
           ),
         ],
