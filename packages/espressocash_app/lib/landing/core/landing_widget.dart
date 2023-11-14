@@ -67,7 +67,7 @@ class LandingDesktopWidget extends StatelessWidget {
         decoration: const BoxDecoration(color: Color(0xffB4A270)),
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 800),
+            constraints: const BoxConstraints(maxWidth: 850),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [

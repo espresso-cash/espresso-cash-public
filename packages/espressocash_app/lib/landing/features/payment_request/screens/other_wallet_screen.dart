@@ -1,4 +1,3 @@
-import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,224 +10,223 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/landing_widget.dart';
-import '../../../core/presentation/header.dart';
+import '../../../core/presentation/qr_code.dart';
 import '../service/bloc.dart';
 
 class OtherWalletScreen extends StatelessWidget {
-  const OtherWalletScreen({super.key, required this.request});
+  const OtherWalletScreen({
+    super.key,
+    required this.request,
+    required this.chain,
+  });
 
   final SolanaPayRequest request;
+  final Blockchain chain;
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<UniversalPayCubit, UniversalPayState>(
-        builder: (context, state) {
-          final fee = state.fees[state.selectedBlockchain] ?? 0.0;
+  Widget build(BuildContext context) {
+    const fee = 1.1;
+    const evmAddress = '0x4838B106FCe9647Bdf1E7877BF73cE8B0BAD5f97';
 
-          return CpLoader(
-            isLoading: state.processingState.isProcessing,
-            child: Scaffold(
-              body: LandingMobileWidget(
+    return Scaffold(
+      body: LandingDesktopWidget(
+        header: Text(
+          'Pay Antoine with USDC on ${chain.name} network',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(0xFF2D2B2C),
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        content: Column(
+          children: [
+            const Text(
+              'Open your crypto wallet and scan the QR code, or copy the USDC address below to make a payment.',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 19,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24.0),
+              child: QrWidget(code: evmAddress),
+            ),
+            Text(
+              '${chain.name} Address',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            const _BubbleWidget(
+              content: Text(
+                evmAddress,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              textToCopy: evmAddress,
+            ),
+            const Text(
+              'Total Amount',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            _BubbleWidget(
+              content: Column(
                 children: [
-                  const EspressoHeader(),
                   Text(
-                    '${context.l10n.landingPaymentRequestTitle} ${request.amount ?? 0} USDC',
-                    textAlign: TextAlign.center,
+                    '${request.amount ?? ''} USDC',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 26,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  const SizedBox(height: 42),
                   Text(
-                    context.l10n.landingPaymentMethod,
+                    'Includes a ${chain.name} Network Fee of $fee USDC',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _PaymentMethodDropdown(
-                    current: state.selectedBlockchain,
-                    onChanged:
-                        context.read<UniversalPayCubit>().changeBlockchain,
-                  ),
-                  const SizedBox(height: 32),
-                  Text(
-                    context.l10n.landingDestinationAddress,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  _DestinationWidget(
-                    address: state.destinationEvmAddress,
-                  ),
-                  const SizedBox(height: 32),
-                  Text(
-                    context.l10n.landingNetworkFee(fee.toString()),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    context.l10n.landingTotalAmount(state.totalAmount ?? ''),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.23,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ],
               ),
+              textToCopy: fee.toString(),
             ),
-          );
-        },
-      );
-}
-
-class _PaymentMethodDropdown extends StatelessWidget {
-  const _PaymentMethodDropdown({
-    required this.current,
-    required this.onChanged,
-  });
-
-  final Blockchain current;
-  final ValueSetter<Blockchain> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final blockchains = Blockchain.values.where((e) => e != Blockchain.solana);
-
-    return SizedBox(
-      width: 325,
-      child: DecoratedBox(
-        decoration: const ShapeDecoration(
-          color: Colors.black,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(63),
-            ),
-          ),
-        ),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<Blockchain>(
-            isExpanded: true,
-            padding: const EdgeInsets.symmetric(horizontal: 42, vertical: 4),
-            value: current,
-            onChanged: (value) {
-              if (value != null) {
-                onChanged(value);
-              }
-            },
-            selectedItemBuilder: (context) => blockchains
-                .map<Widget>(
-                  (value) => Center(
-                    child: Text(
-                      'With USDC on ${value.name}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
-            items: blockchains
-                .map<DropdownMenuItem<Blockchain>>(
-                  (value) => DropdownMenuItem<Blockchain>(
-                    value: value,
-                    child: Text(value.name),
-                  ),
-                )
-                .toList(),
-            dropdownColor: Colors.black,
-            icon: const Icon(
-              Icons.expand_more,
-              color: Colors.white,
-            ),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-            ),
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-          ),
+          ],
         ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) =>
+  //     BlocBuilder<UniversalPayCubit, UniversalPayState>(
+  //       builder: (context, state) {
+  //         final fee = state.fees[state.selectedBlockchain] ?? 0.0;
+
+  //         return CpLoader(
+  //           isLoading: state.processingState.isProcessing,
+  //           child: Scaffold(
+  //             body: LandingMobileWidget(
+  //               children: [
+  //                 const EspressoHeader(),
+  //                 Text(
+  //                   '${context.l10n.landingPaymentRequestTitle} ${request.amount ?? 0} USDC',
+  //                   textAlign: TextAlign.center,
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 26,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 42),
+  //                 Text(
+  //                   context.l10n.landingPaymentMethod,
+  //                   textAlign: TextAlign.center,
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 19,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 _PaymentMethodDropdown(
+  //                   current: state.selectedBlockchain,
+  //                   onChanged:
+  //                       context.read<UniversalPayCubit>().changeBlockchain,
+  //                 ),
+  //                 const SizedBox(height: 32),
+  //                 Text(
+  //                   context.l10n.landingDestinationAddress,
+  //                   textAlign: TextAlign.center,
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 19,
+  //                     fontWeight: FontWeight.w500,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 8),
+  //                 _DestinationWidget(
+  //                   address: state.destinationEvmAddress,
+  //                 ),
+  //                 const SizedBox(height: 32),
+  //                 Text(
+  //                   context.l10n.landingNetworkFee(fee.toString()),
+  //                   textAlign: TextAlign.center,
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 19,
+  //                     fontWeight: FontWeight.w600,
+  //                     letterSpacing: 0.23,
+  //                   ),
+  //                 ),
+  //                 const SizedBox(height: 4),
+  //                 Text(
+  //                   context.l10n.landingTotalAmount(state.totalAmount ?? ''),
+  //                   textAlign: TextAlign.center,
+  //                   style: const TextStyle(
+  //                     color: Colors.white,
+  //                     fontSize: 24,
+  //                     fontWeight: FontWeight.w700,
+  //                     letterSpacing: 0.23,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       },
+  //     );
 }
 
-class _DestinationWidget extends StatelessWidget {
-  const _DestinationWidget({
-    required this.address,
+class _BubbleWidget extends StatelessWidget {
+  const _BubbleWidget({
+    required this.content,
+    required this.textToCopy,
   });
 
-  final String address;
+  final Widget content;
+  final String textToCopy;
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: 410,
-        height: 155,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: CpRoundedRectangle(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
           backgroundColor: Colors.black,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Center(
-                child: BarcodeWidget(
-                  width: 100,
-                  height: 100,
-                  barcode: Barcode.qrCode(),
-                  data: address,
-                  padding: EdgeInsets.zero,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 24),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      address,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CpButton(
-                        text: context.l10n.copy,
-                        minWidth: 80,
-                        onPressed: () {
-                          final data = ClipboardData(text: address);
-                          Clipboard.setData(data);
-                          showClipboardSnackbar(context);
-                        },
-                        size: CpButtonSize.micro,
-                      ),
-                    ),
-                  ],
-                ),
+              Expanded(child: content),
+              CpButton(
+                text: context.l10n.copy,
+                minWidth: 80,
+                onPressed: () {
+                  final data = ClipboardData(text: textToCopy);
+                  Clipboard.setData(data);
+                  showClipboardSnackbar(context);
+                },
+                size: CpButtonSize.small,
               ),
             ],
           ),

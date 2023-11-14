@@ -50,7 +50,7 @@ class EspressoDesktopView extends StatelessWidget {
 
     final second = _InstructionItem(
       step: 2,
-      content: QrWidget(qrLink: actionLink),
+      content: QrWidget(code: actionLink.toString()),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
