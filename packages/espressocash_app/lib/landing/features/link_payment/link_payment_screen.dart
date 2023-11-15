@@ -66,9 +66,12 @@ class _MobileView extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: LandingMobileWidget(
           children: [
-            const SizedBox(height: 32),
-            Assets.images.logo.image(height: 57),
-            const SizedBox(height: 32),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.32,
+              child: Center(
+                child: Assets.images.logo.image(height: 57),
+              ),
+            ),
             Text(
               title,
               textAlign: TextAlign.center,
@@ -78,13 +81,13 @@ class _MobileView extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
             Text(
               context.l10n.landingInstruction,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 17,
                 fontWeight: FontWeight.w500,
               ),
             ),

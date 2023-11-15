@@ -23,7 +23,6 @@ class UniversalPayState with _$UniversalPayState {
     Decimal? fee,
     DateTime? expiresAt,
     Blockchain? selectedChain,
-    String? reference,
     @Default(ProcessingStateNone()) ProcessingState processingState,
   }) = _UniversalPayState;
 }
@@ -60,7 +59,6 @@ class UniversalPayBloc extends Cubit<UniversalPayState> {
       state.copyWith(
         destinationEvmAddress: destinationAddress,
         selectedChain: _selectedChain,
-        reference: reference.toBase58(),
       ),
     );
 

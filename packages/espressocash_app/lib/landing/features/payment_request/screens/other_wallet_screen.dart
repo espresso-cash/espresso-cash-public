@@ -24,11 +24,9 @@ import '../widgets/page.dart';
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen({
     super.key,
-    required this.request,
     required this.chain,
   });
 
-  final SolanaPayRequest request;
   final Blockchain chain;
 
   @override
@@ -70,6 +68,10 @@ class _MobileView extends StatelessWidget {
       BlocBuilder<UniversalPayBloc, UniversalPayState>(
         builder: (context, state) {
           final chain = state.selectedChain ?? Blockchain.solana;
+          final request = context.read<SolanaPayRequest>();
+
+          final String title =
+              'Pay ${request.label ?? ''} with USDC on $chain network';
 
           return CpLoader(
             isLoading: state.processingState.isProcessing,
@@ -108,10 +110,10 @@ class _MobileView extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Pay Antoine With USDC On Polygon',
+                    Text(
+                      title,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
@@ -175,8 +177,8 @@ class _MobileView extends StatelessWidget {
                       ),
                       textToCopy: state.fee.toString(),
                     ),
-                    if (state.reference case final reference?)
-                      InvoiceWidget(address: reference),
+                    if (request.reference?.first case final reference?)
+                      InvoiceWidget(address: reference.toBase58()),
                   ],
                 ),
               ),
@@ -194,6 +196,10 @@ class _DesktopView extends StatelessWidget {
       BlocBuilder<UniversalPayBloc, UniversalPayState>(
         builder: (context, state) {
           final chain = state.selectedChain?.name ?? '';
+          final request = context.read<SolanaPayRequest>();
+
+          final String title =
+              'Pay ${request.label ?? ''} with USDC on $chain network';
 
           return CpLoader(
             isLoading: state.processingState.isProcessing,
@@ -205,7 +211,7 @@ class _DesktopView extends StatelessWidget {
                   children: [
                     const CpBackButton(),
                     Text(
-                      'Pay Antoine with USDC on $chain network',
+                      title,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF2D2B2C),
@@ -290,8 +296,8 @@ class _DesktopView extends StatelessWidget {
                     ),
                     textToCopy: state.totalAmount.toString(),
                   ),
-                  if (state.reference case final reference?)
-                    InvoiceWidget(address: reference),
+                  if (request.reference?.first case final reference?)
+                    InvoiceWidget(address: reference.toBase58()),
                 ],
               ),
             ),

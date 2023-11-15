@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/desktop.dart';
@@ -17,6 +19,7 @@ import '../widgets/divider.dart';
 import '../widgets/invoice.dart';
 import '../widgets/page.dart';
 import 'other_wallet_screen.dart';
+import 'solana_wallet_screen.dart';
 
 class SendInitialScreen extends StatefulWidget {
   const SendInitialScreen(this.request, {super.key});
@@ -37,45 +40,59 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
         mode: LaunchMode.externalNonBrowserApplication,
       );
     } else {
-      Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (context) => EspressoDesktopView(
-            actionLink: Uri.parse(widget.request.toUrl()),
-            header: Text(
-              '${context.l10n.landingPaymentRequestTitle} ${widget.request.amount ?? 0} USDC',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF2D2B2C),
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
+      final page = EspressoDesktopView(
+        actionLink: Uri.parse(widget.request.toUrl()),
+        header: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const CpBackButton(),
+              Text(
+                widget.request.headerTitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF2D2B2C),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
+              const SizedBox.shrink(),
+            ],
           ),
         ),
       );
+
+      Navigator.of(context)
+          .push(MaterialPageRoute<void>(builder: (context) => page));
     }
   }
 
   void _onOtherWallet(Blockchain chain) {
+    final Widget page;
+
     if (chain == Blockchain.solana) {
-      //TODO new page
-      return;
+      page = SolanaWalletScreen(
+        title: widget.request.headerTitle,
+        actionLink: Uri.parse(widget.request.toUrl()),
+      );
+    } else {
+      page = MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<UniversalPayBloc>(
+              param1: widget.request,
+              param2: chain,
+            ),
+          ),
+          Provider.value(value: widget.request),
+        ],
+        child: OtherWalletScreen(chain: chain),
+      );
     }
 
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (context) => BlocProvider(
-          create: (context) => sl<UniversalPayBloc>(
-            param1: widget.request,
-            param2: chain,
-          ),
-          child: OtherWalletScreen(
-            request: widget.request,
-            chain: chain,
-          ),
-        ),
-      ),
-    );
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (context) => page));
   }
 
   @override
@@ -84,10 +101,12 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
           header: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Antoine has requested',
+              Text(
+                widget.request.label == null
+                    ? 'You have a request of'
+                    : '${widget.request.label} has request}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 23,
                   fontWeight: FontWeight.w500,
@@ -159,7 +178,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
       : Scaffold(
           body: LandingDesktopWidget(
             header: Text(
-              'has requested ${widget.request.amount ?? 0} USDC',
+              widget.request.headerTitle,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF2D2B2C),
@@ -237,4 +256,15 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
             ),
           ),
         );
+}
+
+extension on SolanaPayRequest {
+  String get headerTitle {
+    final name = label;
+    final amount = this.amount ?? 0;
+
+    return name == null
+        ? 'You have a request of $amount USDC'
+        : '$name has requested $amount USDC';
+  }
 }
