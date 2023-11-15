@@ -166,7 +166,7 @@ class _MobileView extends StatelessWidget {
                           Text(
                             context.l10n.landingNetworkFee(
                               chain.name,
-                              state.fee.toString(),
+                              '${state.fee ?? '0'}',
                             ),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
@@ -274,7 +274,7 @@ class _DesktopView extends StatelessWidget {
                         Text(
                           context.l10n.landingNetworkFee(
                             chain,
-                            state.fee.toString(),
+                            '${state.fee ?? '0'}',
                           ),
                           textAlign: TextAlign.center,
                           style: const TextStyle(

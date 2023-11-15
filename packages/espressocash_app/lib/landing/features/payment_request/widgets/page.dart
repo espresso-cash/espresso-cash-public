@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/back_button.dart';
+import '../../../../ui/theme.dart';
 import '../../../core/presentation/footer.dart';
 
 class RequestMobilePage extends StatelessWidget {
@@ -91,8 +92,8 @@ class _Header extends StatelessWidget {
             SizedBox.expand(child: Center(child: content)),
             const Padding(
               padding: EdgeInsets.all(16),
-              child: CpBackButton(
-                ensureBackNavigation: true,
+              child: CpTheme.dark(
+                child: CpBackButton(ensureBackNavigation: true),
               ),
             ),
           ],
