@@ -128,10 +128,10 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
           content: Column(
             children: [
               const SizedBox(height: 24),
-              const Text(
-                'Express Checkout',
+              Text(
+                context.l10n.landingExpressCheckout,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF2D2B2C),
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
@@ -149,10 +149,10 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
               const SizedBox(height: 16),
               const DividerWidget(),
               const SizedBox(height: 8),
-              const Text(
-                'Pay with another wallet',
+              Text(
+                context.l10n.landingPayOtherWallet,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF2D2B2C),
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
@@ -188,12 +188,12 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
             ),
             content: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 8),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Text(
-                    'Payment method',
+                    context.l10n.landingPaymentMethod,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF2D2B2C),
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -202,12 +202,12 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                   ),
                 ),
                 const Divider(),
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 24),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
                   child: Text(
-                    'Express Checkout',
+                    context.l10n.landingExpressCheckout,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF2D2B2C),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -223,10 +223,10 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                   onPressed: _onSolanaPay,
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'or select a cryptocurrency to pay with another wallet',
+                Text(
+                  context.l10n.landingPayOtherWallet2,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color(0xFF2D2B2C),
                     fontSize: 16,
                     fontWeight: FontWeight.w500,

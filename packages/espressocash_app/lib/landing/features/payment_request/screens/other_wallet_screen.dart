@@ -143,10 +143,10 @@ class _MobileView extends StatelessWidget {
                       ),
                       textToCopy: state.destinationEvmAddress,
                     ),
-                    const Text(
-                      'Total Amount',
+                    Text(
+                      context.l10n.landingTotalAmount,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF2D2B2C),
                         fontSize: 17,
                         fontWeight: FontWeight.w500,
@@ -165,7 +165,10 @@ class _MobileView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Includes a ${chain.name} Network Fee of ${state.fee ?? ''} USDC',
+                            context.l10n.landingNetworkFee(
+                              chain.name,
+                              state.fee.toString(),
+                            ),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.white,
@@ -225,10 +228,10 @@ class _DesktopView extends StatelessWidget {
               ),
               content: Column(
                 children: [
-                  const Text(
-                    'Open your crypto wallet and scan the QR code, or copy the USDC address below to make a payment.',
+                  Text(
+                    context.l10n.landingPayRequestInstruction,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 19,
                       fontWeight: FontWeight.w500,
@@ -262,10 +265,10 @@ class _DesktopView extends StatelessWidget {
                     ),
                     textToCopy: state.destinationEvmAddress,
                   ),
-                  const Text(
-                    'Total Amount',
+                  Text(
+                    context.l10n.landingTotalAmount,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color(0xFF2D2B2C),
                       fontSize: 17,
                       fontWeight: FontWeight.w500,
@@ -284,7 +287,10 @@ class _DesktopView extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Includes a $chain Network Fee of ${state.fee ?? ''} USDC',
+                          context.l10n.landingNetworkFee(
+                            chain,
+                            state.fee.toString(),
+                          ),
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,

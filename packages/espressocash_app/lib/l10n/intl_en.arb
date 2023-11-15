@@ -180,36 +180,37 @@
   "@landingReceiveMoney": {},
   "landingScanQr": "Scan the QR code",
   "@landingScanQr": {},
+  "landingScanSolanaWallet": "Scan the QR code with your Solana wallet",
+  "@landingScanSolanaWallet": {},
   "landingInstruction": "To complete the transaction, follow the steps below.",
   "@landingInstruction": {},
   "landingLinkPaymentTitle": "Money has been sent to you.",
   "@landingLinkPaymentTitle": {},
   "landingPayEspresso": "Pay With Espresso Cash",
   "@landingPayEspresso": {},
-  "landingPayOtherWallet": "Pay With Another Wallet",
+  "landingPayOtherWallet": "Pay with another wallet",
   "@landingPayOtherWallet": {},
-  "landingPaymentRequestTitle": "You have a payment request in the amount of",
-  "@landingPaymentRequestTitle": {},
-  "landingPaymentMethod": "Payment Method",
+  "landingPayOtherWallet2": "or select a cryptocurrency to pay with another wallet",
+  "@landingPayOtherWallet2": {},
+  "landingPaymentMethod": "Payment method",
   "@landingPaymentMethod": {},
-  "landingDestinationAddress": "Destination Address",
-  "@landingPaymentMethod": {},
-  "landingNetworkFee": "Network Fee: {amount} USDC",
+  "landingExpressCheckout": "Express Checkout",
+  "@landingExpressCheckout": {},
+  "landingNetworkFee": "Includes a {network} Network Fee of {amount} USDC",
   "@landingNetworkFee": {
     "placeholders": {
+      "network": {
+        "type": "String"
+      },
       "amount": {
         "type": "String"
       }
     }
   },
-  "landingTotalAmount": "Total Amount: {amount} USDC",
-  "@landingTotalAmount": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "landingTotalAmount": "Total Amount",
+  "@landingTotalAmount": {},
+  "landingPayRequestInstruction": "Open your crypto wallet and scan the QR code, or copy the USDC address below to make a payment.",
+  "@landingPayRequestInstruction": {},
   "learnAboutCrypto": "Learning About Crypto",
   "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Get help with all things crypto",

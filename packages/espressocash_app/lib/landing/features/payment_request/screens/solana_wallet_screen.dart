@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/l10n.dart';
 import '../../../../ui/back_button.dart';
 import '../../../core/landing_widget.dart';
 import '../../../core/presentation/qr_code.dart';
@@ -44,10 +45,10 @@ class SolanaWalletScreen extends StatelessWidget {
                 code: actionLink.toString(),
               ),
               const SizedBox(height: 16),
-              const Text(
-                'Scan the QR code with your Solana wallet',
+              Text(
+                context.l10n.landingScanSolanaWallet,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Color(0xFF2D2B2C),
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
