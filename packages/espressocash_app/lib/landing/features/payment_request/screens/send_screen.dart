@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/desktop.dart';
@@ -38,28 +37,14 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
       launchUrl(
         actionLink,
         mode: LaunchMode.externalNonBrowserApplication,
+        webOnlyWindowName: '_self',
       );
     } else {
       final page = EspressoDesktopView(
         actionLink: Uri.parse(widget.request.toUrl()),
-        header: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const CpBackButton(),
-              Text(
-                widget.request.headerTitle,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox.shrink(),
-            ],
-          ),
+        header: HeaderDesktop(
+          title: widget.request.headerTitle,
+          showBackButton: true,
         ),
       );
 
@@ -70,6 +55,18 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
 
   void _onOtherWallet(Blockchain chain) {
     final Widget page;
+
+    if (isMobile && chain == Blockchain.solana) {
+      final actionLink = Uri.parse(widget.request.toUrl());
+
+      launchUrl(
+        actionLink,
+        mode: LaunchMode.externalNonBrowserApplication,
+        webOnlyWindowName: '_self',
+      );
+
+      return;
+    }
 
     if (chain == Blockchain.solana) {
       page = SolanaWalletScreen(
@@ -104,7 +101,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
               Text(
                 widget.request.label == null
                     ? 'You have a request of'
-                    : '${widget.request.label} has request}',
+                    : '${widget.request.label} has requested',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -177,15 +174,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
         )
       : Scaffold(
           body: LandingDesktopWidget(
-            header: Text(
-              widget.request.headerTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF2D2B2C),
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            header: HeaderDesktop(title: widget.request.headerTitle),
             content: Column(
               children: [
                 Padding(

@@ -113,6 +113,7 @@ class _MobileView extends StatelessWidget {
               onTap: () => launchUrl(
                 actionLink,
                 mode: LaunchMode.externalNonBrowserApplication,
+                webOnlyWindowName: '_self',
               ),
               text: context.l10n.landingReceiveMoney,
             ),

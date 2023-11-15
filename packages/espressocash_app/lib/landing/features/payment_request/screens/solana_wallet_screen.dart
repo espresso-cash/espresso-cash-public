@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../ui/back_button.dart';
 import '../../../core/landing_widget.dart';
 import '../../../core/presentation/qr_code.dart';
 
@@ -18,24 +17,9 @@ class SolanaWalletScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: LandingDesktopWidget(
-          header: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const CpBackButton(),
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF2D2B2C),
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox.shrink(),
-              ],
-            ),
+          header: HeaderDesktop(
+            title: title,
+            showBackButton: true,
           ),
           content: Column(
             children: [

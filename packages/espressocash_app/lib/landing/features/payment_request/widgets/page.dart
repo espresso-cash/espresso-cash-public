@@ -24,7 +24,7 @@ class RequestMobilePage extends StatelessWidget {
                   Color(0xffB4A270),
                   Colors.white,
                 ],
-                stops: [0.0, 0.5],
+                stops: [0.49, 0.5],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

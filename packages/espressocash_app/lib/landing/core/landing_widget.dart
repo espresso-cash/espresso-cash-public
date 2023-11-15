@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
+import '../../ui/back_button.dart';
 import 'presentation/footer.dart';
 
 class LandingMobileWidget extends StatelessWidget {
@@ -123,6 +124,43 @@ class LandingDesktopWidget extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      );
+}
+
+class HeaderDesktop extends StatelessWidget {
+  const HeaderDesktop({
+    super.key,
+    required this.title,
+    this.trailing,
+    this.showBackButton = false,
+  });
+
+  final String title;
+  final Widget? trailing;
+  final bool showBackButton;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            if (showBackButton)
+              const CpBackButton()
+            else
+              const SizedBox.shrink(),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 24,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            trailing ?? const SizedBox.shrink(),
+          ],
         ),
       );
 }

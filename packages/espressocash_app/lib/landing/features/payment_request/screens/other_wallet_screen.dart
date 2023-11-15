@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
 import '../../../../ui/rounded_rectangle.dart';
@@ -71,7 +70,7 @@ class _MobileView extends StatelessWidget {
           final request = context.read<SolanaPayRequest>();
 
           final String title =
-              'Pay ${request.label ?? ''} with USDC on $chain network';
+              'Pay ${request.label ?? ''} with USDC on ${chain.name} network';
 
           return CpLoader(
             isLoading: state.processingState.isProcessing,
@@ -207,24 +206,10 @@ class _DesktopView extends StatelessWidget {
           return CpLoader(
             isLoading: state.processingState.isProcessing,
             child: LandingDesktopWidget(
-              header: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const CpBackButton(),
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Color(0xFF2D2B2C),
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    CountdownTimer(expiryDate: state.expiresAt),
-                  ],
-                ),
+              header: HeaderDesktop(
+                title: title,
+                trailing: CountdownTimer(expiryDate: state.expiresAt),
+                showBackButton: true,
               ),
               content: Column(
                 children: [

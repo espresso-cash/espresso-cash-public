@@ -209,7 +209,7 @@
   },
   "landingTotalAmount": "Total Amount",
   "@landingTotalAmount": {},
-  "landingPayRequestInstruction": "Open your crypto wallet and scan the QR code, or copy the USDC address below to make a payment.",
+  "landingPayRequestInstruction": "Open your crypto wallet and scan the QR code, or copy the USDC address\n below to make a payment.",
   "@landingPayRequestInstruction": {},
   "learnAboutCrypto": "Learning About Crypto",
   "@learnAboutCrypto": {},
