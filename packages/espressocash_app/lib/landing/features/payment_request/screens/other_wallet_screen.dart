@@ -93,7 +93,7 @@ class _MobileView extends StatelessWidget {
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     Container(
                       width: 75,
                       height: 75,
@@ -104,7 +104,7 @@ class _MobileView extends StatelessWidget {
                       child: Center(
                         child: UsdcLogoWidget(
                           chain,
-                          size: 45,
+                          size: 32,
                         ),
                       ),
                     ),
@@ -119,17 +119,18 @@ class _MobileView extends StatelessWidget {
                         letterSpacing: 0.23,
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 28),
                     Text(
                       '${chain.name} Address',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF2D2B2C),
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.23,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     _BubbleWidget(
                       content: Text(
                         state.destinationEvmAddress,
@@ -142,16 +143,18 @@ class _MobileView extends StatelessWidget {
                       ),
                       textToCopy: state.destinationEvmAddress,
                     ),
+                    const SizedBox(height: 12),
                     Text(
                       context.l10n.landingTotalAmount,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF2D2B2C),
-                        fontSize: 17,
+                        fontSize: 15,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.23,
                       ),
                     ),
+                    const SizedBox(height: 4),
                     _BubbleWidget(
                       content: Column(
                         children: [
@@ -179,8 +182,10 @@ class _MobileView extends StatelessWidget {
                       ),
                       textToCopy: state.fee.toString(),
                     ),
-                    if (request.reference?.first case final reference?)
+                    if (request.reference?.first case final reference?) ...[
+                      const SizedBox(height: 16),
                       InvoiceWidget(address: reference.toBase58()),
+                    ],
                   ],
                 ),
               ),
@@ -322,6 +327,7 @@ class _BubbleWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(child: content),
+              const SizedBox(width: 4),
               CpButton(
                 text: context.l10n.copy,
                 minWidth: 80,
@@ -330,7 +336,7 @@ class _BubbleWidget extends StatelessWidget {
                   Clipboard.setData(data);
                   showClipboardSnackbar(context);
                 },
-                size: CpButtonSize.small,
+                size: isMobile ? CpButtonSize.micro : CpButtonSize.small,
               ),
             ],
           ),

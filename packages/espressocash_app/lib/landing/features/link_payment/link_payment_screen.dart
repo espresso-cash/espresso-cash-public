@@ -27,27 +27,29 @@ class LinkPaymentScreen extends StatelessWidget {
           )
         : EspressoDesktopView(
             actionLink: actionLink,
-            header: Column(
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Color(0xFF2D2B2C),
-                    fontSize: 26,
-                    fontWeight: FontWeight.w500,
+            header: Center(
+              child: Column(
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Color(0xFF2D2B2C),
+                      fontSize: 26,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                Text(
-                  context.l10n.landingInstruction,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Color(0xFF2D2B2C),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.23,
+                  Text(
+                    context.l10n.landingInstruction,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xFF2D2B2C),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.23,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
   }
@@ -67,7 +69,7 @@ class _MobileView extends StatelessWidget {
         body: LandingMobileWidget(
           children: [
             SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.32,
+              height: MediaQuery.sizeOf(context).height * 0.35,
               child: Center(
                 child: Assets.images.logo.image(height: 57),
               ),

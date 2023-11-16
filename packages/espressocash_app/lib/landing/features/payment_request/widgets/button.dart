@@ -19,6 +19,7 @@ class OtherWalletButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpButton(
         variant: CpButtonVariant.black,
+        size: isMobile ? CpButtonSize.big : CpButtonSize.normal,
         width: isMobile ? 350 : 250,
         leading: UsdcLogoWidget(chain),
         text: 'USDC on ${chain.name}',

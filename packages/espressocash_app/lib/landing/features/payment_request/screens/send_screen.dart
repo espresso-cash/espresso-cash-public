@@ -105,7 +105,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 23,
+                  fontSize: 22,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.23,
                 ),
@@ -115,7 +115,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 45,
+                  fontSize: 40,
                   fontWeight: FontWeight.w700,
                   letterSpacing: -1,
                 ),
@@ -124,13 +124,13 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
           ),
           content: Column(
             children: [
-              const SizedBox(height: 24),
+              const SizedBox(height: 26),
               Text(
                 context.l10n.landingExpressCheckout,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF2D2B2C),
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.23,
                 ),
@@ -143,20 +143,20 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                 trailing: const Arrow(),
                 onPressed: _onSolanaPay,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
               const DividerWidget(),
-              const SizedBox(height: 8),
+              const SizedBox(height: 4),
               Text(
                 context.l10n.landingPayOtherWallet,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF2D2B2C),
-                  fontSize: 17,
+                  fontSize: 15,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.23,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               ...Blockchain.values.map(
                 (e) => Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4),
