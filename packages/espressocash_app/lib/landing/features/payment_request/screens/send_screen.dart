@@ -176,15 +176,16 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
           body: LandingDesktopWidget(
             header: HeaderDesktop(title: widget.request.headerTitle),
             content: Column(
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  padding: const EdgeInsets.only(top: 24, bottom: 20),
                   child: Text(
                     context.l10n.landingPaymentMethod,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
@@ -192,32 +193,31 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                 ),
                 const Divider(),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  padding: const EdgeInsets.only(top: 24, bottom: 16),
                   child: Text(
                     context.l10n.landingExpressCheckout,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 16,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      height: 0.07,
+                      letterSpacing: 0.23,
                     ),
                   ),
                 ),
                 CpButton(
                   text: context.l10n.landingPayEspresso,
-                  size: CpButtonSize.big,
-                  width: 700,
+                  width: 780,
                   trailing: const Arrow(),
                   onPressed: _onSolanaPay,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 Text(
                   context.l10n.landingPayOtherWallet2,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xFF2D2B2C),
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.23,
                   ),
@@ -238,8 +238,9 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
                       .toList(),
                 ),
                 if (widget.request.reference?.first case final reference?) ...[
-                  const SizedBox(height: 40),
+                  const Spacer(),
                   InvoiceWidget(address: reference.toBase58()),
+                  const SizedBox(height: 12),
                 ],
               ],
             ),

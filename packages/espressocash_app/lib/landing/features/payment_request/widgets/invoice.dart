@@ -39,7 +39,7 @@ class InvoiceWidget extends StatelessWidget {
                 'Invoice ${address.toShortAddress()}',
                 style: const TextStyle(
                   color: Color(0xFF34393C),
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.23,
                 ),

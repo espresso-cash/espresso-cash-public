@@ -213,27 +213,28 @@ class _DesktopView extends StatelessWidget {
               ),
               content: Column(
                 children: [
+                  const SizedBox(height: 16),
                   Text(
                     context.l10n.landingPayRequestInstruction,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 19,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
                   ),
+                  const SizedBox(height: 12),
                   const Divider(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: QrWidget(code: state.destinationEvmAddress),
-                  ),
+                  const SizedBox(height: 16),
+                  QrWidget(code: state.destinationEvmAddress),
+                  const SizedBox(height: 24),
                   Text(
                     '$chain Address',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
@@ -244,22 +245,24 @@ class _DesktopView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     textToCopy: state.destinationEvmAddress,
                   ),
+                  const SizedBox(height: 4),
                   Text(
                     context.l10n.landingTotalAmount,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 17,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   _BubbleWidget(
                     content: Column(
                       children: [
@@ -267,7 +270,7 @@ class _DesktopView extends StatelessWidget {
                           '${state.totalAmount ?? ''} USDC',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -279,7 +282,7 @@ class _DesktopView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
@@ -287,8 +290,10 @@ class _DesktopView extends StatelessWidget {
                     ),
                     textToCopy: state.totalAmount.toString(),
                   ),
-                  if (request.reference?.first case final reference?)
+                  if (request.reference?.first case final reference?) ...[
+                    const Spacer(),
                     InvoiceWidget(address: reference.toBase58()),
+                  ],
                 ],
               ),
             ),
@@ -307,10 +312,11 @@ class _BubbleWidget extends StatelessWidget {
   final String textToCopy;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0),
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24),
+        constraints: const BoxConstraints(maxWidth: 780),
         child: CpRoundedRectangle(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
           backgroundColor: Colors.black,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

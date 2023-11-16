@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../ui/back_button.dart';
+import '../../ui/colors.dart';
 import 'presentation/footer.dart';
 
 class LandingMobileWidget extends StatelessWidget {
@@ -64,65 +65,53 @@ class LandingDesktopWidget extends StatelessWidget {
   final Widget content;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
+  Widget build(BuildContext context) => Container(
         decoration: const BoxDecoration(color: Color(0xffB4A270)),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 850),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32.0),
-                  child: Assets.images.logo.image(height: 50),
-                ),
-                Expanded(
-                  child: DecoratedBox(
-                    decoration: const ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32.0),
+                child: Assets.images.logo.image(height: 50),
+              ),
+              Expanded(
+                child: DecoratedBox(
+                  decoration: const ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
                       ),
                     ),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.symmetric(vertical: 24),
-                          decoration: const ShapeDecoration(
-                            color: Color(0xFFFBC728),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
-                            ),
-                          ),
-                          child: header,
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 32,
-                                vertical: 16,
-                              ),
-                              child: content,
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 100,
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        decoration: const ShapeDecoration(
+                          color: CpColors.yellowDarkAccentColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
                             ),
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          child: Footer(textColor: Color(0xFFBDBDBD)),
-                        ),
-                      ],
-                    ),
+                        child: header,
+                      ),
+                      Expanded(child: content),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.0),
+                        child: Footer(textColor: Color(0xFFBDBDBD)),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
@@ -142,7 +131,7 @@ class HeaderDesktop extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

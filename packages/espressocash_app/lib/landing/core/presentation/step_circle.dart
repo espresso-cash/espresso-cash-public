@@ -15,7 +15,7 @@ class StepCircle extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            number.toString(),
+            '$number',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,

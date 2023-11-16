@@ -24,7 +24,7 @@ class Footer extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: textColor,
-              fontSize: 12,
+              fontSize: 10,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.36,
             ),
@@ -49,7 +49,7 @@ class Footer extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: textColor,
-              fontSize: 13,
+              fontSize: 11,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.20,
             ),

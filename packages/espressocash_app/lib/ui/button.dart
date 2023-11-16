@@ -41,7 +41,7 @@ class CpButton extends StatelessWidget {
   Color get _backgroundColor {
     switch (variant) {
       case CpButtonVariant.dark:
-        return CpColors.yellowColor;
+        return CpColors.yellowDarkAccentColor;
       case CpButtonVariant.inverted:
         return CpColors.darkBackground;
       case CpButtonVariant.light:

@@ -31,17 +31,20 @@ class EspressoDesktopView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D2B2C),
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
+              letterSpacing: 0.13,
             ),
           ),
+          const SizedBox(height: 8),
           Text(
             context.l10n.landingAlreadyInstalled,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D2B2C),
-              fontSize: 13,
+              fontSize: 12,
               fontWeight: FontWeight.w400,
+              letterSpacing: 0.19,
             ),
           ),
         ],
@@ -50,14 +53,18 @@ class EspressoDesktopView extends StatelessWidget {
 
     final second = _InstructionItem(
       step: 2,
-      content: QrWidget(code: actionLink.toString()),
+      content: QrWidget(
+        code: actionLink.toString(),
+        size: 175,
+      ),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
         style: const TextStyle(
           color: Color(0xFF2D2B2C),
-          fontSize: 20,
+          fontSize: 18,
           fontWeight: FontWeight.w600,
+          letterSpacing: 0.13,
         ),
       ),
     );
@@ -67,7 +74,7 @@ class EspressoDesktopView extends StatelessWidget {
         header: header,
         content: Column(
           children: [
-            const SizedBox(height: 55),
+            const SizedBox(height: 100),
             if (width > 750)
               IntrinsicHeight(
                 child: Row(
@@ -135,13 +142,13 @@ class _InstructionItem extends StatelessWidget {
                 StepCircle(step),
                 const SizedBox(width: 16),
                 SizedBox(
-                  height: 225,
+                  height: 230,
                   child: Column(
                     children: [
                       content,
                       const Spacer(),
                       SizedBox(
-                        height: 40,
+                        height: 45,
                         child: text,
                       ),
                     ],
