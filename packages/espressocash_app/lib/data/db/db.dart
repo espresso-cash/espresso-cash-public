@@ -8,7 +8,6 @@ import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
-import '../../features/popular_tokens/data/popular_token_cache.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';
@@ -28,7 +27,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 40;
 
 const _tables = [
   OutgoingTransferRows,
@@ -167,6 +166,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 39) {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
+          }
+          if (from >= 23 && from < 40) {
+            await m.deleteTable('popular_token_rows');
           }
         },
       );

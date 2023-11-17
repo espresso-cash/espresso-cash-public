@@ -4,8 +4,6 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../accounts/module.dart';
-import 'data/repository.dart';
 import 'services/bloc.dart';
 
 class PopularTokensModule extends SingleChildStatelessWidget {
@@ -15,10 +13,7 @@ class PopularTokensModule extends SingleChildStatelessWidget {
   Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
         providers: [
           BlocProvider<PopularTokenBloc>(
-            create: (context) => sl<PopularTokenBloc>()..add(const Init()),
-          ),
-          LogoutListener(
-            onLogout: (_) => sl<PopularTokenRepository>().clear(),
+            create: (context) => sl<PopularTokenBloc>()..add(const Fetch()),
           ),
         ],
         child: child,

@@ -26,19 +26,8 @@ class PopularTokenBloc extends Bloc<PopularTokenEvent, PopularTokenState> {
   final PopularTokenRepository _repository;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
-        init: (event) => _onInit(emit),
         fetched: (event) => _onRefreshRequested(emit),
       );
-
-  Future<void> _onInit(Emitter<PopularTokenState> emit) async {
-    emit(PopularTokenState(processingState: processing()));
-
-    final PopularTokenState newState = await _repository
-        .get(currency: defaultFiatCurrency.symbol)
-        .let(_toState);
-
-    emit(newState);
-  }
 
   Future<void> _onRefreshRequested(Emitter<PopularTokenState> emit) async {
     emit(PopularTokenState(processingState: processing()));
@@ -70,7 +59,6 @@ extension PopularTokenBlocExt on PopularTokenBloc {
 
 @freezed
 class PopularTokenEvent with _$PopularTokenEvent {
-  const factory PopularTokenEvent.init() = Init;
   const factory PopularTokenEvent.fetched() = Fetch;
 }
 
