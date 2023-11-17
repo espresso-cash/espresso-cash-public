@@ -27,7 +27,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 40;
 
 const _tables = [
   OutgoingTransferRows,
@@ -38,7 +38,6 @@ const _tables = [
   SwapRows,
   TransactionRows,
   FavoriteTokenRows,
-  PopularTokenRows,
   OTRows,
   ITRows,
   OLPRows,
@@ -166,6 +165,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 39) {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
+          }
+          if (from < 40) {
+            await m.deleteTable('popular_token_rows');
           }
         },
       );
