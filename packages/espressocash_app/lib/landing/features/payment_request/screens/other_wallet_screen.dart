@@ -299,6 +299,7 @@ class _DesktopView extends StatelessWidget {
                   ),
                   if (request.reference?.first case final reference?) ...[
                     const Spacer(),
+                    const SizedBox(height: 24),
                     InvoiceWidget(address: reference.toBase58()),
                   ],
                 ],

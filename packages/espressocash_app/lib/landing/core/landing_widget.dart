@@ -65,60 +65,80 @@ class LandingDesktopWidget extends StatelessWidget {
   final Widget content;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(color: Color(0xffB4A270)),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1400),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 32.0),
-                  child: Assets.images.logo.image(height: 50),
+          child: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: constraints.copyWith(
+                  minHeight: constraints.maxHeight,
+                  maxHeight: double.infinity,
+                  maxWidth: 1400,
                 ),
-                Expanded(
-                  child: DecoratedBox(
-                    decoration: const ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                      ),
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: IntrinsicHeight(
                     child: Column(
                       children: [
-                        Container(
-                          height: 130,
-                          padding: const EdgeInsets.symmetric(vertical: 24),
-                          decoration: const ShapeDecoration(
-                            color: CpColors.yellowDarkAccentColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10),
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 32.0),
+                          child: Assets.images.logo.image(height: 50),
+                        ),
+                        Expanded(
+                          child: DecoratedBox(
+                            decoration: const ShapeDecoration(
+                              color: Colors.white,
+                              shape: _containerShape,
+                            ),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 128,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 24),
+                                  decoration: const ShapeDecoration(
+                                    color: CpColors.yellowDarkAccentColor,
+                                    shape: _containerShape,
+                                  ),
+                                  child: header,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      Expanded(child: content),
+                                      const Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                        ),
+                                        child: Footer(
+                                          textColor: Color(0xFFBDBDBD),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          child: header,
-                        ),
-                        Expanded(child: content),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
-                          child: Footer(textColor: Color(0xFFBDBDBD)),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
       );
 }
+
+const _containerShape = RoundedRectangleBorder(
+  borderRadius: BorderRadius.only(
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
+  ),
+);
 
 class HeaderDesktop extends StatelessWidget {
   const HeaderDesktop({
@@ -142,13 +162,15 @@ class HeaderDesktop extends StatelessWidget {
               const CpBackButton()
             else
               const SizedBox.shrink(),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF2D2B2C),
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
+            Expanded(
+              child: Text(
+                title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF2D2B2C),
+                  fontSize: 28,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
             trailing ?? const SizedBox.shrink(),
