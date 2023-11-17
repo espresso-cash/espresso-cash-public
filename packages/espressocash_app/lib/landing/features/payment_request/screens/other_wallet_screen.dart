@@ -102,21 +102,21 @@ class _MobileView extends StatelessWidget {
                         shape: OvalBorder(),
                       ),
                       child: Center(
-                        child: UsdcLogoWidget(
-                          chain,
-                          size: 38,
-                        ),
+                        child: UsdcLogoWidget(chain, size: 38),
                       ),
                     ),
                     const SizedBox(height: 8),
-                    Text(
-                      title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.23,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          letterSpacing: 0.23,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 28),
@@ -183,8 +183,9 @@ class _MobileView extends StatelessWidget {
                       textToCopy: state.fee.toString(),
                     ),
                     if (request.reference?.first case final reference?) ...[
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 24),
                       InvoiceWidget(address: reference.toBase58()),
+                      const SizedBox(height: 4),
                     ],
                   ],
                 ),

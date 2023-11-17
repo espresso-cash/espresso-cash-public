@@ -80,8 +80,8 @@ class UsdcLogoWidget extends StatelessWidget {
               bottom: 0,
               child: ClipOval(
                 child: SizedBox(
-                  width: size * 0.55,
-                  height: size * 0.55,
+                  width: size * 0.58,
+                  height: size * 0.58,
                   child: chain.logo.image(),
                 ),
               ),

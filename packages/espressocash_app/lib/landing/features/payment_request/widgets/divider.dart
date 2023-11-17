@@ -4,9 +4,10 @@ class DividerWidget extends StatelessWidget {
   const DividerWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => const SizedBox(
-        width: 250,
-        child: IntrinsicHeight(
+  Widget build(BuildContext context) => Container(
+        width: 350,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+        child: const IntrinsicHeight(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

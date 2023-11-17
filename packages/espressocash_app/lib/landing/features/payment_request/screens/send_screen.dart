@@ -167,9 +167,7 @@ class _MobileView extends StatelessWidget {
               trailing: const Arrow(),
               onPressed: onEspressoPay,
             ),
-            const SizedBox(height: 14),
             const DividerWidget(),
-            const SizedBox(height: 4),
             Text(
               context.l10n.landingPayOtherWallet,
               textAlign: TextAlign.center,
@@ -190,9 +188,11 @@ class _MobileView extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-            if (request.reference?.first case final reference?)
+            if (request.reference?.first case final reference?) ...[
+              const SizedBox(height: 24),
               InvoiceWidget(address: reference.toBase58()),
+              const SizedBox(height: 4),
+            ],
           ],
         ),
       );
@@ -217,7 +217,7 @@ class _DesktopView extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 24, bottom: 20),
+                padding: const EdgeInsets.only(top: 26, bottom: 18),
                 child: Text(
                   context.l10n.landingPaymentMethod,
                   textAlign: TextAlign.center,
