@@ -29,12 +29,13 @@ class LinkPaymentScreen extends StatelessWidget {
             actionLink: actionLink,
             header: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     title,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 26,
+                      fontSize: 30,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -43,7 +44,7 @@ class LinkPaymentScreen extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 16,
+                      fontSize: 19,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
@@ -89,7 +90,7 @@ class _MobileView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
-                fontSize: 17,
+                fontSize: 19,
                 fontWeight: FontWeight.w500,
               ),
             ),

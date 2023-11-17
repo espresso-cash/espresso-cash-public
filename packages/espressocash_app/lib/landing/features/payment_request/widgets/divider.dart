@@ -20,7 +20,7 @@ class DividerWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 19,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),

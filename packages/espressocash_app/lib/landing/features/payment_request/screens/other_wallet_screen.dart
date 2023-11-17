@@ -104,7 +104,7 @@ class _MobileView extends StatelessWidget {
                       child: Center(
                         child: UsdcLogoWidget(
                           chain,
-                          size: 32,
+                          size: 38,
                         ),
                       ),
                     ),
@@ -125,7 +125,7 @@ class _MobileView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF2D2B2C),
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.23,
                       ),
@@ -137,7 +137,7 @@ class _MobileView extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -149,7 +149,7 @@ class _MobileView extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Color(0xFF2D2B2C),
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.23,
                       ),
@@ -162,7 +162,7 @@ class _MobileView extends StatelessWidget {
                             '${state.totalAmount ?? ''} USDC',
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -218,51 +218,52 @@ class _DesktopView extends StatelessWidget {
               ),
               content: Column(
                 children: [
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 26),
                   Text(
                     context.l10n.landingPayRequestInstruction,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 17,
+                      fontSize: 19,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  const Divider(),
                   const SizedBox(height: 16),
-                  QrWidget(code: state.destinationEvmAddress),
+                  const Divider(),
+                  const SizedBox(height: 24),
+                  QrWidget(code: state.destinationEvmAddress, size: 198),
                   const SizedBox(height: 24),
                   Text(
                     '$chain Address',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
                   ),
+                  const SizedBox(height: 4),
                   _BubbleWidget(
                     content: Text(
                       state.destinationEvmAddress,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     textToCopy: state.destinationEvmAddress,
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Text(
                     context.l10n.landingTotalAmount,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Color(0xFF2D2B2C),
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.23,
                     ),
@@ -275,7 +276,7 @@ class _DesktopView extends StatelessWidget {
                           '${state.totalAmount ?? ''} USDC',
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 18,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -287,7 +288,7 @@ class _DesktopView extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 12,
+                            fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),

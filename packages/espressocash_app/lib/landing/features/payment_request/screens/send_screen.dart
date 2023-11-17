@@ -94,158 +94,200 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
 
   @override
   Widget build(BuildContext context) => isMobile
-      ? RequestMobilePage(
-          header: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.request.label == null
-                    ? 'You have a request of'
-                    : '${widget.request.label} has requested',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
-                ),
-              ),
-              Text(
-                '${widget.request.amount ?? 0} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -1,
-                ),
-              ),
-            ],
-          ),
-          content: Column(
-            children: [
-              const SizedBox(height: 26),
-              Text(
-                context.l10n.landingExpressCheckout,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
-                ),
-              ),
-              const SizedBox(height: 16),
-              CpButton(
-                text: context.l10n.landingPayEspresso,
-                size: CpButtonSize.big,
-                width: 340,
-                trailing: const Arrow(),
-                onPressed: _onSolanaPay,
-              ),
-              const SizedBox(height: 14),
-              const DividerWidget(),
-              const SizedBox(height: 4),
-              Text(
-                context.l10n.landingPayOtherWallet,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
-                ),
-              ),
-              const SizedBox(height: 12),
-              ...Blockchain.values.map(
-                (e) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 4),
-                  child: OtherWalletButton(
-                    chain: e,
-                    onTap: () => _onOtherWallet(e),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              if (widget.request.reference?.first case final reference?)
-                InvoiceWidget(address: reference.toBase58()),
-            ],
-          ),
+      ? _MobileView(
+          request: widget.request,
+          onEspressoPay: _onSolanaPay,
+          onOtherWallet: _onOtherWallet,
         )
-      : Scaffold(
-          body: LandingDesktopWidget(
-            header: HeaderDesktop(title: widget.request.headerTitle),
-            content: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, bottom: 20),
-                  child: Text(
-                    context.l10n.landingPaymentMethod,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF2D2B2C),
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
+      : _DesktopView(
+          request: widget.request,
+          onEspressoPay: _onSolanaPay,
+          onOtherWallet: _onOtherWallet,
+        );
+}
+
+class _MobileView extends StatelessWidget {
+  const _MobileView({
+    required this.request,
+    required this.onEspressoPay,
+    required this.onOtherWallet,
+  });
+
+  final SolanaPayRequest request;
+  final VoidCallback onEspressoPay;
+  final void Function(Blockchain chain) onOtherWallet;
+
+  @override
+  Widget build(BuildContext context) => RequestMobilePage(
+        header: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              request.label == null
+                  ? 'You have a request of'
+                  : '${request.label} has requested',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 23,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            Text(
+              '${request.amount ?? 0} USDC',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 45,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -1,
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          children: [
+            const SizedBox(height: 26),
+            Text(
+              context.l10n.landingExpressCheckout,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            const SizedBox(height: 16),
+            CpButton(
+              text: context.l10n.landingPayEspresso,
+              size: CpButtonSize.big,
+              width: 340,
+              trailing: const Arrow(),
+              onPressed: onEspressoPay,
+            ),
+            const SizedBox(height: 14),
+            const DividerWidget(),
+            const SizedBox(height: 4),
+            Text(
+              context.l10n.landingPayOtherWallet,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 0.23,
+              ),
+            ),
+            const SizedBox(height: 12),
+            ...Blockchain.values.map(
+              (e) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: OtherWalletButton(
+                  chain: e,
+                  onTap: () => onOtherWallet(e),
                 ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, bottom: 16),
-                  child: Text(
-                    context.l10n.landingExpressCheckout,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF2D2B2C),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
-                ),
-                CpButton(
-                  text: context.l10n.landingPayEspresso,
-                  width: 780,
-                  trailing: const Arrow(),
-                  onPressed: _onSolanaPay,
-                ),
-                const SizedBox(height: 32),
-                Text(
-                  context.l10n.landingPayOtherWallet2,
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (request.reference?.first case final reference?)
+              InvoiceWidget(address: reference.toBase58()),
+          ],
+        ),
+      );
+}
+
+class _DesktopView extends StatelessWidget {
+  const _DesktopView({
+    required this.request,
+    required this.onEspressoPay,
+    required this.onOtherWallet,
+  });
+
+  final SolanaPayRequest request;
+  final VoidCallback onEspressoPay;
+  final void Function(Blockchain chain) onOtherWallet;
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: LandingDesktopWidget(
+          header: HeaderDesktop(title: request.headerTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 24, bottom: 20),
+                child: Text(
+                  context.l10n.landingPaymentMethod,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xFF2D2B2C),
-                    fontSize: 14,
+                    fontSize: 22,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.23,
                   ),
                 ),
-                const SizedBox(height: 16),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  alignment: WrapAlignment.center,
-                  children: Blockchain.values
-                      .map(
-                        (e) => OtherWalletButton(
-                          chain: e,
-                          onTap: () => _onOtherWallet(e),
-                        ),
-                      )
-                      .toList(),
+              ),
+              const Divider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 24, bottom: 16),
+                child: Text(
+                  context.l10n.landingExpressCheckout,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Color(0xFF2D2B2C),
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.23,
+                  ),
                 ),
-                if (widget.request.reference?.first case final reference?) ...[
-                  const Spacer(),
-                  InvoiceWidget(address: reference.toBase58()),
-                  const SizedBox(height: 12),
-                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: CpButton(
+                  text: context.l10n.landingPayEspresso,
+                  size: CpButtonSize.big,
+                  width: 780,
+                  trailing: const Arrow(),
+                  onPressed: onEspressoPay,
+                ),
+              ),
+              const SizedBox(height: 40),
+              Text(
+                context.l10n.landingPayOtherWallet2,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Color(0xFF2D2B2C),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
+              ),
+              const SizedBox(height: 24),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                alignment: WrapAlignment.center,
+                children: Blockchain.values
+                    .map(
+                      (e) => OtherWalletButton(
+                        chain: e,
+                        onTap: () => onOtherWallet(e),
+                      ),
+                    )
+                    .toList(),
+              ),
+              if (request.reference?.first case final reference?) ...[
+                const Spacer(),
+                InvoiceWidget(address: reference.toBase58()),
+                const SizedBox(height: 12),
               ],
-            ),
+            ],
           ),
-        );
+        ),
+      );
 }
 
 extension on SolanaPayRequest {

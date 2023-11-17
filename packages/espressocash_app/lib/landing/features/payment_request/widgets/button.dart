@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../ui/button.dart';
 import '../../../core/blockchain.dart';
 import '../../../core/extensions.dart';
 import 'arrow.dart';
@@ -17,16 +16,43 @@ class OtherWalletButton extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => CpButton(
-        variant: CpButtonVariant.black,
-        size: isMobile ? CpButtonSize.big : CpButtonSize.normal,
+  Widget build(BuildContext context) => Container(
         width: isMobile ? 350 : 250,
-        leading: UsdcLogoWidget(chain),
-        text: 'USDC on ${chain.name}',
-        trailing: isMobile
-            ? const Arrow(color: Colors.white)
-            : const SizedBox.shrink(),
-        onPressed: onTap,
+        height: 63,
+        decoration: const ShapeDecoration(
+          color: Colors.black,
+          shape: StadiumBorder(),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                UsdcLogoWidget(chain),
+                Expanded(
+                  child: Text(
+                    'USDC on ${chain.name}',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.13,
+                    ),
+                  ),
+                ),
+                if (isMobile)
+                  const Arrow(color: Colors.white)
+                else
+                  const SizedBox(width: 12),
+              ],
+            ),
+          ),
+        ),
       );
 }
 
@@ -38,16 +64,15 @@ class UsdcLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: size,
-        height: size,
+        width: size + 10,
+        height: size + 10,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
-            ClipOval(
-              child: SizedBox(
-                width: size,
+            Center(
+              child: Assets.landing.usdcLogo.image(
                 height: size,
-                child: Assets.landing.usdcLogo.image(),
+                width: size,
               ),
             ),
             Positioned(
@@ -55,8 +80,8 @@ class UsdcLogoWidget extends StatelessWidget {
               bottom: 0,
               child: ClipOval(
                 child: SizedBox(
-                  width: size * 0.4,
-                  height: size * 0.4,
+                  width: size * 0.55,
+                  height: size * 0.55,
                   child: chain.logo.image(),
                 ),
               ),

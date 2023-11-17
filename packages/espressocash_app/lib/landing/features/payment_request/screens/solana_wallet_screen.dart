@@ -34,7 +34,7 @@ class SolanaWalletScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Color(0xFF2D2B2C),
-                  fontSize: 20,
+                  fontSize: 21,
                   fontWeight: FontWeight.w600,
                 ),
               ),

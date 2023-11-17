@@ -67,18 +67,18 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   Widget build(BuildContext context) => SizedBox.square(
-        dimension: 50,
+        dimension: 55,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
             SizedBox(
-              width: 45,
-              height: 45,
+              width: 55,
+              height: 55,
               child: CircularProgressIndicator(
                 value: _percent,
                 backgroundColor: Colors.black,
                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-                strokeWidth: 6,
+                strokeWidth: 8,
               ),
             ),
             Center(

@@ -31,7 +31,7 @@ class EspressoDesktopView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D2B2C),
-              fontSize: 18,
+              fontSize: 19,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.13,
             ),
@@ -42,7 +42,7 @@ class EspressoDesktopView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D2B2C),
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.19,
             ),
@@ -55,14 +55,14 @@ class EspressoDesktopView extends StatelessWidget {
       step: 2,
       content: QrWidget(
         code: actionLink.toString(),
-        size: 175,
+        size: 178,
       ),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
         style: const TextStyle(
           color: Color(0xFF2D2B2C),
-          fontSize: 18,
+          fontSize: 19,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.13,
         ),
