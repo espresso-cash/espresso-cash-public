@@ -167,7 +167,7 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
           }
-          if (from >= 23 && from < 40) {
+          if (from < 40) {
             await m.deleteTable('popular_token_rows');
           }
         },
