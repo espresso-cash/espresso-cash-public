@@ -175,3 +175,16 @@ enum IskpApiVersionDto {
   manual,
   smartContract,
 }
+
+class PopularTokenRows extends Table {
+  const PopularTokenRows();
+
+  TextColumn get id => text()();
+  TextColumn get name => text()();
+  TextColumn get symbol => text()();
+  TextColumn get logoUri => text().nullable()();
+  RealColumn get price => real()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}

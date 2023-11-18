@@ -38,6 +38,7 @@ const _tables = [
   SwapRows,
   TransactionRows,
   FavoriteTokenRows,
+  PopularTokenRows,
   OTRows,
   ITRows,
   OLPRows,
@@ -104,6 +105,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 22) {
             await m.createTable(oTRows);
             await m.createTable(iTRows);
+          }
+          if (from < 23) {
+            await m.createTable(popularTokenRows);
           }
           if (from < 24) {
             await m.createTable(favoriteTokenRows);
