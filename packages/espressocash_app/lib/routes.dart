@@ -44,11 +44,10 @@ class AppRouter extends $AppRouter {
           ],
         ),
         AutoRoute(
-          //todo remove
-          page: BackupPhraseFlowRoute.page,
+          page: ViewPhraseFlowRoute.page,
           children: [
-            AutoRoute(page: BackupWarningRoute.page),
-            AutoRoute(page: BackupPhraseRoute.page),
+            AutoRoute(page: ViewPhraseWarningRoute.page),
+            AutoRoute(page: ViewRecoveryPhraseRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),

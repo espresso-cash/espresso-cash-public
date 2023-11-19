@@ -28,7 +28,7 @@ class SecuritySection extends StatelessWidget {
           ProfileButton(
             label: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
-            onPressed: () => context.launchBackupPhraseFlow(),
+            onPressed: () => context.launchViewRecoveryPhraseFlow(),
           ),
         ProfileButton(
           label: context.l10n.termsOfUse,

@@ -5,19 +5,19 @@ import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../onboarding/onboarding.dart';
-import 'backup_warning_screen.dart';
+import 'view_warning_screen.dart';
 
 @RoutePage<bool>()
-class BackupPhraseFlowScreen extends StatefulWidget {
-  const BackupPhraseFlowScreen({super.key});
+class ViewPhraseFlowScreen extends StatefulWidget {
+  const ViewPhraseFlowScreen({super.key});
 
-  static const route = BackupPhraseFlowRoute.new;
+  static const route = ViewPhraseFlowRoute.new;
 
   @override
-  State<BackupPhraseFlowScreen> createState() => _BackupPhraseFlowScreenState();
+  State<ViewPhraseFlowScreen> createState() => _ViewPhraseFlowScreenState();
 }
 
-class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
+class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     with RouterWrapper {
   void _handleWarningConfirmed() => router?.replace(
         ViewRecoveryPhraseScreen.route(
@@ -29,7 +29,7 @@ class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
   void _handleCompleted() => context.router.pop();
 
   @override
-  PageRouteInfo get initialRoute => BackupWarningScreen.route(
+  PageRouteInfo get initialRoute => ViewPhraseWarningScreen.route(
         onConfirmed: _handleWarningConfirmed,
       );
 
