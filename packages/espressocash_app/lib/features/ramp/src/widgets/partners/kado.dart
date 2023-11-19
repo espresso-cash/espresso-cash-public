@@ -9,6 +9,7 @@ import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
@@ -123,12 +124,29 @@ window.addEventListener("message", (event) => {
       },
     );
 
-    // bool orderWasCreated = false;
+    bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'kado',
         callback: (args) {
-          debugPrint(args.toString());
+          if (orderWasCreated) return;
+
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'type': 'RAMP_ORDER_ID',
+                'payload': {'orderId': final String orderId}
+              }) {
+            sl<OffRampOrderService>()
+                .create(
+              partnerOrderId: orderId,
+              amount: submittedAmount,
+            )
+                .then((value) {
+              // TODO(KB): Process error
+              router.pop();
+            });
+            orderWasCreated = true;
+          }
         },
       );
       await controller.evaluateJavascript(
