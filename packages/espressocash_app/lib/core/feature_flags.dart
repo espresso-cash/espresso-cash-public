@@ -18,4 +18,12 @@ class FeatureFlagsManager {
     );
     await _remoteConfig.fetchAndActivate();
   }
+
+  bool get isUniversalPayEnabled =>
+      _remoteConfig.getBool(FeatureFlag.isUniversalPayEnabled.name);
+
+  bool get isCrossChainPaymentsEnabled =>
+      _remoteConfig.getBool(FeatureFlag.isCrossChainPaymentsEnabled.name);
 }
+
+enum FeatureFlag { isUniversalPayEnabled, isCrossChainPaymentsEnabled }
