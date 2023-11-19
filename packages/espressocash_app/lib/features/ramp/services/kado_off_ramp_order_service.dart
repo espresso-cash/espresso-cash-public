@@ -98,8 +98,48 @@ class KadoOffRampOrderService implements Disposable {
     });
   }
 
+  Future<void> retry(String orderId) async {
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+    final order = await query.getSingle();
+
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    switch (order.status) {
+      case OffRampOrderStatus.depositTxRequired:
+        await updateQuery.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.creatingDepositTx),
+          ),
+        );
+      case OffRampOrderStatus.depositError:
+        final tx = order.transaction;
+        if (tx.isEmpty) {
+          await updateQuery.write(
+            const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.creatingDepositTx),
+            ),
+          );
+        } else {
+          await updateQuery.write(
+            const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.sendingDepositTx),
+            ),
+          );
+        }
+      case OffRampOrderStatus.creatingDepositTx:
+      case OffRampOrderStatus.depositTxReady:
+      case OffRampOrderStatus.sendingDepositTx:
+      case OffRampOrderStatus.waitingForPartner:
+      case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.completed:
+        break;
+    }
+  }
+
   @useResult
-  AsyncResult<void> create({
+  AsyncResult<String> create({
     required String partnerOrderId,
     required CryptoAmount amount,
   }) =>
@@ -122,12 +162,14 @@ class KadoOffRampOrderService implements Disposable {
             partnerOrderId: partnerOrderId,
             transaction: '',
             slot: BigInt.zero,
-            status: OffRampOrderStatus.creatingDepositTx,
+            status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          return order.id;
         }
       });
 
@@ -137,6 +179,9 @@ class KadoOffRampOrderService implements Disposable {
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion>((order) {
       switch (order.status) {
+        case OffRampOrderStatus.depositTxRequired:
+        case OffRampOrderStatus.depositError:
+          return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
             _createTx(
@@ -154,8 +199,11 @@ class KadoOffRampOrderService implements Disposable {
 
           return Stream.fromFuture(_sendTx(tx));
         case OffRampOrderStatus.depositTxReady:
-        case OffRampOrderStatus.depositError:
-          return const Stream.empty();
+          return Stream.value(
+            const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.sendingDepositTx),
+            ),
+          );
         case OffRampOrderStatus.waitingForPartner:
           return Stream<void>.periodic(const Duration(seconds: 10))
               .asyncMap((_) => _checkPartnerStatus(order.partnerOrderId));
@@ -222,7 +270,6 @@ class KadoOffRampOrderService implements Disposable {
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
-
       case TxSendNetworkError():
         return _depositError;
     }

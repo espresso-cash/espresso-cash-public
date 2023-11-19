@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,7 +9,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../ramp/kado/widgets/kado_on_ramp_order_details.dart';
+import '../../ramp/screens/off_ramp_order_screen.dart';
 import '../../ramp/services/kado_off_ramp_order_service.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -47,6 +48,8 @@ class _OffRampTileState extends State<OffRampTile> {
                 ? CpActivityTileStatus.success
                 : CpActivityTileStatus.inProgress,
             timestamp: context.formatDate(widget.activity.created),
+            onTap: () => context.router
+                .push(OffRampOrderScreen.route(orderId: widget.activity.id)),
           );
         },
       );

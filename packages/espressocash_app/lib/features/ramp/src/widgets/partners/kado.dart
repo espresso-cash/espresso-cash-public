@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -9,6 +10,7 @@ import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
+import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/kado_off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
@@ -141,9 +143,13 @@ window.addEventListener("message", (event) => {
               partnerOrderId: orderId,
               amount: submittedAmount,
             )
-                .then((value) {
-              // TODO(KB): Process error
-              router.pop();
+                .then((order) {
+              switch (order) {
+                case Left<Exception, String>():
+                  break;
+                case Right<Exception, String>(:final value):
+                  router.replace(OffRampOrderScreen.route(orderId: value));
+              }
             });
             orderWasCreated = true;
           }
