@@ -13,9 +13,9 @@ import '../../../accounts/data/account_repository.dart';
 
 @RoutePage()
 class BackupPhraseScreen extends StatefulWidget {
-  const BackupPhraseScreen({super.key, required this.onConfirmed});
+  const BackupPhraseScreen({super.key, required this.onDone});
 
-  final ValueSetter<String> onConfirmed;
+  final VoidCallback onDone;
 
   static const route = BackupPhraseRoute.new;
 
@@ -42,7 +42,7 @@ class _BackupPhraseScreenState extends State<BackupPhraseScreen> {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: context.l10n.next,
-              onPressed: () => widget.onConfirmed(_phrase),
+              onPressed: widget.onDone,
             ),
             children: [
               CpAppBar(

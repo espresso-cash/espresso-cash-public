@@ -5,8 +5,8 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/message_info_widget.dart';
+import '../../../onboarding/onboarding.dart';
 import '../widgets/puzzle_screen.dart';
-import 'backup_phrase_flow_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
 @RoutePage()
@@ -44,8 +44,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 size: CpButtonSize.big,
                 minWidth: 300,
                 onPressed: () async {
-                  final result = await context.router
-                      .push<bool>(BackupPhraseFlowScreen.route());
+                  final result = await context.launchOnboardingFlow();
                   if (result == true && context.mounted) {
                     await context.router.pop();
                   }

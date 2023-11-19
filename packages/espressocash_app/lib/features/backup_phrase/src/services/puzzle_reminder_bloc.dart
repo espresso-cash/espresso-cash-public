@@ -88,6 +88,10 @@ class PuzzleReminderBloc
       return;
     }
 
+    emit(const PuzzleReminderState.remindNow());
+
+    return;
+
     await event.accessMode.when(
       // Don't set a reminder if user logged in (they already know the seed)
       seedInputted: () async => add(const PuzzleReminderEvent.solved()),

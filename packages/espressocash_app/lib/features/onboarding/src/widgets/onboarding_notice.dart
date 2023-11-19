@@ -9,6 +9,7 @@ import '../../../../ui/button.dart';
 import '../../../accounts/models/account.dart';
 import '../../../accounts/models/ec_wallet.dart';
 import '../../../accounts/services/accounts_bloc.dart';
+import '../../onboarding.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_flow_screen.dart';
 
@@ -31,7 +32,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
+  void _onPressed() => context.launchOnboardingFlow();
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
