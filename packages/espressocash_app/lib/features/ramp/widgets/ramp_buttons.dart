@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
@@ -138,7 +139,7 @@ extension on BuildContext {
   }) {
     final partners = _getOffRampPartners(profile.country.code);
 
-    if (partners == null) {
+    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
       OffRampBottomSheet.show(this);
 
       return;
