@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'src/screens/onboarding_flow_screen.dart';
 
+export 'src/screens/view_recovery_phrase_screen.dart';
 export 'src/widgets/onboarding_notice.dart';
 
 extension BuildContextExt on BuildContext {

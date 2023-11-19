@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +10,6 @@ import '../../../accounts/models/ec_wallet.dart';
 import '../../../accounts/services/accounts_bloc.dart';
 import '../../onboarding.dart';
 import '../data/onboarding_repository.dart';
-import '../screens/onboarding_flow_screen.dart';
 
 class OnboardingNotice extends StatefulWidget {
   const OnboardingNotice({super.key});

@@ -12,11 +12,16 @@ import '../../../accounts/data/account_repository.dart';
 
 @RoutePage()
 class ViewRecoveryPhraseScreen extends StatefulWidget {
-  const ViewRecoveryPhraseScreen({super.key, required this.onConfirmed});
+  const ViewRecoveryPhraseScreen({
+    super.key,
+    required this.onConfirmed,
+    this.buttonLabel,
+  });
 
   static const route = ViewRecoveryPhraseRoute.new;
 
   final ValueSetter<String> onConfirmed;
+  final String? buttonLabel;
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>
@@ -41,7 +46,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
         child: Scaffold(
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
-              text: context.l10n.next,
+              text: widget.buttonLabel ?? context.l10n.next,
               onPressed: () => widget.onConfirmed(_phrase),
             ),
             children: [

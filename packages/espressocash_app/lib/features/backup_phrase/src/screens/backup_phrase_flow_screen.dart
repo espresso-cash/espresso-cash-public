@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
-import '../services/puzzle_reminder_bloc.dart';
-import 'backup_phrase_screen.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../onboarding/onboarding.dart';
 import 'backup_warning_screen.dart';
 
 @RoutePage<bool>()
@@ -19,20 +19,14 @@ class BackupPhraseFlowScreen extends StatefulWidget {
 
 class _BackupPhraseFlowScreenState extends State<BackupPhraseFlowScreen>
     with RouterWrapper {
-  void _handleWarningConfirmed() =>
-      router?.replace(BackupPhraseScreen.route(onDone: _handleCompleted));
+  void _handleWarningConfirmed() => router?.replace(
+        ViewRecoveryPhraseScreen.route(
+          onConfirmed: (_) => _handleCompleted(),
+          buttonLabel: context.l10n.ok,
+        ),
+      );
 
-  void _handleCompleted() {
-    //TODO just pop
-  }
-
-  // void _handleCompleted() { //TODO transfer this logic in onboarding
-  //   context.read<PuzzleReminderBloc>().add(const PuzzleReminderEvent.solved());
-
-  //   router?.replaceAll([
-  //     BackupPhraseSuccessScreen.route(onSolved: () => context.router.pop(true)),
-  //   ]);
-  // }
+  void _handleCompleted() => context.router.pop();
 
   @override
   PageRouteInfo get initialRoute => BackupWarningScreen.route(
