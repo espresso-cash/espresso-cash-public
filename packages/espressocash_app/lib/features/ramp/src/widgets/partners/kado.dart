@@ -9,7 +9,7 @@ import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
-import '../../../services/off_ramp_order_service.dart';
+import '../../../services/kado_off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
@@ -136,7 +136,7 @@ window.addEventListener("message", (event) => {
                 'type': 'RAMP_ORDER_ID',
                 'payload': {'orderId': final String orderId}
               }) {
-            sl<OffRampOrderService>()
+            sl<KadoOffRampOrderService>()
                 .create(
               partnerOrderId: orderId,
               amount: submittedAmount,

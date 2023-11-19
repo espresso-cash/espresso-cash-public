@@ -10,7 +10,7 @@ import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
-import '../../ramp/services/off_ramp_order_service.dart';
+import '../../ramp/services/kado_off_ramp_order_service.dart';
 import '../../swap/data/swap_repository.dart';
 import '../data/activity_builder.dart';
 import '../models/activity.dart';
@@ -27,7 +27,7 @@ class PendingActivitiesRepository {
   final MyDatabase _db;
   final TokenList _tokens;
   final OnRampOrderService _onRampOrderService;
-  final OffRampOrderService _offRampOrderService;
+  final KadoOffRampOrderService _offRampOrderService;
 
   Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
