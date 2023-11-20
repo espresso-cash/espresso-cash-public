@@ -25,6 +25,12 @@ class OnboardingFlowScreen extends StatefulWidget {
 
 class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
     with RouterWrapper {
+  void _handleProfileCompleted() => router?.push(
+        NoEmailAndPasswordScreen.route(
+          onDone: _handleNoEmailAndPasswordCompleted,
+        ),
+      );
+
   void _handleNoEmailAndPasswordCompleted() => router?.push(
         ViewRecoveryPhraseScreen.route(
           onConfirmed: _handleViewRecoveryPhraseCompleted,
@@ -34,12 +40,9 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
   void _handleViewRecoveryPhraseCompleted(String phrase) => router?.push(
         ConfirmRecoveryPhraseScreen.route(
           correctPhrase: phrase,
-          onConfirmed: _openProfileScreen,
+          onConfirmed: _openSuccessScreen,
         ),
       );
-
-  void _openProfileScreen() =>
-      router?.push(ManageProfileScreen.route(onSubmitted: _openSuccessScreen));
 
   void _openSuccessScreen() =>
       router?.push(OnboardingSuccessScreen.route(onDone: _handleComplete));
@@ -52,12 +55,12 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
   }
 
   @override
-  PageRouteInfo get initialRoute => sl<OnboardingRepository>()
-          .hasConfirmedPassphrase
-      ? ManageProfileScreen.route(onSubmitted: _handleComplete) as PageRouteInfo
-      : NoEmailAndPasswordScreen.route(
+  PageRouteInfo get initialRoute => sl<OnboardingRepository>().hasSetupProfile
+      ? NoEmailAndPasswordScreen.route(
           onDone: _handleNoEmailAndPasswordCompleted,
-        );
+        )
+      : ManageProfileScreen.route(onSubmitted: _handleProfileCompleted)
+          as PageRouteInfo;
 
   @override
   Widget build(BuildContext context) => AutoRouter(key: routerKey);

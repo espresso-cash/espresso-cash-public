@@ -16,8 +16,9 @@ class OnboardingRepository extends ChangeNotifier {
 
   void _handleProfileUpdated() => notifyListeners();
 
-  bool get hasFinishedOnboarding =>
-      hasConfirmedPassphrase && _profileRepository.hasAllRequiredFields;
+  bool get hasSetupProfile => _profileRepository.hasAllRequiredFields;
+
+  bool get hasFinishedOnboarding => hasConfirmedPassphrase && hasSetupProfile;
 
   bool get hasConfirmedPassphrase =>
       _storage.getBool(_passphraseConfirmedKey) ?? false;
