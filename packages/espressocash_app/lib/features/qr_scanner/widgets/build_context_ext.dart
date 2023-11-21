@@ -48,7 +48,6 @@ extension BuilContextExt on BuildContext {
 
       final name = request.mapOrNull(
         solanaPay: (r) => r.request.label,
-        address: (r) => r.addressData.name,
       );
       final requestAmount = request.whenOrNull(
         solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),

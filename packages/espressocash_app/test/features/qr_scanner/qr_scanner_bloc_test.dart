@@ -40,7 +40,6 @@ void main() {
           QrScannerRequest.address(
             QrAddressData(
               address: Ed25519HDPublicKey.fromBase58(sampleAddress),
-              name: null,
             ),
           ),
         ),
