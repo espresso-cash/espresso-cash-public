@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
@@ -66,7 +67,10 @@ class CashOutButton extends StatelessWidget {
           onPressed: () async {
             final data = await context.ensureProfileData(RampType.offRamp);
             if (context.mounted && data != null) {
-              unawaited(OffRampBottomSheet.show(context));
+              context.launchOffRampFlow(
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+              );
             }
           },
         ),
@@ -129,6 +133,39 @@ extension on BuildContext {
     );
   }
 
+  void launchOffRampFlow({
+    required ProfileData profile,
+    required String address,
+  }) {
+    final partners = _getOffRampPartners(profile.country.code);
+
+    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
+      OffRampBottomSheet.show(this);
+
+      return;
+    }
+
+    if (partners.other.isEmpty) {
+      return _launchOffRampPartner(
+        partners.top,
+        profile: profile,
+        address: address,
+      );
+    }
+
+    router.push(
+      RampPartnerSelectScreen.route(
+        topPartner: partners.top,
+        otherPartners: partners.other,
+        type: RampType.onRamp,
+        onPartnerSelected: (p) {
+          router.pop();
+          _launchOffRampPartner(p, profile: profile, address: address);
+        },
+      ),
+    );
+  }
+
   void _launchOnRampPartner(
     RampPartner partner, {
     required ProfileData profile,
@@ -141,6 +178,21 @@ extension on BuildContext {
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
+      case RampPartner.coinflow:
+        throw UnimplementedError('Not implemented for $partner');
+    }
+  }
+
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
+    switch (partner) {
+      case RampPartner.kado:
+        launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.rampNetwork:
+      case RampPartner.guardarian:
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -163,6 +215,10 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
             top: RampPartner.rampNetwork,
             other: <RampPartner>[].lock,
           );
+
+PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
+    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
+    : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
