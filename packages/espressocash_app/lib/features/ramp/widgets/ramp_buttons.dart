@@ -20,6 +20,7 @@ import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
+import '../src/widgets/partners/onramp_money.dart';
 import '../src/widgets/partners/ramp_network.dart';
 
 class AddCashButton extends StatelessWidget {
@@ -141,6 +142,8 @@ extension on BuildContext {
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
+      case RampPartner.onrampMoney:
+        launchOnRampMoneyOnRamp(profile: profile, address: address);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -159,10 +162,15 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
             top: RampPartner.guardarian,
             other: [RampPartner.rampNetwork].lock,
           )
-        : (
-            top: RampPartner.rampNetwork,
-            other: <RampPartner>[].lock,
-          );
+        : countryCode == 'IN'
+            ? (
+                top: RampPartner.onrampMoney,
+                other: [RampPartner.rampNetwork].lock,
+              )
+            : (
+                top: RampPartner.rampNetwork,
+                other: <RampPartner>[].lock,
+              );
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
