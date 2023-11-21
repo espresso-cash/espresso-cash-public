@@ -1,3 +1,9 @@
+## 1.89.0
+
+ - **FEAT**: add kado off-ramp (#1137).
+ - **FEAT**: update home carousel (#1128).
+ - **FEAT**: add experimental flag (#1114).
+
 ## 1.88.0
 
  - **REFACTOR**: bump dependencies (#1113).
