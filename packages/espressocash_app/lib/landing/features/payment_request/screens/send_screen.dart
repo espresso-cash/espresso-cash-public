@@ -12,11 +12,13 @@ import '../../../core/desktop.dart';
 import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
 import '../service/bloc.dart';
+import '../service/request_verifier_bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/button.dart';
 import '../widgets/divider.dart';
 import '../widgets/invoice.dart';
 import '../widgets/page.dart';
+import '../widgets/verifier.dart';
 import 'other_wallet_screen.dart';
 import 'solana_wallet_screen.dart';
 
@@ -53,7 +55,7 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
     }
   }
 
-  void _onOtherWallet(Blockchain chain) {
+  void _onOtherWallet(BuildContext context, Blockchain chain) {
     final Widget page;
 
     if (isMobile && chain == Blockchain.solana) {
@@ -82,6 +84,9 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
               param2: chain,
             ),
           ),
+          BlocProvider<RequestVerifierBloc>.value(
+            value: context.read<RequestVerifierBloc>(),
+          ),
           Provider.value(value: widget.request),
         ],
         child: OtherWalletScreen(chain: chain),
@@ -93,17 +98,22 @@ class _SendInitialScreenState extends State<SendInitialScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => isMobile
-      ? _MobileView(
-          request: widget.request,
-          onEspressoPay: _onSolanaPay,
-          onOtherWallet: _onOtherWallet,
-        )
-      : _DesktopView(
-          request: widget.request,
-          onEspressoPay: _onSolanaPay,
-          onOtherWallet: _onOtherWallet,
-        );
+  Widget build(BuildContext context) => PaymentRequestVerifier(
+        paymentRequest: widget.request,
+        child: Builder(
+          builder: (context) => isMobile
+              ? _MobileView(
+                  request: widget.request,
+                  onEspressoPay: _onSolanaPay,
+                  onOtherWallet: (chain) => _onOtherWallet(context, chain),
+                )
+              : _DesktopView(
+                  request: widget.request,
+                  onEspressoPay: _onSolanaPay,
+                  onOtherWallet: (chain) => _onOtherWallet(context, chain),
+                ),
+        ),
+      );
 }
 
 class _MobileView extends StatelessWidget {

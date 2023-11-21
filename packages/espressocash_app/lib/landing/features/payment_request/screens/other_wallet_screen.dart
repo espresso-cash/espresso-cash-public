@@ -19,6 +19,7 @@ import '../widgets/button.dart';
 import '../widgets/countdown.dart';
 import '../widgets/invoice.dart';
 import '../widgets/page.dart';
+import '../widgets/status.dart';
 
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen({
@@ -94,6 +95,7 @@ class _MobileView extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 24),
+                    const RequestStatus(),
                     Container(
                       width: 75,
                       height: 75,
@@ -220,6 +222,7 @@ class _DesktopView extends StatelessWidget {
               content: Column(
                 children: [
                   const SizedBox(height: 26),
+                  const RequestStatus(),
                   Text(
                     context.l10n.landingPayRequestInstruction,
                     textAlign: TextAlign.center,
