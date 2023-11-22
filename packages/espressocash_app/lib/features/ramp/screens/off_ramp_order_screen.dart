@@ -8,7 +8,10 @@ import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
-import '../services/kado_off_ramp_order_service.dart';
+import '../kado/services/off_ramp_order_watcher.dart';
+import '../services/off_ramp_order_service.dart';
+import '../src/models/ramp_partner.dart';
+import '../src/models/ramp_watcher.dart';
 
 @RoutePage()
 class OffRampOrderScreen extends StatefulWidget {
@@ -23,7 +26,30 @@ class OffRampOrderScreen extends StatefulWidget {
 }
 
 class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
-  late final _stream = sl<KadoOffRampOrderService>().watch(widget.orderId);
+  late final Stream<OffRampOrder> _stream;
+  late RampWatcher? _watcher;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = sl<OffRampOrderService>().watch(widget.orderId);
+
+    _initWatcher();
+  }
+
+  Future<void> _initWatcher() async {
+    final onRamp = await _stream.first;
+
+    if (onRamp.partner == RampPartner.kado) {
+      _watcher = sl<KadoOffRampOrderWatcher>()..watch(widget.orderId);
+    }
+  }
+
+  @override
+  void dispose() {
+    _watcher?.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
@@ -49,7 +75,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
                       width: double.infinity,
                       text: context.l10n.retry,
                       onPressed: () {
-                        sl<KadoOffRampOrderService>().retry(widget.orderId);
+                        sl<OffRampOrderService>().retry(widget.orderId);
                       },
                     ),
                   if (order?.status == OffRampOrderStatus.depositTxRequired)
@@ -58,7 +84,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
                       width: double.infinity,
                       text: 'Create deposit tx',
                       onPressed: () {
-                        sl<KadoOffRampOrderService>().retry(widget.orderId);
+                        sl<OffRampOrderService>().retry(widget.orderId);
                       },
                     ),
                 ],

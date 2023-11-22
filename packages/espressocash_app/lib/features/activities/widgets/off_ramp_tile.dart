@@ -10,7 +10,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../ramp/screens/off_ramp_order_screen.dart';
-import '../../ramp/services/kado_off_ramp_order_service.dart';
+import '../../ramp/services/off_ramp_order_service.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 
@@ -24,7 +24,7 @@ class OffRampTile extends StatefulWidget {
 }
 
 class _OffRampTileState extends State<OffRampTile> {
-  late final _stream = sl<KadoOffRampOrderService>().watch(widget.activity.id);
+  late final _stream = sl<OffRampOrderService>().watch(widget.activity.id);
 
   @override
   Widget build(BuildContext context) => StreamBuilder<OffRampOrder>(
