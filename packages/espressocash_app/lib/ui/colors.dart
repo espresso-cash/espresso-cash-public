@@ -62,6 +62,8 @@ abstract class CpColors {
 
   static const darkSplashBackgroundColor = Color(0xff2D2B2C);
   static const blackTextFieldBackgroundColor = Color(0xff404040);
+
+  static const yellowSplashBackgroundColor = Color(0xffB4A270);
 }
 
 const bgGradient = LinearGradient(
