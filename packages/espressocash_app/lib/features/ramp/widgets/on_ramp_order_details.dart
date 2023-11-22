@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
 import '../data/on_ramp_order_service.dart';
-import '../kado/widgets/kado_on_ramp_order_details.dart';
+import '../services/kado_on_ramp_order_watcher.dart';
 import '../src/models/on_ramp_watcher.dart';
 import '../src/models/ramp_partner.dart';
 

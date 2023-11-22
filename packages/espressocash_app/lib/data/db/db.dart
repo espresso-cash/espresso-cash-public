@@ -28,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 40;
+const int latestVersion = 41;
 
 const _tables = [
   OutgoingTransferRows,
@@ -171,6 +171,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 40) {
             await m.createTable(offRampOrderRows);
+          }
+          if (from >= 37 && from < 41) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
           }
         },
       );
