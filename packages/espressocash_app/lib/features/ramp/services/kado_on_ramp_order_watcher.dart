@@ -5,9 +5,9 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../core/currency.dart';
-import '../../../../../data/db/db.dart';
-import '../data/kado_api_client.dart';
+import '../../../core/currency.dart';
+import '../../../data/db/db.dart';
+import '../kado/data/kado_api_client.dart';
 
 @injectable
 class KadoOnRampOrderWatcher {
@@ -51,8 +51,8 @@ class KadoOnRampOrderWatcher {
                 machineStatus: Value(data.machineStatusField.name),
                 isCompleted: Value(isCompleted),
                 receiveAmount: Value(
-                  ((data.payAmount.amount - data.totalFee.amount) /
-                          data.quote.price *
+                  ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
+                          (data.quote?.price ?? 0) *
                           pow(10, Currency.usdc.decimals))
                       .toInt(),
                 ),

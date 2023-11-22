@@ -2,10 +2,11 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
-import '../data/pending_activities_repository.dart';
 import '../models/activity.dart';
+import '../services/pending_activities_repository.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
+import 'off_ramp_tile.dart';
 import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'payment_request_tile.dart';
@@ -67,6 +68,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         activity: p,
                       ),
                       onRamp: (it) => OnRampTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      offRamp: (it) => OffRampTile(
                         key: ValueKey(it.id),
                         activity: it,
                       ),

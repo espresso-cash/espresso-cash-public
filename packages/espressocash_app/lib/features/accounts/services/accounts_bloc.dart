@@ -40,7 +40,7 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   Future<void> _onInitialize(Emitter<AccountsState> emit) async {
     emit(state.copyWith(isProcessing: true));
     try {
-      final account = await _repository.loadAccount(_seedVault);
+      final account = await _repository.loadAccount();
 
       emit(state.copyWith(account: account, isProcessing: false));
     } on Exception {

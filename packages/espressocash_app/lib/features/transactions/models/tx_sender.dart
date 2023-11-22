@@ -42,7 +42,7 @@ class StubSignedTx implements SignedTx {
 }
 
 @freezed
-class TxSendResult with _$TxSendResult {
+sealed class TxSendResult with _$TxSendResult {
   const factory TxSendResult.sent() = TxSendSent;
   const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
   const factory TxSendResult.failure({
@@ -52,7 +52,7 @@ class TxSendResult with _$TxSendResult {
 }
 
 @freezed
-class TxWaitResult with _$TxWaitResult {
+sealed class TxWaitResult with _$TxWaitResult {
   const factory TxWaitResult.success() = TxWaitSuccess;
   const factory TxWaitResult.failure({
     required TxFailureReason reason,

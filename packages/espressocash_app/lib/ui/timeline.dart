@@ -199,6 +199,14 @@ class _IndicatorBackground extends StatelessWidget {
                   bottom: isLast ? _timelineRadius : Radius.zero,
                 )
               : null,
+          boxShadow: [
+            BoxShadow(
+              color: backgroundColor,
+              blurRadius: 0.0,
+              spreadRadius: 0.0,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
         padding: (isFirst || isLast)
             ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
@@ -224,7 +232,17 @@ class _ConnectorBackground extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: _timelineWidth,
         height: _connectorHeight,
-        decoration: BoxDecoration(color: backgroundColor),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: backgroundColor,
+              blurRadius: 0.0,
+              spreadRadius: 0.0,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
         child: child,
       );
 }

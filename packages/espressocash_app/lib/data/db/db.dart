@@ -28,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 40;
 
 const _tables = [
   OutgoingTransferRows,
@@ -45,6 +45,7 @@ const _tables = [
   OLPRows,
   ILPRows,
   OnRampOrderRows,
+  OffRampOrderRows,
 ];
 
 @lazySingleton
@@ -168,6 +169,9 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
           }
+          if (from < 40) {
+            await m.createTable(offRampOrderRows);
+          }
         },
       );
 
@@ -207,4 +211,27 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
+}
+
+class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
+  const OffRampOrderRows();
+
+  TextColumn get status => textEnum<OffRampOrderStatus>()();
+  TextColumn get humanStatus => text()();
+  TextColumn get machineStatus => text()();
+  TextColumn get partnerOrderId => text()();
+  TextColumn get transaction => text()();
+  TextColumn get depositAddress => text()();
+  Int64Column get slot => int64()();
+}
+
+enum OffRampOrderStatus {
+  depositTxRequired,
+  creatingDepositTx,
+  depositTxReady,
+  sendingDepositTx,
+  depositError,
+  waitingForPartner,
+  failure,
+  completed,
 }
