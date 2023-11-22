@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
@@ -139,8 +140,10 @@ extension on BuildContext {
   }) {
     final partners = _getOffRampPartners(profile.country.code);
 
-    if (partners == null) {
-      return unawaited(OffRampBottomSheet.show(this));
+    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
+      OffRampBottomSheet.show(this);
+
+      return;
     }
 
     if (partners.other.isEmpty) {
@@ -193,16 +196,17 @@ extension on BuildContext {
     required String address,
   }) {
     switch (partner) {
+      case RampPartner.kado:
+        launchKadoOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexRamp(
           profile: profile,
           address: address,
           type: RampType.offRamp,
         );
-      case RampPartner.coinflow:
       case RampPartner.rampNetwork:
-      case RampPartner.kado:
       case RampPartner.guardarian:
+      case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -230,12 +234,11 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
                 other: <RampPartner>[].lock,
               );
 
-PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'NG'
-    ? (
-        top: RampPartner.scalex,
-        other: <RampPartner>[].lock,
-      )
-    : null;
+PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
+    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
+    : countryCode == 'NG'
+        ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
+        : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //

@@ -55,7 +55,7 @@ class RampPartnerSelectScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             CpButton(
-              text: topPartner.title,
+              text: context.l10n.ramp_btnContinue,
               width: double.infinity,
               size: CpButtonSize.big,
               trailing: const Padding(

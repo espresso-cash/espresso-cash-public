@@ -10,9 +10,10 @@ import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
+import '../../ramp/services/kado_off_ramp_order_service.dart';
 import '../../swap/data/swap_repository.dart';
+import '../data/activity_builder.dart';
 import '../models/activity.dart';
-import 'activity_builder.dart';
 
 @injectable
 class PendingActivitiesRepository {
@@ -20,11 +21,13 @@ class PendingActivitiesRepository {
     this._db,
     this._tokens,
     this._onRampOrderService,
+    this._offRampOrderService,
   );
 
   final MyDatabase _db;
   final TokenList _tokens;
   final OnRampOrderService _onRampOrderService;
+  final KadoOffRampOrderService _offRampOrderService;
 
   Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
@@ -53,6 +56,11 @@ class PendingActivitiesRepository {
               rows.map((it) => Activity.onRamp(id: it.id, created: it.created)),
         );
 
+    final offRampStream = _offRampOrderService.watchPending().map(
+          (rows) => rows
+              .map((it) => Activity.offRamp(id: it.id, created: it.created)),
+        );
+
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
       [
         oprStream,
@@ -60,6 +68,7 @@ class PendingActivitiesRepository {
         swapStream,
         onRampStream,
         olpStream,
+        offRampStream,
       ],
       (values) => values
           .expand(identity)

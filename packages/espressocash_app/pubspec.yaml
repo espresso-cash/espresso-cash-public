@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.88.0
+version: 1.90.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -27,10 +27,10 @@ dependencies:
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
   fast_immutable_collections: ^9.1.1
-  firebase_analytics: ^10.1.0
-  firebase_app_installations: ^0.2.1+8
-  firebase_core: ^2.4.1
-  firebase_remote_config: ^4.3.2
+  firebase_analytics: ^10.7.0
+  firebase_app_installations: ^0.2.4
+  firebase_core: ^2.22.0
+  firebase_remote_config: ^4.3.4
   fl_chart: ^0.64.0
   flutter:
     sdk: flutter
@@ -153,10 +153,10 @@ flutter:
           weight: 900
 
 flutter_native_splash:
-  color: "#2D2B2C"
+  color: "#B4A270"
   image: assets/images/logo-icon.png
   web: false
 
   android_12:
     image: assets/images/logo-android12.png
-    color: "#2D2B2C"
+    color: "#B4A270"

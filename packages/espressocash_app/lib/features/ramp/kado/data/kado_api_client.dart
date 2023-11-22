@@ -26,10 +26,11 @@ abstract class KadoApiClient {
 class OrderDataDto with _$OrderDataDto {
   const factory OrderDataDto({
     required String humanStatusField,
+    String? depositAddress,
     @JsonKey(unknownEnumValue: MachineStatus.unknown)
     required MachineStatus machineStatusField,
-    required QuoteDto quote,
-    required AmountDto totalFee,
+    QuoteDto? quote,
+    AmountDto? totalFee,
     required AmountDto payAmount,
   }) = _OrderDataDto;
 

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../../di.dart';
 import '../../data/on_ramp_order_service.dart';
-import '../src/services/kado_on_ramp_order_watcher.dart';
+import '../../services/kado_on_ramp_order_watcher.dart';
 
 export '../../data/on_ramp_order_service.dart' show OnRampOrder;
 
