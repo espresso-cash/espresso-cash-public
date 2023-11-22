@@ -18,7 +18,7 @@ typedef OnRampOrder = ({
   String orderId,
   String humanStatus,
   DateTime created,
-  FiatAmount? amount,
+  CryptoAmount? amount,
   CryptoAmount? receiveAmount,
   bool isCompleted,
   RampPartner partner,
@@ -34,14 +34,14 @@ class OnRampOrderService implements Disposable {
   Future<void> create({
     required String orderId,
     required RampPartner partner,
-    Amount? inputAmount,
+    CryptoAmount? amount,
     CryptoAmount? receiveAmount,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: inputAmount?.value ?? 0,
+            amount: amount?.value ?? 0,
             token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
@@ -64,9 +64,11 @@ class OnRampOrderService implements Disposable {
             humanStatus: row.humanStatus,
             created: row.created,
             isCompleted: row.isCompleted,
-            amount: FiatAmount(
+            amount: CryptoAmount(
               value: row.amount,
-              fiatCurrency: Currency.usd,
+              cryptoCurrency: CryptoCurrency(
+                token: _tokens.requireTokenByMint(row.token),
+              ),
             ),
             receiveAmount: row.receiveAmount?.let(
               (amount) => CryptoAmount(
