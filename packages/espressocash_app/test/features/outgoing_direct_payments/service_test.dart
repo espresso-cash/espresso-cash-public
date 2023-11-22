@@ -96,6 +96,9 @@ Future<void> main() async {
   }
 
   test('Happy path', () async {
+    provideDummy<TxSendResult>(const TxSendSent());
+    provideDummy<TxWaitResult>(const TxWaitSuccess());
+
     when(client.createDirectPayment(any))
         .thenAnswer((_) async => testApiResponse);
 
@@ -128,6 +131,13 @@ Future<void> main() async {
   });
 
   test('Failed to get tx from API', () async {
+    provideDummy<TxSendResult>(
+      const TxSendFailure(reason: TxFailureReason.unknown),
+    );
+    provideDummy<TxWaitResult>(
+      const TxWaitFailure(reason: TxFailureReason.unknown),
+    );
+
     when(client.createDirectPayment(any)).thenAnswer((_) => throw Exception());
 
     final paymentId = await createService().let(createODP);

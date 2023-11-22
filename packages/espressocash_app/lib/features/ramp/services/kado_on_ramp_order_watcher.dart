@@ -7,8 +7,8 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/currency.dart';
 import '../../../../../data/db/db.dart';
-import '../../../src/models/on_ramp_watcher.dart';
-import '../data/kado_api_client.dart';
+import '../kado/data/kado_api_client.dart';
+import '../src/models/on_ramp_watcher.dart';
 
 @injectable
 class KadoOnRampOrderWatcher implements OnRampWatcher {
@@ -53,8 +53,8 @@ class KadoOnRampOrderWatcher implements OnRampWatcher {
                 machineStatus: Value(data.machineStatusField.name),
                 isCompleted: Value(isCompleted),
                 receiveAmount: Value(
-                  ((data.payAmount.amount - data.totalFee.amount) /
-                          data.quote.price *
+                  ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
+                          (data.quote?.price ?? 0) *
                           pow(10, Currency.usdc.decimals))
                       .toInt(),
                 ),
