@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
 import '../data/on_ramp_order_service.dart';
-import '../services/kado_on_ramp_order_watcher.dart';
-import '../src/models/on_ramp_watcher.dart';
+import '../kado/services/on_ramp_order_watcher.dart';
 import '../src/models/ramp_partner.dart';
+import '../src/models/ramp_watcher.dart';
 
 export '../data/on_ramp_order_service.dart' show OnRampOrder;
 
@@ -24,7 +24,7 @@ class OnRampOrderDetails extends StatefulWidget {
 
 class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
   late final Stream<OnRampOrder> _stream;
-  OnRampWatcher? _watcher;
+  RampWatcher? _watcher;
 
   @override
   void initState() {

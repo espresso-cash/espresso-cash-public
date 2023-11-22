@@ -7,11 +7,11 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../../core/currency.dart';
 import '../../../../../data/db/db.dart';
-import '../kado/data/kado_api_client.dart';
-import '../src/models/on_ramp_watcher.dart';
+import '../../src/models/ramp_watcher.dart';
+import '../data/kado_api_client.dart';
 
 @injectable
-class KadoOnRampOrderWatcher implements OnRampWatcher {
+class KadoOnRampOrderWatcher implements RampWatcher {
   KadoOnRampOrderWatcher(this._db, this._client);
 
   final MyDatabase _db;
