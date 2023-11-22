@@ -13,6 +13,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
 import '../src/models/ramp_partner.dart';
+import 'extensions.dart';
 
 typedef OnRampOrder = ({
   String orderId,
@@ -95,22 +96,4 @@ class OnRampOrderService implements Disposable {
 
   @override
   Future<void> onDispose() => _db.delete(_db.onRampOrderRows).go();
-}
-
-extension on RampPartner {
-  RampPartnerDto toDto() => switch (this) {
-        RampPartner.coinflow => RampPartnerDto.coinflow,
-        RampPartner.rampNetwork => RampPartnerDto.rampNetwork,
-        RampPartner.kado => RampPartnerDto.kado,
-        RampPartner.guardarian => RampPartnerDto.guardarian,
-      };
-}
-
-extension on RampPartnerDto {
-  RampPartner toModel() => switch (this) {
-        RampPartnerDto.coinflow => RampPartner.coinflow,
-        RampPartnerDto.rampNetwork => RampPartner.rampNetwork,
-        RampPartnerDto.kado => RampPartner.kado,
-        RampPartnerDto.guardarian => RampPartner.guardarian,
-      };
 }
