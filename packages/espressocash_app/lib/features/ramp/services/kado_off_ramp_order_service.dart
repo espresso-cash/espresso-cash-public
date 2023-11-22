@@ -22,7 +22,9 @@ import '../../authenticated/auth_scope.dart';
 import '../../transactions/models/tx_sender.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
+import '../data/extensions.dart';
 import '../kado/data/kado_api_client.dart';
+import '../src/models/ramp_partner.dart';
 
 typedef OffRampOrder = ({
   String id,
@@ -142,6 +144,7 @@ class KadoOffRampOrderService implements Disposable {
   AsyncResult<String> create({
     required String partnerOrderId,
     required CryptoAmount amount,
+    required RampPartner partner,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -164,6 +167,7 @@ class KadoOffRampOrderService implements Disposable {
             slot: BigInt.zero,
             status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
+            partner: partner.toDto(),
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);

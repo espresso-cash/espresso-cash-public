@@ -28,7 +28,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 40;
+const int latestVersion = 41;
 
 const _tables = [
   OutgoingTransferRows,
@@ -172,6 +172,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 40) {
             await m.createTable(offRampOrderRows);
           }
+          if (from >= 40 && from < 41) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
+          }
         },
       );
 
@@ -223,6 +226,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get transaction => text()();
   TextColumn get depositAddress => text()();
   Int64Column get slot => int64()();
+  TextColumn get partner => textEnum<RampPartnerDto>()();
 }
 
 enum OffRampOrderStatus {
@@ -234,4 +238,11 @@ enum OffRampOrderStatus {
   waitingForPartner,
   failure,
   completed,
+}
+
+enum RampPartnerDto {
+  kado,
+  rampNetwork,
+  coinflow,
+  guardarian,
 }
