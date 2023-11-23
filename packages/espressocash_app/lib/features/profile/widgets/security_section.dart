@@ -6,7 +6,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../app_lock/app_lock.dart';
-import '../../backup_phrase/backup_phrase.dart';
+import '../../view_phrase/view_phrase.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 
