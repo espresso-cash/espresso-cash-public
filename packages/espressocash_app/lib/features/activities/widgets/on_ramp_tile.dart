@@ -6,7 +6,7 @@ import '../../../core/presentation/format_date.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../ramp/kado/widgets/kado_on_ramp_order_details.dart';
+import '../../ramp/widgets/on_ramp_order_details.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 
@@ -16,7 +16,7 @@ class OnRampTile extends StatelessWidget {
   final OnRampActivity activity;
 
   @override
-  Widget build(BuildContext context) => KadoOnRampOrderDetails(
+  Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
         builder: (context, order) => CpActivityTile(
           title: order?.amount?.let(
