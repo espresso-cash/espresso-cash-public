@@ -215,7 +215,8 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
-  TextColumn get partner => textEnum<RampPartner>()();
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(Constant(RampPartner.kado.name))();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
