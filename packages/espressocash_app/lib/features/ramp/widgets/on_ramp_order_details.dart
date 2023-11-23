@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../../../di.dart';
 import '../data/on_ramp_order_service.dart';
 import '../kado/services/on_ramp_order_watcher.dart';
-import '../src/models/ramp_partner.dart';
+import '../models/ramp_partner.dart';
 import '../src/models/ramp_watcher.dart';
 
 export '../data/on_ramp_order_service.dart' show OnRampOrder;
@@ -39,9 +39,14 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
 
     final onRamp = await _stream.first;
 
-    if (onRamp.partner == RampPartner.kado) {
-      _watcher = sl<KadoOnRampOrderWatcher>()..watch(widget.orderId);
+    _watcher = switch (onRamp.partner) {
+      RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
+      RampPartner.rampNetwork ||
+      RampPartner.coinflow ||
+      RampPartner.guardarian =>
+        throw ArgumentError('Not implemented'),
     }
+      ..watch(widget.orderId);
   }
 
   @override

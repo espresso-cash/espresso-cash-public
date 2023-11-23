@@ -12,8 +12,7 @@ import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
-import '../src/models/ramp_partner.dart';
-import 'extensions.dart';
+import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({
   String orderId,
@@ -49,7 +48,7 @@ class OnRampOrderService implements Disposable {
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: partner.toDto(),
+            partner: partner,
             receiveAmount: receiveAmount?.value,
           ),
         );
@@ -79,7 +78,7 @@ class OnRampOrderService implements Disposable {
                 ),
               ),
             ),
-            partner: row.partner.toModel(),
+            partner: row.partner,
           ),
         );
   }

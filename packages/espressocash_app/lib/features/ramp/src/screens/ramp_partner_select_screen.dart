@@ -7,7 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
-import '../models/ramp_partner.dart';
+import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import '../widgets/ramp_page.dart';
 
