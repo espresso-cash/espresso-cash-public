@@ -27,7 +27,7 @@ class OffRampOrderScreen extends StatefulWidget {
 
 class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
   late final Stream<OffRampOrder> _stream;
-  late RampWatcher? _watcher;
+  RampWatcher? _watcher;
 
   @override
   void initState() {
@@ -38,11 +38,18 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
   }
 
   Future<void> _initWatcher() async {
+    if (_watcher != null) return;
+
     final onRamp = await _stream.first;
 
-    if (onRamp.partner == RampPartner.kado) {
-      _watcher = sl<KadoOffRampOrderWatcher>()..watch(widget.orderId);
+    _watcher = switch (onRamp.partner) {
+      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
+      RampPartner.rampNetwork ||
+      RampPartner.coinflow ||
+      RampPartner.guardarian =>
+        throw ArgumentError('Not implemented'),
     }
+      ..watch(widget.orderId);
   }
 
   @override
