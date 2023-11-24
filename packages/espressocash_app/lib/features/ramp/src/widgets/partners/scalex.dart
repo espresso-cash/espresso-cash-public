@@ -59,7 +59,7 @@ extension BuildContextExt on BuildContext {
 
             sl<OnRampOrderService>().create(
               orderId: reference,
-              amount: amount,
+              receiveAmount: amount,
               partner: RampPartner.scalex,
             );
             orderWasCreated = true;
