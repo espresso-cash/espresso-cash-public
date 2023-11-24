@@ -8,10 +8,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
-import '../src/models/ramp_partner.dart';
+import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({
   String orderId,
@@ -32,21 +33,23 @@ class OnRampOrderService implements Disposable {
 
   Future<void> create({
     required String orderId,
-    required CryptoAmount amount,
     required RampPartner partner,
+    CryptoAmount? amount,
+    CryptoAmount? receiveAmount,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: amount.value,
-            token: amount.token.address,
+            amount: amount?.value ?? 0,
+            token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
-            partner: partner.toDto(),
+            partner: partner,
+            receiveAmount: receiveAmount?.value,
           ),
         );
   }
@@ -75,7 +78,7 @@ class OnRampOrderService implements Disposable {
                 ),
               ),
             ),
-            partner: row.partner.toModel(),
+            partner: row.partner,
           ),
         );
   }
@@ -92,24 +95,4 @@ class OnRampOrderService implements Disposable {
 
   @override
   Future<void> onDispose() => _db.delete(_db.onRampOrderRows).go();
-}
-
-extension on RampPartner {
-  RampPartnerDto toDto() => switch (this) {
-        RampPartner.coinflow => RampPartnerDto.coinflow,
-        RampPartner.rampNetwork => RampPartnerDto.rampNetwork,
-        RampPartner.kado => RampPartnerDto.kado,
-        RampPartner.scalex => RampPartnerDto.scalex,
-        RampPartner.guardarian => RampPartnerDto.guardarian,
-      };
-}
-
-extension on RampPartnerDto {
-  RampPartner toModel() => switch (this) {
-        RampPartnerDto.coinflow => RampPartner.coinflow,
-        RampPartnerDto.rampNetwork => RampPartner.rampNetwork,
-        RampPartnerDto.kado => RampPartner.kado,
-        RampPartnerDto.scalex => RampPartner.scalex,
-        RampPartnerDto.guardarian => RampPartner.guardarian,
-      };
 }

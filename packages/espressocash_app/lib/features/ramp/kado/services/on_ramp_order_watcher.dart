@@ -5,12 +5,13 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/currency.dart';
-import '../../../data/db/db.dart';
-import '../kado/data/kado_api_client.dart';
+import '../../../../../core/currency.dart';
+import '../../../../../data/db/db.dart';
+import '../../src/models/ramp_watcher.dart';
+import '../data/kado_api_client.dart';
 
 @injectable
-class KadoOnRampOrderWatcher {
+class KadoOnRampOrderWatcher implements RampWatcher {
   KadoOnRampOrderWatcher(this._db, this._client);
 
   final MyDatabase _db;
@@ -18,6 +19,7 @@ class KadoOnRampOrderWatcher {
 
   StreamSubscription<void>? _subscription;
 
+  @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
         .asyncMap(
@@ -62,6 +64,7 @@ class KadoOnRampOrderWatcher {
         });
   }
 
+  @override
   void close() {
     _subscription?.cancel();
   }

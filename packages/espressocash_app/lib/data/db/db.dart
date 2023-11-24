@@ -9,6 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
+import '../../features/ramp/models/ramp_partner.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';
@@ -28,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 40;
+const int latestVersion = 41;
 
 const _tables = [
   OutgoingTransferRows,
@@ -172,6 +173,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 40) {
             await m.createTable(offRampOrderRows);
           }
+          if (from >= 37 && from < 41) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
+          }
         },
       );
 
@@ -211,15 +215,8 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
-  TextColumn get partner => textEnum<RampPartnerDto>()();
-}
-
-enum RampPartnerDto {
-  kado,
-  rampNetwork,
-  coinflow,
-  guardarian,
-  scalex,
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(const Constant('kado'))();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
