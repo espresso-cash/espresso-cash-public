@@ -22,24 +22,24 @@ import '../../authenticated/auth_scope.dart';
 import '../../transactions/models/tx_sender.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
-import '../kado/data/kado_api_client.dart';
+import '../models/ramp_partner.dart';
 
 typedef OffRampOrder = ({
   String id,
   DateTime created,
   OffRampOrderStatus status,
   CryptoAmount amount,
+  RampPartner partner,
 });
 
 @Singleton(scope: authScope)
-class KadoOffRampOrderService implements Disposable {
-  KadoOffRampOrderService(
+class OffRampOrderService implements Disposable {
+  OffRampOrderService(
     this._account,
     this._client,
     this._sender,
     this._db,
     this._tokens,
-    this._kadoApi,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -49,7 +49,6 @@ class KadoOffRampOrderService implements Disposable {
   final TxSender _sender;
   final MyDatabase _db;
   final TokenList _tokens;
-  final KadoApiClient _kadoApi;
 
   @PostConstruct()
   Future<void> init() async {
@@ -94,6 +93,7 @@ class KadoOffRampOrderService implements Disposable {
         created: row.created,
         status: row.status,
         amount: amount,
+        partner: row.partner,
       );
     });
   }
@@ -142,16 +142,11 @@ class KadoOffRampOrderService implements Disposable {
   AsyncResult<String> create({
     required String partnerOrderId,
     required CryptoAmount amount,
+    required RampPartner partner,
+    required String depositAddress,
   }) =>
       tryEitherAsync((_) async {
         {
-          final partnerOrder = await _kadoApi.getOrderStatus(partnerOrderId);
-          final depositAddress = partnerOrder.data?.depositAddress;
-
-          if (depositAddress == null) {
-            throw Exception('No deposit address');
-          }
-
           final order = OffRampOrderRow(
             id: const Uuid().v4(),
             amount: amount.value,
@@ -164,6 +159,7 @@ class KadoOffRampOrderService implements Disposable {
             slot: BigInt.zero,
             status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
+            partner: partner,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -181,6 +177,7 @@ class KadoOffRampOrderService implements Disposable {
       switch (order.status) {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
+        case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
@@ -204,9 +201,6 @@ class KadoOffRampOrderService implements Disposable {
               status: Value(OffRampOrderStatus.sendingDepositTx),
             ),
           );
-        case OffRampOrderStatus.waitingForPartner:
-          return Stream<void>.periodic(const Duration(seconds: 10))
-              .asyncMap((_) => _checkPartnerStatus(order.partnerOrderId));
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
@@ -289,18 +283,6 @@ class KadoOffRampOrderService implements Disposable {
       case TxWaitNetworkError():
         return _depositError;
     }
-  }
-
-  Future<OffRampOrderRowsCompanion> _checkPartnerStatus(String orderId) async {
-    final partnerOrder = await _kadoApi.getOrderStatus(orderId);
-
-    return OffRampOrderRowsCompanion(
-      machineStatus: Value(partnerOrder.data?.machineStatusField.name ?? ''),
-      humanStatus: Value(partnerOrder.data?.humanStatusField ?? ''),
-      status: partnerOrder.data?.machineStatusField == MachineStatus.settled
-          ? const Value(OffRampOrderStatus.completed)
-          : const Value(OffRampOrderStatus.waitingForPartner),
-    );
   }
 
   static const _depositError =
