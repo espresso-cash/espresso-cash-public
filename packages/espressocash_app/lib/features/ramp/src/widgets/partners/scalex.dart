@@ -12,9 +12,9 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
-import '../../../scalex/module.dart';
+import '../../../models/ramp_partner.dart';
+import '../../../scalex/data/scalex_api_client.dart';
 import '../../models/profile_data.dart';
-import '../../models/ramp_partner.dart';
 import '../../models/ramp_type.dart';
 
 extension BuildContextExt on BuildContext {

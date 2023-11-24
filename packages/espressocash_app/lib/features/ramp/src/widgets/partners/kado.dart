@@ -14,7 +14,6 @@ import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/kado_off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
-import '../../models/ramp_partner.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
 

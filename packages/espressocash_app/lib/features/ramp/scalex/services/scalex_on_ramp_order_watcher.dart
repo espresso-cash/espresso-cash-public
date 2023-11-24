@@ -1,16 +1,15 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../core/currency.dart';
 import '../../../../../data/db/db.dart';
+import '../../src/models/ramp_watcher.dart';
 import '../data/scalex_api_client.dart';
 
 @injectable
-class ScalexOnRampOrderWatcher {
+class ScalexOnRampOrderWatcher implements RampWatcher {
   ScalexOnRampOrderWatcher(this._db, this._client);
 
   final MyDatabase _db;
@@ -18,6 +17,7 @@ class ScalexOnRampOrderWatcher {
 
   StreamSubscription<void>? _subscription;
 
+  @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
         .asyncMap(
@@ -49,18 +49,13 @@ class ScalexOnRampOrderWatcher {
                 humanStatus: Value(data.status.name),
                 machineStatus: Value(data.status.name),
                 isCompleted: Value(isCompleted),
-                // receiveAmount: Value(
-                //   ((data.payAmount.amount - data.totalFee.amount) /
-                //           data.quote.price *
-                //           pow(10, Currency.usdc.decimals))
-                //       .toInt(),
-                // ),
               ),
             );
           }
         });
   }
 
+  @override
   void close() {
     _subscription?.cancel();
   }
