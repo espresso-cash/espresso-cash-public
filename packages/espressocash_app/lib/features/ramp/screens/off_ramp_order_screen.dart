@@ -9,8 +9,8 @@ import '../../../ui/button.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../kado/services/off_ramp_order_watcher.dart';
+import '../models/ramp_partner.dart';
 import '../services/off_ramp_order_service.dart';
-import '../src/models/ramp_partner.dart';
 import '../src/models/ramp_watcher.dart';
 
 @RoutePage()

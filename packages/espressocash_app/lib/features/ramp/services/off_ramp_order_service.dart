@@ -22,8 +22,7 @@ import '../../authenticated/auth_scope.dart';
 import '../../transactions/models/tx_sender.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
-import '../data/extensions.dart';
-import '../src/models/ramp_partner.dart';
+import '../models/ramp_partner.dart';
 
 typedef OffRampOrder = ({
   String id,
@@ -94,7 +93,7 @@ class OffRampOrderService implements Disposable {
         created: row.created,
         status: row.status,
         amount: amount,
-        partner: row.partner.toModel(),
+        partner: row.partner,
       );
     });
   }
@@ -160,7 +159,7 @@ class OffRampOrderService implements Disposable {
             slot: BigInt.zero,
             status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
-            partner: partner.toDto(),
+            partner: partner,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
