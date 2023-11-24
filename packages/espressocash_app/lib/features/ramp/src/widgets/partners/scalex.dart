@@ -14,6 +14,8 @@ import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../scalex/data/scalex_api_client.dart';
+import '../../../screens/off_ramp_order_screen.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
 
@@ -42,48 +44,59 @@ extension BuildContextExt on BuildContext {
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
-        callback: (args) {
+        callback: (args) async {
           if (orderWasCreated) return;
 
-          if (args.firstOrNull
-              case <String, dynamic>{
-                'reference': final String reference,
-                'to_amount': final num toAmount,
-              }) {
-            if (type == RampType.offRamp) return;
+          if (type == RampType.onRamp) {
+            if (args.firstOrNull
+                case <String, dynamic>{
+                  'reference': final String reference,
+                  'to_amount': final num toAmount,
+                }) {
+              final decimal = Decimal.parse(toAmount.toString());
+              final amount =
+                  Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                      as CryptoAmount;
 
-            final decimal = Decimal.parse(toAmount.toString());
-            final amount =
-                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                    as CryptoAmount;
-
-            sl<OnRampOrderService>().create(
-              orderId: reference,
-              receiveAmount: amount,
-              partner: RampPartner.scalex,
-            );
-            orderWasCreated = true;
+              await sl<OnRampOrderService>().create(
+                orderId: reference,
+                receiveAmount: amount,
+                partner: RampPartner.scalex,
+              );
+              orderWasCreated = true;
+            }
           }
 
-          if (args.firstOrNull
-              case <String, dynamic>{
-                'reference': final String reference,
-                'from_amount': final num fromAmount,
-                'address': final String address,
-              }) {
-            if (type == RampType.onRamp) return;
+          if (type == RampType.offRamp) {
+            if (args.firstOrNull
+                case <String, dynamic>{
+                  'reference': final String reference,
+                  'from_amount': final num fromAmount,
+                  // ignore: avoid-missing-interpolation, similar names
+                  'address': final String address,
+                }) {
+              final decimal = Decimal.parse(fromAmount.toString());
+              final amount =
+                  Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                      as CryptoAmount;
 
-            final decimal = Decimal.parse(fromAmount.toString());
-            final amount =
-                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                    as CryptoAmount;
-
-            print('amount: $amount');
-            print('reference: $reference');
-            print('address: $address');
-
-            // TODO create offramp
-            orderWasCreated = true;
+              await sl<OffRampOrderService>()
+                  .create(
+                partnerOrderId: reference,
+                amount: amount,
+                partner: RampPartner.scalex,
+                depositAddress: address,
+              )
+                  .then((order) {
+                switch (order) {
+                  case Left<Exception, String>():
+                    break;
+                  case Right<Exception, String>(:final value):
+                    router.replace(OffRampOrderScreen.route(orderId: value));
+                }
+              });
+              orderWasCreated = true;
+            }
           }
         },
       );

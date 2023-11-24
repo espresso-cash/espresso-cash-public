@@ -10,6 +10,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../kado/services/off_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
+import '../scalex/services/scalex_off_ramp_order_watcher.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/models/ramp_watcher.dart';
 
@@ -44,6 +45,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
 
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
+      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>

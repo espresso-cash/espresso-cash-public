@@ -72,7 +72,7 @@ const guardarianApiKey = 'ef6d4999-80ad-4ab2-bcfc-4c0669d2e070';
 
 const scalexBaseUrl = 'https://ramp.scalex.africa';
 const scalexApiKey =
-    'test.sc.ey651c413fd36df7d23e338f53651c413fd36df7d23e338f54651c413fd36df7d23e338f55';
+    'sc.ey651c413fd36df7d23e338f50651c413fd36df7d23e338f51651c413fd36df7d23e338f52';
 const scalexSecretKey =
     String.fromEnvironment('SCALEX_SECRET_KEY', defaultValue: '');
 
