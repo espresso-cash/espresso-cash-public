@@ -11,10 +11,10 @@ import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../kado/data/kado_api_client.dart';
+import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
-import '../../models/ramp_partner.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
 
@@ -70,8 +70,11 @@ extension BuildContextExt on BuildContext {
                 'type': 'RAMP_ORDER_ID',
                 'payload': {'orderId': final String orderId}
               }) {
-            sl<OnRampOrderService>()
-                .create(orderId: orderId, amount: submittedAmount);
+            sl<OnRampOrderService>().create(
+              orderId: orderId,
+              amount: submittedAmount,
+              partner: RampPartner.kado,
+            );
             orderWasCreated = true;
           }
         },
