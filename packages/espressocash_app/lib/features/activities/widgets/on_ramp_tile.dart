@@ -19,16 +19,18 @@ class OnRampTile extends StatelessWidget {
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
         builder: (context, order) => CpActivityTile(
-          title: order?.amount?.let(
-                (amount) => context.l10n.activities_lblBoughtToken(
-                  amount.format(
-                    context.locale,
-                    maxDecimals: 2,
-                    roundInteger: true,
-                  ),
-                ),
-              ) ??
-              '',
+          title: context.l10n.activities_lblBoughtToken(
+            order?.amount?.let(
+                  (amount) => amount.value != 0
+                      ? amount.format(
+                          context.locale,
+                          maxDecimals: 2,
+                          roundInteger: true,
+                        )
+                      : order.amount?.currency.symbol,
+                ) ??
+                '',
+          ),
           icon: Assets.icons.paymentIcon.svg(),
           status: order?.isCompleted == true
               ? CpActivityTileStatus.success
