@@ -10,8 +10,10 @@ import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
+import '../../../kado/data/kado_api_client.dart';
+import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
-import '../../../services/kado_off_ramp_order_service.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
@@ -68,8 +70,11 @@ extension BuildContextExt on BuildContext {
                 'type': 'RAMP_ORDER_ID',
                 'payload': {'orderId': final String orderId}
               }) {
-            sl<OnRampOrderService>()
-                .create(orderId: orderId, amount: submittedAmount);
+            sl<OnRampOrderService>().create(
+              orderId: orderId,
+              amount: submittedAmount,
+              partner: RampPartner.kado,
+            );
             orderWasCreated = true;
           }
         },
@@ -130,7 +135,7 @@ window.addEventListener("message", (event) => {
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'kado',
-        callback: (args) {
+        callback: (args) async {
           if (orderWasCreated) return;
 
           if (args.firstOrNull
@@ -138,10 +143,18 @@ window.addEventListener("message", (event) => {
                 'type': 'RAMP_ORDER_ID',
                 'payload': {'orderId': final String orderId}
               }) {
-            sl<KadoOffRampOrderService>()
+            final partnerOrder =
+                await sl<KadoApiClient>().getOrderStatus(orderId);
+            final depositAddress = partnerOrder.data?.depositAddress;
+
+            if (depositAddress == null) return;
+
+            await sl<OffRampOrderService>()
                 .create(
               partnerOrderId: orderId,
               amount: submittedAmount,
+              partner: RampPartner.kado,
+              depositAddress: depositAddress,
             )
                 .then((order) {
               switch (order) {
