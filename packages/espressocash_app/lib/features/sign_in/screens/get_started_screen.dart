@@ -31,7 +31,7 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: const Color(0xFFB4A270),
+          backgroundColor: CpColors.yellowSplashBackgroundColor,
           body: Stack(
             children: [
               Align(
