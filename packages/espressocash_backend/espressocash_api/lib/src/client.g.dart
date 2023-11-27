@@ -25,8 +25,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<AddFundsResponseDto>(Options(
       method: 'POST',
@@ -49,8 +48,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CreatePaymentResponseDto>(Options(
       method: 'POST',
@@ -73,8 +71,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ReceivePaymentResponseDto>(Options(
       method: 'POST',
@@ -97,8 +94,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CreateDirectPaymentResponseDto>(Options(
       method: 'POST',
@@ -144,8 +140,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<SwapRouteResponseDto>(Options(
       method: 'POST',
@@ -168,8 +163,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CreatePaymentResponseDto>(Options(
       method: 'POST',
@@ -192,8 +186,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<ReceivePaymentResponseDto>(Options(
       method: 'POST',
@@ -216,8 +209,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(request.toJson());
+    final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CancelPaymentResponseDto>(Options(
       method: 'POST',
@@ -232,6 +224,29 @@ class _CryptopleaseClient implements CryptopleaseClient {
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = CancelPaymentResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<ScalexSignResponseDto> signScalex(request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = request;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ScalexSignResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/scalex/sign',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ScalexSignResponseDto.fromJson(_result.data!);
     return value;
   }
 

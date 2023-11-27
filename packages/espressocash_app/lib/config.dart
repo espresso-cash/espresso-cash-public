@@ -72,7 +72,6 @@ const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
 const scalexBaseUrl = 'https://ramp.scalex.africa';
 const scalexApiKey = String.fromEnvironment('SCALEX_API_KEY');
-const scalexSecretKey = String.fromEnvironment('SCALEX_SECRET_KEY');
 
 const maxPayloadsPerSigningRequest = 10;
 

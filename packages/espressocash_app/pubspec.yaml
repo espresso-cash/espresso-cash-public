@@ -14,8 +14,6 @@ dependencies:
   bloc_concurrency: ^0.2.2
   cached_network_image: ^3.2.3
   collection: ^1.15.0
-  convert: ^3.1.1
-  crypto: ^3.0.3
   date_time_format: ^2.0.1
   decimal: ^2.3.0
   device_preview: ^1.1.0
