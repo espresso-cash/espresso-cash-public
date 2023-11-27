@@ -23,7 +23,7 @@ Future<void> main() async {
     wallet: wallet,
     accessMode: const AccessMode.loaded(),
   );
-  final repository = AccountRepository(storage);
+  final repository = AccountRepository(storage, seedVault);
 
   tearDown(() {
     reset(storage);

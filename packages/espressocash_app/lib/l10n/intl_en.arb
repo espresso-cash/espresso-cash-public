@@ -8,6 +8,14 @@
       }
     }
   },
+  "activities_lblSoldToken": "Sold {amount}",
+  "@activities_lblSoldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "activities_lblCanceled": "Canceled",
   "@activities_lblCanceled": {},
   "activities_lblFailure": "Failure",
@@ -30,14 +38,18 @@
   "@carousel1Subtitle": {},
   "carousel1Title": "Welcome to Espresso Cash!",
   "@carousel1Title": {},
-  "carousel2Subtitle": "Money Gets Transferred to Your Bank Account as Local Currency.",
+  "carousel2Subtitle": "The Money Gets Transferred to Their Bank Account as Local Currency.",
   "@carousel2Subtitle": {},
-  "carousel2Title": "Local Currency Cash Out",
+  "carousel2Title": "Send Money Home In Seconds",
   "@carousel2Title": {},
   "carousel3Subtitle": "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
   "@carousel3Subtitle": {},
   "carousel3Title": "Send With Messaging Platforms",
   "@carousel3Title": {},
+  "carousel4Subtitle": "Use an Espresso Cash QR Code to Instantly Pay Local Businesses",
+  "@carousel4Subtitle": {},
+  "carousel4Title": "Pay Locally",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Send Money Now",
   "@carouselSendMoneyBtn": {},
   "close": "Close",
@@ -70,7 +82,7 @@
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Your Crypto Cash Balance ",
+  "cryptoCashBalance": "Your Crypto Cash Balance",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Your Crypto",
   "@cryptoInvestments": {},
@@ -438,6 +450,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Cash Out",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Continue",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
   "@rampMinimumTransferAmount": {
     "placeholders": {
@@ -806,11 +820,11 @@
   "@walletAddress": {},
   "walletAddressFieldHint": "Type, Paste or Scan Address Here",
   "@walletAddressFieldHint": {},
-  "walletEspressoPayLabel" : "Send money to anyone using a messaging platform.",
+  "walletEspressoPayLabel": "Send money to anyone using a messaging platform.",
   "@walletEspressoPayLabel": {},
-  "walletManualPayLabel" : "Send Using A Wallet Address",
+  "walletManualPayLabel": "Send Using A Wallet Address",
   "@walletManualPayLabel": {},
-  "walletPayOther" : "Other Payment Option:",
+  "walletPayOther": "Other Payment Option:",
   "@walletPayOther": {},
   "walletNetworks": "Networks",
   "@walletNetworks": {},

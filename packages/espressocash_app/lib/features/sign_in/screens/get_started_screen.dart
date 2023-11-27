@@ -31,13 +31,13 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkSplashBackgroundColor,
+          backgroundColor: CpColors.yellowSplashBackgroundColor,
           body: Stack(
             children: [
               Align(
-                alignment: Alignment.bottomCenter,
-                child: Assets.icons.logoBg.svg(
-                  alignment: Alignment.bottomCenter,
+                child: Assets.images.dollarBg.image(
+                  fit: BoxFit.fitHeight,
+                  height: double.infinity,
                 ),
               ),
               SafeArea(
@@ -51,15 +51,14 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       child: IntrinsicHeight(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const _Header(),
-                            32.verticalSpace,
+                            const Expanded(child: _Logo()),
                             const _Body(),
-                            Expanded(
-                              child: _Footer(
-                                isSaga: isSaga,
-                                onSignInPressed: onSignInPressed,
-                              ),
+                            24.verticalSpace,
+                            _Footer(
+                              isSaga: isSaga,
+                              onSignInPressed: onSignInPressed,
                             ),
                           ],
                         ),
@@ -74,17 +73,12 @@ class GetStartedScreen extends StatelessWidget {
       );
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
+class _Logo extends StatelessWidget {
+  const _Logo();
 
   @override
-  // TODO(KB): Check if needed
-  // ignore: avoid-single-child-column-or-row
-  Widget build(BuildContext context) => Column(
-        children: [
-          Assets.images.logo.image(width: 201.r, height: 43.r),
-        ],
-      );
+  Widget build(BuildContext context) =>
+      Assets.images.logo.image(width: 309.r, height: 66.r);
 }
 
 class _Footer extends StatelessWidget {
