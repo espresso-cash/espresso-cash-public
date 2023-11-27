@@ -9,6 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
+import '../../features/ramp/models/ramp_partner.dart';
 import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_sender.dart';
 import 'deprecated.dart';
@@ -28,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 39;
+const int latestVersion = 42;
 
 const _tables = [
   OutgoingTransferRows,
@@ -45,6 +46,7 @@ const _tables = [
   OLPRows,
   ILPRows,
   OnRampOrderRows,
+  OffRampOrderRows,
 ];
 
 @lazySingleton
@@ -168,6 +170,15 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(oLPRows);
             await m.createTable(iLPRows);
           }
+          if (from < 40) {
+            await m.createTable(offRampOrderRows);
+          }
+          if (from >= 37 && from < 41) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
+          }
+          if (from >= 40 && from < 42) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
+          }
         },
       );
 
@@ -207,4 +218,31 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partnerOrderId => text()();
   IntColumn get receiveAmount => integer().nullable()();
   TextColumn get txHash => text()();
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+}
+
+class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
+  const OffRampOrderRows();
+
+  TextColumn get status => textEnum<OffRampOrderStatus>()();
+  TextColumn get humanStatus => text()();
+  TextColumn get machineStatus => text()();
+  TextColumn get partnerOrderId => text()();
+  TextColumn get transaction => text()();
+  TextColumn get depositAddress => text()();
+  Int64Column get slot => int64()();
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+}
+
+enum OffRampOrderStatus {
+  depositTxRequired,
+  creatingDepositTx,
+  depositTxReady,
+  sendingDepositTx,
+  depositError,
+  waitingForPartner,
+  failure,
+  completed,
 }
