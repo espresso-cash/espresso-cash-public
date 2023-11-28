@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
-import '../../../ui/loader.dart';
 import '../../../ui/theme.dart';
 import '../../investments/widgets/home_widget.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
@@ -47,6 +46,8 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
             (value) => value.state.isProcessing,
           );
 
+          if (isLoading && data.isEmpty) return const SizedBox.shrink();
+
           return HomeTile(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
@@ -62,9 +63,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                 ),
                 const SizedBox(height: 12),
                 if (data.isEmpty)
-                  Center(
-                    child: isLoading ? const _Loading() : const _NoActivity(),
-                  )
+                  const Center(child: _NoActivity())
                 else ...[
                   _Card(
                     child: Column(
@@ -129,18 +128,6 @@ class _NoActivity extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      );
-}
-
-class _Loading extends StatelessWidget {
-  const _Loading();
-
-  @override
-  Widget build(BuildContext context) => const _Card(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: LoadingIndicator(),
         ),
       );
 }
