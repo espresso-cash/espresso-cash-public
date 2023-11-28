@@ -31,7 +31,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
+  void _onPressed() => context.launchOnboardingFlow();
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -95,4 +95,9 @@ class _Content extends StatelessWidget {
           const SizedBox(width: 24),
         ],
       );
+}
+
+extension OnboardingExt on BuildContext {
+  Future<bool?> launchOnboardingFlow() =>
+      router.push<bool?>(OnboardingFlowScreen.route());
 }
