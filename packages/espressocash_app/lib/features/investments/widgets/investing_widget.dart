@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../gen/assets.gen.dart';
@@ -27,9 +28,34 @@ class InvestingWidget extends StatelessWidget {
             const SizedBox(height: 12),
             GestureDetector(
               onTap: () => context.router.push(InvestmentsScreen.route()),
-              child: Center(child: Assets.images.investingBanner.image()),
+              child: const _InvestmentBanner(),
             ),
           ],
         ),
+      );
+}
+
+class _InvestmentBanner extends StatelessWidget {
+  const _InvestmentBanner();
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Assets.images.investingBanner.image(),
+          Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Text(
+              context.l10n.investingBannerTitle,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Color(0xFF2D2B2C),
+                fontSize: 19,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.41,
+              ),
+            ),
+          ),
+        ],
       );
 }
