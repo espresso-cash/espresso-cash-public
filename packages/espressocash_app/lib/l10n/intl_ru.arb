@@ -14,6 +14,14 @@
   "@activities_lblFailure": {},
   "activities_lblInProgress": "Выполняется",
   "@activities_lblInProgress": {},
+  "activities_lblSoldToken": "Продано {amount}",
+  "@activities_lblSoldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "activities_lblSuccess": "Успешно",
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Операции",
@@ -38,6 +46,8 @@
   "@carousel3Subtitle": {},
   "carousel3Title": "Отправляйте с помощью платформ обмена сообщениями",
   "@carousel3Title": {},
+  "carousel4Title": "Оплачивайте на месте",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Отправьте деньги прямо сейчас",
   "@carouselSendMoneyBtn": {},
   "close": "Закрыть",
@@ -436,6 +446,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Вывести",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Продолжать",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
   "@rampMinimumTransferAmount": {
     "placeholders": {
