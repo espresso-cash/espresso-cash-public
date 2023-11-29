@@ -1,32 +1,9 @@
 // ignore_for_file: invalid_annotation_target
-import 'package:dio/dio.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:injectable/injectable.dart';
-import 'package:retrofit/http.dart';
 
-import '../../../../../config.dart';
-import 'interceptor.dart';
-
-part 'scalex_api_client.freezed.dart';
-part 'scalex_api_client.g.dart';
-
-@injectable
-@RestApi(baseUrl: scalexBaseUrl)
-abstract class ScalexApiClient {
-  @factoryMethod
-  factory ScalexApiClient(Dio dio) =>
-      _ScalexApiClient(dio..interceptors.add(ScalexInterceptor()));
-
-  @POST('/webpay/tx/initiate')
-  Future<ScalexResponseDto<GenerateIFrameDto>> generateIFrameUrl(
-    @Body() GenerateIFrameBodyDto body,
-  );
-
-  @GET('/business/tx/{reference_id}')
-  Future<ScalexResponseDto<TransactionDto>> getTransaction(
-    @Path('reference_id') String referenceId,
-  );
-}
+part 'model.freezed.dart';
+part 'model.g.dart';
 
 @freezed
 class GenerateIFrameBodyDto with _$GenerateIFrameBodyDto {

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -13,7 +14,6 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
-import '../../../scalex/data/scalex_api_client.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';

@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/db/db.dart';
 import '../../src/models/ramp_watcher.dart';
-import '../data/scalex_api_client.dart';
 
 @injectable
 class ScalexOffRampOrderWatcher implements RampWatcher {

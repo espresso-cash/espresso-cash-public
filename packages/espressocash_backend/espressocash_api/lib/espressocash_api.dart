@@ -1,4 +1,5 @@
 export 'package:jupiter_aggregator/jupiter_aggregator.dart';
+export 'package:scalex_api/scalex.dart';
 
 export 'src/client.dart';
 export 'src/dto/add_funds.dart';

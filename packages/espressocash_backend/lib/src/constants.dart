@@ -54,4 +54,6 @@ final moonpayBaseUrl = Platform.environment['MOONPAY_BASE_URL'] ?? '';
 final moonpayApiKey = Platform.environment['MOONPAY_API_KEY'] ?? '';
 final moonpaySecret = Platform.environment['MOONPAY_SECRET'] ?? '';
 
+const scalexBaseUrl = 'https://ramp.scalex.africa';
+const scalexApiKey = String.fromEnvironment('SCALEX_API_KEY'); //TODO
 final scalexSecretKey = Platform.environment['SCALEX_SECRET_KEY'] ?? '';

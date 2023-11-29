@@ -70,9 +70,6 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
-const scalexBaseUrl = 'https://ramp.scalex.africa';
-const scalexApiKey = String.fromEnvironment('SCALEX_API_KEY');
-
 const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';
