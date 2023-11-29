@@ -51,9 +51,4 @@ abstract class CryptopleaseClient {
   Future<CancelPaymentResponseDto> cancelPaymentEc(
     @Body() CancelPaymentRequestDto request,
   );
-
-  @POST('/scalex/sign')
-  Future<ScalexSignResponseDto> signScalex(
-    @Body() ScalexSignRequestDto request,
-  );
 }
