@@ -19,7 +19,7 @@ class TxUpdaterRepository {
     final mostRecentTx = await _mostRecentTx();
     final mostRecentSignature = mostRecentTx?.tx.id;
 
-    const fetchLimit = 100;
+    const fetchLimit = 50;
 
     final details = await _client.rpcClient.getTransactionsList(
       limit: fetchLimit,

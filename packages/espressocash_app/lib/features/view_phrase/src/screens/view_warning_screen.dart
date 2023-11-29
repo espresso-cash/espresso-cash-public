@@ -10,12 +10,12 @@ import '../../../../../../ui/theme.dart';
 import '../../../../routes.gr.dart';
 
 @RoutePage()
-class BackupWarningScreen extends StatelessWidget {
-  const BackupWarningScreen({super.key, required this.onConfirmed});
+class ViewPhraseWarningScreen extends StatelessWidget {
+  const ViewPhraseWarningScreen({super.key, required this.onConfirmed});
 
   final VoidCallback onConfirmed;
 
-  static const route = BackupWarningRoute.new;
+  static const route = ViewPhraseWarningRoute.new;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
