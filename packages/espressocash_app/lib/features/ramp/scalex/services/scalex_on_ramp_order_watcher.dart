@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../data/my_database_ext.dart';
 import '../../src/models/ramp_watcher.dart';
 import '../data/scalex_repository.dart';
 
@@ -21,36 +22,27 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
-        .asyncMap(
-          (_) {
-            final query = _db.select(_db.onRampOrderRows)
-              ..where(
-                (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-              );
-
-            return query.getSingleOrNull();
-          },
-        )
+        .asyncMap((_) => _db.getNonCompletedOnRampOrder(orderId))
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((status) async {
-          final statement = _db.update(_db.onRampOrderRows)
-            ..where(
-              (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-            );
+      final statement = _db.update(_db.onRampOrderRows)
+        ..where(
+          (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
+        );
 
-          final isCompleted = status == ScalexOrderStatus.completed;
+      final isCompleted = status == ScalexOrderStatus.completed;
 
-          if (isCompleted) await _subscription?.cancel();
+      if (isCompleted) await _subscription?.cancel();
 
-          await statement.write(
-            OnRampOrderRowsCompanion(
-              humanStatus: Value(status.name),
-              machineStatus: Value(status.name),
-              isCompleted: Value(isCompleted),
-            ),
-          );
-        });
+      await statement.write(
+        OnRampOrderRowsCompanion(
+          humanStatus: Value(status.name),
+          machineStatus: Value(status.name),
+          isCompleted: Value(isCompleted),
+        ),
+      );
+    });
   }
 
   @override
