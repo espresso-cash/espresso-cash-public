@@ -255,9 +255,8 @@ class _CryptopleaseClient implements CryptopleaseClient {
       referenceId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.addAll(referenceId.toJson());
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final _data = referenceId;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<OrderStatusScalexResponseDto>(Options(
       method: 'POST',

@@ -59,6 +59,6 @@ abstract class CryptopleaseClient {
 
   @POST('/scalex/fetch')
   Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
-    @Queries() OrderStatusScalexRequestDto referenceId,
+    @Body() OrderStatusScalexRequestDto referenceId,
   );
 }
