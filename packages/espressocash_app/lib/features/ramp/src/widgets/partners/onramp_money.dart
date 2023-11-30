@@ -16,7 +16,6 @@ import '../../screens/ramp_amount_screen.dart';
 extension BuildContextExt on BuildContext {
   Future<void> launchOnRampMoneyOnRamp({
     required String address,
-    required ProfileData profile,
   }) async {
     Amount? amount;
 
@@ -36,44 +35,57 @@ extension BuildContextExt on BuildContext {
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
 
-    final uri = Uri.parse(onrampMoneyBaseUrl).replace(
-      queryParameters: {
-        'appId': '2', //TODO
-        'coinCode': 'usdc',
-        'network': 'spl',
-        'walletAddress': address,
-        'coinAmount': '${submittedAmount.decimal}',
-        'email': profile.email,
-      },
-    );
+    final blank = Uri.parse('about:blank');
 
-    bool orderWasCreated = false;
+    const bool orderWasCreated = false;
+    bool hasLoaded = false;
+
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      if (!hasLoaded) {
+        await controller.loadFile(
+          assetFilePath: 'assets/html/onramp_money.html',
+        );
+
+        controller.addJavaScriptHandler(
+          handlerName: 'init',
+          callback: (args) => {
+            // 'appId': '2', //TODO appId from config
+            // 'network': 'SPL',
+            // 'coinCode': 'USDC',
+            'walletAddress': address,
+            'flowType': 1,
+            'coinAmount': submittedAmount.decimal.toBigInt().toInt(),
+            'appId': '2',
+            'network': 'MATIC20-TEST',
+            'coinCode': 'usdt',
+          },
+        );
+
+        hasLoaded = true;
+      }
+
       controller.addJavaScriptHandler(
         handlerName: 'onramp',
         callback: (args) {
-          if (orderWasCreated) return;
+          print('$args');
 
           if (args.firstOrNull
               case <String, dynamic>{
-                'type': 'RAMP_ORDER_ID',
-                'payload': {'orderId': final String orderId}
+                'type': 'ONRAMP_WIDGET_READY',
               }) {
-            sl<OnRampOrderService>()
-                .create(orderId: orderId, amount: submittedAmount);
-            orderWasCreated = true;
+            print('ready');
+          }
+
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'type': 'ONRAMP_WIDGET_CLOSE_REQUEST_CONFIRMED',
+              }) {
+            router.pop();
           }
         },
       );
-      await controller.evaluateJavascript(
-        source: '''
-window.addEventListener("message", (event) => {
-  window.flutter_inappwebview.callHandler('onramp', event.data);
-}, false);
-''',
-      );
     }
 
-    await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
+    await router.push(WebViewScreen.route(url: blank, onLoaded: handleLoaded));
   }
 }

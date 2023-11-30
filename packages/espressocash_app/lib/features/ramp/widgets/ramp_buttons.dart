@@ -180,7 +180,7 @@ extension on BuildContext {
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.onrampMoney:
-        launchOnRampMoneyOnRamp(profile: profile, address: address);
+        launchOnRampMoneyOnRamp(address: address);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -194,6 +194,7 @@ extension on BuildContext {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.onrampMoney:
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
       case RampPartner.coinflow:

@@ -44,6 +44,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
 
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
+      RampPartner.onrampMoney ||
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>

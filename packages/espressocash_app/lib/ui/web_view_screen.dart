@@ -60,14 +60,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
         appBar: CpAppBar(
           title: Text(widget.title ?? _title ?? context.l10n.loading),
         ),
-        body: InAppWebView(
-          initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-          onPermissionRequest: (_, permissionRequest) =>
-              _handlePermissionRequest(permissionRequest.resources),
-          onLoadStop: (controller, _) => _handleLoaded(controller),
-          initialSettings: InAppWebViewSettings(
-            iframeAllowFullscreen: false,
-            allowsInlineMediaPlayback: true,
+        body: SafeArea(
+          child: InAppWebView(
+            initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
+            onPermissionRequest: (_, permissionRequest) =>
+                _handlePermissionRequest(permissionRequest.resources),
+            onLoadStop: (controller, _) => _handleLoaded(controller),
+            initialSettings: InAppWebViewSettings(
+              iframeAllowFullscreen: false,
+              allowsInlineMediaPlayback: true,
+              allowUniversalAccessFromFileURLs: true,
+            ),
           ),
         ),
       );
