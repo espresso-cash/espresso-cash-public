@@ -30,8 +30,6 @@
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
-  "@backupPhrase_lblSuccessMessage": {},
   "balances_lblConnectionError": "Не удается подключиться к сети!",
   "@balances_lblConnectionError": {},
   "carousel1Subtitle": "Мгновенные денежные переводы с низкой комиссией в более чем  в 200 стран и территорий.",
