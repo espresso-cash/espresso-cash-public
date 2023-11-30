@@ -44,12 +44,10 @@ class AppRouter extends $AppRouter {
           ],
         ),
         AutoRoute(
-          page: BackupPhraseFlowRoute.page,
+          page: ViewPhraseFlowRoute.page,
           children: [
-            AutoRoute(page: BackupWarningRoute.page),
-            AutoRoute(page: BackupPhraseRoute.page),
-            AutoRoute(page: BackupConfirmPhraseRoute.page),
-            AutoRoute(page: BackupPhraseSuccessRoute.page),
+            AutoRoute(page: ViewPhraseWarningRoute.page),
+            AutoRoute(page: ViewRecoveryPhraseRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),
@@ -84,8 +82,10 @@ class AppRouter extends $AppRouter {
           children: [
             AutoRoute(page: NoEmailAndPasswordRoute.page),
             AutoRoute(page: ViewRecoveryPhraseRoute.page),
+            AutoRoute(page: ConfirmRecoveryPhraseRoute.page),
             AutoRoute(page: ManageProfileRoute.page),
             AutoRoute(page: CountryPickerRoute.page),
+            AutoRoute(page: OnboardingSuccessRoute.page),
           ],
         ),
         AutoRoute(page: RemoteRequestRoute.page),

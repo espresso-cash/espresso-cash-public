@@ -1,34 +1,35 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../../l10n/l10n.dart';
-import '../../../../../../ui/app_bar.dart';
-import '../../../../../../ui/back_button.dart';
-import '../../../../../../ui/onboarding_screen.dart';
-import '../../../../../../ui/recovery_phrase_text_view.dart';
-import '../../../../../../ui/theme.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
+import '../../../../ui/onboarding_screen.dart';
+import '../../../../ui/recovery_phrase_text_view.dart';
+import '../../../../ui/theme.dart';
 import '../widgets/grid_phrase.dart';
 
 @RoutePage()
-class BackupConfirmPhraseScreen extends StatefulWidget {
-  const BackupConfirmPhraseScreen({
+class ConfirmRecoveryPhraseScreen extends StatefulWidget {
+  const ConfirmRecoveryPhraseScreen({
     super.key,
     required this.correctPhrase,
     required this.onConfirmed,
   });
 
-  static const route = BackupConfirmPhraseRoute.new;
+  static const route = ConfirmRecoveryPhraseRoute.new;
 
   final String correctPhrase;
   final VoidCallback onConfirmed;
 
   @override
-  State<BackupConfirmPhraseScreen> createState() =>
-      _BackupConfirmPhraseScreenState();
+  State<ConfirmRecoveryPhraseScreen> createState() =>
+      _ConfirmRecoveryPhraseScreenState();
 }
 
-class _BackupConfirmPhraseScreenState extends State<BackupConfirmPhraseScreen> {
+class _ConfirmRecoveryPhraseScreenState
+    extends State<ConfirmRecoveryPhraseScreen> {
   String _currentPhrase = '';
 
   @override
