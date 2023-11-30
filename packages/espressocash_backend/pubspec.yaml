@@ -29,7 +29,7 @@ dependencies:
 dev_dependencies:
   borsh: ^0.3.1+4
   build_runner: ^2.4.6
-  freezed: ^2.4.1
+  freezed: ^2.4.5
   json_serializable: ^6.7.1
   mews_pedantic: ^0.20.0
   retrofit_generator: ^4.2.0
