@@ -31,7 +31,7 @@ class OnboardingSuccessScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(32),
                   backgroundColor: Colors.black,
                   child: Text(
-                    context.l10n.backupPhrase_lblSuccessMessage,
+                    '${context.l10n.backupPhrase_lblSuccessMessage1}\n\n${context.l10n.backupPhrase_lblSuccessMessage2}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 19,
