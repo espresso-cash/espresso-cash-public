@@ -107,13 +107,21 @@ final _devnetClient = SolanaClient(
   rpcUrl: Uri.parse('https://api.devnet.solana.com'),
   websocketUrl: Uri.parse('wss://api.devnet.solana.com'),
 );
-final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(devnetPlatformMnemonic);
+final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  devnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
 );
-final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(mainnetPlatformMnemonic);
+final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  mainnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 extension on Cluster {
   SolanaClient get solanaClient {
