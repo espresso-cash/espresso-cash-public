@@ -1442,13 +1442,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
-  scalex_api:
-    dependency: transitive
-    description:
-      path: "../espressocash_backend/scalex_api"
-      relative: true
-    source: path
-    version: "0.0.1"
   sentry:
     dependency: transitive
     description:

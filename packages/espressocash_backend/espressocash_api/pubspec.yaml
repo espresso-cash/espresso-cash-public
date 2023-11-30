@@ -13,8 +13,6 @@ dependencies:
   jupiter_aggregator:
     path: ../jupiter_aggregator
   retrofit: ^3.0.1
-  scalex_api:
-    path: ../scalex_api
 
 dev_dependencies:
   build_runner: ^2.1.10

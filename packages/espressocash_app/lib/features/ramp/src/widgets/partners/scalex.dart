@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -14,6 +13,7 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
+import '../../../scalex/data/scalex_repository.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
@@ -124,19 +124,13 @@ window.addEventListener("message", (event) => {
   }) =>
       runWithLoader<String?>(this, () async {
         try {
-          final client = sl<ScalexApiClient>();
+          final client = sl<ScalexRepository>();
 
-          return await client
-              .generateIFrameUrl(
-                GenerateIFrameBodyDto(
-                  type: type == RampType.onRamp ? 'onramp' : 'offramp',
-                  address: address,
-                  email: profile.email,
-                  token: 'USDC',
-                  network: 'SOLANA',
-                ),
-              )
-              .letAsync((p) => p.data.link);
+          return await client.generateLink(
+            type: type == RampType.onRamp ? 'onramp' : 'offramp',
+            address: address,
+            email: profile.email,
+          );
         } on Exception {
           return null;
         }

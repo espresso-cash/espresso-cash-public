@@ -48,9 +48,6 @@ abstract class AppModule {
   @lazySingleton
   JupiterAggregatorClient get jupiterClient => JupiterAggregatorClient();
 
-  @lazySingleton
-  ScalexApiClient get scalexClient => ScalexApiClient();
-
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 

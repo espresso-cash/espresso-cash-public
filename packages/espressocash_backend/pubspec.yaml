@@ -17,6 +17,8 @@ dependencies:
   json_annotation: ^4.8.1
   meta: ^1.9.1
   mustache_template: ^2.0.0
+  scalex_api:
+    path: scalex_api
   sentry: ^7.8.0
   shelf: ^1.4.0
   shelf_router: ^1.1.3

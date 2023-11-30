@@ -7,13 +7,14 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/db/db.dart';
 import '../../src/models/ramp_watcher.dart';
+import '../data/scalex_repository.dart';
 
 @injectable
 class ScalexOffRampOrderWatcher implements RampWatcher {
   ScalexOffRampOrderWatcher(this._db, this._client);
 
   final MyDatabase _db;
-  final ScalexApiClient _client;
+  final ScalexRepository _client;
 
   StreamSubscription<void>? _subscription;
 
@@ -34,27 +35,24 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
           },
         )
         .whereNotNull()
-        .asyncMap((order) => _client.getTransaction(order.partnerOrderId))
+        .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((event) async {
-          // ignore: prefer-early-return, cannot use
-          if (event.data case final data) {
-            final statement = _db.update(_db.onRampOrderRows)
-              ..where(
-                (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
-              );
-
-            final isCompleted = data.status == OrderStatus.completed;
-
-            if (isCompleted) await _subscription?.cancel();
-
-            await statement.write(
-              OnRampOrderRowsCompanion(
-                humanStatus: Value(data.status.name),
-                machineStatus: Value(data.status.name),
-                isCompleted: Value(isCompleted),
-              ),
+          final statement = _db.update(_db.onRampOrderRows)
+            ..where(
+              (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
             );
-          }
+
+          final isCompleted = event.status == ScalexOrderStatus.completed;
+
+          if (isCompleted) await _subscription?.cancel();
+
+          await statement.write(
+            OnRampOrderRowsCompanion(
+              humanStatus: Value(event.status.name),
+              machineStatus: Value(event.status.name),
+              isCompleted: Value(isCompleted),
+            ),
+          );
         });
   }
 

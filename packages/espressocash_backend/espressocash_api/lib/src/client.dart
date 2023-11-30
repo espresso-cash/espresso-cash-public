@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_api/src/dto/scalex.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -50,5 +51,15 @@ abstract class CryptopleaseClient {
   @POST('/escrow/cancel')
   Future<CancelPaymentResponseDto> cancelPaymentEc(
     @Body() CancelPaymentRequestDto request,
+  );
+
+  @POST('/scalex/generate')
+  Future<GenerateScalexLinkResponseDto> generateScalexLink(
+    @Body() GenerateScalexLinkRequestDto request,
+  );
+
+  @GET('/scalex/fetch/{reference_id}')
+  Future<CancelPaymentResponseDto> fetchScalexTransaction(
+    @Path('reference_id') String referenceId,
   );
 }
