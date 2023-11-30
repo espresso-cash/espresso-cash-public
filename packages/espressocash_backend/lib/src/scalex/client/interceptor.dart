@@ -4,7 +4,7 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 
-import 'package:scalex_api/src/constants.dart';
+import 'package:espressocash_backend/src/scalex/client/constants.dart';
 
 class ScalexInterceptor extends Interceptor {
   ScalexInterceptor();

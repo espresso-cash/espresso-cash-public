@@ -93,12 +93,11 @@ class _$GenerateIFrameBodyDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$GenerateIFrameBodyDtoImplCopyWith<$Res>
+abstract class _$$_GenerateIFrameBodyDtoCopyWith<$Res>
     implements $GenerateIFrameBodyDtoCopyWith<$Res> {
-  factory _$$GenerateIFrameBodyDtoImplCopyWith(
-          _$GenerateIFrameBodyDtoImpl value,
-          $Res Function(_$GenerateIFrameBodyDtoImpl) then) =
-      __$$GenerateIFrameBodyDtoImplCopyWithImpl<$Res>;
+  factory _$$_GenerateIFrameBodyDtoCopyWith(_$_GenerateIFrameBodyDto value,
+          $Res Function(_$_GenerateIFrameBodyDto) then) =
+      __$$_GenerateIFrameBodyDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -110,12 +109,11 @@ abstract class _$$GenerateIFrameBodyDtoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$GenerateIFrameBodyDtoImplCopyWithImpl<$Res>
-    extends _$GenerateIFrameBodyDtoCopyWithImpl<$Res,
-        _$GenerateIFrameBodyDtoImpl>
-    implements _$$GenerateIFrameBodyDtoImplCopyWith<$Res> {
-  __$$GenerateIFrameBodyDtoImplCopyWithImpl(_$GenerateIFrameBodyDtoImpl _value,
-      $Res Function(_$GenerateIFrameBodyDtoImpl) _then)
+class __$$_GenerateIFrameBodyDtoCopyWithImpl<$Res>
+    extends _$GenerateIFrameBodyDtoCopyWithImpl<$Res, _$_GenerateIFrameBodyDto>
+    implements _$$_GenerateIFrameBodyDtoCopyWith<$Res> {
+  __$$_GenerateIFrameBodyDtoCopyWithImpl(_$_GenerateIFrameBodyDto _value,
+      $Res Function(_$_GenerateIFrameBodyDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -127,7 +125,7 @@ class __$$GenerateIFrameBodyDtoImplCopyWithImpl<$Res>
     Object? token = null,
     Object? network = null,
   }) {
-    return _then(_$GenerateIFrameBodyDtoImpl(
+    return _then(_$_GenerateIFrameBodyDto(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -154,16 +152,16 @@ class __$$GenerateIFrameBodyDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GenerateIFrameBodyDtoImpl implements _GenerateIFrameBodyDto {
-  const _$GenerateIFrameBodyDtoImpl(
+class _$_GenerateIFrameBodyDto implements _GenerateIFrameBodyDto {
+  const _$_GenerateIFrameBodyDto(
       {required this.type,
       required this.address,
       required this.email,
       required this.token,
       required this.network});
 
-  factory _$GenerateIFrameBodyDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GenerateIFrameBodyDtoImplFromJson(json);
+  factory _$_GenerateIFrameBodyDto.fromJson(Map<String, dynamic> json) =>
+      _$$_GenerateIFrameBodyDtoFromJson(json);
 
   @override
   final String type;
@@ -185,7 +183,7 @@ class _$GenerateIFrameBodyDtoImpl implements _GenerateIFrameBodyDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GenerateIFrameBodyDtoImpl &&
+            other is _$_GenerateIFrameBodyDto &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.email, email) || other.email == email) &&
@@ -201,13 +199,13 @@ class _$GenerateIFrameBodyDtoImpl implements _GenerateIFrameBodyDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GenerateIFrameBodyDtoImplCopyWith<_$GenerateIFrameBodyDtoImpl>
-      get copyWith => __$$GenerateIFrameBodyDtoImplCopyWithImpl<
-          _$GenerateIFrameBodyDtoImpl>(this, _$identity);
+  _$$_GenerateIFrameBodyDtoCopyWith<_$_GenerateIFrameBodyDto> get copyWith =>
+      __$$_GenerateIFrameBodyDtoCopyWithImpl<_$_GenerateIFrameBodyDto>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GenerateIFrameBodyDtoImplToJson(
+    return _$$_GenerateIFrameBodyDtoToJson(
       this,
     );
   }
@@ -219,10 +217,10 @@ abstract class _GenerateIFrameBodyDto implements GenerateIFrameBodyDto {
       required final String address,
       required final String email,
       required final String token,
-      required final String network}) = _$GenerateIFrameBodyDtoImpl;
+      required final String network}) = _$_GenerateIFrameBodyDto;
 
   factory _GenerateIFrameBodyDto.fromJson(Map<String, dynamic> json) =
-      _$GenerateIFrameBodyDtoImpl.fromJson;
+      _$_GenerateIFrameBodyDto.fromJson;
 
   @override
   String get type;
@@ -236,8 +234,8 @@ abstract class _GenerateIFrameBodyDto implements GenerateIFrameBodyDto {
   String get network;
   @override
   @JsonKey(ignore: true)
-  _$$GenerateIFrameBodyDtoImplCopyWith<_$GenerateIFrameBodyDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_GenerateIFrameBodyDtoCopyWith<_$_GenerateIFrameBodyDto> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 ScalexResponseDto<T> _$ScalexResponseDtoFromJson<T>(
@@ -289,22 +287,22 @@ class _$ScalexResponseDtoCopyWithImpl<T, $Res,
 }
 
 /// @nodoc
-abstract class _$$ScalexResponseDtoImplCopyWith<T, $Res>
+abstract class _$$_ScalexResponseDtoCopyWith<T, $Res>
     implements $ScalexResponseDtoCopyWith<T, $Res> {
-  factory _$$ScalexResponseDtoImplCopyWith(_$ScalexResponseDtoImpl<T> value,
-          $Res Function(_$ScalexResponseDtoImpl<T>) then) =
-      __$$ScalexResponseDtoImplCopyWithImpl<T, $Res>;
+  factory _$$_ScalexResponseDtoCopyWith(_$_ScalexResponseDto<T> value,
+          $Res Function(_$_ScalexResponseDto<T>) then) =
+      __$$_ScalexResponseDtoCopyWithImpl<T, $Res>;
   @override
   @useResult
   $Res call({T data});
 }
 
 /// @nodoc
-class __$$ScalexResponseDtoImplCopyWithImpl<T, $Res>
-    extends _$ScalexResponseDtoCopyWithImpl<T, $Res, _$ScalexResponseDtoImpl<T>>
-    implements _$$ScalexResponseDtoImplCopyWith<T, $Res> {
-  __$$ScalexResponseDtoImplCopyWithImpl(_$ScalexResponseDtoImpl<T> _value,
-      $Res Function(_$ScalexResponseDtoImpl<T>) _then)
+class __$$_ScalexResponseDtoCopyWithImpl<T, $Res>
+    extends _$ScalexResponseDtoCopyWithImpl<T, $Res, _$_ScalexResponseDto<T>>
+    implements _$$_ScalexResponseDtoCopyWith<T, $Res> {
+  __$$_ScalexResponseDtoCopyWithImpl(_$_ScalexResponseDto<T> _value,
+      $Res Function(_$_ScalexResponseDto<T>) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -312,7 +310,7 @@ class __$$ScalexResponseDtoImplCopyWithImpl<T, $Res>
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(_$ScalexResponseDtoImpl<T>(
+    return _then(_$_ScalexResponseDto<T>(
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -323,12 +321,12 @@ class __$$ScalexResponseDtoImplCopyWithImpl<T, $Res>
 
 /// @nodoc
 @JsonSerializable(createToJson: false, genericArgumentFactories: true)
-class _$ScalexResponseDtoImpl<T> implements _ScalexResponseDto<T> {
-  const _$ScalexResponseDtoImpl({required this.data});
+class _$_ScalexResponseDto<T> implements _ScalexResponseDto<T> {
+  const _$_ScalexResponseDto({required this.data});
 
-  factory _$ScalexResponseDtoImpl.fromJson(
+  factory _$_ScalexResponseDto.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$$ScalexResponseDtoImplFromJson(json, fromJsonT);
+      _$$_ScalexResponseDtoFromJson(json, fromJsonT);
 
   @override
   final T data;
@@ -342,7 +340,7 @@ class _$ScalexResponseDtoImpl<T> implements _ScalexResponseDto<T> {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ScalexResponseDtoImpl<T> &&
+            other is _$_ScalexResponseDto<T> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -354,26 +352,25 @@ class _$ScalexResponseDtoImpl<T> implements _ScalexResponseDto<T> {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ScalexResponseDtoImplCopyWith<T, _$ScalexResponseDtoImpl<T>>
-      get copyWith =>
-          __$$ScalexResponseDtoImplCopyWithImpl<T, _$ScalexResponseDtoImpl<T>>(
-              this, _$identity);
+  _$$_ScalexResponseDtoCopyWith<T, _$_ScalexResponseDto<T>> get copyWith =>
+      __$$_ScalexResponseDtoCopyWithImpl<T, _$_ScalexResponseDto<T>>(
+          this, _$identity);
 }
 
 abstract class _ScalexResponseDto<T> implements ScalexResponseDto<T> {
   const factory _ScalexResponseDto({required final T data}) =
-      _$ScalexResponseDtoImpl<T>;
+      _$_ScalexResponseDto<T>;
 
   factory _ScalexResponseDto.fromJson(
           Map<String, dynamic> json, T Function(Object?) fromJsonT) =
-      _$ScalexResponseDtoImpl<T>.fromJson;
+      _$_ScalexResponseDto<T>.fromJson;
 
   @override
   T get data;
   @override
   @JsonKey(ignore: true)
-  _$$ScalexResponseDtoImplCopyWith<T, _$ScalexResponseDtoImpl<T>>
-      get copyWith => throw _privateConstructorUsedError;
+  _$$_ScalexResponseDtoCopyWith<T, _$_ScalexResponseDto<T>> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 GenerateIFrameDto _$GenerateIFrameDtoFromJson(Map<String, dynamic> json) {
@@ -430,25 +427,24 @@ class _$GenerateIFrameDtoCopyWithImpl<$Res, $Val extends GenerateIFrameDto>
 }
 
 /// @nodoc
-abstract class _$$GenerateIFrameResponseDtoImplCopyWith<$Res>
+abstract class _$$_GenerateIFrameResponseDtoCopyWith<$Res>
     implements $GenerateIFrameDtoCopyWith<$Res> {
-  factory _$$GenerateIFrameResponseDtoImplCopyWith(
-          _$GenerateIFrameResponseDtoImpl value,
-          $Res Function(_$GenerateIFrameResponseDtoImpl) then) =
-      __$$GenerateIFrameResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$_GenerateIFrameResponseDtoCopyWith(
+          _$_GenerateIFrameResponseDto value,
+          $Res Function(_$_GenerateIFrameResponseDto) then) =
+      __$$_GenerateIFrameResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String link, String environment});
 }
 
 /// @nodoc
-class __$$GenerateIFrameResponseDtoImplCopyWithImpl<$Res>
-    extends _$GenerateIFrameDtoCopyWithImpl<$Res,
-        _$GenerateIFrameResponseDtoImpl>
-    implements _$$GenerateIFrameResponseDtoImplCopyWith<$Res> {
-  __$$GenerateIFrameResponseDtoImplCopyWithImpl(
-      _$GenerateIFrameResponseDtoImpl _value,
-      $Res Function(_$GenerateIFrameResponseDtoImpl) _then)
+class __$$_GenerateIFrameResponseDtoCopyWithImpl<$Res>
+    extends _$GenerateIFrameDtoCopyWithImpl<$Res, _$_GenerateIFrameResponseDto>
+    implements _$$_GenerateIFrameResponseDtoCopyWith<$Res> {
+  __$$_GenerateIFrameResponseDtoCopyWithImpl(
+      _$_GenerateIFrameResponseDto _value,
+      $Res Function(_$_GenerateIFrameResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -457,7 +453,7 @@ class __$$GenerateIFrameResponseDtoImplCopyWithImpl<$Res>
     Object? link = null,
     Object? environment = null,
   }) {
-    return _then(_$GenerateIFrameResponseDtoImpl(
+    return _then(_$_GenerateIFrameResponseDto(
       link: null == link
           ? _value.link
           : link // ignore: cast_nullable_to_non_nullable
@@ -472,12 +468,12 @@ class __$$GenerateIFrameResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$GenerateIFrameResponseDtoImpl implements _GenerateIFrameResponseDto {
-  const _$GenerateIFrameResponseDtoImpl(
+class _$_GenerateIFrameResponseDto implements _GenerateIFrameResponseDto {
+  const _$_GenerateIFrameResponseDto(
       {required this.link, required this.environment});
 
-  factory _$GenerateIFrameResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$GenerateIFrameResponseDtoImplFromJson(json);
+  factory _$_GenerateIFrameResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_GenerateIFrameResponseDtoFromJson(json);
 
   @override
   final String link;
@@ -493,7 +489,7 @@ class _$GenerateIFrameResponseDtoImpl implements _GenerateIFrameResponseDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GenerateIFrameResponseDtoImpl &&
+            other is _$_GenerateIFrameResponseDto &&
             (identical(other.link, link) || other.link == link) &&
             (identical(other.environment, environment) ||
                 other.environment == environment));
@@ -506,13 +502,13 @@ class _$GenerateIFrameResponseDtoImpl implements _GenerateIFrameResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$GenerateIFrameResponseDtoImplCopyWith<_$GenerateIFrameResponseDtoImpl>
-      get copyWith => __$$GenerateIFrameResponseDtoImplCopyWithImpl<
-          _$GenerateIFrameResponseDtoImpl>(this, _$identity);
+  _$$_GenerateIFrameResponseDtoCopyWith<_$_GenerateIFrameResponseDto>
+      get copyWith => __$$_GenerateIFrameResponseDtoCopyWithImpl<
+          _$_GenerateIFrameResponseDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$GenerateIFrameResponseDtoImplToJson(
+    return _$$_GenerateIFrameResponseDtoToJson(
       this,
     );
   }
@@ -521,10 +517,10 @@ class _$GenerateIFrameResponseDtoImpl implements _GenerateIFrameResponseDto {
 abstract class _GenerateIFrameResponseDto implements GenerateIFrameDto {
   const factory _GenerateIFrameResponseDto(
       {required final String link,
-      required final String environment}) = _$GenerateIFrameResponseDtoImpl;
+      required final String environment}) = _$_GenerateIFrameResponseDto;
 
   factory _GenerateIFrameResponseDto.fromJson(Map<String, dynamic> json) =
-      _$GenerateIFrameResponseDtoImpl.fromJson;
+      _$_GenerateIFrameResponseDto.fromJson;
 
   @override
   String get link;
@@ -532,7 +528,7 @@ abstract class _GenerateIFrameResponseDto implements GenerateIFrameDto {
   String get environment;
   @override
   @JsonKey(ignore: true)
-  _$$GenerateIFrameResponseDtoImplCopyWith<_$GenerateIFrameResponseDtoImpl>
+  _$$_GenerateIFrameResponseDtoCopyWith<_$_GenerateIFrameResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -592,11 +588,11 @@ class _$TransactionDtoCopyWithImpl<$Res, $Val extends TransactionDto>
 }
 
 /// @nodoc
-abstract class _$$TransactionDtoImplCopyWith<$Res>
+abstract class _$$_TransactionDtoCopyWith<$Res>
     implements $TransactionDtoCopyWith<$Res> {
-  factory _$$TransactionDtoImplCopyWith(_$TransactionDtoImpl value,
-          $Res Function(_$TransactionDtoImpl) then) =
-      __$$TransactionDtoImplCopyWithImpl<$Res>;
+  factory _$$_TransactionDtoCopyWith(
+          _$_TransactionDto value, $Res Function(_$_TransactionDto) then) =
+      __$$_TransactionDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -605,11 +601,11 @@ abstract class _$$TransactionDtoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$TransactionDtoImplCopyWithImpl<$Res>
-    extends _$TransactionDtoCopyWithImpl<$Res, _$TransactionDtoImpl>
-    implements _$$TransactionDtoImplCopyWith<$Res> {
-  __$$TransactionDtoImplCopyWithImpl(
-      _$TransactionDtoImpl _value, $Res Function(_$TransactionDtoImpl) _then)
+class __$$_TransactionDtoCopyWithImpl<$Res>
+    extends _$TransactionDtoCopyWithImpl<$Res, _$_TransactionDto>
+    implements _$$_TransactionDtoCopyWith<$Res> {
+  __$$_TransactionDtoCopyWithImpl(
+      _$_TransactionDto _value, $Res Function(_$_TransactionDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -618,7 +614,7 @@ class __$$TransactionDtoImplCopyWithImpl<$Res>
     Object? status = null,
     Object? type = null,
   }) {
-    return _then(_$TransactionDtoImpl(
+    return _then(_$_TransactionDto(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -634,13 +630,13 @@ class __$$TransactionDtoImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class _$TransactionDtoImpl implements _TransactionDto {
-  const _$TransactionDtoImpl(
+class _$_TransactionDto implements _TransactionDto {
+  const _$_TransactionDto(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status,
       required this.type});
 
-  factory _$TransactionDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$TransactionDtoImplFromJson(json);
+  factory _$_TransactionDto.fromJson(Map<String, dynamic> json) =>
+      _$$_TransactionDtoFromJson(json);
 
   @override
   @JsonKey(unknownEnumValue: OrderStatus.unknown)
@@ -657,7 +653,7 @@ class _$TransactionDtoImpl implements _TransactionDto {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TransactionDtoImpl &&
+            other is _$_TransactionDto &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -669,19 +665,18 @@ class _$TransactionDtoImpl implements _TransactionDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TransactionDtoImplCopyWith<_$TransactionDtoImpl> get copyWith =>
-      __$$TransactionDtoImplCopyWithImpl<_$TransactionDtoImpl>(
-          this, _$identity);
+  _$$_TransactionDtoCopyWith<_$_TransactionDto> get copyWith =>
+      __$$_TransactionDtoCopyWithImpl<_$_TransactionDto>(this, _$identity);
 }
 
 abstract class _TransactionDto implements TransactionDto {
   const factory _TransactionDto(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown)
-      required final OrderStatus status,
-      required final String type}) = _$TransactionDtoImpl;
+          required final OrderStatus status,
+      required final String type}) = _$_TransactionDto;
 
   factory _TransactionDto.fromJson(Map<String, dynamic> json) =
-      _$TransactionDtoImpl.fromJson;
+      _$_TransactionDto.fromJson;
 
   @override
   @JsonKey(unknownEnumValue: OrderStatus.unknown)
@@ -690,6 +685,6 @@ abstract class _TransactionDto implements TransactionDto {
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$TransactionDtoImplCopyWith<_$TransactionDtoImpl> get copyWith =>
+  _$$_TransactionDtoCopyWith<_$_TransactionDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

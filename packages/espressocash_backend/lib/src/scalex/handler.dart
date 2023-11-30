@@ -1,8 +1,9 @@
 import 'dart:core';
 
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_backend/src/scalex/client/client.dart';
+import 'package:espressocash_backend/src/scalex/client/model.dart';
 import 'package:espressocash_backend/src/utils.dart';
-import 'package:scalex_api/scalex.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 

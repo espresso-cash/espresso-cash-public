@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:espressocash_backend/src/scalex/client/constants.dart';
+import 'package:espressocash_backend/src/scalex/client/interceptor.dart';
+import 'package:espressocash_backend/src/scalex/client/model.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:scalex_api/scalex.dart';
-import 'package:scalex_api/src/constants.dart';
-import 'package:scalex_api/src/interceptor.dart';
 
 part 'client.g.dart';
 

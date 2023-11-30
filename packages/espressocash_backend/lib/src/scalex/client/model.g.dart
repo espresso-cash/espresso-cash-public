@@ -6,9 +6,9 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenerateIFrameBodyDtoImpl _$$GenerateIFrameBodyDtoImplFromJson(
+_$_GenerateIFrameBodyDto _$$_GenerateIFrameBodyDtoFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateIFrameBodyDtoImpl(
+    _$_GenerateIFrameBodyDto(
       type: json['type'] as String,
       address: json['address'] as String,
       email: json['email'] as String,
@@ -16,8 +16,8 @@ _$GenerateIFrameBodyDtoImpl _$$GenerateIFrameBodyDtoImplFromJson(
       network: json['network'] as String,
     );
 
-Map<String, dynamic> _$$GenerateIFrameBodyDtoImplToJson(
-        _$GenerateIFrameBodyDtoImpl instance) =>
+Map<String, dynamic> _$$_GenerateIFrameBodyDtoToJson(
+        _$_GenerateIFrameBodyDto instance) =>
     <String, dynamic>{
       'type': instance.type,
       'address': instance.address,
@@ -26,37 +26,36 @@ Map<String, dynamic> _$$GenerateIFrameBodyDtoImplToJson(
       'network': instance.network,
     };
 
-_$ScalexResponseDtoImpl<T> _$$ScalexResponseDtoImplFromJson<T>(
+_$_ScalexResponseDto<T> _$$_ScalexResponseDtoFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$ScalexResponseDtoImpl<T>(
+    _$_ScalexResponseDto<T>(
       data: fromJsonT(json['data']),
     );
 
-_$GenerateIFrameResponseDtoImpl _$$GenerateIFrameResponseDtoImplFromJson(
+_$_GenerateIFrameResponseDto _$$_GenerateIFrameResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateIFrameResponseDtoImpl(
+    _$_GenerateIFrameResponseDto(
       link: json['link'] as String,
       environment: json['environment'] as String,
     );
 
-Map<String, dynamic> _$$GenerateIFrameResponseDtoImplToJson(
-        _$GenerateIFrameResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_GenerateIFrameResponseDtoToJson(
+        _$_GenerateIFrameResponseDto instance) =>
     <String, dynamic>{
       'link': instance.link,
       'environment': instance.environment,
     };
 
-_$TransactionDtoImpl _$$TransactionDtoImplFromJson(Map<String, dynamic> json) =>
-    _$TransactionDtoImpl(
+_$_TransactionDto _$$_TransactionDtoFromJson(Map<String, dynamic> json) =>
+    _$_TransactionDto(
       status: $enumDecode(_$OrderStatusEnumMap, json['status'],
           unknownValue: OrderStatus.unknown),
       type: json['type'] as String,
     );
 
-Map<String, dynamic> _$$TransactionDtoImplToJson(
-        _$TransactionDtoImpl instance) =>
+Map<String, dynamic> _$$_TransactionDtoToJson(_$_TransactionDto instance) =>
     <String, dynamic>{
       'status': _$OrderStatusEnumMap[instance.status]!,
       'type': instance.type,
