@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
@@ -23,10 +22,11 @@ class ScalexRepository {
               email: email,
             ),
           )
-          .letAsync((p) => p.signedUrl);
+          .then((p) => p.signedUrl);
 
-  Future<OrderStatusScalexResponseDto> fetchStatus(String referenceId) =>
-      _client.fetchScalexTransaction(
+  Future<ScalexOrderStatus> fetchStatus(String referenceId) => _client
+      .fetchScalexTransaction(
         OrderStatusScalexRequestDto(referenceId: referenceId),
-      );
+      )
+      .then((it) => it.status);
 }
