@@ -3,13 +3,12 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
-import '../../models/profile_data.dart';
+import '../../../models/ramp_partner.dart';
 import '../../models/ramp_type.dart';
 import '../../screens/ramp_amount_screen.dart';
 
@@ -37,7 +36,7 @@ extension BuildContextExt on BuildContext {
 
     final blank = Uri.parse('about:blank');
 
-    const bool orderWasCreated = false;
+    bool orderWasCreated = false;
     bool hasLoaded = false;
 
     Future<void> handleLoaded(InAppWebViewController controller) async {
@@ -52,12 +51,15 @@ extension BuildContextExt on BuildContext {
             // 'appId': '2', //TODO appId from config
             // 'network': 'SPL',
             // 'coinCode': 'USDC',
-            'walletAddress': address,
+            // 'walletAddress': address,
+            'todo_remove_me': address,
             'flowType': 1,
-            'coinAmount': submittedAmount.decimal.toBigInt().toInt(),
+            'coinAmount': submittedAmount.decimal.toDouble(),
+            //dev mode below
             'appId': '2',
             'network': 'MATIC20-TEST',
             'coinCode': 'usdt',
+            'walletAddress': '0x028b06Bc8A1E6717BDe9AADB39F027a386977856',
           },
         );
 
@@ -67,13 +69,28 @@ extension BuildContextExt on BuildContext {
       controller.addJavaScriptHandler(
         handlerName: 'onramp',
         callback: (args) {
-          print('$args');
-
           if (args.firstOrNull
               case <String, dynamic>{
-                'type': 'ONRAMP_WIDGET_READY',
+                'type': 'ONRAMP_WIDGET_TX_FINDING',
+                'data': {
+                  'orderId': final int orderId,
+                  'cryptoAmount': final num cryptoAmount,
+                }
               }) {
-            print('ready');
+            if (orderWasCreated) return;
+
+            final value = Decimal.parse(cryptoAmount.toString());
+
+            final amount = submittedAmount.copyWith(
+              value: submittedAmount.currency.decimalToInt(value),
+            );
+
+            sl<OnRampOrderService>().create(
+              orderId: orderId.toString(),
+              receiveAmount: amount,
+              partner: RampPartner.onrampMoney,
+            );
+            orderWasCreated = true;
           }
 
           if (args.firstOrNull
