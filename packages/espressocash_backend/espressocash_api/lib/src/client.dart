@@ -58,8 +58,8 @@ abstract class CryptopleaseClient {
     @Body() GenerateScalexLinkRequestDto request,
   );
 
-  @GET('/scalex/fetch/{reference_id}')
-  Future<CancelPaymentResponseDto> fetchScalexTransaction(
-    @Path('reference_id') String referenceId,
+  @POST('/scalex/fetch')
+  Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
+    @Queries() OrderStatusScalexRequestDto referenceId,
   );
 }

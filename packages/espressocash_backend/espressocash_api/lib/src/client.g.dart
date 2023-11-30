@@ -251,25 +251,27 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<CancelPaymentResponseDto> fetchScalexTransaction(referenceId) async {
+  Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
+      referenceId) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(referenceId.toJson());
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CancelPaymentResponseDto>(Options(
-      method: 'GET',
+        _setStreamType<OrderStatusScalexResponseDto>(Options(
+      method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/scalex/fetch/${referenceId}',
+              '/scalex/fetch',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CancelPaymentResponseDto.fromJson(_result.data!);
+    final value = OrderStatusScalexResponseDto.fromJson(_result.data!);
     return value;
   }
 
