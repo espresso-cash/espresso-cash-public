@@ -30,6 +30,7 @@ typedef OffRampOrder = ({
   OffRampOrderStatus status,
   CryptoAmount amount,
   RampPartner partner,
+  DateTime? resolved,
 });
 
 @Singleton(scope: authScope)
@@ -94,6 +95,7 @@ class OffRampOrderService implements Disposable {
         status: row.status,
         amount: amount,
         partner: row.partner,
+        resolved: row.resolvedAt,
       );
     });
   }
@@ -134,6 +136,35 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
+      case OffRampOrderStatus.cancelled:
+        break;
+    }
+  }
+
+  Future<void> cancel(String orderId) async {
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+    final order = await query.getSingle();
+
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    switch (order.status) {
+      case OffRampOrderStatus.depositError:
+        await updateQuery.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.cancelled),
+          ),
+        );
+
+      case OffRampOrderStatus.depositTxRequired:
+      case OffRampOrderStatus.creatingDepositTx:
+      case OffRampOrderStatus.depositTxReady:
+      case OffRampOrderStatus.sendingDepositTx:
+      case OffRampOrderStatus.waitingForPartner:
+      case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.completed:
+      case OffRampOrderStatus.cancelled:
         break;
     }
   }
@@ -201,6 +232,8 @@ class OffRampOrderService implements Disposable {
               status: Value(OffRampOrderStatus.sendingDepositTx),
             ),
           );
+        case OffRampOrderStatus.cancelled:
+          return Stream.fromIterable([_cancelled]);
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
@@ -284,6 +317,11 @@ class OffRampOrderService implements Disposable {
         return _depositError;
     }
   }
+
+  static final _cancelled = OffRampOrderRowsCompanion(
+    status: const Value(OffRampOrderStatus.cancelled),
+    resolvedAt: Value(DateTime.now()),
+  );
 
   static const _depositError =
       OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError));
