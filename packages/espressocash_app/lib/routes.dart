@@ -48,6 +48,8 @@ class AppRouter extends $AppRouter {
           children: [
             AutoRoute(page: ViewPhraseWarningRoute.page),
             AutoRoute(page: ViewRecoveryPhraseRoute.page),
+            AutoRoute(page: QuizIntroRoute.page),
+            AutoRoute(page: QuizQuestionRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),
