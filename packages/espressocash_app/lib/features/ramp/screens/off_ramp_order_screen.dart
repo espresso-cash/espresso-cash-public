@@ -57,7 +57,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
       context.router.push(
         OffRampConfirmationScreen.route(
           withdrawAmount: order.amount,
-          // receiveAmount: order.receiveAmount, //TODO
+          receiveAmount: order.receiveAmount,
           fee: Amount.fromDecimal(
             value: Decimal.parse('0.1'),
             currency: Currency.usdc,

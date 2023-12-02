@@ -31,6 +31,7 @@ typedef OffRampOrder = ({
   CryptoAmount amount,
   RampPartner partner,
   DateTime? resolved,
+  FiatAmount? receiveAmount,
 });
 
 @Singleton(scope: authScope)
@@ -89,6 +90,14 @@ class OffRampOrderService implements Disposable {
         ),
       );
 
+      final receiveAmount = row.receiveAmount?.let(
+        (it) => Amount(
+          value: it,
+          // ignore: avoid-non-null-assertion, checked amount
+          currency: currencyFromString(row.fiatSymbol!),
+        ) as FiatAmount,
+      );
+
       return (
         id: row.id,
         created: row.created,
@@ -96,6 +105,7 @@ class OffRampOrderService implements Disposable {
         amount: amount,
         partner: row.partner,
         resolved: row.resolvedAt,
+        receiveAmount: receiveAmount,
       );
     });
   }
@@ -175,6 +185,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -191,6 +202,8 @@ class OffRampOrderService implements Disposable {
             status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
             partner: partner,
+            receiveAmount: receiveAmount?.value,
+            fiatSymbol: receiveAmount?.currency.symbol,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);

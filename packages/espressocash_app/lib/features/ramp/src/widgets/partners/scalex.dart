@@ -72,6 +72,7 @@ extension BuildContextExt on BuildContext {
                 case <String, dynamic>{
                   'reference': final String reference,
                   'from_amount': final num fromAmount,
+                  'to_amount': final num toAmount,
                   // ignore: avoid-missing-interpolation, similar names
                   'address': final String address,
                 }) {
@@ -80,11 +81,17 @@ extension BuildContextExt on BuildContext {
                   Amount.fromDecimal(value: decimal, currency: Currency.usdc)
                       as CryptoAmount;
 
+              final receiveAmount = Amount.fromDecimal(
+                value: Decimal.parse(toAmount.toString()),
+                currency: Currency.ngn,
+              ) as FiatAmount;
+
               await sl<OffRampOrderService>()
                   .create(
                 partnerOrderId: reference,
                 amount: amount,
                 partner: RampPartner.scalex,
+                receiveAmount: receiveAmount,
                 depositAddress: address,
               )
                   .then((order) {

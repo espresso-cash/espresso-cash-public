@@ -45,7 +45,7 @@ class OffRampConfirmationScreen extends StatelessWidget {
             ),
             leading: CpBackButton(
               onPressed: () => context.router.popUntilRoot(),
-            ), //TODO confirm
+            ),
           ),
           body: CpContentPadding(
             child: _TokenCreateLinkContent(
@@ -148,7 +148,9 @@ class _AmountView extends StatelessWidget {
                 if (formattedReceiveAmount != null)
                   FittedBox(
                     child: Text(
-                      context.l10n.offRampReceiveAmount(formattedReceiveAmount),
+                      context.l10n
+                          .offRampReceiveAmount(formattedReceiveAmount)
+                          .toUpperCase(),
                       maxLines: 1,
                       style: const TextStyle(
                         fontSize: 15,

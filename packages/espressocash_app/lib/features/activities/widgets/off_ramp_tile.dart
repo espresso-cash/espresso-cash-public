@@ -43,6 +43,10 @@ class _OffRampTileState extends State<OffRampTile> {
                   ),
                 ) ??
                 '',
+            incomingAmount: order?.receiveAmount?.format(
+              context.locale,
+              maxDecimals: 2,
+            ),
             icon: Assets.icons.paymentIcon.svg(),
             status: order?.status == OffRampOrderStatus.completed
                 ? CpActivityTileStatus.success
