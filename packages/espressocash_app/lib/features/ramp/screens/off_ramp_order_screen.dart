@@ -22,11 +22,7 @@ import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../kado/services/kado_off_ramp_order_watcher.dart';
-import '../models/ramp_partner.dart';
-import '../scalex/services/scalex_off_ramp_order_watcher.dart';
 import '../services/off_ramp_order_service.dart';
-import '../src/models/ramp_watcher.dart';
 import 'off_ramp_confirmation_screen.dart';
 
 @RoutePage()
@@ -43,7 +39,6 @@ class OffRampOrderScreen extends StatefulWidget {
 
 class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
   late final Stream<OffRampOrder> _stream;
-  RampWatcher? _watcher;
   StreamSubscription<void>? _confirmationSubscription;
 
   @override
@@ -70,29 +65,10 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
       );
       _confirmationSubscription?.cancel();
     });
-
-    _initWatcher();
-  }
-
-  Future<void> _initWatcher() async {
-    if (_watcher != null) return;
-
-    final onRamp = await _stream.first;
-
-    _watcher = switch (onRamp.partner) {
-      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
-      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
-      RampPartner.rampNetwork ||
-      RampPartner.coinflow ||
-      RampPartner.guardarian =>
-        throw ArgumentError('Not implemented'),
-    }
-      ..watch(widget.orderId);
   }
 
   @override
   void dispose() {
-    _watcher?.close();
     _confirmationSubscription?.cancel();
     super.dispose();
   }
