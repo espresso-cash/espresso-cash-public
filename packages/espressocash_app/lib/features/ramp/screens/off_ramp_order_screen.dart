@@ -1,11 +1,9 @@
 import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../data/db/db.dart';
@@ -23,7 +21,7 @@ import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
-import 'off_ramp_confirmation_screen.dart';
+import '../src/widgets/off_ramp_confirmation.dart';
 
 @RoutePage()
 class OffRampOrderScreen extends StatefulWidget {
@@ -45,26 +43,6 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
   void initState() {
     super.initState();
     _stream = sl<OffRampOrderService>().watch(widget.orderId);
-
-    _confirmationSubscription = _stream
-        .where((order) => order.status == OffRampOrderStatus.depositTxRequired)
-        .listen((order) {
-      context.router.push(
-        OffRampConfirmationScreen.route(
-          withdrawAmount: order.amount,
-          receiveAmount: order.receiveAmount,
-          fee: Amount.fromDecimal(
-            value: Decimal.parse('0.1'),
-            currency: Currency.usdc,
-          ),
-          onSubmit: () {
-            sl<OffRampOrderService>().retry(widget.orderId);
-            context.router.pop();
-          },
-        ),
-      );
-      _confirmationSubscription?.cancel();
-    });
   }
 
   @override
@@ -82,6 +60,8 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
 
           if (order == null) {
             return TransferProgress(onBack: () => context.router.pop());
+          } else if (order.status == OffRampOrderStatus.depositTxRequired) {
+            return OffRampConfirmation(order: order);
           }
 
           void onCancel() => showConfirmationDialog(

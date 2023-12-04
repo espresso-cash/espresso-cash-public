@@ -1,36 +1,30 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/fee_label.dart';
-import '../../../core/presentation/format_amount.dart';
-import '../../../l10n/device_locale.dart';
-import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/back_button.dart';
-import '../../../ui/button.dart';
-import '../../../ui/chip.dart';
-import '../../../ui/content_padding.dart';
-import '../../../ui/info_widget.dart';
-import '../../../ui/theme.dart';
+import '../../../../core/amount.dart';
+import '../../../../core/currency.dart';
+import '../../../../core/fee_label.dart';
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../di.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../../ui/app_bar.dart';
+import '../../../../ui/back_button.dart';
+import '../../../../ui/button.dart';
+import '../../../../ui/chip.dart';
+import '../../../../ui/content_padding.dart';
+import '../../../../ui/info_widget.dart';
+import '../../../../ui/theme.dart';
+import '../../services/off_ramp_order_service.dart';
 
-@RoutePage()
-class OffRampConfirmationScreen extends StatelessWidget {
-  const OffRampConfirmationScreen({
+class OffRampConfirmation extends StatelessWidget {
+  const OffRampConfirmation({
     super.key,
-    required this.withdrawAmount,
-    required this.fee,
-    required this.onSubmit,
-    this.receiveAmount,
+    required this.order,
   });
 
-  static const route = OffRampConfirmationRoute.new;
-
-  final Amount withdrawAmount;
-  final Amount? receiveAmount;
-  final Amount fee;
-  final VoidCallback onSubmit;
+  final OffRampOrder order;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -49,9 +43,13 @@ class OffRampConfirmationScreen extends StatelessWidget {
           ),
           body: CpContentPadding(
             child: _TokenCreateLinkContent(
-              withdrawAmount: withdrawAmount,
-              receiveAmount: receiveAmount,
-              fee: fee,
+              withdrawAmount: order.amount,
+              receiveAmount: order.receiveAmount,
+              fee: Amount.fromDecimal(
+                // TODO(KB): Replace with fee from backend.
+                value: Decimal.parse('0.1'),
+                currency: Currency.usdc,
+              ),
             ),
           ),
           bottomNavigationBar: SafeArea(
@@ -64,7 +62,7 @@ class OffRampConfirmationScreen extends StatelessWidget {
                   const SizedBox(height: 21),
                   CpButton(
                     width: double.infinity,
-                    onPressed: onSubmit,
+                    onPressed: () => sl<OffRampOrderService>().retry(order.id),
                     text: context.l10n.ramp_btnContinue,
                   ),
                 ],
