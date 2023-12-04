@@ -73,11 +73,6 @@ jobs:
         with:
           sdk: ${{ env.DART_VERSION }}
 
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: "stable"
-
       - name: Install DCM
         uses: CQLabs/setup-dcm@v1
         with:
