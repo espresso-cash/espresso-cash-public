@@ -32,6 +32,7 @@ typedef OffRampOrder = ({
   RampPartner partner,
   DateTime? resolved,
   FiatAmount? receiveAmount,
+  String partnerOrderId,
 });
 
 @Singleton(scope: authScope)
@@ -106,6 +107,7 @@ class OffRampOrderService implements Disposable {
         partner: row.partner,
         resolved: row.resolvedAt,
         receiveAmount: receiveAmount,
+        partnerOrderId: row.partnerOrderId,
       );
     });
   }

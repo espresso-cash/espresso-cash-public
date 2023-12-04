@@ -913,5 +913,13 @@
         "type": "String"
       }
     }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
   }
 }
