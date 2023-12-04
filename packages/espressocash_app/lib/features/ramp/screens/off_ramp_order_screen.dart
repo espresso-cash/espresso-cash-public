@@ -80,7 +80,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     final locale = DeviceLocale.localeOf(context);
 
-    void onCancel() => showConfirmationDialog(
+    void handleCanceled() => showConfirmationDialog(
           context,
           title: context.l10n.offRampCancelTitle,
           message: context.l10n.offRampCancelSubtitle,
@@ -113,7 +113,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       child: CpTextButton(
         text: context.l10n.outgoingSplitKeyPayments_btnCancel,
         variant: CpTextButtonVariant.light,
-        onPressed: onCancel,
+        onPressed: handleCanceled,
       ),
     );
 

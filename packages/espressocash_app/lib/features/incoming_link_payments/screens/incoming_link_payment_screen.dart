@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';

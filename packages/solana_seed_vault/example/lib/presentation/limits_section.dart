@@ -27,21 +27,21 @@ class _LimitsSectionState extends State<LimitsSection> {
     return seed?.authToken;
   }
 
-  void _onMaxRequestedPublicKeysExceeded() => _validate()?.let(
+  void _handleMaxRequestedPublicKeysExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxRequestedPublicKeys(authToken)
             .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n')))),
       );
 
-  void _onMaxSigningRequestsExceeded() => _validate()?.let(
+  void _handleMaxSigningRequestsExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxSigningRequests(authToken)
             .then((it) => showSnackBar(context, it)),
       );
 
-  void _onMaxRequestedSignaturesExceeded() => _validate()?.let(
+  void _handleMaxRequestedSignaturesExceeded() => _validate()?.let(
         (authToken) => context
             .read<SeedVaultBloc>()
             .exceedMaxRequestedSignatures(authToken)
@@ -60,16 +60,16 @@ class _LimitsSectionState extends State<LimitsSection> {
               _LimitTile(
                 title:
                     'maxRequestedPublicKeys=${state.limits.maxRequestedPublicKeys}',
-                onExceeded: _onMaxRequestedPublicKeysExceeded,
+                onExceeded: _handleMaxRequestedPublicKeysExceeded,
               ),
               _LimitTile(
                 title: 'maxSigningRequests=${state.limits.maxSigningRequests}',
-                onExceeded: _onMaxSigningRequestsExceeded,
+                onExceeded: _handleMaxSigningRequestsExceeded,
               ),
               _LimitTile(
                 title:
                     'maxRequestedSignatures=${state.limits.maxRequestedSignatures}',
-                onExceeded: _onMaxRequestedSignaturesExceeded,
+                onExceeded: _handleMaxRequestedSignaturesExceeded,
               ),
               _LimitTile(
                 title: 'maxBip32PathDepth=${state.limits.maxBip32PathDepth}',

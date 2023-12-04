@@ -27,7 +27,7 @@ class TxResultScreen extends StatefulWidget {
 }
 
 class _TxResultScreenState extends State<TxResultScreen> {
-  void _onViewTransaction() {
+  void _handleViewPressed() {
     final signature = widget.signature;
     if (signature == null) return;
 
@@ -57,7 +57,7 @@ class _TxResultScreenState extends State<TxResultScreen> {
                     ),
                     if (widget.signature != null)
                       TextButton(
-                        onPressed: _onViewTransaction,
+                        onPressed: _handleViewPressed,
                         child: Text(
                           context.l10n.viewTransaction,
                           style: const TextStyle(color: CpColors.yellowColor),

@@ -11,7 +11,7 @@ import 'package:solana/encoder.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../models/incoming_link_payment.dart';
 
 @injectable

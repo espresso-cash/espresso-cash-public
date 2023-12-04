@@ -10,8 +10,8 @@ class AppLockScreen extends StatelessWidget {
   const AppLockScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => WillPopScope(
-        onWillPop: () => Future.value(false),
+  Widget build(BuildContext context) => PopScope(
+        canPop: false,
         child: BlocBuilder<AppLockBloc, AppLockState>(
           builder: (context, state) => DecoratedWindow(
             hasLogo: true,

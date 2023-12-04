@@ -140,7 +140,7 @@ class _MainTokenAccount {
 
 extension SortedBalance on Map<Token, Amount> {
   Iterable<MapEntry<Token, Amount>> _splitAndSort(
-    bool Function(MapEntry<Token, Amount> entry) test,
+    Func1<MapEntry<Token, Amount>, bool> test,
   ) =>
       entries.where(test).toList()
         ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));

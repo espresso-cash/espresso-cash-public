@@ -11,7 +11,7 @@ import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
 import '../../features/ramp/models/ramp_partner.dart';
 import '../../features/swap/data/swap_repository.dart';
-import '../../features/transactions/models/tx_sender.dart';
+import '../../features/transactions/models/tx_results.dart';
 import 'deprecated.dart';
 import 'mixins.dart';
 import 'open_connection.dart';

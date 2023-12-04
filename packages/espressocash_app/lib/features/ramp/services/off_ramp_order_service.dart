@@ -19,7 +19,7 @@ import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_partner.dart';

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/app.dart';
 import 'package:espressocash_backend/src/apps.dart';
 import 'package:espressocash_backend/src/constants.dart';
@@ -11,7 +12,7 @@ import 'package:shelf/shelf.dart';
 Response commonHandler(
   Request request, {
   required String templateName,
-  required Map<String, dynamic> Function(Map<String, dynamic> data) updateData,
+  required Transformer<Map<String, dynamic>, Map<String, dynamic>> updateData,
 }) {
   final appId = request.url.queryParameters['appId']?.toLowerCase();
 
