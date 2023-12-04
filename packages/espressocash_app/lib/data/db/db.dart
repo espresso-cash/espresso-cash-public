@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 42;
+const int latestVersion = 44;
 
 const _tables = [
   OutgoingTransferRows,
@@ -179,6 +179,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 40 && from < 42) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
           }
+          if (from >= 37 && from < 44) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.status);
+          }
         },
       );
 
@@ -220,6 +223,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get txHash => text()();
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get status => textEnum<OnRampOrderStatus>()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -234,6 +238,12 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   Int64Column get slot => int64()();
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
+}
+
+enum OnRampOrderStatus {
+  waitingForPartner,
+  failure,
+  completed,
 }
 
 enum OffRampOrderStatus {

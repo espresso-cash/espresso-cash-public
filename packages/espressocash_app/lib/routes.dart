@@ -95,6 +95,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: RampAmountRoute.page),
         AutoRoute(page: NetworkPickerRoute.page),
         AutoRoute(page: OffRampOrderRoute.page),
+        AutoRoute(page: OnRampOrderRoute.page),
       ],
     ),
     AutoRoute(
