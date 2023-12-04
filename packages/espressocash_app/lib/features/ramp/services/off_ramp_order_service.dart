@@ -30,6 +30,9 @@ typedef OffRampOrder = ({
   OffRampOrderStatus status,
   CryptoAmount amount,
   RampPartner partner,
+  DateTime? resolved,
+  FiatAmount? receiveAmount,
+  String partnerOrderId,
 });
 
 @Singleton(scope: authScope)
@@ -88,12 +91,23 @@ class OffRampOrderService implements Disposable {
         ),
       );
 
+      final receiveAmount = row.receiveAmount?.let(
+        (it) => Amount(
+          value: it,
+          // ignore: avoid-non-null-assertion, checked amount
+          currency: currencyFromString(row.fiatSymbol!),
+        ) as FiatAmount,
+      );
+
       return (
         id: row.id,
         created: row.created,
         status: row.status,
         amount: amount,
         partner: row.partner,
+        resolved: row.resolvedAt,
+        receiveAmount: receiveAmount,
+        partnerOrderId: row.partnerOrderId,
       );
     });
   }
@@ -114,6 +128,7 @@ class OffRampOrderService implements Disposable {
           ),
         );
       case OffRampOrderStatus.depositError:
+      case OffRampOrderStatus.depositTxConfirmError:
         final tx = order.transaction;
         if (tx.isEmpty) {
           await updateQuery.write(
@@ -134,6 +149,36 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
+      case OffRampOrderStatus.cancelled:
+        break;
+    }
+  }
+
+  Future<void> cancel(String orderId) async {
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+    final order = await query.getSingle();
+
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    switch (order.status) {
+      case OffRampOrderStatus.depositError:
+        await updateQuery.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.cancelled),
+          ),
+        );
+
+      case OffRampOrderStatus.depositTxRequired:
+      case OffRampOrderStatus.creatingDepositTx:
+      case OffRampOrderStatus.depositTxReady:
+      case OffRampOrderStatus.sendingDepositTx:
+      case OffRampOrderStatus.waitingForPartner:
+      case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.completed:
+      case OffRampOrderStatus.cancelled:
+      case OffRampOrderStatus.depositTxConfirmError:
         break;
     }
   }
@@ -144,6 +189,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -160,6 +206,8 @@ class OffRampOrderService implements Disposable {
             status: OffRampOrderStatus.depositTxRequired,
             depositAddress: depositAddress,
             partner: partner,
+            receiveAmount: receiveAmount?.value,
+            fiatSymbol: receiveAmount?.currency.symbol,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -177,6 +225,7 @@ class OffRampOrderService implements Disposable {
       switch (order.status) {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
+        case OffRampOrderStatus.depositTxConfirmError:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
@@ -201,6 +250,8 @@ class OffRampOrderService implements Disposable {
               status: Value(OffRampOrderStatus.sendingDepositTx),
             ),
           );
+        case OffRampOrderStatus.cancelled:
+          return Stream.fromIterable([_cancelled]);
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
@@ -285,6 +336,12 @@ class OffRampOrderService implements Disposable {
     }
   }
 
-  static const _depositError =
-      OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError));
+  static final _cancelled = OffRampOrderRowsCompanion(
+    status: const Value(OffRampOrderStatus.cancelled),
+    resolvedAt: Value(DateTime.now()),
+  );
+
+  static const _depositError = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
 }
