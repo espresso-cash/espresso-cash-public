@@ -7,6 +7,11 @@ import '../scalex/services/scalex_off_ramp_order_watcher.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/models/ramp_watcher.dart';
 
+typedef OffRampOrderDetailsBuilder = Widget Function(
+  BuildContext context,
+  OffRampOrder? order,
+);
+
 class OffRampOrderDetails extends StatefulWidget {
   const OffRampOrderDetails({
     super.key,
@@ -15,7 +20,7 @@ class OffRampOrderDetails extends StatefulWidget {
   });
 
   final String orderId;
-  final Widget Function(BuildContext context, OffRampOrder? order) builder;
+  final OffRampOrderDetailsBuilder builder;
 
   @override
   State<OffRampOrderDetails> createState() => _OffRampOrderDetailsState();

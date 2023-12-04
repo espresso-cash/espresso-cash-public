@@ -51,7 +51,7 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
     sl<OnboardingRepository>().hasConfirmedPassphrase = true;
     context.completePuzzleFlow();
 
-    router?.parent()?.pop(true);
+    router?.parent<RoutingController>()?.pop(true);
   }
 
   @override

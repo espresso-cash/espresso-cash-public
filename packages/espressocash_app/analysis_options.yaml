@@ -46,6 +46,7 @@ dart_code_metrics:
     avoid-nullable-interpolation:
       exclude:
         - test/**
+    prefer-correct-handler-name: false
 
   rules-exclude:
     - "**/*.gr.dart"

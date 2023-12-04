@@ -149,7 +149,7 @@ class _SignInWithSagaButton extends StatefulWidget {
 }
 
 class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
-  Future<void> _onPressed() async {
+  Future<void> _handlePressed() async {
     final hasPermission = await sl<SeedVault>().checkPermission();
     if (!mounted) return;
     if (!hasPermission) return;
@@ -164,7 +164,7 @@ class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
         key: keyCreateWalletButton,
         text: context.l10n.signInWithSaga,
         width: double.infinity,
-        onPressed: _onPressed,
+        onPressed: _handlePressed,
       );
 }
 

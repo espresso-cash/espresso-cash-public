@@ -27,7 +27,7 @@ Future<void> showConfirmationDialog(
   BuildContext context, {
   required String title,
   required String message,
-  required void Function() onConfirm,
+  required VoidCallback onConfirm,
   String? confirmLabel,
 }) =>
     showModalBottomSheet(

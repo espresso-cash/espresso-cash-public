@@ -3,7 +3,7 @@ import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/handlers/common_link_handler.dart';
 import 'package:shelf/shelf.dart';
 
-Response Function(Request) createSolanaHandler({
+Transformer<Request, Response> createSolanaHandler({
   required Map<String, String> tokens,
   required String network,
 }) =>

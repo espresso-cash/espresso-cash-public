@@ -31,7 +31,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _onPressed() => context.launchOnboardingFlow();
+  void _handlePressed() => context.launchOnboardingFlow();
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -42,7 +42,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
                 : AspectRatio(
                     aspectRatio: 450 / 100,
                     child: GestureDetector(
-                      onTap: _onPressed,
+                      onTap: _handlePressed,
                       child: RepaintBoundary(
                         child: Stack(
                           children: [
@@ -52,7 +52,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
                             ),
                             Align(
                               alignment: Alignment.center,
-                              child: _Content(onPressed: _onPressed),
+                              child: _Content(onPressed: _handlePressed),
                             ),
                           ],
                         ),

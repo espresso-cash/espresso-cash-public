@@ -34,7 +34,7 @@ class SwapFlowScreen extends StatefulWidget {
 }
 
 class _FlowState extends State<SwapFlowScreen> {
-  Future<void> _onRouteReady(SwapRoute route) async {
+  Future<void> _handleRouteReady(SwapRoute route) async {
     final swapId = await context.createSwap(route);
 
     if (!mounted) return;
@@ -54,7 +54,7 @@ class _FlowState extends State<SwapFlowScreen> {
           leading: const CloseButton(),
         ),
         body: CreateSwapScreen(
-          onRouteReady: _onRouteReady,
+          onRouteReady: _handleRouteReady,
           operation: operation,
           inputToken: widget.inputToken,
           outputToken: widget.outputToken,

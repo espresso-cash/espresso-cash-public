@@ -134,7 +134,7 @@ class Api implements ApiFlutter {
   static Api get instance => _instance;
 
   @visibleForTesting
-  static set instance(Api api) => _instance = api;
+  static set instance(Api value) => _instance = value;
 
   static final _scenarios = <int, Scenario>{};
 

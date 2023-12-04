@@ -12,7 +12,7 @@ import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoi
 import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_service.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/services/tx_created_watcher.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/services/tx_sent_watcher.dart';
-import 'package:espressocash_app/features/transactions/models/tx_sender.dart';
+import 'package:espressocash_app/features/transactions/models/tx_results.dart';
 import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,7 +22,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import 'service_test.mocks.dart';
+import 'odp_service_test.mocks.dart';
 
 final sender = MockTxSender();
 final client = MockCryptopleaseClient();
