@@ -126,6 +126,7 @@ class OffRampOrderService implements Disposable {
           ),
         );
       case OffRampOrderStatus.depositError:
+      case OffRampOrderStatus.depositTxConfirmError:
         final tx = order.transaction;
         if (tx.isEmpty) {
           await updateQuery.write(
@@ -175,6 +176,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
+      case OffRampOrderStatus.depositTxConfirmError:
         break;
     }
   }
@@ -221,6 +223,7 @@ class OffRampOrderService implements Disposable {
       switch (order.status) {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
+        case OffRampOrderStatus.depositTxConfirmError:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
@@ -336,6 +339,7 @@ class OffRampOrderService implements Disposable {
     resolvedAt: Value(DateTime.now()),
   );
 
-  static const _depositError =
-      OffRampOrderRowsCompanion(status: Value(OffRampOrderStatus.depositError));
+  static const _depositError = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
 }

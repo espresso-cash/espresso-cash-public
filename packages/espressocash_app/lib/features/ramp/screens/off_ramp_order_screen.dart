@@ -134,6 +134,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
             OffRampOrderStatus.waitingForPartner =>
               CpStatusType.info,
             OffRampOrderStatus.depositError ||
+            OffRampOrderStatus.depositTxConfirmError ||
             OffRampOrderStatus.failure =>
               CpStatusType.error,
             OffRampOrderStatus.completed => CpStatusType.success,
@@ -155,7 +156,9 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
               ),
             OffRampOrderStatus.waitingForPartner =>
               context.l10n.offRampWaitingForPartner,
-            OffRampOrderStatus.depositError => context.l10n.offRampDepositError,
+            OffRampOrderStatus.depositTxConfirmError ||
+            OffRampOrderStatus.depositError =>
+              context.l10n.offRampDepositError,
             OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
             OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
             OffRampOrderStatus.cancelled =>
@@ -171,6 +174,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
             OffRampOrderStatus.sendingDepositTx ||
             OffRampOrderStatus.waitingForPartner =>
               CpTimelineStatus.inProgress,
+            OffRampOrderStatus.depositTxConfirmError ||
             OffRampOrderStatus.depositError ||
             OffRampOrderStatus.failure =>
               CpTimelineStatus.failure,
@@ -188,6 +192,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
             OffRampOrderStatus.sendingDepositTx ||
             OffRampOrderStatus.waitingForPartner ||
             OffRampOrderStatus.depositError ||
+            OffRampOrderStatus.depositTxConfirmError ||
             OffRampOrderStatus.cancelled =>
               1,
             OffRampOrderStatus.failure || OffRampOrderStatus.completed => 2,
@@ -226,6 +231,7 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
 
           final List<Widget> actions = switch (order.status) {
             OffRampOrderStatus.depositError => [retryButton, cancelButton],
+            OffRampOrderStatus.depositTxConfirmError => [retryButton],
             OffRampOrderStatus.failure => [contactUsButton],
             OffRampOrderStatus.depositTxRequired ||
             OffRampOrderStatus.creatingDepositTx ||

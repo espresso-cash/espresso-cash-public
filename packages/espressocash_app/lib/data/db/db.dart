@@ -250,6 +250,7 @@ enum OffRampOrderStatus {
   depositTxReady,
   sendingDepositTx,
   depositError,
+  depositTxConfirmError,
   waitingForPartner,
   failure,
   completed,
