@@ -79,7 +79,7 @@ class _OnRampOrderScreenState extends State<OnRampOrderScreen> {
           final String statusContent = switch (order.status) {
             OnRampOrderStatus.waitingForPartner =>
               context.l10n.onRampDepositOngoing(
-                amount?.format(locale) ?? 'USDC',
+                amount?.format(locale, maxDecimals: 2) ?? 'USDC',
               ),
             OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
             OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
