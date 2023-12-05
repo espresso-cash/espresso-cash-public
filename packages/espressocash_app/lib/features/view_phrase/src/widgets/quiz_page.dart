@@ -1,9 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../ui/app_bar.dart';
-import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
@@ -19,6 +17,7 @@ class QuizPage extends StatelessWidget {
     required this.footer,
     required this.type,
     this.indicatorIndex,
+    this.backButton,
   });
 
   final String? title;
@@ -26,6 +25,7 @@ class QuizPage extends StatelessWidget {
   final QuizPageType type;
   final List<CpButton> footer;
   final int? indicatorIndex;
+  final Widget? backButton;
 
   Color get backgroundColor => switch (type) {
         QuizPageType.light => const Color(0xFFB7A572),
@@ -39,9 +39,7 @@ class QuizPage extends StatelessWidget {
           backgroundColor: backgroundColor,
           appBar: CpAppBar(
             title: title?.let(Text.new),
-            leading: CpBackButton(
-              onPressed: () => context.router.pop(),
-            ),
+            leading: backButton ?? const SizedBox.shrink(),
           ),
           body: SafeArea(
             child: Column(

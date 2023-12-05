@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../di.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/recovery_phrase_text_view.dart';
 import '../../../accounts/data/account_repository.dart';
@@ -41,6 +42,9 @@ class _QuizRecoveryScreenState extends State<QuizRecoveryScreen> {
 
   @override
   Widget build(BuildContext context) => QuizPage(
+        backButton: CpBackButton(
+          onPressed: widget.onComplete,
+        ),
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(

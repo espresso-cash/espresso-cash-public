@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
+import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../widgets/quiz_page.dart';
 
@@ -19,6 +20,9 @@ class QuizIntroScreen extends StatelessWidget {
   Widget build(BuildContext context) => QuizPage(
         title: context.l10n.quizIntroTitle.toUpperCase(),
         type: QuizPageType.light,
+        backButton: CpBackButton(
+          onPressed: () => context.router.pop(),
+        ),
         content: Stack(
           alignment: Alignment.bottomCenter,
           children: [
