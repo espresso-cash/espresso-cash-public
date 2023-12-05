@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
-part 'tx_sender.freezed.dart';
+part 'tx_results.freezed.dart';
 
 // TODO(KB): should be removed after full migration to waiting status with
 // SignedTx

@@ -10,12 +10,12 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/rounded_rectangle.dart';
 
 @RoutePage()
-class BackupPhraseSuccessScreen extends StatelessWidget {
-  const BackupPhraseSuccessScreen({super.key, required this.onSolved});
+class OnboardingSuccessScreen extends StatelessWidget {
+  const OnboardingSuccessScreen({super.key, required this.onDone});
 
-  final VoidCallback onSolved;
+  final VoidCallback onDone;
 
-  static const route = BackupPhraseSuccessRoute.new;
+  static const route = OnboardingSuccessRoute.new;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -31,7 +31,7 @@ class BackupPhraseSuccessScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(32),
                   backgroundColor: Colors.black,
                   child: Text(
-                    context.l10n.backupPhrase_lblSuccessMessage,
+                    '${context.l10n.backupPhrase_lblSuccessMessage1}\n\n${context.l10n.backupPhrase_lblSuccessMessage2}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 19,
@@ -44,7 +44,7 @@ class BackupPhraseSuccessScreen extends StatelessWidget {
                   size: CpButtonSize.big,
                   width: double.infinity,
                   text: context.l10n.ok,
-                  onPressed: onSolved,
+                  onPressed: onDone,
                 ),
               ],
             ),

@@ -23,6 +23,7 @@ import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/onramp_money.dart';
 import '../src/widgets/partners/ramp_network.dart';
+import '../src/widgets/partners/scalex.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -158,7 +159,7 @@ extension on BuildContext {
       RampPartnerSelectScreen.route(
         topPartner: partners.top,
         otherPartners: partners.other,
-        type: RampType.onRamp,
+        type: RampType.offRamp,
         onPartnerSelected: (p) {
           router.pop();
           _launchOffRampPartner(p, profile: profile, address: address);
@@ -181,6 +182,12 @@ extension on BuildContext {
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.onrampMoney:
         launchOnRampMoneyOnRamp(address: address);
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.onRamp,
+        );
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -194,6 +201,12 @@ extension on BuildContext {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.offRamp,
+        );
       case RampPartner.onrampMoney:
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
@@ -215,19 +228,26 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
             top: RampPartner.guardarian,
             other: [RampPartner.rampNetwork].lock,
           )
-        : countryCode == 'IN'
+        : countryCode == 'NG'
             ? (
-                top: RampPartner.onrampMoney,
+                top: RampPartner.scalex,
                 other: [RampPartner.rampNetwork].lock,
               )
-            : (
-                top: RampPartner.rampNetwork,
-                other: <RampPartner>[].lock,
-              );
+            : countryCode == 'IN'
+                ? (
+                    top: RampPartner.onrampMoney,
+                    other: [RampPartner.rampNetwork].lock,
+                  )
+                : (
+                    top: RampPartner.rampNetwork,
+                    other: <RampPartner>[].lock,
+                  );
 
 PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
     ? (top: RampPartner.kado, other: <RampPartner>[].lock)
-    : null;
+    : countryCode == 'NG'
+        ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
+        : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //

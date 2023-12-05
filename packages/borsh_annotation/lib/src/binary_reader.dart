@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'dart:convert';
 import 'dart:typed_data';
 

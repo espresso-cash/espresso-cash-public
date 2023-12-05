@@ -77,7 +77,7 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
     super.dispose();
   }
 
-  void _onUpdateAccount(MyAccount? account) {
+  void _handleUpdateAccount(MyAccount? account) {
     _subscription?.cancel();
 
     final sagaWallet =
@@ -106,7 +106,7 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
   Widget buildWithChild(BuildContext context, Widget? child) =>
       BlocListener<AccountsBloc, AccountsState>(
         listenWhen: (prev, cur) => prev.account != cur.account,
-        listener: (_, state) => _onUpdateAccount(state.account),
+        listener: (_, state) => _handleUpdateAccount(state.account),
         child: child,
       );
 }

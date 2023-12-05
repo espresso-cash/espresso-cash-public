@@ -14,6 +14,14 @@
   "@activities_lblFailure": {},
   "activities_lblInProgress": "En curso",
   "@activities_lblInProgress": {},
+  "activities_lblSoldToken": "{amount} Vendido",
+  "@activities_lblSoldToken": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "activities_lblSuccess": "Éxito",
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Actividad",
@@ -22,14 +30,28 @@
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Requiere contraseña para acceder a la aplicación",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Has guardado con éxito tu frase de recuperación secreta en un lugar seguro.¡Asegúrate de mantenerlo privado!",
-  "@backupPhrase_lblSuccessMessage": {},
+  "backupPhrase_lblSuccessMessage1": "Has confirmado con éxito tu frase secreta de recuperación.",
+  "@backupPhrase_lblSuccessMessage1": {},
+  "backupPhrase_lblSuccessMessage2": "Asegúrate de mantenerla privada y guardarla en un lugar seguro y protegido.",
+  "@backupPhrase_lblSuccessMessage2": {},
   "balances_lblConnectionError": "¡No se puede conectar a la red!",
   "@balances_lblConnectionError": {},
   "carousel1Subtitle": "Transferencias de dinero instantáneas, con tarifas bajas a más de 200 países y territorios.",
   "@carousel1Subtitle": {},
   "carousel1Title": "Bienvenido a Espresso Cash",
   "@carousel1Title": {},
+  "carousel2Subtitle": "El dinero se transfiere a su cuenta bancaria en moneda local.",
+  "@carousel2Subtitle": {},
+  "carousel2Title": "Envía dinero a casa en segundos",
+  "@carousel2Title": {},
+  "carousel3Subtitle": "Los pagos se comparten mediante plataformas de mensajería como WhatsApp, Messenger, Telegram o SMS.",
+  "@carousel3Subtitle": {},
+  "carousel3Title": "Enviar a través de plataformas de mensajería",
+  "@carousel3Title": {},
+  "carousel4Subtitle": "Utiliza un código QR de Espresso Cash para pagar al instante en negocios locales.",
+  "@carousel4Subtitle": {},
+  "carousel4Title": "Paga Localmente",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Envía Dinero Ahora",
   "@carouselSendMoneyBtn": {},
   "comingSoon": "¡Muy pronto!",
@@ -62,7 +84,7 @@
   "@crypto": {},
   "cryptoCashBalance": "Tu Cripto Efectivo Saldo",
   "@cryptoCashBalance": {},
-  "cryptoInvestments": "Tu cripto\nInversiones",
+  "cryptoInvestments": "Tu cripto",
   "@cryptoInvestments": {},
   "decline": "Rechazar",
   "@decline": {},
@@ -116,7 +138,7 @@
   },
   "following": "Following",
   "@following": {},
-  "fundYourAccount": "Añade fondos a tu cuenta para enviar dinero a cualquier parte del mundo.",
+  "fundYourAccount": "Añade fondos a tu cuenta para enviar dinero",
   "@fundYourAccount": {},
   "help": "Ayuda",
   "@help": {},
@@ -150,6 +172,10 @@
   "@inUsdc": {},
   "invalidEscrowError": "El enlace es incorrecto o el dinero ya se ha retirado.",
   "@invalidEscrowError": {},
+  "investingBannerTitle": "Inversión en Criptomonedas Facilitada",
+  "@investingBannerTitle": {},
+  "investingTitle": "Inversiones",
+  "@investingTitle": {},
   "investmentHeaderButtonsTitle": "Yo quiero",
   "@investmentHeaderButtonsTitle": {},
   "isWaitingForYou": "te está esperando.",
@@ -158,6 +184,18 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Entiendo que si pierdo mi frase de recuperación secreta, no podré acceder a fondos.",
   "@iUnderstandIfLoseMySecret": {},
+  "landingAlreadyInstalled": "¿Ya tienes Espresso instalado? Salta al paso 2",
+  "@landingAlreadyInstalled": {},
+  "landingInstallApp": "Instalar Espresso Cash",
+  "@landingInstallApp": {},
+  "landingReceiveMoney": "Recibe tu dinero",
+  "@landingReceiveMoney": {},
+  "landingScanQr": "Escanea el código QR",
+  "@landingScanQr": {},
+  "landingSubtitle": "Para completar la transacción, sigue los pasos a continuación.",
+  "@landingSubtitle": {},
+  "landingTitle": "Se ha enviado dinero a tu cuenta.",
+  "@landingTitle": {},
   "learnAboutCrypto": "Aprendiendo sobre cripto",
   "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Obtenga ayuda con todas las cosas cripto",
@@ -170,6 +208,14 @@
   "@loading": {},
   "marketCapRank": "Rango de capitalización de mercado",
   "@marketCapRank": {},
+  "minAmountToOnRamp": "{amount} es el mínimo que puedes añadir",
+  "@minAmountToOnRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "minimumAmountToRequest": "{amount} es el mínimo de solicitar",
   "@minimumAmountToRequest": {
     "placeholders": {
@@ -254,13 +300,15 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "Sin resultados encontrados.",
   "@noResultsFound": {},
+  "offRampTopPartnerTitle": "Retira a tu cuenta bancaria usando nuestro principal socio",
+  "@offRampTopPartnerTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "¡La criptoinversión simplificada, tanto si eres nuevo como si eres un profesional experimentado!",
   "@onboardingBullet": {},
   "onboardingIntro": "La forma más rápida y simple de enviar y recibir dinero.",
   "@onboardingIntro": {},
-  "onboardingNoticeFinishSetup": "Finalizar configuración",
+  "onboardingNoticeFinishSetup": "Finalizar",
   "@onboardingNoticeFinishSetup": {},
   "onboardingNoticeMessage": "Completa la configuración, asegurando tu cuenta.",
   "@onboardingNoticeMessage": {},
@@ -268,6 +316,8 @@
   "@oneMonth": {},
   "oneWeek": "1 semana",
   "@oneWeek": {},
+  "onRampTopPartnerTitle": "Transfiere dinero a Espresso utilizando nuestro principal socio de pago",
+  "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Abrir el escáner QR integrado en la aplicación",
   "@openInAppScanner": {},
   "operationSend": "enviada",
@@ -390,6 +440,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Retirar",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Continuar",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Monto minimo a transferir.",
   "@rampMinimumTransferAmount": {
     "placeholders": {
@@ -398,6 +450,8 @@
       }
     }
   },
+  "rampOtherPartnersTitle": "Otros socios:",
+  "@rampOtherPartnersTitle": {},
   "receive": "Recibir",
   "@receive": {},
   "receivedBy": "Recibido por {address}",
@@ -408,11 +462,15 @@
       }
     }
   },
+  "recentActivityEmpty": "No hay actividad reciente. ¿Deseas enviar dinero a la familia ahora?",
+  "@recentActivityEmpty": {},
+  "recentActivityLbl": "Actividad reciente",
+  "@recentActivityLbl": {},
   "recoverySubHeading": "Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente. Esta frase está compuesta de 12 palabras generadas al azar. No podrá recuperar sus fondos si pierde estas palabras.",
   "@recoverySubHeading": {},
   "recoveryWarningInfo": "Lea cuidadosamente la información a continuación antes de ver su frase de recuperación secreta.",
   "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "Para recuperar tu billetera, necesitarás tu frase de recuperación secreta.Por favor, escribe tu siguiente frase de recuperación secreta y guárdala cuidadosamente.\n\nCualquier otra persona que tenga acceso a tu frase de recuperación secreta, también tiene un acceso irrevocable a tu dinero.\n\nNunca compartas estas frases de recuperación secreta a un extraño y nunca ingreses esta frase de recuperación secreta en un formulario u otra aplicación.",
+  "recoveryWarningParagraph": "Para mantener segura tu billetera, es crucial resguardar tu frase secreta de recuperación. Compartir esta frase otorga a otros acceso a tu dinero.\n\nNO la compartas bajo ninguna circunstancia. Evita ingresar tu frase de recuperación en ninguna forma o aplicación.",
   "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Vuelva a ingresar su código de acceso",
   "@reEnterPasscode": {},
@@ -428,7 +486,7 @@
   "@requestNoteRequesting": {},
   "requestOrSendPayment": "Solicita o enviar un pago",
   "@requestOrSendPayment": {},
-  "resendLink": "Reenviar enlaces",
+  "resendLink": "Reenviar enlace",
   "@resendLink": {},
   "retry": "Procesar de nuevo",
   "@retry": {},
@@ -436,6 +494,14 @@
   "@save": {},
   "scanToReceive": "Escanea para recibir {amount}",
   "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "scanToSend": "Escanear para enviar {amount}",
+  "@scanToSend": {
     "placeholders": {
       "amount": {
         "type": "String"
@@ -462,7 +528,7 @@
   "@sendMoney": {},
   "sentDirectly": "Enviada",
   "@sentDirectly": {},
-  "sentViaLink": "Enviado a través de enlaces",
+  "sentViaLink": "Enviado por enlaces",
   "@sentViaLink": {},
   "setReminder": "Establecer un recordatorio para{duration}",
   "@setReminder": {
@@ -551,9 +617,9 @@
   "@splitKeyProgressCanceled": {},
   "splitKeyProgressCanceling": "Cancelando transferancia",
   "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Se crean enlaces",
+  "splitKeyProgressCreated": "El enlace ha sido creado.",
   "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Enviando {amount} usando enlaces seguros ...",
+  "splitKeyProgressOngoing": "Enviando {amount} usando enlace seguro...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -729,6 +795,8 @@
   "@viewTransaction": {},
   "walletAddress": "Dirección de billetera",
   "@walletAddress": {},
+  "walletAddressFieldHint": "Escribe, pega o escanea la dirección aquí.",
+  "@walletAddressFieldHint": {},
   "walletEspressoPayLabel": "Envía dinero a cualquier persona utilizando una plataforma de mensajería.",
   "@walletEspressoPayLabel": {},
   "walletManualPayLabel": "Enviar utilizando una dirección de billetera",
@@ -759,7 +827,7 @@
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Tu frase de recuperación secreta",
   "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Por favor, escriba su siguiente frase de recuperación secreta y guárdela cuidadosamente. Esta frase está compuesta de 12 palabras generadas al azar. No podrá recuperar sus fondos si pierde estas palabras.",
+  "yourRecoveryPhraseSub": "Esta frase está compuesta por 12 palabras generadas al azar. Por favor, anota tu siguiente frase secreta de recuperación y guárdala cuidadosamente.",
   "@yourRecoveryPhraseSub": {},
   "zeroAmountMessage": "Ingrese una cantidad mayor que cero para ser {operation}.",
   "@zeroAmountMessage": {

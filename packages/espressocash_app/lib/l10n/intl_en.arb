@@ -30,8 +30,10 @@
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Require passcode to access the app",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
-  "@backupPhrase_lblSuccessMessage": {},
+  "backupPhrase_lblSuccessMessage1": "You’ve successfully confirmed your secret recovery phrase.",
+  "@backupPhrase_lblSuccessMessage1": {},
+  "backupPhrase_lblSuccessMessage2": "Make sure to keep it private and store it in a safe and secure place.",
+  "@backupPhrase_lblSuccessMessage2": {},
   "balances_lblConnectionError": "Cannot connect to the network!",
   "@balances_lblConnectionError": {},
   "carousel1Subtitle": "Instant & Low Fee Money Transfers to 200+ Countries & Territories.",
@@ -174,6 +176,8 @@
   "@invalidEscrowError": {},
   "investingTitle": "Investing",
   "@investingTitle": {},
+  "investingBannerTitle": "Crypto Investing Made Easy",
+  "@investingBannerTitle": {},
   "investmentHeaderButtonsTitle": "I want to",
   "@investmentHeaderButtonsTitle": {},
   "isWaitingForYou": "is waiting for you.",
@@ -480,9 +484,9 @@
   "@recentActivitySeeAll": {},
   "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "@recoverySubHeading": {},
-  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
+  "recoveryWarningInfo": "Please carefully read the information below before viewing your secret recovery phrase.",
   "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
+  "recoveryWarningParagraph": "To keep your wallet secure, it's crucial to safeguard your secret recovery phrase. Sharing this phrase grants others access to your money.\n\nDO NOT share under any circumstance. Avoid entering your recovery phrase in any form or application.",
   "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Re-enter your passcode",
   "@reEnterPasscode": {},
@@ -850,7 +854,7 @@
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
+  "yourRecoveryPhraseSub": "This phrase is composed of randomly generated 12 words. Please write down your following secret recovery phrase and save it carefully.",
   "@yourRecoveryPhraseSub": {},
   "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
   "@zeroAmountMessage": {
@@ -861,5 +865,61 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "offRampWithdrawTitle": "Withdrawal Progress",
+  "@offRampWithdrawTitle": {},
+  "offRampCancelTitle": "Cancel Withdrawal",
+  "@offRampCancelTitle": {},
+  "offRampCancelSubtitle": "Are you sure you want to cancel this withdrawal?",
+  "@offRampCancelSubtitle": {},
+  "offRampWithdrawInitiated": "Withdrawal initiated",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawSent": "USDC sent to partner",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawReceived": "Money has been received",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawCancelledTitle": "Withdrawal has been canceled",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampDepositError": "There was an issue with your withdrawal.",
+  "@offRampDepositError": {},
+  "offRampWithdrawalFailure": "There was an issue with your withdrawal. Please contact us.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWaitingForPartner": "Your money is on the way",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawSuccess": "Your withdrawal was successful.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawOngoing": "Sending {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
+  "@offRampWithdrawNotice": {},
+  "offRampReceiveAmount": "You'll receive {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -1,11 +1,11 @@
-import 'package:espressocash_app/features/transactions/models/tx_sender.dart';
+import 'package:espressocash_app/features/transactions/models/tx_results.dart';
 import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../utils.dart';
+import '../../../utils.dart';
 
 Future<void> main() async {
   final client = createTestSolanaClient();
