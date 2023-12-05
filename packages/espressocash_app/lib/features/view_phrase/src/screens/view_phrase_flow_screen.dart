@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
 import '../../../../di.dart';
+import '../../../../gen/assets.gen.dart';
 import '../data/quiz_repository.dart';
 import 'quiz_intro_screen.dart';
 import 'quiz_question_screen.dart';
@@ -39,6 +40,14 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
   }
 
   void _handleCompleted() => context.router.pop();
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(Assets.images.quizIntroBg.provider(), context);
+    precacheImage(Assets.images.quizQuestionBg.provider(), context);
+
+    super.didChangeDependencies();
+  }
 
   @override
   PageRouteInfo get initialRoute => sl<QuizRepository>().hasCompletedQuiz
