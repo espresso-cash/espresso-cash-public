@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
-import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
-import '../data/quiz_repository.dart';
 import 'quiz_intro_screen.dart';
 import 'quiz_question_screen.dart';
 import 'recovery_phrase_screen.dart';
@@ -29,8 +27,6 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
       );
 
   void _handleCompleteQuiz() {
-    sl<QuizRepository>().hasCompletedQuiz = true;
-
     router?.replace(
       QuizRecoveryScreen.route(
         onComplete: _handleCompleted,
@@ -50,14 +46,9 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
   }
 
   @override
-  PageRouteInfo get initialRoute => sl<QuizRepository>().hasCompletedQuiz
-      ? QuizRecoveryScreen.route(
-          onComplete: _handleCompleted,
-          showIndicator: false,
-        )
-      : QuizIntroScreen.route(
-          onConfirmed: _handleStartQuiz,
-        ) as PageRouteInfo;
+  PageRouteInfo get initialRoute => QuizIntroScreen.route(
+        onConfirmed: _handleStartQuiz,
+      );
 
   @override
   Widget build(BuildContext context) => AutoRouter(key: routerKey);
