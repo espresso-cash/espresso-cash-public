@@ -11,7 +11,7 @@ import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
 import '../../features/ramp/models/ramp_partner.dart';
 import '../../features/swap/data/swap_repository.dart';
-import '../../features/transactions/models/tx_sender.dart';
+import '../../features/transactions/models/tx_results.dart';
 import 'deprecated.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -179,6 +179,11 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 40 && from < 42) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
           }
+          if (from >= 40 && from < 43) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.resolvedAt);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.receiveAmount);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
+          }
           if (from >= 37 && from < 44) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.status);
           }
@@ -236,6 +241,9 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get transaction => text()();
   TextColumn get depositAddress => text()();
   Int64Column get slot => int64()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
+  IntColumn get receiveAmount => integer().nullable()();
+  TextColumn get fiatSymbol => text().nullable()();
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
 }
@@ -252,7 +260,9 @@ enum OffRampOrderStatus {
   depositTxReady,
   sendingDepositTx,
   depositError,
+  depositTxConfirmError,
   waitingForPartner,
   failure,
   completed,
+  cancelled,
 }

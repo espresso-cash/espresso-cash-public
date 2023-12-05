@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
@@ -24,8 +25,8 @@ class _CpLoaderState extends State<CpLoader> {
     final child = KeyedSubtree(key: _key, child: widget.child);
 
     return widget.isLoading
-        ? WillPopScope(
-            onWillPop: () async => false,
+        ? PopScope(
+            canPop: false,
             child: Stack(
               children: [
                 child,
@@ -56,15 +57,15 @@ class LoadingIndicator extends StatelessWidget {
 
 Future<T> runWithLoader<T>(
   BuildContext context,
-  Future<T> Function() fn,
+  Func0<Future<T>> fn,
 ) async {
   final future = fn();
 
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder: (context) => WillPopScope(
-      onWillPop: () async => false,
+    builder: (context) => PopScope(
+      canPop: false,
       child: LoadingDialog<T>(future: future),
     ),
   );

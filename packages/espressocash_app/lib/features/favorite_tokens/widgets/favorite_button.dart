@@ -35,7 +35,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
     _isFavorite = sl<FavoriteTokenRepository>().isFavorite(widget.token);
   }
 
-  Future<void> _onPressed({required bool isFavorite}) async {
+  Future<void> _handlePressed({required bool isFavorite}) async {
     if (isFavorite) {
       await sl<FavoriteTokenRepository>().remove(widget.token);
     } else {
@@ -66,7 +66,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
           return SizedBox.square(
             dimension: 26,
             child: IconButton(
-              onPressed: () => _onPressed(isFavorite: isFavorite),
+              onPressed: () => _handlePressed(isFavorite: isFavorite),
               icon: icon,
               padding: EdgeInsets.zero,
             ),

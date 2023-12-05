@@ -79,6 +79,8 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
         _AnimationTransformer? indicatorTransformer;
         _AnimationTransformer? connectorTransformer;
 
+        final isActive = index == widget.active;
+
         if (widget.animated) {
           if (index == widget.active) {
             indicatorTransformer = _lowerIndicatorTransformer;
@@ -111,7 +113,11 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
-                      child: index <= lastIconIndex ? widget.status.icon : null,
+                      child: index <= lastIconIndex
+                          ? isActive
+                              ? widget.status.icon
+                              : _successIcon
+                          : null,
                     ),
                   ),
                 ),
@@ -302,22 +308,26 @@ extension on CpTimelineStatus {
   Widget get icon {
     switch (this) {
       case CpTimelineStatus.failure:
-        return const Icon(
-          Icons.close,
-          color: Colors.white,
-          size: 22,
-        );
+        return _failIcon;
       case CpTimelineStatus.success:
       case CpTimelineStatus.inProgress:
       case CpTimelineStatus.neutral:
-        return const Icon(
-          Icons.check,
-          color: Colors.white,
-          size: 22,
-        );
+        return _successIcon;
     }
   }
 }
+
+const _successIcon = Icon(
+  Icons.check,
+  color: Colors.white,
+  size: 22,
+);
+
+const _failIcon = Icon(
+  Icons.close,
+  color: Colors.white,
+  size: 22,
+);
 
 double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
 

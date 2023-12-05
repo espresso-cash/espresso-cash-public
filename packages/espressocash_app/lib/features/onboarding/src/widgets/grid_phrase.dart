@@ -28,7 +28,7 @@ class _GridPhraseState extends State<GridPhrase> {
     _options = widget.correctPhrase.split(' ')..shuffle();
   }
 
-  void _onClicked(int position, String value) {
+  void _handlePressed(int position, String value) {
     if (_data.containsKey(position)) {
       _data = _data.remove(position);
     } else {
@@ -55,7 +55,7 @@ class _GridPhraseState extends State<GridPhrase> {
               return CpButton(
                 width: itemWidth,
                 size: CpButtonSize.micro,
-                onPressed: () => _onClicked(position, word),
+                onPressed: () => _handlePressed(position, word),
                 variant:
                     selected ? CpButtonVariant.dark : CpButtonVariant.black,
                 text: word,

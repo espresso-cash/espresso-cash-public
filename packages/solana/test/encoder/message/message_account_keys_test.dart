@@ -3,7 +3,7 @@ import 'package:solana/src/crypto/ed25519_hd_keypair.dart';
 import 'package:solana/src/encoder/message/message_account_keys.dart';
 import 'package:test/test.dart';
 
-import 'util.dart';
+import '../util.dart';
 
 void main() {
   test('Key segments', () async {

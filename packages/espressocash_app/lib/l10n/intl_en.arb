@@ -866,6 +866,36 @@
   },
   "zeroAmountTitle": "Invalid amount",
   "@zeroAmountTitle": {},
+  "offRampWithdrawTitle": "Withdrawal Progress",
+  "@offRampWithdrawTitle": {},
+  "offRampCancelTitle": "Cancel Withdrawal",
+  "@offRampCancelTitle": {},
+  "offRampCancelSubtitle": "Are you sure you want to cancel this withdrawal?",
+  "@offRampCancelSubtitle": {},
+  "offRampWithdrawInitiated": "Withdrawal initiated",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawSent": "USDC sent to partner",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawReceived": "Money has been received",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawCancelledTitle": "Withdrawal has been canceled",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampDepositError": "There was an issue with your withdrawal.",
+  "@offRampDepositError": {},
+  "offRampWithdrawalFailure": "There was an issue with your withdrawal. Please contact us.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWaitingForPartner": "Your money is on the way",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawSuccess": "Your withdrawal was successful.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawOngoing": "Sending {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "onRampDepositTitle": "Add Cash Progress",
   "@onRampDepositTitle": {},
   "onRampDepositInitiated": "Deposit initiated",
@@ -877,11 +907,5 @@
   "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
   "@onRampDepositFailure": {},
   "onRampDepositOngoing": "Depositing {amount}",
-  "@onRampDepositOngoing": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  }
+  "@onRampDepositOngoing": {}
 }
