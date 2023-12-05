@@ -4,12 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
 import '../../../../di.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../onboarding/onboarding.dart';
 import '../data/quiz_repository.dart';
 import 'quiz_intro_screen.dart';
 import 'quiz_question_screen.dart';
-import 'view_warning_screen.dart';
+import 'recovery_phrase_screen.dart';
 
 @RoutePage<bool>()
 class ViewPhraseFlowScreen extends StatefulWidget {
@@ -23,13 +21,6 @@ class ViewPhraseFlowScreen extends StatefulWidget {
 
 class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     with RouterWrapper {
-  void _handleWarningConfirmed() => router?.replace(
-        ViewRecoveryPhraseScreen.route(
-          onConfirmed: (_) => _handleCompleted(),
-          buttonLabel: context.l10n.ok,
-        ),
-      );
-
   void _handleStartQuiz() => router?.push(
         QuizQuestionScreen.route(
           onComplete: _handleCompleteQuiz,
@@ -37,17 +28,23 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
       );
 
   void _handleCompleteQuiz() {
-    // sl<QuizRepository>().hasCompletedQuiz = true;
+    sl<QuizRepository>().hasCompletedQuiz = true;
 
-    // router?.parent()?.pop(true); //TODO push view recovery phrase screen
+    router?.replace(
+      QuizRecoveryScreen.route(
+        onComplete: _handleCompleted,
+        showIndicator: true,
+      ),
+    );
   }
 
   void _handleCompleted() => context.router.pop();
 
   @override
   PageRouteInfo get initialRoute => sl<QuizRepository>().hasCompletedQuiz
-      ? ViewPhraseWarningScreen.route(
-          onConfirmed: _handleWarningConfirmed,
+      ? QuizRecoveryScreen.route(
+          onComplete: _handleCompleted,
+          showIndicator: false,
         )
       : QuizIntroScreen.route(
           onConfirmed: _handleStartQuiz,
