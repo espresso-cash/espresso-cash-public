@@ -22,8 +22,6 @@
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Requer senha para acessar o aplicativo",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Você salvou com sucesso sua frase de recuperação secreta em um local seguro. Certifique-se de mantê-la em segredo!",
-  "@backupPhrase_lblSuccessMessage": {},
   "balances_lblConnectionError": "Não foi possível conectar-se à rede!",
   "@balances_lblConnectionError": {},
   "comingSoon": "Em breve!",

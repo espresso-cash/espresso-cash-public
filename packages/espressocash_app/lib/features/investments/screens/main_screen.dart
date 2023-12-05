@@ -32,7 +32,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<void> _onQrScanner() =>
+  Future<void> _handleScanPressed() =>
       context.launchQrScannerFlow(cryptoCurrency: Currency.usdc);
 
   @override
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: CpIconButton(
                           icon: Assets.icons.qrScanner.svg(),
                           variant: CpIconButtonVariant.black,
-                          onPressed: _onQrScanner,
+                          onPressed: _handleScanPressed,
                         ),
                       ),
                       shape: const Border(),

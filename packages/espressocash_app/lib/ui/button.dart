@@ -166,7 +166,7 @@ extension on CpButtonAlignment {
   }
 }
 
-extension on CpButtonSize {
+extension CpButtonSizeExt on CpButtonSize {
   double get height {
     switch (this) {
       case CpButtonSize.normal:

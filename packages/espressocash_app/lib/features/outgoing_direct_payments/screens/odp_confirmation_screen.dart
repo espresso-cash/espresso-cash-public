@@ -51,7 +51,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     _amountController = TextEditingController(text: widget.initialAmount);
   }
 
-  void _onSubmit() {
+  void _handleSubmitted() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     if (amount == Decimal.zero) {
@@ -127,7 +127,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 child: CpButton(
                   text: context.l10n.pay,
                   minWidth: width,
-                  onPressed: _onSubmit,
+                  onPressed: _handleSubmitted,
                   size: CpButtonSize.big,
                 ),
               ),

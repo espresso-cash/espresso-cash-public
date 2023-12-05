@@ -69,20 +69,20 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
   void _resetTimer(DateTime? expiresAt) {
     _timer?.cancel();
     if (expiresAt == null) return;
-    _timer = Timer(expiresAt.difference(DateTime.now()), _onRouteExpired);
+    _timer = Timer(expiresAt.difference(DateTime.now()), _handleRouteExpired);
   }
 
-  void _onSubmit() {
+  void _handleSubmitted() {
     const event = CreateSwapEvent.submitted();
     _bloc.add(event);
   }
 
-  void _onSlippageChanged(Slippage value) {
+  void _handleSlippageChanged(Slippage value) {
     final event = CreateSwapEvent.slippageUpdated(value);
     _bloc.add(event);
   }
 
-  void _onEditingModeToggled() {
+  void _handleEditingModeToggled() {
     const event = CreateSwapEvent.editingModeToggled();
     _bloc.add(event);
   }
@@ -92,14 +92,14 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
     _bloc.add(event);
   }
 
-  void _onRouteExpired() {
+  void _handleRouteExpired() {
     const event = CreateSwapEvent.routeInvalidated();
     _bloc.add(event);
   }
 
-  void _onMaxAmountRequested(Token displayToken) {
+  void _handleMaxAmountRequested(Token displayToken) {
     final amount = _bloc.calculateMaxAmount();
-    if (displayToken != amount.token) _onEditingModeToggled();
+    if (displayToken != amount.token) _handleEditingModeToggled();
     final locale = DeviceLocale.localeOf(context);
     _amountController.text = amount.format(locale, skipSymbol: true);
   }
@@ -160,7 +160,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
               ),
               TokenDropDown(
                 current: state.requestAmount.token,
-                onTokenChanged: (_) => _onEditingModeToggled(),
+                onTokenChanged: (_) => _handleEditingModeToggled(),
                 availableTokens: [
                   state.inputAmount.token,
                   state.outputAmount.token,
@@ -177,11 +177,11 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                 maxAmountAvailable: _bloc.calculateMaxAmount(),
                 onMaxAmountRequested: widget.operation == SwapOperation.buy
                     ? null
-                    : () => _onMaxAmountRequested(state.requestToken),
+                    : () => _handleMaxAmountRequested(state.requestToken),
               ),
               SlippageInfo(
                 slippage: state.slippage,
-                onSlippageChanged: _onSlippageChanged,
+                onSlippageChanged: _handleSlippageChanged,
               ),
               Flexible(
                 child: AmountKeypad(
@@ -195,7 +195,7 @@ class _CreateSwapScreenState extends State<CreateSwapScreen> {
                   onSlideCompleted:
                       (state.bestRoute == null || state.flowState.isProcessing)
                           ? null
-                          : _onSubmit,
+                          : _handleSubmitted,
                 ),
               ),
             ],

@@ -3,7 +3,7 @@ part of 'profile_section.dart';
 class DangerSection extends StatelessWidget {
   const DangerSection({super.key});
 
-  void _onLogOutPressed(BuildContext context) => showConfirmationDialog(
+  void _handleLogoutPressed(BuildContext context) => showConfirmationDialog(
         context,
         title: context.l10n.signOut,
         message: context.l10n.signOutConfirmation,
@@ -19,7 +19,7 @@ class DangerSection extends StatelessWidget {
         actions: [
           ProfileButton(
             label: context.l10n.signOut,
-            onPressed: () => _onLogOutPressed(context),
+            onPressed: () => _handleLogoutPressed(context),
             color: CpColors.primaryColor,
           ),
         ],

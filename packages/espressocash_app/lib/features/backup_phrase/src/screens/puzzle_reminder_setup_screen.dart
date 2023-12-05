@@ -61,7 +61,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
     }
   }
 
-  void _setupReminder(BuildContext context) {
+  void _handleOkPressed(BuildContext context) {
     context.read<PuzzleReminderBloc>().add(
           PuzzleReminderEvent.postponed(postponedBy: _duration),
         );
@@ -142,7 +142,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
                 text: context.l10n.ok,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: _checked ? () => _setupReminder(context) : null,
+                onPressed: _checked ? () => _handleOkPressed(context) : null,
               ),
             ],
           ),

@@ -15,7 +15,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
 
   static const route = PuzzleReminderMessageRoute.new;
 
-  void _remindMeLater(BuildContext context) {
+  void _handleRemindPressed(BuildContext context) {
     context.router.push(PuzzleReminderSetupScreen.route());
   }
 
@@ -52,7 +52,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () => _remindMeLater(context),
+                onPressed: () => _handleRemindPressed(context),
                 child: Text(
                   context.l10n.remindMeLater,
                   style: const TextStyle(

@@ -13,7 +13,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana/solana.dart';
 
-import '../../utils.dart';
+import '../../../utils.dart';
 
 void main() {
   final SolanaClient solanaClient = createTestSolanaClient();
@@ -24,7 +24,6 @@ void main() {
   group(
     'BalancesBloc:',
     () {
-      // ignore: avoid-unnecessary-late, needed here
       late final MyAccount account;
       const initialAmount = 10 * lamportsPerSol;
       final repository = BalancesRepository();

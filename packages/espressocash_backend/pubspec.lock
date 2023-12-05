@@ -154,7 +154,7 @@ packages:
     source: hosted
     version: "1.18.0"
   convert:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: convert
       sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
@@ -210,7 +210,7 @@ packages:
     source: hosted
     version: "0.9.0"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
@@ -395,10 +395,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mews_pedantic
-      sha256: "8870302b09e413811640d42653034760f704b2a42e4ce42996d8883499c423da"
+      sha256: "786df3b53be8715ffc86b27e9b8ee205a9c0328bbb59d00264aa0dd9c5c9380f"
       url: "https://pub.dev"
     source: hosted
-    version: "0.20.0"
+    version: "0.21.0"
   mime:
     dependency: transitive
     description:
@@ -488,13 +488,21 @@ packages:
     source: hosted
     version: "2.2.2"
   retrofit:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: retrofit
       sha256: "9254ec985d5e26a839a9070ae25b98f0781c9c420e4241c5fb8b8965aa1fc7f2"
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  retrofit_generator:
+    dependency: "direct dev"
+    description:
+      name: retrofit_generator
+      sha256: f5107e842e77ce71c63b995331b43d4597f71df9031389dd93a1197a00118d83
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   sentry:
     dependency: "direct main"
     description:
@@ -663,6 +671,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  tuple:
+    dependency: transitive
+    description:
+      name: tuple
+      sha256: a97ce2013f240b2f3807bcbaf218765b6f301c3eff91092bcfa23a039e7dd151
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   typed_data:
     dependency: transitive
     description:

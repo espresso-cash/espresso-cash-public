@@ -865,5 +865,61 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "offRampWithdrawTitle": "Withdrawal Progress",
+  "@offRampWithdrawTitle": {},
+  "offRampCancelTitle": "Cancel Withdrawal",
+  "@offRampCancelTitle": {},
+  "offRampCancelSubtitle": "Are you sure you want to cancel this withdrawal?",
+  "@offRampCancelSubtitle": {},
+  "offRampWithdrawInitiated": "Withdrawal initiated",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawSent": "USDC sent to partner",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawReceived": "Money has been received",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawCancelledTitle": "Withdrawal has been canceled",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampDepositError": "There was an issue with your withdrawal.",
+  "@offRampDepositError": {},
+  "offRampWithdrawalFailure": "There was an issue with your withdrawal. Please contact us.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWaitingForPartner": "Your money is on the way",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawSuccess": "Your withdrawal was successful.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawOngoing": "Sending {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
+  "@offRampWithdrawNotice": {},
+  "offRampReceiveAmount": "You'll receive {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  }
 }

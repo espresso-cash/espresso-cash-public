@@ -2,11 +2,17 @@ import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
 import '../data/on_ramp_order_service.dart';
-import '../kado/services/on_ramp_order_watcher.dart';
+import '../kado/services/kado_on_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
+import '../scalex/services/scalex_on_ramp_order_watcher.dart';
 import '../src/models/ramp_watcher.dart';
 
 export '../data/on_ramp_order_service.dart' show OnRampOrder;
+
+typedef OnRampOrderDetailsBuilder = Widget Function(
+  BuildContext context,
+  OnRampOrder? order,
+);
 
 class OnRampOrderDetails extends StatefulWidget {
   const OnRampOrderDetails({
@@ -16,7 +22,7 @@ class OnRampOrderDetails extends StatefulWidget {
   });
 
   final String orderId;
-  final Widget Function(BuildContext context, OnRampOrder? order) builder;
+  final OnRampOrderDetailsBuilder builder;
 
   @override
   State<OnRampOrderDetails> createState() => _OnRampOrderDetailsState();
@@ -41,6 +47,7 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
 
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
+      RampPartner.scalex => sl<ScalexOnRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>
