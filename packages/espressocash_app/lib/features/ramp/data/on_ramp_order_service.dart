@@ -15,12 +15,13 @@ import '../../authenticated/auth_scope.dart';
 import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({
-  String orderId,
+  String id,
   DateTime created,
   CryptoAmount? amount,
   CryptoAmount? receiveAmount,
   RampPartner partner,
   OnRampOrderStatus status,
+  String partnerOrderId,
 });
 
 @Singleton(scope: authScope)
@@ -60,7 +61,7 @@ class OnRampOrderService implements Disposable {
 
     return query.watchSingle().map(
           (row) => (
-            orderId: row.id,
+            id: row.id,
             created: row.created,
             amount: CryptoAmount(
               value: row.amount,
@@ -78,6 +79,7 @@ class OnRampOrderService implements Disposable {
             ),
             partner: row.partner,
             status: row.status,
+            partnerOrderId: row.partnerOrderId,
           ),
         );
   }

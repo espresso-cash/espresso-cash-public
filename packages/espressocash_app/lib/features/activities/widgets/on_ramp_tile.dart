@@ -48,7 +48,7 @@ class OnRampTile extends StatelessWidget {
             maxDecimals: 2,
           ),
           onTap: () => context.router
-              .push(OnRampOrderScreen.route(orderId: order?.orderId ?? '')),
+              .push(OnRampOrderScreen.route(orderId: order?.id ?? '')),
         ),
       );
 }
