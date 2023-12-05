@@ -896,7 +896,33 @@
       }
     }
   },
-  "onRampDepositTitle": "Add Cash Progress",
+  "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
+  "@offRampWithdrawNotice": {},
+  "offRampReceiveAmount": "You'll receive {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
+   "onRampDepositTitle": "Add Cash Progress",
   "@onRampDepositTitle": {},
   "onRampDepositInitiated": "Deposit initiated",
   "@onRampDepositInitiated": {},
@@ -907,5 +933,11 @@
   "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
   "@onRampDepositFailure": {},
   "onRampDepositOngoing": "Depositing {amount}",
-  "@onRampDepositOngoing": {}
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
