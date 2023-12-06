@@ -71,6 +71,7 @@ const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
 const onrampMoneyBaseUrl = 'https://onramp.money/app/';
+const onrampMoneyAppId = String.fromEnvironment('ONRAMP_MONEY_APP_ID');
 
 const maxPayloadsPerSigningRequest = 10;
 

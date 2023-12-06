@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../../../di.dart';
 import '../kado/services/kado_off_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
+import '../onramp_money/services/orm_off_ramp_order_watcher.dart';
 import '../scalex/services/scalex_off_ramp_order_watcher.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/models/ramp_watcher.dart';
@@ -46,6 +47,7 @@ class _OffRampOrderDetailsState extends State<OffRampOrderDetails> {
     _watcher = switch (ramp.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
+      RampPartner.onrampMoney => sl<OrmOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>

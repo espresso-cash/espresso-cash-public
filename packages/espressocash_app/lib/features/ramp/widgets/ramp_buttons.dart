@@ -208,6 +208,7 @@ extension on BuildContext {
           type: RampType.offRamp,
         );
       case RampPartner.onrampMoney:
+        launchOnRampMoneyOffRamp(address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
       case RampPartner.coinflow:
@@ -247,7 +248,12 @@ PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
     ? (top: RampPartner.kado, other: <RampPartner>[].lock)
     : countryCode == 'NG'
         ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
-        : null;
+        : countryCode == 'IN'
+            ? (
+                top: RampPartner.onrampMoney,
+                other: [RampPartner.rampNetwork].lock,
+              )
+            : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //

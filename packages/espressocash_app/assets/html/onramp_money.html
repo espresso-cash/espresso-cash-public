@@ -22,6 +22,7 @@
                         coinAmount: data.coinAmount,
                         network: data.network,
                         coinCode : data.coinCode,
+                        ...(data.authToken !== null ? {authToken: data.authToken} : {})
                     }); 
 
                 onrampInstance.on('WIDGET_EVENTS', (e) => {
