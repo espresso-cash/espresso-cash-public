@@ -1,3 +1,9 @@
+## 1.92.0
+
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **FEAT**: update onramp status screen  (#1155).
+ - **FEAT**: update offramp status screen (#1154).
+
 ## 1.91.0
 
  - **FIX**: remove home tab animation transition (#1141).

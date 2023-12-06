@@ -921,5 +921,23 @@
         "type": "String"
       }
     }
+  },
+   "onRampDepositTitle": "Add Cash Progress",
+  "@onRampDepositTitle": {},
+  "onRampDepositInitiated": "Deposit initiated",
+  "@onRampDepositInitiated": {},
+  "onRampDepositReceived": "USDC received",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Your deposit was successful.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
+  "@onRampDepositFailure": {},
+  "onRampDepositOngoing": "Depositing {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }
