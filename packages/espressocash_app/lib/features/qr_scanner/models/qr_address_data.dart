@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
@@ -10,7 +8,6 @@ part 'qr_address_data.g.dart';
 class QrAddressData with _$QrAddressData {
   const factory QrAddressData({
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey address,
-    required String? name,
   }) = _QrAddressData;
 
   factory QrAddressData.fromJson(Map<String, dynamic> json) =>
@@ -20,15 +17,7 @@ class QrAddressData with _$QrAddressData {
     if (isValidAddress(data)) {
       return QrAddressData(
         address: Ed25519HDPublicKey.fromBase58(data),
-        name: null,
       );
-    }
-    try {
-      final jsonData = jsonDecode(data) as Map<String, dynamic>;
-
-      return QrAddressData.fromJson(jsonData);
-    } on Object {
-      return null;
     }
   }
 }

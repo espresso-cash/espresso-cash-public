@@ -8,17 +8,20 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
+import '../../../core/tokens/token.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
+import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({
-  String orderId,
-  String humanStatus,
+  String id,
   DateTime created,
   CryptoAmount? amount,
   CryptoAmount? receiveAmount,
-  bool isCompleted,
+  RampPartner partner,
+  OnRampOrderStatus status,
+  String partnerOrderId,
 });
 
 @Singleton(scope: authScope)
@@ -30,19 +33,24 @@ class OnRampOrderService implements Disposable {
 
   Future<void> create({
     required String orderId,
-    required CryptoAmount amount,
+    required RampPartner partner,
+    CryptoAmount? amount,
+    CryptoAmount? receiveAmount,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: amount.value,
-            token: amount.token.address,
+            amount: amount?.value ?? 0,
+            token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
             isCompleted: false,
             created: DateTime.now(),
             txHash: '',
+            partner: partner,
+            receiveAmount: receiveAmount?.value,
+            status: OnRampOrderStatus.waitingForPartner,
           ),
         );
   }
@@ -53,10 +61,8 @@ class OnRampOrderService implements Disposable {
 
     return query.watchSingle().map(
           (row) => (
-            orderId: row.id,
-            humanStatus: row.humanStatus,
+            id: row.id,
             created: row.created,
-            isCompleted: row.isCompleted,
             amount: CryptoAmount(
               value: row.amount,
               cryptoCurrency: CryptoCurrency(
@@ -71,6 +77,9 @@ class OnRampOrderService implements Disposable {
                 ),
               ),
             ),
+            partner: row.partner,
+            status: row.status,
+            partnerOrderId: row.partnerOrderId,
           ),
         );
   }

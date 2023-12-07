@@ -55,7 +55,7 @@ class _State extends State<WalletFlowScreen> {
 
   String _errorMessage = '';
 
-  Future<void> _onQrScanner() async {
+  Future<void> _handleScanned() async {
     await context.launchQrScannerFlow(
       cryptoCurrency: _cryptoCurrency,
       defaultFiatAmount: _fiatAmount,
@@ -69,7 +69,7 @@ class _State extends State<WalletFlowScreen> {
     _reset();
   }
 
-  void _onFiatAmountUpdate(Decimal value) {
+  void _handleFiatAmountChanged(Decimal value) {
     if (value == _fiatAmount.decimal) return;
 
     setState(() {
@@ -78,7 +78,7 @@ class _State extends State<WalletFlowScreen> {
     });
   }
 
-  Future<void> _onRequest() async {
+  Future<void> _handleRequest() async {
     if (_fiatAmount.decimal < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.request);
     }
@@ -92,7 +92,7 @@ class _State extends State<WalletFlowScreen> {
     _reset();
   }
 
-  void _onPay() {
+  void _handlePay() {
     final amount = _fiatAmount.decimal;
 
     if (amount < _minimumAmount) {
@@ -208,10 +208,10 @@ class _State extends State<WalletFlowScreen> {
         length: 2,
         child: WalletMainScreen(
           shakeKey: _shakeKey,
-          onScan: _onQrScanner,
-          onAmountChanged: _onFiatAmountUpdate,
-          onRequest: _onRequest,
-          onPay: _onPay,
+          onScan: _handleScanned,
+          onAmountChanged: _handleFiatAmountChanged,
+          onRequest: _handleRequest,
+          onPay: _handlePay,
           amount: _fiatAmount,
           token: _cryptoCurrency.token,
           error: _errorMessage,

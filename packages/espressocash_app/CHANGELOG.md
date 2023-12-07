@@ -1,3 +1,46 @@
+## 1.92.0
+
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **FEAT**: update onramp status screen  (#1155).
+ - **FEAT**: update offramp status screen (#1154).
+
+## 1.91.0
+
+ - **FIX**: remove home tab animation transition (#1141).
+ - **FIX**: webview onLoaded call (#1118).
+ - **FIX**: splash screen background color (#1140).
+ - **FIX**: image background load blink (#1145).
+ - **FIX**: timeline gap (#1131).
+ - **FEAT**: update l10n (#1152).
+ - **FEAT**: add scalex ramp (#1108).
+ - **FEAT**: Update l10n (#1151).
+ - **FEAT**: update l10n (#1150).
+ - **FEAT**: home screen ui updates (#1148).
+ - **FEAT**: update onboarding flow (#1142).
+ - **FEAT**: remove hardcoded keys (#1144).
+ - **FEAT**: offramp updates  (#1143).
+ - **FEAT**: onramp updates (#1117).
+ - **FEAT**: update profile qr code (#1129).
+ - **FEAT**: splash and sign-in update (#1132).
+
+## 1.90.0
+
+ - **FEAT**: update ramp screens ui (#1133).
+
+## 1.89.0
+
+ - **FEAT**: add kado off-ramp (#1137).
+ - **FEAT**: update home carousel (#1128).
+ - **FEAT**: add experimental flag (#1114).
+
+## 1.88.0
+
+ - **REFACTOR**: bump dependencies (#1113).
+ - **REFACTOR**: bump dependencies (#1109).
+ - **FIX**: crypto cash balance label (#1116).
+ - **FIX**: payment request amount (#1115).
+ - **FEAT**: update translations.
+
 ## 1.87.1
 
  - **FIX**: kado webview update (#1105).

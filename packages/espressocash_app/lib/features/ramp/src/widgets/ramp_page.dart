@@ -80,7 +80,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 428 / 453,
+        aspectRatio: 420 / 480,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -88,6 +88,25 @@ class _Header extends StatelessWidget {
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
+            ),
+            Container(
+              height: 150,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: switch (type) {
+                    RampType.onRamp => [
+                        const Color(0x00D06022),
+                        const Color(0xFFD06022),
+                      ],
+                    RampType.offRamp => [
+                        const Color(0x00C8B57D),
+                        const Color(0xFFC8B57D),
+                      ],
+                  },
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),

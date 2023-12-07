@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.config.dart';
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
@@ -54,6 +55,16 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   void dispose() {
     sl.dropScope(authScope);
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    precacheImage(Assets.images.cashInBg.provider(), context);
+    precacheImage(Assets.images.cashOutBg.provider(), context);
+    precacheImage(Assets.images.sendMoneyBg.provider(), context);
+    precacheImage(Assets.images.sendManualBg.provider(), context);
+
+    super.didChangeDependencies();
   }
 
   @override

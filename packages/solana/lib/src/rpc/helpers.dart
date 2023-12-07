@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 Map<K, V> fromJsonMap<K, V>(

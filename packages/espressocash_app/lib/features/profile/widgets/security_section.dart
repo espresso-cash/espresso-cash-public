@@ -6,7 +6,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../app_lock/app_lock.dart';
-import '../../backup_phrase/backup_phrase.dart';
+import '../../view_phrase/view_phrase.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 
@@ -28,7 +28,7 @@ class SecuritySection extends StatelessWidget {
           ProfileButton(
             label: context.l10n.viewRecoveryPhrase,
             description: context.l10n.viewRecoveryPhraseDescription,
-            onPressed: () => context.launchBackupPhraseFlow(),
+            onPressed: () => context.launchViewRecoveryPhraseFlow(),
           ),
         ProfileButton(
           label: context.l10n.termsOfUse,

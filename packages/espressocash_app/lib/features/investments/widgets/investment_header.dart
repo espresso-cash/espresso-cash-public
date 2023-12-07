@@ -30,7 +30,7 @@ class InvestmentHeader extends StatefulWidget {
 class _InvestmentHeaderState extends State<InvestmentHeader> {
   bool _showMore = false;
 
-  void _toggleUsdcInfo() => setState(() => _showMore = !_showMore);
+  void _handleInfoPressed() => setState(() => _showMore = !_showMore);
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -44,7 +44,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _Headline(onInfo: _toggleUsdcInfo),
+                    _Headline(onInfo: _handleInfoPressed),
                     const SizedBox(height: 4),
                     const _Amount(),
                     const SizedBox(height: 2),
@@ -54,7 +54,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
               const _Buttons(),
             ],
           ),
-          second: _Info(onClose: _toggleUsdcInfo),
+          second: _Info(onClose: _handleInfoPressed),
           showMore: _showMore,
         ),
       );
@@ -219,35 +219,35 @@ class _Headline extends StatelessWidget {
   final VoidCallback onInfo;
 
   @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          text: context.l10n.cryptoCashBalance,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            letterSpacing: 0.23,
-          ),
-          children: [
-            WidgetSpan(
-              child: GestureDetector(
-                onTap: onInfo,
-                child: Text.rich(
-                  TextSpan(
-                    text: context.l10n.inUsdc,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: CpColors.yellowColor,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
+  Widget build(BuildContext context) {
+    const baseStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 0.23,
+    );
+
+    return Text.rich(
+      TextSpan(
+        text: context.l10n.cryptoCashBalance,
+        style: baseStyle,
+        children: [
+          const TextSpan(text: ' ', style: baseStyle),
+          WidgetSpan(
+            child: GestureDetector(
+              onTap: onInfo,
+              child: Text.rich(
+                TextSpan(
+                  text: context.l10n.inUsdc,
+                  style: baseStyle.copyWith(color: CpColors.yellowColor),
                 ),
               ),
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 extension on Amount {

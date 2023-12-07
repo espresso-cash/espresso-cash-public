@@ -52,6 +52,16 @@ abstract class CryptopleaseClient {
     @Body() CancelPaymentRequestDto request,
   );
 
+  @POST('/scalex/generate')
+  Future<GenerateScalexLinkResponseDto> generateScalexLink(
+    @Body() GenerateScalexLinkRequestDto request,
+  );
+
+  @POST('/scalex/fetch')
+  Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
+    @Body() OrderStatusScalexRequestDto referenceId,
+  );
+
   @POST('/getDlnQuote')
   Future<PaymentQuoteResponseDto> getDlnQuote(
     @Body() PaymentQuoteRequestDto request,

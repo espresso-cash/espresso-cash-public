@@ -37,6 +37,11 @@ class Activity with _$Activity {
     required DateTime created,
   }) = OnRampActivity;
 
+  const factory Activity.offRamp({
+    required String id,
+    required DateTime created,
+  }) = OffRampActivity;
+
   const factory Activity.outgoingDlnPayment({
     required String id,
     required DateTime created,

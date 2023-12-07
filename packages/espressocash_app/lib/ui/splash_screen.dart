@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.black(
         child: DecoratedBox(
           decoration: const BoxDecoration(
-            color: CpColors.darkSplashBackgroundColor,
+            color: CpColors.yellowSplashBackgroundColor,
           ),
           child: Center(
             child: Assets.images.logoIcon.image(height: 101),

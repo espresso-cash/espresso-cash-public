@@ -103,9 +103,9 @@ class TransactionRepository {
 
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   Stream<Activity?> findActivityOrNull({
-    required Expression<bool> Function(Tbl tbl) where,
-    required FutureOr<Activity> Function(D data) builder,
-    bool Function(D data) ignoreWhen = T,
+    required Func1<Tbl, Expression<bool>> where,
+    required Func1<D, FutureOr<Activity>> builder,
+    Func1<D, bool> ignoreWhen = T,
   }) {
     final query = select()
       ..where(where)

@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
@@ -5,7 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../config.dart';
-import '../models/tx_sender.dart';
+import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
@@ -146,7 +147,7 @@ extension on JsonRpcException {
   }
 }
 
-Stream<T> _createPolling<T>({required Stream<T> Function() createSource}) {
+Stream<T> _createPolling<T>({required Func0<Stream<T>> createSource}) {
   Duration backoff = const Duration(seconds: 1);
 
   Stream<void> retryWhen(void _, void __) async* {

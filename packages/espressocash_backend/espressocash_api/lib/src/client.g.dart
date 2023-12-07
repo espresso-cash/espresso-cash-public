@@ -228,25 +228,49 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<PaymentQuoteResponseDto> getDlnQuote(request) async {
+  Future<GenerateScalexLinkResponseDto> generateScalexLink(request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = request;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<PaymentQuoteResponseDto>(Options(
+        _setStreamType<GenerateScalexLinkResponseDto>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/getDlnQuote',
+              '/scalex/generate',
               queryParameters: queryParameters,
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = PaymentQuoteResponseDto.fromJson(_result.data!);
+    final value = GenerateScalexLinkResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
+      referenceId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = referenceId;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OrderStatusScalexResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/scalex/fetch',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = OrderStatusScalexResponseDto.fromJson(_result.data!);
     return value;
   }
 

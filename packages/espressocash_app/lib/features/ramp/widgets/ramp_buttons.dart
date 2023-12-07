@@ -7,13 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
+import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
+import '../models/ramp_partner.dart';
 import '../src/models/profile_data.dart';
-import '../src/models/ramp_partner.dart';
 import '../src/models/ramp_type.dart';
 import '../src/screens/ramp_onboarding_screen.dart';
 import '../src/screens/ramp_partner_select_screen.dart';
@@ -21,6 +22,7 @@ import '../src/widgets/off_ramp_bottom_sheet.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
+import '../src/widgets/partners/scalex.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -66,7 +68,10 @@ class CashOutButton extends StatelessWidget {
           onPressed: () async {
             final data = await context.ensureProfileData(RampType.offRamp);
             if (context.mounted && data != null) {
-              unawaited(OffRampBottomSheet.show(context));
+              context.launchOffRampFlow(
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+              );
             }
           },
         ),
@@ -129,6 +134,39 @@ extension on BuildContext {
     );
   }
 
+  void launchOffRampFlow({
+    required ProfileData profile,
+    required String address,
+  }) {
+    final partners = _getOffRampPartners(profile.country.code);
+
+    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
+      OffRampBottomSheet.show(this);
+
+      return;
+    }
+
+    if (partners.other.isEmpty) {
+      return _launchOffRampPartner(
+        partners.top,
+        profile: profile,
+        address: address,
+      );
+    }
+
+    router.push(
+      RampPartnerSelectScreen.route(
+        topPartner: partners.top,
+        otherPartners: partners.other,
+        type: RampType.offRamp,
+        onPartnerSelected: (p) {
+          router.pop();
+          _launchOffRampPartner(p, profile: profile, address: address);
+        },
+      ),
+    );
+  }
+
   void _launchOnRampPartner(
     RampPartner partner, {
     required ProfileData profile,
@@ -141,6 +179,33 @@ extension on BuildContext {
         launchKadoOnRamp(profile: profile, address: address);
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.onRamp,
+        );
+      case RampPartner.coinflow:
+        throw UnimplementedError('Not implemented for $partner');
+    }
+  }
+
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
+    switch (partner) {
+      case RampPartner.kado:
+        launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.scalex:
+        launchScalexRamp(
+          profile: profile,
+          address: address,
+          type: RampType.offRamp,
+        );
+      case RampPartner.rampNetwork:
+      case RampPartner.guardarian:
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -159,10 +224,21 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
             top: RampPartner.guardarian,
             other: [RampPartner.rampNetwork].lock,
           )
-        : (
-            top: RampPartner.rampNetwork,
-            other: <RampPartner>[].lock,
-          );
+        : countryCode == 'NG'
+            ? (
+                top: RampPartner.scalex,
+                other: [RampPartner.rampNetwork].lock,
+              )
+            : (
+                top: RampPartner.rampNetwork,
+                other: <RampPartner>[].lock,
+              );
+
+PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
+    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
+    : countryCode == 'NG'
+        ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
+        : null;
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
