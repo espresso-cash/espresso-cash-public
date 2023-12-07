@@ -76,6 +76,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         key: ValueKey(it.id),
                         activity: it,
                       ),
+                      outgoingDlnPayment: (it) => OutgoingDlnTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
                     );
                   },
                   itemCount: snapshot.data?.length ?? 0,

@@ -11,7 +11,7 @@ import '../../../core/blockchain.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../models/dln_payment.dart';
 import '../models/outgoing_payment.dart';
 

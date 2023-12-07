@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 
 class TransferError extends StatelessWidget {
   const TransferError({

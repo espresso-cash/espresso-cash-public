@@ -70,6 +70,10 @@ class _TransactionItemState extends State<TransactionItem> {
                 key: ValueKey(it.id),
                 activity: it,
               ),
+              outgoingDlnPayment: (it) => OutgoingDlnTile(
+                key: ValueKey(it.id),
+                activity: it,
+              ),
             ),
           );
         },

@@ -939,5 +939,31 @@
         "type": "String"
       }
     }
+  },
+  "confirmation": "Confirmation",
+  "@confirmation": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "walletNetwork": "Network",
+  "@walletNetwork": {},
+  "totalAmount": "Total Amount Deducted",
+  "@totalAmount": {},
+  "transferReceiver": "Receiver Receives",
+  "@transferReceiver": {},
+  "noQuoteFound": "No Quote Found",
+  "@noQuoteFound": {},
+  "transactionSentTimeline": "Transaction has been sent",
+  "@transactionSentTimeline": {},
+  "transactionFulfilled": "Your order has been fulfilled",
+  "@transactionFulfilled": {},
+  "transactionAwaitingFulfillment": "Your order is awaiting fulfillment",
+  "@transactionAwaitingFulfillment": {},
+  "paymentProgressOngoing": "Sending {amount}!",
+  "@paymentProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }
