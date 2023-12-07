@@ -436,3 +436,289 @@ abstract class _GenerateOnRampTokenRequestDto
   _$$_GenerateOnRampTokenRequestDtoCopyWith<_$_GenerateOnRampTokenRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+OrderStatusOrmRequestDto _$OrderStatusOrmRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _OrderStatusOrmRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OrderStatusOrmRequestDto {
+  String get referenceId => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OrderStatusOrmRequestDtoCopyWith<OrderStatusOrmRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrderStatusOrmRequestDtoCopyWith<$Res> {
+  factory $OrderStatusOrmRequestDtoCopyWith(OrderStatusOrmRequestDto value,
+          $Res Function(OrderStatusOrmRequestDto) then) =
+      _$OrderStatusOrmRequestDtoCopyWithImpl<$Res, OrderStatusOrmRequestDto>;
+  @useResult
+  $Res call({String referenceId});
+}
+
+/// @nodoc
+class _$OrderStatusOrmRequestDtoCopyWithImpl<$Res,
+        $Val extends OrderStatusOrmRequestDto>
+    implements $OrderStatusOrmRequestDtoCopyWith<$Res> {
+  _$OrderStatusOrmRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? referenceId = null,
+  }) {
+    return _then(_value.copyWith(
+      referenceId: null == referenceId
+          ? _value.referenceId
+          : referenceId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_OrderStatusOrmRequestDtoCopyWith<$Res>
+    implements $OrderStatusOrmRequestDtoCopyWith<$Res> {
+  factory _$$_OrderStatusOrmRequestDtoCopyWith(
+          _$_OrderStatusOrmRequestDto value,
+          $Res Function(_$_OrderStatusOrmRequestDto) then) =
+      __$$_OrderStatusOrmRequestDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String referenceId});
+}
+
+/// @nodoc
+class __$$_OrderStatusOrmRequestDtoCopyWithImpl<$Res>
+    extends _$OrderStatusOrmRequestDtoCopyWithImpl<$Res,
+        _$_OrderStatusOrmRequestDto>
+    implements _$$_OrderStatusOrmRequestDtoCopyWith<$Res> {
+  __$$_OrderStatusOrmRequestDtoCopyWithImpl(_$_OrderStatusOrmRequestDto _value,
+      $Res Function(_$_OrderStatusOrmRequestDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? referenceId = null,
+  }) {
+    return _then(_$_OrderStatusOrmRequestDto(
+      referenceId: null == referenceId
+          ? _value.referenceId
+          : referenceId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_OrderStatusOrmRequestDto implements _OrderStatusOrmRequestDto {
+  const _$_OrderStatusOrmRequestDto({required this.referenceId});
+
+  factory _$_OrderStatusOrmRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_OrderStatusOrmRequestDtoFromJson(json);
+
+  @override
+  final String referenceId;
+
+  @override
+  String toString() {
+    return 'OrderStatusOrmRequestDto(referenceId: $referenceId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OrderStatusOrmRequestDto &&
+            (identical(other.referenceId, referenceId) ||
+                other.referenceId == referenceId));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, referenceId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OrderStatusOrmRequestDtoCopyWith<_$_OrderStatusOrmRequestDto>
+      get copyWith => __$$_OrderStatusOrmRequestDtoCopyWithImpl<
+          _$_OrderStatusOrmRequestDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_OrderStatusOrmRequestDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OrderStatusOrmRequestDto implements OrderStatusOrmRequestDto {
+  const factory _OrderStatusOrmRequestDto({required final String referenceId}) =
+      _$_OrderStatusOrmRequestDto;
+
+  factory _OrderStatusOrmRequestDto.fromJson(Map<String, dynamic> json) =
+      _$_OrderStatusOrmRequestDto.fromJson;
+
+  @override
+  String get referenceId;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OrderStatusOrmRequestDtoCopyWith<_$_OrderStatusOrmRequestDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+OrderStatusOrmResponseDto _$OrderStatusOrmResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _OrderStatusOrmResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OrderStatusOrmResponseDto {
+  int get status => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OrderStatusOrmResponseDtoCopyWith<OrderStatusOrmResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OrderStatusOrmResponseDtoCopyWith<$Res> {
+  factory $OrderStatusOrmResponseDtoCopyWith(OrderStatusOrmResponseDto value,
+          $Res Function(OrderStatusOrmResponseDto) then) =
+      _$OrderStatusOrmResponseDtoCopyWithImpl<$Res, OrderStatusOrmResponseDto>;
+  @useResult
+  $Res call({int status});
+}
+
+/// @nodoc
+class _$OrderStatusOrmResponseDtoCopyWithImpl<$Res,
+        $Val extends OrderStatusOrmResponseDto>
+    implements $OrderStatusOrmResponseDtoCopyWith<$Res> {
+  _$OrderStatusOrmResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+  }) {
+    return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_OrderStatusOrmResponseDtoCopyWith<$Res>
+    implements $OrderStatusOrmResponseDtoCopyWith<$Res> {
+  factory _$$_OrderStatusOrmResponseDtoCopyWith(
+          _$_OrderStatusOrmResponseDto value,
+          $Res Function(_$_OrderStatusOrmResponseDto) then) =
+      __$$_OrderStatusOrmResponseDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int status});
+}
+
+/// @nodoc
+class __$$_OrderStatusOrmResponseDtoCopyWithImpl<$Res>
+    extends _$OrderStatusOrmResponseDtoCopyWithImpl<$Res,
+        _$_OrderStatusOrmResponseDto>
+    implements _$$_OrderStatusOrmResponseDtoCopyWith<$Res> {
+  __$$_OrderStatusOrmResponseDtoCopyWithImpl(
+      _$_OrderStatusOrmResponseDto _value,
+      $Res Function(_$_OrderStatusOrmResponseDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? status = null,
+  }) {
+    return _then(_$_OrderStatusOrmResponseDto(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_OrderStatusOrmResponseDto implements _OrderStatusOrmResponseDto {
+  const _$_OrderStatusOrmResponseDto({required this.status});
+
+  factory _$_OrderStatusOrmResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_OrderStatusOrmResponseDtoFromJson(json);
+
+  @override
+  final int status;
+
+  @override
+  String toString() {
+    return 'OrderStatusOrmResponseDto(status: $status)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OrderStatusOrmResponseDto &&
+            (identical(other.status, status) || other.status == status));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, status);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OrderStatusOrmResponseDtoCopyWith<_$_OrderStatusOrmResponseDto>
+      get copyWith => __$$_OrderStatusOrmResponseDtoCopyWithImpl<
+          _$_OrderStatusOrmResponseDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_OrderStatusOrmResponseDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OrderStatusOrmResponseDto implements OrderStatusOrmResponseDto {
+  const factory _OrderStatusOrmResponseDto({required final int status}) =
+      _$_OrderStatusOrmResponseDto;
+
+  factory _OrderStatusOrmResponseDto.fromJson(Map<String, dynamic> json) =
+      _$_OrderStatusOrmResponseDto.fromJson;
+
+  @override
+  int get status;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OrderStatusOrmResponseDtoCopyWith<_$_OrderStatusOrmResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}

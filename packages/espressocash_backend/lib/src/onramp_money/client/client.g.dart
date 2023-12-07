@@ -63,7 +63,7 @@ class _OnRampMoneyApiClient implements OnRampMoneyApiClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://api.onramp.money/onramp/api/v2';
+    baseUrl ??= 'https://api.onramp.money/onramp/api/';
   }
 
   final Dio _dio;
@@ -94,7 +94,43 @@ class _OnRampMoneyApiClient implements OnRampMoneyApiClient {
     )
             .compose(
               _dio.options,
-              '/sell/transaction/generateToken',
+              '/v2/sell/transaction/generateToken',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = OnRampResponseDto<GenerateTokenResponseDto>.fromJson(
+      _result.data!,
+      (json) => GenerateTokenResponseDto.fromJson(json as Map<String, dynamic>),
+    );
+    return value;
+  }
+
+  @override
+  Future<OnRampResponseDto<GenerateTokenResponseDto>> getTransaction({
+    required body,
+    required signature,
+    required apiKey,
+    required payload,
+  }) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{
+      r'X-ONRAMP-SIGNATURE': signature,
+      r'X-ONRAMP-APIKEY': apiKey,
+      r'X-ONRAMP-PAYLOAD': payload,
+    };
+    _headers.removeWhere((k, v) => v == null);
+    final _data = body;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OnRampResponseDto<GenerateTokenResponseDto>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/v1/transaction/merchantHistory',
               queryParameters: queryParameters,
               data: _data,
             )

@@ -61,4 +61,14 @@ abstract class CryptopleaseClient {
   Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
     @Body() OrderStatusScalexRequestDto referenceId,
   );
+
+  @POST('/onrampmoney/generate')
+  Future<GenerateOnRampTokenResponseDto> generateOnRampMoneyToken(
+    @Body() GenerateOnRampTokenRequestDto request,
+  );
+
+  @POST('/onrampmoney/fetch')
+  Future<OrderStatusOrmResponseDto> fetchOrmTransaction(
+    @Body() OrderStatusOrmRequestDto request,
+  );
 }

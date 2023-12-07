@@ -41,3 +41,27 @@ Map<String, dynamic> _$$_GenerateOnRampTokenRequestDtoToJson(
       'quantity': instance.quantity,
       'appId': instance.appId,
     };
+
+_$_OrderStatusOrmRequestDto _$$_OrderStatusOrmRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_OrderStatusOrmRequestDto(
+      referenceId: json['referenceId'] as String,
+    );
+
+Map<String, dynamic> _$$_OrderStatusOrmRequestDtoToJson(
+        _$_OrderStatusOrmRequestDto instance) =>
+    <String, dynamic>{
+      'referenceId': instance.referenceId,
+    };
+
+_$_OrderStatusOrmResponseDto _$$_OrderStatusOrmResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_OrderStatusOrmResponseDto(
+      status: json['status'] as int,
+    );
+
+Map<String, dynamic> _$$_OrderStatusOrmResponseDtoToJson(
+        _$_OrderStatusOrmResponseDto instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+    };

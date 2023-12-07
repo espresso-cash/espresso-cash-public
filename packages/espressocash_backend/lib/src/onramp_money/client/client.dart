@@ -1,5 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:dio/dio.dart' hide Transformer;
+import 'package:dio/dio.dart' hide Headers, Transformer;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
@@ -7,12 +7,20 @@ import 'package:retrofit/retrofit.dart';
 part 'client.freezed.dart';
 part 'client.g.dart';
 
-@RestApi(baseUrl: 'https://api.onramp.money/onramp/api/v2')
+@RestApi(baseUrl: 'https://api.onramp.money/onramp/api/')
 abstract class OnRampMoneyApiClient {
   factory OnRampMoneyApiClient() => _OnRampMoneyApiClient(Dio());
 
-  @POST('/sell/transaction/generateToken')
+  @POST('/v2/sell/transaction/generateToken')
   Future<OnRampResponseDto<GenerateTokenResponseDto>> generateToken({
+    @Body() required GenerateTokenRequestDto body,
+    @Header('X-ONRAMP-SIGNATURE') required String signature,
+    @Header('X-ONRAMP-APIKEY') required String apiKey,
+    @Header('X-ONRAMP-PAYLOAD') required String payload,
+  });
+
+  @POST('/v1/transaction/merchantHistory')
+  Future<OnRampResponseDto<GenerateTokenResponseDto>> getTransaction({
     @Body() required GenerateTokenRequestDto body,
     @Header('X-ONRAMP-SIGNATURE') required String signature,
     @Header('X-ONRAMP-APIKEY') required String apiKey,
