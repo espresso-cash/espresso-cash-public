@@ -109,7 +109,6 @@ class _QuestionScreen extends StatelessWidget {
             Assets.images.quizQuestionBg.image(
               fit: BoxFit.cover,
               width: double.infinity,
-              height: double.infinity,
             ),
             Container(
               decoration: const BoxDecoration(color: Color(0xB7B7A572)),

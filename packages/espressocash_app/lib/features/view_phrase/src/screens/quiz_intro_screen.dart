@@ -29,7 +29,6 @@ class QuizIntroScreen extends StatelessWidget {
             Assets.images.quizIntroBg.image(
               fit: BoxFit.cover,
               width: double.infinity,
-              height: double.infinity,
             ),
             Container(
               height: 120,

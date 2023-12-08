@@ -41,35 +41,43 @@ class QuizPage extends StatelessWidget {
             title: title?.let(Text.new),
             leading: backButton ?? const SizedBox.shrink(),
           ),
-          body: SafeArea(
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 5,
+          body: LayoutBuilder(
+            builder: (context, constraint) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
                   child: Column(
-                    children: [
-                      Expanded(child: content),
-                      if (indicatorIndex case final index?)
-                        QuizIndicator(index: index),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ...footer.map(
-                        (button) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: button,
+                    children: <Widget>[
+                      AspectRatio(
+                        // aspectRatio: 0.76,
+                        aspectRatio: 0.71,
+                        child: Column(
+                          children: [
+                            Expanded(child: content),
+                            if (indicatorIndex case final index?)
+                              QuizIndicator(index: index),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ...footer.map(
+                              (button) => Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: button,
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ),
