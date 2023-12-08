@@ -43,6 +43,14 @@ Future<Response> _fetchStatusHandler(Request request) =>
         return client.getTransaction(data.referenceId).then(
               (e) => OrderStatusScalexResponseDto(
                 status: e.data.status.toModel(),
+                onRampDetails: e.data.type == 'onramp'
+                    ? OnRampScalexDetails(
+                        currency: e.data.fromCurrency,
+                        bankName: e.data.bankToFund?.bankName ?? '',
+                        bankAccount: e.data.bankToFund?.accountNumber ?? '',
+                        fromAmount: e.data.fromAmount,
+                      )
+                    : null,
               ),
             );
       },
@@ -52,6 +60,8 @@ extension on OrderStatus {
   ScalexOrderStatus toModel() => switch (this) {
         OrderStatus.pending => ScalexOrderStatus.pending,
         OrderStatus.completed => ScalexOrderStatus.completed,
+        OrderStatus.failed => ScalexOrderStatus.failed,
+        OrderStatus.expired => ScalexOrderStatus.expired,
         OrderStatus.unknown => ScalexOrderStatus.unknown,
       };
 }

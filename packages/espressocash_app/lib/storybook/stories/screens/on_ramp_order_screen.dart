@@ -25,6 +25,8 @@ final onRampOrderScreenStory = Story(
         options: OnRampOrderStatus.values.toOptions(),
       ),
       partnerOrderId: 'PARTNER_ORDER_ID',
+      bankAccount: 'BANK_ACCOUNT_12345',
+      bankName: 'BANK_NAME',
     ),
   ),
 );

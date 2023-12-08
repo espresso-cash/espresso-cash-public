@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
+import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';
@@ -58,10 +60,18 @@ extension BuildContextExt on BuildContext {
                   Amount.fromDecimal(value: decimal, currency: Currency.usdc)
                       as CryptoAmount;
 
+              final order =
+                  await sl<CryptopleaseClient>().fetchScalexTransaction(
+                OrderStatusScalexRequestDto(referenceId: reference),
+              );
+
               await sl<OnRampOrderService>().create(
                 orderId: reference,
                 receiveAmount: amount,
                 partner: RampPartner.scalex,
+                status: OnRampOrderStatus.waitingForDeposit,
+                bankAccount: order.onRampDetails?.bankAccount,
+                bankName: order.onRampDetails?.bankName,
               );
               orderWasCreated = true;
             }

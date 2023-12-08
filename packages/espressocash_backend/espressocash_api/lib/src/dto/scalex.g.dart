@@ -51,16 +51,41 @@ _$_OrderStatusScalexResponseDto _$$_OrderStatusScalexResponseDtoFromJson(
     _$_OrderStatusScalexResponseDto(
       status: $enumDecode(_$ScalexOrderStatusEnumMap, json['status'],
           unknownValue: ScalexOrderStatus.unknown),
+      onRampDetails: json['onRampDetails'] == null
+          ? null
+          : OnRampScalexDetails.fromJson(
+              json['onRampDetails'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_OrderStatusScalexResponseDtoToJson(
         _$_OrderStatusScalexResponseDto instance) =>
     <String, dynamic>{
       'status': _$ScalexOrderStatusEnumMap[instance.status]!,
+      'onRampDetails': instance.onRampDetails,
     };
 
 const _$ScalexOrderStatusEnumMap = {
   ScalexOrderStatus.pending: 'pending',
   ScalexOrderStatus.completed: 'completed',
+  ScalexOrderStatus.expired: 'expired',
+  ScalexOrderStatus.failed: 'failed',
   ScalexOrderStatus.unknown: 'unknown',
 };
+
+_$_OnRampScalexDetails _$$_OnRampScalexDetailsFromJson(
+        Map<String, dynamic> json) =>
+    _$_OnRampScalexDetails(
+      currency: json['currency'] as String,
+      bankName: json['bankName'] as String,
+      bankAccount: json['bankAccount'] as String,
+      fromAmount: json['fromAmount'] as num,
+    );
+
+Map<String, dynamic> _$$_OnRampScalexDetailsToJson(
+        _$_OnRampScalexDetails instance) =>
+    <String, dynamic>{
+      'currency': instance.currency,
+      'bankName': instance.bankName,
+      'bankAccount': instance.bankAccount,
+      'fromAmount': instance.fromAmount,
+    };

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -22,6 +23,8 @@ typedef OnRampOrder = ({
   RampPartner partner,
   OnRampOrderStatus status,
   String partnerOrderId,
+  String? bankAccount,
+  String? bankName,
 });
 
 @Singleton(scope: authScope)
@@ -36,6 +39,9 @@ class OnRampOrderService implements Disposable {
     required RampPartner partner,
     CryptoAmount? amount,
     CryptoAmount? receiveAmount,
+    OnRampOrderStatus status = OnRampOrderStatus.waitingForPartner,
+    String? bankAccount,
+    String? bankName,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
@@ -50,9 +56,34 @@ class OnRampOrderService implements Disposable {
             txHash: '',
             partner: partner,
             receiveAmount: receiveAmount?.value,
-            status: OnRampOrderStatus.waitingForPartner,
+            status: status,
+            bankAccount: bankAccount,
+            bankName: bankName,
           ),
         );
+  }
+
+  Future<void> deposit(String orderId) async {
+    final query = _db.select(_db.onRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+    final order = await query.getSingle();
+
+    final updateQuery = _db.update(_db.onRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    switch (order.status) {
+      case OnRampOrderStatus.waitingForDeposit:
+        await updateQuery.write(
+          const OnRampOrderRowsCompanion(
+            status: Value(OnRampOrderStatus.waitingForPartner),
+          ),
+        );
+
+      case OnRampOrderStatus.waitingForPartner:
+      case OnRampOrderStatus.failure:
+      case OnRampOrderStatus.completed:
+        break;
+    }
   }
 
   Stream<OnRampOrder> watch(String id) {
@@ -80,6 +111,8 @@ class OnRampOrderService implements Disposable {
             partner: row.partner,
             status: row.status,
             partnerOrderId: row.partnerOrderId,
+            bankAccount: row.bankAccount,
+            bankName: row.bankName,
           ),
         );
   }

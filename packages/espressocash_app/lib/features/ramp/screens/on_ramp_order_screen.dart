@@ -17,6 +17,7 @@ import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';
+import '../src/widgets/on_ramp_deposit_screen.dart';
 
 @RoutePage()
 class OnRampOrderScreen extends StatefulWidget {
@@ -62,6 +63,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (order.status == OnRampOrderStatus.waitingForDeposit) {
+      return OnRampDepositScreen(order: order);
+    }
+
     final locale = DeviceLocale.localeOf(context);
     final amount =
         order.amount.let((e) => e?.value != 0 ? e : order.receiveAmount);
@@ -79,7 +84,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
     );
 
     final CpStatusType statusType = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => CpStatusType.info,
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForPartner =>
+        CpStatusType.info,
       OnRampOrderStatus.failure => CpStatusType.error,
       OnRampOrderStatus.completed => CpStatusType.success,
     };
@@ -89,7 +96,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
         : null;
 
     final String statusContent = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => context.l10n.onRampDepositOngoing(
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForPartner =>
+        context.l10n.onRampDepositOngoing(
           amount?.format(locale, maxDecimals: 2) ?? 'USDC',
         ),
       OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
@@ -97,13 +106,17 @@ class OnRampOrderScreenContent extends StatelessWidget {
     };
 
     final CpTimelineStatus timelineStatus = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => CpTimelineStatus.inProgress,
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForPartner =>
+        CpTimelineStatus.inProgress,
       OnRampOrderStatus.failure => CpTimelineStatus.failure,
       OnRampOrderStatus.completed => CpTimelineStatus.success,
     };
 
     final int activeItem = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => 0,
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForPartner =>
+        0,
       OnRampOrderStatus.failure || OnRampOrderStatus.completed => 1,
     };
 

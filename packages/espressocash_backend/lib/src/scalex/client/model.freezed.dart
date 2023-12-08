@@ -541,6 +541,9 @@ mixin _$TransactionDto {
   @JsonKey(unknownEnumValue: OrderStatus.unknown)
   OrderStatus get status => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
+  String get fromCurrency => throw _privateConstructorUsedError;
+  num get fromAmount => throw _privateConstructorUsedError;
+  BankInfoDto? get bankToFund => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TransactionDtoCopyWith<TransactionDto> get copyWith =>
@@ -555,7 +558,12 @@ abstract class $TransactionDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,
-      String type});
+      String type,
+      String fromCurrency,
+      num fromAmount,
+      BankInfoDto? bankToFund});
+
+  $BankInfoDtoCopyWith<$Res>? get bankToFund;
 }
 
 /// @nodoc
@@ -573,6 +581,9 @@ class _$TransactionDtoCopyWithImpl<$Res, $Val extends TransactionDto>
   $Res call({
     Object? status = null,
     Object? type = null,
+    Object? fromCurrency = null,
+    Object? fromAmount = null,
+    Object? bankToFund = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -583,7 +594,31 @@ class _$TransactionDtoCopyWithImpl<$Res, $Val extends TransactionDto>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      fromCurrency: null == fromCurrency
+          ? _value.fromCurrency
+          : fromCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
+      fromAmount: null == fromAmount
+          ? _value.fromAmount
+          : fromAmount // ignore: cast_nullable_to_non_nullable
+              as num,
+      bankToFund: freezed == bankToFund
+          ? _value.bankToFund
+          : bankToFund // ignore: cast_nullable_to_non_nullable
+              as BankInfoDto?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BankInfoDtoCopyWith<$Res>? get bankToFund {
+    if (_value.bankToFund == null) {
+      return null;
+    }
+
+    return $BankInfoDtoCopyWith<$Res>(_value.bankToFund!, (value) {
+      return _then(_value.copyWith(bankToFund: value) as $Val);
+    });
   }
 }
 
@@ -597,7 +632,13 @@ abstract class _$$_TransactionDtoCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,
-      String type});
+      String type,
+      String fromCurrency,
+      num fromAmount,
+      BankInfoDto? bankToFund});
+
+  @override
+  $BankInfoDtoCopyWith<$Res>? get bankToFund;
 }
 
 /// @nodoc
@@ -613,6 +654,9 @@ class __$$_TransactionDtoCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? type = null,
+    Object? fromCurrency = null,
+    Object? fromAmount = null,
+    Object? bankToFund = freezed,
   }) {
     return _then(_$_TransactionDto(
       status: null == status
@@ -623,6 +667,18 @@ class __$$_TransactionDtoCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
+      fromCurrency: null == fromCurrency
+          ? _value.fromCurrency
+          : fromCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
+      fromAmount: null == fromAmount
+          ? _value.fromAmount
+          : fromAmount // ignore: cast_nullable_to_non_nullable
+              as num,
+      bankToFund: freezed == bankToFund
+          ? _value.bankToFund
+          : bankToFund // ignore: cast_nullable_to_non_nullable
+              as BankInfoDto?,
     ));
   }
 }
@@ -633,7 +689,10 @@ class __$$_TransactionDtoCopyWithImpl<$Res>
 class _$_TransactionDto implements _TransactionDto {
   const _$_TransactionDto(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status,
-      required this.type});
+      required this.type,
+      required this.fromCurrency,
+      required this.fromAmount,
+      this.bankToFund});
 
   factory _$_TransactionDto.fromJson(Map<String, dynamic> json) =>
       _$$_TransactionDtoFromJson(json);
@@ -643,10 +702,16 @@ class _$_TransactionDto implements _TransactionDto {
   final OrderStatus status;
   @override
   final String type;
+  @override
+  final String fromCurrency;
+  @override
+  final num fromAmount;
+  @override
+  final BankInfoDto? bankToFund;
 
   @override
   String toString() {
-    return 'TransactionDto(status: $status, type: $type)';
+    return 'TransactionDto(status: $status, type: $type, fromCurrency: $fromCurrency, fromAmount: $fromAmount, bankToFund: $bankToFund)';
   }
 
   @override
@@ -655,12 +720,19 @@ class _$_TransactionDto implements _TransactionDto {
         (other.runtimeType == runtimeType &&
             other is _$_TransactionDto &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.fromCurrency, fromCurrency) ||
+                other.fromCurrency == fromCurrency) &&
+            (identical(other.fromAmount, fromAmount) ||
+                other.fromAmount == fromAmount) &&
+            (identical(other.bankToFund, bankToFund) ||
+                other.bankToFund == bankToFund));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status, type);
+  int get hashCode => Object.hash(
+      runtimeType, status, type, fromCurrency, fromAmount, bankToFund);
 
   @JsonKey(ignore: true)
   @override
@@ -672,8 +744,11 @@ class _$_TransactionDto implements _TransactionDto {
 abstract class _TransactionDto implements TransactionDto {
   const factory _TransactionDto(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown)
-      required final OrderStatus status,
-      required final String type}) = _$_TransactionDto;
+          required final OrderStatus status,
+      required final String type,
+      required final String fromCurrency,
+      required final num fromAmount,
+      final BankInfoDto? bankToFund}) = _$_TransactionDto;
 
   factory _TransactionDto.fromJson(Map<String, dynamic> json) =
       _$_TransactionDto.fromJson;
@@ -684,7 +759,170 @@ abstract class _TransactionDto implements TransactionDto {
   @override
   String get type;
   @override
+  String get fromCurrency;
+  @override
+  num get fromAmount;
+  @override
+  BankInfoDto? get bankToFund;
+  @override
   @JsonKey(ignore: true)
   _$$_TransactionDtoCopyWith<_$_TransactionDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BankInfoDto _$BankInfoDtoFromJson(Map<String, dynamic> json) {
+  return _PaymentDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BankInfoDto {
+  String get bankName => throw _privateConstructorUsedError;
+  String get accountNumber => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $BankInfoDtoCopyWith<BankInfoDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BankInfoDtoCopyWith<$Res> {
+  factory $BankInfoDtoCopyWith(
+          BankInfoDto value, $Res Function(BankInfoDto) then) =
+      _$BankInfoDtoCopyWithImpl<$Res, BankInfoDto>;
+  @useResult
+  $Res call({String bankName, String accountNumber});
+}
+
+/// @nodoc
+class _$BankInfoDtoCopyWithImpl<$Res, $Val extends BankInfoDto>
+    implements $BankInfoDtoCopyWith<$Res> {
+  _$BankInfoDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? bankName = null,
+    Object? accountNumber = null,
+  }) {
+    return _then(_value.copyWith(
+      bankName: null == bankName
+          ? _value.bankName
+          : bankName // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountNumber: null == accountNumber
+          ? _value.accountNumber
+          : accountNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_PaymentDtoCopyWith<$Res>
+    implements $BankInfoDtoCopyWith<$Res> {
+  factory _$$_PaymentDtoCopyWith(
+          _$_PaymentDto value, $Res Function(_$_PaymentDto) then) =
+      __$$_PaymentDtoCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String bankName, String accountNumber});
+}
+
+/// @nodoc
+class __$$_PaymentDtoCopyWithImpl<$Res>
+    extends _$BankInfoDtoCopyWithImpl<$Res, _$_PaymentDto>
+    implements _$$_PaymentDtoCopyWith<$Res> {
+  __$$_PaymentDtoCopyWithImpl(
+      _$_PaymentDto _value, $Res Function(_$_PaymentDto) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? bankName = null,
+    Object? accountNumber = null,
+  }) {
+    return _then(_$_PaymentDto(
+      bankName: null == bankName
+          ? _value.bankName
+          : bankName // ignore: cast_nullable_to_non_nullable
+              as String,
+      accountNumber: null == accountNumber
+          ? _value.accountNumber
+          : accountNumber // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class _$_PaymentDto implements _PaymentDto {
+  const _$_PaymentDto({required this.bankName, required this.accountNumber});
+
+  factory _$_PaymentDto.fromJson(Map<String, dynamic> json) =>
+      _$$_PaymentDtoFromJson(json);
+
+  @override
+  final String bankName;
+  @override
+  final String accountNumber;
+
+  @override
+  String toString() {
+    return 'BankInfoDto(bankName: $bankName, accountNumber: $accountNumber)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_PaymentDto &&
+            (identical(other.bankName, bankName) ||
+                other.bankName == bankName) &&
+            (identical(other.accountNumber, accountNumber) ||
+                other.accountNumber == accountNumber));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, bankName, accountNumber);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_PaymentDtoCopyWith<_$_PaymentDto> get copyWith =>
+      __$$_PaymentDtoCopyWithImpl<_$_PaymentDto>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_PaymentDtoToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PaymentDto implements BankInfoDto {
+  const factory _PaymentDto(
+      {required final String bankName,
+      required final String accountNumber}) = _$_PaymentDto;
+
+  factory _PaymentDto.fromJson(Map<String, dynamic> json) =
+      _$_PaymentDto.fromJson;
+
+  @override
+  String get bankName;
+  @override
+  String get accountNumber;
+  @override
+  @JsonKey(ignore: true)
+  _$$_PaymentDtoCopyWith<_$_PaymentDto> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -42,15 +42,31 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
   const factory OrderStatusScalexResponseDto({
     @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
     required ScalexOrderStatus status,
+    OnRampScalexDetails? onRampDetails,
   }) = _OrderStatusScalexResponseDto;
 
   factory OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusScalexResponseDtoFromJson(json);
 }
 
+@freezed
+abstract class OnRampScalexDetails with _$OnRampScalexDetails {
+  const factory OnRampScalexDetails({
+    required String currency,
+    required String bankName,
+    required String bankAccount,
+    required num fromAmount,
+  }) = _OnRampScalexDetails;
+
+  factory OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
+      _$OnRampScalexDetailsFromJson(json);
+}
+
 @JsonEnum()
 enum ScalexOrderStatus {
   pending,
   completed,
+  expired,
+  failed,
   unknown,
 }

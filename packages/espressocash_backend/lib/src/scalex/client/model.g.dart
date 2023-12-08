@@ -53,16 +53,38 @@ _$_TransactionDto _$$_TransactionDtoFromJson(Map<String, dynamic> json) =>
       status: $enumDecode(_$OrderStatusEnumMap, json['status'],
           unknownValue: OrderStatus.unknown),
       type: json['type'] as String,
+      fromCurrency: json['from_currency'] as String,
+      fromAmount: json['from_amount'] as num,
+      bankToFund: json['bank_to_fund'] == null
+          ? null
+          : BankInfoDto.fromJson(json['bank_to_fund'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$_TransactionDtoToJson(_$_TransactionDto instance) =>
     <String, dynamic>{
       'status': _$OrderStatusEnumMap[instance.status]!,
       'type': instance.type,
+      'from_currency': instance.fromCurrency,
+      'from_amount': instance.fromAmount,
+      'bank_to_fund': instance.bankToFund,
     };
 
 const _$OrderStatusEnumMap = {
   OrderStatus.pending: 'pending',
   OrderStatus.completed: 'completed',
+  OrderStatus.expired: 'expired',
+  OrderStatus.failed: 'failed',
   OrderStatus.unknown: 'unknown',
 };
+
+_$_PaymentDto _$$_PaymentDtoFromJson(Map<String, dynamic> json) =>
+    _$_PaymentDto(
+      bankName: json['bank_name'] as String,
+      accountNumber: json['account_number'] as String,
+    );
+
+Map<String, dynamic> _$$_PaymentDtoToJson(_$_PaymentDto instance) =>
+    <String, dynamic>{
+      'bank_name': instance.bankName,
+      'account_number': instance.accountNumber,
+    };
