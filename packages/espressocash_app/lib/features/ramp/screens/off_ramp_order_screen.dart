@@ -37,18 +37,11 @@ class OffRampOrderScreen extends StatefulWidget {
 
 class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
   late final Stream<OffRampOrder> _stream;
-  StreamSubscription<void>? _confirmationSubscription;
 
   @override
   void initState() {
     super.initState();
     _stream = sl<OffRampOrderService>().watch(widget.orderId);
-  }
-
-  @override
-  void dispose() {
-    _confirmationSubscription?.cancel();
-    super.dispose();
   }
 
   @override
