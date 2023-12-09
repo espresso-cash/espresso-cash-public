@@ -931,5 +931,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
+  "@onRampAwaitingFunds": {}
 }

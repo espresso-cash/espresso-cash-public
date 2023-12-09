@@ -98,7 +98,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
     final String? statusSubtitle =
         order.status == OnRampOrderStatus.waitingForPartner
-            ? 'Hang tight. Your order is being processed.'
+            ? context.l10n.onRampAwaitingFunds
             : null;
 
     final CpTimelineStatus timelineStatus = switch (order.status) {
