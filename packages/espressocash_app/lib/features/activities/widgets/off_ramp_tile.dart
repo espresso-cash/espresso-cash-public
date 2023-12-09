@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../core/presentation/format_amount.dart';
