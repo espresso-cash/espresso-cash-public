@@ -22,7 +22,7 @@ class OffRampTile extends StatelessWidget {
   Widget build(BuildContext context) => OffRampOrderDetails(
         orderId: activity.id,
         builder: (context, order) => CpActivityTile(
-          title: 'Cash out',
+          title: context.l10n.ramp_btnCashOut,
           incomingAmount: order?.receiveAmount?.format(
             context.locale,
             maxDecimals: 2,

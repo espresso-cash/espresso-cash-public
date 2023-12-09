@@ -21,7 +21,7 @@ class OnRampTile extends StatelessWidget {
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
         builder: (context, order) => CpActivityTile(
-          title: 'Cash out',
+          title: context.l10n.ramp_btnAddCash,
           icon: Assets.icons.paymentIcon.svg(),
           status: switch (order?.status) {
             OnRampOrderStatus.failure => CpActivityTileStatus.failure,

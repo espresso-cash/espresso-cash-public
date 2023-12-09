@@ -8,14 +8,6 @@
       }
     }
   },
-  "activities_lblSoldToken": "Sold {amount}",
-  "@activities_lblSoldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblCanceled": "Canceled",
   "@activities_lblCanceled": {},
   "activities_lblFailure": "Failure",
