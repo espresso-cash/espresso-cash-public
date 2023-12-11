@@ -13,6 +13,7 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
+import '../services/tx_sent_watcher.dart';
 import '../widgets/extensions.dart';
 import '../widgets/invalid_escrow_error_widget.dart';
 
@@ -52,44 +53,10 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   onBack: () => context.router.pop(),
                 )
               : payment.status.maybeMap(
-                  success: (_) => TransferSuccess(
+                  success: (e) => TransferSuccess(
                     onBack: () => context.router.pop(),
                     onOkPressed: () => context.router.pop(),
-                    content: const Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          CpMessageInfoWidget(
-                            backgroundColor: Colors.black,
-                            padding: EdgeInsets.all(18),
-                            content: Row(
-                              children: [
-                                CircleAvatar(
-                                  maxRadius: 14,
-                                  backgroundColor: CpColors.yellowColor,
-                                  child: CpInfoIcon(
-                                    iconColor: CpColors.darkBackgroundColor,
-                                  ),
-                                ),
-                                SizedBox(width: 16),
-                                Expanded(
-                                  child: Text(
-                                    r'You were charged a one time $0.10 fee for your first incoming transaction.',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14.50,
-                                      fontWeight: FontWeight.w500,
-                                      height: 0,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 32),
-                        ],
-                      ),
-                    ),
+                    content: e.tx.containsAta ? const _FeeNotice() : null,
                     statusContent: context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
@@ -103,5 +70,46 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   ),
                 );
         },
+      );
+}
+
+class _FeeNotice extends StatelessWidget {
+  const _FeeNotice();
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            CpMessageInfoWidget(
+              backgroundColor: Colors.black,
+              padding: const EdgeInsets.all(18),
+              content: Row(
+                children: [
+                  const CircleAvatar(
+                    maxRadius: 14,
+                    backgroundColor: CpColors.yellowColor,
+                    child: CpInfoIcon(
+                      iconColor: CpColors.darkBackgroundColor,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      context.l10n.incomingUsdcFeeNotice,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.50,
+                        fontWeight: FontWeight.w500,
+                        height: 0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       );
 }
