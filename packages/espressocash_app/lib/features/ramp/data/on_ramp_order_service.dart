@@ -42,6 +42,7 @@ class OnRampOrderService implements Disposable {
     OnRampOrderStatus status = OnRampOrderStatus.waitingForPartner,
     String? bankAccount,
     String? bankName,
+    DateTime? transferExpiryDate,
   }) async {
     await _db.into(_db.onRampOrderRows).insert(
           OnRampOrderRow(
@@ -59,9 +60,30 @@ class OnRampOrderService implements Disposable {
             status: status,
             bankAccount: bankAccount,
             bankName: bankName,
+            bankTransferExpiry: transferExpiryDate,
           ),
         );
   }
+
+  Future<void> createForManualTransfer({
+    required String orderId,
+    required RampPartner partner,
+    CryptoAmount? amount,
+    CryptoAmount? receiveAmount,
+    required String bankAccount,
+    required String bankName,
+    required DateTime transferExpiryDate,
+  }) =>
+      create(
+        orderId: orderId,
+        partner: partner,
+        amount: amount,
+        receiveAmount: receiveAmount,
+        bankAccount: bankAccount,
+        bankName: bankName,
+        transferExpiryDate: transferExpiryDate,
+        status: OnRampOrderStatus.waitingForDeposit,
+      );
 
   Future<void> deposit(String orderId) async {
     final query = _db.select(_db.onRampOrderRows)

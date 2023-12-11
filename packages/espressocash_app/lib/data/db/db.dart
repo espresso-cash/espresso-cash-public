@@ -190,6 +190,10 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 37 && from < 45) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.bankName);
             await m.addColumn(onRampOrderRows, onRampOrderRows.bankAccount);
+            await m.addColumn(
+              onRampOrderRows,
+              onRampOrderRows.bankTransferExpiry,
+            );
           }
         },
       );
@@ -235,6 +239,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get status => textEnum<OnRampOrderStatus>()();
   TextColumn get bankName => text().nullable()();
   TextColumn get bankAccount => text().nullable()();
+  DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {

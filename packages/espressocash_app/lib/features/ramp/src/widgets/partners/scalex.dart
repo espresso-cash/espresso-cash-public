@@ -65,13 +65,18 @@ extension BuildContextExt on BuildContext {
                 OrderStatusScalexRequestDto(referenceId: reference),
               );
 
-              await sl<OnRampOrderService>().create(
+              final details = order.onRampDetails;
+
+              if (details == null) return;
+
+              await sl<OnRampOrderService>().createForManualTransfer(
                 orderId: reference,
                 receiveAmount: amount,
                 partner: RampPartner.scalex,
-                status: OnRampOrderStatus.waitingForDeposit,
-                bankAccount: order.onRampDetails?.bankAccount,
-                bankName: order.onRampDetails?.bankName,
+                bankAccount: details.bankAccount,
+                bankName: details.bankName,
+                transferExpiryDate:
+                    DateTime.now().add(const Duration(minutes: 30)),
               );
               orderWasCreated = true;
             }
