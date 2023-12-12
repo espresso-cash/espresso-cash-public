@@ -85,8 +85,18 @@ class TransactionRepository {
           .not(),
     );
 
+    final offRamp = _db.offRampOrderRows.findActivityOrNull(
+      where: (row) => row.transaction.contains(txId),
+      builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
+      ignoreWhen: (row) => const [
+        OffRampOrderStatus.completed,
+        OffRampOrderStatus.cancelled,
+        OffRampOrderStatus.failure,
+      ].contains(row.status).not(),
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, olp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp, offRamp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }
