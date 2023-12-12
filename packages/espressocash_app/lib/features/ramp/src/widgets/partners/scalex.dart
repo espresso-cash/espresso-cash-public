@@ -7,7 +7,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
-import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/loader.dart';

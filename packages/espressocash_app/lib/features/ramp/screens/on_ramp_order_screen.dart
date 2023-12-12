@@ -66,7 +66,6 @@ class OnRampOrderScreenContent extends StatelessWidget {
     if (order.status == OnRampOrderStatus.waitingForDeposit) {
       return OnRampDepositScreen(order: order);
     }
-
     final locale = DeviceLocale.localeOf(context);
     final amount =
         order.amount.let((e) => e?.value != 0 ? e : order.receiveAmount);
@@ -87,7 +86,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
         CpStatusType.info,
-      OnRampOrderStatus.failure => CpStatusType.error,
+      OnRampOrderStatus.depositExpired ||
+      OnRampOrderStatus.failure =>
+        CpStatusType.error,
       OnRampOrderStatus.completed => CpStatusType.success,
     };
 
@@ -101,6 +102,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
         context.l10n.onRampDepositOngoing(
           amount?.format(locale, maxDecimals: 2) ?? 'USDC',
         ),
+      OnRampOrderStatus.depositExpired =>
+        'Your order has expired. Please try again.',
       OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
@@ -109,11 +112,14 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
         CpTimelineStatus.inProgress,
-      OnRampOrderStatus.failure => CpTimelineStatus.failure,
+      OnRampOrderStatus.depositExpired ||
+      OnRampOrderStatus.failure =>
+        CpTimelineStatus.failure,
       OnRampOrderStatus.completed => CpTimelineStatus.success,
     };
 
     final int activeItem = switch (order.status) {
+      OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
         0,

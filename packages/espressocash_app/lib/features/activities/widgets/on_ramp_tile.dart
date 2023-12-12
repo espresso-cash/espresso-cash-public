@@ -36,7 +36,9 @@ class OnRampTile extends StatelessWidget {
           ),
           icon: Assets.icons.paymentIcon.svg(),
           status: switch (order?.status) {
-            OnRampOrderStatus.failure => CpActivityTileStatus.failure,
+            OnRampOrderStatus.depositExpired ||
+            OnRampOrderStatus.failure =>
+              CpActivityTileStatus.failure,
             OnRampOrderStatus.completed => CpActivityTileStatus.success,
             OnRampOrderStatus.waitingForDeposit ||
             OnRampOrderStatus.waitingForPartner ||

@@ -29,7 +29,9 @@ typedef OnRampOrder = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  const OnRampOrderService(this._db, this._tokens);
+  OnRampOrderService(this._db, this._tokens);
+
+  final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
   final TokenList _tokens;
@@ -100,7 +102,7 @@ class OnRampOrderService implements Disposable {
             status: Value(OnRampOrderStatus.waitingForPartner),
           ),
         );
-
+      case OnRampOrderStatus.depositExpired:
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
@@ -149,6 +151,38 @@ class OnRampOrderService implements Disposable {
         .map((rows) => rows.toIList());
   }
 
+  void _subscribe(String orderId) {
+    //TODO upd
+    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
+        .watchSingle()
+        .asyncExpand<OnRampOrderRowsCompanion>((order) {
+      switch (order.status) {
+        case OnRampOrderStatus.waitingForDeposit:
+          final expiry = order.bankTransferExpiry;
+          if (expiry != null && expiry.isAfter(DateTime.now())) {
+            return Stream.value(
+              const OnRampOrderRowsCompanion(
+                status: Value(OnRampOrderStatus.depositExpired),
+              ),
+            );
+          }
+        case OnRampOrderStatus.completed:
+        case OnRampOrderStatus.depositExpired:
+        case OnRampOrderStatus.failure:
+        case OnRampOrderStatus.waitingForPartner:
+          return const Stream.empty();
+      }
+    }).listen(
+      (event) => (_db.update(_db.onRampOrderRows)
+            ..where((tbl) => tbl.id.equals(orderId)))
+          .write(event),
+    );
+  }
+
   @override
-  Future<void> onDispose() => _db.delete(_db.onRampOrderRows).go();
+  Future<void> onDispose() async {
+    await Future.wait(_subscriptions.values.map((it) => it.cancel()));
+    await _db.delete(_db.onRampOrderRows).go();
+  }
 }
