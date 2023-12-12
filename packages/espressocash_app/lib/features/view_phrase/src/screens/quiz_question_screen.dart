@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/callback.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
@@ -21,10 +22,12 @@ class QuizQuestionScreen extends StatefulWidget {
 }
 
 class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
+  final PageController _controller = PageController();
   late List<QuizQuestion> _questions;
-  int _currentQuestionIndex = 0;
+  int _currentPageIndex = 0;
+  bool _isCorrect = false;
 
-  String get _title => '${_currentQuestionIndex + 1} OF ${_questions.length}';
+  String get _title => '${_currentPageIndex ~/ 2 + 1} OF ${_questions.length}';
 
   @override
   void didChangeDependencies() {
@@ -66,22 +69,67 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
     ];
   }
 
-  void _handleButtonPress() {
-    if (_currentQuestionIndex == _questions.length - 1) {
+  void _moveToPage(int index) {
+    _controller.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+    );
+  }
+
+  void _handleQuestionButtonPress(bool isCorrect) {
+    setState(() {
+      _isCorrect = isCorrect;
+      _currentPageIndex++;
+    });
+    _moveToPage(_currentPageIndex);
+  }
+
+  void _handleAnswerButtonPress() {
+    if (_isCorrect && _currentPageIndex >= (_questions.length * 2 - 1)) {
       widget.onComplete();
     } else {
       setState(() {
-        _currentQuestionIndex++;
+        _isCorrect ? _currentPageIndex++ : _currentPageIndex--;
       });
+
+      _moveToPage(_currentPageIndex);
     }
   }
 
   @override
-  Widget build(BuildContext context) => _QuestionScreen(
-        title: _title,
-        question: _questions[_currentQuestionIndex],
-        onButtonPressed: _handleButtonPress,
-        index: _currentQuestionIndex,
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => PageView.builder(
+        controller: _controller,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _questions.length * 2,
+        itemBuilder: (context, index) {
+          final questionIndex = index ~/ 2;
+          final isQuestionScreen = index.isEven;
+          final question = _questions[questionIndex];
+
+          return isQuestionScreen
+              ? _QuestionScreen(
+                  title: _title,
+                  question: question,
+                  onButtonPressed: _handleQuestionButtonPress,
+                  index: questionIndex,
+                )
+              : _ResultScreen(
+                  title: _title,
+                  isCorrect: _isCorrect,
+                  index: questionIndex,
+                  explanation: _isCorrect
+                      ? question.correctExplanation
+                      : question.incorrectExplanation,
+                  onButtonPressed: _handleAnswerButtonPress,
+                );
+        },
       );
 }
 
@@ -96,7 +144,7 @@ class _QuestionScreen extends StatelessWidget {
   final int index;
   final QuizQuestion question;
   final String title;
-  final VoidCallback onButtonPressed;
+  final Callback1<bool> onButtonPressed;
 
   @override
   Widget build(BuildContext context) => QuizPage(
@@ -144,38 +192,8 @@ class _QuestionScreen extends StatelessWidget {
             .map(
               (entry) => CpButton(
                 text: entry.value,
-                onPressed: () {
-                  if (entry.key == question.correctAnswer) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => _ResultScreen(
-                          title: title,
-                          isCorrect: true,
-                          index: index,
-                          explanation: question.correctExplanation,
-                          onButtonPressed: () {
-                            Navigator.pop(context);
-                            onButtonPressed();
-                          },
-                        ),
-                      ),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => _ResultScreen(
-                          title: title,
-                          isCorrect: false,
-                          index: index,
-                          explanation: question.incorrectExplanation,
-                          onButtonPressed: () => Navigator.pop(context),
-                        ),
-                      ),
-                    );
-                  }
-                },
+                onPressed: () =>
+                    onButtonPressed(entry.key == question.correctAnswer),
                 size: CpButtonSize.big,
                 width: 350,
               ),

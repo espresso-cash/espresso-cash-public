@@ -49,8 +49,7 @@ class QuizPage extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       AspectRatio(
-                        // aspectRatio: 0.76,
-                        aspectRatio: 0.71,
+                        aspectRatio: 0.73,
                         child: Column(
                           children: [
                             Expanded(child: content),
