@@ -31,7 +31,9 @@ class ILPStatus with _$ILPStatus {
   }) = ILPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
-  const factory ILPStatus.success({required String txId}) = ILPStatusSuccess;
+  const factory ILPStatus.success({
+    required SignedTx tx,
+  }) = ILPStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
   const factory ILPStatus.txFailure({
