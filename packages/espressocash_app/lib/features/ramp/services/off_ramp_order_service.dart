@@ -235,11 +235,11 @@ class OffRampOrderService implements Disposable {
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',
-            partnerOrderId: 'partnerOrderId', //TODO
+            partnerOrderId: '',
             transaction: signed.encode(),
             slot: BigInt.zero,
             status: OffRampOrderStatus.depositTxReady,
-            depositAddress: 'depositAddress', //TODO
+            depositAddress: '',
             partner: partner,
             receiveAmount: receiveAmount?.value,
             fiatSymbol: receiveAmount?.currency.symbol,
