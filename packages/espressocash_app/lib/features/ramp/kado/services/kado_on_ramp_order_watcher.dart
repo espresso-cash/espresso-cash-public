@@ -52,6 +52,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
             machineStatus: Value(data.machineStatusField.name),
             isCompleted: Value(isCompleted),
             status: Value.ofNullable(status),
+            txHash: Value.ofNullable(data.txHash),
             receiveAmount: Value(
               ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
                       (data.quote?.price ?? 0) *
