@@ -8,14 +8,6 @@
       }
     }
   },
-  "activities_lblSoldToken": "Sold {amount}",
-  "@activities_lblSoldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblCanceled": "Canceled",
   "@activities_lblCanceled": {},
   "activities_lblFailure": "Failure",
@@ -26,6 +18,10 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activity",
   "@activities_lblTitle": {},
+  "activities_lblAddCash": "Add Cash",
+  "@activities_lblAddCash": {},
+  "activities_lblWithdraw": "Cash Out",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Auto-Lock",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Require passcode to access the app",
@@ -940,6 +936,8 @@
       }
     }
   },
+  "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
+  "@onRampAwaitingFunds": {},
   "incomingUsdcFeeNotice": "You were charged a one time $0.10 fee for your first incoming transaction.",
   "@incomingUsdcFeeNotice": {}
 }
