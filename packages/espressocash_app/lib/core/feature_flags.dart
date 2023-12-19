@@ -20,12 +20,6 @@ class FeatureFlagsManager {
     }
   }
 
-  bool get isUniversalPayEnabled =>
-      _remoteConfig.getBool(FeatureFlag.universalPay.name);
-
-  bool get isCrossChainPaymentsEnabled =>
-      _remoteConfig.getBool(FeatureFlag.crossChainPayments.name);
-
   bool get isOffRampEnabled => _remoteConfig.getBool(FeatureFlag.offRamp.name);
 }
 

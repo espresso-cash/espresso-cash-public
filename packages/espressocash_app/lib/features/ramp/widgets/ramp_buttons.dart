@@ -113,9 +113,17 @@ extension on BuildContext {
   }) {
     final partners = _getOnRampPartners(profile.country.code);
 
-    if (partners.other.isEmpty) {
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnAddCash);
+
+      return;
+    }
+
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
       return _launchOnRampPartner(
-        partners.top,
+        top,
         profile: profile,
         address: address,
       );
@@ -123,8 +131,8 @@ extension on BuildContext {
 
     router.push(
       RampPartnerSelectScreen.route(
-        topPartner: partners.top,
-        otherPartners: partners.other,
+        topPartner: top,
+        otherPartners: others.lock,
         type: RampType.onRamp,
         onPartnerSelected: (p) {
           router.pop();
@@ -140,15 +148,17 @@ extension on BuildContext {
   }) {
     final partners = _getOffRampPartners(profile.country.code);
 
-    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
-      OffRampBottomSheet.show(this);
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnCashOut);
 
       return;
     }
 
-    if (partners.other.isEmpty) {
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
       return _launchOffRampPartner(
-        partners.top,
+        top,
         profile: profile,
         address: address,
       );
@@ -156,8 +166,8 @@ extension on BuildContext {
 
     router.push(
       RampPartnerSelectScreen.route(
-        topPartner: partners.top,
-        otherPartners: partners.other,
+        topPartner: top,
+        otherPartners: others.lock,
         type: RampType.offRamp,
         onPartnerSelected: (p) {
           router.pop();
@@ -214,31 +224,25 @@ extension on BuildContext {
 
 typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
 
-PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
-    ? (
-        top: RampPartner.kado,
-        other: [RampPartner.rampNetwork].lock,
-      )
+IList<RampPartner> _getOnRampPartners(String countryCode) => countryCode == 'US'
+    ? const IListConst([RampPartner.kado, RampPartner.rampNetwork])
     : _eeaCountries.contains(countryCode)
-        ? (
-            top: RampPartner.guardarian,
-            other: [RampPartner.rampNetwork].lock,
-          )
+        ? const IListConst([RampPartner.guardarian, RampPartner.rampNetwork])
         : countryCode == 'NG'
-            ? (
-                top: RampPartner.scalex,
-                other: [RampPartner.rampNetwork].lock,
-              )
-            : (
-                top: RampPartner.rampNetwork,
-                other: <RampPartner>[].lock,
-              );
+            ? const IListConst([RampPartner.scalex, RampPartner.rampNetwork])
+            : const IListConst([RampPartner.rampNetwork]);
 
-PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
-    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
-    : countryCode == 'NG'
-        ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
-        : null;
+IList<RampPartner> _getOffRampPartners(String countryCode) {
+  if (!sl<FeatureFlagsManager>().isOffRampEnabled) {
+    return const IListConst([]);
+  }
+
+  return countryCode == 'US'
+      ? const IListConst([RampPartner.kado])
+      : countryCode == 'NG'
+          ? const IListConst([RampPartner.scalex])
+          : const IListConst([]);
+}
 
 const _eeaCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
