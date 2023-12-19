@@ -130,7 +130,7 @@ packages:
     source: hosted
     version: "2.1.1"
   borsh_annotation:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: borsh_annotation
       sha256: "4a226cf8b7a165ecf8020c0c8d366b2728167fd102ef9b9e89d94d86f89ac57b"

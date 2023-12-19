@@ -19,6 +19,7 @@ import '../src/models/ramp_type.dart';
 import '../src/screens/ramp_onboarding_screen.dart';
 import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
+import '../src/widgets/partners/coinflow.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
@@ -196,8 +197,8 @@ extension on BuildContext {
     required String address,
   }) {
     switch (partner) {
-      case RampPartner.kado:
-        launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.coinflow:
+        launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexRamp(
           profile: profile,
@@ -206,7 +207,7 @@ extension on BuildContext {
         );
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.coinflow:
+      case RampPartner.kado:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -235,7 +236,7 @@ PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
               );
 
 PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
-    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
+    ? (top: RampPartner.coinflow, other: <RampPartner>[].lock)
     : countryCode == 'NG'
         ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
         : null;

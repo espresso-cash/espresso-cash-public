@@ -70,6 +70,11 @@ const rampApiKey = String.fromEnvironment('RAMP_API_KEY');
 const guardarianBaseUrl = 'https://guardarian.com/calculator/v1';
 const guardarianApiKey = String.fromEnvironment('GUARDARIAN_API_KEY');
 
+const coinflowBaseUrl = 'https://espresso-cash.github.io/ec-coinflow/';
+const coinflowApiUrl = isProd
+    ? 'https://api.coinflow.cash/api/'
+    : 'https://api-sandbox.coinflow.cash/api/';
+
 const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';

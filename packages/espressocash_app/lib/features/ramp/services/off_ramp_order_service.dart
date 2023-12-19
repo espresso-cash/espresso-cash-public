@@ -217,6 +217,41 @@ class OffRampOrderService implements Disposable {
         }
       });
 
+  @useResult
+  AsyncResult<String> createFromTx({
+    required SignedTx tx,
+    required CryptoAmount amount,
+    required RampPartner partner,
+    FiatAmount? receiveAmount,
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final signed = await tx.let((it) => it.resign(_account));
+
+          final order = OffRampOrderRow(
+            id: const Uuid().v4(),
+            amount: amount.value,
+            token: amount.token.address,
+            created: DateTime.now(),
+            humanStatus: '',
+            machineStatus: '',
+            partnerOrderId: 'partnerOrderId', //TODO
+            transaction: signed.encode(),
+            slot: BigInt.zero,
+            status: OffRampOrderStatus.depositTxReady,
+            depositAddress: 'depositAddress', //TODO
+            partner: partner,
+            receiveAmount: receiveAmount?.value,
+            fiatSymbol: receiveAmount?.currency.symbol,
+          );
+
+          await _db.into(_db.offRampOrderRows).insert(order);
+          _subscribe(order.id);
+
+          return order.id;
+        }
+      });
+
   void _subscribe(String orderId) {
     _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
           ..where((tbl) => tbl.id.equals(orderId)))
