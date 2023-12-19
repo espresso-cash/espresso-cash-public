@@ -23,6 +23,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
         .asyncMap((_) => _db.getNonCompletedOnRampOrder(orderId))
         .whereNotNull()
         .asyncMap((order) => _client.getOrderStatus(order.partnerOrderId))
