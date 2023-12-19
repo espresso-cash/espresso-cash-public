@@ -25,6 +25,7 @@ typedef OnRampOrder = ({
   String partnerOrderId,
   String? bankAccount,
   String? bankName,
+  DateTime? transferExpiryDate,
 });
 
 @Singleton(scope: authScope)
@@ -35,6 +36,20 @@ class OnRampOrderService implements Disposable {
 
   final MyDatabase _db;
   final TokenList _tokens;
+
+  @PostConstruct()
+  Future<void> init() async {
+    final query = _db.select(_db.onRampOrderRows)
+      ..where(
+        (tbl) => tbl.status.equalsValue(OnRampOrderStatus.waitingForDeposit),
+      );
+
+    final orders = await query.get();
+
+    for (final order in orders) {
+      _subscribe(order.id);
+    }
+  }
 
   AsyncResult<String> create({
     required String orderId,
@@ -67,6 +82,7 @@ class OnRampOrderService implements Disposable {
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
+          _subscribe(order.id);
 
           return order.id;
         }
@@ -77,7 +93,7 @@ class OnRampOrderService implements Disposable {
     required RampPartner partner,
     CryptoAmount? amount,
     CryptoAmount? receiveAmount,
-    required String bankAccount,
+    required String bankAccount, //TODO add transfer amount
     required String bankName,
     required DateTime transferExpiryDate,
   }) =>
@@ -142,6 +158,7 @@ class OnRampOrderService implements Disposable {
             partnerOrderId: row.partnerOrderId,
             bankAccount: row.bankAccount,
             bankName: row.bankName,
+            transferExpiryDate: row.bankTransferExpiry,
           ),
         );
   }
@@ -157,7 +174,6 @@ class OnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    //TODO upd
     _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
           ..where((tbl) => tbl.id.equals(orderId)))
         .watchSingle()
@@ -166,6 +182,9 @@ class OnRampOrderService implements Disposable {
         case OnRampOrderStatus.waitingForDeposit:
           final expiry = order.bankTransferExpiry;
           if (expiry != null && expiry.isAfter(DateTime.now())) {
+            _subscriptions[orderId]?.cancel();
+            _subscriptions.remove(orderId);
+
             return Stream.value(
               const OnRampOrderRowsCompanion(
                 status: Value(OnRampOrderStatus.depositExpired),

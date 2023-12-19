@@ -27,6 +27,7 @@ final onRampOrderScreenStory = Story(
       partnerOrderId: 'PARTNER_ORDER_ID',
       bankAccount: 'BANK_ACCOUNT_12345',
       bankName: 'BANK_NAME',
+      transferExpiryDate: DateTime.now().add(const Duration(minutes: 30))
     ),
   ),
 );
