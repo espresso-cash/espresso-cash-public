@@ -939,5 +939,7 @@
         "type": "String"
       }
     }
-  }
+  },
+  "incomingUsdcFeeNotice": "You were charged a one time $0.10 fee for your first incoming transaction.",
+  "@incomingUsdcFeeNotice": {}
 }

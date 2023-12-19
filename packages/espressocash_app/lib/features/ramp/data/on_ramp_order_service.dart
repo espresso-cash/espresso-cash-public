@@ -36,7 +36,7 @@ class OnRampOrderService implements Disposable {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Future<void> create({
+  AsyncResult<String> create({
     required String orderId,
     required RampPartner partner,
     CryptoAmount? amount,
@@ -45,9 +45,10 @@ class OnRampOrderService implements Disposable {
     String? bankAccount,
     String? bankName,
     DateTime? transferExpiryDate,
-  }) async {
-    await _db.into(_db.onRampOrderRows).insert(
-          OnRampOrderRow(
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final order = OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: amount?.value ?? 0,
@@ -63,11 +64,15 @@ class OnRampOrderService implements Disposable {
             bankAccount: bankAccount,
             bankName: bankName,
             bankTransferExpiry: transferExpiryDate,
-          ),
-        );
-  }
+          );
 
-  Future<void> createForManualTransfer({
+          await _db.into(_db.onRampOrderRows).insert(order);
+
+          return order.id;
+        }
+      });
+
+  AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
     CryptoAmount? amount,

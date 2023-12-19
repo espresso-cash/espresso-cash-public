@@ -113,7 +113,9 @@ extension on ILPStatusDto {
           slot: slot ?? BigInt.zero,
         );
       case ILPStatusDto.success:
-        return ILPStatus.success(txId: txId!);
+        return ILPStatus.success(
+          tx: tx ?? StubSignedTx(txId!),
+        );
       case ILPStatusDto.txFailure:
         return ILPStatus.txFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
@@ -149,7 +151,7 @@ extension on ILPStatus {
       );
 
   String? toTxId() => mapOrNull(
-        success: (it) => it.txId,
+        success: (it) => it.tx.id,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull(
