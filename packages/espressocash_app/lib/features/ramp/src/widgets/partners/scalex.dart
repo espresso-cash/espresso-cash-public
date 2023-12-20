@@ -70,8 +70,8 @@ extension BuildContextExt on BuildContext {
               if (details == null) return;
 
               final transferAmount = Amount.fromDecimal(
-                value: Decimal.parse(toAmount.toString()),
-                currency: Currency.ngn,
+                value: Decimal.parse(details.fromAmount.toString()),
+                currency: currencyFromString(details.currency.toUpperCase()),
               ) as FiatAmount;
 
               await sl<OnRampOrderService>()

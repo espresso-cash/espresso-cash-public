@@ -5,9 +5,11 @@ import '../../../../ui/colors.dart';
 class CountdownTimer extends StatefulWidget {
   const CountdownTimer({
     super.key,
+    required this.startDate,
     required this.expiryDate,
   });
 
+  final DateTime startDate;
   final DateTime expiryDate;
 
   @override
@@ -16,13 +18,13 @@ class CountdownTimer extends StatefulWidget {
 
 class _CountdownTimerState extends State<CountdownTimer> {
   Timer? _timer;
-  late int _initialDurationSeconds;
+  late int _totalDurationSeconds;
 
   @override
   void initState() {
     super.initState();
-    _initialDurationSeconds =
-        widget.expiryDate.difference(DateTime.now()).inSeconds;
+    _totalDurationSeconds =
+        widget.expiryDate.difference(widget.startDate).inSeconds;
     _startTimer();
   }
 
@@ -30,7 +32,8 @@ class _CountdownTimerState extends State<CountdownTimer> {
   void didUpdateWidget(covariant CountdownTimer oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.expiryDate != oldWidget.expiryDate) {
+    if (widget.expiryDate != oldWidget.expiryDate ||
+        widget.startDate != oldWidget.startDate) {
       _cancelTimer();
       _startTimer();
     }
@@ -38,7 +41,6 @@ class _CountdownTimerState extends State<CountdownTimer> {
 
   @override
   void dispose() {
-    _cancelTimer();
     _timer?.cancel();
     super.dispose();
   }
@@ -68,7 +70,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
     final currentDuration =
         widget.expiryDate.difference(DateTime.now()).inSeconds;
 
-    return currentDuration > 0 ? currentDuration / _initialDurationSeconds : 0;
+    return currentDuration > 0 ? currentDuration / _totalDurationSeconds : 0;
   }
 
   @override

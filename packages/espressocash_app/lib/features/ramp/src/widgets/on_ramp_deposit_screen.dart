@@ -52,6 +52,7 @@ class OnRampDepositScreen extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12),
               child: CountdownTimer(
                 expiryDate: order.transferExpiryDate ?? DateTime.now(),
+                startDate: order.created,
               ),
             ),
           ],

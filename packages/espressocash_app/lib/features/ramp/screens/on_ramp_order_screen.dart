@@ -13,6 +13,7 @@ import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
+import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -79,6 +80,21 @@ class OnRampOrderScreenContent extends StatelessWidget {
         width: double.infinity,
         text: context.l10n.contactUs,
         onPressed: context.launchContactUs,
+      ),
+    );
+
+    final cancelButton = Padding(
+      padding: EdgeInsets.only(
+        top: 24,
+        bottom: MediaQuery.paddingOf(context).bottom + 16,
+      ),
+      child: CpTextButton(
+        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+        variant: CpTextButtonVariant.light,
+        onPressed: () {
+          sl<OnRampOrderService>().delete(order.id);
+          context.router.pop();
+        },
       ),
     );
 
@@ -199,6 +215,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
               const SizedBox(height: 12),
               primaryButton,
             ],
+            Opacity(
+              opacity: order.status == OnRampOrderStatus.depositExpired ? 1 : 0,
+              child: cancelButton,
+            ),
           ],
         ),
       ),

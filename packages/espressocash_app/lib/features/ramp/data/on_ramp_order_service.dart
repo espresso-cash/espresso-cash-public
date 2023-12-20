@@ -135,6 +135,20 @@ class OnRampOrderService implements Disposable {
     }
   }
 
+  Future<void> delete(String orderId) async {
+    final query = _db.select(_db.onRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+    final order = await query.getSingle();
+
+    if (order.status != OnRampOrderStatus.depositExpired) {
+      return;
+    }
+
+    await (_db.delete(_db.onRampOrderRows)
+          ..where((tbl) => tbl.id.equals(orderId)))
+        .go();
+  }
+
   Stream<OnRampOrder> watch(String id) {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
@@ -209,9 +223,13 @@ class OnRampOrderService implements Disposable {
           return const Stream.empty();
       }
     }).listen(
-      (event) => (_db.update(_db.onRampOrderRows)
-            ..where((tbl) => tbl.id.equals(orderId)))
-          .write(event),
+      (event) {
+        print(event);
+
+        (_db.update(_db.onRampOrderRows)
+              ..where((tbl) => tbl.id.equals(orderId)))
+            .write(event);
+      },
     );
   }
 
