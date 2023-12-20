@@ -6,12 +6,21 @@ import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 
 class OffRampBottomSheet extends StatelessWidget {
-  const OffRampBottomSheet({super.key});
+  const OffRampBottomSheet({
+    super.key,
+    required this.title,
+  });
 
-  static Future<void> show(BuildContext context) => showModalBottomSheet(
+  final String title;
+
+  static Future<void> show(
+    BuildContext context, {
+    required String title,
+  }) =>
+      showModalBottomSheet(
         context: context,
         useRootNavigator: true,
-        builder: (_) => const OffRampBottomSheet(),
+        builder: (_) => OffRampBottomSheet(title: title),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(24),
@@ -28,7 +37,7 @@ class OffRampBottomSheet extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                context.l10n.ramp_btnCashOut.toUpperCase(),
+                title.toUpperCase(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 17,

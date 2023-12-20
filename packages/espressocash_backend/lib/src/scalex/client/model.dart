@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'model.freezed.dart';
@@ -27,7 +28,7 @@ class ScalexResponseDto<T> with _$ScalexResponseDto<T> {
 
   factory ScalexResponseDto.fromJson(
     Map<String, dynamic> json,
-    T Function(Object? obj) fromJsonT,
+    Transformer<Object?, T> fromJsonT,
   ) =>
       _$ScalexResponseDtoFromJson(json, fromJsonT);
 }

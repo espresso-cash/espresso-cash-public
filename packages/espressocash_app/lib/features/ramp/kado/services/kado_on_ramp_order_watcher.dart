@@ -23,6 +23,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
         .asyncMap((_) => _db.getNonCompletedOnRampOrder(orderId))
         .whereNotNull()
         .asyncMap((order) => _client.getOrderStatus(order.partnerOrderId))
@@ -38,11 +39,21 @@ class KadoOnRampOrderWatcher implements RampWatcher {
 
         if (isCompleted) await _subscription?.cancel();
 
+        OnRampOrderStatus? status;
+        if (isCompleted) {
+          status = OnRampOrderStatus.completed;
+        } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
+            data.machineStatusField == MachineStatus.cardPaymentFailed) {
+          status = OnRampOrderStatus.failure;
+        }
+
         await statement.write(
           OnRampOrderRowsCompanion(
             humanStatus: Value(data.humanStatusField),
             machineStatus: Value(data.machineStatusField.name),
             isCompleted: Value(isCompleted),
+            status: Value.ofNullable(status),
+            txHash: Value.ofNullable(data.txHash),
             receiveAmount: Value(
               ((data.payAmount.amount - (data.totalFee?.amount ?? 0)) /
                       (data.quote?.price ?? 0) *

@@ -85,8 +85,24 @@ class TransactionRepository {
           .not(),
     );
 
+    final onRamp = _db.onRampOrderRows.findActivityOrNull(
+      where: (row) => row.txHash.equals(txId),
+      builder: (pr) => Activity.onRamp(id: pr.id, created: pr.created),
+      ignoreWhen: (row) => row.status != OnRampOrderStatus.completed,
+    );
+
+    final offRamp = _db.offRampOrderRows.findActivityOrNull(
+      where: (row) => row.transaction.contains(txId),
+      builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
+      ignoreWhen: (row) => const [
+        OffRampOrderStatus.completed,
+        OffRampOrderStatus.cancelled,
+        OffRampOrderStatus.failure,
+      ].contains(row.status).not(),
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, olp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp, offRamp, onRamp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }
@@ -94,9 +110,9 @@ class TransactionRepository {
 
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {
   Stream<Activity?> findActivityOrNull({
-    required Expression<bool> Function(Tbl tbl) where,
-    required FutureOr<Activity> Function(D data) builder,
-    bool Function(D data) ignoreWhen = T,
+    required Func1<Tbl, Expression<bool>> where,
+    required Func1<D, FutureOr<Activity>> builder,
+    Func1<D, bool> ignoreWhen = T,
   }) {
     final query = select()
       ..where(where)

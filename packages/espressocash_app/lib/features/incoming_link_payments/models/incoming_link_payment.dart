@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../core/escrow_private_key.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 
 part 'incoming_link_payment.freezed.dart';
 
@@ -31,7 +31,9 @@ class ILPStatus with _$ILPStatus {
   }) = ILPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
-  const factory ILPStatus.success({required String txId}) = ILPStatusSuccess;
+  const factory ILPStatus.success({
+    required SignedTx tx,
+  }) = ILPStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
   const factory ILPStatus.txFailure({

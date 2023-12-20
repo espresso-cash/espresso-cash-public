@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/cancelable_job.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
@@ -48,7 +51,7 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
     final tx = await sender.wait(status.tx, minContextSlot: status.slot);
 
     final newStatus = tx.map(
-      success: (_) => ILPStatus.success(txId: status.tx.id),
+      success: (_) => ILPStatus.success(tx: status.tx),
       failure: (_) => const ILPStatus.txFailure(
         reason: TxFailureReason.escrowFailure,
       ),
@@ -59,4 +62,12 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
 
     return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
+}
+
+extension SignedTxExt on SignedTx {
+  bool get containsAta => decompileMessage().let(
+        (m) => m.instructions
+            .where((ix) => ix.programId == AssociatedTokenAccountProgram.id)
+            .isNotEmpty,
+      );
 }

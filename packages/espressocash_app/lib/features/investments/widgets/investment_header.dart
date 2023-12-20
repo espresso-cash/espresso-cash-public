@@ -30,7 +30,7 @@ class InvestmentHeader extends StatefulWidget {
 class _InvestmentHeaderState extends State<InvestmentHeader> {
   bool _showMore = false;
 
-  void _toggleUsdcInfo() => setState(() => _showMore = !_showMore);
+  void _handleInfoPressed() => setState(() => _showMore = !_showMore);
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -44,7 +44,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _Headline(onInfo: _toggleUsdcInfo),
+                    _Headline(onInfo: _handleInfoPressed),
                     const SizedBox(height: 4),
                     const _Amount(),
                     const SizedBox(height: 2),
@@ -54,7 +54,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
               const _Buttons(),
             ],
           ),
-          second: _Info(onClose: _toggleUsdcInfo),
+          second: _Info(onClose: _handleInfoPressed),
           showMore: _showMore,
         ),
       );

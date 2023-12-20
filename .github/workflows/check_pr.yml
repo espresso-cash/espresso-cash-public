@@ -9,8 +9,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.13.6"
-  DART_VERSION: "3.1.3"
+  FLUTTER_VERSION: "3.16.2"
+  DART_VERSION: "3.2.2"
 
 jobs:
   formatting:
@@ -41,7 +41,7 @@ jobs:
         uses: CQLabs/setup-dcm@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.10.3"
+          version: "1.11.0"
 
       - name: Activate utils
         run: make activate_utils
@@ -72,11 +72,6 @@ jobs:
       - uses: dart-lang/setup-dart@v1.3
         with:
           sdk: ${{ env.DART_VERSION }}
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: "stable"
 
       - name: Install DCM
         uses: CQLabs/setup-dcm@v1

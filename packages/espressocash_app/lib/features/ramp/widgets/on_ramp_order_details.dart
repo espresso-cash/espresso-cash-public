@@ -9,6 +9,11 @@ import '../src/models/ramp_watcher.dart';
 
 export '../data/on_ramp_order_service.dart' show OnRampOrder;
 
+typedef OnRampOrderDetailsBuilder = Widget Function(
+  BuildContext context,
+  OnRampOrder? order,
+);
+
 class OnRampOrderDetails extends StatefulWidget {
   const OnRampOrderDetails({
     super.key,
@@ -17,7 +22,7 @@ class OnRampOrderDetails extends StatefulWidget {
   });
 
   final String orderId;
-  final Widget Function(BuildContext context, OnRampOrder? order) builder;
+  final OnRampOrderDetailsBuilder builder;
 
   @override
   State<OnRampOrderDetails> createState() => _OnRampOrderDetailsState();

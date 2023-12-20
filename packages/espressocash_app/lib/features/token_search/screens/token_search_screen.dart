@@ -61,7 +61,7 @@ class _ContentState extends State<_Content> {
   final TextEditingController _controller = TextEditingController();
   CryptoCategories? _selected;
 
-  void _onCategoryTap(CryptoCategories val) {
+  void _handleCategoryPressed(CryptoCategories val) {
     _selected = _selected != val ? val : null;
     context.read<TokenSearchBloc>().add(SearchCategoryRequest(_selected));
   }
@@ -69,7 +69,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
-    context.read<CryptoCategories?>().maybeFlatMap(_onCategoryTap);
+    context.read<CryptoCategories?>().maybeFlatMap(_handleCategoryPressed);
     _controller.addListener(() {
       _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));
@@ -119,7 +119,7 @@ class _ContentState extends State<_Content> {
                       ),
                       child: DiscoverHeader(
                         selected: _selected,
-                        onTap: _onCategoryTap,
+                        onTap: _handleCategoryPressed,
                       ),
                     ),
                   Expanded(

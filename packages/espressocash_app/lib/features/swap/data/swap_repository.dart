@@ -11,7 +11,7 @@ import '../../../core/currency.dart';
 import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../models/swap.dart';
 import '../models/swap_seed.dart';
 

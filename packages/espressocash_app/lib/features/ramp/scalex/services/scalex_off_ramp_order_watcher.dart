@@ -22,13 +22,16 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
         .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(orderId))
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
         .listen((status) async {
-      final statement = _db.update(_db.onRampOrderRows)
+      final statement = _db.update(_db.offRampOrderRows)
         ..where(
-          (tbl) => tbl.id.equals(orderId) & tbl.isCompleted.equals(false),
+          (tbl) =>
+              tbl.id.equals(orderId) &
+              tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
         );
 
       final isCompleted = status == ScalexOrderStatus.completed;
@@ -36,10 +39,12 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
       if (isCompleted) await _subscription?.cancel();
 
       await statement.write(
-        OnRampOrderRowsCompanion(
+        OffRampOrderRowsCompanion(
           humanStatus: Value(status.name),
           machineStatus: Value(status.name),
-          isCompleted: Value(isCompleted),
+          status: isCompleted
+              ? const Value(OffRampOrderStatus.completed)
+              : const Value(OffRampOrderStatus.waitingForPartner),
         ),
       );
     });
