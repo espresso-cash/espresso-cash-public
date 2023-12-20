@@ -56,6 +56,7 @@ abstract class OnRampScalexDetails with _$OnRampScalexDetails {
     required String bankName,
     required String bankAccount,
     required num fromAmount,
+    required String fiatCurrency,
   }) = _OnRampScalexDetails;
 
   factory OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>

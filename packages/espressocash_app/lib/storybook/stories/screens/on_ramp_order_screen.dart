@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../core/amount.dart';
@@ -27,6 +28,10 @@ final onRampOrderScreenStory = Story(
       partnerOrderId: 'PARTNER_ORDER_ID',
       bankAccount: 'BANK_ACCOUNT_12345',
       bankName: 'BANK_NAME',
+      transferAmount: Amount.fromDecimal(
+        value: Decimal.parse('100000'),
+        currency: Currency.ngn,
+      ) as FiatAmount,
       transferExpiryDate: DateTime.now().add(const Duration(minutes: 30))
     ),
   ),

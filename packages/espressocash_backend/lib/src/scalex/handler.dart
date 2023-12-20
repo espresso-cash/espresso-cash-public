@@ -49,6 +49,7 @@ Future<Response> _fetchStatusHandler(Request request) =>
                         bankName: e.data.bankToFund?.bankName ?? '',
                         bankAccount: e.data.bankToFund?.accountNumber ?? '',
                         fromAmount: e.data.fromAmount,
+                        fiatCurrency: e.data.fromCurrency,
                       )
                     : null,
               ),

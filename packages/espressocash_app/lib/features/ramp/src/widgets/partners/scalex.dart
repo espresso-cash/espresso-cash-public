@@ -16,6 +16,7 @@ import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../scalex/data/scalex_repository.dart';
 import '../../../screens/off_ramp_order_screen.dart';
+import '../../../screens/on_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
@@ -68,15 +69,30 @@ extension BuildContextExt on BuildContext {
 
               if (details == null) return;
 
-              await sl<OnRampOrderService>().createForManualTransfer(
+              final transferAmount = Amount.fromDecimal(
+                value: Decimal.parse(toAmount.toString()),
+                currency: Currency.ngn,
+              ) as FiatAmount;
+
+              await sl<OnRampOrderService>()
+                  .createForManualTransfer(
                 orderId: reference,
                 receiveAmount: amount,
                 partner: RampPartner.scalex,
                 bankAccount: details.bankAccount,
                 bankName: details.bankName,
+                transferAmount: transferAmount,
                 transferExpiryDate:
                     DateTime.now().add(const Duration(minutes: 30)),
-              );
+              )
+                  .then((order) {
+                switch (order) {
+                  case Left<Exception, String>():
+                    break;
+                  case Right<Exception, String>(:final value):
+                    router.replace(OnRampOrderScreen.route(orderId: value));
+                }
+              });
               orderWasCreated = true;
             }
           }

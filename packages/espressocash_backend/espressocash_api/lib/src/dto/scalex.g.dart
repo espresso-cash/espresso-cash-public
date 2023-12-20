@@ -79,6 +79,7 @@ _$_OnRampScalexDetails _$$_OnRampScalexDetailsFromJson(
       bankName: json['bankName'] as String,
       bankAccount: json['bankAccount'] as String,
       fromAmount: json['fromAmount'] as num,
+      fiatCurrency: json['fiatCurrency'] as String,
     );
 
 Map<String, dynamic> _$$_OnRampScalexDetailsToJson(
@@ -88,4 +89,5 @@ Map<String, dynamic> _$$_OnRampScalexDetailsToJson(
       'bankName': instance.bankName,
       'bankAccount': instance.bankAccount,
       'fromAmount': instance.fromAmount,
+      'fiatCurrency': instance.fiatCurrency,
     };

@@ -696,6 +696,7 @@ mixin _$OnRampScalexDetails {
   String get bankName => throw _privateConstructorUsedError;
   String get bankAccount => throw _privateConstructorUsedError;
   num get fromAmount => throw _privateConstructorUsedError;
+  String get fiatCurrency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -710,7 +711,11 @@ abstract class $OnRampScalexDetailsCopyWith<$Res> {
       _$OnRampScalexDetailsCopyWithImpl<$Res, OnRampScalexDetails>;
   @useResult
   $Res call(
-      {String currency, String bankName, String bankAccount, num fromAmount});
+      {String currency,
+      String bankName,
+      String bankAccount,
+      num fromAmount,
+      String fiatCurrency});
 }
 
 /// @nodoc
@@ -730,6 +735,7 @@ class _$OnRampScalexDetailsCopyWithImpl<$Res, $Val extends OnRampScalexDetails>
     Object? bankName = null,
     Object? bankAccount = null,
     Object? fromAmount = null,
+    Object? fiatCurrency = null,
   }) {
     return _then(_value.copyWith(
       currency: null == currency
@@ -748,6 +754,10 @@ class _$OnRampScalexDetailsCopyWithImpl<$Res, $Val extends OnRampScalexDetails>
           ? _value.fromAmount
           : fromAmount // ignore: cast_nullable_to_non_nullable
               as num,
+      fiatCurrency: null == fiatCurrency
+          ? _value.fiatCurrency
+          : fiatCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -761,7 +771,11 @@ abstract class _$$_OnRampScalexDetailsCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String currency, String bankName, String bankAccount, num fromAmount});
+      {String currency,
+      String bankName,
+      String bankAccount,
+      num fromAmount,
+      String fiatCurrency});
 }
 
 /// @nodoc
@@ -779,6 +793,7 @@ class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
     Object? bankName = null,
     Object? bankAccount = null,
     Object? fromAmount = null,
+    Object? fiatCurrency = null,
   }) {
     return _then(_$_OnRampScalexDetails(
       currency: null == currency
@@ -797,6 +812,10 @@ class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
           ? _value.fromAmount
           : fromAmount // ignore: cast_nullable_to_non_nullable
               as num,
+      fiatCurrency: null == fiatCurrency
+          ? _value.fiatCurrency
+          : fiatCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -808,7 +827,8 @@ class _$_OnRampScalexDetails implements _OnRampScalexDetails {
       {required this.currency,
       required this.bankName,
       required this.bankAccount,
-      required this.fromAmount});
+      required this.fromAmount,
+      required this.fiatCurrency});
 
   factory _$_OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
       _$$_OnRampScalexDetailsFromJson(json);
@@ -821,10 +841,12 @@ class _$_OnRampScalexDetails implements _OnRampScalexDetails {
   final String bankAccount;
   @override
   final num fromAmount;
+  @override
+  final String fiatCurrency;
 
   @override
   String toString() {
-    return 'OnRampScalexDetails(currency: $currency, bankName: $bankName, bankAccount: $bankAccount, fromAmount: $fromAmount)';
+    return 'OnRampScalexDetails(currency: $currency, bankName: $bankName, bankAccount: $bankAccount, fromAmount: $fromAmount, fiatCurrency: $fiatCurrency)';
   }
 
   @override
@@ -839,13 +861,15 @@ class _$_OnRampScalexDetails implements _OnRampScalexDetails {
             (identical(other.bankAccount, bankAccount) ||
                 other.bankAccount == bankAccount) &&
             (identical(other.fromAmount, fromAmount) ||
-                other.fromAmount == fromAmount));
+                other.fromAmount == fromAmount) &&
+            (identical(other.fiatCurrency, fiatCurrency) ||
+                other.fiatCurrency == fiatCurrency));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, currency, bankName, bankAccount, fromAmount);
+  int get hashCode => Object.hash(
+      runtimeType, currency, bankName, bankAccount, fromAmount, fiatCurrency);
 
   @JsonKey(ignore: true)
   @override
@@ -867,7 +891,8 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
       {required final String currency,
       required final String bankName,
       required final String bankAccount,
-      required final num fromAmount}) = _$_OnRampScalexDetails;
+      required final num fromAmount,
+      required final String fiatCurrency}) = _$_OnRampScalexDetails;
 
   factory _OnRampScalexDetails.fromJson(Map<String, dynamic> json) =
       _$_OnRampScalexDetails.fromJson;
@@ -880,6 +905,8 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
   String get bankAccount;
   @override
   num get fromAmount;
+  @override
+  String get fiatCurrency;
   @override
   @JsonKey(ignore: true)
   _$$_OnRampScalexDetailsCopyWith<_$_OnRampScalexDetails> get copyWith =>

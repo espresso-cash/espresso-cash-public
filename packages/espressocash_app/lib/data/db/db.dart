@@ -194,6 +194,11 @@ class MyDatabase extends _$MyDatabase {
               onRampOrderRows,
               onRampOrderRows.bankTransferExpiry,
             );
+            await m.addColumn(
+              onRampOrderRows,
+              onRampOrderRows.bankTransferAmount,
+            );
+            await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
           }
         },
       );
@@ -240,6 +245,8 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get bankName => text().nullable()();
   TextColumn get bankAccount => text().nullable()();
   DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
+  IntColumn get bankTransferAmount => integer().nullable()();
+  TextColumn get fiatSymbol => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {

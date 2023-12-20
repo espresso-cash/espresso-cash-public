@@ -127,7 +127,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
     final int activeItem = switch (order.status) {
       OnRampOrderStatus.depositExpired ||
-      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForDeposit =>
+        0,
       OnRampOrderStatus.waitingForPartner ||
       OnRampOrderStatus.failure ||
       OnRampOrderStatus.completed =>

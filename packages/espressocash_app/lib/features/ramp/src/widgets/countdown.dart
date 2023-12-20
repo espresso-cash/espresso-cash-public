@@ -16,10 +16,13 @@ class CountdownTimer extends StatefulWidget {
 
 class _CountdownTimerState extends State<CountdownTimer> {
   Timer? _timer;
+  late int _initialDurationSeconds;
 
   @override
   void initState() {
     super.initState();
+    _initialDurationSeconds =
+        widget.expiryDate.difference(DateTime.now()).inSeconds;
     _startTimer();
   }
 
@@ -62,12 +65,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 
   double get _percent {
-    final totalDuration =
+    final currentDuration =
         widget.expiryDate.difference(DateTime.now()).inSeconds;
 
-    return totalDuration > 0
-        ? totalDuration / widget.expiryDate.difference(DateTime.now()).inSeconds
-        : 0;
+    return currentDuration > 0 ? currentDuration / _initialDurationSeconds : 0;
   }
 
   @override
@@ -79,10 +80,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
               width: 50,
               height: 50,
               child: CircularProgressIndicator(
-                value: _percent,
-                backgroundColor: Colors.black,
+                value: 1 - _percent,
+                backgroundColor: CpColors.yellowColor,
                 valueColor: const AlwaysStoppedAnimation<Color>(
-                  CpColors.yellowColor,
+                  Colors.black,
                 ),
                 strokeWidth: 6,
               ),

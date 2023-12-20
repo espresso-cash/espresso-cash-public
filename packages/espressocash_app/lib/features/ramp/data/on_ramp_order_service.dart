@@ -26,6 +26,7 @@ typedef OnRampOrder = ({
   String? bankAccount,
   String? bankName,
   DateTime? transferExpiryDate,
+  FiatAmount? transferAmount,
 });
 
 @Singleton(scope: authScope)
@@ -60,6 +61,7 @@ class OnRampOrderService implements Disposable {
     String? bankAccount,
     String? bankName,
     DateTime? transferExpiryDate,
+    FiatAmount? transferAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -79,6 +81,8 @@ class OnRampOrderService implements Disposable {
             bankAccount: bankAccount,
             bankName: bankName,
             bankTransferExpiry: transferExpiryDate,
+            bankTransferAmount: transferAmount?.value,
+            fiatSymbol: transferAmount?.currency.symbol,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -91,20 +95,20 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
-    CryptoAmount? amount,
     CryptoAmount? receiveAmount,
-    required String bankAccount, //TODO add transfer amount
+    required String bankAccount,
     required String bankName,
     required DateTime transferExpiryDate,
+    required FiatAmount transferAmount,
   }) =>
       create(
         orderId: orderId,
         partner: partner,
-        amount: amount,
         receiveAmount: receiveAmount,
         bankAccount: bankAccount,
         bankName: bankName,
         transferExpiryDate: transferExpiryDate,
+        transferAmount: transferAmount,
         status: OnRampOrderStatus.waitingForDeposit,
       );
 
@@ -159,6 +163,13 @@ class OnRampOrderService implements Disposable {
             bankAccount: row.bankAccount,
             bankName: row.bankName,
             transferExpiryDate: row.bankTransferExpiry,
+            transferAmount: row.bankTransferAmount?.let(
+              (it) => Amount(
+                value: it,
+                // ignore: avoid-non-null-assertion, checked amount
+                currency: currencyFromString(row.fiatSymbol!),
+              ) as FiatAmount,
+            ),
           ),
         );
   }
@@ -181,7 +192,7 @@ class OnRampOrderService implements Disposable {
       switch (order.status) {
         case OnRampOrderStatus.waitingForDeposit:
           final expiry = order.bankTransferExpiry;
-          if (expiry != null && expiry.isAfter(DateTime.now())) {
+          if (expiry != null && expiry.isBefore(DateTime.now())) {
             _subscriptions[orderId]?.cancel();
             _subscriptions.remove(orderId);
 
