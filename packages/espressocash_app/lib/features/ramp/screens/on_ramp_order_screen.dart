@@ -108,6 +108,11 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
 
+    final String? statusSubtitle =
+        order.status == OnRampOrderStatus.waitingForPartner
+            ? context.l10n.onRampAwaitingFunds
+            : null;
+
     final CpTimelineStatus timelineStatus = switch (order.status) {
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
@@ -118,12 +123,15 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => CpTimelineStatus.success,
     };
 
+    final animated = timelineStatus == CpTimelineStatus.inProgress;
+
     final int activeItem = switch (order.status) {
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.waitingForDeposit ||
-      OnRampOrderStatus.waitingForPartner =>
-        0,
-      OnRampOrderStatus.failure || OnRampOrderStatus.completed => 1,
+      OnRampOrderStatus.waitingForPartner ||
+      OnRampOrderStatus.failure ||
+      OnRampOrderStatus.completed =>
+        1,
     };
 
     final depositInitiated = CpTimelineItem(
@@ -147,7 +155,22 @@ class OnRampOrderScreenContent extends StatelessWidget {
       title: context.l10n.onRampDepositTitle.toUpperCase(),
       statusType: statusType,
       statusTitle: statusTitle?.let(Text.new),
-      statusContent: Text(statusContent),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (statusSubtitle != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              statusSubtitle,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.23,
+              ),
+            ),
+          ],
+        ],
+      ),
       content: CpContentPadding(
         child: Column(
           children: [
@@ -156,7 +179,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
               status: timelineStatus,
               items: items,
               active: activeItem,
-              animated: false,
+              animated: animated,
             ),
             const Spacer(flex: 4),
             SizedBox(
