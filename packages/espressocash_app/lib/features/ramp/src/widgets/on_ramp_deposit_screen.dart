@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -26,7 +25,7 @@ class OnRampDepositScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    final formattedTransferAmount = (order.transferAmount!).format(locale);
+    final formattedTransferAmount = order.transferAmount?.format(locale);
 
     final formattedReceiveAmount = order.receiveAmount?.format(
       locale,
@@ -37,9 +36,9 @@ class OnRampDepositScreen extends StatelessWidget {
     return CpTheme.black(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            'ADD CASH',
-            style: TextStyle(
+          title: Text(
+            context.l10n.depositTitle.toUpperCase(),
+            style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 17,
             ),
@@ -49,7 +48,7 @@ class OnRampDepositScreen extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.only(right: 24),
               child: CountdownTimer(
                 expiryDate: order.transferExpiryDate ?? DateTime.now(),
                 startDate: order.created,
@@ -66,15 +65,14 @@ class OnRampDepositScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               const SizedBox(height: 16),
-              const _InstructionItem(
+              _InstructionItem(
                 index: 1,
-                text:
-                    'Transfer money from your bank account to our local partner:',
+                text: context.l10n.depositInstruction1,
               ),
               const SizedBox(height: 8),
               _ItemWidget(
-                title: 'Amount to be transferred',
-                value: formattedTransferAmount,
+                title: context.l10n.depositTransferAmount,
+                value: formattedTransferAmount ?? '',
               ),
               const SizedBox(height: 24),
               _ItemWidget(
@@ -82,10 +80,9 @@ class OnRampDepositScreen extends StatelessWidget {
                 value: order.bankAccount ?? '',
               ),
               const SizedBox(height: 16),
-              const _InstructionItem(
+              _InstructionItem(
                 index: 2,
-                text:
-                    'Once money has been transferred, return to Espresso Cash and continue below.',
+                text: context.l10n.depositInstruction2,
               ),
               const SizedBox(height: 8),
               Padding(
@@ -94,7 +91,8 @@ class OnRampDepositScreen extends StatelessWidget {
                   TextSpan(
                     children: [
                       TextSpan(
-                        text: 'You will receive: $formattedReceiveAmount',
+                        text: context.l10n
+                            .depositReceiveAmount(formattedReceiveAmount ?? ''),
                       ),
                       TextSpan(
                         text:
@@ -115,11 +113,11 @@ class OnRampDepositScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              const Padding(
-                padding: EdgeInsets.only(left: 42),
+              Padding(
+                padding: const EdgeInsets.only(left: 42),
                 child: Text(
-                  'Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.',
-                  style: TextStyle(
+                  context.l10n.depositDisclaimer,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
@@ -135,7 +133,7 @@ class OnRampDepositScreen extends StatelessWidget {
             child: CpButton(
               width: double.infinity,
               onPressed: () => sl<OnRampOrderService>().deposit(order.id),
-              text: 'Continue',
+              text: context.l10n.ramp_btnContinue,
             ),
           ),
         ),

@@ -918,7 +918,7 @@
       }
     }
   },
-   "onRampDepositTitle": "Add Cash Progress",
+  "onRampDepositTitle": "Add Cash Progress",
   "@onRampDepositTitle": {},
   "onRampDepositInitiated": "Deposit initiated",
   "@onRampDepositInitiated": {},
@@ -939,5 +939,23 @@
   "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
   "@onRampAwaitingFunds": {},
   "incomingUsdcFeeNotice": "You were charged a one time $0.10 fee for your first incoming transaction.",
-  "@incomingUsdcFeeNotice": {}
+  "@incomingUsdcFeeNotice": {},
+  "depositTitle": "Add Cash",
+  "@depositTitle": {},
+  "depositInstruction1": "Transfer money from your bank account to our local partner:",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Once money has been transferred, return to Espresso Cash and continue below.",
+  "@depositInstruction2": {},
+  "depositTransferAmount": "Amount to be transferred",
+  "@depositTransferAmount": {},
+  "depositDisclaimer": "Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.",
+  "@depositDisclaimer": {},
+  "depositReceiveAmount": "You will receive: {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
