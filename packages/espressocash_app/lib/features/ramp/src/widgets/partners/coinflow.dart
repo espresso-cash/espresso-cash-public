@@ -21,17 +21,30 @@ extension BuildContextExt on BuildContext {
     required String address,
     required ProfileData profile,
   }) async {
-    final uri = Uri.parse(coinflowBaseUrl).replace(
-      queryParameters: {
-        'publicKey': address,
-        'email': profile.email,
-        'cluster': isProd ? 'mainnet' : 'staging',
-        'rpcUrl': solanaRpcUrl,
-      },
-    );
+    final blank = Uri.parse('about:blank');
 
     bool orderWasCreated = false;
-    void handleLoaded(InAppWebViewController controller) {
+    bool hasLoaded = false;
+
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      if (!hasLoaded) {
+        await controller.loadFile(
+          assetFilePath: 'assets/coinflow/index.html',
+        );
+
+        controller.addJavaScriptHandler(
+          handlerName: 'init',
+          callback: (args) => {
+            'publicKey': address,
+            'email': profile.email,
+            'cluster': isProd ? 'mainnet' : 'staging',
+            'rpcUrl': solanaRpcUrl,
+          },
+        );
+
+        hasLoaded = true;
+      }
+
       controller.addJavaScriptHandler(
         handlerName: 'coinflow',
         callback: (args) async {
@@ -77,6 +90,6 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
+    await router.push(WebViewScreen.route(url: blank, onLoaded: handleLoaded));
   }
 }

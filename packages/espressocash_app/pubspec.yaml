@@ -116,6 +116,10 @@ flutter:
     - assets/icons/
     - assets/rive/
     - assets/landing/
+    - assets/coinflow/
+    - assets/coinflow/static/
+    - assets/coinflow/static/js/
+    - assets/coinflow/static/css/
 
   fonts:
     - family: RobotoApp
