@@ -14,14 +14,6 @@
   "@activities_lblFailure": {},
   "activities_lblInProgress": "En curso",
   "@activities_lblInProgress": {},
-  "activities_lblSoldToken": "{amount} Vendido",
-  "@activities_lblSoldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblSuccess": "Éxito",
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Actividad",
