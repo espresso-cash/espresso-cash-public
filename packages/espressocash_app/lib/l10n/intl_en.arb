@@ -928,6 +928,22 @@
   "@onRampDepositSuccess": {},
   "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
   "@onRampDepositFailure": {},
+  "onRampDepositExpired": "Your order has expired. Please try again.",
+  "@onRampDepositExpired": {},
+  "onRampLocalTransferTile": "Local currency transferred\nAmount sent: {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
   "onRampDepositOngoing": "Depositing {amount}",
   "@onRampDepositOngoing": {
     "placeholders": {

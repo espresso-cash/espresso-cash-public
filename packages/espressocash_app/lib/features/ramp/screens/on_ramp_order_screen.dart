@@ -71,6 +71,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final amount =
         order.amount.let((e) => e?.value != 0 ? e : order.receiveAmount);
 
+    final bool isManualBankTransfer = order.bankAccount != null;
+
     final contactUsButton = Padding(
       padding: EdgeInsets.only(
         bottom: MediaQuery.paddingOf(context).bottom + 16,
@@ -118,8 +120,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
         context.l10n.onRampDepositOngoing(
           amount?.format(locale, maxDecimals: 2) ?? 'USDC',
         ),
-      OnRampOrderStatus.depositExpired =>
-        'Your order has expired. Please try again.',
+      OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
       OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
@@ -160,8 +161,19 @@ class OnRampOrderScreenContent extends StatelessWidget {
       title: context.l10n.onRampDepositReceived,
     );
 
+    final formattedTransferAmount = order.transferAmount?.format(locale);
+
+    final amountDeposited = CpTimelineItem(
+      title: context.l10n.onRampLocalTransferTile(
+        formattedTransferAmount ?? '',
+        order.bankName ?? '',
+        order.bankAccount ?? '',
+      ),
+    );
+
     final items = [
       depositInitiated,
+      if (isManualBankTransfer) amountDeposited,
       amountReceived,
     ];
 
@@ -195,7 +207,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             CpTimeline(
               status: timelineStatus,
               items: items,
-              active: activeItem,
+              active: isManualBankTransfer ? activeItem + 1 : activeItem,
               animated: animated,
             ),
             const Spacer(flex: 4),
