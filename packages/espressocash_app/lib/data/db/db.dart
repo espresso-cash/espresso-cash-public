@@ -198,7 +198,7 @@ class MyDatabase extends _$MyDatabase {
               onRampOrderRows,
               onRampOrderRows.bankTransferAmount,
             );
-            await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
           }
         },
       );
