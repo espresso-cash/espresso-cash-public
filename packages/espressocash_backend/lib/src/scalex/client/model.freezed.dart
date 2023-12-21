@@ -744,7 +744,7 @@ class _$_TransactionDto implements _TransactionDto {
 abstract class _TransactionDto implements TransactionDto {
   const factory _TransactionDto(
       {@JsonKey(unknownEnumValue: OrderStatus.unknown)
-          required final OrderStatus status,
+      required final OrderStatus status,
       required final String type,
       required final String fromCurrency,
       required final num fromAmount,
