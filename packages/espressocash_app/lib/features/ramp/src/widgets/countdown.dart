@@ -61,6 +61,10 @@ class _CountdownTimerState extends State<CountdownTimer> {
   }
 
   String get _formattedTime {
+    if (DateTime.now().isAfter(widget.expiryDate)) {
+      return '00:00';
+    }
+
     final duration = widget.expiryDate.difference(DateTime.now());
 
     return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';

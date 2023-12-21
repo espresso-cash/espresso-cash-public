@@ -5,6 +5,7 @@ import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
@@ -199,38 +200,36 @@ class OnRampOrderService implements Disposable {
   }
 
   void _subscribe(String orderId) {
-    _subscriptions[orderId] = (_db.select(_db.onRampOrderRows)
-          ..where((tbl) => tbl.id.equals(orderId)))
-        .watchSingle()
-        .asyncExpand<OnRampOrderRowsCompanion>((order) {
-      switch (order.status) {
-        case OnRampOrderStatus.waitingForDeposit:
-          final expiry = order.bankTransferExpiry;
-          if (expiry != null && expiry.isBefore(DateTime.now())) {
-            _subscriptions[orderId]?.cancel();
+    _subscriptions[orderId] = Stream<void>.periodic(const Duration(seconds: 5))
+        .asyncMap((_) async {
+          final order = await (_db.select(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId)))
+              .getSingle();
+
+          if (order.status != OnRampOrderStatus.waitingForDeposit) {
+            await _subscriptions[orderId]?.cancel();
             _subscriptions.remove(orderId);
 
-            return Stream.value(
-              const OnRampOrderRowsCompanion(
-                status: Value(OnRampOrderStatus.depositExpired),
-              ),
+            return null;
+          }
+
+          final expiry = order.bankTransferExpiry;
+          if (expiry != null && expiry.isBefore(DateTime.now())) {
+            return OnRampOrderRowsCompanion(
+              id: Value(order.id),
+              status: const Value(OnRampOrderStatus.depositExpired),
             );
           }
-        case OnRampOrderStatus.completed:
-        case OnRampOrderStatus.depositExpired:
-        case OnRampOrderStatus.failure:
-        case OnRampOrderStatus.waitingForPartner:
-          return const Stream.empty();
-      }
-    }).listen(
-      (event) {
-        print(event);
+        })
+        .whereNotNull()
+        .listen((event) async {
+          await _subscriptions[orderId]?.cancel();
+          _subscriptions.remove(orderId);
 
-        (_db.update(_db.onRampOrderRows)
-              ..where((tbl) => tbl.id.equals(orderId)))
-            .write(event);
-      },
-    );
+          await (_db.update(_db.onRampOrderRows)
+                ..where((tbl) => tbl.id.equals(orderId)))
+              .write(event);
+        });
   }
 
   @override
