@@ -43,7 +43,7 @@ class OnRampOrderService implements Disposable {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
     final query = _db.select(_db.onRampOrderRows)
       ..where(

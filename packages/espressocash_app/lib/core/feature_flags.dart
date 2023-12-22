@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 class FeatureFlagsManager {
   final _remoteConfig = FirebaseRemoteConfig.instance;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
     try {
       await _remoteConfig.setConfigSettings(
