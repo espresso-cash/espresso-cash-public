@@ -52,7 +52,6 @@ class TxSender {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
-          // ignore: prefer-return-await, not needed here
           return checkSubmittedTx(tx.id);
         // ignore: no_default_cases, not interested in other options
         default:
