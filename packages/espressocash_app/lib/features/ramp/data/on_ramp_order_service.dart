@@ -31,14 +31,15 @@ class OnRampOrderService implements Disposable {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Future<void> create({
+  AsyncResult<String> create({
     required String orderId,
     required RampPartner partner,
     CryptoAmount? amount,
     CryptoAmount? receiveAmount,
-  }) async {
-    await _db.into(_db.onRampOrderRows).insert(
-          OnRampOrderRow(
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final order = OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: amount?.value ?? 0,
@@ -51,9 +52,13 @@ class OnRampOrderService implements Disposable {
             partner: partner,
             receiveAmount: receiveAmount?.value,
             status: OnRampOrderStatus.waitingForPartner,
-          ),
-        );
-  }
+          );
+
+          await _db.into(_db.onRampOrderRows).insert(order);
+
+          return order.id;
+        }
+      });
 
   Stream<OnRampOrder> watch(String id) {
     final query = _db.select(_db.onRampOrderRows)

@@ -22,6 +22,7 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
         .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(orderId))
         .whereNotNull()
         .asyncMap((order) => _client.fetchStatus(order.partnerOrderId))
