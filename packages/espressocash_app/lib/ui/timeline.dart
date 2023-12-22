@@ -140,7 +140,12 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                   ),
               ],
             ),
-            Expanded(child: _TileInfo(tile: widget.items[index])),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: isFirst ? 16 : 0),
+                child: _TileInfo(tile: widget.items[index]),
+              ),
+            ),
           ],
         );
       },
@@ -160,7 +165,7 @@ class _TileInfo extends StatelessWidget {
     final subtitle = tile.subtitle;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
