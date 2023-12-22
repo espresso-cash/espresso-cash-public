@@ -244,17 +244,15 @@ class OffRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 4),
             SizedBox(
               height: CpButtonSize.big.height,
-              child: order.partnerOrderId.isNotEmpty
-                  ? Center(
-                      child: Text(
-                        context.l10n.orderId(order.partnerOrderId),
-                        style: const TextStyle(
-                          color: Color(0xFF979593),
-                          fontSize: 14,
-                        ),
-                      ),
-                    )
-                  : null,
+              child: Center(
+                child: Text(
+                  context.l10n.orderId(order.partnerOrderId),
+                  style: const TextStyle(
+                    color: Color(0xFF979593),
+                    fontSize: 14,
+                  ),
+                ),
+              ),
             ),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),

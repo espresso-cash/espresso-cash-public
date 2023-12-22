@@ -26,6 +26,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
   @override
   void watch(String orderId) {
     _subscription = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
         .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(orderId))
         .whereNotNull()
         .asyncMap(
@@ -55,11 +56,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
 
       if (status == OffRampOrderStatus.completed) await _subscription?.cancel();
 
-      await statement.write(
-        OffRampOrderRowsCompanion(
-          status: Value(status),
-        ),
-      );
+      await statement.write(OffRampOrderRowsCompanion(status: Value(status)));
     });
   }
 
