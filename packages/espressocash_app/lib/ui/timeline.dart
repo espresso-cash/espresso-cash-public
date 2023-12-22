@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 typedef _AnimationTransformer = double Function(double value);
@@ -317,16 +318,14 @@ extension on CpTimelineStatus {
   }
 }
 
-const _successIcon = Icon(
-  Icons.check,
-  color: Colors.white,
-  size: 22,
+final _successIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineCheck.svg(),
 );
 
-const _failIcon = Icon(
-  Icons.close,
-  color: Colors.white,
-  size: 22,
+final _failIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineFail.svg(),
 );
 
 double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
