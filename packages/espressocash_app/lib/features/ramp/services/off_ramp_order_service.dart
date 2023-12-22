@@ -189,6 +189,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    SignedTx? transaction,
     FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
@@ -201,9 +202,11 @@ class OffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partnerOrderId: partnerOrderId,
-            transaction: '',
+            transaction: transaction?.encode() ?? '',
             slot: BigInt.zero,
-            status: OffRampOrderStatus.depositTxRequired,
+            status: transaction == null
+                ? OffRampOrderStatus.depositTxRequired
+                : OffRampOrderStatus.depositTxReady,
             depositAddress: depositAddress,
             partner: partner,
             receiveAmount: receiveAmount?.value,
@@ -224,31 +227,18 @@ class OffRampOrderService implements Disposable {
     required RampPartner partner,
     FiatAmount? receiveAmount,
   }) =>
-      tryEitherAsync((_) async {
+      tryEitherAsync((bind) async {
         {
           final signed = await tx.let((it) => it.resign(_account));
 
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            amount: amount.value,
-            token: amount.token.address,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partnerOrderId: '',
-            transaction: signed.encode(),
-            slot: BigInt.zero,
-            status: OffRampOrderStatus.depositTxReady,
-            depositAddress: '',
+          return create(
+            partnerOrderId: signed.id,
+            amount: amount,
             partner: partner,
-            receiveAmount: receiveAmount?.value,
-            fiatSymbol: receiveAmount?.currency.symbol,
-          );
-
-          await _db.into(_db.offRampOrderRows).insert(order);
-          _subscribe(order.id);
-
-          return order.id;
+            depositAddress: '',
+            receiveAmount: receiveAmount,
+            transaction: signed,
+          ).letAsync(bind);
         }
       });
 
