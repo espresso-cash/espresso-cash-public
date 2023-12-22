@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'dart:async';
 
 import 'package:collection/collection.dart';
@@ -48,7 +46,11 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
       final status = switch (event?.status) {
         CoinflowOrderStatus.completed => OffRampOrderStatus.completed,
         CoinflowOrderStatus.failed => OffRampOrderStatus.failure,
-        _ => OffRampOrderStatus.waitingForPartner,
+        CoinflowOrderStatus.created ||
+        CoinflowOrderStatus.unknown ||
+        CoinflowOrderStatus.pending ||
+        null =>
+          OffRampOrderStatus.waitingForPartner,
       };
 
       if (status == OffRampOrderStatus.completed) await _subscription?.cancel();
