@@ -33,15 +33,18 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
         );
 
       final isCompleted = data == ScalexOrderStatus.completed;
+      final isExpired = data == ScalexOrderStatus.expired;
 
-      if (isCompleted) await _subscription?.cancel();
+      if (isCompleted || isExpired) await _subscription?.cancel();
 
-      final status = isCompleted ? OnRampOrderStatus.completed : null;
+      final status = isCompleted
+          ? OnRampOrderStatus.completed
+          : isExpired
+              ? OnRampOrderStatus.depositExpired
+              : null;
 
       await statement.write(
         OnRampOrderRowsCompanion(
-          humanStatus: Value(data.name),
-          machineStatus: Value(data.name),
           status: Value.ofNullable(status),
           isCompleted: Value(isCompleted),
         ),
