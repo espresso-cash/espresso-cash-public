@@ -72,7 +72,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   Widget build(BuildContext _) => FutureBuilder(
         future: _initScope,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return Container();
+          if (!snapshot.hasData) return const SplashScreen();
 
           return MultiProvider(
             providers: const [
