@@ -81,6 +81,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
         _AnimationTransformer? connectorTransformer;
 
         final isActive = index == widget.active;
+        final isHighlighted = widget.animated && index == widget.active;
 
         if (widget.animated) {
           if (index == widget.active) {
@@ -110,7 +111,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index > widget.active
+                        color: isHighlighted || index > widget.active
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
