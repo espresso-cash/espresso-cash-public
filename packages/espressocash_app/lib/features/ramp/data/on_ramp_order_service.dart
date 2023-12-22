@@ -24,10 +24,14 @@ typedef OnRampOrder = ({
   RampPartner partner,
   OnRampOrderStatus status,
   String partnerOrderId,
-  String? bankAccount,
-  String? bankName,
-  DateTime? transferExpiryDate,
-  FiatAmount? transferAmount,
+  DepositDetails? manualDeposit,
+});
+
+typedef DepositDetails = ({
+  String bankAccount,
+  String bankName,
+  DateTime transferExpiryDate,
+  FiatAmount transferAmount,
 });
 
 @Singleton(scope: authScope)
@@ -113,7 +117,7 @@ class OnRampOrderService implements Disposable {
         status: OnRampOrderStatus.waitingForDeposit,
       );
 
-  Future<void> deposit(String orderId) async {
+  Future<void> confirmDeposit(String orderId) async {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(orderId));
     final order = await query.getSingle();
@@ -155,38 +159,53 @@ class OnRampOrderService implements Disposable {
       ..where((tbl) => tbl.id.equals(id));
 
     return query.watchSingle().map(
-          (row) => (
-            id: row.id,
-            created: row.created,
-            amount: CryptoAmount(
-              value: row.amount,
+      (row) {
+        final bankAccount = row.bankAccount;
+        final bankName = row.bankName;
+        final transferExpiryDate = row.bankTransferExpiry;
+        final transferAmount = row.bankTransferAmount;
+        final fiatSymbol = row.fiatSymbol;
+
+        final isManualDeposit = bankAccount != null &&
+            bankName != null &&
+            transferExpiryDate != null &&
+            transferAmount != null &&
+            fiatSymbol != null;
+
+        return (
+          id: row.id,
+          created: row.created,
+          amount: CryptoAmount(
+            value: row.amount,
+            cryptoCurrency: CryptoCurrency(
+              token: _tokens.requireTokenByMint(row.token),
+            ),
+          ),
+          receiveAmount: row.receiveAmount?.let(
+            (amount) => CryptoAmount(
+              value: amount,
               cryptoCurrency: CryptoCurrency(
                 token: _tokens.requireTokenByMint(row.token),
               ),
             ),
-            receiveAmount: row.receiveAmount?.let(
-              (amount) => CryptoAmount(
-                value: amount,
-                cryptoCurrency: CryptoCurrency(
-                  token: _tokens.requireTokenByMint(row.token),
-                ),
-              ),
-            ),
-            partner: row.partner,
-            status: row.status,
-            partnerOrderId: row.partnerOrderId,
-            bankAccount: row.bankAccount,
-            bankName: row.bankName,
-            transferExpiryDate: row.bankTransferExpiry,
-            transferAmount: row.bankTransferAmount?.let(
-              (it) => Amount(
-                value: it,
-                // ignore: avoid-non-null-assertion, checked amount
-                currency: currencyFromString(row.fiatSymbol!),
-              ) as FiatAmount,
-            ),
           ),
+          partner: row.partner,
+          status: row.status,
+          partnerOrderId: row.partnerOrderId,
+          manualDeposit: isManualDeposit
+              ? (
+                  bankAccount: bankAccount,
+                  bankName: bankName,
+                  transferExpiryDate: transferExpiryDate,
+                  transferAmount: FiatAmount(
+                    value: transferAmount,
+                    fiatCurrency: currencyFromString(fiatSymbol),
+                  ),
+                )
+              : null,
         );
+      },
+    );
   }
 
   Stream<IList<({String id, DateTime created})>> watchPending() {

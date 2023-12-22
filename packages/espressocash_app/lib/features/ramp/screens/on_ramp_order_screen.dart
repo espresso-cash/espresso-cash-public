@@ -18,7 +18,7 @@ import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';
-import '../src/widgets/on_ramp_deposit_screen.dart';
+import '../src/widgets/on_ramp_deposit_widget.dart';
 
 @RoutePage()
 class OnRampOrderScreen extends StatefulWidget {
@@ -64,14 +64,27 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (order.status == OnRampOrderStatus.waitingForDeposit) {
-      return OnRampDepositScreen(order: order);
+    final manualDeposit = order.manualDeposit;
+    final bool isManualBankTransfer = manualDeposit != null;
+
+    if (order.status == OnRampOrderStatus.waitingForDeposit &&
+        isManualBankTransfer) {
+      return OnRampDepositWidget(
+        deposit: (
+          bankAccount: manualDeposit.bankAccount,
+          bankName: manualDeposit.bankName,
+          transferExpiryDate: manualDeposit.transferExpiryDate,
+          transferAmount: manualDeposit.transferAmount,
+          orderId: order.id,
+          orderCreated: order.created,
+          receiveAmount: order.receiveAmount,
+        ),
+      );
     }
+
     final locale = DeviceLocale.localeOf(context);
     final amount =
         order.amount.let((e) => e?.value != 0 ? e : order.receiveAmount);
-
-    final bool isManualBankTransfer = order.bankAccount != null;
 
     final contactUsButton = Padding(
       padding: EdgeInsets.only(
@@ -161,19 +174,16 @@ class OnRampOrderScreenContent extends StatelessWidget {
       title: context.l10n.onRampDepositReceived,
     );
 
-    final formattedTransferAmount = order.transferAmount?.format(locale);
-
-    final amountDeposited = CpTimelineItem(
-      title: context.l10n.onRampLocalTransferTile(
-        formattedTransferAmount ?? '',
-        order.bankName ?? '',
-        order.bankAccount ?? '',
-      ),
-    );
-
     final items = [
       depositInitiated,
-      if (isManualBankTransfer) amountDeposited,
+      if (isManualBankTransfer)
+        CpTimelineItem(
+          title: context.l10n.onRampLocalTransferTile(
+            manualDeposit.transferAmount.format(locale),
+            manualDeposit.bankName,
+            manualDeposit.bankAccount,
+          ),
+        ),
       amountReceived,
     ];
 

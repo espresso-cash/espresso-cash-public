@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';
@@ -16,18 +17,28 @@ import '../../../../ui/theme.dart';
 import '../../data/on_ramp_order_service.dart';
 import 'countdown.dart';
 
-class OnRampDepositScreen extends StatelessWidget {
-  const OnRampDepositScreen({super.key, required this.order});
+typedef Deposit = ({
+  String orderId,
+  DateTime orderCreated,
+  CryptoAmount? receiveAmount,
+  String bankAccount,
+  String bankName,
+  DateTime transferExpiryDate,
+  FiatAmount transferAmount,
+});
 
-  final OnRampOrder order;
+class OnRampDepositWidget extends StatelessWidget {
+  const OnRampDepositWidget({super.key, required this.deposit});
+
+  final Deposit deposit;
 
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
 
-    final formattedTransferAmount = order.transferAmount?.format(locale);
+    final formattedTransferAmount = deposit.transferAmount.format(locale);
 
-    final formattedReceiveAmount = order.receiveAmount?.format(
+    final formattedReceiveAmount = deposit.receiveAmount?.format(
       locale,
       skipSymbol: true,
       maxDecimals: 2,
@@ -50,8 +61,8 @@ class OnRampDepositScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: CountdownTimer(
-                expiryDate: order.transferExpiryDate ?? DateTime.now(),
-                startDate: order.created,
+                expiryDate: deposit.transferExpiryDate,
+                startDate: deposit.orderCreated,
               ),
             ),
           ],
@@ -72,12 +83,12 @@ class OnRampDepositScreen extends StatelessWidget {
               const SizedBox(height: 8),
               _ItemWidget(
                 title: context.l10n.depositTransferAmount,
-                value: formattedTransferAmount ?? '',
+                value: formattedTransferAmount,
               ),
               const SizedBox(height: 24),
               _ItemWidget(
-                title: '${order.bankName ?? ''} Account',
-                value: order.bankAccount ?? '',
+                title: '${deposit.bankName} Account',
+                value: deposit.bankAccount,
               ),
               const SizedBox(height: 16),
               _InstructionItem(
@@ -96,7 +107,7 @@ class OnRampDepositScreen extends StatelessWidget {
                       ),
                       TextSpan(
                         text:
-                            ' ${order.receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
+                            ' ${deposit.receiveAmount?.currency.symbol.toUpperCase() ?? ''}',
                         style: const TextStyle(
                           color: CpColors.yellowColor,
                         ),
@@ -132,7 +143,8 @@ class OnRampDepositScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: CpButton(
               width: double.infinity,
-              onPressed: () => sl<OnRampOrderService>().deposit(order.id),
+              onPressed: () =>
+                  sl<OnRampOrderService>().confirmDeposit(deposit.orderId),
               text: context.l10n.ramp_btnContinue,
             ),
           ),
