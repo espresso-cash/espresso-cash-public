@@ -88,19 +88,14 @@ class _CountdownTimerState extends State<CountdownTimer> {
               child: CircularProgressIndicator(
                 value: 1 - _percent,
                 backgroundColor: CpColors.yellowColor,
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  Colors.black,
-                ),
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.black),
                 strokeWidth: 6,
               ),
             ),
             Text(
               _formattedTime,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 13,
-              ),
+              style: const TextStyle(color: Colors.white, fontSize: 13),
             ),
           ],
         ),

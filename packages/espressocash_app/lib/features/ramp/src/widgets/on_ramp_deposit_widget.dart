@@ -15,7 +15,7 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../../ui/theme.dart';
 import '../../data/on_ramp_order_service.dart';
-import 'countdown.dart';
+import 'countdown_timer.dart';
 
 typedef Deposit = ({
   String orderId,
