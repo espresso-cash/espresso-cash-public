@@ -19,6 +19,7 @@ import '../src/models/ramp_type.dart';
 import '../src/screens/ramp_onboarding_screen.dart';
 import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
+import '../src/widgets/partners/coinflow.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
@@ -208,6 +209,8 @@ extension on BuildContext {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.coinflow:
+        launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexRamp(
           profile: profile,
@@ -216,7 +219,6 @@ extension on BuildContext {
         );
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -238,7 +240,7 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
   }
 
   return countryCode == 'US'
-      ? const IListConst([RampPartner.kado])
+      ? const IListConst([RampPartner.coinflow])
       : countryCode == 'NG'
           ? const IListConst([RampPartner.scalex])
           : const IListConst([]);

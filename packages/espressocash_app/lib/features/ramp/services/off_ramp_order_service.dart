@@ -189,6 +189,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    SignedTx? transaction,
     FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
@@ -201,9 +202,11 @@ class OffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partnerOrderId: partnerOrderId,
-            transaction: '',
+            transaction: transaction?.encode() ?? '',
             slot: BigInt.zero,
-            status: OffRampOrderStatus.depositTxRequired,
+            status: transaction == null
+                ? OffRampOrderStatus.depositTxRequired
+                : OffRampOrderStatus.depositTxReady,
             depositAddress: depositAddress,
             partner: partner,
             receiveAmount: receiveAmount?.value,
@@ -214,6 +217,28 @@ class OffRampOrderService implements Disposable {
           _subscribe(order.id);
 
           return order.id;
+        }
+      });
+
+  @useResult
+  AsyncResult<String> createFromTx({
+    required SignedTx tx,
+    required CryptoAmount amount,
+    required RampPartner partner,
+    FiatAmount? receiveAmount,
+  }) =>
+      tryEitherAsync((bind) async {
+        {
+          final signed = await tx.let((it) => it.resign(_account));
+
+          return create(
+            partnerOrderId: signed.id,
+            amount: amount,
+            partner: partner,
+            depositAddress: '',
+            receiveAmount: receiveAmount,
+            transaction: signed,
+          ).letAsync(bind);
         }
       });
 

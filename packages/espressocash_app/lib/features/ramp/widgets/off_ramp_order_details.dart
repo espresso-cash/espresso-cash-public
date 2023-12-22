@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
+import '../coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../kado/services/kado_off_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
 import '../scalex/services/scalex_off_ramp_order_watcher.dart';
@@ -46,8 +47,8 @@ class _OffRampOrderDetailsState extends State<OffRampOrderDetails> {
     _watcher = switch (ramp.partner) {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
+      RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
-      RampPartner.coinflow ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }
