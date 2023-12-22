@@ -14,7 +14,7 @@ final onRampOrderScreenStory = Story(
     order: (
       id: 'ORDER_ID',
       created: DateTime.now(),
-      amount: const CryptoAmount(
+      submittedAmount: const CryptoAmount(
         value: 10000000,
         cryptoCurrency: Currency.usdc,
       ),

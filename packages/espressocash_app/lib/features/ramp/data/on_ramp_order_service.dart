@@ -19,7 +19,7 @@ import '../models/ramp_partner.dart';
 typedef OnRampOrder = ({
   String id,
   DateTime created,
-  CryptoAmount? amount,
+  CryptoAmount submittedAmount,
   CryptoAmount? receiveAmount,
   RampPartner partner,
   OnRampOrderStatus status,
@@ -60,7 +60,7 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> create({
     required String orderId,
     required RampPartner partner,
-    CryptoAmount? amount,
+    CryptoAmount? submittedAmount,
     CryptoAmount? receiveAmount,
     OnRampOrderStatus status = OnRampOrderStatus.waitingForPartner,
     String? bankAccount,
@@ -73,7 +73,7 @@ class OnRampOrderService implements Disposable {
           final order = OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: amount?.value ?? 0,
+            amount: submittedAmount?.value ?? 0,
             token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
@@ -175,7 +175,7 @@ class OnRampOrderService implements Disposable {
         return (
           id: row.id,
           created: row.created,
-          amount: CryptoAmount(
+          submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
               token: _tokens.requireTokenByMint(row.token),
