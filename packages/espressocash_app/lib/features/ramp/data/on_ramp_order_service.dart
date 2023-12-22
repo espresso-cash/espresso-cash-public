@@ -60,7 +60,7 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> create({
     required String orderId,
     required RampPartner partner,
-    CryptoAmount? submittedAmount,
+    required CryptoAmount submittedAmount,
     CryptoAmount? receiveAmount,
     OnRampOrderStatus status = OnRampOrderStatus.waitingForPartner,
     String? bankAccount,
@@ -73,7 +73,7 @@ class OnRampOrderService implements Disposable {
           final order = OnRampOrderRow(
             id: const Uuid().v4(),
             partnerOrderId: orderId,
-            amount: submittedAmount?.value ?? 0,
+            amount: submittedAmount.value,
             token: Token.usdc.address,
             humanStatus: '',
             machineStatus: '',
@@ -100,7 +100,7 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
-    CryptoAmount? receiveAmount,
+    required CryptoAmount receiveAmount,
     required String bankAccount,
     required String bankName,
     required DateTime transferExpiryDate,
@@ -109,6 +109,7 @@ class OnRampOrderService implements Disposable {
       create(
         orderId: orderId,
         partner: partner,
+        submittedAmount: receiveAmount,
         receiveAmount: receiveAmount,
         bankAccount: bankAccount,
         bankName: bankName,

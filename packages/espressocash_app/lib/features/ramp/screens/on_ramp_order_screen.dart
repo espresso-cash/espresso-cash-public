@@ -84,8 +84,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
     }
 
     final locale = DeviceLocale.localeOf(context);
-    final amount = order.submittedAmount
-        .let((e) => e.value != 0 ? e : order.receiveAmount);
+    final amount = order.receiveAmount ?? order.submittedAmount;
 
     final String? statusTitle = order.status == OnRampOrderStatus.completed
         ? context.l10n.transferSuccessTitle
@@ -94,9 +93,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
-        context.l10n.onRampDepositOngoing(
-          amount?.format(locale, maxDecimals: 2) ?? 'USDC',
-        ),
+        context.l10n
+            .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
       OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
       OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
