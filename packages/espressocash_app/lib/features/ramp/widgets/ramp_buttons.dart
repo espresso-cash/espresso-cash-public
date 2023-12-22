@@ -207,6 +207,8 @@ extension on BuildContext {
     required String address,
   }) {
     switch (partner) {
+      case RampPartner.kado:
+        launchKadoOffRamp(address: address, profile: profile);
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
@@ -217,7 +219,6 @@ extension on BuildContext {
         );
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.kado:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
