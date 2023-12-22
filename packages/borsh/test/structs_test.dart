@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
 
-// ignore: match-lib-folder-structure, not in lib folder
 import 'structs.dart';
 
 void main() {
