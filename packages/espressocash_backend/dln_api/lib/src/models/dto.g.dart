@@ -66,9 +66,7 @@ _$DlnQuoteResponseDtoImpl _$$DlnQuoteResponseDtoImplFromJson(
           OrderEstimation.fromJson(json['estimation'] as Map<String, dynamic>),
       prependedOperatingExpenseCost:
           json['prependedOperatingExpenseCost'] as String?,
-      tx: json['tx'] == null
-          ? null
-          : TxQuote.fromJson(json['tx'] as Map<String, dynamic>),
+      tx: TxQuote.fromJson(json['tx'] as Map<String, dynamic>),
       order: Order.fromJson(json['order'] as Map<String, dynamic>),
       fixFee: json['fixFee'] as String,
     );
@@ -87,7 +85,7 @@ Map<String, dynamic> _$$DlnQuoteResponseDtoImplToJson(
 
   writeNotNull(
       'prependedOperatingExpenseCost', instance.prependedOperatingExpenseCost);
-  writeNotNull('tx', instance.tx?.toJson());
+  val['tx'] = instance.tx.toJson();
   val['order'] = instance.order.toJson();
   val['fixFee'] = instance.fixFee;
   return val;

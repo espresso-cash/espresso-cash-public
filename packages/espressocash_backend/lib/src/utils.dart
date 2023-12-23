@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:sentry/sentry.dart';
 import 'package:shelf/shelf.dart';
 
 Future<Response> processRequest<T, R>(
@@ -34,7 +35,9 @@ Future<Response> processRequest<T, R>(
         'content-type': 'application/json',
       },
     );
-  } on Exception {
+  } on Exception catch (error, stacktrace) {
+    await Sentry.captureException(error, stackTrace: stacktrace);
+
     return Response.internalServerError();
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:dln_api/src/models/models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -32,7 +34,7 @@ class DlnQuoteResponseDto with _$DlnQuoteResponseDto {
   const factory DlnQuoteResponseDto({
     required OrderEstimation estimation,
     String? prependedOperatingExpenseCost,
-    TxQuote? tx,
+    required TxQuote tx,
     required Order order,
     required String fixFee,
   }) = _DlnQuoteResponseDto;

@@ -74,7 +74,7 @@ extension BuildContextExt on BuildContext {
             sl<OnRampOrderService>()
                 .create(
               orderId: orderId,
-              amount: submittedAmount,
+              submittedAmount: submittedAmount,
               partner: RampPartner.kado,
             )
                 .then((order) {

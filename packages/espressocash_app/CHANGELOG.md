@@ -1,3 +1,18 @@
+## 1.93.0
+
+ - **REFACTOR**: update linter (#1170).
+ - **REFACTOR**: remove unused code (#1165).
+ - **REFACTOR**: partner select logic (#1164).
+ - **FIX**: auth scope init (#1171).
+ - **FEAT**: add onramp manual bank transfer support (#1168).
+ - **FEAT**: coinflow cashout integration  (#1166).
+ - **FEAT**: timeline widget updates (#1169).
+ - **FEAT**: ramp updates (#1161).
+ - **FEAT**: trigger ramp watchers immediately (#1167).
+ - **FEAT**: add fee message on incoming link payment (#1162).
+ - **FEAT**: add ramp transaction tiles (#1163).
+ - **FEAT**: redirect after kado onramp (#1159).
+
 ## 1.92.0
 
  - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).

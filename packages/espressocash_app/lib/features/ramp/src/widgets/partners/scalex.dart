@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -15,6 +16,7 @@ import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../scalex/data/scalex_repository.dart';
 import '../../../screens/off_ramp_order_screen.dart';
+import '../../../screens/on_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
@@ -58,11 +60,39 @@ extension BuildContextExt on BuildContext {
                   Amount.fromDecimal(value: decimal, currency: Currency.usdc)
                       as CryptoAmount;
 
-              await sl<OnRampOrderService>().create(
+              final order =
+                  await sl<CryptopleaseClient>().fetchScalexTransaction(
+                OrderStatusScalexRequestDto(referenceId: reference),
+              );
+
+              final details = order.onRampDetails;
+
+              if (details == null) return;
+
+              final transferAmount = Amount.fromDecimal(
+                value: Decimal.parse(details.fromAmount.toString()),
+                currency: currencyFromString(details.currency.toUpperCase()),
+              ) as FiatAmount;
+
+              await sl<OnRampOrderService>()
+                  .createForManualTransfer(
                 orderId: reference,
                 receiveAmount: amount,
                 partner: RampPartner.scalex,
-              );
+                bankAccount: details.bankAccount,
+                bankName: details.bankName,
+                transferAmount: transferAmount,
+                transferExpiryDate:
+                    DateTime.now().add(const Duration(minutes: 30)),
+              )
+                  .then((order) {
+                switch (order) {
+                  case Left<Exception, String>():
+                    break;
+                  case Right<Exception, String>(:final value):
+                    router.replace(OnRampOrderScreen.route(orderId: value));
+                }
+              });
               orderWasCreated = true;
             }
           }

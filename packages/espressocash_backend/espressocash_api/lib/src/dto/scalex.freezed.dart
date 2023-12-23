@@ -500,6 +500,7 @@ OrderStatusScalexResponseDto _$OrderStatusScalexResponseDtoFromJson(
 mixin _$OrderStatusScalexResponseDto {
   @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
   ScalexOrderStatus get status => throw _privateConstructorUsedError;
+  OnRampScalexDetails? get onRampDetails => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -517,7 +518,10 @@ abstract class $OrderStatusScalexResponseDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
-      ScalexOrderStatus status});
+      ScalexOrderStatus status,
+      OnRampScalexDetails? onRampDetails});
+
+  $OnRampScalexDetailsCopyWith<$Res>? get onRampDetails;
 }
 
 /// @nodoc
@@ -535,13 +539,30 @@ class _$OrderStatusScalexResponseDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? status = null,
+    Object? onRampDetails = freezed,
   }) {
     return _then(_value.copyWith(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ScalexOrderStatus,
+      onRampDetails: freezed == onRampDetails
+          ? _value.onRampDetails
+          : onRampDetails // ignore: cast_nullable_to_non_nullable
+              as OnRampScalexDetails?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $OnRampScalexDetailsCopyWith<$Res>? get onRampDetails {
+    if (_value.onRampDetails == null) {
+      return null;
+    }
+
+    return $OnRampScalexDetailsCopyWith<$Res>(_value.onRampDetails!, (value) {
+      return _then(_value.copyWith(onRampDetails: value) as $Val);
+    });
   }
 }
 
@@ -556,7 +577,11 @@ abstract class _$$_OrderStatusScalexResponseDtoCopyWith<$Res>
   @useResult
   $Res call(
       {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
-      ScalexOrderStatus status});
+      ScalexOrderStatus status,
+      OnRampScalexDetails? onRampDetails});
+
+  @override
+  $OnRampScalexDetailsCopyWith<$Res>? get onRampDetails;
 }
 
 /// @nodoc
@@ -573,12 +598,17 @@ class __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
+    Object? onRampDetails = freezed,
   }) {
     return _then(_$_OrderStatusScalexResponseDto(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as ScalexOrderStatus,
+      onRampDetails: freezed == onRampDetails
+          ? _value.onRampDetails
+          : onRampDetails // ignore: cast_nullable_to_non_nullable
+              as OnRampScalexDetails?,
     ));
   }
 }
@@ -588,7 +618,8 @@ class __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>
 class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
   const _$_OrderStatusScalexResponseDto(
       {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
-      required this.status});
+      required this.status,
+      this.onRampDetails});
 
   factory _$_OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =>
       _$$_OrderStatusScalexResponseDtoFromJson(json);
@@ -596,10 +627,12 @@ class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
   @override
   @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
   final ScalexOrderStatus status;
+  @override
+  final OnRampScalexDetails? onRampDetails;
 
   @override
   String toString() {
-    return 'OrderStatusScalexResponseDto(status: $status)';
+    return 'OrderStatusScalexResponseDto(status: $status, onRampDetails: $onRampDetails)';
   }
 
   @override
@@ -607,12 +640,14 @@ class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_OrderStatusScalexResponseDto &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.onRampDetails, onRampDetails) ||
+                other.onRampDetails == onRampDetails));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, status);
+  int get hashCode => Object.hash(runtimeType, status, onRampDetails);
 
   @JsonKey(ignore: true)
   @override
@@ -633,7 +668,8 @@ abstract class _OrderStatusScalexResponseDto
     implements OrderStatusScalexResponseDto {
   const factory _OrderStatusScalexResponseDto(
           {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
-          required final ScalexOrderStatus status}) =
+          required final ScalexOrderStatus status,
+          final OnRampScalexDetails? onRampDetails}) =
       _$_OrderStatusScalexResponseDto;
 
   factory _OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =
@@ -643,7 +679,236 @@ abstract class _OrderStatusScalexResponseDto
   @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
   ScalexOrderStatus get status;
   @override
+  OnRampScalexDetails? get onRampDetails;
+  @override
   @JsonKey(ignore: true)
   _$$_OrderStatusScalexResponseDtoCopyWith<_$_OrderStatusScalexResponseDto>
       get copyWith => throw _privateConstructorUsedError;
+}
+
+OnRampScalexDetails _$OnRampScalexDetailsFromJson(Map<String, dynamic> json) {
+  return _OnRampScalexDetails.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OnRampScalexDetails {
+  String get currency => throw _privateConstructorUsedError;
+  String get bankName => throw _privateConstructorUsedError;
+  String get bankAccount => throw _privateConstructorUsedError;
+  num get fromAmount => throw _privateConstructorUsedError;
+  String get fiatCurrency => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $OnRampScalexDetailsCopyWith<OnRampScalexDetails> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OnRampScalexDetailsCopyWith<$Res> {
+  factory $OnRampScalexDetailsCopyWith(
+          OnRampScalexDetails value, $Res Function(OnRampScalexDetails) then) =
+      _$OnRampScalexDetailsCopyWithImpl<$Res, OnRampScalexDetails>;
+  @useResult
+  $Res call(
+      {String currency,
+      String bankName,
+      String bankAccount,
+      num fromAmount,
+      String fiatCurrency});
+}
+
+/// @nodoc
+class _$OnRampScalexDetailsCopyWithImpl<$Res, $Val extends OnRampScalexDetails>
+    implements $OnRampScalexDetailsCopyWith<$Res> {
+  _$OnRampScalexDetailsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currency = null,
+    Object? bankName = null,
+    Object? bankAccount = null,
+    Object? fromAmount = null,
+    Object? fiatCurrency = null,
+  }) {
+    return _then(_value.copyWith(
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
+      bankName: null == bankName
+          ? _value.bankName
+          : bankName // ignore: cast_nullable_to_non_nullable
+              as String,
+      bankAccount: null == bankAccount
+          ? _value.bankAccount
+          : bankAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      fromAmount: null == fromAmount
+          ? _value.fromAmount
+          : fromAmount // ignore: cast_nullable_to_non_nullable
+              as num,
+      fiatCurrency: null == fiatCurrency
+          ? _value.fiatCurrency
+          : fiatCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_OnRampScalexDetailsCopyWith<$Res>
+    implements $OnRampScalexDetailsCopyWith<$Res> {
+  factory _$$_OnRampScalexDetailsCopyWith(_$_OnRampScalexDetails value,
+          $Res Function(_$_OnRampScalexDetails) then) =
+      __$$_OnRampScalexDetailsCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String currency,
+      String bankName,
+      String bankAccount,
+      num fromAmount,
+      String fiatCurrency});
+}
+
+/// @nodoc
+class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
+    extends _$OnRampScalexDetailsCopyWithImpl<$Res, _$_OnRampScalexDetails>
+    implements _$$_OnRampScalexDetailsCopyWith<$Res> {
+  __$$_OnRampScalexDetailsCopyWithImpl(_$_OnRampScalexDetails _value,
+      $Res Function(_$_OnRampScalexDetails) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currency = null,
+    Object? bankName = null,
+    Object? bankAccount = null,
+    Object? fromAmount = null,
+    Object? fiatCurrency = null,
+  }) {
+    return _then(_$_OnRampScalexDetails(
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
+      bankName: null == bankName
+          ? _value.bankName
+          : bankName // ignore: cast_nullable_to_non_nullable
+              as String,
+      bankAccount: null == bankAccount
+          ? _value.bankAccount
+          : bankAccount // ignore: cast_nullable_to_non_nullable
+              as String,
+      fromAmount: null == fromAmount
+          ? _value.fromAmount
+          : fromAmount // ignore: cast_nullable_to_non_nullable
+              as num,
+      fiatCurrency: null == fiatCurrency
+          ? _value.fiatCurrency
+          : fiatCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_OnRampScalexDetails implements _OnRampScalexDetails {
+  const _$_OnRampScalexDetails(
+      {required this.currency,
+      required this.bankName,
+      required this.bankAccount,
+      required this.fromAmount,
+      required this.fiatCurrency});
+
+  factory _$_OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
+      _$$_OnRampScalexDetailsFromJson(json);
+
+  @override
+  final String currency;
+  @override
+  final String bankName;
+  @override
+  final String bankAccount;
+  @override
+  final num fromAmount;
+  @override
+  final String fiatCurrency;
+
+  @override
+  String toString() {
+    return 'OnRampScalexDetails(currency: $currency, bankName: $bankName, bankAccount: $bankAccount, fromAmount: $fromAmount, fiatCurrency: $fiatCurrency)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_OnRampScalexDetails &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.bankName, bankName) ||
+                other.bankName == bankName) &&
+            (identical(other.bankAccount, bankAccount) ||
+                other.bankAccount == bankAccount) &&
+            (identical(other.fromAmount, fromAmount) ||
+                other.fromAmount == fromAmount) &&
+            (identical(other.fiatCurrency, fiatCurrency) ||
+                other.fiatCurrency == fiatCurrency));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, currency, bankName, bankAccount, fromAmount, fiatCurrency);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_OnRampScalexDetailsCopyWith<_$_OnRampScalexDetails> get copyWith =>
+      __$$_OnRampScalexDetailsCopyWithImpl<_$_OnRampScalexDetails>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_OnRampScalexDetailsToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OnRampScalexDetails implements OnRampScalexDetails {
+  const factory _OnRampScalexDetails(
+      {required final String currency,
+      required final String bankName,
+      required final String bankAccount,
+      required final num fromAmount,
+      required final String fiatCurrency}) = _$_OnRampScalexDetails;
+
+  factory _OnRampScalexDetails.fromJson(Map<String, dynamic> json) =
+      _$_OnRampScalexDetails.fromJson;
+
+  @override
+  String get currency;
+  @override
+  String get bankName;
+  @override
+  String get bankAccount;
+  @override
+  num get fromAmount;
+  @override
+  String get fiatCurrency;
+  @override
+  @JsonKey(ignore: true)
+  _$$_OnRampScalexDetailsCopyWith<_$_OnRampScalexDetails> get copyWith =>
+      throw _privateConstructorUsedError;
 }

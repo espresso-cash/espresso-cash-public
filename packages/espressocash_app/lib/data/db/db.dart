@@ -189,6 +189,19 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 37 && from < 44) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.status);
           }
+          if (from >= 37 && from < 45) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bankName);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bankAccount);
+            await m.addColumn(
+              onRampOrderRows,
+              onRampOrderRows.bankTransferExpiry,
+            );
+            await m.addColumn(
+              onRampOrderRows,
+              onRampOrderRows.bankTransferAmount,
+            );
+            await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
+          }
           if (from < 45) {
             await m.createTable(outgoingDlnPaymentRows);
           }
@@ -234,6 +247,11 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
   TextColumn get status => textEnum<OnRampOrderStatus>()();
+  TextColumn get bankName => text().nullable()();
+  TextColumn get bankAccount => text().nullable()();
+  DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
+  IntColumn get bankTransferAmount => integer().nullable()();
+  TextColumn get fiatSymbol => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -254,6 +272,8 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
 }
 
 enum OnRampOrderStatus {
+  waitingForDeposit,
+  depositExpired,
   waitingForPartner,
   failure,
   completed,
