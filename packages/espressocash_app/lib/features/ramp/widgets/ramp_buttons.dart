@@ -233,15 +233,15 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
     partners.add(RampPartner.kado);
   }
 
-  if (_guardarianCountries.contains(countryCode)) {
-    partners.add(RampPartner.guardarian);
-  }
-
   if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
 
   partners.add(RampPartner.rampNetwork);
+
+  if (_guardarianCountries.contains(countryCode)) {
+    partners.add(RampPartner.guardarian);
+  }
 
   return IList(partners);
 }
