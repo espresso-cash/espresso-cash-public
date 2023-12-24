@@ -1,3 +1,7 @@
+## 1.95.0
+
+ - **FEAT**: prefer ramp network in Europe (#1174).
+
 ## 1.94.0
 
  - **FEAT**: enable coinflow in Europe (#1173).
