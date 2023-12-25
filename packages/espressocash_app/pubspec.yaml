@@ -26,10 +26,10 @@ dependencies:
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
   fast_immutable_collections: ^9.1.1
-  firebase_analytics: ^10.7.0
-  firebase_app_installations: ^0.2.4
-  firebase_core: ^2.22.0
-  firebase_remote_config: ^4.3.4
+  firebase_analytics: ^10.7.1
+  firebase_app_installations: ^0.2.4+5
+  firebase_core: ^2.23.0
+  firebase_remote_config: ^4.3.5
   fl_chart: ^0.64.0
   flutter:
     sdk: flutter
@@ -65,7 +65,7 @@ dependencies:
   retrofit: ^3.3.1
   rive: ^0.12.1
   rxdart: ^0.27.1
-  sentry_flutter: ^7.6.2
+  sentry_flutter: ^7.14.0
   share: ^2.0.4
   shared_preferences: ^2.2.0
   sliver_tools: ^0.2.10
