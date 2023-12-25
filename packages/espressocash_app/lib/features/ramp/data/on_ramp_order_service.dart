@@ -10,10 +10,10 @@ import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({

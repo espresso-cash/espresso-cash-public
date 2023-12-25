@@ -3,9 +3,9 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/tokens/token.dart';
 import '../../balances/data/balances_repository.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
+import '../../tokens/token.dart';
 
 @injectable
 class WatchInvestments {

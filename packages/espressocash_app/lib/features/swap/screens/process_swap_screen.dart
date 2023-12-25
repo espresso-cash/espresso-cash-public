@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/presentation/utils.dart';
-import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../tokens/token.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';

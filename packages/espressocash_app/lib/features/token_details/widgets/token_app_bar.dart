@@ -5,12 +5,12 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import '../../../core/tokens/token.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/token_icon.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
 import '../../swap/services/token_ext.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import 'unavailable_token.dart';
 
 class TokenAppBar extends StatelessWidget {
@@ -76,7 +76,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
         right: 0,
         child: Opacity(
           opacity: ratio,
-          child: CpTokenIcon(token: token, size: iconSize),
+          child: TokenIcon(token: token, size: iconSize),
         ),
       );
 

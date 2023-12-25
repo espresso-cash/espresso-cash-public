@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 extension ConversionRates on BuildContext {
