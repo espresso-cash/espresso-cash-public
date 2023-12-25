@@ -62,22 +62,22 @@ class _$AddFundsResponseDtoCopyWithImpl<$Res, $Val extends AddFundsResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_AddFundsResponseDtoCopyWith<$Res>
+abstract class _$$AddFundsResponseDtoImplCopyWith<$Res>
     implements $AddFundsResponseDtoCopyWith<$Res> {
-  factory _$$_AddFundsResponseDtoCopyWith(_$_AddFundsResponseDto value,
-          $Res Function(_$_AddFundsResponseDto) then) =
-      __$$_AddFundsResponseDtoCopyWithImpl<$Res>;
+  factory _$$AddFundsResponseDtoImplCopyWith(_$AddFundsResponseDtoImpl value,
+          $Res Function(_$AddFundsResponseDtoImpl) then) =
+      __$$AddFundsResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String signedUrl});
 }
 
 /// @nodoc
-class __$$_AddFundsResponseDtoCopyWithImpl<$Res>
-    extends _$AddFundsResponseDtoCopyWithImpl<$Res, _$_AddFundsResponseDto>
-    implements _$$_AddFundsResponseDtoCopyWith<$Res> {
-  __$$_AddFundsResponseDtoCopyWithImpl(_$_AddFundsResponseDto _value,
-      $Res Function(_$_AddFundsResponseDto) _then)
+class __$$AddFundsResponseDtoImplCopyWithImpl<$Res>
+    extends _$AddFundsResponseDtoCopyWithImpl<$Res, _$AddFundsResponseDtoImpl>
+    implements _$$AddFundsResponseDtoImplCopyWith<$Res> {
+  __$$AddFundsResponseDtoImplCopyWithImpl(_$AddFundsResponseDtoImpl _value,
+      $Res Function(_$AddFundsResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -85,7 +85,7 @@ class __$$_AddFundsResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? signedUrl = null,
   }) {
-    return _then(_$_AddFundsResponseDto(
+    return _then(_$AddFundsResponseDtoImpl(
       signedUrl: null == signedUrl
           ? _value.signedUrl
           : signedUrl // ignore: cast_nullable_to_non_nullable
@@ -96,11 +96,11 @@ class __$$_AddFundsResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AddFundsResponseDto implements _AddFundsResponseDto {
-  const _$_AddFundsResponseDto({required this.signedUrl});
+class _$AddFundsResponseDtoImpl implements _AddFundsResponseDto {
+  const _$AddFundsResponseDtoImpl({required this.signedUrl});
 
-  factory _$_AddFundsResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AddFundsResponseDtoFromJson(json);
+  factory _$AddFundsResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AddFundsResponseDtoImplFromJson(json);
 
   @override
   final String signedUrl;
@@ -111,10 +111,10 @@ class _$_AddFundsResponseDto implements _AddFundsResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AddFundsResponseDto &&
+            other is _$AddFundsResponseDtoImpl &&
             (identical(other.signedUrl, signedUrl) ||
                 other.signedUrl == signedUrl));
   }
@@ -126,13 +126,13 @@ class _$_AddFundsResponseDto implements _AddFundsResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AddFundsResponseDtoCopyWith<_$_AddFundsResponseDto> get copyWith =>
-      __$$_AddFundsResponseDtoCopyWithImpl<_$_AddFundsResponseDto>(
+  _$$AddFundsResponseDtoImplCopyWith<_$AddFundsResponseDtoImpl> get copyWith =>
+      __$$AddFundsResponseDtoImplCopyWithImpl<_$AddFundsResponseDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AddFundsResponseDtoToJson(
+    return _$$AddFundsResponseDtoImplToJson(
       this,
     );
   }
@@ -140,16 +140,16 @@ class _$_AddFundsResponseDto implements _AddFundsResponseDto {
 
 abstract class _AddFundsResponseDto implements AddFundsResponseDto {
   const factory _AddFundsResponseDto({required final String signedUrl}) =
-      _$_AddFundsResponseDto;
+      _$AddFundsResponseDtoImpl;
 
   factory _AddFundsResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_AddFundsResponseDto.fromJson;
+      _$AddFundsResponseDtoImpl.fromJson;
 
   @override
   String get signedUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_AddFundsResponseDtoCopyWith<_$_AddFundsResponseDto> get copyWith =>
+  _$$AddFundsResponseDtoImplCopyWith<_$AddFundsResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -207,22 +207,22 @@ class _$AddFundsRequestDtoCopyWithImpl<$Res, $Val extends AddFundsRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_AddFundsRequestDtoCopyWith<$Res>
+abstract class _$$AddFundsRequestDtoImplCopyWith<$Res>
     implements $AddFundsRequestDtoCopyWith<$Res> {
-  factory _$$_AddFundsRequestDtoCopyWith(_$_AddFundsRequestDto value,
-          $Res Function(_$_AddFundsRequestDto) then) =
-      __$$_AddFundsRequestDtoCopyWithImpl<$Res>;
+  factory _$$AddFundsRequestDtoImplCopyWith(_$AddFundsRequestDtoImpl value,
+          $Res Function(_$AddFundsRequestDtoImpl) then) =
+      __$$AddFundsRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String receiverAddress, String tokenSymbol});
 }
 
 /// @nodoc
-class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
-    extends _$AddFundsRequestDtoCopyWithImpl<$Res, _$_AddFundsRequestDto>
-    implements _$$_AddFundsRequestDtoCopyWith<$Res> {
-  __$$_AddFundsRequestDtoCopyWithImpl(
-      _$_AddFundsRequestDto _value, $Res Function(_$_AddFundsRequestDto) _then)
+class __$$AddFundsRequestDtoImplCopyWithImpl<$Res>
+    extends _$AddFundsRequestDtoCopyWithImpl<$Res, _$AddFundsRequestDtoImpl>
+    implements _$$AddFundsRequestDtoImplCopyWith<$Res> {
+  __$$AddFundsRequestDtoImplCopyWithImpl(_$AddFundsRequestDtoImpl _value,
+      $Res Function(_$AddFundsRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -231,7 +231,7 @@ class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
     Object? receiverAddress = null,
     Object? tokenSymbol = null,
   }) {
-    return _then(_$_AddFundsRequestDto(
+    return _then(_$AddFundsRequestDtoImpl(
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
@@ -246,12 +246,12 @@ class __$$_AddFundsRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_AddFundsRequestDto implements _AddFundsRequestDto {
-  const _$_AddFundsRequestDto(
+class _$AddFundsRequestDtoImpl implements _AddFundsRequestDto {
+  const _$AddFundsRequestDtoImpl(
       {required this.receiverAddress, required this.tokenSymbol});
 
-  factory _$_AddFundsRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_AddFundsRequestDtoFromJson(json);
+  factory _$AddFundsRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AddFundsRequestDtoImplFromJson(json);
 
   @override
   final String receiverAddress;
@@ -264,10 +264,10 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AddFundsRequestDto &&
+            other is _$AddFundsRequestDtoImpl &&
             (identical(other.receiverAddress, receiverAddress) ||
                 other.receiverAddress == receiverAddress) &&
             (identical(other.tokenSymbol, tokenSymbol) ||
@@ -281,13 +281,13 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AddFundsRequestDtoCopyWith<_$_AddFundsRequestDto> get copyWith =>
-      __$$_AddFundsRequestDtoCopyWithImpl<_$_AddFundsRequestDto>(
+  _$$AddFundsRequestDtoImplCopyWith<_$AddFundsRequestDtoImpl> get copyWith =>
+      __$$AddFundsRequestDtoImplCopyWithImpl<_$AddFundsRequestDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_AddFundsRequestDtoToJson(
+    return _$$AddFundsRequestDtoImplToJson(
       this,
     );
   }
@@ -296,10 +296,10 @@ class _$_AddFundsRequestDto implements _AddFundsRequestDto {
 abstract class _AddFundsRequestDto implements AddFundsRequestDto {
   const factory _AddFundsRequestDto(
       {required final String receiverAddress,
-      required final String tokenSymbol}) = _$_AddFundsRequestDto;
+      required final String tokenSymbol}) = _$AddFundsRequestDtoImpl;
 
   factory _AddFundsRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_AddFundsRequestDto.fromJson;
+      _$AddFundsRequestDtoImpl.fromJson;
 
   @override
   String get receiverAddress;
@@ -307,6 +307,6 @@ abstract class _AddFundsRequestDto implements AddFundsRequestDto {
   String get tokenSymbol;
   @override
   @JsonKey(ignore: true)
-  _$$_AddFundsRequestDtoCopyWith<_$_AddFundsRequestDto> get copyWith =>
+  _$$AddFundsRequestDtoImplCopyWith<_$AddFundsRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -79,11 +79,11 @@ class _$DirectPaymentResultCopyWithImpl<$Res, $Val extends DirectPaymentResult>
 }
 
 /// @nodoc
-abstract class _$$_DirectPaymentResultCopyWith<$Res>
+abstract class _$$DirectPaymentResultImplCopyWith<$Res>
     implements $DirectPaymentResultCopyWith<$Res> {
-  factory _$$_DirectPaymentResultCopyWith(_$_DirectPaymentResult value,
-          $Res Function(_$_DirectPaymentResult) then) =
-      __$$_DirectPaymentResultCopyWithImpl<$Res>;
+  factory _$$DirectPaymentResultImplCopyWith(_$DirectPaymentResultImpl value,
+          $Res Function(_$DirectPaymentResultImpl) then) =
+      __$$DirectPaymentResultImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int fee, BigInt slot, SignedTx transaction});
@@ -93,11 +93,11 @@ abstract class _$$_DirectPaymentResultCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_DirectPaymentResultCopyWithImpl<$Res>
-    extends _$DirectPaymentResultCopyWithImpl<$Res, _$_DirectPaymentResult>
-    implements _$$_DirectPaymentResultCopyWith<$Res> {
-  __$$_DirectPaymentResultCopyWithImpl(_$_DirectPaymentResult _value,
-      $Res Function(_$_DirectPaymentResult) _then)
+class __$$DirectPaymentResultImplCopyWithImpl<$Res>
+    extends _$DirectPaymentResultCopyWithImpl<$Res, _$DirectPaymentResultImpl>
+    implements _$$DirectPaymentResultImplCopyWith<$Res> {
+  __$$DirectPaymentResultImplCopyWithImpl(_$DirectPaymentResultImpl _value,
+      $Res Function(_$DirectPaymentResultImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -107,7 +107,7 @@ class __$$_DirectPaymentResultCopyWithImpl<$Res>
     Object? slot = null,
     Object? transaction = null,
   }) {
-    return _then(_$_DirectPaymentResult(
+    return _then(_$DirectPaymentResultImpl(
       fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -126,8 +126,8 @@ class __$$_DirectPaymentResultCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_DirectPaymentResult implements _DirectPaymentResult {
-  const _$_DirectPaymentResult(
+class _$DirectPaymentResultImpl implements _DirectPaymentResult {
+  const _$DirectPaymentResultImpl(
       {required this.fee, required this.slot, required this.transaction});
 
   @override
@@ -143,10 +143,10 @@ class _$_DirectPaymentResult implements _DirectPaymentResult {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DirectPaymentResult &&
+            other is _$DirectPaymentResultImpl &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.slot, slot) || other.slot == slot) &&
             (identical(other.transaction, transaction) ||
@@ -159,8 +159,8 @@ class _$_DirectPaymentResult implements _DirectPaymentResult {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DirectPaymentResultCopyWith<_$_DirectPaymentResult> get copyWith =>
-      __$$_DirectPaymentResultCopyWithImpl<_$_DirectPaymentResult>(
+  _$$DirectPaymentResultImplCopyWith<_$DirectPaymentResultImpl> get copyWith =>
+      __$$DirectPaymentResultImplCopyWithImpl<_$DirectPaymentResultImpl>(
           this, _$identity);
 }
 
@@ -168,7 +168,7 @@ abstract class _DirectPaymentResult implements DirectPaymentResult {
   const factory _DirectPaymentResult(
       {required final int fee,
       required final BigInt slot,
-      required final SignedTx transaction}) = _$_DirectPaymentResult;
+      required final SignedTx transaction}) = _$DirectPaymentResultImpl;
 
   @override
   int get fee;
@@ -178,6 +178,6 @@ abstract class _DirectPaymentResult implements DirectPaymentResult {
   SignedTx get transaction;
   @override
   @JsonKey(ignore: true)
-  _$$_DirectPaymentResultCopyWith<_$_DirectPaymentResult> get copyWith =>
+  _$$DirectPaymentResultImplCopyWith<_$DirectPaymentResultImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

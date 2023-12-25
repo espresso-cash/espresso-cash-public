@@ -6,7 +6,7 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../config.dart';
 
-extension DioErrorExt on DioError {
+extension DioErrorExt on DioException {
   EspressoCashError? toEspressoCashError() {
     final data = response?.data;
 

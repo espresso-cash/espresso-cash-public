@@ -7,68 +7,68 @@ environment:
   sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-  async: ^2.10.0
-  auto_route: ^7.8.3
-  barcode_widget: ^2.0.3
+  async: ^2.11.0
+  auto_route: ^7.8.4
+  barcode_widget: ^2.0.4
   bip39: ^1.0.6
-  bloc_concurrency: ^0.2.2
+  bloc_concurrency: ^0.2.3
   borsh_annotation: ^0.3.1+5
-  cached_network_image: ^3.2.3
-  collection: ^1.15.0
+  cached_network_image: ^3.3.0
+  collection: ^1.18.0
   date_time_format: ^2.0.1
-  decimal: ^2.3.0
+  decimal: ^2.3.3
   device_preview: ^1.1.0
   dfunc: ^0.9.0
-  dio: ^4.0.0
-  dio_cache_interceptor: ^3.4.0
+  dio: ^5.4.0
+  dio_cache_interceptor: ^3.4.2
   dio_cache_interceptor_db_store: ^5.1.0
-  drift: ^2.8.1
+  drift: ^2.14.1
   espressocash_api:
     path: ../espressocash_backend/espressocash_api/
-  fast_immutable_collections: ^9.1.1
-  firebase_analytics: ^10.7.1
-  firebase_app_installations: ^0.2.4+5
-  firebase_core: ^2.23.0
-  firebase_remote_config: ^4.3.5
-  fl_chart: ^0.64.0
+  fast_immutable_collections: ^9.2.0
+  firebase_analytics: ^10.7.4
+  firebase_app_installations: ^0.2.4+8
+  firebase_core: ^2.24.2
+  firebase_remote_config: ^4.3.8
+  fl_chart: ^0.65.0
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
-  flutter_inappwebview: ^6.0.0-beta.25
+  flutter_inappwebview: ^6.0.0-rc.3
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.12
-  flutter_native_splash: ^2.3.1
-  flutter_screenutil: ^5.8.4
+  flutter_markdown: ^0.6.18+2
+  flutter_native_splash: ^2.3.8
+  flutter_screenutil: ^5.9.0
   flutter_secure_storage: ^9.0.0
-  flutter_svg: ^2.0.7
-  flutter_svg_provider: ^1.0.6
+  flutter_svg: ^2.0.9
+  flutter_svg_provider: ^1.0.7
   flutter_web_plugins:
     sdk: flutter
   freezed_annotation: ^2.4.1
-  get_it: ^7.6.0
-  http: ^1.1.0
-  image_picker: ^1.0.4
-  injectable: ^2.3.0
-  intl: ^0.18.0
+  get_it: ^7.6.4
+  http: ^1.1.2
+  image_picker: ^1.0.5
+  injectable: ^2.3.2
+  intl: ^0.18.1
   json_annotation: ^4.8.1
-  logging: ^1.1.0
-  meta: ^1.7.0
-  mobile_scanner: ^3.5.1
+  logging: ^1.2.0
+  meta: ^1.10.0
+  mobile_scanner: ^3.5.5
   nested: ^1.0.0
-  package_info_plus: ^4.0.1
-  path: ^1.8.0
-  path_provider: ^2.0.2
-  permission_handler: ^11.0.1
-  provider: ^6.0.0
+  package_info_plus: ^5.0.1
+  path: ^1.8.3
+  path_provider: ^2.1.1
+  permission_handler: ^11.1.0
+  provider: ^6.1.1
   ramp_flutter: ^2.0.2
-  retrofit: ^3.3.1
-  rive: ^0.12.1
-  rxdart: ^0.27.1
+  retrofit: ^4.0.3
+  rive: ^0.12.4
+  rxdart: ^0.27.7
   sentry_flutter: ^7.14.0
   share: ^2.0.4
-  shared_preferences: ^2.2.0
-  sliver_tools: ^0.2.10
+  shared_preferences: ^2.2.2
+  sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
   solana:
     path: ../solana/
@@ -76,32 +76,32 @@ dependencies:
     path: ../solana_mobile_wallet/
   solana_seed_vault:
     path: ../solana_seed_vault/
-  sqlite3_flutter_libs: ^0.5.10
+  sqlite3_flutter_libs: ^0.5.18
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
-  url_launcher: ^6.1.10
-  uuid: ^3.0.4
+  url_launcher: ^6.2.2
+  uuid: ^4.2.2
 
 dev_dependencies:
-  auto_route_generator: ^7.3.1
-  bloc_test: ^9.1.0
-  build_runner: ^2.4.6
-  drift_dev: ^2.8.3
+  auto_route_generator: ^7.3.2
+  bloc_test: ^9.1.5
+  build_runner: ^2.4.7
+  drift_dev: ^2.14.1
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.3.2
   flutter_test:
     sdk: flutter
-  freezed: ^2.4.5
+  freezed: ^2.4.6
   golden_toolkit: ^0.15.0
-  injectable_generator: ^2.4.0
+  injectable_generator: ^2.4.1
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
   mews_pedantic: ^0.21.0
-  mockito: ^5.4.2
+  mockito: ^5.4.4
   recase: ^4.1.0
-  retrofit_generator: ^4.2.0
+  retrofit_generator: ^8.0.6
 
 flutter_gen:
   integrations:
