@@ -33,45 +33,41 @@ class JupiterRepository {
   }) async {
     final quote = await _swapClient.getQuote(
       QuoteRequestDto(
-        amount: amount,
+        amount: int.parse(amount),
         inputMint: inputToken,
         outputMint: outputToken,
         slippageBps: slippageBps,
         swapMode: swapMode,
-        userPublicKey: account,
         onlyDirectRoutes: true,
         asLegacyTransaction: asLegacyTransaction,
       ),
     );
 
-    final bestRoute = quote.routes.firstOrNull;
+    final bestRoute = quote.routePlan.firstOrNull;
 
     if (bestRoute == null) {
       throw Exception('No route found for given input and output');
     }
 
-    final feeInSol = bestRoute.fees?.totalFeeAndDeposits;
-
-    if (feeInSol == null) {
-      throw Exception('Route has no fee object');
-    }
+    final feeInSol = bestRoute.swapInfo.feeAmount;
 
     final tx = await _swapClient
         .getSwapTransactions(
           JupiterSwapRequestDto(
             userPublicKey: account,
-            route: bestRoute,
+            quoteResponse: quote,
             asLegacyTransaction: asLegacyTransaction,
+            wrapAndUnwrapSol: false,
           ),
         )
         .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
     return RouteInfo(
-      amount: bestRoute.amount,
-      inAmount: bestRoute.inAmount,
-      outAmount: bestRoute.outAmount,
+      amount: amount,
+      inAmount: bestRoute.swapInfo.inAmount,
+      outAmount: bestRoute.swapInfo.outAmount,
       jupiterTx: tx,
-      totalFees: feeInSol,
+      totalFees: num.parse(feeInSol),
     );
   }
 
