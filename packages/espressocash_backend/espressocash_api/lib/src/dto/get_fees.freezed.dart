@@ -87,11 +87,11 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
+abstract class _$$GetFeesResponseDtoImplCopyWith<$Res>
     implements $GetFeesResponseDtoCopyWith<$Res> {
-  factory _$$_GetFeesResponseDtoCopyWith(_$_GetFeesResponseDto value,
-          $Res Function(_$_GetFeesResponseDto) then) =
-      __$$_GetFeesResponseDtoCopyWithImpl<$Res>;
+  factory _$$GetFeesResponseDtoImplCopyWith(_$GetFeesResponseDtoImpl value,
+          $Res Function(_$GetFeesResponseDtoImpl) then) =
+      __$$GetFeesResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -104,11 +104,11 @@ abstract class _$$_GetFeesResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
-    extends _$GetFeesResponseDtoCopyWithImpl<$Res, _$_GetFeesResponseDto>
-    implements _$$_GetFeesResponseDtoCopyWith<$Res> {
-  __$$_GetFeesResponseDtoCopyWithImpl(
-      _$_GetFeesResponseDto _value, $Res Function(_$_GetFeesResponseDto) _then)
+class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
+    extends _$GetFeesResponseDtoCopyWithImpl<$Res, _$GetFeesResponseDtoImpl>
+    implements _$$GetFeesResponseDtoImplCopyWith<$Res> {
+  __$$GetFeesResponseDtoImplCopyWithImpl(_$GetFeesResponseDtoImpl _value,
+      $Res Function(_$GetFeesResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -118,7 +118,7 @@ class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
     Object? splitKeyPayment = null,
     Object? escrowPayment = null,
   }) {
-    return _then(_$_GetFeesResponseDto(
+    return _then(_$GetFeesResponseDtoImpl(
       directPayment: null == directPayment
           ? _value.directPayment
           : directPayment // ignore: cast_nullable_to_non_nullable
@@ -137,14 +137,14 @@ class __$$_GetFeesResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GetFeesResponseDto implements _GetFeesResponseDto {
-  const _$_GetFeesResponseDto(
+class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
+  const _$GetFeesResponseDtoImpl(
       {required this.directPayment,
       required this.splitKeyPayment,
       required this.escrowPayment});
 
-  factory _$_GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_GetFeesResponseDtoFromJson(json);
+  factory _$GetFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetFeesResponseDtoImplFromJson(json);
 
   @override
   final DirectPaymentFeeDto directPayment;
@@ -159,10 +159,10 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GetFeesResponseDto &&
+            other is _$GetFeesResponseDtoImpl &&
             (identical(other.directPayment, directPayment) ||
                 other.directPayment == directPayment) &&
             (identical(other.splitKeyPayment, splitKeyPayment) ||
@@ -179,13 +179,13 @@ class _$_GetFeesResponseDto implements _GetFeesResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
-      __$$_GetFeesResponseDtoCopyWithImpl<_$_GetFeesResponseDto>(
+  _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>
+      __$$GetFeesResponseDtoImplCopyWithImpl<_$GetFeesResponseDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GetFeesResponseDtoToJson(
+    return _$$GetFeesResponseDtoImplToJson(
       this,
     );
   }
@@ -195,10 +195,10 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   const factory _GetFeesResponseDto(
       {required final DirectPaymentFeeDto directPayment,
       required final int splitKeyPayment,
-      required final int escrowPayment}) = _$_GetFeesResponseDto;
+      required final int escrowPayment}) = _$GetFeesResponseDtoImpl;
 
   factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_GetFeesResponseDto.fromJson;
+      _$GetFeesResponseDtoImpl.fromJson;
 
   @override
   DirectPaymentFeeDto get directPayment;
@@ -208,7 +208,7 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   int get escrowPayment;
   @override
   @JsonKey(ignore: true)
-  _$$_GetFeesResponseDtoCopyWith<_$_GetFeesResponseDto> get copyWith =>
+  _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -266,22 +266,22 @@ class _$DirectPaymentFeeDtoCopyWithImpl<$Res, $Val extends DirectPaymentFeeDto>
 }
 
 /// @nodoc
-abstract class _$$_DirectPaymentFeeDtoCopyWith<$Res>
+abstract class _$$DirectPaymentFeeDtoImplCopyWith<$Res>
     implements $DirectPaymentFeeDtoCopyWith<$Res> {
-  factory _$$_DirectPaymentFeeDtoCopyWith(_$_DirectPaymentFeeDto value,
-          $Res Function(_$_DirectPaymentFeeDto) then) =
-      __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>;
+  factory _$$DirectPaymentFeeDtoImplCopyWith(_$DirectPaymentFeeDtoImpl value,
+          $Res Function(_$DirectPaymentFeeDtoImpl) then) =
+      __$$DirectPaymentFeeDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int ataExists, int ataDoesNotExist});
 }
 
 /// @nodoc
-class __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>
-    extends _$DirectPaymentFeeDtoCopyWithImpl<$Res, _$_DirectPaymentFeeDto>
-    implements _$$_DirectPaymentFeeDtoCopyWith<$Res> {
-  __$$_DirectPaymentFeeDtoCopyWithImpl(_$_DirectPaymentFeeDto _value,
-      $Res Function(_$_DirectPaymentFeeDto) _then)
+class __$$DirectPaymentFeeDtoImplCopyWithImpl<$Res>
+    extends _$DirectPaymentFeeDtoCopyWithImpl<$Res, _$DirectPaymentFeeDtoImpl>
+    implements _$$DirectPaymentFeeDtoImplCopyWith<$Res> {
+  __$$DirectPaymentFeeDtoImplCopyWithImpl(_$DirectPaymentFeeDtoImpl _value,
+      $Res Function(_$DirectPaymentFeeDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -290,7 +290,7 @@ class __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>
     Object? ataExists = null,
     Object? ataDoesNotExist = null,
   }) {
-    return _then(_$_DirectPaymentFeeDto(
+    return _then(_$DirectPaymentFeeDtoImpl(
       ataExists: null == ataExists
           ? _value.ataExists
           : ataExists // ignore: cast_nullable_to_non_nullable
@@ -305,12 +305,12 @@ class __$$_DirectPaymentFeeDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_DirectPaymentFeeDto implements _DirectPaymentFeeDto {
-  const _$_DirectPaymentFeeDto(
+class _$DirectPaymentFeeDtoImpl implements _DirectPaymentFeeDto {
+  const _$DirectPaymentFeeDtoImpl(
       {required this.ataExists, required this.ataDoesNotExist});
 
-  factory _$_DirectPaymentFeeDto.fromJson(Map<String, dynamic> json) =>
-      _$$_DirectPaymentFeeDtoFromJson(json);
+  factory _$DirectPaymentFeeDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DirectPaymentFeeDtoImplFromJson(json);
 
   @override
   final int ataExists;
@@ -323,10 +323,10 @@ class _$_DirectPaymentFeeDto implements _DirectPaymentFeeDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_DirectPaymentFeeDto &&
+            other is _$DirectPaymentFeeDtoImpl &&
             (identical(other.ataExists, ataExists) ||
                 other.ataExists == ataExists) &&
             (identical(other.ataDoesNotExist, ataDoesNotExist) ||
@@ -340,13 +340,13 @@ class _$_DirectPaymentFeeDto implements _DirectPaymentFeeDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_DirectPaymentFeeDtoCopyWith<_$_DirectPaymentFeeDto> get copyWith =>
-      __$$_DirectPaymentFeeDtoCopyWithImpl<_$_DirectPaymentFeeDto>(
+  _$$DirectPaymentFeeDtoImplCopyWith<_$DirectPaymentFeeDtoImpl> get copyWith =>
+      __$$DirectPaymentFeeDtoImplCopyWithImpl<_$DirectPaymentFeeDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_DirectPaymentFeeDtoToJson(
+    return _$$DirectPaymentFeeDtoImplToJson(
       this,
     );
   }
@@ -355,10 +355,10 @@ class _$_DirectPaymentFeeDto implements _DirectPaymentFeeDto {
 abstract class _DirectPaymentFeeDto implements DirectPaymentFeeDto {
   const factory _DirectPaymentFeeDto(
       {required final int ataExists,
-      required final int ataDoesNotExist}) = _$_DirectPaymentFeeDto;
+      required final int ataDoesNotExist}) = _$DirectPaymentFeeDtoImpl;
 
   factory _DirectPaymentFeeDto.fromJson(Map<String, dynamic> json) =
-      _$_DirectPaymentFeeDto.fromJson;
+      _$DirectPaymentFeeDtoImpl.fromJson;
 
   @override
   int get ataExists;
@@ -366,6 +366,6 @@ abstract class _DirectPaymentFeeDto implements DirectPaymentFeeDto {
   int get ataDoesNotExist;
   @override
   @JsonKey(ignore: true)
-  _$$_DirectPaymentFeeDtoCopyWith<_$_DirectPaymentFeeDto> get copyWith =>
+  _$$DirectPaymentFeeDtoImplCopyWith<_$DirectPaymentFeeDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

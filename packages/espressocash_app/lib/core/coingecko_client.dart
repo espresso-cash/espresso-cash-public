@@ -29,7 +29,7 @@ class CoingeckoClient {
 }
 
 class CacheInterceptor extends Interceptor {
-  CacheInterceptor({required this.options});
+  const CacheInterceptor({required this.options});
 
   final CacheOptions options;
 
