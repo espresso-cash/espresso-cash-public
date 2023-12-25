@@ -361,14 +361,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
-  date_time_format:
-    dependency: "direct main"
-    description:
-      name: date_time_format
-      sha256: dc47de14c95a7511e98ca429e1ebfd98c339badb496c9f2aaf56a70d07c7c0bf
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   decimal:
     dependency: "direct main"
     description:
