@@ -32,7 +32,6 @@ class _ContentState extends State<_Content>
     with
         // ignore: prefer_mixin, Flutter way
         WidgetsBindingObserver {
-
   @override
   void initState() {
     super.initState();
