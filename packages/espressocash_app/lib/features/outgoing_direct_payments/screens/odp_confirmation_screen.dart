@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/fee_label.dart';
 import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -18,6 +17,8 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
 
 @RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {

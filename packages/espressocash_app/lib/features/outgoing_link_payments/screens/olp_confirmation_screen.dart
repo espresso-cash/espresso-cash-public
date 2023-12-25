@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/fee_label.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -17,6 +16,8 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
 
 @RoutePage()
 class OLPConfirmationScreen extends StatelessWidget {
