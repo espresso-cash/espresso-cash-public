@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';
 
-import '../core/tokens/token.dart';
-import '../gen/assets.gen.dart';
+import '../../../gen/assets.gen.dart';
+import '../token.dart';
 
-class CpTokenIcon extends StatelessWidget {
-  const CpTokenIcon({
+class TokenIcon extends StatelessWidget {
+  const TokenIcon({
     super.key,
     required this.token,
     required this.size,

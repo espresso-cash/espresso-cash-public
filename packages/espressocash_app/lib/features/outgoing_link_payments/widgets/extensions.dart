@@ -5,10 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/analytics/analytics_manager.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../analytics/analytics_manager.dart';
 import '../models/outgoing_link_payment.dart';
 import '../services/olp_service.dart';
 

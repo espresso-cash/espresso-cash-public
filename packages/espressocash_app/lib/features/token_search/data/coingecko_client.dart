@@ -6,8 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../core/coingecko_client.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 
 part 'coingecko_client.freezed.dart';
 part 'coingecko_client.g.dart';

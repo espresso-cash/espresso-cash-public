@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
-import '../../../../core/fee_label.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
@@ -18,6 +17,8 @@ import '../../../../ui/colors.dart';
 import '../../../../ui/content_padding.dart';
 import '../../../../ui/info_widget.dart';
 import '../../../../ui/theme.dart';
+import '../../../fees/models/fee_type.dart';
+import '../../../fees/widgets/fee_label.dart';
 import '../../services/off_ramp_order_service.dart';
 
 class OffRampConfirmation extends StatelessWidget {

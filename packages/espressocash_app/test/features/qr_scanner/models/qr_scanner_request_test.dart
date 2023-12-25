@@ -1,6 +1,6 @@
 import 'package:espressocash_app/core/link_payments.dart';
-import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/qr_scanner/models/qr_scanner_request.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

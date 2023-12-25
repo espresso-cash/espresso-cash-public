@@ -3,8 +3,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import 'coingecko_client.dart';
 import 'popular_token_cache.dart';
 
