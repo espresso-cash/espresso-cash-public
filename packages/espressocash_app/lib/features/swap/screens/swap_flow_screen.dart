@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/tokens/token.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
@@ -10,6 +9,7 @@ import '../../../../ui/theme.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../tokens/token.dart';
 import '../models/swap_operation.dart';
 import '../models/swap_route.dart';
 import '../services/swap_service.dart';

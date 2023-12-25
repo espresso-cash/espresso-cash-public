@@ -103,11 +103,11 @@ class _$SwapTransactionCopyWithImpl<$Res, $Val extends SwapTransaction>
 }
 
 /// @nodoc
-abstract class _$$_SwapTransactionCopyWith<$Res>
+abstract class _$$SwapTransactionImplCopyWith<$Res>
     implements $SwapTransactionCopyWith<$Res> {
-  factory _$$_SwapTransactionCopyWith(
-          _$_SwapTransaction value, $Res Function(_$_SwapTransaction) then) =
-      __$$_SwapTransactionCopyWithImpl<$Res>;
+  factory _$$SwapTransactionImplCopyWith(_$SwapTransactionImpl value,
+          $Res Function(_$SwapTransactionImpl) then) =
+      __$$SwapTransactionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_SwapTransactionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SwapTransactionCopyWithImpl<$Res>
-    extends _$SwapTransactionCopyWithImpl<$Res, _$_SwapTransaction>
-    implements _$$_SwapTransactionCopyWith<$Res> {
-  __$$_SwapTransactionCopyWithImpl(
-      _$_SwapTransaction _value, $Res Function(_$_SwapTransaction) _then)
+class __$$SwapTransactionImplCopyWithImpl<$Res>
+    extends _$SwapTransactionCopyWithImpl<$Res, _$SwapTransactionImpl>
+    implements _$$SwapTransactionImplCopyWith<$Res> {
+  __$$SwapTransactionImplCopyWithImpl(
+      _$SwapTransactionImpl _value, $Res Function(_$SwapTransactionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -140,7 +140,7 @@ class __$$_SwapTransactionCopyWithImpl<$Res>
     Object? transaction = null,
     Object? slot = null,
   }) {
-    return _then(_$_SwapTransaction(
+    return _then(_$SwapTransactionImpl(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -171,8 +171,8 @@ class __$$_SwapTransactionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SwapTransaction implements _SwapTransaction {
-  const _$_SwapTransaction(
+class _$SwapTransactionImpl implements _SwapTransaction {
+  const _$SwapTransactionImpl(
       {required this.amount,
       required this.inAmount,
       required this.outAmount,
@@ -199,10 +199,10 @@ class _$_SwapTransaction implements _SwapTransaction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SwapTransaction &&
+            other is _$SwapTransactionImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.inAmount, inAmount) ||
                 other.inAmount == inAmount) &&
@@ -221,8 +221,9 @@ class _$_SwapTransaction implements _SwapTransaction {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SwapTransactionCopyWith<_$_SwapTransaction> get copyWith =>
-      __$$_SwapTransactionCopyWithImpl<_$_SwapTransaction>(this, _$identity);
+  _$$SwapTransactionImplCopyWith<_$SwapTransactionImpl> get copyWith =>
+      __$$SwapTransactionImplCopyWithImpl<_$SwapTransactionImpl>(
+          this, _$identity);
 }
 
 abstract class _SwapTransaction implements SwapTransaction {
@@ -232,7 +233,7 @@ abstract class _SwapTransaction implements SwapTransaction {
       required final String outAmount,
       required final int fee,
       required final SignedTx transaction,
-      required final BigInt slot}) = _$_SwapTransaction;
+      required final BigInt slot}) = _$SwapTransactionImpl;
 
   @override
   String get amount;
@@ -248,6 +249,6 @@ abstract class _SwapTransaction implements SwapTransaction {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$_SwapTransactionCopyWith<_$_SwapTransaction> get copyWith =>
+  _$$SwapTransactionImplCopyWith<_$SwapTransactionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

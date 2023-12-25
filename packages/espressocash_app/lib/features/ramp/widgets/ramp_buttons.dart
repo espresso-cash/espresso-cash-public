@@ -226,28 +226,56 @@ extension on BuildContext {
 
 typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
 
-IList<RampPartner> _getOnRampPartners(String countryCode) => countryCode == 'US'
-    ? const IListConst([RampPartner.kado, RampPartner.rampNetwork])
-    : _eeaCountries.contains(countryCode)
-        ? const IListConst([RampPartner.guardarian, RampPartner.rampNetwork])
-        : countryCode == 'NG'
-            ? const IListConst([RampPartner.scalex, RampPartner.rampNetwork])
-            : const IListConst([RampPartner.rampNetwork]);
+IList<RampPartner> _getOnRampPartners(String countryCode) {
+  final partners = <RampPartner>{};
+
+  if (_kadoCountries.contains(countryCode)) {
+    partners.add(RampPartner.kado);
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  partners.add(RampPartner.rampNetwork);
+
+  if (_guardarianCountries.contains(countryCode)) {
+    partners.add(RampPartner.guardarian);
+  }
+
+  return IList(partners);
+}
 
 IList<RampPartner> _getOffRampPartners(String countryCode) {
   if (!sl<FeatureFlagsManager>().isOffRampEnabled) {
     return const IListConst([]);
   }
 
-  return countryCode == 'US'
-      ? const IListConst([RampPartner.coinflow])
-      : countryCode == 'NG'
-          ? const IListConst([RampPartner.scalex])
-          : const IListConst([]);
+  final partners = <RampPartner>{};
+
+  if (_coinflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.coinflow);
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  return IList(partners);
 }
 
-const _eeaCountries = {
+const _kadoCountries = {'US'};
+
+const _guardarianCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
   'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
 };
+
+const _coinflowCountries = {
+  'AD', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', //
+  'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC', 'NL', 'NO',
+  'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
+};
+
+const _scalexCountries = {'NG'};

@@ -9,8 +9,8 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'config.dart';
 import 'core/coingecko_client.dart';
-import 'core/tokens/token_list.dart';
 import 'di.config.dart';
+import 'features/tokens/token_list.dart';
 
 final sl = GetIt.instance;
 

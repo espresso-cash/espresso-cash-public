@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -19,6 +18,7 @@ import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
+import '../../tokens/token_list.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
 

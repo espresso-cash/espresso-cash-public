@@ -105,11 +105,11 @@ class _$SwapRouteRequestDtoCopyWithImpl<$Res, $Val extends SwapRouteRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_SwapRouteRequestDtoCopyWith<$Res>
+abstract class _$$SwapRouteRequestDtoImplCopyWith<$Res>
     implements $SwapRouteRequestDtoCopyWith<$Res> {
-  factory _$$_SwapRouteRequestDtoCopyWith(_$_SwapRouteRequestDto value,
-          $Res Function(_$_SwapRouteRequestDto) then) =
-      __$$_SwapRouteRequestDtoCopyWithImpl<$Res>;
+  factory _$$SwapRouteRequestDtoImplCopyWith(_$SwapRouteRequestDtoImpl value,
+          $Res Function(_$SwapRouteRequestDtoImpl) then) =
+      __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -123,11 +123,11 @@ abstract class _$$_SwapRouteRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
-    extends _$SwapRouteRequestDtoCopyWithImpl<$Res, _$_SwapRouteRequestDto>
-    implements _$$_SwapRouteRequestDtoCopyWith<$Res> {
-  __$$_SwapRouteRequestDtoCopyWithImpl(_$_SwapRouteRequestDto _value,
-      $Res Function(_$_SwapRouteRequestDto) _then)
+class __$$SwapRouteRequestDtoImplCopyWithImpl<$Res>
+    extends _$SwapRouteRequestDtoCopyWithImpl<$Res, _$SwapRouteRequestDtoImpl>
+    implements _$$SwapRouteRequestDtoImplCopyWith<$Res> {
+  __$$SwapRouteRequestDtoImplCopyWithImpl(_$SwapRouteRequestDtoImpl _value,
+      $Res Function(_$SwapRouteRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -141,7 +141,7 @@ class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
     Object? userAccount = null,
     Object? asLegacyTx = null,
   }) {
-    return _then(_$_SwapRouteRequestDto(
+    return _then(_$SwapRouteRequestDtoImpl(
       inputToken: null == inputToken
           ? _value.inputToken
           : inputToken // ignore: cast_nullable_to_non_nullable
@@ -176,8 +176,8 @@ class __$$_SwapRouteRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
-  const _$_SwapRouteRequestDto(
+class _$SwapRouteRequestDtoImpl implements _SwapRouteRequestDto {
+  const _$SwapRouteRequestDtoImpl(
       {required this.inputToken,
       required this.outputToken,
       required this.amount,
@@ -186,8 +186,8 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
       required this.userAccount,
       this.asLegacyTx = true});
 
-  factory _$_SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_SwapRouteRequestDtoFromJson(json);
+  factory _$SwapRouteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SwapRouteRequestDtoImplFromJson(json);
 
   @override
   final String inputToken;
@@ -211,10 +211,10 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SwapRouteRequestDto &&
+            other is _$SwapRouteRequestDtoImpl &&
             (identical(other.inputToken, inputToken) ||
                 other.inputToken == inputToken) &&
             (identical(other.outputToken, outputToken) ||
@@ -237,13 +237,13 @@ class _$_SwapRouteRequestDto implements _SwapRouteRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SwapRouteRequestDtoCopyWith<_$_SwapRouteRequestDto> get copyWith =>
-      __$$_SwapRouteRequestDtoCopyWithImpl<_$_SwapRouteRequestDto>(
+  _$$SwapRouteRequestDtoImplCopyWith<_$SwapRouteRequestDtoImpl> get copyWith =>
+      __$$SwapRouteRequestDtoImplCopyWithImpl<_$SwapRouteRequestDtoImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SwapRouteRequestDtoToJson(
+    return _$$SwapRouteRequestDtoImplToJson(
       this,
     );
   }
@@ -257,10 +257,10 @@ abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
       required final SwapMatch match,
       required final SwapSlippage slippage,
       required final String userAccount,
-      final bool asLegacyTx}) = _$_SwapRouteRequestDto;
+      final bool asLegacyTx}) = _$SwapRouteRequestDtoImpl;
 
   factory _SwapRouteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_SwapRouteRequestDto.fromJson;
+      _$SwapRouteRequestDtoImpl.fromJson;
 
   @override
   String get inputToken;
@@ -278,7 +278,7 @@ abstract class _SwapRouteRequestDto implements SwapRouteRequestDto {
   bool get asLegacyTx;
   @override
   @JsonKey(ignore: true)
-  _$$_SwapRouteRequestDtoCopyWith<_$_SwapRouteRequestDto> get copyWith =>
+  _$$SwapRouteRequestDtoImplCopyWith<_$SwapRouteRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -367,11 +367,11 @@ class _$SwapRouteResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_SwapRouteResponseDtoCopyWith<$Res>
+abstract class _$$SwapRouteResponseDtoImplCopyWith<$Res>
     implements $SwapRouteResponseDtoCopyWith<$Res> {
-  factory _$$_SwapRouteResponseDtoCopyWith(_$_SwapRouteResponseDto value,
-          $Res Function(_$_SwapRouteResponseDto) then) =
-      __$$_SwapRouteResponseDtoCopyWithImpl<$Res>;
+  factory _$$SwapRouteResponseDtoImplCopyWith(_$SwapRouteResponseDtoImpl value,
+          $Res Function(_$SwapRouteResponseDtoImpl) then) =
+      __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -384,11 +384,11 @@ abstract class _$$_SwapRouteResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
-    extends _$SwapRouteResponseDtoCopyWithImpl<$Res, _$_SwapRouteResponseDto>
-    implements _$$_SwapRouteResponseDtoCopyWith<$Res> {
-  __$$_SwapRouteResponseDtoCopyWithImpl(_$_SwapRouteResponseDto _value,
-      $Res Function(_$_SwapRouteResponseDto) _then)
+class __$$SwapRouteResponseDtoImplCopyWithImpl<$Res>
+    extends _$SwapRouteResponseDtoCopyWithImpl<$Res, _$SwapRouteResponseDtoImpl>
+    implements _$$SwapRouteResponseDtoImplCopyWith<$Res> {
+  __$$SwapRouteResponseDtoImplCopyWithImpl(_$SwapRouteResponseDtoImpl _value,
+      $Res Function(_$SwapRouteResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -401,7 +401,7 @@ class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_$_SwapRouteResponseDto(
+    return _then(_$SwapRouteResponseDtoImpl(
       inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
@@ -432,8 +432,8 @@ class __$$_SwapRouteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
-  const _$_SwapRouteResponseDto(
+class _$SwapRouteResponseDtoImpl implements _SwapRouteResponseDto {
+  const _$SwapRouteResponseDtoImpl(
       {required this.inAmount,
       required this.outAmount,
       required this.amount,
@@ -441,8 +441,8 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
       required this.feeInUsdc,
       required this.slot});
 
-  factory _$_SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_SwapRouteResponseDtoFromJson(json);
+  factory _$SwapRouteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SwapRouteResponseDtoImplFromJson(json);
 
   @override
   final String inAmount;
@@ -463,10 +463,10 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SwapRouteResponseDto &&
+            other is _$SwapRouteResponseDtoImpl &&
             (identical(other.inAmount, inAmount) ||
                 other.inAmount == inAmount) &&
             (identical(other.outAmount, outAmount) ||
@@ -487,13 +487,14 @@ class _$_SwapRouteResponseDto implements _SwapRouteResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SwapRouteResponseDtoCopyWith<_$_SwapRouteResponseDto> get copyWith =>
-      __$$_SwapRouteResponseDtoCopyWithImpl<_$_SwapRouteResponseDto>(
-          this, _$identity);
+  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
+      get copyWith =>
+          __$$SwapRouteResponseDtoImplCopyWithImpl<_$SwapRouteResponseDtoImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SwapRouteResponseDtoToJson(
+    return _$$SwapRouteResponseDtoImplToJson(
       this,
     );
   }
@@ -506,10 +507,10 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
       required final String amount,
       required final String encodedTx,
       required final int feeInUsdc,
-      required final BigInt slot}) = _$_SwapRouteResponseDto;
+      required final BigInt slot}) = _$SwapRouteResponseDtoImpl;
 
   factory _SwapRouteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_SwapRouteResponseDto.fromJson;
+      _$SwapRouteResponseDtoImpl.fromJson;
 
   @override
   String get inAmount;
@@ -525,6 +526,6 @@ abstract class _SwapRouteResponseDto implements SwapRouteResponseDto {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$_SwapRouteResponseDtoCopyWith<_$_SwapRouteResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SwapRouteResponseDtoImplCopyWith<_$SwapRouteResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

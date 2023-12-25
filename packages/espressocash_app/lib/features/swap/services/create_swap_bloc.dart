@@ -10,11 +10,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
-import '../../../../core/tokens/token.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../balances/data/balances_repository.dart';
+import '../../tokens/token.dart';
 import '../data/route_repository.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';

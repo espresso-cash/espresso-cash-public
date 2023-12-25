@@ -66,25 +66,25 @@ class _$GenerateScalexLinkResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_GenerateScalexLinkResponseDtoCopyWith<$Res>
+abstract class _$$GenerateScalexLinkResponseDtoImplCopyWith<$Res>
     implements $GenerateScalexLinkResponseDtoCopyWith<$Res> {
-  factory _$$_GenerateScalexLinkResponseDtoCopyWith(
-          _$_GenerateScalexLinkResponseDto value,
-          $Res Function(_$_GenerateScalexLinkResponseDto) then) =
-      __$$_GenerateScalexLinkResponseDtoCopyWithImpl<$Res>;
+  factory _$$GenerateScalexLinkResponseDtoImplCopyWith(
+          _$GenerateScalexLinkResponseDtoImpl value,
+          $Res Function(_$GenerateScalexLinkResponseDtoImpl) then) =
+      __$$GenerateScalexLinkResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String signedUrl});
 }
 
 /// @nodoc
-class __$$_GenerateScalexLinkResponseDtoCopyWithImpl<$Res>
+class __$$GenerateScalexLinkResponseDtoImplCopyWithImpl<$Res>
     extends _$GenerateScalexLinkResponseDtoCopyWithImpl<$Res,
-        _$_GenerateScalexLinkResponseDto>
-    implements _$$_GenerateScalexLinkResponseDtoCopyWith<$Res> {
-  __$$_GenerateScalexLinkResponseDtoCopyWithImpl(
-      _$_GenerateScalexLinkResponseDto _value,
-      $Res Function(_$_GenerateScalexLinkResponseDto) _then)
+        _$GenerateScalexLinkResponseDtoImpl>
+    implements _$$GenerateScalexLinkResponseDtoImplCopyWith<$Res> {
+  __$$GenerateScalexLinkResponseDtoImplCopyWithImpl(
+      _$GenerateScalexLinkResponseDtoImpl _value,
+      $Res Function(_$GenerateScalexLinkResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_GenerateScalexLinkResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? signedUrl = null,
   }) {
-    return _then(_$_GenerateScalexLinkResponseDto(
+    return _then(_$GenerateScalexLinkResponseDtoImpl(
       signedUrl: null == signedUrl
           ? _value.signedUrl
           : signedUrl // ignore: cast_nullable_to_non_nullable
@@ -103,13 +103,13 @@ class __$$_GenerateScalexLinkResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GenerateScalexLinkResponseDto
+class _$GenerateScalexLinkResponseDtoImpl
     implements _GenerateScalexLinkResponseDto {
-  const _$_GenerateScalexLinkResponseDto({required this.signedUrl});
+  const _$GenerateScalexLinkResponseDtoImpl({required this.signedUrl});
 
-  factory _$_GenerateScalexLinkResponseDto.fromJson(
+  factory _$GenerateScalexLinkResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_GenerateScalexLinkResponseDtoFromJson(json);
+      _$$GenerateScalexLinkResponseDtoImplFromJson(json);
 
   @override
   final String signedUrl;
@@ -120,10 +120,10 @@ class _$_GenerateScalexLinkResponseDto
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GenerateScalexLinkResponseDto &&
+            other is _$GenerateScalexLinkResponseDtoImpl &&
             (identical(other.signedUrl, signedUrl) ||
                 other.signedUrl == signedUrl));
   }
@@ -135,13 +135,14 @@ class _$_GenerateScalexLinkResponseDto
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GenerateScalexLinkResponseDtoCopyWith<_$_GenerateScalexLinkResponseDto>
-      get copyWith => __$$_GenerateScalexLinkResponseDtoCopyWithImpl<
-          _$_GenerateScalexLinkResponseDto>(this, _$identity);
+  _$$GenerateScalexLinkResponseDtoImplCopyWith<
+          _$GenerateScalexLinkResponseDtoImpl>
+      get copyWith => __$$GenerateScalexLinkResponseDtoImplCopyWithImpl<
+          _$GenerateScalexLinkResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GenerateScalexLinkResponseDtoToJson(
+    return _$$GenerateScalexLinkResponseDtoImplToJson(
       this,
     );
   }
@@ -150,16 +151,17 @@ class _$_GenerateScalexLinkResponseDto
 abstract class _GenerateScalexLinkResponseDto
     implements GenerateScalexLinkResponseDto {
   const factory _GenerateScalexLinkResponseDto(
-      {required final String signedUrl}) = _$_GenerateScalexLinkResponseDto;
+      {required final String signedUrl}) = _$GenerateScalexLinkResponseDtoImpl;
 
   factory _GenerateScalexLinkResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_GenerateScalexLinkResponseDto.fromJson;
+      _$GenerateScalexLinkResponseDtoImpl.fromJson;
 
   @override
   String get signedUrl;
   @override
   @JsonKey(ignore: true)
-  _$$_GenerateScalexLinkResponseDtoCopyWith<_$_GenerateScalexLinkResponseDto>
+  _$$GenerateScalexLinkResponseDtoImplCopyWith<
+          _$GenerateScalexLinkResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -227,25 +229,25 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_GenerateScalexLinkRequestDtoCopyWith<$Res>
+abstract class _$$GenerateScalexLinkRequestDtoImplCopyWith<$Res>
     implements $GenerateScalexLinkRequestDtoCopyWith<$Res> {
-  factory _$$_GenerateScalexLinkRequestDtoCopyWith(
-          _$_GenerateScalexLinkRequestDto value,
-          $Res Function(_$_GenerateScalexLinkRequestDto) then) =
-      __$$_GenerateScalexLinkRequestDtoCopyWithImpl<$Res>;
+  factory _$$GenerateScalexLinkRequestDtoImplCopyWith(
+          _$GenerateScalexLinkRequestDtoImpl value,
+          $Res Function(_$GenerateScalexLinkRequestDtoImpl) then) =
+      __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String type, String address, String email});
 }
 
 /// @nodoc
-class __$$_GenerateScalexLinkRequestDtoCopyWithImpl<$Res>
+class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
     extends _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
-        _$_GenerateScalexLinkRequestDto>
-    implements _$$_GenerateScalexLinkRequestDtoCopyWith<$Res> {
-  __$$_GenerateScalexLinkRequestDtoCopyWithImpl(
-      _$_GenerateScalexLinkRequestDto _value,
-      $Res Function(_$_GenerateScalexLinkRequestDto) _then)
+        _$GenerateScalexLinkRequestDtoImpl>
+    implements _$$GenerateScalexLinkRequestDtoImplCopyWith<$Res> {
+  __$$GenerateScalexLinkRequestDtoImplCopyWithImpl(
+      _$GenerateScalexLinkRequestDtoImpl _value,
+      $Res Function(_$GenerateScalexLinkRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -255,7 +257,7 @@ class __$$_GenerateScalexLinkRequestDtoCopyWithImpl<$Res>
     Object? address = null,
     Object? email = null,
   }) {
-    return _then(_$_GenerateScalexLinkRequestDto(
+    return _then(_$GenerateScalexLinkRequestDtoImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -274,12 +276,14 @@ class __$$_GenerateScalexLinkRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_GenerateScalexLinkRequestDto implements _GenerateScalexLinkRequestDto {
-  const _$_GenerateScalexLinkRequestDto(
+class _$GenerateScalexLinkRequestDtoImpl
+    implements _GenerateScalexLinkRequestDto {
+  const _$GenerateScalexLinkRequestDtoImpl(
       {required this.type, required this.address, required this.email});
 
-  factory _$_GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_GenerateScalexLinkRequestDtoFromJson(json);
+  factory _$GenerateScalexLinkRequestDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$GenerateScalexLinkRequestDtoImplFromJson(json);
 
   @override
   final String type;
@@ -294,10 +298,10 @@ class _$_GenerateScalexLinkRequestDto implements _GenerateScalexLinkRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_GenerateScalexLinkRequestDto &&
+            other is _$GenerateScalexLinkRequestDtoImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.email, email) || other.email == email));
@@ -310,13 +314,14 @@ class _$_GenerateScalexLinkRequestDto implements _GenerateScalexLinkRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_GenerateScalexLinkRequestDtoCopyWith<_$_GenerateScalexLinkRequestDto>
-      get copyWith => __$$_GenerateScalexLinkRequestDtoCopyWithImpl<
-          _$_GenerateScalexLinkRequestDto>(this, _$identity);
+  _$$GenerateScalexLinkRequestDtoImplCopyWith<
+          _$GenerateScalexLinkRequestDtoImpl>
+      get copyWith => __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<
+          _$GenerateScalexLinkRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_GenerateScalexLinkRequestDtoToJson(
+    return _$$GenerateScalexLinkRequestDtoImplToJson(
       this,
     );
   }
@@ -327,10 +332,10 @@ abstract class _GenerateScalexLinkRequestDto
   const factory _GenerateScalexLinkRequestDto(
       {required final String type,
       required final String address,
-      required final String email}) = _$_GenerateScalexLinkRequestDto;
+      required final String email}) = _$GenerateScalexLinkRequestDtoImpl;
 
   factory _GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_GenerateScalexLinkRequestDto.fromJson;
+      _$GenerateScalexLinkRequestDtoImpl.fromJson;
 
   @override
   String get type;
@@ -340,7 +345,8 @@ abstract class _GenerateScalexLinkRequestDto
   String get email;
   @override
   @JsonKey(ignore: true)
-  _$$_GenerateScalexLinkRequestDtoCopyWith<_$_GenerateScalexLinkRequestDto>
+  _$$GenerateScalexLinkRequestDtoImplCopyWith<
+          _$GenerateScalexLinkRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -396,25 +402,25 @@ class _$OrderStatusScalexRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_OrderStatusScalexRequestDtoCopyWith<$Res>
+abstract class _$$OrderStatusScalexRequestDtoImplCopyWith<$Res>
     implements $OrderStatusScalexRequestDtoCopyWith<$Res> {
-  factory _$$_OrderStatusScalexRequestDtoCopyWith(
-          _$_OrderStatusScalexRequestDto value,
-          $Res Function(_$_OrderStatusScalexRequestDto) then) =
-      __$$_OrderStatusScalexRequestDtoCopyWithImpl<$Res>;
+  factory _$$OrderStatusScalexRequestDtoImplCopyWith(
+          _$OrderStatusScalexRequestDtoImpl value,
+          $Res Function(_$OrderStatusScalexRequestDtoImpl) then) =
+      __$$OrderStatusScalexRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String referenceId});
 }
 
 /// @nodoc
-class __$$_OrderStatusScalexRequestDtoCopyWithImpl<$Res>
+class __$$OrderStatusScalexRequestDtoImplCopyWithImpl<$Res>
     extends _$OrderStatusScalexRequestDtoCopyWithImpl<$Res,
-        _$_OrderStatusScalexRequestDto>
-    implements _$$_OrderStatusScalexRequestDtoCopyWith<$Res> {
-  __$$_OrderStatusScalexRequestDtoCopyWithImpl(
-      _$_OrderStatusScalexRequestDto _value,
-      $Res Function(_$_OrderStatusScalexRequestDto) _then)
+        _$OrderStatusScalexRequestDtoImpl>
+    implements _$$OrderStatusScalexRequestDtoImplCopyWith<$Res> {
+  __$$OrderStatusScalexRequestDtoImplCopyWithImpl(
+      _$OrderStatusScalexRequestDtoImpl _value,
+      $Res Function(_$OrderStatusScalexRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -422,7 +428,7 @@ class __$$_OrderStatusScalexRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? referenceId = null,
   }) {
-    return _then(_$_OrderStatusScalexRequestDto(
+    return _then(_$OrderStatusScalexRequestDtoImpl(
       referenceId: null == referenceId
           ? _value.referenceId
           : referenceId // ignore: cast_nullable_to_non_nullable
@@ -433,11 +439,13 @@ class __$$_OrderStatusScalexRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderStatusScalexRequestDto implements _OrderStatusScalexRequestDto {
-  const _$_OrderStatusScalexRequestDto({required this.referenceId});
+class _$OrderStatusScalexRequestDtoImpl
+    implements _OrderStatusScalexRequestDto {
+  const _$OrderStatusScalexRequestDtoImpl({required this.referenceId});
 
-  factory _$_OrderStatusScalexRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderStatusScalexRequestDtoFromJson(json);
+  factory _$OrderStatusScalexRequestDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$OrderStatusScalexRequestDtoImplFromJson(json);
 
   @override
   final String referenceId;
@@ -448,10 +456,10 @@ class _$_OrderStatusScalexRequestDto implements _OrderStatusScalexRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderStatusScalexRequestDto &&
+            other is _$OrderStatusScalexRequestDtoImpl &&
             (identical(other.referenceId, referenceId) ||
                 other.referenceId == referenceId));
   }
@@ -463,13 +471,13 @@ class _$_OrderStatusScalexRequestDto implements _OrderStatusScalexRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderStatusScalexRequestDtoCopyWith<_$_OrderStatusScalexRequestDto>
-      get copyWith => __$$_OrderStatusScalexRequestDtoCopyWithImpl<
-          _$_OrderStatusScalexRequestDto>(this, _$identity);
+  _$$OrderStatusScalexRequestDtoImplCopyWith<_$OrderStatusScalexRequestDtoImpl>
+      get copyWith => __$$OrderStatusScalexRequestDtoImplCopyWithImpl<
+          _$OrderStatusScalexRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderStatusScalexRequestDtoToJson(
+    return _$$OrderStatusScalexRequestDtoImplToJson(
       this,
     );
   }
@@ -478,16 +486,16 @@ class _$_OrderStatusScalexRequestDto implements _OrderStatusScalexRequestDto {
 abstract class _OrderStatusScalexRequestDto
     implements OrderStatusScalexRequestDto {
   const factory _OrderStatusScalexRequestDto(
-      {required final String referenceId}) = _$_OrderStatusScalexRequestDto;
+      {required final String referenceId}) = _$OrderStatusScalexRequestDtoImpl;
 
   factory _OrderStatusScalexRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_OrderStatusScalexRequestDto.fromJson;
+      _$OrderStatusScalexRequestDtoImpl.fromJson;
 
   @override
   String get referenceId;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderStatusScalexRequestDtoCopyWith<_$_OrderStatusScalexRequestDto>
+  _$$OrderStatusScalexRequestDtoImplCopyWith<_$OrderStatusScalexRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -567,12 +575,12 @@ class _$OrderStatusScalexResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_OrderStatusScalexResponseDtoCopyWith<$Res>
+abstract class _$$OrderStatusScalexResponseDtoImplCopyWith<$Res>
     implements $OrderStatusScalexResponseDtoCopyWith<$Res> {
-  factory _$$_OrderStatusScalexResponseDtoCopyWith(
-          _$_OrderStatusScalexResponseDto value,
-          $Res Function(_$_OrderStatusScalexResponseDto) then) =
-      __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>;
+  factory _$$OrderStatusScalexResponseDtoImplCopyWith(
+          _$OrderStatusScalexResponseDtoImpl value,
+          $Res Function(_$OrderStatusScalexResponseDtoImpl) then) =
+      __$$OrderStatusScalexResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -585,13 +593,13 @@ abstract class _$$_OrderStatusScalexResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>
+class __$$OrderStatusScalexResponseDtoImplCopyWithImpl<$Res>
     extends _$OrderStatusScalexResponseDtoCopyWithImpl<$Res,
-        _$_OrderStatusScalexResponseDto>
-    implements _$$_OrderStatusScalexResponseDtoCopyWith<$Res> {
-  __$$_OrderStatusScalexResponseDtoCopyWithImpl(
-      _$_OrderStatusScalexResponseDto _value,
-      $Res Function(_$_OrderStatusScalexResponseDto) _then)
+        _$OrderStatusScalexResponseDtoImpl>
+    implements _$$OrderStatusScalexResponseDtoImplCopyWith<$Res> {
+  __$$OrderStatusScalexResponseDtoImplCopyWithImpl(
+      _$OrderStatusScalexResponseDtoImpl _value,
+      $Res Function(_$OrderStatusScalexResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -600,7 +608,7 @@ class __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>
     Object? status = null,
     Object? onRampDetails = freezed,
   }) {
-    return _then(_$_OrderStatusScalexResponseDto(
+    return _then(_$OrderStatusScalexResponseDtoImpl(
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -615,14 +623,16 @@ class __$$_OrderStatusScalexResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
-  const _$_OrderStatusScalexResponseDto(
+class _$OrderStatusScalexResponseDtoImpl
+    implements _OrderStatusScalexResponseDto {
+  const _$OrderStatusScalexResponseDtoImpl(
       {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
       required this.status,
       this.onRampDetails});
 
-  factory _$_OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_OrderStatusScalexResponseDtoFromJson(json);
+  factory _$OrderStatusScalexResponseDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$OrderStatusScalexResponseDtoImplFromJson(json);
 
   @override
   @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
@@ -636,10 +646,10 @@ class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OrderStatusScalexResponseDto &&
+            other is _$OrderStatusScalexResponseDtoImpl &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.onRampDetails, onRampDetails) ||
                 other.onRampDetails == onRampDetails));
@@ -652,13 +662,14 @@ class _$_OrderStatusScalexResponseDto implements _OrderStatusScalexResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OrderStatusScalexResponseDtoCopyWith<_$_OrderStatusScalexResponseDto>
-      get copyWith => __$$_OrderStatusScalexResponseDtoCopyWithImpl<
-          _$_OrderStatusScalexResponseDto>(this, _$identity);
+  _$$OrderStatusScalexResponseDtoImplCopyWith<
+          _$OrderStatusScalexResponseDtoImpl>
+      get copyWith => __$$OrderStatusScalexResponseDtoImplCopyWithImpl<
+          _$OrderStatusScalexResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OrderStatusScalexResponseDtoToJson(
+    return _$$OrderStatusScalexResponseDtoImplToJson(
       this,
     );
   }
@@ -670,10 +681,10 @@ abstract class _OrderStatusScalexResponseDto
           {@JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
           required final ScalexOrderStatus status,
           final OnRampScalexDetails? onRampDetails}) =
-      _$_OrderStatusScalexResponseDto;
+      _$OrderStatusScalexResponseDtoImpl;
 
   factory _OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_OrderStatusScalexResponseDto.fromJson;
+      _$OrderStatusScalexResponseDtoImpl.fromJson;
 
   @override
   @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
@@ -682,7 +693,8 @@ abstract class _OrderStatusScalexResponseDto
   OnRampScalexDetails? get onRampDetails;
   @override
   @JsonKey(ignore: true)
-  _$$_OrderStatusScalexResponseDtoCopyWith<_$_OrderStatusScalexResponseDto>
+  _$$OrderStatusScalexResponseDtoImplCopyWith<
+          _$OrderStatusScalexResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -763,11 +775,11 @@ class _$OnRampScalexDetailsCopyWithImpl<$Res, $Val extends OnRampScalexDetails>
 }
 
 /// @nodoc
-abstract class _$$_OnRampScalexDetailsCopyWith<$Res>
+abstract class _$$OnRampScalexDetailsImplCopyWith<$Res>
     implements $OnRampScalexDetailsCopyWith<$Res> {
-  factory _$$_OnRampScalexDetailsCopyWith(_$_OnRampScalexDetails value,
-          $Res Function(_$_OnRampScalexDetails) then) =
-      __$$_OnRampScalexDetailsCopyWithImpl<$Res>;
+  factory _$$OnRampScalexDetailsImplCopyWith(_$OnRampScalexDetailsImpl value,
+          $Res Function(_$OnRampScalexDetailsImpl) then) =
+      __$$OnRampScalexDetailsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -779,11 +791,11 @@ abstract class _$$_OnRampScalexDetailsCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
-    extends _$OnRampScalexDetailsCopyWithImpl<$Res, _$_OnRampScalexDetails>
-    implements _$$_OnRampScalexDetailsCopyWith<$Res> {
-  __$$_OnRampScalexDetailsCopyWithImpl(_$_OnRampScalexDetails _value,
-      $Res Function(_$_OnRampScalexDetails) _then)
+class __$$OnRampScalexDetailsImplCopyWithImpl<$Res>
+    extends _$OnRampScalexDetailsCopyWithImpl<$Res, _$OnRampScalexDetailsImpl>
+    implements _$$OnRampScalexDetailsImplCopyWith<$Res> {
+  __$$OnRampScalexDetailsImplCopyWithImpl(_$OnRampScalexDetailsImpl _value,
+      $Res Function(_$OnRampScalexDetailsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -795,7 +807,7 @@ class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
     Object? fromAmount = null,
     Object? fiatCurrency = null,
   }) {
-    return _then(_$_OnRampScalexDetails(
+    return _then(_$OnRampScalexDetailsImpl(
       currency: null == currency
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
@@ -822,16 +834,16 @@ class __$$_OnRampScalexDetailsCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_OnRampScalexDetails implements _OnRampScalexDetails {
-  const _$_OnRampScalexDetails(
+class _$OnRampScalexDetailsImpl implements _OnRampScalexDetails {
+  const _$OnRampScalexDetailsImpl(
       {required this.currency,
       required this.bankName,
       required this.bankAccount,
       required this.fromAmount,
       required this.fiatCurrency});
 
-  factory _$_OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
-      _$$_OnRampScalexDetailsFromJson(json);
+  factory _$OnRampScalexDetailsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OnRampScalexDetailsImplFromJson(json);
 
   @override
   final String currency;
@@ -850,10 +862,10 @@ class _$_OnRampScalexDetails implements _OnRampScalexDetails {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_OnRampScalexDetails &&
+            other is _$OnRampScalexDetailsImpl &&
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
             (identical(other.bankName, bankName) ||
@@ -874,13 +886,13 @@ class _$_OnRampScalexDetails implements _OnRampScalexDetails {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_OnRampScalexDetailsCopyWith<_$_OnRampScalexDetails> get copyWith =>
-      __$$_OnRampScalexDetailsCopyWithImpl<_$_OnRampScalexDetails>(
+  _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
+      __$$OnRampScalexDetailsImplCopyWithImpl<_$OnRampScalexDetailsImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_OnRampScalexDetailsToJson(
+    return _$$OnRampScalexDetailsImplToJson(
       this,
     );
   }
@@ -892,10 +904,10 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
       required final String bankName,
       required final String bankAccount,
       required final num fromAmount,
-      required final String fiatCurrency}) = _$_OnRampScalexDetails;
+      required final String fiatCurrency}) = _$OnRampScalexDetailsImpl;
 
   factory _OnRampScalexDetails.fromJson(Map<String, dynamic> json) =
-      _$_OnRampScalexDetails.fromJson;
+      _$OnRampScalexDetailsImpl.fromJson;
 
   @override
   String get currency;
@@ -909,6 +921,6 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
   String get fiatCurrency;
   @override
   @JsonKey(ignore: true)
-  _$$_OnRampScalexDetailsCopyWith<_$_OnRampScalexDetails> get copyWith =>
+  _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,3 +1,11 @@
+## 1.95.0
+
+ - **FEAT**: prefer ramp network in Europe (#1174).
+
+## 1.94.0
+
+ - **FEAT**: enable coinflow in Europe (#1173).
+
 ## 1.93.0
 
  - **REFACTOR**: update linter (#1170).

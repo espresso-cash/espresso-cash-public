@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../../core/presentation/format_amount.dart';
-import '../../../../../core/tokens/token.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../ui/colors.dart';
-import '../../../../../ui/token_icon.dart';
 import '../../../core/amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key, required this.tokens});
@@ -58,7 +58,7 @@ class _BalanceItem extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                CpTokenIcon(token: token, size: 36),
+                TokenIcon(token: token, size: 36),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Text(
