@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../ui/colors.dart';
-import '../../ui/navigation_bar/navigation_bar.dart';
+import 'colors.dart';
+import 'navigation_bar/navigation_bar.dart';
 
 class PageFadeWrapper extends StatelessWidget {
   const PageFadeWrapper({super.key, required this.child});
