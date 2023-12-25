@@ -13,7 +13,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://quote-api.jup.ag/v4';
+    baseUrl ??= 'https://quote-api.jup.ag/v6';
   }
 
   final Dio _dio;
@@ -73,8 +73,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    _data.addAll(swapRequestDto.toJson());
+    final _data = swapRequestDto;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<JupiterSwapResponseDto>(Options(
       method: 'POST',

@@ -24,61 +24,10 @@ class JupiterIndexedRouteMap with _$JupiterIndexedRouteMap {
 }
 
 @freezed
-class JupiterRoute with _$JupiterRoute {
-  const factory JupiterRoute({
-    required String inAmount,
-    required String outAmount,
-    required String amount,
-    required String otherAmountThreshold,
-    required int slippageBps,
-    required num priceImpactPct,
-    required List<JupiterMarket> marketInfos,
-    required SwapMode swapMode,
-    required JupiterRouteFee? fees,
-  }) = _JupiterRoute;
-
-  factory JupiterRoute.fromJson(Map<String, dynamic> json) =>
-      _$JupiterRouteFromJson(json);
-}
-
-extension JupiterRouteExt on JupiterRoute {
-  bool isSameRouteAs(JupiterRoute other) {
-    if (marketInfos.length != other.marketInfos.length) return false;
-    for (int i = 0; i < marketInfos.length; i++) {
-      if (marketInfos[i].id != other.marketInfos[i].id) return false;
-    }
-
-    return true;
-  }
-}
-
-@freezed
-class JupiterMarket with _$JupiterMarket {
-  const factory JupiterMarket({
-    required String id,
-    required String label,
-    required String inputMint,
-    required String outputMint,
-    required bool notEnoughLiquidity,
-    required String inAmount,
-    required String outAmount,
-    required num priceImpactPct,
-    required String? minInAmount,
-    required String? minOutAmount,
-    required JupiterMarketFee lpFee,
-    required JupiterMarketFee platformFee,
-  }) = _JupiterMarket;
-
-  factory JupiterMarket.fromJson(Map<String, dynamic> json) =>
-      _$JupiterMarketFromJson(json);
-}
-
-@freezed
 class JupiterMarketFee with _$JupiterMarketFee {
   const factory JupiterMarketFee({
-    required String amount,
-    required String mint,
-    required num pct,
+    String? amount,
+    num? feeBps,
   }) = _JupiterMarketFee;
 
   factory JupiterMarketFee.fromJson(Map<String, dynamic> json) =>
@@ -86,23 +35,48 @@ class JupiterMarketFee with _$JupiterMarketFee {
 }
 
 @freezed
-class JupiterRouteFee with _$JupiterRouteFee {
-  const factory JupiterRouteFee({
-    required num signatureFee,
-    required List<num> openOrdersDeposits,
-    required List<num> ataDeposits,
-    required num totalFeeAndDeposits,
-    required num minimumSOLForTransaction,
-  }) = _JupiterRouteFee;
+class RoutePlan with _$RoutePlan {
+  const factory RoutePlan({
+    required JupiterSwapInfo swapInfo,
+    required int percent,
+  }) = _RoutePlan;
 
-  factory JupiterRouteFee.fromJson(Map<String, dynamic> json) =>
-      _$JupiterRouteFeeFromJson(json);
+  factory RoutePlan.fromJson(Map<String, dynamic> json) =>
+      _$RoutePlanFromJson(json);
+}
+
+@freezed
+class JupiterSwapInfo with _$JupiterSwapInfo {
+  const factory JupiterSwapInfo({
+    required String ammKey,
+    String? label,
+    required String inputMint,
+    required String outputMint,
+    required String inAmount,
+    required String outAmount,
+    required String feeAmount,
+    required String feeMint,
+  }) = _JupiterSwapInfo;
+
+  factory JupiterSwapInfo.fromJson(Map<String, dynamic> json) =>
+      _$JupiterSwapInfoFromJson(json);
 }
 
 @freezed
 class QuoteResponseDto with _$QuoteResponseDto {
   const factory QuoteResponseDto({
-    @JsonKey(name: 'data') required List<JupiterRoute> routes,
+    required String inputMint,
+    required String inAmount,
+    required String outputMint,
+    required String outAmount,
+    required String otherAmountThreshold,
+    @Default(SwapMode.exactIn) SwapMode swapMode,
+    required int slippageBps,
+    JupiterMarketFee? platformFee,
+    required String priceImpactPct,
+    required List<RoutePlan> routePlan,
+    num? contextSlot,
+    double? timeTaken,
   }) = _QuoteResponseDto;
 
   factory QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -124,13 +98,15 @@ class QuoteRequestDto with _$QuoteRequestDto {
   const factory QuoteRequestDto({
     required String inputMint,
     required String outputMint,
-    required String amount,
-    @Default(SwapMode.exactIn) SwapMode swapMode,
+    required int amount,
     int? slippageBps,
-    int? feeBps,
+    @Default(SwapMode.exactIn) SwapMode swapMode,
+    List<String>? dexes,
+    List<String>? excludeDexes,
     bool? onlyDirectRoutes,
-    String? userPublicKey,
     bool? asLegacyTransaction,
+    int? platformFeeBps,
+    int? maxAccounts,
   }) = _QuoteRequestDto;
 
   factory QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -141,11 +117,18 @@ class QuoteRequestDto with _$QuoteRequestDto {
 class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
   const factory JupiterSwapRequestDto({
     required String userPublicKey,
-    required JupiterRoute route,
-    bool? wrapUnwrapSOL,
+    required QuoteResponseDto quoteResponse,
+    @Default(true) bool? wrapAndUnwrapSol,
+    @Default(true) bool? useSharedAccounts,
     String? feeAccount,
-    String? destinationWallet,
+    int? computeUnitPriceMicroLamports,
+    int? prioritizationFeeLamports,
     bool? asLegacyTransaction,
+    bool? restrictIntermediateTokens,
+    bool? useTokenLedger,
+    String? destinationTokenAccount,
+    bool? dynamicComputeUnitLimit,
+    bool? skipUserAccountsRpcCalls,
   }) = _JupiterSwapRequestDto;
 
   factory JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -156,6 +139,7 @@ class JupiterSwapRequestDto with _$JupiterSwapRequestDto {
 class JupiterSwapResponseDto with _$JupiterSwapResponseDto {
   const factory JupiterSwapResponseDto({
     required String swapTransaction,
+    required int lastValidBlockHeight,
   }) = _JupiterSwapResponseDto;
 
   factory JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
