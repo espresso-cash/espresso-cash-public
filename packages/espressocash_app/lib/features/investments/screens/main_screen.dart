@@ -4,12 +4,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/currency.dart';
-import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/theme.dart';
 import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
