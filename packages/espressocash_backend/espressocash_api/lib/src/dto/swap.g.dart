@@ -6,9 +6,9 @@ part of 'swap.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SwapRouteRequestDtoImpl _$$SwapRouteRequestDtoImplFromJson(
+_$_SwapRouteRequestDto _$$_SwapRouteRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$SwapRouteRequestDtoImpl(
+    _$_SwapRouteRequestDto(
       inputToken: json['inputToken'] as String,
       outputToken: json['outputToken'] as String,
       amount: json['amount'] as String,
@@ -18,8 +18,8 @@ _$SwapRouteRequestDtoImpl _$$SwapRouteRequestDtoImplFromJson(
       asLegacyTx: json['asLegacyTx'] as bool? ?? true,
     );
 
-Map<String, dynamic> _$$SwapRouteRequestDtoImplToJson(
-        _$SwapRouteRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_SwapRouteRequestDtoToJson(
+        _$_SwapRouteRequestDto instance) =>
     <String, dynamic>{
       'inputToken': instance.inputToken,
       'outputToken': instance.outputToken,
@@ -41,9 +41,9 @@ const _$SwapSlippageEnumMap = {
   SwapSlippage.onePercent: 'onePercent',
 };
 
-_$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(
+_$_SwapRouteResponseDto _$$_SwapRouteResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$SwapRouteResponseDtoImpl(
+    _$_SwapRouteResponseDto(
       inAmount: json['inAmount'] as String,
       outAmount: json['outAmount'] as String,
       amount: json['amount'] as String,
@@ -52,8 +52,8 @@ _$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$SwapRouteResponseDtoImplToJson(
-        _$SwapRouteResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_SwapRouteResponseDtoToJson(
+        _$_SwapRouteResponseDto instance) =>
     <String, dynamic>{
       'inAmount': instance.inAmount,
       'outAmount': instance.outAmount,

@@ -6,49 +6,49 @@ part of 'scalex.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenerateScalexLinkResponseDtoImpl
-    _$$GenerateScalexLinkResponseDtoImplFromJson(Map<String, dynamic> json) =>
-        _$GenerateScalexLinkResponseDtoImpl(
-          signedUrl: json['signedUrl'] as String,
-        );
+_$_GenerateScalexLinkResponseDto _$$_GenerateScalexLinkResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_GenerateScalexLinkResponseDto(
+      signedUrl: json['signedUrl'] as String,
+    );
 
-Map<String, dynamic> _$$GenerateScalexLinkResponseDtoImplToJson(
-        _$GenerateScalexLinkResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_GenerateScalexLinkResponseDtoToJson(
+        _$_GenerateScalexLinkResponseDto instance) =>
     <String, dynamic>{
       'signedUrl': instance.signedUrl,
     };
 
-_$GenerateScalexLinkRequestDtoImpl _$$GenerateScalexLinkRequestDtoImplFromJson(
+_$_GenerateScalexLinkRequestDto _$$_GenerateScalexLinkRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$GenerateScalexLinkRequestDtoImpl(
+    _$_GenerateScalexLinkRequestDto(
       type: json['type'] as String,
       address: json['address'] as String,
       email: json['email'] as String,
     );
 
-Map<String, dynamic> _$$GenerateScalexLinkRequestDtoImplToJson(
-        _$GenerateScalexLinkRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_GenerateScalexLinkRequestDtoToJson(
+        _$_GenerateScalexLinkRequestDto instance) =>
     <String, dynamic>{
       'type': instance.type,
       'address': instance.address,
       'email': instance.email,
     };
 
-_$OrderStatusScalexRequestDtoImpl _$$OrderStatusScalexRequestDtoImplFromJson(
+_$_OrderStatusScalexRequestDto _$$_OrderStatusScalexRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$OrderStatusScalexRequestDtoImpl(
+    _$_OrderStatusScalexRequestDto(
       referenceId: json['referenceId'] as String,
     );
 
-Map<String, dynamic> _$$OrderStatusScalexRequestDtoImplToJson(
-        _$OrderStatusScalexRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_OrderStatusScalexRequestDtoToJson(
+        _$_OrderStatusScalexRequestDto instance) =>
     <String, dynamic>{
       'referenceId': instance.referenceId,
     };
 
-_$OrderStatusScalexResponseDtoImpl _$$OrderStatusScalexResponseDtoImplFromJson(
+_$_OrderStatusScalexResponseDto _$$_OrderStatusScalexResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$OrderStatusScalexResponseDtoImpl(
+    _$_OrderStatusScalexResponseDto(
       status: $enumDecode(_$ScalexOrderStatusEnumMap, json['status'],
           unknownValue: ScalexOrderStatus.unknown),
       onRampDetails: json['onRampDetails'] == null
@@ -57,8 +57,8 @@ _$OrderStatusScalexResponseDtoImpl _$$OrderStatusScalexResponseDtoImplFromJson(
               json['onRampDetails'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$OrderStatusScalexResponseDtoImplToJson(
-        _$OrderStatusScalexResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_OrderStatusScalexResponseDtoToJson(
+        _$_OrderStatusScalexResponseDto instance) =>
     <String, dynamic>{
       'status': _$ScalexOrderStatusEnumMap[instance.status]!,
       'onRampDetails': instance.onRampDetails,
@@ -72,9 +72,9 @@ const _$ScalexOrderStatusEnumMap = {
   ScalexOrderStatus.unknown: 'unknown',
 };
 
-_$OnRampScalexDetailsImpl _$$OnRampScalexDetailsImplFromJson(
+_$_OnRampScalexDetails _$$_OnRampScalexDetailsFromJson(
         Map<String, dynamic> json) =>
-    _$OnRampScalexDetailsImpl(
+    _$_OnRampScalexDetails(
       currency: json['currency'] as String,
       bankName: json['bankName'] as String,
       bankAccount: json['bankAccount'] as String,
@@ -82,8 +82,8 @@ _$OnRampScalexDetailsImpl _$$OnRampScalexDetailsImplFromJson(
       fiatCurrency: json['fiatCurrency'] as String,
     );
 
-Map<String, dynamic> _$$OnRampScalexDetailsImplToJson(
-        _$OnRampScalexDetailsImpl instance) =>
+Map<String, dynamic> _$$_OnRampScalexDetailsToJson(
+        _$_OnRampScalexDetails instance) =>
     <String, dynamic>{
       'currency': instance.currency,
       'bankName': instance.bankName,

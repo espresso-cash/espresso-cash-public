@@ -86,12 +86,11 @@ class _$CreatePaymentRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CreatePaymentRequestDtoImplCopyWith<$Res>
+abstract class _$$_CreatePaymentRequestDtoCopyWith<$Res>
     implements $CreatePaymentRequestDtoCopyWith<$Res> {
-  factory _$$CreatePaymentRequestDtoImplCopyWith(
-          _$CreatePaymentRequestDtoImpl value,
-          $Res Function(_$CreatePaymentRequestDtoImpl) then) =
-      __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$_CreatePaymentRequestDtoCopyWith(_$_CreatePaymentRequestDto value,
+          $Res Function(_$_CreatePaymentRequestDto) then) =
+      __$$_CreatePaymentRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -102,13 +101,12 @@ abstract class _$$CreatePaymentRequestDtoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
+class __$$_CreatePaymentRequestDtoCopyWithImpl<$Res>
     extends _$CreatePaymentRequestDtoCopyWithImpl<$Res,
-        _$CreatePaymentRequestDtoImpl>
-    implements _$$CreatePaymentRequestDtoImplCopyWith<$Res> {
-  __$$CreatePaymentRequestDtoImplCopyWithImpl(
-      _$CreatePaymentRequestDtoImpl _value,
-      $Res Function(_$CreatePaymentRequestDtoImpl) _then)
+        _$_CreatePaymentRequestDto>
+    implements _$$_CreatePaymentRequestDtoCopyWith<$Res> {
+  __$$_CreatePaymentRequestDtoCopyWithImpl(_$_CreatePaymentRequestDto _value,
+      $Res Function(_$_CreatePaymentRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -119,7 +117,7 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
     Object? amount = null,
     Object? cluster = null,
   }) {
-    return _then(_$CreatePaymentRequestDtoImpl(
+    return _then(_$_CreatePaymentRequestDto(
       senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
@@ -142,15 +140,15 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
-  const _$CreatePaymentRequestDtoImpl(
+class _$_CreatePaymentRequestDto implements _CreatePaymentRequestDto {
+  const _$_CreatePaymentRequestDto(
       {required this.senderAccount,
       required this.escrowAccount,
       required this.amount,
       required this.cluster});
 
-  factory _$CreatePaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CreatePaymentRequestDtoImplFromJson(json);
+  factory _$_CreatePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CreatePaymentRequestDtoFromJson(json);
 
   @override
   final String senderAccount;
@@ -167,10 +165,10 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreatePaymentRequestDtoImpl &&
+            other is _$_CreatePaymentRequestDto &&
             (identical(other.senderAccount, senderAccount) ||
                 other.senderAccount == senderAccount) &&
             (identical(other.escrowAccount, escrowAccount) ||
@@ -187,13 +185,14 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
-      get copyWith => __$$CreatePaymentRequestDtoImplCopyWithImpl<
-          _$CreatePaymentRequestDtoImpl>(this, _$identity);
+  _$$_CreatePaymentRequestDtoCopyWith<_$_CreatePaymentRequestDto>
+      get copyWith =>
+          __$$_CreatePaymentRequestDtoCopyWithImpl<_$_CreatePaymentRequestDto>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreatePaymentRequestDtoImplToJson(
+    return _$$_CreatePaymentRequestDtoToJson(
       this,
     );
   }
@@ -204,10 +203,10 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
       {required final String senderAccount,
       required final String escrowAccount,
       required final int amount,
-      required final Cluster cluster}) = _$CreatePaymentRequestDtoImpl;
+      required final Cluster cluster}) = _$_CreatePaymentRequestDto;
 
   factory _CreatePaymentRequestDto.fromJson(Map<String, dynamic> json) =
-      _$CreatePaymentRequestDtoImpl.fromJson;
+      _$_CreatePaymentRequestDto.fromJson;
 
   @override
   String get senderAccount;
@@ -219,7 +218,7 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
   Cluster get cluster;
   @override
   @JsonKey(ignore: true)
-  _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
+  _$$_CreatePaymentRequestDtoCopyWith<_$_CreatePaymentRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -279,25 +278,24 @@ class _$CreatePaymentResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CreatePaymentResponseDtoImplCopyWith<$Res>
+abstract class _$$_CreatePaymentResponseDtoCopyWith<$Res>
     implements $CreatePaymentResponseDtoCopyWith<$Res> {
-  factory _$$CreatePaymentResponseDtoImplCopyWith(
-          _$CreatePaymentResponseDtoImpl value,
-          $Res Function(_$CreatePaymentResponseDtoImpl) then) =
-      __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$_CreatePaymentResponseDtoCopyWith(
+          _$_CreatePaymentResponseDto value,
+          $Res Function(_$_CreatePaymentResponseDto) then) =
+      __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
-class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
+class __$$_CreatePaymentResponseDtoCopyWithImpl<$Res>
     extends _$CreatePaymentResponseDtoCopyWithImpl<$Res,
-        _$CreatePaymentResponseDtoImpl>
-    implements _$$CreatePaymentResponseDtoImplCopyWith<$Res> {
-  __$$CreatePaymentResponseDtoImplCopyWithImpl(
-      _$CreatePaymentResponseDtoImpl _value,
-      $Res Function(_$CreatePaymentResponseDtoImpl) _then)
+        _$_CreatePaymentResponseDto>
+    implements _$$_CreatePaymentResponseDtoCopyWith<$Res> {
+  __$$_CreatePaymentResponseDtoCopyWithImpl(_$_CreatePaymentResponseDto _value,
+      $Res Function(_$_CreatePaymentResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -306,7 +304,7 @@ class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
     Object? transaction = null,
     Object? slot = null,
   }) {
-    return _then(_$CreatePaymentResponseDtoImpl(
+    return _then(_$_CreatePaymentResponseDto(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -321,12 +319,12 @@ class __$$CreatePaymentResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
-  const _$CreatePaymentResponseDtoImpl(
+class _$_CreatePaymentResponseDto implements _CreatePaymentResponseDto {
+  const _$_CreatePaymentResponseDto(
       {required this.transaction, required this.slot});
 
-  factory _$CreatePaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CreatePaymentResponseDtoImplFromJson(json);
+  factory _$_CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CreatePaymentResponseDtoFromJson(json);
 
   @override
   final String transaction;
@@ -339,10 +337,10 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreatePaymentResponseDtoImpl &&
+            other is _$_CreatePaymentResponseDto &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
@@ -355,13 +353,13 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
-      get copyWith => __$$CreatePaymentResponseDtoImplCopyWithImpl<
-          _$CreatePaymentResponseDtoImpl>(this, _$identity);
+  _$$_CreatePaymentResponseDtoCopyWith<_$_CreatePaymentResponseDto>
+      get copyWith => __$$_CreatePaymentResponseDtoCopyWithImpl<
+          _$_CreatePaymentResponseDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreatePaymentResponseDtoImplToJson(
+    return _$$_CreatePaymentResponseDtoToJson(
       this,
     );
   }
@@ -370,10 +368,10 @@ class _$CreatePaymentResponseDtoImpl implements _CreatePaymentResponseDto {
 abstract class _CreatePaymentResponseDto implements CreatePaymentResponseDto {
   const factory _CreatePaymentResponseDto(
       {required final String transaction,
-      required final BigInt slot}) = _$CreatePaymentResponseDtoImpl;
+      required final BigInt slot}) = _$_CreatePaymentResponseDto;
 
   factory _CreatePaymentResponseDto.fromJson(Map<String, dynamic> json) =
-      _$CreatePaymentResponseDtoImpl.fromJson;
+      _$_CreatePaymentResponseDto.fromJson;
 
   @override
   String get transaction;
@@ -381,7 +379,7 @@ abstract class _CreatePaymentResponseDto implements CreatePaymentResponseDto {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$CreatePaymentResponseDtoImplCopyWith<_$CreatePaymentResponseDtoImpl>
+  _$$_CreatePaymentResponseDtoCopyWith<_$_CreatePaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -447,25 +445,24 @@ class _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ReceivePaymentRequestDtoImplCopyWith<$Res>
+abstract class _$$_ReceivePaymentRequestDtoCopyWith<$Res>
     implements $ReceivePaymentRequestDtoCopyWith<$Res> {
-  factory _$$ReceivePaymentRequestDtoImplCopyWith(
-          _$ReceivePaymentRequestDtoImpl value,
-          $Res Function(_$ReceivePaymentRequestDtoImpl) then) =
-      __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$_ReceivePaymentRequestDtoCopyWith(
+          _$_ReceivePaymentRequestDto value,
+          $Res Function(_$_ReceivePaymentRequestDto) then) =
+      __$$_ReceivePaymentRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String receiverAccount, String escrowAccount, Cluster cluster});
 }
 
 /// @nodoc
-class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
+class __$$_ReceivePaymentRequestDtoCopyWithImpl<$Res>
     extends _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
-        _$ReceivePaymentRequestDtoImpl>
-    implements _$$ReceivePaymentRequestDtoImplCopyWith<$Res> {
-  __$$ReceivePaymentRequestDtoImplCopyWithImpl(
-      _$ReceivePaymentRequestDtoImpl _value,
-      $Res Function(_$ReceivePaymentRequestDtoImpl) _then)
+        _$_ReceivePaymentRequestDto>
+    implements _$$_ReceivePaymentRequestDtoCopyWith<$Res> {
+  __$$_ReceivePaymentRequestDtoCopyWithImpl(_$_ReceivePaymentRequestDto _value,
+      $Res Function(_$_ReceivePaymentRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -475,7 +472,7 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
     Object? escrowAccount = null,
     Object? cluster = null,
   }) {
-    return _then(_$ReceivePaymentRequestDtoImpl(
+    return _then(_$_ReceivePaymentRequestDto(
       receiverAccount: null == receiverAccount
           ? _value.receiverAccount
           : receiverAccount // ignore: cast_nullable_to_non_nullable
@@ -494,14 +491,14 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
-  const _$ReceivePaymentRequestDtoImpl(
+class _$_ReceivePaymentRequestDto implements _ReceivePaymentRequestDto {
+  const _$_ReceivePaymentRequestDto(
       {required this.receiverAccount,
       required this.escrowAccount,
       required this.cluster});
 
-  factory _$ReceivePaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ReceivePaymentRequestDtoImplFromJson(json);
+  factory _$_ReceivePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_ReceivePaymentRequestDtoFromJson(json);
 
   @override
   final String receiverAccount;
@@ -516,10 +513,10 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ReceivePaymentRequestDtoImpl &&
+            other is _$_ReceivePaymentRequestDto &&
             (identical(other.receiverAccount, receiverAccount) ||
                 other.receiverAccount == receiverAccount) &&
             (identical(other.escrowAccount, escrowAccount) ||
@@ -535,13 +532,13 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
-      get copyWith => __$$ReceivePaymentRequestDtoImplCopyWithImpl<
-          _$ReceivePaymentRequestDtoImpl>(this, _$identity);
+  _$$_ReceivePaymentRequestDtoCopyWith<_$_ReceivePaymentRequestDto>
+      get copyWith => __$$_ReceivePaymentRequestDtoCopyWithImpl<
+          _$_ReceivePaymentRequestDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ReceivePaymentRequestDtoImplToJson(
+    return _$$_ReceivePaymentRequestDtoToJson(
       this,
     );
   }
@@ -551,10 +548,10 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   const factory _ReceivePaymentRequestDto(
       {required final String receiverAccount,
       required final String escrowAccount,
-      required final Cluster cluster}) = _$ReceivePaymentRequestDtoImpl;
+      required final Cluster cluster}) = _$_ReceivePaymentRequestDto;
 
   factory _ReceivePaymentRequestDto.fromJson(Map<String, dynamic> json) =
-      _$ReceivePaymentRequestDtoImpl.fromJson;
+      _$_ReceivePaymentRequestDto.fromJson;
 
   @override
   String get receiverAccount;
@@ -564,7 +561,7 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   Cluster get cluster;
   @override
   @JsonKey(ignore: true)
-  _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
+  _$$_ReceivePaymentRequestDtoCopyWith<_$_ReceivePaymentRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -624,25 +621,25 @@ class _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ReceivePaymentResponseDtoImplCopyWith<$Res>
+abstract class _$$_ReceivePaymentResponseDtoCopyWith<$Res>
     implements $ReceivePaymentResponseDtoCopyWith<$Res> {
-  factory _$$ReceivePaymentResponseDtoImplCopyWith(
-          _$ReceivePaymentResponseDtoImpl value,
-          $Res Function(_$ReceivePaymentResponseDtoImpl) then) =
-      __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$_ReceivePaymentResponseDtoCopyWith(
+          _$_ReceivePaymentResponseDto value,
+          $Res Function(_$_ReceivePaymentResponseDto) then) =
+      __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
-class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
+class __$$_ReceivePaymentResponseDtoCopyWithImpl<$Res>
     extends _$ReceivePaymentResponseDtoCopyWithImpl<$Res,
-        _$ReceivePaymentResponseDtoImpl>
-    implements _$$ReceivePaymentResponseDtoImplCopyWith<$Res> {
-  __$$ReceivePaymentResponseDtoImplCopyWithImpl(
-      _$ReceivePaymentResponseDtoImpl _value,
-      $Res Function(_$ReceivePaymentResponseDtoImpl) _then)
+        _$_ReceivePaymentResponseDto>
+    implements _$$_ReceivePaymentResponseDtoCopyWith<$Res> {
+  __$$_ReceivePaymentResponseDtoCopyWithImpl(
+      _$_ReceivePaymentResponseDto _value,
+      $Res Function(_$_ReceivePaymentResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -651,7 +648,7 @@ class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
     Object? transaction = null,
     Object? slot = null,
   }) {
-    return _then(_$ReceivePaymentResponseDtoImpl(
+    return _then(_$_ReceivePaymentResponseDto(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -666,12 +663,12 @@ class __$$ReceivePaymentResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
-  const _$ReceivePaymentResponseDtoImpl(
+class _$_ReceivePaymentResponseDto implements _ReceivePaymentResponseDto {
+  const _$_ReceivePaymentResponseDto(
       {required this.transaction, required this.slot});
 
-  factory _$ReceivePaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ReceivePaymentResponseDtoImplFromJson(json);
+  factory _$_ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_ReceivePaymentResponseDtoFromJson(json);
 
   @override
   final String transaction;
@@ -684,10 +681,10 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ReceivePaymentResponseDtoImpl &&
+            other is _$_ReceivePaymentResponseDto &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
@@ -700,13 +697,13 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
-      get copyWith => __$$ReceivePaymentResponseDtoImplCopyWithImpl<
-          _$ReceivePaymentResponseDtoImpl>(this, _$identity);
+  _$$_ReceivePaymentResponseDtoCopyWith<_$_ReceivePaymentResponseDto>
+      get copyWith => __$$_ReceivePaymentResponseDtoCopyWithImpl<
+          _$_ReceivePaymentResponseDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ReceivePaymentResponseDtoImplToJson(
+    return _$$_ReceivePaymentResponseDtoToJson(
       this,
     );
   }
@@ -715,10 +712,10 @@ class _$ReceivePaymentResponseDtoImpl implements _ReceivePaymentResponseDto {
 abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   const factory _ReceivePaymentResponseDto(
       {required final String transaction,
-      required final BigInt slot}) = _$ReceivePaymentResponseDtoImpl;
+      required final BigInt slot}) = _$_ReceivePaymentResponseDto;
 
   factory _ReceivePaymentResponseDto.fromJson(Map<String, dynamic> json) =
-      _$ReceivePaymentResponseDtoImpl.fromJson;
+      _$_ReceivePaymentResponseDto.fromJson;
 
   @override
   String get transaction;
@@ -726,7 +723,7 @@ abstract class _ReceivePaymentResponseDto implements ReceivePaymentResponseDto {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$ReceivePaymentResponseDtoImplCopyWith<_$ReceivePaymentResponseDtoImpl>
+  _$$_ReceivePaymentResponseDtoCopyWith<_$_ReceivePaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -811,12 +808,12 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
+abstract class _$$_CreateDirectPaymentRequestDtoCopyWith<$Res>
     implements $CreateDirectPaymentRequestDtoCopyWith<$Res> {
-  factory _$$CreateDirectPaymentRequestDtoImplCopyWith(
-          _$CreateDirectPaymentRequestDtoImpl value,
-          $Res Function(_$CreateDirectPaymentRequestDtoImpl) then) =
-      __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$_CreateDirectPaymentRequestDtoCopyWith(
+          _$_CreateDirectPaymentRequestDto value,
+          $Res Function(_$_CreateDirectPaymentRequestDto) then) =
+      __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -828,13 +825,13 @@ abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
+class __$$_CreateDirectPaymentRequestDtoCopyWithImpl<$Res>
     extends _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
-        _$CreateDirectPaymentRequestDtoImpl>
-    implements _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res> {
-  __$$CreateDirectPaymentRequestDtoImplCopyWithImpl(
-      _$CreateDirectPaymentRequestDtoImpl _value,
-      $Res Function(_$CreateDirectPaymentRequestDtoImpl) _then)
+        _$_CreateDirectPaymentRequestDto>
+    implements _$$_CreateDirectPaymentRequestDtoCopyWith<$Res> {
+  __$$_CreateDirectPaymentRequestDtoCopyWithImpl(
+      _$_CreateDirectPaymentRequestDto _value,
+      $Res Function(_$_CreateDirectPaymentRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -846,7 +843,7 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? amount = null,
     Object? cluster = null,
   }) {
-    return _then(_$CreateDirectPaymentRequestDtoImpl(
+    return _then(_$_CreateDirectPaymentRequestDto(
       senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
@@ -873,18 +870,18 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateDirectPaymentRequestDtoImpl
+class _$_CreateDirectPaymentRequestDto
     implements _CreateDirectPaymentRequestDto {
-  const _$CreateDirectPaymentRequestDtoImpl(
+  const _$_CreateDirectPaymentRequestDto(
       {required this.senderAccount,
       required this.receiverAccount,
       required this.referenceAccount,
       required this.amount,
       required this.cluster});
 
-  factory _$CreateDirectPaymentRequestDtoImpl.fromJson(
+  factory _$_CreateDirectPaymentRequestDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateDirectPaymentRequestDtoImplFromJson(json);
+      _$$_CreateDirectPaymentRequestDtoFromJson(json);
 
   @override
   final String senderAccount;
@@ -903,10 +900,10 @@ class _$CreateDirectPaymentRequestDtoImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateDirectPaymentRequestDtoImpl &&
+            other is _$_CreateDirectPaymentRequestDto &&
             (identical(other.senderAccount, senderAccount) ||
                 other.senderAccount == senderAccount) &&
             (identical(other.receiverAccount, receiverAccount) ||
@@ -925,14 +922,13 @@ class _$CreateDirectPaymentRequestDtoImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateDirectPaymentRequestDtoImplCopyWith<
-          _$CreateDirectPaymentRequestDtoImpl>
-      get copyWith => __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<
-          _$CreateDirectPaymentRequestDtoImpl>(this, _$identity);
+  _$$_CreateDirectPaymentRequestDtoCopyWith<_$_CreateDirectPaymentRequestDto>
+      get copyWith => __$$_CreateDirectPaymentRequestDtoCopyWithImpl<
+          _$_CreateDirectPaymentRequestDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateDirectPaymentRequestDtoImplToJson(
+    return _$$_CreateDirectPaymentRequestDtoToJson(
       this,
     );
   }
@@ -945,10 +941,10 @@ abstract class _CreateDirectPaymentRequestDto
       required final String receiverAccount,
       required final String? referenceAccount,
       required final int amount,
-      required final Cluster cluster}) = _$CreateDirectPaymentRequestDtoImpl;
+      required final Cluster cluster}) = _$_CreateDirectPaymentRequestDto;
 
   factory _CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =
-      _$CreateDirectPaymentRequestDtoImpl.fromJson;
+      _$_CreateDirectPaymentRequestDto.fromJson;
 
   @override
   String get senderAccount;
@@ -962,8 +958,7 @@ abstract class _CreateDirectPaymentRequestDto
   Cluster get cluster;
   @override
   @JsonKey(ignore: true)
-  _$$CreateDirectPaymentRequestDtoImplCopyWith<
-          _$CreateDirectPaymentRequestDtoImpl>
+  _$$_CreateDirectPaymentRequestDtoCopyWith<_$_CreateDirectPaymentRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1031,25 +1026,25 @@ class _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CreateDirectPaymentResponseDtoImplCopyWith<$Res>
+abstract class _$$_CreateDirectPaymentResponseDtoCopyWith<$Res>
     implements $CreateDirectPaymentResponseDtoCopyWith<$Res> {
-  factory _$$CreateDirectPaymentResponseDtoImplCopyWith(
-          _$CreateDirectPaymentResponseDtoImpl value,
-          $Res Function(_$CreateDirectPaymentResponseDtoImpl) then) =
-      __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$_CreateDirectPaymentResponseDtoCopyWith(
+          _$_CreateDirectPaymentResponseDto value,
+          $Res Function(_$_CreateDirectPaymentResponseDto) then) =
+      __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int fee, String transaction, BigInt slot});
 }
 
 /// @nodoc
-class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
+class __$$_CreateDirectPaymentResponseDtoCopyWithImpl<$Res>
     extends _$CreateDirectPaymentResponseDtoCopyWithImpl<$Res,
-        _$CreateDirectPaymentResponseDtoImpl>
-    implements _$$CreateDirectPaymentResponseDtoImplCopyWith<$Res> {
-  __$$CreateDirectPaymentResponseDtoImplCopyWithImpl(
-      _$CreateDirectPaymentResponseDtoImpl _value,
-      $Res Function(_$CreateDirectPaymentResponseDtoImpl) _then)
+        _$_CreateDirectPaymentResponseDto>
+    implements _$$_CreateDirectPaymentResponseDtoCopyWith<$Res> {
+  __$$_CreateDirectPaymentResponseDtoCopyWithImpl(
+      _$_CreateDirectPaymentResponseDto _value,
+      $Res Function(_$_CreateDirectPaymentResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1059,7 +1054,7 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
     Object? transaction = null,
     Object? slot = null,
   }) {
-    return _then(_$CreateDirectPaymentResponseDtoImpl(
+    return _then(_$_CreateDirectPaymentResponseDto(
       fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -1078,14 +1073,14 @@ class __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CreateDirectPaymentResponseDtoImpl
+class _$_CreateDirectPaymentResponseDto
     implements _CreateDirectPaymentResponseDto {
-  const _$CreateDirectPaymentResponseDtoImpl(
+  const _$_CreateDirectPaymentResponseDto(
       {required this.fee, required this.transaction, required this.slot});
 
-  factory _$CreateDirectPaymentResponseDtoImpl.fromJson(
+  factory _$_CreateDirectPaymentResponseDto.fromJson(
           Map<String, dynamic> json) =>
-      _$$CreateDirectPaymentResponseDtoImplFromJson(json);
+      _$$_CreateDirectPaymentResponseDtoFromJson(json);
 
   @override
   final int fee;
@@ -1100,10 +1095,10 @@ class _$CreateDirectPaymentResponseDtoImpl
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateDirectPaymentResponseDtoImpl &&
+            other is _$_CreateDirectPaymentResponseDto &&
             (identical(other.fee, fee) || other.fee == fee) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
@@ -1117,14 +1112,13 @@ class _$CreateDirectPaymentResponseDtoImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateDirectPaymentResponseDtoImplCopyWith<
-          _$CreateDirectPaymentResponseDtoImpl>
-      get copyWith => __$$CreateDirectPaymentResponseDtoImplCopyWithImpl<
-          _$CreateDirectPaymentResponseDtoImpl>(this, _$identity);
+  _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
+      get copyWith => __$$_CreateDirectPaymentResponseDtoCopyWithImpl<
+          _$_CreateDirectPaymentResponseDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CreateDirectPaymentResponseDtoImplToJson(
+    return _$$_CreateDirectPaymentResponseDtoToJson(
       this,
     );
   }
@@ -1135,10 +1129,10 @@ abstract class _CreateDirectPaymentResponseDto
   const factory _CreateDirectPaymentResponseDto(
       {required final int fee,
       required final String transaction,
-      required final BigInt slot}) = _$CreateDirectPaymentResponseDtoImpl;
+      required final BigInt slot}) = _$_CreateDirectPaymentResponseDto;
 
   factory _CreateDirectPaymentResponseDto.fromJson(Map<String, dynamic> json) =
-      _$CreateDirectPaymentResponseDtoImpl.fromJson;
+      _$_CreateDirectPaymentResponseDto.fromJson;
 
   @override
   int get fee;
@@ -1148,8 +1142,7 @@ abstract class _CreateDirectPaymentResponseDto
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$CreateDirectPaymentResponseDtoImplCopyWith<
-          _$CreateDirectPaymentResponseDtoImpl>
+  _$$_CreateDirectPaymentResponseDtoCopyWith<_$_CreateDirectPaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1215,25 +1208,23 @@ class _$CancelPaymentRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CancelPaymentRequestDtoImplCopyWith<$Res>
+abstract class _$$_CancelPaymentRequestDtoCopyWith<$Res>
     implements $CancelPaymentRequestDtoCopyWith<$Res> {
-  factory _$$CancelPaymentRequestDtoImplCopyWith(
-          _$CancelPaymentRequestDtoImpl value,
-          $Res Function(_$CancelPaymentRequestDtoImpl) then) =
-      __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>;
+  factory _$$_CancelPaymentRequestDtoCopyWith(_$_CancelPaymentRequestDto value,
+          $Res Function(_$_CancelPaymentRequestDto) then) =
+      __$$_CancelPaymentRequestDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String senderAccount, String escrowAccount, Cluster cluster});
 }
 
 /// @nodoc
-class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
+class __$$_CancelPaymentRequestDtoCopyWithImpl<$Res>
     extends _$CancelPaymentRequestDtoCopyWithImpl<$Res,
-        _$CancelPaymentRequestDtoImpl>
-    implements _$$CancelPaymentRequestDtoImplCopyWith<$Res> {
-  __$$CancelPaymentRequestDtoImplCopyWithImpl(
-      _$CancelPaymentRequestDtoImpl _value,
-      $Res Function(_$CancelPaymentRequestDtoImpl) _then)
+        _$_CancelPaymentRequestDto>
+    implements _$$_CancelPaymentRequestDtoCopyWith<$Res> {
+  __$$_CancelPaymentRequestDtoCopyWithImpl(_$_CancelPaymentRequestDto _value,
+      $Res Function(_$_CancelPaymentRequestDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1243,7 +1234,7 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? escrowAccount = null,
     Object? cluster = null,
   }) {
-    return _then(_$CancelPaymentRequestDtoImpl(
+    return _then(_$_CancelPaymentRequestDto(
       senderAccount: null == senderAccount
           ? _value.senderAccount
           : senderAccount // ignore: cast_nullable_to_non_nullable
@@ -1262,14 +1253,14 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
-  const _$CancelPaymentRequestDtoImpl(
+class _$_CancelPaymentRequestDto implements _CancelPaymentRequestDto {
+  const _$_CancelPaymentRequestDto(
       {required this.senderAccount,
       required this.escrowAccount,
       required this.cluster});
 
-  factory _$CancelPaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CancelPaymentRequestDtoImplFromJson(json);
+  factory _$_CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CancelPaymentRequestDtoFromJson(json);
 
   @override
   final String senderAccount;
@@ -1284,10 +1275,10 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CancelPaymentRequestDtoImpl &&
+            other is _$_CancelPaymentRequestDto &&
             (identical(other.senderAccount, senderAccount) ||
                 other.senderAccount == senderAccount) &&
             (identical(other.escrowAccount, escrowAccount) ||
@@ -1303,13 +1294,14 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
-      get copyWith => __$$CancelPaymentRequestDtoImplCopyWithImpl<
-          _$CancelPaymentRequestDtoImpl>(this, _$identity);
+  _$$_CancelPaymentRequestDtoCopyWith<_$_CancelPaymentRequestDto>
+      get copyWith =>
+          __$$_CancelPaymentRequestDtoCopyWithImpl<_$_CancelPaymentRequestDto>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CancelPaymentRequestDtoImplToJson(
+    return _$$_CancelPaymentRequestDtoToJson(
       this,
     );
   }
@@ -1319,10 +1311,10 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   const factory _CancelPaymentRequestDto(
       {required final String senderAccount,
       required final String escrowAccount,
-      required final Cluster cluster}) = _$CancelPaymentRequestDtoImpl;
+      required final Cluster cluster}) = _$_CancelPaymentRequestDto;
 
   factory _CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =
-      _$CancelPaymentRequestDtoImpl.fromJson;
+      _$_CancelPaymentRequestDto.fromJson;
 
   @override
   String get senderAccount;
@@ -1332,7 +1324,7 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   Cluster get cluster;
   @override
   @JsonKey(ignore: true)
-  _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
+  _$$_CancelPaymentRequestDtoCopyWith<_$_CancelPaymentRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1392,25 +1384,24 @@ class _$CancelPaymentResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$CancelPaymentResponseDtoImplCopyWith<$Res>
+abstract class _$$_CancelPaymentResponseDtoCopyWith<$Res>
     implements $CancelPaymentResponseDtoCopyWith<$Res> {
-  factory _$$CancelPaymentResponseDtoImplCopyWith(
-          _$CancelPaymentResponseDtoImpl value,
-          $Res Function(_$CancelPaymentResponseDtoImpl) then) =
-      __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>;
+  factory _$$_CancelPaymentResponseDtoCopyWith(
+          _$_CancelPaymentResponseDto value,
+          $Res Function(_$_CancelPaymentResponseDto) then) =
+      __$$_CancelPaymentResponseDtoCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String transaction, BigInt slot});
 }
 
 /// @nodoc
-class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
+class __$$_CancelPaymentResponseDtoCopyWithImpl<$Res>
     extends _$CancelPaymentResponseDtoCopyWithImpl<$Res,
-        _$CancelPaymentResponseDtoImpl>
-    implements _$$CancelPaymentResponseDtoImplCopyWith<$Res> {
-  __$$CancelPaymentResponseDtoImplCopyWithImpl(
-      _$CancelPaymentResponseDtoImpl _value,
-      $Res Function(_$CancelPaymentResponseDtoImpl) _then)
+        _$_CancelPaymentResponseDto>
+    implements _$$_CancelPaymentResponseDtoCopyWith<$Res> {
+  __$$_CancelPaymentResponseDtoCopyWithImpl(_$_CancelPaymentResponseDto _value,
+      $Res Function(_$_CancelPaymentResponseDto) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1419,7 +1410,7 @@ class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
     Object? transaction = null,
     Object? slot = null,
   }) {
-    return _then(_$CancelPaymentResponseDtoImpl(
+    return _then(_$_CancelPaymentResponseDto(
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -1434,12 +1425,12 @@ class __$$CancelPaymentResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
-  const _$CancelPaymentResponseDtoImpl(
+class _$_CancelPaymentResponseDto implements _CancelPaymentResponseDto {
+  const _$_CancelPaymentResponseDto(
       {required this.transaction, required this.slot});
 
-  factory _$CancelPaymentResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$CancelPaymentResponseDtoImplFromJson(json);
+  factory _$_CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$$_CancelPaymentResponseDtoFromJson(json);
 
   @override
   final String transaction;
@@ -1452,10 +1443,10 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
   }
 
   @override
-  bool operator ==(Object other) {
+  bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CancelPaymentResponseDtoImpl &&
+            other is _$_CancelPaymentResponseDto &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
@@ -1468,13 +1459,13 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
-      get copyWith => __$$CancelPaymentResponseDtoImplCopyWithImpl<
-          _$CancelPaymentResponseDtoImpl>(this, _$identity);
+  _$$_CancelPaymentResponseDtoCopyWith<_$_CancelPaymentResponseDto>
+      get copyWith => __$$_CancelPaymentResponseDtoCopyWithImpl<
+          _$_CancelPaymentResponseDto>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$CancelPaymentResponseDtoImplToJson(
+    return _$$_CancelPaymentResponseDtoToJson(
       this,
     );
   }
@@ -1483,10 +1474,10 @@ class _$CancelPaymentResponseDtoImpl implements _CancelPaymentResponseDto {
 abstract class _CancelPaymentResponseDto implements CancelPaymentResponseDto {
   const factory _CancelPaymentResponseDto(
       {required final String transaction,
-      required final BigInt slot}) = _$CancelPaymentResponseDtoImpl;
+      required final BigInt slot}) = _$_CancelPaymentResponseDto;
 
   factory _CancelPaymentResponseDto.fromJson(Map<String, dynamic> json) =
-      _$CancelPaymentResponseDtoImpl.fromJson;
+      _$_CancelPaymentResponseDto.fromJson;
 
   @override
   String get transaction;
@@ -1494,6 +1485,6 @@ abstract class _CancelPaymentResponseDto implements CancelPaymentResponseDto {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$CancelPaymentResponseDtoImplCopyWith<_$CancelPaymentResponseDtoImpl>
+  _$$_CancelPaymentResponseDtoCopyWith<_$_CancelPaymentResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
