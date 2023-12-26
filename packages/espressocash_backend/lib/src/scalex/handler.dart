@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_api/espressocash_api.dart' hide OrderStatus;
 import 'package:espressocash_backend/src/scalex/client/client.dart';
 import 'package:espressocash_backend/src/scalex/client/model.dart';
 import 'package:espressocash_backend/src/utils.dart';
