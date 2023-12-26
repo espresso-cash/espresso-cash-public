@@ -5,7 +5,7 @@ import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
 

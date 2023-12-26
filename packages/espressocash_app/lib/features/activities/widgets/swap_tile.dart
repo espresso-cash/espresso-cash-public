@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../core/presentation/format_date.dart';
-import '../../../../core/tokens/token.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../../ui/token_icon.dart';
 import '../../swap/screens/process_swap_screen.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
 
@@ -71,7 +71,7 @@ class _SwapIcon extends StatelessWidget {
           children: [
             Align(
               alignment: Alignment.topLeft,
-              child: CpTokenIcon(token: input, size: 30),
+              child: TokenIcon(token: input, size: 30),
             ),
             const Align(
               alignment: Alignment.bottomRight,
@@ -82,7 +82,7 @@ class _SwapIcon extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomRight,
-              child: CpTokenIcon(token: output, size: 30),
+              child: TokenIcon(token: output, size: 30),
             ),
           ],
         ),

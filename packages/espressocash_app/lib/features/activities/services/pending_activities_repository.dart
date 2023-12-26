@@ -4,7 +4,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_dln_payments/data/repository.dart';
@@ -13,6 +12,7 @@ import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
 import '../../ramp/services/off_ramp_order_service.dart';
 import '../../swap/data/swap_repository.dart';
+import '../../tokens/token_list.dart';
 import '../data/activity_builder.dart';
 import '../models/activity.dart';
 

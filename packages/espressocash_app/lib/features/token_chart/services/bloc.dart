@@ -6,7 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../core/processing_state.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/chart_interval.dart';
 import '../models/token_chart_item.dart';

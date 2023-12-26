@@ -1,14 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
 import 'package:dio_cache_interceptor_db_store/dio_cache_interceptor_db_store.dart';
+import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 
+@singleton
 class CoingeckoClient {
   const CoingeckoClient._(this.dio, this.options);
 
   final Dio dio;
   final CacheOptions options;
 
+  @factoryMethod
+  @preResolve
   static Future<CoingeckoClient> init() async {
     final directory = await getTemporaryDirectory();
 
@@ -29,7 +33,7 @@ class CoingeckoClient {
 }
 
 class CacheInterceptor extends Interceptor {
-  CacheInterceptor({required this.options});
+  const CacheInterceptor({required this.options});
 
   final CacheOptions options;
 

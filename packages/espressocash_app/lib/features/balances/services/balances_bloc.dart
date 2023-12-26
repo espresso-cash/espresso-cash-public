@@ -15,9 +15,9 @@ import '../../../core/currency.dart';
 import '../../../core/disposable_bloc.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../data/balances_repository.dart';
 
 final _logger = Logger('BalancesBloc');

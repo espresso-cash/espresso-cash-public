@@ -7,7 +7,7 @@ import 'package:dio/dio.dart';
 import 'package:espressocash_backend/src/scalex/client/constants.dart';
 
 class ScalexInterceptor extends Interceptor {
-  ScalexInterceptor();
+  const ScalexInterceptor();
 
   @override
   Future<void> onRequest(

@@ -8,9 +8,9 @@ import 'package:solana/encoder.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/swap.dart';
 import '../models/swap_seed.dart';
