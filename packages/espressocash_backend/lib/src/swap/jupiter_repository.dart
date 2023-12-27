@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 
 part 'jupiter_repository.freezed.dart';
 
@@ -30,6 +31,7 @@ class JupiterRepository {
     required SwapMode swapMode,
     required String account,
     required bool asLegacyTransaction,
+    required Ed25519HDPublicKey platformReferralAddress,
   }) async {
     final quote = await _swapClient.getQuote(
       QuoteRequestDto(
@@ -38,8 +40,9 @@ class JupiterRepository {
         outputMint: outputToken,
         slippageBps: slippageBps,
         swapMode: swapMode,
-        onlyDirectRoutes: true,
+        onlyDirectRoutes: false,
         asLegacyTransaction: asLegacyTransaction,
+        platformFeeBps: 100,
       ),
     );
 
@@ -49,7 +52,12 @@ class JupiterRepository {
       throw Exception('No route found for given input and output');
     }
 
-    final feeInSol = bestRoute.swapInfo.feeAmount;
+    final referralTokenAccount = await _calculateReferralAccount(
+      referralPublicKey: platformReferralAddress,
+      mintPublicKey: swapMode == SwapMode.exactIn
+          ? Ed25519HDPublicKey.fromBase58(outputToken)
+          : Ed25519HDPublicKey.fromBase58(inputToken),
+    );
 
     final tx = await _swapClient
         .getSwapTransactions(
@@ -57,17 +65,18 @@ class JupiterRepository {
             userPublicKey: account,
             quoteResponse: quote,
             asLegacyTransaction: asLegacyTransaction,
-            wrapAndUnwrapSol: false,
+            wrapAndUnwrapSol: true,
+            feeAccount: referralTokenAccount.toBase58(),
           ),
         )
         .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
     return RouteInfo(
       amount: amount,
-      inAmount: bestRoute.swapInfo.inAmount,
-      outAmount: bestRoute.swapInfo.outAmount,
+      inAmount: quote.inAmount,
+      outAmount: quote.outAmount,
       jupiterTx: tx,
-      totalFees: num.parse(feeInSol),
+      totalFees: 0, //TODO
     );
   }
 
@@ -102,3 +111,20 @@ extension SwapMatchExt on SwapMatch {
     }
   }
 }
+
+Future<Ed25519HDPublicKey> _calculateReferralAccount({
+  required Ed25519HDPublicKey referralPublicKey,
+  required Ed25519HDPublicKey mintPublicKey,
+}) =>
+    Ed25519HDPublicKey.findProgramAddress(
+      seeds: [
+        'referral_ata'.codeUnits,
+        referralPublicKey.bytes,
+        mintPublicKey.bytes,
+      ],
+      programId: referralProgram,
+    );
+
+final referralProgram = Ed25519HDPublicKey.fromBase58(
+  'REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3',
+);

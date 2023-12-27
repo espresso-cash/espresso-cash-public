@@ -27,13 +27,16 @@ class CreateSwap {
     required SolanaClient client,
     required JupiterRepository repository,
     required Ed25519HDKeyPair platform,
+    required Ed25519HDPublicKey referralAccount,
   })  : _client = client,
         _repository = repository,
-        _platform = platform;
+        _platform = platform,
+        _platformReferralAccount = referralAccount;
 
   final SolanaClient _client;
   final JupiterRepository _repository;
   final Ed25519HDKeyPair _platform;
+  final Ed25519HDPublicKey _platformReferralAccount;
 
   Future<SwapTransaction> call({
     required String amount,
@@ -54,6 +57,7 @@ class CreateSwap {
         swapMode: mode,
         account: aSender.toBase58(),
         asLegacyTransaction: asLegacyTx,
+        platformReferralAddress: _platformReferralAccount,
       ),
       _repository.getUsdcPrice(),
     ]);
