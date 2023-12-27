@@ -6,17 +6,17 @@ part of 'create_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$CreatePaymentRequestDtoImpl _$$CreatePaymentRequestDtoImplFromJson(
+_$_CreatePaymentRequestDto _$$_CreatePaymentRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$CreatePaymentRequestDtoImpl(
+    _$_CreatePaymentRequestDto(
       senderAccount: json['senderAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       amount: json['amount'] as int,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
-Map<String, dynamic> _$$CreatePaymentRequestDtoImplToJson(
-        _$CreatePaymentRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_CreatePaymentRequestDtoToJson(
+        _$_CreatePaymentRequestDto instance) =>
     <String, dynamic>{
       'senderAccount': instance.senderAccount,
       'escrowAccount': instance.escrowAccount,
@@ -29,62 +29,62 @@ const _$ClusterEnumMap = {
   Cluster.devnet: 'devnet',
 };
 
-_$CreatePaymentResponseDtoImpl _$$CreatePaymentResponseDtoImplFromJson(
+_$_CreatePaymentResponseDto _$$_CreatePaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$CreatePaymentResponseDtoImpl(
+    _$_CreatePaymentResponseDto(
       transaction: json['transaction'] as String,
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$CreatePaymentResponseDtoImplToJson(
-        _$CreatePaymentResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_CreatePaymentResponseDtoToJson(
+        _$_CreatePaymentResponseDto instance) =>
     <String, dynamic>{
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),
     };
 
-_$ReceivePaymentRequestDtoImpl _$$ReceivePaymentRequestDtoImplFromJson(
+_$_ReceivePaymentRequestDto _$$_ReceivePaymentRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$ReceivePaymentRequestDtoImpl(
+    _$_ReceivePaymentRequestDto(
       receiverAccount: json['receiverAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
-Map<String, dynamic> _$$ReceivePaymentRequestDtoImplToJson(
-        _$ReceivePaymentRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_ReceivePaymentRequestDtoToJson(
+        _$_ReceivePaymentRequestDto instance) =>
     <String, dynamic>{
       'receiverAccount': instance.receiverAccount,
       'escrowAccount': instance.escrowAccount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
-_$ReceivePaymentResponseDtoImpl _$$ReceivePaymentResponseDtoImplFromJson(
+_$_ReceivePaymentResponseDto _$$_ReceivePaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$ReceivePaymentResponseDtoImpl(
+    _$_ReceivePaymentResponseDto(
       transaction: json['transaction'] as String,
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$ReceivePaymentResponseDtoImplToJson(
-        _$ReceivePaymentResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_ReceivePaymentResponseDtoToJson(
+        _$_ReceivePaymentResponseDto instance) =>
     <String, dynamic>{
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),
     };
 
-_$CreateDirectPaymentRequestDtoImpl
-    _$$CreateDirectPaymentRequestDtoImplFromJson(Map<String, dynamic> json) =>
-        _$CreateDirectPaymentRequestDtoImpl(
-          senderAccount: json['senderAccount'] as String,
-          receiverAccount: json['receiverAccount'] as String,
-          referenceAccount: json['referenceAccount'] as String?,
-          amount: json['amount'] as int,
-          cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
-        );
+_$_CreateDirectPaymentRequestDto _$$_CreateDirectPaymentRequestDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_CreateDirectPaymentRequestDto(
+      senderAccount: json['senderAccount'] as String,
+      receiverAccount: json['receiverAccount'] as String,
+      referenceAccount: json['referenceAccount'] as String?,
+      amount: json['amount'] as int,
+      cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+    );
 
-Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
-        _$CreateDirectPaymentRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_CreateDirectPaymentRequestDtoToJson(
+        _$_CreateDirectPaymentRequestDto instance) =>
     <String, dynamic>{
       'senderAccount': instance.senderAccount,
       'receiverAccount': instance.receiverAccount,
@@ -93,47 +93,47 @@ Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
-_$CreateDirectPaymentResponseDtoImpl
-    _$$CreateDirectPaymentResponseDtoImplFromJson(Map<String, dynamic> json) =>
-        _$CreateDirectPaymentResponseDtoImpl(
-          fee: json['fee'] as int,
-          transaction: json['transaction'] as String,
-          slot: BigInt.parse(json['slot'] as String),
-        );
+_$_CreateDirectPaymentResponseDto _$$_CreateDirectPaymentResponseDtoFromJson(
+        Map<String, dynamic> json) =>
+    _$_CreateDirectPaymentResponseDto(
+      fee: json['fee'] as int,
+      transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
+    );
 
-Map<String, dynamic> _$$CreateDirectPaymentResponseDtoImplToJson(
-        _$CreateDirectPaymentResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_CreateDirectPaymentResponseDtoToJson(
+        _$_CreateDirectPaymentResponseDto instance) =>
     <String, dynamic>{
       'fee': instance.fee,
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),
     };
 
-_$CancelPaymentRequestDtoImpl _$$CancelPaymentRequestDtoImplFromJson(
+_$_CancelPaymentRequestDto _$$_CancelPaymentRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$CancelPaymentRequestDtoImpl(
+    _$_CancelPaymentRequestDto(
       senderAccount: json['senderAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
-Map<String, dynamic> _$$CancelPaymentRequestDtoImplToJson(
-        _$CancelPaymentRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_CancelPaymentRequestDtoToJson(
+        _$_CancelPaymentRequestDto instance) =>
     <String, dynamic>{
       'senderAccount': instance.senderAccount,
       'escrowAccount': instance.escrowAccount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
-_$CancelPaymentResponseDtoImpl _$$CancelPaymentResponseDtoImplFromJson(
+_$_CancelPaymentResponseDto _$$_CancelPaymentResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$CancelPaymentResponseDtoImpl(
+    _$_CancelPaymentResponseDto(
       transaction: json['transaction'] as String,
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$CancelPaymentResponseDtoImplToJson(
-        _$CancelPaymentResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_CancelPaymentResponseDtoToJson(
+        _$_CancelPaymentResponseDto instance) =>
     <String, dynamic>{
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),

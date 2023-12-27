@@ -6,27 +6,27 @@ part of 'add_funds.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AddFundsResponseDtoImpl _$$AddFundsResponseDtoImplFromJson(
+_$_AddFundsResponseDto _$$_AddFundsResponseDtoFromJson(
         Map<String, dynamic> json) =>
-    _$AddFundsResponseDtoImpl(
+    _$_AddFundsResponseDto(
       signedUrl: json['signedUrl'] as String,
     );
 
-Map<String, dynamic> _$$AddFundsResponseDtoImplToJson(
-        _$AddFundsResponseDtoImpl instance) =>
+Map<String, dynamic> _$$_AddFundsResponseDtoToJson(
+        _$_AddFundsResponseDto instance) =>
     <String, dynamic>{
       'signedUrl': instance.signedUrl,
     };
 
-_$AddFundsRequestDtoImpl _$$AddFundsRequestDtoImplFromJson(
+_$_AddFundsRequestDto _$$_AddFundsRequestDtoFromJson(
         Map<String, dynamic> json) =>
-    _$AddFundsRequestDtoImpl(
+    _$_AddFundsRequestDto(
       receiverAddress: json['receiverAddress'] as String,
       tokenSymbol: json['tokenSymbol'] as String,
     );
 
-Map<String, dynamic> _$$AddFundsRequestDtoImplToJson(
-        _$AddFundsRequestDtoImpl instance) =>
+Map<String, dynamic> _$$_AddFundsRequestDtoToJson(
+        _$_AddFundsRequestDto instance) =>
     <String, dynamic>{
       'receiverAddress': instance.receiverAddress,
       'tokenSymbol': instance.tokenSymbol,
