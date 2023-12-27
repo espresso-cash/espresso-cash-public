@@ -76,7 +76,7 @@ class JupiterRepository {
       inAmount: quote.inAmount,
       outAmount: quote.outAmount,
       jupiterTx: tx,
-      totalFees: 0, //TODO
+      totalFees: 0,
     );
   }
 
