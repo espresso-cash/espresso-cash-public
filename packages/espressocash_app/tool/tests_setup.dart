@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:espressocash_app/core/tokens/token_list.dart';
+import 'package:espressocash_app/features/tokens/token_list.dart';
 import 'package:solana/solana.dart';
 
 import '../test/keys/keys.dart';

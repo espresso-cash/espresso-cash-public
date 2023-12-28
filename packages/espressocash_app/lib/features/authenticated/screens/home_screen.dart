@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AutoTabsRouter(
+        duration: Duration.zero,
         routes: _pages.map((e) => e.route).toList(),
         builder: (context, child) {
           final tabsRouter = AutoTabsRouter.of(context);

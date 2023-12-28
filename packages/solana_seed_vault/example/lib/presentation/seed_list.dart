@@ -38,25 +38,25 @@ class SeedItem extends StatefulWidget {
 }
 
 class _SeedItemState extends State<SeedItem> {
-  void _onRequestPublicKeys() {
+  void _handleRequestPublicKeys() {
     context
         .read<SeedVaultBloc>()
         .requestPublicKeys(widget.seed.authToken)
         .then((it) => showSnackBar(context, it.map((e) => e.join('\n\n'))));
   }
 
-  void _onDeauthorize() {
+  void _handleDeauthorize() {
     context.read<SeedVaultBloc>().deathorizeSeed(widget.seed.authToken);
   }
 
-  void _onSignMessages() {
+  void _handleSignMessages() {
     context
         .read<SeedVaultBloc>()
         .signMessages(widget.seed.authToken)
         .then((it) => showSnackBar(context, it));
   }
 
-  void _onSignTransactions() {
+  void _handleSignTransactions() {
     context
         .read<SeedVaultBloc>()
         .signTransactions(widget.seed.authToken)
@@ -79,7 +79,7 @@ class _SeedItemState extends State<SeedItem> {
               ),
               const Spacer(),
               IconButton(
-                onPressed: _onDeauthorize,
+                onPressed: _handleDeauthorize,
                 icon: const Icon(Icons.close, color: Colors.red),
               ),
             ],
@@ -87,7 +87,7 @@ class _SeedItemState extends State<SeedItem> {
           Text('Purpose: ${widget.seed.purpose}', style: _buttonStyle),
           const SizedBox(height: 16),
           ElevatedButton(
-            onPressed: _onRequestPublicKeys,
+            onPressed: _handleRequestPublicKeys,
             child: Text(
               'Get public keys for ${widget.seed.accounts.map((it) => it.derivationPath.toString()).join(' - ')}',
               textAlign: TextAlign.center,
@@ -95,14 +95,14 @@ class _SeedItemState extends State<SeedItem> {
             ),
           ),
           ElevatedButton(
-            onPressed: _onSignTransactions,
+            onPressed: _handleSignTransactions,
             child: const Text(
               'Sign $_payloadCount transactions X $_keyCount keys',
               style: _buttonStyle,
             ),
           ),
           ElevatedButton(
-            onPressed: _onSignMessages,
+            onPressed: _handleSignMessages,
             child: const Text(
               'Sign $_payloadCount messages X $_keyCount keys',
               style: _buttonStyle,

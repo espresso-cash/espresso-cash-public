@@ -6,8 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
-import '../../../core/coingecko_client.dart';
 import '../../../core/currency.dart';
+import '../../../data/coingecko/coingecko_client.dart';
 
 part 'conversion_rates_client.freezed.dart';
 part 'conversion_rates_client.g.dart';

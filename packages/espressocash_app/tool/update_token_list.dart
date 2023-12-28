@@ -119,7 +119,7 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'lib/core/tokens/solana.tokenlist.json';
+const _path = 'lib/features/tokens/solana.tokenlist.json';
 
 const _mainnetChainId = 101;
 

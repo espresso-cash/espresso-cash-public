@@ -22,8 +22,6 @@
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Требовать пин-код для доступа к приложению",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Вы успешно сохранили секретную фразу восстановления в надежном месте. Убедитесь, что она останется в тайне!",
-  "@backupPhrase_lblSuccessMessage": {},
   "balances_lblConnectionError": "Не удается подключиться к сети!",
   "@balances_lblConnectionError": {},
   "carousel1Subtitle": "Мгновенные денежные переводы с низкой комиссией в более чем  в 200 стран и территорий.",
@@ -38,6 +36,8 @@
   "@carousel3Subtitle": {},
   "carousel3Title": "Отправляйте с помощью платформ обмена сообщениями",
   "@carousel3Title": {},
+  "carousel4Title": "Оплачивайте на месте",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Отправьте деньги прямо сейчас",
   "@carouselSendMoneyBtn": {},
   "close": "Закрыть",
@@ -436,6 +436,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Вывести",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Продолжать",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Минимальная сумма для перевода {amount}",
   "@rampMinimumTransferAmount": {
     "placeholders": {

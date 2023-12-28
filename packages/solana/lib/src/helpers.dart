@@ -45,7 +45,7 @@ Future<SignedTx> signTransaction(
   RecentBlockhash recentBlockhash,
   Message message,
   List<Ed25519HDKeyPair> signers,
-) async {
+) {
   if (signers.isEmpty) {
     throw const FormatException('you must specify at least on signer');
   }
@@ -66,7 +66,7 @@ Future<SignedTx> signV0Transaction(
   Message message,
   List<Ed25519HDKeyPair> signers, {
   List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-}) async {
+}) {
   if (signers.isEmpty) {
     throw const FormatException('you must specify at least on signer');
   }

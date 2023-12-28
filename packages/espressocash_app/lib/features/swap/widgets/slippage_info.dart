@@ -84,7 +84,7 @@ class _SlippageBottomSheet extends StatelessWidget {
         ),
       );
 
-  void _onTap(BuildContext context, Slippage slippage) {
+  void _handlePressed(BuildContext context, Slippage slippage) {
     onSlippageChange(slippage);
     Navigator.of(context).pop();
   }
@@ -127,7 +127,7 @@ class _SlippageBottomSheet extends StatelessWidget {
 
                   return CpButton(
                     text: slippage.label,
-                    onPressed: () => _onTap(context, slippage),
+                    onPressed: () => _handlePressed(context, slippage),
                   );
                 },
               ),

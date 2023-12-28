@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 part 'bloc.freezed.dart';

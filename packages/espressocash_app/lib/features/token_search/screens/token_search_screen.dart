@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/flow.dart';
-import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -17,6 +16,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
 import '../models/crypto_categories.dart';
 import '../services/bloc.dart';
 import '../widgets/discover_header.dart';
@@ -61,7 +61,7 @@ class _ContentState extends State<_Content> {
   final TextEditingController _controller = TextEditingController();
   CryptoCategories? _selected;
 
-  void _onCategoryTap(CryptoCategories val) {
+  void _handleCategoryPressed(CryptoCategories val) {
     _selected = _selected != val ? val : null;
     context.read<TokenSearchBloc>().add(SearchCategoryRequest(_selected));
   }
@@ -69,7 +69,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
-    context.read<CryptoCategories?>().maybeFlatMap(_onCategoryTap);
+    context.read<CryptoCategories?>().maybeFlatMap(_handleCategoryPressed);
     _controller.addListener(() {
       _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));
@@ -119,7 +119,7 @@ class _ContentState extends State<_Content> {
                       ),
                       child: DiscoverHeader(
                         selected: _selected,
-                        onTap: _onCategoryTap,
+                        onTap: _handleCategoryPressed,
                       ),
                     ),
                   Expanded(

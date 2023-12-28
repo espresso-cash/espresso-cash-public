@@ -15,9 +15,9 @@ import '../../../core/currency.dart';
 import '../../../core/disposable_bloc.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../data/balances_repository.dart';
 
 final _logger = Logger('BalancesBloc');
@@ -140,7 +140,7 @@ class _MainTokenAccount {
 
 extension SortedBalance on Map<Token, Amount> {
   Iterable<MapEntry<Token, Amount>> _splitAndSort(
-    bool Function(MapEntry<Token, Amount> entry) test,
+    Func1<MapEntry<Token, Amount>, bool> test,
   ) =>
       entries.where(test).toList()
         ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));

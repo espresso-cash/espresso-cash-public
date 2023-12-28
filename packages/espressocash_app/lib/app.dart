@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
-import 'core/analytics/analytics_manager.dart';
 import 'di.dart';
 import 'features/accounts/services/accounts_bloc.dart';
+import 'features/analytics/analytics_manager.dart';
 import 'features/app_lock/app_lock.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';

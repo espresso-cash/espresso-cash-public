@@ -6,9 +6,9 @@ part of 'model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_JupiterIndexedRouteMap _$$_JupiterIndexedRouteMapFromJson(
+_$JupiterIndexedRouteMapImpl _$$JupiterIndexedRouteMapImplFromJson(
         Map<String, dynamic> json) =>
-    _$_JupiterIndexedRouteMap(
+    _$JupiterIndexedRouteMapImpl(
       mintKeys:
           (json['mintKeys'] as List<dynamic>).map((e) => e as String).toList(),
       indexedRouteMap: (json['indexedRouteMap'] as Map<String, dynamic>).map(
@@ -17,15 +17,15 @@ _$_JupiterIndexedRouteMap _$$_JupiterIndexedRouteMapFromJson(
       ),
     );
 
-Map<String, dynamic> _$$_JupiterIndexedRouteMapToJson(
-        _$_JupiterIndexedRouteMap instance) =>
+Map<String, dynamic> _$$JupiterIndexedRouteMapImplToJson(
+        _$JupiterIndexedRouteMapImpl instance) =>
     <String, dynamic>{
       'mintKeys': instance.mintKeys,
       'indexedRouteMap': instance.indexedRouteMap,
     };
 
-_$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
-    _$_JupiterRoute(
+_$JupiterRouteImpl _$$JupiterRouteImplFromJson(Map<String, dynamic> json) =>
+    _$JupiterRouteImpl(
       inAmount: json['inAmount'] as String,
       outAmount: json['outAmount'] as String,
       amount: json['amount'] as String,
@@ -41,7 +41,7 @@ _$_JupiterRoute _$$_JupiterRouteFromJson(Map<String, dynamic> json) =>
           : JupiterRouteFee.fromJson(json['fees'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_JupiterRouteToJson(_$_JupiterRoute instance) {
+Map<String, dynamic> _$$JupiterRouteImplToJson(_$JupiterRouteImpl instance) {
   final val = <String, dynamic>{
     'inAmount': instance.inAmount,
     'outAmount': instance.outAmount,
@@ -68,8 +68,8 @@ const _$SwapModeEnumMap = {
   SwapMode.exactOut: 'ExactOut',
 };
 
-_$_JupiterMarket _$$_JupiterMarketFromJson(Map<String, dynamic> json) =>
-    _$_JupiterMarket(
+_$JupiterMarketImpl _$$JupiterMarketImplFromJson(Map<String, dynamic> json) =>
+    _$JupiterMarketImpl(
       id: json['id'] as String,
       label: json['label'] as String,
       inputMint: json['inputMint'] as String,
@@ -85,7 +85,7 @@ _$_JupiterMarket _$$_JupiterMarketFromJson(Map<String, dynamic> json) =>
           json['platformFee'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$_JupiterMarketToJson(_$_JupiterMarket instance) {
+Map<String, dynamic> _$$JupiterMarketImplToJson(_$JupiterMarketImpl instance) {
   final val = <String, dynamic>{
     'id': instance.id,
     'label': instance.label,
@@ -110,22 +110,25 @@ Map<String, dynamic> _$$_JupiterMarketToJson(_$_JupiterMarket instance) {
   return val;
 }
 
-_$_JupiterMarketFee _$$_JupiterMarketFeeFromJson(Map<String, dynamic> json) =>
-    _$_JupiterMarketFee(
+_$JupiterMarketFeeImpl _$$JupiterMarketFeeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$JupiterMarketFeeImpl(
       amount: json['amount'] as String,
       mint: json['mint'] as String,
       pct: json['pct'] as num,
     );
 
-Map<String, dynamic> _$$_JupiterMarketFeeToJson(_$_JupiterMarketFee instance) =>
+Map<String, dynamic> _$$JupiterMarketFeeImplToJson(
+        _$JupiterMarketFeeImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'mint': instance.mint,
       'pct': instance.pct,
     };
 
-_$_JupiterRouteFee _$$_JupiterRouteFeeFromJson(Map<String, dynamic> json) =>
-    _$_JupiterRouteFee(
+_$JupiterRouteFeeImpl _$$JupiterRouteFeeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$JupiterRouteFeeImpl(
       signatureFee: json['signatureFee'] as num,
       openOrdersDeposits: (json['openOrdersDeposits'] as List<dynamic>)
           .map((e) => e as num)
@@ -136,7 +139,8 @@ _$_JupiterRouteFee _$$_JupiterRouteFeeFromJson(Map<String, dynamic> json) =>
       minimumSOLForTransaction: json['minimumSOLForTransaction'] as num,
     );
 
-Map<String, dynamic> _$$_JupiterRouteFeeToJson(_$_JupiterRouteFee instance) =>
+Map<String, dynamic> _$$JupiterRouteFeeImplToJson(
+        _$JupiterRouteFeeImpl instance) =>
     <String, dynamic>{
       'signatureFee': instance.signatureFee,
       'openOrdersDeposits': instance.openOrdersDeposits,
@@ -145,26 +149,28 @@ Map<String, dynamic> _$$_JupiterRouteFeeToJson(_$_JupiterRouteFee instance) =>
       'minimumSOLForTransaction': instance.minimumSOLForTransaction,
     };
 
-_$_QuoteResponseDto _$$_QuoteResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_QuoteResponseDto(
+_$QuoteResponseDtoImpl _$$QuoteResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$QuoteResponseDtoImpl(
       routes: (json['data'] as List<dynamic>)
           .map((e) => JupiterRoute.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$_QuoteResponseDtoToJson(_$_QuoteResponseDto instance) =>
+Map<String, dynamic> _$$QuoteResponseDtoImplToJson(
+        _$QuoteResponseDtoImpl instance) =>
     <String, dynamic>{
       'data': instance.routes.map((e) => e.toJson()).toList(),
     };
 
-_$_IndexedRouteMapRequestDto _$$_IndexedRouteMapRequestDtoFromJson(
+_$IndexedRouteMapRequestDtoImpl _$$IndexedRouteMapRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_IndexedRouteMapRequestDto(
+    _$IndexedRouteMapRequestDtoImpl(
       onlyDirectRoutes: json['onlyDirectRoutes'] as bool?,
     );
 
-Map<String, dynamic> _$$_IndexedRouteMapRequestDtoToJson(
-    _$_IndexedRouteMapRequestDto instance) {
+Map<String, dynamic> _$$IndexedRouteMapRequestDtoImplToJson(
+    _$IndexedRouteMapRequestDtoImpl instance) {
   final val = <String, dynamic>{};
 
   void writeNotNull(String key, dynamic value) {
@@ -177,8 +183,9 @@ Map<String, dynamic> _$$_IndexedRouteMapRequestDtoToJson(
   return val;
 }
 
-_$_QuoteRequestDto _$$_QuoteRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_QuoteRequestDto(
+_$QuoteRequestDtoImpl _$$QuoteRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$QuoteRequestDtoImpl(
       inputMint: json['inputMint'] as String,
       outputMint: json['outputMint'] as String,
       amount: json['amount'] as String,
@@ -191,7 +198,8 @@ _$_QuoteRequestDto _$$_QuoteRequestDtoFromJson(Map<String, dynamic> json) =>
       asLegacyTransaction: json['asLegacyTransaction'] as bool?,
     );
 
-Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
+Map<String, dynamic> _$$QuoteRequestDtoImplToJson(
+    _$QuoteRequestDtoImpl instance) {
   final val = <String, dynamic>{
     'inputMint': instance.inputMint,
     'outputMint': instance.outputMint,
@@ -213,9 +221,9 @@ Map<String, dynamic> _$$_QuoteRequestDtoToJson(_$_QuoteRequestDto instance) {
   return val;
 }
 
-_$_JupiterSwapRequestDto _$$_JupiterSwapRequestDtoFromJson(
+_$JupiterSwapRequestDtoImpl _$$JupiterSwapRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_JupiterSwapRequestDto(
+    _$JupiterSwapRequestDtoImpl(
       userPublicKey: json['userPublicKey'] as String,
       route: JupiterRoute.fromJson(json['route'] as Map<String, dynamic>),
       wrapUnwrapSOL: json['wrapUnwrapSOL'] as bool?,
@@ -224,8 +232,8 @@ _$_JupiterSwapRequestDto _$$_JupiterSwapRequestDtoFromJson(
       asLegacyTransaction: json['asLegacyTransaction'] as bool?,
     );
 
-Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
-    _$_JupiterSwapRequestDto instance) {
+Map<String, dynamic> _$$JupiterSwapRequestDtoImplToJson(
+    _$JupiterSwapRequestDtoImpl instance) {
   final val = <String, dynamic>{
     'userPublicKey': instance.userPublicKey,
     'route': instance.route.toJson(),
@@ -244,45 +252,50 @@ Map<String, dynamic> _$$_JupiterSwapRequestDtoToJson(
   return val;
 }
 
-_$_JupiterSwapResponseDto _$$_JupiterSwapResponseDtoFromJson(
+_$JupiterSwapResponseDtoImpl _$$JupiterSwapResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_JupiterSwapResponseDto(
+    _$JupiterSwapResponseDtoImpl(
       swapTransaction: json['swapTransaction'] as String,
     );
 
-Map<String, dynamic> _$$_JupiterSwapResponseDtoToJson(
-        _$_JupiterSwapResponseDto instance) =>
+Map<String, dynamic> _$$JupiterSwapResponseDtoImplToJson(
+        _$JupiterSwapResponseDtoImpl instance) =>
     <String, dynamic>{
       'swapTransaction': instance.swapTransaction,
     };
 
-_$_PriceRequestDto _$$_PriceRequestDtoFromJson(Map<String, dynamic> json) =>
-    _$_PriceRequestDto(
+_$PriceRequestDtoImpl _$$PriceRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceRequestDtoImpl(
       ids: json['ids'] as String,
     );
 
-Map<String, dynamic> _$$_PriceRequestDtoToJson(_$_PriceRequestDto instance) =>
+Map<String, dynamic> _$$PriceRequestDtoImplToJson(
+        _$PriceRequestDtoImpl instance) =>
     <String, dynamic>{
       'ids': instance.ids,
     };
 
-_$_PriceResponseDto _$$_PriceResponseDtoFromJson(Map<String, dynamic> json) =>
-    _$_PriceResponseDto(
+_$PriceResponseDtoImpl _$$PriceResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceResponseDtoImpl(
       data: (json['data'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, PriceDto.fromJson(e as Map<String, dynamic>)),
       ),
     );
 
-Map<String, dynamic> _$$_PriceResponseDtoToJson(_$_PriceResponseDto instance) =>
+Map<String, dynamic> _$$PriceResponseDtoImplToJson(
+        _$PriceResponseDtoImpl instance) =>
     <String, dynamic>{
       'data': instance.data.map((k, e) => MapEntry(k, e.toJson())),
     };
 
-_$_PriceDto _$$_PriceDtoFromJson(Map<String, dynamic> json) => _$_PriceDto(
+_$PriceDtoImpl _$$PriceDtoImplFromJson(Map<String, dynamic> json) =>
+    _$PriceDtoImpl(
       price: (json['price'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$_PriceDtoToJson(_$_PriceDto instance) =>
+Map<String, dynamic> _$$PriceDtoImplToJson(_$PriceDtoImpl instance) =>
     <String, dynamic>{
       'price': instance.price,
     };

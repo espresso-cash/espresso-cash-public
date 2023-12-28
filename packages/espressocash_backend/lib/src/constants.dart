@@ -15,7 +15,6 @@ const protocolMap = {
   link2Host: '2',
   espressocashLinkHost: '',
 };
-const moonpayHost = 'moonpay.$cpLinkDomain';
 
 const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC
@@ -49,7 +48,3 @@ final mainnetPlatformMnemonic =
 
 final mainnetRpcUrl = Platform.environment['SOLANA_RPC_URL'] ?? '';
 final mainnetWsUrl = Platform.environment['SOLANA_WEBSOCKET_URL'] ?? '';
-
-final moonpayBaseUrl = Platform.environment['MOONPAY_BASE_URL'] ?? '';
-final moonpayApiKey = Platform.environment['MOONPAY_API_KEY'] ?? '';
-final moonpaySecret = Platform.environment['MOONPAY_SECRET'] ?? '';

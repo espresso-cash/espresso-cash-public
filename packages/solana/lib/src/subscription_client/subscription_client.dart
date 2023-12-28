@@ -123,7 +123,7 @@ class SubscriptionClient {
           <String, String>{
             'encoding': encoding.value,
           },
-          if (filters != null) ...filters,
+          ...?filters,
           if (commitment != null)
             <String, String>{
               'commitment': commitment.value,

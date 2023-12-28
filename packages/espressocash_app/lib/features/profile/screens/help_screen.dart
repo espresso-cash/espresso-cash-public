@@ -1,12 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/presentation/utils.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
 import '../../../routes.gr.dart';
+import '../widgets/extensions.dart';
 import '../widgets/profile_button.dart';
 
 @RoutePage()
@@ -32,11 +32,7 @@ class HelpScreen extends StatelessWidget {
               ),
               ProfileButton(
                 label: context.l10n.contactUs,
-                onPressed: () {
-                  final email = Uri.encodeComponent(contactEmail);
-                  final mail = Uri.parse('mailto:$email');
-                  launchUrl(mail);
-                },
+                onPressed: context.launchContactUs,
               ),
             ],
           ),

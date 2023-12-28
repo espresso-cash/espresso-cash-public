@@ -1,3 +1,61 @@
+## 1.95.0
+
+ - **FEAT**: prefer ramp network in Europe (#1174).
+
+## 1.94.0
+
+ - **FEAT**: enable coinflow in Europe (#1173).
+
+## 1.93.0
+
+ - **REFACTOR**: update linter (#1170).
+ - **REFACTOR**: remove unused code (#1165).
+ - **REFACTOR**: partner select logic (#1164).
+ - **FIX**: auth scope init (#1171).
+ - **FEAT**: add onramp manual bank transfer support (#1168).
+ - **FEAT**: coinflow cashout integration  (#1166).
+ - **FEAT**: timeline widget updates (#1169).
+ - **FEAT**: ramp updates (#1161).
+ - **FEAT**: trigger ramp watchers immediately (#1167).
+ - **FEAT**: add fee message on incoming link payment (#1162).
+ - **FEAT**: add ramp transaction tiles (#1163).
+ - **FEAT**: redirect after kado onramp (#1159).
+
+## 1.92.0
+
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **FEAT**: update onramp status screen  (#1155).
+ - **FEAT**: update offramp status screen (#1154).
+
+## 1.91.0
+
+ - **FIX**: remove home tab animation transition (#1141).
+ - **FIX**: webview onLoaded call (#1118).
+ - **FIX**: splash screen background color (#1140).
+ - **FIX**: image background load blink (#1145).
+ - **FIX**: timeline gap (#1131).
+ - **FEAT**: update l10n (#1152).
+ - **FEAT**: add scalex ramp (#1108).
+ - **FEAT**: Update l10n (#1151).
+ - **FEAT**: update l10n (#1150).
+ - **FEAT**: home screen ui updates (#1148).
+ - **FEAT**: update onboarding flow (#1142).
+ - **FEAT**: remove hardcoded keys (#1144).
+ - **FEAT**: offramp updates  (#1143).
+ - **FEAT**: onramp updates (#1117).
+ - **FEAT**: update profile qr code (#1129).
+ - **FEAT**: splash and sign-in update (#1132).
+
+## 1.90.0
+
+ - **FEAT**: update ramp screens ui (#1133).
+
+## 1.89.0
+
+ - **FEAT**: add kado off-ramp (#1137).
+ - **FEAT**: update home carousel (#1128).
+ - **FEAT**: add experimental flag (#1114).
+
 ## 1.88.0
 
  - **REFACTOR**: bump dependencies (#1113).
