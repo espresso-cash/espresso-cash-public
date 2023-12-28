@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 typedef _AnimationTransformer = double Function(double value);
@@ -80,6 +81,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
         _AnimationTransformer? connectorTransformer;
 
         final isActive = index == widget.active;
+        final isHighlighted = widget.animated && index == widget.active;
 
         if (widget.animated) {
           if (index == widget.active) {
@@ -109,7 +111,7 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index > widget.active
+                        color: isHighlighted || index > widget.active
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
@@ -139,7 +141,12 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                   ),
               ],
             ),
-            Expanded(child: _TileInfo(tile: widget.items[index])),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: isFirst ? 16 : 0),
+                child: _TileInfo(tile: widget.items[index]),
+              ),
+            ),
           ],
         );
       },
@@ -159,7 +166,7 @@ class _TileInfo extends StatelessWidget {
     final subtitle = tile.subtitle;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -317,16 +324,14 @@ extension on CpTimelineStatus {
   }
 }
 
-const _successIcon = Icon(
-  Icons.check,
-  color: Colors.white,
-  size: 22,
+final _successIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineCheck.svg(),
 );
 
-const _failIcon = Icon(
-  Icons.close,
-  color: Colors.white,
-  size: 22,
+final _failIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineFail.svg(),
 );
 
 double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;

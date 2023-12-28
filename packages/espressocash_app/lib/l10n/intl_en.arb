@@ -8,14 +8,6 @@
       }
     }
   },
-  "activities_lblSoldToken": "Sold {amount}",
-  "@activities_lblSoldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "activities_lblCanceled": "Canceled",
   "@activities_lblCanceled": {},
   "activities_lblFailure": "Failure",
@@ -26,6 +18,10 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activity",
   "@activities_lblTitle": {},
+  "activities_lblAddCash": "Add Cash",
+  "@activities_lblAddCash": {},
+  "activities_lblWithdraw": "Cash Out",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Auto-Lock",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Require passcode to access the app",
@@ -928,6 +924,22 @@
   "@onRampDepositSuccess": {},
   "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
   "@onRampDepositFailure": {},
+  "onRampDepositExpired": "Your order has expired. Please try again.",
+  "@onRampDepositExpired": {},
+  "onRampLocalTransferTile": "Local currency transferred\nAmount sent: {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
   "onRampDepositOngoing": "Depositing {amount}",
   "@onRampDepositOngoing": {
     "placeholders": {
@@ -936,7 +948,29 @@
       }
     }
   },
-  "quizCorrect": "Correct!",
+  "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
+  "@onRampAwaitingFunds": {},
+  "incomingUsdcFeeNotice": "You were charged a one time $0.10 fee for your first incoming transaction.",
+  "@incomingUsdcFeeNotice": {},
+  "depositTitle": "Add Cash",
+  "@depositTitle": {},
+  "depositInstruction1": "Transfer money from your bank account to our local partner:",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Once money has been transferred, return to Espresso Cash and continue below.",
+  "@depositInstruction2": {},
+  "depositTransferAmount": "Amount to be transferred",
+  "@depositTransferAmount": {},
+  "depositDisclaimer": "Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.",
+  "@depositDisclaimer": {},
+  "depositReceiveAmount": "You will receive: {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  quizCorrect": "Correct!",
   "@quizCorrect": {},
   "quizWrong": "Wrong!",
   "@quizWrong": {},

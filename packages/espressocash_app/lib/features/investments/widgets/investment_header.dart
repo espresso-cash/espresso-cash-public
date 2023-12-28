@@ -7,17 +7,17 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
-import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
-import '../../../ui/token_icon.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 class InvestmentHeader extends StatefulWidget {
@@ -205,7 +205,7 @@ class _Amount extends StatelessWidget {
                   ),
                 ).let((it) => amount.isZero ? it : Flexible(child: it)),
                 const SizedBox(width: 8),
-                const CpTokenIcon(token: Token.usdc, size: 30),
+                const TokenIcon(token: Token.usdc, size: 30),
               ],
             ),
           );

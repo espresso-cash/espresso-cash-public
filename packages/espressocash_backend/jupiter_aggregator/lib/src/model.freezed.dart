@@ -71,23 +71,25 @@ class _$JupiterIndexedRouteMapCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_JupiterIndexedRouteMapCopyWith<$Res>
+abstract class _$$JupiterIndexedRouteMapImplCopyWith<$Res>
     implements $JupiterIndexedRouteMapCopyWith<$Res> {
-  factory _$$_JupiterIndexedRouteMapCopyWith(_$_JupiterIndexedRouteMap value,
-          $Res Function(_$_JupiterIndexedRouteMap) then) =
-      __$$_JupiterIndexedRouteMapCopyWithImpl<$Res>;
+  factory _$$JupiterIndexedRouteMapImplCopyWith(
+          _$JupiterIndexedRouteMapImpl value,
+          $Res Function(_$JupiterIndexedRouteMapImpl) then) =
+      __$$JupiterIndexedRouteMapImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<String> mintKeys, Map<String, List<int>> indexedRouteMap});
 }
 
 /// @nodoc
-class __$$_JupiterIndexedRouteMapCopyWithImpl<$Res>
+class __$$JupiterIndexedRouteMapImplCopyWithImpl<$Res>
     extends _$JupiterIndexedRouteMapCopyWithImpl<$Res,
-        _$_JupiterIndexedRouteMap>
-    implements _$$_JupiterIndexedRouteMapCopyWith<$Res> {
-  __$$_JupiterIndexedRouteMapCopyWithImpl(_$_JupiterIndexedRouteMap _value,
-      $Res Function(_$_JupiterIndexedRouteMap) _then)
+        _$JupiterIndexedRouteMapImpl>
+    implements _$$JupiterIndexedRouteMapImplCopyWith<$Res> {
+  __$$JupiterIndexedRouteMapImplCopyWithImpl(
+      _$JupiterIndexedRouteMapImpl _value,
+      $Res Function(_$JupiterIndexedRouteMapImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -96,7 +98,7 @@ class __$$_JupiterIndexedRouteMapCopyWithImpl<$Res>
     Object? mintKeys = null,
     Object? indexedRouteMap = null,
   }) {
-    return _then(_$_JupiterIndexedRouteMap(
+    return _then(_$JupiterIndexedRouteMapImpl(
       mintKeys: null == mintKeys
           ? _value._mintKeys
           : mintKeys // ignore: cast_nullable_to_non_nullable
@@ -111,15 +113,15 @@ class __$$_JupiterIndexedRouteMapCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterIndexedRouteMap implements _JupiterIndexedRouteMap {
-  const _$_JupiterIndexedRouteMap(
+class _$JupiterIndexedRouteMapImpl implements _JupiterIndexedRouteMap {
+  const _$JupiterIndexedRouteMapImpl(
       {required final List<String> mintKeys,
       required final Map<String, List<int>> indexedRouteMap})
       : _mintKeys = mintKeys,
         _indexedRouteMap = indexedRouteMap;
 
-  factory _$_JupiterIndexedRouteMap.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterIndexedRouteMapFromJson(json);
+  factory _$JupiterIndexedRouteMapImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterIndexedRouteMapImplFromJson(json);
 
   final List<String> _mintKeys;
   @override
@@ -143,10 +145,10 @@ class _$_JupiterIndexedRouteMap implements _JupiterIndexedRouteMap {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterIndexedRouteMap &&
+            other is _$JupiterIndexedRouteMapImpl &&
             const DeepCollectionEquality().equals(other._mintKeys, _mintKeys) &&
             const DeepCollectionEquality()
                 .equals(other._indexedRouteMap, _indexedRouteMap));
@@ -162,13 +164,13 @@ class _$_JupiterIndexedRouteMap implements _JupiterIndexedRouteMap {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterIndexedRouteMapCopyWith<_$_JupiterIndexedRouteMap> get copyWith =>
-      __$$_JupiterIndexedRouteMapCopyWithImpl<_$_JupiterIndexedRouteMap>(
-          this, _$identity);
+  _$$JupiterIndexedRouteMapImplCopyWith<_$JupiterIndexedRouteMapImpl>
+      get copyWith => __$$JupiterIndexedRouteMapImplCopyWithImpl<
+          _$JupiterIndexedRouteMapImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterIndexedRouteMapToJson(
+    return _$$JupiterIndexedRouteMapImplToJson(
       this,
     );
   }
@@ -178,10 +180,10 @@ abstract class _JupiterIndexedRouteMap implements JupiterIndexedRouteMap {
   const factory _JupiterIndexedRouteMap(
           {required final List<String> mintKeys,
           required final Map<String, List<int>> indexedRouteMap}) =
-      _$_JupiterIndexedRouteMap;
+      _$JupiterIndexedRouteMapImpl;
 
   factory _JupiterIndexedRouteMap.fromJson(Map<String, dynamic> json) =
-      _$_JupiterIndexedRouteMap.fromJson;
+      _$JupiterIndexedRouteMapImpl.fromJson;
 
   @override
   List<String> get mintKeys;
@@ -189,8 +191,8 @@ abstract class _JupiterIndexedRouteMap implements JupiterIndexedRouteMap {
   Map<String, List<int>> get indexedRouteMap;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterIndexedRouteMapCopyWith<_$_JupiterIndexedRouteMap> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$JupiterIndexedRouteMapImplCopyWith<_$JupiterIndexedRouteMapImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 JupiterRoute _$JupiterRouteFromJson(Map<String, dynamic> json) {
@@ -312,11 +314,11 @@ class _$JupiterRouteCopyWithImpl<$Res, $Val extends JupiterRoute>
 }
 
 /// @nodoc
-abstract class _$$_JupiterRouteCopyWith<$Res>
+abstract class _$$JupiterRouteImplCopyWith<$Res>
     implements $JupiterRouteCopyWith<$Res> {
-  factory _$$_JupiterRouteCopyWith(
-          _$_JupiterRoute value, $Res Function(_$_JupiterRoute) then) =
-      __$$_JupiterRouteCopyWithImpl<$Res>;
+  factory _$$JupiterRouteImplCopyWith(
+          _$JupiterRouteImpl value, $Res Function(_$JupiterRouteImpl) then) =
+      __$$JupiterRouteImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -335,11 +337,11 @@ abstract class _$$_JupiterRouteCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JupiterRouteCopyWithImpl<$Res>
-    extends _$JupiterRouteCopyWithImpl<$Res, _$_JupiterRoute>
-    implements _$$_JupiterRouteCopyWith<$Res> {
-  __$$_JupiterRouteCopyWithImpl(
-      _$_JupiterRoute _value, $Res Function(_$_JupiterRoute) _then)
+class __$$JupiterRouteImplCopyWithImpl<$Res>
+    extends _$JupiterRouteCopyWithImpl<$Res, _$JupiterRouteImpl>
+    implements _$$JupiterRouteImplCopyWith<$Res> {
+  __$$JupiterRouteImplCopyWithImpl(
+      _$JupiterRouteImpl _value, $Res Function(_$JupiterRouteImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -355,7 +357,7 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
     Object? swapMode = null,
     Object? fees = freezed,
   }) {
-    return _then(_$_JupiterRoute(
+    return _then(_$JupiterRouteImpl(
       inAmount: null == inAmount
           ? _value.inAmount
           : inAmount // ignore: cast_nullable_to_non_nullable
@@ -398,8 +400,8 @@ class __$$_JupiterRouteCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterRoute implements _JupiterRoute {
-  const _$_JupiterRoute(
+class _$JupiterRouteImpl implements _JupiterRoute {
+  const _$JupiterRouteImpl(
       {required this.inAmount,
       required this.outAmount,
       required this.amount,
@@ -411,8 +413,8 @@ class _$_JupiterRoute implements _JupiterRoute {
       required this.fees})
       : _marketInfos = marketInfos;
 
-  factory _$_JupiterRoute.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterRouteFromJson(json);
+  factory _$JupiterRouteImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterRouteImplFromJson(json);
 
   @override
   final String inAmount;
@@ -445,10 +447,10 @@ class _$_JupiterRoute implements _JupiterRoute {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterRoute &&
+            other is _$JupiterRouteImpl &&
             (identical(other.inAmount, inAmount) ||
                 other.inAmount == inAmount) &&
             (identical(other.outAmount, outAmount) ||
@@ -484,12 +486,12 @@ class _$_JupiterRoute implements _JupiterRoute {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterRouteCopyWith<_$_JupiterRoute> get copyWith =>
-      __$$_JupiterRouteCopyWithImpl<_$_JupiterRoute>(this, _$identity);
+  _$$JupiterRouteImplCopyWith<_$JupiterRouteImpl> get copyWith =>
+      __$$JupiterRouteImplCopyWithImpl<_$JupiterRouteImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterRouteToJson(
+    return _$$JupiterRouteImplToJson(
       this,
     );
   }
@@ -505,10 +507,10 @@ abstract class _JupiterRoute implements JupiterRoute {
       required final num priceImpactPct,
       required final List<JupiterMarket> marketInfos,
       required final SwapMode swapMode,
-      required final JupiterRouteFee? fees}) = _$_JupiterRoute;
+      required final JupiterRouteFee? fees}) = _$JupiterRouteImpl;
 
   factory _JupiterRoute.fromJson(Map<String, dynamic> json) =
-      _$_JupiterRoute.fromJson;
+      _$JupiterRouteImpl.fromJson;
 
   @override
   String get inAmount;
@@ -530,7 +532,7 @@ abstract class _JupiterRoute implements JupiterRoute {
   JupiterRouteFee? get fees;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterRouteCopyWith<_$_JupiterRoute> get copyWith =>
+  _$$JupiterRouteImplCopyWith<_$JupiterRouteImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -679,11 +681,11 @@ class _$JupiterMarketCopyWithImpl<$Res, $Val extends JupiterMarket>
 }
 
 /// @nodoc
-abstract class _$$_JupiterMarketCopyWith<$Res>
+abstract class _$$JupiterMarketImplCopyWith<$Res>
     implements $JupiterMarketCopyWith<$Res> {
-  factory _$$_JupiterMarketCopyWith(
-          _$_JupiterMarket value, $Res Function(_$_JupiterMarket) then) =
-      __$$_JupiterMarketCopyWithImpl<$Res>;
+  factory _$$JupiterMarketImplCopyWith(
+          _$JupiterMarketImpl value, $Res Function(_$JupiterMarketImpl) then) =
+      __$$JupiterMarketImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -707,11 +709,11 @@ abstract class _$$_JupiterMarketCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JupiterMarketCopyWithImpl<$Res>
-    extends _$JupiterMarketCopyWithImpl<$Res, _$_JupiterMarket>
-    implements _$$_JupiterMarketCopyWith<$Res> {
-  __$$_JupiterMarketCopyWithImpl(
-      _$_JupiterMarket _value, $Res Function(_$_JupiterMarket) _then)
+class __$$JupiterMarketImplCopyWithImpl<$Res>
+    extends _$JupiterMarketCopyWithImpl<$Res, _$JupiterMarketImpl>
+    implements _$$JupiterMarketImplCopyWith<$Res> {
+  __$$JupiterMarketImplCopyWithImpl(
+      _$JupiterMarketImpl _value, $Res Function(_$JupiterMarketImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -730,7 +732,7 @@ class __$$_JupiterMarketCopyWithImpl<$Res>
     Object? lpFee = null,
     Object? platformFee = null,
   }) {
-    return _then(_$_JupiterMarket(
+    return _then(_$JupiterMarketImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -785,8 +787,8 @@ class __$$_JupiterMarketCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterMarket implements _JupiterMarket {
-  const _$_JupiterMarket(
+class _$JupiterMarketImpl implements _JupiterMarket {
+  const _$JupiterMarketImpl(
       {required this.id,
       required this.label,
       required this.inputMint,
@@ -800,8 +802,8 @@ class _$_JupiterMarket implements _JupiterMarket {
       required this.lpFee,
       required this.platformFee});
 
-  factory _$_JupiterMarket.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterMarketFromJson(json);
+  factory _$JupiterMarketImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterMarketImplFromJson(json);
 
   @override
   final String id;
@@ -834,10 +836,10 @@ class _$_JupiterMarket implements _JupiterMarket {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterMarket &&
+            other is _$JupiterMarketImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.label, label) || other.label == label) &&
             (identical(other.inputMint, inputMint) ||
@@ -881,12 +883,12 @@ class _$_JupiterMarket implements _JupiterMarket {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterMarketCopyWith<_$_JupiterMarket> get copyWith =>
-      __$$_JupiterMarketCopyWithImpl<_$_JupiterMarket>(this, _$identity);
+  _$$JupiterMarketImplCopyWith<_$JupiterMarketImpl> get copyWith =>
+      __$$JupiterMarketImplCopyWithImpl<_$JupiterMarketImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterMarketToJson(
+    return _$$JupiterMarketImplToJson(
       this,
     );
   }
@@ -905,10 +907,10 @@ abstract class _JupiterMarket implements JupiterMarket {
       required final String? minInAmount,
       required final String? minOutAmount,
       required final JupiterMarketFee lpFee,
-      required final JupiterMarketFee platformFee}) = _$_JupiterMarket;
+      required final JupiterMarketFee platformFee}) = _$JupiterMarketImpl;
 
   factory _JupiterMarket.fromJson(Map<String, dynamic> json) =
-      _$_JupiterMarket.fromJson;
+      _$JupiterMarketImpl.fromJson;
 
   @override
   String get id;
@@ -936,7 +938,7 @@ abstract class _JupiterMarket implements JupiterMarket {
   JupiterMarketFee get platformFee;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterMarketCopyWith<_$_JupiterMarket> get copyWith =>
+  _$$JupiterMarketImplCopyWith<_$JupiterMarketImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1000,22 +1002,22 @@ class _$JupiterMarketFeeCopyWithImpl<$Res, $Val extends JupiterMarketFee>
 }
 
 /// @nodoc
-abstract class _$$_JupiterMarketFeeCopyWith<$Res>
+abstract class _$$JupiterMarketFeeImplCopyWith<$Res>
     implements $JupiterMarketFeeCopyWith<$Res> {
-  factory _$$_JupiterMarketFeeCopyWith(
-          _$_JupiterMarketFee value, $Res Function(_$_JupiterMarketFee) then) =
-      __$$_JupiterMarketFeeCopyWithImpl<$Res>;
+  factory _$$JupiterMarketFeeImplCopyWith(_$JupiterMarketFeeImpl value,
+          $Res Function(_$JupiterMarketFeeImpl) then) =
+      __$$JupiterMarketFeeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String amount, String mint, num pct});
 }
 
 /// @nodoc
-class __$$_JupiterMarketFeeCopyWithImpl<$Res>
-    extends _$JupiterMarketFeeCopyWithImpl<$Res, _$_JupiterMarketFee>
-    implements _$$_JupiterMarketFeeCopyWith<$Res> {
-  __$$_JupiterMarketFeeCopyWithImpl(
-      _$_JupiterMarketFee _value, $Res Function(_$_JupiterMarketFee) _then)
+class __$$JupiterMarketFeeImplCopyWithImpl<$Res>
+    extends _$JupiterMarketFeeCopyWithImpl<$Res, _$JupiterMarketFeeImpl>
+    implements _$$JupiterMarketFeeImplCopyWith<$Res> {
+  __$$JupiterMarketFeeImplCopyWithImpl(_$JupiterMarketFeeImpl _value,
+      $Res Function(_$JupiterMarketFeeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1025,7 +1027,7 @@ class __$$_JupiterMarketFeeCopyWithImpl<$Res>
     Object? mint = null,
     Object? pct = null,
   }) {
-    return _then(_$_JupiterMarketFee(
+    return _then(_$JupiterMarketFeeImpl(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -1044,12 +1046,12 @@ class __$$_JupiterMarketFeeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterMarketFee implements _JupiterMarketFee {
-  const _$_JupiterMarketFee(
+class _$JupiterMarketFeeImpl implements _JupiterMarketFee {
+  const _$JupiterMarketFeeImpl(
       {required this.amount, required this.mint, required this.pct});
 
-  factory _$_JupiterMarketFee.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterMarketFeeFromJson(json);
+  factory _$JupiterMarketFeeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterMarketFeeImplFromJson(json);
 
   @override
   final String amount;
@@ -1064,10 +1066,10 @@ class _$_JupiterMarketFee implements _JupiterMarketFee {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterMarketFee &&
+            other is _$JupiterMarketFeeImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.mint, mint) || other.mint == mint) &&
             (identical(other.pct, pct) || other.pct == pct));
@@ -1080,12 +1082,13 @@ class _$_JupiterMarketFee implements _JupiterMarketFee {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterMarketFeeCopyWith<_$_JupiterMarketFee> get copyWith =>
-      __$$_JupiterMarketFeeCopyWithImpl<_$_JupiterMarketFee>(this, _$identity);
+  _$$JupiterMarketFeeImplCopyWith<_$JupiterMarketFeeImpl> get copyWith =>
+      __$$JupiterMarketFeeImplCopyWithImpl<_$JupiterMarketFeeImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterMarketFeeToJson(
+    return _$$JupiterMarketFeeImplToJson(
       this,
     );
   }
@@ -1095,10 +1098,10 @@ abstract class _JupiterMarketFee implements JupiterMarketFee {
   const factory _JupiterMarketFee(
       {required final String amount,
       required final String mint,
-      required final num pct}) = _$_JupiterMarketFee;
+      required final num pct}) = _$JupiterMarketFeeImpl;
 
   factory _JupiterMarketFee.fromJson(Map<String, dynamic> json) =
-      _$_JupiterMarketFee.fromJson;
+      _$JupiterMarketFeeImpl.fromJson;
 
   @override
   String get amount;
@@ -1108,7 +1111,7 @@ abstract class _JupiterMarketFee implements JupiterMarketFee {
   num get pct;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterMarketFeeCopyWith<_$_JupiterMarketFee> get copyWith =>
+  _$$JupiterMarketFeeImplCopyWith<_$JupiterMarketFeeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1189,11 +1192,11 @@ class _$JupiterRouteFeeCopyWithImpl<$Res, $Val extends JupiterRouteFee>
 }
 
 /// @nodoc
-abstract class _$$_JupiterRouteFeeCopyWith<$Res>
+abstract class _$$JupiterRouteFeeImplCopyWith<$Res>
     implements $JupiterRouteFeeCopyWith<$Res> {
-  factory _$$_JupiterRouteFeeCopyWith(
-          _$_JupiterRouteFee value, $Res Function(_$_JupiterRouteFee) then) =
-      __$$_JupiterRouteFeeCopyWithImpl<$Res>;
+  factory _$$JupiterRouteFeeImplCopyWith(_$JupiterRouteFeeImpl value,
+          $Res Function(_$JupiterRouteFeeImpl) then) =
+      __$$JupiterRouteFeeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1205,11 +1208,11 @@ abstract class _$$_JupiterRouteFeeCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JupiterRouteFeeCopyWithImpl<$Res>
-    extends _$JupiterRouteFeeCopyWithImpl<$Res, _$_JupiterRouteFee>
-    implements _$$_JupiterRouteFeeCopyWith<$Res> {
-  __$$_JupiterRouteFeeCopyWithImpl(
-      _$_JupiterRouteFee _value, $Res Function(_$_JupiterRouteFee) _then)
+class __$$JupiterRouteFeeImplCopyWithImpl<$Res>
+    extends _$JupiterRouteFeeCopyWithImpl<$Res, _$JupiterRouteFeeImpl>
+    implements _$$JupiterRouteFeeImplCopyWith<$Res> {
+  __$$JupiterRouteFeeImplCopyWithImpl(
+      _$JupiterRouteFeeImpl _value, $Res Function(_$JupiterRouteFeeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1221,7 +1224,7 @@ class __$$_JupiterRouteFeeCopyWithImpl<$Res>
     Object? totalFeeAndDeposits = null,
     Object? minimumSOLForTransaction = null,
   }) {
-    return _then(_$_JupiterRouteFee(
+    return _then(_$JupiterRouteFeeImpl(
       signatureFee: null == signatureFee
           ? _value.signatureFee
           : signatureFee // ignore: cast_nullable_to_non_nullable
@@ -1248,8 +1251,8 @@ class __$$_JupiterRouteFeeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterRouteFee implements _JupiterRouteFee {
-  const _$_JupiterRouteFee(
+class _$JupiterRouteFeeImpl implements _JupiterRouteFee {
+  const _$JupiterRouteFeeImpl(
       {required this.signatureFee,
       required final List<num> openOrdersDeposits,
       required final List<num> ataDeposits,
@@ -1258,8 +1261,8 @@ class _$_JupiterRouteFee implements _JupiterRouteFee {
       : _openOrdersDeposits = openOrdersDeposits,
         _ataDeposits = ataDeposits;
 
-  factory _$_JupiterRouteFee.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterRouteFeeFromJson(json);
+  factory _$JupiterRouteFeeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterRouteFeeImplFromJson(json);
 
   @override
   final num signatureFee;
@@ -1291,10 +1294,10 @@ class _$_JupiterRouteFee implements _JupiterRouteFee {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterRouteFee &&
+            other is _$JupiterRouteFeeImpl &&
             (identical(other.signatureFee, signatureFee) ||
                 other.signatureFee == signatureFee) &&
             const DeepCollectionEquality()
@@ -1321,12 +1324,13 @@ class _$_JupiterRouteFee implements _JupiterRouteFee {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterRouteFeeCopyWith<_$_JupiterRouteFee> get copyWith =>
-      __$$_JupiterRouteFeeCopyWithImpl<_$_JupiterRouteFee>(this, _$identity);
+  _$$JupiterRouteFeeImplCopyWith<_$JupiterRouteFeeImpl> get copyWith =>
+      __$$JupiterRouteFeeImplCopyWithImpl<_$JupiterRouteFeeImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterRouteFeeToJson(
+    return _$$JupiterRouteFeeImplToJson(
       this,
     );
   }
@@ -1338,10 +1342,10 @@ abstract class _JupiterRouteFee implements JupiterRouteFee {
       required final List<num> openOrdersDeposits,
       required final List<num> ataDeposits,
       required final num totalFeeAndDeposits,
-      required final num minimumSOLForTransaction}) = _$_JupiterRouteFee;
+      required final num minimumSOLForTransaction}) = _$JupiterRouteFeeImpl;
 
   factory _JupiterRouteFee.fromJson(Map<String, dynamic> json) =
-      _$_JupiterRouteFee.fromJson;
+      _$JupiterRouteFeeImpl.fromJson;
 
   @override
   num get signatureFee;
@@ -1355,7 +1359,7 @@ abstract class _JupiterRouteFee implements JupiterRouteFee {
   num get minimumSOLForTransaction;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterRouteFeeCopyWith<_$_JupiterRouteFee> get copyWith =>
+  _$$JupiterRouteFeeImplCopyWith<_$JupiterRouteFeeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1408,22 +1412,22 @@ class _$QuoteResponseDtoCopyWithImpl<$Res, $Val extends QuoteResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_QuoteResponseDtoCopyWith<$Res>
+abstract class _$$QuoteResponseDtoImplCopyWith<$Res>
     implements $QuoteResponseDtoCopyWith<$Res> {
-  factory _$$_QuoteResponseDtoCopyWith(
-          _$_QuoteResponseDto value, $Res Function(_$_QuoteResponseDto) then) =
-      __$$_QuoteResponseDtoCopyWithImpl<$Res>;
+  factory _$$QuoteResponseDtoImplCopyWith(_$QuoteResponseDtoImpl value,
+          $Res Function(_$QuoteResponseDtoImpl) then) =
+      __$$QuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@JsonKey(name: 'data') List<JupiterRoute> routes});
 }
 
 /// @nodoc
-class __$$_QuoteResponseDtoCopyWithImpl<$Res>
-    extends _$QuoteResponseDtoCopyWithImpl<$Res, _$_QuoteResponseDto>
-    implements _$$_QuoteResponseDtoCopyWith<$Res> {
-  __$$_QuoteResponseDtoCopyWithImpl(
-      _$_QuoteResponseDto _value, $Res Function(_$_QuoteResponseDto) _then)
+class __$$QuoteResponseDtoImplCopyWithImpl<$Res>
+    extends _$QuoteResponseDtoCopyWithImpl<$Res, _$QuoteResponseDtoImpl>
+    implements _$$QuoteResponseDtoImplCopyWith<$Res> {
+  __$$QuoteResponseDtoImplCopyWithImpl(_$QuoteResponseDtoImpl _value,
+      $Res Function(_$QuoteResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1431,7 +1435,7 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? routes = null,
   }) {
-    return _then(_$_QuoteResponseDto(
+    return _then(_$QuoteResponseDtoImpl(
       routes: null == routes
           ? _value._routes
           : routes // ignore: cast_nullable_to_non_nullable
@@ -1442,13 +1446,13 @@ class __$$_QuoteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_QuoteResponseDto implements _QuoteResponseDto {
-  const _$_QuoteResponseDto(
+class _$QuoteResponseDtoImpl implements _QuoteResponseDto {
+  const _$QuoteResponseDtoImpl(
       {@JsonKey(name: 'data') required final List<JupiterRoute> routes})
       : _routes = routes;
 
-  factory _$_QuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_QuoteResponseDtoFromJson(json);
+  factory _$QuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuoteResponseDtoImplFromJson(json);
 
   final List<JupiterRoute> _routes;
   @override
@@ -1465,10 +1469,10 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteResponseDto &&
+            other is _$QuoteResponseDtoImpl &&
             const DeepCollectionEquality().equals(other._routes, _routes));
   }
 
@@ -1480,12 +1484,13 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
-      __$$_QuoteResponseDtoCopyWithImpl<_$_QuoteResponseDto>(this, _$identity);
+  _$$QuoteResponseDtoImplCopyWith<_$QuoteResponseDtoImpl> get copyWith =>
+      __$$QuoteResponseDtoImplCopyWithImpl<_$QuoteResponseDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_QuoteResponseDtoToJson(
+    return _$$QuoteResponseDtoImplToJson(
       this,
     );
   }
@@ -1494,17 +1499,17 @@ class _$_QuoteResponseDto implements _QuoteResponseDto {
 abstract class _QuoteResponseDto implements QuoteResponseDto {
   const factory _QuoteResponseDto(
           {@JsonKey(name: 'data') required final List<JupiterRoute> routes}) =
-      _$_QuoteResponseDto;
+      _$QuoteResponseDtoImpl;
 
   factory _QuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_QuoteResponseDto.fromJson;
+      _$QuoteResponseDtoImpl.fromJson;
 
   @override
   @JsonKey(name: 'data')
   List<JupiterRoute> get routes;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteResponseDtoCopyWith<_$_QuoteResponseDto> get copyWith =>
+  _$$QuoteResponseDtoImplCopyWith<_$QuoteResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1558,25 +1563,25 @@ class _$IndexedRouteMapRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_IndexedRouteMapRequestDtoCopyWith<$Res>
+abstract class _$$IndexedRouteMapRequestDtoImplCopyWith<$Res>
     implements $IndexedRouteMapRequestDtoCopyWith<$Res> {
-  factory _$$_IndexedRouteMapRequestDtoCopyWith(
-          _$_IndexedRouteMapRequestDto value,
-          $Res Function(_$_IndexedRouteMapRequestDto) then) =
-      __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>;
+  factory _$$IndexedRouteMapRequestDtoImplCopyWith(
+          _$IndexedRouteMapRequestDtoImpl value,
+          $Res Function(_$IndexedRouteMapRequestDtoImpl) then) =
+      __$$IndexedRouteMapRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool? onlyDirectRoutes});
 }
 
 /// @nodoc
-class __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>
+class __$$IndexedRouteMapRequestDtoImplCopyWithImpl<$Res>
     extends _$IndexedRouteMapRequestDtoCopyWithImpl<$Res,
-        _$_IndexedRouteMapRequestDto>
-    implements _$$_IndexedRouteMapRequestDtoCopyWith<$Res> {
-  __$$_IndexedRouteMapRequestDtoCopyWithImpl(
-      _$_IndexedRouteMapRequestDto _value,
-      $Res Function(_$_IndexedRouteMapRequestDto) _then)
+        _$IndexedRouteMapRequestDtoImpl>
+    implements _$$IndexedRouteMapRequestDtoImplCopyWith<$Res> {
+  __$$IndexedRouteMapRequestDtoImplCopyWithImpl(
+      _$IndexedRouteMapRequestDtoImpl _value,
+      $Res Function(_$IndexedRouteMapRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1584,7 +1589,7 @@ class __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? onlyDirectRoutes = freezed,
   }) {
-    return _then(_$_IndexedRouteMapRequestDto(
+    return _then(_$IndexedRouteMapRequestDtoImpl(
       onlyDirectRoutes: freezed == onlyDirectRoutes
           ? _value.onlyDirectRoutes
           : onlyDirectRoutes // ignore: cast_nullable_to_non_nullable
@@ -1595,11 +1600,11 @@ class __$$_IndexedRouteMapRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
-  const _$_IndexedRouteMapRequestDto({this.onlyDirectRoutes});
+class _$IndexedRouteMapRequestDtoImpl implements _IndexedRouteMapRequestDto {
+  const _$IndexedRouteMapRequestDtoImpl({this.onlyDirectRoutes});
 
-  factory _$_IndexedRouteMapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_IndexedRouteMapRequestDtoFromJson(json);
+  factory _$IndexedRouteMapRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IndexedRouteMapRequestDtoImplFromJson(json);
 
   @override
   final bool? onlyDirectRoutes;
@@ -1610,10 +1615,10 @@ class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IndexedRouteMapRequestDto &&
+            other is _$IndexedRouteMapRequestDtoImpl &&
             (identical(other.onlyDirectRoutes, onlyDirectRoutes) ||
                 other.onlyDirectRoutes == onlyDirectRoutes));
   }
@@ -1625,13 +1630,13 @@ class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IndexedRouteMapRequestDtoCopyWith<_$_IndexedRouteMapRequestDto>
-      get copyWith => __$$_IndexedRouteMapRequestDtoCopyWithImpl<
-          _$_IndexedRouteMapRequestDto>(this, _$identity);
+  _$$IndexedRouteMapRequestDtoImplCopyWith<_$IndexedRouteMapRequestDtoImpl>
+      get copyWith => __$$IndexedRouteMapRequestDtoImplCopyWithImpl<
+          _$IndexedRouteMapRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_IndexedRouteMapRequestDtoToJson(
+    return _$$IndexedRouteMapRequestDtoImplToJson(
       this,
     );
   }
@@ -1639,16 +1644,16 @@ class _$_IndexedRouteMapRequestDto implements _IndexedRouteMapRequestDto {
 
 abstract class _IndexedRouteMapRequestDto implements IndexedRouteMapRequestDto {
   const factory _IndexedRouteMapRequestDto({final bool? onlyDirectRoutes}) =
-      _$_IndexedRouteMapRequestDto;
+      _$IndexedRouteMapRequestDtoImpl;
 
   factory _IndexedRouteMapRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_IndexedRouteMapRequestDto.fromJson;
+      _$IndexedRouteMapRequestDtoImpl.fromJson;
 
   @override
   bool? get onlyDirectRoutes;
   @override
   @JsonKey(ignore: true)
-  _$$_IndexedRouteMapRequestDtoCopyWith<_$_IndexedRouteMapRequestDto>
+  _$$IndexedRouteMapRequestDtoImplCopyWith<_$IndexedRouteMapRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -1757,11 +1762,11 @@ class _$QuoteRequestDtoCopyWithImpl<$Res, $Val extends QuoteRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_QuoteRequestDtoCopyWith<$Res>
+abstract class _$$QuoteRequestDtoImplCopyWith<$Res>
     implements $QuoteRequestDtoCopyWith<$Res> {
-  factory _$$_QuoteRequestDtoCopyWith(
-          _$_QuoteRequestDto value, $Res Function(_$_QuoteRequestDto) then) =
-      __$$_QuoteRequestDtoCopyWithImpl<$Res>;
+  factory _$$QuoteRequestDtoImplCopyWith(_$QuoteRequestDtoImpl value,
+          $Res Function(_$QuoteRequestDtoImpl) then) =
+      __$$QuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -1777,11 +1782,11 @@ abstract class _$$_QuoteRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_QuoteRequestDtoCopyWithImpl<$Res>
-    extends _$QuoteRequestDtoCopyWithImpl<$Res, _$_QuoteRequestDto>
-    implements _$$_QuoteRequestDtoCopyWith<$Res> {
-  __$$_QuoteRequestDtoCopyWithImpl(
-      _$_QuoteRequestDto _value, $Res Function(_$_QuoteRequestDto) _then)
+class __$$QuoteRequestDtoImplCopyWithImpl<$Res>
+    extends _$QuoteRequestDtoCopyWithImpl<$Res, _$QuoteRequestDtoImpl>
+    implements _$$QuoteRequestDtoImplCopyWith<$Res> {
+  __$$QuoteRequestDtoImplCopyWithImpl(
+      _$QuoteRequestDtoImpl _value, $Res Function(_$QuoteRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -1797,7 +1802,7 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
     Object? userPublicKey = freezed,
     Object? asLegacyTransaction = freezed,
   }) {
-    return _then(_$_QuoteRequestDto(
+    return _then(_$QuoteRequestDtoImpl(
       inputMint: null == inputMint
           ? _value.inputMint
           : inputMint // ignore: cast_nullable_to_non_nullable
@@ -1840,8 +1845,8 @@ class __$$_QuoteRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_QuoteRequestDto implements _QuoteRequestDto {
-  const _$_QuoteRequestDto(
+class _$QuoteRequestDtoImpl implements _QuoteRequestDto {
+  const _$QuoteRequestDtoImpl(
       {required this.inputMint,
       required this.outputMint,
       required this.amount,
@@ -1852,8 +1857,8 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
       this.userPublicKey,
       this.asLegacyTransaction});
 
-  factory _$_QuoteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_QuoteRequestDtoFromJson(json);
+  factory _$QuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuoteRequestDtoImplFromJson(json);
 
   @override
   final String inputMint;
@@ -1881,10 +1886,10 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteRequestDto &&
+            other is _$QuoteRequestDtoImpl &&
             (identical(other.inputMint, inputMint) ||
                 other.inputMint == inputMint) &&
             (identical(other.outputMint, outputMint) ||
@@ -1920,12 +1925,13 @@ class _$_QuoteRequestDto implements _QuoteRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuoteRequestDtoCopyWith<_$_QuoteRequestDto> get copyWith =>
-      __$$_QuoteRequestDtoCopyWithImpl<_$_QuoteRequestDto>(this, _$identity);
+  _$$QuoteRequestDtoImplCopyWith<_$QuoteRequestDtoImpl> get copyWith =>
+      __$$QuoteRequestDtoImplCopyWithImpl<_$QuoteRequestDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_QuoteRequestDtoToJson(
+    return _$$QuoteRequestDtoImplToJson(
       this,
     );
   }
@@ -1941,10 +1947,10 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
       final int? feeBps,
       final bool? onlyDirectRoutes,
       final String? userPublicKey,
-      final bool? asLegacyTransaction}) = _$_QuoteRequestDto;
+      final bool? asLegacyTransaction}) = _$QuoteRequestDtoImpl;
 
   factory _QuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_QuoteRequestDto.fromJson;
+      _$QuoteRequestDtoImpl.fromJson;
 
   @override
   String get inputMint;
@@ -1966,7 +1972,7 @@ abstract class _QuoteRequestDto implements QuoteRequestDto {
   bool? get asLegacyTransaction;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteRequestDtoCopyWith<_$_QuoteRequestDto> get copyWith =>
+  _$$QuoteRequestDtoImplCopyWith<_$QuoteRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2066,11 +2072,12 @@ class _$JupiterSwapRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_JupiterSwapRequestDtoCopyWith<$Res>
+abstract class _$$JupiterSwapRequestDtoImplCopyWith<$Res>
     implements $JupiterSwapRequestDtoCopyWith<$Res> {
-  factory _$$_JupiterSwapRequestDtoCopyWith(_$_JupiterSwapRequestDto value,
-          $Res Function(_$_JupiterSwapRequestDto) then) =
-      __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>;
+  factory _$$JupiterSwapRequestDtoImplCopyWith(
+          _$JupiterSwapRequestDtoImpl value,
+          $Res Function(_$JupiterSwapRequestDtoImpl) then) =
+      __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2086,11 +2093,12 @@ abstract class _$$_JupiterSwapRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
-    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res, _$_JupiterSwapRequestDto>
-    implements _$$_JupiterSwapRequestDtoCopyWith<$Res> {
-  __$$_JupiterSwapRequestDtoCopyWithImpl(_$_JupiterSwapRequestDto _value,
-      $Res Function(_$_JupiterSwapRequestDto) _then)
+class __$$JupiterSwapRequestDtoImplCopyWithImpl<$Res>
+    extends _$JupiterSwapRequestDtoCopyWithImpl<$Res,
+        _$JupiterSwapRequestDtoImpl>
+    implements _$$JupiterSwapRequestDtoImplCopyWith<$Res> {
+  __$$JupiterSwapRequestDtoImplCopyWithImpl(_$JupiterSwapRequestDtoImpl _value,
+      $Res Function(_$JupiterSwapRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2103,7 +2111,7 @@ class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
     Object? destinationWallet = freezed,
     Object? asLegacyTransaction = freezed,
   }) {
-    return _then(_$_JupiterSwapRequestDto(
+    return _then(_$JupiterSwapRequestDtoImpl(
       userPublicKey: null == userPublicKey
           ? _value.userPublicKey
           : userPublicKey // ignore: cast_nullable_to_non_nullable
@@ -2134,8 +2142,8 @@ class __$$_JupiterSwapRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
-  const _$_JupiterSwapRequestDto(
+class _$JupiterSwapRequestDtoImpl implements _JupiterSwapRequestDto {
+  const _$JupiterSwapRequestDtoImpl(
       {required this.userPublicKey,
       required this.route,
       this.wrapUnwrapSOL,
@@ -2143,8 +2151,8 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
       this.destinationWallet,
       this.asLegacyTransaction});
 
-  factory _$_JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterSwapRequestDtoFromJson(json);
+  factory _$JupiterSwapRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterSwapRequestDtoImplFromJson(json);
 
   @override
   final String userPublicKey;
@@ -2165,10 +2173,10 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterSwapRequestDto &&
+            other is _$JupiterSwapRequestDtoImpl &&
             (identical(other.userPublicKey, userPublicKey) ||
                 other.userPublicKey == userPublicKey) &&
             (identical(other.route, route) || other.route == route) &&
@@ -2190,13 +2198,13 @@ class _$_JupiterSwapRequestDto implements _JupiterSwapRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterSwapRequestDtoCopyWith<_$_JupiterSwapRequestDto> get copyWith =>
-      __$$_JupiterSwapRequestDtoCopyWithImpl<_$_JupiterSwapRequestDto>(
-          this, _$identity);
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
+      get copyWith => __$$JupiterSwapRequestDtoImplCopyWithImpl<
+          _$JupiterSwapRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterSwapRequestDtoToJson(
+    return _$$JupiterSwapRequestDtoImplToJson(
       this,
     );
   }
@@ -2209,10 +2217,10 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
       final bool? wrapUnwrapSOL,
       final String? feeAccount,
       final String? destinationWallet,
-      final bool? asLegacyTransaction}) = _$_JupiterSwapRequestDto;
+      final bool? asLegacyTransaction}) = _$JupiterSwapRequestDtoImpl;
 
   factory _JupiterSwapRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_JupiterSwapRequestDto.fromJson;
+      _$JupiterSwapRequestDtoImpl.fromJson;
 
   @override
   String get userPublicKey;
@@ -2228,8 +2236,8 @@ abstract class _JupiterSwapRequestDto implements JupiterSwapRequestDto {
   bool? get asLegacyTransaction;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterSwapRequestDtoCopyWith<_$_JupiterSwapRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$JupiterSwapRequestDtoImplCopyWith<_$JupiterSwapRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 JupiterSwapResponseDto _$JupiterSwapResponseDtoFromJson(
@@ -2282,23 +2290,25 @@ class _$JupiterSwapResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_JupiterSwapResponseDtoCopyWith<$Res>
+abstract class _$$JupiterSwapResponseDtoImplCopyWith<$Res>
     implements $JupiterSwapResponseDtoCopyWith<$Res> {
-  factory _$$_JupiterSwapResponseDtoCopyWith(_$_JupiterSwapResponseDto value,
-          $Res Function(_$_JupiterSwapResponseDto) then) =
-      __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>;
+  factory _$$JupiterSwapResponseDtoImplCopyWith(
+          _$JupiterSwapResponseDtoImpl value,
+          $Res Function(_$JupiterSwapResponseDtoImpl) then) =
+      __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String swapTransaction});
 }
 
 /// @nodoc
-class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
+class __$$JupiterSwapResponseDtoImplCopyWithImpl<$Res>
     extends _$JupiterSwapResponseDtoCopyWithImpl<$Res,
-        _$_JupiterSwapResponseDto>
-    implements _$$_JupiterSwapResponseDtoCopyWith<$Res> {
-  __$$_JupiterSwapResponseDtoCopyWithImpl(_$_JupiterSwapResponseDto _value,
-      $Res Function(_$_JupiterSwapResponseDto) _then)
+        _$JupiterSwapResponseDtoImpl>
+    implements _$$JupiterSwapResponseDtoImplCopyWith<$Res> {
+  __$$JupiterSwapResponseDtoImplCopyWithImpl(
+      _$JupiterSwapResponseDtoImpl _value,
+      $Res Function(_$JupiterSwapResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2306,7 +2316,7 @@ class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? swapTransaction = null,
   }) {
-    return _then(_$_JupiterSwapResponseDto(
+    return _then(_$JupiterSwapResponseDtoImpl(
       swapTransaction: null == swapTransaction
           ? _value.swapTransaction
           : swapTransaction // ignore: cast_nullable_to_non_nullable
@@ -2317,11 +2327,11 @@ class __$$_JupiterSwapResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
-  const _$_JupiterSwapResponseDto({required this.swapTransaction});
+class _$JupiterSwapResponseDtoImpl implements _JupiterSwapResponseDto {
+  const _$JupiterSwapResponseDtoImpl({required this.swapTransaction});
 
-  factory _$_JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_JupiterSwapResponseDtoFromJson(json);
+  factory _$JupiterSwapResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$JupiterSwapResponseDtoImplFromJson(json);
 
   @override
   final String swapTransaction;
@@ -2332,10 +2342,10 @@ class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_JupiterSwapResponseDto &&
+            other is _$JupiterSwapResponseDtoImpl &&
             (identical(other.swapTransaction, swapTransaction) ||
                 other.swapTransaction == swapTransaction));
   }
@@ -2347,13 +2357,13 @@ class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_JupiterSwapResponseDtoCopyWith<_$_JupiterSwapResponseDto> get copyWith =>
-      __$$_JupiterSwapResponseDtoCopyWithImpl<_$_JupiterSwapResponseDto>(
-          this, _$identity);
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
+      get copyWith => __$$JupiterSwapResponseDtoImplCopyWithImpl<
+          _$JupiterSwapResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_JupiterSwapResponseDtoToJson(
+    return _$$JupiterSwapResponseDtoImplToJson(
       this,
     );
   }
@@ -2361,17 +2371,17 @@ class _$_JupiterSwapResponseDto implements _JupiterSwapResponseDto {
 
 abstract class _JupiterSwapResponseDto implements JupiterSwapResponseDto {
   const factory _JupiterSwapResponseDto(
-      {required final String swapTransaction}) = _$_JupiterSwapResponseDto;
+      {required final String swapTransaction}) = _$JupiterSwapResponseDtoImpl;
 
   factory _JupiterSwapResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_JupiterSwapResponseDto.fromJson;
+      _$JupiterSwapResponseDtoImpl.fromJson;
 
   @override
   String get swapTransaction;
   @override
   @JsonKey(ignore: true)
-  _$$_JupiterSwapResponseDtoCopyWith<_$_JupiterSwapResponseDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$JupiterSwapResponseDtoImplCopyWith<_$JupiterSwapResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 PriceRequestDto _$PriceRequestDtoFromJson(Map<String, dynamic> json) {
@@ -2422,22 +2432,22 @@ class _$PriceRequestDtoCopyWithImpl<$Res, $Val extends PriceRequestDto>
 }
 
 /// @nodoc
-abstract class _$$_PriceRequestDtoCopyWith<$Res>
+abstract class _$$PriceRequestDtoImplCopyWith<$Res>
     implements $PriceRequestDtoCopyWith<$Res> {
-  factory _$$_PriceRequestDtoCopyWith(
-          _$_PriceRequestDto value, $Res Function(_$_PriceRequestDto) then) =
-      __$$_PriceRequestDtoCopyWithImpl<$Res>;
+  factory _$$PriceRequestDtoImplCopyWith(_$PriceRequestDtoImpl value,
+          $Res Function(_$PriceRequestDtoImpl) then) =
+      __$$PriceRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String ids});
 }
 
 /// @nodoc
-class __$$_PriceRequestDtoCopyWithImpl<$Res>
-    extends _$PriceRequestDtoCopyWithImpl<$Res, _$_PriceRequestDto>
-    implements _$$_PriceRequestDtoCopyWith<$Res> {
-  __$$_PriceRequestDtoCopyWithImpl(
-      _$_PriceRequestDto _value, $Res Function(_$_PriceRequestDto) _then)
+class __$$PriceRequestDtoImplCopyWithImpl<$Res>
+    extends _$PriceRequestDtoCopyWithImpl<$Res, _$PriceRequestDtoImpl>
+    implements _$$PriceRequestDtoImplCopyWith<$Res> {
+  __$$PriceRequestDtoImplCopyWithImpl(
+      _$PriceRequestDtoImpl _value, $Res Function(_$PriceRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2445,7 +2455,7 @@ class __$$_PriceRequestDtoCopyWithImpl<$Res>
   $Res call({
     Object? ids = null,
   }) {
-    return _then(_$_PriceRequestDto(
+    return _then(_$PriceRequestDtoImpl(
       ids: null == ids
           ? _value.ids
           : ids // ignore: cast_nullable_to_non_nullable
@@ -2456,11 +2466,11 @@ class __$$_PriceRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PriceRequestDto implements _PriceRequestDto {
-  const _$_PriceRequestDto({required this.ids});
+class _$PriceRequestDtoImpl implements _PriceRequestDto {
+  const _$PriceRequestDtoImpl({required this.ids});
 
-  factory _$_PriceRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PriceRequestDtoFromJson(json);
+  factory _$PriceRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceRequestDtoImplFromJson(json);
 
   @override
   final String ids;
@@ -2471,10 +2481,10 @@ class _$_PriceRequestDto implements _PriceRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PriceRequestDto &&
+            other is _$PriceRequestDtoImpl &&
             (identical(other.ids, ids) || other.ids == ids));
   }
 
@@ -2485,12 +2495,13 @@ class _$_PriceRequestDto implements _PriceRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PriceRequestDtoCopyWith<_$_PriceRequestDto> get copyWith =>
-      __$$_PriceRequestDtoCopyWithImpl<_$_PriceRequestDto>(this, _$identity);
+  _$$PriceRequestDtoImplCopyWith<_$PriceRequestDtoImpl> get copyWith =>
+      __$$PriceRequestDtoImplCopyWithImpl<_$PriceRequestDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PriceRequestDtoToJson(
+    return _$$PriceRequestDtoImplToJson(
       this,
     );
   }
@@ -2498,16 +2509,16 @@ class _$_PriceRequestDto implements _PriceRequestDto {
 
 abstract class _PriceRequestDto implements PriceRequestDto {
   const factory _PriceRequestDto({required final String ids}) =
-      _$_PriceRequestDto;
+      _$PriceRequestDtoImpl;
 
   factory _PriceRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_PriceRequestDto.fromJson;
+      _$PriceRequestDtoImpl.fromJson;
 
   @override
   String get ids;
   @override
   @JsonKey(ignore: true)
-  _$$_PriceRequestDtoCopyWith<_$_PriceRequestDto> get copyWith =>
+  _$$PriceRequestDtoImplCopyWith<_$PriceRequestDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2559,22 +2570,22 @@ class _$PriceResponseDtoCopyWithImpl<$Res, $Val extends PriceResponseDto>
 }
 
 /// @nodoc
-abstract class _$$_PriceResponseDtoCopyWith<$Res>
+abstract class _$$PriceResponseDtoImplCopyWith<$Res>
     implements $PriceResponseDtoCopyWith<$Res> {
-  factory _$$_PriceResponseDtoCopyWith(
-          _$_PriceResponseDto value, $Res Function(_$_PriceResponseDto) then) =
-      __$$_PriceResponseDtoCopyWithImpl<$Res>;
+  factory _$$PriceResponseDtoImplCopyWith(_$PriceResponseDtoImpl value,
+          $Res Function(_$PriceResponseDtoImpl) then) =
+      __$$PriceResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Map<String, PriceDto> data});
 }
 
 /// @nodoc
-class __$$_PriceResponseDtoCopyWithImpl<$Res>
-    extends _$PriceResponseDtoCopyWithImpl<$Res, _$_PriceResponseDto>
-    implements _$$_PriceResponseDtoCopyWith<$Res> {
-  __$$_PriceResponseDtoCopyWithImpl(
-      _$_PriceResponseDto _value, $Res Function(_$_PriceResponseDto) _then)
+class __$$PriceResponseDtoImplCopyWithImpl<$Res>
+    extends _$PriceResponseDtoCopyWithImpl<$Res, _$PriceResponseDtoImpl>
+    implements _$$PriceResponseDtoImplCopyWith<$Res> {
+  __$$PriceResponseDtoImplCopyWithImpl(_$PriceResponseDtoImpl _value,
+      $Res Function(_$PriceResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2582,7 +2593,7 @@ class __$$_PriceResponseDtoCopyWithImpl<$Res>
   $Res call({
     Object? data = null,
   }) {
-    return _then(_$_PriceResponseDto(
+    return _then(_$PriceResponseDtoImpl(
       data: null == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2593,12 +2604,12 @@ class __$$_PriceResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PriceResponseDto implements _PriceResponseDto {
-  const _$_PriceResponseDto({required final Map<String, PriceDto> data})
+class _$PriceResponseDtoImpl implements _PriceResponseDto {
+  const _$PriceResponseDtoImpl({required final Map<String, PriceDto> data})
       : _data = data;
 
-  factory _$_PriceResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PriceResponseDtoFromJson(json);
+  factory _$PriceResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceResponseDtoImplFromJson(json);
 
   final Map<String, PriceDto> _data;
   @override
@@ -2614,10 +2625,10 @@ class _$_PriceResponseDto implements _PriceResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PriceResponseDto &&
+            other is _$PriceResponseDtoImpl &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
@@ -2629,12 +2640,13 @@ class _$_PriceResponseDto implements _PriceResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
-      __$$_PriceResponseDtoCopyWithImpl<_$_PriceResponseDto>(this, _$identity);
+  _$$PriceResponseDtoImplCopyWith<_$PriceResponseDtoImpl> get copyWith =>
+      __$$PriceResponseDtoImplCopyWithImpl<_$PriceResponseDtoImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PriceResponseDtoToJson(
+    return _$$PriceResponseDtoImplToJson(
       this,
     );
   }
@@ -2642,16 +2654,16 @@ class _$_PriceResponseDto implements _PriceResponseDto {
 
 abstract class _PriceResponseDto implements PriceResponseDto {
   const factory _PriceResponseDto({required final Map<String, PriceDto> data}) =
-      _$_PriceResponseDto;
+      _$PriceResponseDtoImpl;
 
   factory _PriceResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_PriceResponseDto.fromJson;
+      _$PriceResponseDtoImpl.fromJson;
 
   @override
   Map<String, PriceDto> get data;
   @override
   @JsonKey(ignore: true)
-  _$$_PriceResponseDtoCopyWith<_$_PriceResponseDto> get copyWith =>
+  _$$PriceResponseDtoImplCopyWith<_$PriceResponseDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2702,21 +2714,22 @@ class _$PriceDtoCopyWithImpl<$Res, $Val extends PriceDto>
 }
 
 /// @nodoc
-abstract class _$$_PriceDtoCopyWith<$Res> implements $PriceDtoCopyWith<$Res> {
-  factory _$$_PriceDtoCopyWith(
-          _$_PriceDto value, $Res Function(_$_PriceDto) then) =
-      __$$_PriceDtoCopyWithImpl<$Res>;
+abstract class _$$PriceDtoImplCopyWith<$Res>
+    implements $PriceDtoCopyWith<$Res> {
+  factory _$$PriceDtoImplCopyWith(
+          _$PriceDtoImpl value, $Res Function(_$PriceDtoImpl) then) =
+      __$$PriceDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double price});
 }
 
 /// @nodoc
-class __$$_PriceDtoCopyWithImpl<$Res>
-    extends _$PriceDtoCopyWithImpl<$Res, _$_PriceDto>
-    implements _$$_PriceDtoCopyWith<$Res> {
-  __$$_PriceDtoCopyWithImpl(
-      _$_PriceDto _value, $Res Function(_$_PriceDto) _then)
+class __$$PriceDtoImplCopyWithImpl<$Res>
+    extends _$PriceDtoCopyWithImpl<$Res, _$PriceDtoImpl>
+    implements _$$PriceDtoImplCopyWith<$Res> {
+  __$$PriceDtoImplCopyWithImpl(
+      _$PriceDtoImpl _value, $Res Function(_$PriceDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2724,7 +2737,7 @@ class __$$_PriceDtoCopyWithImpl<$Res>
   $Res call({
     Object? price = null,
   }) {
-    return _then(_$_PriceDto(
+    return _then(_$PriceDtoImpl(
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
@@ -2735,11 +2748,11 @@ class __$$_PriceDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PriceDto implements _PriceDto {
-  const _$_PriceDto({required this.price});
+class _$PriceDtoImpl implements _PriceDto {
+  const _$PriceDtoImpl({required this.price});
 
-  factory _$_PriceDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PriceDtoFromJson(json);
+  factory _$PriceDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceDtoImplFromJson(json);
 
   @override
   final double price;
@@ -2750,10 +2763,10 @@ class _$_PriceDto implements _PriceDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PriceDto &&
+            other is _$PriceDtoImpl &&
             (identical(other.price, price) || other.price == price));
   }
 
@@ -2764,26 +2777,27 @@ class _$_PriceDto implements _PriceDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PriceDtoCopyWith<_$_PriceDto> get copyWith =>
-      __$$_PriceDtoCopyWithImpl<_$_PriceDto>(this, _$identity);
+  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith =>
+      __$$PriceDtoImplCopyWithImpl<_$PriceDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PriceDtoToJson(
+    return _$$PriceDtoImplToJson(
       this,
     );
   }
 }
 
 abstract class _PriceDto implements PriceDto {
-  const factory _PriceDto({required final double price}) = _$_PriceDto;
+  const factory _PriceDto({required final double price}) = _$PriceDtoImpl;
 
-  factory _PriceDto.fromJson(Map<String, dynamic> json) = _$_PriceDto.fromJson;
+  factory _PriceDto.fromJson(Map<String, dynamic> json) =
+      _$PriceDtoImpl.fromJson;
 
   @override
   double get price;
   @override
   @JsonKey(ignore: true)
-  _$$_PriceDtoCopyWith<_$_PriceDto> get copyWith =>
+  _$$PriceDtoImplCopyWith<_$PriceDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

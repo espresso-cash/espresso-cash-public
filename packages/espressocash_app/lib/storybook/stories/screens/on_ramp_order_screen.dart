@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../core/amount.dart';
@@ -13,7 +14,7 @@ final onRampOrderScreenStory = Story(
     order: (
       id: 'ORDER_ID',
       created: DateTime.now(),
-      amount: const CryptoAmount(
+      submittedAmount: const CryptoAmount(
         value: 10000000,
         cryptoCurrency: Currency.usdc,
       ),
@@ -25,6 +26,15 @@ final onRampOrderScreenStory = Story(
         options: OnRampOrderStatus.values.toOptions(),
       ),
       partnerOrderId: 'PARTNER_ORDER_ID',
+      manualDeposit: (
+        bankAccount: 'BANK_ACCOUNT_12345',
+        bankName: 'BANK_NAME',
+        transferAmount: Amount.fromDecimal(
+          value: Decimal.parse('100000'),
+          currency: Currency.ngn,
+        ) as FiatAmount,
+        transferExpiryDate: DateTime.now().add(const Duration(minutes: 30))
+      ),
     ),
   ),
 );

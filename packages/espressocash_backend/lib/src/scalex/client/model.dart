@@ -50,15 +50,32 @@ class TransactionDto with _$TransactionDto {
   const factory TransactionDto({
     @JsonKey(unknownEnumValue: OrderStatus.unknown) required OrderStatus status,
     required String type,
+    required String fromCurrency,
+    required num fromAmount,
+    BankInfoDto? bankToFund,
   }) = _TransactionDto;
 
   factory TransactionDto.fromJson(Map<String, dynamic> json) =>
       _$TransactionDtoFromJson(json);
 }
 
+@freezed
+class BankInfoDto with _$BankInfoDto {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory BankInfoDto({
+    required String bankName,
+    required String accountNumber,
+  }) = _PaymentDto;
+
+  factory BankInfoDto.fromJson(Map<String, dynamic> json) =>
+      _$BankInfoDtoFromJson(json);
+}
+
 @JsonEnum()
 enum OrderStatus {
   pending,
   completed,
+  expired,
+  failed,
   unknown,
 }

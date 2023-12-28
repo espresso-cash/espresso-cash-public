@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../core/presentation/format_amount.dart';
@@ -22,22 +21,14 @@ class OnRampTile extends StatelessWidget {
   Widget build(BuildContext context) => OnRampOrderDetails(
         orderId: activity.id,
         builder: (context, order) => CpActivityTile(
-          title: context.l10n.activities_lblBoughtToken(
-            order?.amount?.let(
-                  (amount) => amount.value != 0
-                      ? amount.format(
-                          context.locale,
-                          maxDecimals: 2,
-                          roundInteger: true,
-                        )
-                      : order.amount?.currency.symbol,
-                ) ??
-                '',
-          ),
+          title: context.l10n.activities_lblAddCash,
           icon: Assets.icons.paymentIcon.svg(),
           status: switch (order?.status) {
-            OnRampOrderStatus.failure => CpActivityTileStatus.failure,
+            OnRampOrderStatus.depositExpired ||
+            OnRampOrderStatus.failure =>
+              CpActivityTileStatus.failure,
             OnRampOrderStatus.completed => CpActivityTileStatus.success,
+            OnRampOrderStatus.waitingForDeposit ||
             OnRampOrderStatus.waitingForPartner ||
             null =>
               CpActivityTileStatus.inProgress,

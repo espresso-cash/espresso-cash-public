@@ -10,7 +10,7 @@ part 'client.g.dart';
 @RestApi(baseUrl: scalexBaseUrl)
 abstract class ScalexApiClient {
   factory ScalexApiClient() =>
-      _ScalexApiClient(Dio()..interceptors.add(ScalexInterceptor()));
+      _ScalexApiClient(Dio()..interceptors.add(const ScalexInterceptor()));
 
   @POST('/webpay/tx/initiate')
   Future<ScalexResponseDto<GenerateIFrameDto>> generateIFrameUrl(

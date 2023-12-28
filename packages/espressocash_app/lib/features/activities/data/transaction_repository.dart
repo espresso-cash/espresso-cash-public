@@ -8,12 +8,12 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
+import '../../tokens/token_list.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
@@ -85,8 +85,24 @@ class TransactionRepository {
           .not(),
     );
 
+    final onRamp = _db.onRampOrderRows.findActivityOrNull(
+      where: (row) => row.txHash.equals(txId),
+      builder: (pr) => Activity.onRamp(id: pr.id, created: pr.created),
+      ignoreWhen: (row) => row.status != OnRampOrderStatus.completed,
+    );
+
+    final offRamp = _db.offRampOrderRows.findActivityOrNull(
+      where: (row) => row.transaction.contains(txId),
+      builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
+      ignoreWhen: (row) => const [
+        OffRampOrderStatus.completed,
+        OffRampOrderStatus.cancelled,
+        OffRampOrderStatus.failure,
+      ].contains(row.status).not(),
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, olp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp, offRamp, onRamp].map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

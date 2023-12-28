@@ -32,6 +32,7 @@ class OrderDataDto with _$OrderDataDto {
     QuoteDto? quote,
     AmountDto? totalFee,
     required AmountDto payAmount,
+    String? txHash,
   }) = _OrderDataDto;
 
   factory OrderDataDto.fromJson(Map<String, dynamic> json) =>

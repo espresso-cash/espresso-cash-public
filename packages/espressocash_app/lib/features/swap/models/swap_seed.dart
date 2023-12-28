@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 
 part 'swap_seed.freezed.dart';
 

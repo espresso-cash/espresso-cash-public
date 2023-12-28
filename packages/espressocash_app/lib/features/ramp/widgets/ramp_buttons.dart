@@ -19,6 +19,7 @@ import '../src/models/ramp_type.dart';
 import '../src/screens/ramp_onboarding_screen.dart';
 import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
+import '../src/widgets/partners/coinflow.dart';
 import '../src/widgets/partners/guardarian.dart';
 import '../src/widgets/partners/kado.dart';
 import '../src/widgets/partners/ramp_network.dart';
@@ -113,9 +114,17 @@ extension on BuildContext {
   }) {
     final partners = _getOnRampPartners(profile.country.code);
 
-    if (partners.other.isEmpty) {
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnAddCash);
+
+      return;
+    }
+
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
       return _launchOnRampPartner(
-        partners.top,
+        top,
         profile: profile,
         address: address,
       );
@@ -123,8 +132,8 @@ extension on BuildContext {
 
     router.push(
       RampPartnerSelectScreen.route(
-        topPartner: partners.top,
-        otherPartners: partners.other,
+        topPartner: top,
+        otherPartners: others.lock,
         type: RampType.onRamp,
         onPartnerSelected: (p) {
           router.pop();
@@ -140,15 +149,17 @@ extension on BuildContext {
   }) {
     final partners = _getOffRampPartners(profile.country.code);
 
-    if (partners == null || !sl<FeatureFlagsManager>().isOffRampEnabled) {
-      OffRampBottomSheet.show(this);
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnCashOut);
 
       return;
     }
 
-    if (partners.other.isEmpty) {
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
       return _launchOffRampPartner(
-        partners.top,
+        top,
         profile: profile,
         address: address,
       );
@@ -156,8 +167,8 @@ extension on BuildContext {
 
     router.push(
       RampPartnerSelectScreen.route(
-        topPartner: partners.top,
-        otherPartners: partners.other,
+        topPartner: top,
+        otherPartners: others.lock,
         type: RampType.offRamp,
         onPartnerSelected: (p) {
           router.pop();
@@ -198,6 +209,8 @@ extension on BuildContext {
     switch (partner) {
       case RampPartner.kado:
         launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.coinflow:
+        launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexRamp(
           profile: profile,
@@ -206,7 +219,6 @@ extension on BuildContext {
         );
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -214,34 +226,56 @@ extension on BuildContext {
 
 typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
 
-PartnerOptions _getOnRampPartners(String countryCode) => countryCode == 'US'
-    ? (
-        top: RampPartner.kado,
-        other: [RampPartner.rampNetwork].lock,
-      )
-    : _eeaCountries.contains(countryCode)
-        ? (
-            top: RampPartner.guardarian,
-            other: [RampPartner.rampNetwork].lock,
-          )
-        : countryCode == 'NG'
-            ? (
-                top: RampPartner.scalex,
-                other: [RampPartner.rampNetwork].lock,
-              )
-            : (
-                top: RampPartner.rampNetwork,
-                other: <RampPartner>[].lock,
-              );
+IList<RampPartner> _getOnRampPartners(String countryCode) {
+  final partners = <RampPartner>{};
 
-PartnerOptions? _getOffRampPartners(String countryCode) => countryCode == 'US'
-    ? (top: RampPartner.kado, other: <RampPartner>[].lock)
-    : countryCode == 'NG'
-        ? (top: RampPartner.scalex, other: <RampPartner>[].lock)
-        : null;
+  if (_kadoCountries.contains(countryCode)) {
+    partners.add(RampPartner.kado);
+  }
 
-const _eeaCountries = {
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  partners.add(RampPartner.rampNetwork);
+
+  if (_guardarianCountries.contains(countryCode)) {
+    partners.add(RampPartner.guardarian);
+  }
+
+  return IList(partners);
+}
+
+IList<RampPartner> _getOffRampPartners(String countryCode) {
+  if (!sl<FeatureFlagsManager>().isOffRampEnabled) {
+    return const IListConst([]);
+  }
+
+  final partners = <RampPartner>{};
+
+  if (_coinflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.coinflow);
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  return IList(partners);
+}
+
+const _kadoCountries = {'US'};
+
+const _guardarianCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
   'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
 };
+
+const _coinflowCountries = {
+  'AD', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', //
+  'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC', 'NL', 'NO',
+  'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
+};
+
+const _scalexCountries = {'NG'};

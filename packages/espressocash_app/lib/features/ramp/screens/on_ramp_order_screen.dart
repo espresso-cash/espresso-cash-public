@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../data/db/db.dart';
@@ -13,10 +14,12 @@ import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
+import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';
+import '../src/widgets/on_ramp_deposit_widget.dart';
 
 @RoutePage()
 class OnRampOrderScreen extends StatefulWidget {
@@ -62,55 +65,161 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final manualDeposit = order.manualDeposit;
+    final bool isManualBankTransfer = manualDeposit != null;
+
+    if (order.status == OnRampOrderStatus.waitingForDeposit &&
+        isManualBankTransfer) {
+      return OnRampDepositWidget(
+        deposit: (
+          bankAccount: manualDeposit.bankAccount,
+          bankName: manualDeposit.bankName,
+          transferExpiryDate: manualDeposit.transferExpiryDate,
+          transferAmount: manualDeposit.transferAmount,
+          orderId: order.id,
+          orderCreated: order.created,
+          receiveAmount: order.receiveAmount,
+        ),
+      );
+    }
+
     final locale = DeviceLocale.localeOf(context);
-    final amount =
-        order.amount.let((e) => e?.value != 0 ? e : order.receiveAmount);
-
-    final contactUsButton = Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.paddingOf(context).bottom + 16,
-      ),
-      child: CpButton(
-        size: CpButtonSize.big,
-        width: double.infinity,
-        text: context.l10n.contactUs,
-        onPressed: context.launchContactUs,
-      ),
-    );
-
-    final CpStatusType statusType = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => CpStatusType.info,
-      OnRampOrderStatus.failure => CpStatusType.error,
-      OnRampOrderStatus.completed => CpStatusType.success,
-    };
+    final amount = order.receiveAmount ?? order.submittedAmount;
 
     final String? statusTitle = order.status == OnRampOrderStatus.completed
         ? context.l10n.transferSuccessTitle
         : null;
 
     final String statusContent = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => context.l10n.onRampDepositOngoing(
-          amount?.format(locale, maxDecimals: 2) ?? 'USDC',
-        ),
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.waitingForPartner =>
+        context.l10n
+            .onRampDepositOngoing(amount.format(locale, maxDecimals: 2)),
+      OnRampOrderStatus.depositExpired => context.l10n.onRampDepositExpired,
       OnRampOrderStatus.failure => context.l10n.onRampDepositFailure,
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
 
-    final CpTimelineStatus timelineStatus = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => CpTimelineStatus.inProgress,
-      OnRampOrderStatus.failure => CpTimelineStatus.failure,
-      OnRampOrderStatus.completed => CpTimelineStatus.success,
-    };
+    final String? statusSubtitle =
+        order.status == OnRampOrderStatus.waitingForPartner
+            ? context.l10n.onRampAwaitingFunds
+            : null;
 
-    final int activeItem = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => 0,
-      OnRampOrderStatus.failure || OnRampOrderStatus.completed => 1,
-    };
+    final Widget? primaryButton = order.status == OnRampOrderStatus.failure
+        ? const _ContactUsButton()
+        : null;
+
+    return StatusScreen(
+      title: context.l10n.onRampDepositTitle.toUpperCase(),
+      statusType: order.status.toStatusType(),
+      statusTitle: statusTitle?.let(Text.new),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (statusSubtitle != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              statusSubtitle,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.23,
+              ),
+            ),
+          ],
+        ],
+      ),
+      content: CpContentPadding(
+        child: Column(
+          children: [
+            const Spacer(flex: 1),
+            _Timeline(
+              status: order.status,
+              amount: order.submittedAmount,
+              manualDeposit: manualDeposit,
+              created: order.created,
+            ),
+            const Spacer(flex: 4),
+            _OrderId(orderId: order.partnerOrderId),
+            if (primaryButton != null) ...[
+              const SizedBox(height: 12),
+              primaryButton,
+            ],
+            Opacity(
+              opacity: order.status == OnRampOrderStatus.depositExpired ? 1 : 0,
+              child: _CancelButton(orderId: order.id),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({required this.orderId});
+
+  final String orderId;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.only(
+          top: 24,
+          bottom: MediaQuery.paddingOf(context).bottom + 16,
+        ),
+        child: CpTextButton(
+          text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          variant: CpTextButtonVariant.light,
+          onPressed: () {
+            sl<OnRampOrderService>().delete(orderId);
+            context.router.pop();
+          },
+        ),
+      );
+}
+
+class _ContactUsButton extends StatelessWidget {
+  const _ContactUsButton();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.paddingOf(context).bottom + 16,
+        ),
+        child: CpButton(
+          size: CpButtonSize.big,
+          width: double.infinity,
+          text: context.l10n.contactUs,
+          onPressed: context.launchContactUs,
+        ),
+      );
+}
+
+class _Timeline extends StatelessWidget {
+  const _Timeline({
+    required this.status,
+    this.amount,
+    this.manualDeposit,
+    required this.created,
+  });
+
+  final OnRampOrderStatus status;
+  final CryptoAmount? amount;
+  final DepositDetails? manualDeposit;
+  final DateTime created;
+
+  @override
+  Widget build(BuildContext context) {
+    final manualDeposit = this.manualDeposit;
+    final isManualBankTransfer = manualDeposit != null;
+    final CpTimelineStatus timelineStatus = status.toTimelineStatus();
+    final animated = timelineStatus == CpTimelineStatus.inProgress;
+    final int activeItem = status.toActiveItem();
 
     final depositInitiated = CpTimelineItem(
       title: context.l10n.onRampDepositInitiated,
-      trailing: amount?.format(locale, maxDecimals: 2),
-      subtitle: order.created.let((t) => context.formatDate(t)),
+      trailing: amount?.format(context.locale, maxDecimals: 2),
+      subtitle: context.formatDate(created),
     );
     final amountReceived = CpTimelineItem(
       title: context.l10n.onRampDepositReceived,
@@ -118,47 +227,74 @@ class OnRampOrderScreenContent extends StatelessWidget {
 
     final items = [
       depositInitiated,
+      if (isManualBankTransfer)
+        CpTimelineItem(
+          title: context.l10n.onRampLocalTransferTile(
+            manualDeposit.transferAmount.format(context.locale),
+            manualDeposit.bankName,
+            manualDeposit.bankAccount,
+          ),
+        ),
       amountReceived,
     ];
 
-    final Widget? primaryButton =
-        order.status == OnRampOrderStatus.failure ? contactUsButton : null;
-
-    return StatusScreen(
-      title: context.l10n.onRampDepositTitle.toUpperCase(),
-      statusType: statusType,
-      statusTitle: statusTitle?.let(Text.new),
-      statusContent: Text(statusContent),
-      content: CpContentPadding(
-        child: Column(
-          children: [
-            const Spacer(flex: 1),
-            CpTimeline(
-              status: timelineStatus,
-              items: items,
-              active: activeItem,
-              animated: false,
-            ),
-            const Spacer(flex: 4),
-            SizedBox(
-              height: CpButtonSize.big.height,
-              child: Center(
-                child: Text(
-                  context.l10n.orderId(order.partnerOrderId),
-                  style: const TextStyle(
-                    color: Color(0xFF979593),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
-            ],
-          ],
-        ),
-      ),
+    return CpTimeline(
+      status: timelineStatus,
+      items: items,
+      active: isManualBankTransfer ? activeItem + 1 : activeItem,
+      animated: animated,
     );
   }
+}
+
+class _OrderId extends StatelessWidget {
+  const _OrderId({required this.orderId});
+
+  final String orderId;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height: CpButtonSize.big.height,
+        child: Center(
+          child: Text(
+            context.l10n.orderId(orderId),
+            style: const TextStyle(
+              color: Color(0xFF979593),
+              fontSize: 14,
+            ),
+          ),
+        ),
+      );
+}
+
+extension on OnRampOrderStatus {
+  CpStatusType toStatusType() => switch (this) {
+        OnRampOrderStatus.waitingForDeposit ||
+        OnRampOrderStatus.waitingForPartner =>
+          CpStatusType.info,
+        OnRampOrderStatus.depositExpired ||
+        OnRampOrderStatus.failure =>
+          CpStatusType.error,
+        OnRampOrderStatus.completed => CpStatusType.success,
+      };
+
+  CpTimelineStatus toTimelineStatus() => switch (this) {
+        OnRampOrderStatus.waitingForDeposit ||
+        OnRampOrderStatus.waitingForPartner =>
+          CpTimelineStatus.inProgress,
+        OnRampOrderStatus.depositExpired ||
+        OnRampOrderStatus.failure =>
+          CpTimelineStatus.failure,
+        OnRampOrderStatus.completed => CpTimelineStatus.success,
+      };
+
+  int toActiveItem() => switch (this) {
+        OnRampOrderStatus.depositExpired ||
+        OnRampOrderStatus.waitingForDeposit =>
+          0,
+        OnRampOrderStatus.waitingForPartner ||
+        OnRampOrderStatus.failure ||
+        OnRampOrderStatus.completed =>
+          1,
+      };
 }

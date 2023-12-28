@@ -1,11 +1,12 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
 class FeatureFlagsManager {
   final _remoteConfig = FirebaseRemoteConfig.instance;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
     try {
       await _remoteConfig.setConfigSettings(
@@ -20,13 +21,8 @@ class FeatureFlagsManager {
     }
   }
 
-  bool get isUniversalPayEnabled =>
-      _remoteConfig.getBool(FeatureFlag.universalPay.name);
-
-  bool get isCrossChainPaymentsEnabled =>
-      _remoteConfig.getBool(FeatureFlag.crossChainPayments.name);
-
-  bool get isOffRampEnabled => _remoteConfig.getBool(FeatureFlag.offRamp.name);
+  bool get isOffRampEnabled =>
+      kDebugMode || _remoteConfig.getBool(FeatureFlag.offRamp.name);
 }
 
 enum FeatureFlag { universalPay, crossChainPayments, offRamp }

@@ -15,10 +15,10 @@ import 'package:uuid/uuid.dart';
 import '../../../config.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
@@ -53,7 +53,7 @@ class OffRampOrderService implements Disposable {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  @PostConstruct()
+  @PostConstruct(preResolve: true)
   Future<void> init() async {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
@@ -189,6 +189,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    SignedTx? transaction,
     FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
@@ -201,9 +202,11 @@ class OffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partnerOrderId: partnerOrderId,
-            transaction: '',
+            transaction: transaction?.encode() ?? '',
             slot: BigInt.zero,
-            status: OffRampOrderStatus.depositTxRequired,
+            status: transaction == null
+                ? OffRampOrderStatus.depositTxRequired
+                : OffRampOrderStatus.depositTxReady,
             depositAddress: depositAddress,
             partner: partner,
             receiveAmount: receiveAmount?.value,
@@ -214,6 +217,28 @@ class OffRampOrderService implements Disposable {
           _subscribe(order.id);
 
           return order.id;
+        }
+      });
+
+  @useResult
+  AsyncResult<String> createFromTx({
+    required SignedTx tx,
+    required CryptoAmount amount,
+    required RampPartner partner,
+    FiatAmount? receiveAmount,
+  }) =>
+      tryEitherAsync((bind) async {
+        {
+          final signed = await tx.let((it) => it.resign(_account));
+
+          return create(
+            partnerOrderId: signed.id,
+            amount: amount,
+            partner: partner,
+            depositAddress: '',
+            receiveAmount: receiveAmount,
+            transaction: signed,
+          ).letAsync(bind);
         }
       });
 
