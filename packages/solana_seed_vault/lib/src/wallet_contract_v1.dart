@@ -110,7 +110,7 @@ class WalletContractV1 {
 
   static const unauthorizedSeedsAllColumns = [
     unauthorizedSeedsAuthPurpose,
-    unauthorizedSeedsHasUnauthorizedSeeds
+    unauthorizedSeedsHasUnauthorizedSeeds,
   ];
 
   static const accountsTable = 'accounts';

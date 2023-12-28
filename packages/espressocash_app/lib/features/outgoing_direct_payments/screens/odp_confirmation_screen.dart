@@ -4,8 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/fee_label.dart';
-import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
@@ -13,10 +11,14 @@ import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bordered_row.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
+import '../../tokens/token.dart';
 
 @RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {
@@ -50,7 +52,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     _amountController = TextEditingController(text: widget.initialAmount);
   }
 
-  void _onSubmit() {
+  void _handleSubmitted() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     if (amount == Decimal.zero) {
@@ -72,63 +74,67 @@ class _ScreenState extends State<ODPConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     final address = widget.recipient.toBase58();
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
         appBar: CpAppBar(),
-        body: Column(
-          children: [
-            CpBorderedRow(
-              title: Text(context.l10n.to),
-              content: BorderedRowChip(
-                child: Text(
-                  '${substring(address, 0, 4)}'
-                  '\u2026'
-                  '${substring(address, address.length - 4)}',
+        body: SafeArea(
+          child: Column(
+            children: [
+              CpBorderedRow(
+                title: Text(context.l10n.to),
+                content: BorderedRowChip(
+                  backgroundColor: Colors.black,
+                  child: Text(
+                    '${substring(address, 0, 4)}'
+                    '\u2026'
+                    '${substring(address, address.length - 4)}',
+                  ),
+                ),
+                dividerColor: CpColors.darkDividerColor,
+              ),
+              CpBorderedRow(
+                title: Text(context.l10n.sendAs),
+                content: BorderedRowChip(
+                  backgroundColor: Colors.black,
+                  child: Text(widget.token.symbol, style: _textStyle),
+                ),
+                dividerColor: CpColors.darkDividerColor,
+              ),
+              const SizedBox(height: 38),
+              AmountWithEquivalent(
+                inputController: _amountController,
+                token: widget.token,
+                collapsed: widget.isEnabled,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: LayoutBuilder(
+                  builder: (context, constraints) => widget.isEnabled
+                      ? AmountKeypad(
+                          controller: _amountController,
+                          maxDecimals: 2,
+                        )
+                      : SizedBox(height: constraints.maxHeight),
                 ),
               ),
-            ),
-            CpBorderedRow(
-              title: Text(context.l10n.sendAs),
-              content: BorderedRowChip(
-                child: Text(widget.token.symbol, style: _textStyle),
+              const SizedBox(height: 16),
+              FeeLabel(type: FeeType.direct(widget.recipient)),
+              const SizedBox(height: 21),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: CpButton(
+                  text: context.l10n.pay,
+                  minWidth: width,
+                  onPressed: _handleSubmitted,
+                  size: CpButtonSize.big,
+                ),
               ),
-            ),
-            const SizedBox(height: 38),
-            AmountWithEquivalent(
-              inputController: _amountController,
-              token: widget.token,
-              collapsed: widget.isEnabled,
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) => widget.isEnabled
-                    ? AmountKeypad(
-                        height: constraints.maxHeight,
-                        width: width,
-                        controller: _amountController,
-                        maxDecimals: 2,
-                      )
-                    : SizedBox(height: constraints.maxHeight),
-              ),
-            ),
-            const SizedBox(height: 16),
-            FeeLabel(type: FeeType.direct(widget.recipient)),
-            const SizedBox(height: 21),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: CpButton(
-                text: context.l10n.pay,
-                minWidth: width,
-                onPressed: _onSubmit,
-                size: CpButtonSize.big,
-              ),
-            ),
-            const SizedBox(height: 32),
-          ],
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );

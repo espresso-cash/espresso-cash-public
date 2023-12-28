@@ -44,7 +44,7 @@ class JupiterRoute with _$JupiterRoute {
 extension JupiterRouteExt on JupiterRoute {
   bool isSameRouteAs(JupiterRoute other) {
     if (marketInfos.length != other.marketInfos.length) return false;
-    for (var i = 0; i < marketInfos.length; i++) {
+    for (int i = 0; i < marketInfos.length; i++) {
       if (marketInfos[i].id != other.marketInfos[i].id) return false;
     }
 

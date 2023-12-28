@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:sentry/sentry.dart';
 import 'package:shelf/shelf.dart';
 
 Future<Response> processRequest<T, R>(
   Request request,
-  T Function(Map<String, dynamic> data) parse,
-  Future<R> Function(T data) handler,
+  Transformer<Map<String, dynamic>, T> parse,
+  Transformer<T, Future<R>> handler,
 ) async {
   final body = await request.readAsString();
 
@@ -26,14 +28,16 @@ Future<Response> processRequest<T, R>(
         'content-type': 'application/json',
       },
     );
-  } on EspressoCashException catch (e) {
+  } on EspressoCashException catch (error) {
     return Response.badRequest(
-      body: json.encode(e.toJson()),
+      body: json.encode(error.toJson()),
       headers: {
         'content-type': 'application/json',
       },
     );
-  } on Exception {
+  } on Exception catch (error, stacktrace) {
+    await Sentry.captureException(error, stackTrace: stacktrace);
+
     return Response.internalServerError();
   }
 }

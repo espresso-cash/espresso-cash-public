@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:espressocash_app/core/amount.dart';
-import 'package:espressocash_app/core/tokens/token.dart';
 import 'package:espressocash_app/features/balances/services/balances_bloc.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -16,7 +16,7 @@ void main() {
     'The map is ordered by the strict positive balances first, '
     'precedence criteria is the not-null coinGeckoId '
     'and amount is the tiebraker',
-    () async {
+    () {
       final random = Random(1);
       const baseToken = Token.sol;
       final baseAmount = Amount.sol(value: 10);

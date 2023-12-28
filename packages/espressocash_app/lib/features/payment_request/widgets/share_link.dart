@@ -3,13 +3,13 @@ import 'package:share/share.dart';
 
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/utils.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
+import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
@@ -42,6 +42,7 @@ class ShareLink extends StatelessWidget {
     );
 
     final messageBubble = ShareMessageBubble(
+      backgroundColor: Colors.black,
       textSpan: TextSpan(
         children: [
           ShareMessageHeader(
@@ -58,7 +59,6 @@ class ShareLink extends StatelessWidget {
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
       child: Column(
         children: [
-          _Subtitle(text: context.l10n.sharePaymentRequestLinkDescription),
           Flexible(child: messageBubble),
           shareButton,
         ],
@@ -97,22 +97,6 @@ class _Links extends StatelessWidget {
             fontWeight: FontWeight.w600,
             color: CpColors.yellowColor,
           ),
-        ),
-      );
-}
-
-class _Subtitle extends StatelessWidget {
-  const _Subtitle({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          text,
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
         ),
       );
 }

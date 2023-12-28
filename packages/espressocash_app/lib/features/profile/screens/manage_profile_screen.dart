@@ -9,6 +9,7 @@ import '../../../../../ui/app_bar.dart';
 import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
+import '../../../core/email.dart';
 import '../../../core/file_manager.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
@@ -16,10 +17,10 @@ import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
+import '../../country_picker/models/country.dart';
+import '../../country_picker/widgets/country_picker.dart';
 import '../data/profile_repository.dart';
-import '../models/country.dart';
 import '../widgets/pick_profile_picture.dart';
-import 'country_picker_screen.dart';
 
 @RoutePage()
 class ManageProfileScreen extends StatefulWidget {
@@ -66,16 +67,6 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleCountryPressed() => context.router.push<Country>(
-        CountryPickerScreen.route(
-          initial: _country,
-          onSubmitted: (country) {
-            context.router.pop();
-            setState(() => _country = country);
-          },
-        ),
-      );
-
   void _handleSubmitted() => runWithLoader(context, () async {
         try {
           final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
@@ -89,10 +80,10 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             ..email = _emailController.text;
 
           widget.onSubmitted();
-        } on Exception catch (e) {
+        } on Exception catch (error) {
           if (!mounted) return;
 
-          showErrorDialog(context, 'Error', e);
+          showErrorDialog(context, 'Error', error);
         }
       });
 
@@ -102,8 +93,14 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       _country != null;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
+          appBar: CpAppBar(
+            leading: CpBackButton(
+              onPressed: () => context.router.pop(),
+            ),
+          ),
+          extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(
               listenable: Listenable.merge([_nameController, _emailController]),
@@ -113,11 +110,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               ),
             ),
             children: [
-              CpAppBar(
-                leading: CpBackButton(
-                  onPressed: () => context.router.pop(),
-                ),
-              ),
+              SizedBox(height: MediaQuery.paddingOf(context).top + 24),
               ProfileImagePicker(
                 photo: _photo,
                 label: context.l10n.uploadPhoto,
@@ -128,17 +121,31 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                 child: CpTextField(
                   key: keyCreateProfileName,
                   margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
                   controller: _nameController,
-                  backgroundColor: Colors.white,
+                  textColor: Colors.white,
+                  placeholderColor: _placeholderTextColor,
+                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
+                  fontSize: 16,
                 ),
               ),
               OnboardingPadding(
                 child: CpTextField(
                   margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
                   placeholder: context.l10n.yourEmailPlaceholder,
                   controller: _emailController,
-                  backgroundColor: Colors.white,
+                  textColor: Colors.white,
+                  placeholderColor: _placeholderTextColor,
+                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
+                  fontSize: 16,
                 ),
               ),
               const SizedBox(height: 8),
@@ -148,14 +155,19 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   child: Text(
                     context.l10n.yourEmailDisclaimer,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white, fontSize: 13),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
-              _CountryPickerItem(
-                country: _country,
-                onTap: _handleCountryPressed,
+              const SizedBox(height: 35),
+              OnboardingPadding(
+                child: CountryPicker(
+                  country: _country,
+                  onSubmitted: (country) => setState(() => _country = country),
+                ),
               ),
             ],
           ),
@@ -163,47 +175,5 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       );
 }
 
-class _CountryPickerItem extends StatelessWidget {
-  const _CountryPickerItem({
-    this.country,
-    required this.onTap,
-  });
-  final Country? country;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => OnboardingPadding(
-        child: Container(
-          margin: const EdgeInsets.only(top: 16),
-          decoration: const ShapeDecoration(
-            color: CpColors.darkBackground,
-            shape: StadiumBorder(),
-          ),
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-            onTap: onTap,
-            title: Text(
-              country?.name ?? context.l10n.countryOfResidence,
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 20,
-                color: Colors.white,
-                height: 1.2,
-              ),
-            ),
-            trailing: const Icon(
-              Icons.keyboard_arrow_down_outlined,
-              color: Colors.white,
-              size: 34,
-            ),
-          ),
-        ),
-      );
-}
-
+const _placeholderTextColor = Color(0xff858585);
 const keyCreateProfileName = Key('createProfileName');
-
-extension on String {
-  bool get isValidEmail => RegExp(r'^.+@.+\..+$').hasMatch(this);
-}

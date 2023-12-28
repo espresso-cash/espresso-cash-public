@@ -37,14 +37,16 @@ class TokenDetailsWidget extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             if (data.marketCapRank != null)
+              // TODO(KB): Check if needed
+              // ignore: avoid-single-child-column-or-row
               Row(
                 children: [
                   _DetailsRowItem(
                     label: context.l10n.marketCapRank,
-                    value: Text('#${data.marketCapRank}'),
+                    value: Text('#${data.marketCapRank ?? ''}'),
                   ),
                 ],
-              )
+              ),
           ],
         ),
       );

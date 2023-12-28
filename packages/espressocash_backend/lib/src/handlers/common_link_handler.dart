@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_backend/src/app.dart';
 import 'package:espressocash_backend/src/apps.dart';
 import 'package:espressocash_backend/src/constants.dart';
@@ -8,11 +9,11 @@ import 'package:espressocash_backend/src/platform.dart';
 import 'package:mustache_template/mustache.dart';
 import 'package:shelf/shelf.dart';
 
-Future<Response> commonHandler(
+Response commonHandler(
   Request request, {
   required String templateName,
-  required Map<String, dynamic> Function(Map<String, dynamic> data) updateData,
-}) async {
+  required Transformer<Map<String, dynamic>, Map<String, dynamic>> updateData,
+}) {
   final appId = request.url.queryParameters['appId']?.toLowerCase();
 
   final platform = request.platform;

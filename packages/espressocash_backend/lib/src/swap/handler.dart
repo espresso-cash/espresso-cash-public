@@ -12,7 +12,7 @@ import 'package:solana/solana.dart';
 Handler addSwapHandler() =>
     (shelf_router.Router()..post('/getSwapRoute', _swapRouteHandler)).call;
 
-Future<Response> _swapRouteHandler(Request request) async =>
+Future<Response> _swapRouteHandler(Request request) =>
     processRequest<SwapRouteRequestDto, SwapRouteResponseDto>(
       request,
       SwapRouteRequestDto.fromJson,
@@ -49,4 +49,8 @@ final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
 );
-final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(mainnetPlatformMnemonic);
+final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  mainnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);

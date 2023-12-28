@@ -69,22 +69,22 @@ class _$EscrowAccountCopyWithImpl<$Res, $Val extends EscrowAccount>
 }
 
 /// @nodoc
-abstract class _$$_EscrowAccountCopyWith<$Res>
+abstract class _$$EscrowAccountImplCopyWith<$Res>
     implements $EscrowAccountCopyWith<$Res> {
-  factory _$$_EscrowAccountCopyWith(
-          _$_EscrowAccount value, $Res Function(_$_EscrowAccount) then) =
-      __$$_EscrowAccountCopyWithImpl<$Res>;
+  factory _$$EscrowAccountImplCopyWith(
+          _$EscrowAccountImpl value, $Res Function(_$EscrowAccountImpl) then) =
+      __$$EscrowAccountImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Ed25519HDPublicKey address, Ed25519HDPublicKey mint, int amount});
 }
 
 /// @nodoc
-class __$$_EscrowAccountCopyWithImpl<$Res>
-    extends _$EscrowAccountCopyWithImpl<$Res, _$_EscrowAccount>
-    implements _$$_EscrowAccountCopyWith<$Res> {
-  __$$_EscrowAccountCopyWithImpl(
-      _$_EscrowAccount _value, $Res Function(_$_EscrowAccount) _then)
+class __$$EscrowAccountImplCopyWithImpl<$Res>
+    extends _$EscrowAccountCopyWithImpl<$Res, _$EscrowAccountImpl>
+    implements _$$EscrowAccountImplCopyWith<$Res> {
+  __$$EscrowAccountImplCopyWithImpl(
+      _$EscrowAccountImpl _value, $Res Function(_$EscrowAccountImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_EscrowAccountCopyWithImpl<$Res>
     Object? mint = null,
     Object? amount = null,
   }) {
-    return _then(_$_EscrowAccount(
+    return _then(_$EscrowAccountImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_EscrowAccountCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_EscrowAccount implements _EscrowAccount {
-  const _$_EscrowAccount(
+class _$EscrowAccountImpl implements _EscrowAccount {
+  const _$EscrowAccountImpl(
       {required this.address, required this.mint, required this.amount});
 
   @override
@@ -130,10 +130,10 @@ class _$_EscrowAccount implements _EscrowAccount {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_EscrowAccount &&
+            other is _$EscrowAccountImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.mint, mint) || other.mint == mint) &&
             (identical(other.amount, amount) || other.amount == amount));
@@ -145,15 +145,15 @@ class _$_EscrowAccount implements _EscrowAccount {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_EscrowAccountCopyWith<_$_EscrowAccount> get copyWith =>
-      __$$_EscrowAccountCopyWithImpl<_$_EscrowAccount>(this, _$identity);
+  _$$EscrowAccountImplCopyWith<_$EscrowAccountImpl> get copyWith =>
+      __$$EscrowAccountImplCopyWithImpl<_$EscrowAccountImpl>(this, _$identity);
 }
 
 abstract class _EscrowAccount implements EscrowAccount {
   const factory _EscrowAccount(
       {required final Ed25519HDPublicKey address,
       required final Ed25519HDPublicKey mint,
-      required final int amount}) = _$_EscrowAccount;
+      required final int amount}) = _$EscrowAccountImpl;
 
   @override
   Ed25519HDPublicKey get address;
@@ -163,6 +163,6 @@ abstract class _EscrowAccount implements EscrowAccount {
   int get amount;
   @override
   @JsonKey(ignore: true)
-  _$$_EscrowAccountCopyWith<_$_EscrowAccount> get copyWith =>
+  _$$EscrowAccountImplCopyWith<_$EscrowAccountImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

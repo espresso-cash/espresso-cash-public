@@ -3,13 +3,11 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/presentation/format_amount.dart';
-import '../../../core/presentation/format_date.dart';
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/timeline.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -56,21 +54,6 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                     onOkPressed: () => context.router.pop(),
                     statusContent: context.l10n.outgoingTransferSuccess(
                       payment.amount.format(DeviceLocale.localeOf(context)),
-                    ),
-                    content: CpTimeline(
-                      animated: false,
-                      status: CpTimelineStatus.success,
-                      active: 1,
-                      items: [
-                        CpTimelineItem(title: context.l10n.transferInitiated),
-                        CpTimelineItem(
-                          title: context.l10n.receivedBy(
-                            payment.receiver.toBase58().toShortAddress(),
-                          ),
-                          // TODO(rhbrunetto): use received date instead
-                          subtitle: context.formatDate(payment.created),
-                        ),
-                      ],
                     ),
                     onMoreDetailsPressed: () {
                       final link = status.txId

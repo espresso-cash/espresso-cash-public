@@ -7,10 +7,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../ui/colors.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/extensions.dart';
-import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
+import '../../tokens/token.dart';
 import '../models/chart_interval.dart';
 import '../models/token_chart_item.dart';
 import '../services/bloc.dart';
@@ -48,7 +48,7 @@ class TokenChart extends StatelessWidget {
                         onSelect: onSelect,
                         interval: state.interval,
                       ),
-                      if (isLoading) const LoadingIndicator()
+                      if (isLoading) const LoadingIndicator(),
                     ],
                   ),
                 ),
@@ -78,7 +78,7 @@ class _ChartWidget extends StatelessWidget {
   final ChartInterval interval;
 
   static final _touchedSpotIndicatorData = TouchedSpotIndicatorData(
-    FlLine(
+    const FlLine(
       color: Colors.white,
       strokeWidth: 1,
       dashArray: [5, 5],
@@ -161,20 +161,20 @@ class _ChartWidget extends StatelessWidget {
                 LineChartBarData(
                   spots: spots,
                   isCurved: true,
-                  dotData: FlDotData(show: false),
+                  dotData: const FlDotData(show: false),
                   color: CpColors.chartLineColor,
                   barWidth: 5,
                   isStrokeJoinRound: true,
                   isStrokeCapRound: true,
-                )
+                ),
               ],
               minY: chartMinY,
               maxY: chartMaxY,
               gridData: FlGridData(
                 show: true,
                 horizontalInterval: interval,
-                getDrawingHorizontalLine: (value) => FlLine(
-                  color: const Color(0xff454141),
+                getDrawingHorizontalLine: (value) => const FlLine(
+                  color: Color(0xff454141),
                   strokeWidth: 1,
                   dashArray: [2, 2],
                 ),
@@ -187,11 +187,11 @@ class _ChartWidget extends StatelessWidget {
               ),
               titlesData: FlTitlesData(
                 show: true,
-                leftTitles: AxisTitles(sideTitles: SideTitles()),
-                topTitles: AxisTitles(sideTitles: SideTitles()),
-                bottomTitles: AxisTitles(sideTitles: SideTitles()),
+                leftTitles: const AxisTitles(sideTitles: SideTitles()),
+                topTitles: const AxisTitles(sideTitles: SideTitles()),
+                bottomTitles: const AxisTitles(sideTitles: SideTitles()),
                 rightTitles: AxisTitles(
-                  drawBehindEverything: true,
+                  drawBelowEverything: true,
                   sideTitles: SideTitles(
                     reservedSize: 50,
                     showTitles: true,
@@ -241,7 +241,7 @@ class _ChartWidget extends StatelessWidget {
                 getTouchLineEnd: (barData, spotIndex) => double.infinity,
               ),
             ),
-            swapAnimationDuration: Duration.zero,
+            duration: Duration.zero,
           ),
         ],
       ),
@@ -264,7 +264,7 @@ class _ChartRangeSelector extends StatelessWidget {
         children: ChartInterval.values
             .map(
               (e) => GestureDetector(
-                onTap: () => onItemSelected.call(e),
+                onTap: () => onItemSelected(e),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 8,

@@ -1,7 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../models/token_details.dart';
 import 'coingecko_client.dart';
 
@@ -16,7 +16,7 @@ class TokenDetailsRepository {
   AsyncResult<TokenDetails> getTokenDetails({
     required Token token,
     required String fiatCurrency,
-  }) async =>
+  }) =>
       _coingeckoClient
           .getCoinDetails(
             token.extensions?.coingeckoId ?? token.name,

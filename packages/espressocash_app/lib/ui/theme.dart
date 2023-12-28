@@ -25,7 +25,13 @@ class CpTheme extends StatelessWidget {
           child: child,
         );
 
-  // ignore: avoid-watch-outside-build, valid usage
+  const CpTheme.black({Key? key, required Widget child})
+      : this(
+          key: key,
+          theme: const CpThemeData.black(),
+          child: child,
+        );
+
   static CpThemeData of(BuildContext context) => context.watch<CpThemeData>();
 
   final CpThemeData theme;
@@ -71,6 +77,15 @@ class CpThemeData {
           dividerColor: Colors.white,
         );
 
+  const CpThemeData.black()
+      : this._(
+          brightness: Brightness.dark,
+          backgroundColor: CpColors.darkSplashBackgroundColor,
+          primaryTextColor: Colors.white,
+          secondaryTextColor: CpColors.secondaryTextColor,
+          dividerColor: Colors.white,
+        );
+
   final Color backgroundColor;
   final Color primaryTextColor;
   final Color secondaryTextColor;
@@ -85,6 +100,7 @@ class CpThemeData {
 
   ThemeData toMaterialTheme() => ThemeData(
         brightness: brightness,
+        useMaterial3: false,
         splashColor: CpColors.yellowColor.withOpacity(0.25),
         fontFamily: 'RobotoApp',
         textTheme: TextTheme(
@@ -166,7 +182,7 @@ const twelveWordsTextStyle = TextStyle(
 
 const dashboardSectionTitleTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 19,
+  fontSize: 17,
   color: CpColors.menuPrimaryTextColor,
 );
 

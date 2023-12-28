@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../config.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/presentation/format_amount.dart';
-import '../../../core/tokens/token.dart';
+import '../../../core/solana_helpers.dart';
 import '../../../l10n/device_locale.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../tokens/token.dart';
 import '../screens/odp_confirmation_screen.dart';
 import '../screens/odp_details_screen.dart';
 import 'extensions.dart';
@@ -33,7 +33,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     context.watch<DynamicLinksNotifier>().processLink((link) {
-      final solanaPayRequest = tryParse(link);
+      final solanaPayRequest = tryParseSolanaPayRequest(link);
       if (solanaPayRequest != null) {
         if (solanaPayRequest.splToken != Token.usdc.publicKey) {
           // This is not USDC token, silently ignore for now
@@ -96,21 +96,4 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
 
   @override
   Widget build(BuildContext context) => widget.child;
-}
-
-SolanaPayRequest? tryParse(Uri link) {
-  final linkWithCorrectScheme = link.scheme == 'https' &&
-          (link.host == 'solana.$cpLinkDomain' ||
-              link.host == 'sol.$cpLinkDomain' ||
-              link.host == solanaPayHost ||
-              link.host == solanaPayEspressoCashHost) &&
-          link.pathSegments.any((s) => s.isNotEmpty)
-      ? Uri(
-          scheme: 'solana',
-          path: link.pathSegments.firstOrNull,
-          queryParameters: link.queryParameters,
-        )
-      : link;
-
-  return SolanaPayRequest.tryParse(linkWithCorrectScheme.toString());
 }

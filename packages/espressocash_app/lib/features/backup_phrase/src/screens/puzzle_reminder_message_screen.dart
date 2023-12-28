@@ -5,8 +5,8 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/message_info_widget.dart';
+import '../../../onboarding/onboarding.dart';
 import '../widgets/puzzle_screen.dart';
-import 'backup_phrase_flow_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
 @RoutePage()
@@ -15,7 +15,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
 
   static const route = PuzzleReminderMessageRoute.new;
 
-  void _remindMeLater(BuildContext context) {
+  void _handleRemindPressed(BuildContext context) {
     context.router.push(PuzzleReminderSetupScreen.route());
   }
 
@@ -28,6 +28,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
             children: [
               const SizedBox(height: 24),
               CpMessageInfoWidget(
+                backgroundColor: Colors.black,
                 padding: const EdgeInsets.all(32),
                 content: Wrap(
                   runSpacing: 20,
@@ -43,8 +44,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 size: CpButtonSize.big,
                 minWidth: 300,
                 onPressed: () async {
-                  final result = await context.router
-                      .push<bool>(BackupPhraseFlowScreen.route());
+                  final result = await context.launchOnboardingFlow();
                   if (result == true && context.mounted) {
                     await context.router.pop();
                   }
@@ -52,7 +52,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               TextButton(
-                onPressed: () => _remindMeLater(context),
+                onPressed: () => _handleRemindPressed(context),
                 child: Text(
                   context.l10n.remindMeLater,
                   style: const TextStyle(
@@ -61,7 +61,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

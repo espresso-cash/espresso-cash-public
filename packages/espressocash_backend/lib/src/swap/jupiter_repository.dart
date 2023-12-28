@@ -75,7 +75,7 @@ class JupiterRepository {
     );
   }
 
-  Future<double?> getUsdcPrice() async => _priceClient
+  Future<double?> getUsdcPrice() => _priceClient
       .getPrice(PriceRequestDto(ids: _sol))
       .then((response) => response.data[_sol]?.price);
 }

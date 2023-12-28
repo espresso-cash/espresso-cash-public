@@ -20,3 +20,7 @@ class DeviceLocale {
         : PlatformDispatcher.instance.locales.first;
   }
 }
+
+extension BuildContextExt on BuildContext {
+  Locale get locale => DeviceLocale.localeOf(this);
+}

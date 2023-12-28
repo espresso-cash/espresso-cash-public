@@ -14,7 +14,7 @@ Handler escrowPaymentsHandler() => (shelf_router.Router()
       ..post('/escrow/cancel', cancelPaymentHandler))
     .call;
 
-Future<Response> createPaymentHandler(Request request) async =>
+Future<Response> createPaymentHandler(Request request) =>
     processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
       request,
       CreatePaymentRequestDto.fromJson,
@@ -38,7 +38,7 @@ Future<Response> createPaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> receivePaymentHandler(Request request) async =>
+Future<Response> receivePaymentHandler(Request request) =>
     processRequest<ReceivePaymentRequestDto, ReceivePaymentResponseDto>(
       request,
       ReceivePaymentRequestDto.fromJson,
@@ -61,7 +61,7 @@ Future<Response> receivePaymentHandler(Request request) async =>
       },
     );
 
-Future<Response> cancelPaymentHandler(Request request) async =>
+Future<Response> cancelPaymentHandler(Request request) =>
     processRequest<CancelPaymentRequestDto, CancelPaymentResponseDto>(
       request,
       CancelPaymentRequestDto.fromJson,
@@ -88,13 +88,21 @@ final _devnetClient = SolanaClient(
   rpcUrl: Uri.parse('https://api.devnet.solana.com'),
   websocketUrl: Uri.parse('wss://api.devnet.solana.com'),
 );
-final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(devnetPlatformMnemonic);
+final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  devnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
 );
-final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(mainnetPlatformMnemonic);
+final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  mainnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 extension on Cluster {
   SolanaClient get solanaClient {

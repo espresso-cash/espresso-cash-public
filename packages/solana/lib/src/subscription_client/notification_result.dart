@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/subscription_client/notification_context.dart';
 

@@ -1,8 +1,8 @@
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
-import '../../outgoing_split_key_payments/data/repository.dart';
+import '../../outgoing_link_payments/data/repository.dart';
 import '../../swap/data/swap_repository.dart';
+import '../../tokens/token_list.dart';
 import '../models/activity.dart';
 
 extension PaymentRequestRowToActivityExt on PaymentRequestRow {
@@ -20,17 +20,16 @@ extension ODPRowToActivityExt on ODPRow {
       );
 }
 
-extension OSKPRowToActivityExt on OSKPRow {
-  Future<Activity> toActivity(TokenList tokens) async =>
-      Activity.outgoingSplitKeyPayment(
+extension SwapRowToActivityExt on SwapRow {
+  Activity toActivity(TokenList tokens) => Activity.swap(
         id: id,
         created: created,
-        data: await toModel(tokens),
+        data: toModel(tokens),
       );
 }
 
-extension SwapRowToActivityExt on SwapRow {
-  Activity toActivity(TokenList tokens) => Activity.swap(
+extension OLPRowToActivityExt on OLPRow {
+  Activity toActivity(TokenList tokens) => Activity.outgoingLinkPayment(
         id: id,
         created: created,
         data: toModel(tokens),

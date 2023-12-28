@@ -22,7 +22,7 @@ class AccountEdit extends StatefulWidget {
 class _AccountEditState extends State<AccountEdit> {
   final _controller = TextEditingController();
 
-  void _onSubmit() {
+  void _handleSubmitted() {
     context
         .read<SeedVaultBloc>()
         .updateAccountName(
@@ -77,11 +77,11 @@ class _AccountEditState extends State<AccountEdit> {
                     child: const Text('Cancel'),
                   ),
                   ElevatedButton(
-                    onPressed: _onSubmit,
+                    onPressed: _handleSubmitted,
                     child: const Text('Submit'),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

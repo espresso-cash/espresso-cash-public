@@ -20,6 +20,7 @@ analyzer:
 
 dart_code_metrics:
   rules:
+    avoid-passing-self-as-argument: false
     avoid-banned-imports:
       severity: error
       entries:
@@ -42,6 +43,10 @@ dart_code_metrics:
         - paths: [".*/ui/.+\\.dart"]
           deny: [".*/features/.*"]
           message: "Do not import features from ui"
+    avoid-nullable-interpolation:
+      exclude:
+        - test/**
+    prefer-correct-handler-name: false
 
   rules-exclude:
     - "**/*.gr.dart"

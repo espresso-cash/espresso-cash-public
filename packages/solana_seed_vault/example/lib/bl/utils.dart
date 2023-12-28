@@ -10,7 +10,7 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 Future<List<Ed25519HDPublicKey>> getPublicKeysFromPaths(
   AuthToken authToken,
   List<Uri> derivationPaths,
-) async =>
+) =>
     Future.wait(
       derivationPaths.map(
         (it) => SeedVault.instance

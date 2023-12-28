@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -82,7 +84,7 @@ Iterable<int> _encodeBigIntAsUnsigned(BigInt number, int s) {
   }
 
   final result = Uint8List(s);
-  for (var i = 0; i < s; i++) {
+  for (int i = 0; i < s; i++) {
     result[i] = (number & _byteMask).toInt();
     number = number >> 8;
   }

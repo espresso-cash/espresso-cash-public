@@ -16,7 +16,7 @@ dependencies:
   flutter_bloc: ^8.1.1
   freezed_annotation: ^2.2.0
   provider: ^6.0.5
-  solana: ^0.30.0
+  solana: ^0.30.0+1
   solana_seed_vault:
     path: ../
 
@@ -25,7 +25,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.2.0
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.21.0
 
 flutter:
   uses-material-design: true

@@ -10,7 +10,7 @@ import 'package:solana_mobile_wallet/src/api.dart';
 import 'scenario_test.mocks.dart';
 
 @GenerateMocks([ScenarioCallbacks, Scenario])
-Future<void> main() async {
+void main() {
   late MockScenarioCallbacks callbacks;
   late Uint8List publicKey;
 
@@ -139,7 +139,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario ready', () async {
+  test('Scenario ready', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioReady(any)).thenAnswer((_) {});
@@ -150,7 +150,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario complete', () async {
+  test('Scenario complete', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioComplete()).thenAnswer((_) {});
@@ -161,7 +161,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario error', () async {
+  test('Scenario error', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioError()).thenAnswer((_) {});
@@ -172,7 +172,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario serving clients', () async {
+  test('Scenario serving clients', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioServingClients()).thenAnswer((_) {});
@@ -183,7 +183,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario serving complete', () async {
+  test('Scenario serving complete', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioServingComplete()).thenAnswer((_) {});
@@ -194,7 +194,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('Scenario teardown complete', () async {
+  test('Scenario teardown complete', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onScenarioTeardownComplete()).thenAnswer((_) {});
@@ -205,7 +205,7 @@ Future<void> main() async {
     verifyNoMoreInteractions(callbacks);
   });
 
-  test('On low power and no connection', () async {
+  test('On low power and no connection', () {
     final id = createAndRegisterScenario();
 
     when(callbacks.onLowPowerAndNoConnection()).thenAnswer((_) {});

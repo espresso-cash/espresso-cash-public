@@ -48,7 +48,7 @@ class DiscoverHeader extends StatelessWidget {
                     (e) => CpButton(
                       text: e.label,
                       size: CpButtonSize.small,
-                      onPressed: () => onTap.call(e),
+                      onPressed: () => onTap(e),
                     ),
                   )
                   .toList(),
@@ -59,18 +59,18 @@ class DiscoverHeader extends StatelessWidget {
                 CpButton(
                   text: selected.label,
                   size: CpButtonSize.small,
-                  onPressed: () => onTap.call(selected),
+                  onPressed: () => onTap(selected),
                   variant: CpButtonVariant.inverted,
                 ),
                 const SizedBox(width: 8),
                 CpIconButton(
                   icon: Assets.icons.closeButtonIcon.svg(),
-                  onPressed: () => onTap.call(selected),
+                  onPressed: () => onTap(selected),
                   variant: CpIconButtonVariant.dark,
                   size: CpIconButtonSize.small,
                 ),
               ],
-            )
+            ),
         ],
       ),
     );

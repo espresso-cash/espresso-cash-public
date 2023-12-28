@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-Future<void> main() async {
+void main() {
   test('Compile', () async {
     final payer = await Ed25519HDKeyPair.random();
     final keys = await createTestKeys(6);

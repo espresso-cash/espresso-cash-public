@@ -10,8 +10,9 @@ workflows:
       groups:
         - common
         - google_credentials
-      flutter: 3.10.5
-      xcode: 14.2
+      flutter: 3.16.5
+      xcode: 15.0
+      cocoapods: 1.13.0
       android_signing:
         - app
       ios_signing:
@@ -38,10 +39,10 @@ workflows:
             --dart-define PROD=true \
             --dart-define SOLANA_RPC_URL=$SOLANA_RPC_URL \
             --dart-define SOLANA_WEBSOCKET_URL=$SOLANA_WEBSOCKET_URL \
-            --dart-define MOONPAY_API_KEY=$MOONPAY_API_KEY \
             --dart-define SENTRY_DSN=$SENTRY_DSN \
             --dart-define RAMP_API_KEY=$RAMP_API_KEY \
-            --dart-define LOCALIZELY_SDK_TOKEN=$LOCALIZELY_SDK_TOKEN
+            --dart-define KADO_API_KEY=$KADO_API_KEY \
+            --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY
       - name: Build IPA with Flutter
         script: |
           BUILD_NUMBER=$(($PROJECT_BUILD_NUMBER + 200))
@@ -51,10 +52,10 @@ workflows:
             --dart-define PROD=true \
             --dart-define SOLANA_RPC_URL=$SOLANA_RPC_URL \
             --dart-define SOLANA_WEBSOCKET_URL=$SOLANA_WEBSOCKET_URL \
-            --dart-define MOONPAY_API_KEY=$MOONPAY_API_KEY \
             --dart-define SENTRY_DSN=$SENTRY_DSN \
             --dart-define RAMP_API_KEY=$RAMP_API_KEY \
-            --dart-define LOCALIZELY_SDK_TOKEN=$LOCALIZELY_SDK_TOKEN
+            --dart-define KADO_API_KEY=$KADO_API_KEY \
+            --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY
 
     artifacts:
       - build/**/outputs/**/*.aab

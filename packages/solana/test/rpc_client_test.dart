@@ -1,4 +1,4 @@
-// ignore_for_file: cast_nullable_to_non_nullable
+// ignore_for_file: cast_nullable_to_non_nullable, avoid-unnecessary-late
 
 import 'dart:async';
 
@@ -14,7 +14,7 @@ const int _transferredAmount = lamportsPerSol;
 
 void main() {
   group('Timeout exceptions', () {
-    test('throws exception with method name on timeout', () async {
+    test('throws exception with method name on timeout', () {
       final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
 
       expect(
@@ -29,7 +29,7 @@ void main() {
       );
     });
 
-    test('throws exception with bulk method names on timeout', () async {
+    test('throws exception with bulk method names on timeout', () {
       final client = RpcClient(devnetRpcUrl, timeout: Duration.zero);
       const transactions = [
         TransactionSignatureInformation(

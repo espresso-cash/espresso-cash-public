@@ -1,6 +1,6 @@
 name: solana_mobile_client
 description: A reference implementation of the Mobile Wallet Adapter (Client) specification for Flutter.
-version: 0.1.1
+version: 0.1.1+1
 repository: https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana_mobile_client
 issue_tracker: https://github.com/espresso-cash/espresso-cash-public/issues
 
@@ -21,7 +21,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.21.0
   pigeon: ^7.1.1
 
 flutter:

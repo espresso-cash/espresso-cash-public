@@ -2,8 +2,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../models/crypto_categories.dart';
 import 'coingecko_client.dart';
 
@@ -18,13 +18,13 @@ class SearchRepository {
   final SearchCoingeckoClient _coingeckoClient;
   final TokenList _tokenList;
 
-  AsyncResult<IList<Token>> search(String query) async =>
+  AsyncResult<IList<Token>> search(String query) =>
       _coingeckoClient.search(query).toEither().mapAsync(
             (response) =>
                 response.coins.map((e) => e.toToken(_tokenList)).toIList(),
           );
 
-  AsyncResult<IList<Token>> category(CryptoCategories category) async =>
+  AsyncResult<IList<Token>> category(CryptoCategories category) =>
       _coingeckoClient
           .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
           .toEither()

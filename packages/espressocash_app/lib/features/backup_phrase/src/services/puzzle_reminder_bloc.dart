@@ -59,7 +59,7 @@ class PuzzleReminderBloc
             PuzzleReminderEventLoggedOut() => _onLoggedOut(),
           };
 
-  Future<PuzzleReminderData> _readSharedPreferences() async {
+  PuzzleReminderData _readSharedPreferences() {
     final content = _sharedPreferences.getString(_spKey);
 
     return content == null
@@ -97,7 +97,7 @@ class PuzzleReminderBloc
       ),
       // Check for reminder if user account was loaded from storage
       loaded: () async {
-        final data = await _readSharedPreferences();
+        final data = _readSharedPreferences();
 
         if (data.shouldRemindNow) {
           emit(const PuzzleReminderState.remindNow());

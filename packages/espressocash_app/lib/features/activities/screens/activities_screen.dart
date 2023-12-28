@@ -1,29 +1,35 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart' hide Notification;
 
-import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/tab_bar.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
 @RoutePage()
 class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({super.key});
+  const ActivitiesScreen({
+    super.key,
+    this.goToTransactions = false,
+  });
+
+  final bool? goToTransactions;
 
   static const route = ActivitiesRoute.new;
 
   @override
   Widget build(BuildContext context) {
-    final bottom = MediaQuery.of(context).padding.bottom;
+    final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
+    final isTransactions = goToTransactions ?? false;
 
     return PageFadeWrapper(
       child: DefaultTabController(
         length: 2,
-        initialIndex: 0,
+        initialIndex: isTransactions ? 1 : 0,
         child: Column(
           children: [
             CpAppBar(

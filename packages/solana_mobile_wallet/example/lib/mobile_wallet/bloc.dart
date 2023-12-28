@@ -38,11 +38,11 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _scenario = scenario;
   }
 
-  Future<void> authorizeDapp({
+  void authorizeDapp({
     required bool isAuthorized,
     required String scopeTag,
     required String? qualifier,
-  }) async {
+  }) {
     final request =
         state.whenOrNull(remote: (r) => r)?.whenOrNull(authorizeDapp: (r) => r);
 
@@ -99,7 +99,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(result);
   }
 
-  Future<void> signPayloadsDeclined() async {
+  void signPayloadsDeclined() {
     final request =
         state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
@@ -108,7 +108,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(const SignedPayloadResult.requestDeclined());
   }
 
-  Future<void> signPayloadsSimulateAuthTokenInvalid() async {
+  void signPayloadsSimulateAuthTokenInvalid() {
     final request =
         state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
@@ -117,7 +117,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(const SignedPayloadResult.authorizationNotValid());
   }
 
-  Future<void> signPayloadsSimulateInvalidPayloads() async {
+  void signPayloadsSimulateInvalidPayloads() {
     final request =
         state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
@@ -127,7 +127,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(SignedPayloadResult.invalidPayloads(valid: valid));
   }
 
-  Future<void> signPayloadsSimulateTooManyPayloads() async {
+  void signPayloadsSimulateTooManyPayloads() {
     final request =
         state.whenOrNull(remote: (r) => r)?.whenOrNull(signPayloads: (r) => r);
 
@@ -173,7 +173,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     );
   }
 
-  Future<void> signAndSendTransactionsDeclined() async {
+  void signAndSendTransactionsDeclined() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.whenOrNull(signTransactionsForSending: (r) => r);
@@ -183,7 +183,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(const SignaturesResult.requestDeclined());
   }
 
-  Future<void> signAndSendTransactionsSimulateAuthTokenInvalid() async {
+  void signAndSendTransactionsSimulateAuthTokenInvalid() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.whenOrNull(signTransactionsForSending: (r) => r);
@@ -193,7 +193,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(const SignaturesResult.authorizationNotValid());
   }
 
-  Future<void> signAndSendTransactionsSimulateInvalidPayloads() async {
+  void signAndSendTransactionsSimulateInvalidPayloads() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.whenOrNull(signTransactionsForSending: (r) => r);
@@ -204,7 +204,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(SignaturesResult.invalidPayloads(valid: valid));
   }
 
-  Future<void> signAndSendTransactionsSimulateTooManyPayloads() async {
+  void signAndSendTransactionsSimulateTooManyPayloads() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.whenOrNull(signTransactionsForSending: (r) => r);
@@ -214,7 +214,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(const SignaturesResult.tooManyPayloads());
   }
 
-  Future<void> signAndSendTransactionsSubmitted() async {
+  void signAndSendTransactionsSubmitted() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.mapOrNull(sendTransactions: (r) => r);
@@ -226,7 +226,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
     _completer?.complete(result);
   }
 
-  Future<void> signAndSendTransactionsNotSubmitted() async {
+  void signAndSendTransactionsNotSubmitted() {
     final request = state
         .whenOrNull(remote: (r) => r)
         ?.mapOrNull(sendTransactions: (r) => r);
@@ -297,7 +297,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   @override
   Future<SignedPayloadResult?> onSignTransactionsRequest(
     SignTransactionsRequest request,
-  ) async {
+  ) {
     _cancelCurrentRequest();
 
     emit(

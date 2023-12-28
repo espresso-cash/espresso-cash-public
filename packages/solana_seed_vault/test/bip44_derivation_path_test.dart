@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
-Future<void> main() async {
+void main() {
   group(
     'Should succeed to convert valid BipLevels to BIP44 Uri',
     () {

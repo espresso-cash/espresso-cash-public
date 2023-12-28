@@ -2,16 +2,12 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/payments/create_direct_payment.dart';
-import 'package:espressocash_backend/src/payments/create_payment.dart';
-import 'package:espressocash_backend/src/payments/receive_payment.dart';
 import 'package:espressocash_backend/src/utils.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart' as shelf_router;
 import 'package:solana/solana.dart';
 
 Handler paymentHandler() => (shelf_router.Router()
-      ..post('/createPayment', createPaymentHandler)
-      ..post('/receivePayment', receivePaymentHandler)
       ..post('/createDirectPayment', createDirectPaymentHandler)
       ..post('/getFees', getFeesHandler))
     .call;
@@ -30,56 +26,8 @@ Future<Response> getFeesHandler(Request request) =>
       ),
     );
 
-Future<Response> createPaymentHandler(Request request) async =>
-    processRequest<CreatePaymentRequestDto, CreatePaymentResponseDto>(
-      request,
-      CreatePaymentRequestDto.fromJson,
-      (data) async {
-        final cluster = data.cluster;
-
-        final result = await createPaymentTx(
-          aSender: Ed25519HDPublicKey.fromBase58(data.senderAccount),
-          aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
-          mint: cluster.mint,
-          amount: data.amount,
-          platform: await cluster.platformAccount,
-          client: cluster.solanaClient,
-          commitment: Commitment.confirmed,
-        );
-
-        return CreatePaymentResponseDto(
-          transaction: result.$1.encode(),
-          slot: result.$2,
-        );
-      },
-    );
-
-Future<Response> receivePaymentHandler(Request request) async =>
-    processRequest<ReceivePaymentRequestDto, ReceivePaymentResponseDto>(
-      request,
-      ReceivePaymentRequestDto.fromJson,
-      (data) async {
-        final cluster = data.cluster;
-
-        final result = await receivePaymentTx(
-          aReceiver: Ed25519HDPublicKey.fromBase58(data.receiverAccount),
-          aEscrow: Ed25519HDPublicKey.fromBase58(data.escrowAccount),
-          mint: cluster.mint,
-          platform: await cluster.platformAccount,
-          client: cluster.solanaClient,
-          commitment: Commitment.confirmed,
-        );
-
-        return ReceivePaymentResponseDto(
-          transaction: result.$1.encode(),
-          slot: result.$2,
-        );
-      },
-    );
-
-Future<Response> createDirectPaymentHandler(Request request) async =>
-    processRequest<CreateDirectPaymentRequestDto,
-        CreateDirectPaymentResponseDto>(
+Future<Response> createDirectPaymentHandler(Request request) => processRequest<
+        CreateDirectPaymentRequestDto, CreateDirectPaymentResponseDto>(
       request,
       CreateDirectPaymentRequestDto.fromJson,
       (data) async {
@@ -108,13 +56,21 @@ final _devnetClient = SolanaClient(
   rpcUrl: Uri.parse('https://api.devnet.solana.com'),
   websocketUrl: Uri.parse('wss://api.devnet.solana.com'),
 );
-final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(devnetPlatformMnemonic);
+final _devnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  devnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
 );
-final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(mainnetPlatformMnemonic);
+final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  mainnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
 
 extension on Cluster {
   SolanaClient get solanaClient {

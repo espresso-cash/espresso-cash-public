@@ -8,10 +8,10 @@ import 'package:solana/encoder.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../tokens/token_list.dart';
+import '../../transactions/models/tx_results.dart';
 import '../models/swap.dart';
 import '../models/swap_seed.dart';
 
@@ -43,8 +43,8 @@ class SwapRepository {
     return query.watchSingleOrNull().asyncMap((row) => row?.toModel(_tokens));
   }
 
-  Future<void> save(Swap payment) async =>
-      _db.into(_db.swapRows).insertOnConflictUpdate(await payment.toDto());
+  Future<void> save(Swap payment) =>
+      _db.into(_db.swapRows).insertOnConflictUpdate(payment.toDto());
 
   Future<void> clear() => _db.delete(_db.swapRows).go();
 
@@ -151,7 +151,7 @@ extension on SlippageDto {
 }
 
 extension on Swap {
-  Future<SwapRow> toDto() async => SwapRow(
+  SwapRow toDto() => SwapRow(
         id: id,
         created: created,
         status: status.toDto(),

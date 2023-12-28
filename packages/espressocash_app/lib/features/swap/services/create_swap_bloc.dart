@@ -10,11 +10,11 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/analytics/analytics_manager.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
-import '../../../../core/tokens/token.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../balances/data/balances_repository.dart';
+import '../../tokens/token.dart';
 import '../data/route_repository.dart';
 import '../models/swap_route.dart';
 import '../models/swap_seed.dart';
@@ -80,12 +80,12 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   final IMap<Token, Amount> _balances;
   final Ed25519HDPublicKey _userAccount;
 
-  Future<void> _onSlippageUpdated(SlippageUpdated event, _Emitter emit) async {
+  void _onSlippageUpdated(SlippageUpdated event, _Emitter emit) {
     emit(state.copyWith(slippage: event.slippage));
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onAmountUpdated(AmountUpdated event, _Emitter emit) async {
+  void _onAmountUpdated(AmountUpdated event, _Emitter emit) {
     emit(
       state.editingMode.map(
         input: always(
@@ -103,15 +103,15 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onEditingModeToggled(
+  void _onEditingModeToggled(
     EditingModeToggled _,
     _Emitter emit,
-  ) async {
+  ) {
     emit(state.toggleEditingMode());
     add(const CreateSwapEvent.routeInvalidated());
   }
 
-  Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
+  void _onSubmitted(Submitted _, _Emitter emit) {
     state.validate(_balances).fold(
       (e) {
         emit(state.copyWith(flowState: Flow.failure(e)));
@@ -158,8 +158,8 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
         input: () => emit(state.updateOutputFromRoute(bestRoute)),
         output: () => emit(state.updateInputFromRoute(bestRoute)),
       );
-    } on CreateSwapException catch (e) {
-      emit(state.error(e));
+    } on CreateSwapException catch (error) {
+      emit(state.error(error));
     } on Exception {
       emit(state.error(const CreateSwapException.routeNotFound()));
     }

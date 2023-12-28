@@ -3,11 +3,11 @@ import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/handlers/common_link_handler.dart';
 import 'package:shelf/shelf.dart';
 
-Future<Response> Function(Request) createSolanaHandler({
+Transformer<Request, Response> createSolanaHandler({
   required Map<String, String> tokens,
   required String network,
 }) =>
-    (Request request) async {
+    (Request request) {
       final host = request.requestedUri.host;
       if (host == link1Host ||
           host == link2Host ||
@@ -20,13 +20,13 @@ Future<Response> Function(Request) createSolanaHandler({
       return Response.notFound(null);
     };
 
-Future<Response> _solanaShareableHandler(Request request) => commonHandler(
+Response _solanaShareableHandler(Request request) => commonHandler(
       request,
       templateName: 'solana-shareable',
       updateData: identity,
     );
 
-Future<Response> _solanaPayHandler(
+Response _solanaPayHandler(
   Request request,
   Map<String, String> tokens,
   String network,

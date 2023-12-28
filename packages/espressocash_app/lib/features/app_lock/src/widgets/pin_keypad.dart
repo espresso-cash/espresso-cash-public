@@ -26,7 +26,7 @@ class PinKeypad extends StatelessWidget {
     KeypadKey.number(number: 0),
   ];
 
-  void _manageKey(String key) {
+  void _handleKeyTapped(String key) {
     String value = _controller.text;
     if (key == '<') {
       if (value.isNotEmpty) {
@@ -46,7 +46,7 @@ class PinKeypad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        height: MediaQuery.of(context).size.height * 0.5,
+        height: MediaQuery.sizeOf(context).height * 0.5,
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: GridView.count(
@@ -58,7 +58,7 @@ class PinKeypad extends StatelessWidget {
             children: _keys
                 .map(
                   (KeypadKey child) => InkWell(
-                    onTap: () => _manageKey(child.value),
+                    onTap: () => _handleKeyTapped(child.value),
                     child: Center(
                       child: child,
                     ),

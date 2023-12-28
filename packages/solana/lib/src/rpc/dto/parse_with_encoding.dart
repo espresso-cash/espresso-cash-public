@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'dart:convert';
 
 import 'package:solana/src/base58/base58.dart';

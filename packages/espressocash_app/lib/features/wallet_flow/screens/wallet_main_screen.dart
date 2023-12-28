@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/tokens/token.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,8 +12,9 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
-import '../../../ui/usdc_info.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../../tokens/token.dart';
+import '../widgets/extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
@@ -102,58 +102,30 @@ class _ScreenState extends State<WalletMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.sizeOf(context).width;
 
-    return CpTheme.dark(
+    return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(
-          leading: Center(
-            child: CpIconButton(
-              onPressed: widget.onScan,
-              icon: Assets.icons.qrScanner.svg(color: Colors.white),
-              variant: CpIconButtonVariant.black,
-            ),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: SizedBox(
-              width: 220,
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: context.l10n.pay),
-                  Tab(text: context.l10n.receive),
-                ],
-                variant: CpTabBarVariant.light,
-              ),
-            ),
-          ),
-        ),
+        appBar: _AppBar(onQrScanner: widget.onScan),
         body: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 24),
+              SizedBox(height: context.isSmall ? 24 : 32),
               AmountWithEquivalent(
                 inputController: _amountController,
                 token: widget.token,
                 collapsed: false,
                 shakeKey: widget.shakeKey,
                 error: widget.error,
+                showUsdcInfo: true,
               ),
-              const SizedBox(height: 8),
-              UsdcInfoWidget(
-                isSmall: height < 700,
-              ),
-              Flexible(
-                child: LayoutBuilder(
-                  builder: (context, constraints) => AmountKeypad(
-                    height: constraints.maxHeight,
-                    width: width,
-                    controller: _amountController,
-                    maxDecimals: 2,
-                  ),
+              Expanded(
+                child: AmountKeypad(
+                  controller: _amountController,
+                  maxDecimals: 2,
                 ),
               ),
+              const SizedBox(height: 8),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: CpButton(
@@ -167,7 +139,8 @@ class _ScreenState extends State<WalletMainScreen> {
                         widget.onRequest();
                     }
                   },
-                  size: CpButtonSize.big,
+                  size:
+                      context.isSmall ? CpButtonSize.normal : CpButtonSize.big,
                 ),
               ),
               const SizedBox(height: 24),
@@ -177,6 +150,42 @@ class _ScreenState extends State<WalletMainScreen> {
       ),
     );
   }
+}
+
+class _AppBar extends StatelessWidget implements PreferredSizeWidget {
+  const _AppBar({required this.onQrScanner});
+
+  final VoidCallback onQrScanner;
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: CpAppBar(
+          leading: Center(
+            child: CpIconButton(
+              onPressed: onQrScanner,
+              icon: Assets.icons.qrScanner.svg(color: Colors.white),
+              variant: CpIconButtonVariant.black,
+            ),
+          ),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: SizedBox(
+              width: 220,
+              child: CpTabBar(
+                tabs: [
+                  Tab(text: context.l10n.pay),
+                  Tab(text: context.l10n.receive),
+                ],
+                variant: CpTabBarVariant.black,
+              ),
+            ),
+          ),
+        ),
+      );
 }
 
 extension on WalletOperation {

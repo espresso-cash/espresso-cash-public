@@ -4,7 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
-import '../models/tx_sender.dart';
+import '../models/tx_results.dart';
 
 class TransferError extends StatelessWidget {
   const TransferError({
@@ -43,7 +43,7 @@ class TransferError extends StatelessWidget {
                 width: double.infinity,
                 text: context.l10n.retry,
                 onPressed: onRetry,
-              )
+              ),
             ],
           ),
         ),

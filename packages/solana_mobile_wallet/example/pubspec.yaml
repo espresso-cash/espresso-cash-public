@@ -12,7 +12,7 @@ dependencies:
   flutter_bloc: ^8.0.1
   freezed_annotation: ^2.1.0
   shared_preferences: ^2.0.15
-  solana: ^0.30.0
+  solana: ^0.30.0+1
   solana_mobile_wallet:
     path: ../
 
@@ -21,7 +21,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.1.0+1
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.21.0
 
 flutter:
   uses-material-design: true

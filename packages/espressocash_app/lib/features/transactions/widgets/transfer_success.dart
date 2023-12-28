@@ -37,8 +37,7 @@ class TransferSuccess extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 24),
-            if (content != null) content,
-            const Spacer(),
+            if (content != null) content else const Spacer(),
             CpButton(
               size: CpButtonSize.big,
               width: double.infinity,
@@ -49,7 +48,7 @@ class TransferSuccess extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 24),
                 child: CpTextButton(
-                  variant: CpTextButtonVariant.inverted,
+                  variant: CpTextButtonVariant.light,
                   text: context.l10n.moreDetails,
                   onPressed: onMoreDetailsPressed,
                 ),

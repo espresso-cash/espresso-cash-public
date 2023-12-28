@@ -27,21 +27,21 @@ Future<void> showConfirmationDialog(
   BuildContext context, {
   required String title,
   required String message,
-  required void Function() onConfirm,
+  required VoidCallback onConfirm,
   String? confirmLabel,
 }) =>
     showModalBottomSheet(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.primaryColor,
+      backgroundColor: CpColors.darkSplashBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),
           topRight: Radius.circular(44),
         ),
       ),
-      builder: (context) => CpTheme.dark(
+      builder: (context) => CpTheme.black(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(64, 40, 64, 64),
           child: Column(
@@ -98,7 +98,6 @@ Future<void> showWarningDialog(
       builder: (context) => CpTheme.dark(
         child: Dialog(
           elevation: 0,
-          backgroundColor: CpColors.primaryColor,
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

@@ -1,11 +1,14 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
 
-import 'core/analytics/analytics_manager.dart';
 import 'di.dart';
 import 'features/accounts/services/accounts_bloc.dart';
+import 'features/analytics/analytics_manager.dart';
 import 'features/app_lock/app_lock.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
@@ -23,9 +26,23 @@ class CryptopleaseApp extends StatefulWidget {
 
 class _CryptopleaseAppState extends State<CryptopleaseApp> {
   final _router = AppRouter();
+  StreamSubscription<void>? _nativeSplashSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _nativeSplashSubscription = context
+        .read<AccountsBloc>()
+        .stream
+        .map((event) => event.isProcessing)
+        .where((event) => !event)
+        .take(1)
+        .listen((event) => FlutterNativeSplash.remove());
+  }
 
   @override
   void dispose() {
+    _nativeSplashSubscription?.cancel();
     _router.dispose();
     super.dispose();
   }

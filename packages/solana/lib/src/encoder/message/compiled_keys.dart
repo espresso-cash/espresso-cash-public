@@ -147,6 +147,7 @@ class CompiledKeys {
 
   DrainedKeys _drainKeysFoundInLookupTable(
     List<Ed25519HDPublicKey> lookupTableEntries,
+    // ignore: prefer-typedefs-for-callbacks, more readable
     bool Function(CompiledKeyMeta data) keyMetaFilter,
   ) {
     final lookupTableIndexes = <int>[];
@@ -155,10 +156,10 @@ class CompiledKeys {
     final mapEntries = [...keyMetaMap.entries];
 
     for (final entry in mapEntries) {
-      final address = entry.key;
       final keyMeta = entry.value;
 
       if (keyMetaFilter(keyMeta)) {
+        final address = entry.key;
         final key = Ed25519HDPublicKey.fromBase58(address);
         final lookupTableIndex =
             lookupTableEntries.indexWhere((entry) => entry == key);

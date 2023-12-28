@@ -2,11 +2,13 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
-import '../data/pending_activities_repository.dart';
 import '../models/activity.dart';
+import '../services/pending_activities_repository.dart';
 import 'no_activity.dart';
 import 'odp_tile.dart';
-import 'oskp_tile.dart';
+import 'off_ramp_tile.dart';
+import 'olp_tile.dart';
+import 'on_ramp_tile.dart';
 import 'payment_request_tile.dart';
 import 'swap_tile.dart';
 
@@ -57,13 +59,21 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         key: ValueKey(p.id),
                         activity: p,
                       ),
-                      outgoingSplitKeyPayment: (p) => OSKPTile(
+                      outgoingLinkPayment: (p) => OLPTile(
                         key: ValueKey(p.id),
                         activity: p,
                       ),
                       swap: (p) => SwapTile(
                         key: ValueKey(p.id),
                         activity: p,
+                      ),
+                      onRamp: (it) => OnRampTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      offRamp: (it) => OffRampTile(
+                        key: ValueKey(it.id),
+                        activity: it,
                       ),
                     );
                   },

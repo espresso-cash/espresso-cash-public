@@ -1,7 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -10,36 +8,29 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/button.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../models/qr_scanner_request.dart';
 import '../services/qr_scanner_bloc.dart';
-import '../widgets/input_address_bottom_sheet.dart';
 import '../widgets/qr_scanner_background.dart';
 
 @RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({
     super.key,
-    this.showManualInput = true,
   });
 
   static const route = QrScannerRoute.new;
 
-  final bool showManualInput;
-
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
-        child: _Content(showManualInput: showManualInput),
+        child: const _Content(),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({required this.showManualInput});
-
-  final bool showManualInput;
+  const _Content();
 
   @override
   State<_Content> createState() => _ContentState();
@@ -54,11 +45,7 @@ class _ContentState extends State<_Content> {
     super.initState();
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
     _qrViewController = MobileScannerController(
-      detectionSpeed: DetectionSpeed.noDuplicates,
-      formats: [
-        BarcodeFormat.aztec,
-        BarcodeFormat.qrCode,
-      ],
+      formats: [BarcodeFormat.qrCode],
     )..start()
         .then((it) => it != null)
         .then(_onPermissionSet)
@@ -77,14 +64,14 @@ class _ContentState extends State<_Content> {
         message: context.l10n.qrCodeScanErrorContent,
       );
 
-  Future<void> _onQRToggleFlash() async {
+  Future<void> _handleFlashToggled() async {
     await _qrViewController.toggleTorch();
     if (!mounted) return;
 
     setState(() => _flashEnabled = !_flashEnabled);
   }
 
-  void _onBlocChange(BuildContext context, QrScannerState state) {
+  void _handleBlocChanged(BuildContext context, QrScannerState state) {
     state.map(
       initial: (_) {},
       done: (d) {
@@ -100,7 +87,7 @@ class _ContentState extends State<_Content> {
     );
   }
 
-  void _onCloseButtonPressed() {
+  void _handleClosePressed() {
     _qrViewController.stop();
     context.router.pop();
   }
@@ -110,25 +97,20 @@ class _ContentState extends State<_Content> {
     if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
   }
 
-  void _onDetected(BarcodeCapture capture) {
-    final codes =
-        capture.barcodes.map((e) => e.rawValue).whereNotNull().toIList();
-
-    if (codes.isNotEmpty) {
-      context.read<QrScannerBloc>().add(QrScannerEvent.received(codes));
+  void _handleDetected(BarcodeCapture capture) {
+    final code = capture.barcodes.firstOrNull?.rawValue;
+    if (code != null) {
+      context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
     }
   }
-
-  void _onManualInputRequested() => InputAddressBottomSheet.show(context)
-      .then((r) => r?.let(QrScannerRequest.tryParse)?.let(_onScanComplete));
 
   void _onScanComplete([QrScannerRequest? request]) =>
       context.router.pop(request);
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
-        listener: _onBlocChange,
-        child: CpTheme.dark(
+        listener: _handleBlocChanged,
+        child: CpTheme.black(
           child: Scaffold(
             body: Stack(
               children: [
@@ -137,14 +119,14 @@ class _ContentState extends State<_Content> {
                     child: MobileScanner(
                       key: _qrKey,
                       controller: _qrViewController,
-                      onDetect: _onDetected,
+                      onDetect: _handleDetected,
                     ),
                   ),
                 if (_cameraEnabled)
                   Align(
                     alignment: const Alignment(0, -0.7),
                     child: GestureDetector(
-                      onTap: _onQRToggleFlash,
+                      onTap: _handleFlashToggled,
                       child: _flashEnabled
                           ? Assets.images.flashOn.svg()
                           : Assets.images.flashOff.svg(),
@@ -155,30 +137,15 @@ class _ContentState extends State<_Content> {
                     alignment: Alignment(0, -0.3),
                     child: _PermissionText(),
                   ),
-                if (widget.showManualInput)
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 32.0),
-                        child: CpButton(
-                          text: context.l10n.qrInputAddressTitle,
-                          size: CpButtonSize.big,
-                          minWidth: 250,
-                          onPressed: _onManualInputRequested,
-                        ),
-                      ),
-                    ),
-                  ),
                 Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
                     padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).padding.top + 16,
+                      top: MediaQuery.paddingOf(context).top + 16,
                       right: 24,
                     ),
                     icon: const Icon(Icons.close, size: 28),
-                    onPressed: _onCloseButtonPressed,
+                    onPressed: _handleClosePressed,
                   ),
                 ),
               ],

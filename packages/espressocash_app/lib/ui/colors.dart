@@ -41,10 +41,10 @@ abstract class CpColors {
   static const greenDropdownEnabled = Color(0xff4db43d);
   static const greenDropdownDisabled = Color(0xff2f6b25);
 
-  static const successBackgroundColor = Color(0xff62d58f);
+  static const successBackgroundColor = Color(0xFF62D58F);
   static const errorBackgroundColor = Color(0xffff6640);
-  static const infoBackgroundColor = Color(0xfff2bd1a);
-  static const neutralBackgroundColor = Color(0xffB5B5B5);
+  static const infoBackgroundColor = Color(0xFFF6C83B);
+  static const neutralBackgroundColor = Color(0xff5F6464);
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
   static const errorChipColor = Color(0xffe8452f);
@@ -54,13 +54,16 @@ abstract class CpColors {
   static const chartLineColor = Color(0xfff9653e);
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
-  static const darkDividerColor = Color(0xff4b4b4b);
+  static const darkDividerColor = Color(0xff454243);
 
   static const sliderDisabledColor = Color(0xff323232);
 
   static const incomingAmountColor = Color(0xff24BE20);
 
   static const darkSplashBackgroundColor = Color(0xff2D2B2C);
+  static const blackTextFieldBackgroundColor = Color(0xff404040);
+
+  static const yellowSplashBackgroundColor = Color(0xffB4A270);
 }
 
 const bgGradient = LinearGradient(

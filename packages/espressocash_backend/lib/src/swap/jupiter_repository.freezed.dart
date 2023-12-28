@@ -85,10 +85,11 @@ class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
 }
 
 /// @nodoc
-abstract class _$$_RouteInfoCopyWith<$Res> implements $RouteInfoCopyWith<$Res> {
-  factory _$$_RouteInfoCopyWith(
-          _$_RouteInfo value, $Res Function(_$_RouteInfo) then) =
-      __$$_RouteInfoCopyWithImpl<$Res>;
+abstract class _$$RouteInfoImplCopyWith<$Res>
+    implements $RouteInfoCopyWith<$Res> {
+  factory _$$RouteInfoImplCopyWith(
+          _$RouteInfoImpl value, $Res Function(_$RouteInfoImpl) then) =
+      __$$RouteInfoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -100,11 +101,11 @@ abstract class _$$_RouteInfoCopyWith<$Res> implements $RouteInfoCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_RouteInfoCopyWithImpl<$Res>
-    extends _$RouteInfoCopyWithImpl<$Res, _$_RouteInfo>
-    implements _$$_RouteInfoCopyWith<$Res> {
-  __$$_RouteInfoCopyWithImpl(
-      _$_RouteInfo _value, $Res Function(_$_RouteInfo) _then)
+class __$$RouteInfoImplCopyWithImpl<$Res>
+    extends _$RouteInfoCopyWithImpl<$Res, _$RouteInfoImpl>
+    implements _$$RouteInfoImplCopyWith<$Res> {
+  __$$RouteInfoImplCopyWithImpl(
+      _$RouteInfoImpl _value, $Res Function(_$RouteInfoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -116,7 +117,7 @@ class __$$_RouteInfoCopyWithImpl<$Res>
     Object? jupiterTx = null,
     Object? totalFees = null,
   }) {
-    return _then(_$_RouteInfo(
+    return _then(_$RouteInfoImpl(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -143,8 +144,8 @@ class __$$_RouteInfoCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RouteInfo implements _RouteInfo {
-  const _$_RouteInfo(
+class _$RouteInfoImpl implements _RouteInfo {
+  const _$RouteInfoImpl(
       {required this.amount,
       required this.inAmount,
       required this.outAmount,
@@ -168,10 +169,10 @@ class _$_RouteInfo implements _RouteInfo {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RouteInfo &&
+            other is _$RouteInfoImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.inAmount, inAmount) ||
                 other.inAmount == inAmount) &&
@@ -190,8 +191,8 @@ class _$_RouteInfo implements _RouteInfo {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RouteInfoCopyWith<_$_RouteInfo> get copyWith =>
-      __$$_RouteInfoCopyWithImpl<_$_RouteInfo>(this, _$identity);
+  _$$RouteInfoImplCopyWith<_$RouteInfoImpl> get copyWith =>
+      __$$RouteInfoImplCopyWithImpl<_$RouteInfoImpl>(this, _$identity);
 }
 
 abstract class _RouteInfo implements RouteInfo {
@@ -200,7 +201,7 @@ abstract class _RouteInfo implements RouteInfo {
       required final String inAmount,
       required final String outAmount,
       required final String jupiterTx,
-      required final num totalFees}) = _$_RouteInfo;
+      required final num totalFees}) = _$RouteInfoImpl;
 
   @override
   String get amount;
@@ -214,6 +215,6 @@ abstract class _RouteInfo implements RouteInfo {
   num get totalFees;
   @override
   @JsonKey(ignore: true)
-  _$$_RouteInfoCopyWith<_$_RouteInfo> get copyWith =>
+  _$$RouteInfoImplCopyWith<_$RouteInfoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -15,9 +15,9 @@ import '../../../core/currency.dart';
 import '../../../core/disposable_bloc.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../data/balances_repository.dart';
 
 final _logger = Logger('BalancesBloc');
@@ -52,15 +52,17 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
       final mainAccounts = await Future.wait<_MainTokenAccount?>(
         allAccounts.map((programAccount) async {
-          final pubKey = programAccount.pubkey;
           final account = programAccount.account;
           final data = account.data;
 
           if (data is ParsedAccountData) {
             return data.maybeWhen<Future<_MainTokenAccount?>>(
               splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-                account: (a) =>
-                    _MainTokenAccount.create(pubKey, a.info, _tokens),
+                account: (a) => _MainTokenAccount.create(
+                  programAccount.pubkey,
+                  a.info,
+                  _tokens,
+                ),
                 orElse: () async => null,
               ),
               orElse: () async => null,
@@ -138,7 +140,7 @@ class _MainTokenAccount {
 
 extension SortedBalance on Map<Token, Amount> {
   Iterable<MapEntry<Token, Amount>> _splitAndSort(
-    bool Function(MapEntry<Token, Amount> entry) test,
+    Func1<MapEntry<Token, Amount>, bool> test,
   ) =>
       entries.where(test).toList()
         ..sort((e1, e2) => e2.value.value.compareTo(e1.value.value));

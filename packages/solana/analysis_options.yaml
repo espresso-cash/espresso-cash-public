@@ -5,3 +5,11 @@ analyzer:
     - "**/*.rpc.dart"
   errors:
     invalid_annotation_target: ignore
+
+dart_code_metrics:
+  rules:
+    avoid-barrel-files: false
+    avoid-missing-interpolation: false
+    avoid-passing-self-as-argument: false
+    prefer-correct-handler-name: false
+    match-lib-folder-structure: false

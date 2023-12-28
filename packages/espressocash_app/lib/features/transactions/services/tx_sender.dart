@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
@@ -5,7 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../config.dart';
-import '../models/tx_sender.dart';
+import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
@@ -37,21 +38,20 @@ class TxSender {
       );
 
       return const TxSendResult.sent();
-    } on JsonRpcException catch (e) {
-      if (e.code == JsonRpcErrorCode.minContextSlotNotReached) {
+    } on JsonRpcException catch (error) {
+      if (error.code == JsonRpcErrorCode.minContextSlotNotReached) {
         return const TxSendResult.networkError();
       }
 
-      if (e.isInsufficientFunds) {
+      if (error.isInsufficientFunds) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
         );
       }
-      switch (e.transactionError) {
+      switch (error.transactionError) {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
-          // ignore: prefer-return-await, not needed here
           return checkSubmittedTx(tx.id);
         // ignore: no_default_cases, not interested in other options
         default:
@@ -65,7 +65,7 @@ class TxSender {
   Future<TxWaitResult> wait(
     SignedTx tx, {
     required BigInt minContextSlot,
-  }) async {
+  }) {
     const commitment = Commitment.confirmed;
 
     Future<TxWaitResult?> getSignatureStatus() async {
@@ -146,7 +146,7 @@ extension on JsonRpcException {
   }
 }
 
-Stream<T> _createPolling<T>({required Stream<T> Function() createSource}) {
+Stream<T> _createPolling<T>({required Func0<Stream<T>> createSource}) {
   Duration backoff = const Duration(seconds: 1);
 
   Stream<void> retryWhen(void _, void __) async* {

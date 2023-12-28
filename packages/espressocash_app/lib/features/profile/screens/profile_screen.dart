@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
@@ -10,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../../core/presentation/utils.dart';
-import '../../../../../features/qr_scanner/models/qr_address_data.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
@@ -55,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                     children: <Widget>[
                       SizedBox(
                         height: _imageSize,
-                        width: MediaQuery.of(context).size.width,
+                        width: MediaQuery.sizeOf(context).width,
                         child: Stack(
                           children: [
                             Center(
@@ -98,7 +96,6 @@ class ProfileScreen extends StatelessWidget {
                         listenable: sl<ProfileRepository>(),
                         builder: (context, child) => _QrCodeWidget(
                           address: address,
-                          name: sl<ProfileRepository>().firstName.orDefault,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -137,19 +134,16 @@ const double _imageSize = 88;
 class _QrCodeWidget extends StatelessWidget {
   const _QrCodeWidget({
     required this.address,
-    required this.name,
   });
 
   final Ed25519HDPublicKey address;
-  final String name;
 
   @override
   Widget build(BuildContext context) {
-    final qrData =
-        jsonEncode(QrAddressData(address: address, name: name).toJson());
+    final qrData = address.toBase58();
 
     return InkWell(
-      onTap: () => context.copyToClipboard(address.toBase58()),
+      onTap: () => context.copyToClipboard(qrData),
       child: Container(
         height: 150,
         alignment: Alignment.center,

@@ -59,7 +59,7 @@ Future<_Json> _matchTokens(_CoinMap coins) async {
     );
 }
 
-FutureOr<void> _writeToFile(_Json coingecko) async {
+Future<void> _writeToFile(_Json coingecko) async {
   final file = File(_path);
 
   // Let's keep the old non-mainnet tokens, since coingecko only return mainnet
@@ -119,7 +119,7 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'lib/core/tokens/solana.tokenlist.json';
+const _path = 'lib/features/tokens/solana.tokenlist.json';
 
 const _mainnetChainId = 101;
 

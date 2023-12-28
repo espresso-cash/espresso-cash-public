@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -9,9 +8,8 @@ import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'config.dart';
-import 'core/coingecko_client.dart';
-import 'core/tokens/token_list.dart';
 import 'di.config.dart';
+import 'features/tokens/token_list.dart';
 
 final sl = GetIt.instance;
 
@@ -19,7 +17,7 @@ final sl = GetIt.instance;
   preferRelativeImports: false,
   throwOnMissingDependencies: true,
 )
-Future<void> configureDependencies() async => sl.init();
+Future<void> configureDependencies() => sl.init();
 
 @module
 abstract class AppModule {
@@ -44,10 +42,6 @@ abstract class AppModule {
   RpcClient get rpcClient => solanaClient.rpcClient;
 
   @lazySingleton
-  FirebaseDynamicLinks get firebaseDynamicLinks =>
-      FirebaseDynamicLinks.instance;
-
-  @lazySingleton
   CryptopleaseClient get cryptopleaseClient => CryptopleaseClient();
 
   @lazySingleton
@@ -58,9 +52,6 @@ abstract class AppModule {
 
   @lazySingleton
   SeedVault get seedVault => SeedVault.instance;
-
-  @preResolve
-  Future<CoingeckoClient> get coingeckoClient => CoingeckoClient.init();
 
   @preResolve
   @Named('isSaga')

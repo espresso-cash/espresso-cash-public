@@ -40,7 +40,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
             declined: (_) => _onDeclined(emit),
           );
 
-  Future<void> _onDeclined(Emitter<RemoteRequestState> emit) async {
+  void _onDeclined(Emitter<RemoteRequestState> emit) {
     final request = state.whenOrNull(requested: identity);
     if (request == null) return;
 
@@ -54,13 +54,13 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     emit(RemoteRequestState.result(result));
   }
 
-  Future<void> _onAccepted(Emitter<RemoteRequestState> emit) async {
+  void _onAccepted(Emitter<RemoteRequestState> emit) {
     final request = state.whenOrNull(requested: identity);
     if (request == null) return;
 
     emit(const RemoteRequestState.loading());
 
-    final result = await request.when(
+    final result = request.when(
       authorizeDapp: _onAuthorized,
       signPayloads: _onSignPayloads,
       signTransactionsForSending: _signTransactionsForSending,
@@ -69,8 +69,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
     emit(RemoteRequestState.result(result));
   }
 
-  Future<AuthorizeResult> _onAuthorized(AuthorizeRequest _) async =>
-      AuthorizeResult(
+  AuthorizeResult _onAuthorized(AuthorizeRequest _) => AuthorizeResult(
         publicKey: Uint8List.fromList(_account.wallet.publicKey.bytes),
         walletUriBase: null,
         accountLabel: 'Espresso Cash account',
@@ -156,7 +155,7 @@ Either<_ValidationError, List<Uint8List>> _validatePayloads({
 }
 
 @freezed
-class _ValidationError with _$_ValidationError {
+class _ValidationError with _$ValidationError {
   const factory _ValidationError.invalidPayloads(List<bool> valids) =
       _InvalidPayload;
 

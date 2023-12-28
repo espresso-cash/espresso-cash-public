@@ -14,7 +14,6 @@ import '../../../core/flow.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
-import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -31,6 +30,7 @@ import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';
+import '../../tokens/token.dart';
 import '../models/token_details.dart';
 import '../services/token_details_bloc.dart';
 import '../widgets/balance_widget.dart';
@@ -84,7 +84,7 @@ class TokenDetailsScreen extends StatelessWidget {
                                   cpNavigationBarheight,
                               0,
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

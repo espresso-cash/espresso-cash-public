@@ -1,6 +1,6 @@
 name: solana_seed_vault
 description: A reference implementation of the Seed Vault SDK specification for Flutter.
-version: 0.2.0
+version: 0.2.0+1
 repository: https://github.com/espresso-cash/espresso-cash-public/tree/master/packages/solana_seed_vault
 issue_tracker: https://github.com/espresso-cash/espresso-cash-public/issues
 
@@ -22,7 +22,7 @@ dev_dependencies:
     sdk: flutter
   freezed: ^2.1.0+1
   json_serializable: ^6.3.1
-  mews_pedantic: ^0.16.0
+  mews_pedantic: ^0.21.0
   mockito: ^5.3.2
   pigeon: ^7.1.1
 

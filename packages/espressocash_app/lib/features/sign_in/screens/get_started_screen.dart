@@ -9,7 +9,6 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
@@ -32,13 +31,13 @@ class GetStartedScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
-          backgroundColor: CpColors.darkSplashBackgroundColor,
+          backgroundColor: CpColors.yellowSplashBackgroundColor,
           body: Stack(
             children: [
               Align(
-                alignment: Alignment.bottomCenter,
-                child: Assets.icons.logoDark.svg(
-                  alignment: Alignment.bottomCenter,
+                child: Assets.images.dollarBg.image(
+                  fit: BoxFit.fitHeight,
+                  height: double.infinity,
                 ),
               ),
               SafeArea(
@@ -52,15 +51,14 @@ class GetStartedScreen extends StatelessWidget {
                       ),
                       child: IntrinsicHeight(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const _Header(),
-                            32.verticalSpace,
+                            const Expanded(child: _Logo()),
                             const _Body(),
-                            Expanded(
-                              child: _Footer(
-                                isSaga: isSaga,
-                                onSignInPressed: onSignInPressed,
-                              ),
+                            24.verticalSpace,
+                            _Footer(
+                              isSaga: isSaga,
+                              onSignInPressed: onSignInPressed,
                             ),
                           ],
                         ),
@@ -75,15 +73,12 @@ class GetStartedScreen extends StatelessWidget {
       );
 }
 
-class _Header extends StatelessWidget {
-  const _Header();
+class _Logo extends StatelessWidget {
+  const _Logo();
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Assets.images.logo.image(width: 201.r, height: 43.r),
-        ],
-      );
+  Widget build(BuildContext context) =>
+      Assets.images.logo.image(width: 309.r, height: 66.r);
 }
 
 class _Footer extends StatelessWidget {
@@ -154,9 +149,10 @@ class _SignInWithSagaButton extends StatefulWidget {
 }
 
 class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
-  Future<void> _onPressed() async {
+  Future<void> _handlePressed() async {
     final hasPermission = await sl<SeedVault>().checkPermission();
-    if (!mounted || !hasPermission) return;
+    if (!mounted) return;
+    if (!hasPermission) return;
 
     context
         .read<SignInBloc>()
@@ -168,7 +164,7 @@ class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
         key: keyCreateWalletButton,
         text: context.l10n.signInWithSaga,
         width: double.infinity,
-        onPressed: _onPressed,
+        onPressed: _handlePressed,
       );
 }
 
@@ -178,6 +174,8 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.only(left: 30.w, right: 25.w),
+        // TODO(KB): Check if needed
+        // ignore: avoid-single-child-column-or-row
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -189,8 +187,6 @@ class _Body extends StatelessWidget {
                 height: 0.9,
               ),
             ),
-            128.verticalSpace,
-            CpBulletItemWidget(text: context.l10n.onboardingBullet),
           ],
         ),
       );

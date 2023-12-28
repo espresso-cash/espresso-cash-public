@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../core/tokens/token.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
@@ -10,6 +9,7 @@ import '../../../../ui/theme.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../tokens/token.dart';
 import '../models/swap_operation.dart';
 import '../models/swap_route.dart';
 import '../services/swap_service.dart';
@@ -34,7 +34,7 @@ class SwapFlowScreen extends StatefulWidget {
 }
 
 class _FlowState extends State<SwapFlowScreen> {
-  Future<void> _onRouteReady(SwapRoute route) async {
+  Future<void> _handleRouteReady(SwapRoute route) async {
     final swapId = await context.createSwap(route);
 
     if (!mounted) return;
@@ -54,7 +54,7 @@ class _FlowState extends State<SwapFlowScreen> {
           leading: const CloseButton(),
         ),
         body: CreateSwapScreen(
-          onRouteReady: _onRouteReady,
+          onRouteReady: _handleRouteReady,
           operation: operation,
           inputToken: widget.inputToken,
           outputToken: widget.outputToken,
@@ -65,8 +65,7 @@ class _FlowState extends State<SwapFlowScreen> {
 }
 
 extension on BuildContext {
-  Future<String> createSwap(SwapRoute route) async =>
-      runWithLoader(this, () async {
+  Future<String> createSwap(SwapRoute route) => runWithLoader(this, () async {
         final swap = await sl<SwapService>().create(
           route: route,
           account: read<MyAccount>().wallet,

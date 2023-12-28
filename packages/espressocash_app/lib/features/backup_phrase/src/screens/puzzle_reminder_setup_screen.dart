@@ -61,7 +61,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
     }
   }
 
-  void _setupReminder(BuildContext context) {
+  void _handleOkPressed(BuildContext context) {
     context.read<PuzzleReminderBloc>().add(
           PuzzleReminderEvent.postponed(postponedBy: _duration),
         );
@@ -79,6 +79,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
             children: [
               const SizedBox(height: 24),
               CpMessageInfoWidget(
+                backgroundColor: Colors.black,
                 padding: const EdgeInsets.all(32),
                 content: _Checkbox(
                   title: context.l10n.iUnderstandIfLoseMySecret,
@@ -93,7 +94,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
               const SizedBox(height: 24),
               DecoratedBox(
                 decoration: const BoxDecoration(
-                  color: CpColors.darkBackground,
+                  color: Colors.black,
                   borderRadius: BorderRadius.all(Radius.circular(30)),
                 ),
                 child: Padding(
@@ -141,7 +142,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
                 text: context.l10n.ok,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: _checked ? () => _setupReminder(context) : null,
+                onPressed: _checked ? () => _handleOkPressed(context) : null,
               ),
             ],
           ),

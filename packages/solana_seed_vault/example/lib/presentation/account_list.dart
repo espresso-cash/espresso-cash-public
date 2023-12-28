@@ -42,7 +42,7 @@ class AccountItem extends StatefulWidget {
 }
 
 class _AccountItemState extends State<AccountItem> {
-  void _onEditAccount() {
+  void _handleEditAccount() {
     showDialog<void>(
       context: context,
       builder: (context) => AccountEdit(
@@ -52,14 +52,14 @@ class _AccountItemState extends State<AccountItem> {
     );
   }
 
-  void _onSignTransaction() {
+  void _handleSignTransaction() {
     context
         .read<SeedVaultBloc>()
         .signTransactionWithAccount(widget.authToken, widget.account)
         .then((it) => showSnackBar(context, it));
   }
 
-  void _onSignMessage() {
+  void _handleSignMessage() {
     context
         .read<SeedVaultBloc>()
         .signMessageWithAccount(widget.authToken, widget.account)
@@ -84,7 +84,7 @@ class _AccountItemState extends State<AccountItem> {
                     ),
                   ),
                   IconButton(
-                    onPressed: _onEditAccount,
+                    onPressed: _handleEditAccount,
                     icon: const Icon(Icons.edit),
                   ),
                 ],
@@ -107,15 +107,15 @@ class _AccountItemState extends State<AccountItem> {
                 children: [
                   const Text('Sign a: ', style: _style),
                   ElevatedButton(
-                    onPressed: _onSignTransaction,
+                    onPressed: _handleSignTransaction,
                     child: const Text('Transaction', style: _style),
                   ),
                   ElevatedButton(
-                    onPressed: _onSignMessage,
+                    onPressed: _handleSignMessage,
                     child: const Text('Message', style: _style),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),

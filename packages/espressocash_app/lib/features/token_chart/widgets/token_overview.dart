@@ -62,7 +62,7 @@ class _PriceOverviewWidget extends StatelessWidget {
           TextSpan(
             text: ' $timeFrame',
             style: const TextStyle(color: Colors.white),
-          )
+          ),
         ],
       ),
       style: TextStyle(

@@ -31,7 +31,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _onPressed() => context.router.navigate(OnboardingFlowScreen.route());
+  void _handlePressed() => context.launchOnboardingFlow();
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
@@ -40,9 +40,9 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
             sl<OnboardingRepository>().hasFinishedOnboarding
                 ? const SizedBox.shrink()
                 : AspectRatio(
-                    aspectRatio: 433 / 123,
+                    aspectRatio: 450 / 100,
                     child: GestureDetector(
-                      onTap: _onPressed,
+                      onTap: _handlePressed,
                       child: RepaintBoundary(
                         child: Stack(
                           children: [
@@ -51,8 +51,8 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
                               fit: BoxFit.fitWidth,
                             ),
                             Align(
-                              alignment: Alignment.centerRight,
-                              child: _Content(onPressed: _onPressed),
+                              alignment: Alignment.center,
+                              child: _Content(onPressed: _handlePressed),
                             ),
                           ],
                         ),
@@ -68,62 +68,36 @@ class _Content extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            const Flexible(
-              child: FractionallySizedBox(
-                widthFactor: 0.75,
-                child: _Text(),
-              ),
-            ),
-            const SizedBox(height: 8, width: double.infinity),
-            Flexible(
-              child: Align(
-                alignment: Alignment.center,
-                child: CpButton(
-                  text: context.l10n.onboardingNoticeFinishSetup,
-                  size: CpButtonSize.micro,
-                  onPressed: onPressed,
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 150,
+            child: FittedBox(
+              child: Text(
+                context.l10n.onboardingNoticeMessage,
+                maxLines: 2,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 12),
+          CpButton(
+            text: context.l10n.onboardingNoticeFinishSetup,
+            size: CpButtonSize.micro,
+            onPressed: onPressed,
+          ),
+          const SizedBox(width: 24),
+        ],
       );
 }
 
-class _Text extends StatelessWidget {
-  const _Text();
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: FittedBox(
-              child: Text(
-                context.l10n.onboardingNoticeTitle,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-          FittedBox(
-            child: Text(
-              context.l10n.onboardingNoticeMessage,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      );
+extension OnboardingExt on BuildContext {
+  Future<bool?> launchOnboardingFlow() =>
+      router.push<bool?>(OnboardingFlowScreen.route());
 }

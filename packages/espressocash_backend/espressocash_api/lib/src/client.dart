@@ -11,19 +11,6 @@ abstract class CryptopleaseClient {
         baseUrl: baseUrl,
       );
 
-  @POST('/addFunds')
-  Future<AddFundsResponseDto> addFunds(@Body() AddFundsRequestDto request);
-
-  @POST('/createPayment')
-  Future<CreatePaymentResponseDto> createPayment(
-    @Body() CreatePaymentRequestDto request,
-  );
-
-  @POST('/receivePayment')
-  Future<ReceivePaymentResponseDto> receivePayment(
-    @Body() ReceivePaymentRequestDto request,
-  );
-
   @POST('/createDirectPayment')
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
     @Body() CreateDirectPaymentRequestDto request,
@@ -50,5 +37,15 @@ abstract class CryptopleaseClient {
   @POST('/escrow/cancel')
   Future<CancelPaymentResponseDto> cancelPaymentEc(
     @Body() CancelPaymentRequestDto request,
+  );
+
+  @POST('/scalex/generate')
+  Future<GenerateScalexLinkResponseDto> generateScalexLink(
+    @Body() GenerateScalexLinkRequestDto request,
+  );
+
+  @POST('/scalex/fetch')
+  Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
+    @Body() OrderStatusScalexRequestDto referenceId,
   );
 }
