@@ -99,31 +99,9 @@ class CreateSwap {
       nonClosedAtaCount * tokenProgramRent,
     ]);
 
-    final feesFromJupiter = route.totalFees + lamportsPerSignature;
-
-    if (feesFromJupiter != feesFromTransaction) {
-      await Sentry.configureScope(
-        (s) => s.setContexts('transaction', {
-          'feesFromTransaction': feesFromTransaction,
-          'feesFromJupiter': feesFromJupiter,
-          'inputToken': inputToken,
-          'outputToken': outputToken,
-        }),
-      );
-      await Sentry.captureEvent(
-        SentryEvent(
-          level: SentryLevel.warning,
-          message: const SentryMessage(
-            'Fees from Jupiter and transaction do not match.',
-          ),
-        ),
-      );
-    }
-
     final fee = maxBy<int, int>(
       [
         _convert(feesFromTransaction, price),
-        _convert(feesFromJupiter, price),
         minimumSwapFee,
       ],
       identity,

@@ -13,7 +13,6 @@ class RouteInfo with _$RouteInfo {
     required String inAmount,
     required String outAmount,
     required String jupiterTx,
-    required num totalFees,
   }) = _RouteInfo;
 }
 
@@ -76,7 +75,6 @@ class JupiterRepository {
       inAmount: quote.inAmount,
       outAmount: quote.outAmount,
       jupiterTx: tx,
-      totalFees: 0,
     );
   }
 
