@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 part of 'client.dart';
 
 extension RpcClientExt on RpcClient {

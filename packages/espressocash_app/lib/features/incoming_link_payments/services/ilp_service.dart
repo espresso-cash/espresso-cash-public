@@ -10,7 +10,7 @@ import '../../../config.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../core/extensions.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
@@ -80,7 +80,7 @@ class ILPService {
           .letAsync((it) => it.resign(account));
 
       return ILPStatus.txCreated(tx, slot: response.slot);
-    } on DioError catch (error) {
+    } on DioException catch (error) {
       if (error.toEspressoCashError() ==
           EspressoCashError.invalidEscrowAccount) {
         return const ILPStatus.txFailure(

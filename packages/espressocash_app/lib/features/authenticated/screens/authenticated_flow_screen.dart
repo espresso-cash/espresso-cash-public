@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 import '../../../di.config.dart';
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
+import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
@@ -42,11 +44,12 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   final _homeRouterKey = GlobalKey<AutoRouterState>();
+  late final Future<void> _initScope;
 
   @override
   void initState() {
     super.initState();
-    sl.initAuthScope();
+    _initScope = sl.initAuthScope();
   }
 
   @override
@@ -56,43 +59,60 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext _) => MultiProvider(
-        providers: const [
-          ConversionRatesModule(),
-        ],
-        child: BlocBuilder<AccountsBloc, AccountsState>(
-          builder: (context, state) {
-            final account = state.account;
-            if (account == null) return Container();
+  void didChangeDependencies() {
+    precacheImage(Assets.images.cashInBg.provider(), context);
+    precacheImage(Assets.images.cashOutBg.provider(), context);
+    precacheImage(Assets.images.sendMoneyBg.provider(), context);
+    precacheImage(Assets.images.sendManualBg.provider(), context);
 
-            return MultiProvider(
-              providers: [
-                Provider<MyAccount>.value(value: account),
-                const BackupPhraseModule(),
-                const PaymentRequestModule(),
-                Provider<HomeRouterKey>(
-                  create: (_) => HomeRouterKey(_homeRouterKey),
-                ),
-                const ODPModule(),
-                const OLPModule(),
-                const InvestmentModule(),
-                const ActivitiesModule(),
-                const FavoriteTokensModule(),
-                const SwapModule(),
-                const PopularTokensModule(),
-                const MobileWalletModule(),
-              ],
-              child: AutoRouter(
-                key: _homeRouterKey,
-                builder: (context, child) => MultiProvider(
-                  providers: const [
-                    ILPModule(),
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext _) => FutureBuilder(
+        future: _initScope,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const SplashScreen();
+
+          return MultiProvider(
+            providers: const [
+              ConversionRatesModule(),
+            ],
+            child: BlocBuilder<AccountsBloc, AccountsState>(
+              builder: (context, state) {
+                final account = state.account;
+                if (account == null) return const SplashScreen();
+
+                return MultiProvider(
+                  providers: [
+                    Provider<MyAccount>.value(value: account),
+                    const BackupPhraseModule(),
+                    const PaymentRequestModule(),
+                    Provider<HomeRouterKey>(
+                      create: (_) => HomeRouterKey(_homeRouterKey),
+                    ),
+                    const ODPModule(),
+                    const OLPModule(),
+                    const InvestmentModule(),
+                    const ActivitiesModule(),
+                    const FavoriteTokensModule(),
+                    const SwapModule(),
+                    const PopularTokensModule(),
+                    const MobileWalletModule(),
                   ],
-                  child: child,
-                ),
-              ),
-            );
-          },
-        ),
+                  child: AutoRouter(
+                    key: _homeRouterKey,
+                    builder: (context, child) => MultiProvider(
+                      providers: const [
+                        ILPModule(),
+                      ],
+                      child: child,
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       );
 }

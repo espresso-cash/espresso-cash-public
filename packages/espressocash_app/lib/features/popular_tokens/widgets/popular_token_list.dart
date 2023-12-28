@@ -5,15 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/amount.dart';
 import '../../../../../../core/presentation/format_amount.dart';
-import '../../../../../../core/tokens/token.dart';
 import '../../../../../../l10n/device_locale.dart';
 import '../../../../../../ui/colors.dart';
-import '../../../../../../ui/token_icon.dart';
 import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../services/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
@@ -71,7 +71,7 @@ class _TokenItem extends StatelessWidget {
       child: ListTile(
         onTap: () =>
             context.router.push(TokenDetailsScreen.route(token: token)),
-        leading: CpTokenIcon(token: token, size: 37),
+        leading: TokenIcon(token: token, size: 37),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

@@ -4,12 +4,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/currency.dart';
-import '../../../core/presentation/page_fade_wrapper.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
+import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/theme.dart';
 import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
@@ -32,7 +32,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  Future<void> _onQrScanner() =>
+  Future<void> _handleScanPressed() =>
       context.launchQrScannerFlow(cryptoCurrency: Currency.usdc);
 
   @override
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
                         child: CpIconButton(
                           icon: Assets.icons.qrScanner.svg(),
                           variant: CpIconButtonVariant.black,
-                          onPressed: _onQrScanner,
+                          onPressed: _handleScanPressed,
                         ),
                       ),
                       shape: const Border(),

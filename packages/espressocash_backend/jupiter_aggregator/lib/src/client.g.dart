@@ -21,12 +21,13 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   String? baseUrl;
 
   @override
-  Future<JupiterIndexedRouteMap> getIndexedRouteMap(routeMapRequestDto) async {
+  Future<JupiterIndexedRouteMap> getIndexedRouteMap(
+      IndexedRouteMapRequestDto routeMapRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(routeMapRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<JupiterIndexedRouteMap>(Options(
       method: 'GET',
@@ -39,18 +40,22 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = JupiterIndexedRouteMap.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<QuoteResponseDto> getQuote(quoteRequestDto) async {
+  Future<QuoteResponseDto> getQuote(QuoteRequestDto quoteRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(quoteRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<QuoteResponseDto>(Options(
       method: 'GET',
@@ -63,13 +68,18 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = QuoteResponseDto.fromJson(_result.data!);
     return value;
   }
 
   @override
-  Future<JupiterSwapResponseDto> getSwapTransactions(swapRequestDto) async {
+  Future<JupiterSwapResponseDto> getSwapTransactions(
+      JupiterSwapRequestDto swapRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -87,7 +97,11 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = JupiterSwapResponseDto.fromJson(_result.data!);
     return value;
   }
@@ -103,6 +117,23 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
       }
     }
     return requestOptions;
+  }
+
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }
 
@@ -121,12 +152,12 @@ class _JupiterPriceClient implements JupiterPriceClient {
   String? baseUrl;
 
   @override
-  Future<PriceResponseDto> getPrice(priceRequestDto) async {
+  Future<PriceResponseDto> getPrice(PriceRequestDto priceRequestDto) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.addAll(priceRequestDto.toJson());
     final _headers = <String, dynamic>{};
-    final _data = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<PriceResponseDto>(Options(
       method: 'GET',
@@ -139,7 +170,11 @@ class _JupiterPriceClient implements JupiterPriceClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = PriceResponseDto.fromJson(_result.data!);
     return value;
   }
@@ -155,5 +190,22 @@ class _JupiterPriceClient implements JupiterPriceClient {
       }
     }
     return requestOptions;
+  }
+
+  String _combineBaseUrls(
+    String dioBaseUrl,
+    String? baseUrl,
+  ) {
+    if (baseUrl == null || baseUrl.trim().isEmpty) {
+      return dioBaseUrl;
+    }
+
+    final url = Uri.parse(baseUrl);
+
+    if (url.isAbsolute) {
+      return url.toString();
+    }
+
+    return Uri.parse(dioBaseUrl).resolveUri(url).toString();
   }
 }

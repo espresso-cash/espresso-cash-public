@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
@@ -5,7 +6,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../config.dart';
-import '../models/tx_sender.dart';
+import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
@@ -51,7 +52,6 @@ class TxSender {
         case TransactionError.alreadyProcessed:
           return const TxSendResult.sent();
         case TransactionError.blockhashNotFound:
-          // ignore: prefer-return-await, not needed here
           return checkSubmittedTx(tx.id);
         // ignore: no_default_cases, not interested in other options
         default:
@@ -146,7 +146,7 @@ extension on JsonRpcException {
   }
 }
 
-Stream<T> _createPolling<T>({required Stream<T> Function() createSource}) {
+Stream<T> _createPolling<T>({required Func0<Stream<T>> createSource}) {
   Duration backoff = const Duration(seconds: 1);
 
   Stream<void> retryWhen(void _, void __) async* {

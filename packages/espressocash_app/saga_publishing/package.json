@@ -4,6 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@solana-mobile/dapp-store-cli": "^0.4.2"
+    "@solana-mobile/dapp-store-cli": "^0.5.2"
   }
 }

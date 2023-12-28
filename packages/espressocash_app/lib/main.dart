@@ -62,7 +62,7 @@ Future<void> _init() async {
 Future<void> _start() async {
   await Future.wait([
     _init(),
-    Future<void>.delayed(const Duration(seconds: 2)),
+    Future<void>.delayed(const Duration(seconds: 1)),
   ]);
 
   final app = DevicePreview(

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../gen/assets.gen.dart';
 import 'colors.dart';
 
 typedef _AnimationTransformer = double Function(double value);
@@ -79,6 +80,9 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
         _AnimationTransformer? indicatorTransformer;
         _AnimationTransformer? connectorTransformer;
 
+        final isActive = index == widget.active;
+        final isHighlighted = widget.animated && index == widget.active;
+
         if (widget.animated) {
           if (index == widget.active) {
             indicatorTransformer = _lowerIndicatorTransformer;
@@ -107,11 +111,15 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                       width: _indicatorSize,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: index > widget.active
+                        color: isHighlighted || index > widget.active
                             ? Colors.white
                             : CpColors.darkBackground,
                       ),
-                      child: index <= lastIconIndex ? widget.status.icon : null,
+                      child: index <= lastIconIndex
+                          ? isActive
+                              ? widget.status.icon
+                              : _successIcon
+                          : null,
                     ),
                   ),
                 ),
@@ -133,7 +141,12 @@ class _State extends State<CpTimeline> with SingleTickerProviderStateMixin {
                   ),
               ],
             ),
-            Expanded(child: _TileInfo(tile: widget.items[index])),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(top: isFirst ? 16 : 0),
+                child: _TileInfo(tile: widget.items[index]),
+              ),
+            ),
           ],
         );
       },
@@ -153,7 +166,7 @@ class _TileInfo extends StatelessWidget {
     final subtitle = tile.subtitle;
 
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -199,6 +212,14 @@ class _IndicatorBackground extends StatelessWidget {
                   bottom: isLast ? _timelineRadius : Radius.zero,
                 )
               : null,
+          boxShadow: [
+            BoxShadow(
+              color: backgroundColor,
+              blurRadius: 0.0,
+              spreadRadius: 0.0,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
         padding: (isFirst || isLast)
             ? EdgeInsets.only(top: isFirst ? 16 : 2, bottom: isLast ? 16 : 2)
@@ -224,7 +245,17 @@ class _ConnectorBackground extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         width: _timelineWidth,
         height: _connectorHeight,
-        decoration: BoxDecoration(color: backgroundColor),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          boxShadow: [
+            BoxShadow(
+              color: backgroundColor,
+              blurRadius: 0.0,
+              spreadRadius: 0.0,
+              offset: const Offset(0, 1),
+            ),
+          ],
+        ),
         child: child,
       );
 }
@@ -284,22 +315,24 @@ extension on CpTimelineStatus {
   Widget get icon {
     switch (this) {
       case CpTimelineStatus.failure:
-        return const Icon(
-          Icons.close,
-          color: Colors.white,
-          size: 22,
-        );
+        return _failIcon;
       case CpTimelineStatus.success:
       case CpTimelineStatus.inProgress:
       case CpTimelineStatus.neutral:
-        return const Icon(
-          Icons.check,
-          color: Colors.white,
-          size: 22,
-        );
+        return _successIcon;
     }
   }
 }
+
+final _successIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineCheck.svg(),
+);
+
+final _failIcon = Padding(
+  padding: const EdgeInsets.all(6.0),
+  child: Assets.icons.timelineFail.svg(),
+);
 
 double _sinoidalTransformer(double value) => sin(2 * pi * value) / 2;
 

@@ -17,7 +17,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
@@ -77,7 +77,7 @@ class _OLPScreenState extends State<OLPScreen> {
             return TransferProgress(onBack: () => context.router.pop());
           }
 
-          void onCancel() => showConfirmationDialog(
+          void handleCanceled() => showConfirmationDialog(
                 context,
                 title: context
                     .l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle,
@@ -96,7 +96,7 @@ class _OLPScreenState extends State<OLPScreen> {
             child: CpTextButton(
               text: context.l10n.outgoingSplitKeyPayments_btnCancel,
               variant: CpTextButtonVariant.light,
-              onPressed: onCancel,
+              onPressed: handleCanceled,
             ),
           );
 
@@ -136,7 +136,7 @@ class _OLPScreenState extends State<OLPScreen> {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.retry,
-                onPressed: onCancel,
+                onPressed: handleCanceled,
               ),
             ],
             recovered: (s) => [cancelButton],

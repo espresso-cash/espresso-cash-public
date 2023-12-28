@@ -297,7 +297,7 @@ class MobileWalletBloc extends Cubit<MobileWalletState>
   @override
   Future<SignedPayloadResult?> onSignTransactionsRequest(
     SignTransactionsRequest request,
-  ) async {
+  ) {
     _cancelCurrentRequest();
 
     emit(

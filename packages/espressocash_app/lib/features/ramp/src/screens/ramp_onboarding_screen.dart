@@ -92,72 +92,85 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
             const SizedBox(height: 70),
           ],
         ),
-        content: SafeArea(
-          top: false,
-          minimum: const EdgeInsets.only(
-            top: 44,
-            left: 40,
-            right: 40,
-            bottom: 75,
-          ),
-          child: Column(
-            children: [
-              CpTextField(
-                padding: const EdgeInsets.only(
-                  top: 18,
-                  bottom: 16,
-                  left: 26,
-                  right: 26,
+        content: ColoredBox(
+          color: switch (widget.rampType) {
+            RampType.onRamp => _onRampBgColor,
+            RampType.offRamp => _offRampBgColor,
+          },
+          child: SafeArea(
+            top: false,
+            minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
+            child: Column(
+              children: [
+                CpTextField(
+                  padding: const EdgeInsets.only(
+                    top: 18,
+                    bottom: 16,
+                    left: 26,
+                    right: 26,
+                  ),
+                  controller: _nameController,
+                  textInputAction: TextInputAction.next,
+                  backgroundColor: switch (widget.rampType) {
+                    RampType.onRamp => _onRampTextfieldColor,
+                    RampType.offRamp => _offRampTextfieldColor,
+                  },
+                  placeholder: context.l10n.yourFirstNamePlaceholder,
+                  placeholderColor: Colors.white,
+                  textColor: Colors.white,
+                  fontSize: 16,
                 ),
-                controller: _nameController,
-                textInputAction: TextInputAction.next,
-                backgroundColor: const Color(0xFF413D3F),
-                placeholder: context.l10n.yourFirstNamePlaceholder,
-                placeholderColor: Colors.white,
-                textColor: Colors.white,
-                fontSize: 16,
-              ),
-              const SizedBox(height: 14),
-              CpTextField(
-                padding: const EdgeInsets.only(
-                  top: 18,
-                  bottom: 16,
-                  left: 26,
-                  right: 26,
+                const SizedBox(height: 14),
+                CpTextField(
+                  padding: const EdgeInsets.only(
+                    top: 18,
+                    bottom: 16,
+                    left: 26,
+                    right: 26,
+                  ),
+                  controller: _emailController,
+                  inputType: TextInputType.emailAddress,
+                  backgroundColor: switch (widget.rampType) {
+                    RampType.onRamp => _onRampTextfieldColor,
+                    RampType.offRamp => _offRampTextfieldColor,
+                  },
+                  placeholder: context.l10n.yourEmailPlaceholder,
+                  placeholderColor: Colors.white,
+                  textColor: Colors.white,
+                  fontSize: 16,
                 ),
-                controller: _emailController,
-                inputType: TextInputType.emailAddress,
-                backgroundColor: const Color(0xFF413D3F),
-                placeholder: context.l10n.yourEmailPlaceholder,
-                placeholderColor: Colors.white,
-                textColor: Colors.white,
-                fontSize: 16,
-              ),
-              const SizedBox(height: 14),
-              CountryPicker(
-                country: _country,
-                onSubmitted: (country) => setState(() => _country = country),
-              ),
-              const SizedBox(height: 28),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: ListenableBuilder(
-                    listenable: Listenable.merge([
-                      _nameController,
-                      _emailController,
-                    ]),
-                    builder: (context, child) => CpButton(
-                      width: double.infinity,
-                      text: context.l10n.next,
-                      onPressed: _isValid ? _handleSubmitted : null,
+                const SizedBox(height: 14),
+                CountryPicker(
+                  country: _country,
+                  onSubmitted: (country) => setState(() => _country = country),
+                ),
+                const SizedBox(height: 28),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ListenableBuilder(
+                      listenable: Listenable.merge([
+                        _nameController,
+                        _emailController,
+                      ]),
+                      builder: (context, child) => CpButton(
+                        width: double.infinity,
+                        text: context.l10n.next,
+                        onPressed: _isValid ? _handleSubmitted : null,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         type: widget.rampType,
       );
 }
+
+const _onRampBgColor = Color(0xFFD06022);
+const _offRampBgColor = Color(0xFFC8B57D);
+
+const _onRampTextfieldColor = Color(0xFFB84D12);
+const _offRampTextfieldColor = Color(0xFF9D8A59);

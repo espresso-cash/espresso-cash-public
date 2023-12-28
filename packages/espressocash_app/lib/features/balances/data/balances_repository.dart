@@ -5,8 +5,8 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../tokens/token.dart';
 
 @Singleton(scope: authScope)
 class BalancesRepository implements Disposable {

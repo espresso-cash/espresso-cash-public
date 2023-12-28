@@ -3,7 +3,7 @@ import 'package:solana/encoder.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../accounts/models/ec_wallet.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/route_repository.dart';
 import '../data/swap_repository.dart';

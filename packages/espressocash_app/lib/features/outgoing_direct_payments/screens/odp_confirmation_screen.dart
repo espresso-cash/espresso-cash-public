@@ -4,8 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/fee_label.dart';
-import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
@@ -18,6 +16,9 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
+import '../../tokens/token.dart';
 
 @RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {
@@ -51,7 +52,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     _amountController = TextEditingController(text: widget.initialAmount);
   }
 
-  void _onSubmit() {
+  void _handleSubmitted() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     if (amount == Decimal.zero) {
@@ -127,7 +128,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 child: CpButton(
                   text: context.l10n.pay,
                   minWidth: width,
-                  onPressed: _onSubmit,
+                  onPressed: _handleSubmitted,
                   size: CpButtonSize.big,
                 ),
               ),

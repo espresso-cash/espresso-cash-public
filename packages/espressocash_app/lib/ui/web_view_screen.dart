@@ -30,26 +30,27 @@ class _WebViewScreenState extends State<WebViewScreen> {
   String? _title;
 
   Future<void> _handleLoaded(InAppWebViewController controller) async {
+    widget.onLoaded?.call(controller);
+
     if (widget.title != null) return;
 
     final title = await controller.getTitle();
     if (!mounted) return;
 
     setState(() => _title = title ?? '');
-    widget.onLoaded?.call(controller);
   }
 
-  Future<PermissionRequestResponse?> _handleAndroidPermissionRequest(
-    List<String> resources,
+  Future<PermissionResponse?> _handlePermissionRequest(
+    List<PermissionResourceType> resources,
   ) async {
-    if (!resources.contains('android.webkit.resource.VIDEO_CAPTURE')) {
+    if (!resources.contains(PermissionResourceType.CAMERA)) {
       return null;
     }
 
     if (await Permission.camera.request().isGranted) {
-      return PermissionRequestResponse(
+      return PermissionResponse(
         resources: resources,
-        action: PermissionRequestResponseAction.GRANT,
+        action: PermissionResponseAction.GRANT,
       );
     }
   }
@@ -60,10 +61,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
           title: Text(widget.title ?? _title ?? context.l10n.loading),
         ),
         body: InAppWebView(
-          initialUrlRequest: URLRequest(url: widget.url),
-          androidOnPermissionRequest: (_, __, resources) =>
-              _handleAndroidPermissionRequest(resources),
+          initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
+          onPermissionRequest: (_, permissionRequest) =>
+              _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
+          initialSettings: InAppWebViewSettings(
+            iframeAllowFullscreen: false,
+            allowsInlineMediaPlayback: true,
+          ),
         ),
       );
 }

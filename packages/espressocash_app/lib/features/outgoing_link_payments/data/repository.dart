@@ -13,10 +13,10 @@ import 'package:solana/solana.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/escrow_private_key.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../tokens/token_list.dart';
+import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_link_payment.dart';
 
 @injectable

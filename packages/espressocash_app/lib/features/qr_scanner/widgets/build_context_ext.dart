@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import '../../incoming_link_payments/widgets/extensions.dart';
@@ -18,6 +18,7 @@ import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
+import '../../tokens/token_list.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
 
@@ -47,7 +48,6 @@ extension BuilContextExt on BuildContext {
 
       final name = request.mapOrNull(
         solanaPay: (r) => r.request.label,
-        address: (r) => r.addressData.name,
       );
       final requestAmount = request.whenOrNull(
         solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
@@ -58,7 +58,11 @@ extension BuilContextExt on BuildContext {
       final isEnabled = requestAmount == null || requestAmount.value == 0;
       defaultFiatAmount = defaultFiatAmount ??
           const FiatAmount(value: 0, fiatCurrency: Currency.usd);
-      final initialAmount = requestAmount ?? defaultFiatAmount;
+      final FiatAmount initialAmount = requestAmount?.toFiatAmount(
+            Currency.usd,
+            ratesRepository: sl<ConversionRatesRepository>(),
+          ) ??
+          defaultFiatAmount;
       final formatted = initialAmount.value == 0
           ? ''
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
@@ -75,11 +79,17 @@ extension BuilContextExt on BuildContext {
       if (!mounted) return;
 
       if (fiatDecimal != null) {
-        final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
-        onFiatAmountChanged?.call(finalAmount);
+        final CryptoAmount cryptoAmount;
 
-        final cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
-            CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
+        if (isEnabled) {
+          final finalAmount = defaultFiatAmount.copyWithDecimal(fiatDecimal);
+          onFiatAmountChanged?.call(finalAmount);
+
+          cryptoAmount = finalAmount.toTokenAmount(cryptoCurrency.token) ??
+              CryptoAmount(value: 0, cryptoCurrency: cryptoCurrency);
+        } else {
+          cryptoAmount = requestAmount;
+        }
 
         final id = await createODP(
           amountInUsdc: cryptoAmount.decimal,

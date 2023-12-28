@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/currency.dart';
 import '../../../core/flow.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/token_details.dart';
 

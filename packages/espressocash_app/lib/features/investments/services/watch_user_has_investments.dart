@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
 import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
+import '../../tokens/token.dart';
 
 @injectable
 class WatchUserHasInvestments {
