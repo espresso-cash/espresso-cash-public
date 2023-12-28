@@ -970,7 +970,7 @@
       }
     }
   },
-  quizCorrect": "Correct!",
+  "quizCorrect": "Correct!",
   "@quizCorrect": {},
   "quizWrong": "Wrong!",
   "@quizWrong": {},

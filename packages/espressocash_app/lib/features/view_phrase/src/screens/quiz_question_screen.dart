@@ -6,6 +6,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
+import '../../../../ui/shake.dart';
 import '../models/quiz.dart';
 import '../widgets/quiz_page.dart';
 
@@ -72,8 +73,8 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
   void _moveToPage(int index) {
     _controller.animateToPage(
       index,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeIn,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.linear,
     );
   }
 
@@ -202,7 +203,7 @@ class _QuestionScreen extends StatelessWidget {
       );
 }
 
-class _ResultScreen extends StatelessWidget {
+class _ResultScreen extends StatefulWidget {
   const _ResultScreen({
     required this.isCorrect,
     required this.explanation,
@@ -216,29 +217,51 @@ class _ResultScreen extends StatelessWidget {
   final bool isCorrect;
   final Explanation explanation;
   final VoidCallback onButtonPressed;
+  @override
+  State<_ResultScreen> createState() => _ResultScreenState();
+}
 
-  SvgGenImage get image =>
-      isCorrect ? Assets.icons.successCheck2 : Assets.icons.failIcon;
+class _ResultScreenState extends State<_ResultScreen> {
+  final _shakeKey = GlobalKey<ShakeState>();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    Future.delayed(const Duration(milliseconds: 400), () {
+      if (!widget.isCorrect) {
+        _shakeKey.currentState?.shake();
+      }
+    });
+  }
+
+  SvgGenImage get _image =>
+      widget.isCorrect ? Assets.icons.successCheck2 : Assets.icons.failIcon;
 
   @override
   Widget build(BuildContext context) => QuizPage(
-        title: title,
-        indicatorIndex: index,
+        title: widget.title,
+        indicatorIndex: widget.index,
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
           child: Column(
             children: [
               const SizedBox(height: 16),
-              image.svg(
-                height: 95,
-                width: 95,
+              Shake(
+                key: _shakeKey,
+                child: _image.svg(
+                  height: 95,
+                  width: 95,
+                ),
               ),
               const SizedBox(height: 24),
               Text(
-                isCorrect ? context.l10n.quizCorrect : context.l10n.quizWrong,
+                widget.isCorrect
+                    ? context.l10n.quizCorrect
+                    : context.l10n.quizWrong,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: isCorrect
+                  color: widget.isCorrect
                       ? const Color(0xFFFBC728)
                       : const Color(0xFFF04E4E),
                   fontSize: 40,
@@ -248,7 +271,7 @@ class _ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                explanation.title,
+                widget.explanation.title,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -259,7 +282,7 @@ class _ResultScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               Text(
-                explanation.description,
+                widget.explanation.description,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -273,10 +296,10 @@ class _ResultScreen extends StatelessWidget {
         ),
         footer: [
           CpButton(
-            text: isCorrect
+            text: widget.isCorrect
                 ? context.l10n.quizContinue
                 : context.l10n.quizTryAgain,
-            onPressed: onButtonPressed,
+            onPressed: widget.onButtonPressed,
             size: CpButtonSize.big,
             width: 350,
           ),
