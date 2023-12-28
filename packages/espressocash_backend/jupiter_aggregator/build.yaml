@@ -5,3 +5,11 @@ targets:
         options:
           explicit_to_json: true
           include_if_null: false
+
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+  json_serializable:
+    runs_before:
+      - retrofit_generator

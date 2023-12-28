@@ -325,7 +325,7 @@ class _$DlnQuoteRequestDtoImpl implements _DlnQuoteRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DlnQuoteRequestDtoImpl &&
@@ -654,7 +654,7 @@ class _$DlnQuoteResponseDtoImpl implements _DlnQuoteResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DlnQuoteResponseDtoImpl &&
@@ -1189,7 +1189,7 @@ class _$CreateTxRequestDtoImpl implements _CreateTxRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateTxRequestDtoImpl &&
@@ -1574,7 +1574,7 @@ class _$CreateTxResponseDtoImpl implements _CreateTxResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateTxResponseDtoImpl &&
@@ -1797,7 +1797,7 @@ class _$OrderResponseDtoImpl implements _OrderResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderResponseDtoImpl &&
@@ -1976,7 +1976,7 @@ class _$OrderStatusResponseDtoImpl implements _OrderStatusResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderStatusResponseDtoImpl &&
@@ -2127,7 +2127,7 @@ class _$OrderIdTxResponseDtoImpl implements _OrderIdTxResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderIdTxResponseDtoImpl &&
@@ -2350,7 +2350,7 @@ class _$CancelTxResponseDtoImpl implements _CancelTxResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CancelTxResponseDtoImpl &&
