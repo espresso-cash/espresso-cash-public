@@ -4,7 +4,6 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/swap/jupiter_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sentry/sentry.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
