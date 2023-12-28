@@ -53,7 +53,11 @@ class AppRouter extends $AppRouter {
               transitionsBuilder: TransitionsBuilders.fadeIn,
               durationInMilliseconds: 600,
             ),
-            CustomRoute(page: QuizRecoveryRoute.page),
+            CustomRoute(
+              transitionsBuilder: TransitionsBuilders.slideLeft,
+              durationInMilliseconds: 200,
+              page: QuizRecoveryRoute.page,
+            ),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),
