@@ -23,6 +23,7 @@ class DlnRepository {
     required String receiverAddress,
     required String senderAddress,
     required DlnChains receiverChain,
+    required String platformFeeAddress,
   }) async {
     final quote = await _client.getQuote(
       DlnQuoteRequestDto(
@@ -32,6 +33,7 @@ class DlnRepository {
         dstChainId: receiverChain.chainId,
         dstChainTokenOut: receiverChain.usdcAddress,
         prependOperatingExpenses: true,
+        affiliateFeePercent: _affiliateFeePercent,
       ),
     );
 
@@ -50,6 +52,8 @@ class DlnRepository {
             dstChainTokenOutRecipient: receiverAddress,
             srcChainOrderAuthorityAddress: senderAddress,
             dstChainOrderAuthorityAddress: receiverAddress,
+            affiliateFeePercent: _affiliateFeePercent,
+            affiliateFeeRecipient: platformFeeAddress,
           ),
         )
         .then((resp) => resp.tx.data);
@@ -66,6 +70,8 @@ class DlnRepository {
     );
   }
 }
+
+const _affiliateFeePercent = 1.0;
 
 extension DlnChainsExt on DlnChains {
   String get usdcAddress => switch (this) {

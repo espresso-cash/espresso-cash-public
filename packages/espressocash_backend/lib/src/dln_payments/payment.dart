@@ -78,6 +78,7 @@ class DlnPayment {
       senderAddress: senderAddress,
       receiverAddress: receiverAddress,
       receiverChain: chain,
+      platformFeeAddress: _platform.publicKey.toBase58(),
     );
 
     if (quote.senderDeductAmount !=

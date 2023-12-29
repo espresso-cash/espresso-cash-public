@@ -45,4 +45,8 @@ final _mainnetClient = SolanaClient(
   rpcUrl: Uri.parse(mainnetRpcUrl),
   websocketUrl: Uri.parse(mainnetWsUrl),
 );
-final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(mainnetPlatformMnemonic);
+final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
+  mainnetPlatformMnemonic,
+  account: 0,
+  change: 0,
+);
