@@ -41,7 +41,7 @@ class JupiterRepository {
         swapMode: swapMode,
         onlyDirectRoutes: false,
         asLegacyTransaction: asLegacyTransaction,
-        platformFeeBps: 100,
+        platformFeeBps: 200,
       ),
     );
 
