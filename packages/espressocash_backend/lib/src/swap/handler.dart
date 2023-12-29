@@ -56,6 +56,5 @@ final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
   change: 0,
 );
 
-final platformReferralAddress = Ed25519HDPublicKey.fromBase58(
-  '8jLND6HETq7Crns5HoV3VaEzU3MgwuA7RkSuzuCxx7mU',
-);
+final platformReferralAddress =
+    Ed25519HDPublicKey.fromBase58(jupiterReferralAddress);

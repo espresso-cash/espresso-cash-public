@@ -48,3 +48,6 @@ final mainnetPlatformMnemonic =
 
 final mainnetRpcUrl = Platform.environment['SOLANA_RPC_URL'] ?? '';
 final mainnetWsUrl = Platform.environment['SOLANA_WEBSOCKET_URL'] ?? '';
+
+final jupiterReferralAddress =
+    Platform.environment['JUPITER_REFERRAL_ADDRESS'] ?? '';
