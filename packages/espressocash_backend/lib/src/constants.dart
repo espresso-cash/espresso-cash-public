@@ -20,7 +20,7 @@ const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC
 const escrowPaymentFee = 10000; // 0.01 USDC
 const escrowPaymentAccountCreationFee = 100000; // 0.1 USDC
-const directPaymentWithAccountCreationFee = 100000; // 0.1 USDC
+const directPaymentWithAccountCreationFee = 250000; // 0.25 USDC
 const minimumSwapFee = 10000; // 0.01 USDC
 
 const solDecimals = 1000000000;
