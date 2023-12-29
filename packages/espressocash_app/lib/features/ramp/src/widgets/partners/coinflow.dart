@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
@@ -39,6 +41,7 @@ extension BuildContextExt on BuildContext {
             'email': profile.email,
             'cluster': isProd ? 'mainnet' : 'staging',
             'rpcUrl': solanaRpcUrl,
+            'token': Token.usdc.address,
           },
         );
 
@@ -55,7 +58,20 @@ extension BuildContextExt on BuildContext {
           final encodedTx = args.first as String;
 
           final tx = encodedTx.let(SignedTx.decode);
-          final ix = tx.decompileMessage().instructions.first.data;
+          final addressTableLookups = tx.compiledMessage.map(
+            legacy: (_) => <MessageAddressTableLookup>[],
+            v0: (v0) => v0.addressTableLookups,
+          );
+
+          final client = sl<RpcClient>();
+          final lookUpTables =
+              await client.getAddressLookUpTableAccounts(addressTableLookups);
+
+          final ix = tx
+              .decompileMessage(addressLookupTableAccounts: lookUpTables)
+              .instructions
+              .first
+              .data;
 
           final reader = BinaryReader(
             Uint8List.fromList(ix.toList()).buffer.asByteData(),

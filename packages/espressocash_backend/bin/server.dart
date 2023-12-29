@@ -1,10 +1,10 @@
 import 'dart:io' as io;
 
 import 'package:espressocash_backend/src/dln_payments/handler.dart';
+import 'package:espressocash_backend/src/auth/create_auth_middleware.dart';
 import 'package:espressocash_backend/src/escrow_payments/handler.dart';
 import 'package:espressocash_backend/src/handlers/association_handlers.dart';
 import 'package:espressocash_backend/src/handlers/solana_handler.dart';
-import 'package:espressocash_backend/src/moonpay/handler.dart';
 import 'package:espressocash_backend/src/payments/handler.dart';
 import 'package:espressocash_backend/src/scalex/handler.dart';
 import 'package:espressocash_backend/src/swap/handler.dart';
@@ -27,6 +27,18 @@ Future<void> main() async {
   }
 
   final port = int.parse(io.Platform.environment['PORT'] ?? '8080');
+
+  final server = await shelf_io.serve(
+    createMainHandler(),
+    io.InternetAddress.anyIPv4,
+    port,
+  );
+
+  // ignore: avoid_print, for debugging
+  print('Serving at http://${server.address.host}:${server.port}');
+}
+
+Handler createMainHandler() {
   final network = io.Platform.environment['SOLANA_RPC_URL'] ?? '';
   final solanaHandler = createSolanaHandler(tokens: tokens, network: network);
 
@@ -43,14 +55,10 @@ Future<void> main() async {
       .add(_wellKnown.call)
       .add(solanaHandler);
 
-  final server = await shelf_io.serve(
-    logRequests().addMiddleware(errorReporter).addHandler(cascade.handler),
-    io.InternetAddress.anyIPv4,
-    port,
-  );
-
-  // ignore: avoid_print, for debugging
-  print('Serving at http://${server.address.host}:${server.port}');
+  return logRequests()
+      .addMiddleware(errorReporter)
+      .addMiddleware(createAuthMiddleware())
+      .addHandler(cascade.handler);
 }
 
 final _staticHandler = shelf_static.createStaticHandler('public');
@@ -65,7 +73,6 @@ final _apiV1 = shelf_router.Router()
     Cascade() //
         .add(paymentHandler())
         .add(escrowPaymentsHandler())
-        .add(addFundsHandler())
         .add(addSwapHandler())
         .add(addScalexHandler())
         .add(addDlnQuoteHandler())
