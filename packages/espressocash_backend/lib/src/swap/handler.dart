@@ -19,7 +19,7 @@ Future<Response> _swapRouteHandler(Request request) =>
       (data) async {
         final createSwap = CreateSwap(
           client: _mainnetClient,
-          repository: JupiterRepository(),
+          repository: JupiterRepository(client: _mainnetClient),
           platform: await _mainnetPlatform,
           referralAccount: platformReferralAddress,
         );

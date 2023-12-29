@@ -57,6 +57,7 @@ class CreateSwap {
         account: aSender.toBase58(),
         asLegacyTransaction: asLegacyTx,
         platformReferralAddress: _platformReferralAccount,
+        commitment: commitment,
       ),
       _repository.getUsdcPrice(),
     ]);
