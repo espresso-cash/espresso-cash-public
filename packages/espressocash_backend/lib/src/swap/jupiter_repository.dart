@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
 part 'jupiter_repository.freezed.dart';
