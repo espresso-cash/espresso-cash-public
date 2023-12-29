@@ -62,8 +62,8 @@ class TokenList {
       tokens
           .singleWhereOrNull(
             (t) =>
-                t.symbol.toLowerCase() == symbol &&
-                t.coingeckoId == coingeckoId,
+                t.symbol.toLowerCase() == symbol?.toLowerCase() &&
+                t.coingeckoId == coingeckoId?.toLowerCase(),
           )
           .ifNull(
             () => _createStubToken(
