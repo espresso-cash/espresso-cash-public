@@ -598,7 +598,7 @@
       }
     }
   },
-  "signIn1": "Already have a Solana wallet? ",
+  "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",
   "@signIn2": {},
