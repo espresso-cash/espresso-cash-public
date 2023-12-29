@@ -42,9 +42,6 @@ abstract class AppModule {
   RpcClient get rpcClient => solanaClient.rpcClient;
 
   @lazySingleton
-  CryptopleaseClient get cryptopleaseClient => CryptopleaseClient();
-
-  @lazySingleton
   JupiterAggregatorClient get jupiterClient => JupiterAggregatorClient();
 
   @preResolve
