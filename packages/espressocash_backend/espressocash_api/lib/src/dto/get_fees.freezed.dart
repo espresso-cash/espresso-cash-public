@@ -23,6 +23,7 @@ mixin _$GetFeesResponseDto {
   DirectPaymentFeeDto get directPayment => throw _privateConstructorUsedError;
   int get escrowPayment => throw _privateConstructorUsedError;
   int get escrowPaymentAtaFee => throw _privateConstructorUsedError;
+  int get splitKeyPayment => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,8 @@ abstract class $GetFeesResponseDtoCopyWith<$Res> {
   $Res call(
       {DirectPaymentFeeDto directPayment,
       int escrowPayment,
-      int escrowPaymentAtaFee});
+      int escrowPaymentAtaFee,
+      int splitKeyPayment});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
 }
@@ -60,6 +62,7 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
     Object? directPayment = null,
     Object? escrowPayment = null,
     Object? escrowPaymentAtaFee = null,
+    Object? splitKeyPayment = null,
   }) {
     return _then(_value.copyWith(
       directPayment: null == directPayment
@@ -73,6 +76,10 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
       escrowPaymentAtaFee: null == escrowPaymentAtaFee
           ? _value.escrowPaymentAtaFee
           : escrowPaymentAtaFee // ignore: cast_nullable_to_non_nullable
+              as int,
+      splitKeyPayment: null == splitKeyPayment
+          ? _value.splitKeyPayment
+          : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
     ) as $Val);
   }
@@ -97,7 +104,8 @@ abstract class _$$GetFeesResponseDtoImplCopyWith<$Res>
   $Res call(
       {DirectPaymentFeeDto directPayment,
       int escrowPayment,
-      int escrowPaymentAtaFee});
+      int escrowPaymentAtaFee,
+      int splitKeyPayment});
 
   @override
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
@@ -117,6 +125,7 @@ class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
     Object? directPayment = null,
     Object? escrowPayment = null,
     Object? escrowPaymentAtaFee = null,
+    Object? splitKeyPayment = null,
   }) {
     return _then(_$GetFeesResponseDtoImpl(
       directPayment: null == directPayment
@@ -131,6 +140,10 @@ class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
           ? _value.escrowPaymentAtaFee
           : escrowPaymentAtaFee // ignore: cast_nullable_to_non_nullable
               as int,
+      splitKeyPayment: null == splitKeyPayment
+          ? _value.splitKeyPayment
+          : splitKeyPayment // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -141,7 +154,8 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
   const _$GetFeesResponseDtoImpl(
       {required this.directPayment,
       required this.escrowPayment,
-      required this.escrowPaymentAtaFee});
+      required this.escrowPaymentAtaFee,
+      required this.splitKeyPayment});
 
   factory _$GetFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetFeesResponseDtoImplFromJson(json);
@@ -152,10 +166,12 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
   final int escrowPayment;
   @override
   final int escrowPaymentAtaFee;
+  @override
+  final int splitKeyPayment;
 
   @override
   String toString() {
-    return 'GetFeesResponseDto(directPayment: $directPayment, escrowPayment: $escrowPayment, escrowPaymentAtaFee: $escrowPaymentAtaFee)';
+    return 'GetFeesResponseDto(directPayment: $directPayment, escrowPayment: $escrowPayment, escrowPaymentAtaFee: $escrowPaymentAtaFee, splitKeyPayment: $splitKeyPayment)';
   }
 
   @override
@@ -168,13 +184,15 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
             (identical(other.escrowPayment, escrowPayment) ||
                 other.escrowPayment == escrowPayment) &&
             (identical(other.escrowPaymentAtaFee, escrowPaymentAtaFee) ||
-                other.escrowPaymentAtaFee == escrowPaymentAtaFee));
+                other.escrowPaymentAtaFee == escrowPaymentAtaFee) &&
+            (identical(other.splitKeyPayment, splitKeyPayment) ||
+                other.splitKeyPayment == splitKeyPayment));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, directPayment, escrowPayment, escrowPaymentAtaFee);
+  int get hashCode => Object.hash(runtimeType, directPayment, escrowPayment,
+      escrowPaymentAtaFee, splitKeyPayment);
 
   @JsonKey(ignore: true)
   @override
@@ -195,7 +213,8 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   const factory _GetFeesResponseDto(
       {required final DirectPaymentFeeDto directPayment,
       required final int escrowPayment,
-      required final int escrowPaymentAtaFee}) = _$GetFeesResponseDtoImpl;
+      required final int escrowPaymentAtaFee,
+      required final int splitKeyPayment}) = _$GetFeesResponseDtoImpl;
 
   factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetFeesResponseDtoImpl.fromJson;
@@ -206,6 +225,8 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   int get escrowPayment;
   @override
   int get escrowPaymentAtaFee;
+  @override
+  int get splitKeyPayment;
   @override
   @JsonKey(ignore: true)
   _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>

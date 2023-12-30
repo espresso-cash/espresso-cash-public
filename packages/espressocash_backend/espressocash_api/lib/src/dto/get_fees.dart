@@ -9,6 +9,7 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
     required DirectPaymentFeeDto directPayment,
     required int escrowPayment,
     required int escrowPaymentAtaFee,
+    required int splitKeyPayment,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
