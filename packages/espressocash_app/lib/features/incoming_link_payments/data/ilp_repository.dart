@@ -8,6 +8,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
+import '../../../core/amount.dart';
+import '../../../core/currency.dart';
 import '../../../core/escrow_private_key.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
@@ -77,6 +79,8 @@ class ILPRows extends Table with EntityMixin, TxStatusMixin {
 
   TextColumn get privateKey => text()();
   IntColumn get status => intEnum<ILPStatusDto>()();
+
+  IntColumn get feeAmount => integer().nullable()();
 }
 
 enum ILPStatusDto {
@@ -113,8 +117,13 @@ extension on ILPStatusDto {
           slot: slot ?? BigInt.zero,
         );
       case ILPStatusDto.success:
+        final feeAmount = row.feeAmount;
+
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
+          fee: feeAmount != null
+              ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+              : null,
         );
       case ILPStatusDto.txFailure:
         return ILPStatus.txFailure(
@@ -134,6 +143,10 @@ extension on IncomingLinkPayment {
         txId: status.toTxId(),
         slot: status.toSlot().toString(),
         txFailureReason: status.toTxFailureReason(),
+        feeAmount: switch (status) {
+          ILPStatusSuccess(:final fee) => fee?.value,
+          _ => null,
+        },
       );
 }
 
