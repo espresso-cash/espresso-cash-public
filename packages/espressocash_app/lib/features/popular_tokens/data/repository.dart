@@ -75,5 +75,7 @@ const _popularTokensCoinGeckoId = [
   'usd-coin',
   'tether',
   'bonk',
-  'jito-staked-sol',
+  'jito-governance-token',
+  'neon',
+  'helium',
 ];
