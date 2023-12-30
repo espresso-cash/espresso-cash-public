@@ -11,16 +11,16 @@ _$GetFeesResponseDtoImpl _$$GetFeesResponseDtoImplFromJson(
     _$GetFeesResponseDtoImpl(
       directPayment: DirectPaymentFeeDto.fromJson(
           json['directPayment'] as Map<String, dynamic>),
-      splitKeyPayment: json['splitKeyPayment'] as int,
       escrowPayment: json['escrowPayment'] as int,
+      escrowPaymentAtaFee: json['escrowPaymentAtaFee'] as int,
     );
 
 Map<String, dynamic> _$$GetFeesResponseDtoImplToJson(
         _$GetFeesResponseDtoImpl instance) =>
     <String, dynamic>{
       'directPayment': instance.directPayment,
-      'splitKeyPayment': instance.splitKeyPayment,
       'escrowPayment': instance.escrowPayment,
+      'escrowPaymentAtaFee': instance.escrowPaymentAtaFee,
     };
 
 _$DirectPaymentFeeDtoImpl _$$DirectPaymentFeeDtoImplFromJson(
