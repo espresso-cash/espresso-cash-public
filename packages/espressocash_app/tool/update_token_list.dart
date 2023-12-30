@@ -94,7 +94,7 @@ Future<void> _writeToFile(_Json coingecko) async {
 
 extension on _Json {
   _Json updateToken(_CoinMap coins) {
-    final coin = coins[this['address']];
+    final coin = coins[this['address'] as String];
 
     if (coin != null) {
       this['extensions'] = {'coingeckoId': coin.coingeckoId};
