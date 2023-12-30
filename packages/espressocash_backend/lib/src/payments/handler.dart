@@ -23,6 +23,7 @@ Future<Response> getFeesHandler(Request request) =>
         ),
         escrowPayment: escrowPaymentFee,
         escrowPaymentAtaFee: escrowPaymentAccountCreationFee,
+        splitKeyPayment: 0,
       ),
     );
 
