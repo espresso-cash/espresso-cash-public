@@ -16,7 +16,6 @@ const protocolMap = {
   espressocashLinkHost: '',
 };
 
-const shareableLinkPaymentFee = 100000; // 0.1 USDC
 const directPaymentFee = 10000; // 0.01 USDC
 const escrowPaymentFee = 10000; // 0.01 USDC
 const escrowPaymentAccountCreationFee = 100000; // 0.1 USDC
