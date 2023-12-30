@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/amount.dart';
+import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
@@ -13,7 +17,6 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
-import '../services/tx_sent_watcher.dart';
 import '../widgets/extensions.dart';
 import '../widgets/invalid_escrow_error_widget.dart';
 
@@ -56,7 +59,7 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                   success: (e) => TransferSuccess(
                     onBack: () => context.router.pop(),
                     onOkPressed: () => context.router.pop(),
-                    content: e.tx.containsAta ? const _FeeNotice() : null,
+                    content: e.fee?.let(_FeeNotice.new),
                     statusContent: context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
@@ -74,7 +77,9 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
 }
 
 class _FeeNotice extends StatelessWidget {
-  const _FeeNotice();
+  const _FeeNotice(this.amount);
+
+  final CryptoAmount amount;
 
   @override
   Widget build(BuildContext context) => Expanded(
@@ -96,7 +101,8 @@ class _FeeNotice extends StatelessWidget {
                   const SizedBox(width: 16),
                   Expanded(
                     child: Text(
-                      context.l10n.incomingUsdcFeeNotice,
+                      context.l10n
+                          .incomingUsdcFeeNotice(amount.format(context.locale)),
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14.50,
