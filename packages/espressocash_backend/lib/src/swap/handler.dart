@@ -19,8 +19,9 @@ Future<Response> _swapRouteHandler(Request request) =>
       (data) async {
         final createSwap = CreateSwap(
           client: _mainnetClient,
-          repository: JupiterRepository(),
+          repository: JupiterRepository(client: _mainnetClient),
           platform: await _mainnetPlatform,
+          referralAccount: platformReferralAddress,
         );
 
         final tx = await createSwap(
@@ -54,3 +55,6 @@ final _mainnetPlatform = Ed25519HDKeyPair.fromMnemonic(
   account: 0,
   change: 0,
 );
+
+final platformReferralAddress =
+    Ed25519HDPublicKey.fromBase58(jupiterReferralAddress);

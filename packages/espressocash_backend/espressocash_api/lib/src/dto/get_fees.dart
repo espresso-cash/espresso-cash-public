@@ -7,8 +7,9 @@ part 'get_fees.g.dart';
 class GetFeesResponseDto with _$GetFeesResponseDto {
   const factory GetFeesResponseDto({
     required DirectPaymentFeeDto directPayment,
-    required int splitKeyPayment,
     required int escrowPayment,
+    required int escrowPaymentAtaFee,
+    required int splitKeyPayment,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
