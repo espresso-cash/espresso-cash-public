@@ -20,7 +20,6 @@ mixin _$RouteInfo {
   String get inAmount => throw _privateConstructorUsedError;
   String get outAmount => throw _privateConstructorUsedError;
   String get jupiterTx => throw _privateConstructorUsedError;
-  num get totalFees => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RouteInfoCopyWith<RouteInfo> get copyWith =>
@@ -33,11 +32,7 @@ abstract class $RouteInfoCopyWith<$Res> {
       _$RouteInfoCopyWithImpl<$Res, RouteInfo>;
   @useResult
   $Res call(
-      {String amount,
-      String inAmount,
-      String outAmount,
-      String jupiterTx,
-      num totalFees});
+      {String amount, String inAmount, String outAmount, String jupiterTx});
 }
 
 /// @nodoc
@@ -57,7 +52,6 @@ class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
     Object? inAmount = null,
     Object? outAmount = null,
     Object? jupiterTx = null,
-    Object? totalFees = null,
   }) {
     return _then(_value.copyWith(
       amount: null == amount
@@ -76,10 +70,6 @@ class _$RouteInfoCopyWithImpl<$Res, $Val extends RouteInfo>
           ? _value.jupiterTx
           : jupiterTx // ignore: cast_nullable_to_non_nullable
               as String,
-      totalFees: null == totalFees
-          ? _value.totalFees
-          : totalFees // ignore: cast_nullable_to_non_nullable
-              as num,
     ) as $Val);
   }
 }
@@ -93,11 +83,7 @@ abstract class _$$RouteInfoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String amount,
-      String inAmount,
-      String outAmount,
-      String jupiterTx,
-      num totalFees});
+      {String amount, String inAmount, String outAmount, String jupiterTx});
 }
 
 /// @nodoc
@@ -115,7 +101,6 @@ class __$$RouteInfoImplCopyWithImpl<$Res>
     Object? inAmount = null,
     Object? outAmount = null,
     Object? jupiterTx = null,
-    Object? totalFees = null,
   }) {
     return _then(_$RouteInfoImpl(
       amount: null == amount
@@ -134,10 +119,6 @@ class __$$RouteInfoImplCopyWithImpl<$Res>
           ? _value.jupiterTx
           : jupiterTx // ignore: cast_nullable_to_non_nullable
               as String,
-      totalFees: null == totalFees
-          ? _value.totalFees
-          : totalFees // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 }
@@ -149,8 +130,7 @@ class _$RouteInfoImpl implements _RouteInfo {
       {required this.amount,
       required this.inAmount,
       required this.outAmount,
-      required this.jupiterTx,
-      required this.totalFees});
+      required this.jupiterTx});
 
   @override
   final String amount;
@@ -160,12 +140,10 @@ class _$RouteInfoImpl implements _RouteInfo {
   final String outAmount;
   @override
   final String jupiterTx;
-  @override
-  final num totalFees;
 
   @override
   String toString() {
-    return 'RouteInfo(amount: $amount, inAmount: $inAmount, outAmount: $outAmount, jupiterTx: $jupiterTx, totalFees: $totalFees)';
+    return 'RouteInfo(amount: $amount, inAmount: $inAmount, outAmount: $outAmount, jupiterTx: $jupiterTx)';
   }
 
   @override
@@ -179,14 +157,12 @@ class _$RouteInfoImpl implements _RouteInfo {
             (identical(other.outAmount, outAmount) ||
                 other.outAmount == outAmount) &&
             (identical(other.jupiterTx, jupiterTx) ||
-                other.jupiterTx == jupiterTx) &&
-            (identical(other.totalFees, totalFees) ||
-                other.totalFees == totalFees));
+                other.jupiterTx == jupiterTx));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, amount, inAmount, outAmount, jupiterTx, totalFees);
+  int get hashCode =>
+      Object.hash(runtimeType, amount, inAmount, outAmount, jupiterTx);
 
   @JsonKey(ignore: true)
   @override
@@ -200,8 +176,7 @@ abstract class _RouteInfo implements RouteInfo {
       {required final String amount,
       required final String inAmount,
       required final String outAmount,
-      required final String jupiterTx,
-      required final num totalFees}) = _$RouteInfoImpl;
+      required final String jupiterTx}) = _$RouteInfoImpl;
 
   @override
   String get amount;
@@ -211,8 +186,6 @@ abstract class _RouteInfo implements RouteInfo {
   String get outAmount;
   @override
   String get jupiterTx;
-  @override
-  num get totalFees;
   @override
   @JsonKey(ignore: true)
   _$$RouteInfoImplCopyWith<_$RouteInfoImpl> get copyWith =>

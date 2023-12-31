@@ -11,7 +11,7 @@ void main() {
   final client = createTestSolanaClient();
 
   /// Initial token amount for the sender after creation.
-  const senderInitialAmount = 500000;
+  const senderInitialAmount = 1500000;
 
   const transferAmount = 300000;
 

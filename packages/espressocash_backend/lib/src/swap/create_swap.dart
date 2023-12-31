@@ -4,7 +4,6 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:espressocash_backend/src/swap/jupiter_repository.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:sentry/sentry.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -27,13 +26,16 @@ class CreateSwap {
     required SolanaClient client,
     required JupiterRepository repository,
     required Ed25519HDKeyPair platform,
+    required Ed25519HDPublicKey referralAccount,
   })  : _client = client,
         _repository = repository,
-        _platform = platform;
+        _platform = platform,
+        _platformReferralAccount = referralAccount;
 
   final SolanaClient _client;
   final JupiterRepository _repository;
   final Ed25519HDKeyPair _platform;
+  final Ed25519HDPublicKey _platformReferralAccount;
 
   Future<SwapTransaction> call({
     required String amount,
@@ -54,6 +56,8 @@ class CreateSwap {
         swapMode: mode,
         account: aSender.toBase58(),
         asLegacyTransaction: asLegacyTx,
+        platformReferralAddress: _platformReferralAccount,
+        commitment: commitment,
       ),
       _repository.getUsdcPrice(),
     ]);
@@ -95,31 +99,9 @@ class CreateSwap {
       nonClosedAtaCount * tokenProgramRent,
     ]);
 
-    final feesFromJupiter = route.totalFees + lamportsPerSignature;
-
-    if (feesFromJupiter != feesFromTransaction) {
-      await Sentry.configureScope(
-        (s) => s.setContexts('transaction', {
-          'feesFromTransaction': feesFromTransaction,
-          'feesFromJupiter': feesFromJupiter,
-          'inputToken': inputToken,
-          'outputToken': outputToken,
-        }),
-      );
-      await Sentry.captureEvent(
-        SentryEvent(
-          level: SentryLevel.warning,
-          message: const SentryMessage(
-            'Fees from Jupiter and transaction do not match.',
-          ),
-        ),
-      );
-    }
-
     final fee = maxBy<int, int>(
       [
         _convert(feesFromTransaction, price),
-        _convert(feesFromJupiter, price),
         minimumSwapFee,
       ],
       identity,

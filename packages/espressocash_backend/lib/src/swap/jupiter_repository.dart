@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:espressocash_backend/src/constants.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:solana/solana.dart';
 
 part 'jupiter_repository.freezed.dart';
 
@@ -12,13 +13,17 @@ class RouteInfo with _$RouteInfo {
     required String inAmount,
     required String outAmount,
     required String jupiterTx,
-    required num totalFees,
   }) = _RouteInfo;
 }
 
 class JupiterRepository {
+  JupiterRepository({
+    required SolanaClient client,
+  }) : _client = client;
+
   final _swapClient = JupiterAggregatorClient();
   final _priceClient = JupiterPriceClient();
+  final SolanaClient _client;
 
   final _sol = wrappedSol.toBase58();
 
@@ -30,48 +35,56 @@ class JupiterRepository {
     required SwapMode swapMode,
     required String account,
     required bool asLegacyTransaction,
+    required Ed25519HDPublicKey platformReferralAddress,
+    required Commitment commitment,
   }) async {
     final quote = await _swapClient.getQuote(
       QuoteRequestDto(
-        amount: amount,
+        amount: int.parse(amount),
         inputMint: inputToken,
         outputMint: outputToken,
         slippageBps: slippageBps,
         swapMode: swapMode,
-        userPublicKey: account,
-        onlyDirectRoutes: true,
+        onlyDirectRoutes: false,
         asLegacyTransaction: asLegacyTransaction,
+        platformFeeBps: 200,
       ),
     );
 
-    final bestRoute = quote.routes.firstOrNull;
+    final bestRoute = quote.routePlan.firstOrNull;
 
     if (bestRoute == null) {
       throw Exception('No route found for given input and output');
     }
 
-    final feeInSol = bestRoute.fees?.totalFeeAndDeposits;
-
-    if (feeInSol == null) {
-      throw Exception('Route has no fee object');
-    }
+    final referralMint = swapMode == SwapMode.exactIn
+        ? Ed25519HDPublicKey.fromBase58(outputToken)
+        : Ed25519HDPublicKey.fromBase58(inputToken);
+    final referralTokenAccount = await _calculateReferralAccount(
+      referralPublicKey: platformReferralAddress,
+      mintPublicKey: referralMint,
+    );
+    final hasAccount = await _client.rpcClient
+        .getBalance(referralTokenAccount.toBase58(), commitment: commitment)
+        .then((it) => it.value > 0);
 
     final tx = await _swapClient
         .getSwapTransactions(
           JupiterSwapRequestDto(
             userPublicKey: account,
-            route: bestRoute,
+            quoteResponse: quote,
             asLegacyTransaction: asLegacyTransaction,
+            wrapAndUnwrapSol: true,
+            feeAccount: hasAccount ? referralTokenAccount.toBase58() : null,
           ),
         )
         .then((jupiterTxs) => jupiterTxs.swapTransaction);
 
     return RouteInfo(
-      amount: bestRoute.amount,
-      inAmount: bestRoute.inAmount,
-      outAmount: bestRoute.outAmount,
+      amount: amount,
+      inAmount: quote.inAmount,
+      outAmount: quote.outAmount,
       jupiterTx: tx,
-      totalFees: feeInSol,
     );
   }
 
@@ -106,3 +119,20 @@ extension SwapMatchExt on SwapMatch {
     }
   }
 }
+
+Future<Ed25519HDPublicKey> _calculateReferralAccount({
+  required Ed25519HDPublicKey referralPublicKey,
+  required Ed25519HDPublicKey mintPublicKey,
+}) =>
+    Ed25519HDPublicKey.findProgramAddress(
+      seeds: [
+        'referral_ata'.codeUnits,
+        referralPublicKey.bytes,
+        mintPublicKey.bytes,
+      ],
+      programId: referralProgram,
+    );
+
+final referralProgram = Ed25519HDPublicKey.fromBase58(
+  'REFER4ZgmyYx9c6He5XfaTMiGfdLwRnkV4RPp9t9iF3',
+);
