@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
@@ -60,7 +59,12 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                     onBack: () => context.router.pop(),
                     onOkPressed: () => context.router.pop(),
                     content: e.fee?.let(_FeeNotice.new),
-                    statusContent: context.l10n.moneyReceived,
+                    statusContent: e.receivedAmount?.let(
+                          (it) => context.l10n.incomingLinkSuccessMessage(
+                            it.format(context.locale, maxDecimals: 2),
+                          ),
+                        ) ??
+                        context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
                       ? const InvalidEscrowErrorWidget()

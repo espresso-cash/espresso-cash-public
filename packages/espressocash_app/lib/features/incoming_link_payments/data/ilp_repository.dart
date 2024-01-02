@@ -81,6 +81,7 @@ class ILPRows extends Table with EntityMixin, TxStatusMixin {
   IntColumn get status => intEnum<ILPStatusDto>()();
 
   IntColumn get feeAmount => integer().nullable()();
+  IntColumn get receivedAmount => integer().nullable()();
 }
 
 enum ILPStatusDto {
@@ -118,11 +119,18 @@ extension on ILPStatusDto {
         );
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
+        final receivedAmount = row.receivedAmount;
 
         return ILPStatus.success(
           tx: tx ?? StubSignedTx(txId!),
           fee: feeAmount != null
               ? CryptoAmount(value: feeAmount, cryptoCurrency: Currency.usdc)
+              : null,
+          receivedAmount: receivedAmount != null
+              ? CryptoAmount(
+                  value: receivedAmount,
+                  cryptoCurrency: Currency.usdc,
+                )
               : null,
         );
       case ILPStatusDto.txFailure:
@@ -145,6 +153,10 @@ extension on IncomingLinkPayment {
         txFailureReason: status.toTxFailureReason(),
         feeAmount: switch (status) {
           ILPStatusSuccess(:final fee) => fee?.value,
+          _ => null,
+        },
+        receivedAmount: switch (status) {
+          ILPStatusSuccess(:final receivedAmount) => receivedAmount?.value,
           _ => null,
         },
       );

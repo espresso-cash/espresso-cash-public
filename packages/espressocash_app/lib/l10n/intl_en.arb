@@ -979,5 +979,13 @@
         "type": "String"
       }
     }
+  },
+  "incomingLinkSuccessMessage": "{amount} Transaction successfully received.",
+  "@incomingLinkSuccessMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }

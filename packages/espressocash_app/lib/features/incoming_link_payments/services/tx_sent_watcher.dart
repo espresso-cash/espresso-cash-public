@@ -11,6 +11,8 @@ import 'package:solana/solana.dart';
 import '../../../core/amount.dart';
 import '../../../core/cancelable_job.dart';
 import '../../../core/currency.dart';
+import '../../accounts/models/ec_wallet.dart';
+import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
@@ -21,16 +23,24 @@ import 'payment_watcher.dart';
 /// confirmed.
 @injectable
 class TxSentWatcher extends PaymentWatcher {
-  TxSentWatcher(super._repository, this._sender, this._cryptopleaseClient);
+  TxSentWatcher(
+    super._repository,
+    this._sender,
+    this._cryptopleaseClient,
+    this._rpcClient,
+    this._wallet,
+  );
 
   final TxSender _sender;
   final CryptopleaseClient _cryptopleaseClient;
+  final RpcClient _rpcClient;
+  final ECWallet _wallet;
 
   @override
   CancelableJob<IncomingLinkPayment> createJob(
     IncomingLinkPayment payment,
   ) =>
-      _ILPTxSentJob(payment, _sender, _cryptopleaseClient);
+      _ILPTxSentJob(payment, _sender, _cryptopleaseClient, _rpcClient, _wallet);
 
   @override
   Stream<IList<IncomingLinkPayment>> watchPayments(
@@ -40,11 +50,19 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
-  const _ILPTxSentJob(this.payment, this.sender, this._cryptopleaseClient);
+  const _ILPTxSentJob(
+    this.payment,
+    this.sender,
+    this._cryptopleaseClient,
+    this._rpcClient,
+    this._wallet,
+  );
 
   final IncomingLinkPayment payment;
   final TxSender sender;
   final CryptopleaseClient _cryptopleaseClient;
+  final RpcClient _rpcClient;
+  final ECWallet _wallet;
 
   @override
   Future<IncomingLinkPayment?> process() async {
@@ -64,10 +82,52 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
                   .then((value) => value.escrowPaymentAtaFee)
               : null;
 
+          final tx = await _rpcClient.getTransaction(
+            status.tx.id,
+            commitment: Commitment.confirmed,
+          );
+
+          final tokenAddress = await findAssociatedTokenAddress(
+            owner: _wallet.publicKey,
+            mint: Token.usdc.publicKey,
+          );
+
+          final accountIndex = status.tx.compiledMessage.accountKeys.indexWhere(
+            (e) => e == tokenAddress,
+          );
+
+          final previousBalance = tx?.meta?.preTokenBalances
+                  .where((e) => e.accountIndex == accountIndex)
+                  .firstOrNull
+                  ?.uiTokenAmount
+                  .amount
+                  .let(int.tryParse) ??
+              0;
+
+          final postBalance = tx?.meta?.postTokenBalances
+                  .where(
+                    (e) => e.accountIndex == accountIndex,
+                  )
+                  .firstOrNull
+                  ?.uiTokenAmount
+                  .amount
+                  .let(int.tryParse) ??
+              0;
+
+          final amount = postBalance - previousBalance;
+
           return ILPStatus.success(
             tx: status.tx,
             fee: fee?.let(
               (fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc),
+            ),
+            receivedAmount: amount.let(
+              (amount) => amount <= 0
+                  ? null
+                  : CryptoAmount(
+                      value: amount,
+                      cryptoCurrency: Currency.usdc,
+                    ),
             ),
           );
         } on Object {
