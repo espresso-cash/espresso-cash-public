@@ -17,6 +17,7 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
@@ -43,6 +44,7 @@ class OffRampOrderService implements Disposable {
     this._sender,
     this._db,
     this._tokens,
+    this._analyticsManager,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -52,6 +54,7 @@ class OffRampOrderService implements Disposable {
   final TxSender _sender;
   final MyDatabase _db;
   final TokenList _tokens;
+  final AnalyticsManager _analyticsManager;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -215,6 +218,8 @@ class OffRampOrderService implements Disposable {
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analyticsManager.offRampPaymentCreated();
 
           return order.id;
         }

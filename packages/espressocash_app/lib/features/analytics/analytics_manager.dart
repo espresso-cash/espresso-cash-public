@@ -23,21 +23,29 @@ class AnalyticsManager {
       );
 
   // User creates shareable link.
-  void linksCreated() => _analytics.logEvent(name: 'linksCreated');
+  void linkCreated() => _analytics.logEvent(name: 'linkCreated');
 
-  // User pressed on the first shareable link.
-  void firstLinkReceived() => _analytics.logEvent(name: 'firstLinkReceived');
+  // User receives shareable link
+  void linkReceived() => _analytics.logEvent(name: 'linkReceived');
 
-  // User pressed on the second shareable link.
-  void secondLinkReceived() => _analytics.logEvent(name: 'secondLinkReceived');
-
-  // User creates shareable link.
-  void singleLinkCreated() => _analytics.logEvent(name: 'singleLinkCreated');
-
-  // User pressed on the single link.
-  void singleLinkReceived() => _analytics.logEvent(name: 'singleLinkReceived');
+  // User cancelled the link creation
+  void linkCancelled() => _analytics.logEvent(name: 'linkCancelled');
 
   // User creates a direct payment
   void directPaymentCreated() =>
       _analytics.logEvent(name: 'directPaymentCreated');
+
+  // User creates an onramp payment
+  void onRampPaymentCreated() =>
+      _analytics.logEvent(name: 'onRampPaymentCreated');
+
+  // User creates an offramp payment
+  void offRampPaymentCreated() =>
+      _analytics.logEvent(name: 'offRampPaymentCreated');
+
+  // User completes onboarding
+  void onboardingCompleted() => _analytics.setUserProperty(
+        name: 'completedOnboarding',
+        value: 'true',
+      );
 }

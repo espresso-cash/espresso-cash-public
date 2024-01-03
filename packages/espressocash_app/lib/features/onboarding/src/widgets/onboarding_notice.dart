@@ -9,6 +9,7 @@ import '../../../../ui/button.dart';
 import '../../../accounts/models/account.dart';
 import '../../../accounts/models/ec_wallet.dart';
 import '../../../accounts/services/accounts_bloc.dart';
+import '../../../analytics/analytics_manager.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_flow_screen.dart';
 
@@ -99,5 +100,11 @@ class _Content extends StatelessWidget {
 
 extension OnboardingExt on BuildContext {
   Future<bool?> launchOnboardingFlow() =>
-      router.push<bool?>(OnboardingFlowScreen.route());
+      router.push<bool?>(OnboardingFlowScreen.route()).then((result) {
+        if (result == true) {
+          sl<AnalyticsManager>().onboardingCompleted();
+        }
+
+        return result;
+      });
 }

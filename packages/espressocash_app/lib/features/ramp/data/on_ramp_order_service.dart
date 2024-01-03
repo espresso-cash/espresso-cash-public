@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
@@ -36,12 +37,13 @@ typedef DepositDetails = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokens);
+  OnRampOrderService(this._db, this._tokens, this._analyticsManager);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
   final TokenList _tokens;
+  final AnalyticsManager _analyticsManager;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -92,6 +94,8 @@ class OnRampOrderService implements Disposable {
 
           await _db.into(_db.onRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analyticsManager.onRampPaymentCreated();
 
           return order.id;
         }

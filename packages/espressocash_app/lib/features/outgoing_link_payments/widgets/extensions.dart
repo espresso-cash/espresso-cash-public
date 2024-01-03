@@ -19,7 +19,7 @@ extension BuildContextExt on BuildContext {
           amount: amount,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().linkCreated();
 
         return payment.id;
       });
@@ -30,7 +30,7 @@ extension BuildContextExt on BuildContext {
           payment,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().linkCancelled();
       });
 
   Future<void> retryOLP({required OutgoingLinkPayment payment}) =>
@@ -39,6 +39,6 @@ extension BuildContextExt on BuildContext {
           payment,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().linkCreated();
       });
 }
