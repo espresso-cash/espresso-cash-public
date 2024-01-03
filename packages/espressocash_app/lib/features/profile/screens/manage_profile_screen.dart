@@ -12,6 +12,7 @@ import '../../../../../ui/theme.dart';
 import '../../../core/email.dart';
 import '../../../data/files/file_manager.dart';
 import '../../../di.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
@@ -44,8 +45,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   File? _photo;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
 
     final repository = sl<ProfileRepository>();
 
@@ -54,7 +55,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
 
     _photo = repository.photoPath?.let(File.new);
 
-    final country = repository.country;
+    final country = repository.country ?? context.locale.countryCode;
     if (country != null) {
       _country = Country.findByCode(country);
     }
