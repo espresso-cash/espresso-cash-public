@@ -19,7 +19,7 @@ extension BuildContextExt on BuildContext {
           amount: amount,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linkCreated();
+        sl<AnalyticsManager>().linkCreated(amount.value);
 
         return payment.id;
       });
@@ -39,6 +39,6 @@ extension BuildContextExt on BuildContext {
           payment,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linkCreated();
+        sl<AnalyticsManager>().linkCreated(payment.amount.value);
       });
 }

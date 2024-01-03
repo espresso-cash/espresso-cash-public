@@ -219,7 +219,10 @@ class OffRampOrderService implements Disposable {
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
 
-          _analyticsManager.offRampPaymentCreated();
+          _analyticsManager.offRampPaymentCreated(
+            partner: partner,
+            amount: amount.value,
+          );
 
           return order.id;
         }
