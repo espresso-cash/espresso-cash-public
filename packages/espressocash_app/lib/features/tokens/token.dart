@@ -172,37 +172,13 @@ class Extensions {
 @JsonSerializable(createToJson: false)
 class ParsedContent {
   const ParsedContent({
-    required this.name,
-    required this.logoURI,
-    required this.keywords,
     required this.timestamp,
     required this.tokens,
-    required this.version,
   });
 
   factory ParsedContent.fromJson(Map<String, dynamic> json) =>
       _$ParsedContentFromJson(json);
 
-  final String name;
-  final String? logoURI;
-  final List<String> keywords;
-  final DateTime timestamp;
   final List<Token> tokens;
-  final Version version;
-}
-
-@JsonSerializable(createToJson: false)
-class Version {
-  const Version({
-    required this.major,
-    required this.minor,
-    required this.patch,
-  });
-
-  factory Version.fromJson(Map<String, dynamic> data) =>
-      _$VersionFromJson(data);
-
-  final int major;
-  final int minor;
-  final int patch;
+  final DateTime timestamp;
 }

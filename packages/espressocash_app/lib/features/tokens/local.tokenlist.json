@@ -1,16 +1,4 @@
 {
-  "name": "Testing Token List",
-  "logoURI": "",
-  "keywords": [
-    "solana",
-    "spl"
-  ],
-  "tags": {
-    "stablecoin": {
-      "name": "stablecoin",
-      "description": "Tokens that are fixed to an external asset, e.g. the US dollar"
-    }
-  },
   "timestamp": "2021-03-03T19:57:21+0000",
   "tokens": [
     {
@@ -52,10 +40,5 @@
         "coingeckoId": "solana"
       }
     }
-  ],
-  "version": {
-    "major": 0,
-    "minor": 0,
-    "patch": 0
-  }
+  ]
 }

@@ -17,8 +17,8 @@
         {
           "source": "**",
           "run": {
-            "serviceId": "cryptopleaselink",
-            "region": "europe-central2"
+            "serviceId": "backend",
+            "region": "europe-west1"
           }
         }
       ]
