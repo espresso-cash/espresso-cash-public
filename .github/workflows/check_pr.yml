@@ -47,7 +47,7 @@ jobs:
         run: make activate_utils
 
       - name: Install dependencies
-        run: melos bs
+        run: melos bs ${{ env.SCOPE }}
 
       - name: Analyze project source
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
