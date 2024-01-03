@@ -20,7 +20,7 @@ class ViewPhraseFlowScreen extends StatefulWidget {
 
 class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     with RouterWrapper {
-  void _handleStartQuiz() => router?.push(
+  void _handleStartQuiz() => router?.replace(
         QuizQuestionScreen.route(
           onComplete: _handleCompleteQuiz,
         ),
