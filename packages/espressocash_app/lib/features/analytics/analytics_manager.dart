@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:dfunc/dfunc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
@@ -17,8 +16,8 @@ class AnalyticsManager {
   FirebaseAnalyticsObserver get analyticsObserver =>
       FirebaseAnalyticsObserver(analytics: _analytics);
 
-  FutureOr<String?> get _walletAddress =>
-      _repository.loadAccount().letAsync((e) => e?.address);
+  Future<String?> get _walletAddress =>
+      _repository.loadAccount().then((e) => e?.address);
 
   Future<void> swapTransactionCreated({
     required String from,
