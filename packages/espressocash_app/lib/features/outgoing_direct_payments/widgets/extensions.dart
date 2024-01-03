@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,17 +22,18 @@ extension BuildContextExt on BuildContext {
   }) =>
       runWithLoader(this, () async {
         const currency = Currency.usdc;
+        final amount = currency.decimalToInt(amountInUsdc);
         final payment = await sl<ODPService>().create(
           account: read<MyAccount>().wallet,
           amount: CryptoAmount(
-            value: currency.decimalToInt(amountInUsdc),
+            value: amount,
             cryptoCurrency: currency,
           ),
           receiver: receiver,
           reference: reference,
         );
 
-        sl<AnalyticsManager>().directPaymentCreated();
+        unawaited(sl<AnalyticsManager>().directPaymentCreated(amount));
 
         return payment.id;
       });
@@ -41,6 +44,8 @@ extension BuildContextExt on BuildContext {
           payment,
           account: read<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().directPaymentCreated();
+        unawaited(
+          sl<AnalyticsManager>().directPaymentCreated(payment.amount.value),
+        );
       });
 }
