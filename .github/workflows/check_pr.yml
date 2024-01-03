@@ -177,7 +177,7 @@ jobs:
           cluster: mainnet
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
+        run: melos bs ${{ env.SCOPE }}
 
       - name: Generate code
         run: |
