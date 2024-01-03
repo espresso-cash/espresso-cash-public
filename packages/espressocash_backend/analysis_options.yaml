@@ -1,6 +1,0 @@
-include: package:mews_pedantic/analysis_options.yaml
-
-dart_code_metrics:
-  rules:
-    avoid-missing-interpolation: false
-    match-lib-folder-structure: false
