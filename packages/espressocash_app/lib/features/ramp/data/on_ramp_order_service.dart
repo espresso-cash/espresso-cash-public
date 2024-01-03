@@ -95,11 +95,9 @@ class OnRampOrderService implements Disposable {
           await _db.into(_db.onRampOrderRows).insert(order);
           _subscribe(order.id);
 
-          unawaited(
-            _analyticsManager.onRampPaymentCreated(
-              partner: partner,
-              amount: submittedAmount.value,
-            ),
+          _analyticsManager.onRampPaymentCreated(
+            partner: partner,
+            amount: submittedAmount.value,
           );
 
           return order.id;

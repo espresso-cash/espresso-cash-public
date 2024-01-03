@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -54,4 +55,7 @@ abstract class AppModule {
   @Named('isSaga')
   Future<bool> isSaga(SeedVault vault) =>
       vault.isAvailable(allowSimulated: !isProd);
+
+  @lazySingleton
+  FirebaseAnalytics get analytics => FirebaseAnalytics.instance;
 }

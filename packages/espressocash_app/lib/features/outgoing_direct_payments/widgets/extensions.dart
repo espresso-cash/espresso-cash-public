@@ -33,7 +33,7 @@ extension BuildContextExt on BuildContext {
           reference: reference,
         );
 
-        unawaited(sl<AnalyticsManager>().directPaymentCreated(amount));
+        sl<AnalyticsManager>().directPaymentCreated(amount);
 
         return payment.id;
       });
@@ -44,8 +44,6 @@ extension BuildContextExt on BuildContext {
           payment,
           account: read<MyAccount>().wallet,
         );
-        unawaited(
-          sl<AnalyticsManager>().directPaymentCreated(payment.amount.value),
-        );
+        sl<AnalyticsManager>().directPaymentCreated(payment.amount.value);
       });
 }

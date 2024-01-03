@@ -1,53 +1,46 @@
-import 'dart:async';
-
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:injectable/injectable.dart';
 
-import '../accounts/data/account_repository.dart';
+import '../accounts/models/ec_wallet.dart';
+import '../authenticated/auth_scope.dart';
 import '../ramp/models/ramp_partner.dart';
 
-@lazySingleton
+@LazySingleton(scope: authScope)
 class AnalyticsManager {
-  AnalyticsManager(this._repository);
+  AnalyticsManager(this._wallet);
 
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
-  final AccountRepository _repository;
+  final ECWallet _wallet;
 
-  FirebaseAnalyticsObserver get analyticsObserver =>
-      FirebaseAnalyticsObserver(analytics: _analytics);
-
-  Future<String?> get _walletAddress =>
-      _repository.loadAccount().then((e) => e?.address);
-
-  Future<void> swapTransactionCreated({
+  void swapTransactionCreated({
     required String from,
     required String to,
     required int amount,
-  }) async =>
+  }) =>
       _analytics.logEvent(
         name: 'swapTransactionCreated',
         parameters: {
           'from': from,
           'to': to,
           'amount': amount,
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
   // User creates shareable link.
-  Future<void> linkCreated(int amount) async => _analytics.logEvent(
+  void linkCreated(int amount) => _analytics.logEvent(
         name: 'linkCreated',
         parameters: {
           'amount': amount,
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
 // User receives shareable link
-  Future<void> linkReceived() async => _analytics.logEvent(
+  void linkReceived() => _analytics.logEvent(
         name: 'linkReceived',
         parameters: {
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
@@ -55,39 +48,39 @@ class AnalyticsManager {
   void linkCancelled() => _analytics.logEvent(name: 'linkCancelled');
 
   // User creates a direct payment
-  Future<void> directPaymentCreated(int amount) async => _analytics.logEvent(
+  void directPaymentCreated(int amount) => _analytics.logEvent(
         name: 'directPaymentCreated',
         parameters: {
           'amount': amount,
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
 // User creates an onramp payment
-  Future<void> onRampPaymentCreated({
+  void onRampPaymentCreated({
     required int amount,
     required RampPartner partner,
-  }) async =>
+  }) =>
       _analytics.logEvent(
         name: 'onRampPaymentCreated',
         parameters: {
           'amount': amount,
           'partner': partner.toString(),
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
 // User creates an offramp payment
-  Future<void> offRampPaymentCreated({
+  void offRampPaymentCreated({
     required int amount,
     required RampPartner partner,
-  }) async =>
+  }) =>
       _analytics.logEvent(
         name: 'offRampPaymentCreated',
         parameters: {
           'amount': amount,
           'partner': partner.toString(),
-          'userAddress': await _walletAddress,
+          'userAddress': _wallet.address,
         },
       );
 
