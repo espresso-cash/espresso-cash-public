@@ -43,9 +43,8 @@ class AppRouter extends $AppRouter {
             AutoRoute(page: PuzzleReminderSetupRoute.page),
           ],
         ),
-        CustomRoute(
+        AutoRoute(
           page: ViewPhraseFlowRoute.page,
-          transitionsBuilder: TransitionsBuilders.slideLeft,
           children: [
             CustomRoute(page: QuizIntroRoute.page),
             CustomRoute(
@@ -55,7 +54,7 @@ class AppRouter extends $AppRouter {
             ),
             CustomRoute(
               transitionsBuilder: TransitionsBuilders.slideLeft,
-              durationInMilliseconds: 200,
+              durationInMilliseconds: 400,
               page: QuizRecoveryRoute.page,
             ),
           ],
