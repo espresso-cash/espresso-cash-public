@@ -9,7 +9,11 @@ environment:
 dependencies:
   dio: ^5.4.0
   dln_api:
-    path: ../dln_api
+    git:
+      url: https://github.com/espresso-cash/espresso-cash-public.git
+      path: packages/dln_api
+      ref: dln-deps #TODO: remove after merge
+      
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
   jupiter_aggregator:
