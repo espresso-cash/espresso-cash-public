@@ -22,10 +22,11 @@ dependencies:
   dio_cache_interceptor: ^3.4.2
   dio_cache_interceptor_db_store: ^5.1.0
   dln_api:
-    path: ../espressocash_backend/dln_api/
+    path: ../dln_api/
   drift: ^2.14.1
   espressocash_api:
     path: ../espressocash_api/
+  ethereum_addresses: ^1.0.2
   fast_immutable_collections: ^9.2.0
   firebase_analytics: ^10.7.4
   firebase_app_installations: ^0.2.4+8

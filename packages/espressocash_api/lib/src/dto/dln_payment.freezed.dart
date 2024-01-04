@@ -86,11 +86,12 @@ class _$PaymentQuoteRequestDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PaymentQuoteRequestDtoCopyWith<$Res>
+abstract class _$$PaymentQuoteRequestDtoImplCopyWith<$Res>
     implements $PaymentQuoteRequestDtoCopyWith<$Res> {
-  factory _$$_PaymentQuoteRequestDtoCopyWith(_$_PaymentQuoteRequestDto value,
-          $Res Function(_$_PaymentQuoteRequestDto) then) =
-      __$$_PaymentQuoteRequestDtoCopyWithImpl<$Res>;
+  factory _$$PaymentQuoteRequestDtoImplCopyWith(
+          _$PaymentQuoteRequestDtoImpl value,
+          $Res Function(_$PaymentQuoteRequestDtoImpl) then) =
+      __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -101,12 +102,13 @@ abstract class _$$_PaymentQuoteRequestDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PaymentQuoteRequestDtoCopyWithImpl<$Res>
+class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
     extends _$PaymentQuoteRequestDtoCopyWithImpl<$Res,
-        _$_PaymentQuoteRequestDto>
-    implements _$$_PaymentQuoteRequestDtoCopyWith<$Res> {
-  __$$_PaymentQuoteRequestDtoCopyWithImpl(_$_PaymentQuoteRequestDto _value,
-      $Res Function(_$_PaymentQuoteRequestDto) _then)
+        _$PaymentQuoteRequestDtoImpl>
+    implements _$$PaymentQuoteRequestDtoImplCopyWith<$Res> {
+  __$$PaymentQuoteRequestDtoImplCopyWithImpl(
+      _$PaymentQuoteRequestDtoImpl _value,
+      $Res Function(_$PaymentQuoteRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -117,7 +119,7 @@ class __$$_PaymentQuoteRequestDtoCopyWithImpl<$Res>
     Object? receiverAddress = null,
     Object? receiverBlockchain = null,
   }) {
-    return _then(_$_PaymentQuoteRequestDto(
+    return _then(_$PaymentQuoteRequestDtoImpl(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -140,15 +142,15 @@ class __$$_PaymentQuoteRequestDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PaymentQuoteRequestDto implements _PaymentQuoteRequestDto {
-  const _$_PaymentQuoteRequestDto(
+class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
+  const _$PaymentQuoteRequestDtoImpl(
       {required this.amount,
       required this.senderAddress,
       required this.receiverAddress,
       required this.receiverBlockchain});
 
-  factory _$_PaymentQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PaymentQuoteRequestDtoFromJson(json);
+  factory _$PaymentQuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PaymentQuoteRequestDtoImplFromJson(json);
 
   @override
   final String amount;
@@ -165,10 +167,10 @@ class _$_PaymentQuoteRequestDto implements _PaymentQuoteRequestDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaymentQuoteRequestDto &&
+            other is _$PaymentQuoteRequestDtoImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
             (identical(other.senderAddress, senderAddress) ||
                 other.senderAddress == senderAddress) &&
@@ -186,13 +188,13 @@ class _$_PaymentQuoteRequestDto implements _PaymentQuoteRequestDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaymentQuoteRequestDtoCopyWith<_$_PaymentQuoteRequestDto> get copyWith =>
-      __$$_PaymentQuoteRequestDtoCopyWithImpl<_$_PaymentQuoteRequestDto>(
-          this, _$identity);
+  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl>
+      get copyWith => __$$PaymentQuoteRequestDtoImplCopyWithImpl<
+          _$PaymentQuoteRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PaymentQuoteRequestDtoToJson(
+    return _$$PaymentQuoteRequestDtoImplToJson(
       this,
     );
   }
@@ -203,10 +205,10 @@ abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
       {required final String amount,
       required final String senderAddress,
       required final String receiverAddress,
-      required final String receiverBlockchain}) = _$_PaymentQuoteRequestDto;
+      required final String receiverBlockchain}) = _$PaymentQuoteRequestDtoImpl;
 
   factory _PaymentQuoteRequestDto.fromJson(Map<String, dynamic> json) =
-      _$_PaymentQuoteRequestDto.fromJson;
+      _$PaymentQuoteRequestDtoImpl.fromJson;
 
   @override
   String get amount;
@@ -218,8 +220,8 @@ abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
   String get receiverBlockchain;
   @override
   @JsonKey(ignore: true)
-  _$$_PaymentQuoteRequestDtoCopyWith<_$_PaymentQuoteRequestDto> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PaymentQuoteRequestDtoImplCopyWith<_$PaymentQuoteRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 PaymentQuoteResponseDto _$PaymentQuoteResponseDtoFromJson(
@@ -301,11 +303,12 @@ class _$PaymentQuoteResponseDtoCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_PaymentQuoteResponseDtoCopyWith<$Res>
+abstract class _$$PaymentQuoteResponseDtoImplCopyWith<$Res>
     implements $PaymentQuoteResponseDtoCopyWith<$Res> {
-  factory _$$_PaymentQuoteResponseDtoCopyWith(_$_PaymentQuoteResponseDto value,
-          $Res Function(_$_PaymentQuoteResponseDto) then) =
-      __$$_PaymentQuoteResponseDtoCopyWithImpl<$Res>;
+  factory _$$PaymentQuoteResponseDtoImplCopyWith(
+          _$PaymentQuoteResponseDtoImpl value,
+          $Res Function(_$PaymentQuoteResponseDtoImpl) then) =
+      __$$PaymentQuoteResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -317,12 +320,13 @@ abstract class _$$_PaymentQuoteResponseDtoCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_PaymentQuoteResponseDtoCopyWithImpl<$Res>
+class __$$PaymentQuoteResponseDtoImplCopyWithImpl<$Res>
     extends _$PaymentQuoteResponseDtoCopyWithImpl<$Res,
-        _$_PaymentQuoteResponseDto>
-    implements _$$_PaymentQuoteResponseDtoCopyWith<$Res> {
-  __$$_PaymentQuoteResponseDtoCopyWithImpl(_$_PaymentQuoteResponseDto _value,
-      $Res Function(_$_PaymentQuoteResponseDto) _then)
+        _$PaymentQuoteResponseDtoImpl>
+    implements _$$PaymentQuoteResponseDtoImplCopyWith<$Res> {
+  __$$PaymentQuoteResponseDtoImplCopyWithImpl(
+      _$PaymentQuoteResponseDtoImpl _value,
+      $Res Function(_$PaymentQuoteResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -334,7 +338,7 @@ class __$$_PaymentQuoteResponseDtoCopyWithImpl<$Res>
     Object? feeInUsdc = null,
     Object? slot = null,
   }) {
-    return _then(_$_PaymentQuoteResponseDto(
+    return _then(_$PaymentQuoteResponseDtoImpl(
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
@@ -361,16 +365,16 @@ class __$$_PaymentQuoteResponseDtoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_PaymentQuoteResponseDto implements _PaymentQuoteResponseDto {
-  const _$_PaymentQuoteResponseDto(
+class _$PaymentQuoteResponseDtoImpl implements _PaymentQuoteResponseDto {
+  const _$PaymentQuoteResponseDtoImpl(
       {required this.inputAmount,
       required this.receiverAmount,
       required this.encodedTx,
       required this.feeInUsdc,
       required this.slot});
 
-  factory _$_PaymentQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$$_PaymentQuoteResponseDtoFromJson(json);
+  factory _$PaymentQuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PaymentQuoteResponseDtoImplFromJson(json);
 
   @override
   final String inputAmount;
@@ -389,10 +393,10 @@ class _$_PaymentQuoteResponseDto implements _PaymentQuoteResponseDto {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_PaymentQuoteResponseDto &&
+            other is _$PaymentQuoteResponseDtoImpl &&
             (identical(other.inputAmount, inputAmount) ||
                 other.inputAmount == inputAmount) &&
             (identical(other.receiverAmount, receiverAmount) ||
@@ -412,14 +416,13 @@ class _$_PaymentQuoteResponseDto implements _PaymentQuoteResponseDto {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_PaymentQuoteResponseDtoCopyWith<_$_PaymentQuoteResponseDto>
-      get copyWith =>
-          __$$_PaymentQuoteResponseDtoCopyWithImpl<_$_PaymentQuoteResponseDto>(
-              this, _$identity);
+  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl>
+      get copyWith => __$$PaymentQuoteResponseDtoImplCopyWithImpl<
+          _$PaymentQuoteResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_PaymentQuoteResponseDtoToJson(
+    return _$$PaymentQuoteResponseDtoImplToJson(
       this,
     );
   }
@@ -431,10 +434,10 @@ abstract class _PaymentQuoteResponseDto implements PaymentQuoteResponseDto {
       required final String receiverAmount,
       required final String encodedTx,
       required final int feeInUsdc,
-      required final BigInt slot}) = _$_PaymentQuoteResponseDto;
+      required final BigInt slot}) = _$PaymentQuoteResponseDtoImpl;
 
   factory _PaymentQuoteResponseDto.fromJson(Map<String, dynamic> json) =
-      _$_PaymentQuoteResponseDto.fromJson;
+      _$PaymentQuoteResponseDtoImpl.fromJson;
 
   @override
   String get inputAmount;
@@ -448,6 +451,6 @@ abstract class _PaymentQuoteResponseDto implements PaymentQuoteResponseDto {
   BigInt get slot;
   @override
   @JsonKey(ignore: true)
-  _$$_PaymentQuoteResponseDtoCopyWith<_$_PaymentQuoteResponseDto>
+  _$$PaymentQuoteResponseDtoImplCopyWith<_$PaymentQuoteResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

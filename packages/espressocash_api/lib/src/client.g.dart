@@ -250,11 +250,13 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<PaymentQuoteResponseDto> getDlnQuote(request) async {
+  Future<PaymentQuoteResponseDto> getDlnQuote(
+      PaymentQuoteRequestDto request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    final _data = request;
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<PaymentQuoteResponseDto>(Options(
       method: 'POST',
@@ -267,7 +269,11 @@ class _CryptopleaseClient implements CryptopleaseClient {
               queryParameters: queryParameters,
               data: _data,
             )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
     final value = PaymentQuoteResponseDto.fromJson(_result.data!);
     return value;
   }

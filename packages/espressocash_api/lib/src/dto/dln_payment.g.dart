@@ -6,17 +6,17 @@ part of 'dln_payment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_PaymentQuoteRequestDto _$$_PaymentQuoteRequestDtoFromJson(
+_$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PaymentQuoteRequestDto(
+    _$PaymentQuoteRequestDtoImpl(
       amount: json['amount'] as String,
       senderAddress: json['senderAddress'] as String,
       receiverAddress: json['receiverAddress'] as String,
       receiverBlockchain: json['receiverBlockchain'] as String,
     );
 
-Map<String, dynamic> _$$_PaymentQuoteRequestDtoToJson(
-        _$_PaymentQuoteRequestDto instance) =>
+Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(
+        _$PaymentQuoteRequestDtoImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
       'senderAddress': instance.senderAddress,
@@ -24,9 +24,9 @@ Map<String, dynamic> _$$_PaymentQuoteRequestDtoToJson(
       'receiverBlockchain': instance.receiverBlockchain,
     };
 
-_$_PaymentQuoteResponseDto _$$_PaymentQuoteResponseDtoFromJson(
+_$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
-    _$_PaymentQuoteResponseDto(
+    _$PaymentQuoteResponseDtoImpl(
       inputAmount: json['inputAmount'] as String,
       receiverAmount: json['receiverAmount'] as String,
       encodedTx: json['encodedTx'] as String,
@@ -34,8 +34,8 @@ _$_PaymentQuoteResponseDto _$$_PaymentQuoteResponseDtoFromJson(
       slot: BigInt.parse(json['slot'] as String),
     );
 
-Map<String, dynamic> _$$_PaymentQuoteResponseDtoToJson(
-        _$_PaymentQuoteResponseDto instance) =>
+Map<String, dynamic> _$$PaymentQuoteResponseDtoImplToJson(
+        _$PaymentQuoteResponseDtoImpl instance) =>
     <String, dynamic>{
       'inputAmount': instance.inputAmount,
       'receiverAmount': instance.receiverAmount,
