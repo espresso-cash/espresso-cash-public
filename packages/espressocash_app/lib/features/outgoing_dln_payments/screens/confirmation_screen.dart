@@ -134,6 +134,7 @@ class _OutgoingDlnConfirmationScreenState
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const _DisclaimerText(),
                           const SizedBox(height: 32),
                           _Item(
                             title: context.l10n.walletNetwork,
@@ -146,9 +147,10 @@ class _OutgoingDlnConfirmationScreenState
                             backgroundColor: Colors.black,
                           ),
                           if (state.flowState.isProcessing ||
-                              state.quote == null)
-                            const _Loading()
-                          else ...[
+                              state.quote == null) ...[
+                            const SizedBox(height: 16),
+                            const _Loading(),
+                          ] else ...[
                             _Item(
                               title: context.l10n.totalAmount,
                               value: '$totalDeductedAmount ($feeAmount Fee)',
@@ -182,6 +184,46 @@ class _OutgoingDlnConfirmationScreenState
       );
 }
 
+class _DisclaimerText extends StatelessWidget {
+  const _DisclaimerText();
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
+        child: Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: context.l10n.outgoingDlnDisclaimer1,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              TextSpan(
+                text: context.l10n.outgoingDlnDisclaimer2,
+                style: const TextStyle(
+                  color: Color(0xFFFFDA66),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              TextSpan(
+                text: context.l10n.outgoingDlnDisclaimer3,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+          textAlign: TextAlign.center,
+        ),
+      );
+}
+
 class _Item extends StatelessWidget {
   const _Item({
     required this.title,
@@ -197,7 +239,7 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 24.0),
@@ -205,19 +247,21 @@ class _Item extends StatelessWidget {
                 title,
                 style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
             DecoratedBox(
               decoration: ShapeDecoration(
                 color: backgroundColor,
                 shape: const StadiumBorder(),
               ),
               child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 24),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
                 title: Text(
                   value,
                   maxLines: null,
@@ -226,6 +270,7 @@ class _Item extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),

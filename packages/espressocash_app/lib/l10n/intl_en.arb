@@ -1005,5 +1005,11 @@
         "type": "String"
       }
     }
-  }
+  },
+  "outgoingDlnDisclaimer1" : "This feature is currently in BETA.\nPlease contact ",
+  "@outgoingDlnDisclaimer1" : {},
+  "outgoingDlnDisclaimer2" : "Espresso customer support",
+  "@outgoingDlnDisclaimer2" : {},
+  "outgoingDlnDisclaimer3" : " if you experience any issues.",
+  "@outgoingDlnDisclaimer3" : {}
 }
