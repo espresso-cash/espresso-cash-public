@@ -202,8 +202,8 @@ class MyDatabase extends _$MyDatabase {
             );
             await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
           }
-          if (from < 46) {
-            await m.createTable(outgoingDlnPaymentRows);
+          if (from >= 39 && from < 46) {
+            await m.addColumn(iLPRows, iLPRows.feeAmount);
           }
         },
       );

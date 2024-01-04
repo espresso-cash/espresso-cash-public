@@ -29,7 +29,7 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --no-flutter --ignore="espressocash*" --ignore="solana"
+      SCOPE: --no-flutter --ignore="solana"
 
     steps:
       - uses: actions/checkout@v2
@@ -47,53 +47,7 @@ jobs:
         run: make activate_utils
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
-
-      - name: Analyze project source
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
-
-      - name: Run tests
-        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make dart_test
-
-  espressocash_backend:
-    needs: [formatting]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: read
-    env:
-      DEVNET_RPC_URL: "http://localhost:8899"
-      DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
-      SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator" --scope="dln_api"
-      EC_LINKS_ID: "7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL"
-      EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
-        with:
-          sdk: ${{ env.DART_VERSION }}
-
-      - name: Install DCM
-        uses: CQLabs/setup-dcm@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          version: "1.12.0"
-
-      - name: Activate utils
-        run: make activate_utils
-
-      - name: Start Solana Local Validator
-        uses: switchboard-xyz/solana-local-validator@v0.1
-        with:
-          solana-version: stable
-          cluster: mainnet
-          args: --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
-
-      - name: Activate melos
-        run: make activate_utils
-
-      - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
+        run: melos bs ${{ env.SCOPE }}
 
       - name: Analyze project source
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
@@ -223,7 +177,7 @@ jobs:
           cluster: mainnet
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
+        run: melos bs ${{ env.SCOPE }}
 
       - name: Generate code
         run: |

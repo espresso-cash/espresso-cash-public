@@ -598,7 +598,7 @@
       }
     }
   },
-  "signIn1": "Already have a Solana wallet? ",
+  "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",
   "@signIn2": {},
@@ -954,9 +954,15 @@
   },
   "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
   "@onRampAwaitingFunds": {},
-  "incomingUsdcFeeNotice": "You were charged a one time $0.10 fee for your first incoming transaction.",
-  "@incomingUsdcFeeNotice": {},
-   "depositTitle": "Add Cash",
+  "incomingUsdcFeeNotice": "You were charged a one time {amount} fee for your first incoming transaction.",
+  "@incomingUsdcFeeNotice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Add Cash",
   "@depositTitle": {},
   "depositInstruction1": "Transfer money from your bank account to our local partner:",
   "@depositInstruction1": {},
