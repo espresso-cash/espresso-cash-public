@@ -61,7 +61,7 @@ extension BuildContextExt on BuildContext {
 
           final encodedTx = args.first as String;
           final tx = encodedTx.let(SignedTx.decode);
-          final txData = await sl<SolanaClient>().calculateTxData(
+          final txData = await sl<SolanaClient>().simulateTransfer(
             tx: tx,
             account: Ed25519HDPublicKey.fromBase58(address),
             currency: currency,
@@ -76,7 +76,7 @@ extension BuildContextExt on BuildContext {
             tx: tx,
             slot: txData.slot,
             amount: CryptoAmount(
-              value: txData.amount,
+              value: txData.amountTransferred,
               cryptoCurrency: currency,
             ),
             partner: RampPartner.coinflow,
@@ -102,7 +102,7 @@ extension BuildContextExt on BuildContext {
 }
 
 extension on SolanaClient {
-  Future<({BigInt slot, int amount})?> calculateTxData({
+  Future<({int amountTransferred, BigInt slot})?> simulateTransfer({
     required SignedTx tx,
     required Ed25519HDPublicKey account,
     required CryptoCurrency currency,
@@ -111,6 +111,9 @@ extension on SolanaClient {
       owner: account,
       mint: currency.token.publicKey,
     );
+
+    // TODO(KB): It's better to run both requests at the same time,
+    // JSON RPC allows batch requests, we need to add support for it.
 
     final simulation = await rpcClient.simulateTransaction(
       tx.encode(),
@@ -123,35 +126,58 @@ extension on SolanaClient {
 
     if (simulation.value.err != null) return null;
 
-    final postBalance = simulation.value.accounts?.first.data?.getBalance();
+    final postBalance =
+        simulation.value.accounts?.first.data?.parseTokenBalance();
     final preBalance = await rpcClient
         .getAccountInfo(
           tokenAddress.toBase58(),
           commitment: Commitment.confirmed,
           encoding: Encoding.base64,
         )
-        .then((e) => e.value?.data?.getBalance());
+        .then((e) => e.value?.data?.parseTokenBalance());
 
     if (postBalance == null || preBalance == null) return null;
 
     return (
+      amountTransferred: preBalance - postBalance,
       slot: simulation.context.slot,
-      amount: preBalance - postBalance,
     );
   }
 }
 
 extension on AccountData {
-  int? getBalance() {
+  int? parseTokenBalance() {
     try {
       final data = this;
       if (data is! BinaryAccountData) return null;
 
-      final value = BinaryReader(
-        Uint8List.fromList(data.data.skip(64).toList()).buffer.asByteData(),
-      );
-
-      return value.readU64().toInt();
+      // Token Account Layout (see https://github.com/solana-labs/solana-program-library/blob/48fbb5b7c49ea35848442bba470b89331dea2b2b/token/js/src/state/account.ts#L59):
+      //
+      // export const AccountLayout = struct<RawAccount>([
+      //     publicKey('mint'),
+      //     publicKey('owner'),
+      //     u64('amount'),
+      //     u32('delegateOption'),
+      //     publicKey('delegate'),
+      //     u8('state'),
+      //     u32('isNativeOption'),
+      //     u64('isNative'),
+      //     u64('delegatedAmount'),
+      //     u32('closeAuthorityOption'),
+      //     publicKey('closeAuthority'),
+      // ]);
+      //
+      // We only need amount field, so we skip first 64 bytes (2 * 32 bytes
+      // for mint and owner fields)
+      return data.data
+          .skip(64)
+          .toList()
+          .let(Uint8List.fromList)
+          .buffer
+          .asByteData()
+          .let(BinaryReader.new)
+          .readU64()
+          .toInt();
     } on Object catch (error, stackTrace) {
       Sentry.captureException(error, stackTrace: stackTrace);
 
