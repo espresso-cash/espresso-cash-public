@@ -77,7 +77,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       fulfilled: always(context.l10n.transferSuccessTitle),
     );
 
-    final amount = order.amount.format(locale);
+    final amount = order.amount.format(locale, maxDecimals: 2);
 
     final String statusContent = order.status.maybeMap(
       fulfilled: always(context.l10n.transactionFulfilled),
@@ -171,7 +171,7 @@ class _Timeline extends StatelessWidget {
 
     final paymentInitiated = CpTimelineItem(
       title: context.l10n.paymentInitiated,
-      trailing: amount.format(context.locale),
+      trailing: amount.format(context.locale, maxDecimals: 2),
       subtitle: created.let((t) => context.formatDate(t)),
     );
     final txCreated = CpTimelineItem(
