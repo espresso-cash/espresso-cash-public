@@ -155,7 +155,7 @@ flutter:
           weight: 900
 
 flutter_native_splash:
-  color: "#B4A270"
+  background_image: assets/images/splash_bg.png
   image: assets/images/logo-icon.png
   web: false
 
