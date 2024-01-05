@@ -998,7 +998,7 @@
   "@transactionFulfilled": {},
   "transactionAwaitingFulfillment": "Your order is awaiting fulfillment",
   "@transactionAwaitingFulfillment": {},
-  "paymentProgressOngoing": "Sending {amount}!",
+  "paymentProgressOngoing": "Sending {amount}",
   "@paymentProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -1011,5 +1011,7 @@
   "outgoingDlnDisclaimer2" : "Espresso customer support",
   "@outgoingDlnDisclaimer2" : {},
   "outgoingDlnDisclaimer3" : " if you experience any issues.",
-  "@outgoingDlnDisclaimer3" : {}
+  "@outgoingDlnDisclaimer3" : {},
+  "outgoingDlnFailure": "There was an issue with your transfer. Please contact us.",
+  "@outgoingDlnFailure": {}
 }

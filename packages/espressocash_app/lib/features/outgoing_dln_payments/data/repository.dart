@@ -96,6 +96,7 @@ enum ODLNPaymentStatusDto {
   success,
   txFailure,
   fulfilled,
+  unfulfilled,
 }
 
 extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {
@@ -145,6 +146,11 @@ extension on ODLNPaymentStatusDto {
           tx!,
           orderId: row.orderId ?? '',
         );
+      case ODLNPaymentStatusDto.unfulfilled:
+        return OutgoingDlnPaymentStatus.unfulfilled(
+          tx!,
+          orderId: row.orderId ?? '',
+        );
     }
   }
 }
@@ -190,6 +196,7 @@ extension on OutgoingDlnPaymentStatus {
         success: always(ODLNPaymentStatusDto.success),
         txFailure: always(ODLNPaymentStatusDto.txFailure),
         fulfilled: always(ODLNPaymentStatusDto.fulfilled),
+        unfulfilled: always(ODLNPaymentStatusDto.unfulfilled),
       );
 
   String? toTx() => mapOrNull(

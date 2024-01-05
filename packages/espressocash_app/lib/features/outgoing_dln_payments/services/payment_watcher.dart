@@ -68,5 +68,6 @@ extension on OutgoingDlnPaymentStatus {
         success: F,
         txFailure: F,
         fulfilled: T,
+        unfulfilled: F,
       );
 }

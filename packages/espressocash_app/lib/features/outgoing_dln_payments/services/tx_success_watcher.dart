@@ -44,9 +44,21 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
     final orderStatus = await client.getStatus(status.orderId);
     final isFulfilled = orderStatus.status == OrderStatus.fulfilled;
 
-    return isFulfilled
+    if (isFulfilled) {
+      return payment.copyWith(
+        status: OutgoingDlnPaymentStatus.fulfilled(
+          status.tx,
+          orderId: status.orderId,
+        ),
+      );
+    }
+
+    final isStale = DateTime.now().difference(payment.created).inMinutes >
+        _minutesBeforeStale;
+
+    return isStale
         ? payment.copyWith(
-            status: OutgoingDlnPaymentStatus.fulfilled(
+            status: OutgoingDlnPaymentStatus.unfulfilled(
               status.tx,
               orderId: status.orderId,
             ),
@@ -54,3 +66,5 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
         : null;
   }
 }
+
+const _minutesBeforeStale = 2;

@@ -48,4 +48,10 @@ class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
     SignedTx tx, {
     required String orderId,
   }) = OutgoingDlnPaymentStatusFulfilled;
+
+  /// Order has been stale for some time and most likely wont be fulfilled.
+  const factory OutgoingDlnPaymentStatus.unfulfilled(
+    SignedTx tx, {
+    required String orderId,
+  }) = OutgoingDlnPaymentStatusUnFulfilled;
 }
