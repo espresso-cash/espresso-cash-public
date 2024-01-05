@@ -4,6 +4,8 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -55,39 +57,28 @@ extension BuildContextExt on BuildContext {
 
           if (args.first is! String) return null;
 
-          final encodedTx = args.first as String;
+          const currency = Currency.usdc;
 
+          final encodedTx = args.first as String;
           final tx = encodedTx.let(SignedTx.decode);
-          final addressTableLookups = tx.compiledMessage.map(
-            legacy: (_) => <MessageAddressTableLookup>[],
-            v0: (v0) => v0.addressTableLookups,
+          final txData = await sl<SolanaClient>().calculateTxData(
+            tx: tx,
+            account: Ed25519HDPublicKey.fromBase58(address),
+            currency: currency,
           );
 
-          final client = sl<RpcClient>();
-          final lookUpTables =
-              await client.getAddressLookUpTableAccounts(addressTableLookups);
-
-          final ix = tx
-              .decompileMessage(addressLookupTableAccounts: lookUpTables)
-              .instructions
-              .first
-              .data;
-
-          final reader = BinaryReader(
-            Uint8List.fromList(ix.toList()).buffer.asByteData(),
-          )..offset = 1;
-
-          final amount = reader.readU64().toInt().let(
-                (e) => CryptoAmount(
-                  value: e,
-                  cryptoCurrency: Currency.usdc,
-                ),
-              );
+          if (txData == null) {
+            throw Exception('Failed to calculate tx data');
+          }
 
           await sl<OffRampOrderService>()
               .createFromTx(
             tx: tx,
-            amount: amount,
+            slot: txData.slot,
+            amount: CryptoAmount(
+              value: txData.amount,
+              cryptoCurrency: currency,
+            ),
             partner: RampPartner.coinflow,
           )
               .then((order) {
@@ -107,5 +98,64 @@ extension BuildContextExt on BuildContext {
     }
 
     await router.push(WebViewScreen.route(url: blank, onLoaded: handleLoaded));
+  }
+}
+
+extension on SolanaClient {
+  Future<({BigInt slot, int amount})?> calculateTxData({
+    required SignedTx tx,
+    required Ed25519HDPublicKey account,
+    required CryptoCurrency currency,
+  }) async {
+    final tokenAddress = await findAssociatedTokenAddress(
+      owner: account,
+      mint: currency.token.publicKey,
+    );
+
+    final simulation = await rpcClient.simulateTransaction(
+      tx.encode(),
+      commitment: Commitment.confirmed,
+      accounts: SimulateTransactionAccounts(
+        encoding: Encoding.base64,
+        addresses: [tokenAddress.toBase58()],
+      ),
+    );
+
+    if (simulation.value.err != null) return null;
+
+    final postBalance = simulation.value.accounts?.first.data?.getBalance();
+    final preBalance = await rpcClient
+        .getAccountInfo(
+          tokenAddress.toBase58(),
+          commitment: Commitment.confirmed,
+          encoding: Encoding.base64,
+        )
+        .then((e) => e.value?.data?.getBalance());
+
+    if (postBalance == null || preBalance == null) return null;
+
+    return (
+      slot: simulation.context.slot,
+      amount: preBalance - postBalance,
+    );
+  }
+}
+
+extension on AccountData {
+  int? getBalance() {
+    try {
+      final data = this;
+      if (data is! BinaryAccountData) return null;
+
+      final value = BinaryReader(
+        Uint8List.fromList(data.data.skip(64).toList()).buffer.asByteData(),
+      );
+
+      return value.readU64().toInt();
+    } on Object catch (error, stackTrace) {
+      Sentry.captureException(error, stackTrace: stackTrace);
+
+      return null;
+    }
   }
 }
