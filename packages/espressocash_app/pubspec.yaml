@@ -162,3 +162,7 @@ flutter_native_splash:
   android_12:
     image: assets/images/logo-android12.png
     color: "#B4A270"
+
+dependency_overrides:
+  jupiter_aggregator:
+    path: ../jupiter_aggregator/

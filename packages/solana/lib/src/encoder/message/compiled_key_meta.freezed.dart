@@ -69,22 +69,22 @@ class _$CompiledKeyMetaCopyWithImpl<$Res, $Val extends CompiledKeyMeta>
 }
 
 /// @nodoc
-abstract class _$$_CompiledKeyMetaCopyWith<$Res>
+abstract class _$$CompiledKeyMetaImplCopyWith<$Res>
     implements $CompiledKeyMetaCopyWith<$Res> {
-  factory _$$_CompiledKeyMetaCopyWith(
-          _$_CompiledKeyMeta value, $Res Function(_$_CompiledKeyMeta) then) =
-      __$$_CompiledKeyMetaCopyWithImpl<$Res>;
+  factory _$$CompiledKeyMetaImplCopyWith(_$CompiledKeyMetaImpl value,
+          $Res Function(_$CompiledKeyMetaImpl) then) =
+      __$$CompiledKeyMetaImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool isSigner, bool isWritable, bool isInvoked});
 }
 
 /// @nodoc
-class __$$_CompiledKeyMetaCopyWithImpl<$Res>
-    extends _$CompiledKeyMetaCopyWithImpl<$Res, _$_CompiledKeyMeta>
-    implements _$$_CompiledKeyMetaCopyWith<$Res> {
-  __$$_CompiledKeyMetaCopyWithImpl(
-      _$_CompiledKeyMeta _value, $Res Function(_$_CompiledKeyMeta) _then)
+class __$$CompiledKeyMetaImplCopyWithImpl<$Res>
+    extends _$CompiledKeyMetaCopyWithImpl<$Res, _$CompiledKeyMetaImpl>
+    implements _$$CompiledKeyMetaImplCopyWith<$Res> {
+  __$$CompiledKeyMetaImplCopyWithImpl(
+      _$CompiledKeyMetaImpl _value, $Res Function(_$CompiledKeyMetaImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_CompiledKeyMetaCopyWithImpl<$Res>
     Object? isWritable = null,
     Object? isInvoked = null,
   }) {
-    return _then(_$_CompiledKeyMeta(
+    return _then(_$CompiledKeyMetaImpl(
       isSigner: null == isSigner
           ? _value.isSigner
           : isSigner // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_CompiledKeyMetaCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CompiledKeyMeta implements _CompiledKeyMeta {
-  const _$_CompiledKeyMeta(
+class _$CompiledKeyMetaImpl implements _CompiledKeyMeta {
+  const _$CompiledKeyMetaImpl(
       {required this.isSigner,
       required this.isWritable,
       required this.isInvoked});
@@ -132,10 +132,10 @@ class _$_CompiledKeyMeta implements _CompiledKeyMeta {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CompiledKeyMeta &&
+            other is _$CompiledKeyMetaImpl &&
             (identical(other.isSigner, isSigner) ||
                 other.isSigner == isSigner) &&
             (identical(other.isWritable, isWritable) ||
@@ -150,15 +150,16 @@ class _$_CompiledKeyMeta implements _CompiledKeyMeta {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CompiledKeyMetaCopyWith<_$_CompiledKeyMeta> get copyWith =>
-      __$$_CompiledKeyMetaCopyWithImpl<_$_CompiledKeyMeta>(this, _$identity);
+  _$$CompiledKeyMetaImplCopyWith<_$CompiledKeyMetaImpl> get copyWith =>
+      __$$CompiledKeyMetaImplCopyWithImpl<_$CompiledKeyMetaImpl>(
+          this, _$identity);
 }
 
 abstract class _CompiledKeyMeta implements CompiledKeyMeta {
   const factory _CompiledKeyMeta(
       {required final bool isSigner,
       required final bool isWritable,
-      required final bool isInvoked}) = _$_CompiledKeyMeta;
+      required final bool isInvoked}) = _$CompiledKeyMetaImpl;
 
   @override
   bool get isSigner;
@@ -168,6 +169,6 @@ abstract class _CompiledKeyMeta implements CompiledKeyMeta {
   bool get isInvoked;
   @override
   @JsonKey(ignore: true)
-  _$$_CompiledKeyMetaCopyWith<_$_CompiledKeyMeta> get copyWith =>
+  _$$CompiledKeyMetaImplCopyWith<_$CompiledKeyMetaImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

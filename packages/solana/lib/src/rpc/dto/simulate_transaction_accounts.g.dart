@@ -9,8 +9,7 @@ part of 'simulate_transaction_accounts.dart';
 SimulateTransactionAccounts _$SimulateTransactionAccountsFromJson(
         Map<String, dynamic> json) =>
     SimulateTransactionAccounts(
-      accountEncoding:
-          $enumDecodeNullable(_$EncodingEnumMap, json['accountEncoding']),
+      encoding: $enumDecodeNullable(_$EncodingEnumMap, json['encoding']),
       addresses: (json['addresses'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -26,7 +25,7 @@ Map<String, dynamic> _$SimulateTransactionAccountsToJson(
     }
   }
 
-  writeNotNull('accountEncoding', _$EncodingEnumMap[instance.accountEncoding]);
+  writeNotNull('encoding', _$EncodingEnumMap[instance.encoding]);
   writeNotNull('addresses', instance.addresses);
   return val;
 }
