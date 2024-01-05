@@ -10,7 +10,7 @@ class WithdrawPaymentRequestDto with _$WithdrawPaymentRequestDto {
     required String senderAccount,
     required String receiverAccount,
     required int amount,
-    required int? feeAmount,
+    required int? feePercentage,
     required Cluster cluster,
   }) = _WithdrawPaymentRequestDto;
 
@@ -21,6 +21,7 @@ class WithdrawPaymentRequestDto with _$WithdrawPaymentRequestDto {
 @freezed
 class WithdrawPaymentResponseDto with _$WithdrawPaymentResponseDto {
   const factory WithdrawPaymentResponseDto({
+    required int totalAmount,
     required String transaction,
     required BigInt slot,
   }) = _WithdrawPaymentResponseDto;

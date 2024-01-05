@@ -24,7 +24,7 @@ mixin _$WithdrawPaymentRequestDto {
   String get senderAccount => throw _privateConstructorUsedError;
   String get receiverAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
-  int? get feeAmount => throw _privateConstructorUsedError;
+  int? get feePercentage => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $WithdrawPaymentRequestDtoCopyWith<$Res> {
       {String senderAccount,
       String receiverAccount,
       int amount,
-      int? feeAmount,
+      int? feePercentage,
       Cluster cluster});
 }
 
@@ -64,7 +64,7 @@ class _$WithdrawPaymentRequestDtoCopyWithImpl<$Res,
     Object? senderAccount = null,
     Object? receiverAccount = null,
     Object? amount = null,
-    Object? feeAmount = freezed,
+    Object? feePercentage = freezed,
     Object? cluster = null,
   }) {
     return _then(_value.copyWith(
@@ -80,9 +80,9 @@ class _$WithdrawPaymentRequestDtoCopyWithImpl<$Res,
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      feeAmount: freezed == feeAmount
-          ? _value.feeAmount
-          : feeAmount // ignore: cast_nullable_to_non_nullable
+      feePercentage: freezed == feePercentage
+          ? _value.feePercentage
+          : feePercentage // ignore: cast_nullable_to_non_nullable
               as int?,
       cluster: null == cluster
           ? _value.cluster
@@ -105,7 +105,7 @@ abstract class _$$WithdrawPaymentRequestDtoImplCopyWith<$Res>
       {String senderAccount,
       String receiverAccount,
       int amount,
-      int? feeAmount,
+      int? feePercentage,
       Cluster cluster});
 }
 
@@ -125,7 +125,7 @@ class __$$WithdrawPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? senderAccount = null,
     Object? receiverAccount = null,
     Object? amount = null,
-    Object? feeAmount = freezed,
+    Object? feePercentage = freezed,
     Object? cluster = null,
   }) {
     return _then(_$WithdrawPaymentRequestDtoImpl(
@@ -141,9 +141,9 @@ class __$$WithdrawPaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
-      feeAmount: freezed == feeAmount
-          ? _value.feeAmount
-          : feeAmount // ignore: cast_nullable_to_non_nullable
+      feePercentage: freezed == feePercentage
+          ? _value.feePercentage
+          : feePercentage // ignore: cast_nullable_to_non_nullable
               as int?,
       cluster: null == cluster
           ? _value.cluster
@@ -160,7 +160,7 @@ class _$WithdrawPaymentRequestDtoImpl implements _WithdrawPaymentRequestDto {
       {required this.senderAccount,
       required this.receiverAccount,
       required this.amount,
-      required this.feeAmount,
+      required this.feePercentage,
       required this.cluster});
 
   factory _$WithdrawPaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -173,13 +173,13 @@ class _$WithdrawPaymentRequestDtoImpl implements _WithdrawPaymentRequestDto {
   @override
   final int amount;
   @override
-  final int? feeAmount;
+  final int? feePercentage;
   @override
   final Cluster cluster;
 
   @override
   String toString() {
-    return 'WithdrawPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, amount: $amount, feeAmount: $feeAmount, cluster: $cluster)';
+    return 'WithdrawPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, amount: $amount, feePercentage: $feePercentage, cluster: $cluster)';
   }
 
   @override
@@ -192,15 +192,15 @@ class _$WithdrawPaymentRequestDtoImpl implements _WithdrawPaymentRequestDto {
             (identical(other.receiverAccount, receiverAccount) ||
                 other.receiverAccount == receiverAccount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.feeAmount, feeAmount) ||
-                other.feeAmount == feeAmount) &&
+            (identical(other.feePercentage, feePercentage) ||
+                other.feePercentage == feePercentage) &&
             (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, senderAccount, receiverAccount, amount, feeAmount, cluster);
+  int get hashCode => Object.hash(runtimeType, senderAccount, receiverAccount,
+      amount, feePercentage, cluster);
 
   @JsonKey(ignore: true)
   @override
@@ -222,7 +222,7 @@ abstract class _WithdrawPaymentRequestDto implements WithdrawPaymentRequestDto {
       {required final String senderAccount,
       required final String receiverAccount,
       required final int amount,
-      required final int? feeAmount,
+      required final int? feePercentage,
       required final Cluster cluster}) = _$WithdrawPaymentRequestDtoImpl;
 
   factory _WithdrawPaymentRequestDto.fromJson(Map<String, dynamic> json) =
@@ -235,7 +235,7 @@ abstract class _WithdrawPaymentRequestDto implements WithdrawPaymentRequestDto {
   @override
   int get amount;
   @override
-  int? get feeAmount;
+  int? get feePercentage;
   @override
   Cluster get cluster;
   @override
@@ -251,6 +251,7 @@ WithdrawPaymentResponseDto _$WithdrawPaymentResponseDtoFromJson(
 
 /// @nodoc
 mixin _$WithdrawPaymentResponseDto {
+  int get totalAmount => throw _privateConstructorUsedError;
   String get transaction => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
 
@@ -267,7 +268,7 @@ abstract class $WithdrawPaymentResponseDtoCopyWith<$Res> {
       _$WithdrawPaymentResponseDtoCopyWithImpl<$Res,
           WithdrawPaymentResponseDto>;
   @useResult
-  $Res call({String transaction, BigInt slot});
+  $Res call({int totalAmount, String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -284,10 +285,15 @@ class _$WithdrawPaymentResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? totalAmount = null,
     Object? transaction = null,
     Object? slot = null,
   }) {
     return _then(_value.copyWith(
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -309,7 +315,7 @@ abstract class _$$WithdrawPaymentResponseDtoImplCopyWith<$Res>
       __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String transaction, BigInt slot});
+  $Res call({int totalAmount, String transaction, BigInt slot});
 }
 
 /// @nodoc
@@ -325,10 +331,15 @@ class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? totalAmount = null,
     Object? transaction = null,
     Object? slot = null,
   }) {
     return _then(_$WithdrawPaymentResponseDtoImpl(
+      totalAmount: null == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
       transaction: null == transaction
           ? _value.transaction
           : transaction // ignore: cast_nullable_to_non_nullable
@@ -345,12 +356,16 @@ class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
   const _$WithdrawPaymentResponseDtoImpl(
-      {required this.transaction, required this.slot});
+      {required this.totalAmount,
+      required this.transaction,
+      required this.slot});
 
   factory _$WithdrawPaymentResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$WithdrawPaymentResponseDtoImplFromJson(json);
 
+  @override
+  final int totalAmount;
   @override
   final String transaction;
   @override
@@ -358,7 +373,7 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
 
   @override
   String toString() {
-    return 'WithdrawPaymentResponseDto(transaction: $transaction, slot: $slot)';
+    return 'WithdrawPaymentResponseDto(totalAmount: $totalAmount, transaction: $transaction, slot: $slot)';
   }
 
   @override
@@ -366,6 +381,8 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WithdrawPaymentResponseDtoImpl &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
             (identical(other.transaction, transaction) ||
                 other.transaction == transaction) &&
             (identical(other.slot, slot) || other.slot == slot));
@@ -373,7 +390,7 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, transaction, slot);
+  int get hashCode => Object.hash(runtimeType, totalAmount, transaction, slot);
 
   @JsonKey(ignore: true)
   @override
@@ -393,12 +410,15 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
 abstract class _WithdrawPaymentResponseDto
     implements WithdrawPaymentResponseDto {
   const factory _WithdrawPaymentResponseDto(
-      {required final String transaction,
+      {required final int totalAmount,
+      required final String transaction,
       required final BigInt slot}) = _$WithdrawPaymentResponseDtoImpl;
 
   factory _WithdrawPaymentResponseDto.fromJson(Map<String, dynamic> json) =
       _$WithdrawPaymentResponseDtoImpl.fromJson;
 
+  @override
+  int get totalAmount;
   @override
   String get transaction;
   @override

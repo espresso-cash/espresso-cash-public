@@ -12,7 +12,7 @@ _$WithdrawPaymentRequestDtoImpl _$$WithdrawPaymentRequestDtoImplFromJson(
       senderAccount: json['senderAccount'] as String,
       receiverAccount: json['receiverAccount'] as String,
       amount: json['amount'] as int,
-      feeAmount: json['feeAmount'] as int?,
+      feePercentage: json['feePercentage'] as int?,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
@@ -22,7 +22,7 @@ Map<String, dynamic> _$$WithdrawPaymentRequestDtoImplToJson(
       'senderAccount': instance.senderAccount,
       'receiverAccount': instance.receiverAccount,
       'amount': instance.amount,
-      'feeAmount': instance.feeAmount,
+      'feePercentage': instance.feePercentage,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
@@ -34,6 +34,7 @@ const _$ClusterEnumMap = {
 _$WithdrawPaymentResponseDtoImpl _$$WithdrawPaymentResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$WithdrawPaymentResponseDtoImpl(
+      totalAmount: json['totalAmount'] as int,
       transaction: json['transaction'] as String,
       slot: BigInt.parse(json['slot'] as String),
     );
@@ -41,6 +42,7 @@ _$WithdrawPaymentResponseDtoImpl _$$WithdrawPaymentResponseDtoImplFromJson(
 Map<String, dynamic> _$$WithdrawPaymentResponseDtoImplToJson(
         _$WithdrawPaymentResponseDtoImpl instance) =>
     <String, dynamic>{
+      'totalAmount': instance.totalAmount,
       'transaction': instance.transaction,
       'slot': instance.slot.toString(),
     };
