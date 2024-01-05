@@ -1084,7 +1084,7 @@ packages:
     source: hosted
     version: "6.7.1"
   jupiter_aggregator:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../jupiter_aggregator"
       relative: true
