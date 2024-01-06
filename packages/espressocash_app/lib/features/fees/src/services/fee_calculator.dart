@@ -28,6 +28,10 @@ class FeeCalculator {
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeSplitKey():
               return fees.escrowPayment;
+            case FeeTypeWithdraw(:final amount, :final feePercentage):
+              final calculatedFee = (amount * feePercentage / 100).round();
+
+              return fees.directPayment.ataExists + calculatedFee;
           }
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));

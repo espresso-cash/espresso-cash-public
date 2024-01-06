@@ -33,6 +33,7 @@ typedef OffRampOrder = ({
   DateTime? resolved,
   FiatAmount? receiveAmount,
   String partnerOrderId,
+  int feePercentage,
 });
 
 @Singleton(scope: authScope)
@@ -71,6 +72,9 @@ class OffRampOrderService implements Disposable {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
         (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+      )
+      ..where(
+        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not(),
       );
 
     return query
@@ -108,6 +112,7 @@ class OffRampOrderService implements Disposable {
         resolved: row.resolvedAt,
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
+        feePercentage: row.feePercentage ?? 0,
       );
     });
   }
@@ -164,12 +169,7 @@ class OffRampOrderService implements Disposable {
 
     switch (order.status) {
       case OffRampOrderStatus.depositError:
-        await updateQuery.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.cancelled),
-          ),
-        );
-
+        await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -189,6 +189,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
+    required int feePercentage,
     SignedTx? transaction,
     FiatAmount? receiveAmount,
   }) =>
@@ -211,6 +212,7 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             receiveAmount: receiveAmount?.value,
             fiatSymbol: receiveAmount?.currency.symbol,
+            feePercentage: feePercentage,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -238,6 +240,7 @@ class OffRampOrderService implements Disposable {
             depositAddress: '',
             receiveAmount: receiveAmount,
             transaction: signed,
+            feePercentage: 0,
           ).letAsync(bind);
         }
       });
@@ -258,6 +261,7 @@ class OffRampOrderService implements Disposable {
             _createTx(
               amount: _amount(order),
               receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
+              feePercentage: order.feePercentage ?? 0,
             ),
           ).onErrorReturn(
             const OffRampOrderRowsCompanion(
@@ -276,7 +280,6 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.cancelled:
-          return Stream.fromIterable([_cancelled]);
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
@@ -307,15 +310,17 @@ class OffRampOrderService implements Disposable {
   Future<OffRampOrderRowsCompanion> _createTx({
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
+    required int feePercentage,
   }) async {
-    final dto = CreateDirectPaymentRequestDto(
+    final dto = WithdrawPaymentRequestDto(
       senderAccount: _account.address,
       receiverAccount: receiver.toBase58(),
       amount: amount.value,
-      referenceAccount: null,
+      feePercentage: feePercentage,
       cluster: apiCluster,
     );
-    final response = await _client.createDirectPayment(dto);
+
+    final response = await _client.createWithdrawPayment(dto);
     final tx = await response
         .let((it) => it.transaction)
         .let(SignedTx.decode)

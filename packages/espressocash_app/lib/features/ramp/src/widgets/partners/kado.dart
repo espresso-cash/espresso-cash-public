@@ -165,6 +165,7 @@ window.addEventListener("message", (event) => {
               amount: submittedAmount,
               partner: RampPartner.kado,
               depositAddress: depositAddress,
+              feePercentage: 0,
             )
                 .then((order) {
               switch (order) {

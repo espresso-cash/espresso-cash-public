@@ -1,9 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
@@ -54,11 +52,6 @@ class OffRampConfirmation extends StatelessWidget {
               _Content(
                 withdrawAmount: order.amount,
                 receiveAmount: order.receiveAmount,
-                fee: Amount.fromDecimal(
-                  // TODO(KB): Replace with fee from backend.
-                  value: Decimal.parse('0.1'),
-                  currency: Currency.usdc,
-                ),
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -68,7 +61,12 @@ class OffRampConfirmation extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const FeeLabel(type: FeeType.splitKey()),
+                        FeeLabel(
+                          type: FeeType.withdraw(
+                            feePercentage: order.feePercentage,
+                            amount: order.amount.value,
+                          ),
+                        ),
                         const SizedBox(height: 21),
                         CpButton(
                           size: CpButtonSize.big,
@@ -91,13 +89,11 @@ class OffRampConfirmation extends StatelessWidget {
 class _Content extends StatelessWidget {
   const _Content({
     required this.withdrawAmount,
-    required this.fee,
     this.receiveAmount,
   });
 
   final Amount withdrawAmount;
   final Amount? receiveAmount;
-  final Amount fee;
 
   @override
   Widget build(BuildContext context) => CpContentPadding(

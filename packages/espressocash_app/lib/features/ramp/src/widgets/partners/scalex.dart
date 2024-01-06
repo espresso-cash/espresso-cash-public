@@ -123,6 +123,7 @@ extension BuildContextExt on BuildContext {
                 partner: RampPartner.scalex,
                 receiveAmount: receiveAmount,
                 depositAddress: address,
+                feePercentage: _withdrawPercentageFee,
               )
                   .then((order) {
                 switch (order) {
@@ -173,3 +174,5 @@ window.addEventListener("message", (event) => {
         }
       });
 }
+
+const _withdrawPercentageFee = 3;
