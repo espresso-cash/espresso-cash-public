@@ -73,4 +73,9 @@ abstract class CryptopleaseClient {
   Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
     @Body() OrderStatusScalexRequestDto referenceId,
   );
+
+  @POST('/withdraw')
+  Future<WithdrawPaymentResponseDto> createWithdrawPayment(
+    @Body() WithdrawPaymentRequestDto request,
+  );
 }
