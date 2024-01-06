@@ -71,6 +71,9 @@ class OffRampOrderService implements Disposable {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
         (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+      )
+      ..where(
+        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not(),
       );
 
     return query
@@ -164,12 +167,7 @@ class OffRampOrderService implements Disposable {
 
     switch (order.status) {
       case OffRampOrderStatus.depositError:
-        await updateQuery.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.cancelled),
-          ),
-        );
-
+        await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -277,7 +275,6 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.cancelled:
-          return Stream.fromIterable([_cancelled]);
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
