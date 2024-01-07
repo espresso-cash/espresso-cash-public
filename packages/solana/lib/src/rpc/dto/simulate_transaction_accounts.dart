@@ -7,14 +7,14 @@ part 'simulate_transaction_accounts.g.dart';
 @JsonSerializable(includeIfNull: false)
 class SimulateTransactionAccounts {
   const SimulateTransactionAccounts({
-    this.accountEncoding,
+    this.encoding,
     this.addresses,
   });
 
   factory SimulateTransactionAccounts.fromJson(Map<String, dynamic> json) =>
       _$SimulateTransactionAccountsFromJson(json);
 
-  final Encoding? accountEncoding;
+  final Encoding? encoding;
 
   /// An array of accounts to return, as base-58 encoded strings
   final List<String>? addresses;

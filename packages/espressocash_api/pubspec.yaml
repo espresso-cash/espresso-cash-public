@@ -11,7 +11,9 @@ dependencies:
   freezed_annotation: ^2.0.1
   json_annotation: ^4.6.0
   jupiter_aggregator:
-    path: ../jupiter_aggregator
+    git:
+      url: https://github.com/espresso-cash/espresso-cash-public.git
+      path: packages/jupiter_aggregator
   retrofit: ^4.0.3
 
 dev_dependencies:

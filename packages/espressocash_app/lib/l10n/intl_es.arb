@@ -1,5 +1,7 @@
 {
   "@@locale": "es",
+  "activities_lblAddCash": "Agregar efectivo",
+  "@activities_lblAddCash": {},
   "activities_lblBoughtToken": "Compró {amount}",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -18,6 +20,8 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Actividad",
   "@activities_lblTitle": {},
+  "activities_lblWithdraw": "Retirar efectivo",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Bloqueo automático",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Requiere contraseña para acceder a la aplicación",
@@ -80,6 +84,24 @@
   "@cryptoInvestments": {},
   "decline": "Rechazar",
   "@decline": {},
+  "depositDisclaimer": "Los fondos deben ser enviados desde tu cuenta personal. Cualquier fondo enviado a través de una cuenta que no coincida con los detalles de tu identificación será reservado.",
+  "@depositDisclaimer": {},
+  "depositInstruction1": "Transfiere dinero desde tu cuenta bancaria a nuestro socio local:",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Una vez que el dinero haya sido transferido, regresa a Espresso Cash y continúa a continuación.",
+  "@depositInstruction2": {},
+  "depositReceiveAmount": "Recibirás: {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Agregar efectivo",
+  "@depositTitle": {},
+  "depositTransferAmount": "Monto a transferir",
+  "@depositTransferAmount": {},
   "discover": "DESCUBRIR",
   "@discover": {},
   "displayEmptyBalanceSubtitle": "Muestra tus cuentas con saldos cero",
@@ -136,6 +158,8 @@
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Al hacer clic en el segundo enlace del mensaje o en el botón de cancelación, aceptas nuestra ",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
+  "incomingUsdcFeeNotice": "Se te ha cobrado una tarifa única de $0.10 por tu primera transacción entrante.",
+  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "código de acceso incorrecto.Volver a intentarlo",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "No tienes suficiente {feeToken} para pagar la tarifa de la red, necesita al menos {amount}.",
@@ -292,8 +316,56 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "Sin resultados encontrados.",
   "@noResultsFound": {},
+  "offRampCancelSubtitle": "¿Estás seguro(a) de que quieres cancelar este retiro?",
+  "@offRampCancelSubtitle": {},
+  "offRampCancelTitle": "Cancelar retiro",
+  "@offRampCancelTitle": {},
+  "offRampDepositError": "Hubo un problema con tu retiro",
+  "@offRampDepositError": {},
+  "offRampReceiveAmount": "Recibirás {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "offRampTopPartnerTitle": "Retira a tu cuenta bancaria usando nuestro principal socio",
   "@offRampTopPartnerTitle": {},
+  "offRampWaitingForPartner": "Tu dinero está en camino",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawalFailure": "Hubo un problema con tu retiro. Por favor, contáctanos.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWithdrawCancelled": "{amount} retiro cancelado exitosamente.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelledTitle": "El retiro ha sido cancelado",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampWithdrawInitiated": "Retiro iniciado",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawNotice": "Los retiros normalmente pueden tardar hasta 3 días hábiles en recibirse.",
+  "@offRampWithdrawNotice": {},
+  "offRampWithdrawOngoing": "Enviando {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawReceived": "Se ha recibido dinero",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawSent": "USDC enviado al socio",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawSuccess": "Tu retiro se realizó con éxito.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawTitle": "Progreso de retiro",
+  "@offRampWithdrawTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "¡La criptoinversión simplificada, tanto si eres nuevo como si eres un profesional experimentado!",
@@ -302,18 +374,62 @@
   "@onboardingIntro": {},
   "onboardingNoticeFinishSetup": "Finalizar",
   "@onboardingNoticeFinishSetup": {},
-  "onboardingNoticeMessage": "Completa la configuración, asegurando tu cuenta.",
+  "onboardingNoticeMessage": "Completa la configuración\npara asegurar tu cuenta.",
   "@onboardingNoticeMessage": {},
   "oneMonth": "1 mes",
   "@oneMonth": {},
   "oneWeek": "1 semana",
   "@oneWeek": {},
+  "onRampAwaitingFunds": "Espera un momento. Tu pedido se está procesando.",
+  "@onRampAwaitingFunds": {},
+  "onRampDepositExpired": "Tu pedido ha caducado. Por favor, inténtalo de nuevo.",
+  "@onRampDepositExpired": {},
+  "onRampDepositFailure": "Hubo un problema con tu depósito. Por favor, contáctanos.",
+  "@onRampDepositFailure": {},
+  "onRampDepositInitiated": "Depósito iniciado",
+  "@onRampDepositInitiated": {},
+  "onRampDepositOngoing": "Depositando {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositReceived": "USDC recibido",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Tu depósito se realizó con éxito.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositTitle": "Progreso de añadir efectivo",
+  "@onRampDepositTitle": {},
+  "onRampLocalTransferTile": "Moneda local transferida\nMonto enviado: {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
   "onRampTopPartnerTitle": "Transfiere dinero a Espresso utilizando nuestro principal socio de pago",
   "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Abrir el escáner QR integrado en la aplicación",
   "@openInAppScanner": {},
   "operationSend": "enviada",
   "@operationSend": {},
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
   "outgoingSplitKeyPayments_btnCancel": "Cancelar la transferencia",
   "@outgoingSplitKeyPayments_btnCancel": {},
   "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "¿Estás seguro que quieres cancelar esta transferencia?",
@@ -510,13 +626,13 @@
   "@send": {},
   "sendAs": "Enviar como",
   "@sendAs": {},
-  "sendExplanation": "Una vez que haya creado este enlace, ¡puede enviarlo a su destinatario!Luego pueden canjear los fondos simplemente haciendo clic en los enlaces.",
+  "sendExplanation": "Una vez que hayas creado este enlace, puedes enviarlo a tu destinatario. Ellos podrán canjear los fondos simplemente haciendo clic en el enlace.",
   "@sendExplanation": {},
   "sendMoney": "Enviar dinero",
   "@sendMoney": {},
   "sentDirectly": "Enviada",
   "@sentDirectly": {},
-  "sentViaLink": "Enviado por enlaces",
+  "sentViaLink": "Enviado por enlace",
   "@sentViaLink": {},
   "setReminder": "Establecer un recordatorio para{duration}",
   "@setReminder": {
@@ -530,13 +646,13 @@
   "@settings": {},
   "share": "Compartir",
   "@share": {},
-  "shareInstructions": "Para recibirlo, debe hacer clic en dos enlaces.Sigue estos dos pasos a continuación:",
+  "shareInstructions": "Para recibirlo, debes hacer clic en el enlace:",
   "@shareInstructions": {},
   "shareIntroFt": "¡Hola!\n\nTe acabo de enviar ",
   "@shareIntroFt": {},
-  "shareLink": "Compartir enlaces de pago",
+  "shareLink": "Compartir enlace de pago",
   "@shareLink": {},
-  "shareLinks": "Compartir enlaces",
+  "shareLinks": "Compartir enlace",
   "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Para pagarme con un clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},

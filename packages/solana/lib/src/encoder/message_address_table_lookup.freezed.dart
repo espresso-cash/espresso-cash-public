@@ -73,12 +73,12 @@ class _$MessageAddressTableLookupCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_MessageAddressTableLookupCopyWith<$Res>
+abstract class _$$MessageAddressTableLookupImplCopyWith<$Res>
     implements $MessageAddressTableLookupCopyWith<$Res> {
-  factory _$$_MessageAddressTableLookupCopyWith(
-          _$_MessageAddressTableLookup value,
-          $Res Function(_$_MessageAddressTableLookup) then) =
-      __$$_MessageAddressTableLookupCopyWithImpl<$Res>;
+  factory _$$MessageAddressTableLookupImplCopyWith(
+          _$MessageAddressTableLookupImpl value,
+          $Res Function(_$MessageAddressTableLookupImpl) then) =
+      __$$MessageAddressTableLookupImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -88,13 +88,13 @@ abstract class _$$_MessageAddressTableLookupCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MessageAddressTableLookupCopyWithImpl<$Res>
+class __$$MessageAddressTableLookupImplCopyWithImpl<$Res>
     extends _$MessageAddressTableLookupCopyWithImpl<$Res,
-        _$_MessageAddressTableLookup>
-    implements _$$_MessageAddressTableLookupCopyWith<$Res> {
-  __$$_MessageAddressTableLookupCopyWithImpl(
-      _$_MessageAddressTableLookup _value,
-      $Res Function(_$_MessageAddressTableLookup) _then)
+        _$MessageAddressTableLookupImpl>
+    implements _$$MessageAddressTableLookupImplCopyWith<$Res> {
+  __$$MessageAddressTableLookupImplCopyWithImpl(
+      _$MessageAddressTableLookupImpl _value,
+      $Res Function(_$MessageAddressTableLookupImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +104,7 @@ class __$$_MessageAddressTableLookupCopyWithImpl<$Res>
     Object? writableIndexes = null,
     Object? readonlyIndexes = null,
   }) {
-    return _then(_$_MessageAddressTableLookup(
+    return _then(_$MessageAddressTableLookupImpl(
       accountKey: null == accountKey
           ? _value.accountKey
           : accountKey // ignore: cast_nullable_to_non_nullable
@@ -123,8 +123,8 @@ class __$$_MessageAddressTableLookupCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
-  const _$_MessageAddressTableLookup(
+class _$MessageAddressTableLookupImpl implements _MessageAddressTableLookup {
+  const _$MessageAddressTableLookupImpl(
       {required this.accountKey,
       required final List<int> writableIndexes,
       required final List<int> readonlyIndexes})
@@ -155,10 +155,10 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MessageAddressTableLookup &&
+            other is _$MessageAddressTableLookupImpl &&
             (identical(other.accountKey, accountKey) ||
                 other.accountKey == accountKey) &&
             const DeepCollectionEquality()
@@ -177,16 +177,17 @@ class _$_MessageAddressTableLookup implements _MessageAddressTableLookup {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessageAddressTableLookupCopyWith<_$_MessageAddressTableLookup>
-      get copyWith => __$$_MessageAddressTableLookupCopyWithImpl<
-          _$_MessageAddressTableLookup>(this, _$identity);
+  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl>
+      get copyWith => __$$MessageAddressTableLookupImplCopyWithImpl<
+          _$MessageAddressTableLookupImpl>(this, _$identity);
 }
 
 abstract class _MessageAddressTableLookup implements MessageAddressTableLookup {
   const factory _MessageAddressTableLookup(
-      {required final Ed25519HDPublicKey accountKey,
-      required final List<int> writableIndexes,
-      required final List<int> readonlyIndexes}) = _$_MessageAddressTableLookup;
+          {required final Ed25519HDPublicKey accountKey,
+          required final List<int> writableIndexes,
+          required final List<int> readonlyIndexes}) =
+      _$MessageAddressTableLookupImpl;
 
   @override
   Ed25519HDPublicKey get accountKey;
@@ -196,6 +197,6 @@ abstract class _MessageAddressTableLookup implements MessageAddressTableLookup {
   List<int> get readonlyIndexes;
   @override
   @JsonKey(ignore: true)
-  _$$_MessageAddressTableLookupCopyWith<_$_MessageAddressTableLookup>
+  _$$MessageAddressTableLookupImplCopyWith<_$MessageAddressTableLookupImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

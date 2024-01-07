@@ -118,26 +118,28 @@ class _$PropertiesCopyWithImpl<$Res, $Val extends Properties>
 }
 
 /// @nodoc
-abstract class _$$UnknownCopyWith<$Res> {
-  factory _$$UnknownCopyWith(_$Unknown value, $Res Function(_$Unknown) then) =
-      __$$UnknownCopyWithImpl<$Res>;
+abstract class _$$UnknownImplCopyWith<$Res> {
+  factory _$$UnknownImplCopyWith(
+          _$UnknownImpl value, $Res Function(_$UnknownImpl) then) =
+      __$$UnknownImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$UnknownCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Unknown>
-    implements _$$UnknownCopyWith<$Res> {
-  __$$UnknownCopyWithImpl(_$Unknown _value, $Res Function(_$Unknown) _then)
+class __$$UnknownImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$UnknownImpl>
+    implements _$$UnknownImplCopyWith<$Res> {
+  __$$UnknownImplCopyWithImpl(
+      _$UnknownImpl _value, $Res Function(_$UnknownImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$Unknown implements Unknown {
-  const _$Unknown({final String? $type}) : $type = $type ?? 'unknown';
+class _$UnknownImpl implements Unknown {
+  const _$UnknownImpl({final String? $type}) : $type = $type ?? 'unknown';
 
-  factory _$Unknown.fromJson(Map<String, dynamic> json) =>
-      _$$UnknownFromJson(json);
+  factory _$UnknownImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnknownImplFromJson(json);
 
   @JsonKey(name: 'category')
   final String $type;
@@ -148,9 +150,9 @@ class _$Unknown implements Unknown {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Unknown);
+        (other.runtimeType == runtimeType && other is _$UnknownImpl);
   }
 
   @JsonKey(ignore: true)
@@ -245,31 +247,33 @@ class _$Unknown implements Unknown {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownToJson(
+    return _$$UnknownImplToJson(
       this,
     );
   }
 }
 
 abstract class Unknown implements Properties {
-  const factory Unknown() = _$Unknown;
+  const factory Unknown() = _$UnknownImpl;
 
-  factory Unknown.fromJson(Map<String, dynamic> json) = _$Unknown.fromJson;
+  factory Unknown.fromJson(Map<String, dynamic> json) = _$UnknownImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$VideoCopyWith<$Res> {
-  factory _$$VideoCopyWith(_$Video value, $Res Function(_$Video) then) =
-      __$$VideoCopyWithImpl<$Res>;
+abstract class _$$VideoImplCopyWith<$Res> {
+  factory _$$VideoImplCopyWith(
+          _$VideoImpl value, $Res Function(_$VideoImpl) then) =
+      __$$VideoImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$VideoCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Video>
-    implements _$$VideoCopyWith<$Res> {
-  __$$VideoCopyWithImpl(_$Video _value, $Res Function(_$Video) _then)
+class __$$VideoImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$VideoImpl>
+    implements _$$VideoImplCopyWith<$Res> {
+  __$$VideoImplCopyWithImpl(
+      _$VideoImpl _value, $Res Function(_$VideoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -277,7 +281,7 @@ class __$$VideoCopyWithImpl<$Res>
   $Res call({
     Object? files = null,
   }) {
-    return _then(_$Video(
+    return _then(_$VideoImpl(
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
@@ -288,12 +292,13 @@ class __$$VideoCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Video implements Video {
-  const _$Video({required final List<File> files, final String? $type})
+class _$VideoImpl implements Video {
+  const _$VideoImpl({required final List<File> files, final String? $type})
       : _files = files,
         $type = $type ?? 'video';
 
-  factory _$Video.fromJson(Map<String, dynamic> json) => _$$VideoFromJson(json);
+  factory _$VideoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VideoImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -312,10 +317,10 @@ class _$Video implements Video {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Video &&
+            other is _$VideoImpl &&
             const DeepCollectionEquality().equals(other._files, _files));
   }
 
@@ -327,8 +332,8 @@ class _$Video implements Video {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$VideoCopyWith<_$Video> get copyWith =>
-      __$$VideoCopyWithImpl<_$Video>(this, _$identity);
+  _$$VideoImplCopyWith<_$VideoImpl> get copyWith =>
+      __$$VideoImplCopyWithImpl<_$VideoImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -418,35 +423,38 @@ class _$Video implements Video {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VideoToJson(
+    return _$$VideoImplToJson(
       this,
     );
   }
 }
 
 abstract class Video implements Properties {
-  const factory Video({required final List<File> files}) = _$Video;
+  const factory Video({required final List<File> files}) = _$VideoImpl;
 
-  factory Video.fromJson(Map<String, dynamic> json) = _$Video.fromJson;
+  factory Video.fromJson(Map<String, dynamic> json) = _$VideoImpl.fromJson;
 
   List<File> get files;
   @JsonKey(ignore: true)
-  _$$VideoCopyWith<_$Video> get copyWith => throw _privateConstructorUsedError;
+  _$$VideoImplCopyWith<_$VideoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ImageCopyWith<$Res> {
-  factory _$$ImageCopyWith(_$Image value, $Res Function(_$Image) then) =
-      __$$ImageCopyWithImpl<$Res>;
+abstract class _$$ImageImplCopyWith<$Res> {
+  factory _$$ImageImplCopyWith(
+          _$ImageImpl value, $Res Function(_$ImageImpl) then) =
+      __$$ImageImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$ImageCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Image>
-    implements _$$ImageCopyWith<$Res> {
-  __$$ImageCopyWithImpl(_$Image _value, $Res Function(_$Image) _then)
+class __$$ImageImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$ImageImpl>
+    implements _$$ImageImplCopyWith<$Res> {
+  __$$ImageImplCopyWithImpl(
+      _$ImageImpl _value, $Res Function(_$ImageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -454,7 +462,7 @@ class __$$ImageCopyWithImpl<$Res>
   $Res call({
     Object? files = null,
   }) {
-    return _then(_$Image(
+    return _then(_$ImageImpl(
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
@@ -465,12 +473,13 @@ class __$$ImageCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Image implements Image {
-  const _$Image({required final List<File> files, final String? $type})
+class _$ImageImpl implements Image {
+  const _$ImageImpl({required final List<File> files, final String? $type})
       : _files = files,
         $type = $type ?? 'image';
 
-  factory _$Image.fromJson(Map<String, dynamic> json) => _$$ImageFromJson(json);
+  factory _$ImageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -489,10 +498,10 @@ class _$Image implements Image {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Image &&
+            other is _$ImageImpl &&
             const DeepCollectionEquality().equals(other._files, _files));
   }
 
@@ -504,8 +513,8 @@ class _$Image implements Image {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ImageCopyWith<_$Image> get copyWith =>
-      __$$ImageCopyWithImpl<_$Image>(this, _$identity);
+  _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
+      __$$ImageImplCopyWithImpl<_$ImageImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -595,35 +604,38 @@ class _$Image implements Image {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ImageToJson(
+    return _$$ImageImplToJson(
       this,
     );
   }
 }
 
 abstract class Image implements Properties {
-  const factory Image({required final List<File> files}) = _$Image;
+  const factory Image({required final List<File> files}) = _$ImageImpl;
 
-  factory Image.fromJson(Map<String, dynamic> json) = _$Image.fromJson;
+  factory Image.fromJson(Map<String, dynamic> json) = _$ImageImpl.fromJson;
 
   List<File> get files;
   @JsonKey(ignore: true)
-  _$$ImageCopyWith<_$Image> get copyWith => throw _privateConstructorUsedError;
+  _$$ImageImplCopyWith<_$ImageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$Model3DCopyWith<$Res> {
-  factory _$$Model3DCopyWith(_$Model3D value, $Res Function(_$Model3D) then) =
-      __$$Model3DCopyWithImpl<$Res>;
+abstract class _$$Model3DImplCopyWith<$Res> {
+  factory _$$Model3DImplCopyWith(
+          _$Model3DImpl value, $Res Function(_$Model3DImpl) then) =
+      __$$Model3DImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$Model3DCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Model3D>
-    implements _$$Model3DCopyWith<$Res> {
-  __$$Model3DCopyWithImpl(_$Model3D _value, $Res Function(_$Model3D) _then)
+class __$$Model3DImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$Model3DImpl>
+    implements _$$Model3DImplCopyWith<$Res> {
+  __$$Model3DImplCopyWithImpl(
+      _$Model3DImpl _value, $Res Function(_$Model3DImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -631,7 +643,7 @@ class __$$Model3DCopyWithImpl<$Res>
   $Res call({
     Object? files = null,
   }) {
-    return _then(_$Model3D(
+    return _then(_$Model3DImpl(
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
@@ -642,13 +654,13 @@ class __$$Model3DCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Model3D implements Model3D {
-  const _$Model3D({required final List<File> files, final String? $type})
+class _$Model3DImpl implements Model3D {
+  const _$Model3DImpl({required final List<File> files, final String? $type})
       : _files = files,
         $type = $type ?? 'vr';
 
-  factory _$Model3D.fromJson(Map<String, dynamic> json) =>
-      _$$Model3DFromJson(json);
+  factory _$Model3DImpl.fromJson(Map<String, dynamic> json) =>
+      _$$Model3DImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -667,10 +679,10 @@ class _$Model3D implements Model3D {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Model3D &&
+            other is _$Model3DImpl &&
             const DeepCollectionEquality().equals(other._files, _files));
   }
 
@@ -682,8 +694,8 @@ class _$Model3D implements Model3D {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$Model3DCopyWith<_$Model3D> get copyWith =>
-      __$$Model3DCopyWithImpl<_$Model3D>(this, _$identity);
+  _$$Model3DImplCopyWith<_$Model3DImpl> get copyWith =>
+      __$$Model3DImplCopyWithImpl<_$Model3DImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -773,36 +785,38 @@ class _$Model3D implements Model3D {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$Model3DToJson(
+    return _$$Model3DImplToJson(
       this,
     );
   }
 }
 
 abstract class Model3D implements Properties {
-  const factory Model3D({required final List<File> files}) = _$Model3D;
+  const factory Model3D({required final List<File> files}) = _$Model3DImpl;
 
-  factory Model3D.fromJson(Map<String, dynamic> json) = _$Model3D.fromJson;
+  factory Model3D.fromJson(Map<String, dynamic> json) = _$Model3DImpl.fromJson;
 
   List<File> get files;
   @JsonKey(ignore: true)
-  _$$Model3DCopyWith<_$Model3D> get copyWith =>
+  _$$Model3DImplCopyWith<_$Model3DImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$AudioCopyWith<$Res> {
-  factory _$$AudioCopyWith(_$Audio value, $Res Function(_$Audio) then) =
-      __$$AudioCopyWithImpl<$Res>;
+abstract class _$$AudioImplCopyWith<$Res> {
+  factory _$$AudioImplCopyWith(
+          _$AudioImpl value, $Res Function(_$AudioImpl) then) =
+      __$$AudioImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$AudioCopyWithImpl<$Res>
-    extends _$PropertiesCopyWithImpl<$Res, _$Audio>
-    implements _$$AudioCopyWith<$Res> {
-  __$$AudioCopyWithImpl(_$Audio _value, $Res Function(_$Audio) _then)
+class __$$AudioImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$AudioImpl>
+    implements _$$AudioImplCopyWith<$Res> {
+  __$$AudioImplCopyWithImpl(
+      _$AudioImpl _value, $Res Function(_$AudioImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -810,7 +824,7 @@ class __$$AudioCopyWithImpl<$Res>
   $Res call({
     Object? files = null,
   }) {
-    return _then(_$Audio(
+    return _then(_$AudioImpl(
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
@@ -821,12 +835,13 @@ class __$$AudioCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$Audio implements Audio {
-  const _$Audio({required final List<File> files, final String? $type})
+class _$AudioImpl implements Audio {
+  const _$AudioImpl({required final List<File> files, final String? $type})
       : _files = files,
         $type = $type ?? 'audio';
 
-  factory _$Audio.fromJson(Map<String, dynamic> json) => _$$AudioFromJson(json);
+  factory _$AudioImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AudioImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -845,10 +860,10 @@ class _$Audio implements Audio {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Audio &&
+            other is _$AudioImpl &&
             const DeepCollectionEquality().equals(other._files, _files));
   }
 
@@ -860,8 +875,8 @@ class _$Audio implements Audio {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AudioCopyWith<_$Audio> get copyWith =>
-      __$$AudioCopyWithImpl<_$Audio>(this, _$identity);
+  _$$AudioImplCopyWith<_$AudioImpl> get copyWith =>
+      __$$AudioImplCopyWithImpl<_$AudioImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -951,34 +966,37 @@ class _$Audio implements Audio {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AudioToJson(
+    return _$$AudioImplToJson(
       this,
     );
   }
 }
 
 abstract class Audio implements Properties {
-  const factory Audio({required final List<File> files}) = _$Audio;
+  const factory Audio({required final List<File> files}) = _$AudioImpl;
 
-  factory Audio.fromJson(Map<String, dynamic> json) = _$Audio.fromJson;
+  factory Audio.fromJson(Map<String, dynamic> json) = _$AudioImpl.fromJson;
 
   List<File> get files;
   @JsonKey(ignore: true)
-  _$$AudioCopyWith<_$Audio> get copyWith => throw _privateConstructorUsedError;
+  _$$AudioImplCopyWith<_$AudioImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$HtmlCopyWith<$Res> {
-  factory _$$HtmlCopyWith(_$Html value, $Res Function(_$Html) then) =
-      __$$HtmlCopyWithImpl<$Res>;
+abstract class _$$HtmlImplCopyWith<$Res> {
+  factory _$$HtmlImplCopyWith(
+          _$HtmlImpl value, $Res Function(_$HtmlImpl) then) =
+      __$$HtmlImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<File> files});
 }
 
 /// @nodoc
-class __$$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$Html>
-    implements _$$HtmlCopyWith<$Res> {
-  __$$HtmlCopyWithImpl(_$Html _value, $Res Function(_$Html) _then)
+class __$$HtmlImplCopyWithImpl<$Res>
+    extends _$PropertiesCopyWithImpl<$Res, _$HtmlImpl>
+    implements _$$HtmlImplCopyWith<$Res> {
+  __$$HtmlImplCopyWithImpl(_$HtmlImpl _value, $Res Function(_$HtmlImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -986,7 +1004,7 @@ class __$$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$Html>
   $Res call({
     Object? files = null,
   }) {
-    return _then(_$Html(
+    return _then(_$HtmlImpl(
       files: null == files
           ? _value._files
           : files // ignore: cast_nullable_to_non_nullable
@@ -997,12 +1015,13 @@ class __$$HtmlCopyWithImpl<$Res> extends _$PropertiesCopyWithImpl<$Res, _$Html>
 
 /// @nodoc
 @JsonSerializable()
-class _$Html implements Html {
-  const _$Html({required final List<File> files, final String? $type})
+class _$HtmlImpl implements Html {
+  const _$HtmlImpl({required final List<File> files, final String? $type})
       : _files = files,
         $type = $type ?? 'html';
 
-  factory _$Html.fromJson(Map<String, dynamic> json) => _$$HtmlFromJson(json);
+  factory _$HtmlImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HtmlImplFromJson(json);
 
   final List<File> _files;
   @override
@@ -1021,10 +1040,10 @@ class _$Html implements Html {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Html &&
+            other is _$HtmlImpl &&
             const DeepCollectionEquality().equals(other._files, _files));
   }
 
@@ -1036,8 +1055,8 @@ class _$Html implements Html {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$HtmlCopyWith<_$Html> get copyWith =>
-      __$$HtmlCopyWithImpl<_$Html>(this, _$identity);
+  _$$HtmlImplCopyWith<_$HtmlImpl> get copyWith =>
+      __$$HtmlImplCopyWithImpl<_$HtmlImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1127,18 +1146,19 @@ class _$Html implements Html {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$HtmlToJson(
+    return _$$HtmlImplToJson(
       this,
     );
   }
 }
 
 abstract class Html implements Properties {
-  const factory Html({required final List<File> files}) = _$Html;
+  const factory Html({required final List<File> files}) = _$HtmlImpl;
 
-  factory Html.fromJson(Map<String, dynamic> json) = _$Html.fromJson;
+  factory Html.fromJson(Map<String, dynamic> json) = _$HtmlImpl.fromJson;
 
   List<File> get files;
   @JsonKey(ignore: true)
-  _$$HtmlCopyWith<_$Html> get copyWith => throw _privateConstructorUsedError;
+  _$$HtmlImplCopyWith<_$HtmlImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

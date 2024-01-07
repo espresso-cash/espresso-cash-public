@@ -125,12 +125,12 @@ class _$ParsedSystemInstructionCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ParsedSystemTransferInstructionCopyWith<$Res>
+abstract class _$$ParsedSystemTransferInstructionImplCopyWith<$Res>
     implements $ParsedSystemInstructionCopyWith<$Res> {
-  factory _$$ParsedSystemTransferInstructionCopyWith(
-          _$ParsedSystemTransferInstruction value,
-          $Res Function(_$ParsedSystemTransferInstruction) then) =
-      __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSystemTransferInstructionImplCopyWith(
+          _$ParsedSystemTransferInstructionImpl value,
+          $Res Function(_$ParsedSystemTransferInstructionImpl) then) =
+      __$$ParsedSystemTransferInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ParsedSystemTransferInformation info, String type});
@@ -139,13 +139,13 @@ abstract class _$$ParsedSystemTransferInstructionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>
+class __$$ParsedSystemTransferInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSystemInstructionCopyWithImpl<$Res,
-        _$ParsedSystemTransferInstruction>
-    implements _$$ParsedSystemTransferInstructionCopyWith<$Res> {
-  __$$ParsedSystemTransferInstructionCopyWithImpl(
-      _$ParsedSystemTransferInstruction _value,
-      $Res Function(_$ParsedSystemTransferInstruction) _then)
+        _$ParsedSystemTransferInstructionImpl>
+    implements _$$ParsedSystemTransferInstructionImplCopyWith<$Res> {
+  __$$ParsedSystemTransferInstructionImplCopyWithImpl(
+      _$ParsedSystemTransferInstructionImpl _value,
+      $Res Function(_$ParsedSystemTransferInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -154,7 +154,7 @@ class __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>
     Object? info = null,
     Object? type = null,
   }) {
-    return _then(_$ParsedSystemTransferInstruction(
+    return _then(_$ParsedSystemTransferInstructionImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -177,14 +177,14 @@ class __$$ParsedSystemTransferInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemTransferInstruction
+class _$ParsedSystemTransferInstructionImpl
     implements ParsedSystemTransferInstruction {
-  const _$ParsedSystemTransferInstruction(
+  const _$ParsedSystemTransferInstructionImpl(
       {required this.info, required this.type});
 
-  factory _$ParsedSystemTransferInstruction.fromJson(
+  factory _$ParsedSystemTransferInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSystemTransferInstructionFromJson(json);
+      _$$ParsedSystemTransferInstructionImplFromJson(json);
 
   @override
   final ParsedSystemTransferInformation info;
@@ -197,10 +197,10 @@ class _$ParsedSystemTransferInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSystemTransferInstruction &&
+            other is _$ParsedSystemTransferInstructionImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -212,9 +212,10 @@ class _$ParsedSystemTransferInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemTransferInstructionCopyWith<_$ParsedSystemTransferInstruction>
-      get copyWith => __$$ParsedSystemTransferInstructionCopyWithImpl<
-          _$ParsedSystemTransferInstruction>(this, _$identity);
+  _$$ParsedSystemTransferInstructionImplCopyWith<
+          _$ParsedSystemTransferInstructionImpl>
+      get copyWith => __$$ParsedSystemTransferInstructionImplCopyWithImpl<
+          _$ParsedSystemTransferInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -296,7 +297,7 @@ class _$ParsedSystemTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferInstructionToJson(
+    return _$$ParsedSystemTransferInstructionImplToJson(
       this,
     );
   }
@@ -306,27 +307,28 @@ abstract class ParsedSystemTransferInstruction
     implements ParsedSystemInstruction {
   const factory ParsedSystemTransferInstruction(
       {required final ParsedSystemTransferInformation info,
-      required final String type}) = _$ParsedSystemTransferInstruction;
+      required final String type}) = _$ParsedSystemTransferInstructionImpl;
 
   factory ParsedSystemTransferInstruction.fromJson(Map<String, dynamic> json) =
-      _$ParsedSystemTransferInstruction.fromJson;
+      _$ParsedSystemTransferInstructionImpl.fromJson;
 
   ParsedSystemTransferInformation get info;
   @override
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSystemTransferInstructionCopyWith<_$ParsedSystemTransferInstruction>
+  _$$ParsedSystemTransferInstructionImplCopyWith<
+          _$ParsedSystemTransferInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res>
+abstract class _$$ParsedSystemTransferCheckedInstructionImplCopyWith<$Res>
     implements $ParsedSystemInstructionCopyWith<$Res> {
-  factory _$$ParsedSystemTransferCheckedInstructionCopyWith(
-          _$ParsedSystemTransferCheckedInstruction value,
-          $Res Function(_$ParsedSystemTransferCheckedInstruction) then) =
-      __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSystemTransferCheckedInstructionImplCopyWith(
+          _$ParsedSystemTransferCheckedInstructionImpl value,
+          $Res Function(_$ParsedSystemTransferCheckedInstructionImpl) then) =
+      __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({ParsedSystemTransferInformation info, String type});
@@ -335,13 +337,13 @@ abstract class _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
+class __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSystemInstructionCopyWithImpl<$Res,
-        _$ParsedSystemTransferCheckedInstruction>
-    implements _$$ParsedSystemTransferCheckedInstructionCopyWith<$Res> {
-  __$$ParsedSystemTransferCheckedInstructionCopyWithImpl(
-      _$ParsedSystemTransferCheckedInstruction _value,
-      $Res Function(_$ParsedSystemTransferCheckedInstruction) _then)
+        _$ParsedSystemTransferCheckedInstructionImpl>
+    implements _$$ParsedSystemTransferCheckedInstructionImplCopyWith<$Res> {
+  __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl(
+      _$ParsedSystemTransferCheckedInstructionImpl _value,
+      $Res Function(_$ParsedSystemTransferCheckedInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -350,7 +352,7 @@ class __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
     Object? info = null,
     Object? type = null,
   }) {
-    return _then(_$ParsedSystemTransferCheckedInstruction(
+    return _then(_$ParsedSystemTransferCheckedInstructionImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -373,14 +375,14 @@ class __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemTransferCheckedInstruction
+class _$ParsedSystemTransferCheckedInstructionImpl
     implements ParsedSystemTransferCheckedInstruction {
-  const _$ParsedSystemTransferCheckedInstruction(
+  const _$ParsedSystemTransferCheckedInstructionImpl(
       {required this.info, required this.type});
 
-  factory _$ParsedSystemTransferCheckedInstruction.fromJson(
+  factory _$ParsedSystemTransferCheckedInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSystemTransferCheckedInstructionFromJson(json);
+      _$$ParsedSystemTransferCheckedInstructionImplFromJson(json);
 
   @override
   final ParsedSystemTransferInformation info;
@@ -393,10 +395,10 @@ class _$ParsedSystemTransferCheckedInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSystemTransferCheckedInstruction &&
+            other is _$ParsedSystemTransferCheckedInstructionImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -408,10 +410,11 @@ class _$ParsedSystemTransferCheckedInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemTransferCheckedInstructionCopyWith<
-          _$ParsedSystemTransferCheckedInstruction>
-      get copyWith => __$$ParsedSystemTransferCheckedInstructionCopyWithImpl<
-          _$ParsedSystemTransferCheckedInstruction>(this, _$identity);
+  _$$ParsedSystemTransferCheckedInstructionImplCopyWith<
+          _$ParsedSystemTransferCheckedInstructionImpl>
+      get copyWith =>
+          __$$ParsedSystemTransferCheckedInstructionImplCopyWithImpl<
+              _$ParsedSystemTransferCheckedInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -493,7 +496,7 @@ class _$ParsedSystemTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemTransferCheckedInstructionToJson(
+    return _$$ParsedSystemTransferCheckedInstructionImplToJson(
       this,
     );
   }
@@ -502,43 +505,44 @@ class _$ParsedSystemTransferCheckedInstruction
 abstract class ParsedSystemTransferCheckedInstruction
     implements ParsedSystemInstruction {
   const factory ParsedSystemTransferCheckedInstruction(
-      {required final ParsedSystemTransferInformation info,
-      required final String type}) = _$ParsedSystemTransferCheckedInstruction;
+          {required final ParsedSystemTransferInformation info,
+          required final String type}) =
+      _$ParsedSystemTransferCheckedInstructionImpl;
 
   factory ParsedSystemTransferCheckedInstruction.fromJson(
           Map<String, dynamic> json) =
-      _$ParsedSystemTransferCheckedInstruction.fromJson;
+      _$ParsedSystemTransferCheckedInstructionImpl.fromJson;
 
   ParsedSystemTransferInformation get info;
   @override
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSystemTransferCheckedInstructionCopyWith<
-          _$ParsedSystemTransferCheckedInstruction>
+  _$$ParsedSystemTransferCheckedInstructionImplCopyWith<
+          _$ParsedSystemTransferCheckedInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ParsedSystemUnsupportedInstructionCopyWith<$Res>
+abstract class _$$ParsedSystemUnsupportedInstructionImplCopyWith<$Res>
     implements $ParsedSystemInstructionCopyWith<$Res> {
-  factory _$$ParsedSystemUnsupportedInstructionCopyWith(
-          _$ParsedSystemUnsupportedInstruction value,
-          $Res Function(_$ParsedSystemUnsupportedInstruction) then) =
-      __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSystemUnsupportedInstructionImplCopyWith(
+          _$ParsedSystemUnsupportedInstructionImpl value,
+          $Res Function(_$ParsedSystemUnsupportedInstructionImpl) then) =
+      __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>
+class __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSystemInstructionCopyWithImpl<$Res,
-        _$ParsedSystemUnsupportedInstruction>
-    implements _$$ParsedSystemUnsupportedInstructionCopyWith<$Res> {
-  __$$ParsedSystemUnsupportedInstructionCopyWithImpl(
-      _$ParsedSystemUnsupportedInstruction _value,
-      $Res Function(_$ParsedSystemUnsupportedInstruction) _then)
+        _$ParsedSystemUnsupportedInstructionImpl>
+    implements _$$ParsedSystemUnsupportedInstructionImplCopyWith<$Res> {
+  __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl(
+      _$ParsedSystemUnsupportedInstructionImpl _value,
+      $Res Function(_$ParsedSystemUnsupportedInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -546,7 +550,7 @@ class __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
   }) {
-    return _then(_$ParsedSystemUnsupportedInstruction(
+    return _then(_$ParsedSystemUnsupportedInstructionImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -557,13 +561,13 @@ class __$$ParsedSystemUnsupportedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSystemUnsupportedInstruction
+class _$ParsedSystemUnsupportedInstructionImpl
     implements ParsedSystemUnsupportedInstruction {
-  const _$ParsedSystemUnsupportedInstruction({required this.type});
+  const _$ParsedSystemUnsupportedInstructionImpl({required this.type});
 
-  factory _$ParsedSystemUnsupportedInstruction.fromJson(
+  factory _$ParsedSystemUnsupportedInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSystemUnsupportedInstructionFromJson(json);
+      _$$ParsedSystemUnsupportedInstructionImplFromJson(json);
 
   @override
   final String type;
@@ -574,10 +578,10 @@ class _$ParsedSystemUnsupportedInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSystemUnsupportedInstruction &&
+            other is _$ParsedSystemUnsupportedInstructionImpl &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -588,10 +592,10 @@ class _$ParsedSystemUnsupportedInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSystemUnsupportedInstructionCopyWith<
-          _$ParsedSystemUnsupportedInstruction>
-      get copyWith => __$$ParsedSystemUnsupportedInstructionCopyWithImpl<
-          _$ParsedSystemUnsupportedInstruction>(this, _$identity);
+  _$$ParsedSystemUnsupportedInstructionImplCopyWith<
+          _$ParsedSystemUnsupportedInstructionImpl>
+      get copyWith => __$$ParsedSystemUnsupportedInstructionImplCopyWithImpl<
+          _$ParsedSystemUnsupportedInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -673,7 +677,7 @@ class _$ParsedSystemUnsupportedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSystemUnsupportedInstructionToJson(
+    return _$$ParsedSystemUnsupportedInstructionImplToJson(
       this,
     );
   }
@@ -682,18 +686,18 @@ class _$ParsedSystemUnsupportedInstruction
 abstract class ParsedSystemUnsupportedInstruction
     implements ParsedSystemInstruction {
   const factory ParsedSystemUnsupportedInstruction(
-      {required final String type}) = _$ParsedSystemUnsupportedInstruction;
+      {required final String type}) = _$ParsedSystemUnsupportedInstructionImpl;
 
   factory ParsedSystemUnsupportedInstruction.fromJson(
           Map<String, dynamic> json) =
-      _$ParsedSystemUnsupportedInstruction.fromJson;
+      _$ParsedSystemUnsupportedInstructionImpl.fromJson;
 
   @override
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSystemUnsupportedInstructionCopyWith<
-          _$ParsedSystemUnsupportedInstruction>
+  _$$ParsedSystemUnsupportedInstructionImplCopyWith<
+          _$ParsedSystemUnsupportedInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -761,25 +765,25 @@ class _$ParsedSystemTransferInformationCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_ParsedSystemTransferInformationCopyWith<$Res>
+abstract class _$$ParsedSystemTransferInformationImplCopyWith<$Res>
     implements $ParsedSystemTransferInformationCopyWith<$Res> {
-  factory _$$_ParsedSystemTransferInformationCopyWith(
-          _$_ParsedSystemTransferInformation value,
-          $Res Function(_$_ParsedSystemTransferInformation) then) =
-      __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>;
+  factory _$$ParsedSystemTransferInformationImplCopyWith(
+          _$ParsedSystemTransferInformationImpl value,
+          $Res Function(_$ParsedSystemTransferInformationImpl) then) =
+      __$$ParsedSystemTransferInformationImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int lamports, String source, String destination});
 }
 
 /// @nodoc
-class __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>
+class __$$ParsedSystemTransferInformationImplCopyWithImpl<$Res>
     extends _$ParsedSystemTransferInformationCopyWithImpl<$Res,
-        _$_ParsedSystemTransferInformation>
-    implements _$$_ParsedSystemTransferInformationCopyWith<$Res> {
-  __$$_ParsedSystemTransferInformationCopyWithImpl(
-      _$_ParsedSystemTransferInformation _value,
-      $Res Function(_$_ParsedSystemTransferInformation) _then)
+        _$ParsedSystemTransferInformationImpl>
+    implements _$$ParsedSystemTransferInformationImplCopyWith<$Res> {
+  __$$ParsedSystemTransferInformationImplCopyWithImpl(
+      _$ParsedSystemTransferInformationImpl _value,
+      $Res Function(_$ParsedSystemTransferInformationImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -789,7 +793,7 @@ class __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>
     Object? source = null,
     Object? destination = null,
   }) {
-    return _then(_$_ParsedSystemTransferInformation(
+    return _then(_$ParsedSystemTransferInformationImpl(
       lamports: null == lamports
           ? _value.lamports
           : lamports // ignore: cast_nullable_to_non_nullable
@@ -808,16 +812,16 @@ class __$$_ParsedSystemTransferInformationCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ParsedSystemTransferInformation
+class _$ParsedSystemTransferInformationImpl
     implements _ParsedSystemTransferInformation {
-  const _$_ParsedSystemTransferInformation(
+  const _$ParsedSystemTransferInformationImpl(
       {required this.lamports,
       required this.source,
       required this.destination});
 
-  factory _$_ParsedSystemTransferInformation.fromJson(
+  factory _$ParsedSystemTransferInformationImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$_ParsedSystemTransferInformationFromJson(json);
+      _$$ParsedSystemTransferInformationImplFromJson(json);
 
   @override
   final int lamports;
@@ -832,10 +836,10 @@ class _$_ParsedSystemTransferInformation
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ParsedSystemTransferInformation &&
+            other is _$ParsedSystemTransferInformationImpl &&
             (identical(other.lamports, lamports) ||
                 other.lamports == lamports) &&
             (identical(other.source, source) || other.source == source) &&
@@ -850,14 +854,14 @@ class _$_ParsedSystemTransferInformation
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ParsedSystemTransferInformationCopyWith<
-          _$_ParsedSystemTransferInformation>
-      get copyWith => __$$_ParsedSystemTransferInformationCopyWithImpl<
-          _$_ParsedSystemTransferInformation>(this, _$identity);
+  _$$ParsedSystemTransferInformationImplCopyWith<
+          _$ParsedSystemTransferInformationImpl>
+      get copyWith => __$$ParsedSystemTransferInformationImplCopyWithImpl<
+          _$ParsedSystemTransferInformationImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ParsedSystemTransferInformationToJson(
+    return _$$ParsedSystemTransferInformationImplToJson(
       this,
     );
   }
@@ -866,12 +870,13 @@ class _$_ParsedSystemTransferInformation
 abstract class _ParsedSystemTransferInformation
     implements ParsedSystemTransferInformation {
   const factory _ParsedSystemTransferInformation(
-      {required final int lamports,
-      required final String source,
-      required final String destination}) = _$_ParsedSystemTransferInformation;
+          {required final int lamports,
+          required final String source,
+          required final String destination}) =
+      _$ParsedSystemTransferInformationImpl;
 
   factory _ParsedSystemTransferInformation.fromJson(Map<String, dynamic> json) =
-      _$_ParsedSystemTransferInformation.fromJson;
+      _$ParsedSystemTransferInformationImpl.fromJson;
 
   @override
   int get lamports;
@@ -881,7 +886,7 @@ abstract class _ParsedSystemTransferInformation
   String get destination;
   @override
   @JsonKey(ignore: true)
-  _$$_ParsedSystemTransferInformationCopyWith<
-          _$_ParsedSystemTransferInformation>
+  _$$ParsedSystemTransferInformationImplCopyWith<
+          _$ParsedSystemTransferInformationImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
