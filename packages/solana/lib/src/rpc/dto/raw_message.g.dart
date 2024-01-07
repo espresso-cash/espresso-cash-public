@@ -8,7 +8,7 @@ part of 'raw_message.dart';
 
 RawMessage _$RawMessageFromJson(Map<String, dynamic> json) => RawMessage(
       accountKeys: (json['accountKeys'] as List<dynamic>)
-          .map((e) => AccountKey.fromJson(e))
+          .map(AccountKey.fromJson)
           .toList(),
       header: json['header'] == null ? null : Header.fromJson(json['header']),
       recentBlockhash: json['recentBlockhash'] as String,

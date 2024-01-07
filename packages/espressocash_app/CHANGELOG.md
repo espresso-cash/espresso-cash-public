@@ -1,3 +1,28 @@
+## 1.97.0
+
+ - **REFACTOR**: getting simulated balance.
+ - **FIX**: transaction waiting.
+ - **FIX**: coinflow withdrawal flow.
+ - **FIX**: coinflow build (#1209).
+ - **FEAT**: update l10n (#1211).
+ - **FEAT**: splash screen updates (#1201).
+
+## 1.96.0
+
+ - **REFACTOR**: move FileManager to data (#1190).
+ - **REFACTOR**: restructure features (#1183).
+ - **REFACTOR**: remove unused dependencies (#1182).
+ - **REFACTOR**: update dependencies (#1181).
+ - **REFACTOR**: update dependencies (#1179).
+ - **REFACTOR**: restructure features (#1178).
+ - **FIX**: coinflow versioned transactions (#1184).
+ - **FIX**: added generator build order (#1185).
+ - **FEAT**: update token list source (#1191).
+ - **FEAT**: dynamic first incoming fee (#1197).
+ - **FEAT**: minor label update (#1192).
+ - **FEAT**: auth backend requests (#1188).
+ - **FEAT**: updated popular token list (#1186).
+
 ## 1.95.0
 
  - **FEAT**: prefer ramp network in Europe (#1174).
