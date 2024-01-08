@@ -262,6 +262,8 @@ class OffRampOrderService implements Disposable {
               amount: _amount(order),
               receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
               feePercentage: order.feePercentage ?? 0,
+              partner: order.partner,
+              partnerOrderId: order.partnerOrderId,
             ),
           ).onErrorReturn(
             const OffRampOrderRowsCompanion(
@@ -311,6 +313,8 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
     required int feePercentage,
+    required RampPartner partner,
+    required String partnerOrderId,
   }) async {
     final dto = WithdrawPaymentRequestDto(
       senderAccount: _account.address,
@@ -318,6 +322,8 @@ class OffRampOrderService implements Disposable {
       amount: amount.value,
       feePercentage: feePercentage,
       cluster: apiCluster,
+      rampPartner: partner.name,
+      partnerOrderId: partnerOrderId,
     );
 
     final response = await _client.createWithdrawPayment(dto);
