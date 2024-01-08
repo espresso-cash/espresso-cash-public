@@ -11,6 +11,8 @@ class WithdrawPaymentRequestDto with _$WithdrawPaymentRequestDto {
     required String receiverAccount,
     required int amount,
     required int feePercentage,
+    required String rampPartner,
+    required String partnerOrderId,
     required Cluster cluster,
   }) = _WithdrawPaymentRequestDto;
 

@@ -13,6 +13,8 @@ _$WithdrawPaymentRequestDtoImpl _$$WithdrawPaymentRequestDtoImplFromJson(
       receiverAccount: json['receiverAccount'] as String,
       amount: json['amount'] as int,
       feePercentage: json['feePercentage'] as int,
+      rampPartner: json['rampPartner'] as String,
+      partnerOrderId: json['partnerOrderId'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
     );
 
@@ -23,6 +25,8 @@ Map<String, dynamic> _$$WithdrawPaymentRequestDtoImplToJson(
       'receiverAccount': instance.receiverAccount,
       'amount': instance.amount,
       'feePercentage': instance.feePercentage,
+      'rampPartner': instance.rampPartner,
+      'partnerOrderId': instance.partnerOrderId,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
     };
 
