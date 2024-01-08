@@ -9,7 +9,7 @@ part of 'parsed_message.dart';
 ParsedMessage _$ParsedMessageFromJson(Map<String, dynamic> json) =>
     ParsedMessage(
       accountKeys: (json['accountKeys'] as List<dynamic>)
-          .map((e) => AccountKey.fromJson(e))
+          .map(AccountKey.fromJson)
           .toList(),
       recentBlockhash: json['recentBlockhash'] as String,
       instructions: (json['instructions'] as List<dynamic>)

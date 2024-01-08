@@ -159,11 +159,12 @@ class _$CompiledMessageCopyWithImpl<$Res, $Val extends CompiledMessage>
 }
 
 /// @nodoc
-abstract class _$$CompiledMessageLegacyCopyWith<$Res>
+abstract class _$$CompiledMessageLegacyImplCopyWith<$Res>
     implements $CompiledMessageCopyWith<$Res> {
-  factory _$$CompiledMessageLegacyCopyWith(_$CompiledMessageLegacy value,
-          $Res Function(_$CompiledMessageLegacy) then) =
-      __$$CompiledMessageLegacyCopyWithImpl<$Res>;
+  factory _$$CompiledMessageLegacyImplCopyWith(
+          _$CompiledMessageLegacyImpl value,
+          $Res Function(_$CompiledMessageLegacyImpl) then) =
+      __$$CompiledMessageLegacyImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -177,11 +178,11 @@ abstract class _$$CompiledMessageLegacyCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CompiledMessageLegacyCopyWithImpl<$Res>
-    extends _$CompiledMessageCopyWithImpl<$Res, _$CompiledMessageLegacy>
-    implements _$$CompiledMessageLegacyCopyWith<$Res> {
-  __$$CompiledMessageLegacyCopyWithImpl(_$CompiledMessageLegacy _value,
-      $Res Function(_$CompiledMessageLegacy) _then)
+class __$$CompiledMessageLegacyImplCopyWithImpl<$Res>
+    extends _$CompiledMessageCopyWithImpl<$Res, _$CompiledMessageLegacyImpl>
+    implements _$$CompiledMessageLegacyImplCopyWith<$Res> {
+  __$$CompiledMessageLegacyImplCopyWithImpl(_$CompiledMessageLegacyImpl _value,
+      $Res Function(_$CompiledMessageLegacyImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -192,7 +193,7 @@ class __$$CompiledMessageLegacyCopyWithImpl<$Res>
     Object? recentBlockhash = null,
     Object? instructions = null,
   }) {
-    return _then(_$CompiledMessageLegacy(
+    return _then(_$CompiledMessageLegacyImpl(
       header: null == header
           ? _value.header
           : header // ignore: cast_nullable_to_non_nullable
@@ -215,8 +216,8 @@ class __$$CompiledMessageLegacyCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompiledMessageLegacy extends CompiledMessageLegacy {
-  const _$CompiledMessageLegacy(
+class _$CompiledMessageLegacyImpl extends CompiledMessageLegacy {
+  const _$CompiledMessageLegacyImpl(
       {required this.header,
       required final List<Ed25519HDPublicKey> accountKeys,
       required this.recentBlockhash,
@@ -251,10 +252,10 @@ class _$CompiledMessageLegacy extends CompiledMessageLegacy {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CompiledMessageLegacy &&
+            other is _$CompiledMessageLegacyImpl &&
             (identical(other.header, header) || other.header == header) &&
             const DeepCollectionEquality()
                 .equals(other._accountKeys, _accountKeys) &&
@@ -275,9 +276,9 @@ class _$CompiledMessageLegacy extends CompiledMessageLegacy {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CompiledMessageLegacyCopyWith<_$CompiledMessageLegacy> get copyWith =>
-      __$$CompiledMessageLegacyCopyWithImpl<_$CompiledMessageLegacy>(
-          this, _$identity);
+  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl>
+      get copyWith => __$$CompiledMessageLegacyImplCopyWithImpl<
+          _$CompiledMessageLegacyImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -378,7 +379,7 @@ abstract class CompiledMessageLegacy extends CompiledMessage {
           required final List<Ed25519HDPublicKey> accountKeys,
           required final String recentBlockhash,
           required final List<CompiledInstruction> instructions}) =
-      _$CompiledMessageLegacy;
+      _$CompiledMessageLegacyImpl;
   const CompiledMessageLegacy._() : super._();
 
   @override
@@ -391,16 +392,16 @@ abstract class CompiledMessageLegacy extends CompiledMessage {
   List<CompiledInstruction> get instructions;
   @override
   @JsonKey(ignore: true)
-  _$$CompiledMessageLegacyCopyWith<_$CompiledMessageLegacy> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$CompiledMessageLegacyImplCopyWith<_$CompiledMessageLegacyImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$CompiledMessageV0CopyWith<$Res>
+abstract class _$$CompiledMessageV0ImplCopyWith<$Res>
     implements $CompiledMessageCopyWith<$Res> {
-  factory _$$CompiledMessageV0CopyWith(
-          _$CompiledMessageV0 value, $Res Function(_$CompiledMessageV0) then) =
-      __$$CompiledMessageV0CopyWithImpl<$Res>;
+  factory _$$CompiledMessageV0ImplCopyWith(_$CompiledMessageV0Impl value,
+          $Res Function(_$CompiledMessageV0Impl) then) =
+      __$$CompiledMessageV0ImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -415,11 +416,11 @@ abstract class _$$CompiledMessageV0CopyWith<$Res>
 }
 
 /// @nodoc
-class __$$CompiledMessageV0CopyWithImpl<$Res>
-    extends _$CompiledMessageCopyWithImpl<$Res, _$CompiledMessageV0>
-    implements _$$CompiledMessageV0CopyWith<$Res> {
-  __$$CompiledMessageV0CopyWithImpl(
-      _$CompiledMessageV0 _value, $Res Function(_$CompiledMessageV0) _then)
+class __$$CompiledMessageV0ImplCopyWithImpl<$Res>
+    extends _$CompiledMessageCopyWithImpl<$Res, _$CompiledMessageV0Impl>
+    implements _$$CompiledMessageV0ImplCopyWith<$Res> {
+  __$$CompiledMessageV0ImplCopyWithImpl(_$CompiledMessageV0Impl _value,
+      $Res Function(_$CompiledMessageV0Impl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -431,7 +432,7 @@ class __$$CompiledMessageV0CopyWithImpl<$Res>
     Object? instructions = null,
     Object? addressTableLookups = null,
   }) {
-    return _then(_$CompiledMessageV0(
+    return _then(_$CompiledMessageV0Impl(
       header: null == header
           ? _value.header
           : header // ignore: cast_nullable_to_non_nullable
@@ -458,8 +459,8 @@ class __$$CompiledMessageV0CopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CompiledMessageV0 extends CompiledMessageV0 {
-  const _$CompiledMessageV0(
+class _$CompiledMessageV0Impl extends CompiledMessageV0 {
+  const _$CompiledMessageV0Impl(
       {required this.header,
       required final List<Ed25519HDPublicKey> accountKeys,
       required this.recentBlockhash,
@@ -505,10 +506,10 @@ class _$CompiledMessageV0 extends CompiledMessageV0 {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CompiledMessageV0 &&
+            other is _$CompiledMessageV0Impl &&
             (identical(other.header, header) || other.header == header) &&
             const DeepCollectionEquality()
                 .equals(other._accountKeys, _accountKeys) &&
@@ -532,8 +533,9 @@ class _$CompiledMessageV0 extends CompiledMessageV0 {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CompiledMessageV0CopyWith<_$CompiledMessageV0> get copyWith =>
-      __$$CompiledMessageV0CopyWithImpl<_$CompiledMessageV0>(this, _$identity);
+  _$$CompiledMessageV0ImplCopyWith<_$CompiledMessageV0Impl> get copyWith =>
+      __$$CompiledMessageV0ImplCopyWithImpl<_$CompiledMessageV0Impl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -638,7 +640,7 @@ abstract class CompiledMessageV0 extends CompiledMessage {
           required final String recentBlockhash,
           required final List<CompiledInstruction> instructions,
           required final List<MessageAddressTableLookup> addressTableLookups}) =
-      _$CompiledMessageV0;
+      _$CompiledMessageV0Impl;
   const CompiledMessageV0._() : super._();
 
   @override
@@ -652,6 +654,6 @@ abstract class CompiledMessageV0 extends CompiledMessage {
   List<MessageAddressTableLookup> get addressTableLookups;
   @override
   @JsonKey(ignore: true)
-  _$$CompiledMessageV0CopyWith<_$CompiledMessageV0> get copyWith =>
+  _$$CompiledMessageV0ImplCopyWith<_$CompiledMessageV0Impl> get copyWith =>
       throw _privateConstructorUsedError;
 }

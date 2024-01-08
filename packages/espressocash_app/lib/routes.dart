@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import 'routes.gr.dart';
 
@@ -12,9 +13,14 @@ class AppRouter extends $AppRouter {
 
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: SplashRoute.page, initial: true),
-    AutoRoute(
+    CustomRoute(
+      page: SplashRoute.page,
+      transitionsBuilder: _noTransition,
+      initial: true,
+    ),
+    CustomRoute(
       page: AuthenticatedFlowRoute.page,
+      transitionsBuilder: _noTransition,
       children: [
         AutoRoute(
           path: '',
@@ -110,3 +116,5 @@ class AppRouter extends $AppRouter {
     ),
   ];
 }
+
+Widget _noTransition(_, __, ___, Widget child) => child;

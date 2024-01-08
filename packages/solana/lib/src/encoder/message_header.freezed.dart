@@ -72,11 +72,11 @@ class _$MessageHeaderCopyWithImpl<$Res, $Val extends MessageHeader>
 }
 
 /// @nodoc
-abstract class _$$_MessageHeaderCopyWith<$Res>
+abstract class _$$MessageHeaderImplCopyWith<$Res>
     implements $MessageHeaderCopyWith<$Res> {
-  factory _$$_MessageHeaderCopyWith(
-          _$_MessageHeader value, $Res Function(_$_MessageHeader) then) =
-      __$$_MessageHeaderCopyWithImpl<$Res>;
+  factory _$$MessageHeaderImplCopyWith(
+          _$MessageHeaderImpl value, $Res Function(_$MessageHeaderImpl) then) =
+      __$$MessageHeaderImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -86,11 +86,11 @@ abstract class _$$_MessageHeaderCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_MessageHeaderCopyWithImpl<$Res>
-    extends _$MessageHeaderCopyWithImpl<$Res, _$_MessageHeader>
-    implements _$$_MessageHeaderCopyWith<$Res> {
-  __$$_MessageHeaderCopyWithImpl(
-      _$_MessageHeader _value, $Res Function(_$_MessageHeader) _then)
+class __$$MessageHeaderImplCopyWithImpl<$Res>
+    extends _$MessageHeaderCopyWithImpl<$Res, _$MessageHeaderImpl>
+    implements _$$MessageHeaderImplCopyWith<$Res> {
+  __$$MessageHeaderImplCopyWithImpl(
+      _$MessageHeaderImpl _value, $Res Function(_$MessageHeaderImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -100,7 +100,7 @@ class __$$_MessageHeaderCopyWithImpl<$Res>
     Object? numReadonlySignedAccounts = null,
     Object? numReadonlyUnsignedAccounts = null,
   }) {
-    return _then(_$_MessageHeader(
+    return _then(_$MessageHeaderImpl(
       numRequiredSignatures: null == numRequiredSignatures
           ? _value.numRequiredSignatures
           : numRequiredSignatures // ignore: cast_nullable_to_non_nullable
@@ -119,8 +119,8 @@ class __$$_MessageHeaderCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_MessageHeader extends _MessageHeader {
-  const _$_MessageHeader(
+class _$MessageHeaderImpl extends _MessageHeader {
+  const _$MessageHeaderImpl(
       {required this.numRequiredSignatures,
       required this.numReadonlySignedAccounts,
       required this.numReadonlyUnsignedAccounts})
@@ -139,10 +139,10 @@ class _$_MessageHeader extends _MessageHeader {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_MessageHeader &&
+            other is _$MessageHeaderImpl &&
             (identical(other.numRequiredSignatures, numRequiredSignatures) ||
                 other.numRequiredSignatures == numRequiredSignatures) &&
             (identical(other.numReadonlySignedAccounts,
@@ -161,15 +161,15 @@ class _$_MessageHeader extends _MessageHeader {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessageHeaderCopyWith<_$_MessageHeader> get copyWith =>
-      __$$_MessageHeaderCopyWithImpl<_$_MessageHeader>(this, _$identity);
+  _$$MessageHeaderImplCopyWith<_$MessageHeaderImpl> get copyWith =>
+      __$$MessageHeaderImplCopyWithImpl<_$MessageHeaderImpl>(this, _$identity);
 }
 
 abstract class _MessageHeader extends MessageHeader {
   const factory _MessageHeader(
       {required final int numRequiredSignatures,
       required final int numReadonlySignedAccounts,
-      required final int numReadonlyUnsignedAccounts}) = _$_MessageHeader;
+      required final int numReadonlyUnsignedAccounts}) = _$MessageHeaderImpl;
   const _MessageHeader._() : super._();
 
   @override
@@ -180,6 +180,6 @@ abstract class _MessageHeader extends MessageHeader {
   int get numReadonlyUnsignedAccounts;
   @override
   @JsonKey(ignore: true)
-  _$$_MessageHeaderCopyWith<_$_MessageHeader> get copyWith =>
+  _$$MessageHeaderImplCopyWith<_$MessageHeaderImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

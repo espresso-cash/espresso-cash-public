@@ -1,3 +1,12 @@
+## 1.97.0
+
+ - **REFACTOR**: getting simulated balance.
+ - **FIX**: transaction waiting.
+ - **FIX**: coinflow withdrawal flow.
+ - **FIX**: coinflow build (#1209).
+ - **FEAT**: update l10n (#1211).
+ - **FEAT**: splash screen updates (#1201).
+
 ## 1.96.0
 
  - **REFACTOR**: move FileManager to data (#1190).
