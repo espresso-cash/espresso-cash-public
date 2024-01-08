@@ -62,7 +62,8 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final Amount tokenRate = Amount.fromDecimal(
-      currency: defaultFiatCurrency,
+      currency:
+          defaultFiatCurrency.withDecimals(decimals: _popularTokensDecimals),
       value: Decimal.parse(currentPrice.toString()),
     );
 
@@ -71,7 +72,13 @@ class _TokenItem extends StatelessWidget {
       child: ListTile(
         onTap: () =>
             context.router.push(TokenDetailsScreen.route(token: token)),
-        leading: TokenIcon(token: token, size: 37),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(_iconSize / 2),
+          child: ColoredBox(
+            color: CpColors.darkBackground,
+            child: TokenIcon(token: token, size: _iconSize),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -80,9 +87,8 @@ class _TokenItem extends StatelessWidget {
               child: Text(
                 token.name,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w500,
                   fontSize: 15,
-                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -118,9 +124,9 @@ class _TokenSymbolWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: 57,
+        width: 52,
         child: Container(
-          padding: const EdgeInsets.all(6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.darkSplashBackgroundColor,
@@ -141,3 +147,18 @@ class _TokenSymbolWidget extends StatelessWidget {
         ),
       );
 }
+
+extension on FiatCurrency {
+  Currency withDecimals({
+    int? decimals,
+  }) =>
+      FiatCurrency(
+        decimals: decimals ?? this.decimals,
+        name: name,
+        symbol: symbol,
+        sign: sign,
+      );
+}
+
+const _popularTokensDecimals = 6;
+const _iconSize = 37.0;
