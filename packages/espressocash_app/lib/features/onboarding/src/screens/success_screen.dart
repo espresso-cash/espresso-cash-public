@@ -7,7 +7,6 @@ import '../../../../../../ui/button.dart';
 import '../../../../../../ui/content_padding.dart';
 import '../../../../../../ui/theme.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/rounded_rectangle.dart';
 
 @RoutePage()
 class OnboardingSuccessScreen extends StatelessWidget {
@@ -20,33 +19,54 @@ class OnboardingSuccessScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
-          body: CpContentPadding(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 110),
-                Assets.icons.successCheck.svg(width: 72, height: 72),
-                const SizedBox(height: 42),
-                CpRoundedRectangle(
-                  padding: const EdgeInsets.all(32),
-                  backgroundColor: Colors.black,
-                  child: Text(
-                    '${context.l10n.backupPhrase_lblSuccessMessage1}\n\n${context.l10n.backupPhrase_lblSuccessMessage2}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400,
+          body: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Assets.images.sendManualBg.image(
+                fit: BoxFit.cover,
+                width: double.infinity,
+              ),
+              CpContentPadding(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Assets.icons.successCheck2.svg(width: 103, height: 103),
+                    const SizedBox(height: 42),
+                    Text(
+                      context.l10n.backupPhrase_lblSuccessMessage1,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.23,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    Text(
+                      context.l10n.backupPhrase_lblSuccessMessage2,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.19,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                  ],
                 ),
-                const SizedBox(height: 80),
-                CpButton(
-                  size: CpButtonSize.big,
-                  width: double.infinity,
-                  text: context.l10n.ok,
-                  onPressed: onDone,
-                ),
-              ],
+              ),
+            ],
+          ),
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: CpButton(
+                size: CpButtonSize.big,
+                width: double.infinity,
+                text: context.l10n.onboardingNoticeFinishSetup,
+                onPressed: onDone,
+              ),
             ),
           ),
         ),
