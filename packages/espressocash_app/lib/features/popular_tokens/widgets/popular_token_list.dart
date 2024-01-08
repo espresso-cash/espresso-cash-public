@@ -58,12 +58,13 @@ class _TokenItem extends StatelessWidget {
   final Token token;
   final double currentPrice;
 
+  static const _iconSize = 37.0;
+
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final Amount tokenRate = Amount.fromDecimal(
-      currency:
-          defaultFiatCurrency.withDecimals(decimals: _popularTokensDecimals),
+      currency: defaultFiatCurrency.copyWith(decimals: 6),
       value: Decimal.parse(currentPrice.toString()),
     );
 
@@ -147,18 +148,3 @@ class _TokenSymbolWidget extends StatelessWidget {
         ),
       );
 }
-
-extension on FiatCurrency {
-  Currency withDecimals({
-    int? decimals,
-  }) =>
-      FiatCurrency(
-        decimals: decimals ?? this.decimals,
-        name: name,
-        symbol: symbol,
-        sign: sign,
-      );
-}
-
-const _popularTokensDecimals = 6;
-const _iconSize = 37.0;
