@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../../../../routes.gr.dart';
 import '../../../../core/router_wrapper.dart';
 import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../data/quiz_repository.dart';
 import '../models/quiz.dart';
