@@ -5,9 +5,11 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import 'indicator.dart';
+import 'quiz_indicator.dart';
 
 enum QuizPageType { light, dark }
+
+typedef Indicator = (AnimationController, int);
 
 class QuizPage extends StatelessWidget {
   const QuizPage({
@@ -16,7 +18,7 @@ class QuizPage extends StatelessWidget {
     required this.content,
     required this.footer,
     required this.type,
-    this.indicatorIndex,
+    this.indicator,
     this.backButton,
   });
 
@@ -24,7 +26,7 @@ class QuizPage extends StatelessWidget {
   final Widget content;
   final QuizPageType type;
   final List<CpButton> footer;
-  final int? indicatorIndex;
+  final Indicator? indicator;
   final Widget? backButton;
 
   Color get backgroundColor => switch (type) {
@@ -54,8 +56,14 @@ class QuizPage extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(child: content),
-                              if (indicatorIndex case final index?)
-                                QuizIndicator(index: index),
+                              if (indicator case final indicator?)
+                                Hero(
+                                  tag: 'quiz_indicator',
+                                  child: QuizIndicator(
+                                    controller: indicator.$1,
+                                    count: indicator.$2,
+                                  ),
+                                ),
                             ],
                           ),
                         ),

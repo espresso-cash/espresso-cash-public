@@ -52,17 +52,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: ViewPhraseFlowRoute.page,
           children: [
-            CustomRoute(page: QuizIntroRoute.page),
-            CustomRoute(
-              page: QuizQuestionRoute.page,
-              transitionsBuilder: TransitionsBuilders.fadeIn,
-              durationInMilliseconds: 600,
-            ),
-            CustomRoute(
-              transitionsBuilder: TransitionsBuilders.slideLeft,
-              durationInMilliseconds: 400,
-              page: QuizRecoveryRoute.page,
-            ),
+            AutoRoute(page: QuizIntroRoute.page),
+            AutoRoute(page: QuizQuestionRoute.page),
+            AutoRoute(page: QuizAnswerRoute.page),
+            AutoRoute(page: QuizRecoveryRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),

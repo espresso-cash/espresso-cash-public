@@ -10,7 +10,10 @@ import '../widgets/quiz_page.dart';
 
 @RoutePage()
 class QuizIntroScreen extends StatelessWidget {
-  const QuizIntroScreen({super.key, required this.onConfirmed});
+  const QuizIntroScreen({
+    super.key,
+    required this.onConfirmed,
+  });
 
   static const route = QuizIntroRoute.new;
 

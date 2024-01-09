@@ -15,13 +15,13 @@ class QuizRecoveryScreen extends StatefulWidget {
   const QuizRecoveryScreen({
     super.key,
     required this.onComplete,
-    required this.showIndicator,
+    required this.indicator,
   });
 
   static const route = QuizRecoveryRoute.new;
 
   final VoidCallback onComplete;
-  final bool showIndicator;
+  final Indicator indicator;
 
   @override
   State<QuizRecoveryScreen> createState() => _QuizRecoveryScreenState();
@@ -45,6 +45,7 @@ class _QuizRecoveryScreenState extends State<QuizRecoveryScreen> {
         backButton: CpBackButton(
           onPressed: widget.onComplete,
         ),
+        indicator: widget.indicator,
         content: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Column(
@@ -82,6 +83,5 @@ class _QuizRecoveryScreenState extends State<QuizRecoveryScreen> {
         ),
         footer: const [],
         type: QuizPageType.dark,
-        indicatorIndex: widget.showIndicator ? 2 : null,
       );
 }
