@@ -74,8 +74,8 @@ abstract class CryptopleaseClient {
     @Body() OrderStatusScalexRequestDto referenceId,
   );
 
-  @POST('/withdraw')
-  Future<WithdrawPaymentResponseDto> createWithdrawPayment(
-    @Body() WithdrawPaymentRequestDto request,
+  @POST('/scalex/withdraw')
+  Future<ScalexWithdrawResponseDto> createScalexWithdraw(
+    @Body() ScalexWithdrawRequestDto request,
   );
 }

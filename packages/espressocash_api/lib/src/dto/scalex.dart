@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'scalex.freezed.dart';
@@ -47,6 +48,31 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
 
   factory OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =>
       _$OrderStatusScalexResponseDtoFromJson(json);
+}
+
+@freezed
+class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
+  const factory ScalexWithdrawRequestDto({
+    required String receiverAccount,
+    required int amount,
+    required Cluster cluster,
+    required String partnerOrderId,
+  }) = _ScalexWithdrawRequestDto;
+
+  factory ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexWithdrawRequestDtoFromJson(json);
+}
+
+@freezed
+class ScalexWithdrawResponseDto with _$ScalexWithdrawResponseDto {
+  const factory ScalexWithdrawResponseDto({
+    required int fee,
+    required String transaction,
+    required BigInt slot,
+  }) = _WithdrawPaymentResponseDto;
+
+  factory ScalexWithdrawResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexWithdrawResponseDtoFromJson(json);
 }
 
 @freezed

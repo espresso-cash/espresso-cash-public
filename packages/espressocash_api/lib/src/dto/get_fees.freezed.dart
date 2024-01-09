@@ -24,6 +24,7 @@ mixin _$GetFeesResponseDto {
   int get escrowPayment => throw _privateConstructorUsedError;
   int get escrowPaymentAtaFee => throw _privateConstructorUsedError;
   int get splitKeyPayment => throw _privateConstructorUsedError;
+  WithdrawFeeDto get withdrawalFee => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,9 +42,11 @@ abstract class $GetFeesResponseDtoCopyWith<$Res> {
       {DirectPaymentFeeDto directPayment,
       int escrowPayment,
       int escrowPaymentAtaFee,
-      int splitKeyPayment});
+      int splitKeyPayment,
+      WithdrawFeeDto withdrawalFee});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
+  $WithdrawFeeDtoCopyWith<$Res> get withdrawalFee;
 }
 
 /// @nodoc
@@ -63,6 +66,7 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
     Object? escrowPayment = null,
     Object? escrowPaymentAtaFee = null,
     Object? splitKeyPayment = null,
+    Object? withdrawalFee = null,
   }) {
     return _then(_value.copyWith(
       directPayment: null == directPayment
@@ -81,6 +85,10 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
+      withdrawalFee: null == withdrawalFee
+          ? _value.withdrawalFee
+          : withdrawalFee // ignore: cast_nullable_to_non_nullable
+              as WithdrawFeeDto,
     ) as $Val);
   }
 
@@ -89,6 +97,14 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment {
     return $DirectPaymentFeeDtoCopyWith<$Res>(_value.directPayment, (value) {
       return _then(_value.copyWith(directPayment: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $WithdrawFeeDtoCopyWith<$Res> get withdrawalFee {
+    return $WithdrawFeeDtoCopyWith<$Res>(_value.withdrawalFee, (value) {
+      return _then(_value.copyWith(withdrawalFee: value) as $Val);
     });
   }
 }
@@ -105,10 +121,13 @@ abstract class _$$GetFeesResponseDtoImplCopyWith<$Res>
       {DirectPaymentFeeDto directPayment,
       int escrowPayment,
       int escrowPaymentAtaFee,
-      int splitKeyPayment});
+      int splitKeyPayment,
+      WithdrawFeeDto withdrawalFee});
 
   @override
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
+  @override
+  $WithdrawFeeDtoCopyWith<$Res> get withdrawalFee;
 }
 
 /// @nodoc
@@ -126,6 +145,7 @@ class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
     Object? escrowPayment = null,
     Object? escrowPaymentAtaFee = null,
     Object? splitKeyPayment = null,
+    Object? withdrawalFee = null,
   }) {
     return _then(_$GetFeesResponseDtoImpl(
       directPayment: null == directPayment
@@ -144,6 +164,10 @@ class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
           ? _value.splitKeyPayment
           : splitKeyPayment // ignore: cast_nullable_to_non_nullable
               as int,
+      withdrawalFee: null == withdrawalFee
+          ? _value.withdrawalFee
+          : withdrawalFee // ignore: cast_nullable_to_non_nullable
+              as WithdrawFeeDto,
     ));
   }
 }
@@ -155,7 +179,8 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
       {required this.directPayment,
       required this.escrowPayment,
       required this.escrowPaymentAtaFee,
-      required this.splitKeyPayment});
+      required this.splitKeyPayment,
+      required this.withdrawalFee});
 
   factory _$GetFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetFeesResponseDtoImplFromJson(json);
@@ -168,10 +193,12 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
   final int escrowPaymentAtaFee;
   @override
   final int splitKeyPayment;
+  @override
+  final WithdrawFeeDto withdrawalFee;
 
   @override
   String toString() {
-    return 'GetFeesResponseDto(directPayment: $directPayment, escrowPayment: $escrowPayment, escrowPaymentAtaFee: $escrowPaymentAtaFee, splitKeyPayment: $splitKeyPayment)';
+    return 'GetFeesResponseDto(directPayment: $directPayment, escrowPayment: $escrowPayment, escrowPaymentAtaFee: $escrowPaymentAtaFee, splitKeyPayment: $splitKeyPayment, withdrawalFee: $withdrawalFee)';
   }
 
   @override
@@ -186,13 +213,15 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
             (identical(other.escrowPaymentAtaFee, escrowPaymentAtaFee) ||
                 other.escrowPaymentAtaFee == escrowPaymentAtaFee) &&
             (identical(other.splitKeyPayment, splitKeyPayment) ||
-                other.splitKeyPayment == splitKeyPayment));
+                other.splitKeyPayment == splitKeyPayment) &&
+            (identical(other.withdrawalFee, withdrawalFee) ||
+                other.withdrawalFee == withdrawalFee));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, directPayment, escrowPayment,
-      escrowPaymentAtaFee, splitKeyPayment);
+      escrowPaymentAtaFee, splitKeyPayment, withdrawalFee);
 
   @JsonKey(ignore: true)
   @override
@@ -214,7 +243,8 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
       {required final DirectPaymentFeeDto directPayment,
       required final int escrowPayment,
       required final int escrowPaymentAtaFee,
-      required final int splitKeyPayment}) = _$GetFeesResponseDtoImpl;
+      required final int splitKeyPayment,
+      required final WithdrawFeeDto withdrawalFee}) = _$GetFeesResponseDtoImpl;
 
   factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetFeesResponseDtoImpl.fromJson;
@@ -227,6 +257,8 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   int get escrowPaymentAtaFee;
   @override
   int get splitKeyPayment;
+  @override
+  WithdrawFeeDto get withdrawalFee;
   @override
   @JsonKey(ignore: true)
   _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>
@@ -388,5 +420,144 @@ abstract class _DirectPaymentFeeDto implements DirectPaymentFeeDto {
   @override
   @JsonKey(ignore: true)
   _$$DirectPaymentFeeDtoImplCopyWith<_$DirectPaymentFeeDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+WithdrawFeeDto _$WithdrawFeeDtoFromJson(Map<String, dynamic> json) {
+  return _WithdrawFeeDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$WithdrawFeeDto {
+  int get scalexFee => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $WithdrawFeeDtoCopyWith<WithdrawFeeDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $WithdrawFeeDtoCopyWith<$Res> {
+  factory $WithdrawFeeDtoCopyWith(
+          WithdrawFeeDto value, $Res Function(WithdrawFeeDto) then) =
+      _$WithdrawFeeDtoCopyWithImpl<$Res, WithdrawFeeDto>;
+  @useResult
+  $Res call({int scalexFee});
+}
+
+/// @nodoc
+class _$WithdrawFeeDtoCopyWithImpl<$Res, $Val extends WithdrawFeeDto>
+    implements $WithdrawFeeDtoCopyWith<$Res> {
+  _$WithdrawFeeDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? scalexFee = null,
+  }) {
+    return _then(_value.copyWith(
+      scalexFee: null == scalexFee
+          ? _value.scalexFee
+          : scalexFee // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$WithdrawFeeDtoImplCopyWith<$Res>
+    implements $WithdrawFeeDtoCopyWith<$Res> {
+  factory _$$WithdrawFeeDtoImplCopyWith(_$WithdrawFeeDtoImpl value,
+          $Res Function(_$WithdrawFeeDtoImpl) then) =
+      __$$WithdrawFeeDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int scalexFee});
+}
+
+/// @nodoc
+class __$$WithdrawFeeDtoImplCopyWithImpl<$Res>
+    extends _$WithdrawFeeDtoCopyWithImpl<$Res, _$WithdrawFeeDtoImpl>
+    implements _$$WithdrawFeeDtoImplCopyWith<$Res> {
+  __$$WithdrawFeeDtoImplCopyWithImpl(
+      _$WithdrawFeeDtoImpl _value, $Res Function(_$WithdrawFeeDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? scalexFee = null,
+  }) {
+    return _then(_$WithdrawFeeDtoImpl(
+      scalexFee: null == scalexFee
+          ? _value.scalexFee
+          : scalexFee // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
+  const _$WithdrawFeeDtoImpl({required this.scalexFee});
+
+  factory _$WithdrawFeeDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WithdrawFeeDtoImplFromJson(json);
+
+  @override
+  final int scalexFee;
+
+  @override
+  String toString() {
+    return 'WithdrawFeeDto(scalexFee: $scalexFee)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WithdrawFeeDtoImpl &&
+            (identical(other.scalexFee, scalexFee) ||
+                other.scalexFee == scalexFee));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, scalexFee);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WithdrawFeeDtoImplCopyWith<_$WithdrawFeeDtoImpl> get copyWith =>
+      __$$WithdrawFeeDtoImplCopyWithImpl<_$WithdrawFeeDtoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WithdrawFeeDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WithdrawFeeDto implements WithdrawFeeDto {
+  const factory _WithdrawFeeDto({required final int scalexFee}) =
+      _$WithdrawFeeDtoImpl;
+
+  factory _WithdrawFeeDto.fromJson(Map<String, dynamic> json) =
+      _$WithdrawFeeDtoImpl.fromJson;
+
+  @override
+  int get scalexFee;
+  @override
+  @JsonKey(ignore: true)
+  _$$WithdrawFeeDtoImplCopyWith<_$WithdrawFeeDtoImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

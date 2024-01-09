@@ -250,22 +250,22 @@ class _CryptopleaseClient implements CryptopleaseClient {
   }
 
   @override
-  Future<WithdrawPaymentResponseDto> createWithdrawPayment(
-      WithdrawPaymentRequestDto request) async {
+  Future<ScalexWithdrawResponseDto> createScalexWithdraw(
+      ScalexWithdrawRequestDto request) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<WithdrawPaymentResponseDto>(Options(
+        _setStreamType<ScalexWithdrawResponseDto>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
             .compose(
               _dio.options,
-              '/withdraw',
+              '/scalex/withdraw',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -274,7 +274,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = WithdrawPaymentResponseDto.fromJson(_result.data!);
+    final value = ScalexWithdrawResponseDto.fromJson(_result.data!);
     return value;
   }
 

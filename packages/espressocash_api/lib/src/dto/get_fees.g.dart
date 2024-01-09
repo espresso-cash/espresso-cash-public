@@ -14,6 +14,8 @@ _$GetFeesResponseDtoImpl _$$GetFeesResponseDtoImplFromJson(
       escrowPayment: json['escrowPayment'] as int,
       escrowPaymentAtaFee: json['escrowPaymentAtaFee'] as int,
       splitKeyPayment: json['splitKeyPayment'] as int,
+      withdrawalFee: WithdrawFeeDto.fromJson(
+          json['withdrawalFee'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$GetFeesResponseDtoImplToJson(
@@ -23,6 +25,7 @@ Map<String, dynamic> _$$GetFeesResponseDtoImplToJson(
       'escrowPayment': instance.escrowPayment,
       'escrowPaymentAtaFee': instance.escrowPaymentAtaFee,
       'splitKeyPayment': instance.splitKeyPayment,
+      'withdrawalFee': instance.withdrawalFee,
     };
 
 _$DirectPaymentFeeDtoImpl _$$DirectPaymentFeeDtoImplFromJson(
@@ -37,4 +40,15 @@ Map<String, dynamic> _$$DirectPaymentFeeDtoImplToJson(
     <String, dynamic>{
       'ataExists': instance.ataExists,
       'ataDoesNotExist': instance.ataDoesNotExist,
+    };
+
+_$WithdrawFeeDtoImpl _$$WithdrawFeeDtoImplFromJson(Map<String, dynamic> json) =>
+    _$WithdrawFeeDtoImpl(
+      scalexFee: json['scalexFee'] as int,
+    );
+
+Map<String, dynamic> _$$WithdrawFeeDtoImplToJson(
+        _$WithdrawFeeDtoImpl instance) =>
+    <String, dynamic>{
+      'scalexFee': instance.scalexFee,
     };
