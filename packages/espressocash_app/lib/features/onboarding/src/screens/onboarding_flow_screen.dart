@@ -59,8 +59,11 @@ class _OnboardingFlowScreenState extends State<OnboardingFlowScreen>
       ? NoEmailAndPasswordScreen.route(
           onDone: _handleNoEmailAndPasswordCompleted,
         )
-      : ManageProfileScreen.route(onSubmitted: _handleProfileCompleted)
-          as PageRouteInfo;
+      : ManageProfileScreen.route(
+          onSubmitted: sl<OnboardingRepository>().hasConfirmedPassphrase
+              ? _handleComplete
+              : _handleProfileCompleted,
+        ) as PageRouteInfo;
 
   @override
   Widget build(BuildContext context) => AutoRouter(key: routerKey);
