@@ -705,10 +705,8 @@ ScalexWithdrawRequestDto _$ScalexWithdrawRequestDtoFromJson(
 
 /// @nodoc
 mixin _$ScalexWithdrawRequestDto {
-  String get receiverAccount => throw _privateConstructorUsedError;
-  int get amount => throw _privateConstructorUsedError;
+  String get orderId => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
-  String get partnerOrderId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -722,11 +720,7 @@ abstract class $ScalexWithdrawRequestDtoCopyWith<$Res> {
           $Res Function(ScalexWithdrawRequestDto) then) =
       _$ScalexWithdrawRequestDtoCopyWithImpl<$Res, ScalexWithdrawRequestDto>;
   @useResult
-  $Res call(
-      {String receiverAccount,
-      int amount,
-      Cluster cluster,
-      String partnerOrderId});
+  $Res call({String orderId, Cluster cluster});
 }
 
 /// @nodoc
@@ -743,28 +737,18 @@ class _$ScalexWithdrawRequestDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAccount = null,
-    Object? amount = null,
+    Object? orderId = null,
     Object? cluster = null,
-    Object? partnerOrderId = null,
   }) {
     return _then(_value.copyWith(
-      receiverAccount: null == receiverAccount
-          ? _value.receiverAccount
-          : receiverAccount // ignore: cast_nullable_to_non_nullable
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
       cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
-      partnerOrderId: null == partnerOrderId
-          ? _value.partnerOrderId
-          : partnerOrderId // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -778,11 +762,7 @@ abstract class _$$ScalexWithdrawRequestDtoImplCopyWith<$Res>
       __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String receiverAccount,
-      int amount,
-      Cluster cluster,
-      String partnerOrderId});
+  $Res call({String orderId, Cluster cluster});
 }
 
 /// @nodoc
@@ -798,28 +778,18 @@ class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? receiverAccount = null,
-    Object? amount = null,
+    Object? orderId = null,
     Object? cluster = null,
-    Object? partnerOrderId = null,
   }) {
     return _then(_$ScalexWithdrawRequestDtoImpl(
-      receiverAccount: null == receiverAccount
-          ? _value.receiverAccount
-          : receiverAccount // ignore: cast_nullable_to_non_nullable
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
-          ? _value.amount
-          : amount // ignore: cast_nullable_to_non_nullable
-              as int,
       cluster: null == cluster
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
-      partnerOrderId: null == partnerOrderId
-          ? _value.partnerOrderId
-          : partnerOrderId // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -828,26 +798,19 @@ class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
   const _$ScalexWithdrawRequestDtoImpl(
-      {required this.receiverAccount,
-      required this.amount,
-      required this.cluster,
-      required this.partnerOrderId});
+      {required this.orderId, required this.cluster});
 
   factory _$ScalexWithdrawRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScalexWithdrawRequestDtoImplFromJson(json);
 
   @override
-  final String receiverAccount;
-  @override
-  final int amount;
+  final String orderId;
   @override
   final Cluster cluster;
-  @override
-  final String partnerOrderId;
 
   @override
   String toString() {
-    return 'ScalexWithdrawRequestDto(receiverAccount: $receiverAccount, amount: $amount, cluster: $cluster, partnerOrderId: $partnerOrderId)';
+    return 'ScalexWithdrawRequestDto(orderId: $orderId, cluster: $cluster)';
   }
 
   @override
@@ -855,18 +818,13 @@ class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScalexWithdrawRequestDtoImpl &&
-            (identical(other.receiverAccount, receiverAccount) ||
-                other.receiverAccount == receiverAccount) &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster) &&
-            (identical(other.partnerOrderId, partnerOrderId) ||
-                other.partnerOrderId == partnerOrderId));
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, receiverAccount, amount, cluster, partnerOrderId);
+  int get hashCode => Object.hash(runtimeType, orderId, cluster);
 
   @JsonKey(ignore: true)
   @override
@@ -885,22 +843,16 @@ class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
 
 abstract class _ScalexWithdrawRequestDto implements ScalexWithdrawRequestDto {
   const factory _ScalexWithdrawRequestDto(
-      {required final String receiverAccount,
-      required final int amount,
-      required final Cluster cluster,
-      required final String partnerOrderId}) = _$ScalexWithdrawRequestDtoImpl;
+      {required final String orderId,
+      required final Cluster cluster}) = _$ScalexWithdrawRequestDtoImpl;
 
   factory _ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =
       _$ScalexWithdrawRequestDtoImpl.fromJson;
 
   @override
-  String get receiverAccount;
-  @override
-  int get amount;
+  String get orderId;
   @override
   Cluster get cluster;
-  @override
-  String get partnerOrderId;
   @override
   @JsonKey(ignore: true)
   _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>

@@ -75,19 +75,15 @@ const _$ScalexOrderStatusEnumMap = {
 _$ScalexWithdrawRequestDtoImpl _$$ScalexWithdrawRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$ScalexWithdrawRequestDtoImpl(
-      receiverAccount: json['receiverAccount'] as String,
-      amount: json['amount'] as int,
+      orderId: json['orderId'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
-      partnerOrderId: json['partnerOrderId'] as String,
     );
 
 Map<String, dynamic> _$$ScalexWithdrawRequestDtoImplToJson(
         _$ScalexWithdrawRequestDtoImpl instance) =>
     <String, dynamic>{
-      'receiverAccount': instance.receiverAccount,
-      'amount': instance.amount,
+      'orderId': instance.orderId,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
-      'partnerOrderId': instance.partnerOrderId,
     };
 
 const _$ClusterEnumMap = {

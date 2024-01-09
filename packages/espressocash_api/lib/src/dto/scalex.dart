@@ -53,10 +53,8 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
 @freezed
 class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
   const factory ScalexWithdrawRequestDto({
-    required String receiverAccount,
-    required int amount,
+    required String orderId,
     required Cluster cluster,
-    required String partnerOrderId,
   }) = _ScalexWithdrawRequestDto;
 
   factory ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
