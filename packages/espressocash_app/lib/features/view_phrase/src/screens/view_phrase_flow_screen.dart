@@ -114,8 +114,6 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     super.didChangeDependencies();
 
     _questions = sl<QuizRepository>().getQuestions(context.l10n);
-    precacheImage(Assets.images.quizIntroBg.provider(), context);
-    precacheImage(Assets.images.quizQuestionBg.provider(), context);
   }
 
   @override
