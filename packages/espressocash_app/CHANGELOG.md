@@ -1,3 +1,19 @@
+## 1.98.0
+
+ - **FIX**: cancel cash out bug (#1213).
+ - **FEAT**: onboarding updates (#1214).
+ - **FEAT**: update flutter splash screen (#1215).
+ - **FEAT**: popular token ui (#1218).
+
+## 1.97.0
+
+ - **REFACTOR**: getting simulated balance.
+ - **FIX**: transaction waiting.
+ - **FIX**: coinflow withdrawal flow.
+ - **FIX**: coinflow build (#1209).
+ - **FEAT**: update l10n (#1211).
+ - **FEAT**: splash screen updates (#1201).
+
 ## 1.96.0
 
  - **REFACTOR**: move FileManager to data (#1190).

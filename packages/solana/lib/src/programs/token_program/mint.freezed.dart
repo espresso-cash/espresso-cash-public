@@ -106,9 +106,10 @@ class _$MintCopyWithImpl<$Res, $Val extends Mint>
 }
 
 /// @nodoc
-abstract class _$$_MintCopyWith<$Res> implements $MintCopyWith<$Res> {
-  factory _$$_MintCopyWith(_$_Mint value, $Res Function(_$_Mint) then) =
-      __$$_MintCopyWithImpl<$Res>;
+abstract class _$$MintImplCopyWith<$Res> implements $MintCopyWith<$Res> {
+  factory _$$MintImplCopyWith(
+          _$MintImpl value, $Res Function(_$MintImpl) then) =
+      __$$MintImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -121,9 +122,10 @@ abstract class _$$_MintCopyWith<$Res> implements $MintCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res, _$_Mint>
-    implements _$$_MintCopyWith<$Res> {
-  __$$_MintCopyWithImpl(_$_Mint _value, $Res Function(_$_Mint) _then)
+class __$$MintImplCopyWithImpl<$Res>
+    extends _$MintCopyWithImpl<$Res, _$MintImpl>
+    implements _$$MintImplCopyWith<$Res> {
+  __$$MintImplCopyWithImpl(_$MintImpl _value, $Res Function(_$MintImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -136,7 +138,7 @@ class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res, _$_Mint>
     Object? isInitialized = null,
     Object? freezeAuthority = freezed,
   }) {
-    return _then(_$_Mint(
+    return _then(_$MintImpl(
       address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
@@ -167,8 +169,8 @@ class __$$_MintCopyWithImpl<$Res> extends _$MintCopyWithImpl<$Res, _$_Mint>
 
 /// @nodoc
 
-class _$_Mint implements _Mint {
-  const _$_Mint(
+class _$MintImpl implements _Mint {
+  const _$MintImpl(
       {required this.address,
       required this.supply,
       required this.decimals,
@@ -210,10 +212,10 @@ class _$_Mint implements _Mint {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Mint &&
+            other is _$MintImpl &&
             (identical(other.address, address) || other.address == address) &&
             (identical(other.supply, supply) || other.supply == supply) &&
             (identical(other.decimals, decimals) ||
@@ -233,8 +235,8 @@ class _$_Mint implements _Mint {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MintCopyWith<_$_Mint> get copyWith =>
-      __$$_MintCopyWithImpl<_$_Mint>(this, _$identity);
+  _$$MintImplCopyWith<_$MintImpl> get copyWith =>
+      __$$MintImplCopyWithImpl<_$MintImpl>(this, _$identity);
 }
 
 abstract class _Mint implements Mint {
@@ -244,7 +246,7 @@ abstract class _Mint implements Mint {
       required final int decimals,
       final Ed25519HDPublicKey? mintAuthority,
       required final bool isInitialized,
-      final Ed25519HDPublicKey? freezeAuthority}) = _$_Mint;
+      final Ed25519HDPublicKey? freezeAuthority}) = _$MintImpl;
 
   @override
 
@@ -276,5 +278,6 @@ abstract class _Mint implements Mint {
   Ed25519HDPublicKey? get freezeAuthority;
   @override
   @JsonKey(ignore: true)
-  _$$_MintCopyWith<_$_Mint> get copyWith => throw _privateConstructorUsedError;
+  _$$MintImplCopyWith<_$MintImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

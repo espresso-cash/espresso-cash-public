@@ -1,5 +1,7 @@
 {
   "@@locale": "fr",
+  "activities_lblAddCash": "Ajouter de l'argent",
+  "@activities_lblAddCash": {},
   "activities_lblBoughtToken": "{amount} Acheté",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -18,6 +20,8 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activité",
   "@activities_lblTitle": {},
+  "activities_lblWithdraw": "Retirer de l'argent",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Verrouillage automatique",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Exiger le code d'accès pour accéder à l'application",
@@ -80,6 +84,24 @@
   "@cryptoInvestments": {},
   "decline": "Décliner",
   "@decline": {},
+  "depositDisclaimer": "Les fonds doivent être envoyés depuis votre compte personnel. Tout fonds envoyé via un compte qui ne correspond pas à vos détails d'identification sera réservé.",
+  "@depositDisclaimer": {},
+  "depositInstruction1": "Transférez de l'argent depuis votre compte bancaire vers notre partenaire local :",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Une fois que l'argent a été transféré, retournez sur Espresso Cash et continuez ci-dessous.",
+  "@depositInstruction2": {},
+  "depositReceiveAmount": "Vous recevrez : {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Ajouter de l'argent",
+  "@depositTitle": {},
+  "depositTransferAmount": "Montant à transférer",
+  "@depositTransferAmount": {},
   "discover": "DÉCOUVRIR",
   "@discover": {},
   "displayEmptyBalanceSubtitle": "Montrez votre crypto avec zéro solde",
@@ -130,12 +152,14 @@
   },
   "following": "Suivi",
   "@following": {},
-  "fundYourAccount": "Faites un dépôt sur votre compte pour envoyer de l'argent",
+  "fundYourAccount": "Faites un dépôt pour envoyer de l'argent",
   "@fundYourAccount": {},
   "help": "Aide",
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
+  "incomingUsdcFeeNotice": "Un frais unique de {amount} a été prélevé pour votre première transaction entrante.",
+  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "Code d'accès incorrect. Réessayer à nouveau",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",
@@ -300,8 +324,56 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "Aucun résultat trouvé",
   "@noResultsFound": {},
+  "offRampCancelSubtitle": "Êtes-vous sûr(e) de vouloir annuler ce retrait ?",
+  "@offRampCancelSubtitle": {},
+  "offRampCancelTitle": "Annuler le retrait",
+  "@offRampCancelTitle": {},
+  "offRampDepositError": "Il y a eu un problème avec votre retrait",
+  "@offRampDepositError": {},
+  "offRampReceiveAmount": "Vous recevrez {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "offRampTopPartnerTitle": "Encaissez sur votre compte bancaire en utilisant notre meilleur partenaire",
   "@offRampTopPartnerTitle": {},
+  "offRampWaitingForPartner": "Votre argent est en route",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawalFailure": "Il y a eu un problème avec votre retrait. Veuillez nous contacter.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWithdrawCancelled": "{amount} retrait annulé avec succès.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelledTitle": "Le retrait a été annulé",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampWithdrawInitiated": "Retrait initié",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawNotice": "Les retraits peuvent normalement prendre jusqu'à 3 jours ouvrables pour être reçus.",
+  "@offRampWithdrawNotice": {},
+  "offRampWithdrawOngoing": "Envoi de {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawReceived": "L'argent a été reçu",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawSent": "USDC envoyé au partenaire",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawSuccess": "Votre retrait a été effectué avec succès.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawTitle": "Progression du retrait",
+  "@offRampWithdrawTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "L'investissement crypto en toute simplicité, que vous soyez nouveau ou professionnel chevronné !",
@@ -310,18 +382,62 @@
   "@onboardingIntro": {},
   "onboardingNoticeFinishSetup": "Terminer",
   "@onboardingNoticeFinishSetup": {},
-  "onboardingNoticeMessage": "Terminez la configuration en sécurisant votre compte.",
+  "onboardingNoticeMessage": "Terminez la configuration\npour sécuriser votre compte.",
   "@onboardingNoticeMessage": {},
   "oneMonth": "1 mois",
   "@oneMonth": {},
   "oneWeek": "1 semaine",
   "@oneWeek": {},
+  "onRampAwaitingFunds": "Attendez un instant. Votre transaction est en cours de traitement.",
+  "@onRampAwaitingFunds": {},
+  "onRampDepositExpired": "Votre demande a expiré. Veuillez réessayer.",
+  "@onRampDepositExpired": {},
+  "onRampDepositFailure": "Il y a eu un problème avec votre dépôt. Veuillez nous contacter.",
+  "@onRampDepositFailure": {},
+  "onRampDepositInitiated": "Dépôt initié",
+  "@onRampDepositInitiated": {},
+  "onRampDepositOngoing": "Dépôt de {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositReceived": "USDC reçu",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Votre dépôt a été effectué avec succès.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositTitle": "Status d'ajout d'argent",
+  "@onRampDepositTitle": {},
+  "onRampLocalTransferTile": "Devise locale transférée\nMontant envoyé : {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
   "onRampTopPartnerTitle": "Transférez de l'argent vers Espresso en utilisant notre meilleur partenaire de paiement",
   "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Ouvrez le scanner QR intégré à l'application",
   "@openInAppScanner": {},
   "operationSend": "envoyer",
   "@operationSend": {},
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
   "outgoingSplitKeyPayments_btnCancel": "Annuler le transfert",
   "@outgoingSplitKeyPayments_btnCancel": {},
   "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Êtes-vous sûr de vouloir annuler ce transfert?",
@@ -520,13 +636,13 @@
   "@send": {},
   "sendAs": "Envoyer comme",
   "@sendAs": {},
-  "sendExplanation": "Une fois que vous avez créé ces liens, vous pouvez l'envoyer à votre destinataire! Il peut ensuite recevoir les fonds en cliquant simplement sur les liens.",
+  "sendExplanation": "Une fois que vous avez créé ce lien, vous pouvez l'envoyer à votre destinataire ! Ils pourront ensuite récupérer les fonds en cliquant simplement sur le lien.",
   "@sendExplanation": {},
   "sendMoney": "Envoyer",
   "@sendMoney": {},
   "sentDirectly": "Envoyé",
   "@sentDirectly": {},
-  "sentViaLink": "Envoyé via des liens",
+  "sentViaLink": "Envoyé via un lien",
   "@sentViaLink": {},
   "setReminder": "Définissez un rappel pour {duration}",
   "@setReminder": {
@@ -540,13 +656,13 @@
   "@settings": {},
   "share": "Partager",
   "@share": {},
-  "shareInstructions": "Pour recevoir l'argent, tu dois cliquer sur deux liens. Suis ces deux étapes ci-dessous:",
+  "shareInstructions": "Pour le recevoir, vous devez cliquer sur le lien :",
   "@shareInstructions": {},
   "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
   "@shareIntroFt": {},
-  "shareLink": "Partagez les liens de paiement",
+  "shareLink": "Partagez le lien de paiement",
   "@shareLink": {},
-  "shareLinks": "Partager les liens",
+  "shareLinks": "Partager le lien",
   "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},
