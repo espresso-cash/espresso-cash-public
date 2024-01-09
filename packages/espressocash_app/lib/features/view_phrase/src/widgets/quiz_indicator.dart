@@ -7,11 +7,11 @@ class QuizIndicator extends StatelessWidget {
   const QuizIndicator({
     super.key,
     required this.controller,
-    required this.count,
   });
 
   final AnimationController controller;
-  final int count;
+
+  int get _count => controller.upperBound.toInt() + 1;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +28,9 @@ class QuizIndicator extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: controller,
         builder: (context, offset, _) => SmoothIndicator(
-          size: effect.calculateSize(count),
+          size: effect.calculateSize(_count),
           offset: offset,
-          count: count,
+          count: _count,
           effect: effect,
         ),
       ),

@@ -49,7 +49,7 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     router?.replace(
       QuizQuestionScreen.route(
         key: ValueKey('question_$index'),
-        indicator: (_indicatorController, _indicatorCount),
+        indicator: _indicatorController,
         onButtonPressed: (isCorrect) =>
             isCorrect ? _handleCorrectAnswer(index) : _handleWrongAnswer(index),
         question: _questions[index],
@@ -67,7 +67,7 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     router?.push(
       QuizAnswerScreen.route(
         key: ValueKey('answer_$index'),
-        indicator: (_indicatorController, _indicatorCount),
+        indicator: _indicatorController,
         isCorrect: true,
         onButtonPressed: () => _handleNextQuestion(index),
         explanation: _questions[index].correctExplanation,
@@ -80,7 +80,7 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     router?.push(
       QuizAnswerScreen.route(
         key: ValueKey('answer_$index'),
-        indicator: (_indicatorController, _indicatorCount),
+        indicator: _indicatorController,
         isCorrect: false,
         onButtonPressed: () => router?.pop(),
         explanation: _questions[index].incorrectExplanation,
@@ -102,7 +102,7 @@ class _ViewPhraseFlowScreenState extends State<ViewPhraseFlowScreen>
     router?.replaceAll([
       QuizRecoveryScreen.route(
         onComplete: _handleCompleted,
-        indicator: (_indicatorController, _indicatorCount),
+        indicator: _indicatorController,
       ),
     ]);
   }

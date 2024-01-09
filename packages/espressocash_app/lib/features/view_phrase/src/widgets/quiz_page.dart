@@ -9,7 +9,7 @@ import 'quiz_indicator.dart';
 
 enum QuizPageType { light, dark }
 
-typedef Indicator = (AnimationController, int);
+typedef Indicator = AnimationController;
 
 class QuizPage extends StatelessWidget {
   const QuizPage({
@@ -59,10 +59,7 @@ class QuizPage extends StatelessWidget {
                               if (indicator case final indicator?)
                                 Hero(
                                   tag: 'quiz_indicator',
-                                  child: QuizIndicator(
-                                    controller: indicator.$1,
-                                    count: indicator.$2,
-                                  ),
+                                  child: QuizIndicator(controller: indicator),
                                 ),
                             ],
                           ),
