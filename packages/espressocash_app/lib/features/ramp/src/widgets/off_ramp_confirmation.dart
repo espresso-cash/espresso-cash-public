@@ -63,7 +63,6 @@ class OffRampConfirmation extends StatelessWidget {
                       children: [
                         FeeLabel(
                           type: FeeType.withdraw(
-                            feePercentage: order.feePercentage,
                             amount: order.amount.value,
                           ),
                         ),

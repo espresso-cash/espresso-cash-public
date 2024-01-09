@@ -13,6 +13,5 @@ sealed class FeeType with _$FeeType {
   const factory FeeType.splitKey() = FeeTypeSplitKey;
   const factory FeeType.withdraw({
     required int amount,
-    required int feePercentage,
   }) = FeeTypeWithdraw;
 }

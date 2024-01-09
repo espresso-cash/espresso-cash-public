@@ -33,7 +33,6 @@ typedef OffRampOrder = ({
   DateTime? resolved,
   FiatAmount? receiveAmount,
   String partnerOrderId,
-  int feePercentage,
 });
 
 @Singleton(scope: authScope)
@@ -112,7 +111,6 @@ class OffRampOrderService implements Disposable {
         resolved: row.resolvedAt,
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
-        feePercentage: row.feePercentage ?? 0,
       );
     });
   }
@@ -189,7 +187,6 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
-    required int feePercentage,
     (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
   }) =>
@@ -212,7 +209,6 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             receiveAmount: receiveAmount?.value,
             fiatSymbol: receiveAmount?.currency.symbol,
-            feePercentage: feePercentage,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -240,7 +236,6 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             depositAddress: '',
             receiveAmount: receiveAmount,
-            feePercentage: 0,
             transaction: (signed, slot),
           ).letAsync(bind);
         }
@@ -259,13 +254,16 @@ class OffRampOrderService implements Disposable {
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
-            _createTx(
-              amount: _amount(order),
-              receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
-              feePercentage: order.feePercentage ?? 0,
-              partner: order.partner,
-              partnerOrderId: order.partnerOrderId,
-            ),
+            order.partner == RampPartner.scalex
+                ? _createScalexTx(
+                    partnerOrderId: order.partnerOrderId,
+                  )
+                : _createTx(
+                    amount: _amount(order),
+                    receiver: Ed25519HDPublicKey.fromBase58(
+                      order.depositAddress,
+                    ),
+                  ),
           ).onErrorReturn(
             const OffRampOrderRowsCompanion(
               status: Value(OffRampOrderStatus.depositError),
@@ -313,30 +311,48 @@ class OffRampOrderService implements Disposable {
   Future<OffRampOrderRowsCompanion> _createTx({
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
-    required int feePercentage,
-    required RampPartner partner,
-    required String partnerOrderId,
   }) async {
-    final dto = WithdrawPaymentRequestDto(
+    final dto = CreateDirectPaymentRequestDto(
       senderAccount: _account.address,
       receiverAccount: receiver.toBase58(),
       amount: amount.value,
-      feePercentage: feePercentage,
+      referenceAccount: null,
       cluster: apiCluster,
-      rampPartner: partner.name,
-      partnerOrderId: partnerOrderId,
     );
+    final response = await _client.createDirectPayment(dto);
 
-    final response = await _client.createWithdrawPayment(dto);
-    final tx = await response
-        .let((it) => it.transaction)
-        .let(SignedTx.decode)
-        .let((it) => it.resign(_account));
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _createScalexTx({
+    required String partnerOrderId,
+  }) async {
+    final dto = ScalexWithdrawRequestDto(
+      orderId: partnerOrderId,
+      cluster: apiCluster,
+    );
+    final response = await _client.createScalexWithdraw(dto);
+
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _signAndUpdateRow({
+    required String encodedTx,
+    required BigInt slot,
+  }) async {
+    final tx =
+        await SignedTx.decode(encodedTx).let((it) => it.resign(_account));
 
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.depositTxReady),
       transaction: Value(tx.encode()),
-      slot: Value(response.slot),
+      slot: Value(slot),
     );
   }
 

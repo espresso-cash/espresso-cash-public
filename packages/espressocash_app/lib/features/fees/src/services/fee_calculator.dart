@@ -28,7 +28,8 @@ class FeeCalculator {
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeSplitKey():
               return fees.escrowPayment;
-            case FeeTypeWithdraw(:final amount, :final feePercentage):
+            case FeeTypeWithdraw(:final amount):
+              final feePercentage = fees.withdrawalFeePercentage;
               final calculatedFee = (amount * feePercentage / 100).round();
 
               return fees.directPayment.ataExists + calculatedFee;
