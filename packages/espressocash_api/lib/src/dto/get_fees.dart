@@ -10,7 +10,7 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
     required int escrowPayment,
     required int escrowPaymentAtaFee,
     required int splitKeyPayment,
-    required WithdrawFeeDto withdrawalFee,
+    required int withdrawalFeePercentage,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -26,14 +26,4 @@ class DirectPaymentFeeDto with _$DirectPaymentFeeDto {
 
   factory DirectPaymentFeeDto.fromJson(Map<String, dynamic> json) =>
       _$DirectPaymentFeeDtoFromJson(json);
-}
-
-@freezed
-class WithdrawFeeDto with _$WithdrawFeeDto {
-  const factory WithdrawFeeDto({
-    required int scalexFee,
-  }) = _WithdrawFeeDto;
-
-  factory WithdrawFeeDto.fromJson(Map<String, dynamic> json) =>
-      _$WithdrawFeeDtoFromJson(json);
 }
