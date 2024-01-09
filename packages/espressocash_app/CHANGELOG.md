@@ -1,3 +1,10 @@
+## 1.98.0
+
+ - **FIX**: cancel cash out bug (#1213).
+ - **FEAT**: onboarding updates (#1214).
+ - **FEAT**: update flutter splash screen (#1215).
+ - **FEAT**: popular token ui (#1218).
+
 ## 1.97.0
 
  - **REFACTOR**: getting simulated balance.
