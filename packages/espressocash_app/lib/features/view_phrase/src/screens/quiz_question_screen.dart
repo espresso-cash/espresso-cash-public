@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:collection/collection.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/callback.dart';
@@ -37,11 +39,11 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
     _questions = [
       QuizQuestion(
         question: context.l10n.quizFirstQuestion,
-        options: {
-          QuizOption.optionA: context.l10n.quizFirstQuestionOptionA,
-          QuizOption.optionB: context.l10n.quizFirstQuestionOptionB,
-        },
-        correctAnswer: QuizOption.optionB,
+        options: [
+          context.l10n.quizFirstQuestionOptionA,
+          context.l10n.quizFirstQuestionOptionB,
+        ].lock,
+        correctAnswer: 1,
         correctExplanation: (
           title: context.l10n.quizFirstQuestionExplanationTitle,
           description: context.l10n.quizFirstQuestionExplanationSubtitle1,
@@ -53,11 +55,11 @@ class _QuizQuestionScreenState extends State<QuizQuestionScreen> {
       ),
       QuizQuestion(
         question: context.l10n.quizSecondQuestion,
-        options: {
-          QuizOption.optionA: context.l10n.quizSecondQuestionOptionA,
-          QuizOption.optionB: context.l10n.quizSecondQuestionOptionB,
-        },
-        correctAnswer: QuizOption.optionA,
+        options: [
+          context.l10n.quizSecondQuestionOptionA,
+          context.l10n.quizSecondQuestionOptionB,
+        ].lock,
+        correctAnswer: 0,
         correctExplanation: (
           title: context.l10n.quizSecondQuestionExplanationTitle,
           description: context.l10n.quizSecondQuestionExplanationSubtitle,
@@ -189,12 +191,11 @@ class _QuestionScreen extends StatelessWidget {
             ),
           ],
         ),
-        footer: question.options.entries
-            .map(
-              (entry) => CpButton(
-                text: entry.value,
-                onPressed: () =>
-                    onButtonPressed(entry.key == question.correctAnswer),
+        footer: question.options
+            .mapIndexed(
+              (i, entry) => CpButton(
+                text: entry,
+                onPressed: () => onButtonPressed(i == question.correctAnswer),
                 size: CpButtonSize.big,
                 width: 350,
               ),

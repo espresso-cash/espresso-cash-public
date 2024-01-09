@@ -1,22 +1,20 @@
-enum QuizOption { optionA, optionB }
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'quiz.freezed.dart';
 
 typedef Explanation = ({
   String title,
   String description,
 });
 
-class QuizQuestion {
-  QuizQuestion({
-    required this.question,
-    required this.options,
-    required this.correctAnswer,
-    required this.correctExplanation,
-    required this.incorrectExplanation,
-  });
-
-  String question;
-  Map<QuizOption, String> options;
-  QuizOption correctAnswer;
-  Explanation correctExplanation;
-  Explanation incorrectExplanation;
+@freezed
+class QuizQuestion with _$QuizQuestion {
+  const factory QuizQuestion({
+    required String question,
+    required IList<String> options,
+    required int correctAnswer,
+    required Explanation correctExplanation,
+    required Explanation incorrectExplanation,
+  }) = _QuizQuestion;
 }
