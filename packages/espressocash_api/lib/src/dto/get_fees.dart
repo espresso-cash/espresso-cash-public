@@ -10,7 +10,7 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
     required int escrowPayment,
     required int escrowPaymentAtaFee,
     required int splitKeyPayment,
-    required int withdrawalFeePercentage,
+    @Default(WithdrawFeeDto()) WithdrawFeeDto withdrawFeePercentage,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -26,4 +26,17 @@ class DirectPaymentFeeDto with _$DirectPaymentFeeDto {
 
   factory DirectPaymentFeeDto.fromJson(Map<String, dynamic> json) =>
       _$DirectPaymentFeeDtoFromJson(json);
+}
+
+@freezed
+class WithdrawFeeDto with _$WithdrawFeeDto {
+  const factory WithdrawFeeDto({
+    @Default(0) double scalex,
+    @Default(0) double kado,
+    @Default(0) double rampNetwork,
+    @Default(0) double coinflow,
+  }) = _WithdrawFeeDto;
+
+  factory WithdrawFeeDto.fromJson(Map<String, dynamic> json) =>
+      _$WithdrawFeeDtoFromJson(json);
 }
