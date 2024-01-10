@@ -68,7 +68,7 @@ class OffRampConfirmation extends StatelessWidget {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const FeeLabel(type: FeeType.splitKey()),
+                        const FeeLabel(type: FeeType.link()),
                         const SizedBox(height: 21),
                         CpButton(
                           size: CpButtonSize.big,
