@@ -50,6 +50,7 @@ _$WithdrawFeeDtoImpl _$$WithdrawFeeDtoImplFromJson(Map<String, dynamic> json) =>
       kado: (json['kado'] as num?)?.toDouble() ?? 0,
       rampNetwork: (json['rampNetwork'] as num?)?.toDouble() ?? 0,
       coinflow: (json['coinflow'] as num?)?.toDouble() ?? 0,
+      guardarian: (json['guardarian'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$WithdrawFeeDtoImplToJson(
@@ -59,4 +60,5 @@ Map<String, dynamic> _$$WithdrawFeeDtoImplToJson(
       'kado': instance.kado,
       'rampNetwork': instance.rampNetwork,
       'coinflow': instance.coinflow,
+      'guardarian': instance.guardarian,
     };

@@ -35,6 +35,7 @@ class WithdrawFeeDto with _$WithdrawFeeDto {
     @Default(0) double kado,
     @Default(0) double rampNetwork,
     @Default(0) double coinflow,
+    @Default(0) double guardarian,
   }) = _WithdrawFeeDto;
 
   factory WithdrawFeeDto.fromJson(Map<String, dynamic> json) =>

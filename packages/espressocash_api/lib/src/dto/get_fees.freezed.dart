@@ -435,6 +435,7 @@ mixin _$WithdrawFeeDto {
   double get kado => throw _privateConstructorUsedError;
   double get rampNetwork => throw _privateConstructorUsedError;
   double get coinflow => throw _privateConstructorUsedError;
+  double get guardarian => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -448,7 +449,12 @@ abstract class $WithdrawFeeDtoCopyWith<$Res> {
           WithdrawFeeDto value, $Res Function(WithdrawFeeDto) then) =
       _$WithdrawFeeDtoCopyWithImpl<$Res, WithdrawFeeDto>;
   @useResult
-  $Res call({double scalex, double kado, double rampNetwork, double coinflow});
+  $Res call(
+      {double scalex,
+      double kado,
+      double rampNetwork,
+      double coinflow,
+      double guardarian});
 }
 
 /// @nodoc
@@ -468,6 +474,7 @@ class _$WithdrawFeeDtoCopyWithImpl<$Res, $Val extends WithdrawFeeDto>
     Object? kado = null,
     Object? rampNetwork = null,
     Object? coinflow = null,
+    Object? guardarian = null,
   }) {
     return _then(_value.copyWith(
       scalex: null == scalex
@@ -486,6 +493,10 @@ class _$WithdrawFeeDtoCopyWithImpl<$Res, $Val extends WithdrawFeeDto>
           ? _value.coinflow
           : coinflow // ignore: cast_nullable_to_non_nullable
               as double,
+      guardarian: null == guardarian
+          ? _value.guardarian
+          : guardarian // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -498,7 +509,12 @@ abstract class _$$WithdrawFeeDtoImplCopyWith<$Res>
       __$$WithdrawFeeDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double scalex, double kado, double rampNetwork, double coinflow});
+  $Res call(
+      {double scalex,
+      double kado,
+      double rampNetwork,
+      double coinflow,
+      double guardarian});
 }
 
 /// @nodoc
@@ -516,6 +532,7 @@ class __$$WithdrawFeeDtoImplCopyWithImpl<$Res>
     Object? kado = null,
     Object? rampNetwork = null,
     Object? coinflow = null,
+    Object? guardarian = null,
   }) {
     return _then(_$WithdrawFeeDtoImpl(
       scalex: null == scalex
@@ -534,6 +551,10 @@ class __$$WithdrawFeeDtoImplCopyWithImpl<$Res>
           ? _value.coinflow
           : coinflow // ignore: cast_nullable_to_non_nullable
               as double,
+      guardarian: null == guardarian
+          ? _value.guardarian
+          : guardarian // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -545,7 +566,8 @@ class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
       {this.scalex = 0,
       this.kado = 0,
       this.rampNetwork = 0,
-      this.coinflow = 0});
+      this.coinflow = 0,
+      this.guardarian = 0});
 
   factory _$WithdrawFeeDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$WithdrawFeeDtoImplFromJson(json);
@@ -562,10 +584,13 @@ class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
   @override
   @JsonKey()
   final double coinflow;
+  @override
+  @JsonKey()
+  final double guardarian;
 
   @override
   String toString() {
-    return 'WithdrawFeeDto(scalex: $scalex, kado: $kado, rampNetwork: $rampNetwork, coinflow: $coinflow)';
+    return 'WithdrawFeeDto(scalex: $scalex, kado: $kado, rampNetwork: $rampNetwork, coinflow: $coinflow, guardarian: $guardarian)';
   }
 
   @override
@@ -578,13 +603,15 @@ class _$WithdrawFeeDtoImpl implements _WithdrawFeeDto {
             (identical(other.rampNetwork, rampNetwork) ||
                 other.rampNetwork == rampNetwork) &&
             (identical(other.coinflow, coinflow) ||
-                other.coinflow == coinflow));
+                other.coinflow == coinflow) &&
+            (identical(other.guardarian, guardarian) ||
+                other.guardarian == guardarian));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, scalex, kado, rampNetwork, coinflow);
+      Object.hash(runtimeType, scalex, kado, rampNetwork, coinflow, guardarian);
 
   @JsonKey(ignore: true)
   @override
@@ -606,7 +633,8 @@ abstract class _WithdrawFeeDto implements WithdrawFeeDto {
       {final double scalex,
       final double kado,
       final double rampNetwork,
-      final double coinflow}) = _$WithdrawFeeDtoImpl;
+      final double coinflow,
+      final double guardarian}) = _$WithdrawFeeDtoImpl;
 
   factory _WithdrawFeeDto.fromJson(Map<String, dynamic> json) =
       _$WithdrawFeeDtoImpl.fromJson;
@@ -619,6 +647,8 @@ abstract class _WithdrawFeeDto implements WithdrawFeeDto {
   double get rampNetwork;
   @override
   double get coinflow;
+  @override
+  double get guardarian;
   @override
   @JsonKey(ignore: true)
   _$$WithdrawFeeDtoImplCopyWith<_$WithdrawFeeDtoImpl> get copyWith =>
