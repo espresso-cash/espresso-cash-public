@@ -55,7 +55,7 @@ class OLPRepository {
       orElse: () async {},
     );
 
-    await _db.into(_db.oLPRows).insertOnConflictUpdate(payment.toDto());
+    await _db.into(_db.oLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 
   Stream<OutgoingLinkPayment> watch(String id) {
@@ -172,6 +172,7 @@ extension on OLPStatusDto {
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
+    final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
 
     switch (this) {
       case OLPStatusDto.txCreated:
@@ -207,15 +208,18 @@ extension on OLPStatusDto {
         return OLPStatus.cancelTxCreated(
           cancelTx!,
           slot: slot ?? BigInt.zero,
+          escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.cancelTxFailure:
         return OLPStatus.cancelTxFailure(
           reason: row.txFailureReason ?? TxFailureReason.unknown,
+          escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.cancelTxSent:
         return OLPStatus.cancelTxSent(
           cancelTx!,
           slot: slot ?? BigInt.zero,
+          escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.recovered:
         final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
@@ -228,7 +232,7 @@ extension on OLPStatusDto {
 }
 
 extension on OutgoingLinkPayment {
-  OLPRow toDto() => OLPRow(
+  Future<OLPRow> toDto() async => OLPRow(
         amount: amount.value,
         token: amount.cryptoCurrency.token.address,
         id: id,
@@ -245,7 +249,12 @@ extension on OutgoingLinkPayment {
         slot: status.toSlot().toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
-        publicKey: status.toPublicKey(),
+        publicKey: await toPublicKey(),
+      );
+
+  Future<String?> toPublicKey() async => await status.maybeMap(
+        recovered: (it) => it.escrowPubKey.toBase58(),
+        orElse: () => escrow?.keyPair.then((v) => v.publicKey.toBase58()),
       );
 }
 
@@ -306,9 +315,5 @@ extension on OLPStatus {
         txSent: (it) => it.slot,
         cancelTxCreated: (it) => it.slot,
         cancelTxSent: (it) => it.slot,
-      );
-
-  String? toPublicKey() => mapOrNull(
-        recovered: (it) => it.escrowPubKey.toBase58(),
       );
 }

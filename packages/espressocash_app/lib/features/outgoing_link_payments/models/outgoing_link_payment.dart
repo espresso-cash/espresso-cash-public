@@ -70,12 +70,14 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.cancelTxCreated(
     SignedTx tx, {
     required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
   }) = OLPStatusCancelTxCreated;
 
   /// There was an error while creating the cancellation tx, or the tx was
   /// rejected. It's safe to recreate it.
   const factory OLPStatus.cancelTxFailure({
     required TxFailureReason reason,
+    required EscrowPublicKey escrowPubKey,
   }) = OLPStatusCancelTxFailure;
 
   /// Cancellation tx was sent but not confirmed yet. It's not safe to recreate
@@ -83,6 +85,7 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.cancelTxSent(
     SignedTx tx, {
     required BigInt slot,
+    required EscrowPublicKey escrowPubKey,
   }) = OLPStatusCancelTxSent;
 
   /// Tx was recovered from the blockchain.

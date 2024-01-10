@@ -85,9 +85,11 @@ class OLPService {
         timestamp: DateTime.now(),
       );
     } else {
-      final escrow = await status.maybeMap(
+      final escrow = await status.mapOrNull(
+        linkReady: (it) async =>
+            await payment.escrow?.keyPair.then((v) => v.publicKey),
+        cancelTxFailure: (it) async => it.escrowPubKey,
         recovered: (it) async => it.escrowPubKey,
-        orElse: () => payment.escrow?.keyPair.then((v) => v.publicKey),
       );
 
       if (escrow == null) {
@@ -95,9 +97,7 @@ class OLPService {
       }
 
       newStatus = await _createCancelTx(
-        escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(
-          privateKey: escrow.bytes,
-        ).then((e) => e.publicKey),
+        escrow: escrow,
         account: account,
       );
     }
@@ -159,10 +159,12 @@ class OLPService {
       return OLPStatus.cancelTxCreated(
         tx,
         slot: slot,
+        escrowPubKey: escrow,
       );
     } on Exception {
-      return const OLPStatus.cancelTxFailure(
+      return OLPStatus.cancelTxFailure(
         reason: TxFailureReason.creatingFailure,
+        escrowPubKey: escrow,
       );
     }
   }

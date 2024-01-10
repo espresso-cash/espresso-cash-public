@@ -52,6 +52,7 @@ class _OLPCancelTxSentJob extends CancelableJob<OutgoingLinkPayment> {
       ),
       failure: (tx) => OLPStatus.cancelTxFailure(
         reason: tx.reason,
+        escrowPubKey: status.escrowPubKey,
       ),
       networkError: (_) => null,
     );

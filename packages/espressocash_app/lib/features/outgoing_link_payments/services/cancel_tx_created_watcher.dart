@@ -51,12 +51,15 @@ class _OLPCancelTxCreatedJob extends CancelableJob<OutgoingLinkPayment> {
       sent: (_) => OLPStatus.cancelTxSent(
         status.tx,
         slot: status.slot,
+        escrowPubKey: status.escrowPubKey,
       ),
-      invalidBlockhash: (_) => const OLPStatus.cancelTxFailure(
+      invalidBlockhash: (_) => OLPStatus.cancelTxFailure(
         reason: TxFailureReason.invalidBlockhashSending,
+        escrowPubKey: status.escrowPubKey,
       ),
       failure: (it) => OLPStatus.cancelTxFailure(
         reason: it.reason,
+        escrowPubKey: status.escrowPubKey,
       ),
       networkError: (_) => null,
     );
