@@ -33,7 +33,7 @@ class FeeCalculator {
               final feePercentage = switch (partner) {
                 RampPartner.scalex => fees.withdrawFeePercentage.scalex,
                 RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
-                RampPartner.guardarian => 0,
+                RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
                 RampPartner.rampNetwork =>
                   fees.withdrawFeePercentage.rampNetwork,
                 RampPartner.kado => fees.withdrawFeePercentage.kado,
