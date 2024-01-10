@@ -15,6 +15,7 @@ class OutgoingLinkPayment with _$OutgoingLinkPayment {
     required CryptoAmount amount,
     required DateTime created,
     required OLPStatus status,
+    required EscrowPrivateKey? escrow,
     DateTime? linksGeneratedAt,
   }) = _OutgoingLinkPayment;
 
@@ -28,7 +29,6 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.txCreated(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusTxCreated;
 
   /// Tx sent, but not confirmed yet. We cannot say if it was accepted, so
@@ -36,19 +36,15 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.txSent(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusTxSent;
 
   /// Tx confirmed. At this stage, the money are guaranteed to be in the escrow.
   /// For canceling the payment, we need to create a new cancellation tx.
-  const factory OLPStatus.txConfirmed({
-    required EscrowPrivateKey escrow,
-  }) = OLPStatusTxConfirmed;
+  const factory OLPStatus.txConfirmed() = OLPStatusTxConfirmed;
 
   /// Link is ready to be sent to the recipient.
   const factory OLPStatus.linkReady({
     required Uri link,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusLinkReady;
 
   /// Money are withdrawn from the escrow by someone, but not by the sender. The
@@ -74,14 +70,12 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.cancelTxCreated(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusCancelTxCreated;
 
   /// There was an error while creating the cancellation tx, or the tx was
   /// rejected. It's safe to recreate it.
   const factory OLPStatus.cancelTxFailure({
     required TxFailureReason reason,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusCancelTxFailure;
 
   /// Cancellation tx was sent but not confirmed yet. It's not safe to recreate
@@ -89,7 +83,6 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.cancelTxSent(
     SignedTx tx, {
     required BigInt slot,
-    required EscrowPrivateKey escrow,
   }) = OLPStatusCancelTxSent;
 
   /// Tx was recovered from the blockchain.
@@ -97,24 +90,4 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.recovered({
     required EscrowPublicKey escrowPubKey,
   }) = OLPStatusRecovered;
-
-  /// Similar to [OLPStatus.cancelTxCreated], but only contains public key
-  const factory OLPStatus.recoveredCancelTxCreated(
-    SignedTx tx, {
-    required BigInt slot,
-    required EscrowPublicKey escrowPubKey,
-  }) = OLPStatusRecoveredCancelTxCreated;
-
-  /// Similar to [OLPStatus.cancelTxSent], but only contains public key
-  const factory OLPStatus.recoveredCancelTxSent(
-    SignedTx tx, {
-    required BigInt slot,
-    required EscrowPublicKey escrowPubKey,
-  }) = OLPStatusRecoveredCancelTxSent;
-
-  /// Similar to [OLPStatus.cancelTxFailure], but only contains public key
-  const factory OLPStatus.recoveredCancelTxFailure({
-    required TxFailureReason reason,
-    required EscrowPublicKey escrowPubKey,
-  }) = OLPStatusRecoveredCancelTxFailure;
 }

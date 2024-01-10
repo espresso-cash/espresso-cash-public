@@ -47,7 +47,7 @@ class _OLPSentJob extends CancelableJob<OutgoingLinkPayment> {
     final tx = await sender.wait(status.tx, minContextSlot: status.slot);
 
     final OLPStatus? newStatus = tx.map(
-      success: (_) => OLPStatus.txConfirmed(escrow: status.escrow),
+      success: (_) => const OLPStatus.txConfirmed(),
       failure: (tx) => OLPStatus.txFailure(reason: tx.reason),
       networkError: (_) {
         Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));

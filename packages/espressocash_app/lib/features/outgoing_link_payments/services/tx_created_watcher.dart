@@ -50,7 +50,6 @@ class _OLPCreatedJob extends CancelableJob<OutgoingLinkPayment> {
     final OLPStatus? newStatus = tx.map(
       sent: (_) => OLPStatus.txSent(
         status.tx,
-        escrow: status.escrow,
         slot: status.slot,
       ),
       invalidBlockhash: (_) => const OLPStatus.txFailure(

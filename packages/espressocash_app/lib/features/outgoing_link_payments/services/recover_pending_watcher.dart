@@ -67,8 +67,6 @@ class RecoverPendingWatcher implements Disposable {
         );
 
         if (txList.length < 2) {
-          final id = const Uuid().v4();
-
           final tx = txList.first;
 
           int amount = 0;
@@ -85,6 +83,8 @@ class RecoverPendingWatcher implements Disposable {
 
           final timestamp = detail.created ?? DateTime.now();
 
+          final id = const Uuid().v4();
+
           await _repository.save(
             OutgoingLinkPayment(
               id: id,
@@ -95,6 +95,7 @@ class RecoverPendingWatcher implements Disposable {
               status: OLPStatus.recovered(escrowPubKey: escrow),
               created: timestamp,
               linksGeneratedAt: timestamp,
+              escrow: null,
             ),
           );
         }
@@ -108,17 +109,9 @@ class RecoverPendingWatcher implements Disposable {
     final List<EscrowPublicKey> results = [];
 
     for (final p in pending) {
-      final escrow = await p.status.mapOrNull(
-        txCreated: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
-        txSent: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
-        txConfirmed: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
-        linkReady: (it) => it.escrow.keyPair.then((v) => v.publicKey),
-        cancelTxCreated: (it) async =>
-            it.escrow.keyPair.then((v) => v.publicKey),
-        cancelTxFailure: (it) async =>
-            it.escrow.keyPair.then((v) => v.publicKey),
-        cancelTxSent: (it) async => it.escrow.keyPair.then((v) => v.publicKey),
+      final escrow = await p.status.maybeMap(
         recovered: (it) async => it.escrowPubKey,
+        orElse: () => p.escrow?.keyPair.then((v) => v.publicKey),
       );
 
       if (escrow != null) {
