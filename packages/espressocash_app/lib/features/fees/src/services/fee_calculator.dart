@@ -4,6 +4,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
+import '../../../ramp/models/ramp_partner.dart';
 import '../../../tokens/token.dart';
 import '../../models/fee_type.dart';
 
@@ -28,8 +29,15 @@ class FeeCalculator {
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeSplitKey():
               return fees.escrowPayment;
-            case FeeTypeWithdraw(:final amount):
-              final feePercentage = fees.withdrawalFeePercentage;
+            case FeeTypeWithdraw(:final amount, :final partner):
+              final feePercentage = switch (partner) {
+                RampPartner.scalex => fees.withdrawFeePercentage.scalex,
+                RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
+                RampPartner.guardarian => 0,
+                RampPartner.rampNetwork =>
+                  fees.withdrawFeePercentage.rampNetwork,
+                RampPartner.kado => fees.withdrawFeePercentage.kado,
+              };
               final calculatedFee = (amount * feePercentage / 100).round();
 
               return fees.directPayment.ataExists + calculatedFee;

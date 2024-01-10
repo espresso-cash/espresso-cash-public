@@ -64,6 +64,7 @@ class OffRampConfirmation extends StatelessWidget {
                         FeeLabel(
                           type: FeeType.withdraw(
                             amount: order.amount.value,
+                            partner: order.partner,
                           ),
                         ),
                         const SizedBox(height: 21),
