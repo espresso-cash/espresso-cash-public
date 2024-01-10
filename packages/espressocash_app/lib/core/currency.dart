@@ -8,7 +8,6 @@ part 'currency.freezed.dart';
 @Freezed(
   when: FreezedWhenOptions.none,
   map: FreezedMapOptions.none,
-  copyWith: false,
 )
 sealed class Currency with _$Currency {
   const factory Currency.fiat({

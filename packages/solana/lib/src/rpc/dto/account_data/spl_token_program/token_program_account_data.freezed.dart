@@ -128,22 +128,23 @@ class _$SplTokenProgramAccountDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$TokenAccountDataCopyWith<$Res>
+abstract class _$$TokenAccountDataImplCopyWith<$Res>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$TokenAccountDataCopyWith(
-          _$TokenAccountData value, $Res Function(_$TokenAccountData) then) =
-      __$$TokenAccountDataCopyWithImpl<$Res>;
+  factory _$$TokenAccountDataImplCopyWith(_$TokenAccountDataImpl value,
+          $Res Function(_$TokenAccountDataImpl) then) =
+      __$$TokenAccountDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SplTokenAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
-class __$$TokenAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$TokenAccountData>
-    implements _$$TokenAccountDataCopyWith<$Res> {
-  __$$TokenAccountDataCopyWithImpl(
-      _$TokenAccountData _value, $Res Function(_$TokenAccountData) _then)
+class __$$TokenAccountDataImplCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res,
+        _$TokenAccountDataImpl>
+    implements _$$TokenAccountDataImplCopyWith<$Res> {
+  __$$TokenAccountDataImplCopyWithImpl(_$TokenAccountDataImpl _value,
+      $Res Function(_$TokenAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -153,7 +154,7 @@ class __$$TokenAccountDataCopyWithImpl<$Res>
     Object? type = null,
     Object? accountType = freezed,
   }) {
-    return _then(_$TokenAccountData(
+    return _then(_$TokenAccountDataImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -172,12 +173,12 @@ class __$$TokenAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TokenAccountData implements TokenAccountData {
-  const _$TokenAccountData(
+class _$TokenAccountDataImpl implements TokenAccountData {
+  const _$TokenAccountDataImpl(
       {required this.info, required this.type, this.accountType});
 
-  factory _$TokenAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$TokenAccountDataFromJson(json);
+  factory _$TokenAccountDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenAccountDataImplFromJson(json);
 
   @override
   final SplTokenAccountDataInfo info;
@@ -192,10 +193,10 @@ class _$TokenAccountData implements TokenAccountData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$TokenAccountData &&
+            other is _$TokenAccountDataImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.accountType, accountType) ||
@@ -209,8 +210,9 @@ class _$TokenAccountData implements TokenAccountData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$TokenAccountDataCopyWith<_$TokenAccountData> get copyWith =>
-      __$$TokenAccountDataCopyWithImpl<_$TokenAccountData>(this, _$identity);
+  _$$TokenAccountDataImplCopyWith<_$TokenAccountDataImpl> get copyWith =>
+      __$$TokenAccountDataImplCopyWithImpl<_$TokenAccountDataImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -294,7 +296,7 @@ class _$TokenAccountData implements TokenAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$TokenAccountDataToJson(
+    return _$$TokenAccountDataImplToJson(
       this,
     );
   }
@@ -304,10 +306,10 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
   const factory TokenAccountData(
       {required final SplTokenAccountDataInfo info,
       required final String type,
-      final String? accountType}) = _$TokenAccountData;
+      final String? accountType}) = _$TokenAccountDataImpl;
 
   factory TokenAccountData.fromJson(Map<String, dynamic> json) =
-      _$TokenAccountData.fromJson;
+      _$TokenAccountDataImpl.fromJson;
 
   SplTokenAccountDataInfo get info;
   @override
@@ -315,27 +317,27 @@ abstract class TokenAccountData implements SplTokenProgramAccountData {
   String? get accountType;
   @override
   @JsonKey(ignore: true)
-  _$$TokenAccountDataCopyWith<_$TokenAccountData> get copyWith =>
+  _$$TokenAccountDataImplCopyWith<_$TokenAccountDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$MintAccountDataCopyWith<$Res>
+abstract class _$$MintAccountDataImplCopyWith<$Res>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$MintAccountDataCopyWith(
-          _$MintAccountData value, $Res Function(_$MintAccountData) then) =
-      __$$MintAccountDataCopyWithImpl<$Res>;
+  factory _$$MintAccountDataImplCopyWith(_$MintAccountDataImpl value,
+          $Res Function(_$MintAccountDataImpl) then) =
+      __$$MintAccountDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({MintAccountDataInfo info, String type, String? accountType});
 }
 
 /// @nodoc
-class __$$MintAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$MintAccountData>
-    implements _$$MintAccountDataCopyWith<$Res> {
-  __$$MintAccountDataCopyWithImpl(
-      _$MintAccountData _value, $Res Function(_$MintAccountData) _then)
+class __$$MintAccountDataImplCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res,
+        _$MintAccountDataImpl> implements _$$MintAccountDataImplCopyWith<$Res> {
+  __$$MintAccountDataImplCopyWithImpl(
+      _$MintAccountDataImpl _value, $Res Function(_$MintAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -345,7 +347,7 @@ class __$$MintAccountDataCopyWithImpl<$Res>
     Object? type = null,
     Object? accountType = freezed,
   }) {
-    return _then(_$MintAccountData(
+    return _then(_$MintAccountDataImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -364,12 +366,12 @@ class __$$MintAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MintAccountData implements MintAccountData {
-  const _$MintAccountData(
+class _$MintAccountDataImpl implements MintAccountData {
+  const _$MintAccountDataImpl(
       {required this.info, required this.type, this.accountType});
 
-  factory _$MintAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$MintAccountDataFromJson(json);
+  factory _$MintAccountDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MintAccountDataImplFromJson(json);
 
   @override
   final MintAccountDataInfo info;
@@ -384,10 +386,10 @@ class _$MintAccountData implements MintAccountData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MintAccountData &&
+            other is _$MintAccountDataImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.accountType, accountType) ||
@@ -401,8 +403,9 @@ class _$MintAccountData implements MintAccountData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MintAccountDataCopyWith<_$MintAccountData> get copyWith =>
-      __$$MintAccountDataCopyWithImpl<_$MintAccountData>(this, _$identity);
+  _$$MintAccountDataImplCopyWith<_$MintAccountDataImpl> get copyWith =>
+      __$$MintAccountDataImplCopyWithImpl<_$MintAccountDataImpl>(
+          this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -486,7 +489,7 @@ class _$MintAccountData implements MintAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MintAccountDataToJson(
+    return _$$MintAccountDataImplToJson(
       this,
     );
   }
@@ -496,10 +499,10 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
   const factory MintAccountData(
       {required final MintAccountDataInfo info,
       required final String type,
-      final String? accountType}) = _$MintAccountData;
+      final String? accountType}) = _$MintAccountDataImpl;
 
   factory MintAccountData.fromJson(Map<String, dynamic> json) =
-      _$MintAccountData.fromJson;
+      _$MintAccountDataImpl.fromJson;
 
   MintAccountDataInfo get info;
   @override
@@ -507,27 +510,28 @@ abstract class MintAccountData implements SplTokenProgramAccountData {
   String? get accountType;
   @override
   @JsonKey(ignore: true)
-  _$$MintAccountDataCopyWith<_$MintAccountData> get copyWith =>
+  _$$MintAccountDataImplCopyWith<_$MintAccountDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnknownAccountDataCopyWith<$Res>
+abstract class _$$UnknownAccountDataImplCopyWith<$Res>
     implements $SplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$UnknownAccountDataCopyWith(_$UnknownAccountData value,
-          $Res Function(_$UnknownAccountData) then) =
-      __$$UnknownAccountDataCopyWithImpl<$Res>;
+  factory _$$UnknownAccountDataImplCopyWith(_$UnknownAccountDataImpl value,
+          $Res Function(_$UnknownAccountDataImpl) then) =
+      __$$UnknownAccountDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String type});
 }
 
 /// @nodoc
-class __$$UnknownAccountDataCopyWithImpl<$Res>
-    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res, _$UnknownAccountData>
-    implements _$$UnknownAccountDataCopyWith<$Res> {
-  __$$UnknownAccountDataCopyWithImpl(
-      _$UnknownAccountData _value, $Res Function(_$UnknownAccountData) _then)
+class __$$UnknownAccountDataImplCopyWithImpl<$Res>
+    extends _$SplTokenProgramAccountDataCopyWithImpl<$Res,
+        _$UnknownAccountDataImpl>
+    implements _$$UnknownAccountDataImplCopyWith<$Res> {
+  __$$UnknownAccountDataImplCopyWithImpl(_$UnknownAccountDataImpl _value,
+      $Res Function(_$UnknownAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -535,7 +539,7 @@ class __$$UnknownAccountDataCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
   }) {
-    return _then(_$UnknownAccountData(
+    return _then(_$UnknownAccountDataImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -546,11 +550,11 @@ class __$$UnknownAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnknownAccountData implements UnknownAccountData {
-  const _$UnknownAccountData({required this.type});
+class _$UnknownAccountDataImpl implements UnknownAccountData {
+  const _$UnknownAccountDataImpl({required this.type});
 
-  factory _$UnknownAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$UnknownAccountDataFromJson(json);
+  factory _$UnknownAccountDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnknownAccountDataImplFromJson(json);
 
   @override
   final String type;
@@ -561,10 +565,10 @@ class _$UnknownAccountData implements UnknownAccountData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnknownAccountData &&
+            other is _$UnknownAccountDataImpl &&
             (identical(other.type, type) || other.type == type));
   }
 
@@ -575,8 +579,8 @@ class _$UnknownAccountData implements UnknownAccountData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnknownAccountDataCopyWith<_$UnknownAccountData> get copyWith =>
-      __$$UnknownAccountDataCopyWithImpl<_$UnknownAccountData>(
+  _$$UnknownAccountDataImplCopyWith<_$UnknownAccountDataImpl> get copyWith =>
+      __$$UnknownAccountDataImplCopyWithImpl<_$UnknownAccountDataImpl>(
           this, _$identity);
 
   @override
@@ -661,7 +665,7 @@ class _$UnknownAccountData implements UnknownAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnknownAccountDataToJson(
+    return _$$UnknownAccountDataImplToJson(
       this,
     );
   }
@@ -669,15 +673,15 @@ class _$UnknownAccountData implements UnknownAccountData {
 
 abstract class UnknownAccountData implements SplTokenProgramAccountData {
   const factory UnknownAccountData({required final String type}) =
-      _$UnknownAccountData;
+      _$UnknownAccountDataImpl;
 
   factory UnknownAccountData.fromJson(Map<String, dynamic> json) =
-      _$UnknownAccountData.fromJson;
+      _$UnknownAccountDataImpl.fromJson;
 
   @override
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$UnknownAccountDataCopyWith<_$UnknownAccountData> get copyWith =>
+  _$$UnknownAccountDataImplCopyWith<_$UnknownAccountDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
