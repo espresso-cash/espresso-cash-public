@@ -460,7 +460,7 @@ packages:
   espressocash_api:
     dependency: "direct main"
     description:
-      path: "../espressocash_backend/espressocash_api"
+      path: "../espressocash_api"
       relative: true
     source: path
     version: "1.0.0"
@@ -1084,9 +1084,9 @@ packages:
     source: hosted
     version: "6.7.1"
   jupiter_aggregator:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      path: "../espressocash_backend/jupiter_aggregator"
+      path: "../jupiter_aggregator"
       relative: true
     source: path
     version: "0.0.4"

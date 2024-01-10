@@ -72,10 +72,11 @@ class _$SignedTxCopyWithImpl<$Res, $Val extends SignedTx>
 }
 
 /// @nodoc
-abstract class _$$_SignedTxCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
-  factory _$$_SignedTxCopyWith(
-          _$_SignedTx value, $Res Function(_$_SignedTx) then) =
-      __$$_SignedTxCopyWithImpl<$Res>;
+abstract class _$$SignedTxImplCopyWith<$Res>
+    implements $SignedTxCopyWith<$Res> {
+  factory _$$SignedTxImplCopyWith(
+          _$SignedTxImpl value, $Res Function(_$SignedTxImpl) then) =
+      __$$SignedTxImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Signature> signatures, CompiledMessage compiledMessage});
@@ -85,11 +86,11 @@ abstract class _$$_SignedTxCopyWith<$Res> implements $SignedTxCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SignedTxCopyWithImpl<$Res>
-    extends _$SignedTxCopyWithImpl<$Res, _$_SignedTx>
-    implements _$$_SignedTxCopyWith<$Res> {
-  __$$_SignedTxCopyWithImpl(
-      _$_SignedTx _value, $Res Function(_$_SignedTx) _then)
+class __$$SignedTxImplCopyWithImpl<$Res>
+    extends _$SignedTxCopyWithImpl<$Res, _$SignedTxImpl>
+    implements _$$SignedTxImplCopyWith<$Res> {
+  __$$SignedTxImplCopyWithImpl(
+      _$SignedTxImpl _value, $Res Function(_$SignedTxImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -98,7 +99,7 @@ class __$$_SignedTxCopyWithImpl<$Res>
     Object? signatures = null,
     Object? compiledMessage = null,
   }) {
-    return _then(_$_SignedTx(
+    return _then(_$SignedTxImpl(
       signatures: null == signatures
           ? _value._signatures
           : signatures // ignore: cast_nullable_to_non_nullable
@@ -113,8 +114,8 @@ class __$$_SignedTxCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SignedTx extends _SignedTx {
-  const _$_SignedTx(
+class _$SignedTxImpl extends _SignedTx {
+  const _$SignedTxImpl(
       {final List<Signature> signatures = const <Signature>[],
       required this.compiledMessage})
       : _signatures = signatures,
@@ -138,10 +139,10 @@ class _$_SignedTx extends _SignedTx {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SignedTx &&
+            other is _$SignedTxImpl &&
             const DeepCollectionEquality()
                 .equals(other._signatures, _signatures) &&
             (identical(other.compiledMessage, compiledMessage) ||
@@ -155,14 +156,14 @@ class _$_SignedTx extends _SignedTx {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SignedTxCopyWith<_$_SignedTx> get copyWith =>
-      __$$_SignedTxCopyWithImpl<_$_SignedTx>(this, _$identity);
+  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith =>
+      __$$SignedTxImplCopyWithImpl<_$SignedTxImpl>(this, _$identity);
 }
 
 abstract class _SignedTx extends SignedTx {
   const factory _SignedTx(
       {final List<Signature> signatures,
-      required final CompiledMessage compiledMessage}) = _$_SignedTx;
+      required final CompiledMessage compiledMessage}) = _$SignedTxImpl;
   const _SignedTx._() : super._();
 
   @override
@@ -171,6 +172,6 @@ abstract class _SignedTx extends SignedTx {
   CompiledMessage get compiledMessage;
   @override
   @JsonKey(ignore: true)
-  _$$_SignedTxCopyWith<_$_SignedTx> get copyWith =>
+  _$$SignedTxImplCopyWith<_$SignedTxImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

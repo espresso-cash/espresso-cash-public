@@ -71,6 +71,9 @@ class OffRampOrderService implements Disposable {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
         (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+      )
+      ..where(
+        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not(),
       );
 
     return query
@@ -164,12 +167,7 @@ class OffRampOrderService implements Disposable {
 
     switch (order.status) {
       case OffRampOrderStatus.depositError:
-        await updateQuery.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.cancelled),
-          ),
-        );
-
+        await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -189,7 +187,7 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required RampPartner partner,
     required String depositAddress,
-    SignedTx? transaction,
+    (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
@@ -202,8 +200,8 @@ class OffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partnerOrderId: partnerOrderId,
-            transaction: transaction?.encode() ?? '',
-            slot: BigInt.zero,
+            transaction: transaction?.$1.encode() ?? '',
+            slot: transaction?.$2 ?? BigInt.zero,
             status: transaction == null
                 ? OffRampOrderStatus.depositTxRequired
                 : OffRampOrderStatus.depositTxReady,
@@ -225,6 +223,7 @@ class OffRampOrderService implements Disposable {
     required SignedTx tx,
     required CryptoAmount amount,
     required RampPartner partner,
+    required BigInt slot,
     FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((bind) async {
@@ -237,7 +236,7 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             depositAddress: '',
             receiveAmount: receiveAmount,
-            transaction: signed,
+            transaction: (signed, slot),
           ).letAsync(bind);
         }
       });
@@ -276,7 +275,6 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.cancelled:
-          return Stream.fromIterable([_cancelled]);
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
           _subscriptions[orderId]?.cancel();
@@ -336,7 +334,7 @@ class OffRampOrderService implements Disposable {
       case TxSendInvalidBlockhash():
       case TxSendFailure():
         return OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.depositError),
+          status: const Value(OffRampOrderStatus.failure),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
@@ -352,7 +350,7 @@ class OffRampOrderService implements Disposable {
         );
       case TxWaitFailure():
         return OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.depositError),
+          status: const Value(OffRampOrderStatus.failure),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
