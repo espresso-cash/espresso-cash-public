@@ -10,7 +10,7 @@ class GetFeesResponseDto with _$GetFeesResponseDto {
     required int escrowPayment,
     required int escrowPaymentAtaFee,
     required int splitKeyPayment,
-    required int withdrawalFeePercentage,
+    @Default(0) double withdrawalFeePercentage,
   }) = _GetFeesResponseDto;
 
   factory GetFeesResponseDto.fromJson(Map<String, dynamic> json) =>

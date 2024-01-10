@@ -24,7 +24,7 @@ mixin _$GetFeesResponseDto {
   int get escrowPayment => throw _privateConstructorUsedError;
   int get escrowPaymentAtaFee => throw _privateConstructorUsedError;
   int get splitKeyPayment => throw _privateConstructorUsedError;
-  int get withdrawalFeePercentage => throw _privateConstructorUsedError;
+  double get withdrawalFeePercentage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -43,7 +43,7 @@ abstract class $GetFeesResponseDtoCopyWith<$Res> {
       int escrowPayment,
       int escrowPaymentAtaFee,
       int splitKeyPayment,
-      int withdrawalFeePercentage});
+      double withdrawalFeePercentage});
 
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
 }
@@ -87,7 +87,7 @@ class _$GetFeesResponseDtoCopyWithImpl<$Res, $Val extends GetFeesResponseDto>
       withdrawalFeePercentage: null == withdrawalFeePercentage
           ? _value.withdrawalFeePercentage
           : withdrawalFeePercentage // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 
@@ -113,7 +113,7 @@ abstract class _$$GetFeesResponseDtoImplCopyWith<$Res>
       int escrowPayment,
       int escrowPaymentAtaFee,
       int splitKeyPayment,
-      int withdrawalFeePercentage});
+      double withdrawalFeePercentage});
 
   @override
   $DirectPaymentFeeDtoCopyWith<$Res> get directPayment;
@@ -156,7 +156,7 @@ class __$$GetFeesResponseDtoImplCopyWithImpl<$Res>
       withdrawalFeePercentage: null == withdrawalFeePercentage
           ? _value.withdrawalFeePercentage
           : withdrawalFeePercentage // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -169,7 +169,7 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
       required this.escrowPayment,
       required this.escrowPaymentAtaFee,
       required this.splitKeyPayment,
-      required this.withdrawalFeePercentage});
+      this.withdrawalFeePercentage = 0});
 
   factory _$GetFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetFeesResponseDtoImplFromJson(json);
@@ -183,7 +183,8 @@ class _$GetFeesResponseDtoImpl implements _GetFeesResponseDto {
   @override
   final int splitKeyPayment;
   @override
-  final int withdrawalFeePercentage;
+  @JsonKey()
+  final double withdrawalFeePercentage;
 
   @override
   String toString() {
@@ -234,7 +235,7 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
       required final int escrowPayment,
       required final int escrowPaymentAtaFee,
       required final int splitKeyPayment,
-      required final int withdrawalFeePercentage}) = _$GetFeesResponseDtoImpl;
+      final double withdrawalFeePercentage}) = _$GetFeesResponseDtoImpl;
 
   factory _GetFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetFeesResponseDtoImpl.fromJson;
@@ -248,7 +249,7 @@ abstract class _GetFeesResponseDto implements GetFeesResponseDto {
   @override
   int get splitKeyPayment;
   @override
-  int get withdrawalFeePercentage;
+  double get withdrawalFeePercentage;
   @override
   @JsonKey(ignore: true)
   _$$GetFeesResponseDtoImplCopyWith<_$GetFeesResponseDtoImpl> get copyWith =>
