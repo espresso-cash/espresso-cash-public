@@ -52,8 +52,10 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: ViewPhraseFlowRoute.page,
           children: [
-            AutoRoute(page: ViewPhraseWarningRoute.page),
-            AutoRoute(page: ViewRecoveryPhraseRoute.page),
+            AutoRoute(page: QuizIntroRoute.page),
+            AutoRoute(page: QuizQuestionRoute.page),
+            AutoRoute(page: QuizAnswerRoute.page),
+            AutoRoute(page: QuizRecoveryRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),
