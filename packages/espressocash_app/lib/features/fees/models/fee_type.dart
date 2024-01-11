@@ -10,5 +10,5 @@ part 'fee_type.freezed.dart';
 )
 sealed class FeeType with _$FeeType {
   const factory FeeType.direct(Ed25519HDPublicKey address) = FeeTypeDirect;
-  const factory FeeType.splitKey() = FeeTypeSplitKey;
+  const factory FeeType.link() = FeeTypeLink;
 }

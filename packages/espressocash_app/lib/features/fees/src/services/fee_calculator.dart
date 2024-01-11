@@ -26,7 +26,7 @@ class FeeCalculator {
               return hasAta
                   ? fees.directPayment.ataExists
                   : fees.directPayment.ataDoesNotExist;
-            case FeeTypeSplitKey():
+            case FeeTypeLink():
               return fees.escrowPayment;
           }
         },
