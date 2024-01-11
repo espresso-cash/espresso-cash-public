@@ -47,7 +47,7 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      expect(signature, isNotNull);
+      expect(signature, isNotEmpty);
     },
     skip: true,
   );
