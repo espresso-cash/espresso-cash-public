@@ -32,11 +32,6 @@ class _OffRampOrderDetailsState extends State<OffRampOrderDetails> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) => StreamBuilder(
         stream: _stream,
         builder: (context, snapshot) => widget.builder(context, snapshot.data),
