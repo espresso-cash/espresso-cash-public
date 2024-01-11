@@ -73,4 +73,9 @@ abstract class CryptopleaseClient {
   Future<OrderStatusScalexResponseDto> fetchScalexTransaction(
     @Body() OrderStatusScalexRequestDto referenceId,
   );
+
+  @POST('/getDlnQuote')
+  Future<PaymentQuoteResponseDto> getDlnQuote(
+    @Body() PaymentQuoteRequestDto request,
+  );
 }
