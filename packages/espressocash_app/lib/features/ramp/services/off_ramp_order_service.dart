@@ -63,7 +63,10 @@ class OffRampOrderService implements Disposable {
   Future<void> init() async {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
-        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+        (tbl) => tbl.status.isNotInValues([
+          OffRampOrderStatus.completed,
+          OffRampOrderStatus.cancelled,
+        ]),
       );
 
     final orders = await query.get();
