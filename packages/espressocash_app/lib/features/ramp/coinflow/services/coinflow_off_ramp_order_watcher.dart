@@ -38,11 +38,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
         )
         .listen((event) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) =>
-              tbl.id.equals(orderId) &
-              tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
-        );
+        ..where((tbl) => tbl.id.equals(orderId));
 
       final status = switch (event?.status) {
         CoinflowOrderStatus.completed => OffRampOrderStatus.completed,

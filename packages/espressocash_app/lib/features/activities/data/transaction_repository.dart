@@ -92,7 +92,7 @@ class TransactionRepository {
     );
 
     final offRamp = _db.offRampOrderRows.findActivityOrNull(
-      where: (row) => row.transaction.contains(txId),
+      where: (row) => row.txId.equals(txId),
       builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
       ignoreWhen: (row) => const [
         OffRampOrderStatus.completed,
