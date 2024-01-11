@@ -1099,7 +1099,7 @@ packages:
     source: hosted
     version: "6.7.1"
   jupiter_aggregator:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "packages/jupiter_aggregator"
       ref: HEAD

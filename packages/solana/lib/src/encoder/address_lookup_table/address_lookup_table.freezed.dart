@@ -87,11 +87,12 @@ class _$AddressLookupTableStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_AddressLookupTableStateCopyWith<$Res>
+abstract class _$$AddressLookupTableStateImplCopyWith<$Res>
     implements $AddressLookupTableStateCopyWith<$Res> {
-  factory _$$_AddressLookupTableStateCopyWith(_$_AddressLookupTableState value,
-          $Res Function(_$_AddressLookupTableState) then) =
-      __$$_AddressLookupTableStateCopyWithImpl<$Res>;
+  factory _$$AddressLookupTableStateImplCopyWith(
+          _$AddressLookupTableStateImpl value,
+          $Res Function(_$AddressLookupTableStateImpl) then) =
+      __$$AddressLookupTableStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -103,12 +104,13 @@ abstract class _$$_AddressLookupTableStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_AddressLookupTableStateCopyWithImpl<$Res>
+class __$$AddressLookupTableStateImplCopyWithImpl<$Res>
     extends _$AddressLookupTableStateCopyWithImpl<$Res,
-        _$_AddressLookupTableState>
-    implements _$$_AddressLookupTableStateCopyWith<$Res> {
-  __$$_AddressLookupTableStateCopyWithImpl(_$_AddressLookupTableState _value,
-      $Res Function(_$_AddressLookupTableState) _then)
+        _$AddressLookupTableStateImpl>
+    implements _$$AddressLookupTableStateImplCopyWith<$Res> {
+  __$$AddressLookupTableStateImplCopyWithImpl(
+      _$AddressLookupTableStateImpl _value,
+      $Res Function(_$AddressLookupTableStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -120,7 +122,7 @@ class __$$_AddressLookupTableStateCopyWithImpl<$Res>
     Object? authority = freezed,
     Object? addresses = null,
   }) {
-    return _then(_$_AddressLookupTableState(
+    return _then(_$AddressLookupTableStateImpl(
       deactivationSlot: null == deactivationSlot
           ? _value.deactivationSlot
           : deactivationSlot // ignore: cast_nullable_to_non_nullable
@@ -147,8 +149,8 @@ class __$$_AddressLookupTableStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_AddressLookupTableState implements _AddressLookupTableState {
-  const _$_AddressLookupTableState(
+class _$AddressLookupTableStateImpl implements _AddressLookupTableState {
+  const _$AddressLookupTableStateImpl(
       {required this.deactivationSlot,
       required this.lastExtendedSlot,
       required this.lastExtendedSlotStartIndex,
@@ -178,10 +180,10 @@ class _$_AddressLookupTableState implements _AddressLookupTableState {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_AddressLookupTableState &&
+            other is _$AddressLookupTableStateImpl &&
             (identical(other.deactivationSlot, deactivationSlot) ||
                 other.deactivationSlot == deactivationSlot) &&
             (identical(other.lastExtendedSlot, lastExtendedSlot) ||
@@ -208,10 +210,9 @@ class _$_AddressLookupTableState implements _AddressLookupTableState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_AddressLookupTableStateCopyWith<_$_AddressLookupTableState>
-      get copyWith =>
-          __$$_AddressLookupTableStateCopyWithImpl<_$_AddressLookupTableState>(
-              this, _$identity);
+  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl>
+      get copyWith => __$$AddressLookupTableStateImplCopyWithImpl<
+          _$AddressLookupTableStateImpl>(this, _$identity);
 }
 
 abstract class _AddressLookupTableState implements AddressLookupTableState {
@@ -221,7 +222,7 @@ abstract class _AddressLookupTableState implements AddressLookupTableState {
           required final int lastExtendedSlotStartIndex,
           required final Ed25519HDPublicKey? authority,
           required final List<Ed25519HDPublicKey> addresses}) =
-      _$_AddressLookupTableState;
+      _$AddressLookupTableStateImpl;
 
   @override
   BigInt get deactivationSlot;
@@ -235,6 +236,6 @@ abstract class _AddressLookupTableState implements AddressLookupTableState {
   List<Ed25519HDPublicKey> get addresses;
   @override
   @JsonKey(ignore: true)
-  _$$_AddressLookupTableStateCopyWith<_$_AddressLookupTableState>
+  _$$AddressLookupTableStateImplCopyWith<_$AddressLookupTableStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

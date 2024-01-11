@@ -81,25 +81,25 @@ class _$LogsFilterCopyWithImpl<$Res, $Val extends LogsFilter>
 }
 
 /// @nodoc
-abstract class _$$_LogsFilterAllCopyWith<$Res> {
-  factory _$$_LogsFilterAllCopyWith(
-          _$_LogsFilterAll value, $Res Function(_$_LogsFilterAll) then) =
-      __$$_LogsFilterAllCopyWithImpl<$Res>;
+abstract class _$$LogsFilterAllImplCopyWith<$Res> {
+  factory _$$LogsFilterAllImplCopyWith(
+          _$LogsFilterAllImpl value, $Res Function(_$LogsFilterAllImpl) then) =
+      __$$LogsFilterAllImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_LogsFilterAllCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res, _$_LogsFilterAll>
-    implements _$$_LogsFilterAllCopyWith<$Res> {
-  __$$_LogsFilterAllCopyWithImpl(
-      _$_LogsFilterAll _value, $Res Function(_$_LogsFilterAll) _then)
+class __$$LogsFilterAllImplCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$LogsFilterAllImpl>
+    implements _$$LogsFilterAllImplCopyWith<$Res> {
+  __$$LogsFilterAllImplCopyWithImpl(
+      _$LogsFilterAllImpl _value, $Res Function(_$LogsFilterAllImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_LogsFilterAll implements _LogsFilterAll {
-  const _$_LogsFilterAll();
+class _$LogsFilterAllImpl implements _LogsFilterAll {
+  const _$LogsFilterAllImpl();
 
   @override
   String toString() {
@@ -107,9 +107,9 @@ class _$_LogsFilterAll implements _LogsFilterAll {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_LogsFilterAll);
+        (other.runtimeType == runtimeType && other is _$LogsFilterAllImpl);
   }
 
   @override
@@ -185,29 +185,31 @@ class _$_LogsFilterAll implements _LogsFilterAll {
 }
 
 abstract class _LogsFilterAll implements LogsFilter {
-  const factory _LogsFilterAll() = _$_LogsFilterAll;
+  const factory _LogsFilterAll() = _$LogsFilterAllImpl;
 }
 
 /// @nodoc
-abstract class _$$_LosgFilterAllWithVotesCopyWith<$Res> {
-  factory _$$_LosgFilterAllWithVotesCopyWith(_$_LosgFilterAllWithVotes value,
-          $Res Function(_$_LosgFilterAllWithVotes) then) =
-      __$$_LosgFilterAllWithVotesCopyWithImpl<$Res>;
+abstract class _$$LosgFilterAllWithVotesImplCopyWith<$Res> {
+  factory _$$LosgFilterAllWithVotesImplCopyWith(
+          _$LosgFilterAllWithVotesImpl value,
+          $Res Function(_$LosgFilterAllWithVotesImpl) then) =
+      __$$LosgFilterAllWithVotesImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_LosgFilterAllWithVotesCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res, _$_LosgFilterAllWithVotes>
-    implements _$$_LosgFilterAllWithVotesCopyWith<$Res> {
-  __$$_LosgFilterAllWithVotesCopyWithImpl(_$_LosgFilterAllWithVotes _value,
-      $Res Function(_$_LosgFilterAllWithVotes) _then)
+class __$$LosgFilterAllWithVotesImplCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$LosgFilterAllWithVotesImpl>
+    implements _$$LosgFilterAllWithVotesImplCopyWith<$Res> {
+  __$$LosgFilterAllWithVotesImplCopyWithImpl(
+      _$LosgFilterAllWithVotesImpl _value,
+      $Res Function(_$LosgFilterAllWithVotesImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
-  const _$_LosgFilterAllWithVotes();
+class _$LosgFilterAllWithVotesImpl implements _LosgFilterAllWithVotes {
+  const _$LosgFilterAllWithVotesImpl();
 
   @override
   String toString() {
@@ -215,10 +217,10 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LosgFilterAllWithVotes);
+            other is _$LosgFilterAllWithVotesImpl);
   }
 
   @override
@@ -294,24 +296,24 @@ class _$_LosgFilterAllWithVotes implements _LosgFilterAllWithVotes {
 }
 
 abstract class _LosgFilterAllWithVotes implements LogsFilter {
-  const factory _LosgFilterAllWithVotes() = _$_LosgFilterAllWithVotes;
+  const factory _LosgFilterAllWithVotes() = _$LosgFilterAllWithVotesImpl;
 }
 
 /// @nodoc
-abstract class _$$_LogsFilterMentionsCopyWith<$Res> {
-  factory _$$_LogsFilterMentionsCopyWith(_$_LogsFilterMentions value,
-          $Res Function(_$_LogsFilterMentions) then) =
-      __$$_LogsFilterMentionsCopyWithImpl<$Res>;
+abstract class _$$LogsFilterMentionsImplCopyWith<$Res> {
+  factory _$$LogsFilterMentionsImplCopyWith(_$LogsFilterMentionsImpl value,
+          $Res Function(_$LogsFilterMentionsImpl) then) =
+      __$$LogsFilterMentionsImplCopyWithImpl<$Res>;
   @useResult
   $Res call({List<String> pubKeys});
 }
 
 /// @nodoc
-class __$$_LogsFilterMentionsCopyWithImpl<$Res>
-    extends _$LogsFilterCopyWithImpl<$Res, _$_LogsFilterMentions>
-    implements _$$_LogsFilterMentionsCopyWith<$Res> {
-  __$$_LogsFilterMentionsCopyWithImpl(
-      _$_LogsFilterMentions _value, $Res Function(_$_LogsFilterMentions) _then)
+class __$$LogsFilterMentionsImplCopyWithImpl<$Res>
+    extends _$LogsFilterCopyWithImpl<$Res, _$LogsFilterMentionsImpl>
+    implements _$$LogsFilterMentionsImplCopyWith<$Res> {
+  __$$LogsFilterMentionsImplCopyWithImpl(_$LogsFilterMentionsImpl _value,
+      $Res Function(_$LogsFilterMentionsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -319,7 +321,7 @@ class __$$_LogsFilterMentionsCopyWithImpl<$Res>
   $Res call({
     Object? pubKeys = null,
   }) {
-    return _then(_$_LogsFilterMentions(
+    return _then(_$LogsFilterMentionsImpl(
       null == pubKeys
           ? _value._pubKeys
           : pubKeys // ignore: cast_nullable_to_non_nullable
@@ -330,8 +332,9 @@ class __$$_LogsFilterMentionsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LogsFilterMentions implements _LogsFilterMentions {
-  const _$_LogsFilterMentions(final List<String> pubKeys) : _pubKeys = pubKeys;
+class _$LogsFilterMentionsImpl implements _LogsFilterMentions {
+  const _$LogsFilterMentionsImpl(final List<String> pubKeys)
+      : _pubKeys = pubKeys;
 
   final List<String> _pubKeys;
   @override
@@ -347,10 +350,10 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LogsFilterMentions &&
+            other is _$LogsFilterMentionsImpl &&
             const DeepCollectionEquality().equals(other._pubKeys, _pubKeys));
   }
 
@@ -361,8 +364,8 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
-      __$$_LogsFilterMentionsCopyWithImpl<_$_LogsFilterMentions>(
+  _$$LogsFilterMentionsImplCopyWith<_$LogsFilterMentionsImpl> get copyWith =>
+      __$$LogsFilterMentionsImplCopyWithImpl<_$LogsFilterMentionsImpl>(
           this, _$identity);
 
   @override
@@ -436,10 +439,10 @@ class _$_LogsFilterMentions implements _LogsFilterMentions {
 
 abstract class _LogsFilterMentions implements LogsFilter {
   const factory _LogsFilterMentions(final List<String> pubKeys) =
-      _$_LogsFilterMentions;
+      _$LogsFilterMentionsImpl;
 
   List<String> get pubKeys;
   @JsonKey(ignore: true)
-  _$$_LogsFilterMentionsCopyWith<_$_LogsFilterMentions> get copyWith =>
+  _$$LogsFilterMentionsImplCopyWith<_$LogsFilterMentionsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

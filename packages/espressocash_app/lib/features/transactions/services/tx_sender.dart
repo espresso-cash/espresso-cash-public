@@ -67,34 +67,61 @@ class TxSender {
     required BigInt minContextSlot,
   }) {
     const commitment = Commitment.confirmed;
+    final start = DateTime.now();
 
     Future<TxWaitResult?> getSignatureStatus() async {
-      final statuses = await _client.rpcClient
-          .getSignatureStatuses([tx.id], searchTransactionHistory: true);
+      // We need to check blockhash validity before searching for tx to make
+      // sure that it's valid for the tx response slot.
+      // ignore: move-variable-closer-to-its-usage
+      final blockhashValidity = await _client.rpcClient.isBlockhashValid(
+        tx.blockhash,
+        commitment: commitment,
+        minContextSlot: minContextSlot.toInt(),
+      );
+
+      final statuses = await _client.rpcClient.getSignatureStatuses(
+        [tx.id],
+        searchTransactionHistory: true,
+      );
       final t = statuses.value.first;
 
       if (t == null) {
-        final bh = tx.blockhash;
-        final isValidBlockhash = await _client.rpcClient
-            .isBlockhashValid(
-              bh,
-              commitment: commitment,
-              minContextSlot: minContextSlot.toInt(),
-            )
-            .value;
-        if (!isValidBlockhash && statuses.context.slot >= minContextSlot) {
+        // Blockhash is still valid, tx can be submitted.
+        if (blockhashValidity.value) return null;
+
+        if (DateTime.now().difference(start).inSeconds > 90) {
+          // We've been waiting for too long, blockhash is invalid and it
+          // won't be valid.
           return const TxWaitResult.failure(
             reason: TxFailureReason.invalidBlockhashWaiting,
           );
         }
-      } else {
-        if (t.err != null) {
-          return const TxWaitResult.failure(reason: TxFailureReason.txError);
-        }
 
-        if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
-          return const TxWaitResult.success();
-        }
+        // No minContextSlot, it's not safe to assume that we get the latest
+        // status.
+        if (minContextSlot == BigInt.zero) return null;
+
+        // We were calling the status with too old slot, we cannot be sure
+        // that tx was not submitted.
+        if (statuses.context.slot < minContextSlot) return null;
+
+        // We were calling the status with too old slot, blockhash validity
+        // is not guaranteed.
+        if (statuses.context.slot < blockhashValidity.context.slot) return null;
+
+        // At this stage, blockhash is invalid and it won't be valid, so
+        // tx cannot be submitted.
+        return const TxWaitResult.failure(
+          reason: TxFailureReason.invalidBlockhashWaiting,
+        );
+      }
+
+      if (t.err != null) {
+        return const TxWaitResult.failure(reason: TxFailureReason.txError);
+      }
+
+      if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
+        return const TxWaitResult.success();
       }
     }
 

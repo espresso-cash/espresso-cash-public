@@ -65,6 +65,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
     precacheImage(Assets.images.cashOutBg.provider(), context);
     precacheImage(Assets.images.sendMoneyBg.provider(), context);
     precacheImage(Assets.images.sendManualBg.provider(), context);
+    precacheImage(Assets.images.quizIntroBg.provider(), context);
+    precacheImage(Assets.images.quizQuestionBg.provider(), context);
 
     super.didChangeDependencies();
   }
