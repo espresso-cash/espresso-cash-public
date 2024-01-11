@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/context.dart';
 part 'program_account.g.dart';
 
 /// A program account
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ProgramAccount {
   const ProgramAccount({
     required this.account,
@@ -20,12 +20,16 @@ class ProgramAccount {
 
   /// The account Pubkey as base-58 encoded string.
   final String pubkey;
+
+  Map<String, dynamic> toJson() => _$ProgramAccountToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ProgramAccountsResult extends ContextResult<List<ProgramAccount>> {
   const ProgramAccountsResult({required super.context, required super.value});
 
   factory ProgramAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$ProgramAccountsResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProgramAccountsResultToJson(this);
 }

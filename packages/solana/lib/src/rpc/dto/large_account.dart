@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/context.dart';
 part 'large_account.g.dart';
 
 /// A large account
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class LargeAccount {
   const LargeAccount({
     required this.address,
@@ -19,12 +19,16 @@ class LargeAccount {
 
   /// Number of lamports in the account, as a u64
   final int lamports;
+
+  Map<String, dynamic> toJson() => _$LargeAccountToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class LargeAccountsResult extends ContextResult<List<LargeAccount>> {
   const LargeAccountsResult({required super.context, required super.value});
 
   factory LargeAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$LargeAccountsResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LargeAccountsResultToJson(this);
 }

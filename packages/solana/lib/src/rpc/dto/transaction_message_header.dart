@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'transaction_message_header.g.dart';
 
 /// The header of a transaction message
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TransactionMessageHeader {
   const TransactionMessageHeader({
     required this.numRequiredSignatures,
@@ -30,4 +30,6 @@ class TransactionMessageHeader {
   /// The last numReadonlyUnsignedAccounts of the unsigned keys
   /// are read-only accounts.
   final int numReadonlyUnsignedAccounts;
+
+  Map<String, dynamic> toJson() => _$TransactionMessageHeaderToJson(this);
 }

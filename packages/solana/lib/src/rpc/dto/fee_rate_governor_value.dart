@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'fee_rate_governor_value.g.dart';
 
 /// The value of a fee rate governor
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class FeeRateGovernorValue {
   const FeeRateGovernorValue({
     required this.burnPercent,
@@ -32,4 +32,6 @@ class FeeRateGovernorValue {
 
   /// Desired signature rate for the cluster.
   final int targetSignaturesPerSlot;
+
+  Map<String, dynamic> toJson() => _$FeeRateGovernorValueToJson(this);
 }

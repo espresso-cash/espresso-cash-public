@@ -28,4 +28,6 @@ abstract class Message {
   abstract final String recentBlockhash;
   abstract final List<Instruction> instructions;
   abstract final List<AddressTableLookups>? addressTableLookups;
+
+  Map<String, dynamic> toJson();
 }

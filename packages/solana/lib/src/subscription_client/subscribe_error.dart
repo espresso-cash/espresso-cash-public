@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'subscribe_error.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SubscribeError {
   const SubscribeError({
     required this.code,
@@ -14,4 +14,6 @@ class SubscribeError {
 
   final int code;
   final String message;
+
+  Map<String, dynamic> toJson() => _$SubscribeErrorToJson(this);
 }

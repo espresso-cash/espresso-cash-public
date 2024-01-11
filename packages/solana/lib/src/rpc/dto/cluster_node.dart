@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'cluster_node.g.dart';
 
 /// A node of a cluster
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ClusterNode {
   const ClusterNode({
     required this.pubkey,

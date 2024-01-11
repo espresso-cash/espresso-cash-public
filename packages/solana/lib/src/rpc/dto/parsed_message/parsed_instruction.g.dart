@@ -19,7 +19,7 @@ Map<String, dynamic> _$$ParsedInstructionSystemImplToJson(
         _$ParsedInstructionSystemImpl instance) =>
     <String, dynamic>{
       'programId': instance.programId,
-      'parsed': instance.parsed,
+      'parsed': instance.parsed.toJson(),
       'program': instance.$type,
     };
 
@@ -34,7 +34,7 @@ _$ParsedInstructionSplTokenImpl _$$ParsedInstructionSplTokenImplFromJson(
 Map<String, dynamic> _$$ParsedInstructionSplTokenImplToJson(
         _$ParsedInstructionSplTokenImpl instance) =>
     <String, dynamic>{
-      'parsed': instance.parsed,
+      'parsed': instance.parsed.toJson(),
       'program': instance.$type,
     };
 

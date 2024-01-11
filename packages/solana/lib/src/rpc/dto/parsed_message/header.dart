@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'header.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Header {
   const Header({
     required this.numRequiredSignatures,
@@ -21,4 +21,6 @@ class Header {
   final int numRequiredSignatures;
   final int numReadonlySignedAccounts;
   final int numReadonlyUnsignedAccounts;
+
+  Map<String, dynamic> toJson() => _$HeaderToJson(this);
 }

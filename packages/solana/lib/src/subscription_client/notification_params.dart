@@ -21,4 +21,7 @@ class NotificationParams<T> {
 
   final NotificationResult<T> result;
   final int subscription;
+
+  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
+      _$NotificationParamsToJson(this, toJsonT);
 }
