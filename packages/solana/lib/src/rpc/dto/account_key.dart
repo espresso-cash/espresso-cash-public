@@ -8,4 +8,6 @@ abstract class AccountKey {
       : ParsedAccountKey.fromJson(json as Map<String, dynamic>);
 
   abstract final String pubkey;
+
+  dynamic toJson();
 }

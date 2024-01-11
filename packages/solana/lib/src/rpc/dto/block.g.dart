@@ -25,3 +25,15 @@ Block _$BlockFromJson(Map<String, dynamic> json) => Block(
       blockTime: json['blockTime'] as int?,
       blockHeight: json['blockHeight'] as int?,
     );
+
+Map<String, dynamic> _$BlockToJson(Block instance) => <String, dynamic>{
+      'blockhash': instance.blockhash,
+      'previousBlockhash': instance.previousBlockhash,
+      'parentSlot': instance.parentSlot,
+      'transactions': instance.transactions.map((e) => e.toJson()).toList(),
+      'meta': instance.meta?.toJson(),
+      'signatures': instance.signatures,
+      'rewards': instance.rewards.map((e) => e.toJson()).toList(),
+      'blockTime': instance.blockTime,
+      'blockHeight': instance.blockHeight,
+    };

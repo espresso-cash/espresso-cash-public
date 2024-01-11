@@ -24,3 +24,9 @@ TokenAmountResult _$TokenAmountResultFromJson(Map<String, dynamic> json) =>
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
       value: TokenAmount.fromJson(json['value'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$TokenAmountResultToJson(TokenAmountResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.toJson(),
+    };

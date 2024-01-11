@@ -14,4 +14,6 @@ class Stake {
 
   final Delegation delegation;
   final int creditsObserved;
+
+  Map<String, dynamic> toJson() => _$StakeToJson(this);
 }

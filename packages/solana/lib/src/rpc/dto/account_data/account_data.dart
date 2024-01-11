@@ -22,4 +22,6 @@ abstract class AccountData {
             ? const AccountData.empty()
             : throw FormatException('unknown encoding $encoding'),
       );
+
+  dynamic toJson();
 }

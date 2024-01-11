@@ -13,3 +13,11 @@ InflationRate _$InflationRateFromJson(Map<String, dynamic> json) =>
       foundation: (json['foundation'] as num).toDouble(),
       epoch: (json['epoch'] as num).toDouble(),
     );
+
+Map<String, dynamic> _$InflationRateToJson(InflationRate instance) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'validator': instance.validator,
+      'foundation': instance.foundation,
+      'epoch': instance.epoch,
+    };

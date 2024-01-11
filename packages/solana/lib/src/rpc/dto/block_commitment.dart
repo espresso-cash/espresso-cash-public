@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'block_commitment.g.dart';
 
 /// The commitment of a bloc
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class BlockCommitment {
   const BlockCommitment({
     required this.commitment,
@@ -20,4 +20,6 @@ class BlockCommitment {
 
   /// Total active stake, in lamports, of the current epoch.
   final int totalStake;
+
+  Map<String, dynamic> toJson() => _$BlockCommitmentToJson(this);
 }

@@ -18,4 +18,6 @@ class Logs {
   final String signature;
   final Object? err;
   final List<String> logs;
+
+  Map<String, dynamic> toJson() => _$LogsToJson(this);
 }

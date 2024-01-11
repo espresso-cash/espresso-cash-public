@@ -3,7 +3,7 @@ import 'package:solana/src/rpc/dto/context.dart';
 
 part 'token_largest_account.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TokenLargestAccount {
   const TokenLargestAccount({
     required this.address,
@@ -19,9 +19,11 @@ class TokenLargestAccount {
   final String amount;
   final int decimals;
   final String uiAmountString;
+
+  Map<String, dynamic> toJson() => _$TokenLargestAccountToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TokenLargestAccountsResult
     extends ContextResult<List<TokenLargestAccount>> {
   const TokenLargestAccountsResult({
@@ -31,4 +33,6 @@ class TokenLargestAccountsResult
 
   factory TokenLargestAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$TokenLargestAccountsResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TokenLargestAccountsResultToJson(this);
 }

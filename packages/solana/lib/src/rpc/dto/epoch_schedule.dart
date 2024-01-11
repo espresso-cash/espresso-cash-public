@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'epoch_schedule.g.dart';
 
 /// An epoch schedule
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class EpochSchedule {
   const EpochSchedule({
     required this.slotsPerEpoch,
@@ -32,4 +32,6 @@ class EpochSchedule {
 
   /// MINIMUM_SLOTS_PER_EPOCH * (2.pow(firstNormalEpoch) - 1).
   final int firstNormalSlot;
+
+  Map<String, dynamic> toJson() => _$EpochScheduleToJson(this);
 }

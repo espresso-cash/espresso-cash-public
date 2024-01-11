@@ -1,5 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/instruction.dart';
 
+part 'raw_instruction.g.dart';
+
+@JsonSerializable()
 class RawInstruction implements Instruction {
   const RawInstruction({
     required this.programIdIndex,
@@ -7,14 +11,8 @@ class RawInstruction implements Instruction {
     required this.data,
   });
 
-  factory RawInstruction.fromJson(Map<String, dynamic> json) => RawInstruction(
-        programIdIndex: json['programIdIndex'] as int,
-        accounts: List<int>.from(
-          json['accounts'] as List<dynamic>,
-          growable: false,
-        ),
-        data: json['data'] as String,
-      );
+  factory RawInstruction.fromJson(Map<String, dynamic> json) =>
+      _$RawInstructionFromJson(json);
 
   /// Index into the message.accountKeys array indicating the
   /// program account that executes this instruction.
@@ -26,4 +24,7 @@ class RawInstruction implements Instruction {
 
   /// The program input data encoded in a base-58 string.
   final String data;
+
+  @override
+  Map<String, dynamic> toJson() => _$RawInstructionToJson(this);
 }
