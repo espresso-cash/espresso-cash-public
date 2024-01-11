@@ -30,10 +30,7 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query
-        .map((row) => row.id)
-        .watch()
-        .map((event) => event.whereNotNull().toIList());
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
   Stream<IList<String>> watchCount(int count) {
@@ -41,10 +38,7 @@ class TransactionRepository {
       ..limit(count)
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query
-        .map((row) => row.id)
-        .watch()
-        .map((event) => event.whereNotNull().toIList());
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
   Stream<Transaction> watch(String id) {

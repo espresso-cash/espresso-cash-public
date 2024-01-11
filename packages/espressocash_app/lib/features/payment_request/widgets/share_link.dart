@@ -76,6 +76,7 @@ class _Instructions extends StatelessWidget {
           children: [
             _newLine,
             TextSpan(text: context.l10n.sharePaymentRequestLinkInstructions),
+            // ignore: avoid-duplicate-collection-elements, intended duplication
             _newLine,
           ],
           style: const TextStyle(fontSize: 18),

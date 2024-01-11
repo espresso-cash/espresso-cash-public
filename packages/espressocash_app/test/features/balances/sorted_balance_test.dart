@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-duplicate-initializers
+
 import 'dart:math';
 
 import 'package:espressocash_app/core/amount.dart';

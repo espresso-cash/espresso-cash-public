@@ -147,7 +147,6 @@ class CompiledKeys {
 
   DrainedKeys _drainKeysFoundInLookupTable(
     List<Ed25519HDPublicKey> lookupTableEntries,
-    // ignore: prefer-typedefs-for-callbacks, more readable
     bool Function(CompiledKeyMeta data) keyMetaFilter,
   ) {
     final lookupTableIndexes = <int>[];
