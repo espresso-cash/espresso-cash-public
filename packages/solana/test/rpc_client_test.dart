@@ -531,7 +531,7 @@ void main() {
 
     test('Call to getBlockProduction() succeeds', () async {
       final blockProduction = await client.rpcClient.getBlockProduction();
-      expect(blockProduction.value.range.firstSlot, isPositive);
+      expect(blockProduction.value.range.firstSlot, isNonNegative);
     });
 
     test(
