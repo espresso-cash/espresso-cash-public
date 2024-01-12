@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-
 import '../gen/assets.gen.dart';
 import '../routes.gr.dart';
 import 'colors.dart';
@@ -19,7 +18,7 @@ class SplashScreen extends StatelessWidget {
             color: CpColors.yellowSplashBackgroundColor,
           ),
           child: Center(
-            child: Assets.images.logoIcon.image(height: 101),
+            child: Assets.images.logo.image(height: 66),
           ),
         ),
       );
