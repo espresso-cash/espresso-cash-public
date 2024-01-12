@@ -8,18 +8,15 @@ import 'package:provider/provider.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/flow.dart';
 import '../../../core/link_payments.dart';
-import '../../../core/router_wrapper.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
-import '../../../saga.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../services/sign_in_bloc.dart';
 import 'create_wallet_loading_screen.dart';
-import 'get_started_screen.dart';
-import 'restore_account_screen.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {
@@ -31,24 +28,8 @@ class SignInFlowScreen extends StatefulWidget {
   State<SignInFlowScreen> createState() => _SignInFlowScreenState();
 }
 
-class _SignInFlowScreenState extends State<SignInFlowScreen>
-    with RouterWrapper {
+class _SignInFlowScreenState extends State<SignInFlowScreen> {
   late final SignInBloc _signInBloc;
-
-  void _handleSignInPressed() => router?.push(
-        RestoreAccountScreen.route(
-          onMnemonicConfirmed: _handleMnemonicConfirmed,
-        ),
-      );
-
-  void _handleMnemonicConfirmed() =>
-      _signInBloc.add(const SignInEvent.submitted());
-
-  @override
-  PageRouteInfo get initialRoute => GetStartedScreen.route(
-        isSaga: isSaga,
-        onSignInPressed: _handleSignInPressed,
-      );
 
   @override
   void initState() {
@@ -98,7 +79,11 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
           },
           builder: (context, state) => CpLoader(
             isLoading: state.processingState.isProcessing,
-            child: AutoRouter(key: routerKey),
+            child: AutoRouter(
+              placeholder: (context) => const ColoredBox(
+                color: CpColors.yellowSplashBackgroundColor,
+              ),
+            ),
           ),
         ),
       );

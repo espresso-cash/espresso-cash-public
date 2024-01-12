@@ -9,137 +9,87 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
+import 'restore_account_screen.dart';
 
 @RoutePage()
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({
-    super.key,
-    required this.isSaga,
-    required this.onSignInPressed,
-  });
+  const GetStartedScreen({super.key});
 
   static const route = GetStartedRoute.new;
-
-  final bool isSaga;
-  final VoidCallback onSignInPressed;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
-class _GetStartedScreenState extends State<GetStartedScreen>
-    with TickerProviderStateMixin {
-  late final AnimationController _slideAnimationController;
-  late final Animation<Offset> _slideOffsetAnimation;
-  late final AnimationController _fadeAnimationController;
-  late final Animation<double> _fadeAnimation;
+class _GetStartedScreenState extends State<GetStartedScreen> {
+  void _handleSignInPressed() => context.router.push(
+        RestoreAccountScreen.route(
+          onMnemonicConfirmed: _handleMnemonicConfirmed,
+        ),
+      );
 
-  @override
-  void initState() {
-    super.initState();
-
-    _slideAnimationController = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    )..forward();
-
-    _slideOffsetAnimation = Tween<Offset>(
-      begin: const Offset(0.0, 0.5),
-      end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _slideAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    _fadeAnimationController = AnimationController(
-      duration: const Duration(seconds: 1),
-      vsync: this,
-    )..forward();
-
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(
-      CurvedAnimation(
-        parent: _fadeAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-  }
+  void _handleMnemonicConfirmed() =>
+      context.read<SignInBloc>().add(const SignInEvent.submitted());
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           backgroundColor: CpColors.yellowSplashBackgroundColor,
-          body: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Stack(
-              children: [
-                Align(
-                  child: Assets.images.dollarBg.image(
-                    fit: BoxFit.fitHeight,
-                    height: double.infinity,
-                  ),
+          body: Stack(
+            children: [
+              Align(
+                child: Assets.images.dollarBg.image(
+                  fit: BoxFit.fitHeight,
+                  height: double.infinity,
                 ),
-                SafeArea(
-                  minimum: EdgeInsets.only(top: 70.h),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) => SingleChildScrollView(
-                      child: ConstrainedBox(
-                        constraints: constraints.copyWith(
-                          minHeight: constraints.maxHeight,
-                          maxHeight: double.infinity,
-                        ),
-                        child: IntrinsicHeight(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Expanded(
-                                child: SlideTransition(
-                                  position: _slideOffsetAnimation,
-                                  child: const _Logo(),
-                                ),
-                              ),
-                              const _Body(),
-                              24.verticalSpace,
-                              _Footer(
-                                isSaga: widget.isSaga,
-                                onSignInPressed: widget.onSignInPressed,
-                              ),
-                            ],
-                          ),
+              ),
+              SafeArea(
+                minimum: EdgeInsets.only(top: 70.h),
+                child: LayoutBuilder(
+                  builder: (context, constraints) => SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints: constraints.copyWith(
+                        minHeight: constraints.maxHeight,
+                        maxHeight: double.infinity,
+                      ),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Expanded(child: _Logo()),
+                            const _Body(),
+                            24.verticalSpace,
+                            _Footer(
+                              isSaga: isSaga,
+                              onSignInPressed: _handleSignInPressed,
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
-
-  @override
-  void dispose() {
-    _slideAnimationController.dispose();
-    _fadeAnimationController.dispose();
-    super.dispose();
-  }
 }
 
 class _Logo extends StatelessWidget {
   const _Logo();
 
   @override
-  Widget build(BuildContext context) =>
-      Assets.images.logo.image(width: 309.r, height: 66.r);
+  Widget build(BuildContext context) => Hero(
+        tag: 'logo',
+        child: Assets.images.logo.image(width: 309.r, height: 66.r),
+      );
 }
 
 class _Footer extends StatelessWidget {
