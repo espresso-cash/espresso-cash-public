@@ -72,6 +72,41 @@ const _$ScalexOrderStatusEnumMap = {
   ScalexOrderStatus.unknown: 'unknown',
 };
 
+_$ScalexWithdrawRequestDtoImpl _$$ScalexWithdrawRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScalexWithdrawRequestDtoImpl(
+      orderId: json['orderId'] as String,
+      cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+    );
+
+Map<String, dynamic> _$$ScalexWithdrawRequestDtoImplToJson(
+        _$ScalexWithdrawRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'orderId': instance.orderId,
+      'cluster': _$ClusterEnumMap[instance.cluster]!,
+    };
+
+const _$ClusterEnumMap = {
+  Cluster.mainnet: 'mainnet',
+  Cluster.devnet: 'devnet',
+};
+
+_$WithdrawPaymentResponseDtoImpl _$$WithdrawPaymentResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$WithdrawPaymentResponseDtoImpl(
+      fee: json['fee'] as int,
+      transaction: json['transaction'] as String,
+      slot: BigInt.parse(json['slot'] as String),
+    );
+
+Map<String, dynamic> _$$WithdrawPaymentResponseDtoImplToJson(
+        _$WithdrawPaymentResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'fee': instance.fee,
+      'transaction': instance.transaction,
+      'slot': instance.slot.toString(),
+    };
+
 _$OnRampScalexDetailsImpl _$$OnRampScalexDetailsImplFromJson(
         Map<String, dynamic> json) =>
     _$OnRampScalexDetailsImpl(
