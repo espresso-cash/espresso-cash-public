@@ -7,7 +7,7 @@ import 'package:solana/src/rpc/dto/parsed_message/header.dart';
 
 part 'raw_message.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class RawMessage implements Message {
   const RawMessage({
     required this.accountKeys,
@@ -34,4 +34,7 @@ class RawMessage implements Message {
 
   @override
   final List<AddressTableLookups>? addressTableLookups;
+
+  @override
+  Map<String, dynamic> toJson() => _$RawMessageToJson(this);
 }

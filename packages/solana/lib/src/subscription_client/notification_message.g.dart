@@ -30,7 +30,9 @@ _$AccountNotificationImpl _$$AccountNotificationImplFromJson(
 Map<String, dynamic> _$$AccountNotificationImplToJson(
         _$AccountNotificationImpl instance) =>
     <String, dynamic>{
-      'params': instance.params,
+      'params': instance.params.toJson(
+        (value) => value.toJson(),
+      ),
       'method': instance.$type,
     };
 
@@ -46,7 +48,9 @@ _$LogsNotificationImpl _$$LogsNotificationImplFromJson(
 Map<String, dynamic> _$$LogsNotificationImplToJson(
         _$LogsNotificationImpl instance) =>
     <String, dynamic>{
-      'params': instance.params,
+      'params': instance.params.toJson(
+        (value) => value.toJson(),
+      ),
       'method': instance.$type,
     };
 
@@ -61,7 +65,9 @@ _$ProgramNotificationImpl _$$ProgramNotificationImplFromJson(
 Map<String, dynamic> _$$ProgramNotificationImplToJson(
         _$ProgramNotificationImpl instance) =>
     <String, dynamic>{
-      'params': instance.params,
+      'params': instance.params.toJson(
+        (value) => value,
+      ),
       'method': instance.$type,
     };
 
@@ -77,7 +83,9 @@ _$SignatureNotificationImpl _$$SignatureNotificationImplFromJson(
 Map<String, dynamic> _$$SignatureNotificationImplToJson(
         _$SignatureNotificationImpl instance) =>
     <String, dynamic>{
-      'params': instance.params,
+      'params': instance.params.toJson(
+        (value) => value.toJson(),
+      ),
       'method': instance.$type,
     };
 
@@ -93,6 +101,8 @@ _$SlotNotificationImpl _$$SlotNotificationImplFromJson(
 Map<String, dynamic> _$$SlotNotificationImplToJson(
         _$SlotNotificationImpl instance) =>
     <String, dynamic>{
-      'params': instance.params,
+      'params': instance.params.toJson(
+        (value) => value.toJson(),
+      ),
       'method': instance.$type,
     };

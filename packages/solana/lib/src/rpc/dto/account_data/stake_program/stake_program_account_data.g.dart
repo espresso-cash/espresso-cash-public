@@ -18,7 +18,7 @@ _$StakeProgramDelegatedAccountDataImpl
 Map<String, dynamic> _$$StakeProgramDelegatedAccountDataImplToJson(
         _$StakeProgramDelegatedAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.$type,
     };
 
@@ -34,7 +34,7 @@ _$StakeProgramInitializedAccountDataImpl
 Map<String, dynamic> _$$StakeProgramInitializedAccountDataImplToJson(
         _$StakeProgramInitializedAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.$type,
     };
 

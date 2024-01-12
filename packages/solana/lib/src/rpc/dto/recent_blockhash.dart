@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/fee_calculator.dart';
 part 'recent_blockhash.g.dart';
 
 /// A recent blockhash
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class RecentBlockhash {
   const RecentBlockhash({
     required this.blockhash,
@@ -20,12 +20,16 @@ class RecentBlockhash {
 
   /// [FeeCalculator] object, the fee schedule for this block hash
   final FeeCalculator feeCalculator;
+
+  Map<String, dynamic> toJson() => _$RecentBlockhashToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class RecentBlockhashResult extends ContextResult<RecentBlockhash> {
   const RecentBlockhashResult({required super.context, required super.value});
 
   factory RecentBlockhashResult.fromJson(Map<String, dynamic> json) =>
       _$RecentBlockhashResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RecentBlockhashResultToJson(this);
 }

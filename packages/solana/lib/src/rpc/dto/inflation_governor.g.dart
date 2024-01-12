@@ -14,3 +14,12 @@ InflationGovernor _$InflationGovernorFromJson(Map<String, dynamic> json) =>
       foundation: (json['foundation'] as num).toDouble(),
       foundationTerm: (json['foundationTerm'] as num).toDouble(),
     );
+
+Map<String, dynamic> _$InflationGovernorToJson(InflationGovernor instance) =>
+    <String, dynamic>{
+      'initial': instance.initial,
+      'terminal': instance.terminal,
+      'taper': instance.taper,
+      'foundation': instance.foundation,
+      'foundationTerm': instance.foundationTerm,
+    };

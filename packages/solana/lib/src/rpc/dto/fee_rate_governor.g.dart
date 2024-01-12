@@ -11,3 +11,8 @@ FeeRateGovernor _$FeeRateGovernorFromJson(Map<String, dynamic> json) =>
       feeRateGovernor: FeeRateGovernorValue.fromJson(
           json['feeRateGovernor'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$FeeRateGovernorToJson(FeeRateGovernor instance) =>
+    <String, dynamic>{
+      'feeRateGovernor': instance.feeRateGovernor.toJson(),
+    };

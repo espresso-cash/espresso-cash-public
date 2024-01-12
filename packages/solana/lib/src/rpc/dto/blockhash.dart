@@ -7,7 +7,7 @@ part 'blockhash.g.dart';
 /// Response of the [`getRecentBlockhash`][get recent blockhash] rpc method.
 ///
 /// [get recent blockhash]: https://docs.solana.com/developing/clients/jsonrpc-api#getrecentblockhash
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Blockhash {
   const Blockhash({
     required this.feeCalculator,
@@ -19,12 +19,16 @@ class Blockhash {
 
   final FeeCalculator feeCalculator;
   final String blockhash;
+
+  Map<String, dynamic> toJson() => _$BlockhashToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class BlockhasValidResult extends ContextResult<bool> {
   const BlockhasValidResult({required super.context, required super.value});
 
   factory BlockhasValidResult.fromJson(Map<String, dynamic> json) =>
       _$BlockhasValidResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockhasValidResultToJson(this);
 }

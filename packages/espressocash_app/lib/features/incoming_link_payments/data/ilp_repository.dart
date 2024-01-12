@@ -141,7 +141,7 @@ extension on IncomingLinkPayment {
         status: status.toDto(),
         tx: status.toTx(),
         txId: status.toTxId(),
-        slot: status.toSlot().toString(),
+        slot: status.toSlot()?.toString(),
         txFailureReason: status.toTxFailureReason(),
         feeAmount: switch (status) {
           ILPStatusSuccess(:final fee) => fee?.value,

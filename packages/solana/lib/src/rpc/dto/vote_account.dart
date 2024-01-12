@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/epoch_credits.dart';
 part 'vote_account.g.dart';
 
 /// A list of vote accounts
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class VoteAccount {
   const VoteAccount({
     required this.votePubkey,
@@ -42,4 +42,6 @@ class VoteAccount {
   /// History of how many credits earned by the end of each epoch, as an array
   /// of arrays containing: epoch, credits, previousCredits.
   final List<EpochCredits> epochCredits;
+
+  Map<String, dynamic> toJson() => _$VoteAccountToJson(this);
 }

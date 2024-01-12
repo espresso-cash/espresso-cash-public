@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/range.dart';
 part 'block_production.g.dart';
 
 /// A block production
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class BlockProduction {
   const BlockProduction({
     required this.byIdentity,
@@ -23,12 +23,16 @@ class BlockProduction {
 
   /// Block production slot range
   final Range range;
+
+  Map<String, dynamic> toJson() => _$BlockProductionToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class BlockProductionResult extends ContextResult<BlockProduction> {
   const BlockProductionResult({required super.context, required super.value});
 
   factory BlockProductionResult.fromJson(Map<String, dynamic> json) =>
       _$BlockProductionResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockProductionResultToJson(this);
 }

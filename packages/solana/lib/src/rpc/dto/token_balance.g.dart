@@ -12,3 +12,10 @@ TokenBalance _$TokenBalanceFromJson(Map<String, dynamic> json) => TokenBalance(
       uiTokenAmount:
           TokenAmount.fromJson(json['uiTokenAmount'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$TokenBalanceToJson(TokenBalance instance) =>
+    <String, dynamic>{
+      'accountIndex': instance.accountIndex,
+      'mint': instance.mint,
+      'uiTokenAmount': instance.uiTokenAmount.toJson(),
+    };

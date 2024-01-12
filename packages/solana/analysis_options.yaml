@@ -13,3 +13,5 @@ dart_code_metrics:
     avoid-passing-self-as-argument: false
     prefer-correct-handler-name: false
     match-lib-folder-structure: false
+    avoid-duplicate-initializers: false
+    move-variable-outside-iteration: false

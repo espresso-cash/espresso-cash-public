@@ -283,8 +283,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
-          _subscriptions[orderId]?.cancel();
-          _subscriptions.remove(orderId);
+          _subscriptions.remove(orderId)?.cancel();
 
           return const Stream.empty();
       }

@@ -89,7 +89,6 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
 extension SignedTxExt on SignedTx {
   bool get containsAta => decompileMessage().let(
         (m) => m.instructions
-            .where((ix) => ix.programId == AssociatedTokenAccountProgram.id)
-            .isNotEmpty,
+            .any((ix) => ix.programId == AssociatedTokenAccountProgram.id),
       );
 }

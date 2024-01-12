@@ -29,4 +29,6 @@ class EpochCredits {
   final int epoch;
   final int credits;
   final int previousCredits;
+
+  List<int> toJson() => [epoch, credits, previousCredits];
 }

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'solana_version.g.dart';
 
 /// The solana version
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SolanaVersion {
   const SolanaVersion({
     required this.solanaCore,
@@ -20,4 +20,6 @@ class SolanaVersion {
   /// Unique identifier of current feature set.
   @JsonKey(name: 'feature-set')
   final int featureSet;
+
+  Map<String, dynamic> toJson() => _$SolanaVersionToJson(this);
 }
