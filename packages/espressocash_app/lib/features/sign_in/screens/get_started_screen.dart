@@ -16,7 +16,7 @@ import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 
 @RoutePage()
-class GetStartedScreen extends StatelessWidget {
+class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({
     super.key,
     required this.isSaga,
@@ -29,48 +29,109 @@ class GetStartedScreen extends StatelessWidget {
   final VoidCallback onSignInPressed;
 
   @override
+  State<GetStartedScreen> createState() => _GetStartedScreenState();
+}
+
+class _GetStartedScreenState extends State<GetStartedScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController slideAnimationController;
+  late final Animation<Offset> slideOffsetAnimation;
+  late final AnimationController fadeAnimationController;
+  late final Animation<double> fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    slideAnimationController = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..forward();
+
+    slideOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.5),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: slideAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    fadeAnimationController = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    )..forward();
+
+    fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: fadeAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: Scaffold(
           backgroundColor: CpColors.yellowSplashBackgroundColor,
-          body: Stack(
-            children: [
-              Align(
-                child: Assets.images.dollarBg.image(
-                  fit: BoxFit.fitHeight,
-                  height: double.infinity,
+          body: FadeTransition(
+            opacity: fadeAnimationController,
+            child: Stack(
+              children: [
+                Align(
+                  child: Assets.images.dollarBg.image(
+                    fit: BoxFit.fitHeight,
+                    height: double.infinity,
+                  ),
                 ),
-              ),
-              SafeArea(
-                minimum: EdgeInsets.only(top: 70.h),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: constraints.copyWith(
-                        minHeight: constraints.maxHeight,
-                        maxHeight: double.infinity,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Expanded(child: _Logo()),
-                            const _Body(),
-                            24.verticalSpace,
-                            _Footer(
-                              isSaga: isSaga,
-                              onSignInPressed: onSignInPressed,
-                            ),
-                          ],
+                SafeArea(
+                  minimum: EdgeInsets.only(top: 70.h),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) => SingleChildScrollView(
+                      child: ConstrainedBox(
+                        constraints: constraints.copyWith(
+                          minHeight: constraints.maxHeight,
+                          maxHeight: double.infinity,
+                        ),
+                        child: IntrinsicHeight(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Expanded(
+                                child: SlideTransition(
+                                  position: slideOffsetAnimation,
+                                  child: const _Logo(),
+                                ),
+                              ),
+                              const _Body(),
+                              24.verticalSpace,
+                              _Footer(
+                                isSaga: widget.isSaga,
+                                onSignInPressed: widget.onSignInPressed,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
+
+  @override
+  void dispose() {
+    slideAnimationController.dispose();
+    fadeAnimationController.dispose();
+    super.dispose();
+  }
 }
 
 class _Logo extends StatelessWidget {

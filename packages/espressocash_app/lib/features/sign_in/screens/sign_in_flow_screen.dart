@@ -10,6 +10,7 @@ import '../../../core/flow.dart';
 import '../../../core/link_payments.dart';
 import '../../../core/router_wrapper.dart';
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../saga.dart';
 import '../../../ui/dialogs.dart';
@@ -58,6 +59,8 @@ class _SignInFlowScreenState extends State<SignInFlowScreen>
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
+    precacheImage(Assets.images.dollarBg.provider(), context);
 
     context.watch<DynamicLinksNotifier>().link?.let(_parseUri).let((valid) {
       if (valid) {
