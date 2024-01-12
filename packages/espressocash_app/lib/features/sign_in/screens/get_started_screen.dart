@@ -34,41 +34,41 @@ class GetStartedScreen extends StatefulWidget {
 
 class _GetStartedScreenState extends State<GetStartedScreen>
     with TickerProviderStateMixin {
-  late final AnimationController slideAnimationController;
-  late final Animation<Offset> slideOffsetAnimation;
-  late final AnimationController fadeAnimationController;
-  late final Animation<double> fadeAnimation;
+  late final AnimationController _slideAnimationController;
+  late final Animation<Offset> _slideOffsetAnimation;
+  late final AnimationController _fadeAnimationController;
+  late final Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    slideAnimationController = AnimationController(
+    _slideAnimationController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     )..forward();
 
-    slideOffsetAnimation = Tween<Offset>(
+    _slideOffsetAnimation = Tween<Offset>(
       begin: const Offset(0.0, 0.5),
       end: Offset.zero,
     ).animate(
       CurvedAnimation(
-        parent: slideAnimationController,
+        parent: _slideAnimationController,
         curve: Curves.easeInOut,
       ),
     );
 
-    fadeAnimationController = AnimationController(
+    _fadeAnimationController = AnimationController(
       duration: const Duration(seconds: 1),
       vsync: this,
     )..forward();
 
-    fadeAnimation = Tween<double>(
+    _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(
       CurvedAnimation(
-        parent: fadeAnimationController,
+        parent: _fadeAnimationController,
         curve: Curves.easeInOut,
       ),
     );
@@ -79,7 +79,7 @@ class _GetStartedScreenState extends State<GetStartedScreen>
         child: Scaffold(
           backgroundColor: CpColors.yellowSplashBackgroundColor,
           body: FadeTransition(
-            opacity: fadeAnimationController,
+            opacity: _fadeAnimation,
             child: Stack(
               children: [
                 Align(
@@ -103,7 +103,7 @@ class _GetStartedScreenState extends State<GetStartedScreen>
                             children: [
                               Expanded(
                                 child: SlideTransition(
-                                  position: slideOffsetAnimation,
+                                  position: _slideOffsetAnimation,
                                   child: const _Logo(),
                                 ),
                               ),
@@ -128,8 +128,8 @@ class _GetStartedScreenState extends State<GetStartedScreen>
 
   @override
   void dispose() {
-    slideAnimationController.dispose();
-    fadeAnimationController.dispose();
+    _slideAnimationController.dispose();
+    _fadeAnimationController.dispose();
     super.dispose();
   }
 }
