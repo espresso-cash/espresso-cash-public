@@ -119,6 +119,7 @@ void main() {
             commitment: Commitment.confirmed,
           )
           .value;
+      // ignore: avoid-duplicate-test-assertions, accounts have changed
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(

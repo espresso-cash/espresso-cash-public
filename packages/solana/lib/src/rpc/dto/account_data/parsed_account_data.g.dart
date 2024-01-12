@@ -18,7 +18,7 @@ _$ParsedSplTokenProgramAccountDataImpl
 Map<String, dynamic> _$$ParsedSplTokenProgramAccountDataImplToJson(
         _$ParsedSplTokenProgramAccountDataImpl instance) =>
     <String, dynamic>{
-      'parsed': instance.parsed,
+      'parsed': instance.parsed.toJson(),
       'program': instance.$type,
     };
 
@@ -33,7 +33,7 @@ _$ParsedStakeProgramAccountDataImpl
 Map<String, dynamic> _$$ParsedStakeProgramAccountDataImplToJson(
         _$ParsedStakeProgramAccountDataImpl instance) =>
     <String, dynamic>{
-      'parsed': instance.parsed,
+      'parsed': instance.parsed.toJson(),
       'program': instance.$type,
     };
 

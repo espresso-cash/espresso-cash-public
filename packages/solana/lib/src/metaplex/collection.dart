@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'collection.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Collection {
   const Collection({
     required this.name,
@@ -14,4 +14,6 @@ class Collection {
 
   final String name;
   final String family;
+
+  Map<String, dynamic> toJson() => _$CollectionToJson(this);
 }

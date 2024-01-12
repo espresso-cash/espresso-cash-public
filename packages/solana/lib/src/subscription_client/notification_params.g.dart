@@ -21,6 +21,8 @@ Map<String, dynamic> _$NotificationParamsToJson<T>(
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{
-      'result': instance.result,
+      'result': instance.result.toJson(
+        (value) => toJsonT(value),
+      ),
       'subscription': instance.subscription,
     };

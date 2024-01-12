@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inflation_governor.g.dart';
 
 /// An inflation governor
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class InflationGovernor {
   const InflationGovernor({
     required this.initial,
@@ -32,4 +32,6 @@ class InflationGovernor {
 
   /// Duration of foundation pool inflation in years.
   final double foundationTerm;
+
+  Map<String, dynamic> toJson() => _$InflationGovernorToJson(this);
 }

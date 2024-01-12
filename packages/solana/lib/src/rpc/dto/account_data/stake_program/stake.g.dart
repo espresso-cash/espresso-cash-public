@@ -13,6 +13,6 @@ Stake _$StakeFromJson(Map<String, dynamic> json) => Stake(
     );
 
 Map<String, dynamic> _$StakeToJson(Stake instance) => <String, dynamic>{
-      'delegation': instance.delegation,
+      'delegation': instance.delegation.toJson(),
       'creditsObserved': instance.creditsObserved,
     };

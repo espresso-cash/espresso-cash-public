@@ -14,7 +14,7 @@ class ContextResult<T> {
   final T value;
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Context {
   Context({
     required this.slot,
@@ -25,4 +25,6 @@ class Context {
 
   @JsonKey(fromJson: bigIntFromNum)
   BigInt slot;
+
+  Map<String, dynamic> toJson() => _$ContextToJson(this);
 }

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'slot.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Slot {
   const Slot({
     required this.parent,
@@ -15,4 +15,6 @@ class Slot {
   final int parent;
   final int slot;
   final String type;
+
+  Map<String, dynamic> toJson() => _$SlotToJson(this);
 }

@@ -20,4 +20,6 @@ class Delegation {
   final String stake;
   final String voter;
   final double warmupCooldownRate;
+
+  Map<String, dynamic> toJson() => _$DelegationToJson(this);
 }

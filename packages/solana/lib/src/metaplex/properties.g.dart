@@ -25,7 +25,7 @@ _$VideoImpl _$$VideoImplFromJson(Map<String, dynamic> json) => _$VideoImpl(
 
 Map<String, dynamic> _$$VideoImplToJson(_$VideoImpl instance) =>
     <String, dynamic>{
-      'files': instance.files,
+      'files': instance.files.map((e) => e.toJson()).toList(),
       'category': instance.$type,
     };
 
@@ -38,7 +38,7 @@ _$ImageImpl _$$ImageImplFromJson(Map<String, dynamic> json) => _$ImageImpl(
 
 Map<String, dynamic> _$$ImageImplToJson(_$ImageImpl instance) =>
     <String, dynamic>{
-      'files': instance.files,
+      'files': instance.files.map((e) => e.toJson()).toList(),
       'category': instance.$type,
     };
 
@@ -52,7 +52,7 @@ _$Model3DImpl _$$Model3DImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$Model3DImplToJson(_$Model3DImpl instance) =>
     <String, dynamic>{
-      'files': instance.files,
+      'files': instance.files.map((e) => e.toJson()).toList(),
       'category': instance.$type,
     };
 
@@ -65,7 +65,7 @@ _$AudioImpl _$$AudioImplFromJson(Map<String, dynamic> json) => _$AudioImpl(
 
 Map<String, dynamic> _$$AudioImplToJson(_$AudioImpl instance) =>
     <String, dynamic>{
-      'files': instance.files,
+      'files': instance.files.map((e) => e.toJson()).toList(),
       'category': instance.$type,
     };
 
@@ -78,6 +78,6 @@ _$HtmlImpl _$$HtmlImplFromJson(Map<String, dynamic> json) => _$HtmlImpl(
 
 Map<String, dynamic> _$$HtmlImplToJson(_$HtmlImpl instance) =>
     <String, dynamic>{
-      'files': instance.files,
+      'files': instance.files.map((e) => e.toJson()).toList(),
       'category': instance.$type,
     };

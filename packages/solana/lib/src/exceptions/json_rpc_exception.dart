@@ -21,7 +21,7 @@ abstract class JsonRpcErrorCode {
   static const minContextSlotNotReached = -32016;
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class JsonRpcException implements Exception {
   const JsonRpcException(this.message, this.code, this.data);
 
@@ -46,6 +46,8 @@ class JsonRpcException implements Exception {
 
     return null;
   }
+
+  Map<String, dynamic> toJson() => _$JsonRpcExceptionToJson(this);
 
   @override
   String toString() => data != null
@@ -118,7 +120,7 @@ enum TransactionError {
   other,
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class _TransactionErrorData {
   const _TransactionErrorData(this.err);
 
@@ -127,4 +129,6 @@ class _TransactionErrorData {
 
   @JsonKey(unknownEnumValue: TransactionError.other)
   final TransactionError err;
+
+  Map<String, dynamic> toJson() => _$TransactionErrorDataToJson(this);
 }

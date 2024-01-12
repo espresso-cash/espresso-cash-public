@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/transaction_version.dart';
 part 'transaction_details.g.dart';
 
 /// Details of a transaction
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TransactionDetails {
   const TransactionDetails({
     required this.slot,
@@ -35,4 +35,6 @@ class TransactionDetails {
   /// Transaction version.
   /// Undefined if maxSupportedTransactionVersion is not set in request params.
   final TransactionVersion? version;
+
+  Map<String, dynamic> toJson() => _$TransactionDetailsToJson(this);
 }

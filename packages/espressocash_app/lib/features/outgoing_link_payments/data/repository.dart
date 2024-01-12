@@ -230,7 +230,7 @@ extension on OutgoingLinkPayment {
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
-        slot: status.toSlot().toString(),
+        slot: status.toSlot()?.toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
       );

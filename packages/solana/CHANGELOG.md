@@ -1,3 +1,11 @@
+## 0.30.1
+
+ - **REFACTOR**: update linter (#1223).
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **REFACTOR**: update lint rules (#1102).
+ - **FIX**: simulateTransaction parameters.
+ - **FEAT**: add toJson methods to solana dtos (#1224).
+
 ## 0.30.0+1
 
  - **REFACTOR**: update lint rules (#1091).

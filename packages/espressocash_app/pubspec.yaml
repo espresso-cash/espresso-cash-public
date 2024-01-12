@@ -97,7 +97,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.21.0
+  mews_pedantic: ^0.23.0
   mockito: ^5.4.4
   recase: ^4.1.0
   retrofit_generator: ^8.0.6

@@ -15,6 +15,14 @@ SignatureStatus _$SignatureStatusFromJson(Map<String, dynamic> json) =>
       err: json['err'] as Map<String, dynamic>?,
     );
 
+Map<String, dynamic> _$SignatureStatusToJson(SignatureStatus instance) =>
+    <String, dynamic>{
+      'slot': instance.slot,
+      'confirmations': instance.confirmations,
+      'err': instance.err,
+      'confirmationStatus': _$CommitmentEnumMap[instance.confirmationStatus]!,
+    };
+
 const _$CommitmentEnumMap = {
   Commitment.processed: 'processed',
   Commitment.confirmed: 'confirmed',
@@ -31,3 +39,10 @@ SignatureStatusesResult _$SignatureStatusesResultFromJson(
               : SignatureStatus.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+
+Map<String, dynamic> _$SignatureStatusesResultToJson(
+        SignatureStatusesResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.map((e) => e?.toJson()).toList(),
+    };

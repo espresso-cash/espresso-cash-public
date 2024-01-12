@@ -7,4 +7,7 @@ class RawAccountKey implements AccountKey {
 
   @override
   final String pubkey;
+
+  @override
+  String toJson() => pubkey;
 }

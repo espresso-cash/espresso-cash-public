@@ -8,7 +8,7 @@ import 'package:solana/src/rpc/dto/token_balance.dart';
 part 'meta.g.dart';
 
 /// Transaction state metadata
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Meta {
   const Meta({
     required this.err,
@@ -70,4 +70,6 @@ class Meta {
 
   /// Number of compute units consumed by the transaction
   final int? computeUnitsConsumed;
+
+  Map<String, dynamic> toJson() => _$MetaToJson(this);
 }
