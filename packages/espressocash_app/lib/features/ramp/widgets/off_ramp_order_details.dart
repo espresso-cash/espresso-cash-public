@@ -1,12 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
-import '../coinflow/services/coinflow_off_ramp_order_watcher.dart';
-import '../kado/services/kado_off_ramp_order_watcher.dart';
-import '../models/ramp_partner.dart';
-import '../scalex/services/scalex_off_ramp_order_watcher.dart';
 import '../services/off_ramp_order_service.dart';
-import '../src/models/ramp_watcher.dart';
 
 typedef OffRampOrderDetailsBuilder = Widget Function(
   BuildContext context,
@@ -29,36 +24,11 @@ class OffRampOrderDetails extends StatefulWidget {
 
 class _OffRampOrderDetailsState extends State<OffRampOrderDetails> {
   late final Stream<OffRampOrder> _stream;
-  RampWatcher? _watcher;
 
   @override
   void initState() {
     super.initState();
     _stream = sl<OffRampOrderService>().watch(widget.orderId);
-
-    _initWatcher();
-  }
-
-  Future<void> _initWatcher() async {
-    if (_watcher != null) return;
-
-    final ramp = await _stream.first;
-
-    _watcher = switch (ramp.partner) {
-      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
-      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
-      RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.rampNetwork ||
-      RampPartner.guardarian =>
-        throw ArgumentError('Not implemented'),
-    }
-      ..watch(widget.orderId);
-  }
-
-  @override
-  void dispose() {
-    _watcher?.close();
-    super.dispose();
   }
 
   @override

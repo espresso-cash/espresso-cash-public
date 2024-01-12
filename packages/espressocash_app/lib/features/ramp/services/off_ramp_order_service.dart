@@ -16,13 +16,18 @@ import '../../../config.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
+import '../../../di.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
+import '../coinflow/services/coinflow_off_ramp_order_watcher.dart';
+import '../kado/services/kado_off_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
+import '../scalex/services/scalex_off_ramp_order_watcher.dart';
+import '../src/models/ramp_watcher.dart';
 
 typedef OffRampOrder = ({
   String id,
@@ -46,6 +51,7 @@ class OffRampOrderService implements Disposable {
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
+  final Map<String, RampWatcher> _watchers = {};
 
   final ECWallet _account;
   final CryptopleaseClient _client;
@@ -57,13 +63,17 @@ class OffRampOrderService implements Disposable {
   Future<void> init() async {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
-        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+        (tbl) => tbl.status.isNotInValues([
+          OffRampOrderStatus.completed,
+          OffRampOrderStatus.cancelled,
+        ]),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
       _subscribe(order.id);
+      await _watch(order.id);
     }
   }
 
@@ -213,6 +223,7 @@ class OffRampOrderService implements Disposable {
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+          await _watch(order.id);
 
           return order.id;
         }
@@ -240,6 +251,23 @@ class OffRampOrderService implements Disposable {
           ).letAsync(bind);
         }
       });
+
+  Future<void> _watch(String orderId) async {
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    final order = await query.getSingle();
+
+    _watchers[orderId] = switch (order.partner) {
+      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
+      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
+      RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.rampNetwork ||
+      RampPartner.guardarian =>
+        throw ArgumentError('Not implemented'),
+    }
+      ..watch(orderId);
+  }
 
   void _subscribe(String orderId) {
     _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
@@ -279,6 +307,9 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 
+          _watchers[orderId]?.close();
+          _watchers.remove(orderId);
+
           return const Stream.empty();
       }
     }).listen(
@@ -291,6 +322,7 @@ class OffRampOrderService implements Disposable {
   @override
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
+    _watchers.values.map((it) => it.close());
     await _db.delete(_db.offRampOrderRows).go();
   }
 
