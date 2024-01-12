@@ -210,7 +210,6 @@ class OffRampOrderService implements Disposable {
             humanStatus: '',
             machineStatus: '',
             partnerOrderId: partnerOrderId,
-            txId: transaction?.$1.id,
             transaction: transaction?.$1.encode() ?? '',
             slot: transaction?.$2 ?? BigInt.zero,
             status: transaction == null

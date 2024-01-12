@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 47;
+const int latestVersion = 46;
 
 const _tables = [
   OutgoingTransferRows,
@@ -203,9 +203,6 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 39 && from < 46) {
             await m.addColumn(iLPRows, iLPRows.feeAmount);
           }
-          if (from >= 40 && from < 47) {
-            await m.addColumn(offRampOrderRows, offRampOrderRows.txId);
-          }
         },
       );
 
@@ -262,7 +259,6 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get humanStatus => text()();
   TextColumn get machineStatus => text()();
   TextColumn get partnerOrderId => text()();
-  TextColumn get txId => text().nullable()();
   TextColumn get transaction => text()();
   TextColumn get depositAddress => text()();
   Int64Column get slot => int64()();
