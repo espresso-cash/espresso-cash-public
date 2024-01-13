@@ -1,3 +1,14 @@
+## 1.99.0
+
+ - **REFACTOR**: update linter (#1223).
+ - **FIX**: offramp watcher (#1221).
+ - **FEAT**: update l10n.
+ - **FEAT**: update scalex withdrawals (#1216).
+ - **FEAT**: splash screen updates (#1225).
+ - **FEAT**: wallet fee updates (#1220).
+ - **FEAT**: minor wallet label update (#1219).
+ - **FEAT**: add quiz module (#1158).
+
 ## 1.98.0
 
  - **FIX**: cancel cash out bug (#1213).
