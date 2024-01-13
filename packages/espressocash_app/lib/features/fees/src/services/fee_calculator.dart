@@ -38,7 +38,7 @@ class FeeCalculator {
                   fees.withdrawFeePercentage.rampNetwork,
                 RampPartner.kado => fees.withdrawFeePercentage.kado,
               };
-              final calculatedFee = (amount * feePercentage / 100).round();
+              final calculatedFee = (amount * feePercentage).ceil();
 
               return fees.directPayment.ataExists + calculatedFee;
           }
