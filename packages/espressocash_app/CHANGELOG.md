@@ -1,3 +1,7 @@
+## 1.99.1
+
+ - **FIX**: backend client url.
+
 ## 1.99.0
 
  - **REFACTOR**: update linter (#1223).
