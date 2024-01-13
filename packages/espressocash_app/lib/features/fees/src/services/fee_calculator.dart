@@ -4,6 +4,7 @@ import 'package:solana/solana.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
+import '../../../ramp/models/ramp_partner.dart';
 import '../../../tokens/token.dart';
 import '../../models/fee_type.dart';
 
@@ -28,6 +29,18 @@ class FeeCalculator {
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeLink():
               return fees.escrowPayment;
+            case FeeTypeWithdraw(:final amount, :final partner):
+              final feePercentage = switch (partner) {
+                RampPartner.scalex => fees.withdrawFeePercentage.scalex,
+                RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
+                RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
+                RampPartner.rampNetwork =>
+                  fees.withdrawFeePercentage.rampNetwork,
+                RampPartner.kado => fees.withdrawFeePercentage.kado,
+              };
+              final calculatedFee = (amount * feePercentage).ceil();
+
+              return fees.directPayment.ataExists + calculatedFee;
           }
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));

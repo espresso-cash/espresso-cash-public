@@ -282,10 +282,16 @@ class OffRampOrderService implements Disposable {
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
-            _createTx(
-              amount: _amount(order),
-              receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
-            ),
+            order.partner == RampPartner.scalex
+                ? _createScalexTx(
+                    partnerOrderId: order.partnerOrderId,
+                  )
+                : _createTx(
+                    amount: _amount(order),
+                    receiver: Ed25519HDPublicKey.fromBase58(
+                      order.depositAddress,
+                    ),
+                  ),
           ).onErrorReturn(
             const OffRampOrderRowsCompanion(
               status: Value(OffRampOrderStatus.depositError),
@@ -345,15 +351,39 @@ class OffRampOrderService implements Disposable {
       cluster: apiCluster,
     );
     final response = await _client.createDirectPayment(dto);
-    final tx = await response
-        .let((it) => it.transaction)
-        .let(SignedTx.decode)
-        .let((it) => it.resign(_account));
+
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _createScalexTx({
+    required String partnerOrderId,
+  }) async {
+    final dto = ScalexWithdrawRequestDto(
+      orderId: partnerOrderId,
+      cluster: apiCluster,
+    );
+    final response = await _client.createScalexWithdraw(dto);
+
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _signAndUpdateRow({
+    required String encodedTx,
+    required BigInt slot,
+  }) async {
+    final tx =
+        await SignedTx.decode(encodedTx).let((it) => it.resign(_account));
 
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.depositTxReady),
       transaction: Value(tx.encode()),
-      slot: Value(response.slot),
+      slot: Value(slot),
     );
   }
 
