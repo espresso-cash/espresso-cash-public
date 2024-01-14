@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
@@ -29,8 +32,8 @@ class FeeCalculator {
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeLink():
               return fees.escrowPayment;
-            case FeeTypeWithdraw(:final amount, :final partner):
-              final feePercentage = switch (partner) {
+            case FeeTypeWithdraw(:final amount, :final partner, :final address):
+              final percentageFee = switch (partner) {
                 RampPartner.scalex => fees.withdrawFeePercentage.scalex,
                 RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
                 RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
@@ -38,9 +41,26 @@ class FeeCalculator {
                   fees.withdrawFeePercentage.rampNetwork,
                 RampPartner.kado => fees.withdrawFeePercentage.kado,
               };
-              final calculatedFee = (amount * feePercentage).ceil();
+              final percentageFeeAmount = (amount * percentageFee).ceil();
 
-              return fees.directPayment.ataExists + calculatedFee;
+              final accountCreationFeeAmount = await address.let(
+                (depositAddress) async {
+                  if (depositAddress == null) return 0;
+
+                  return _solanaClient
+                      .hasAssociatedTokenAccount(
+                        owner: depositAddress,
+                        mint: Token.usdc.publicKey,
+                      )
+                      .letAsync(
+                        (hasAta) => hasAta
+                            ? fees.directPayment.ataExists
+                            : fees.directPayment.ataDoesNotExist,
+                      );
+                },
+              );
+
+              return max(percentageFeeAmount, accountCreationFeeAmount);
           }
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
