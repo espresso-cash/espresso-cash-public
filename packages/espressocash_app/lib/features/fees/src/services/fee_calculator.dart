@@ -22,12 +22,7 @@ class FeeCalculator {
         (fees) async {
           switch (type) {
             case FeeTypeDirect(:final address):
-              final hasAta = await _solanaClient.hasAssociatedTokenAccount(
-                owner: address,
-                mint: Token.usdc.publicKey,
-              );
-
-              return hasAta
+              return await _hasUsdcAta(address)
                   ? fees.directPayment.ataExists
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeLink():
@@ -43,25 +38,20 @@ class FeeCalculator {
               };
               final percentageFeeAmount = (amount * percentageFee).ceil();
 
-              final accountCreationFeeAmount = await address.let(
-                (depositAddress) async {
-                  if (depositAddress == null) return 0;
-
-                  return _solanaClient
-                      .hasAssociatedTokenAccount(
-                        owner: depositAddress,
-                        mint: Token.usdc.publicKey,
-                      )
-                      .letAsync(
-                        (hasAta) => hasAta
-                            ? fees.directPayment.ataExists
-                            : fees.directPayment.ataDoesNotExist,
-                      );
-                },
-              );
+              final accountCreationFeeAmount = address == null
+                  ? 0
+                  : await _hasUsdcAta(address)
+                      ? fees.directPayment.ataExists
+                      : fees.directPayment.ataDoesNotExist;
 
               return max(percentageFeeAmount, accountCreationFeeAmount);
           }
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
+
+  Future<bool> _hasUsdcAta(Ed25519HDPublicKey address) =>
+      _solanaClient.hasAssociatedTokenAccount(
+        owner: address,
+        mint: Token.usdc.publicKey,
+      );
 }

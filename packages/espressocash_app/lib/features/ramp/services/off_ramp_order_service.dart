@@ -114,7 +114,8 @@ class OffRampOrderService implements Disposable {
       );
 
       final depositAddress = row.depositAddress
-          .let((e) => e.isNotEmpty ? Ed25519HDPublicKey.fromBase58(e) : null);
+          .maybeWhere((it) => it.isNotEmpty)
+          ?.let(Ed25519HDPublicKey.fromBase58);
 
       return (
         id: row.id,
