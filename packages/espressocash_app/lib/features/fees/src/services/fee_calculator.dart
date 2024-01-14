@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
@@ -19,18 +21,13 @@ class FeeCalculator {
         (fees) async {
           switch (type) {
             case FeeTypeDirect(:final address):
-              final hasAta = await _solanaClient.hasAssociatedTokenAccount(
-                owner: address,
-                mint: Token.usdc.publicKey,
-              );
-
-              return hasAta
+              return await _hasUsdcAta(address)
                   ? fees.directPayment.ataExists
                   : fees.directPayment.ataDoesNotExist;
             case FeeTypeLink():
               return fees.escrowPayment;
-            case FeeTypeWithdraw(:final amount, :final partner):
-              final feePercentage = switch (partner) {
+            case FeeTypeWithdraw(:final amount, :final partner, :final address):
+              final percentageFee = switch (partner) {
                 RampPartner.scalex => fees.withdrawFeePercentage.scalex,
                 RampPartner.coinflow => fees.withdrawFeePercentage.coinflow,
                 RampPartner.guardarian => fees.withdrawFeePercentage.guardarian,
@@ -38,10 +35,22 @@ class FeeCalculator {
                   fees.withdrawFeePercentage.rampNetwork,
                 RampPartner.kado => fees.withdrawFeePercentage.kado,
               };
-              final calculatedFee = (amount * feePercentage).ceil();
+              final percentageFeeAmount = (amount * percentageFee).ceil();
 
-              return fees.directPayment.ataExists + calculatedFee;
+              final accountCreationFeeAmount = address == null
+                  ? 0
+                  : await _hasUsdcAta(address)
+                      ? fees.directPayment.ataExists
+                      : fees.directPayment.ataDoesNotExist;
+
+              return max(percentageFeeAmount, accountCreationFeeAmount);
           }
         },
       ).then((fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc));
+
+  Future<bool> _hasUsdcAta(Ed25519HDPublicKey address) =>
+      _solanaClient.hasAssociatedTokenAccount(
+        owner: address,
+        mint: Token.usdc.publicKey,
+      );
 }

@@ -16,5 +16,6 @@ sealed class FeeType with _$FeeType {
   const factory FeeType.withdraw({
     required int amount,
     required RampPartner partner,
+    required Ed25519HDPublicKey? address,
   }) = FeeTypeWithdraw;
 }

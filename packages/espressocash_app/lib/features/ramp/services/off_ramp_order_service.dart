@@ -38,6 +38,7 @@ typedef OffRampOrder = ({
   DateTime? resolved,
   FiatAmount? receiveAmount,
   String partnerOrderId,
+  Ed25519HDPublicKey? depositAddress,
 });
 
 @Singleton(scope: authScope)
@@ -112,6 +113,10 @@ class OffRampOrderService implements Disposable {
         ) as FiatAmount,
       );
 
+      final depositAddress = row.depositAddress
+          .maybeWhere((it) => it.isNotEmpty)
+          ?.let(Ed25519HDPublicKey.fromBase58);
+
       return (
         id: row.id,
         created: row.created,
@@ -121,6 +126,7 @@ class OffRampOrderService implements Disposable {
         resolved: row.resolvedAt,
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
+        depositAddress: depositAddress,
       );
     });
   }
