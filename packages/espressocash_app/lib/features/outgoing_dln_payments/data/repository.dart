@@ -181,7 +181,7 @@ extension on OutgoingDlnPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         amount: amount.value,
-        slot: status.toSlot().toString(),
+        slot: status.toSlot()?.toString(),
         receiverBlockchain: payment.receiverBlockchain.toDto(),
         receiverAddress: payment.receiverAddress,
         txFailureReason: status.toTxFailureReason(),
