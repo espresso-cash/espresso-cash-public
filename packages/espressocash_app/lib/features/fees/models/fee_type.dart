@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
+import '../../ramp/models/ramp_partner.dart';
+
 part 'fee_type.freezed.dart';
 
 @Freezed(
@@ -10,5 +12,10 @@ part 'fee_type.freezed.dart';
 )
 sealed class FeeType with _$FeeType {
   const factory FeeType.direct(Ed25519HDPublicKey address) = FeeTypeDirect;
-  const factory FeeType.splitKey() = FeeTypeSplitKey;
+  const factory FeeType.link() = FeeTypeLink;
+  const factory FeeType.withdraw({
+    required int amount,
+    required RampPartner partner,
+    required Ed25519HDPublicKey? address,
+  }) = FeeTypeWithdraw;
 }

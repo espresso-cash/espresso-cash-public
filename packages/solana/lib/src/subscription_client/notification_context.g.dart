@@ -10,3 +10,9 @@ NotificationContext _$NotificationContextFromJson(Map<String, dynamic> json) =>
     NotificationContext(
       slot: json['slot'] as int,
     );
+
+Map<String, dynamic> _$NotificationContextToJson(
+        NotificationContext instance) =>
+    <String, dynamic>{
+      'slot': instance.slot,
+    };

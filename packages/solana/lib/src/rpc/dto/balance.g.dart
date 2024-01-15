@@ -11,3 +11,9 @@ BalanceResult _$BalanceResultFromJson(Map<String, dynamic> json) =>
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
       value: json['value'] as int,
     );
+
+Map<String, dynamic> _$BalanceResultToJson(BalanceResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value,
+    };

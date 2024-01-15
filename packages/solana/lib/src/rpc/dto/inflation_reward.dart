@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inflation_reward.g.dart';
 
 /// An inflation reward
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class InflationReward {
   const InflationReward({
     required this.epoch,
@@ -30,4 +30,6 @@ class InflationReward {
 
   /// Vote account commission when the reward was credited.
   final int commission;
+
+  Map<String, dynamic> toJson() => _$InflationRewardToJson(this);
 }

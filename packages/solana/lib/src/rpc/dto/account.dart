@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/helpers.dart';
 part 'account.g.dart';
 
 /// An account
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Account {
   const Account({
     required this.lamports,
@@ -38,20 +38,26 @@ class Account {
   /// The epoch at which this account will next owe rent, as u64
   @JsonKey(fromJson: bigIntFromNum)
   final BigInt rentEpoch;
+
+  Map<String, dynamic> toJson() => _$AccountToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class AccountResult extends ContextResult<Account?> {
   const AccountResult({required super.context, required super.value});
 
   factory AccountResult.fromJson(Map<String, dynamic> json) =>
       _$AccountResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AccountResultToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class MultipleAccountsResult extends ContextResult<List<Account?>> {
   const MultipleAccountsResult({required super.context, required super.value});
 
   factory MultipleAccountsResult.fromJson(Map<String, dynamic> json) =>
       _$MultipleAccountsResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MultipleAccountsResultToJson(this);
 }

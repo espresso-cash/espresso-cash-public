@@ -8,7 +8,7 @@ import 'utils.dart';
 void main() {
   testGoldensWidget(
     'Get started screen',
-    GetStartedScreen(isSaga: false, onSignInPressed: () {}),
+    const GetStartedScreen(),
     skip: true, // Need to resolve issues with screenutil
   );
 

@@ -14,6 +14,15 @@ TokenLargestAccount _$TokenLargestAccountFromJson(Map<String, dynamic> json) =>
       uiAmountString: json['uiAmountString'] as String,
     );
 
+Map<String, dynamic> _$TokenLargestAccountToJson(
+        TokenLargestAccount instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+      'amount': instance.amount,
+      'decimals': instance.decimals,
+      'uiAmountString': instance.uiAmountString,
+    };
+
 TokenLargestAccountsResult _$TokenLargestAccountsResultFromJson(
         Map<String, dynamic> json) =>
     TokenLargestAccountsResult(
@@ -22,3 +31,10 @@ TokenLargestAccountsResult _$TokenLargestAccountsResultFromJson(
           .map((e) => TokenLargestAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+
+Map<String, dynamic> _$TokenLargestAccountsResultToJson(
+        TokenLargestAccountsResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.map((e) => e.toJson()).toList(),
+    };

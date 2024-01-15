@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'perf_sample.g.dart';
 
 /// A performance sample
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class PerfSample {
   const PerfSample({
     required this.slot,
@@ -26,4 +26,6 @@ class PerfSample {
 
   /// Number of seconds in a sample window.
   final int samplePeriodSecs;
+
+  Map<String, dynamic> toJson() => _$PerfSampleToJson(this);
 }

@@ -17,7 +17,7 @@ _$ParsedSystemTransferInstructionImpl
 Map<String, dynamic> _$$ParsedSystemTransferInstructionImplToJson(
         _$ParsedSystemTransferInstructionImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
     };
 
@@ -33,7 +33,7 @@ _$ParsedSystemTransferCheckedInstructionImpl
 Map<String, dynamic> _$$ParsedSystemTransferCheckedInstructionImplToJson(
         _$ParsedSystemTransferCheckedInstructionImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
     };
 

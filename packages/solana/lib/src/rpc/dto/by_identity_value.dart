@@ -1,8 +1,3 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-
-part 'by_identity_value.g.dart';
-
-@JsonSerializable(createToJson: false)
 class ByIdentityValue {
   const ByIdentityValue({
     required this.leaderSlots,
@@ -26,4 +21,6 @@ class ByIdentityValue {
 
   final int leaderSlots;
   final int blocksProduced;
+
+  List<int> toJson() => [leaderSlots, blocksProduced];
 }

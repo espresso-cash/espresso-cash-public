@@ -9,24 +9,33 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
+import 'restore_account_screen.dart';
 
 @RoutePage()
-class GetStartedScreen extends StatelessWidget {
-  const GetStartedScreen({
-    super.key,
-    required this.isSaga,
-    required this.onSignInPressed,
-  });
+class GetStartedScreen extends StatefulWidget {
+  const GetStartedScreen({super.key});
 
   static const route = GetStartedRoute.new;
 
-  final bool isSaga;
-  final VoidCallback onSignInPressed;
+  @override
+  State<GetStartedScreen> createState() => _GetStartedScreenState();
+}
+
+class _GetStartedScreenState extends State<GetStartedScreen> {
+  void _handleSignInPressed() => context.router.push(
+        RestoreAccountScreen.route(
+          onMnemonicConfirmed: _handleMnemonicConfirmed,
+        ),
+      );
+
+  void _handleMnemonicConfirmed() =>
+      context.read<SignInBloc>().add(const SignInEvent.submitted());
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -58,7 +67,7 @@ class GetStartedScreen extends StatelessWidget {
                             24.verticalSpace,
                             _Footer(
                               isSaga: isSaga,
-                              onSignInPressed: onSignInPressed,
+                              onSignInPressed: _handleSignInPressed,
                             ),
                           ],
                         ),
@@ -77,8 +86,10 @@ class _Logo extends StatelessWidget {
   const _Logo();
 
   @override
-  Widget build(BuildContext context) =>
-      Assets.images.logo.image(width: 309.r, height: 66.r);
+  Widget build(BuildContext context) => Hero(
+        tag: 'logo',
+        child: Assets.images.logo.image(width: 309.r, height: 66.r),
+      );
 }
 
 class _Footer extends StatelessWidget {

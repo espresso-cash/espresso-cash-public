@@ -15,3 +15,12 @@ NotificationResult<T> _$NotificationResultFromJson<T>(
           NotificationContext.fromJson(json['context'] as Map<String, dynamic>),
       value: fromJsonT(json['value']),
     );
+
+Map<String, dynamic> _$NotificationResultToJson<T>(
+  NotificationResult<T> instance,
+  Object? Function(T value) toJsonT,
+) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': toJsonT(instance.value),
+    };

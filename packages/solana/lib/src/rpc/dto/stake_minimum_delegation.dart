@@ -3,7 +3,7 @@ import 'package:solana/src/rpc/dto/dto.dart';
 
 part 'stake_minimum_delegation.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class StakeMinimumDelegationResult extends ContextResult<int> {
   const StakeMinimumDelegationResult({
     required super.context,
@@ -12,4 +12,6 @@ class StakeMinimumDelegationResult extends ContextResult<int> {
 
   factory StakeMinimumDelegationResult.fromJson(Map<String, dynamic> json) =>
       _$StakeMinimumDelegationResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StakeMinimumDelegationResultToJson(this);
 }

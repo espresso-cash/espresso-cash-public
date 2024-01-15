@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'loaded_addresses.g.dart';
 
 /// A Loaded Addresses
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class LoadedAddresses {
   const LoadedAddresses({
     required this.writable,
@@ -18,4 +18,6 @@ class LoadedAddresses {
 
   /// Ordered list of base-58 encoded addresses for readonly loaded accounts
   final List<String> readonly;
+
+  Map<String, dynamic> toJson() => _$LoadedAddressesToJson(this);
 }
