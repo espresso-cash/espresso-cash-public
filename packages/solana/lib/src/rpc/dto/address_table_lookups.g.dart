@@ -16,3 +16,11 @@ AddressTableLookups _$AddressTableLookupsFromJson(Map<String, dynamic> json) =>
           .map((e) => e as int)
           .toList(),
     );
+
+Map<String, dynamic> _$AddressTableLookupsToJson(
+        AddressTableLookups instance) =>
+    <String, dynamic>{
+      'accountKey': instance.accountKey,
+      'writableIndexes': instance.writableIndexes,
+      'readonlyIndexes': instance.readonlyIndexes,
+    };

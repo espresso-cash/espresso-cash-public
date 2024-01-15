@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../di.config.dart';
-import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/splash_screen.dart';
@@ -23,7 +21,6 @@ import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
-import '../auth_scope.dart';
 
 @immutable
 class HomeRouterKey {
@@ -45,19 +42,6 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   final _homeRouterKey = GlobalKey<AutoRouterState>();
-  late final Future<void> _initScope;
-
-  @override
-  void initState() {
-    super.initState();
-    _initScope = sl.initAuthScope();
-  }
-
-  @override
-  void dispose() {
-    sl.dropScope(authScope);
-    super.dispose();
-  }
 
   @override
   void didChangeDependencies() {
@@ -72,51 +56,44 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext _) => FutureBuilder(
-        future: _initScope,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return const SplashScreen();
+  Widget build(BuildContext _) => MultiProvider(
+        providers: const [
+          ConversionRatesModule(),
+        ],
+        child: BlocBuilder<AccountsBloc, AccountsState>(
+          builder: (context, state) {
+            final account = state.account;
+            if (account == null) return const SplashScreen();
 
-          return MultiProvider(
-            providers: const [
-              ConversionRatesModule(),
-            ],
-            child: BlocBuilder<AccountsBloc, AccountsState>(
-              builder: (context, state) {
-                final account = state.account;
-                if (account == null) return const SplashScreen();
-
-                return MultiProvider(
-                  providers: [
-                    Provider<MyAccount>.value(value: account),
-                    const BackupPhraseModule(),
-                    const PaymentRequestModule(),
-                    Provider<HomeRouterKey>(
-                      create: (_) => HomeRouterKey(_homeRouterKey),
-                    ),
-                    const ODPModule(),
-                    const OLPModule(),
-                    const InvestmentModule(),
-                    const ActivitiesModule(),
-                    const FavoriteTokensModule(),
-                    const SwapModule(),
-                    const PopularTokensModule(),
-                    const MobileWalletModule(),
-                    const OutgoingDlnModule(),
+            return MultiProvider(
+              providers: [
+                Provider<MyAccount>.value(value: account),
+                const BackupPhraseModule(),
+                const PaymentRequestModule(),
+                Provider<HomeRouterKey>(
+                  create: (_) => HomeRouterKey(_homeRouterKey),
+                ),
+                const ODPModule(),
+                const OLPModule(),
+                const InvestmentModule(),
+                const ActivitiesModule(),
+                const FavoriteTokensModule(),
+                const SwapModule(),
+                const PopularTokensModule(),
+                const MobileWalletModule(),
+                const OutgoingDlnModule(),
+              ],
+              child: AutoRouter(
+                key: _homeRouterKey,
+                builder: (context, child) => MultiProvider(
+                  providers: const [
+                    ILPModule(),
                   ],
-                  child: AutoRouter(
-                    key: _homeRouterKey,
-                    builder: (context, child) => MultiProvider(
-                      providers: const [
-                        ILPModule(),
-                      ],
-                      child: child,
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
+                  child: child,
+                ),
+              ),
+            );
+          },
+        ),
       );
 }

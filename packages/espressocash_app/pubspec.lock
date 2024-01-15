@@ -1151,10 +1151,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mews_pedantic
-      sha256: "786df3b53be8715ffc86b27e9b8ee205a9c0328bbb59d00264aa0dd9c5c9380f"
+      sha256: "20211dfce71161df065d44815f7ca3b5cdae3c097a14542400800d5e9d36763b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.21.0"
+    version: "0.23.0"
   mime:
     dependency: transitive
     description:
@@ -1654,7 +1654,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.30.0+1"
+    version: "0.30.1"
   solana_mobile_wallet:
     dependency: "direct main"
     description:

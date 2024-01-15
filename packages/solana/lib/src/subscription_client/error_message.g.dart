@@ -10,3 +10,9 @@ ErrorMessage _$ErrorMessageFromJson(Map<String, dynamic> json) => ErrorMessage(
       error: SubscribeError.fromJson(json['error'] as Map<String, dynamic>),
       id: json['id'] as int,
     );
+
+Map<String, dynamic> _$ErrorMessageToJson(ErrorMessage instance) =>
+    <String, dynamic>{
+      'error': instance.error.toJson(),
+      'id': instance.id,
+    };

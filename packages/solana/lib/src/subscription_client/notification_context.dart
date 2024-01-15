@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'notification_context.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class NotificationContext {
   const NotificationContext({
     required this.slot,
@@ -12,4 +12,6 @@ class NotificationContext {
       _$NotificationContextFromJson(json);
 
   final int slot;
+
+  Map<String, dynamic> toJson() => _$NotificationContextToJson(this);
 }

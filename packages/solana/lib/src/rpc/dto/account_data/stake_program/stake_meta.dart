@@ -18,4 +18,6 @@ class StakeMeta {
   final Authorized authorized;
   final Lockup lockup;
   final String rentExemptReserve;
+
+  Map<String, dynamic> toJson() => _$StakeMetaToJson(this);
 }

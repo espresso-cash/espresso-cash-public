@@ -21,3 +21,14 @@ OffChainMetadata _$OffChainMetadataFromJson(Map<String, dynamic> json) =>
           ? null
           : Collection.fromJson(json['collection'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$OffChainMetadataToJson(OffChainMetadata instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'description': instance.description,
+      'symbol': instance.symbol,
+      'image': instance.image,
+      'properties': instance.properties.toJson(),
+      'attributes': instance.attributes.map((e) => e.toJson()).toList(),
+      'collection': instance.collection?.toJson(),
+    };

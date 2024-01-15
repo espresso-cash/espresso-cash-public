@@ -16,6 +16,6 @@ StakeDelegatedAccountInfo _$StakeDelegatedAccountInfoFromJson(
 Map<String, dynamic> _$StakeDelegatedAccountInfoToJson(
         StakeDelegatedAccountInfo instance) =>
     <String, dynamic>{
-      'meta': instance.meta,
-      'stake': instance.stake,
+      'meta': instance.meta.toJson(),
+      'stake': instance.stake.toJson(),
     };

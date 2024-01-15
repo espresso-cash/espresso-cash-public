@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/context.dart';
 part 'supply.g.dart';
 
 /// The total supply of tokens
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Supply {
   const Supply({
     required this.total,
@@ -28,12 +28,16 @@ class Supply {
   /// `excludeNonCirculatingAccountsList` is enabled, the returned array will be
   /// empty.
   final List<String> nonCirculatingAccounts;
+
+  Map<String, dynamic> toJson() => _$SupplyToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SupplyResult extends ContextResult<Supply> {
   const SupplyResult({required super.context, required super.value});
 
   factory SupplyResult.fromJson(Map<String, dynamic> json) =>
       _$SupplyResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SupplyResultToJson(this);
 }

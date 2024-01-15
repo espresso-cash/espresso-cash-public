@@ -33,6 +33,8 @@ Future<void> main() async {
         storage: storage,
         seedVault: seedVault,
         repository: repository,
+        initAuthScope: () async {},
+        dropAuthScope: () async {},
       );
 
   blocTest<AccountsBloc, AccountsState>(
