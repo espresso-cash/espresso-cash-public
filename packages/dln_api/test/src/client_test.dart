@@ -4,11 +4,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('DlnApiClient - ', () {
-    test('create instance', () {
-      final client = DlnApiClient();
-      expect(client, isNotNull);
-    });
-
     test('getQuote', () async {
       final client = DlnApiClient();
 
@@ -22,7 +17,6 @@ void main() {
         ),
       );
 
-      expect(quote, isNotNull);
       expect(quote, isA<DlnQuoteResponseDto>());
     });
 
@@ -46,7 +40,6 @@ void main() {
         ),
       );
 
-      expect(createTx, isNotNull);
       expect(createTx, isA<CreateTxResponseDto>());
     });
 
@@ -57,7 +50,6 @@ void main() {
         '0x9ee6c3d0aa68a7504e619b02df7c71539d0ce10e27f593bf8604b62e51955a01',
       );
 
-      expect(status, isNotNull);
       expect(status, isA<OrderStatusResponseDto>());
     });
 
@@ -68,7 +60,6 @@ void main() {
         '0x9ee6c3d0aa68a7504e619b02df7c71539d0ce10e27f593bf8604b62e51955a01',
       );
 
-      expect(status, isNotNull);
       expect(status, isA<OrderResponseDto>());
     });
 
@@ -79,7 +70,6 @@ void main() {
         '0x40ee524d5bb9c4ecd8e55d23c66c5465a3f137be7ae24df366c3fd06daf7de7e',
       );
 
-      expect(status, isNotNull);
       expect(status, isA<OrderIdTxResponseDto>());
     });
   });

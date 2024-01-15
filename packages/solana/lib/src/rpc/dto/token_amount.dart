@@ -27,10 +27,12 @@ class TokenAmount {
   final String? uiAmountString;
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TokenAmountResult extends ContextResult<TokenAmount> {
   const TokenAmountResult({required super.context, required super.value});
 
   factory TokenAmountResult.fromJson(Map<String, dynamic> json) =>
       _$TokenAmountResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TokenAmountResultToJson(this);
 }

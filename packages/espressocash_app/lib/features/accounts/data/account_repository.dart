@@ -21,7 +21,7 @@ class AccountRepository {
 
   Future<AuthToken?> loadAuthToken() => _storage
       .read(key: authTokenKey)
-      .letAsync((it) => it.toString())
+      .letAsync((it) => it?.toString() ?? '')
       .letAsync(AuthToken.tryParse);
 
   Future<void> saveAccountSource(AccountSource source) => source.when(

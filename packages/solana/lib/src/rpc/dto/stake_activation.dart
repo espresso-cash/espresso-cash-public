@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/stake_activation_state.dart';
 part 'stake_activation.g.dart';
 
 /// A stake activation description
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class StakeActivation {
   const StakeActivation({
     required this.state,
@@ -23,4 +23,6 @@ class StakeActivation {
 
   /// Stake inactive during the epoch.
   final int inactive;
+
+  Map<String, dynamic> toJson() => _$StakeActivationToJson(this);
 }

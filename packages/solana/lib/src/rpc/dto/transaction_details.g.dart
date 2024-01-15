@@ -18,3 +18,12 @@ TransactionDetails _$TransactionDetailsFromJson(Map<String, dynamic> json) =>
           ? null
           : TransactionVersion.fromJson(json['version']),
     );
+
+Map<String, dynamic> _$TransactionDetailsToJson(TransactionDetails instance) =>
+    <String, dynamic>{
+      'slot': instance.slot,
+      'transaction': instance.transaction.toJson(),
+      'blockTime': instance.blockTime,
+      'meta': instance.meta?.toJson(),
+      'version': instance.version?.toJson(),
+    };

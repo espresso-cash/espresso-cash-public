@@ -11,6 +11,12 @@ LargeAccount _$LargeAccountFromJson(Map<String, dynamic> json) => LargeAccount(
       lamports: json['lamports'] as int,
     );
 
+Map<String, dynamic> _$LargeAccountToJson(LargeAccount instance) =>
+    <String, dynamic>{
+      'address': instance.address,
+      'lamports': instance.lamports,
+    };
+
 LargeAccountsResult _$LargeAccountsResultFromJson(Map<String, dynamic> json) =>
     LargeAccountsResult(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
@@ -18,3 +24,10 @@ LargeAccountsResult _$LargeAccountsResultFromJson(Map<String, dynamic> json) =>
           .map((e) => LargeAccount.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
+
+Map<String, dynamic> _$LargeAccountsResultToJson(
+        LargeAccountsResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.map((e) => e.toJson()).toList(),
+    };

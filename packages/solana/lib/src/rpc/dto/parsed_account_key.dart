@@ -14,4 +14,7 @@ class ParsedAccountKey implements AccountKey {
 
   @override
   final String pubkey;
+
+  @override
+  Map<String, dynamic> toJson() => _$ParsedAccountKeyToJson(this);
 }

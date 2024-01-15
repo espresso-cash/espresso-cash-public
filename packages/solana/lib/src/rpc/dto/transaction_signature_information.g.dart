@@ -18,6 +18,17 @@ TransactionSignatureInformation _$TransactionSignatureInformationFromJson(
           $enumDecodeNullable(_$CommitmentEnumMap, json['confirmationStatus']),
     );
 
+Map<String, dynamic> _$TransactionSignatureInformationToJson(
+        TransactionSignatureInformation instance) =>
+    <String, dynamic>{
+      'signature': instance.signature,
+      'slot': instance.slot,
+      'err': instance.err,
+      'memo': instance.memo,
+      'blockTime': instance.blockTime,
+      'confirmationStatus': _$CommitmentEnumMap[instance.confirmationStatus],
+    };
+
 const _$CommitmentEnumMap = {
   Commitment.processed: 'processed',
   Commitment.confirmed: 'confirmed',

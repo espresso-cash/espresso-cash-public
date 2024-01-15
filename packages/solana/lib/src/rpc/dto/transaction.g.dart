@@ -13,3 +13,9 @@ ParsedTransaction _$ParsedTransactionFromJson(Map<String, dynamic> json) =>
           .toList(),
       message: Message.fromJson(json['message'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$ParsedTransactionToJson(ParsedTransaction instance) =>
+    <String, dynamic>{
+      'signatures': instance.signatures,
+      'message': instance.message.toJson(),
+    };

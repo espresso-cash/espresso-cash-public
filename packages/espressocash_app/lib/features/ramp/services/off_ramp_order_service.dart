@@ -16,13 +16,18 @@ import '../../../config.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
+import '../../../di.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
+import '../coinflow/services/coinflow_off_ramp_order_watcher.dart';
+import '../kado/services/kado_off_ramp_order_watcher.dart';
 import '../models/ramp_partner.dart';
+import '../scalex/services/scalex_off_ramp_order_watcher.dart';
+import '../src/models/ramp_watcher.dart';
 
 typedef OffRampOrder = ({
   String id,
@@ -33,6 +38,7 @@ typedef OffRampOrder = ({
   DateTime? resolved,
   FiatAmount? receiveAmount,
   String partnerOrderId,
+  Ed25519HDPublicKey? depositAddress,
 });
 
 @Singleton(scope: authScope)
@@ -46,6 +52,7 @@ class OffRampOrderService implements Disposable {
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
+  final Map<String, RampWatcher> _watchers = {};
 
   final ECWallet _account;
   final CryptopleaseClient _client;
@@ -57,13 +64,17 @@ class OffRampOrderService implements Disposable {
   Future<void> init() async {
     final query = _db.select(_db.offRampOrderRows)
       ..where(
-        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.completed).not(),
+        (tbl) => tbl.status.isNotInValues([
+          OffRampOrderStatus.completed,
+          OffRampOrderStatus.cancelled,
+        ]),
       );
 
     final orders = await query.get();
 
     for (final order in orders) {
       _subscribe(order.id);
+      await _watch(order.id);
     }
   }
 
@@ -102,6 +113,10 @@ class OffRampOrderService implements Disposable {
         ) as FiatAmount,
       );
 
+      final depositAddress = row.depositAddress
+          .maybeWhere((it) => it.isNotEmpty)
+          ?.let(Ed25519HDPublicKey.fromBase58);
+
       return (
         id: row.id,
         created: row.created,
@@ -111,6 +126,7 @@ class OffRampOrderService implements Disposable {
         resolved: row.resolvedAt,
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
+        depositAddress: depositAddress,
       );
     });
   }
@@ -213,6 +229,7 @@ class OffRampOrderService implements Disposable {
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+          await _watch(order.id);
 
           return order.id;
         }
@@ -241,6 +258,23 @@ class OffRampOrderService implements Disposable {
         }
       });
 
+  Future<void> _watch(String orderId) async {
+    final query = _db.select(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(orderId));
+
+    final order = await query.getSingle();
+
+    _watchers[orderId] = switch (order.partner) {
+      RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
+      RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
+      RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.rampNetwork ||
+      RampPartner.guardarian =>
+        throw ArgumentError('Not implemented'),
+    }
+      ..watch(orderId);
+  }
+
   void _subscribe(String orderId) {
     _subscriptions[orderId] = (_db.select(_db.offRampOrderRows)
           ..where((tbl) => tbl.id.equals(orderId)))
@@ -254,10 +288,16 @@ class OffRampOrderService implements Disposable {
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
-            _createTx(
-              amount: _amount(order),
-              receiver: Ed25519HDPublicKey.fromBase58(order.depositAddress),
-            ),
+            order.partner == RampPartner.scalex
+                ? _createScalexTx(
+                    partnerOrderId: order.partnerOrderId,
+                  )
+                : _createTx(
+                    amount: _amount(order),
+                    receiver: Ed25519HDPublicKey.fromBase58(
+                      order.depositAddress,
+                    ),
+                  ),
           ).onErrorReturn(
             const OffRampOrderRowsCompanion(
               status: Value(OffRampOrderStatus.depositError),
@@ -277,8 +317,10 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.completed:
-          _subscriptions[orderId]?.cancel();
-          _subscriptions.remove(orderId);
+          _subscriptions.remove(orderId)?.cancel();
+
+          _watchers[orderId]?.close();
+          _watchers.remove(orderId);
 
           return const Stream.empty();
       }
@@ -292,6 +334,7 @@ class OffRampOrderService implements Disposable {
   @override
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
+    _watchers.values.map((it) => it.close());
     await _db.delete(_db.offRampOrderRows).go();
   }
 
@@ -314,15 +357,39 @@ class OffRampOrderService implements Disposable {
       cluster: apiCluster,
     );
     final response = await _client.createDirectPayment(dto);
-    final tx = await response
-        .let((it) => it.transaction)
-        .let(SignedTx.decode)
-        .let((it) => it.resign(_account));
+
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _createScalexTx({
+    required String partnerOrderId,
+  }) async {
+    final dto = ScalexWithdrawRequestDto(
+      orderId: partnerOrderId,
+      cluster: apiCluster,
+    );
+    final response = await _client.createScalexWithdraw(dto);
+
+    return _signAndUpdateRow(
+      encodedTx: response.transaction,
+      slot: response.slot,
+    );
+  }
+
+  Future<OffRampOrderRowsCompanion> _signAndUpdateRow({
+    required String encodedTx,
+    required BigInt slot,
+  }) async {
+    final tx =
+        await SignedTx.decode(encodedTx).let((it) => it.resign(_account));
 
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.depositTxReady),
       transaction: Value(tx.encode()),
-      slot: Value(response.slot),
+      slot: Value(slot),
     );
   }
 

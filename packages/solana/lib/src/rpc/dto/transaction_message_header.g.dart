@@ -13,3 +13,11 @@ TransactionMessageHeader _$TransactionMessageHeaderFromJson(
       numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
       numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
     );
+
+Map<String, dynamic> _$TransactionMessageHeaderToJson(
+        TransactionMessageHeader instance) =>
+    <String, dynamic>{
+      'numRequiredSignatures': instance.numRequiredSignatures,
+      'numReadonlySignedAccounts': instance.numReadonlySignedAccounts,
+      'numReadonlyUnsignedAccounts': instance.numReadonlyUnsignedAccounts,
+    };

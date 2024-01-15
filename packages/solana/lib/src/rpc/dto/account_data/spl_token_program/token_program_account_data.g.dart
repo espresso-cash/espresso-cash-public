@@ -18,7 +18,7 @@ _$TokenAccountDataImpl _$$TokenAccountDataImplFromJson(
 Map<String, dynamic> _$$TokenAccountDataImplToJson(
         _$TokenAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
       'accountType': instance.accountType,
     };
@@ -34,7 +34,7 @@ _$MintAccountDataImpl _$$MintAccountDataImplFromJson(
 Map<String, dynamic> _$$MintAccountDataImplToJson(
         _$MintAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
       'accountType': instance.accountType,
     };

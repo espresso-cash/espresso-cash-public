@@ -164,20 +164,21 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.cancelled => CpTimelineStatus.neutral,
     };
 
-    final animated = timelineStatus == CpTimelineStatus.inProgress &&
-        order.status != OffRampOrderStatus.waitingForPartner;
+    final animated = timelineStatus == CpTimelineStatus.inProgress;
 
     final int activeItem = switch (order.status) {
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
-      OffRampOrderStatus.waitingForPartner ||
       OffRampOrderStatus.depositError ||
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.cancelled =>
         1,
-      OffRampOrderStatus.failure || OffRampOrderStatus.completed => 2,
+      OffRampOrderStatus.waitingForPartner ||
+      OffRampOrderStatus.failure ||
+      OffRampOrderStatus.completed =>
+        2,
     };
 
     final withdrawInitiated = CpTimelineItem(

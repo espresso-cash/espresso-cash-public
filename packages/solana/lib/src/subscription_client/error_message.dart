@@ -4,7 +4,7 @@ import 'package:solana/src/subscription_client/subscribe_error.dart';
 
 part 'error_message.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ErrorMessage implements SubscriptionMessage {
   const ErrorMessage({
     required this.error,
@@ -16,4 +16,6 @@ class ErrorMessage implements SubscriptionMessage {
 
   final SubscribeError error;
   final int id;
+
+  Map<String, dynamic> toJson() => _$ErrorMessageToJson(this);
 }

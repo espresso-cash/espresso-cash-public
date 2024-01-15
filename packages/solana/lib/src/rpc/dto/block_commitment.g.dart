@@ -12,3 +12,9 @@ BlockCommitment _$BlockCommitmentFromJson(Map<String, dynamic> json) =>
           (json['commitment'] as List<dynamic>?)?.map((e) => e as int).toList(),
       totalStake: json['totalStake'] as int,
     );
+
+Map<String, dynamic> _$BlockCommitmentToJson(BlockCommitment instance) =>
+    <String, dynamic>{
+      'commitment': instance.commitment,
+      'totalStake': instance.totalStake,
+    };
