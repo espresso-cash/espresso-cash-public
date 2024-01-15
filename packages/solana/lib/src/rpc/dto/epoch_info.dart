@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'epoch_info.g.dart';
 
 /// Information about an epoch
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class EpochInfo {
   const EpochInfo({
     required this.absoluteSlot,
@@ -34,4 +34,6 @@ class EpochInfo {
 
   /// Total number of transactions processed without error since genesis
   final int? transactionCount;
+
+  Map<String, dynamic> toJson() => _$EpochInfoToJson(this);
 }

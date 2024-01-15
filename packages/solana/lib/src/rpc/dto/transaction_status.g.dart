@@ -19,9 +19,25 @@ TransactionStatus _$TransactionStatusFromJson(Map<String, dynamic> json) =>
           : ReturnData.fromJson(json['returnData'] as Map<String, dynamic>),
     );
 
+Map<String, dynamic> _$TransactionStatusToJson(TransactionStatus instance) =>
+    <String, dynamic>{
+      'err': instance.err,
+      'logs': instance.logs,
+      'accounts': instance.accounts?.map((e) => e.toJson()).toList(),
+      'unitsConsumed': instance.unitsConsumed,
+      'returnData': instance.returnData?.toJson(),
+    };
+
 TransactionStatusResult _$TransactionStatusResultFromJson(
         Map<String, dynamic> json) =>
     TransactionStatusResult(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
       value: TransactionStatus.fromJson(json['value'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$TransactionStatusResultToJson(
+        TransactionStatusResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.toJson(),
+    };

@@ -26,6 +26,7 @@ final offRampOrderScreenStory = Story(
       partner: RampPartner.scalex,
       resolved: null,
       partnerOrderId: 'PARTNER_ORDER_ID',
+      depositAddress: null,
     ),
   ),
 );

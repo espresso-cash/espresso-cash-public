@@ -11,3 +11,9 @@ SolanaVersion _$SolanaVersionFromJson(Map<String, dynamic> json) =>
       solanaCore: json['solana-core'] as String,
       featureSet: json['feature-set'] as int,
     );
+
+Map<String, dynamic> _$SolanaVersionToJson(SolanaVersion instance) =>
+    <String, dynamic>{
+      'solana-core': instance.solanaCore,
+      'feature-set': instance.featureSet,
+    };

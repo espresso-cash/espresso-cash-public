@@ -14,3 +14,12 @@ EpochSchedule _$EpochScheduleFromJson(Map<String, dynamic> json) =>
       firstNormalEpoch: json['firstNormalEpoch'] as int,
       firstNormalSlot: json['firstNormalSlot'] as int,
     );
+
+Map<String, dynamic> _$EpochScheduleToJson(EpochSchedule instance) =>
+    <String, dynamic>{
+      'slotsPerEpoch': instance.slotsPerEpoch,
+      'leaderScheduleSlotOffset': instance.leaderScheduleSlotOffset,
+      'warmup': instance.warmup,
+      'firstNormalEpoch': instance.firstNormalEpoch,
+      'firstNormalSlot': instance.firstNormalSlot,
+    };

@@ -13,7 +13,19 @@ Fees _$FeesFromJson(Map<String, dynamic> json) => Fees(
       lastValidBlockHeight: json['lastValidBlockHeight'] as int,
     );
 
+Map<String, dynamic> _$FeesToJson(Fees instance) => <String, dynamic>{
+      'blockhash': instance.blockhash,
+      'feeCalculator': instance.feeCalculator.toJson(),
+      'lastValidBlockHeight': instance.lastValidBlockHeight,
+    };
+
 FeesResult _$FeesResultFromJson(Map<String, dynamic> json) => FeesResult(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
       value: Fees.fromJson(json['value'] as Map<String, dynamic>),
     );
+
+Map<String, dynamic> _$FeesResultToJson(FeesResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value.toJson(),
+    };

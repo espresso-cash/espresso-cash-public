@@ -14,7 +14,7 @@ StakeMeta _$StakeMetaFromJson(Map<String, dynamic> json) => StakeMeta(
     );
 
 Map<String, dynamic> _$StakeMetaToJson(StakeMeta instance) => <String, dynamic>{
-      'authorized': instance.authorized,
-      'lockup': instance.lockup,
+      'authorized': instance.authorized.toJson(),
+      'lockup': instance.lockup.toJson(),
       'rentExemptReserve': instance.rentExemptReserve,
     };

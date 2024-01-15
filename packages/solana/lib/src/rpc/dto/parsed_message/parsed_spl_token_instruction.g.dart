@@ -18,7 +18,7 @@ _$ParsedSplTokenTransferInstructionImpl
 Map<String, dynamic> _$$ParsedSplTokenTransferInstructionImplToJson(
         _$ParsedSplTokenTransferInstructionImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
     };
 
@@ -34,7 +34,7 @@ _$ParsedSplTokenTransferCheckedInstructionImpl
 Map<String, dynamic> _$$ParsedSplTokenTransferCheckedInstructionImplToJson(
         _$ParsedSplTokenTransferCheckedInstructionImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.type,
     };
 

@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/transaction_message_header.dart';
 part 'transaction_message.g.dart';
 
 /// A transaction message
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TransactionMessage {
   const TransactionMessage({
     required this.accountKeys,
@@ -36,4 +36,6 @@ class TransactionMessage {
   /// sequence and committed in one atomic transaction if all
   /// succeed.
   final List<Instruction> instructions;
+
+  Map<String, dynamic> toJson() => _$TransactionMessageToJson(this);
 }

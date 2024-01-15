@@ -25,7 +25,7 @@ SplTokenAccountDataInfo _$SplTokenAccountDataInfoFromJson(
 Map<String, dynamic> _$SplTokenAccountDataInfoToJson(
     SplTokenAccountDataInfo instance) {
   final val = <String, dynamic>{
-    'tokenAmount': instance.tokenAmount,
+    'tokenAmount': instance.tokenAmount.toJson(),
     'state': instance.state,
     'isNative': instance.isNative,
     'mint': instance.mint,
@@ -39,6 +39,6 @@ Map<String, dynamic> _$SplTokenAccountDataInfoToJson(
   }
 
   writeNotNull('delegate', instance.delegate);
-  writeNotNull('delegateAmount', instance.delegateAmount);
+  writeNotNull('delegateAmount', instance.delegateAmount?.toJson());
   return val;
 }

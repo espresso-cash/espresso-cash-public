@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/rpc/dto/message.dart';
@@ -11,10 +13,12 @@ abstract class Transaction {
         fromEncoded: RawTransaction.new,
         fromParsed: ParsedTransaction.fromJson,
       );
+
+  dynamic toJson();
 }
 
 /// A transaction
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ParsedTransaction implements Transaction {
   const ParsedTransaction({
     required this.signatures,
@@ -34,10 +38,16 @@ class ParsedTransaction implements Transaction {
 
   /// Defines the content of the transaction.
   final Message message;
+
+  @override
+  Map<String, dynamic> toJson() => _$ParsedTransactionToJson(this);
 }
 
 class RawTransaction implements Transaction {
   const RawTransaction(this.data);
 
   final List<int> data;
+
+  @override
+  List<String> toJson() => [base64.encode(data), 'base64'];
 }

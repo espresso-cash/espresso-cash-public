@@ -37,3 +37,21 @@ Meta _$MetaFromJson(Map<String, dynamic> json) => Meta(
           : ReturnData.fromJson(json['returnData'] as Map<String, dynamic>),
       computeUnitsConsumed: json['computeUnitsConsumed'] as int?,
     );
+
+Map<String, dynamic> _$MetaToJson(Meta instance) => <String, dynamic>{
+      'err': instance.err,
+      'fee': instance.fee,
+      'preBalances': instance.preBalances,
+      'postBalances': instance.postBalances,
+      'innerInstructions':
+          instance.innerInstructions?.map((e) => e.toJson()).toList(),
+      'preTokenBalances':
+          instance.preTokenBalances.map((e) => e.toJson()).toList(),
+      'postTokenBalances':
+          instance.postTokenBalances.map((e) => e.toJson()).toList(),
+      'logMessages': instance.logMessages,
+      'rewards': instance.rewards?.map((e) => e.toJson()).toList(),
+      'loadedAddresses': instance.loadedAddresses?.toJson(),
+      'returnData': instance.returnData?.toJson(),
+      'computeUnitsConsumed': instance.computeUnitsConsumed,
+    };

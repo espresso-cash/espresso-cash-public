@@ -33,7 +33,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
       notifyListeners();
     }
 
-    uriLinkStream.listen(_processLink);
+    _subscription = uriLinkStream.listen(_processLink);
   }
 
   void _processLink(Uri? link) {
