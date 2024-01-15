@@ -269,7 +269,7 @@ const _kadoCountries = {'US'};
 const _guardarianCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
-  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
+  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH', 'US',
 };
 
 const _coinflowCountries = {
