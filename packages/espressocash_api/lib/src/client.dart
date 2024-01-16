@@ -78,4 +78,9 @@ abstract class CryptopleaseClient {
   Future<ScalexWithdrawResponseDto> createScalexWithdraw(
     @Body() ScalexWithdrawRequestDto request,
   );
+
+  @POST('/updateUserWalletCountry')
+  Future<void> updateUserWalletCountry(
+    @Body() WalletCountryRequestDto request,
+  );
 }
