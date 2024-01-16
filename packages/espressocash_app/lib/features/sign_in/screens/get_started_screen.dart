@@ -27,7 +27,55 @@ class GetStartedScreen extends StatefulWidget {
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
-class _GetStartedScreenState extends State<GetStartedScreen> {
+class _GetStartedScreenState extends State<GetStartedScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _slideAnimationController;
+  late final Animation<Offset> _slideOffsetAnimation;
+  late final AnimationController _fadeAnimationController;
+  late final Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _slideAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 1250),
+      vsync: this,
+    )..forward();
+
+    _slideOffsetAnimation = Tween<Offset>(
+      begin: const Offset(0.0, 0.4),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _slideAnimationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    _fadeAnimationController = AnimationController(
+      duration: const Duration(milliseconds: 1500),
+      vsync: this,
+    )..forward();
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(
+      CurvedAnimation(
+        parent: _fadeAnimationController,
+        curve: Curves.easeIn,
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _slideAnimationController.dispose();
+    _fadeAnimationController.dispose();
+    super.dispose();
+  }
+
   void _handleSignInPressed() => context.router.push(
         RestoreAccountScreen.route(
           onMnemonicConfirmed: _handleMnemonicConfirmed,
@@ -62,12 +110,24 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Expanded(child: _Logo()),
-                            const _Body(),
-                            24.verticalSpace,
-                            _Footer(
-                              isSaga: isSaga,
-                              onSignInPressed: _handleSignInPressed,
+                            Expanded(
+                              child: SlideTransition(
+                                position: _slideOffsetAnimation,
+                                child: const _Logo(),
+                              ),
+                            ),
+                            FadeTransition(
+                              opacity: _fadeAnimation,
+                              child: Column(
+                                children: [
+                                  const _Body(),
+                                  24.verticalSpace,
+                                  _Footer(
+                                    isSaga: isSaga,
+                                    onSignInPressed: _handleSignInPressed,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -88,7 +148,7 @@ class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Hero(
         tag: 'logo',
-        child: Assets.images.logo.image(width: 309.r, height: 66.r),
+        child: Assets.images.logo.image(width: 309, height: 66),
       );
 }
 

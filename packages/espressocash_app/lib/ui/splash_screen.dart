@@ -19,7 +19,10 @@ class SplashScreen extends StatelessWidget {
             color: CpColors.yellowSplashBackgroundColor,
           ),
           child: Center(
-            child: Assets.images.logo.image(height: 66),
+            child: Hero(
+              tag: 'logo',
+              child: Assets.images.logo.image(height: 66),
+            ),
           ),
         ),
       );
