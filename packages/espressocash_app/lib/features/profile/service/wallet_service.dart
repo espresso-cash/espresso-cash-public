@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../core/listenable_ext.dart';
 import '../../authenticated/auth_scope.dart';
 import '../data/profile_repository.dart';
 
@@ -12,40 +16,38 @@ class WalletService implements Disposable {
     this._sharedPreferences,
     this._profileRepository,
     this._cryptopleaseClient,
-  ) {
-    _profileRepository.onCountryUpdate = _handleCountryUpdate;
-  }
+  );
 
   final CryptopleaseClient _cryptopleaseClient;
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
 
-  bool get _hasSyncedWalletCountry =>
-      _sharedPreferences.getBool(_countrySyncedKey) ?? false;
+  StreamSubscription<void>? _subscription;
 
   @PostConstruct(preResolve: true)
   void init() {
-    if (_hasSyncedWalletCountry) return;
+    final shouldDoInitialSync =
+        !(_sharedPreferences.getBool(_countrySyncedKey) ?? false);
 
-    _handleCountryUpdate();
-  }
-
-  void _handleCountryUpdate() {
-    final countryCode = _profileRepository.country;
-
-    if (countryCode != null) {
-      _cryptopleaseClient.updateUserWalletCountry(
-        WalletCountryRequestDto(countryCode: countryCode),
-      );
-
+    if (shouldDoInitialSync) {
       _sharedPreferences.setBool(_countrySyncedKey, true);
     }
+
+    _subscription = _profileRepository
+        .toStream()
+        .map((event) => event.country)
+        .startWith(shouldDoInitialSync ? _profileRepository.country : null)
+        .whereNotNull()
+        .distinct()
+        .map((country) => WalletCountryRequestDto(countryCode: country))
+        .switchMap((request) async* {
+      await _cryptopleaseClient.updateUserWalletCountry(request);
+    }).listen(null);
   }
 
   @override
   void onDispose() {
-    _profileRepository.removeListener(_handleCountryUpdate);
-    _sharedPreferences.remove(_countrySyncedKey);
+    _subscription?.cancel();
   }
 }
 
