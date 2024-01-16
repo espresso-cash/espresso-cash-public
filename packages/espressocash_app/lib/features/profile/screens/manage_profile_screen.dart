@@ -148,12 +148,12 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
               OnboardingPadding(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   child: Text(
-                    context.l10n.yourEmailDisclaimer,
+                    context.l10n.profileDisclaimer,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
