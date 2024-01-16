@@ -30,13 +30,14 @@ class _WebViewScreenState extends State<WebViewScreen> {
   String? _title;
 
   Future<void> _handleLoaded(InAppWebViewController controller) async {
+    widget.onLoaded?.call(controller);
+
     if (widget.title != null) return;
 
     final title = await controller.getTitle();
     if (!mounted) return;
 
     setState(() => _title = title ?? '');
-    widget.onLoaded?.call(controller);
   }
 
   Future<PermissionResponse?> _handlePermissionRequest(

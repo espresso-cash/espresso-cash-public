@@ -64,11 +64,11 @@ class _$LoadedAddressesCopyWithImpl<$Res, $Val extends LoadedAddresses>
 }
 
 /// @nodoc
-abstract class _$$_LoadedAddressesCopyWith<$Res>
+abstract class _$$LoadedAddressesImplCopyWith<$Res>
     implements $LoadedAddressesCopyWith<$Res> {
-  factory _$$_LoadedAddressesCopyWith(
-          _$_LoadedAddresses value, $Res Function(_$_LoadedAddresses) then) =
-      __$$_LoadedAddressesCopyWithImpl<$Res>;
+  factory _$$LoadedAddressesImplCopyWith(_$LoadedAddressesImpl value,
+          $Res Function(_$LoadedAddressesImpl) then) =
+      __$$LoadedAddressesImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -76,11 +76,11 @@ abstract class _$$_LoadedAddressesCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LoadedAddressesCopyWithImpl<$Res>
-    extends _$LoadedAddressesCopyWithImpl<$Res, _$_LoadedAddresses>
-    implements _$$_LoadedAddressesCopyWith<$Res> {
-  __$$_LoadedAddressesCopyWithImpl(
-      _$_LoadedAddresses _value, $Res Function(_$_LoadedAddresses) _then)
+class __$$LoadedAddressesImplCopyWithImpl<$Res>
+    extends _$LoadedAddressesCopyWithImpl<$Res, _$LoadedAddressesImpl>
+    implements _$$LoadedAddressesImplCopyWith<$Res> {
+  __$$LoadedAddressesImplCopyWithImpl(
+      _$LoadedAddressesImpl _value, $Res Function(_$LoadedAddressesImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -89,7 +89,7 @@ class __$$_LoadedAddressesCopyWithImpl<$Res>
     Object? writable = null,
     Object? readonly = null,
   }) {
-    return _then(_$_LoadedAddresses(
+    return _then(_$LoadedAddressesImpl(
       writable: null == writable
           ? _value._writable
           : writable // ignore: cast_nullable_to_non_nullable
@@ -104,8 +104,8 @@ class __$$_LoadedAddressesCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LoadedAddresses implements _LoadedAddresses {
-  const _$_LoadedAddresses(
+class _$LoadedAddressesImpl implements _LoadedAddresses {
+  const _$LoadedAddressesImpl(
       {required final List<Ed25519HDPublicKey> writable,
       required final List<Ed25519HDPublicKey> readonly})
       : _writable = writable,
@@ -133,10 +133,10 @@ class _$_LoadedAddresses implements _LoadedAddresses {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LoadedAddresses &&
+            other is _$LoadedAddressesImpl &&
             const DeepCollectionEquality().equals(other._writable, _writable) &&
             const DeepCollectionEquality().equals(other._readonly, _readonly));
   }
@@ -150,14 +150,16 @@ class _$_LoadedAddresses implements _LoadedAddresses {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoadedAddressesCopyWith<_$_LoadedAddresses> get copyWith =>
-      __$$_LoadedAddressesCopyWithImpl<_$_LoadedAddresses>(this, _$identity);
+  _$$LoadedAddressesImplCopyWith<_$LoadedAddressesImpl> get copyWith =>
+      __$$LoadedAddressesImplCopyWithImpl<_$LoadedAddressesImpl>(
+          this, _$identity);
 }
 
 abstract class _LoadedAddresses implements LoadedAddresses {
   const factory _LoadedAddresses(
-      {required final List<Ed25519HDPublicKey> writable,
-      required final List<Ed25519HDPublicKey> readonly}) = _$_LoadedAddresses;
+          {required final List<Ed25519HDPublicKey> writable,
+          required final List<Ed25519HDPublicKey> readonly}) =
+      _$LoadedAddressesImpl;
 
   @override
   List<Ed25519HDPublicKey> get writable;
@@ -165,6 +167,6 @@ abstract class _LoadedAddresses implements LoadedAddresses {
   List<Ed25519HDPublicKey> get readonly;
   @override
   @JsonKey(ignore: true)
-  _$$_LoadedAddressesCopyWith<_$_LoadedAddresses> get copyWith =>
+  _$$LoadedAddressesImplCopyWith<_$LoadedAddressesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

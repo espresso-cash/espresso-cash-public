@@ -1,5 +1,7 @@
 {
   "@@locale": "fr",
+  "activities_lblAddCash": "Ajouter de l'argent",
+  "@activities_lblAddCash": {},
   "activities_lblBoughtToken": "{amount} Acheté",
   "@activities_lblBoughtToken": {
     "placeholders": {
@@ -18,18 +20,34 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activité",
   "@activities_lblTitle": {},
+  "activities_lblWithdraw": "Retirer de l'argent",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Verrouillage automatique",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Exiger le code d'accès pour accéder à l'application",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "Vous avez réussi à enregistrer votre phrase de récupération secrète dans un endroit sûr. Assurez-vous de la garder privée!",
-  "@backupPhrase_lblSuccessMessage": {},
+  "backupPhrase_lblSuccessMessage1": "Vous avez confirmé avec succès votre phrase secrète de récupération.",
+  "@backupPhrase_lblSuccessMessage1": {},
+  "backupPhrase_lblSuccessMessage2": "Assurez-vous de la garder privée et de la stocker dans un endroit sûr et sécurisé.",
+  "@backupPhrase_lblSuccessMessage2": {},
   "balances_lblConnectionError": "Impossible de se connecter au réseau!",
   "@balances_lblConnectionError": {},
-  "carousel1Subtitle": "Transferts d'argent instantanés à faible coût vers plus de 200 pays et territoires.",
+  "carousel1Subtitle": "Transfert d'argent instantané à faible coût vers plus de 200 pays et territoires.",
   "@carousel1Subtitle": {},
   "carousel1Title": "Bienvenue sur Espresso Cash !",
   "@carousel1Title": {},
+  "carousel2Subtitle": "L'argent est transféré sur leur compte bancaire en tant que monnaie locale.",
+  "@carousel2Subtitle": {},
+  "carousel2Title": "Envoyez de l'argent chez vous en quelques secondes",
+  "@carousel2Title": {},
+  "carousel3Subtitle": "Les paiements sont partagés via des plateformes de messagerie telles que WhatsApp, Messenger, Telegram ou SMS.",
+  "@carousel3Subtitle": {},
+  "carousel3Title": "Envoyer via des plateformes de messagerie",
+  "@carousel3Title": {},
+  "carousel4Subtitle": "Utilisez un code QR Espresso Cash pour payer instantanément les entreprises locales.",
+  "@carousel4Subtitle": {},
+  "carousel4Title": "Payer Localement",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Envoyez de l'argent",
   "@carouselSendMoneyBtn": {},
   "comingSoon": "À venir!",
@@ -60,12 +78,30 @@
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Votre Crypto Cash Solde",
+  "cryptoCashBalance": "Votre Cash",
   "@cryptoCashBalance": {},
-  "cryptoInvestments": "Vos investissements\ncrypto",
+  "cryptoInvestments": "Vos cryptomonnaies",
   "@cryptoInvestments": {},
   "decline": "Décliner",
   "@decline": {},
+  "depositDisclaimer": "Les fonds doivent être envoyés depuis votre compte personnel. Tout fonds envoyé via un compte qui ne correspond pas à vos détails d'identification sera réservé.",
+  "@depositDisclaimer": {},
+  "depositInstruction1": "Transférez de l'argent depuis votre compte bancaire vers notre partenaire local :",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Une fois que l'argent a été transféré, retournez sur Espresso Cash et continuez ci-dessous.",
+  "@depositInstruction2": {},
+  "depositReceiveAmount": "Vous recevrez : {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Ajouter de l'argent",
+  "@depositTitle": {},
+  "depositTransferAmount": "Montant à transférer",
+  "@depositTransferAmount": {},
   "discover": "DÉCOUVRIR",
   "@discover": {},
   "displayEmptyBalanceSubtitle": "Montrez votre crypto avec zéro solde",
@@ -116,12 +152,14 @@
   },
   "following": "Suivi",
   "@following": {},
-  "fundYourAccount": "Faites un dépôt sur votre compte pour envoyer de l'argent partout dans le monde.",
+  "fundYourAccount": "Faites un dépôt pour envoyer de l'argent",
   "@fundYourAccount": {},
   "help": "Aide",
   "@help": {},
   "incomingSplitKeyPayments_lblByClickingTheSecondLink": "En cliquant sur le deuxième lien du message ou sur le bouton d'annulation, vous acceptez nos ",
   "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
+  "incomingUsdcFeeNotice": "Un frais unique de {amount} a été prélevé pour votre première transaction entrante.",
+  "@incomingUsdcFeeNotice": {},
   "incorrectPasscode": "Code d'accès incorrect. Réessayer à nouveau",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "Vous n'avez pas assez {feeToken} pour payer les frais de réseau, vous avez besoin d'au moins {amount}.",
@@ -150,6 +188,10 @@
   "@inUsdc": {},
   "invalidEscrowError": "Le lien est incorrect ou l'argent a déjà été retiré.",
   "@invalidEscrowError": {},
+  "investingBannerTitle": "Investir facilement dans la crypto",
+  "@investingBannerTitle": {},
+  "investingTitle": "Investissement",
+  "@investingTitle": {},
   "investmentHeaderButtonsTitle": "Je veux",
   "@investmentHeaderButtonsTitle": {},
   "isWaitingForYou": "vous attend.",
@@ -158,6 +200,18 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Je comprends que si je perds ma phrase de récupération secrète, je ne pourrai pas accéder aux fonds.",
   "@iUnderstandIfLoseMySecret": {},
+  "landingAlreadyInstalled": "Vous avez déjà Espresso installé ? Passez à l'étape 2",
+  "@landingAlreadyInstalled": {},
+  "landingInstallApp": "Installer Espresso Cash",
+  "@landingInstallApp": {},
+  "landingReceiveMoney": "Recevez votre argent",
+  "@landingReceiveMoney": {},
+  "landingScanQr": "Scannez le code QR",
+  "@landingScanQr": {},
+  "landingSubtitle": "Pour finaliser la transaction, suivez les étapes ci-dessous.",
+  "@landingSubtitle": {},
+  "landingTitle": "L'argent vous a été envoyé.",
+  "@landingTitle": {},
   "learnAboutCrypto": "Apprendre la crypto",
   "@learnAboutCrypto": {},
   "learnAboutCryptoDescription": "Obtenez de l'aide au sujet de la crypto",
@@ -172,6 +226,14 @@
   "@marketCapRank": {},
   "minAmountToOffRamp": "{amount} est le montant minimum que vous pouvez retirer",
   "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minAmountToOnRamp": "{amount} est le montant minimum que vous pouvez ajouter",
+  "@minAmountToOnRamp": {
     "placeholders": {
       "amount": {
         "type": "String"
@@ -262,28 +324,120 @@
   "@noEmailInCryptoParagraph": {},
   "noResultsFound": "Aucun résultat trouvé",
   "@noResultsFound": {},
+  "offRampCancelSubtitle": "Êtes-vous sûr(e) de vouloir annuler ce retrait ?",
+  "@offRampCancelSubtitle": {},
+  "offRampCancelTitle": "Annuler le retrait",
+  "@offRampCancelTitle": {},
+  "offRampDepositError": "Il y a eu un problème avec votre retrait",
+  "@offRampDepositError": {},
+  "offRampReceiveAmount": "Vous recevrez {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
   "offRampTopPartnerTitle": "Encaissez sur votre compte bancaire en utilisant notre meilleur partenaire",
   "@offRampTopPartnerTitle": {},
+  "offRampWaitingForPartner": "Votre argent est en route",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawalFailure": "Il y a eu un problème avec votre retrait. Veuillez nous contacter.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWithdrawCancelled": "{amount} retrait annulé avec succès.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelledTitle": "Le retrait a été annulé",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampWithdrawInitiated": "Retrait initié",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawNotice": "Les retraits peuvent normalement prendre jusqu'à 3 jours ouvrables pour être reçus.",
+  "@offRampWithdrawNotice": {},
+  "offRampWithdrawOngoing": "Envoi de {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawReceived": "L'argent a été reçu",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawSent": "USDC envoyé au partenaire",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawSuccess": "Votre retrait a été effectué avec succès.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawTitle": "Progression du retrait",
+  "@offRampWithdrawTitle": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "L'investissement crypto en toute simplicité, que vous soyez nouveau ou professionnel chevronné !",
   "@onboardingBullet": {},
   "onboardingIntro": "Un moyen plus simple d'envoyer et de recevoir de l'argent.",
   "@onboardingIntro": {},
-  "onboardingNoticeFinishSetup": "Terminer la configuration",
+  "onboardingNoticeFinishSetup": "Terminer",
   "@onboardingNoticeFinishSetup": {},
-  "onboardingNoticeMessage": "Terminez la configuration en sécurisant votre compte.",
+  "onboardingNoticeMessage": "Terminez la configuration\npour sécuriser votre compte.",
   "@onboardingNoticeMessage": {},
   "oneMonth": "1 mois",
   "@oneMonth": {},
   "oneWeek": "1 semaine",
   "@oneWeek": {},
+  "onRampAwaitingFunds": "Attendez un instant. Votre transaction est en cours de traitement.",
+  "@onRampAwaitingFunds": {},
+  "onRampDepositExpired": "Votre demande a expiré. Veuillez réessayer.",
+  "@onRampDepositExpired": {},
+  "onRampDepositFailure": "Il y a eu un problème avec votre dépôt. Veuillez nous contacter.",
+  "@onRampDepositFailure": {},
+  "onRampDepositInitiated": "Dépôt initié",
+  "@onRampDepositInitiated": {},
+  "onRampDepositOngoing": "Dépôt de {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositReceived": "USDC reçu",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Votre dépôt a été effectué avec succès.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositTitle": "Status d'ajout d'argent",
+  "@onRampDepositTitle": {},
+  "onRampLocalTransferTile": "Devise locale transférée\nMontant envoyé : {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
   "onRampTopPartnerTitle": "Transférez de l'argent vers Espresso en utilisant notre meilleur partenaire de paiement",
   "@onRampTopPartnerTitle": {},
   "openInAppScanner": "Ouvrez le scanner QR intégré à l'application",
   "@openInAppScanner": {},
   "operationSend": "envoyer",
   "@operationSend": {},
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
   "outgoingSplitKeyPayments_btnCancel": "Annuler le transfert",
   "@outgoingSplitKeyPayments_btnCancel": {},
   "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Êtes-vous sûr de vouloir annuler ce transfert?",
@@ -404,6 +558,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Retirer",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Continuer",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Montant minimum à transférer {amount}",
   "@rampMinimumTransferAmount": {
     "placeholders": {
@@ -424,12 +580,12 @@
       }
     }
   },
+  "recentActivityEmpty": "Il n'y a pas d'activité récente. Souhaitez-vous envoyer de l'argent à la famille maintenant?",
+  "@recentActivityEmpty": {},
+  "recentActivityLbl": "Activité récente",
+  "@recentActivityLbl": {},
   "recoverySubHeading": "Veuillez noter votre phrase de récupération secrète suivante et la stocker quelque part précieusement. Cette phrase est composée de 12 mots générés au hasard. Vous ne pourrez pas récupérer vos fonds si vous perdez ces mots.",
   "@recoverySubHeading": {},
-  "recoveryWarningInfo": "Veuillez lire attentivement les informations ci-dessous avant de consulter votre phrase de récupération secrète",
-  "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "Pour récupérer votre portefeuille, vous aurez besoin de votre phrase de récupération secrète. Veuillez noter votre phrase de récupération secrète suivante et la stocker attentivement. \n\nQuiconque qui a accès à votre phrase de récupération secrète a également un accès irrévocable à votre argent. \n\nNe partagez jamais cette phrase de récupération secrète à un étranger et n'entrez jamais cette phrase de récupération secrète dans un formulaire ou une autre application.",
-  "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Réentrez votre code d'accès",
   "@reEnterPasscode": {},
   "remindMeLater": "Rappellez-moi plus tard",
@@ -444,7 +600,7 @@
   "@requestNoteRequesting": {},
   "requestOrSendPayment": "Demander ou envoyer un paiement",
   "@requestOrSendPayment": {},
-  "resendLink": "Réenvoyer les liens",
+  "resendLink": "Réenvoyer le lien",
   "@resendLink": {},
   "retry": "Reessayer",
   "@retry": {},
@@ -452,6 +608,14 @@
   "@save": {},
   "scanToReceive": "Scannez pour recevoir {amount}",
   "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "scanToSend": "Scanner pour envoyer {amount}",
+  "@scanToSend": {
     "placeholders": {
       "amount": {
         "type": "String"
@@ -468,17 +632,17 @@
   "@selectCountryTitle": {},
   "sell": "Vendre",
   "@sell": {},
-  "send": "Send",
+  "send": "Envoyer",
   "@send": {},
   "sendAs": "Envoyer comme",
   "@sendAs": {},
-  "sendExplanation": "Une fois que vous avez créé ces liens, vous pouvez l'envoyer à votre destinataire! Il peut ensuite recevoir les fonds en cliquant simplement sur les liens.",
+  "sendExplanation": "Une fois que vous avez créé ce lien, vous pouvez l'envoyer à votre destinataire ! Ils pourront ensuite récupérer les fonds en cliquant simplement sur le lien.",
   "@sendExplanation": {},
   "sendMoney": "Envoyer",
   "@sendMoney": {},
   "sentDirectly": "Envoyé",
   "@sentDirectly": {},
-  "sentViaLink": "Envoyé via des liens",
+  "sentViaLink": "Envoyé via un lien",
   "@sentViaLink": {},
   "setReminder": "Définissez un rappel pour {duration}",
   "@setReminder": {
@@ -492,13 +656,13 @@
   "@settings": {},
   "share": "Partager",
   "@share": {},
-  "shareInstructions": "Pour recevoir l'argent, tu dois cliquer sur deux liens. Suis ces deux étapes ci-dessous:",
+  "shareInstructions": "Pour les recevoir, tu dois cliquer sur ce lien :",
   "@shareInstructions": {},
   "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
   "@shareIntroFt": {},
-  "shareLink": "Partagez les liens de paiement",
+  "shareLink": "Partagez le lien de paiement",
   "@shareLink": {},
-  "shareLinks": "Partager les liens",
+  "shareLinks": "Partager le lien",
   "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},
@@ -525,7 +689,7 @@
   "@shareStep1": {},
   "shareStep2": "Étape 2 - Lorsque l'application te demande, clique sur le deuxième lien:",
   "@shareStep2": {},
-  "signIn1": "Vous avez déjà un portefeuille Solana ? ",
+  "signIn1": "Vous avez déjà un portefeuille ? ",
   "@signIn1": {},
   "signIn2": "Continuez ici",
   "@signIn2": {},
@@ -567,9 +731,9 @@
   "@splitKeyProgressCanceled": {},
   "splitKeyProgressCanceling": "Annulation du transfert",
   "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Les liens ont été créés",
+  "splitKeyProgressCreated": "Le lien a été créé",
   "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Envoi de {amount} en utilisant des liens sécurisés ...",
+  "splitKeyProgressOngoing": "Envoi de {amount} en utilisant un lien sécurisé ...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -720,7 +884,7 @@
   },
   "uploadPhoto": "Ajouter une photo",
   "@uploadPhoto": {},
-  "usdcExplanation": "La jeton USD (USDC) est un stablecoin numérique qui devrait être fixé au dollar américain.",
+  "usdcExplanation": "L'USDC est un stablecoin numérique qui est normalement fixé au dollar américain.",
   "@usdcExplanation": {},
   "usdcInfo": "L'USDC est un stablecoin numérique qui devrait être fixé au dollar américain.(1$ = 1USDC)",
   "@usdcInfo": {},
@@ -745,6 +909,8 @@
   "@viewTransaction": {},
   "walletAddress": "Adresse du portefeuille",
   "@walletAddress": {},
+  "walletAddressFieldHint": "Tapez, collez ou scannez l'adresse ici.",
+  "@walletAddressFieldHint": {},
   "walletEspressoPayLabel": "Envoyez de l'argent à n'importe qui en utilisant une plateforme de messagerie.",
   "@walletEspressoPayLabel": {},
   "walletManualPayLabel": "Envoyer en utilisant une adresse de portefeuille",
@@ -775,7 +941,7 @@
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Votre phrase de récupération secrète",
   "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Veuillez noter votre phrase de récupération secrète suivante et l'enregistrer attentivement. Cette phrase est composée de 12 mots générés au hasard. Vous ne pourrez pas récupérer vos fonds si vous perdez ces mots.",
+  "yourRecoveryPhraseSub": "Cette phrase est composée de 12 mots générés aléatoirement. Veuillez noter votre phrase secrète de récupération suivante et la sauvegarder attentivement.",
   "@yourRecoveryPhraseSub": {},
   "zeroAmountMessage": "Veuillez saisir un montant supérieur à zéro pour être{operation}.",
   "@zeroAmountMessage": {

@@ -8,9 +8,8 @@ import 'package:solana/solana.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'config.dart';
-import 'core/coingecko_client.dart';
-import 'core/tokens/token_list.dart';
 import 'di.config.dart';
+import 'features/tokens/token_list.dart';
 
 final sl = GetIt.instance;
 
@@ -43,9 +42,6 @@ abstract class AppModule {
   RpcClient get rpcClient => solanaClient.rpcClient;
 
   @lazySingleton
-  CryptopleaseClient get cryptopleaseClient => CryptopleaseClient();
-
-  @lazySingleton
   JupiterAggregatorClient get jupiterClient => JupiterAggregatorClient();
 
   @preResolve
@@ -53,9 +49,6 @@ abstract class AppModule {
 
   @lazySingleton
   SeedVault get seedVault => SeedVault.instance;
-
-  @preResolve
-  Future<CoingeckoClient> get coingeckoClient => CoingeckoClient.init();
 
   @preResolve
   @Named('isSaga')

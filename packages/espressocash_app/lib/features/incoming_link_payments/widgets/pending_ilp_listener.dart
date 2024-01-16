@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/analytics/analytics_manager.dart';
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/link_payments.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
+import '../../analytics/analytics_manager.dart';
 import '../screens/incoming_link_payment_screen.dart';
 import 'extensions.dart';
 

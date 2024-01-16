@@ -4,8 +4,8 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
 import '../../balances/data/balances_repository.dart';
+import '../../tokens/token.dart';
 import 'watch_user_fiat_balance.dart';
 
 @injectable

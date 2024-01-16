@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/fee_label.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -17,20 +16,20 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
 
 @RoutePage()
 class OLPConfirmationScreen extends StatelessWidget {
   const OLPConfirmationScreen({
     super.key,
     required this.tokenAmount,
-    required this.fee,
     required this.onSubmit,
   });
 
   static const route = OLPConfirmationRoute.new;
 
   final Amount tokenAmount;
-  final Amount fee;
   final VoidCallback onSubmit;
 
   @override
@@ -47,10 +46,7 @@ class OLPConfirmationScreen extends StatelessWidget {
             leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(
-            child: _TokenCreateLinkContent(
-              amount: tokenAmount,
-              fee: fee,
-            ),
+            child: _TokenCreateLinkContent(amount: tokenAmount),
           ),
           bottomNavigationBar: SafeArea(
             child: Padding(
@@ -58,7 +54,7 @@ class OLPConfirmationScreen extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const FeeLabel(type: FeeType.splitKey()),
+                  const FeeLabel(type: FeeType.link()),
                   const SizedBox(height: 21),
                   CpButton(
                     width: double.infinity,
@@ -76,11 +72,9 @@ class OLPConfirmationScreen extends StatelessWidget {
 class _TokenCreateLinkContent extends StatelessWidget {
   const _TokenCreateLinkContent({
     required this.amount,
-    required this.fee,
   });
 
   final Amount amount;
-  final Amount fee;
 
   @override
   Widget build(BuildContext context) => Column(

@@ -13,3 +13,9 @@ LoadedAddresses _$LoadedAddressesFromJson(Map<String, dynamic> json) =>
       readonly:
           (json['readonly'] as List<dynamic>).map((e) => e as String).toList(),
     );
+
+Map<String, dynamic> _$LoadedAddressesToJson(LoadedAddresses instance) =>
+    <String, dynamic>{
+      'writable': instance.writable,
+      'readonly': instance.readonly,
+    };

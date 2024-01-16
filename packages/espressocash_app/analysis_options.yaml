@@ -33,8 +33,8 @@ dart_code_metrics:
           message: "Do not import data|services|widgets|screens|ui|l10n from models"
 
         - paths: [".*/data/.+\\.dart"]
-          deny: [".*/(services|widgets|screens|ui|l10n)/.*"]
-          message: "Do not import services|widgets|screens|ui|l10n from data"
+          deny: [".*/(services|widgets|screens|ui)/.*"]
+          message: "Do not import services|widgets|screens|ui from data"
 
         - paths: [".*/services/.+\\.dart"]
           deny: [".*/(widgets|screens|ui|l10n)/.*"]
@@ -46,6 +46,7 @@ dart_code_metrics:
     avoid-nullable-interpolation:
       exclude:
         - test/**
+    prefer-correct-handler-name: false
 
   rules-exclude:
     - "**/*.gr.dart"

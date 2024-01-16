@@ -28,7 +28,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
   String? _firstPass;
   String? _secondPass;
 
-  void _onComplete(String value) {
+  void _handleComplete(String value) {
     if (_firstPass == null) {
       setState(() => _firstPass = value);
     } else {
@@ -51,7 +51,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
         backgroundStyle: BackgroundStyle.dark,
         child: PinInputDisplayWidget(
           message: _instructions,
-          onCompleted: _onComplete,
+          onCompleted: _handleComplete,
         ),
       );
 }

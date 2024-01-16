@@ -5,15 +5,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/amount.dart';
 import '../../../../../../core/presentation/format_amount.dart';
-import '../../../../../../core/tokens/token.dart';
 import '../../../../../../l10n/device_locale.dart';
 import '../../../../../../ui/colors.dart';
-import '../../../../../../ui/token_icon.dart';
 import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../token_details/screens/token_details_screen.dart';
+import '../../tokens/token.dart';
+import '../../tokens/widgets/token_icon.dart';
 import '../services/bloc.dart';
 
 class PopularTokenList extends StatelessWidget {
@@ -58,11 +58,13 @@ class _TokenItem extends StatelessWidget {
   final Token token;
   final double currentPrice;
 
+  static const _iconSize = 37.0;
+
   @override
   Widget build(BuildContext context) {
     final locale = DeviceLocale.localeOf(context);
     final Amount tokenRate = Amount.fromDecimal(
-      currency: defaultFiatCurrency,
+      currency: defaultFiatCurrency.copyWith(decimals: 6),
       value: Decimal.parse(currentPrice.toString()),
     );
 
@@ -71,7 +73,13 @@ class _TokenItem extends StatelessWidget {
       child: ListTile(
         onTap: () =>
             context.router.push(TokenDetailsScreen.route(token: token)),
-        leading: CpTokenIcon(token: token, size: 37),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(_iconSize / 2),
+          child: ColoredBox(
+            color: CpColors.darkBackground,
+            child: TokenIcon(token: token, size: _iconSize),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -80,9 +88,8 @@ class _TokenItem extends StatelessWidget {
               child: Text(
                 token.name,
                 style: const TextStyle(
-                  fontWeight: FontWeight.w500,
                   fontSize: 15,
-                  color: Colors.black,
+                  fontWeight: FontWeight.w500,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -118,9 +125,9 @@ class _TokenSymbolWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SizedBox(
-        width: 57,
+        width: 52,
         child: Container(
-          padding: const EdgeInsets.all(6),
+          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
           decoration: const ShapeDecoration(
             shape: StadiumBorder(),
             color: CpColors.darkSplashBackgroundColor,

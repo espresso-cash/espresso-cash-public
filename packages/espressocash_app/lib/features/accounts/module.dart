@@ -8,7 +8,9 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../core/callback.dart';
 import '../../core/extensions.dart';
+import '../../di.config.dart';
 import '../../di.dart';
+import '../authenticated/auth_scope.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
 import 'services/accounts_bloc.dart';
@@ -18,8 +20,10 @@ class AccountsModule extends SingleChildStatelessWidget {
 
   @override
   Widget buildWithChild(BuildContext context, Widget? child) => BlocProvider(
-        create: (context) =>
-            sl<AccountsBloc>()..add(const AccountsEvent.initialize()),
+        create: (context) => sl<AccountsBloc>(
+          param1: sl.initAuthScope,
+          param2: () => sl.dropScope(authScope),
+        )..add(const AccountsEvent.initialize()),
         child: Builder(
           builder: (context) => SeedVaultListener(
             onDeauthorized: () => context
@@ -77,7 +81,7 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
     super.dispose();
   }
 
-  void _onUpdateAccount(MyAccount? account) {
+  void _handleUpdateAccount(MyAccount? account) {
     _subscription?.cancel();
 
     final sagaWallet =
@@ -106,7 +110,7 @@ class _SeedVaultListenerState extends SingleChildState<SeedVaultListener> {
   Widget buildWithChild(BuildContext context, Widget? child) =>
       BlocListener<AccountsBloc, AccountsState>(
         listenWhen: (prev, cur) => prev.account != cur.account,
-        listener: (_, state) => _onUpdateAccount(state.account),
+        listener: (_, state) => _handleUpdateAccount(state.account),
         child: child,
       );
 }

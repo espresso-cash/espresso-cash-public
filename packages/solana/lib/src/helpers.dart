@@ -37,6 +37,7 @@ Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey mint,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
+      // ignore: avoid-duplicate-collection-elements, DCM bug
       seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
@@ -45,7 +46,7 @@ Future<SignedTx> signTransaction(
   RecentBlockhash recentBlockhash,
   Message message,
   List<Ed25519HDKeyPair> signers,
-) async {
+) {
   if (signers.isEmpty) {
     throw const FormatException('you must specify at least on signer');
   }
@@ -66,7 +67,7 @@ Future<SignedTx> signV0Transaction(
   Message message,
   List<Ed25519HDKeyPair> signers, {
   List<AddressLookupTableAccount> addressLookupTableAccounts = const [],
-}) async {
+}) {
   if (signers.isEmpty) {
     throw const FormatException('you must specify at least on signer');
   }

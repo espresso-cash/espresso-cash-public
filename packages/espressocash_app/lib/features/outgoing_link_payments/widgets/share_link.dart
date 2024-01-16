@@ -94,6 +94,7 @@ class _Instructions extends StatelessWidget {
           children: [
             _newLine,
             TextSpan(text: context.l10n.shareInstructions),
+            // ignore: avoid-duplicate-collection-elements, intended duplication
             _newLine,
           ],
           style: _baseStyle,

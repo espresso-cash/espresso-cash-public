@@ -11,16 +11,17 @@ import '../models/mnemonic.dart';
 
 @injectable
 class AccountRepository {
-  const AccountRepository(this._storage);
+  const AccountRepository(this._storage, this._seedVault);
 
   final FlutterSecureStorage _storage;
+  final SeedVault _seedVault;
 
   Future<String> loadMnemonic() =>
       _storage.read(key: mnemonicKey).letAsync((it) => it ?? '');
 
   Future<AuthToken?> loadAuthToken() => _storage
       .read(key: authTokenKey)
-      .letAsync((it) => it.toString())
+      .letAsync((it) => it?.toString() ?? '')
       .letAsync(AuthToken.tryParse);
 
   Future<void> saveAccountSource(AccountSource source) => source.when(
@@ -29,14 +30,14 @@ class AccountRepository {
       );
 
   /// Loads existing account if wallet data exists in [FlutterSecureStorage].
-  Future<MyAccount?> loadAccount(SeedVault seedVault) async {
+  Future<MyAccount?> loadAccount() async {
     final mnemonic = await loadMnemonic();
     final authToken = await loadAuthToken();
 
     final ECWallet wallet;
 
     if (authToken != null) {
-      wallet = await createSagaWallet(seedVault, authToken);
+      wallet = await createSagaWallet(_seedVault, authToken);
     } else if (mnemonic.isNotEmpty) {
       wallet = await createLocalWallet(mnemonic: mnemonic);
     } else {

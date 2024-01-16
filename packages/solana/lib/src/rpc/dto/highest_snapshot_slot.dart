@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'highest_snapshot_slot.g.dart';
 
 /// A Highest Snapshot Slot
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class HighestSnapshotSlot {
   const HighestSnapshotSlot({
     required this.full,
@@ -18,4 +18,6 @@ class HighestSnapshotSlot {
 
   /// Highest incremental snapshot slot based on [full]
   final int? incremental;
+
+  Map<String, dynamic> toJson() => _$HighestSnapshotSlotToJson(this);
 }

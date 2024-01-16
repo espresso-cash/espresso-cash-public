@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
@@ -15,7 +16,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
 
   Uri? get link => _link;
 
-  void processLink(bool Function(Uri link) onLink) {
+  void processLink(Func1<Uri, bool> onLink) {
     final link = _link;
     if (link == null) return;
 
@@ -32,7 +33,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
       notifyListeners();
     }
 
-    uriLinkStream.listen(_processLink);
+    _subscription = uriLinkStream.listen(_processLink);
   }
 
   void _processLink(Uri? link) {

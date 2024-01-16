@@ -14,7 +14,6 @@ import '../../../core/flow.dart';
 import '../../../core/presentation/extensions.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
-import '../../../core/tokens/token.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -31,6 +30,7 @@ import '../../swap/services/token_ext.dart';
 import '../../token_chart/module.dart';
 import '../../token_chart/widgets/token_chart.dart';
 import '../../token_chart/widgets/token_overview.dart';
+import '../../tokens/token.dart';
 import '../models/token_details.dart';
 import '../services/token_details_bloc.dart';
 import '../widgets/balance_widget.dart';
@@ -226,7 +226,7 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final price = _selected?.price.toString().let(Decimal.parse);
+    final price = _selected?.price?.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
       locale: DeviceLocale.localeOf(context),
       currency: defaultFiatCurrency,

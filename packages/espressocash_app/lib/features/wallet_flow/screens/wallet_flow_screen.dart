@@ -26,7 +26,10 @@ import 'pay_flow_screen.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
-final _minimumAmount = Decimal.parse('0.2');
+final _minimumAmount = Amount.fromDecimal(
+  value: Decimal.parse('0.50'),
+  currency: Currency.usd,
+) as FiatAmount;
 
 @RoutePage()
 class WalletFlowScreen extends StatefulWidget {
@@ -54,7 +57,7 @@ class _State extends State<WalletFlowScreen> {
 
   String _errorMessage = '';
 
-  Future<void> _onQrScanner() async {
+  Future<void> _handleScanned() async {
     await context.launchQrScannerFlow(
       cryptoCurrency: _cryptoCurrency,
       defaultFiatAmount: _fiatAmount,
@@ -69,7 +72,7 @@ class _State extends State<WalletFlowScreen> {
     setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
-  void _onFiatAmountUpdate(Decimal value) {
+  void _handleFiatAmountChanged(Decimal value) {
     if (value == _fiatAmount.decimal) return;
 
     setState(() {
@@ -78,8 +81,8 @@ class _State extends State<WalletFlowScreen> {
     });
   }
 
-  Future<void> _onRequest() async {
-    if (_fiatAmount.decimal < _minimumAmount) {
+  Future<void> _handleRequest() async {
+    if (_fiatAmount < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.request);
     }
 
@@ -92,10 +95,8 @@ class _State extends State<WalletFlowScreen> {
     setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
-  void _onPay() {
-    final amount = _fiatAmount.decimal;
-
-    if (amount < _minimumAmount) {
+  void _handlePay() {
+    if (_fiatAmount < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
@@ -107,11 +108,6 @@ class _State extends State<WalletFlowScreen> {
           context.router.push(
             OLPConfirmationScreen.route(
               tokenAmount: cryptoAmount,
-              // TODO(KB): do not hardcode
-              fee: Amount.fromDecimal(
-                value: Decimal.parse('0.1'),
-                currency: Currency.usdc,
-              ),
               onSubmit: () async {
                 final id = await context.createOLP(amount: cryptoAmount);
                 if (!mounted) return;
@@ -179,12 +175,14 @@ class _State extends State<WalletFlowScreen> {
 
   void _handleSmallAmount(WalletOperation operation) {
     _shakeKey.currentState?.shake();
+
+    final minimumAmount = _minimumAmount.format(context.locale);
     setState(() {
       switch (operation) {
         case WalletOperation.request:
-          _errorMessage = context.l10n.minimumAmountToRequest(r'$0.20');
+          _errorMessage = context.l10n.minimumAmountToRequest(minimumAmount);
         case WalletOperation.pay:
-          _errorMessage = context.l10n.minimumAmountToSend(r'$0.20');
+          _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
       }
     });
   }
@@ -194,10 +192,10 @@ class _State extends State<WalletFlowScreen> {
         length: 2,
         child: WalletMainScreen(
           shakeKey: _shakeKey,
-          onScan: _onQrScanner,
-          onAmountChanged: _onFiatAmountUpdate,
-          onRequest: _onRequest,
-          onPay: _onPay,
+          onScan: _handleScanned,
+          onAmountChanged: _handleFiatAmountChanged,
+          onRequest: _handleRequest,
+          onPay: _handlePay,
           amount: _fiatAmount,
           token: _cryptoCurrency.token,
           error: _errorMessage,

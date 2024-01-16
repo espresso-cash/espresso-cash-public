@@ -6,45 +6,47 @@ part of 'stake_program_account_data.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$StakeProgramDelegatedAccountData _$$StakeProgramDelegatedAccountDataFromJson(
-        Map<String, dynamic> json) =>
-    _$StakeProgramDelegatedAccountData(
-      info: StakeDelegatedAccountInfo.fromJson(
-          json['info'] as Map<String, dynamic>),
-      $type: json['type'] as String?,
-    );
+_$StakeProgramDelegatedAccountDataImpl
+    _$$StakeProgramDelegatedAccountDataImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StakeProgramDelegatedAccountDataImpl(
+          info: StakeDelegatedAccountInfo.fromJson(
+              json['info'] as Map<String, dynamic>),
+          $type: json['type'] as String?,
+        );
 
-Map<String, dynamic> _$$StakeProgramDelegatedAccountDataToJson(
-        _$StakeProgramDelegatedAccountData instance) =>
+Map<String, dynamic> _$$StakeProgramDelegatedAccountDataImplToJson(
+        _$StakeProgramDelegatedAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.$type,
     };
 
-_$StakeProgramInitializedAccountData
-    _$$StakeProgramInitializedAccountDataFromJson(Map<String, dynamic> json) =>
-        _$StakeProgramInitializedAccountData(
+_$StakeProgramInitializedAccountDataImpl
+    _$$StakeProgramInitializedAccountDataImplFromJson(
+            Map<String, dynamic> json) =>
+        _$StakeProgramInitializedAccountDataImpl(
           info: StakeInitializedAccountInfo.fromJson(
               json['info'] as Map<String, dynamic>),
           $type: json['type'] as String?,
         );
 
-Map<String, dynamic> _$$StakeProgramInitializedAccountDataToJson(
-        _$StakeProgramInitializedAccountData instance) =>
+Map<String, dynamic> _$$StakeProgramInitializedAccountDataImplToJson(
+        _$StakeProgramInitializedAccountDataImpl instance) =>
     <String, dynamic>{
-      'info': instance.info,
+      'info': instance.info.toJson(),
       'type': instance.$type,
     };
 
-_$StakeProgramUnknownAccountData _$$StakeProgramUnknownAccountDataFromJson(
-        Map<String, dynamic> json) =>
-    _$StakeProgramUnknownAccountData(
-      json['info'] as Map<String, dynamic>,
-      $type: json['type'] as String?,
-    );
+_$StakeProgramUnknownAccountDataImpl
+    _$$StakeProgramUnknownAccountDataImplFromJson(Map<String, dynamic> json) =>
+        _$StakeProgramUnknownAccountDataImpl(
+          json['info'] as Map<String, dynamic>,
+          $type: json['type'] as String?,
+        );
 
-Map<String, dynamic> _$$StakeProgramUnknownAccountDataToJson(
-        _$StakeProgramUnknownAccountData instance) =>
+Map<String, dynamic> _$$StakeProgramUnknownAccountDataImplToJson(
+        _$StakeProgramUnknownAccountDataImpl instance) =>
     <String, dynamic>{
       'info': instance.info,
       'type': instance.$type,

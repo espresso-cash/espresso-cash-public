@@ -9,6 +9,7 @@ void setUpLogging() {
   if (!kDebugMode) return;
 
   Logger.root.level = Level.ALL;
+  // ignore: avoid-unassigned-stream-subscriptions, app lifetime
   Logger.root.onRecord.listen((r) {
     developer.log('${r.loggerName}: ${r.message}', level: r.level.value);
   });

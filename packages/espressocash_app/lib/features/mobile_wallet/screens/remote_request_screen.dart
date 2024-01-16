@@ -43,11 +43,11 @@ class _Content extends StatefulWidget {
 }
 
 class _ContentState extends State<_Content> {
-  void _onAccept() => context
+  void _handleAccepted() => context
       .read<RemoteRequestBloc>()
       .add(const RemoteRequestEvent.accepted());
 
-  void _onDecline() => context
+  void _handleDeclined() => context
       .read<RemoteRequestBloc>()
       .add(const RemoteRequestEvent.declined());
 
@@ -101,8 +101,8 @@ class _ContentState extends State<_Content> {
                         const Spacer(),
                         _Buttons(
                           acceptLabel: acceptLabel,
-                          onAccept: _onAccept,
-                          onDecline: _onDecline,
+                          onAccept: _handleAccepted,
+                          onDecline: _handleDeclined,
                         ),
                       ],
                     ),

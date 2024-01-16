@@ -3,13 +3,13 @@ import 'package:share/share.dart';
 
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/utils.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
+import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 
 class ShareLink extends StatelessWidget {
@@ -76,6 +76,7 @@ class _Instructions extends StatelessWidget {
           children: [
             _newLine,
             TextSpan(text: context.l10n.sharePaymentRequestLinkInstructions),
+            // ignore: avoid-duplicate-collection-elements, intended duplication
             _newLine,
           ],
           style: const TextStyle(fontSize: 18),

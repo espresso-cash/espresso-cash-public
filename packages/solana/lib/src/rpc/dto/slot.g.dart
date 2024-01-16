@@ -11,3 +11,9 @@ Slot _$SlotFromJson(Map<String, dynamic> json) => Slot(
       slot: json['slot'] as int,
       type: json['type'] as String,
     );
+
+Map<String, dynamic> _$SlotToJson(Slot instance) => <String, dynamic>{
+      'parent': instance.parent,
+      'slot': instance.slot,
+      'type': instance.type,
+    };
