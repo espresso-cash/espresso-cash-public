@@ -21,7 +21,6 @@ WalletCountryRequestDto _$WalletCountryRequestDtoFromJson(
 
 /// @nodoc
 mixin _$WalletCountryRequestDto {
-  String get walletAddress => throw _privateConstructorUsedError;
   String get countryCode => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +35,7 @@ abstract class $WalletCountryRequestDtoCopyWith<$Res> {
           $Res Function(WalletCountryRequestDto) then) =
       _$WalletCountryRequestDtoCopyWithImpl<$Res, WalletCountryRequestDto>;
   @useResult
-  $Res call({String walletAddress, String countryCode});
+  $Res call({String countryCode});
 }
 
 /// @nodoc
@@ -53,14 +52,9 @@ class _$WalletCountryRequestDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? walletAddress = null,
     Object? countryCode = null,
   }) {
     return _then(_value.copyWith(
-      walletAddress: null == walletAddress
-          ? _value.walletAddress
-          : walletAddress // ignore: cast_nullable_to_non_nullable
-              as String,
       countryCode: null == countryCode
           ? _value.countryCode
           : countryCode // ignore: cast_nullable_to_non_nullable
@@ -78,7 +72,7 @@ abstract class _$$WalletCountryRequestDtoImplCopyWith<$Res>
       __$$WalletCountryRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String walletAddress, String countryCode});
+  $Res call({String countryCode});
 }
 
 /// @nodoc
@@ -94,14 +88,9 @@ class __$$WalletCountryRequestDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? walletAddress = null,
     Object? countryCode = null,
   }) {
     return _then(_$WalletCountryRequestDtoImpl(
-      walletAddress: null == walletAddress
-          ? _value.walletAddress
-          : walletAddress // ignore: cast_nullable_to_non_nullable
-              as String,
       countryCode: null == countryCode
           ? _value.countryCode
           : countryCode // ignore: cast_nullable_to_non_nullable
@@ -113,20 +102,17 @@ class __$$WalletCountryRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$WalletCountryRequestDtoImpl implements _WalletCountryRequestDto {
-  const _$WalletCountryRequestDtoImpl(
-      {required this.walletAddress, required this.countryCode});
+  const _$WalletCountryRequestDtoImpl({required this.countryCode});
 
   factory _$WalletCountryRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$WalletCountryRequestDtoImplFromJson(json);
 
   @override
-  final String walletAddress;
-  @override
   final String countryCode;
 
   @override
   String toString() {
-    return 'WalletCountryRequestDto(walletAddress: $walletAddress, countryCode: $countryCode)';
+    return 'WalletCountryRequestDto(countryCode: $countryCode)';
   }
 
   @override
@@ -134,15 +120,13 @@ class _$WalletCountryRequestDtoImpl implements _WalletCountryRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WalletCountryRequestDtoImpl &&
-            (identical(other.walletAddress, walletAddress) ||
-                other.walletAddress == walletAddress) &&
             (identical(other.countryCode, countryCode) ||
                 other.countryCode == countryCode));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, walletAddress, countryCode);
+  int get hashCode => Object.hash(runtimeType, countryCode);
 
   @JsonKey(ignore: true)
   @override
@@ -160,15 +144,12 @@ class _$WalletCountryRequestDtoImpl implements _WalletCountryRequestDto {
 }
 
 abstract class _WalletCountryRequestDto implements WalletCountryRequestDto {
-  const factory _WalletCountryRequestDto(
-      {required final String walletAddress,
-      required final String countryCode}) = _$WalletCountryRequestDtoImpl;
+  const factory _WalletCountryRequestDto({required final String countryCode}) =
+      _$WalletCountryRequestDtoImpl;
 
   factory _WalletCountryRequestDto.fromJson(Map<String, dynamic> json) =
       _$WalletCountryRequestDtoImpl.fromJson;
 
-  @override
-  String get walletAddress;
   @override
   String get countryCode;
   @override

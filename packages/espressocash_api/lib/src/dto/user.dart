@@ -6,7 +6,6 @@ part 'user.g.dart';
 @freezed
 class WalletCountryRequestDto with _$WalletCountryRequestDto {
   const factory WalletCountryRequestDto({
-    required String walletAddress,
     required String countryCode,
   }) = _WalletCountryRequestDto;
 
