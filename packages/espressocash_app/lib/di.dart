@@ -52,6 +52,5 @@ abstract class AppModule {
 
   @preResolve
   @Named('isSaga')
-  Future<bool> isSaga(SeedVault vault) =>
-      vault.isAvailable(allowSimulated: !isProd);
+  Future<bool> isSaga(SeedVault vault) => Future.value(false);
 }
