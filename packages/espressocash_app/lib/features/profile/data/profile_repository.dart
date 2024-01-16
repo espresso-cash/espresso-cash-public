@@ -32,12 +32,14 @@ class ProfileRepository extends ChangeNotifier {
   }
 
   String? get country => _sharedPreferences.getString(countryKey);
+  VoidCallback? onCountryUpdate;
 
   set country(String? value) {
     if (value == null) {
       _sharedPreferences.remove(countryKey);
     } else {
       _sharedPreferences.setString(countryKey, value);
+      onCountryUpdate?.call();
     }
     notifyListeners();
   }
