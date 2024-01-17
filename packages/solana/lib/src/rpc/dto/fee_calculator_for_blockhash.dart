@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/fee_calculator.dart';
 part 'fee_calculator_for_blockhash.g.dart';
 
 /// The fee calculator for a blockhash
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class FeeCalculatorForBlockhash {
   const FeeCalculatorForBlockhash({
     required this.feeCalculator,
@@ -16,9 +16,11 @@ class FeeCalculatorForBlockhash {
 
   /// [FeeCalculator] object, the fee schedule for this block hash
   final FeeCalculator feeCalculator;
+
+  Map<String, dynamic> toJson() => _$FeeCalculatorForBlockhashToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class FeeCalculatorForBlockhashResult
     extends ContextResult<FeeCalculatorForBlockhash?> {
   const FeeCalculatorForBlockhashResult({
@@ -28,4 +30,7 @@ class FeeCalculatorForBlockhashResult
 
   factory FeeCalculatorForBlockhashResult.fromJson(Map<String, dynamic> json) =>
       _$FeeCalculatorForBlockhashResultFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$FeeCalculatorForBlockhashResultToJson(this);
 }

@@ -1,14 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'tokens/token.dart';
+import '../features/tokens/token.dart';
 
 part 'currency.freezed.dart';
 
 @Freezed(
   when: FreezedWhenOptions.none,
   map: FreezedMapOptions.none,
-  copyWith: false,
 )
 sealed class Currency with _$Currency {
   const factory Currency.fiat({
@@ -35,6 +34,13 @@ sealed class Currency with _$Currency {
     decimals: 2,
   );
 
+  static const FiatCurrency ngn = FiatCurrency(
+    symbol: 'NGN',
+    sign: '₦',
+    name: 'Nigerian Naira',
+    decimals: 2,
+  );
+
   String get name => switch (this) {
         FiatCurrency(:final name) => name,
         CryptoCurrency(:final token) => token.name,
@@ -55,3 +61,14 @@ sealed class Currency with _$Currency {
 }
 
 const defaultFiatCurrency = Currency.usd;
+
+FiatCurrency currencyFromString(String currency) {
+  switch (currency) {
+    case 'USD':
+      return Currency.usd;
+    case 'NGN':
+      return Currency.ngn;
+    default:
+      return defaultFiatCurrency;
+  }
+}

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'address_table_lookups.g.dart';
 
 /// An AddressTableLookups
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class AddressTableLookups {
   const AddressTableLookups({
     required this.accountKey,
@@ -22,4 +22,6 @@ class AddressTableLookups {
 
   /// List of indices used to load addresses of readonly accounts from a lookup table.
   final List<int> readonlyIndexes;
+
+  Map<String, dynamic> toJson() => _$AddressTableLookupsToJson(this);
 }

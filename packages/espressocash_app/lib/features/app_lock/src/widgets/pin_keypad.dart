@@ -26,7 +26,7 @@ class PinKeypad extends StatelessWidget {
     KeypadKey.number(number: 0),
   ];
 
-  void _manageKey(String key) {
+  void _handleKeyTapped(String key) {
     String value = _controller.text;
     if (key == '<') {
       if (value.isNotEmpty) {
@@ -58,7 +58,7 @@ class PinKeypad extends StatelessWidget {
             children: _keys
                 .map(
                   (KeypadKey child) => InkWell(
-                    onTap: () => _manageKey(child.value),
+                    onTap: () => _handleKeyTapped(child.value),
                     child: Center(
                       child: child,
                     ),

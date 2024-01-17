@@ -100,6 +100,7 @@ class CpThemeData {
 
   ThemeData toMaterialTheme() => ThemeData(
         brightness: brightness,
+        useMaterial3: false,
         splashColor: CpColors.yellowColor.withOpacity(0.25),
         fontFamily: 'RobotoApp',
         textTheme: TextTheme(

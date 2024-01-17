@@ -122,25 +122,25 @@ class _$ParsedSplTokenInstructionCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$ParsedSplTokenTransferInstructionCopyWith<$Res>
+abstract class _$$ParsedSplTokenTransferInstructionImplCopyWith<$Res>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
-  factory _$$ParsedSplTokenTransferInstructionCopyWith(
-          _$ParsedSplTokenTransferInstruction value,
-          $Res Function(_$ParsedSplTokenTransferInstruction) then) =
-      __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSplTokenTransferInstructionImplCopyWith(
+          _$ParsedSplTokenTransferInstructionImpl value,
+          $Res Function(_$ParsedSplTokenTransferInstructionImpl) then) =
+      __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SplTokenTransferInfo info, String type});
 }
 
 /// @nodoc
-class __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>
+class __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
-        _$ParsedSplTokenTransferInstruction>
-    implements _$$ParsedSplTokenTransferInstructionCopyWith<$Res> {
-  __$$ParsedSplTokenTransferInstructionCopyWithImpl(
-      _$ParsedSplTokenTransferInstruction _value,
-      $Res Function(_$ParsedSplTokenTransferInstruction) _then)
+        _$ParsedSplTokenTransferInstructionImpl>
+    implements _$$ParsedSplTokenTransferInstructionImplCopyWith<$Res> {
+  __$$ParsedSplTokenTransferInstructionImplCopyWithImpl(
+      _$ParsedSplTokenTransferInstructionImpl _value,
+      $Res Function(_$ParsedSplTokenTransferInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -149,7 +149,7 @@ class __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>
     Object? info = null,
     Object? type = null,
   }) {
-    return _then(_$ParsedSplTokenTransferInstruction(
+    return _then(_$ParsedSplTokenTransferInstructionImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -164,14 +164,14 @@ class __$$ParsedSplTokenTransferInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenTransferInstruction
+class _$ParsedSplTokenTransferInstructionImpl
     implements ParsedSplTokenTransferInstruction {
-  const _$ParsedSplTokenTransferInstruction(
+  const _$ParsedSplTokenTransferInstructionImpl(
       {required this.info, required this.type});
 
-  factory _$ParsedSplTokenTransferInstruction.fromJson(
+  factory _$ParsedSplTokenTransferInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenTransferInstructionFromJson(json);
+      _$$ParsedSplTokenTransferInstructionImplFromJson(json);
 
   @override
   final SplTokenTransferInfo info;
@@ -184,10 +184,10 @@ class _$ParsedSplTokenTransferInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSplTokenTransferInstruction &&
+            other is _$ParsedSplTokenTransferInstructionImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -199,10 +199,10 @@ class _$ParsedSplTokenTransferInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenTransferInstructionCopyWith<
-          _$ParsedSplTokenTransferInstruction>
-      get copyWith => __$$ParsedSplTokenTransferInstructionCopyWithImpl<
-          _$ParsedSplTokenTransferInstruction>(this, _$identity);
+  _$$ParsedSplTokenTransferInstructionImplCopyWith<
+          _$ParsedSplTokenTransferInstructionImpl>
+      get copyWith => __$$ParsedSplTokenTransferInstructionImplCopyWithImpl<
+          _$ParsedSplTokenTransferInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -280,7 +280,7 @@ class _$ParsedSplTokenTransferInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferInstructionToJson(
+    return _$$ParsedSplTokenTransferInstructionImplToJson(
       this,
     );
   }
@@ -290,10 +290,11 @@ abstract class ParsedSplTokenTransferInstruction
     implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferInstruction(
       {required final SplTokenTransferInfo info,
-      required final String type}) = _$ParsedSplTokenTransferInstruction;
+      required final String type}) = _$ParsedSplTokenTransferInstructionImpl;
 
   factory ParsedSplTokenTransferInstruction.fromJson(
-      Map<String, dynamic> json) = _$ParsedSplTokenTransferInstruction.fromJson;
+          Map<String, dynamic> json) =
+      _$ParsedSplTokenTransferInstructionImpl.fromJson;
 
   @override
   SplTokenTransferInfo get info;
@@ -301,31 +302,31 @@ abstract class ParsedSplTokenTransferInstruction
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSplTokenTransferInstructionCopyWith<
-          _$ParsedSplTokenTransferInstruction>
+  _$$ParsedSplTokenTransferInstructionImplCopyWith<
+          _$ParsedSplTokenTransferInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ParsedSplTokenTransferCheckedInstructionCopyWith<$Res>
+abstract class _$$ParsedSplTokenTransferCheckedInstructionImplCopyWith<$Res>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
-  factory _$$ParsedSplTokenTransferCheckedInstructionCopyWith(
-          _$ParsedSplTokenTransferCheckedInstruction value,
-          $Res Function(_$ParsedSplTokenTransferCheckedInstruction) then) =
-      __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSplTokenTransferCheckedInstructionImplCopyWith(
+          _$ParsedSplTokenTransferCheckedInstructionImpl value,
+          $Res Function(_$ParsedSplTokenTransferCheckedInstructionImpl) then) =
+      __$$ParsedSplTokenTransferCheckedInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SplTokenTransferCheckedInfo info, String type});
 }
 
 /// @nodoc
-class __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>
+class __$$ParsedSplTokenTransferCheckedInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
-        _$ParsedSplTokenTransferCheckedInstruction>
-    implements _$$ParsedSplTokenTransferCheckedInstructionCopyWith<$Res> {
-  __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl(
-      _$ParsedSplTokenTransferCheckedInstruction _value,
-      $Res Function(_$ParsedSplTokenTransferCheckedInstruction) _then)
+        _$ParsedSplTokenTransferCheckedInstructionImpl>
+    implements _$$ParsedSplTokenTransferCheckedInstructionImplCopyWith<$Res> {
+  __$$ParsedSplTokenTransferCheckedInstructionImplCopyWithImpl(
+      _$ParsedSplTokenTransferCheckedInstructionImpl _value,
+      $Res Function(_$ParsedSplTokenTransferCheckedInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -334,7 +335,7 @@ class __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>
     Object? info = null,
     Object? type = null,
   }) {
-    return _then(_$ParsedSplTokenTransferCheckedInstruction(
+    return _then(_$ParsedSplTokenTransferCheckedInstructionImpl(
       info: null == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -349,14 +350,14 @@ class __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenTransferCheckedInstruction
+class _$ParsedSplTokenTransferCheckedInstructionImpl
     implements ParsedSplTokenTransferCheckedInstruction {
-  const _$ParsedSplTokenTransferCheckedInstruction(
+  const _$ParsedSplTokenTransferCheckedInstructionImpl(
       {required this.info, required this.type});
 
-  factory _$ParsedSplTokenTransferCheckedInstruction.fromJson(
+  factory _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenTransferCheckedInstructionFromJson(json);
+      _$$ParsedSplTokenTransferCheckedInstructionImplFromJson(json);
 
   @override
   final SplTokenTransferCheckedInfo info;
@@ -369,10 +370,10 @@ class _$ParsedSplTokenTransferCheckedInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSplTokenTransferCheckedInstruction &&
+            other is _$ParsedSplTokenTransferCheckedInstructionImpl &&
             (identical(other.info, info) || other.info == info) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -384,10 +385,11 @@ class _$ParsedSplTokenTransferCheckedInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenTransferCheckedInstructionCopyWith<
-          _$ParsedSplTokenTransferCheckedInstruction>
-      get copyWith => __$$ParsedSplTokenTransferCheckedInstructionCopyWithImpl<
-          _$ParsedSplTokenTransferCheckedInstruction>(this, _$identity);
+  _$$ParsedSplTokenTransferCheckedInstructionImplCopyWith<
+          _$ParsedSplTokenTransferCheckedInstructionImpl>
+      get copyWith =>
+          __$$ParsedSplTokenTransferCheckedInstructionImplCopyWithImpl<
+              _$ParsedSplTokenTransferCheckedInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -465,7 +467,7 @@ class _$ParsedSplTokenTransferCheckedInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenTransferCheckedInstructionToJson(
+    return _$$ParsedSplTokenTransferCheckedInstructionImplToJson(
       this,
     );
   }
@@ -474,12 +476,13 @@ class _$ParsedSplTokenTransferCheckedInstruction
 abstract class ParsedSplTokenTransferCheckedInstruction
     implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenTransferCheckedInstruction(
-      {required final SplTokenTransferCheckedInfo info,
-      required final String type}) = _$ParsedSplTokenTransferCheckedInstruction;
+          {required final SplTokenTransferCheckedInfo info,
+          required final String type}) =
+      _$ParsedSplTokenTransferCheckedInstructionImpl;
 
   factory ParsedSplTokenTransferCheckedInstruction.fromJson(
           Map<String, dynamic> json) =
-      _$ParsedSplTokenTransferCheckedInstruction.fromJson;
+      _$ParsedSplTokenTransferCheckedInstructionImpl.fromJson;
 
   @override
   SplTokenTransferCheckedInfo get info;
@@ -487,31 +490,31 @@ abstract class ParsedSplTokenTransferCheckedInstruction
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSplTokenTransferCheckedInstructionCopyWith<
-          _$ParsedSplTokenTransferCheckedInstruction>
+  _$$ParsedSplTokenTransferCheckedInstructionImplCopyWith<
+          _$ParsedSplTokenTransferCheckedInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ParsedSplTokenGenericInstructionCopyWith<$Res>
+abstract class _$$ParsedSplTokenGenericInstructionImplCopyWith<$Res>
     implements $ParsedSplTokenInstructionCopyWith<$Res> {
-  factory _$$ParsedSplTokenGenericInstructionCopyWith(
-          _$ParsedSplTokenGenericInstruction value,
-          $Res Function(_$ParsedSplTokenGenericInstruction) then) =
-      __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>;
+  factory _$$ParsedSplTokenGenericInstructionImplCopyWith(
+          _$ParsedSplTokenGenericInstructionImpl value,
+          $Res Function(_$ParsedSplTokenGenericInstructionImpl) then) =
+      __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({dynamic info, String type});
 }
 
 /// @nodoc
-class __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
+class __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<$Res>
     extends _$ParsedSplTokenInstructionCopyWithImpl<$Res,
-        _$ParsedSplTokenGenericInstruction>
-    implements _$$ParsedSplTokenGenericInstructionCopyWith<$Res> {
-  __$$ParsedSplTokenGenericInstructionCopyWithImpl(
-      _$ParsedSplTokenGenericInstruction _value,
-      $Res Function(_$ParsedSplTokenGenericInstruction) _then)
+        _$ParsedSplTokenGenericInstructionImpl>
+    implements _$$ParsedSplTokenGenericInstructionImplCopyWith<$Res> {
+  __$$ParsedSplTokenGenericInstructionImplCopyWithImpl(
+      _$ParsedSplTokenGenericInstructionImpl _value,
+      $Res Function(_$ParsedSplTokenGenericInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -520,7 +523,7 @@ class __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
     Object? info = freezed,
     Object? type = null,
   }) {
-    return _then(_$ParsedSplTokenGenericInstruction(
+    return _then(_$ParsedSplTokenGenericInstructionImpl(
       info: freezed == info
           ? _value.info
           : info // ignore: cast_nullable_to_non_nullable
@@ -535,14 +538,14 @@ class __$$ParsedSplTokenGenericInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenGenericInstruction
+class _$ParsedSplTokenGenericInstructionImpl
     implements ParsedSplTokenGenericInstruction {
-  const _$ParsedSplTokenGenericInstruction(
+  const _$ParsedSplTokenGenericInstructionImpl(
       {required this.info, required this.type});
 
-  factory _$ParsedSplTokenGenericInstruction.fromJson(
+  factory _$ParsedSplTokenGenericInstructionImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenGenericInstructionFromJson(json);
+      _$$ParsedSplTokenGenericInstructionImplFromJson(json);
 
   @override
   final dynamic info;
@@ -555,10 +558,10 @@ class _$ParsedSplTokenGenericInstruction
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSplTokenGenericInstruction &&
+            other is _$ParsedSplTokenGenericInstructionImpl &&
             const DeepCollectionEquality().equals(other.info, info) &&
             (identical(other.type, type) || other.type == type));
   }
@@ -571,10 +574,10 @@ class _$ParsedSplTokenGenericInstruction
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenGenericInstructionCopyWith<
-          _$ParsedSplTokenGenericInstruction>
-      get copyWith => __$$ParsedSplTokenGenericInstructionCopyWithImpl<
-          _$ParsedSplTokenGenericInstruction>(this, _$identity);
+  _$$ParsedSplTokenGenericInstructionImplCopyWith<
+          _$ParsedSplTokenGenericInstructionImpl>
+      get copyWith => __$$ParsedSplTokenGenericInstructionImplCopyWithImpl<
+          _$ParsedSplTokenGenericInstructionImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -652,7 +655,7 @@ class _$ParsedSplTokenGenericInstruction
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenGenericInstructionToJson(
+    return _$$ParsedSplTokenGenericInstructionImplToJson(
       this,
     );
   }
@@ -662,10 +665,10 @@ abstract class ParsedSplTokenGenericInstruction
     implements ParsedSplTokenInstruction {
   const factory ParsedSplTokenGenericInstruction(
       {required final dynamic info,
-      required final String type}) = _$ParsedSplTokenGenericInstruction;
+      required final String type}) = _$ParsedSplTokenGenericInstructionImpl;
 
   factory ParsedSplTokenGenericInstruction.fromJson(Map<String, dynamic> json) =
-      _$ParsedSplTokenGenericInstruction.fromJson;
+      _$ParsedSplTokenGenericInstructionImpl.fromJson;
 
   @override
   dynamic get info;
@@ -673,7 +676,7 @@ abstract class ParsedSplTokenGenericInstruction
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$ParsedSplTokenGenericInstructionCopyWith<
-          _$ParsedSplTokenGenericInstruction>
+  _$$ParsedSplTokenGenericInstructionImplCopyWith<
+          _$ParsedSplTokenGenericInstructionImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

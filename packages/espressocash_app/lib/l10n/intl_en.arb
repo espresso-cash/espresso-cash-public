@@ -18,26 +18,36 @@
   "@activities_lblSuccess": {},
   "activities_lblTitle": "Activity",
   "@activities_lblTitle": {},
+  "activities_lblAddCash": "Add Cash",
+  "@activities_lblAddCash": {},
+  "activities_lblWithdraw": "Cash Out",
+  "@activities_lblWithdraw": {},
   "appLock_lblAutoLock": "Auto-Lock",
   "@appLock_lblAutoLock": {},
   "appLock_lblAutoLockDescription": "Require passcode to access the app",
   "@appLock_lblAutoLockDescription": {},
-  "backupPhrase_lblSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
-  "@backupPhrase_lblSuccessMessage": {},
+  "backupPhrase_lblSuccessMessage1": "You’ve successfully confirmed your secret recovery phrase.",
+  "@backupPhrase_lblSuccessMessage1": {},
+  "backupPhrase_lblSuccessMessage2": "Make sure to keep it private and store it in a safe and secure place.",
+  "@backupPhrase_lblSuccessMessage2": {},
   "balances_lblConnectionError": "Cannot connect to the network!",
   "@balances_lblConnectionError": {},
   "carousel1Subtitle": "Instant & Low Fee Money Transfers to 200+ Countries & Territories.",
   "@carousel1Subtitle": {},
   "carousel1Title": "Welcome to Espresso Cash!",
   "@carousel1Title": {},
-  "carousel2Subtitle": "Money Gets Transferred to Your Bank Account as Local Currency.",
+  "carousel2Subtitle": "The Money Gets Transferred to Their Bank Account as Local Currency.",
   "@carousel2Subtitle": {},
-  "carousel2Title": "Local Currency Cash Out",
+  "carousel2Title": "Send Money Home In Seconds",
   "@carousel2Title": {},
   "carousel3Subtitle": "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
   "@carousel3Subtitle": {},
   "carousel3Title": "Send With Messaging Platforms",
   "@carousel3Title": {},
+  "carousel4Subtitle": "Use an Espresso Cash QR Code to Instantly Pay Local Businesses",
+  "@carousel4Subtitle": {},
+  "carousel4Title": "Pay Locally",
+  "@carousel4Title": {},
   "carouselSendMoneyBtn": "Send Money Now",
   "@carouselSendMoneyBtn": {},
   "close": "Close",
@@ -70,7 +80,7 @@
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Your Crypto Cash Balance",
+  "cryptoCashBalance": "Your Cash Balance",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Your Crypto",
   "@cryptoInvestments": {},
@@ -162,6 +172,8 @@
   "@invalidEscrowError": {},
   "investingTitle": "Investing",
   "@investingTitle": {},
+  "investingBannerTitle": "Crypto Investing Made Easy",
+  "@investingBannerTitle": {},
   "investmentHeaderButtonsTitle": "I want to",
   "@investmentHeaderButtonsTitle": {},
   "isWaitingForYou": "is waiting for you.",
@@ -465,6 +477,8 @@
   "@ramp_btnAddCash": {},
   "ramp_btnCashOut": "Cash Out",
   "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Continue",
+  "@ramp_btnContinue": {},
   "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
   "@rampMinimumTransferAmount": {
     "placeholders": {
@@ -493,10 +507,6 @@
   "@recentActivitySeeAll": {},
   "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
   "@recoverySubHeading": {},
-  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
-  "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
-  "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Re-enter your passcode",
   "@reEnterPasscode": {},
   "remindMeLater": "Remind me later",
@@ -611,7 +621,7 @@
       }
     }
   },
-  "signIn1": "Already have a Solana wallet? ",
+  "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",
   "@signIn2": {},
@@ -853,7 +863,7 @@
   "@yesDeleteMyWallet": {},
   "youOwn": "You own",
   "@youOwn": {},
-  "yourEmailDisclaimer": "Your email address is only stored locally and only shared with cash in and cash out partners",
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
   "@yourEmailDisclaimer": {},
   "yourEmailPlaceholder": "Email Address",
   "@yourEmailPlaceholder": {},
@@ -863,7 +873,7 @@
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
+  "yourRecoveryPhraseSub": "This phrase is composed of randomly generated 12 words. Please write down your following secret recovery phrase and save it carefully.",
   "@yourRecoveryPhraseSub": {},
   "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
   "@zeroAmountMessage": {
@@ -874,5 +884,161 @@
     }
   },
   "zeroAmountTitle": "Invalid amount",
-  "@zeroAmountTitle": {}
+  "@zeroAmountTitle": {},
+  "offRampWithdrawTitle": "Withdrawal Progress",
+  "@offRampWithdrawTitle": {},
+  "offRampCancelTitle": "Cancel Withdrawal",
+  "@offRampCancelTitle": {},
+  "offRampCancelSubtitle": "Are you sure you want to cancel this withdrawal?",
+  "@offRampCancelSubtitle": {},
+  "offRampWithdrawInitiated": "Withdrawal initiated",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawSent": "USDC sent to partner",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawReceived": "Money has been received",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawCancelledTitle": "Withdrawal has been canceled",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampDepositError": "There was an issue with your withdrawal.",
+  "@offRampDepositError": {},
+  "offRampWithdrawalFailure": "There was an issue with your withdrawal. Please contact us.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWaitingForPartner": "Your money is on the way",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawSuccess": "Your withdrawal was successful.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawOngoing": "Sending {amount}",
+  "@offRampWithdrawOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
+  "@offRampWithdrawCancelled": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
+  "@offRampWithdrawNotice": {},
+  "offRampReceiveAmount": "You'll receive {value}",
+  "@offRampReceiveAmount": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositTitle": "Add Cash Progress",
+  "@onRampDepositTitle": {},
+  "onRampDepositInitiated": "Deposit initiated",
+  "@onRampDepositInitiated": {},
+  "onRampDepositReceived": "USDC received",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Your deposit was successful.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
+  "@onRampDepositFailure": {},
+  "onRampDepositExpired": "Your order has expired. Please try again.",
+  "@onRampDepositExpired": {},
+  "onRampLocalTransferTile": "Local currency transferred\nAmount sent: {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositOngoing": "Depositing {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
+  "@onRampAwaitingFunds": {},
+  "incomingUsdcFeeNotice": "You were charged a one time {amount} fee for your first incoming transaction.",
+  "@incomingUsdcFeeNotice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Add Cash",
+  "@depositTitle": {},
+  "depositInstruction1": "Transfer money from your bank account to our local partner:",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Once money has been transferred, return to Espresso Cash and continue below.",
+  "@depositInstruction2": {},
+  "depositTransferAmount": "Amount to be transferred",
+  "@depositTransferAmount": {},
+  "depositDisclaimer": "Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.",
+  "@depositDisclaimer": {},
+  "depositReceiveAmount": "You will receive: {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "quizCorrect": "Correct!",
+  "@quizCorrect": {},
+  "quizWrong": "Wrong!",
+  "@quizWrong": {},
+  "quizContinue": "Continue",
+  "@quizContinue": {},
+  "quizTryAgain": "Try Again",
+  "@quizTryAgain": {},
+  "quizFirstQuestion": "If you lose your Secret Recovery Phrase, Espresso Cash...",
+  "@quizFirstQuestion": {},
+  "quizFirstQuestionOptionA": "Can retrieve it for you",
+  "@quizFirstQuestionOptionA": {},
+  "quizFirstQuestionOptionB": "Can not help you",
+  "@quizFirstQuestionOptionB": {},
+  "quizFirstQuestionExplanationTitle": "No one can help retrieve your Secret Recovery Phrase.",
+  "@quizFirstQuestionExplanationTitle": {},
+  "quizFirstQuestionExplanationSubtitle1": "Record it, engrave it on metal, or stash it in various secret places to prevent loss. Once lost, it's gone forever.",
+  "@quizFirstQuestionExplanationSubtitle1": {},
+  "quizFirstQuestionExplanationSubtitle2": "Losing your Secret Recovery Phrase means it's lost forever. No one can assist in retrieving it, regardless of their claims.",
+  "@quizFirstQuestionExplanationSubtitle2": {},
+  "quizSecondQuestion": "If anyone, even a support agent, requests your Secret Recovery Phrase...",
+  "@quizSecondQuestion": {},
+  "quizSecondQuestionOptionA": "It’s a scam",
+  "@quizSecondQuestionOptionA": {},
+  "quizSecondQuestionOptionB": "You should give it to them",
+  "@quizSecondQuestionOptionB": {},
+  "quizSecondQuestionExplanationTitle": "It’s never a good idea to share your Secret Recovery Phrase.",
+  "@quizSecondQuestionExplanationTitle": {},
+  "quizSecondQuestionExplanationSubtitle": "Anyone claiming to need your Secret Recovery Phrase is lying to you. If you share it with them, they will steal your assets.",
+  "@quizSecondQuestionExplanationSubtitle": {},
+  "quizIntroTitle": "Security Quiz",
+  "@quizIntroTitle": {},
+  "quizIntroDescription": "To access your Secret Recovery Phrase, You’ll need to correctly answer two questions.",
+  "@quizIntroDescription": {},
+  "quizStart": "Get Started",
+  "@quizStart": {},
+  "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
+  "@profileDisclaimer": {}
 }

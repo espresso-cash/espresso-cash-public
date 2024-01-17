@@ -2,7 +2,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 @injectable

@@ -3,7 +3,7 @@ import 'package:solana/encoder.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/escrow_private_key.dart';
-import '../../transactions/models/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 
 part 'outgoing_link_payment.freezed.dart';
 

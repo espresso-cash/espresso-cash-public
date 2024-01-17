@@ -6,8 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../core/currency.dart';
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import 'conversion_rates_client.dart';
 
 @lazySingleton

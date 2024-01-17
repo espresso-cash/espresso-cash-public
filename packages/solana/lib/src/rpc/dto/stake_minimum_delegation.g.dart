@@ -12,3 +12,10 @@ StakeMinimumDelegationResult _$StakeMinimumDelegationResultFromJson(
       context: Context.fromJson(json['context'] as Map<String, dynamic>),
       value: json['value'] as int,
     );
+
+Map<String, dynamic> _$StakeMinimumDelegationResultToJson(
+        StakeMinimumDelegationResult instance) =>
+    <String, dynamic>{
+      'context': instance.context.toJson(),
+      'value': instance.value,
+    };

@@ -35,4 +35,9 @@ class Activity with _$Activity {
     required String id,
     required DateTime created,
   }) = OnRampActivity;
+
+  const factory Activity.offRamp({
+    required String id,
+    required DateTime created,
+  }) = OffRampActivity;
 }

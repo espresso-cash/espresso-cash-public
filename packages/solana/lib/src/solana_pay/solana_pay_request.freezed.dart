@@ -101,11 +101,11 @@ class _$SolanaPayRequestCopyWithImpl<$Res, $Val extends SolanaPayRequest>
 }
 
 /// @nodoc
-abstract class _$$_SolanaPayRequestCopyWith<$Res>
+abstract class _$$SolanaPayRequestImplCopyWith<$Res>
     implements $SolanaPayRequestCopyWith<$Res> {
-  factory _$$_SolanaPayRequestCopyWith(
-          _$_SolanaPayRequest value, $Res Function(_$_SolanaPayRequest) then) =
-      __$$_SolanaPayRequestCopyWithImpl<$Res>;
+  factory _$$SolanaPayRequestImplCopyWith(_$SolanaPayRequestImpl value,
+          $Res Function(_$SolanaPayRequestImpl) then) =
+      __$$SolanaPayRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -119,11 +119,11 @@ abstract class _$$_SolanaPayRequestCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SolanaPayRequestCopyWithImpl<$Res>
-    extends _$SolanaPayRequestCopyWithImpl<$Res, _$_SolanaPayRequest>
-    implements _$$_SolanaPayRequestCopyWith<$Res> {
-  __$$_SolanaPayRequestCopyWithImpl(
-      _$_SolanaPayRequest _value, $Res Function(_$_SolanaPayRequest) _then)
+class __$$SolanaPayRequestImplCopyWithImpl<$Res>
+    extends _$SolanaPayRequestCopyWithImpl<$Res, _$SolanaPayRequestImpl>
+    implements _$$SolanaPayRequestImplCopyWith<$Res> {
+  __$$SolanaPayRequestImplCopyWithImpl(_$SolanaPayRequestImpl _value,
+      $Res Function(_$SolanaPayRequestImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -137,7 +137,7 @@ class __$$_SolanaPayRequestCopyWithImpl<$Res>
     Object? message = freezed,
     Object? memo = freezed,
   }) {
-    return _then(_$_SolanaPayRequest(
+    return _then(_$SolanaPayRequestImpl(
       recipient: null == recipient
           ? _value.recipient
           : recipient // ignore: cast_nullable_to_non_nullable
@@ -172,8 +172,8 @@ class __$$_SolanaPayRequestCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_SolanaPayRequest extends _SolanaPayRequest {
-  const _$_SolanaPayRequest(
+class _$SolanaPayRequestImpl extends _SolanaPayRequest {
+  const _$SolanaPayRequestImpl(
       {required this.recipient,
       this.amount,
       this.splToken,
@@ -204,10 +204,10 @@ class _$_SolanaPayRequest extends _SolanaPayRequest {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SolanaPayRequest &&
+            other is _$SolanaPayRequestImpl &&
             (identical(other.recipient, recipient) ||
                 other.recipient == recipient) &&
             (identical(other.amount, amount) || other.amount == amount) &&
@@ -226,8 +226,9 @@ class _$_SolanaPayRequest extends _SolanaPayRequest {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>
-      __$$_SolanaPayRequestCopyWithImpl<_$_SolanaPayRequest>(this, _$identity);
+  _$$SolanaPayRequestImplCopyWith<_$SolanaPayRequestImpl> get copyWith =>
+      __$$SolanaPayRequestImplCopyWithImpl<_$SolanaPayRequestImpl>(
+          this, _$identity);
 }
 
 abstract class _SolanaPayRequest extends SolanaPayRequest {
@@ -238,7 +239,7 @@ abstract class _SolanaPayRequest extends SolanaPayRequest {
       final Iterable<Ed25519HDPublicKey>? reference,
       final String? label,
       final String? message,
-      final String? memo}) = _$_SolanaPayRequest;
+      final String? memo}) = _$SolanaPayRequestImpl;
   const _SolanaPayRequest._() : super._();
 
   @override
@@ -257,6 +258,6 @@ abstract class _SolanaPayRequest extends SolanaPayRequest {
   String? get memo;
   @override
   @JsonKey(ignore: true)
-  _$$_SolanaPayRequestCopyWith<_$_SolanaPayRequest> get copyWith =>
+  _$$SolanaPayRequestImplCopyWith<_$SolanaPayRequestImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

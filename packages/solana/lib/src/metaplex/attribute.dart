@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'attribute.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake, createToJson: false)
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Attribute {
   const Attribute({
     required this.traitType,
@@ -14,4 +14,6 @@ class Attribute {
 
   final String traitType;
   final dynamic value;
+
+  Map<String, dynamic> toJson() => _$AttributeToJson(this);
 }

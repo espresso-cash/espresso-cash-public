@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../di.config.dart';
-import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
+import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../../activities/module.dart';
@@ -20,7 +20,6 @@ import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
-import '../auth_scope.dart';
 
 @immutable
 class HomeRouterKey {
@@ -44,15 +43,15 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   final _homeRouterKey = GlobalKey<AutoRouterState>();
 
   @override
-  void initState() {
-    super.initState();
-    sl.initAuthScope();
-  }
+  void didChangeDependencies() {
+    precacheImage(Assets.images.cashInBg.provider(), context);
+    precacheImage(Assets.images.cashOutBg.provider(), context);
+    precacheImage(Assets.images.sendMoneyBg.provider(), context);
+    precacheImage(Assets.images.sendManualBg.provider(), context);
+    precacheImage(Assets.images.quizIntroBg.provider(), context);
+    precacheImage(Assets.images.quizQuestionBg.provider(), context);
 
-  @override
-  void dispose() {
-    sl.dropScope(authScope);
-    super.dispose();
+    super.didChangeDependencies();
   }
 
   @override
@@ -63,7 +62,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         child: BlocBuilder<AccountsBloc, AccountsState>(
           builder: (context, state) {
             final account = state.account;
-            if (account == null) return Container();
+            if (account == null) return const SplashScreen();
 
             return MultiProvider(
               providers: [

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 
 import 'routes.gr.dart';
 
@@ -12,9 +13,14 @@ class AppRouter extends $AppRouter {
 
   @override
   final List<AutoRoute> routes = [
-    AutoRoute(page: SplashRoute.page, initial: true),
-    AutoRoute(
+    CustomRoute(
+      page: SplashRoute.page,
+      transitionsBuilder: _noTransition,
+      initial: true,
+    ),
+    CustomRoute(
       page: AuthenticatedFlowRoute.page,
+      transitionsBuilder: _noTransition,
       children: [
         AutoRoute(
           path: '',
@@ -44,12 +50,12 @@ class AppRouter extends $AppRouter {
           ],
         ),
         AutoRoute(
-          page: BackupPhraseFlowRoute.page,
+          page: ViewPhraseFlowRoute.page,
           children: [
-            AutoRoute(page: BackupWarningRoute.page),
-            AutoRoute(page: BackupPhraseRoute.page),
-            AutoRoute(page: BackupConfirmPhraseRoute.page),
-            AutoRoute(page: BackupPhraseSuccessRoute.page),
+            AutoRoute(page: QuizIntroRoute.page),
+            AutoRoute(page: QuizQuestionRoute.page),
+            AutoRoute(page: QuizAnswerRoute.page),
+            AutoRoute(page: QuizRecoveryRoute.page),
           ],
         ),
         AutoRoute(page: ODPInputRoute.page),
@@ -84,8 +90,10 @@ class AppRouter extends $AppRouter {
           children: [
             AutoRoute(page: NoEmailAndPasswordRoute.page),
             AutoRoute(page: ViewRecoveryPhraseRoute.page),
+            AutoRoute(page: ConfirmRecoveryPhraseRoute.page),
             AutoRoute(page: ManageProfileRoute.page),
             AutoRoute(page: CountryPickerRoute.page),
+            AutoRoute(page: OnboardingSuccessRoute.page),
           ],
         ),
         AutoRoute(page: RemoteRequestRoute.page),
@@ -94,12 +102,14 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: RampOnboardingRoute.page),
         AutoRoute(page: RampAmountRoute.page),
         AutoRoute(page: NetworkPickerRoute.page),
+        AutoRoute(page: OffRampOrderRoute.page),
+        AutoRoute(page: OnRampOrderRoute.page),
       ],
     ),
     AutoRoute(
       page: SignInFlowRoute.page,
       children: [
-        AutoRoute(path: '', page: GetStartedRoute.page),
+        AutoRoute(page: GetStartedRoute.page, path: ''),
         AutoRoute(page: CreateWalletLoadingRoute.page),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
@@ -108,3 +118,5 @@ class AppRouter extends $AppRouter {
     ),
   ];
 }
+
+Widget _noTransition(_, __, ___, Widget child) => child;

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'inflation_rate.g.dart';
 
 /// An inflation rate
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class InflationRate {
   const InflationRate({
     required this.total,
@@ -26,4 +26,6 @@ class InflationRate {
 
   /// Epoch for which these values are valid.
   final double epoch;
+
+  Map<String, dynamic> toJson() => _$InflationRateToJson(this);
 }

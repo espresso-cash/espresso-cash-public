@@ -14,6 +14,17 @@ VoteAccount _$VoteAccountFromJson(Map<String, dynamic> json) => VoteAccount(
       commission: json['commission'] as int,
       lastVote: json['lastVote'] as int,
       epochCredits: (json['epochCredits'] as List<dynamic>)
-          .map((e) => EpochCredits.fromJson(e))
+          .map(EpochCredits.fromJson)
           .toList(),
     );
+
+Map<String, dynamic> _$VoteAccountToJson(VoteAccount instance) =>
+    <String, dynamic>{
+      'votePubkey': instance.votePubkey,
+      'nodePubkey': instance.nodePubkey,
+      'activatedStake': instance.activatedStake,
+      'epochVoteAccount': instance.epochVoteAccount,
+      'commission': instance.commission,
+      'lastVote': instance.lastVote,
+      'epochCredits': instance.epochCredits.map((e) => e.toJson()).toList(),
+    };

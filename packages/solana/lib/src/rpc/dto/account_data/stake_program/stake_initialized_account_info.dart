@@ -16,4 +16,6 @@ class StakeInitializedAccountInfo {
 
   final StakeMeta meta;
   final Stake stake;
+
+  Map<String, dynamic> toJson() => _$StakeInitializedAccountInfoToJson(this);
 }

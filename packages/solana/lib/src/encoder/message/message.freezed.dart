@@ -55,20 +55,21 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
 }
 
 /// @nodoc
-abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
-  factory _$$_MessageCopyWith(
-          _$_Message value, $Res Function(_$_Message) then) =
-      __$$_MessageCopyWithImpl<$Res>;
+abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
+  factory _$$MessageImplCopyWith(
+          _$MessageImpl value, $Res Function(_$MessageImpl) then) =
+      __$$MessageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Instruction> instructions});
 }
 
 /// @nodoc
-class __$$_MessageCopyWithImpl<$Res>
-    extends _$MessageCopyWithImpl<$Res, _$_Message>
-    implements _$$_MessageCopyWith<$Res> {
-  __$$_MessageCopyWithImpl(_$_Message _value, $Res Function(_$_Message) _then)
+class __$$MessageImplCopyWithImpl<$Res>
+    extends _$MessageCopyWithImpl<$Res, _$MessageImpl>
+    implements _$$MessageImplCopyWith<$Res> {
+  __$$MessageImplCopyWithImpl(
+      _$MessageImpl _value, $Res Function(_$MessageImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -76,7 +77,7 @@ class __$$_MessageCopyWithImpl<$Res>
   $Res call({
     Object? instructions = null,
   }) {
-    return _then(_$_Message(
+    return _then(_$MessageImpl(
       instructions: null == instructions
           ? _value._instructions
           : instructions // ignore: cast_nullable_to_non_nullable
@@ -87,8 +88,8 @@ class __$$_MessageCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Message extends _Message {
-  const _$_Message({required final List<Instruction> instructions})
+class _$MessageImpl extends _Message {
+  const _$MessageImpl({required final List<Instruction> instructions})
       : _instructions = instructions,
         super._();
 
@@ -106,10 +107,10 @@ class _$_Message extends _Message {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Message &&
+            other is _$MessageImpl &&
             const DeepCollectionEquality()
                 .equals(other._instructions, _instructions));
   }
@@ -121,19 +122,19 @@ class _$_Message extends _Message {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_MessageCopyWith<_$_Message> get copyWith =>
-      __$$_MessageCopyWithImpl<_$_Message>(this, _$identity);
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
+      __$$MessageImplCopyWithImpl<_$MessageImpl>(this, _$identity);
 }
 
 abstract class _Message extends Message {
   const factory _Message({required final List<Instruction> instructions}) =
-      _$_Message;
+      _$MessageImpl;
   const _Message._() : super._();
 
   @override
   List<Instruction> get instructions;
   @override
   @JsonKey(ignore: true)
-  _$$_MessageCopyWith<_$_Message> get copyWith =>
+  _$$MessageImplCopyWith<_$MessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
-import '../../../core/tokens/token_list.dart';
 import '../../../data/db/db.dart';
+import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 
 @injectable
 class FavoriteTokenRepository {

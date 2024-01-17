@@ -5,7 +5,6 @@
 ## Packages
 
 - [espressocash_app]: full-fledged mobile wallet for iOS and Android on Solana built with [solana] library.
-- [espressocash_backend]: backend code for the Expresso Cash Universal Links protocol support.
 - The [solana] library. This is the implementation of the Solana [transaction codec][transaction_codec] and the [JSON RPC api][json_rpc_api].
 - The [jsonrpc_client] is used to generate the RPC api methods from their definitions. This technique helps us stick to the DRY principle very easily.
 - The Borsh serialization package which is itself divided in two packages [borsh] and [borsh_annotation]. The former is a code generator that generates borsh serialization and deserialization for a Dart class. And the latter is an annotation used to annotate these classes.
@@ -13,7 +12,6 @@
 - The [solana_seed_vault] package, which implements the [Solana Seed Vault SDK][seed_vault_spec] for Flutter.
 
 [espressocash_app]: packages/espressocash_app
-[espressocash_backend]: packages/espressocash_backend
 [borsh]: packages/borsh
 [borsh_annotation]: packages/borsh_annotation
 [jsonrpc_client]: packages/jsonrpc_client

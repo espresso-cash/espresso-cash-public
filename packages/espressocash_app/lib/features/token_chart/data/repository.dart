@@ -2,7 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/tokens/token.dart';
+import '../../tokens/token.dart';
 import '../models/chart_interval.dart';
 import '../models/token_chart_item.dart';
 import 'coingecko_client.dart';

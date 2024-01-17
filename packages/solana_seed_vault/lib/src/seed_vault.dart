@@ -30,7 +30,7 @@ class SeedVault implements SeedVaultFlutterApi {
   Stream<SeedVaultNotification> get notificationStream => _eventStream.stream;
 
   @visibleForTesting
-  static set instance(SeedVault vault) => _instance = vault;
+  static set instance(SeedVault value) => _instance = value;
 
   final _eventStream = StreamController<SeedVaultNotification>.broadcast();
 

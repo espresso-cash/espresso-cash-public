@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
-import '../../../core/tokens/token.dart';
 import '../../../l10n/device_locale.dart';
+import '../../tokens/token.dart';
 import 'context_ext.dart';
 
 class TokenRateText extends StatelessWidget {

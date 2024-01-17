@@ -64,14 +64,14 @@ class _ContentState extends State<_Content> {
         message: context.l10n.qrCodeScanErrorContent,
       );
 
-  Future<void> _onQRToggleFlash() async {
+  Future<void> _handleFlashToggled() async {
     await _qrViewController.toggleTorch();
     if (!mounted) return;
 
     setState(() => _flashEnabled = !_flashEnabled);
   }
 
-  void _onBlocChange(BuildContext context, QrScannerState state) {
+  void _handleBlocChanged(BuildContext context, QrScannerState state) {
     state.map(
       initial: (_) {},
       done: (d) {
@@ -87,7 +87,7 @@ class _ContentState extends State<_Content> {
     );
   }
 
-  void _onCloseButtonPressed() {
+  void _handleClosePressed() {
     _qrViewController.stop();
     context.router.pop();
   }
@@ -97,7 +97,7 @@ class _ContentState extends State<_Content> {
     if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
   }
 
-  void _onDetected(BarcodeCapture capture) {
+  void _handleDetected(BarcodeCapture capture) {
     final code = capture.barcodes.firstOrNull?.rawValue;
     if (code != null) {
       context.read<QrScannerBloc>().add(QrScannerEvent.received(code));
@@ -109,7 +109,7 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(
-        listener: _onBlocChange,
+        listener: _handleBlocChanged,
         child: CpTheme.black(
           child: Scaffold(
             body: Stack(
@@ -119,14 +119,14 @@ class _ContentState extends State<_Content> {
                     child: MobileScanner(
                       key: _qrKey,
                       controller: _qrViewController,
-                      onDetect: _onDetected,
+                      onDetect: _handleDetected,
                     ),
                   ),
                 if (_cameraEnabled)
                   Align(
                     alignment: const Alignment(0, -0.7),
                     child: GestureDetector(
-                      onTap: _onQRToggleFlash,
+                      onTap: _handleFlashToggled,
                       child: _flashEnabled
                           ? Assets.images.flashOn.svg()
                           : Assets.images.flashOff.svg(),
@@ -145,7 +145,7 @@ class _ContentState extends State<_Content> {
                       right: 24,
                     ),
                     icon: const Icon(Icons.close, size: 28),
-                    onPressed: _onCloseButtonPressed,
+                    onPressed: _handleClosePressed,
                   ),
                 ),
               ],

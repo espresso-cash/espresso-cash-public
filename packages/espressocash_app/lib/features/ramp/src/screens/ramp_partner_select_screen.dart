@@ -7,7 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/theme.dart';
-import '../models/ramp_partner.dart';
+import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import '../widgets/ramp_page.dart';
 
@@ -55,7 +55,7 @@ class RampPartnerSelectScreen extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             CpButton(
-              text: topPartner.title,
+              text: context.l10n.ramp_btnContinue,
               width: double.infinity,
               size: CpButtonSize.big,
               trailing: const Padding(

@@ -1,9 +1,11 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/subscription_client/notification_context.dart';
 
 part 'notification_result.g.dart';
 
-@JsonSerializable(genericArgumentFactories: true, createToJson: false)
+@JsonSerializable(genericArgumentFactories: true)
 class NotificationResult<T> {
   const NotificationResult({
     required this.context,
@@ -19,7 +21,6 @@ class NotificationResult<T> {
   final NotificationContext context;
   final T value;
 
-  Map<String, dynamic> toJson() {
-    throw UnsupportedError('it does not make sense to convert this to json');
-  }
+  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
+      _$NotificationResultToJson(this, toJsonT);
 }

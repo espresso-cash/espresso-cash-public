@@ -16,6 +16,6 @@ StakeInitializedAccountInfo _$StakeInitializedAccountInfoFromJson(
 Map<String, dynamic> _$StakeInitializedAccountInfoToJson(
         StakeInitializedAccountInfo instance) =>
     <String, dynamic>{
-      'meta': instance.meta,
-      'stake': instance.stake,
+      'meta': instance.meta.toJson(),
+      'stake': instance.stake.toJson(),
     };
