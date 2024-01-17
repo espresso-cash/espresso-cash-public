@@ -9,7 +9,7 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/processing_state.dart';
-import '../../../../core/tokens/token.dart';
+import '../../../../features/tokens/token.dart';
 import '../../../core/blockchain.dart';
 import '../data/repository.dart';
 
