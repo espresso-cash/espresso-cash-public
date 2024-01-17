@@ -63,8 +63,7 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
               title: 'Espresso Cash',
               theme: context.watch<CpThemeData>().toMaterialTheme(),
               builder: (context, child) => CpLoader(
-                // isLoading: isLoading, //TODO confirm if this is needed
-                isLoading: false,
+                isLoading: isLoading,
                 child: AppLockModule(child: child),
               ),
             );
