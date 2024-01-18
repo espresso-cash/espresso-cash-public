@@ -222,8 +222,6 @@ extension on OLPStatusDto {
           escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.recovered:
-        final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
-
         return OLPStatus.recovered(
           escrowPubKey: escrowPubkey!,
         );

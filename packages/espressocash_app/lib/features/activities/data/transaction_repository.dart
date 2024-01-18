@@ -38,7 +38,7 @@ class TransactionRepository {
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.watch().map(
-          (event) => event.whereNotNull().map((it) => it.toModel()).toIList(),
+          (event) => event.map((it) => it.toModel()).toIList(),
         );
   }
 

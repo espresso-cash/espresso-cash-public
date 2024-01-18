@@ -61,7 +61,7 @@ class OLPModule extends SingleChildStatelessWidget {
           Provider<RecoverPendingWatcher>(
             lazy: false,
             create: (context) => sl<RecoverPendingWatcher>(
-              param1: context.read<MyAccount>().wallet.publicKey,
+              param1: context.read<MyAccount>(),
             )..init(),
             dispose: (context, value) => value.onDispose(),
           ),
