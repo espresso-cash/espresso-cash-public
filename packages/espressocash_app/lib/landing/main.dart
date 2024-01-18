@@ -8,9 +8,8 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import '../core/link_payments.dart';
 import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
-import '../l10n/l10n.dart';
 import 'features/link_payment/link_payment_screen.dart';
-import 'screens/landing.dart';
+import 'features/payment_request/payment_request_screen.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -41,11 +40,7 @@ class LandingPageApp extends StatelessWidget {
             );
           } else if (solanaPay != null) {
             return MaterialPageRoute(
-              builder: (context) => LandingScreen(
-                actionLink: Uri.parse(solanaPay.toUrl()),
-                actionText: context.l10n.landingReceiveMoney,
-                title: context.l10n.pay,
-              ),
+              builder: (context) => RequestPaymentScreen(solanaPay),
             );
           }
 
