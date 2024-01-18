@@ -21,7 +21,7 @@ class LinkPaymentScreen extends StatelessWidget {
     final title = context.l10n.landingLinkPaymentTitle;
 
     return isMobile
-        ? _MobileView(
+        ? MobileView(
             actionLink: actionLink,
             title: title,
           )
@@ -56,8 +56,9 @@ class LinkPaymentScreen extends StatelessWidget {
   }
 }
 
-class _MobileView extends StatelessWidget {
-  const _MobileView({
+class MobileView extends StatelessWidget {
+  const MobileView({
+    super.key,
     required this.actionLink,
     required this.title,
   });
