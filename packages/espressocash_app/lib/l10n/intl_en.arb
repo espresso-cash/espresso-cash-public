@@ -836,7 +836,7 @@
   "@yesDeleteMyWallet": {},
   "youOwn": "You own",
   "@youOwn": {},
-  "yourEmailDisclaimer": "Your email address is only stored locally and only shared with cash in and cash out partners",
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
   "@yourEmailDisclaimer": {},
   "yourEmailPlaceholder": "Email Address",
   "@yourEmailPlaceholder": {},
@@ -1012,6 +1012,8 @@
   "@quizIntroDescription": {},
   "quizStart": "Get Started",
   "@quizStart": {},
+  "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
+  "@profileDisclaimer": {},
   "incomingLinkSuccessMessage": "{amount} Transaction successfully received.",
   "@incomingLinkSuccessMessage": {
     "placeholders": {

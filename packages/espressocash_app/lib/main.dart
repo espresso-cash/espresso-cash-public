@@ -59,10 +59,7 @@ Future<void> _init() async {
 }
 
 Future<void> _start() async {
-  await Future.wait([
-    _init(),
-    Future<void>.delayed(const Duration(seconds: 1)),
-  ]);
+  await _init();
 
   final app = DevicePreview(
     enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),

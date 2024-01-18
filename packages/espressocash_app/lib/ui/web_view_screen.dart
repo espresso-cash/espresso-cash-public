@@ -68,6 +68,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,
+            mediaPlaybackRequiresUserGesture: false,
           ),
         ),
       );
