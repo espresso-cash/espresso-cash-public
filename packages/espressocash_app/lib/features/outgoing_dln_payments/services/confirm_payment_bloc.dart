@@ -5,8 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/solana.dart';
-
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
@@ -28,11 +26,9 @@ typedef _Emitter = Emitter<_State>;
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     @factoryParam required this.payment,
-    @factoryParam required Ed25519HDPublicKey userAccount,
     required QuoteRepository quoteRepository,
     required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
-        _userAccount = userAccount,
         _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
             const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
         super(
@@ -48,7 +44,6 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   }
 
   final QuoteRepository _quoteRepository;
-  final Ed25519HDPublicKey _userAccount;
   final CryptoAmount _usdcBalance;
   final DlnPayment payment;
 
@@ -72,7 +67,6 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
         amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
         receiverBlockchain: payment.receiverBlockchain,
-        userPublicKey: _userAccount.toBase58(),
       );
 
       emit(state.update(quote));

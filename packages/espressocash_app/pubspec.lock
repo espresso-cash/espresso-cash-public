@@ -428,9 +428,11 @@ packages:
   dln_api:
     dependency: "direct main"
     description:
-      path: "../dln_api"
-      relative: true
-    source: path
+      path: "packages/dln_api"
+      ref: dln-deps
+      resolved-ref: "9b06773da73ce55044fa55f13ccbd0f0af4bb851"
+      url: "https://github.com/espresso-cash/espresso-cash-public.git"
+    source: git
     version: "0.0.1"
   drift:
     dependency: "direct main"
@@ -1101,11 +1103,9 @@ packages:
   jupiter_aggregator:
     dependency: "direct overridden"
     description:
-      path: "packages/jupiter_aggregator"
-      ref: HEAD
-      resolved-ref: "9996a420e7698b5f3f8d74e68bc535c3b1f87342"
-      url: "https://github.com/espresso-cash/espresso-cash-public.git"
-    source: git
+      path: "../jupiter_aggregator"
+      relative: true
+    source: path
     version: "0.0.4"
   logging:
     dependency: "direct main"

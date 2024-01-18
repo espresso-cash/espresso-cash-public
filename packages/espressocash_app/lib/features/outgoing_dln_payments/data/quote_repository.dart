@@ -19,12 +19,10 @@ class QuoteRepository {
     required CryptoAmount amount,
     required String receiverAddress,
     required Blockchain receiverBlockchain,
-    required String userPublicKey,
   }) async {
     final quote = await _cpClient.getDlnQuote(
       PaymentQuoteRequestDto(
         amount: amount.value.toString(),
-        senderAddress: userPublicKey,
         receiverAddress: receiverAddress,
         receiverBlockchain: receiverBlockchain.value,
       ),
