@@ -1,3 +1,10 @@
+## 1.100.0
+
+ - **FEAT**: disable saga functionality.
+ - **FEAT**: save country code to backend (#1235).
+ - **FEAT**: add name on pay request (#1134).
+ - **FEAT**: update fee calculation for withdraw (#1226).
+
 ## 1.99.1
 
  - **FIX**: backend client url.

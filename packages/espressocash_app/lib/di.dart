@@ -52,9 +52,5 @@ abstract class AppModule {
 
   @preResolve
   @Named('isSaga')
-  Future<bool> isSaga(SeedVault vault) =>
-      vault.isAvailable(allowSimulated: !isProd);
-
-  @lazySingleton
-  DlnApiClient get dlnClient => DlnApiClient();
+  Future<bool> isSaga(SeedVault vault) => Future.value(false);
 }
