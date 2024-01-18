@@ -83,4 +83,9 @@ abstract class CryptopleaseClient {
   Future<void> updateUserWalletCountry(
     @Body() WalletCountryRequestDto request,
   );
+
+  @POST('/getDlnQuote')
+  Future<PaymentQuoteResponseDto> getDlnQuote(
+    @Body() PaymentQuoteRequestDto request,
+  );
 }

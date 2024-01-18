@@ -463,7 +463,7 @@ mixin _$DlnQuoteResponseDto {
   OrderEstimation get estimation => throw _privateConstructorUsedError;
   String? get prependedOperatingExpenseCost =>
       throw _privateConstructorUsedError;
-  TxQuote get tx => throw _privateConstructorUsedError;
+  TxQuote? get tx => throw _privateConstructorUsedError;
   Order get order => throw _privateConstructorUsedError;
   String get fixFee => throw _privateConstructorUsedError;
 
@@ -482,12 +482,12 @@ abstract class $DlnQuoteResponseDtoCopyWith<$Res> {
   $Res call(
       {OrderEstimation estimation,
       String? prependedOperatingExpenseCost,
-      TxQuote tx,
+      TxQuote? tx,
       Order order,
       String fixFee});
 
   $OrderEstimationCopyWith<$Res> get estimation;
-  $TxQuoteCopyWith<$Res> get tx;
+  $TxQuoteCopyWith<$Res>? get tx;
   $OrderCopyWith<$Res> get order;
 }
 
@@ -506,7 +506,7 @@ class _$DlnQuoteResponseDtoCopyWithImpl<$Res, $Val extends DlnQuoteResponseDto>
   $Res call({
     Object? estimation = null,
     Object? prependedOperatingExpenseCost = freezed,
-    Object? tx = null,
+    Object? tx = freezed,
     Object? order = null,
     Object? fixFee = null,
   }) {
@@ -519,10 +519,10 @@ class _$DlnQuoteResponseDtoCopyWithImpl<$Res, $Val extends DlnQuoteResponseDto>
           ? _value.prependedOperatingExpenseCost
           : prependedOperatingExpenseCost // ignore: cast_nullable_to_non_nullable
               as String?,
-      tx: null == tx
+      tx: freezed == tx
           ? _value.tx
           : tx // ignore: cast_nullable_to_non_nullable
-              as TxQuote,
+              as TxQuote?,
       order: null == order
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
@@ -544,8 +544,12 @@ class _$DlnQuoteResponseDtoCopyWithImpl<$Res, $Val extends DlnQuoteResponseDto>
 
   @override
   @pragma('vm:prefer-inline')
-  $TxQuoteCopyWith<$Res> get tx {
-    return $TxQuoteCopyWith<$Res>(_value.tx, (value) {
+  $TxQuoteCopyWith<$Res>? get tx {
+    if (_value.tx == null) {
+      return null;
+    }
+
+    return $TxQuoteCopyWith<$Res>(_value.tx!, (value) {
       return _then(_value.copyWith(tx: value) as $Val);
     });
   }
@@ -570,14 +574,14 @@ abstract class _$$DlnQuoteResponseDtoImplCopyWith<$Res>
   $Res call(
       {OrderEstimation estimation,
       String? prependedOperatingExpenseCost,
-      TxQuote tx,
+      TxQuote? tx,
       Order order,
       String fixFee});
 
   @override
   $OrderEstimationCopyWith<$Res> get estimation;
   @override
-  $TxQuoteCopyWith<$Res> get tx;
+  $TxQuoteCopyWith<$Res>? get tx;
   @override
   $OrderCopyWith<$Res> get order;
 }
@@ -595,7 +599,7 @@ class __$$DlnQuoteResponseDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? estimation = null,
     Object? prependedOperatingExpenseCost = freezed,
-    Object? tx = null,
+    Object? tx = freezed,
     Object? order = null,
     Object? fixFee = null,
   }) {
@@ -608,10 +612,10 @@ class __$$DlnQuoteResponseDtoImplCopyWithImpl<$Res>
           ? _value.prependedOperatingExpenseCost
           : prependedOperatingExpenseCost // ignore: cast_nullable_to_non_nullable
               as String?,
-      tx: null == tx
+      tx: freezed == tx
           ? _value.tx
           : tx // ignore: cast_nullable_to_non_nullable
-              as TxQuote,
+              as TxQuote?,
       order: null == order
           ? _value.order
           : order // ignore: cast_nullable_to_non_nullable
@@ -630,7 +634,7 @@ class _$DlnQuoteResponseDtoImpl implements _DlnQuoteResponseDto {
   const _$DlnQuoteResponseDtoImpl(
       {required this.estimation,
       this.prependedOperatingExpenseCost,
-      required this.tx,
+      this.tx,
       required this.order,
       required this.fixFee});
 
@@ -642,7 +646,7 @@ class _$DlnQuoteResponseDtoImpl implements _DlnQuoteResponseDto {
   @override
   final String? prependedOperatingExpenseCost;
   @override
-  final TxQuote tx;
+  final TxQuote? tx;
   @override
   final Order order;
   @override
@@ -693,7 +697,7 @@ abstract class _DlnQuoteResponseDto implements DlnQuoteResponseDto {
   const factory _DlnQuoteResponseDto(
       {required final OrderEstimation estimation,
       final String? prependedOperatingExpenseCost,
-      required final TxQuote tx,
+      final TxQuote? tx,
       required final Order order,
       required final String fixFee}) = _$DlnQuoteResponseDtoImpl;
 
@@ -705,7 +709,7 @@ abstract class _DlnQuoteResponseDto implements DlnQuoteResponseDto {
   @override
   String? get prependedOperatingExpenseCost;
   @override
-  TxQuote get tx;
+  TxQuote? get tx;
   @override
   Order get order;
   @override
