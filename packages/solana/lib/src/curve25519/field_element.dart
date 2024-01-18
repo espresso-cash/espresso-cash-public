@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-self-assignment
+// ignore_for_file: avoid-self-assignment, avoid-duplicate-collection-elements
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/extensions.dart';

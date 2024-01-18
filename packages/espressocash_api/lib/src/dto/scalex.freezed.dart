@@ -698,6 +698,348 @@ abstract class _OrderStatusScalexResponseDto
       get copyWith => throw _privateConstructorUsedError;
 }
 
+ScalexWithdrawRequestDto _$ScalexWithdrawRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ScalexWithdrawRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexWithdrawRequestDto {
+  String get orderId => throw _privateConstructorUsedError;
+  Cluster get cluster => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexWithdrawRequestDtoCopyWith<ScalexWithdrawRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexWithdrawRequestDtoCopyWith<$Res> {
+  factory $ScalexWithdrawRequestDtoCopyWith(ScalexWithdrawRequestDto value,
+          $Res Function(ScalexWithdrawRequestDto) then) =
+      _$ScalexWithdrawRequestDtoCopyWithImpl<$Res, ScalexWithdrawRequestDto>;
+  @useResult
+  $Res call({String orderId, Cluster cluster});
+}
+
+/// @nodoc
+class _$ScalexWithdrawRequestDtoCopyWithImpl<$Res,
+        $Val extends ScalexWithdrawRequestDto>
+    implements $ScalexWithdrawRequestDtoCopyWith<$Res> {
+  _$ScalexWithdrawRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = null,
+    Object? cluster = null,
+  }) {
+    return _then(_value.copyWith(
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String,
+      cluster: null == cluster
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexWithdrawRequestDtoImplCopyWith<$Res>
+    implements $ScalexWithdrawRequestDtoCopyWith<$Res> {
+  factory _$$ScalexWithdrawRequestDtoImplCopyWith(
+          _$ScalexWithdrawRequestDtoImpl value,
+          $Res Function(_$ScalexWithdrawRequestDtoImpl) then) =
+      __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String orderId, Cluster cluster});
+}
+
+/// @nodoc
+class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
+    extends _$ScalexWithdrawRequestDtoCopyWithImpl<$Res,
+        _$ScalexWithdrawRequestDtoImpl>
+    implements _$$ScalexWithdrawRequestDtoImplCopyWith<$Res> {
+  __$$ScalexWithdrawRequestDtoImplCopyWithImpl(
+      _$ScalexWithdrawRequestDtoImpl _value,
+      $Res Function(_$ScalexWithdrawRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? orderId = null,
+    Object? cluster = null,
+  }) {
+    return _then(_$ScalexWithdrawRequestDtoImpl(
+      orderId: null == orderId
+          ? _value.orderId
+          : orderId // ignore: cast_nullable_to_non_nullable
+              as String,
+      cluster: null == cluster
+          ? _value.cluster
+          : cluster // ignore: cast_nullable_to_non_nullable
+              as Cluster,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
+  const _$ScalexWithdrawRequestDtoImpl(
+      {required this.orderId, required this.cluster});
+
+  factory _$ScalexWithdrawRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexWithdrawRequestDtoImplFromJson(json);
+
+  @override
+  final String orderId;
+  @override
+  final Cluster cluster;
+
+  @override
+  String toString() {
+    return 'ScalexWithdrawRequestDto(orderId: $orderId, cluster: $cluster)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexWithdrawRequestDtoImpl &&
+            (identical(other.orderId, orderId) || other.orderId == orderId) &&
+            (identical(other.cluster, cluster) || other.cluster == cluster));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, orderId, cluster);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>
+      get copyWith => __$$ScalexWithdrawRequestDtoImplCopyWithImpl<
+          _$ScalexWithdrawRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexWithdrawRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScalexWithdrawRequestDto implements ScalexWithdrawRequestDto {
+  const factory _ScalexWithdrawRequestDto(
+      {required final String orderId,
+      required final Cluster cluster}) = _$ScalexWithdrawRequestDtoImpl;
+
+  factory _ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =
+      _$ScalexWithdrawRequestDtoImpl.fromJson;
+
+  @override
+  String get orderId;
+  @override
+  Cluster get cluster;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+ScalexWithdrawResponseDto _$ScalexWithdrawResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _WithdrawPaymentResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexWithdrawResponseDto {
+  int get fee => throw _privateConstructorUsedError;
+  String get transaction => throw _privateConstructorUsedError;
+  BigInt get slot => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexWithdrawResponseDtoCopyWith<ScalexWithdrawResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexWithdrawResponseDtoCopyWith<$Res> {
+  factory $ScalexWithdrawResponseDtoCopyWith(ScalexWithdrawResponseDto value,
+          $Res Function(ScalexWithdrawResponseDto) then) =
+      _$ScalexWithdrawResponseDtoCopyWithImpl<$Res, ScalexWithdrawResponseDto>;
+  @useResult
+  $Res call({int fee, String transaction, BigInt slot});
+}
+
+/// @nodoc
+class _$ScalexWithdrawResponseDtoCopyWithImpl<$Res,
+        $Val extends ScalexWithdrawResponseDto>
+    implements $ScalexWithdrawResponseDtoCopyWith<$Res> {
+  _$ScalexWithdrawResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fee = null,
+    Object? transaction = null,
+    Object? slot = null,
+  }) {
+    return _then(_value.copyWith(
+      fee: null == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      transaction: null == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$WithdrawPaymentResponseDtoImplCopyWith<$Res>
+    implements $ScalexWithdrawResponseDtoCopyWith<$Res> {
+  factory _$$WithdrawPaymentResponseDtoImplCopyWith(
+          _$WithdrawPaymentResponseDtoImpl value,
+          $Res Function(_$WithdrawPaymentResponseDtoImpl) then) =
+      __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int fee, String transaction, BigInt slot});
+}
+
+/// @nodoc
+class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
+    extends _$ScalexWithdrawResponseDtoCopyWithImpl<$Res,
+        _$WithdrawPaymentResponseDtoImpl>
+    implements _$$WithdrawPaymentResponseDtoImplCopyWith<$Res> {
+  __$$WithdrawPaymentResponseDtoImplCopyWithImpl(
+      _$WithdrawPaymentResponseDtoImpl _value,
+      $Res Function(_$WithdrawPaymentResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? fee = null,
+    Object? transaction = null,
+    Object? slot = null,
+  }) {
+    return _then(_$WithdrawPaymentResponseDtoImpl(
+      fee: null == fee
+          ? _value.fee
+          : fee // ignore: cast_nullable_to_non_nullable
+              as int,
+      transaction: null == transaction
+          ? _value.transaction
+          : transaction // ignore: cast_nullable_to_non_nullable
+              as String,
+      slot: null == slot
+          ? _value.slot
+          : slot // ignore: cast_nullable_to_non_nullable
+              as BigInt,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
+  const _$WithdrawPaymentResponseDtoImpl(
+      {required this.fee, required this.transaction, required this.slot});
+
+  factory _$WithdrawPaymentResponseDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$WithdrawPaymentResponseDtoImplFromJson(json);
+
+  @override
+  final int fee;
+  @override
+  final String transaction;
+  @override
+  final BigInt slot;
+
+  @override
+  String toString() {
+    return 'ScalexWithdrawResponseDto(fee: $fee, transaction: $transaction, slot: $slot)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WithdrawPaymentResponseDtoImpl &&
+            (identical(other.fee, fee) || other.fee == fee) &&
+            (identical(other.transaction, transaction) ||
+                other.transaction == transaction) &&
+            (identical(other.slot, slot) || other.slot == slot));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, fee, transaction, slot);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WithdrawPaymentResponseDtoImplCopyWith<_$WithdrawPaymentResponseDtoImpl>
+      get copyWith => __$$WithdrawPaymentResponseDtoImplCopyWithImpl<
+          _$WithdrawPaymentResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WithdrawPaymentResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _WithdrawPaymentResponseDto
+    implements ScalexWithdrawResponseDto {
+  const factory _WithdrawPaymentResponseDto(
+      {required final int fee,
+      required final String transaction,
+      required final BigInt slot}) = _$WithdrawPaymentResponseDtoImpl;
+
+  factory _WithdrawPaymentResponseDto.fromJson(Map<String, dynamic> json) =
+      _$WithdrawPaymentResponseDtoImpl.fromJson;
+
+  @override
+  int get fee;
+  @override
+  String get transaction;
+  @override
+  BigInt get slot;
+  @override
+  @JsonKey(ignore: true)
+  _$$WithdrawPaymentResponseDtoImplCopyWith<_$WithdrawPaymentResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 OnRampScalexDetails _$OnRampScalexDetailsFromJson(Map<String, dynamic> json) {
   return _OnRampScalexDetails.fromJson(json);
 }

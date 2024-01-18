@@ -15,3 +15,14 @@ ClusterNode _$ClusterNodeFromJson(Map<String, dynamic> json) => ClusterNode(
       featureSet: json['featureSet'] as int?,
       shredVersion: json['shredVersion'] as int?,
     );
+
+Map<String, dynamic> _$ClusterNodeToJson(ClusterNode instance) =>
+    <String, dynamic>{
+      'pubkey': instance.pubkey,
+      'gossip': instance.gossip,
+      'tpu': instance.tpu,
+      'rpc': instance.rpc,
+      'version': instance.version,
+      'featureSet': instance.featureSet,
+      'shredVersion': instance.shredVersion,
+    };

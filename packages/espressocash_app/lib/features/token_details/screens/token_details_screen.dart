@@ -226,7 +226,7 @@ class __ChartState extends State<_Chart> {
 
   @override
   Widget build(BuildContext context) {
-    final price = _selected?.price.toString().let(Decimal.parse);
+    final price = _selected?.price?.toString().let(Decimal.parse);
     final currentPrice = price.formatDisplayablePrice(
       locale: DeviceLocale.localeOf(context),
       currency: defaultFiatCurrency,

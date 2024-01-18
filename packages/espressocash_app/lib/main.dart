@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -17,10 +16,10 @@ import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
 import 'features/accounts/module.dart';
 import 'logging.dart';
+import 'ui/splash_screen.dart';
 
 Future<void> main() async {
-  final binding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: binding);
+  runApp(const SplashScreen());
 
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
@@ -60,10 +59,7 @@ Future<void> _init() async {
 }
 
 Future<void> _start() async {
-  await Future.wait([
-    _init(),
-    Future<void>.delayed(const Duration(seconds: 1)),
-  ]);
+  await _init();
 
   final app = DevicePreview(
     enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),
@@ -79,7 +75,7 @@ Future<void> _start() async {
             lazy: false,
           ),
         ],
-        child: const CryptopleaseApp(),
+        child: const EspressoCashApp(),
       ),
     ),
   );

@@ -27,4 +27,6 @@ class Lockup {
   final String custodian;
   final int epoch;
   final int unixTimestamp;
+
+  Map<String, dynamic> toJson() => _$LockupToJson(this);
 }

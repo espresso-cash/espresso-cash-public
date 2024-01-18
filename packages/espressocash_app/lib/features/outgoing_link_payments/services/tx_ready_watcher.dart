@@ -53,8 +53,7 @@ class TxReadyWatcher {
               : OLPStatus.withdrawn(txId: txId, timestamp: timestamp);
 
           await _repository.save(payment.copyWith(status: newStatus));
-          await _subscriptions[payment.id]?.cancel();
-          _subscriptions.remove(payment.id);
+          await _subscriptions.remove(payment.id)?.cancel();
 
           if (newStatus is OLPStatusCanceled) {
             onBalanceAffected();

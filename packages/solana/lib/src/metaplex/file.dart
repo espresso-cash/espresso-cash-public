@@ -16,4 +16,6 @@ class File {
   final String type;
   @JsonKey(defaultValue: false)
   final bool cdn;
+
+  Map<String, dynamic> toJson() => _$FileToJson(this);
 }

@@ -80,7 +80,7 @@
   "@create": {},
   "crypto": "Crypto",
   "@crypto": {},
-  "cryptoCashBalance": "Your Crypto Cash Balance",
+  "cryptoCashBalance": "Your Cash Balance",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Your Crypto",
   "@cryptoInvestments": {},
@@ -836,7 +836,7 @@
   "@yesDeleteMyWallet": {},
   "youOwn": "You own",
   "@youOwn": {},
-  "yourEmailDisclaimer": "Your email address is only stored locally and only shared with cash in and cash out partners",
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
   "@yourEmailDisclaimer": {},
   "yourEmailPlaceholder": "Email Address",
   "@yourEmailPlaceholder": {},
@@ -1011,5 +1011,7 @@
   "quizIntroDescription": "To access your Secret Recovery Phrase, You’ll need to correctly answer two questions.",
   "@quizIntroDescription": {},
   "quizStart": "Get Started",
-  "@quizStart": {}
+  "@quizStart": {},
+  "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
+  "@profileDisclaimer": {}
 }

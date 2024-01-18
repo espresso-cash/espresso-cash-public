@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.98.0
+version: 1.100.0
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -33,11 +33,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
-  flutter_inappwebview: ^6.0.0-rc.3
+  flutter_inappwebview: ^6.0.0
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.18+2
-  flutter_native_splash: ^2.3.8
   flutter_screenutil: ^5.9.0
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
@@ -89,6 +88,7 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.3.2
+  flutter_native_splash: ^2.3.8
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6
@@ -97,7 +97,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.21.0
+  mews_pedantic: ^0.23.0
   mockito: ^5.4.4
   recase: ^4.1.0
   retrofit_generator: ^8.0.6
@@ -155,12 +155,12 @@ flutter:
           weight: 900
 
 flutter_native_splash:
-  background_image: assets/images/splash_bg.png
-  image: assets/images/logo-icon.png
+  color: "#B4A270"
+  image: assets/images/logo.png
   web: false
 
   android_12:
-    image: assets/images/logo-android12.png
+    image: assets/images/blank.png
     color: "#B4A270"
 
 dependency_overrides:

@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/vote_account.dart';
 part 'vote_accounts.g.dart';
 
 /// Result of calling [RPCClient.getVoteAccounts()]
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class VoteAccounts {
   const VoteAccounts({
     required this.current,
@@ -19,4 +19,6 @@ class VoteAccounts {
 
   /// Delinquent vote account
   final List<VoteAccount> delinquent;
+
+  Map<String, dynamic> toJson() => _$VoteAccountsToJson(this);
 }

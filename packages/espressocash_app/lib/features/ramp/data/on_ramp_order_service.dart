@@ -227,8 +227,7 @@ class OnRampOrderService implements Disposable {
               .getSingle();
 
           if (order.status != OnRampOrderStatus.waitingForDeposit) {
-            await _subscriptions[orderId]?.cancel();
-            _subscriptions.remove(orderId);
+            await _subscriptions.remove(orderId)?.cancel();
 
             return null;
           }
@@ -243,8 +242,7 @@ class OnRampOrderService implements Disposable {
         })
         .whereNotNull()
         .listen((event) async {
-          await _subscriptions[orderId]?.cancel();
-          _subscriptions.remove(orderId);
+          await _subscriptions.remove(orderId)?.cancel();
 
           await (_db.update(_db.onRampOrderRows)
                 ..where((tbl) => tbl.id.equals(orderId)))

@@ -6,7 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/solana.dart';
+import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
@@ -30,10 +30,7 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query
-        .map((row) => row.id)
-        .watch()
-        .map((event) => event.whereNotNull().toIList());
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
   Stream<IList<TxCommon>> watchAllActivity() {
@@ -50,10 +47,7 @@ class TransactionRepository {
       ..limit(count)
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query
-        .map((row) => row.id)
-        .watch()
-        .map((event) => event.whereNotNull().toIList());
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
   Stream<Transaction> watch(String id) {
@@ -63,11 +57,13 @@ class TransactionRepository {
     return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
   }
 
-  Stream<Transaction> _match(TxCommon fetched) => _matchActivity(fetched.tx.id)
+  Stream<Transaction> _match(TxCommon fetched) => _matchActivity(fetched.tx)
       .map(Transaction.activity)
       .onErrorReturn(fetched);
 
-  Stream<Activity> _matchActivity(TransactionId txId) {
+  Stream<Activity> _matchActivity(SignedTx tx) {
+    final txId = tx.id;
+
     final pr = _db.paymentRequestRows.findActivityOrNull(
       where: (row) => row.transactionId.equals(txId),
       builder: (pr) => pr.toActivity(),
@@ -101,7 +97,7 @@ class TransactionRepository {
     );
 
     final offRamp = _db.offRampOrderRows.findActivityOrNull(
-      where: (row) => row.transaction.contains(txId),
+      where: (row) => row.transaction.equals(tx.encode()),
       builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
       ignoreWhen: (row) => const [
         OffRampOrderStatus.completed,

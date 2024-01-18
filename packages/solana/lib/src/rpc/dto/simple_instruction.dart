@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/instruction.dart';
 
 part 'simple_instruction.g.dart';
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SimpleInstruction implements Instruction {
   const SimpleInstruction({
     required this.programId,
@@ -18,4 +18,7 @@ class SimpleInstruction implements Instruction {
   final String programId;
   final String data;
   final List<AccountKey> accounts;
+
+  @override
+  Map<String, dynamic> toJson() => _$SimpleInstructionToJson(this);
 }
