@@ -10,7 +10,6 @@ _$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PaymentQuoteRequestDtoImpl(
       amount: json['amount'] as String,
-      senderAddress: json['senderAddress'] as String,
       receiverAddress: json['receiverAddress'] as String,
       receiverBlockchain: json['receiverBlockchain'] as String,
     );
@@ -19,7 +18,6 @@ Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(
         _$PaymentQuoteRequestDtoImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
-      'senderAddress': instance.senderAddress,
       'receiverAddress': instance.receiverAddress,
       'receiverBlockchain': instance.receiverBlockchain,
     };

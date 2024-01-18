@@ -22,7 +22,6 @@ PaymentQuoteRequestDto _$PaymentQuoteRequestDtoFromJson(
 /// @nodoc
 mixin _$PaymentQuoteRequestDto {
   String get amount => throw _privateConstructorUsedError;
-  String get senderAddress => throw _privateConstructorUsedError;
   String get receiverAddress => throw _privateConstructorUsedError;
   String get receiverBlockchain => throw _privateConstructorUsedError;
 
@@ -38,11 +37,7 @@ abstract class $PaymentQuoteRequestDtoCopyWith<$Res> {
           $Res Function(PaymentQuoteRequestDto) then) =
       _$PaymentQuoteRequestDtoCopyWithImpl<$Res, PaymentQuoteRequestDto>;
   @useResult
-  $Res call(
-      {String amount,
-      String senderAddress,
-      String receiverAddress,
-      String receiverBlockchain});
+  $Res call({String amount, String receiverAddress, String receiverBlockchain});
 }
 
 /// @nodoc
@@ -60,7 +55,6 @@ class _$PaymentQuoteRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? amount = null,
-    Object? senderAddress = null,
     Object? receiverAddress = null,
     Object? receiverBlockchain = null,
   }) {
@@ -68,10 +62,6 @@ class _$PaymentQuoteRequestDtoCopyWithImpl<$Res,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      senderAddress: null == senderAddress
-          ? _value.senderAddress
-          : senderAddress // ignore: cast_nullable_to_non_nullable
               as String,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
@@ -94,11 +84,7 @@ abstract class _$$PaymentQuoteRequestDtoImplCopyWith<$Res>
       __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String amount,
-      String senderAddress,
-      String receiverAddress,
-      String receiverBlockchain});
+  $Res call({String amount, String receiverAddress, String receiverBlockchain});
 }
 
 /// @nodoc
@@ -115,7 +101,6 @@ class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? amount = null,
-    Object? senderAddress = null,
     Object? receiverAddress = null,
     Object? receiverBlockchain = null,
   }) {
@@ -123,10 +108,6 @@ class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
-      senderAddress: null == senderAddress
-          ? _value.senderAddress
-          : senderAddress // ignore: cast_nullable_to_non_nullable
               as String,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
@@ -145,7 +126,6 @@ class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
 class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
   const _$PaymentQuoteRequestDtoImpl(
       {required this.amount,
-      required this.senderAddress,
       required this.receiverAddress,
       required this.receiverBlockchain});
 
@@ -155,15 +135,13 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
   @override
   final String amount;
   @override
-  final String senderAddress;
-  @override
   final String receiverAddress;
   @override
   final String receiverBlockchain;
 
   @override
   String toString() {
-    return 'PaymentQuoteRequestDto(amount: $amount, senderAddress: $senderAddress, receiverAddress: $receiverAddress, receiverBlockchain: $receiverBlockchain)';
+    return 'PaymentQuoteRequestDto(amount: $amount, receiverAddress: $receiverAddress, receiverBlockchain: $receiverBlockchain)';
   }
 
   @override
@@ -172,8 +150,6 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
         (other.runtimeType == runtimeType &&
             other is _$PaymentQuoteRequestDtoImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.senderAddress, senderAddress) ||
-                other.senderAddress == senderAddress) &&
             (identical(other.receiverAddress, receiverAddress) ||
                 other.receiverAddress == receiverAddress) &&
             (identical(other.receiverBlockchain, receiverBlockchain) ||
@@ -182,8 +158,8 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, amount, senderAddress, receiverAddress, receiverBlockchain);
+  int get hashCode =>
+      Object.hash(runtimeType, amount, receiverAddress, receiverBlockchain);
 
   @JsonKey(ignore: true)
   @override
@@ -203,7 +179,6 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
 abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
   const factory _PaymentQuoteRequestDto(
       {required final String amount,
-      required final String senderAddress,
       required final String receiverAddress,
       required final String receiverBlockchain}) = _$PaymentQuoteRequestDtoImpl;
 
@@ -212,8 +187,6 @@ abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
 
   @override
   String get amount;
-  @override
-  String get senderAddress;
   @override
   String get receiverAddress;
   @override

@@ -7,7 +7,6 @@ part 'dln_payment.g.dart';
 class PaymentQuoteRequestDto with _$PaymentQuoteRequestDto {
   const factory PaymentQuoteRequestDto({
     required String amount,
-    required String senderAddress,
     required String receiverAddress,
     required String receiverBlockchain,
   }) = _PaymentQuoteRequestDto;
