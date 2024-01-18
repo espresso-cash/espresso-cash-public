@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/extensions.dart';
+import '../core/extensions.dart';
 import 'desktop.dart';
 import 'mobile.dart';
 

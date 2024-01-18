@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import '../core/extensions.dart';
-import '../widgets/landing_widget.dart';
-import '../widgets/qr_code.dart';
-import '../widgets/step_circle.dart';
+import 'extensions.dart';
+import 'landing_widget.dart';
+import 'presentation/qr_code.dart';
+import 'presentation/step_circle.dart';
 
-class DesktopView extends StatelessWidget {
-  const DesktopView({
+class EspressoDesktopView extends StatelessWidget {
+  const EspressoDesktopView({
     super.key,
     required this.actionLink,
-    required this.title,
+    required this.header,
   });
 
   final Uri actionLink;
-  final String title;
+  final Widget header;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,12 @@ class DesktopView extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(0xFF2D2B2C),
-              fontSize: 20,
+              fontSize: 19,
               fontWeight: FontWeight.w600,
+              letterSpacing: 0.13,
             ),
           ),
+          const SizedBox(height: 2),
           Text(
             context.l10n.landingAlreadyInstalled,
             textAlign: TextAlign.center,
@@ -42,6 +44,7 @@ class DesktopView extends StatelessWidget {
               color: Color(0xFF2D2B2C),
               fontSize: 13,
               fontWeight: FontWeight.w400,
+              letterSpacing: 0.19,
             ),
           ),
         ],
@@ -50,74 +53,65 @@ class DesktopView extends StatelessWidget {
 
     final second = _InstructionItem(
       step: 2,
-      content: ShareQr(qrLink: actionLink),
+      content: QrWidget(
+        code: actionLink.toString(),
+        size: 178,
+      ),
       text: Text(
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
         style: const TextStyle(
           color: Color(0xFF2D2B2C),
-          fontSize: 20,
+          fontSize: 19,
           fontWeight: FontWeight.w600,
+          letterSpacing: 0.13,
         ),
       ),
     );
 
-    return LandingScreenWidget(
-      children: [
-        const SizedBox(height: 32),
-        Assets.images.logoDark.image(height: 62),
-        const SizedBox(height: 32),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 26,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          context.l10n.landingSubtitle,
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const SizedBox(height: 50),
-        if (width > 750)
-          IntrinsicHeight(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Spacer(),
-                first,
-                const VerticalDivider(
-                  color: Colors.white,
-                  thickness: 1.5,
-                  width: 32,
+    return Scaffold(
+      body: LandingDesktopWidget(
+        header: header,
+        content: Column(
+          children: [
+            const SizedBox(height: 100),
+            if (width > 750)
+              IntrinsicHeight(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Spacer(),
+                    first,
+                    const VerticalDivider(
+                      color: Color(0xFFE4E4E4),
+                      thickness: 1.5,
+                      width: 32,
+                    ),
+                    second,
+                    const Spacer(),
+                  ],
                 ),
-                second,
-                const Spacer(),
-              ],
-            ),
-          )
-        else
-          IntrinsicWidth(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                first,
-                const Divider(color: Colors.white, thickness: 1.5, height: 32),
-                second,
-              ],
-            ),
-          ),
-      ],
+              )
+            else
+              IntrinsicWidth(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    first,
+                    const Divider(
+                      color: Color(0xFFE4E4E4),
+                      thickness: 1.5,
+                      height: 32,
+                    ),
+                    second,
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -148,13 +142,13 @@ class _InstructionItem extends StatelessWidget {
                 StepCircle(step),
                 const SizedBox(width: 16),
                 SizedBox(
-                  height: 225,
+                  height: 240,
                   child: Column(
                     children: [
                       content,
                       const Spacer(),
                       SizedBox(
-                        height: 40,
+                        height: 50,
                         child: text,
                       ),
                     ],
@@ -173,12 +167,12 @@ class _AppStoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          GestureDetector(
+          InkWell(
             onTap: context.launchPlayStore,
             child: Assets.landing.playstore.image(height: 64),
           ),
           const SizedBox(height: 16),
-          GestureDetector(
+          InkWell(
             onTap: context.launchAppStore,
             child: Assets.landing.appstore.image(height: 64),
           ),

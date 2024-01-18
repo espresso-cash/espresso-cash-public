@@ -9,6 +9,7 @@ import '../core/link_payments.dart';
 import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../l10n/l10n.dart';
+import 'features/link_payment/link_payment_screen.dart';
 import 'screens/landing.dart';
 
 void main() {
@@ -28,7 +29,7 @@ class LandingPageApp extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(fontFamily: 'RobotoApp'),
-        color: const Color(0xffE36E0A),
+        color: const Color(0xffB4A270),
         onGenerateRoute: (settings) {
           final uri = Uri.parse(html.window.location.toString());
           final linkPayment = LinkPayments.tryParse(uri);
@@ -36,11 +37,7 @@ class LandingPageApp extends StatelessWidget {
 
           if (linkPayment != null) {
             return MaterialPageRoute(
-              builder: (context) => LandingScreen(
-                actionLink: linkPayment.toDeepLinkUri(),
-                actionText: context.l10n.landingReceiveMoney,
-                title: context.l10n.landingTitle,
-              ),
+              builder: (context) => LinkPaymentScreen(linkPayment),
             );
           } else if (solanaPay != null) {
             return MaterialPageRoute(
