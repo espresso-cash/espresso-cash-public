@@ -58,7 +58,7 @@ const _solanaHost = isProd
     ? '' // mainnet URL should be provided via environment variable
     : 'api.devnet.solana.com';
 
-const espressoCashLinkDomain = 'pay.espressocash.com';
+const espressoCashLinkDomain = 'localhost';
 const espressoCashLinkProtocol = 'espressocash';
 
 const kadoBaseUrl = 'https://app.kado.money/';

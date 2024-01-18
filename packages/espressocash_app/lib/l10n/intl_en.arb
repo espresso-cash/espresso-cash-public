@@ -192,8 +192,6 @@
   "@landingReceiveMoney": {},
   "landingScanQr": "Scan the QR code",
   "@landingScanQr": {},
-  "landingSubtitle": "To complete the transaction, follow the steps below.",
-  "@landingSubtitle": {},
   "landingTitle": "Money has been sent to you.",
   "@landingTitle": {},
   "landingInstruction": "To complete the transaction, follow the steps below.",
