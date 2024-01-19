@@ -22,6 +22,8 @@ class GenerateScalexLinkRequestDto with _$GenerateScalexLinkRequestDto {
     required String type,
     required String address,
     required String email,
+    required double amount,
+    required String currency,
   }) = _GenerateScalexLinkRequestDto;
 
   factory GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =>

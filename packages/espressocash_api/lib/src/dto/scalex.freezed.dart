@@ -175,6 +175,8 @@ mixin _$GenerateScalexLinkRequestDto {
   String get type => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
+  String get currency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -190,7 +192,12 @@ abstract class $GenerateScalexLinkRequestDtoCopyWith<$Res> {
       _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
           GenerateScalexLinkRequestDto>;
   @useResult
-  $Res call({String type, String address, String email});
+  $Res call(
+      {String type,
+      String address,
+      String email,
+      double amount,
+      String currency});
 }
 
 /// @nodoc
@@ -210,6 +217,8 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
     Object? type = null,
     Object? address = null,
     Object? email = null,
+    Object? amount = null,
+    Object? currency = null,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -224,6 +233,14 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -237,7 +254,12 @@ abstract class _$$GenerateScalexLinkRequestDtoImplCopyWith<$Res>
       __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String address, String email});
+  $Res call(
+      {String type,
+      String address,
+      String email,
+      double amount,
+      String currency});
 }
 
 /// @nodoc
@@ -256,6 +278,8 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
     Object? type = null,
     Object? address = null,
     Object? email = null,
+    Object? amount = null,
+    Object? currency = null,
   }) {
     return _then(_$GenerateScalexLinkRequestDtoImpl(
       type: null == type
@@ -270,6 +294,14 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      currency: null == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -279,7 +311,11 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
 class _$GenerateScalexLinkRequestDtoImpl
     implements _GenerateScalexLinkRequestDto {
   const _$GenerateScalexLinkRequestDtoImpl(
-      {required this.type, required this.address, required this.email});
+      {required this.type,
+      required this.address,
+      required this.email,
+      required this.amount,
+      required this.currency});
 
   factory _$GenerateScalexLinkRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -291,10 +327,14 @@ class _$GenerateScalexLinkRequestDtoImpl
   final String address;
   @override
   final String email;
+  @override
+  final double amount;
+  @override
+  final String currency;
 
   @override
   String toString() {
-    return 'GenerateScalexLinkRequestDto(type: $type, address: $address, email: $email)';
+    return 'GenerateScalexLinkRequestDto(type: $type, address: $address, email: $email, amount: $amount, currency: $currency)';
   }
 
   @override
@@ -304,12 +344,16 @@ class _$GenerateScalexLinkRequestDtoImpl
             other is _$GenerateScalexLinkRequestDtoImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, address, email);
+  int get hashCode =>
+      Object.hash(runtimeType, type, address, email, amount, currency);
 
   @JsonKey(ignore: true)
   @override
@@ -332,7 +376,9 @@ abstract class _GenerateScalexLinkRequestDto
   const factory _GenerateScalexLinkRequestDto(
       {required final String type,
       required final String address,
-      required final String email}) = _$GenerateScalexLinkRequestDtoImpl;
+      required final String email,
+      required final double amount,
+      required final String currency}) = _$GenerateScalexLinkRequestDtoImpl;
 
   factory _GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =
       _$GenerateScalexLinkRequestDtoImpl.fromJson;
@@ -343,6 +389,10 @@ abstract class _GenerateScalexLinkRequestDto
   String get address;
   @override
   String get email;
+  @override
+  double get amount;
+  @override
+  String get currency;
   @override
   @JsonKey(ignore: true)
   _$$GenerateScalexLinkRequestDtoImplCopyWith<
