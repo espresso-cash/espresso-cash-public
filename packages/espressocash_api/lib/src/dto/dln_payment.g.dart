@@ -80,7 +80,7 @@ const _$DlnOrderStatusEnumMap = {
 _$OrderIdDlnRequestDtoImpl _$$OrderIdDlnRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$OrderIdDlnRequestDtoImpl(
-      txId: json['txId'] as String,
+      txId: json['txId'] as String?,
     );
 
 Map<String, dynamic> _$$OrderIdDlnRequestDtoImplToJson(
