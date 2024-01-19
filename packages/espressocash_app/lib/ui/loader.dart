@@ -95,10 +95,12 @@ class _LoadingDialogState<T> extends State<LoadingDialog<T>> {
     super.initState();
     widget.future.then(
       (_) => Navigator.of(context).pop(),
-      onError: (Object error) {
+      onError: (Object error, StackTrace stackTrace) {
         Navigator.of(context).pop();
         if (error is Exception) {
           widget.onError?.call(error);
+        } else {
+          Error.throwWithStackTrace(error, stackTrace);
         }
       },
     );
