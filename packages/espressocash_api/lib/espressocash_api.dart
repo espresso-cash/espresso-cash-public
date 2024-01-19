@@ -1,3 +1,4 @@
+export 'package:dln_api/dln_api.dart';
 export 'package:jupiter_aggregator/jupiter_aggregator.dart';
 
 export 'src/client.dart';
