@@ -21,11 +21,6 @@ dependencies:
   dio: ^5.4.0
   dio_cache_interceptor: ^3.4.2
   dio_cache_interceptor_db_store: ^5.1.0
-  dln_api:
-    git:
-      url: https://github.com/espresso-cash/espresso-cash-public.git
-      path: packages/dln_api
-      ref: dln-deps #TODO: remove after merge
   drift: ^2.14.1
   espressocash_api:
     path: ../espressocash_api/

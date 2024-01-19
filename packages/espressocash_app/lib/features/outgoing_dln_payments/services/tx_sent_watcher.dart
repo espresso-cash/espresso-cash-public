@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:dln_api/dln_api.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
@@ -18,7 +18,7 @@ class TxSentWatcher extends OutgoingDlnPaymentWatcher {
   TxSentWatcher(super._repository, this._sender, this._client);
 
   final TxSender _sender;
-  final DlnApiClient _client;
+  final CryptopleaseClient _client;
 
   @override
   CancelableJob<OutgoingDlnPayment> createJob(OutgoingDlnPayment payment) =>
@@ -36,7 +36,7 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
 
   final OutgoingDlnPayment payment;
   final TxSender sender;
-  final DlnApiClient client;
+  final CryptopleaseClient client;
 
   @override
   Future<OutgoingDlnPayment?> process() async {
@@ -47,12 +47,8 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
 
     final tx = await sender.wait(status.tx, minContextSlot: status.slot);
     final orderId = await client
-        .getOrderIdByHash(status.tx.id)
-        .letAsync((p) => p.orderIds.firstOrNull);
-
-    if (orderId == null) {
-      return null;
-    }
+        .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+        .letAsync((p) => p.orderId);
 
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
       success: (_) => OutgoingDlnPaymentStatus.success(

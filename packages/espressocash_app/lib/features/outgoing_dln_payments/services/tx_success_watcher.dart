@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dln_api/dln_api.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import '../../../core/cancelable_job.dart';
@@ -14,7 +14,7 @@ import 'payment_watcher.dart';
 class TxSuccessWatcher extends OutgoingDlnPaymentWatcher {
   TxSuccessWatcher(super._repository, this._client);
 
-  final DlnApiClient _client;
+  final CryptopleaseClient _client;
 
   @override
   CancelableJob<OutgoingDlnPayment> createJob(OutgoingDlnPayment payment) =>
@@ -31,7 +31,7 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
   const _OrderTxSentJob(this.payment, this.client);
 
   final OutgoingDlnPayment payment;
-  final DlnApiClient client;
+  final CryptopleaseClient client;
 
   @override
   Future<OutgoingDlnPayment?> process() async {
@@ -41,8 +41,9 @@ class _OrderTxSentJob extends CancelableJob<OutgoingDlnPayment> {
       return payment;
     }
 
-    final orderStatus = await client.getStatus(status.orderId);
-    final isFulfilled = orderStatus.status == OrderStatus.fulfilled;
+    final orderStatus = await client
+        .fetchDlnStatus(OrderStatusDlnRequestDto(orderId: status.orderId));
+    final isFulfilled = orderStatus.status == DlnOrderStatus.fulfilled;
 
     if (isFulfilled) {
       return payment.copyWith(
