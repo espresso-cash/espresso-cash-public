@@ -76,7 +76,7 @@ class ScalexWithdrawResponseDto with _$ScalexWithdrawResponseDto {
 }
 
 @freezed
-abstract class OnRampScalexDetails with _$OnRampScalexDetails {
+class OnRampScalexDetails with _$OnRampScalexDetails {
   const factory OnRampScalexDetails({
     required String currency,
     required String bankName,
@@ -87,6 +87,14 @@ abstract class OnRampScalexDetails with _$OnRampScalexDetails {
 
   factory OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
       _$OnRampScalexDetailsFromJson(json);
+}
+
+@freezed
+class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
+  const factory ScalexRateFeeResponseDto({
+    required double offRampRate,
+    required double offRampFee,
+  }) = _ScalexRateFeeResponseDto;
 }
 
 @JsonEnum()

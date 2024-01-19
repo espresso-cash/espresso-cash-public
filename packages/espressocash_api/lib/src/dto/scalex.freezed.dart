@@ -1316,3 +1316,146 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
   _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$ScalexRateFeeResponseDto {
+  double get offRampRate => throw _privateConstructorUsedError;
+  double get offRampFee => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ScalexRateFeeResponseDtoCopyWith<ScalexRateFeeResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  factory $ScalexRateFeeResponseDtoCopyWith(ScalexRateFeeResponseDto value,
+          $Res Function(ScalexRateFeeResponseDto) then) =
+      _$ScalexRateFeeResponseDtoCopyWithImpl<$Res, ScalexRateFeeResponseDto>;
+  @useResult
+  $Res call({double offRampRate, double offRampFee});
+}
+
+/// @nodoc
+class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
+        $Val extends ScalexRateFeeResponseDto>
+    implements $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  _$ScalexRateFeeResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? offRampRate = null,
+    Object? offRampFee = null,
+  }) {
+    return _then(_value.copyWith(
+      offRampRate: null == offRampRate
+          ? _value.offRampRate
+          : offRampRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      offRampFee: null == offRampFee
+          ? _value.offRampFee
+          : offRampFee // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexRateFeeResponseDtoImplCopyWith<$Res>
+    implements $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  factory _$$ScalexRateFeeResponseDtoImplCopyWith(
+          _$ScalexRateFeeResponseDtoImpl value,
+          $Res Function(_$ScalexRateFeeResponseDtoImpl) then) =
+      __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double offRampRate, double offRampFee});
+}
+
+/// @nodoc
+class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
+    extends _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
+        _$ScalexRateFeeResponseDtoImpl>
+    implements _$$ScalexRateFeeResponseDtoImplCopyWith<$Res> {
+  __$$ScalexRateFeeResponseDtoImplCopyWithImpl(
+      _$ScalexRateFeeResponseDtoImpl _value,
+      $Res Function(_$ScalexRateFeeResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? offRampRate = null,
+    Object? offRampFee = null,
+  }) {
+    return _then(_$ScalexRateFeeResponseDtoImpl(
+      offRampRate: null == offRampRate
+          ? _value.offRampRate
+          : offRampRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      offRampFee: null == offRampFee
+          ? _value.offRampFee
+          : offRampFee // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
+  const _$ScalexRateFeeResponseDtoImpl(
+      {required this.offRampRate, required this.offRampFee});
+
+  @override
+  final double offRampRate;
+  @override
+  final double offRampFee;
+
+  @override
+  String toString() {
+    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFee: $offRampFee)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexRateFeeResponseDtoImpl &&
+            (identical(other.offRampRate, offRampRate) ||
+                other.offRampRate == offRampRate) &&
+            (identical(other.offRampFee, offRampFee) ||
+                other.offRampFee == offRampFee));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, offRampRate, offRampFee);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
+      get copyWith => __$$ScalexRateFeeResponseDtoImplCopyWithImpl<
+          _$ScalexRateFeeResponseDtoImpl>(this, _$identity);
+}
+
+abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
+  const factory _ScalexRateFeeResponseDto(
+      {required final double offRampRate,
+      required final double offRampFee}) = _$ScalexRateFeeResponseDtoImpl;
+
+  @override
+  double get offRampRate;
+  @override
+  double get offRampFee;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
