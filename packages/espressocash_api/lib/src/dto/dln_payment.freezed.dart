@@ -720,7 +720,7 @@ OrderIdDlnRequestDto _$OrderIdDlnRequestDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OrderIdDlnRequestDto {
-  String? get txId => throw _privateConstructorUsedError;
+  String get txId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -734,7 +734,7 @@ abstract class $OrderIdDlnRequestDtoCopyWith<$Res> {
           $Res Function(OrderIdDlnRequestDto) then) =
       _$OrderIdDlnRequestDtoCopyWithImpl<$Res, OrderIdDlnRequestDto>;
   @useResult
-  $Res call({String? txId});
+  $Res call({String txId});
 }
 
 /// @nodoc
@@ -751,13 +751,13 @@ class _$OrderIdDlnRequestDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? txId = freezed,
+    Object? txId = null,
   }) {
     return _then(_value.copyWith(
-      txId: freezed == txId
+      txId: null == txId
           ? _value.txId
           : txId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -770,7 +770,7 @@ abstract class _$$OrderIdDlnRequestDtoImplCopyWith<$Res>
       __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? txId});
+  $Res call({String txId});
 }
 
 /// @nodoc
@@ -784,13 +784,13 @@ class __$$OrderIdDlnRequestDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? txId = freezed,
+    Object? txId = null,
   }) {
     return _then(_$OrderIdDlnRequestDtoImpl(
-      txId: freezed == txId
+      txId: null == txId
           ? _value.txId
           : txId // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -804,7 +804,7 @@ class _$OrderIdDlnRequestDtoImpl implements _OrderIdDlnRequestDto {
       _$$OrderIdDlnRequestDtoImplFromJson(json);
 
   @override
-  final String? txId;
+  final String txId;
 
   @override
   String toString() {
@@ -840,14 +840,14 @@ class _$OrderIdDlnRequestDtoImpl implements _OrderIdDlnRequestDto {
 }
 
 abstract class _OrderIdDlnRequestDto implements OrderIdDlnRequestDto {
-  const factory _OrderIdDlnRequestDto({required final String? txId}) =
+  const factory _OrderIdDlnRequestDto({required final String txId}) =
       _$OrderIdDlnRequestDtoImpl;
 
   factory _OrderIdDlnRequestDto.fromJson(Map<String, dynamic> json) =
       _$OrderIdDlnRequestDtoImpl.fromJson;
 
   @override
-  String? get txId;
+  String get txId;
   @override
   @JsonKey(ignore: true)
   _$$OrderIdDlnRequestDtoImplCopyWith<_$OrderIdDlnRequestDtoImpl>
@@ -861,7 +861,7 @@ OrderIdDlnResponseDto _$OrderIdDlnResponseDtoFromJson(
 
 /// @nodoc
 mixin _$OrderIdDlnResponseDto {
-  String get orderId => throw _privateConstructorUsedError;
+  String? get orderId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -875,7 +875,7 @@ abstract class $OrderIdDlnResponseDtoCopyWith<$Res> {
           $Res Function(OrderIdDlnResponseDto) then) =
       _$OrderIdDlnResponseDtoCopyWithImpl<$Res, OrderIdDlnResponseDto>;
   @useResult
-  $Res call({String orderId});
+  $Res call({String? orderId});
 }
 
 /// @nodoc
@@ -892,13 +892,13 @@ class _$OrderIdDlnResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = null,
+    Object? orderId = freezed,
   }) {
     return _then(_value.copyWith(
-      orderId: null == orderId
+      orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -912,7 +912,7 @@ abstract class _$$OrderIdDlnResponseDtoImplCopyWith<$Res>
       __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String orderId});
+  $Res call({String? orderId});
 }
 
 /// @nodoc
@@ -927,13 +927,13 @@ class __$$OrderIdDlnResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderId = null,
+    Object? orderId = freezed,
   }) {
     return _then(_$OrderIdDlnResponseDtoImpl(
-      orderId: null == orderId
+      orderId: freezed == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -947,7 +947,7 @@ class _$OrderIdDlnResponseDtoImpl implements _OrderIdDlnResponseDto {
       _$$OrderIdDlnResponseDtoImplFromJson(json);
 
   @override
-  final String orderId;
+  final String? orderId;
 
   @override
   String toString() {
@@ -982,14 +982,14 @@ class _$OrderIdDlnResponseDtoImpl implements _OrderIdDlnResponseDto {
 }
 
 abstract class _OrderIdDlnResponseDto implements OrderIdDlnResponseDto {
-  const factory _OrderIdDlnResponseDto({required final String orderId}) =
+  const factory _OrderIdDlnResponseDto({required final String? orderId}) =
       _$OrderIdDlnResponseDtoImpl;
 
   factory _OrderIdDlnResponseDto.fromJson(Map<String, dynamic> json) =
       _$OrderIdDlnResponseDtoImpl.fromJson;
 
   @override
-  String get orderId;
+  String? get orderId;
   @override
   @JsonKey(ignore: true)
   _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl>
