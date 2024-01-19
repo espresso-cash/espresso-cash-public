@@ -52,7 +52,7 @@ class OrderStatusDlnResponseDto with _$OrderStatusDlnResponseDto {
 @freezed
 class OrderIdDlnRequestDto with _$OrderIdDlnRequestDto {
   const factory OrderIdDlnRequestDto({
-    required String txId,
+    required String? txId,
   }) = _OrderIdDlnRequestDto;
 
   factory OrderIdDlnRequestDto.fromJson(Map<String, dynamic> json) =>
