@@ -93,7 +93,8 @@ class OnRampScalexDetails with _$OnRampScalexDetails {
 class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
   const factory ScalexRateFeeResponseDto({
     required double offRampRate,
-    required double offRampFee,
+    required double offRampFeePercentage,
+    required double espressoFeePercentage,
   }) = _ScalexRateFeeResponseDto;
 
   factory ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =>

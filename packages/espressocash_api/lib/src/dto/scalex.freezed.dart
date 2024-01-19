@@ -1325,7 +1325,8 @@ ScalexRateFeeResponseDto _$ScalexRateFeeResponseDtoFromJson(
 /// @nodoc
 mixin _$ScalexRateFeeResponseDto {
   double get offRampRate => throw _privateConstructorUsedError;
-  double get offRampFee => throw _privateConstructorUsedError;
+  double get offRampFeePercentage => throw _privateConstructorUsedError;
+  double get espressoFeePercentage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1339,7 +1340,10 @@ abstract class $ScalexRateFeeResponseDtoCopyWith<$Res> {
           $Res Function(ScalexRateFeeResponseDto) then) =
       _$ScalexRateFeeResponseDtoCopyWithImpl<$Res, ScalexRateFeeResponseDto>;
   @useResult
-  $Res call({double offRampRate, double offRampFee});
+  $Res call(
+      {double offRampRate,
+      double offRampFeePercentage,
+      double espressoFeePercentage});
 }
 
 /// @nodoc
@@ -1357,16 +1361,21 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? offRampRate = null,
-    Object? offRampFee = null,
+    Object? offRampFeePercentage = null,
+    Object? espressoFeePercentage = null,
   }) {
     return _then(_value.copyWith(
       offRampRate: null == offRampRate
           ? _value.offRampRate
           : offRampRate // ignore: cast_nullable_to_non_nullable
               as double,
-      offRampFee: null == offRampFee
-          ? _value.offRampFee
-          : offRampFee // ignore: cast_nullable_to_non_nullable
+      offRampFeePercentage: null == offRampFeePercentage
+          ? _value.offRampFeePercentage
+          : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+      espressoFeePercentage: null == espressoFeePercentage
+          ? _value.espressoFeePercentage
+          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -1381,7 +1390,10 @@ abstract class _$$ScalexRateFeeResponseDtoImplCopyWith<$Res>
       __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double offRampRate, double offRampFee});
+  $Res call(
+      {double offRampRate,
+      double offRampFeePercentage,
+      double espressoFeePercentage});
 }
 
 /// @nodoc
@@ -1398,16 +1410,21 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? offRampRate = null,
-    Object? offRampFee = null,
+    Object? offRampFeePercentage = null,
+    Object? espressoFeePercentage = null,
   }) {
     return _then(_$ScalexRateFeeResponseDtoImpl(
       offRampRate: null == offRampRate
           ? _value.offRampRate
           : offRampRate // ignore: cast_nullable_to_non_nullable
               as double,
-      offRampFee: null == offRampFee
-          ? _value.offRampFee
-          : offRampFee // ignore: cast_nullable_to_non_nullable
+      offRampFeePercentage: null == offRampFeePercentage
+          ? _value.offRampFeePercentage
+          : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+      espressoFeePercentage: null == espressoFeePercentage
+          ? _value.espressoFeePercentage
+          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
               as double,
     ));
   }
@@ -1417,7 +1434,9 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   const _$ScalexRateFeeResponseDtoImpl(
-      {required this.offRampRate, required this.offRampFee});
+      {required this.offRampRate,
+      required this.offRampFeePercentage,
+      required this.espressoFeePercentage});
 
   factory _$ScalexRateFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScalexRateFeeResponseDtoImplFromJson(json);
@@ -1425,11 +1444,13 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   @override
   final double offRampRate;
   @override
-  final double offRampFee;
+  final double offRampFeePercentage;
+  @override
+  final double espressoFeePercentage;
 
   @override
   String toString() {
-    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFee: $offRampFee)';
+    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage, espressoFeePercentage: $espressoFeePercentage)';
   }
 
   @override
@@ -1439,13 +1460,16 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
             other is _$ScalexRateFeeResponseDtoImpl &&
             (identical(other.offRampRate, offRampRate) ||
                 other.offRampRate == offRampRate) &&
-            (identical(other.offRampFee, offRampFee) ||
-                other.offRampFee == offRampFee));
+            (identical(other.offRampFeePercentage, offRampFeePercentage) ||
+                other.offRampFeePercentage == offRampFeePercentage) &&
+            (identical(other.espressoFeePercentage, espressoFeePercentage) ||
+                other.espressoFeePercentage == espressoFeePercentage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, offRampRate, offRampFee);
+  int get hashCode => Object.hash(
+      runtimeType, offRampRate, offRampFeePercentage, espressoFeePercentage);
 
   @JsonKey(ignore: true)
   @override
@@ -1464,8 +1488,10 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
 
 abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   const factory _ScalexRateFeeResponseDto(
-      {required final double offRampRate,
-      required final double offRampFee}) = _$ScalexRateFeeResponseDtoImpl;
+          {required final double offRampRate,
+          required final double offRampFeePercentage,
+          required final double espressoFeePercentage}) =
+      _$ScalexRateFeeResponseDtoImpl;
 
   factory _ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =
       _$ScalexRateFeeResponseDtoImpl.fromJson;
@@ -1473,7 +1499,9 @@ abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   @override
   double get offRampRate;
   @override
-  double get offRampFee;
+  double get offRampFeePercentage;
+  @override
+  double get espressoFeePercentage;
   @override
   @JsonKey(ignore: true)
   _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
