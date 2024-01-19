@@ -1317,11 +1317,17 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
       throw _privateConstructorUsedError;
 }
 
+ScalexRateFeeResponseDto _$ScalexRateFeeResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ScalexRateFeeResponseDto.fromJson(json);
+}
+
 /// @nodoc
 mixin _$ScalexRateFeeResponseDto {
   double get offRampRate => throw _privateConstructorUsedError;
   double get offRampFee => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $ScalexRateFeeResponseDtoCopyWith<ScalexRateFeeResponseDto> get copyWith =>
       throw _privateConstructorUsedError;
@@ -1408,10 +1414,13 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   const _$ScalexRateFeeResponseDtoImpl(
       {required this.offRampRate, required this.offRampFee});
+
+  factory _$ScalexRateFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexRateFeeResponseDtoImplFromJson(json);
 
   @override
   final double offRampRate;
@@ -1434,6 +1443,7 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
                 other.offRampFee == offRampFee));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, offRampRate, offRampFee);
 
@@ -1443,12 +1453,22 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
       get copyWith => __$$ScalexRateFeeResponseDtoImplCopyWithImpl<
           _$ScalexRateFeeResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexRateFeeResponseDtoImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   const factory _ScalexRateFeeResponseDto(
       {required final double offRampRate,
       required final double offRampFee}) = _$ScalexRateFeeResponseDtoImpl;
+
+  factory _ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =
+      _$ScalexRateFeeResponseDtoImpl.fromJson;
 
   @override
   double get offRampRate;

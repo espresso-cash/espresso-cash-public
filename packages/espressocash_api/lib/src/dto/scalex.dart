@@ -95,6 +95,9 @@ class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
     required double offRampRate,
     required double offRampFee,
   }) = _ScalexRateFeeResponseDto;
+
+  factory ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexRateFeeResponseDtoFromJson(json);
 }
 
 @JsonEnum()

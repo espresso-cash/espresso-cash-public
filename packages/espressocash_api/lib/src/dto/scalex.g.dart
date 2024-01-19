@@ -130,3 +130,17 @@ Map<String, dynamic> _$$OnRampScalexDetailsImplToJson(
       'fromAmount': instance.fromAmount,
       'fiatCurrency': instance.fiatCurrency,
     };
+
+_$ScalexRateFeeResponseDtoImpl _$$ScalexRateFeeResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScalexRateFeeResponseDtoImpl(
+      offRampRate: (json['offRampRate'] as num).toDouble(),
+      offRampFee: (json['offRampFee'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$ScalexRateFeeResponseDtoImplToJson(
+        _$ScalexRateFeeResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'offRampRate': instance.offRampRate,
+      'offRampFee': instance.offRampFee,
+    };
