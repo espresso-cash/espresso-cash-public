@@ -1326,7 +1326,6 @@ ScalexRateFeeResponseDto _$ScalexRateFeeResponseDtoFromJson(
 mixin _$ScalexRateFeeResponseDto {
   double get offRampRate => throw _privateConstructorUsedError;
   double get offRampFeePercentage => throw _privateConstructorUsedError;
-  double get espressoFeePercentage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1340,10 +1339,7 @@ abstract class $ScalexRateFeeResponseDtoCopyWith<$Res> {
           $Res Function(ScalexRateFeeResponseDto) then) =
       _$ScalexRateFeeResponseDtoCopyWithImpl<$Res, ScalexRateFeeResponseDto>;
   @useResult
-  $Res call(
-      {double offRampRate,
-      double offRampFeePercentage,
-      double espressoFeePercentage});
+  $Res call({double offRampRate, double offRampFeePercentage});
 }
 
 /// @nodoc
@@ -1362,7 +1358,6 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
   $Res call({
     Object? offRampRate = null,
     Object? offRampFeePercentage = null,
-    Object? espressoFeePercentage = null,
   }) {
     return _then(_value.copyWith(
       offRampRate: null == offRampRate
@@ -1372,10 +1367,6 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
       offRampFeePercentage: null == offRampFeePercentage
           ? _value.offRampFeePercentage
           : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
-              as double,
-      espressoFeePercentage: null == espressoFeePercentage
-          ? _value.espressoFeePercentage
-          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -1390,10 +1381,7 @@ abstract class _$$ScalexRateFeeResponseDtoImplCopyWith<$Res>
       __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {double offRampRate,
-      double offRampFeePercentage,
-      double espressoFeePercentage});
+  $Res call({double offRampRate, double offRampFeePercentage});
 }
 
 /// @nodoc
@@ -1411,7 +1399,6 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
   $Res call({
     Object? offRampRate = null,
     Object? offRampFeePercentage = null,
-    Object? espressoFeePercentage = null,
   }) {
     return _then(_$ScalexRateFeeResponseDtoImpl(
       offRampRate: null == offRampRate
@@ -1422,10 +1409,6 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
           ? _value.offRampFeePercentage
           : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
               as double,
-      espressoFeePercentage: null == espressoFeePercentage
-          ? _value.espressoFeePercentage
-          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
@@ -1434,9 +1417,7 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   const _$ScalexRateFeeResponseDtoImpl(
-      {required this.offRampRate,
-      required this.offRampFeePercentage,
-      required this.espressoFeePercentage});
+      {required this.offRampRate, required this.offRampFeePercentage});
 
   factory _$ScalexRateFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScalexRateFeeResponseDtoImplFromJson(json);
@@ -1445,12 +1426,10 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   final double offRampRate;
   @override
   final double offRampFeePercentage;
-  @override
-  final double espressoFeePercentage;
 
   @override
   String toString() {
-    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage, espressoFeePercentage: $espressoFeePercentage)';
+    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage)';
   }
 
   @override
@@ -1461,15 +1440,13 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
             (identical(other.offRampRate, offRampRate) ||
                 other.offRampRate == offRampRate) &&
             (identical(other.offRampFeePercentage, offRampFeePercentage) ||
-                other.offRampFeePercentage == offRampFeePercentage) &&
-            (identical(other.espressoFeePercentage, espressoFeePercentage) ||
-                other.espressoFeePercentage == espressoFeePercentage));
+                other.offRampFeePercentage == offRampFeePercentage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, offRampRate, offRampFeePercentage, espressoFeePercentage);
+  int get hashCode =>
+      Object.hash(runtimeType, offRampRate, offRampFeePercentage);
 
   @JsonKey(ignore: true)
   @override
@@ -1489,8 +1466,7 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
 abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   const factory _ScalexRateFeeResponseDto(
           {required final double offRampRate,
-          required final double offRampFeePercentage,
-          required final double espressoFeePercentage}) =
+          required final double offRampFeePercentage}) =
       _$ScalexRateFeeResponseDtoImpl;
 
   factory _ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =
@@ -1500,8 +1476,6 @@ abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   double get offRampRate;
   @override
   double get offRampFeePercentage;
-  @override
-  double get espressoFeePercentage;
   @override
   @JsonKey(ignore: true)
   _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
