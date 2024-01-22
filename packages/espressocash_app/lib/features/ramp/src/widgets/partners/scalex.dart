@@ -47,7 +47,7 @@ extension BuildContextExt on BuildContext {
           router.pop();
           amount = value;
         },
-        minAmount: Decimal.fromInt(6),
+        minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
         calculateEquivalent: (amount) => Future.delayed(
           Duration.zero,
