@@ -118,7 +118,6 @@ class ODPService {
     _subscriptions[paymentId] = _repository
         .watch(paymentId)
         .asyncExpand<OutgoingDirectPayment?>((payment) {
-      print(payment.status);
       switch (payment.status) {
         case ODPStatusTxCreated():
           return _send(payment).asStream();
