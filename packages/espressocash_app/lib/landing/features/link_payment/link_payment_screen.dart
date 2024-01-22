@@ -24,6 +24,7 @@ class LinkPaymentScreen extends StatelessWidget {
         ? MobileView(
             actionLink: actionLink,
             title: title,
+            actionButtonText: context.l10n.landingReceiveMoney,
           )
         : EspressoDesktopView(
             actionLink: actionLink,
@@ -61,10 +62,12 @@ class MobileView extends StatelessWidget {
     super.key,
     required this.actionLink,
     required this.title,
+    required this.actionButtonText,
   });
 
   final Uri actionLink;
   final String title;
+  final String actionButtonText;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -119,7 +122,7 @@ class MobileView extends StatelessWidget {
                 mode: LaunchMode.externalNonBrowserApplication,
                 webOnlyWindowName: '_self',
               ),
-              text: context.l10n.landingReceiveMoney,
+              text: actionButtonText,
             ),
           ],
         ),

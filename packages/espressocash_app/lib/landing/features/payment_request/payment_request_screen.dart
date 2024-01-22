@@ -17,6 +17,7 @@ class RequestPaymentScreen extends StatelessWidget {
     return isMobile
         ? MobileView(
             actionLink: actionLink,
+            actionButtonText: request.actionText,
             title: request.headerTitle,
           )
         : EspressoDesktopView(
@@ -36,5 +37,11 @@ extension on SolanaPayRequest {
     return name == null
         ? 'You have a request of $amount USDC'
         : '$name has requested $amount USDC';
+  }
+
+  String get actionText {
+    final name = label;
+
+    return name == null ? 'Pay' : 'Pay $name';
   }
 }
