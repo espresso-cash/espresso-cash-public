@@ -38,7 +38,6 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
           builder: (context) {
             final isAuthenticated = context
                 .select<AccountsBloc, bool>((b) => b.state.account != null);
-
             final isLoading =
                 context.select<AccountsBloc, bool>((b) => b.state.isProcessing);
 
