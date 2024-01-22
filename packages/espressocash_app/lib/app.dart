@@ -12,6 +12,7 @@ import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'l10n/gen/app_localizations.dart';
 import 'routes.dart';
 import 'ui/loader.dart';
+import 'ui/splash_screen.dart';
 import 'ui/theme.dart';
 
 class EspressoCashApp extends StatefulWidget {
@@ -38,6 +39,9 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
             final isAuthenticated = context
                 .select<AccountsBloc, bool>((b) => b.state.account != null);
 
+            final isLoading =
+                context.select<AccountsBloc, bool>((b) => b.state.isProcessing);
+
             return MaterialApp.router(
               routeInformationParser: _router.defaultRouteParser(),
               routerDelegate: AutoRouterDelegate.declarative(
@@ -45,6 +49,8 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
                 routes: (_) => [
                   if (isAuthenticated)
                     AuthenticatedFlowScreen.route()
+                  else if (isLoading)
+                    SplashScreen.route()
                   else
                     SignInFlowScreen.route(),
                 ],
@@ -57,15 +63,10 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
               debugShowCheckedModeBanner: false,
               title: 'Espresso Cash',
               theme: context.watch<CpThemeData>().toMaterialTheme(),
-              builder: (context, child) {
-                final isLoading = context
-                    .select<AccountsBloc, bool>((b) => b.state.isProcessing);
-
-                return CpLoader(
-                  isLoading: isLoading,
-                  child: AppLockModule(child: child),
-                );
-              },
+              builder: (context, child) => CpLoader(
+                isLoading: isLoading,
+                child: AppLockModule(child: child),
+              ),
             );
           },
         ),

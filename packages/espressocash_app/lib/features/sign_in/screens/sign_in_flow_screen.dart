@@ -16,7 +16,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../services/sign_in_bloc.dart';
-import 'create_wallet_loading_screen.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {
@@ -46,7 +45,7 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     context.watch<DynamicLinksNotifier>().link?.let(_parseUri).let((valid) {
       if (valid) {
         WidgetsBinding.instance.addPostFrameCallback(
-          (_) => context.router.push(CreateWalletLoadingScreen.route()),
+          (_) => _signInBloc.add(const SignInEvent.newLocalWalletRequested()),
         );
       }
     });
