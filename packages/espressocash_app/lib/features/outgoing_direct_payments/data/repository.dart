@@ -23,6 +23,22 @@ class ODPRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
+  Future<IList<String>> getNonCompletedPaymentIds() async {
+    final query = _db.select(_db.oDPRows)
+      ..where(
+        (p) => p.status.isNotInValues([
+          ODPStatusDto.success,
+          ODPStatusDto.txFailure,
+          ODPStatusDto.txSendFailure,
+          ODPStatusDto.txWaitFailure,
+        ]),
+      );
+
+    final rows = await query.get();
+
+    return rows.map((row) => row.id).toIList();
+  }
+
   Future<OutgoingDirectPayment?> load(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
@@ -53,28 +69,6 @@ class ODPRepository {
   }
 
   Future<void> clear() => _db.delete(_db.oDPRows).go();
-
-  Stream<IList<OutgoingDirectPayment>> watchTxCreated() => _watchWithStatuses([
-        ODPStatusDto.txCreated,
-        ODPStatusDto.txSendFailure,
-      ]);
-
-  Stream<IList<OutgoingDirectPayment>> watchTxSent() => _watchWithStatuses([
-        ODPStatusDto.txSent,
-        ODPStatusDto.txWaitFailure,
-      ]);
-
-  Stream<IList<OutgoingDirectPayment>> _watchWithStatuses(
-    Iterable<ODPStatusDto> statuses,
-  ) {
-    final query = _db.select(_db.oDPRows)
-      ..where((p) => p.status.isInValues(statuses));
-
-    return query
-        .watch()
-        .map((rows) => rows.map((row) => row.toModel(_tokens)))
-        .map((event) => event.toIList());
-  }
 }
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
