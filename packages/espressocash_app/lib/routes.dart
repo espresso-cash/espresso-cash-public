@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 
 import 'routes.gr.dart';
 
@@ -15,12 +14,12 @@ class AppRouter extends $AppRouter {
   final List<AutoRoute> routes = [
     CustomRoute(
       page: SplashRoute.page,
-      transitionsBuilder: _noTransition,
+      transitionsBuilder: TransitionsBuilders.noTransition,
       initial: true,
     ),
     CustomRoute(
       page: AuthenticatedFlowRoute.page,
-      transitionsBuilder: _noTransition,
+      transitionsBuilder: TransitionsBuilders.noTransition,
       children: [
         AutoRoute(
           path: '',
@@ -109,7 +108,16 @@ class AppRouter extends $AppRouter {
     AutoRoute(
       page: SignInFlowRoute.page,
       children: [
-        AutoRoute(page: GetStartedRoute.page, path: ''),
+        CustomRoute(
+          page: SplashRoute.page,
+          initial: true,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+        ),
+        CustomRoute(
+          page: GetStartedRoute.page,
+          durationInMilliseconds: 1500,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+        ),
         AutoRoute(page: CreateWalletLoadingRoute.page),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
@@ -118,5 +126,3 @@ class AppRouter extends $AppRouter {
     ),
   ];
 }
-
-Widget _noTransition(_, __, ___, Widget child) => child;
