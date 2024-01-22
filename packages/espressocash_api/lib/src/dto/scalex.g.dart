@@ -24,6 +24,8 @@ _$GenerateScalexLinkRequestDtoImpl _$$GenerateScalexLinkRequestDtoImplFromJson(
       type: json['type'] as String,
       address: json['address'] as String,
       email: json['email'] as String,
+      amount: (json['amount'] as num).toDouble(),
+      currency: json['currency'] as String,
     );
 
 Map<String, dynamic> _$$GenerateScalexLinkRequestDtoImplToJson(
@@ -32,6 +34,8 @@ Map<String, dynamic> _$$GenerateScalexLinkRequestDtoImplToJson(
       'type': instance.type,
       'address': instance.address,
       'email': instance.email,
+      'amount': instance.amount,
+      'currency': instance.currency,
     };
 
 _$OrderStatusScalexRequestDtoImpl _$$OrderStatusScalexRequestDtoImplFromJson(
@@ -125,4 +129,18 @@ Map<String, dynamic> _$$OnRampScalexDetailsImplToJson(
       'bankAccount': instance.bankAccount,
       'fromAmount': instance.fromAmount,
       'fiatCurrency': instance.fiatCurrency,
+    };
+
+_$ScalexRateFeeResponseDtoImpl _$$ScalexRateFeeResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ScalexRateFeeResponseDtoImpl(
+      offRampRate: (json['offRampRate'] as num).toDouble(),
+      offRampFeePercentage: (json['offRampFeePercentage'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$$ScalexRateFeeResponseDtoImplToJson(
+        _$ScalexRateFeeResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'offRampRate': instance.offRampRate,
+      'offRampFeePercentage': instance.offRampFeePercentage,
     };
