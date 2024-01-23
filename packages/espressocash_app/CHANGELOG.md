@@ -1,3 +1,16 @@
+## 1.101.1
+
+ - **FIX**: ODP service (#1245).
+ - **FIX**: receive link loading bug (#1241).
+ - **FIX**: checking status of outgoing escrow (#1244).
+
+## 1.101.0
+
+ - **REFACTOR**: splash dependency (#1230).
+ - **FIX**: update profile saving logic (#1239).
+ - **FIX**: webview camera (#1232).
+ - **FEAT**: add Guardarian partner for US onramp (#1229).
+
 ## 1.100.0
 
  - **FEAT**: disable saga functionality.

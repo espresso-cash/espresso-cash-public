@@ -9,7 +9,6 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
-import '../models/outgoing_direct_payment.dart';
 import '../services/odp_service.dart';
 
 extension BuildContextExt on BuildContext {
@@ -35,10 +34,10 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryODP({required OutgoingDirectPayment payment}) =>
+  Future<void> retryODP({required String paymentId}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().retry(
-          payment,
+          paymentId,
           account: read<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().directPaymentCreated();
