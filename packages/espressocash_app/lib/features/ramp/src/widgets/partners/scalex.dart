@@ -43,6 +43,7 @@ extension BuildContextExt on BuildContext {
 
     await router.push(
       RampAmountScreen.route(
+        partner: RampPartner.scalex,
         onSubmitted: (value) {
           router.pop();
           amount = value;
@@ -52,11 +53,17 @@ extension BuildContextExt on BuildContext {
         calculateEquivalent: (amount) => Future.delayed(
           Duration.zero,
           () => Either.right(
-            amount.calculateTotalFee(
-              exchangeRate: rateAndFee.offRampRate,
-              offRampFee: rateAndFee.offRampFeePercentage,
+            (
+              amount: amount.calculateTotalFee(
+                exchangeRate: rateAndFee.offRampRate,
+                offRampFee: rateAndFee.offRampFeePercentage,
+              ),
+              rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
             ),
           ),
+        ),
+        calculateFee: (amount) => amount.calculateEspressoFee(
+          espressoFee: rateAndFee.espressoFeePercentage,
         ),
         type: RampType.offRamp,
       ),
@@ -241,6 +248,19 @@ extension on Amount {
       value:
           Currency.ngn.decimalToInt(Decimal.parse(netAmountInFiat.toString())),
       fiatCurrency: Currency.ngn,
+    );
+  }
+
+  CryptoAmount calculateEspressoFee({
+    required double espressoFee,
+  }) {
+    final double inputAmount = decimal.toDouble();
+    final double totalFeeInUsdc = inputAmount * espressoFee;
+
+    return CryptoAmount(
+      value:
+          Currency.usdc.decimalToInt(Decimal.parse(totalFeeInUsdc.toString())),
+      cryptoCurrency: Currency.usdc,
     );
   }
 }
