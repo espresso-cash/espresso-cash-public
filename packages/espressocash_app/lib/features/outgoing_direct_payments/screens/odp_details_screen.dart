@@ -65,7 +65,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                   ),
                   txFailure: (it) => TransferError(
                     onBack: () => context.router.pop(),
-                    onRetry: () => context.retryODP(payment: payment),
+                    onRetry: () => context.retryODP(paymentId: payment.id),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(

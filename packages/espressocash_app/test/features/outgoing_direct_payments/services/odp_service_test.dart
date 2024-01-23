@@ -9,8 +9,6 @@ import 'package:espressocash_app/features/accounts/models/ec_wallet.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/data/repository.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_service.dart';
-import 'package:espressocash_app/features/outgoing_direct_payments/services/tx_created_watcher.dart';
-import 'package:espressocash_app/features/outgoing_direct_payments/services/tx_sent_watcher.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:espressocash_app/features/transactions/models/tx_results.dart';
 import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
@@ -29,9 +27,6 @@ final client = MockCryptopleaseClient();
 
 @GenerateMocks([TxSender, CryptopleaseClient])
 Future<void> main() async {
-  late TxCreatedWatcher txCreatedWatcher;
-  late TxSentWatcher txSentWatcher;
-
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
   final repository = MemoryRepository();
@@ -39,17 +34,10 @@ Future<void> main() async {
   setUp(() {
     reset(sender);
     reset(client);
-
-    txCreatedWatcher = TxCreatedWatcher(repository, sender)
-      ..call(onBalanceAffected: ignore);
-    txSentWatcher = TxSentWatcher(repository, sender)
-      ..call(onBalanceAffected: ignore);
   });
 
   tearDown(
     () async {
-      txCreatedWatcher.dispose();
-      txSentWatcher.dispose();
       await repository.clear();
     },
   );
@@ -82,7 +70,7 @@ Future<void> main() async {
     cryptoCurrency: CryptoCurrency(token: Token.usdc),
   );
 
-  ODPService createService() => ODPService(client, repository);
+  ODPService createService() => ODPService(client, repository, sender);
 
   Future<String> createODP(ODPService service) async {
     final payment = await service.create(
@@ -182,16 +170,17 @@ class MemoryRepository implements ODPRepository {
       _data.stream.map((it) => it[id]!);
 
   @override
-  Stream<IList<OutgoingDirectPayment>> watchTxCreated() => _data.stream.map(
+  Future<IList<String>> getNonCompletedPaymentIds() => _data.stream
+      .map(
         (it) => it.values
-            .where((it) => it.status.maybeMap(orElse: F, txCreated: T))
+            .where(
+              (it) => switch (it.status) {
+                ODPStatusTxCreated() || ODPStatusTxSent() => true,
+                ODPStatusSuccess() || ODPStatusTxFailure() => false,
+              },
+            )
+            .map((e) => e.id)
             .toIList(),
-      );
-
-  @override
-  Stream<IList<OutgoingDirectPayment>> watchTxSent() => _data.stream.map(
-        (it) => it.values
-            .where((it) => it.status.maybeMap(orElse: F, txSent: T))
-            .toIList(),
-      );
+      )
+      .first;
 }

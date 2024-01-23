@@ -5,9 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/flow.dart';
-import '../../../core/link_payments.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
@@ -16,7 +14,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/accounts_bloc.dart';
 import '../services/sign_in_bloc.dart';
-import 'create_wallet_loading_screen.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {
@@ -42,14 +39,6 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     super.didChangeDependencies();
 
     precacheImage(Assets.images.dollarBg.provider(), context);
-
-    context.watch<DynamicLinksNotifier>().link?.let(_parseUri).let((valid) {
-      if (valid) {
-        WidgetsBinding.instance.addPostFrameCallback(
-          (_) => context.router.push(CreateWalletLoadingScreen.route()),
-        );
-      }
-    });
   }
 
   @override
@@ -87,10 +76,4 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
           ),
         ),
       );
-}
-
-bool _parseUri(Uri? link) {
-  if (link == null) return false;
-
-  return LinkPayments.tryParse(link) != null;
 }

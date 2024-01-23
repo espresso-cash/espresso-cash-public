@@ -20,7 +20,7 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 }
 
 @freezed
-class ODPStatus with _$ODPStatus {
+sealed class ODPStatus with _$ODPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
   const factory ODPStatus.txCreated(
     SignedTx tx, {
@@ -40,4 +40,8 @@ class ODPStatus with _$ODPStatus {
   /// case, it's safe to recreate the tx.
   const factory ODPStatus.txFailure({TxFailureReason? reason}) =
       ODPStatusTxFailure;
+}
+
+extension OutgoingDirectPaymentExt on OutgoingDirectPayment {
+  bool get isRetriable => status is ODPStatusTxFailure;
 }
