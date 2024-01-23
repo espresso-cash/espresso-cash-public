@@ -110,15 +110,14 @@ class AppRouter extends $AppRouter {
       children: [
         CustomRoute(
           page: SplashRoute.page,
-          initial: true,
           transitionsBuilder: TransitionsBuilders.noTransition,
+          initial: true,
         ),
         CustomRoute(
           page: GetStartedRoute.page,
           durationInMilliseconds: 1500,
           transitionsBuilder: TransitionsBuilders.noTransition,
         ),
-        AutoRoute(page: CreateWalletLoadingRoute.page),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
         AutoRoute(page: CountryPickerRoute.page),
