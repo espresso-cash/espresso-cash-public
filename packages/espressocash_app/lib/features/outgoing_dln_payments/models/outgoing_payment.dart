@@ -19,7 +19,7 @@ class OutgoingDlnPayment with _$OutgoingDlnPayment {
 }
 
 @freezed
-class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
+sealed class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   /// Tx is successfully created and ready to be sent.
   const factory OutgoingDlnPaymentStatus.txCreated(
     SignedTx tx, {

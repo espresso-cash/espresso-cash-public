@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
@@ -10,9 +9,8 @@ import '../../../core/blockchain.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
-import '../../accounts/models/account.dart';
 import '../models/payment_quote.dart';
-import '../services/odlnp_service.dart';
+import '../services/dln_order_service.dart';
 import 'confirmation_screen.dart';
 import 'details_screen.dart';
 
@@ -64,13 +62,8 @@ class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
 }
 
 extension on BuildContext {
-  Future<String> createDlnPayment(PaymentQuote quote) =>
-      runWithLoader(this, () async {
-        final payment = await sl<OutgoingDlnPaymentService>().create(
-          quote: quote,
-          account: read<MyAccount>().wallet,
-        );
-
-        return payment.id;
-      });
+  Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(
+        this,
+        () => sl<DlnOrderService>().create(quote),
+      );
 }

@@ -37,6 +37,21 @@ class OutgoingDlnPaymentRepository {
         );
   }
 
+  Future<IList<String>> getAllPending() async {
+    final query = _db.select(_db.outgoingDlnPaymentRows)
+      ..where(
+        (p) => p.status.isNotInValues([
+          ODLNPaymentStatusDto.success,
+          ODLNPaymentStatusDto.txFailure,
+          ODLNPaymentStatusDto.unfulfilled,
+        ]),
+      );
+
+    final rows = await query.get();
+
+    return rows.map((row) => row.id).toIList();
+  }
+
   Stream<OutgoingDlnPayment?> watch(String id) {
     final query = _db.select(_db.outgoingDlnPaymentRows)
       ..where((p) => p.id.equals(id));
@@ -49,27 +64,6 @@ class OutgoingDlnPaymentRepository {
       .insertOnConflictUpdate(payment.toDto());
 
   Future<void> clear() => _db.delete(_db.outgoingDlnPaymentRows).go();
-
-  Stream<IList<OutgoingDlnPayment>> watchTxCreated() =>
-      _watchWithStatus(ODLNPaymentStatusDto.txCreated);
-
-  Stream<IList<OutgoingDlnPayment>> watchTxSent() =>
-      _watchWithStatus(ODLNPaymentStatusDto.txSent);
-
-  Stream<IList<OutgoingDlnPayment>> watchTxSuccess() =>
-      _watchWithStatus(ODLNPaymentStatusDto.success);
-
-  Stream<IList<OutgoingDlnPayment>> _watchWithStatus(
-    ODLNPaymentStatusDto status,
-  ) {
-    final query = _db.select(_db.outgoingDlnPaymentRows)
-      ..where((p) => p.status.equalsValue(status));
-
-    return query
-        .watch()
-        .asyncMap((rows) => rows.map((row) => row.toModel()))
-        .map((it) => it.toIList());
-  }
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
