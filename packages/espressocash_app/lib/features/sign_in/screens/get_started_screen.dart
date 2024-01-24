@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
+import '../../../core/dynamic_links_notifier.dart';
+import '../../../core/link_payments.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -183,25 +186,53 @@ class _Body extends StatelessWidget {
   const _Body();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(left: 30.w, right: 25.w),
-        // TODO(KB): Check if needed
-        // ignore: avoid-single-child-column-or-row
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              context.l10n.onboardingIntro.toUpperCase(),
-              style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 46.sp,
-                height: 0.9,
-              ),
-            ),
-          ],
-        ),
-      );
+  Widget build(BuildContext context) {
+    final hasPendingLink =
+        context.watch<DynamicLinksNotifier>().link.let(_parseUri);
+
+    return Padding(
+      padding: EdgeInsets.only(left: 30.w, right: 40.w),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: hasPendingLink
+            ? [
+                Text(
+                  context.l10n.onboardingWithPaymentTitle.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 46.sp,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+                Text(
+                  context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ]
+            : [
+                Text(
+                  context.l10n.onboardingIntro.toUpperCase(),
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 46.sp,
+                    height: 0.9,
+                  ),
+                ),
+              ],
+      ),
+    );
+  }
 }
 
 const keyCreateWalletButton = Key('createWalletButton');
 const keyUseExistingWalletButton = Key('useExistingWalletButton');
+
+bool _parseUri(Uri? link) {
+  if (link == null) return false;
+
+  return LinkPayments.tryParse(link) != null;
+}
