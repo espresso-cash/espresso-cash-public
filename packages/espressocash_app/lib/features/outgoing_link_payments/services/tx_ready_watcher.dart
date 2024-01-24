@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../transactions/services/tx_destinations.dart';
@@ -78,15 +79,24 @@ class TxReadyWatcher {
   }) {
     Duration backoff = const Duration(seconds: 1);
 
-    Stream<Iterable<TransactionDetails>> streamSignatures(void _) =>
+    Stream<IList<TransactionDetails>> streamSignatures(void _) =>
         _client.rpcClient
             .getTransactionsList(
               account,
-              limit: 2,
+              limit: 100,
               commitment: Commitment.confirmed,
               encoding: Encoding.jsonParsed,
             )
-            .asStream();
+            .asStream()
+            .map(
+              (txs) => txs
+                  .where(
+                    (details) => details.transaction
+                        .getSignatureAccounts()
+                        .contains(account),
+                  )
+                  .toIList(),
+            );
 
     Stream<void> retryWhen(void _, void __) async* {
       await Future<void>.delayed(backoff);
@@ -111,4 +121,21 @@ class TxReadyWatcher {
       subscription.cancel();
     }
   }
+}
+
+extension on Transaction {
+  List<Ed25519HDPublicKey> getSignatureAccounts() => switch (this) {
+        ParsedTransaction(:final signatures, :final message) => message
+            .accountKeys
+            .map((e) => Ed25519HDPublicKey.fromBase58(e.pubkey))
+            .take(signatures.length)
+            .toList(),
+        RawTransaction(:final data) => SignedTx.fromBytes(data).let(
+            (tx) => tx.compiledMessage.accountKeys
+                .take(tx.signatures.length)
+                .toList(),
+          ),
+        _ =>
+          throw UnsupportedError('Unsupported transaction type: $runtimeType'),
+      };
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -67,11 +68,20 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
     super.dispose();
   }
 
-  void _handleSubmitted() => runWithLoader(context, () async {
-        try {
+  void _handleSubmitted() => runWithLoader(
+        context,
+        () async {
           final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-          if (!mounted) return;
+          final newCountryCode = _country?.code;
+          final wasCountryChanged =
+              newCountryCode != sl<ProfileRepository>().country;
+          if (wasCountryChanged && newCountryCode != null) {
+            final request = WalletCountryRequestDto(
+              countryCode: newCountryCode,
+            );
+            await sl<CryptopleaseClient>().updateUserWalletCountry(request);
+          }
 
           sl<ProfileRepository>()
             ..firstName = _nameController.text
@@ -80,12 +90,9 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             ..email = _emailController.text;
 
           widget.onSubmitted();
-        } on Exception catch (error) {
-          if (!mounted) return;
-
-          showErrorDialog(context, 'Error', error);
-        }
-      });
+        },
+        onError: (error) => showErrorDialog(context, 'Error', error),
+      );
 
   bool get _isValid =>
       _nameController.text.isNotEmpty &&
