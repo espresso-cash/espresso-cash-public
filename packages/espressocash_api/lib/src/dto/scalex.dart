@@ -94,6 +94,7 @@ class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
   const factory ScalexRateFeeResponseDto({
     required double offRampRate,
     required double offRampFeePercentage,
+    required double espressoFeePercentage,
   }) = _ScalexRateFeeResponseDto;
 
   factory ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =>
