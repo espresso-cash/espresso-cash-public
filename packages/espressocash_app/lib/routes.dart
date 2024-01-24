@@ -110,7 +110,6 @@ class AppRouter extends $AppRouter {
       page: SignInFlowRoute.page,
       children: [
         AutoRoute(page: GetStartedRoute.page, path: ''),
-        AutoRoute(page: CreateWalletLoadingRoute.page),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
         AutoRoute(page: CountryPickerRoute.page),

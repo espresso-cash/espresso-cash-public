@@ -1,3 +1,9 @@
+## 1.101.1
+
+ - **FIX**: ODP service (#1245).
+ - **FIX**: receive link loading bug (#1241).
+ - **FIX**: checking status of outgoing escrow (#1244).
+
 ## 1.101.0
 
  - **REFACTOR**: splash dependency (#1230).
