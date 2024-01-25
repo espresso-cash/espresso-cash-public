@@ -199,4 +199,4 @@ class OutgoingDlnPaymentService implements Disposable {
   }
 }
 
-const _minutesBeforeStale = 1;
+const _minutesBeforeStale = 4;
