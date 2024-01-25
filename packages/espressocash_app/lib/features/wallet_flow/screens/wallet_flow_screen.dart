@@ -171,8 +171,6 @@ class _State extends State<WalletFlowScreen> {
                       receiverAddress: address,
                     ),
                   );
-
-                  // _reset(); //TODO update only if success
                 }
               },
             ),
