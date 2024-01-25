@@ -19,8 +19,13 @@ import '../models/outgoing_payment.dart';
 import '../models/payment_quote.dart';
 
 @Singleton(scope: authScope)
-class DlnOrderService implements Disposable {
-  DlnOrderService(this._account, this._client, this._sender, this._repository);
+class OutgoingDlnPaymentService implements Disposable {
+  OutgoingDlnPaymentService(
+    this._account,
+    this._client,
+    this._sender,
+    this._repository,
+  );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, StreamSubscription<void>> _watchers = {};
@@ -113,7 +118,6 @@ class DlnOrderService implements Disposable {
     }
 
     final tx = await _sender.send(status.tx, minContextSlot: status.slot);
-
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
       sent: (_) => OutgoingDlnPaymentStatus.txSent(
         status.tx,
@@ -136,19 +140,19 @@ class DlnOrderService implements Disposable {
     }
 
     final tx = await _sender.wait(status.tx, minContextSlot: status.slot);
-    final orderId = await _client
-        .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
-        .letAsync((p) => p.orderId);
+    final OutgoingDlnPaymentStatus? newStatus = await tx.map(
+      success: (_) async {
+        final orderId = await _client
+            .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+            .letAsync((p) => p.orderId);
 
-    if (orderId == null) {
-      return payment;
-    }
-
-    final OutgoingDlnPaymentStatus? newStatus = tx.map(
-      success: (_) => OutgoingDlnPaymentStatus.success(
-        status.tx,
-        orderId: orderId,
-      ),
+        return orderId == null
+            ? null
+            : OutgoingDlnPaymentStatus.success(
+                status.tx,
+                orderId: orderId,
+              );
+      },
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );
@@ -195,4 +199,4 @@ class DlnOrderService implements Disposable {
   }
 }
 
-const _minutesBeforeStale = 2;
+const _minutesBeforeStale = 1;

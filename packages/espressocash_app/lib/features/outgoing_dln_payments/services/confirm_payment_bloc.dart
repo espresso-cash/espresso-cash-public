@@ -15,7 +15,6 @@ import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 
 part 'confirm_payment_bloc.freezed.dart';
-part 'confirm_payment_event.dart';
 part 'confirm_payment_state.dart';
 
 typedef _Event = ConfirmPaymentEvent;
@@ -93,6 +92,13 @@ extension on ConfirmPaymentState {
         flowState: const Flow.initial(),
         expiresAt: DateTime.now().add(_quoteDuration),
       );
+}
+
+@freezed
+class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
+  const factory ConfirmPaymentEvent.confirmed() = Confirmed;
+
+  const factory ConfirmPaymentEvent.invalidated() = Invalidated;
 }
 
 const _quoteDuration = Duration(seconds: 20);

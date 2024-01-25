@@ -41,7 +41,7 @@ class OutgoingDlnPaymentRepository {
     final query = _db.select(_db.outgoingDlnPaymentRows)
       ..where(
         (p) => p.status.isNotInValues([
-          ODLNPaymentStatusDto.success,
+          ODLNPaymentStatusDto.fulfilled,
           ODLNPaymentStatusDto.txFailure,
           ODLNPaymentStatusDto.unfulfilled,
         ]),

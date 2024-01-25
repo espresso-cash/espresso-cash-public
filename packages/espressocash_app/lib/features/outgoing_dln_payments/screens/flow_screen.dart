@@ -64,6 +64,6 @@ class _FlowState extends State<OutgoingDlnPaymentFlowScreen> {
 extension on BuildContext {
   Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(
         this,
-        () => sl<DlnOrderService>().create(quote),
+        () => sl<OutgoingDlnPaymentService>().create(quote),
       );
 }
