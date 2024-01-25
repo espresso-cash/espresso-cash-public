@@ -175,8 +175,8 @@ mixin _$GenerateScalexLinkRequestDto {
   String get type => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  double get amount => throw _privateConstructorUsedError;
-  String get currency => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -196,8 +196,8 @@ abstract class $GenerateScalexLinkRequestDtoCopyWith<$Res> {
       {String type,
       String address,
       String email,
-      double amount,
-      String currency});
+      double? amount,
+      String? currency});
 }
 
 /// @nodoc
@@ -217,8 +217,8 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
     Object? type = null,
     Object? address = null,
     Object? email = null,
-    Object? amount = null,
-    Object? currency = null,
+    Object? amount = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -233,14 +233,14 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      currency: null == currency
+              as double?,
+      currency: freezed == currency
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -258,8 +258,8 @@ abstract class _$$GenerateScalexLinkRequestDtoImplCopyWith<$Res>
       {String type,
       String address,
       String email,
-      double amount,
-      String currency});
+      double? amount,
+      String? currency});
 }
 
 /// @nodoc
@@ -278,8 +278,8 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
     Object? type = null,
     Object? address = null,
     Object? email = null,
-    Object? amount = null,
-    Object? currency = null,
+    Object? amount = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_$GenerateScalexLinkRequestDtoImpl(
       type: null == type
@@ -294,14 +294,14 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      amount: null == amount
+      amount: freezed == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as double,
-      currency: null == currency
+              as double?,
+      currency: freezed == currency
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -314,8 +314,8 @@ class _$GenerateScalexLinkRequestDtoImpl
       {required this.type,
       required this.address,
       required this.email,
-      required this.amount,
-      required this.currency});
+      this.amount,
+      this.currency});
 
   factory _$GenerateScalexLinkRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -328,9 +328,9 @@ class _$GenerateScalexLinkRequestDtoImpl
   @override
   final String email;
   @override
-  final double amount;
+  final double? amount;
   @override
-  final String currency;
+  final String? currency;
 
   @override
   String toString() {
@@ -377,8 +377,8 @@ abstract class _GenerateScalexLinkRequestDto
       {required final String type,
       required final String address,
       required final String email,
-      required final double amount,
-      required final String currency}) = _$GenerateScalexLinkRequestDtoImpl;
+      final double? amount,
+      final String? currency}) = _$GenerateScalexLinkRequestDtoImpl;
 
   factory _GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =
       _$GenerateScalexLinkRequestDtoImpl.fromJson;
@@ -390,9 +390,9 @@ abstract class _GenerateScalexLinkRequestDto
   @override
   String get email;
   @override
-  double get amount;
+  double? get amount;
   @override
-  String get currency;
+  String? get currency;
   @override
   @JsonKey(ignore: true)
   _$$GenerateScalexLinkRequestDtoImplCopyWith<

@@ -1,6 +1,8 @@
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/currency.dart';
+
 @injectable
 class ScalexRepository {
   ScalexRepository({
@@ -22,7 +24,7 @@ class ScalexRepository {
               address: address,
               email: email,
               amount: amount,
-              currency: 'NGN',
+              currency: Currency.ngn.symbol,
             ),
           )
           .then((p) => p.signedUrl);
@@ -34,5 +36,5 @@ class ScalexRepository {
       .then((it) => it.status);
 
   Future<ScalexRateFeeResponseDto> fetchRateAndFee() =>
-      _client.fetchScalexFeesAndRate().then((it) => it);
+      _client.fetchScalexFeesAndRate();
 }

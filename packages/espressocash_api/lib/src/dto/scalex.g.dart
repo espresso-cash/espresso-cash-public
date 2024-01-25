@@ -24,8 +24,8 @@ _$GenerateScalexLinkRequestDtoImpl _$$GenerateScalexLinkRequestDtoImplFromJson(
       type: json['type'] as String,
       address: json['address'] as String,
       email: json['email'] as String,
-      amount: (json['amount'] as num).toDouble(),
-      currency: json['currency'] as String,
+      amount: (json['amount'] as num?)?.toDouble(),
+      currency: json['currency'] as String?,
     );
 
 Map<String, dynamic> _$$GenerateScalexLinkRequestDtoImplToJson(

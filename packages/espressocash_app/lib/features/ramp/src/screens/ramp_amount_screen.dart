@@ -33,6 +33,7 @@ class RampAmountScreen extends StatefulWidget {
     required this.type,
     required this.calculateFee,
     required this.partner,
+    this.partnerFeeLabel,
   });
 
   static const route = RampAmountRoute.new;
@@ -44,6 +45,7 @@ class RampAmountScreen extends StatefulWidget {
   final RampType type;
   final RampPartner partner;
   final FeeCalculator? calculateFee;
+  final String? partnerFeeLabel;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -124,7 +126,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                   valueListenable: _controller,
                   builder: (context, value, child) => _FeeLabel(
                     feeCalculator: widget.calculateFee,
-                    partner: widget.partner,
+                    partnerFeeLabel: widget.partnerFeeLabel,
                     amount: _amount,
                   ),
                 ),
@@ -155,22 +157,22 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
 class _FeeLabel extends StatelessWidget {
   const _FeeLabel({
     required this.feeCalculator,
-    required this.partner,
+    required this.partnerFeeLabel,
     required this.amount,
   });
 
-  final RampPartner partner;
+  final String? partnerFeeLabel;
   final FeeCalculator? feeCalculator;
   final Amount amount;
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (partner.partnerFeeLabel case final partnerFee?)
+          if (partnerFeeLabel case final partnerFeeLbl?)
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 2.0),
               child: Text(
-                partnerFee,
+                partnerFeeLbl,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 14,
@@ -395,10 +397,10 @@ class _FeeCalculator extends StatefulWidget {
   final Amount amount;
 
   @override
-  State<_FeeCalculator> createState() => __FeeCalculatorState();
+  State<_FeeCalculator> createState() => _FeeCalculatorState();
 }
 
-class __FeeCalculatorState extends State<_FeeCalculator> {
+class _FeeCalculatorState extends State<_FeeCalculator> {
   late Amount _result;
 
   @override
@@ -425,15 +427,4 @@ class __FeeCalculatorState extends State<_FeeCalculator> {
           letterSpacing: 0.19,
         ),
       );
-}
-
-extension on RampPartner {
-  String? get partnerFeeLabel => switch (this) {
-        RampPartner.scalex => r'Partner Fee: 0.25% + $0.5 (included)',
-        RampPartner.kado ||
-        RampPartner.rampNetwork ||
-        RampPartner.coinflow ||
-        RampPartner.guardarian =>
-          null,
-      };
 }

@@ -50,18 +50,17 @@ extension BuildContextExt on BuildContext {
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        calculateEquivalent: (amount) => Future.delayed(
-          Duration.zero,
-          () => Either.right(
-            (
-              amount: amount.calculateTotalFee(
-                exchangeRate: rateAndFee.offRampRate,
-                offRampFee: rateAndFee.offRampFeePercentage,
-              ),
-              rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+        calculateEquivalent: (amount) async => Either.right(
+          (
+            amount: amount.calculateTotalFee(
+              exchangeRate: rateAndFee.offRampRate,
+              offRampFee: rateAndFee.offRampFeePercentage,
             ),
+            rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
           ),
         ),
+        partnerFeeLabel:
+            'Partner Fee: ${rateAndFee.offRampFeePercentage}% + \$0.5 (included)',
         calculateFee: (amount) => amount.calculateEspressoFee(
           espressoFee: rateAndFee.espressoFeePercentage,
         ),
