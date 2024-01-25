@@ -146,12 +146,10 @@ class OutgoingDlnPaymentService implements Disposable {
             .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
             .letAsync((p) => p.orderId);
 
-        return orderId == null
-            ? null
-            : OutgoingDlnPaymentStatus.success(
-                status.tx,
-                orderId: orderId,
-              );
+        return OutgoingDlnPaymentStatus.success(
+          status.tx,
+          orderId: orderId,
+        );
       },
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
@@ -167,15 +165,24 @@ class OutgoingDlnPaymentService implements Disposable {
       return order;
     }
 
+    final orderId = status.orderId ??
+        await _client
+            .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+            .letAsync((p) => p.orderId);
+
+    if (orderId == null) {
+      return order;
+    }
+
     final orderStatus = await _client
-        .fetchDlnStatus(OrderStatusDlnRequestDto(orderId: status.orderId));
+        .fetchDlnStatus(OrderStatusDlnRequestDto(orderId: orderId));
     final isFulfilled = orderStatus.status == DlnOrderStatus.fulfilled;
 
     if (isFulfilled) {
       return order.copyWith(
         status: OutgoingDlnPaymentStatus.fulfilled(
           status.tx,
-          orderId: status.orderId,
+          orderId: orderId,
         ),
       );
     }
@@ -187,7 +194,7 @@ class OutgoingDlnPaymentService implements Disposable {
         ? order.copyWith(
             status: OutgoingDlnPaymentStatus.unfulfilled(
               status.tx,
-              orderId: status.orderId,
+              orderId: orderId,
             ),
           )
         : order;

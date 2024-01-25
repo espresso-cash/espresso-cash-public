@@ -35,7 +35,7 @@ sealed class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   /// Tx is successfully confirmed and order awaiting fulfillment.
   const factory OutgoingDlnPaymentStatus.success(
     SignedTx tx, {
-    required String orderId,
+    required String? orderId,
   }) = OutgoingDlnPaymentStatusSuccess;
 
   /// Failed to create the tx, a new tx should be created.
