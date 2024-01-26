@@ -55,12 +55,13 @@ extension BuildContextExt on BuildContext {
             amount: amount.calculateTotalFee(
               exchangeRate: rateAndFee.offRampRate,
               offRampFee: rateAndFee.offRampFeePercentage,
+              fixedFee: rateAndFee.fixedOffRampFee,
             ),
             rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
           ),
         ),
         partnerFeeLabel:
-            'Partner Fee: ${rateAndFee.offRampFeePercentage}% + \$0.5 (included)',
+            'Partner Fee: ${rateAndFee.offRampFeePercentage}% + \$${rateAndFee.fixedOffRampFee} (included)',
         calculateFee: (amount) => amount.calculateEspressoFee(
           espressoFee: rateAndFee.espressoFeePercentage,
         ),
@@ -236,9 +237,10 @@ extension on Amount {
   FiatAmount calculateTotalFee({
     required double exchangeRate,
     required double offRampFee,
+    required double fixedFee,
   }) {
     final double inputAmount = decimal.toDouble();
-    final double totalFeeInUsdc = (inputAmount * offRampFee / 100) + 0.5;
+    final double totalFeeInUsdc = (inputAmount * offRampFee) + fixedFee;
 
     final double netAmountInFiat =
         (inputAmount - totalFeeInUsdc) * exchangeRate;
