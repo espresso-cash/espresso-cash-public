@@ -324,9 +324,7 @@ class _Calculator extends StatelessWidget {
                 ),
                 TextSpan(
                   text: ' ${equivalent.amount.currency.symbol.toUpperCase()}',
-                  style: const TextStyle(
-                    color: CpColors.yellowColor,
-                  ),
+                  style: const TextStyle(color: CpColors.yellowColor),
                 ),
               ],
             ),
