@@ -4,7 +4,7 @@ import 'package:ramp_flutter/ramp_flutter.dart';
 
 import '../../../../../config.dart';
 import '../../../../balances/widgets/context_ext.dart';
-import '../../models/profile_data.dart';
+import '../../../src/models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
   void launchRampNetworkOnRamp({
