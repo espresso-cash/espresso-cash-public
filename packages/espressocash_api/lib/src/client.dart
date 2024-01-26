@@ -84,8 +84,18 @@ abstract class CryptopleaseClient {
     @Body() WalletCountryRequestDto request,
   );
 
-  @POST('/getDlnQuote')
+  @POST('/dln/quote')
   Future<PaymentQuoteResponseDto> getDlnQuote(
     @Body() PaymentQuoteRequestDto request,
+  );
+
+  @POST('/dln/orderId')
+  Future<OrderIdDlnResponseDto> fetchDlnOrderId(
+    @Body() OrderIdDlnRequestDto request,
+  );
+
+  @POST('/dln/status')
+  Future<OrderStatusDlnResponseDto> fetchDlnStatus(
+    @Body() OrderStatusDlnRequestDto request,
   );
 }
