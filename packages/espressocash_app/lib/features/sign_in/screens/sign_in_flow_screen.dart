@@ -34,19 +34,14 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
     _signInBloc = sl<SignInBloc>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Future<void>.delayed(const Duration(milliseconds: 30));
+      await Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]);
 
       if (!mounted) return;
-      await context.router.push(const GetStartedRoute());
+      await context.router.replace(const GetStartedRoute());
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    precacheImage(Assets.images.logo.provider(), context);
-    precacheImage(Assets.images.dollarBg.provider(), context);
   }
 
   @override

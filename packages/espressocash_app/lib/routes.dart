@@ -115,8 +115,8 @@ class AppRouter extends $AppRouter {
         ),
         CustomRoute(
           page: GetStartedRoute.page,
-          durationInMilliseconds: 1500,
-          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 1000,
+          transitionsBuilder: TransitionsBuilders.fadeIn,
         ),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
