@@ -1,5 +1,5 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
@@ -70,6 +70,7 @@ class TxSender {
     final start = DateTime.now();
 
     Future<TxWaitResult?> getSignatureStatus() async {
+      _logger.fine('${tx.id}: Checking tx status.');
       // We need to check blockhash validity before searching for tx to make
       // sure that it's valid for the tx response slot.
       // ignore: move-variable-closer-to-its-usage
@@ -86,10 +87,18 @@ class TxSender {
       final t = statuses.value.first;
 
       if (t == null) {
+        _logger.fine('${tx.id}: Tx not found.');
+
         // Blockhash is still valid, tx can be submitted.
-        if (blockhashValidity.value) return null;
+        if (blockhashValidity.value) {
+          _logger.fine('${tx.id}: Blockhash is still valid.');
+
+          return null;
+        }
 
         if (DateTime.now().difference(start).inSeconds > 90) {
+          _logger.fine('${tx.id}: Timeout, failing.');
+
           // We've been waiting for too long, blockhash is invalid and it
           // won't be valid.
           return const TxWaitResult.failure(
@@ -99,15 +108,29 @@ class TxSender {
 
         // No minContextSlot, it's not safe to assume that we get the latest
         // status.
-        if (minContextSlot == BigInt.zero) return null;
+        if (minContextSlot == BigInt.zero) {
+          _logger.fine('${tx.id}: minContextSlot is zero.');
+
+          return null;
+        }
 
         // We were calling the status with too old slot, we cannot be sure
         // that tx was not submitted.
-        if (statuses.context.slot < minContextSlot) return null;
+        if (statuses.context.slot < minContextSlot) {
+          _logger.fine('${tx.id}: minContextSlot not reached.');
+
+          return null;
+        }
 
         // We were calling the status with too old slot, blockhash validity
         // is not guaranteed.
-        if (statuses.context.slot < blockhashValidity.context.slot) return null;
+        if (statuses.context.slot < blockhashValidity.context.slot) {
+          _logger.fine('${tx.id}: Blockhas validity slot is ahead.');
+
+          return null;
+        }
+
+        _logger.fine('${tx.id}: Ivalid blockhash.');
 
         // At this stage, blockhash is invalid and it won't be valid, so
         // tx cannot be submitted.
@@ -117,15 +140,22 @@ class TxSender {
       }
 
       if (t.err != null) {
+        _logger.fine('${tx.id}: Tx error ${t.err}.');
+
         return const TxWaitResult.failure(reason: TxFailureReason.txError);
       }
 
       if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
+        _logger.fine('${tx.id}: Success.');
+
         return const TxWaitResult.success();
       }
+
+      _logger
+          .fine('${tx.id}: Wrong confirmation status ${t.confirmationStatus}.');
     }
 
-    Future<TxWaitResult> waitForSignatureStatus() async {
+    Future<TxWaitResult?> waitForSignatureStatus() async {
       try {
         await _client.waitForSignatureStatus(
           tx.id,
@@ -134,22 +164,27 @@ class TxSender {
           timeout: waitForSignatureDefaultTimeout,
         );
 
+        _logger.fine('${tx.id}: Success from WS.');
+
         return const TxWaitResult.success();
-      } on SubscriptionClientException {
+      } on SubscriptionClientException catch (error) {
+        _logger.fine('${tx.id}: Failure from WS $error.');
+
         return const TxWaitResult.failure(reason: TxFailureReason.txError);
-      } on Exception {
-        return const TxWaitResult.networkError();
+      } on Exception catch (error) {
+        _logger.fine('${tx.id}: Network error from WS $error.');
+
+        return null;
       }
     }
 
-    final polling = _createPolling<TxWaitResult?>(
-      createSource: () => getSignatureStatus().asStream(),
-    );
+    final polling = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .exhaustMap((_) => getSignatureStatus().asStream().onErrorReturn(null));
 
-    return Future.any([
-      polling.whereNotNull().first,
-      waitForSignatureStatus(),
-    ]);
+    return MergeStream([polling, waitForSignatureStatus().asStream()])
+        .whereNotNull()
+        .first;
   }
 }
 
@@ -173,20 +208,4 @@ extension on JsonRpcException {
   }
 }
 
-Stream<T> _createPolling<T>({required Func0<Stream<T>> createSource}) {
-  Duration backoff = const Duration(seconds: 1);
-
-  Stream<void> retryWhen(void _, void __) async* {
-    await Future<void>.delayed(backoff);
-    if (backoff < const Duration(seconds: 30)) backoff *= 2;
-
-    yield null;
-  }
-
-  return RetryWhenStream(
-    () => Stream<void>.periodic(const Duration(seconds: 10))
-        .startWith(null)
-        .flatMap((_) => createSource()),
-    retryWhen,
-  );
-}
+final _logger = Logger('TxSender');
