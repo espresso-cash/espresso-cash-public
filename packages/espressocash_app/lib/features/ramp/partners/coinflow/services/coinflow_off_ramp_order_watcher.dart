@@ -7,10 +7,10 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../../data/db/db.dart';
-import '../../../accounts/models/ec_wallet.dart';
-import '../../data/my_database_ext.dart';
-import '../../src/models/ramp_watcher.dart';
+import '../../../../../data/db/db.dart';
+import '../../../../accounts/models/ec_wallet.dart';
+import '../../../data/my_database_ext.dart';
+import '../../../src/models/ramp_watcher.dart';
 import '../data/coinflow_api_client.dart';
 
 @injectable
