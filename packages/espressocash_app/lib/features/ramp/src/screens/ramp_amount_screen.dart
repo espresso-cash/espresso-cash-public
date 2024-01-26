@@ -168,11 +168,11 @@ class _FeeLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (partnerFeeLabel case final partnerFeeLbl?)
+          if (partnerFeeLabel case final partnerFeeLabel?)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
+              padding: const EdgeInsets.symmetric(vertical: 2),
               child: Text(
-                partnerFeeLbl,
+                partnerFeeLabel,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 14,
@@ -183,9 +183,11 @@ class _FeeLabel extends StatelessWidget {
             ),
           if (feeCalculator case final feeCalculator?)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2.0),
-              child:
-                  _FeeCalculator(calculateFee: feeCalculator, amount: amount),
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: _FeeCalculator(
+                calculateFee: feeCalculator,
+                amount: amount,
+              ),
             ),
           const SizedBox(height: 12),
         ],
