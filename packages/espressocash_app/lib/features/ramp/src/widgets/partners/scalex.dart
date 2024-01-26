@@ -20,6 +20,7 @@ import '../../../screens/on_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../models/profile_data.dart';
 import '../../models/ramp_type.dart';
+import '../../screens/ramp_amount_screen.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchScalexRamp({
@@ -27,17 +28,54 @@ extension BuildContextExt on BuildContext {
     required ProfileData profile,
     required RampType type,
   }) async {
+    final rateAndFee = await _fetchRateAndFee();
+
+    if (rateAndFee == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    Amount? amount;
+
+    await router.push(
+      RampAmountScreen.route(
+        partner: RampPartner.scalex,
+        onSubmitted: (value) {
+          router.pop();
+          amount = value;
+        },
+        minAmount: Decimal.fromInt(10),
+        currency: Currency.usdc,
+        calculateEquivalent: (amount) => (
+          amount: amount.calculateTotalFee(
+            exchangeRate: rateAndFee.offRampRate,
+            offRampFee: rateAndFee.offRampFeePercentage,
+            fixedFee: rateAndFee.fixedOffRampFee,
+          ),
+          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+        ),
+        partnerFeeLabel:
+            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
+        calculateFee: (amount) => amount.calculateEspressoFee(
+          espressoFee: rateAndFee.espressoFeePercentage,
+        ),
+        type: RampType.offRamp,
+      ),
+    );
+
+    final submittedAmount = amount;
+    if (submittedAmount is! CryptoAmount) return;
+
     final link = await _generateRampLink(
       address: address,
       profile: profile,
       type: type,
+      amount: submittedAmount.decimal.toDouble(),
     );
 
     if (link == null) {
-      showCpErrorSnackbar(
-        this,
-        message: l10n.tryAgainLater,
-      );
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
       return;
     }
@@ -158,6 +196,7 @@ window.addEventListener("message", (event) => {
     required String address,
     required ProfileData profile,
     required RampType type,
+    required double amount,
   }) =>
       runWithLoader<String?>(this, () async {
         try {
@@ -167,9 +206,54 @@ window.addEventListener("message", (event) => {
             type: type == RampType.onRamp ? 'onramp' : 'offramp',
             address: address,
             email: profile.email,
+            amount: amount,
           );
         } on Exception {
           return null;
         }
       });
+
+  Future<ScalexRateFeeResponseDto?> _fetchRateAndFee() =>
+      runWithLoader<ScalexRateFeeResponseDto?>(this, () async {
+        try {
+          final client = sl<ScalexRepository>();
+
+          return await client.fetchRateAndFee();
+        } on Exception {
+          return null;
+        }
+      });
+}
+
+extension on Amount {
+  FiatAmount calculateTotalFee({
+    required double exchangeRate,
+    required double offRampFee,
+    required double fixedFee,
+  }) {
+    final double inputAmount = decimal.toDouble();
+    final double totalFeeInUsdc = (inputAmount * offRampFee) + fixedFee;
+
+    final double netAmountInFiat =
+        (inputAmount - totalFeeInUsdc) * exchangeRate;
+
+    return FiatAmount(
+      value:
+          Currency.ngn.decimalToInt(Decimal.parse(netAmountInFiat.toString())),
+      fiatCurrency: Currency.ngn,
+    );
+  }
+
+  CryptoAmount calculateEspressoFee({
+    required double espressoFee,
+  }) {
+    final double inputAmount = decimal.toDouble();
+    final double totalFeeInUsdc = inputAmount * espressoFee;
+
+    return CryptoAmount(
+      value:
+          Currency.usdc.decimalToInt(Decimal.parse(totalFeeInUsdc.toString())),
+      cryptoCurrency: Currency.usdc,
+    );
+  }
 }

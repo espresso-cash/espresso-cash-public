@@ -1,19 +1,54 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/amount.dart';
+import '../../../core/presentation/value_stream_builder.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
+import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
+import '../../tokens/token.dart';
+import '../data/repository.dart';
 import '../screens/investments_screen.dart';
 import 'home_widget.dart';
+import 'portfolio_tile.dart';
 
 class InvestingWidget extends StatelessWidget {
   const InvestingWidget({super.key});
 
   @override
+  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
+        create: () => sl<WatchUserTotalFiatBalance>().call(
+          ignoreTokens: [Token.usdc],
+        ),
+        builder: (context, balance) {
+          final displayEmptyBalances = context
+              .watch<InvestmentSettingsRepository>()
+              .displayEmptyBalances;
+
+          final hasNoInvestments =
+              balance.decimal == Decimal.zero && !displayEmptyBalances;
+
+          return hasNoInvestments
+              ? const _StartInvestmentBanner()
+              : PortfolioTile(
+                  balance: balance,
+                  displayEmptyBalances: displayEmptyBalances,
+                );
+        },
+      );
+}
+
+class _StartInvestmentBanner extends StatelessWidget {
+  const _StartInvestmentBanner();
+
+  @override
   Widget build(BuildContext context) => HomeTile(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -25,37 +60,28 @@ class InvestingWidget extends StatelessWidget {
                 style: dashboardSectionTitleTextStyle,
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () => context.router.push(InvestmentsScreen.route()),
-              child: const _InvestmentBanner(),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Assets.images.investingBanner.image(),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: IgnorePointer(
+                      child: CpButton(
+                        text: context.l10n.startInvestingTitle,
+                        minWidth: 250,
+                        size: CpButtonSize.wide,
+                        onPressed: () {},
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
-      );
-}
-
-class _InvestmentBanner extends StatelessWidget {
-  const _InvestmentBanner();
-
-  @override
-  Widget build(BuildContext context) => Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Assets.images.investingBanner.image(),
-          Padding(
-            padding: const EdgeInsets.all(14.0),
-            child: Text(
-              context.l10n.investingBannerTitle,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Color(0xFF2D2B2C),
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.41,
-              ),
-            ),
-          ),
-        ],
       );
 }

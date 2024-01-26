@@ -22,6 +22,8 @@ class GenerateScalexLinkRequestDto with _$GenerateScalexLinkRequestDto {
     required String type,
     required String address,
     required String email,
+    double? amount,
+    String? currency,
   }) = _GenerateScalexLinkRequestDto;
 
   factory GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -74,7 +76,7 @@ class ScalexWithdrawResponseDto with _$ScalexWithdrawResponseDto {
 }
 
 @freezed
-abstract class OnRampScalexDetails with _$OnRampScalexDetails {
+class OnRampScalexDetails with _$OnRampScalexDetails {
   const factory OnRampScalexDetails({
     required String currency,
     required String bankName,
@@ -85,6 +87,19 @@ abstract class OnRampScalexDetails with _$OnRampScalexDetails {
 
   factory OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
       _$OnRampScalexDetailsFromJson(json);
+}
+
+@freezed
+class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
+  const factory ScalexRateFeeResponseDto({
+    required double offRampRate,
+    required double offRampFeePercentage,
+    required double fixedOffRampFee,
+    required double espressoFeePercentage,
+  }) = _ScalexRateFeeResponseDto;
+
+  factory ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ScalexRateFeeResponseDtoFromJson(json);
 }
 
 @JsonEnum()

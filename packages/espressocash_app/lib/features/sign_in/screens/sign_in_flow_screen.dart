@@ -32,13 +32,16 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
   void initState() {
     super.initState();
     _signInBloc = sl<SignInBloc>();
-  }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]);
 
-    precacheImage(Assets.images.dollarBg.provider(), context);
+      if (!mounted) return;
+      await context.router.replace(const GetStartedRoute());
+    });
   }
 
   @override
@@ -68,9 +71,12 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
           },
           builder: (context, state) => CpLoader(
             isLoading: state.processingState.isProcessing,
-            child: AutoRouter(
-              placeholder: (context) => const ColoredBox(
-                color: CpColors.yellowSplashBackgroundColor,
+            child: HeroControllerScope(
+              controller: HeroController(),
+              child: AutoRouter(
+                placeholder: (context) => const ColoredBox(
+                  color: CpColors.yellowSplashBackgroundColor,
+                ),
               ),
             ),
           ),

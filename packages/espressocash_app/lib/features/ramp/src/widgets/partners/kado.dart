@@ -28,6 +28,7 @@ extension BuildContextExt on BuildContext {
 
     await router.push(
       RampAmountScreen.route(
+        partner: RampPartner.kado,
         onSubmitted: (value) {
           router.pop();
           amount = value;
@@ -35,6 +36,7 @@ extension BuildContextExt on BuildContext {
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
         calculateEquivalent: null,
+        calculateFee: null,
         type: RampType.onRamp,
       ),
     );
@@ -109,6 +111,7 @@ window.addEventListener("message", (event) => {
 
     await router.push(
       RampAmountScreen.route(
+        partner: RampPartner.kado,
         onSubmitted: (value) {
           router.pop();
           amount = value;
@@ -116,6 +119,7 @@ window.addEventListener("message", (event) => {
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
         calculateEquivalent: null,
+        calculateFee: null,
         type: RampType.onRamp,
       ),
     );
