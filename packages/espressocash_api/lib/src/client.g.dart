@@ -346,7 +346,7 @@ class _CryptopleaseClient implements CryptopleaseClient {
     )
             .compose(
               _dio.options,
-              '/getDlnQuote',
+              '/dln/quote',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -356,6 +356,64 @@ class _CryptopleaseClient implements CryptopleaseClient {
               baseUrl,
             ))));
     final value = PaymentQuoteResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OrderIdDlnResponseDto> fetchDlnOrderId(
+      OrderIdDlnRequestDto request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OrderIdDlnResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/dln/orderId',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OrderIdDlnResponseDto.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<OrderStatusDlnResponseDto> fetchDlnStatus(
+      OrderStatusDlnRequestDto request) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<OrderStatusDlnResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/dln/status',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = OrderStatusDlnResponseDto.fromJson(_result.data!);
     return value;
   }
 
