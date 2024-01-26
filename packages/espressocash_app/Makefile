@@ -52,3 +52,6 @@ ifndef SOLANA_RPC_URL
 	$(error "SOLANA_RPC_URL must be set")
 endif
 	cd saga_publishing &&  npx dapp-store publish submit -k publisher.json -u $(SOLANA_RPC_URL) --requestor-is-authorized --complies-with-solana-dapp-store-policies
+
+publish_landing:
+	peanut --web-renderer canvaskit --extra-args "-t lib/landing/main.dart"

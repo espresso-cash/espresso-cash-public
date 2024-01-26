@@ -10,15 +10,15 @@ class StepCircle extends StatelessWidget {
         width: 46,
         height: 46,
         decoration: const ShapeDecoration(
-          color: Colors.white,
+          color: Colors.black,
           shape: OvalBorder(),
         ),
         child: Center(
           child: Text(
-            number.toString(),
+            '$number',
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF2D2B2C),
+              color: Colors.white,
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
