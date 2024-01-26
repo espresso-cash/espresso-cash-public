@@ -20,9 +20,11 @@ abstract class LinkPayments with _$LinkPayments {
   const LinkPayments._();
 
   static LinkPayments? tryParse(Uri link) {
-    if ((link.scheme != 'https' ||
-            link.host != espressoCashLinkDomain ||
-            link.queryParameters['t'] != 'link') &&
+    final isProperHost =
+        link.scheme == 'https' && link.host == espressoCashLinkDomain ||
+            link.host == 'localhost';
+
+    if ((!isProperHost || link.queryParameters['t'] != 'link') &&
         link.scheme != espressoCashLinkProtocol) {
       return null;
     }
