@@ -28,7 +28,6 @@ abstract class AuthModule {
     @Named('isSaga') required bool isSaga,
   }) =>
       CryptopleaseClient(
-        baseUrl: 'http://localhost:8080/api/v1',
         sign: (data) async => isSaga
             ? null
             : (
