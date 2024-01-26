@@ -61,7 +61,7 @@ extension BuildContextExt on BuildContext {
           ),
         ),
         partnerFeeLabel:
-            'Partner Fee: ${rateAndFee.offRampFeePercentage}% + \$${rateAndFee.fixedOffRampFee} (included)',
+            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
         calculateFee: (amount) => amount.calculateEspressoFee(
           espressoFee: rateAndFee.espressoFeePercentage,
         ),
