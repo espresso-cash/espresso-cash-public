@@ -2,11 +2,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../config.dart';
-import '../../l10n/l10n.dart';
+import '../../../config.dart';
+import '../../../l10n/l10n.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({super.key});
+  const Footer({
+    super.key,
+    this.textColor = Colors.white,
+  });
+
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -17,34 +22,36 @@ class Footer extends StatelessWidget {
           Text(
             context.l10n.landingCopyright,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 11,
               fontWeight: FontWeight.w400,
+              letterSpacing: 0.36,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
           Text.rich(
             TextSpan(
               children: [
                 TextSpan(
-                  text: 'Terms',
+                  text: 'Terms of Use',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => launchUrl(Uri.parse(termsUrl)),
                 ),
-                const TextSpan(text: ' & '),
+                const WidgetSpan(child: SizedBox(width: 12)),
                 TextSpan(
-                  text: 'Privacy',
+                  text: 'Privacy Policy',
                   recognizer: TapGestureRecognizer()
                     ..onTap = () => launchUrl(Uri.parse(privacyUrl)),
                 ),
               ],
             ),
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.20,
             ),
           ),
         ],
