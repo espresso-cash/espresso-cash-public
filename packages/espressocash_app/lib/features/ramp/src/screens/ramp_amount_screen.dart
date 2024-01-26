@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
@@ -18,8 +17,9 @@ import '../../../../ui/theme.dart';
 import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
-typedef AmountCalculator = AsyncResult<({Amount amount, String? rate})>
-    Function(Amount amount);
+typedef AmountCalculator = ({Amount amount, String? rate}) Function(
+  Amount amount,
+);
 typedef FeeCalculator = CryptoAmount Function(Amount amount);
 
 @RoutePage()
@@ -295,7 +295,7 @@ class _EnteredAmount extends StatelessWidget {
       );
 }
 
-class _Calculator extends StatefulWidget {
+class _Calculator extends StatelessWidget {
   const _Calculator({
     required this.calculateEquivalent,
     required this.amount,
@@ -307,84 +307,52 @@ class _Calculator extends StatefulWidget {
   final RampPartner partner;
 
   @override
-  State<_Calculator> createState() => _CalculatorState();
-}
+  Widget build(BuildContext context) {
+    final equivalent = calculateEquivalent(amount);
 
-class _CalculatorState extends State<_Calculator> {
-  AsyncResult<({Amount amount, String? rate})>? _result;
-
-  @override
-  void initState() {
-    super.initState();
-    _result = widget.calculateEquivalent(widget.amount);
-  }
-
-  @override
-  void didUpdateWidget(covariant _Calculator oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.amount == widget.amount) return;
-
-    _result = widget.calculateEquivalent(widget.amount);
-  }
-
-  @override
-  Widget build(BuildContext context) => FutureBuilder(
-        future: _result,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
-
-          return (data == null ||
-                  snapshot.connectionState != ConnectionState.done)
-              ? Text(context.l10n.loading)
-              : data.fold(
-                  (_) => Text(context.l10n.rampAmountEquivalentError),
-                  (amount) => Column(
-                    children: [
-                      if (widget.partner == RampPartner.scalex)
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: amount.amount
-                                    .format(context.locale, skipSymbol: true),
-                              ),
-                              TextSpan(
-                                text:
-                                    ' ${amount.amount.currency.symbol.toUpperCase()}',
-                                style: const TextStyle(
-                                  color: CpColors.yellowColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          textAlign: TextAlign.center,
-                        )
-                      else
-                        Text(
-                          context.l10n.rampAmountEquivalent(
-                            amount.amount.format(context.locale),
-                          ),
-                        ),
-                      if (amount.rate case final rate?)
-                        Text(
-                          rate,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.19,
-                          ),
-                        ),
-                    ],
+    return Column(
+      children: [
+        if (partner == RampPartner.scalex)
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: equivalent.amount
+                      .format(context.locale, skipSymbol: true),
+                ),
+                TextSpan(
+                  text: ' ${equivalent.amount.currency.symbol.toUpperCase()}',
+                  style: const TextStyle(
+                    color: CpColors.yellowColor,
                   ),
-                );
-        },
-      );
+                ),
+              ],
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
+          )
+        else
+          Text(
+            context.l10n.rampAmountEquivalent(
+              equivalent.amount.format(context.locale),
+            ),
+          ),
+        if (equivalent.rate case final rate?)
+          Text(
+            rate,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.19,
+            ),
+          ),
+      ],
+    );
+  }
 }
 
 class _FeeCalculator extends StatefulWidget {

@@ -31,10 +31,7 @@ extension BuildContextExt on BuildContext {
     final rateAndFee = await _fetchRateAndFee();
 
     if (rateAndFee == null) {
-      showCpErrorSnackbar(
-        this,
-        message: l10n.tryAgainLater,
-      );
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
       return;
     }
@@ -50,15 +47,13 @@ extension BuildContextExt on BuildContext {
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        calculateEquivalent: (amount) async => Either.right(
-          (
-            amount: amount.calculateTotalFee(
-              exchangeRate: rateAndFee.offRampRate,
-              offRampFee: rateAndFee.offRampFeePercentage,
-              fixedFee: rateAndFee.fixedOffRampFee,
-            ),
-            rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+        calculateEquivalent: (amount) => (
+          amount: amount.calculateTotalFee(
+            exchangeRate: rateAndFee.offRampRate,
+            offRampFee: rateAndFee.offRampFeePercentage,
+            fixedFee: rateAndFee.fixedOffRampFee,
           ),
+          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
         ),
         partnerFeeLabel:
             'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
@@ -80,10 +75,7 @@ extension BuildContextExt on BuildContext {
     );
 
     if (link == null) {
-      showCpErrorSnackbar(
-        this,
-        message: l10n.tryAgainLater,
-      );
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
       return;
     }
