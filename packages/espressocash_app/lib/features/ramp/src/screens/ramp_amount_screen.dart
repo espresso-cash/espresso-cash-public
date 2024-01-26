@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/amount.dart';
@@ -15,9 +14,13 @@ import '../../../../ui/back_button.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
+import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
-typedef AmountCalculator = AsyncResult<Amount> Function(Amount amount);
+typedef AmountCalculator = ({Amount amount, String? rate}) Function(
+  Amount amount,
+);
+typedef FeeCalculator = CryptoAmount Function(Amount amount);
 
 @RoutePage()
 class RampAmountScreen extends StatefulWidget {
@@ -28,6 +31,9 @@ class RampAmountScreen extends StatefulWidget {
     required this.currency,
     required this.calculateEquivalent,
     required this.type,
+    required this.calculateFee,
+    required this.partner,
+    this.partnerFeeLabel,
   });
 
   static const route = RampAmountRoute.new;
@@ -37,6 +43,9 @@ class RampAmountScreen extends StatefulWidget {
   final Currency currency;
   final AmountCalculator? calculateEquivalent;
   final RampType type;
+  final RampPartner partner;
+  final FeeCalculator? calculateFee;
+  final String? partnerFeeLabel;
 
   @override
   State<RampAmountScreen> createState() => _RampAmountScreenState();
@@ -101,6 +110,7 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                     minAmount: widget.minAmount,
                     currency: widget.currency,
                     type: widget.type,
+                    partner: widget.partner,
                   ),
                 ),
                 Expanded(
@@ -109,6 +119,15 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
                       controller: _controller,
                       maxDecimals: 2,
                     ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                ValueListenableBuilder(
+                  valueListenable: _controller,
+                  builder: (context, value, child) => _FeeLabel(
+                    feeCalculator: widget.calculateFee,
+                    partnerFeeLabel: widget.partnerFeeLabel,
+                    amount: _amount,
                   ),
                 ),
                 Padding(
@@ -135,6 +154,46 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
       );
 }
 
+class _FeeLabel extends StatelessWidget {
+  const _FeeLabel({
+    required this.feeCalculator,
+    required this.partnerFeeLabel,
+    required this.amount,
+  });
+
+  final String? partnerFeeLabel;
+  final FeeCalculator? feeCalculator;
+  final Amount amount;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (partnerFeeLabel case final partnerFeeLabel?)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: Text(
+                partnerFeeLabel,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.19,
+                ),
+              ),
+            ),
+          if (feeCalculator case final feeCalculator?)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
+              child: _FeeCalculator(
+                calculateFee: feeCalculator,
+                amount: amount,
+              ),
+            ),
+          const SizedBox(height: 12),
+        ],
+      );
+}
+
 class _InfoLabel extends StatelessWidget {
   const _InfoLabel({
     required this.amount,
@@ -142,6 +201,7 @@ class _InfoLabel extends StatelessWidget {
     required this.currency,
     required this.calculateEquivalent,
     required this.type,
+    required this.partner,
   });
 
   final Amount amount;
@@ -149,6 +209,7 @@ class _InfoLabel extends StatelessWidget {
   final Currency currency;
   final AmountCalculator? calculateEquivalent;
   final RampType type;
+  final RampPartner partner;
 
   @override
   Widget build(BuildContext context) {
@@ -181,6 +242,7 @@ class _InfoLabel extends StatelessWidget {
       child = _Calculator(
         calculateEquivalent: calculateEquivalent,
         amount: amount,
+        partner: partner,
       );
     }
 
@@ -235,53 +297,102 @@ class _EnteredAmount extends StatelessWidget {
       );
 }
 
-class _Calculator extends StatefulWidget {
+class _Calculator extends StatelessWidget {
   const _Calculator({
     required this.calculateEquivalent,
     required this.amount,
+    required this.partner,
   });
 
   final AmountCalculator calculateEquivalent;
   final Amount amount;
+  final RampPartner partner;
 
   @override
-  State<_Calculator> createState() => _CalculatorState();
+  Widget build(BuildContext context) {
+    final equivalent = calculateEquivalent(amount);
+
+    return Column(
+      children: [
+        if (partner == RampPartner.scalex)
+          Text.rich(
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: equivalent.amount
+                      .format(context.locale, skipSymbol: true),
+                ),
+                TextSpan(
+                  text: ' ${equivalent.amount.currency.symbol.toUpperCase()}',
+                  style: const TextStyle(color: CpColors.yellowColor),
+                ),
+              ],
+            ),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.center,
+          )
+        else
+          Text(
+            context.l10n.rampAmountEquivalent(
+              equivalent.amount.format(context.locale),
+            ),
+          ),
+        if (equivalent.rate case final rate?)
+          Text(
+            rate,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.19,
+            ),
+          ),
+      ],
+    );
+  }
 }
 
-class _CalculatorState extends State<_Calculator> {
-  AsyncResult<Amount>? _result;
+class _FeeCalculator extends StatefulWidget {
+  const _FeeCalculator({
+    required this.calculateFee,
+    required this.amount,
+  });
+
+  final FeeCalculator calculateFee;
+  final Amount amount;
+
+  @override
+  State<_FeeCalculator> createState() => _FeeCalculatorState();
+}
+
+class _FeeCalculatorState extends State<_FeeCalculator> {
+  late Amount _result;
 
   @override
   void initState() {
     super.initState();
-    _result = widget.calculateEquivalent(widget.amount);
+    _result = widget.calculateFee(widget.amount);
   }
 
   @override
-  void didUpdateWidget(covariant _Calculator oldWidget) {
+  void didUpdateWidget(covariant _FeeCalculator oldWidget) {
     super.didUpdateWidget(oldWidget);
 
     if (oldWidget.amount == widget.amount) return;
 
-    _result = widget.calculateEquivalent(widget.amount);
+    _result = widget.calculateFee(widget.amount);
   }
 
   @override
-  Widget build(BuildContext context) => FutureBuilder(
-        future: _result,
-        builder: (context, snapshot) {
-          final data = snapshot.data;
-
-          return data == null ||
-                  snapshot.connectionState != ConnectionState.done
-              ? Text(context.l10n.loading)
-              : Text(
-                  data.fold(
-                    (_) => context.l10n.rampAmountEquivalentError,
-                    (amount) => context.l10n
-                        .rampAmountEquivalent(amount.format(context.locale)),
-                  ),
-                );
-        },
+  Widget build(BuildContext context) => Text(
+        context.l10n.feeAmount(_result.format(context.locale)),
+        style: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0.19,
+        ),
       );
 }

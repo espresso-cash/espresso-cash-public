@@ -175,6 +175,8 @@ mixin _$GenerateScalexLinkRequestDto {
   String get type => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -190,7 +192,12 @@ abstract class $GenerateScalexLinkRequestDtoCopyWith<$Res> {
       _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
           GenerateScalexLinkRequestDto>;
   @useResult
-  $Res call({String type, String address, String email});
+  $Res call(
+      {String type,
+      String address,
+      String email,
+      double? amount,
+      String? currency});
 }
 
 /// @nodoc
@@ -210,6 +217,8 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
     Object? type = null,
     Object? address = null,
     Object? email = null,
+    Object? amount = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -224,6 +233,14 @@ class _$GenerateScalexLinkRequestDtoCopyWithImpl<$Res,
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -237,7 +254,12 @@ abstract class _$$GenerateScalexLinkRequestDtoImplCopyWith<$Res>
       __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String address, String email});
+  $Res call(
+      {String type,
+      String address,
+      String email,
+      double? amount,
+      String? currency});
 }
 
 /// @nodoc
@@ -256,6 +278,8 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
     Object? type = null,
     Object? address = null,
     Object? email = null,
+    Object? amount = freezed,
+    Object? currency = freezed,
   }) {
     return _then(_$GenerateScalexLinkRequestDtoImpl(
       type: null == type
@@ -270,6 +294,14 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -279,7 +311,11 @@ class __$$GenerateScalexLinkRequestDtoImplCopyWithImpl<$Res>
 class _$GenerateScalexLinkRequestDtoImpl
     implements _GenerateScalexLinkRequestDto {
   const _$GenerateScalexLinkRequestDtoImpl(
-      {required this.type, required this.address, required this.email});
+      {required this.type,
+      required this.address,
+      required this.email,
+      this.amount,
+      this.currency});
 
   factory _$GenerateScalexLinkRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -291,10 +327,14 @@ class _$GenerateScalexLinkRequestDtoImpl
   final String address;
   @override
   final String email;
+  @override
+  final double? amount;
+  @override
+  final String? currency;
 
   @override
   String toString() {
-    return 'GenerateScalexLinkRequestDto(type: $type, address: $address, email: $email)';
+    return 'GenerateScalexLinkRequestDto(type: $type, address: $address, email: $email, amount: $amount, currency: $currency)';
   }
 
   @override
@@ -304,12 +344,16 @@ class _$GenerateScalexLinkRequestDtoImpl
             other is _$GenerateScalexLinkRequestDtoImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.address, address) || other.address == address) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, address, email);
+  int get hashCode =>
+      Object.hash(runtimeType, type, address, email, amount, currency);
 
   @JsonKey(ignore: true)
   @override
@@ -332,7 +376,9 @@ abstract class _GenerateScalexLinkRequestDto
   const factory _GenerateScalexLinkRequestDto(
       {required final String type,
       required final String address,
-      required final String email}) = _$GenerateScalexLinkRequestDtoImpl;
+      required final String email,
+      final double? amount,
+      final String? currency}) = _$GenerateScalexLinkRequestDtoImpl;
 
   factory _GenerateScalexLinkRequestDto.fromJson(Map<String, dynamic> json) =
       _$GenerateScalexLinkRequestDtoImpl.fromJson;
@@ -343,6 +389,10 @@ abstract class _GenerateScalexLinkRequestDto
   String get address;
   @override
   String get email;
+  @override
+  double? get amount;
+  @override
+  String? get currency;
   @override
   @JsonKey(ignore: true)
   _$$GenerateScalexLinkRequestDtoImplCopyWith<
@@ -1265,4 +1315,216 @@ abstract class _OnRampScalexDetails implements OnRampScalexDetails {
   @JsonKey(ignore: true)
   _$$OnRampScalexDetailsImplCopyWith<_$OnRampScalexDetailsImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+ScalexRateFeeResponseDto _$ScalexRateFeeResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _ScalexRateFeeResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ScalexRateFeeResponseDto {
+  double get offRampRate => throw _privateConstructorUsedError;
+  double get offRampFeePercentage => throw _privateConstructorUsedError;
+  double get fixedOffRampFee => throw _privateConstructorUsedError;
+  double get espressoFeePercentage => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $ScalexRateFeeResponseDtoCopyWith<ScalexRateFeeResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  factory $ScalexRateFeeResponseDtoCopyWith(ScalexRateFeeResponseDto value,
+          $Res Function(ScalexRateFeeResponseDto) then) =
+      _$ScalexRateFeeResponseDtoCopyWithImpl<$Res, ScalexRateFeeResponseDto>;
+  @useResult
+  $Res call(
+      {double offRampRate,
+      double offRampFeePercentage,
+      double fixedOffRampFee,
+      double espressoFeePercentage});
+}
+
+/// @nodoc
+class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
+        $Val extends ScalexRateFeeResponseDto>
+    implements $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  _$ScalexRateFeeResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? offRampRate = null,
+    Object? offRampFeePercentage = null,
+    Object? fixedOffRampFee = null,
+    Object? espressoFeePercentage = null,
+  }) {
+    return _then(_value.copyWith(
+      offRampRate: null == offRampRate
+          ? _value.offRampRate
+          : offRampRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      offRampFeePercentage: null == offRampFeePercentage
+          ? _value.offRampFeePercentage
+          : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+      fixedOffRampFee: null == fixedOffRampFee
+          ? _value.fixedOffRampFee
+          : fixedOffRampFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      espressoFeePercentage: null == espressoFeePercentage
+          ? _value.espressoFeePercentage
+          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ScalexRateFeeResponseDtoImplCopyWith<$Res>
+    implements $ScalexRateFeeResponseDtoCopyWith<$Res> {
+  factory _$$ScalexRateFeeResponseDtoImplCopyWith(
+          _$ScalexRateFeeResponseDtoImpl value,
+          $Res Function(_$ScalexRateFeeResponseDtoImpl) then) =
+      __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {double offRampRate,
+      double offRampFeePercentage,
+      double fixedOffRampFee,
+      double espressoFeePercentage});
+}
+
+/// @nodoc
+class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
+    extends _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
+        _$ScalexRateFeeResponseDtoImpl>
+    implements _$$ScalexRateFeeResponseDtoImplCopyWith<$Res> {
+  __$$ScalexRateFeeResponseDtoImplCopyWithImpl(
+      _$ScalexRateFeeResponseDtoImpl _value,
+      $Res Function(_$ScalexRateFeeResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? offRampRate = null,
+    Object? offRampFeePercentage = null,
+    Object? fixedOffRampFee = null,
+    Object? espressoFeePercentage = null,
+  }) {
+    return _then(_$ScalexRateFeeResponseDtoImpl(
+      offRampRate: null == offRampRate
+          ? _value.offRampRate
+          : offRampRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      offRampFeePercentage: null == offRampFeePercentage
+          ? _value.offRampFeePercentage
+          : offRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+      fixedOffRampFee: null == fixedOffRampFee
+          ? _value.fixedOffRampFee
+          : fixedOffRampFee // ignore: cast_nullable_to_non_nullable
+              as double,
+      espressoFeePercentage: null == espressoFeePercentage
+          ? _value.espressoFeePercentage
+          : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
+  const _$ScalexRateFeeResponseDtoImpl(
+      {required this.offRampRate,
+      required this.offRampFeePercentage,
+      required this.fixedOffRampFee,
+      required this.espressoFeePercentage});
+
+  factory _$ScalexRateFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ScalexRateFeeResponseDtoImplFromJson(json);
+
+  @override
+  final double offRampRate;
+  @override
+  final double offRampFeePercentage;
+  @override
+  final double fixedOffRampFee;
+  @override
+  final double espressoFeePercentage;
+
+  @override
+  String toString() {
+    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage, fixedOffRampFee: $fixedOffRampFee, espressoFeePercentage: $espressoFeePercentage)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ScalexRateFeeResponseDtoImpl &&
+            (identical(other.offRampRate, offRampRate) ||
+                other.offRampRate == offRampRate) &&
+            (identical(other.offRampFeePercentage, offRampFeePercentage) ||
+                other.offRampFeePercentage == offRampFeePercentage) &&
+            (identical(other.fixedOffRampFee, fixedOffRampFee) ||
+                other.fixedOffRampFee == fixedOffRampFee) &&
+            (identical(other.espressoFeePercentage, espressoFeePercentage) ||
+                other.espressoFeePercentage == espressoFeePercentage));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, offRampRate,
+      offRampFeePercentage, fixedOffRampFee, espressoFeePercentage);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
+      get copyWith => __$$ScalexRateFeeResponseDtoImplCopyWithImpl<
+          _$ScalexRateFeeResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ScalexRateFeeResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
+  const factory _ScalexRateFeeResponseDto(
+          {required final double offRampRate,
+          required final double offRampFeePercentage,
+          required final double fixedOffRampFee,
+          required final double espressoFeePercentage}) =
+      _$ScalexRateFeeResponseDtoImpl;
+
+  factory _ScalexRateFeeResponseDto.fromJson(Map<String, dynamic> json) =
+      _$ScalexRateFeeResponseDtoImpl.fromJson;
+
+  @override
+  double get offRampRate;
+  @override
+  double get offRampFeePercentage;
+  @override
+  double get fixedOffRampFee;
+  @override
+  double get espressoFeePercentage;
+  @override
+  @JsonKey(ignore: true)
+  _$$ScalexRateFeeResponseDtoImplCopyWith<_$ScalexRateFeeResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

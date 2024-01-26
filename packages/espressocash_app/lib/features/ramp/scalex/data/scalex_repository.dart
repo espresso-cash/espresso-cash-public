@@ -1,6 +1,8 @@
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/currency.dart';
+
 @injectable
 class ScalexRepository {
   ScalexRepository({
@@ -13,6 +15,7 @@ class ScalexRepository {
     required String type,
     required String address,
     required String email,
+    required double amount,
   }) =>
       _client
           .generateScalexLink(
@@ -20,6 +23,8 @@ class ScalexRepository {
               type: type,
               address: address,
               email: email,
+              amount: amount,
+              currency: Currency.ngn.symbol,
             ),
           )
           .then((p) => p.signedUrl);
@@ -29,4 +34,7 @@ class ScalexRepository {
         OrderStatusScalexRequestDto(referenceId: referenceId),
       )
       .then((it) => it.status);
+
+  Future<ScalexRateFeeResponseDto> fetchRateAndFee() =>
+      _client.fetchScalexFeesAndRate();
 }
