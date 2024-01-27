@@ -11,16 +11,16 @@ import '../models/payment_quote.dart';
 class QuoteRepository {
   QuoteRepository({
     required CryptopleaseClient cryptopleaseClient,
-  }) : _cpClient = cryptopleaseClient;
+  }) : _client = cryptopleaseClient;
 
-  final CryptopleaseClient _cpClient;
+  final CryptopleaseClient _client;
 
   Future<PaymentQuote> getQuote({
     required CryptoAmount amount,
     required String receiverAddress,
     required Blockchain receiverBlockchain,
   }) async {
-    final quote = await _cpClient.getDlnQuote(
+    final quote = await _client.getDlnQuote(
       PaymentQuoteRequestDto(
         amount: amount.value.toString(),
         receiverAddress: receiverAddress,
