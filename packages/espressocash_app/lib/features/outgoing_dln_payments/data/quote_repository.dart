@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
-import '../../../core/blockchain.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 
@@ -24,7 +24,7 @@ class QuoteRepository {
       PaymentQuoteRequestDto(
         amount: amount.value.toString(),
         receiverAddress: receiverAddress,
-        receiverBlockchain: receiverBlockchain.value,
+        receiverBlockchain: receiverBlockchain.name,
       ),
     );
 

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/blockchain.dart';
 import '../../../core/callback.dart';
 import '../../../core/flow.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -16,6 +15,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/slider.dart';
 import '../../accounts/models/account.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 import '../services/confirm_payment_bloc.dart';
@@ -138,7 +138,7 @@ class _OutgoingDlnConfirmationScreenState
                           const SizedBox(height: 32),
                           _Item(
                             title: context.l10n.walletNetwork,
-                            value: widget.blockchain.name,
+                            value: widget.blockchain.displayName,
                             backgroundColor: Colors.black,
                           ),
                           _Item(

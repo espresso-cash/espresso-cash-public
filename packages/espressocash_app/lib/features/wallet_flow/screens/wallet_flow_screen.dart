@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/blockchain.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';

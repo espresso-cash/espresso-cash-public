@@ -3,20 +3,22 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../core/amount.dart';
-import '../../../core/blockchain.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../authenticated/auth_scope.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/dln_payment.dart';
 import '../models/outgoing_payment.dart';
 
-@injectable
-class OutgoingDlnPaymentRepository {
+@Singleton(scope: authScope)
+class OutgoingDlnPaymentRepository implements Disposable {
   const OutgoingDlnPaymentRepository(this._db);
 
   final MyDatabase _db;
@@ -63,7 +65,10 @@ class OutgoingDlnPaymentRepository {
       .into(_db.outgoingDlnPaymentRows)
       .insertOnConflictUpdate(payment.toDto());
 
-  Future<void> clear() => _db.delete(_db.outgoingDlnPaymentRows).go();
+  @override
+  void dispose() {
+    _db.delete(_db.outgoingDlnPaymentRows).go();
+  }
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
