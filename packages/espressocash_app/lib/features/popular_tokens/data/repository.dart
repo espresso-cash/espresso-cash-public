@@ -78,4 +78,5 @@ const _popularTokensCoinGeckoId = [
   'jito-governance-token',
   'neon',
   'helium',
+  'wen-4',
 ];
