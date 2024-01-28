@@ -141,16 +141,10 @@ class OutgoingDlnPaymentService implements Disposable {
 
     final tx = await _sender.wait(status.tx, minContextSlot: status.slot);
     final OutgoingDlnPaymentStatus? newStatus = await tx.map(
-      success: (_) async {
-        final orderId = await _client
-            .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
-            .letAsync((p) => p.orderId);
-
-        return OutgoingDlnPaymentStatus.success(
-          status.tx,
-          orderId: orderId,
-        );
-      },
+      success: (_) => OutgoingDlnPaymentStatus.success(
+        status.tx,
+        orderId: null,
+      ),
       failure: (tx) => OutgoingDlnPaymentStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );
@@ -198,7 +192,7 @@ class OutgoingDlnPaymentService implements Disposable {
               orderId: orderId,
             ),
           )
-        : order;
+        : order.copyWith(status: status.copyWith(orderId: orderId));
   }
 
   @override

@@ -122,7 +122,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               created: order.created,
             ),
             const Spacer(flex: 4),
-            if (orderId != null)
+            if (orderId != null && orderId.isNotEmpty)
               SizedBox(
                 height: CpButtonSize.big.height,
                 child: Center(
