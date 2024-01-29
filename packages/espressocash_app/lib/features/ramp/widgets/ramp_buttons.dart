@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
@@ -247,10 +246,6 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
 }
 
 IList<RampPartner> _getOffRampPartners(String countryCode) {
-  if (!sl<FeatureFlagsManager>().isOffRampEnabled) {
-    return const IListConst([]);
-  }
-
   final partners = <RampPartner>{};
 
   if (_coinflowCountries.contains(countryCode)) {
