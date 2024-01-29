@@ -21,7 +21,7 @@ PaymentQuoteRequestDto _$PaymentQuoteRequestDtoFromJson(
 
 /// @nodoc
 mixin _$PaymentQuoteRequestDto {
-  String get amount => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
   String get receiverAddress => throw _privateConstructorUsedError;
   String get receiverBlockchain => throw _privateConstructorUsedError;
 
@@ -37,7 +37,7 @@ abstract class $PaymentQuoteRequestDtoCopyWith<$Res> {
           $Res Function(PaymentQuoteRequestDto) then) =
       _$PaymentQuoteRequestDtoCopyWithImpl<$Res, PaymentQuoteRequestDto>;
   @useResult
-  $Res call({String amount, String receiverAddress, String receiverBlockchain});
+  $Res call({int amount, String receiverAddress, String receiverBlockchain});
 }
 
 /// @nodoc
@@ -62,7 +62,7 @@ class _$PaymentQuoteRequestDtoCopyWithImpl<$Res,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
@@ -84,7 +84,7 @@ abstract class _$$PaymentQuoteRequestDtoImplCopyWith<$Res>
       __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String amount, String receiverAddress, String receiverBlockchain});
+  $Res call({int amount, String receiverAddress, String receiverBlockchain});
 }
 
 /// @nodoc
@@ -108,7 +108,7 @@ class __$$PaymentQuoteRequestDtoImplCopyWithImpl<$Res>
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
@@ -133,7 +133,7 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
       _$$PaymentQuoteRequestDtoImplFromJson(json);
 
   @override
-  final String amount;
+  final int amount;
   @override
   final String receiverAddress;
   @override
@@ -178,7 +178,7 @@ class _$PaymentQuoteRequestDtoImpl implements _PaymentQuoteRequestDto {
 
 abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
   const factory _PaymentQuoteRequestDto(
-      {required final String amount,
+      {required final int amount,
       required final String receiverAddress,
       required final String receiverBlockchain}) = _$PaymentQuoteRequestDtoImpl;
 
@@ -186,7 +186,7 @@ abstract class _PaymentQuoteRequestDto implements PaymentQuoteRequestDto {
       _$PaymentQuoteRequestDtoImpl.fromJson;
 
   @override
-  String get amount;
+  int get amount;
   @override
   String get receiverAddress;
   @override
@@ -204,8 +204,8 @@ PaymentQuoteResponseDto _$PaymentQuoteResponseDtoFromJson(
 
 /// @nodoc
 mixin _$PaymentQuoteResponseDto {
-  String get inputAmount => throw _privateConstructorUsedError;
-  String get receiverAmount => throw _privateConstructorUsedError;
+  int get inputAmount => throw _privateConstructorUsedError;
+  int get receiverAmount => throw _privateConstructorUsedError;
   String get encodedTx => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
   BigInt get slot => throw _privateConstructorUsedError;
@@ -223,8 +223,8 @@ abstract class $PaymentQuoteResponseDtoCopyWith<$Res> {
       _$PaymentQuoteResponseDtoCopyWithImpl<$Res, PaymentQuoteResponseDto>;
   @useResult
   $Res call(
-      {String inputAmount,
-      String receiverAmount,
+      {int inputAmount,
+      int receiverAmount,
       String encodedTx,
       int feeInUsdc,
       BigInt slot});
@@ -254,11 +254,11 @@ class _$PaymentQuoteResponseDtoCopyWithImpl<$Res,
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       receiverAmount: null == receiverAmount
           ? _value.receiverAmount
           : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       encodedTx: null == encodedTx
           ? _value.encodedTx
           : encodedTx // ignore: cast_nullable_to_non_nullable
@@ -285,8 +285,8 @@ abstract class _$$PaymentQuoteResponseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String inputAmount,
-      String receiverAmount,
+      {int inputAmount,
+      int receiverAmount,
       String encodedTx,
       int feeInUsdc,
       BigInt slot});
@@ -315,11 +315,11 @@ class __$$PaymentQuoteResponseDtoImplCopyWithImpl<$Res>
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       receiverAmount: null == receiverAmount
           ? _value.receiverAmount
           : receiverAmount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       encodedTx: null == encodedTx
           ? _value.encodedTx
           : encodedTx // ignore: cast_nullable_to_non_nullable
@@ -350,9 +350,9 @@ class _$PaymentQuoteResponseDtoImpl implements _PaymentQuoteResponseDto {
       _$$PaymentQuoteResponseDtoImplFromJson(json);
 
   @override
-  final String inputAmount;
+  final int inputAmount;
   @override
-  final String receiverAmount;
+  final int receiverAmount;
   @override
   final String encodedTx;
   @override
@@ -403,8 +403,8 @@ class _$PaymentQuoteResponseDtoImpl implements _PaymentQuoteResponseDto {
 
 abstract class _PaymentQuoteResponseDto implements PaymentQuoteResponseDto {
   const factory _PaymentQuoteResponseDto(
-      {required final String inputAmount,
-      required final String receiverAmount,
+      {required final int inputAmount,
+      required final int receiverAmount,
       required final String encodedTx,
       required final int feeInUsdc,
       required final BigInt slot}) = _$PaymentQuoteResponseDtoImpl;
@@ -413,9 +413,9 @@ abstract class _PaymentQuoteResponseDto implements PaymentQuoteResponseDto {
       _$PaymentQuoteResponseDtoImpl.fromJson;
 
   @override
-  String get inputAmount;
+  int get inputAmount;
   @override
-  String get receiverAmount;
+  int get receiverAmount;
   @override
   String get encodedTx;
   @override
