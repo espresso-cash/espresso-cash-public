@@ -22,7 +22,7 @@ class QuoteRepository {
   }) async {
     final quote = await _client.getDlnQuote(
       PaymentQuoteRequestDto(
-        amount: amount.value.toString(),
+        amount: amount.value,
         receiverAddress: receiverAddress,
         receiverBlockchain: receiverBlockchain.name,
       ),
@@ -36,11 +36,11 @@ class QuoteRepository {
       ),
       receiverAmount: CryptoAmount(
         cryptoCurrency: Currency.usdc,
-        value: int.parse(quote.receiverAmount),
+        value: quote.receiverAmount,
       ),
       inputAmount: CryptoAmount(
         cryptoCurrency: Currency.usdc,
-        value: int.parse(quote.inputAmount),
+        value: quote.inputAmount,
       ),
       fee: CryptoAmount(
         cryptoCurrency: Currency.usdc,

@@ -25,4 +25,4 @@ class FeatureFlagsManager {
       kDebugMode || _remoteConfig.getBool(FeatureFlag.offRamp.name);
 }
 
-enum FeatureFlag { universalPay, crossChainPayments, offRamp }
+enum FeatureFlag { offRamp }

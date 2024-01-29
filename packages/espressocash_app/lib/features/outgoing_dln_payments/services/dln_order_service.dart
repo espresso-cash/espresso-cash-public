@@ -159,10 +159,12 @@ class OutgoingDlnPaymentService implements Disposable {
       return order;
     }
 
-    final orderId = status.orderId ??
-        await _client
-            .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
-            .letAsync((p) => p.orderId);
+    String? orderId = status.orderId;
+    if (orderId == null || orderId.isEmpty) {
+      orderId = await _client
+          .fetchDlnOrderId(OrderIdDlnRequestDto(txId: status.tx.id))
+          .then((e) => e.orderId);
+    }
 
     if (orderId == null) {
       return order;

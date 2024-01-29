@@ -1,9 +1,8 @@
 // ignore_for_file: avoid-non-null-assertion
-
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 
@@ -66,7 +65,7 @@ class OutgoingDlnPaymentRepository implements Disposable {
       .insertOnConflictUpdate(payment.toDto());
 
   @override
-  void dispose() {
+  void onDispose() {
     _db.delete(_db.outgoingDlnPaymentRows).go();
   }
 }
