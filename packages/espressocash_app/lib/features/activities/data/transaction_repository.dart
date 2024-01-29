@@ -10,7 +10,6 @@ import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
-import '../../outgoing_dln_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../swap/data/swap_repository.dart';

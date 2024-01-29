@@ -9,7 +9,6 @@ import 'package:solana/encoder.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
-import '../../../data/db/mixins.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../transactions/models/tx_results.dart';
@@ -68,33 +67,6 @@ class OutgoingDlnPaymentRepository implements Disposable {
   void onDispose() {
     _db.delete(_db.outgoingDlnPaymentRows).go();
   }
-}
-
-class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
-  const OutgoingDlnPaymentRows();
-
-  TextColumn get receiverBlockchain => textEnum<BlockchainDto>()();
-  TextColumn get receiverAddress => text()();
-  IntColumn get amount => integer()();
-  IntColumn get status => intEnum<ODLNPaymentStatusDto>()();
-
-  TextColumn get orderId => text().nullable()();
-}
-
-enum BlockchainDto {
-  solana,
-  arbitrum,
-  polygon,
-  ethereum,
-}
-
-enum ODLNPaymentStatusDto {
-  txCreated,
-  txSent,
-  success,
-  txFailure,
-  fulfilled,
-  unfulfilled,
 }
 
 extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {

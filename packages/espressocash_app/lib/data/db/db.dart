@@ -6,7 +6,6 @@ import '../../features/activities/models/transaction.dart';
 import '../../features/favorite_tokens/data/repository.dart';
 import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
-import '../../features/outgoing_dln_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/popular_tokens/data/popular_token_cache.dart';
@@ -293,4 +292,31 @@ enum OffRampOrderStatus {
   failure,
   completed,
   cancelled,
+}
+
+class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
+  const OutgoingDlnPaymentRows();
+
+  TextColumn get receiverBlockchain => textEnum<BlockchainDto>()();
+  TextColumn get receiverAddress => text()();
+  IntColumn get amount => integer()();
+  IntColumn get status => intEnum<ODLNPaymentStatusDto>()();
+
+  TextColumn get orderId => text().nullable()();
+}
+
+enum BlockchainDto {
+  solana,
+  arbitrum,
+  polygon,
+  ethereum,
+}
+
+enum ODLNPaymentStatusDto {
+  txCreated,
+  txSent,
+  success,
+  txFailure,
+  fulfilled,
+  unfulfilled,
 }

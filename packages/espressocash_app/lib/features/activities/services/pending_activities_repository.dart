@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
-import '../../outgoing_dln_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
