@@ -6,7 +6,7 @@ part 'dln_payment.g.dart';
 @freezed
 class PaymentQuoteRequestDto with _$PaymentQuoteRequestDto {
   const factory PaymentQuoteRequestDto({
-    required String amount,
+    required int amount,
     required String receiverAddress,
     required String receiverBlockchain,
   }) = _PaymentQuoteRequestDto;
@@ -18,8 +18,8 @@ class PaymentQuoteRequestDto with _$PaymentQuoteRequestDto {
 @freezed
 class PaymentQuoteResponseDto with _$PaymentQuoteResponseDto {
   const factory PaymentQuoteResponseDto({
-    required String inputAmount,
-    required String receiverAmount,
+    required int inputAmount,
+    required int receiverAmount,
     required String encodedTx,
     required int feeInUsdc,
     required BigInt slot,
