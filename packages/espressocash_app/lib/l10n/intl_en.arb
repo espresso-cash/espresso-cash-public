@@ -1044,12 +1044,12 @@
       }
     }
   },
-  "outgoingDlnDisclaimer1" : "This feature is currently in BETA.\nPlease contact ",
-  "@outgoingDlnDisclaimer1" : {},
-  "outgoingDlnDisclaimer2" : "Espresso customer support",
-  "@outgoingDlnDisclaimer2" : {},
-  "outgoingDlnDisclaimer3" : " if you experience any issues.",
-  "@outgoingDlnDisclaimer3" : {},
+  "outgoingDlnDisclaimer1": "This feature is currently in BETA.\nPlease contact ",
+  "@outgoingDlnDisclaimer1": {},
+  "outgoingDlnDisclaimer2": "Espresso customer support",
+  "@outgoingDlnDisclaimer2": {},
+  "outgoingDlnDisclaimer3": " if you experience any issues.",
+  "@outgoingDlnDisclaimer3": {},
   "outgoingDlnFailure": "There was an issue with your transfer. Please contact us.",
   "@outgoingDlnFailure": {}
 }

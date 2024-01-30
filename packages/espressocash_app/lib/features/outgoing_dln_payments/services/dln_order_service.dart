@@ -183,8 +183,7 @@ class OutgoingDlnPaymentService implements Disposable {
       );
     }
 
-    final isStale = DateTime.now().difference(order.created).inMinutes >
-        _minutesBeforeStale;
+    final isStale = DateTime.now().difference(order.created) > _orderExpiration;
 
     return isStale
         ? order.copyWith(
@@ -202,4 +201,4 @@ class OutgoingDlnPaymentService implements Disposable {
   }
 }
 
-const _minutesBeforeStale = 4;
+const _orderExpiration = Duration(minutes: 4);
