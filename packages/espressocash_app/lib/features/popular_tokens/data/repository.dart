@@ -79,4 +79,5 @@ const _popularTokensCoinGeckoId = [
   'neon',
   'helium',
   'wen-4',
+  'jupiter-exchange-solana',
 ];
