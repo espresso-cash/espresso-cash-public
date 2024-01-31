@@ -150,102 +150,105 @@ class _ChartWidget extends StatelessWidget {
     final chartMinY = (minY / interval).floorToDouble() * interval - padding;
     final chartMaxY = (maxY / interval).ceilToDouble() * interval + padding;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Stack(
-        children: [
-          const _ChartBackground(),
-          LineChart(
-            LineChartData(
-              lineBarsData: [
-                LineChartBarData(
-                  spots: spots,
-                  isCurved: true,
-                  dotData: const FlDotData(show: false),
-                  color: CpColors.chartLineColor,
-                  barWidth: 5,
-                  isStrokeJoinRound: true,
-                  isStrokeCapRound: true,
+    return interval == 0
+        ? const SizedBox.shrink()
+        : Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Stack(
+              children: [
+                const _ChartBackground(),
+                LineChart(
+                  LineChartData(
+                    lineBarsData: [
+                      LineChartBarData(
+                        spots: spots,
+                        isCurved: true,
+                        dotData: const FlDotData(show: false),
+                        color: CpColors.chartLineColor,
+                        barWidth: 5,
+                        isStrokeJoinRound: true,
+                        isStrokeCapRound: true,
+                      ),
+                    ],
+                    minY: chartMinY,
+                    maxY: chartMaxY,
+                    gridData: FlGridData(
+                      show: true,
+                      horizontalInterval: interval,
+                      getDrawingHorizontalLine: (value) => const FlLine(
+                        color: Color(0xff454141),
+                        strokeWidth: 1,
+                        dashArray: [2, 2],
+                      ),
+                      drawVerticalLine: false,
+                    ),
+                    backgroundColor: const Color(0xff272525),
+                    borderData: FlBorderData(
+                      show: true,
+                      border: _border,
+                    ),
+                    titlesData: FlTitlesData(
+                      show: true,
+                      leftTitles: const AxisTitles(sideTitles: SideTitles()),
+                      topTitles: const AxisTitles(sideTitles: SideTitles()),
+                      bottomTitles: const AxisTitles(sideTitles: SideTitles()),
+                      rightTitles: AxisTitles(
+                        drawBelowEverything: true,
+                        sideTitles: SideTitles(
+                          reservedSize: 50,
+                          showTitles: true,
+                          interval: interval,
+                          getTitlesWidget: (val, __) {
+                            if (val == chartMaxY || val == chartMinY) {
+                              return const SizedBox.shrink();
+                            }
+
+                            final formattedValue = Decimal.parse(val.toString())
+                                .formatDisplayablePrice(
+                              locale: DeviceLocale.localeOf(context),
+                              currency: defaultFiatCurrency,
+                              skipSymbol: true,
+                            );
+
+                            return Center(
+                              child: Text(
+                                formattedValue,
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                    lineTouchData: LineTouchData(
+                      enabled: true,
+                      touchCallback: (event, lineResponse) {
+                        final selectedIndex =
+                            lineResponse?.lineBarSpots?.first.spotIndex;
+
+                        if (selectedIndex == null ||
+                            event is FlTapUpEvent ||
+                            event is FlLongPressEnd) {
+                          onSelect(null);
+                        } else {
+                          onSelect(data[selectedIndex]);
+                        }
+                      },
+                      getTouchedSpotIndicator: (_, indicators) => indicators
+                          .map((_) => _touchedSpotIndicatorData)
+                          .toList(),
+                      touchTooltipData: _createTooltipData(),
+                      getTouchLineEnd: (barData, spotIndex) => double.infinity,
+                    ),
+                  ),
+                  duration: Duration.zero,
                 ),
               ],
-              minY: chartMinY,
-              maxY: chartMaxY,
-              gridData: FlGridData(
-                show: true,
-                horizontalInterval: interval,
-                getDrawingHorizontalLine: (value) => const FlLine(
-                  color: Color(0xff454141),
-                  strokeWidth: 1,
-                  dashArray: [2, 2],
-                ),
-                drawVerticalLine: false,
-              ),
-              backgroundColor: const Color(0xff272525),
-              borderData: FlBorderData(
-                show: true,
-                border: _border,
-              ),
-              titlesData: FlTitlesData(
-                show: true,
-                leftTitles: const AxisTitles(sideTitles: SideTitles()),
-                topTitles: const AxisTitles(sideTitles: SideTitles()),
-                bottomTitles: const AxisTitles(sideTitles: SideTitles()),
-                rightTitles: AxisTitles(
-                  drawBelowEverything: true,
-                  sideTitles: SideTitles(
-                    reservedSize: 50,
-                    showTitles: true,
-                    interval: interval,
-                    getTitlesWidget: (val, __) {
-                      if (val == chartMaxY || val == chartMinY) {
-                        return const SizedBox.shrink();
-                      }
-
-                      final formattedValue =
-                          Decimal.parse(val.toString()).formatDisplayablePrice(
-                        locale: DeviceLocale.localeOf(context),
-                        currency: defaultFiatCurrency,
-                        skipSymbol: true,
-                      );
-
-                      return Center(
-                        child: Text(
-                          formattedValue,
-                          style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              lineTouchData: LineTouchData(
-                enabled: true,
-                touchCallback: (event, lineResponse) {
-                  final selectedIndex =
-                      lineResponse?.lineBarSpots?.first.spotIndex;
-
-                  if (selectedIndex == null ||
-                      event is FlTapUpEvent ||
-                      event is FlLongPressEnd) {
-                    onSelect(null);
-                  } else {
-                    onSelect(data[selectedIndex]);
-                  }
-                },
-                getTouchedSpotIndicator: (_, indicators) =>
-                    indicators.map((_) => _touchedSpotIndicatorData).toList(),
-                touchTooltipData: _createTooltipData(),
-                getTouchLineEnd: (barData, spotIndex) => double.infinity,
-              ),
             ),
-            duration: Duration.zero,
-          ),
-        ],
-      ),
-    );
+          );
   }
 }
 
