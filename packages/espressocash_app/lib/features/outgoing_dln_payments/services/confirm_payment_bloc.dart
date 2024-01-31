@@ -23,7 +23,6 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
-    @factoryParam required this.payment,
     required QuoteRepository quoteRepository,
     required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
@@ -32,6 +31,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
         super(
           ConfirmPaymentState(flowState: const Flow.initial()),
         ) {
+    on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
       _onInvalidated,
@@ -43,7 +43,23 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
   final QuoteRepository _quoteRepository;
   final CryptoAmount _usdcBalance;
-  final DlnPayment payment;
+
+  Timer? _timer;
+
+  void _onInit(Init event, _Emitter emit) {
+    emit(
+      ConfirmPaymentState(
+        payment: event.payment,
+        flowState: const Flow.initial(),
+      ),
+    );
+
+    add(const Invalidated());
+
+    _timer = Timer.periodic(_quoteDuration, (_) {
+      add(const Invalidated());
+    });
+  }
 
   void _onConfirmed(Confirmed _, _Emitter emit) {
     state.validate(_usdcBalance).fold(
@@ -60,6 +76,14 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   Future<void> _onInvalidated(Invalidated _, _Emitter emit) async {
     emit(state.processing());
 
+    final payment = state.payment;
+
+    if (payment == null) {
+      emit(state.error(const CreateOrderException.quoteNotFound()));
+
+      return;
+    }
+
     try {
       final quote = await _quoteRepository.getQuote(
         amount: payment.inputAmount,
@@ -73,6 +97,13 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     } on Exception {
       emit(state.error(const CreateOrderException.quoteNotFound()));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+
+    return super.close();
   }
 }
 
@@ -95,6 +126,8 @@ extension on ConfirmPaymentState {
 
 @freezed
 class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
+  const factory ConfirmPaymentEvent.init(DlnPayment payment) = Init;
+
   const factory ConfirmPaymentEvent.confirmed() = Confirmed;
 
   const factory ConfirmPaymentEvent.invalidated() = Invalidated;
@@ -103,6 +136,7 @@ class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
 @freezed
 class ConfirmPaymentState with _$ConfirmPaymentState {
   factory ConfirmPaymentState({
+    DlnPayment? payment,
     PaymentQuote? quote,
     DateTime? expiresAt,
     @Default(Flow<CreateOrderException, PaymentQuote>.initial())

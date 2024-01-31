@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +12,6 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/slider.dart';
-import '../../accounts/models/account.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -42,37 +39,26 @@ class OutgoingDlnConfirmationScreen extends StatefulWidget {
 class _OutgoingDlnConfirmationScreenState
     extends State<OutgoingDlnConfirmationScreen> {
   late final ConfirmPaymentBloc _bloc;
-  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
 
-    _bloc = sl<ConfirmPaymentBloc>(
-      param1: DlnPayment(
-        inputAmount: widget.amount,
-        receiverAddress: widget.receiverAddress,
-        receiverBlockchain: widget.blockchain,
+    _bloc = sl<ConfirmPaymentBloc>();
+
+    _bloc.add(
+      Init(
+        DlnPayment(
+          inputAmount: widget.amount,
+          receiverAddress: widget.receiverAddress,
+          receiverBlockchain: widget.blockchain,
+        ),
       ),
-      param2: context.read<MyAccount>().wallet.publicKey,
     );
-
-    _bloc.add(const Invalidated());
-  }
-
-  void _resetTimer(DateTime? expiresAt) {
-    _timer?.cancel();
-    if (expiresAt == null) return;
-    _timer = Timer(expiresAt.difference(DateTime.now()), _onQuoteExpired);
   }
 
   void _onSubmit() {
     const event = ConfirmPaymentEvent.confirmed();
-    _bloc.add(event);
-  }
-
-  void _onQuoteExpired() {
-    const event = ConfirmPaymentEvent.invalidated();
     _bloc.add(event);
   }
 
@@ -85,102 +71,96 @@ class _OutgoingDlnConfirmationScreenState
   @override
   void dispose() {
     _bloc.close();
-    _timer?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) =>
-      BlocListener<ConfirmPaymentBloc, ConfirmPaymentState>(
+      BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
         bloc: _bloc,
-        listenWhen: (prev, cur) => prev.expiresAt != cur.expiresAt,
-        listener: (context, state) => _resetTimer(state.expiresAt),
-        child: BlocConsumer<ConfirmPaymentBloc, ConfirmPaymentState>(
-          bloc: _bloc,
-          listenWhen: (prev, cur) => prev.flowState != cur.flowState,
-          listener: (context, state) => switch (state.flowState) {
-            FlowFailure(:final error) => _onException(error),
-            FlowSuccess(:final result) => widget.onConfirm(result),
-            _ => null,
-          },
-          builder: (context, state) {
-            final receiverAmount = state.receiverAmount.format(
-              DeviceLocale.localeOf(context),
-              maxDecimals: 2,
-              roundInteger: false,
-            );
+        listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+        listener: (context, state) => switch (state.flowState) {
+          FlowFailure(:final error) => _onException(error),
+          FlowSuccess(:final result) => widget.onConfirm(result),
+          _ => null,
+        },
+        builder: (context, state) {
+          final receiverAmount = state.receiverAmount.format(
+            DeviceLocale.localeOf(context),
+            maxDecimals: 2,
+            roundInteger: false,
+          );
 
-            final totalDeductedAmount = (state.inputAmount + state.fee).format(
-              DeviceLocale.localeOf(context),
-              maxDecimals: 2,
-              roundInteger: false,
-            );
+          final totalDeductedAmount = (state.inputAmount + state.fee).format(
+            DeviceLocale.localeOf(context),
+            maxDecimals: 2,
+            roundInteger: false,
+          );
 
-            final feeAmount = state.fee.format(
-              DeviceLocale.localeOf(context),
-              maxDecimals: 2,
-              roundInteger: false,
-            );
+          final feeAmount = state.fee.format(
+            DeviceLocale.localeOf(context),
+            maxDecimals: 2,
+            roundInteger: false,
+          );
 
-            return SafeArea(
-              child: LayoutBuilder(
-                builder: (context, constraints) => SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: constraints.maxWidth,
-                      minHeight: constraints.maxHeight,
-                    ),
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const _DisclaimerText(),
-                          const SizedBox(height: 32),
+          return SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minWidth: constraints.maxWidth,
+                    minHeight: constraints.maxHeight,
+                  ),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const _DisclaimerText(),
+                        const SizedBox(height: 32),
+                        _Item(
+                          title: context.l10n.walletNetwork,
+                          value: widget.blockchain.displayName,
+                          backgroundColor: Colors.black,
+                        ),
+                        _Item(
+                          title: context.l10n.walletAddress,
+                          value: widget.receiverAddress,
+                          backgroundColor: Colors.black,
+                        ),
+                        if (state.flowState.isProcessing ||
+                            state.quote == null) ...[
+                          const SizedBox(height: 16),
+                          const _Loading(),
+                        ] else ...[
                           _Item(
-                            title: context.l10n.walletNetwork,
-                            value: widget.blockchain.displayName,
+                            title: context.l10n.totalAmount,
+                            value: '$totalDeductedAmount ($feeAmount Fee)',
                             backgroundColor: Colors.black,
                           ),
                           _Item(
-                            title: context.l10n.walletAddress,
-                            value: widget.receiverAddress,
+                            title: context.l10n.transferReceiver,
+                            value: receiverAmount,
                             backgroundColor: Colors.black,
-                          ),
-                          if (state.flowState.isProcessing ||
-                              state.quote == null) ...[
-                            const SizedBox(height: 16),
-                            const _Loading(),
-                          ] else ...[
-                            _Item(
-                              title: context.l10n.totalAmount,
-                              value: '$totalDeductedAmount ($feeAmount Fee)',
-                              backgroundColor: Colors.black,
-                            ),
-                            _Item(
-                              title: context.l10n.transferReceiver,
-                              value: receiverAmount,
-                              backgroundColor: Colors.black,
-                            ),
-                          ],
-                          const Spacer(),
-                          CpContentPadding(
-                            child: CpSlider(
-                              text: context.l10n.confirm,
-                              onSlideCompleted: (state.quote == null ||
-                                      state.flowState.isProcessing)
-                                  ? null
-                                  : _onSubmit,
-                            ),
                           ),
                         ],
-                      ),
+                        const Spacer(),
+                        CpContentPadding(
+                          child: CpSlider(
+                            text: context.l10n.confirm,
+                            onSlideCompleted: (state.quote == null ||
+                                    state.flowState.isProcessing)
+                                ? null
+                                : _onSubmit,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       );
 }
 
