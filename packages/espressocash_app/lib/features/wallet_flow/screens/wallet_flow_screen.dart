@@ -16,7 +16,7 @@ import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
-import '../../outgoing_dln_payments/screens/flow_screen.dart';
+import '../../outgoing_dln_payments/screens/confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_screen.dart';
 import '../../outgoing_link_payments/widgets/extensions.dart';
@@ -165,7 +165,7 @@ class _State extends State<WalletFlowScreen> {
                   _reset();
                 } else {
                   await context.router.push(
-                    OutgoingDlnPaymentFlowScreen.route(
+                    OutgoingDlnPaymentConfirmationScreen.route(
                       amount: _cryptoAmount,
                       blockchain: network,
                       receiverAddress: address,
