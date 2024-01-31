@@ -1017,5 +1017,39 @@
   "quizStart": "Get Started",
   "@quizStart": {},
   "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
-  "@profileDisclaimer": {}
+  "@profileDisclaimer": {},
+  "confirmation": "Confirmation",
+  "@confirmation": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "walletNetwork": "Network",
+  "@walletNetwork": {},
+  "totalAmount": "Total Amount Deducted",
+  "@totalAmount": {},
+  "transferReceiver": "Receiver Receives",
+  "@transferReceiver": {},
+  "noQuoteFound": "No Quote Found",
+  "@noQuoteFound": {},
+  "transactionSentTimeline": "Transaction has been sent",
+  "@transactionSentTimeline": {},
+  "transactionFulfilled": "Your order has been fulfilled",
+  "@transactionFulfilled": {},
+  "transactionAwaitingFulfillment": "Your order is awaiting fulfillment",
+  "@transactionAwaitingFulfillment": {},
+  "paymentProgressOngoing": "Sending {amount}",
+  "@paymentProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "outgoingDlnDisclaimer1": "This feature is currently in BETA.\nPlease contact ",
+  "@outgoingDlnDisclaimer1": {},
+  "outgoingDlnDisclaimer2": "Espresso customer support",
+  "@outgoingDlnDisclaimer2": {},
+  "outgoingDlnDisclaimer3": " if you experience any issues.",
+  "@outgoingDlnDisclaimer3": {},
+  "outgoingDlnFailure": "There was an issue with your transfer. Please contact us.",
+  "@outgoingDlnFailure": {}
 }

@@ -6,7 +6,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import '../../../l10n/l10n.dart';
-import '../data/blockchain.dart';
+import '../../blockchain/models/blockchain.dart';
 
 @RoutePage()
 class NetworkPickerScreen extends StatelessWidget {
@@ -89,7 +89,7 @@ class _ContentState extends State<_Content> {
                   child: ListTile(
                     dense: true,
                     title: Text(
-                      network.name,
+                      network.displayName,
                       style: TextStyle(fontSize: selected ? 19 : 17),
                     ),
                     selectedColor: Colors.white,

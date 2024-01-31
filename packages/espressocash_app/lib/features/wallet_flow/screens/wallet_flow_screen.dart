@@ -10,12 +10,13 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/shake.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/services/amount_ext.dart';
-import '../../outgoing_direct_payments/data/blockchain.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
+import '../../outgoing_dln_payments/screens/confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_screen.dart';
 import '../../outgoing_link_payments/widgets/extensions.dart';
@@ -68,8 +69,7 @@ class _State extends State<WalletFlowScreen> {
       },
     );
 
-    if (!mounted) return;
-    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+    _reset();
   }
 
   void _handleFiatAmountChanged(Decimal value) {
@@ -92,7 +92,7 @@ class _State extends State<WalletFlowScreen> {
     await context.router.navigate(LinkDetailsFlowScreen.route(id: id));
     if (!mounted) return;
 
-    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+    _reset();
   }
 
   void _handlePay() {
@@ -118,7 +118,7 @@ class _State extends State<WalletFlowScreen> {
                 await context.router.replace(OLPScreen.route(id: id));
                 if (!mounted) return;
 
-                setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+                _reset();
               },
             ),
           );
@@ -127,44 +127,51 @@ class _State extends State<WalletFlowScreen> {
           context.router.push(
             ODPInputScreen.route(
               onSubmit: (Blockchain network, String address) async {
-                if (network != Blockchain.solana) return;
+                if (network == Blockchain.solana) {
+                  final formatted = _cryptoAmount
+                      .format(DeviceLocale.localeOf(context), skipSymbol: true);
 
-                final formatted = _cryptoAmount
-                    .format(DeviceLocale.localeOf(context), skipSymbol: true);
+                  final recipient = Ed25519HDPublicKey.fromBase58(address);
 
-                final recipient = Ed25519HDPublicKey.fromBase58(address);
+                  final confirmedFiatAmount =
+                      await context.router.push<Decimal>(
+                    ODPConfirmationScreen.route(
+                      initialAmount: formatted,
+                      recipient: recipient,
+                      label: null,
+                      token: _cryptoCurrency.token,
+                      isEnabled: false,
+                    ),
+                  );
 
-                final confirmedFiatAmount = await context.router.push<Decimal>(
-                  ODPConfirmationScreen.route(
-                    initialAmount: formatted,
-                    recipient: recipient,
-                    label: null,
-                    token: _cryptoCurrency.token,
-                    isEnabled: false,
-                  ),
-                );
+                  if (confirmedFiatAmount == null) return;
+                  if (!mounted) return;
 
-                if (confirmedFiatAmount == null) return;
-                if (!mounted) return;
+                  final confirmedCryptoAmount = _cryptoAmount.decimal;
 
-                final confirmedCryptoAmount = _cryptoAmount.decimal;
+                  if (!mounted) return;
+                  final id = await context.createODP(
+                    amountInUsdc: confirmedCryptoAmount,
+                    receiver: recipient,
+                    reference: null,
+                  );
 
-                if (!mounted) return;
-                final id = await context.createODP(
-                  amountInUsdc: confirmedCryptoAmount,
-                  receiver: recipient,
-                  reference: null,
-                );
+                  if (!mounted) return;
+                  await context.router.pop();
 
-                if (!mounted) return;
-                await context.router.pop();
+                  if (!mounted) return;
+                  await context.router.replace(ODPDetailsScreen.route(id: id));
 
-                if (!mounted) return;
-                await context.router.replace(ODPDetailsScreen.route(id: id));
-
-                if (!mounted) return;
-
-                setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
+                  _reset();
+                } else {
+                  await context.router.push(
+                    OutgoingDlnPaymentConfirmationScreen.route(
+                      amount: _cryptoAmount,
+                      blockchain: network,
+                      receiverAddress: address,
+                    ),
+                  );
+                }
               },
             ),
           );
@@ -185,6 +192,11 @@ class _State extends State<WalletFlowScreen> {
           _errorMessage = context.l10n.minimumAmountToSend(minimumAmount);
       }
     });
+  }
+
+  void _reset() {
+    if (!mounted) return;
+    setState(() => _fiatAmount = _fiatAmount.copyWith(value: 0));
   }
 
   @override

@@ -21,4 +21,4 @@ class FeatureFlagsManager {
   }
 }
 
-enum FeatureFlag { universalPay, crossChainPayments, offRamp }
+enum FeatureFlag { offRamp }

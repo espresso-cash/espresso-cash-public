@@ -42,6 +42,11 @@ class PendingActivitiesRepository {
       ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.withdrawn).not())
       ..where((tbl) => tbl.status.equalsValue(OLPStatusDto.canceled).not());
 
+    final outgoingDlnPayment = _db.select(_db.outgoingDlnPaymentRows)
+      ..where(
+        (tbl) => tbl.status.equalsValue(ODLNPaymentStatusDto.fulfilled).not(),
+      );
+
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
     final odpStream =
@@ -50,6 +55,10 @@ class PendingActivitiesRepository {
         swap.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
     final olpStream =
         olp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
+
+    final outgoingDlnStream = outgoingDlnPayment
+        .watch()
+        .map((rows) => rows.map((r) => r.toActivity()));
 
     final onRampStream = _onRampOrderService.watchPending().map(
           (rows) =>
@@ -67,6 +76,7 @@ class PendingActivitiesRepository {
         odpStream,
         swapStream,
         onRampStream,
+        outgoingDlnStream,
         olpStream,
         offRampStream,
       ],

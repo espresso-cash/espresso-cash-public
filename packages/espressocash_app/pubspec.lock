@@ -464,6 +464,14 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  ethereum_addresses:
+    dependency: "direct main"
+    description:
+      name: ethereum_addresses
+      sha256: e6ba01d44ecb9c5634367b017d6e94598fc937be8b28fc406d0e51ed6e9513dd
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   fake_async:
     dependency: transitive
     description:
