@@ -28,9 +28,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   })  : _quoteRepository = quoteRepository,
         _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
             const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
-        super(
-          ConfirmPaymentState(flowState: const Flow.initial()),
-        ) {
+        super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
@@ -56,9 +54,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
     add(const Invalidated());
 
-    _timer = Timer.periodic(_quoteDuration, (_) {
-      add(const Invalidated());
-    });
+    _timer = Timer.periodic(_quoteDuration, (_) => add(const Invalidated()));
   }
 
   void _onConfirmed(Confirmed _, _Emitter emit) {
@@ -124,8 +120,8 @@ extension on ConfirmPaymentState {
       );
 }
 
-@freezed
-class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
+@Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)
+sealed class ConfirmPaymentEvent with _$ConfirmPaymentEvent {
   const factory ConfirmPaymentEvent.init(DlnPayment payment) = Init;
 
   const factory ConfirmPaymentEvent.confirmed() = Confirmed;
