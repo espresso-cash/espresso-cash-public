@@ -1,6 +1,8 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -66,10 +68,17 @@ class TxSender {
     SignedTx tx, {
     required BigInt minContextSlot,
   }) {
+    final sentryTx = Sentry.startTransaction(
+      'TxSender.wait()',
+      'call',
+      waitForChildren: true,
+    )..setData('txId', tx.id);
+
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
 
-    Future<TxWaitResult?> getSignatureStatus() async {
+    Future<TxWaitResult?> getSignatureStatus(ISentrySpan span) async {
+      final innerSpan = span.startChild('getSignatureStatus()');
       _logger.fine('${tx.id}: Checking tx status.');
       // We need to check blockhash validity before searching for tx to make
       // sure that it's valid for the tx response slot.
@@ -87,28 +96,36 @@ class TxSender {
       final t = statuses.value.first;
 
       if (t == null) {
+        innerSpan.status = const SpanStatus.notFound();
         _logger.fine('${tx.id}: Tx not found.');
 
         // Blockhash is still valid, tx can be submitted.
         if (blockhashValidity.value) {
+          innerSpan.setData('reason', 'Blockhash is still valid.');
+          await innerSpan.finish();
           _logger.fine('${tx.id}: Blockhash is still valid.');
 
           return null;
         }
 
         if (DateTime.now().difference(start).inSeconds > 90) {
+          const reason = TxFailureReason.invalidBlockhashWaiting;
+          innerSpan
+            ..setData('reason', 'Timeout, failing.')
+            ..status = SpanStatus.fromString(reason.name);
+          await innerSpan.finish();
           _logger.fine('${tx.id}: Timeout, failing.');
 
           // We've been waiting for too long, blockhash is invalid and it
           // won't be valid.
-          return const TxWaitResult.failure(
-            reason: TxFailureReason.invalidBlockhashWaiting,
-          );
+          return const TxWaitResult.failure(reason: reason);
         }
 
         // No minContextSlot, it's not safe to assume that we get the latest
         // status.
         if (minContextSlot == BigInt.zero) {
+          innerSpan.setData('reason', 'minContextSlot is zero.');
+          await innerSpan.finish();
           _logger.fine('${tx.id}: minContextSlot is zero.');
 
           return null;
@@ -117,6 +134,8 @@ class TxSender {
         // We were calling the status with too old slot, we cannot be sure
         // that tx was not submitted.
         if (statuses.context.slot < minContextSlot) {
+          innerSpan.setData('reason', 'minContextSlot not reached.');
+          await innerSpan.finish();
           _logger.fine('${tx.id}: minContextSlot not reached.');
 
           return null;
@@ -125,37 +144,54 @@ class TxSender {
         // We were calling the status with too old slot, blockhash validity
         // is not guaranteed.
         if (statuses.context.slot < blockhashValidity.context.slot) {
-          _logger.fine('${tx.id}: Blockhas validity slot is ahead.');
+          innerSpan.setData('reason', 'Blockhash validity slot is ahead.');
+          await innerSpan.finish();
+          _logger.fine('${tx.id}: Blockhash validity slot is ahead.');
 
           return null;
         }
 
-        _logger.fine('${tx.id}: Ivalid blockhash.');
-
         // At this stage, blockhash is invalid and it won't be valid, so
         // tx cannot be submitted.
-        return const TxWaitResult.failure(
-          reason: TxFailureReason.invalidBlockhashWaiting,
-        );
+        const reason = TxFailureReason.invalidBlockhashWaiting;
+        innerSpan
+          ..setData('reason', 'Invalid blockhash.')
+          ..status = SpanStatus.fromString(reason.name);
+        await innerSpan.finish();
+        _logger.fine('${tx.id}: Invalid blockhash.');
+
+        return const TxWaitResult.failure(reason: reason);
       }
 
       if (t.err != null) {
+        const reason = TxFailureReason.txError;
+        innerSpan
+          ..setData('reason', 'Tx error ${t.err}.')
+          ..status = SpanStatus.fromString(reason.name);
+        await innerSpan.finish();
         _logger.fine('${tx.id}: Tx error ${t.err}.');
 
-        return const TxWaitResult.failure(reason: TxFailureReason.txError);
+        return const TxWaitResult.failure(reason: reason);
       }
 
       if (t.confirmationStatus.index >= ConfirmationStatus.confirmed.index) {
+        innerSpan.status = const SpanStatus.ok();
+        await innerSpan.finish();
         _logger.fine('${tx.id}: Success.');
 
         return const TxWaitResult.success();
       }
 
+      innerSpan.status = SpanStatus.fromString(
+        'Wrong confirmation status ${t.confirmationStatus}.',
+      );
+      await innerSpan.finish();
       _logger
           .fine('${tx.id}: Wrong confirmation status ${t.confirmationStatus}.');
     }
 
-    Future<TxWaitResult?> waitForSignatureStatus() async {
+    Future<TxWaitResult?> waitForSignatureStatus(ISentrySpan span) async {
+      final innerSpan = span.startChild('waitForSignatureStatus()');
       try {
         await _client.waitForSignatureStatus(
           tx.id,
@@ -164,14 +200,25 @@ class TxSender {
           timeout: waitForSignatureDefaultTimeout,
         );
 
+        innerSpan.status = const SpanStatus.ok();
+        await innerSpan.finish();
         _logger.fine('${tx.id}: Success from WS.');
 
         return const TxWaitResult.success();
       } on SubscriptionClientException catch (error) {
+        const reason = TxFailureReason.txError;
+        innerSpan
+          ..setData('reason', 'Failure from WS $error.')
+          ..status = SpanStatus.fromString(reason.name);
+        await innerSpan.finish();
         _logger.fine('${tx.id}: Failure from WS $error.');
 
-        return const TxWaitResult.failure(reason: TxFailureReason.txError);
+        return const TxWaitResult.failure(reason: reason);
       } on Exception catch (error) {
+        innerSpan
+          ..setData('reason', 'Network error from WS $error.')
+          ..status = const SpanStatus.unknownError();
+        await innerSpan.finish();
         _logger.fine('${tx.id}: Network error from WS $error.');
 
         return null;
@@ -180,11 +227,22 @@ class TxSender {
 
     final polling = Stream<void>.periodic(const Duration(seconds: 10))
         .startWith(null)
-        .exhaustMap((_) => getSignatureStatus().asStream().onErrorReturn(null));
+        .exhaustMap(
+          (_) => getSignatureStatus(sentryTx).asStream().onErrorReturn(null),
+        );
 
-    return MergeStream([polling, waitForSignatureStatus().asStream()])
-        .whereNotNull()
-        .first;
+    return MergeStream([
+      polling,
+      waitForSignatureStatus(sentryTx).asStream().onErrorReturn(null),
+    ]).whereNotNull().first.alsoAsync((result) {
+      sentryTx.finish(
+        status: switch (result) {
+          TxWaitSuccess() => const SpanStatus.ok(),
+          TxWaitFailure(:final reason) => SpanStatus.fromString(reason.name),
+          TxWaitNetworkError() => const SpanStatus.unknownError(),
+        },
+      );
+    });
   }
 }
 
