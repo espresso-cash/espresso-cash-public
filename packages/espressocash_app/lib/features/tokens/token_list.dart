@@ -62,7 +62,8 @@ class TokenList {
       tokens
           .singleWhereOrNull(
             (t) =>
-                t.symbol.toLowerCase() == symbol?.toLowerCase() &&
+                (symbol?.toLowerCase().contains(t.symbol.toLowerCase()) ??
+                    false) &&
                 t.coingeckoId?.toLowerCase() == coingeckoId?.toLowerCase(),
           )
           .ifNull(
