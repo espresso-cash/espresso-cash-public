@@ -1,3 +1,16 @@
+## 1.102.0
+
+ - **REFACTOR**: update ramp structure (#1251).
+ - **FEAT**: add FF for outgoing DLN (#1258).
+ - **FEAT**: outgoing cross chain payments (#1107).
+ - **FEAT**: update popular token list (#1257).
+ - **FEAT**: add tx waiting performance monitoring (#1255).
+ - **FEAT**: enable offramp for everyone (#1254).
+ - **FEAT**: splash animation update (#1236).
+ - **FEAT**: redesign investment widget (#1248).
+ - **FEAT**: update scalex cashout flow (#1249).
+ - **FEAT**: redesign web landing pages (#1237).
+
 ## 1.101.1
 
  - **FIX**: ODP service (#1245).
