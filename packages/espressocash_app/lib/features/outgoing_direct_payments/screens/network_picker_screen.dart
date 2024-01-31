@@ -5,6 +5,8 @@ import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
+import '../../../core/feature_flags.dart';
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../blockchain/models/blockchain.dart';
 
@@ -52,11 +54,15 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> {
   Blockchain? _selectedNetwork;
 
-  final _networks = Blockchain.values;
+  late final List<Blockchain> _networks;
 
   @override
   void initState() {
     super.initState();
+
+    _networks = sl<FeatureFlagsManager>().isOutgoingDlnEnabled()
+        ? Blockchain.values
+        : const [Blockchain.solana];
 
     _selectedNetwork = widget.initial;
   }
