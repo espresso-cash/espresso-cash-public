@@ -45,7 +45,7 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
     _bloc = sl<ConfirmPaymentBloc>();
 
     _bloc.add(
-      Init(
+      ConfirmPaymentEvent.init(
         DlnPayment(
           inputAmount: widget.amount,
           receiverAddress: widget.receiverAddress,
@@ -84,19 +84,19 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
         },
         builder: (context, state) {
           final receiverAmount = state.receiverAmount.format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             maxDecimals: 2,
             roundInteger: false,
           );
 
           final totalDeductedAmount = (state.inputAmount + state.fee).format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             maxDecimals: 2,
             roundInteger: false,
           );
 
           final feeAmount = state.fee.format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             maxDecimals: 2,
             roundInteger: false,
           );

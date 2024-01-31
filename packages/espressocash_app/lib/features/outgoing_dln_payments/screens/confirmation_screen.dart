@@ -39,8 +39,6 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
 
     if (!mounted) return;
     context.router.popUntilRoot();
-
-    if (!mounted) return;
     await context.router.push(OutgoingDlnPaymentDetailsScreen.route(id: id));
   }
 
