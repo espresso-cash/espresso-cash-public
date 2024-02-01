@@ -17,7 +17,6 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../profile/widgets/extensions.dart';
-import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
@@ -95,9 +94,9 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
     );
 
     final Widget? secondaryButton = order.status.mapOrNull(
-      success: (e) => _MoreDetailsButton(signature: e.tx.id),
-      fulfilled: (e) => _MoreDetailsButton(signature: e.tx.id),
-      unfulfilled: (e) => _MoreDetailsButton(signature: e.tx.id),
+      success: (e) => e.orderId?.let((p) => _MoreDetailsButton(orderId: p)),
+      fulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
+      unfulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
     );
 
     final orderId = order.status.mapOrNull(
@@ -197,17 +196,17 @@ class _Timeline extends StatelessWidget {
 }
 
 class _MoreDetailsButton extends StatelessWidget {
-  const _MoreDetailsButton({required this.signature});
+  const _MoreDetailsButton({required this.orderId});
 
-  final String signature;
+  final String orderId;
 
   @override
   Widget build(BuildContext context) => CpTextButton(
         variant: CpTextButtonVariant.light,
         text: context.l10n.moreDetails,
         onPressed: () {
-          final link =
-              createTransactionLink(signature).let(Uri.parse).toString();
+          final link = 'https://app.debridge.finance/order?orderId=$orderId';
+
           context.openLink(link);
         },
       );
