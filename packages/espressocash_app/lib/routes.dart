@@ -83,7 +83,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
         AutoRoute(page: ManageProfileRoute.page),
         AutoRoute(page: CountryPickerRoute.page),
-        AutoRoute(page: HelpRoute.page),
         AutoRoute(
           page: OnboardingFlowRoute.page,
           children: [
