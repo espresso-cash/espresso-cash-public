@@ -7,12 +7,12 @@ import 'extensions.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 
-class LearningSection extends StatelessWidget {
-  const LearningSection({super.key});
+class HelpSection extends StatelessWidget {
+  const HelpSection({super.key});
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        title: context.l10n.learningSectionTitle,
+        title: context.l10n.helpSectionTitle,
         padding: const EdgeInsets.fromLTRB(8, 16, 2, 16),
         actions: [
           ProfileButton(

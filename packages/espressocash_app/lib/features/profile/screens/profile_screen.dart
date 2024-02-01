@@ -16,7 +16,7 @@ import '../../../di.dart';
 import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
 import '../data/profile_repository.dart';
-import '../widgets/learning_section.dart';
+import '../widgets/help_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
@@ -108,7 +108,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       EditProfileSection(),
                       SecuritySection(),
-                      LearningSection(),
+                      HelpSection(),
                       DangerSection(),
                       ShareSection(),
                       VersionSection(),
