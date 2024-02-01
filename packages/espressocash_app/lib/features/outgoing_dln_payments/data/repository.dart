@@ -63,6 +63,13 @@ class OutgoingDlnPaymentRepository implements Disposable {
       .into(_db.outgoingDlnPaymentRows)
       .insertOnConflictUpdate(payment.toDto());
 
+  Future<void> delete(String id) {
+    final query = _db.delete(_db.outgoingDlnPaymentRows)
+      ..where((p) => p.id.equals(id));
+
+    return query.go();
+  }
+
   @override
   void onDispose() {
     _db.delete(_db.outgoingDlnPaymentRows).go();

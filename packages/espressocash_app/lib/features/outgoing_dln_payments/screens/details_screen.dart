@@ -12,6 +12,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
@@ -20,6 +21,7 @@ import '../../profile/widgets/extensions.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
+import '../services/dln_order_service.dart';
 
 @RoutePage()
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
@@ -93,10 +95,22 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       unfulfilled: always(const _ContactUsButton()),
     );
 
+    void handleCanceled() => showConfirmationDialog(
+          context,
+          title: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          message: context
+              .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
+          onConfirm: () {
+            context.router.pop();
+            sl<OutgoingDlnPaymentService>().cancel(order.id);
+          },
+        );
+
     final Widget? secondaryButton = order.status.mapOrNull(
       success: (e) => e.orderId?.let((p) => _MoreDetailsButton(orderId: p)),
       fulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
       unfulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
+      txFailure: (_) => _CancelButton(onPressed: handleCanceled),
     );
 
     final orderId = order.status.mapOrNull(
@@ -209,6 +223,18 @@ class _MoreDetailsButton extends StatelessWidget {
 
           context.openLink(link);
         },
+      );
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({required this.onPressed});
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => CpTextButton(
+        variant: CpTextButtonVariant.light,
+        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+        onPressed: onPressed,
       );
 }
 
