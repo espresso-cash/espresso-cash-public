@@ -588,10 +588,10 @@ packages:
     dependency: "direct main"
     description:
       name: firebase_core
-      sha256: "96607c0e829a581c2a483c658f04e8b159964c3bae2730f73297070bc85d40bb"
+      sha256: "4761e56863ddf21341fd88e7f6325720d6537d8b9af4288f2c36968d54aa6d04"
       url: "https://pub.dev"
     source: hosted
-    version: "2.24.2"
+    version: "2.25.2"
   firebase_core_platform_interface:
     dependency: transitive
     description:
@@ -604,10 +604,10 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: d585bdf3c656c3f7821ba1bd44da5f13365d22fcecaf5eb75c4295246aaa83c0
+      sha256: "288bcb940f21b21cfa575c998f3145a33ded9628a01cf9797057cc56888f4900"
       url: "https://pub.dev"
     source: hosted
-    version: "2.10.0"
+    version: "2.11.2"
   firebase_remote_config:
     dependency: "direct main"
     description:
