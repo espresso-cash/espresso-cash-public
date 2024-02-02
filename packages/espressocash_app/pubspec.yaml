@@ -61,6 +61,7 @@ dependencies:
   permission_handler: ^11.1.0
   provider: ^6.1.1
   ramp_flutter: ^2.0.2
+  recase: ^4.1.0
   retrofit: ^4.0.3
   rive: ^0.12.4
   rxdart: ^0.27.7
@@ -100,7 +101,6 @@ dev_dependencies:
   json_serializable: ^6.7.1
   mews_pedantic: ^0.23.0
   mockito: ^5.4.4
-  recase: ^4.1.0
   retrofit_generator: ^8.0.6
 
 flutter_gen:

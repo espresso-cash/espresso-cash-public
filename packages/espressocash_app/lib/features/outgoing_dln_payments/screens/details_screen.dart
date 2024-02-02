@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -78,6 +79,8 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       fulfilled: always(context.l10n.transferSuccessTitle),
     );
 
+    final receiverBlockchain = order.payment.receiverBlockchain.name.titleCase;
+
     final amount = order.amount.format(locale, maxDecimals: 2);
 
     final String statusContent = order.status.maybeMap(
@@ -133,6 +136,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               status: order.status,
               amount: order.amount,
               created: order.created,
+              receiverBlockchain: receiverBlockchain,
             ),
             const Spacer(flex: 4),
             if (orderId != null && orderId.isNotEmpty)
@@ -170,11 +174,13 @@ class _Timeline extends StatelessWidget {
     required this.status,
     required this.amount,
     required this.created,
+    required this.receiverBlockchain,
   });
 
   final OutgoingDlnPaymentStatus status;
   final CryptoAmount amount;
   final DateTime created;
+  final String receiverBlockchain;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +197,7 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.transactionSentTimeline,
     );
     final paymentSuccess = CpTimelineItem(
-      title: context.l10n.moneyReceived,
+      title: '${context.l10n.moneyReceived} on $receiverBlockchain',
     );
 
     final items = [
