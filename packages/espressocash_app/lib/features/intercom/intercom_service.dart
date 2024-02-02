@@ -18,6 +18,10 @@ class IntercomService implements Disposable {
 
   Future<void> displayMessenger() => _intercom.displayMessenger();
 
+  void updateCountry(String? countryCode) {
+    _intercom.updateUser(customAttributes: {'countryCode': countryCode});
+  }
+
   @PostConstruct(preResolve: true)
   Future<void> init() async {
     await _intercom.initialize(
