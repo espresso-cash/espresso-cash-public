@@ -1,3 +1,8 @@
+## 1.103.0
+
+ - **FIX**: incorrect token balance (#1259).
+ - **FEAT**: move Contact us and FAQ buttons (#1260).
+
 ## 1.102.0
 
  - **REFACTOR**: update ramp structure (#1251).
