@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
 import '../../../core/presentation/utils.dart';
-import '../../../di.dart';
-import '../../intercom/intercom_service.dart';
+import 'extensions.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
 
@@ -18,7 +17,7 @@ class HelpSection extends StatelessWidget {
         actions: [
           ProfileButton(
             label: context.l10n.contactUs,
-            onPressed: () => sl<IntercomService>().displayMessenger(),
+            onPressed: context.launchIntercom,
           ),
           ProfileButton(
             label: context.l10n.faq,

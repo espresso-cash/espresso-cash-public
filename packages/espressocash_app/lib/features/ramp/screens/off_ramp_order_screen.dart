@@ -95,7 +95,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       size: CpButtonSize.big,
       width: double.infinity,
       text: context.l10n.contactUs,
-      onPressed: context.launchContactUs,
+      onPressed: context.launchIntercom,
     );
 
     final cancelButton = Padding(
