@@ -60,11 +60,15 @@ class _ConfirmationContentState extends State<ConfirmationContent> {
     _bloc.add(event);
   }
 
-  void _onException(CreateOrderException e) => showWarningDialog(
-        context,
-        title: context.l10n.swapErrorTitle,
-        message: e.description(context),
-      );
+  Future<void> _onException(CreateOrderException e) async {
+    await showWarningDialog(
+      context,
+      title: context.l10n.swapErrorTitle,
+      message: e.description(context),
+    );
+
+    _bloc.add(const ConfirmPaymentEvent.invalidated());
+  }
 
   @override
   void dispose() {
@@ -268,7 +272,7 @@ class _Loading extends StatelessWidget {
 
 extension on CreateOrderException {
   String description(BuildContext context) => this.map(
-        quoteNotFound: always(context.l10n.noQuoteFound),
+        quoteNotFound: always(context.l10n.outgoingDlnNoQuoteFound),
         insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
           e.amount.format(
             DeviceLocale.localeOf(context),
