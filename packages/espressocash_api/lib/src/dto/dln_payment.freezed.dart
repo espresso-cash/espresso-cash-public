@@ -1143,7 +1143,7 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
       required this.senderAddress,
       required this.senderBlockchain,
       required this.receiverAddress,
-      this.solanaReferenceAddress});
+      required this.solanaReferenceAddress});
 
   factory _$IncomingQuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$IncomingQuoteRequestDtoImplFromJson(json);
@@ -1202,11 +1202,12 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
 
 abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
   const factory _IncomingQuoteRequestDto(
-      {required final int amount,
-      required final String senderAddress,
-      required final String senderBlockchain,
-      required final String receiverAddress,
-      final String? solanaReferenceAddress}) = _$IncomingQuoteRequestDtoImpl;
+          {required final int amount,
+          required final String senderAddress,
+          required final String senderBlockchain,
+          required final String receiverAddress,
+          required final String? solanaReferenceAddress}) =
+      _$IncomingQuoteRequestDtoImpl;
 
   factory _IncomingQuoteRequestDto.fromJson(Map<String, dynamic> json) =
       _$IncomingQuoteRequestDtoImpl.fromJson;
@@ -1234,10 +1235,11 @@ IncomingQuoteResponseDto _$IncomingQuoteResponseDtoFromJson(
 
 /// @nodoc
 mixin _$IncomingQuoteResponseDto {
+  String get to => throw _privateConstructorUsedError;
+  String get data => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
   int get inputAmount => throw _privateConstructorUsedError;
   int get receiverAmount => throw _privateConstructorUsedError;
-  String get tx => throw _privateConstructorUsedError;
-  String get data => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1253,10 +1255,11 @@ abstract class $IncomingQuoteResponseDtoCopyWith<$Res> {
       _$IncomingQuoteResponseDtoCopyWithImpl<$Res, IncomingQuoteResponseDto>;
   @useResult
   $Res call(
-      {int inputAmount,
-      int receiverAmount,
-      String tx,
+      {String to,
       String data,
+      String value,
+      int inputAmount,
+      int receiverAmount,
       int feeInUsdc});
 }
 
@@ -1274,13 +1277,26 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
     Object? inputAmount = null,
     Object? receiverAmount = null,
-    Object? tx = null,
-    Object? data = null,
     Object? feeInUsdc = null,
   }) {
     return _then(_value.copyWith(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
@@ -1289,14 +1305,6 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
           ? _value.receiverAmount
           : receiverAmount // ignore: cast_nullable_to_non_nullable
               as int,
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
       feeInUsdc: null == feeInUsdc
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
@@ -1315,10 +1323,11 @@ abstract class _$$IncomingQuoteResponseDtoImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int inputAmount,
-      int receiverAmount,
-      String tx,
+      {String to,
       String data,
+      String value,
+      int inputAmount,
+      int receiverAmount,
       int feeInUsdc});
 }
 
@@ -1335,13 +1344,26 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
     Object? inputAmount = null,
     Object? receiverAmount = null,
-    Object? tx = null,
-    Object? data = null,
     Object? feeInUsdc = null,
   }) {
     return _then(_$IncomingQuoteResponseDtoImpl(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
@@ -1350,14 +1372,6 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
           ? _value.receiverAmount
           : receiverAmount // ignore: cast_nullable_to_non_nullable
               as int,
-      tx: null == tx
-          ? _value.tx
-          : tx // ignore: cast_nullable_to_non_nullable
-              as String,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
       feeInUsdc: null == feeInUsdc
           ? _value.feeInUsdc
           : feeInUsdc // ignore: cast_nullable_to_non_nullable
@@ -1370,29 +1384,32 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
   const _$IncomingQuoteResponseDtoImpl(
-      {required this.inputAmount,
-      required this.receiverAmount,
-      required this.tx,
+      {required this.to,
       required this.data,
+      required this.value,
+      required this.inputAmount,
+      required this.receiverAmount,
       required this.feeInUsdc});
 
   factory _$IncomingQuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$IncomingQuoteResponseDtoImplFromJson(json);
 
   @override
+  final String to;
+  @override
+  final String data;
+  @override
+  final String value;
+  @override
   final int inputAmount;
   @override
   final int receiverAmount;
-  @override
-  final String tx;
-  @override
-  final String data;
   @override
   final int feeInUsdc;
 
   @override
   String toString() {
-    return 'IncomingQuoteResponseDto(inputAmount: $inputAmount, receiverAmount: $receiverAmount, tx: $tx, data: $data, feeInUsdc: $feeInUsdc)';
+    return 'IncomingQuoteResponseDto(to: $to, data: $data, value: $value, inputAmount: $inputAmount, receiverAmount: $receiverAmount, feeInUsdc: $feeInUsdc)';
   }
 
   @override
@@ -1400,12 +1417,13 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$IncomingQuoteResponseDtoImpl &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.value, value) || other.value == value) &&
             (identical(other.inputAmount, inputAmount) ||
                 other.inputAmount == inputAmount) &&
             (identical(other.receiverAmount, receiverAmount) ||
                 other.receiverAmount == receiverAmount) &&
-            (identical(other.tx, tx) || other.tx == tx) &&
-            (identical(other.data, data) || other.data == data) &&
             (identical(other.feeInUsdc, feeInUsdc) ||
                 other.feeInUsdc == feeInUsdc));
   }
@@ -1413,7 +1431,7 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, inputAmount, receiverAmount, tx, data, feeInUsdc);
+      runtimeType, to, data, value, inputAmount, receiverAmount, feeInUsdc);
 
   @JsonKey(ignore: true)
   @override
@@ -1432,23 +1450,26 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
 
 abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
   const factory _IncomingQuoteResponseDto(
-      {required final int inputAmount,
-      required final int receiverAmount,
-      required final String tx,
+      {required final String to,
       required final String data,
+      required final String value,
+      required final int inputAmount,
+      required final int receiverAmount,
       required final int feeInUsdc}) = _$IncomingQuoteResponseDtoImpl;
 
   factory _IncomingQuoteResponseDto.fromJson(Map<String, dynamic> json) =
       _$IncomingQuoteResponseDtoImpl.fromJson;
 
   @override
+  String get to;
+  @override
+  String get data;
+  @override
+  String get value;
+  @override
   int get inputAmount;
   @override
   int get receiverAmount;
-  @override
-  String get tx;
-  @override
-  String get data;
   @override
   int get feeInUsdc;
   @override

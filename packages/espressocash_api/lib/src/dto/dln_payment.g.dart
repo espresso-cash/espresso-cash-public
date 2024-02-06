@@ -124,19 +124,21 @@ Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
 _$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$IncomingQuoteResponseDtoImpl(
+      to: json['to'] as String,
+      data: json['data'] as String,
+      value: json['value'] as String,
       inputAmount: json['inputAmount'] as int,
       receiverAmount: json['receiverAmount'] as int,
-      tx: json['tx'] as String,
-      data: json['data'] as String,
       feeInUsdc: json['feeInUsdc'] as int,
     );
 
 Map<String, dynamic> _$$IncomingQuoteResponseDtoImplToJson(
         _$IncomingQuoteResponseDtoImpl instance) =>
     <String, dynamic>{
+      'to': instance.to,
+      'data': instance.data,
+      'value': instance.value,
       'inputAmount': instance.inputAmount,
       'receiverAmount': instance.receiverAmount,
-      'tx': instance.tx,
-      'data': instance.data,
       'feeInUsdc': instance.feeInUsdc,
     };

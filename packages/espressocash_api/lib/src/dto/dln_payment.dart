@@ -76,7 +76,7 @@ class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
     required String senderAddress,
     required String senderBlockchain,
     required String receiverAddress,
-    String? solanaReferenceAddress,
+    required String? solanaReferenceAddress,
   }) = _IncomingQuoteRequestDto;
 
   factory IncomingQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -86,10 +86,11 @@ class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
 @freezed
 class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
   const factory IncomingQuoteResponseDto({
+    required String to,
+    required String data,
+    required String value,
     required int inputAmount,
     required int receiverAmount,
-    required String tx,
-    required String data,
     required int feeInUsdc,
   }) = _IncomingQuoteResponseDto;
 
