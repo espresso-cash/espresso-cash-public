@@ -73,8 +73,9 @@ class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
 class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
   const factory IncomingQuoteRequestDto({
     required int amount,
+    required String senderAddress,
+    required String senderBlockchain,
     required String receiverAddress,
-    required String incomingBlockchain,
     String? solanaReferenceAddress,
   }) = _IncomingQuoteRequestDto;
 

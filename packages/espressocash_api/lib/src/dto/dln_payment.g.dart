@@ -105,8 +105,9 @@ _$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$IncomingQuoteRequestDtoImpl(
       amount: json['amount'] as int,
+      senderAddress: json['senderAddress'] as String,
+      senderBlockchain: json['senderBlockchain'] as String,
       receiverAddress: json['receiverAddress'] as String,
-      incomingBlockchain: json['incomingBlockchain'] as String,
       solanaReferenceAddress: json['solanaReferenceAddress'] as String?,
     );
 
@@ -114,8 +115,9 @@ Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
         _$IncomingQuoteRequestDtoImpl instance) =>
     <String, dynamic>{
       'amount': instance.amount,
+      'senderAddress': instance.senderAddress,
+      'senderBlockchain': instance.senderBlockchain,
       'receiverAddress': instance.receiverAddress,
-      'incomingBlockchain': instance.incomingBlockchain,
       'solanaReferenceAddress': instance.solanaReferenceAddress,
     };
 

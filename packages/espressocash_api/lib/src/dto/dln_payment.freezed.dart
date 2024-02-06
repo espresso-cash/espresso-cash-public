@@ -1004,8 +1004,9 @@ IncomingQuoteRequestDto _$IncomingQuoteRequestDtoFromJson(
 /// @nodoc
 mixin _$IncomingQuoteRequestDto {
   int get amount => throw _privateConstructorUsedError;
+  String get senderAddress => throw _privateConstructorUsedError;
+  String get senderBlockchain => throw _privateConstructorUsedError;
   String get receiverAddress => throw _privateConstructorUsedError;
-  String get incomingBlockchain => throw _privateConstructorUsedError;
   String? get solanaReferenceAddress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1022,8 +1023,9 @@ abstract class $IncomingQuoteRequestDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {int amount,
+      String senderAddress,
+      String senderBlockchain,
       String receiverAddress,
-      String incomingBlockchain,
       String? solanaReferenceAddress});
 }
 
@@ -1042,8 +1044,9 @@ class _$IncomingQuoteRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? amount = null,
+    Object? senderAddress = null,
+    Object? senderBlockchain = null,
     Object? receiverAddress = null,
-    Object? incomingBlockchain = null,
     Object? solanaReferenceAddress = freezed,
   }) {
     return _then(_value.copyWith(
@@ -1051,13 +1054,17 @@ class _$IncomingQuoteRequestDtoCopyWithImpl<$Res,
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
+      senderAddress: null == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      senderBlockchain: null == senderBlockchain
+          ? _value.senderBlockchain
+          : senderBlockchain // ignore: cast_nullable_to_non_nullable
+              as String,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      incomingBlockchain: null == incomingBlockchain
-          ? _value.incomingBlockchain
-          : incomingBlockchain // ignore: cast_nullable_to_non_nullable
               as String,
       solanaReferenceAddress: freezed == solanaReferenceAddress
           ? _value.solanaReferenceAddress
@@ -1078,8 +1085,9 @@ abstract class _$$IncomingQuoteRequestDtoImplCopyWith<$Res>
   @useResult
   $Res call(
       {int amount,
+      String senderAddress,
+      String senderBlockchain,
       String receiverAddress,
-      String incomingBlockchain,
       String? solanaReferenceAddress});
 }
 
@@ -1097,8 +1105,9 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? amount = null,
+    Object? senderAddress = null,
+    Object? senderBlockchain = null,
     Object? receiverAddress = null,
-    Object? incomingBlockchain = null,
     Object? solanaReferenceAddress = freezed,
   }) {
     return _then(_$IncomingQuoteRequestDtoImpl(
@@ -1106,13 +1115,17 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as int,
+      senderAddress: null == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      senderBlockchain: null == senderBlockchain
+          ? _value.senderBlockchain
+          : senderBlockchain // ignore: cast_nullable_to_non_nullable
+              as String,
       receiverAddress: null == receiverAddress
           ? _value.receiverAddress
           : receiverAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      incomingBlockchain: null == incomingBlockchain
-          ? _value.incomingBlockchain
-          : incomingBlockchain // ignore: cast_nullable_to_non_nullable
               as String,
       solanaReferenceAddress: freezed == solanaReferenceAddress
           ? _value.solanaReferenceAddress
@@ -1127,8 +1140,9 @@ class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
 class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
   const _$IncomingQuoteRequestDtoImpl(
       {required this.amount,
+      required this.senderAddress,
+      required this.senderBlockchain,
       required this.receiverAddress,
-      required this.incomingBlockchain,
       this.solanaReferenceAddress});
 
   factory _$IncomingQuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -1137,15 +1151,17 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
   @override
   final int amount;
   @override
-  final String receiverAddress;
+  final String senderAddress;
   @override
-  final String incomingBlockchain;
+  final String senderBlockchain;
+  @override
+  final String receiverAddress;
   @override
   final String? solanaReferenceAddress;
 
   @override
   String toString() {
-    return 'IncomingQuoteRequestDto(amount: $amount, receiverAddress: $receiverAddress, incomingBlockchain: $incomingBlockchain, solanaReferenceAddress: $solanaReferenceAddress)';
+    return 'IncomingQuoteRequestDto(amount: $amount, senderAddress: $senderAddress, senderBlockchain: $senderBlockchain, receiverAddress: $receiverAddress, solanaReferenceAddress: $solanaReferenceAddress)';
   }
 
   @override
@@ -1154,18 +1170,20 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
         (other.runtimeType == runtimeType &&
             other is _$IncomingQuoteRequestDtoImpl &&
             (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.senderAddress, senderAddress) ||
+                other.senderAddress == senderAddress) &&
+            (identical(other.senderBlockchain, senderBlockchain) ||
+                other.senderBlockchain == senderBlockchain) &&
             (identical(other.receiverAddress, receiverAddress) ||
                 other.receiverAddress == receiverAddress) &&
-            (identical(other.incomingBlockchain, incomingBlockchain) ||
-                other.incomingBlockchain == incomingBlockchain) &&
             (identical(other.solanaReferenceAddress, solanaReferenceAddress) ||
                 other.solanaReferenceAddress == solanaReferenceAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, amount, receiverAddress,
-      incomingBlockchain, solanaReferenceAddress);
+  int get hashCode => Object.hash(runtimeType, amount, senderAddress,
+      senderBlockchain, receiverAddress, solanaReferenceAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -1185,8 +1203,9 @@ class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
 abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
   const factory _IncomingQuoteRequestDto(
       {required final int amount,
+      required final String senderAddress,
+      required final String senderBlockchain,
       required final String receiverAddress,
-      required final String incomingBlockchain,
       final String? solanaReferenceAddress}) = _$IncomingQuoteRequestDtoImpl;
 
   factory _IncomingQuoteRequestDto.fromJson(Map<String, dynamic> json) =
@@ -1195,9 +1214,11 @@ abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
   @override
   int get amount;
   @override
-  String get receiverAddress;
+  String get senderAddress;
   @override
-  String get incomingBlockchain;
+  String get senderBlockchain;
+  @override
+  String get receiverAddress;
   @override
   String? get solanaReferenceAddress;
   @override
