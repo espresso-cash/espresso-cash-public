@@ -100,3 +100,41 @@ Map<String, dynamic> _$$OrderIdDlnResponseDtoImplToJson(
     <String, dynamic>{
       'orderId': instance.orderId,
     };
+
+_$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncomingQuoteRequestDtoImpl(
+      amount: json['amount'] as int,
+      receiverAddress: json['receiverAddress'] as String,
+      incomingBlockchain: json['incomingBlockchain'] as String,
+      solanaReferenceAddress: json['solanaReferenceAddress'] as String?,
+    );
+
+Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
+        _$IncomingQuoteRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'receiverAddress': instance.receiverAddress,
+      'incomingBlockchain': instance.incomingBlockchain,
+      'solanaReferenceAddress': instance.solanaReferenceAddress,
+    };
+
+_$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncomingQuoteResponseDtoImpl(
+      inputAmount: json['inputAmount'] as int,
+      receiverAmount: json['receiverAmount'] as int,
+      tx: json['tx'] as String,
+      data: json['data'] as String,
+      feeInUsdc: json['feeInUsdc'] as int,
+    );
+
+Map<String, dynamic> _$$IncomingQuoteResponseDtoImplToJson(
+        _$IncomingQuoteResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'inputAmount': instance.inputAmount,
+      'receiverAmount': instance.receiverAmount,
+      'tx': instance.tx,
+      'data': instance.data,
+      'feeInUsdc': instance.feeInUsdc,
+    };

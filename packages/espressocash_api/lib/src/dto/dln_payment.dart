@@ -69,6 +69,33 @@ class OrderIdDlnResponseDto with _$OrderIdDlnResponseDto {
       _$OrderIdDlnResponseDtoFromJson(json);
 }
 
+@freezed
+class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
+  const factory IncomingQuoteRequestDto({
+    required int amount,
+    required String receiverAddress,
+    required String incomingBlockchain,
+    String? solanaReferenceAddress,
+  }) = _IncomingQuoteRequestDto;
+
+  factory IncomingQuoteRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$IncomingQuoteRequestDtoFromJson(json);
+}
+
+@freezed
+class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
+  const factory IncomingQuoteResponseDto({
+    required int inputAmount,
+    required int receiverAmount,
+    required String tx,
+    required String data,
+    required int feeInUsdc,
+  }) = _IncomingQuoteResponseDto;
+
+  factory IncomingQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$IncomingQuoteResponseDtoFromJson(json);
+}
+
 @JsonEnum(fieldRename: FieldRename.pascal)
 enum DlnOrderStatus {
   none,
