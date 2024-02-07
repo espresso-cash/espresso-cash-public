@@ -35,7 +35,7 @@ class OtherWalletButton extends StatelessWidget {
                 UsdcLogoWidget(chain),
                 Expanded(
                   child: Text(
-                    'USDC on ${chain.name}',
+                    'USDC on ${chain.displayName}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,

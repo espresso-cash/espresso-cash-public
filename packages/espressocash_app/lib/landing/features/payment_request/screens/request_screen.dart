@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,11 +10,14 @@ import '../../../../ui/button.dart';
 import '../../../core/desktop.dart';
 import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
+import '../../../di.dart';
+import '../service/bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/button.dart';
 import '../widgets/divider.dart';
 import '../widgets/invoice.dart';
 import '../widgets/page.dart';
+import 'other_wallet_screen.dart';
 import 'solana_wallet_screen.dart';
 
 class RequestInitialScreen extends StatefulWidget {
@@ -63,33 +68,25 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
       return;
     }
 
-    page = SolanaWalletScreen(
-      title: widget.request.headerTitle,
-      actionLink: Uri.parse(widget.request.toUrl()),
-    );
-
-    // if (chain == Blockchain.solana) {
-    //   page = SolanaWalletScreen(
-    //     title: widget.request.headerTitle,
-    //     actionLink: Uri.parse(widget.request.toUrl()),
-    //   );
-    // } else {
-    //   page = MultiBlocProvider(
-    //     providers: [
-    //       BlocProvider(
-    //         create: (context) => sl<UniversalPayBloc>(
-    //           param1: widget.request,
-    //           param2: chain,
-    //         ),
-    //       ),
-    //       BlocProvider<RequestVerifierBloc>.value(
-    //         value: context.read<RequestVerifierBloc>(),
-    //       ),
-    //       Provider.value(value: widget.request),
-    //     ],
-    //     child: OtherWalletScreen(chain: chain),
-    //   );
-    // }
+    if (chain == Blockchain.solana) {
+      page = SolanaWalletScreen(
+        title: widget.request.headerTitle,
+        actionLink: Uri.parse(widget.request.toUrl()),
+      );
+    } else {
+      page = MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => sl<IncomingPaymentBloc>(),
+          ),
+          // BlocProvider<RequestVerifierBloc>.value(
+          //   value: context.read<RequestVerifierBloc>(),
+          // ),
+          Provider.value(value: widget.request),
+        ],
+        child: OtherWalletScreen(chain: chain),
+      );
+    }
 
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (context) => page));
@@ -184,7 +181,7 @@ class _MobileView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            ...Blockchain.values.map(
+            ..._supportedChains.map(
               (e) => Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: OtherWalletButton(
@@ -275,7 +272,7 @@ class _DesktopView extends StatelessWidget {
                 runSpacing: 8,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 alignment: WrapAlignment.center,
-                children: Blockchain.values
+                children: _supportedChains
                     .map(
                       (e) => OtherWalletButton(
                         chain: e,
@@ -294,6 +291,12 @@ class _DesktopView extends StatelessWidget {
         ),
       );
 }
+
+const _supportedChains = [
+  Blockchain.solana,
+  Blockchain.ethereum,
+  Blockchain.polygon,
+];
 
 extension on SolanaPayRequest {
   String get headerTitle {
