@@ -34,13 +34,6 @@ extension BlockchainExt on Blockchain {
         Blockchain.arbitrum => '42161',
       };
 
-  String get name => switch (this) {
-        Blockchain.solana => 'Solana',
-        Blockchain.ethereum => 'Ethereum',
-        Blockchain.polygon => 'Polygon',
-        Blockchain.arbitrum => 'Arbitrum',
-      };
-
   AssetGenImage get logo => switch (this) {
         Blockchain.solana => Assets.landing.solanaLogo,
         Blockchain.ethereum => Assets.landing.ethLogo,

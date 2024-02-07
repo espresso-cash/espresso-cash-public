@@ -8,6 +8,7 @@ import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
+import '../../../di.dart';
 import '../data/repository.dart';
 import '../models/incoming_quote.dart';
 import '../models/request_model.dart';
@@ -20,7 +21,7 @@ typedef _Emitter = Emitter<_State>;
 
 typedef Input = (Blockchain, String);
 
-@injectable //TODO UPDATE DI
+@LazySingleton(scope: landingScope)
 class IncomingPaymentBloc extends Bloc<_Event, _State> {
   IncomingPaymentBloc({
     required IncomingQuoteRepository quoteRepository,

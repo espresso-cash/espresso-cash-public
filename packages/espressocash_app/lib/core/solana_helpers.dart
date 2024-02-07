@@ -18,7 +18,7 @@ extension SolanaClientExt on SolanaClient {
 }
 
 SolanaPayRequest? tryParseSolanaPayRequest(Uri link) {
-  final linkWithCorrectScheme = link.scheme == 'http' &&
+  final linkWithCorrectScheme = link.scheme == 'https' &&
           link.host == espressoCashLinkDomain &&
           link.queryParameters['t'] == 'solanapay' &&
           link.queryParameters['recipient'] != null

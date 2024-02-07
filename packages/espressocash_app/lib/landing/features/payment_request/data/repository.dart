@@ -4,9 +4,10 @@ import 'package:injectable/injectable.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
+import '../../../di.dart';
 import '../models/incoming_quote.dart';
 
-@injectable //TODO
+@LazySingleton(scope: landingScope)
 class IncomingQuoteRepository {
   IncomingQuoteRepository({
     required CryptopleaseClient cryptopleaseClient,
