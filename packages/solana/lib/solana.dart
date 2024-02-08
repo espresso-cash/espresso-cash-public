@@ -7,6 +7,7 @@ export 'src/crypto/crypto.dart';
 export 'src/exceptions/exceptions.dart';
 export 'src/helpers.dart';
 export 'src/programs/associated_token_account_program/program.dart';
+export 'src/programs/compute_budget_program/program.dart';
 export 'src/programs/memo_program/program.dart';
 export 'src/programs/stake_program/program.dart';
 export 'src/programs/system_program/program.dart';

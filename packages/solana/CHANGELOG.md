@@ -1,3 +1,7 @@
+## 0.30.3
+
+ - **FEAT**: export ComputeBudgetProgram.
+
 ## 0.30.2
 
  - **FEAT**: add ComputeBudgetProgram (#1267).
