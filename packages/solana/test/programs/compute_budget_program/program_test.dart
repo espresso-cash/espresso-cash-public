@@ -4,7 +4,6 @@ import 'dart:convert' hide Encoding;
 
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/programs/compute_budget_program/instruction.dart';
 import 'package:test/test.dart';
 
 import '../../config.dart';
