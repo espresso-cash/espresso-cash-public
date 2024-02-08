@@ -12,6 +12,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
@@ -140,7 +141,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
               created: order.created,
             ),
             const Spacer(flex: 4),
-            _OrderId(orderId: order.partnerOrderId),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
@@ -245,26 +246,6 @@ class _Timeline extends StatelessWidget {
       animated: animated,
     );
   }
-}
-
-class _OrderId extends StatelessWidget {
-  const _OrderId({required this.orderId});
-
-  final String orderId;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(
-        height: CpButtonSize.big.height,
-        child: Center(
-          child: Text(
-            context.l10n.orderId(orderId),
-            style: const TextStyle(
-              color: Color(0xFF979593),
-              fontSize: 14,
-            ),
-          ),
-        ),
-      );
 }
 
 extension on OnRampOrderStatus {
