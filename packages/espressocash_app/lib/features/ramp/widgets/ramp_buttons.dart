@@ -255,6 +255,9 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
   if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
   }
+  partners.add(RampPartner.scalex);
+
+  partners.add(RampPartner.coinflow); //todo remove
 
   return IList(partners);
 }
