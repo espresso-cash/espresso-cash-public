@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
-import '../widgets/pay_page2.dart';
+import '../widgets/pay_main_page.dart';
 
 @RoutePage()
 class PayFlowScreen extends StatelessWidget {
@@ -19,11 +19,11 @@ class PayFlowScreen extends StatelessWidget {
   static const route = PayFlowRoute.new;
 
   @override
-  Widget build(BuildContext context) => InitialPayPage(
+  Widget build(BuildContext context) => PayMainPage(
         title: context.l10n.walletTransactionMethodTitle,
         headerIcon: Assets.images.sendMoneyGraphic,
         headerBackground: Assets.images.sendMoneyBg,
-        backgroundColor: const Color(0xffD86322),
+        theme: PayTheme.dark,
         description: context.l10n.walletEspressoPayLabel,
         moreOptionsLabel: context.l10n.walletPayOther,
         onContinue: onLink,

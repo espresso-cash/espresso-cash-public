@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../wallet_flow/widgets/pay_page2.dart';
+import '../../../wallet_flow/widgets/pay_main_page.dart';
 import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import 'ramp_more_options_screen.dart';
@@ -28,7 +28,7 @@ class RampPartnerSelectScreen extends StatelessWidget {
   final ValueSetter<RampPartner> onPartnerSelected;
 
   @override
-  Widget build(BuildContext context) => InitialPayPage(
+  Widget build(BuildContext context) => PayMainPage(
         title: switch (type) {
           RampType.onRamp => context.l10n.ramp_btnAddCash,
           RampType.offRamp => context.l10n.ramp_btnCashOut,
@@ -42,9 +42,9 @@ class RampPartnerSelectScreen extends StatelessWidget {
           RampType.onRamp => Assets.images.cashInBg,
           RampType.offRamp => Assets.images.cashOutBg,
         },
-        backgroundColor: switch (type) {
-          RampType.onRamp => const Color(0xffD86322),
-          RampType.offRamp => const Color(0xFFC8B57D),
+        theme: switch (type) {
+          RampType.onRamp => PayTheme.dark,
+          RampType.offRamp => PayTheme.light,
         },
         description: switch (type) {
           RampType.onRamp => context.l10n.onRampTopPartnerTitle,

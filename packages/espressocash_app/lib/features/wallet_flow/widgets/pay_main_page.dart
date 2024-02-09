@@ -4,31 +4,34 @@ import 'package:flutter/material.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
+import '../../../ui/arrow.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 
-class InitialPayPage extends StatelessWidget {
-  const InitialPayPage({
+enum PayTheme { dark, light }
+
+class PayMainPage extends StatelessWidget {
+  const PayMainPage({
     super.key,
     required this.title,
     required this.headerIcon,
     required this.headerBackground,
-    required this.backgroundColor,
     required this.description,
     this.subtitle,
     required this.moreOptionsLabel,
     required this.onContinue,
     required this.onMoreOptions,
+    required this.theme,
   });
 
   final String title;
   final AssetGenImage headerIcon;
   final AssetGenImage headerBackground;
-  final Color backgroundColor;
   final String description;
   final String? subtitle;
+  final PayTheme theme;
   final String moreOptionsLabel;
   final VoidCallback onContinue;
   final VoidCallback onMoreOptions;
@@ -38,12 +41,12 @@ class InitialPayPage extends StatelessWidget {
         child: Scaffold(
           appBar: CpAppBar(
             leading: const CpBackButton(),
-            title: Text(
-              title.toUpperCase(),
-            ),
+            title: Text(title.toUpperCase()),
           ),
           extendBodyBehindAppBar: true,
-          backgroundColor: backgroundColor,
+          backgroundColor: theme == PayTheme.dark
+              ? CpColors.darkOrangeBackgroundColor
+              : CpColors.goldBackgroundColor,
           body: LayoutBuilder(
             builder: (context, viewportConstraints) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -56,6 +59,7 @@ class InitialPayPage extends StatelessWidget {
                       _Header(
                         icon: headerIcon,
                         background: headerBackground,
+                        theme: theme,
                       ),
                       Expanded(
                         child: Padding(
@@ -73,12 +77,12 @@ class InitialPayPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 24),
                               CpButton(
-                                text: 'Continue',
+                                text: context.l10n.ramp_btnContinue,
                                 width: double.infinity,
                                 size: CpButtonSize.big,
                                 trailing: const Padding(
                                   padding: EdgeInsets.only(right: 8),
-                                  child: _Arrow(),
+                                  child: Arrow(),
                                 ),
                                 onPressed: onContinue,
                               ),
@@ -117,14 +121,16 @@ class _Header extends StatelessWidget {
   const _Header({
     this.icon,
     required this.background,
+    required this.theme,
   });
 
   final AssetGenImage? icon;
   final AssetGenImage background;
+  final PayTheme theme;
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 428 / 453,
+        aspectRatio: 420 / 480,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -134,18 +140,23 @@ class _Header extends StatelessWidget {
               height: double.infinity,
             ),
             Align(
-              //TODO
               alignment: Alignment.bottomCenter,
               child: Container(
                 height: 75,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0x00D06022),
-                      Color(0xFFD86322),
-                    ],
+                    colors: switch (theme) {
+                      PayTheme.dark => [
+                          const Color(0x00D06022),
+                          const Color(0xFFD86322),
+                        ],
+                      PayTheme.light => [
+                          const Color(0x00C8B57D),
+                          const Color(0xFFC8B57D),
+                        ],
+                    },
                   ),
                 ),
               ),
@@ -158,11 +169,7 @@ class _Header extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.paddingOf(context).top,
                 ),
-                if (icon case final icon?)
-                  Hero(
-                    tag: 'header_icon',
-                    child: icon.image(height: 160),
-                  ),
+                if (icon case final icon?) icon.image(height: 160),
               ],
             ),
           ],
@@ -207,18 +214,5 @@ class _Footer extends StatelessWidget {
             height: MediaQuery.paddingOf(context).bottom + 16,
           ),
         ],
-      );
-}
-
-class _Arrow extends StatelessWidget {
-  const _Arrow();
-
-  @override
-  Widget build(BuildContext context) => RotatedBox(
-        quarterTurns: 2,
-        child: Assets.icons.arrow.svg(
-          height: 14,
-          color: const Color(0xFF2D2B2C),
-        ),
       );
 }

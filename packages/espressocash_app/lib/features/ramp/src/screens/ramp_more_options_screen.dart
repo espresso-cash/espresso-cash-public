@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../wallet_flow/widgets/pay_page.dart';
+import '../../../../ui/arrow.dart';
+import '../../../wallet_flow/widgets/pay_details_page.dart';
 import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
@@ -25,17 +26,17 @@ class RampMoreOptionsPartnerScreen extends StatelessWidget {
   final ValueSetter<RampPartner> onPartnerSelected;
 
   @override
-  Widget build(BuildContext context) => PayPage(
+  Widget build(BuildContext context) => PayDetailsPage(
         title: switch (type) {
           RampType.onRamp => context.l10n.ramp_btnAddCash,
           RampType.offRamp => context.l10n.ramp_btnCashOut,
         }
             .toUpperCase(),
-        headerBackground: Assets.images.sendManualBg,
         headerIcon: switch (type) {
           RampType.onRamp => Assets.images.cashInGraphic,
           RampType.offRamp => Assets.images.cashOutGraphic,
         },
+        headerBackground: Assets.images.sendManualBg,
         content: SafeArea(
           top: false,
           child: Column(
@@ -56,57 +57,45 @@ class RampMoreOptionsPartnerScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
               for (final partner in otherPartners)
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 7,
+                    vertical: 16,
                     horizontal: 18,
                   ),
-                  child: ListTile(
-                    tileColor: Colors.black,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(91)),
+                  child: DecoratedBox(
+                    decoration: const ShapeDecoration(
+                      color: Colors.black,
+                      shape: StadiumBorder(),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-                    title: Text(
-                      partner.title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
+                    child: ListTile(
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 28),
+                      title: Text(
+                        partner.title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    subtitle: Text(
-                      context.l10n
-                          .rampMinimumTransferAmount(partner.minimumAmount),
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
+                      subtitle: Text(
+                        context.l10n
+                            .rampMinimumTransferAmount(partner.minimumAmount),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
+                      trailing: const Arrow(color: Colors.white),
+                      onTap: () => onPartnerSelected(partner),
                     ),
-                    trailing: const _Arrow(color: Colors.white),
-                    onTap: () => onPartnerSelected(partner),
                   ),
                 ),
             ],
           ),
-        ),
-      );
-}
-
-class _Arrow extends StatelessWidget {
-  const _Arrow({this.color});
-
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) => RotatedBox(
-        quarterTurns: 2,
-        child: Assets.icons.arrow.svg(
-          height: 14,
-          color: color ?? const Color(0xFF2D2B2C),
         ),
       );
 }

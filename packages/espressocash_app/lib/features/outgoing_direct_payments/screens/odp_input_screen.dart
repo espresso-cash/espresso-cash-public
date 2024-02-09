@@ -10,7 +10,7 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../../wallet_flow/widgets/pay_page.dart';
+import '../../wallet_flow/widgets/pay_details_page.dart';
 import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);
@@ -70,7 +70,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => PayPage(
+  Widget build(BuildContext context) => PayDetailsPage(
         title: context.l10n.walletSendToAddressTitle,
         headerBackground: Assets.images.sendManualBg,
         content: SafeArea(
