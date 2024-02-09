@@ -75,7 +75,7 @@ class PayMainPage extends StatelessWidget {
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 16),
                               CpButton(
                                 text: context.l10n.ramp_btnContinue,
                                 width: double.infinity,
@@ -86,7 +86,7 @@ class PayMainPage extends StatelessWidget {
                                 ),
                                 onPressed: onContinue,
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 16),
                               if (subtitle case final subtitle?) ...[
                                 Text(
                                   subtitle,
@@ -211,7 +211,7 @@ class _Footer extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: MediaQuery.paddingOf(context).bottom + 16,
+            height: MediaQuery.paddingOf(context).bottom + 8,
           ),
         ],
       );

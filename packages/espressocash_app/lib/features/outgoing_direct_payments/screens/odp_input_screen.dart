@@ -75,7 +75,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
         headerBackground: Assets.images.sendManualBg,
         content: SafeArea(
           top: false,
-          minimum: const EdgeInsets.symmetric(horizontal: 40),
+          minimum: const EdgeInsets.symmetric(horizontal: 32),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
