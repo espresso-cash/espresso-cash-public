@@ -150,11 +150,11 @@ class _Header extends StatelessWidget {
                     colors: switch (theme) {
                       PayTheme.dark => [
                           const Color(0x00D06022),
-                          const Color(0xFFD86322),
+                          CpColors.darkOrangeBackgroundColor,
                         ],
                       PayTheme.light => [
                           const Color(0x00C8B57D),
-                          const Color(0xFFC8B57D),
+                          CpColors.goldBackgroundColor,
                         ],
                     },
                   ),

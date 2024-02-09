@@ -4,6 +4,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/back_button.dart';
+import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
 import '../models/ramp_type.dart';
 
@@ -98,11 +99,11 @@ class _Header extends StatelessWidget {
                   colors: switch (type) {
                     RampType.onRamp => [
                         const Color(0x00D06022),
-                        const Color(0xFFD06022),
+                        CpColors.darkOrangeBackgroundColor,
                       ],
                     RampType.offRamp => [
                         const Color(0x00C8B57D),
-                        const Color(0xFFC8B57D),
+                        CpColors.goldBackgroundColor,
                       ],
                   },
                 ),
