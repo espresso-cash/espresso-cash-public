@@ -37,13 +37,20 @@ class PayDetailsPage extends StatelessWidget {
                   minHeight: viewportConstraints.maxHeight,
                 ),
                 child: IntrinsicHeight(
-                  child: Column(
+                  child: Stack(
                     children: [
                       _Header(
                         icon: headerIcon,
                         background: headerBackground,
                       ),
-                      Expanded(child: content),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: viewportConstraints.maxHeight * 0.45,
+                          ),
+                          Expanded(child: content),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -65,7 +72,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 428 / 453,
+        aspectRatio: 420 / 480,
         child: Stack(
           alignment: Alignment.center,
           children: [
