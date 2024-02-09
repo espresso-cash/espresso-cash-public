@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -77,14 +76,13 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
       page = MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => sl<IncomingPaymentBloc>(),
+            create: (_) => sl<IncomingPaymentBloc>(),
           ),
-          // BlocProvider<RequestVerifierBloc>.value(
-          //   value: context.read<RequestVerifierBloc>(),
-          // ),
-          Provider.value(value: widget.request),
         ],
-        child: OtherWalletScreen(chain: chain),
+        child: OtherWalletScreen(
+          chain: chain,
+          request: widget.request,
+        ),
       );
     }
 

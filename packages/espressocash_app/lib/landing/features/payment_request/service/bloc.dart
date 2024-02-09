@@ -7,7 +7,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
-import '../../../../features/blockchain/models/blockchain.dart';
 import '../../../di.dart';
 import '../data/repository.dart';
 import '../models/incoming_quote.dart';
@@ -19,8 +18,6 @@ typedef _Event = IncomingPaymentEvent;
 typedef _State = IncomingPaymentState;
 typedef _Emitter = Emitter<_State>;
 
-typedef Input = (Blockchain, String);
-
 @LazySingleton(scope: landingScope)
 class IncomingPaymentBloc extends Bloc<_Event, _State> {
   IncomingPaymentBloc({
@@ -28,6 +25,7 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
   })  : _quoteRepository = quoteRepository,
         super(IncomingPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
+    on<OnWalletChange>(_onWalletChange);
     on<Confirmed>(_onConfirmed);
     on<Invalidated>(
       _onInvalidated,
@@ -53,6 +51,10 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
         flowState: const Flow.initial(),
       ),
     );
+  }
+
+  void _onWalletChange(OnWalletChange event, _Emitter emit) {
+    emit(state.onWalletUpdate(event.wallet));
 
     add(const Invalidated());
   }
@@ -65,8 +67,9 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
     emit(state.processing());
 
     final request = state.request;
+    final sender = state.sender;
 
-    if (request == null) {
+    if (request == null || sender == null) {
       emit(state.error(const PaymentException.quoteNotFound()));
 
       return;
@@ -76,8 +79,8 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
       final quote = await _quoteRepository.getQuote(
         amount: request.requestAmount,
         receiverAddress: request.receiverAddress,
-        senderAddress: request.senderAddress,
-        senderBlockchain: request.senderBlockchain,
+        senderAddress: sender.address,
+        senderBlockchain: sender.blockchain,
         solanaReferenceAddress: request.solanaReferenceAddress,
       );
 
@@ -112,6 +115,11 @@ extension on IncomingPaymentState {
   IncomingPaymentState update(IncomingPaymentQuote quote) => copyWith(
         quote: quote,
         flowState: const Flow.initial(),
+        expiresAt: DateTime.now().add(_quoteDuration),
+      );
+  IncomingPaymentState onWalletUpdate(UserWalletInfo sender) => copyWith(
+        sender: sender,
+        flowState: const Flow.processing(),
       );
 }
 
@@ -119,6 +127,9 @@ extension on IncomingPaymentState {
 sealed class IncomingPaymentEvent with _$IncomingPaymentEvent {
   const factory IncomingPaymentEvent.init(IncomingPaymentRequest request) =
       Init;
+
+  const factory IncomingPaymentEvent.onChangeWallet(UserWalletInfo wallet) =
+      OnWalletChange;
 
   const factory IncomingPaymentEvent.confirmed() = Confirmed;
 
@@ -129,9 +140,11 @@ sealed class IncomingPaymentEvent with _$IncomingPaymentEvent {
 class IncomingPaymentState with _$IncomingPaymentState {
   factory IncomingPaymentState({
     IncomingPaymentRequest? request,
+    UserWalletInfo? sender,
     IncomingPaymentQuote? quote,
     @Default(Flow<PaymentException, IncomingPaymentQuote>.initial())
     Flow<PaymentException, IncomingPaymentQuote> flowState,
+    DateTime? expiresAt,
   }) = Initialized;
 }
 

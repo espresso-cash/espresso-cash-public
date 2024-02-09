@@ -12,7 +12,14 @@ class IncomingPaymentRequest with _$IncomingPaymentRequest {
     required CryptoAmount requestAmount,
     required String receiverAddress,
     required String? solanaReferenceAddress,
-    required String senderAddress,
-    required Blockchain senderBlockchain,
+    required String? receiverName,
   }) = _IncomingPaymentRequest;
+}
+
+@freezed
+class UserWalletInfo with _$UserWalletInfo {
+  const factory UserWalletInfo({
+    required String address,
+    required Blockchain blockchain,
+  }) = _UserWalletInfo;
 }

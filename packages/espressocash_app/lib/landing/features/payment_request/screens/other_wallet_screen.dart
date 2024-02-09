@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,50 +13,47 @@ import '../../../../ui/rounded_rectangle.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
-import '../../../core/presentation/qr_code.dart';
 import '../../../di.dart';
 import '../models/request_model.dart';
 import '../service/bloc.dart';
-import '../widgets/button.dart';
 import '../widgets/countdown.dart';
 import '../widgets/invoice.dart';
-import '../widgets/page.dart';
 
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen({
     super.key,
     required this.chain,
+    required this.request,
   });
 
   final Blockchain chain;
+  final SolanaPayRequest request;
 
   @override
   State<OtherWalletScreen> createState() => _OtherWalletScreenState();
 }
 
 class _OtherWalletScreenState extends State<OtherWalletScreen> {
-  late final IncomingPaymentBloc _bloc;
+  // late final IncomingPaymentBloc _bloc;
 
   @override
   void initState() {
     super.initState();
 
-    final request = context.read<SolanaPayRequest>();
+    final request = widget.request;
 
-    _bloc = sl<IncomingPaymentBloc>();
+    // _bloc = sl<IncomingPaymentBloc>();
 
-    _bloc.add(
+    sl<IncomingPaymentBloc>().add(
       IncomingPaymentEvent.init(
         IncomingPaymentRequest(
           receiverAddress: request.recipient.toBase58(),
-          // requestAmount: request.amount!.shift(6).toString(),
           requestAmount: Amount.fromDecimal(
             value: request.amount!,
             currency: Currency.usdc,
           ) as CryptoAmount,
           solanaReferenceAddress: request.reference?.first.toBase58(),
-          senderAddress: '', //TODO GET FROM METAMASK,
-          senderBlockchain: widget.chain,
+          receiverName: request.label,
         ),
       ),
     );
@@ -66,7 +61,7 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
 
   @override
   void dispose() {
-    _bloc.close();
+    // _bloc.close();
     super.dispose();
   }
 
@@ -222,27 +217,40 @@ class _DesktopView extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<IncomingPaymentBloc, IncomingPaymentState>(
         builder: (context, state) {
-          // final chain = state.selectedChain?.name ?? '';
-          final request = context.read<SolanaPayRequest>();
+          final request = state.request;
+          final chain = state.sender?.blockchain;
 
-          // final String title =
-          //     'Pay ${request.label ?? ''} with USDC on $chain network';
+          final chainLabel =
+              chain != null ? 'on ${chain.displayName} network' : '';
 
           final String title =
-              'Pay ${request.label ?? ''} with USDC on TODO network';
+              'Pay ${request?.receiverName ?? ''} with USDC $chainLabel';
 
           return CpLoader(
-            // isLoading: state.processingState.isProcessing,
-            isLoading: false,
+            isLoading: state.flowState.isProcessing,
             child: LandingDesktopWidget(
               header: HeaderDesktop(
                 title: title,
-                // trailing: CountdownTimer(expiryDate: state.expiresAt),
+                trailing: CountdownTimer(expiryDate: state.expiresAt),
                 showBackButton: true,
               ),
               content: Column(
                 children: [
                   const SizedBox(height: 26),
+                  CpButton(
+                    text: 'Connect wallet',
+                    onPressed: () {
+                      sl<IncomingPaymentBloc>().add(
+                        const IncomingPaymentEvent.onChangeWallet(
+                          UserWalletInfo(
+                            address:
+                                '0x43b2595b3e6C200EBfd7F058dddF9403Ac457c1D',
+                            blockchain: Blockchain.ethereum,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                   // const RequestStatus(),
                   // Text(
                   //   context.l10n.landingPayRequestInstruction,
@@ -294,10 +302,11 @@ class _DesktopView extends StatelessWidget {
                   //     ],
                   //   ),
                   // ),
-                  if (request.reference?.first case final reference?) ...[
+                  if (request?.solanaReferenceAddress
+                      case final reference?) ...[
                     const Spacer(),
                     const SizedBox(height: 24),
-                    InvoiceWidget(address: reference.toBase58()),
+                    InvoiceWidget(address: reference),
                   ],
                 ],
               ),
