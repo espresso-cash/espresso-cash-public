@@ -17,7 +17,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../profile/widgets/extensions.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';
 import '../src/widgets/on_ramp_deposit_widget.dart';
@@ -191,7 +191,7 @@ class _ContactUsButton extends StatelessWidget {
           size: CpButtonSize.big,
           width: double.infinity,
           text: context.l10n.contactUs,
-          onPressed: context.launchContactUs,
+          onPressed: () => sl<IntercomService>().displayMessenger(),
         ),
       );
 }
