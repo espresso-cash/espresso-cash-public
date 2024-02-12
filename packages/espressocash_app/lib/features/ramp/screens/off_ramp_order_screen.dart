@@ -18,7 +18,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../profile/widgets/extensions.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/widgets/off_ramp_confirmation.dart';
@@ -95,7 +95,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       size: CpButtonSize.big,
       width: double.infinity,
       text: context.l10n.contactUs,
-      onPressed: context.launchIntercom,
+      onPressed: () => sl<IntercomService>().displayMessenger(),
     );
 
     final cancelButton = Padding(
