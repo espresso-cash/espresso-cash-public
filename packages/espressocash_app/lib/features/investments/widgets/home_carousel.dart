@@ -27,6 +27,8 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final isIos = Theme.of(context).platform == TargetPlatform.iOS;
+
     final items = [
       _Item(
         title: context.l10n.carousel1Title,
@@ -37,7 +39,9 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           text: context.l10n.carouselSendMoneyBtn,
           onPressed: () => context.router.navigate(WalletFlowScreen.route()),
         ),
-        backgroundImage: Assets.images.carousel2.image(),
+        backgroundImage: isIos
+            ? Assets.images.carousel2Ios.image()
+            : Assets.images.carousel2.image(),
       ),
       _Item(
         title: context.l10n.carousel2Title,
