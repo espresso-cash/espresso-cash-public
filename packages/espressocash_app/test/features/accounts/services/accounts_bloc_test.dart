@@ -5,6 +5,7 @@ import 'package:espressocash_app/features/accounts/data/account_repository.dart'
 import 'package:espressocash_app/features/accounts/models/account.dart';
 import 'package:espressocash_app/features/accounts/models/mnemonic.dart';
 import 'package:espressocash_app/features/accounts/services/accounts_bloc.dart';
+import 'package:espressocash_app/features/analytics/analytics_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -13,10 +14,11 @@ import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'accounts_bloc_test.mocks.dart';
 
-@GenerateMocks([FlutterSecureStorage, SeedVault])
+@GenerateMocks([FlutterSecureStorage, SeedVault, AnalyticsManager])
 Future<void> main() async {
   final seedVault = MockSeedVault();
   final storage = MockFlutterSecureStorage();
+  final analyticsManager = MockAnalyticsManager();
   final mnemonic = bip39.generateMnemonic();
   final wallet = await createLocalWallet(mnemonic: mnemonic);
   final testAccount = MyAccount(
@@ -26,6 +28,7 @@ Future<void> main() async {
   final repository = AccountRepository(storage, seedVault);
 
   tearDown(() {
+    reset(analyticsManager);
     reset(storage);
   });
 
@@ -35,6 +38,7 @@ Future<void> main() async {
         repository: repository,
         initAuthScope: () async {},
         dropAuthScope: () async {},
+        analyticsManager: analyticsManager,
       );
 
   blocTest<AccountsBloc, AccountsState>(

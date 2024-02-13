@@ -106,8 +106,17 @@ class TransactionRepository {
       ].contains(row.status).not(),
     );
 
+    final oDlnP = _db.outgoingDlnPaymentRows.findActivityOrNull(
+      where: (row) => row.txId.equals(txId),
+      builder: (pr) => pr.toActivity(),
+      ignoreWhen: (row) => const [
+        ODLNPaymentStatusDto.fulfilled,
+      ].contains(row.status).not(),
+    );
+
     return Rx.combineLatest(
-      [pr, odp, swap, olp, offRamp, onRamp].map((it) => it.onErrorReturn(null)),
+      [pr, odp, swap, olp, offRamp, onRamp, oDlnP]
+          .map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );
   }

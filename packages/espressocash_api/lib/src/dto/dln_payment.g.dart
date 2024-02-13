@@ -9,7 +9,7 @@ part of 'dln_payment.dart';
 _$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PaymentQuoteRequestDtoImpl(
-      amount: json['amount'] as String,
+      amount: json['amount'] as int,
       receiverAddress: json['receiverAddress'] as String,
       receiverBlockchain: json['receiverBlockchain'] as String,
     );
@@ -25,8 +25,8 @@ Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(
 _$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PaymentQuoteResponseDtoImpl(
-      inputAmount: json['inputAmount'] as String,
-      receiverAmount: json['receiverAmount'] as String,
+      inputAmount: json['inputAmount'] as int,
+      receiverAmount: json['receiverAmount'] as int,
       encodedTx: json['encodedTx'] as String,
       feeInUsdc: json['feeInUsdc'] as int,
       slot: BigInt.parse(json['slot'] as String),

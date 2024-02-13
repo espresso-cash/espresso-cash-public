@@ -1,5 +1,4 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
@@ -21,8 +20,8 @@ class FeatureFlagsManager {
     }
   }
 
-  bool get isOffRampEnabled =>
-      kDebugMode || _remoteConfig.getBool(FeatureFlag.offRamp.name);
+  bool isOutgoingDlnEnabled() =>
+      _remoteConfig.getBool(FeatureFlag.outgoingDln.name);
 }
 
-enum FeatureFlag { universalPay, crossChainPayments, offRamp }
+enum FeatureFlag { outgoingDln }

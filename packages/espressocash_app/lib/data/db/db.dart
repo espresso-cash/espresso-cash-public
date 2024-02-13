@@ -47,6 +47,7 @@ const _tables = [
   ILPRows,
   OnRampOrderRows,
   OffRampOrderRows,
+  OutgoingDlnPaymentRows,
 ];
 
 @lazySingleton
@@ -203,8 +204,8 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 39 && from < 46) {
             await m.addColumn(iLPRows, iLPRows.feeAmount);
           }
-          if (from >= 39 && from < 47) {
-            await m.addColumn(oLPRows, oLPRows.publicKey);
+          if (from < 47) {
+            await m.createTable(outgoingDlnPaymentRows);
           }
         },
       );
@@ -291,4 +292,31 @@ enum OffRampOrderStatus {
   failure,
   completed,
   cancelled,
+}
+
+class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
+  const OutgoingDlnPaymentRows();
+
+  TextColumn get receiverBlockchain => textEnum<BlockchainDto>()();
+  TextColumn get receiverAddress => text()();
+  IntColumn get amount => integer()();
+  IntColumn get status => intEnum<ODLNPaymentStatusDto>()();
+
+  TextColumn get orderId => text().nullable()();
+}
+
+enum BlockchainDto {
+  solana,
+  arbitrum,
+  polygon,
+  ethereum,
+}
+
+enum ODLNPaymentStatusDto {
+  txCreated,
+  txSent,
+  success,
+  txFailure,
+  fulfilled,
+  unfulfilled,
 }

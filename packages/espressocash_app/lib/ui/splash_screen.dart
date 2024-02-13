@@ -13,14 +13,24 @@ class SplashScreen extends StatelessWidget {
   static const route = SplashRoute.new;
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
+  Widget build(BuildContext context) => const CpTheme.black(
         child: DecoratedBox(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: CpColors.yellowSplashBackgroundColor,
           ),
           child: Center(
-            child: Assets.images.logo.image(height: 66),
+            child: SplashLogo(),
           ),
         ),
+      );
+}
+
+class SplashLogo extends StatelessWidget {
+  const SplashLogo({super.key});
+
+  @override
+  Widget build(BuildContext context) => Hero(
+        tag: 'logo',
+        child: Assets.images.logo.image(height: 66),
       );
 }
