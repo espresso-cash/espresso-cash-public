@@ -7,23 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
 import '../models/ramp_partner.dart';
+import '../partners/coinflow/widgets/launch.dart';
+import '../partners/guardarian/widgets/launch.dart';
+import '../partners/kado/widgets/launch.dart';
+import '../partners/ramp_network/widgets/launch.dart';
+import '../partners/scalex/widgets/launch.dart';
 import '../src/models/profile_data.dart';
 import '../src/models/ramp_type.dart';
 import '../src/screens/ramp_onboarding_screen.dart';
 import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
-import '../src/widgets/partners/coinflow.dart';
-import '../src/widgets/partners/guardarian.dart';
-import '../src/widgets/partners/kado.dart';
-import '../src/widgets/partners/ramp_network.dart';
-import '../src/widgets/partners/scalex.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
@@ -247,10 +246,6 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
 }
 
 IList<RampPartner> _getOffRampPartners(String countryCode) {
-  if (!sl<FeatureFlagsManager>().isOffRampEnabled) {
-    return const IListConst([]);
-  }
-
   final partners = <RampPartner>{};
 
   if (_coinflowCountries.contains(countryCode)) {

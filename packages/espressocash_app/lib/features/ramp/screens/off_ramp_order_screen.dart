@@ -14,11 +14,12 @@ import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
+import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../profile/widgets/extensions.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/widgets/off_ramp_confirmation.dart';
@@ -95,7 +96,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       size: CpButtonSize.big,
       width: double.infinity,
       text: context.l10n.contactUs,
-      onPressed: context.launchContactUs,
+      onPressed: () => sl<IntercomService>().displayMessenger(),
     );
 
     final cancelButton = Padding(
@@ -243,18 +244,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
               animated: animated,
             ),
             const Spacer(flex: 4),
-            SizedBox(
-              height: CpButtonSize.big.height,
-              child: Center(
-                child: Text(
-                  context.l10n.orderId(order.partnerOrderId),
-                  style: const TextStyle(
-                    color: Color(0xFF979593),
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
@@ -24,6 +25,7 @@ import 'stories/rounded_rectangle.dart';
 import 'stories/screens/off_ramp_amount_screen.dart';
 import 'stories/screens/off_ramp_order_screen.dart';
 import 'stories/screens/on_ramp_order_screen.dart';
+import 'stories/screens/outgoing_dln_order_screen.dart';
 import 'stories/screens/ramp_partner_select_screen.dart';
 import 'stories/screens/wallet_main_screen.dart';
 import 'stories/shake.dart';
@@ -40,6 +42,7 @@ import 'stories/user_avatar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await configureDependencies();
   runApp(const StorybookApp());
 }
@@ -71,6 +74,7 @@ class StorybookApp extends StatelessWidget {
         stories: [
           offRampAmountScreenStory,
           offRampOrderScreenStory,
+          outgoingDlnScreenStory,
           onRampPartnerSelectScreen,
           onRampOrderScreenStory,
           walletMainScreen,

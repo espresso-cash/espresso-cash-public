@@ -61,7 +61,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                     style: dashboardSectionTitleTextStyle,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 16),
                 if (data.isEmpty)
                   const Center(child: _NoActivity())
                 else ...[
@@ -77,7 +77,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                           .toList(),
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   // TODO(KB): Check if needed
                   // ignore: avoid-single-child-column-or-row
                   Row(

@@ -42,6 +42,7 @@ class _BalanceItem extends StatelessWidget {
     final locale = DeviceLocale.localeOf(context);
 
     return ValueStreamBuilder<Amount?>(
+      key: ValueKey(token),
       create: () => sl<WatchUserFiatBalance>().call(token),
       builder: (context, fiatAmount) => Material(
         color: Colors.transparent,

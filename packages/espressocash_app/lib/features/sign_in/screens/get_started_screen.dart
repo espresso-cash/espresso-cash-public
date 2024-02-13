@@ -15,6 +15,7 @@ import '../../../routes.gr.dart';
 import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
@@ -65,12 +66,16 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Expanded(child: _Logo()),
-                            const _Body(),
-                            24.verticalSpace,
-                            _Footer(
-                              isSaga: isSaga,
-                              onSignInPressed: _handleSignInPressed,
+                            const Expanded(child: Center(child: SplashLogo())),
+                            Column(
+                              children: [
+                                const _Body(),
+                                24.verticalSpace,
+                                _Footer(
+                                  isSaga: isSaga,
+                                  onSignInPressed: _handleSignInPressed,
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -82,16 +87,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
             ],
           ),
         ),
-      );
-}
-
-class _Logo extends StatelessWidget {
-  const _Logo();
-
-  @override
-  Widget build(BuildContext context) => Hero(
-        tag: 'logo',
-        child: Assets.images.logo.image(width: 309.r, height: 66.r),
       );
 }
 

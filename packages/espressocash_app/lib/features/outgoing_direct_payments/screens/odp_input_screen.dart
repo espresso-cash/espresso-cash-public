@@ -8,9 +8,9 @@ import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
+import '../../blockchain/models/blockchain.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../wallet_flow/widgets/pay_page.dart';
-import '../data/blockchain.dart';
 import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);
@@ -34,7 +34,8 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
   Blockchain _selectedNetwork = Blockchain.solana;
   final bool _showNetworkPicker = Blockchain.values.length > 1;
 
-  bool get _isValid => _selectedNetwork.validate(_walletAddressController.text);
+  bool get _isValid =>
+      _selectedNetwork.validateAddress(_walletAddressController.text);
 
   void _handleSubmitted() => widget.onSubmit(
         _selectedNetwork,
@@ -46,9 +47,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
           initial: _selectedNetwork,
           onSubmitted: (network) {
             context.router.pop();
-            setState(() {
-              _selectedNetwork = network;
-            });
+            setState(() => _selectedNetwork = network);
           },
         ),
       );
@@ -101,7 +100,7 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
                 onTap: _showNetworkPicker ? _handleOnNetworkTap : null,
                 title: Text(
-                  _selectedNetwork.name,
+                  _selectedNetwork.displayName,
                   maxLines: 1,
                   textAlign: TextAlign.center,
                   style: const TextStyle(

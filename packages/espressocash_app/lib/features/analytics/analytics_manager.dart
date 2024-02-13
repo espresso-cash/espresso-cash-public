@@ -22,6 +22,10 @@ class AnalyticsManager {
         },
       );
 
+  void setWalletAddress(String? address) {
+    _analytics.setUserProperty(name: 'walletAddress', value: address);
+  }
+
   // User creates shareable link.
   void linksCreated() => _analytics.logEvent(name: 'linksCreated');
 
