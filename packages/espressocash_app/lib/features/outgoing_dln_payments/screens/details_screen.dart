@@ -12,11 +12,12 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../profile/widgets/extensions.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
@@ -100,7 +101,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       unfulfilled: (e) => _MoreDetailsButton(signature: e.tx.id),
     );
 
-    final orderId = order.status.mapOrNull(
+    final partnerOrderId = order.status.mapOrNull(
       success: (tx) => tx.orderId,
       fulfilled: (tx) => tx.orderId,
       unfulfilled: (tx) => tx.orderId,
@@ -122,20 +123,8 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               created: order.created,
             ),
             const Spacer(flex: 4),
-            if (orderId != null && orderId.isNotEmpty)
-              SizedBox(
-                height: CpButtonSize.big.height,
-                child: Center(
-                  child: Text(
-                    context.l10n.orderId(orderId),
-                    style: const TextStyle(
-                      color: Color(0xFF979593),
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+            if (partnerOrderId != null && partnerOrderId.isNotEmpty)
+              PartnerOrderIdWidget(orderId: partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
@@ -221,7 +210,7 @@ class _ContactUsButton extends StatelessWidget {
         size: CpButtonSize.big,
         width: double.infinity,
         text: context.l10n.contactUs,
-        onPressed: context.launchContactUs,
+        onPressed: () => sl<IntercomService>().displayMessenger(),
       );
 }
 

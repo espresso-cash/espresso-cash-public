@@ -19,7 +19,7 @@
     <uses-permission android:name="android.permission.VIDEO_CAPTURE" />
     <uses-permission android:name="android.permission.AUDIO_CAPTURE" />
 
-    <application android:name="${applicationName}"
+    <application android:name=".MyApp"
         tools:replace="android:label"
         android:allowBackup="false"
         android:fullBackupContent="false"
