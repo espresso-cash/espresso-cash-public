@@ -10,23 +10,21 @@ import '../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
 class IntercomService implements Disposable {
-  IntercomService._() {
-    init();
-  }
+  const IntercomService._();
 
   static IntercomService? _instance;
 
-  Future<void> init() async {
-    await Intercom.instance.initialize(
-      intercomAppId,
-      iosApiKey: intercomIosKey,
-      androidApiKey: intercomAndroidKey,
-    );
-  }
-
   @FactoryMethod(preResolve: true)
   static Future<IntercomService> create(ECWallet account) async {
-    final IntercomService instance = _instance ??= IntercomService._();
+    if (_instance == null) {
+      await Intercom.instance.initialize(
+        intercomAppId,
+        iosApiKey: intercomIosKey,
+        androidApiKey: intercomAndroidKey,
+      );
+    }
+
+    final IntercomService instance = _instance ??= const IntercomService._();
 
     await Intercom.instance.loginIdentifiedUser(userId: account.address);
 
