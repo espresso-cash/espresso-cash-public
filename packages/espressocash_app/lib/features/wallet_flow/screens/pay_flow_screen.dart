@@ -22,7 +22,7 @@ class PayFlowScreen extends StatelessWidget {
   Widget build(BuildContext context) => PayMainPage(
         title: context.l10n.walletTransactionMethodTitle,
         headerIcon: Assets.images.sendMoneyGraphic,
-        headerBackground: Assets.images.sendMoneyBg,
+        headerBackground: Assets.images.cashInBg,
         theme: PayTheme.dark,
         description: context.l10n.walletEspressoPayLabel,
         moreOptionsLabel: context.l10n.walletPayOther,
