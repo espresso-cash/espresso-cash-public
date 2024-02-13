@@ -78,3 +78,7 @@ const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';
 const appstoreId = '1559625715';
+
+const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
+const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
+const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
