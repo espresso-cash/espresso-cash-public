@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 47;
+const int latestVersion = 48;
 
 const _tables = [
   OutgoingTransferRows,
@@ -206,6 +206,9 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 47) {
             await m.createTable(outgoingDlnPaymentRows);
+          }
+          if (from >= 39 && from < 48) {
+            await m.addColumn(oLPRows, oLPRows.publicKey);
           }
         },
       );
