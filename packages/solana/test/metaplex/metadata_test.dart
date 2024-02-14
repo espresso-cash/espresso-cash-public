@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:solana/metaplex.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
@@ -39,19 +41,19 @@ void main() {
       0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
       0, 0,
     ];
-    final metadata = Metadata.fromBinary(binary);
+    final metadata = Metadata.fromBorsh(Uint8List.fromList(binary));
     expect(
       metadata,
       isA<Metadata>()
           .having((m) => m.name, 'name', 'Cofre #514')
           .having((m) => m.symbol, 'symbol', 'COFR')
           .having(
-            (m) => m.mint,
+            (m) => m.mint.toBase58(),
             'mintAccount',
             'FxqBSMd2pYwTvAYjUKb4mWUBtV4LWCF4o9yvmtEMxcFB',
           )
           .having(
-            (m) => m.updateAuthority,
+            (m) => m.updateAuthority.toBase58(),
             'updateAuthority',
             'CiQ9EKdmFo7t8xiMPHuk1YhtfEdyaNANL1X6PsZojVH5',
           )
@@ -59,6 +61,51 @@ void main() {
             (m) => m.uri,
             'uri',
             'https://arweave.net/LogULMuEjDSOg-TnsboIF6UvmZyyr6j3BDCN4p46Frc',
+          )
+          .having(
+            (m) => m.key,
+            'key',
+            4,
+          )
+          .having(
+            (m) => m.isMutable,
+            'isMutable',
+            true,
+          )
+          .having(
+            (m) => m.primarySaleHappened,
+            'primarySaleHappened',
+            true,
+          )
+          .having(
+            (m) => m.sellerFeeBasisPoints,
+            'sellerFeeBasisPoints',
+            0,
+          )
+          .having(
+            (m) => m.creators?.length,
+            'creators length',
+            2,
+          )
+          .having(
+            (m) => m.creators?.first.address.toBase58(),
+            'first creator address',
+            'F69tu2rGcBrTtUT2ZsevujKRP4efVs9VfZPK2hYbYhvi',
+          )
+          .having(
+            (m) => m.uses,
+            'uses',
+            null,
+          )
+          .having(
+            (m) => m.collection,
+            'collection',
+            null,
+          )
+          .having(
+            (m) => m.tokenStandard,
+            'tokenStandard',
+            null,
           ),
     );
   });

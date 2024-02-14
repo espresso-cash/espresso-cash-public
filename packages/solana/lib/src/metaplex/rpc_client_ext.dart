@@ -21,7 +21,9 @@ extension GetMetaplexMetadata on RpcClient {
 
     final data = account.data;
 
-    return data is BinaryAccountData ? Metadata.fromBinary(data.data) : null;
+    return data is BinaryAccountData
+        ? Metadata.fromBorsh(Uint8List.fromList(data.data))
+        : null;
   }
 
   Future<MasterEdition?> getMasterEdition({
