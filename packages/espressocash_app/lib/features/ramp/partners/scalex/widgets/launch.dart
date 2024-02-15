@@ -38,6 +38,16 @@ extension BuildContextExt on BuildContext {
 
     Amount? amount;
 
+    final double rampRate = type == RampType.onRamp
+        ? rateAndFee.onRampRate ?? 0
+        : rateAndFee.offRampRate;
+    final double rampFeePercentage = type == RampType.onRamp
+        ? rateAndFee.onRampFeePercentage ?? 0
+        : rateAndFee.offRampFeePercentage;
+    final double fixedFee = type == RampType.onRamp
+        ? rateAndFee.fixedOnRampFee ?? 0
+        : rateAndFee.fixedOffRampFee;
+
     await router.push(
       RampAmountScreen.route(
         partner: RampPartner.scalex,
@@ -47,31 +57,45 @@ extension BuildContextExt on BuildContext {
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
+        // currency: Currency.ngn,
         calculateEquivalent: (amount) => (
-          amount: amount.calculateTotalFee(
+          amount: amount.calculateOffRampFee(
             exchangeRate: rateAndFee.offRampRate,
             offRampFee: rateAndFee.offRampFeePercentage,
             fixedFee: rateAndFee.fixedOffRampFee,
           ),
-          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+          // amount: amount.calculateOnRampFee(
+          //   exchangeRate: rampRate,
+          //   onRampFee: rampFeePercentage,
+          //   fixedFee: fixedFee,
+          // ),
+          rate: '1 USDC = $rampRate NGN'
         ),
         partnerFeeLabel:
-            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
-        calculateFee: (amount) => amount.calculateEspressoFee(
-          espressoFee: rateAndFee.espressoFeePercentage,
-        ),
-        type: RampType.offRamp,
+            'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee (included)',
+        calculateFee: type == RampType.offRamp
+            ? (amount) => amount.calculateEspressoFee(
+                  espressoFee: rateAndFee.espressoFeePercentage,
+                )
+            : null,
+        type: type,
       ),
     );
 
     final submittedAmount = amount;
+
     if (submittedAmount is! CryptoAmount) return;
+
+    final aaa = type == RampType.offRamp
+        ? submittedAmount.decimal.toDouble()
+        : submittedAmount.decimal.toDouble() * rampRate;
 
     final link = await _generateRampLink(
       address: address,
       profile: profile,
       type: type,
-      amount: submittedAmount.decimal.toDouble(),
+      // amount: submittedAmount.decimal.toDouble(),
+      amount: aaa,
     );
 
     if (link == null) {
@@ -226,7 +250,7 @@ window.addEventListener("message", (event) => {
 }
 
 extension on Amount {
-  FiatAmount calculateTotalFee({
+  FiatAmount calculateOffRampFee({
     required double exchangeRate,
     required double offRampFee,
     required double fixedFee,
@@ -241,6 +265,26 @@ extension on Amount {
       value:
           Currency.ngn.decimalToInt(Decimal.parse(netAmountInFiat.toString())),
       fiatCurrency: Currency.ngn,
+    );
+  }
+
+  CryptoAmount calculateOnRampFee({
+    required double exchangeRate,
+    required double onRampFee,
+    required double fixedFee,
+  }) {
+    final double inputAmount = decimal.toDouble();
+
+    final double initialUsdc = inputAmount / exchangeRate;
+
+    final double totalFeeInUsdc = (initialUsdc * onRampFee) + fixedFee;
+
+    final double netUsdcAmount = initialUsdc - totalFeeInUsdc;
+
+    return CryptoAmount(
+      value:
+          Currency.usdc.decimalToInt(Decimal.parse(netUsdcAmount.toString())),
+      cryptoCurrency: Currency.usdc,
     );
   }
 
