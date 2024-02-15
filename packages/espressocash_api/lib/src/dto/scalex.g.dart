@@ -137,6 +137,9 @@ _$ScalexRateFeeResponseDtoImpl _$$ScalexRateFeeResponseDtoImplFromJson(
       offRampRate: (json['offRampRate'] as num).toDouble(),
       offRampFeePercentage: (json['offRampFeePercentage'] as num).toDouble(),
       fixedOffRampFee: (json['fixedOffRampFee'] as num).toDouble(),
+      onRampRate: (json['onRampRate'] as num?)?.toDouble(),
+      onRampFeePercentage: (json['onRampFeePercentage'] as num?)?.toDouble(),
+      fixedOnRampFee: (json['fixedOnRampFee'] as num?)?.toDouble(),
       espressoFeePercentage: (json['espressoFeePercentage'] as num).toDouble(),
     );
 
@@ -146,5 +149,8 @@ Map<String, dynamic> _$$ScalexRateFeeResponseDtoImplToJson(
       'offRampRate': instance.offRampRate,
       'offRampFeePercentage': instance.offRampFeePercentage,
       'fixedOffRampFee': instance.fixedOffRampFee,
+      'onRampRate': instance.onRampRate,
+      'onRampFeePercentage': instance.onRampFeePercentage,
+      'fixedOnRampFee': instance.fixedOnRampFee,
       'espressoFeePercentage': instance.espressoFeePercentage,
     };
