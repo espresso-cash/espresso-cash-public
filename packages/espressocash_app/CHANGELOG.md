@@ -1,3 +1,11 @@
+## 1.104.0
+
+ - **FIX**: intercom initialization (#1275).
+ - **FIX**: pay screen background blink (#1268).
+ - **FEAT**: update carousel for ios (#1274).
+ - **FEAT**: add intercom support (#1265).
+ - **FEAT**: make order id copyable (#1271).
+
 ## 1.103.0
 
  - **FIX**: incorrect token balance (#1259).
