@@ -34,6 +34,7 @@ typedef OffRampOrder = ({
   DateTime created,
   OffRampOrderStatus status,
   CryptoAmount amount,
+  CryptoAmount? fee,
   RampPartner partner,
   DateTime? resolved,
   FiatAmount? receiveAmount,
@@ -105,6 +106,21 @@ class OffRampOrderService implements Disposable {
         ),
       );
 
+      final fee = row.feeAmount?.let(
+        (amount) {
+          final token = row.feeToken;
+
+          if (token == null) return null;
+
+          return CryptoAmount(
+            value: amount,
+            cryptoCurrency: CryptoCurrency(
+              token: _tokens.requireTokenByMint(token),
+            ),
+          );
+        },
+      );
+
       final receiveAmount = row.receiveAmount?.let(
         (it) => Amount(
           value: it,
@@ -127,6 +143,7 @@ class OffRampOrderService implements Disposable {
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
+        fee: fee,
       );
     });
   }
@@ -207,6 +224,7 @@ class OffRampOrderService implements Disposable {
     required String depositAddress,
     (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
+    CryptoAmount? fee,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -227,6 +245,8 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             receiveAmount: receiveAmount?.value,
             fiatSymbol: receiveAmount?.currency.symbol,
+            feeAmount: fee?.value,
+            feeToken: fee?.token.address,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);

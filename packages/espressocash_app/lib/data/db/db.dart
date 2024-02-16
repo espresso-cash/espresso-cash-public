@@ -29,7 +29,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 47;
+const int latestVersion = 48;
 
 const _tables = [
   OutgoingTransferRows,
@@ -207,6 +207,10 @@ class MyDatabase extends _$MyDatabase {
           if (from < 47) {
             await m.createTable(outgoingDlnPaymentRows);
           }
+          if (from >= 40 && from < 48) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
+          }
         },
       );
 
@@ -271,6 +275,8 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get fiatSymbol => text().nullable()();
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  IntColumn get feeAmount => integer().nullable()();
+  TextColumn get feeToken => text().nullable()();
 }
 
 enum OnRampOrderStatus {
