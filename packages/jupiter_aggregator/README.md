@@ -25,11 +25,10 @@ start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Define environmental variables when launching the app with flags on the command line. For example:
 
-```dart
-const like = 'sample';
+```bash
+flutter run lib/main.dart --dart-define=QUOTE_API_BASE=https://quote-api.jup.ag/v6
 ```
 
 ## Additional information
