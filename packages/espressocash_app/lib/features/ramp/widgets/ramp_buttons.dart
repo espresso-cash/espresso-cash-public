@@ -190,11 +190,7 @@ extension on BuildContext {
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
-        launchScalexRamp(
-          profile: profile,
-          address: address,
-          type: RampType.onRamp,
-        );
+        launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -211,11 +207,7 @@ extension on BuildContext {
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
-        launchScalexRamp(
-          profile: profile,
-          address: address,
-          type: RampType.offRamp,
-        );
+        launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
