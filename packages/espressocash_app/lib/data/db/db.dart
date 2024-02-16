@@ -292,6 +292,7 @@ enum OffRampOrderStatus {
   failure,
   completed,
   cancelled,
+  insufficientFunds,
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {

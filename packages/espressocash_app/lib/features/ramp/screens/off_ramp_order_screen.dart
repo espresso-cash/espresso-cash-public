@@ -120,6 +120,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
         CpStatusType.info,
       OffRampOrderStatus.depositError ||
       OffRampOrderStatus.depositTxConfirmError ||
+      OffRampOrderStatus.insufficientFunds ||
       OffRampOrderStatus.failure =>
         CpStatusType.error,
       OffRampOrderStatus.completed => CpStatusType.success,
@@ -148,6 +149,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           order.amount.format(locale),
         ),
+      OffRampOrderStatus.insufficientFunds =>
+        '${context.l10n.splitKeyErrorMessage2} ${context.l10n.errorMessageInsufficientFunds}',
     };
 
     final CpTimelineStatus timelineStatus = switch (order.status) {
@@ -159,6 +162,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
         CpTimelineStatus.inProgress,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError ||
+      OffRampOrderStatus.insufficientFunds ||
       OffRampOrderStatus.failure =>
         CpTimelineStatus.failure,
       OffRampOrderStatus.completed => CpTimelineStatus.success,
@@ -174,6 +178,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.sendingDepositTx ||
       OffRampOrderStatus.depositError ||
       OffRampOrderStatus.depositTxConfirmError ||
+      OffRampOrderStatus.insufficientFunds ||
       OffRampOrderStatus.cancelled =>
         1,
       OffRampOrderStatus.waitingForPartner ||
@@ -215,7 +220,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     final Widget? primaryButton = switch (order.status) {
       OffRampOrderStatus.depositError ||
-      OffRampOrderStatus.depositTxConfirmError =>
+      OffRampOrderStatus.depositTxConfirmError ||
+      OffRampOrderStatus.insufficientFunds =>
         retryButton,
       OffRampOrderStatus.failure => contactUsButton,
       OffRampOrderStatus.depositTxRequired ||

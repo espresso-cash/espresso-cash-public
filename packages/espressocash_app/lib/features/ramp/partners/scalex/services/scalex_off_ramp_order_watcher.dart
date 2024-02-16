@@ -34,17 +34,24 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
               tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
         );
 
-      final isCompleted = status == ScalexOrderStatus.completed;
+      final orderStatus = switch (status) {
+        ScalexOrderStatus.pending => OffRampOrderStatus.waitingForPartner,
+        ScalexOrderStatus.completed => OffRampOrderStatus.completed,
+        ScalexOrderStatus.expired ||
+        ScalexOrderStatus.failed ||
+        ScalexOrderStatus.unknown =>
+          OffRampOrderStatus.failure,
+      };
 
-      if (isCompleted) await _subscription?.cancel();
+      if (orderStatus == OffRampOrderStatus.completed) {
+        await _subscription?.cancel();
+      }
 
       await statement.write(
         OffRampOrderRowsCompanion(
           humanStatus: Value(status.name),
           machineStatus: Value(status.name),
-          status: isCompleted
-              ? const Value(OffRampOrderStatus.completed)
-              : const Value(OffRampOrderStatus.waitingForPartner),
+          status: Value(orderStatus),
         ),
       );
     });
