@@ -25,9 +25,13 @@ class OLPService {
     required CryptoAmount amount,
     required ECWallet account,
   }) async {
+    final escrowAccount = await Ed25519HDKeyPair.random();
+    final escrowPrivateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
+
     final status = await _createTx(
       amount: amount,
       account: account,
+      escrow: escrowAccount,
     );
 
     final id = const Uuid().v4();
@@ -37,6 +41,7 @@ class OLPService {
       amount: amount,
       created: DateTime.now(),
       status: status,
+      escrow: escrowPrivateKey,
     );
 
     await _repository.save(payment);
@@ -48,12 +53,19 @@ class OLPService {
     OutgoingLinkPayment payment, {
     required ECWallet account,
   }) async {
+    final escrowAccount = await Ed25519HDKeyPair.random();
+    final escrowPrivateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
+
     final status = await _createTx(
       amount: payment.amount,
       account: account,
+      escrow: escrowAccount,
     );
 
-    final newPayment = payment.copyWith(status: status);
+    final newPayment = payment.copyWith(
+      escrow: escrowPrivateKey,
+      status: status,
+    );
 
     await _repository.save(newPayment);
 
@@ -73,9 +85,11 @@ class OLPService {
         timestamp: DateTime.now(),
       );
     } else {
-      final escrow = status.mapOrNull(
-        linkReady: (it) => it.escrow,
-        cancelTxFailure: (it) => it.escrow,
+      final escrow = await status.mapOrNull(
+        linkReady: (it) async =>
+            await payment.escrow?.keyPair.then((v) => v.publicKey),
+        cancelTxFailure: (it) async => it.escrowPubKey,
+        recovered: (it) async => it.escrowPubKey,
       );
 
       if (escrow == null) {
@@ -83,9 +97,7 @@ class OLPService {
       }
 
       newStatus = await _createCancelTx(
-        escrow: await Ed25519HDKeyPair.fromPrivateKeyBytes(
-          privateKey: escrow.bytes,
-        ),
+        escrow: escrow,
         account: account,
       );
     }
@@ -100,14 +112,12 @@ class OLPService {
   Future<OLPStatus> _createTx({
     required CryptoAmount amount,
     required ECWallet account,
+    required Ed25519HDKeyPair escrow,
   }) async {
     try {
-      final escrowAccount = await Ed25519HDKeyPair.random();
-      final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
-
       final dto = CreatePaymentRequestDto(
         senderAccount: account.address,
-        escrowAccount: escrowAccount.address,
+        escrowAccount: escrow.address,
         amount: amount.value,
         cluster: apiCluster,
       );
@@ -118,9 +128,9 @@ class OLPService {
       final tx = await response.transaction
           .let(SignedTx.decode)
           .let((it) => it.resign(account))
-          .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
+          .letAsync((it) => it.resign(LocalWallet(escrow)));
 
-      return OLPStatus.txCreated(tx, escrow: privateKey, slot: response.slot);
+      return OLPStatus.txCreated(tx, slot: response.slot);
     } on Exception {
       return const OLPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -129,15 +139,13 @@ class OLPService {
   }
 
   Future<OLPStatus> _createCancelTx({
-    required Ed25519HDKeyPair escrow,
+    required Ed25519HDPublicKey escrow,
     required ECWallet account,
   }) async {
-    final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
-
     try {
       final dto = CancelPaymentRequestDto(
         senderAccount: account.address,
-        escrowAccount: escrow.address,
+        escrowAccount: escrow.toBase58(),
         cluster: apiCluster,
       );
 
@@ -150,13 +158,13 @@ class OLPService {
 
       return OLPStatus.cancelTxCreated(
         tx,
-        escrow: privateKey,
         slot: slot,
+        escrowPubKey: escrow,
       );
     } on Exception {
       return OLPStatus.cancelTxFailure(
-        escrow: privateKey,
         reason: TxFailureReason.creatingFailure,
+        escrowPubKey: escrow,
       );
     }
   }

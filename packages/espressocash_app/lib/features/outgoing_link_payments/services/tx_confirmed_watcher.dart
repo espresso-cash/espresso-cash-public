@@ -43,7 +43,11 @@ class _OLPConfirmedJob extends CancelableJob<OutgoingLinkPayment> {
 
     final token = payment.amount.token;
 
-    final privateKey = status.escrow.bytes.lock;
+    final privateKey = payment.escrow?.bytes.lock;
+    if (privateKey == null) {
+      return payment;
+    }
+
     final key = base58encode(privateKey.toList());
 
     final link = LinkPayments(
@@ -53,7 +57,6 @@ class _OLPConfirmedJob extends CancelableJob<OutgoingLinkPayment> {
 
     final newStatus = OLPStatus.linkReady(
       link: link,
-      escrow: status.escrow,
     );
 
     return payment.copyWith(

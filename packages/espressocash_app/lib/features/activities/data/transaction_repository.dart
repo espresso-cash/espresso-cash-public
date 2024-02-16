@@ -33,6 +33,15 @@ class TransactionRepository {
     return query.map((row) => row.id).watch().map((event) => event.toIList());
   }
 
+  Stream<IList<TxCommon>> watchAllActivity() {
+    final query = _db.select(_db.transactionRows)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query.watch().map(
+          (event) => event.map((it) => it.toModel()).toIList(),
+        );
+  }
+
   Stream<IList<String>> watchCount(int count) {
     final query = _db.select(_db.transactionRows)
       ..limit(count)

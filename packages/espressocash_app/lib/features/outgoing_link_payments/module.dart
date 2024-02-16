@@ -9,6 +9,7 @@ import '../balances/widgets/context_ext.dart';
 import 'data/repository.dart';
 import 'services/cancel_tx_created_watcher.dart';
 import 'services/cancel_tx_sent_watcher.dart';
+import 'services/recover_pending_watcher.dart';
 import 'services/tx_confirmed_watcher.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_ready_watcher.dart';
@@ -56,6 +57,13 @@ class OLPModule extends SingleChildStatelessWidget {
             create: (context) => sl<CancelTxSentWatcher>()
               ..call(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
+          ),
+          Provider<RecoverPendingWatcher>(
+            lazy: false,
+            create: (context) => sl<RecoverPendingWatcher>(
+              param1: context.read<MyAccount>(),
+            )..init(),
+            dispose: (context, value) => value.onDispose(),
           ),
         ],
         child: LogoutListener(

@@ -82,3 +82,6 @@ const appstoreId = '1559625715';
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+
+// Escrow payment address
+const escrowScAddress = '7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL';

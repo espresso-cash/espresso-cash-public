@@ -1,5 +1,6 @@
 // ignore_for_file: avoid-non-null-assertion
 
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -7,6 +8,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -69,6 +71,7 @@ class OLPRepository {
         OLPStatusDto.cancelTxCreated,
         OLPStatusDto.cancelTxSent,
         OLPStatusDto.cancelTxFailure,
+        OLPStatusDto.recovered,
       ]);
 
   Stream<IList<OutgoingLinkPayment>> watchTxCreated() => _watchWithStatuses([
@@ -91,6 +94,12 @@ class OLPRepository {
   Stream<IList<OutgoingLinkPayment>> watchCancelTxSent() => _watchWithStatuses([
         OLPStatusDto.cancelTxSent,
       ]);
+
+  Stream<IList<OutgoingLinkPayment>> watchPending() => _watchWithStatuses(
+        OLPStatusDto.values.whereNot(
+          (e) => e == OLPStatusDto.withdrawn || e == OLPStatusDto.canceled,
+        ),
+      );
 
   Future<void> clear() => _db.delete(_db.oLPRows).go();
 
@@ -124,6 +133,7 @@ class OLPRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get generatedLinksAt => dateTime().nullable()();
   DateTimeColumn get resolvedAt => dateTime().nullable()();
   TextColumn get slot => text().nullable()();
+  TextColumn get publicKey => text().nullable()();
 }
 
 enum OLPStatusDto {
@@ -137,6 +147,7 @@ enum OLPStatusDto {
   cancelTxCreated,
   cancelTxFailure,
   cancelTxSent,
+  recovered,
 }
 
 extension OLPRowExt on OLPRow {
@@ -151,22 +162,22 @@ extension OLPRowExt on OLPRow {
         ),
         status: status.toOLPStatus(this),
         linksGeneratedAt: generatedLinksAt,
+        escrow: privateKey?.let(base58decode).let(EscrowPrivateKey.new),
       );
 }
 
 extension on OLPStatusDto {
   OLPStatus toOLPStatus(OLPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
-    final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
     final slot = row.slot?.let(BigInt.tryParse);
+    final escrowPubkey = row.publicKey?.let(Ed25519HDPublicKey.fromBase58);
 
     switch (this) {
       case OLPStatusDto.txCreated:
         return OLPStatus.txCreated(
           tx!,
-          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OLPStatusDto.txSent:
@@ -174,15 +185,14 @@ extension on OLPStatusDto {
 
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
-          escrow: escrow!,
           slot: slot ?? BigInt.zero,
         );
       case OLPStatusDto.txConfirmed:
-        return OLPStatus.txConfirmed(escrow: escrow!);
+        return const OLPStatus.txConfirmed();
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
 
-        return OLPStatus.linkReady(link: link!, escrow: escrow!);
+        return OLPStatus.linkReady(link: link!);
       case OLPStatusDto.withdrawn:
         return OLPStatus.withdrawn(
           txId: row.withdrawTxId!,
@@ -197,19 +207,23 @@ extension on OLPStatusDto {
       case OLPStatusDto.cancelTxCreated:
         return OLPStatus.cancelTxCreated(
           cancelTx!,
-          escrow: escrow!,
           slot: slot ?? BigInt.zero,
+          escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.cancelTxFailure:
         return OLPStatus.cancelTxFailure(
-          escrow: escrow!,
           reason: row.txFailureReason ?? TxFailureReason.unknown,
+          escrowPubKey: escrowPubkey!,
         );
       case OLPStatusDto.cancelTxSent:
         return OLPStatus.cancelTxSent(
           cancelTx!,
-          escrow: escrow!,
           slot: slot ?? BigInt.zero,
+          escrowPubKey: escrowPubkey!,
+        );
+      case OLPStatusDto.recovered:
+        return OLPStatus.recovered(
+          escrowPubKey: escrowPubkey!,
         );
     }
   }
@@ -225,7 +239,7 @@ extension on OutgoingLinkPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         withdrawTxId: status.toWithdrawTxId(),
-        privateKey: await status.toPrivateKey(),
+        privateKey: escrow?.bytes.let(base58encode),
         link: status.toLink(),
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
@@ -233,6 +247,12 @@ extension on OutgoingLinkPayment {
         slot: status.toSlot()?.toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
+        publicKey: await toPublicKey(),
+      );
+
+  Future<String?> toPublicKey() async => await status.maybeMap(
+        recovered: (it) => it.escrowPubKey.toBase58(),
+        orElse: () => escrow?.keyPair.then((v) => v.publicKey.toBase58()),
       );
 }
 
@@ -248,6 +268,7 @@ extension on OLPStatus {
         cancelTxCreated: always(OLPStatusDto.cancelTxCreated),
         cancelTxFailure: always(OLPStatusDto.cancelTxFailure),
         cancelTxSent: always(OLPStatusDto.cancelTxSent),
+        recovered: always(OLPStatusDto.recovered),
       );
 
   String? toTx() => mapOrNull(
@@ -271,19 +292,6 @@ extension on OLPStatus {
         cancelTxCreated: (it) => it.tx.id,
         cancelTxSent: (it) => it.tx.id,
         canceled: (it) => it.txId,
-      );
-
-  Future<String?> toPrivateKey() => this.map(
-        txCreated: (it) async => base58encode(it.escrow.bytes),
-        txSent: (it) async => base58encode(it.escrow.bytes),
-        txConfirmed: (it) async => base58encode(it.escrow.bytes),
-        linkReady: (it) async => base58encode(it.escrow.bytes),
-        withdrawn: (it) async => null,
-        canceled: (it) async => null,
-        txFailure: (it) async => null,
-        cancelTxCreated: (it) async => base58encode(it.escrow.bytes),
-        cancelTxFailure: (it) async => base58encode(it.escrow.bytes),
-        cancelTxSent: (it) async => base58encode(it.escrow.bytes),
       );
 
   String? toLink() => mapOrNull(
