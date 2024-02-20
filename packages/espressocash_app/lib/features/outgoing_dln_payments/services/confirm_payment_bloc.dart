@@ -44,6 +44,11 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
 
   Timer? _timer;
 
+  void _startTimer() {
+    _timer?.cancel();
+    _timer = Timer(_quoteDuration, () => add(const Invalidated()));
+  }
+
   void _onInit(Init event, _Emitter emit) {
     emit(
       ConfirmPaymentState(
@@ -53,8 +58,6 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     );
 
     add(const Invalidated());
-
-    _timer = Timer.periodic(_quoteDuration, (_) => add(const Invalidated()));
   }
 
   void _onConfirmed(Confirmed _, _Emitter emit) {
@@ -87,6 +90,8 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
         receiverBlockchain: payment.receiverBlockchain,
       );
 
+      _startTimer();
+
       emit(state.update(quote));
     } on CreateOrderException catch (error) {
       emit(state.error(error));
@@ -116,7 +121,6 @@ extension on ConfirmPaymentState {
   ConfirmPaymentState update(PaymentQuote quote) => copyWith(
         quote: quote,
         flowState: const Flow.initial(),
-        expiresAt: DateTime.now().add(_quoteDuration),
       );
 }
 
@@ -134,7 +138,6 @@ class ConfirmPaymentState with _$ConfirmPaymentState {
   factory ConfirmPaymentState({
     DlnPayment? payment,
     PaymentQuote? quote,
-    DateTime? expiresAt,
     @Default(Flow<CreateOrderException, PaymentQuote>.initial())
     Flow<CreateOrderException, PaymentQuote> flowState,
   }) = Initialized;
