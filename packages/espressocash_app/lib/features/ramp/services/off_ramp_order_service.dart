@@ -34,6 +34,7 @@ typedef OffRampOrder = ({
   DateTime created,
   OffRampOrderStatus status,
   CryptoAmount amount,
+  CryptoAmount? fee,
   RampPartner partner,
   DateTime? resolved,
   FiatAmount? receiveAmount,
@@ -105,6 +106,21 @@ class OffRampOrderService implements Disposable {
         ),
       );
 
+      final fee = row.feeAmount?.let(
+        (amount) {
+          final token = row.feeToken;
+
+          if (token == null) return null;
+
+          return CryptoAmount(
+            value: amount,
+            cryptoCurrency: CryptoCurrency(
+              token: _tokens.requireTokenByMint(token),
+            ),
+          );
+        },
+      );
+
       final receiveAmount = row.receiveAmount?.let(
         (it) => Amount(
           value: it,
@@ -127,6 +143,7 @@ class OffRampOrderService implements Disposable {
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
+        fee: fee,
       );
     });
   }
@@ -148,6 +165,7 @@ class OffRampOrderService implements Disposable {
         );
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.depositTxConfirmError:
+      case OffRampOrderStatus.insufficientFunds:
         final tx = order.transaction;
         if (tx.isEmpty) {
           await updateQuery.write(
@@ -183,6 +201,7 @@ class OffRampOrderService implements Disposable {
 
     switch (order.status) {
       case OffRampOrderStatus.depositError:
+      case OffRampOrderStatus.insufficientFunds:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
@@ -205,6 +224,7 @@ class OffRampOrderService implements Disposable {
     required String depositAddress,
     (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
+    CryptoAmount? fee,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -225,6 +245,8 @@ class OffRampOrderService implements Disposable {
             partner: partner,
             receiveAmount: receiveAmount?.value,
             fiatSymbol: receiveAmount?.currency.symbol,
+            feeAmount: fee?.value,
+            feeToken: fee?.token.address,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -284,6 +306,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
         case OffRampOrderStatus.depositTxConfirmError:
+        case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
@@ -399,9 +422,16 @@ class OffRampOrderService implements Disposable {
       case TxSendSent():
         break;
       case TxSendInvalidBlockhash():
-      case TxSendFailure():
         return OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.failure),
+          status: const Value(OffRampOrderStatus.depositError),
+          transaction: const Value(''),
+          slot: Value(BigInt.zero),
+        );
+      case TxSendFailure(:final reason):
+        return OffRampOrderRowsCompanion(
+          status: reason == TxFailureReason.insufficientFunds
+              ? const Value(OffRampOrderStatus.insufficientFunds)
+              : const Value(OffRampOrderStatus.depositError),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
@@ -415,9 +445,11 @@ class OffRampOrderService implements Disposable {
         return const OffRampOrderRowsCompanion(
           status: Value(OffRampOrderStatus.waitingForPartner),
         );
-      case TxWaitFailure():
+      case TxWaitFailure(:final reason):
         return OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.failure),
+          status: reason == TxFailureReason.insufficientFunds
+              ? const Value(OffRampOrderStatus.insufficientFunds)
+              : const Value(OffRampOrderStatus.depositTxConfirmError),
           transaction: const Value(''),
           slot: Value(BigInt.zero),
         );
