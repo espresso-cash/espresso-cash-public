@@ -95,6 +95,9 @@ class ScalexRateFeeResponseDto with _$ScalexRateFeeResponseDto {
     required double offRampRate,
     required double offRampFeePercentage,
     required double fixedOffRampFee,
+    double? onRampRate,
+    double? onRampFeePercentage,
+    double? fixedOnRampFee,
     required double espressoFeePercentage,
   }) = _ScalexRateFeeResponseDto;
 
