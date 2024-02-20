@@ -1237,7 +1237,9 @@ IncomingQuoteResponseDto _$IncomingQuoteResponseDtoFromJson(
 mixin _$IncomingQuoteResponseDto {
   String get to => throw _privateConstructorUsedError;
   String get data => throw _privateConstructorUsedError;
-  String get value => throw _privateConstructorUsedError;
+  int get value => throw _privateConstructorUsedError;
+  String get usdcErc20Address => throw _privateConstructorUsedError;
+  int get approvalAmount => throw _privateConstructorUsedError;
   int get inputAmount => throw _privateConstructorUsedError;
   int get receiverAmount => throw _privateConstructorUsedError;
   int get feeInUsdc => throw _privateConstructorUsedError;
@@ -1257,7 +1259,9 @@ abstract class $IncomingQuoteResponseDtoCopyWith<$Res> {
   $Res call(
       {String to,
       String data,
-      String value,
+      int value,
+      String usdcErc20Address,
+      int approvalAmount,
       int inputAmount,
       int receiverAmount,
       int feeInUsdc});
@@ -1280,6 +1284,8 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
     Object? to = null,
     Object? data = null,
     Object? value = null,
+    Object? usdcErc20Address = null,
+    Object? approvalAmount = null,
     Object? inputAmount = null,
     Object? receiverAmount = null,
     Object? feeInUsdc = null,
@@ -1296,7 +1302,15 @@ class _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
+              as int,
+      usdcErc20Address: null == usdcErc20Address
+          ? _value.usdcErc20Address
+          : usdcErc20Address // ignore: cast_nullable_to_non_nullable
               as String,
+      approvalAmount: null == approvalAmount
+          ? _value.approvalAmount
+          : approvalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
@@ -1325,7 +1339,9 @@ abstract class _$$IncomingQuoteResponseDtoImplCopyWith<$Res>
   $Res call(
       {String to,
       String data,
-      String value,
+      int value,
+      String usdcErc20Address,
+      int approvalAmount,
       int inputAmount,
       int receiverAmount,
       int feeInUsdc});
@@ -1347,6 +1363,8 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
     Object? to = null,
     Object? data = null,
     Object? value = null,
+    Object? usdcErc20Address = null,
+    Object? approvalAmount = null,
     Object? inputAmount = null,
     Object? receiverAmount = null,
     Object? feeInUsdc = null,
@@ -1363,7 +1381,15 @@ class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
       value: null == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
+              as int,
+      usdcErc20Address: null == usdcErc20Address
+          ? _value.usdcErc20Address
+          : usdcErc20Address // ignore: cast_nullable_to_non_nullable
               as String,
+      approvalAmount: null == approvalAmount
+          ? _value.approvalAmount
+          : approvalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
       inputAmount: null == inputAmount
           ? _value.inputAmount
           : inputAmount // ignore: cast_nullable_to_non_nullable
@@ -1387,6 +1413,8 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
       {required this.to,
       required this.data,
       required this.value,
+      required this.usdcErc20Address,
+      required this.approvalAmount,
       required this.inputAmount,
       required this.receiverAmount,
       required this.feeInUsdc});
@@ -1399,7 +1427,11 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
   @override
   final String data;
   @override
-  final String value;
+  final int value;
+  @override
+  final String usdcErc20Address;
+  @override
+  final int approvalAmount;
   @override
   final int inputAmount;
   @override
@@ -1409,7 +1441,7 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
 
   @override
   String toString() {
-    return 'IncomingQuoteResponseDto(to: $to, data: $data, value: $value, inputAmount: $inputAmount, receiverAmount: $receiverAmount, feeInUsdc: $feeInUsdc)';
+    return 'IncomingQuoteResponseDto(to: $to, data: $data, value: $value, usdcErc20Address: $usdcErc20Address, approvalAmount: $approvalAmount, inputAmount: $inputAmount, receiverAmount: $receiverAmount, feeInUsdc: $feeInUsdc)';
   }
 
   @override
@@ -1420,6 +1452,10 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
             (identical(other.to, to) || other.to == to) &&
             (identical(other.data, data) || other.data == data) &&
             (identical(other.value, value) || other.value == value) &&
+            (identical(other.usdcErc20Address, usdcErc20Address) ||
+                other.usdcErc20Address == usdcErc20Address) &&
+            (identical(other.approvalAmount, approvalAmount) ||
+                other.approvalAmount == approvalAmount) &&
             (identical(other.inputAmount, inputAmount) ||
                 other.inputAmount == inputAmount) &&
             (identical(other.receiverAmount, receiverAmount) ||
@@ -1430,8 +1466,8 @@ class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, to, data, value, inputAmount, receiverAmount, feeInUsdc);
+  int get hashCode => Object.hash(runtimeType, to, data, value,
+      usdcErc20Address, approvalAmount, inputAmount, receiverAmount, feeInUsdc);
 
   @JsonKey(ignore: true)
   @override
@@ -1452,7 +1488,9 @@ abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
   const factory _IncomingQuoteResponseDto(
       {required final String to,
       required final String data,
-      required final String value,
+      required final int value,
+      required final String usdcErc20Address,
+      required final int approvalAmount,
       required final int inputAmount,
       required final int receiverAmount,
       required final int feeInUsdc}) = _$IncomingQuoteResponseDtoImpl;
@@ -1465,7 +1503,11 @@ abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
   @override
   String get data;
   @override
-  String get value;
+  int get value;
+  @override
+  String get usdcErc20Address;
+  @override
+  int get approvalAmount;
   @override
   int get inputAmount;
   @override

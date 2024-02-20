@@ -88,7 +88,9 @@ class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
   const factory IncomingQuoteResponseDto({
     required String to,
     required String data,
-    required String value,
+    required int value,
+    required String usdcErc20Address,
+    required int approvalAmount,
     required int inputAmount,
     required int receiverAmount,
     required int feeInUsdc,
