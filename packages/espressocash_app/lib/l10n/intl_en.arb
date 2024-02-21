@@ -1046,6 +1046,8 @@
   "@outgoingDlnDisclaimer3": {},
   "outgoingDlnFailure": "There was an issue with your transfer. Please contact us.",
   "@outgoingDlnFailure": {},
+  "outgoingDlnNoQuoteFound": "No Quote Found. Please try again.",
+  "@outgoingDlnNoQuoteFound": {},
   "continueHereBtn": "Continue here",
   "@continueHereBtn": {},
   "onRampMorePartnersFooter": "Want more add cash options?",
