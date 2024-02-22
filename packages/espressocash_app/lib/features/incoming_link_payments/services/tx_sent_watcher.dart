@@ -21,16 +21,16 @@ import 'payment_watcher.dart';
 /// confirmed.
 @injectable
 class TxSentWatcher extends PaymentWatcher {
-  TxSentWatcher(super._repository, this._sender, this._cryptopleaseClient);
+  TxSentWatcher(super._repository, this._sender, this._ecClient);
 
   final TxSender _sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
 
   @override
   CancelableJob<IncomingLinkPayment> createJob(
     IncomingLinkPayment payment,
   ) =>
-      _ILPTxSentJob(payment, _sender, _cryptopleaseClient);
+      _ILPTxSentJob(payment, _sender, _ecClient);
 
   @override
   Stream<IList<IncomingLinkPayment>> watchPayments(
@@ -40,11 +40,11 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
-  const _ILPTxSentJob(this.payment, this.sender, this._cryptopleaseClient);
+  const _ILPTxSentJob(this.payment, this.sender, this._ecClient);
 
   final IncomingLinkPayment payment;
   final TxSender sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
 
   @override
   Future<IncomingLinkPayment?> process() async {
@@ -59,7 +59,7 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
       success: (_) async {
         try {
           final fee = status.tx.containsAta
-              ? await _cryptopleaseClient
+              ? await _ecClient
                   .getFees()
                   .then((value) => value.escrowPaymentAtaFee)
               : null;

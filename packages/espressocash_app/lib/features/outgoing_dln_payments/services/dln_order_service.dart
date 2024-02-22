@@ -31,7 +31,7 @@ class OutgoingDlnPaymentService implements Disposable {
   final Map<String, StreamSubscription<void>> _watchers = {};
 
   final ECWallet _account;
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final TxSender _sender;
   final OutgoingDlnPaymentRepository _repository;
 
