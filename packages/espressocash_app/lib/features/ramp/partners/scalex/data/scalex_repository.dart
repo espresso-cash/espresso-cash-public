@@ -6,8 +6,8 @@ import '../../../../../core/currency.dart';
 @injectable
 class ScalexRepository {
   ScalexRepository({
-    required EspressoCashClient cryptopleaseClient,
-  }) : _client = cryptopleaseClient;
+    required EspressoCashClient ecClient,
+  }) : _client = ecClient;
 
   final EspressoCashClient _client;
 

@@ -10,8 +10,8 @@ import '../models/swap_seed.dart';
 @injectable
 class RouteRepository {
   RouteRepository({
-    required EspressoCashClient cryptopleaseClient,
-  }) : _cpClient = cryptopleaseClient;
+    required EspressoCashClient ecClient,
+  }) : _cpClient = ecClient;
 
   final EspressoCashClient _cpClient;
 

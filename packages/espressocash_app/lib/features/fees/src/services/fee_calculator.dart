@@ -12,12 +12,12 @@ import '../../models/fee_type.dart';
 
 @injectable
 class FeeCalculator {
-  const FeeCalculator(this._cryptopleaseClient, this._solanaClient);
+  const FeeCalculator(this._ecClient, this._solanaClient);
 
-  final EspressoCashClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
   final SolanaClient _solanaClient;
 
-  Future<CryptoAmount> call(FeeType type) => _cryptopleaseClient.getFees().then(
+  Future<CryptoAmount> call(FeeType type) => _ecClient.getFees().then(
         (fees) async {
           switch (type) {
             case FeeTypeDirect(:final address):
