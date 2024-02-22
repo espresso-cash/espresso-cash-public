@@ -19,7 +19,7 @@ import '../models/incoming_link_payment.dart';
 class ILPService {
   const ILPService(this._client, this._repository);
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final ILPRepository _repository;
 
   Future<IncomingLinkPayment> create({

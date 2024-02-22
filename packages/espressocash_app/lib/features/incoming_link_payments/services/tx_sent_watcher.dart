@@ -24,7 +24,7 @@ class TxSentWatcher extends PaymentWatcher {
   TxSentWatcher(super._repository, this._sender, this._cryptopleaseClient);
 
   final TxSender _sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _cryptopleaseClient;
 
   @override
   CancelableJob<IncomingLinkPayment> createJob(
@@ -44,7 +44,7 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
 
   final IncomingLinkPayment payment;
   final TxSender sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _cryptopleaseClient;
 
   @override
   Future<IncomingLinkPayment?> process() async {

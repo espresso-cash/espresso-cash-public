@@ -14,7 +14,7 @@ import '../../models/fee_type.dart';
 class FeeCalculator {
   const FeeCalculator(this._cryptopleaseClient, this._solanaClient);
 
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _cryptopleaseClient;
   final SolanaClient _solanaClient;
 
   Future<CryptoAmount> call(FeeType type) => _cryptopleaseClient.getFees().then(

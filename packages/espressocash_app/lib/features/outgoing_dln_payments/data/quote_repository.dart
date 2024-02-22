@@ -10,10 +10,10 @@ import '../models/payment_quote.dart';
 @injectable
 class QuoteRepository {
   QuoteRepository({
-    required CryptopleaseClient cryptopleaseClient,
+    required EspressoCashClient cryptopleaseClient,
   }) : _client = cryptopleaseClient;
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
 
   Future<PaymentQuote> getQuote({
     required CryptoAmount amount,

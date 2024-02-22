@@ -13,7 +13,7 @@ class WalletService {
     this._cryptopleaseClient,
   );
 
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _cryptopleaseClient;
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
 

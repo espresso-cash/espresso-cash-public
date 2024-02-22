@@ -99,7 +99,7 @@ extension BuildContextExt on BuildContext {
                       as CryptoAmount;
 
               final order =
-                  await sl<CryptopleaseClient>().fetchScalexTransaction(
+                  await sl<EspressoCashClient>().fetchScalexTransaction(
                 OrderStatusScalexRequestDto(referenceId: reference),
               );
 

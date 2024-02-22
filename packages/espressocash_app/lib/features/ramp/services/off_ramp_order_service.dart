@@ -56,7 +56,7 @@ class OffRampOrderService implements Disposable {
   final Map<String, RampWatcher> _watchers = {};
 
   final ECWallet _account;
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final TxSender _sender;
   final MyDatabase _db;
   final TokenList _tokens;

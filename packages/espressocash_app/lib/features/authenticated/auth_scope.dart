@@ -23,11 +23,11 @@ abstract class AuthModule {
   }
 
   @LazySingleton(scope: authScope)
-  CryptopleaseClient cryptopleaseClient(
+  EspressoCashClient ecClient(
     ECWallet wallet, {
     @Named('isSaga') required bool isSaga,
   }) =>
-      CryptopleaseClient(
+      EspressoCashClient(
         sign: (data) async => isSaga
             ? null
             : (

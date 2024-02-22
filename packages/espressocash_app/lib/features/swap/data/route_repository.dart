@@ -10,10 +10,10 @@ import '../models/swap_seed.dart';
 @injectable
 class RouteRepository {
   RouteRepository({
-    required CryptopleaseClient cryptopleaseClient,
+    required EspressoCashClient cryptopleaseClient,
   }) : _cpClient = cryptopleaseClient;
 
-  final CryptopleaseClient _cpClient;
+  final EspressoCashClient _cpClient;
 
   Future<SwapRoute> findRoute({
     required SwapSeed seed,
