@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-self-assignment, avoid-duplicate-collection-elements
+// ignore_for_file: avoid-self-assignment, avoid-duplicate-collection-elements, avoid-unnecessary-reassignment
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/extensions.dart';
@@ -132,7 +132,6 @@ class FieldElement {
     // Step 1:
     // Calculate q
     BigInt q = (BigInt.from(19) * h9 + (BigInt.from(1) << 24)) >> 25;
-    // ignore: avoid-unnecessary-reassignment, valid case
     q = (h0 + q) >> 26;
     q = (h1 + q) >> 25;
     q = (h2 + q) >> 26;
@@ -818,7 +817,6 @@ class FieldElement {
     // 4 == 2 * 2
     FieldElement t1 = t0.square();
     // 8 == 2 * 4
-    // ignore: avoid-unnecessary-reassignment, more readable
     t1 = t1.square();
     // 9 == 8 + 1
     t1 = this * t1;
@@ -901,7 +899,6 @@ class FieldElement {
     // 4 == 2 * 2
     FieldElement t1 = t0.square();
     // 8 == 2 * 4
-    // ignore: avoid-unnecessary-reassignment, more readable
     t1 = t1.square();
     // z9 = z1*z8
     t1 = this * t1;

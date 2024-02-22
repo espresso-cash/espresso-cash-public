@@ -51,7 +51,6 @@ void main() {
         decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
         [
           fundingAccount.address,
-          // ignore: avoid-duplicate-collection-elements, DCM bug
           recipientAccount.address,
           SystemProgram.programId,
         ],
@@ -106,7 +105,6 @@ void main() {
         decoded.compiledMessage.accountKeys.map((a) => a.toBase58()),
         [
           fundingAccount.address,
-          // ignore: avoid-duplicate-collection-elements, DCM bug
           recipientAccount.address,
           SystemProgram.programId,
         ],
