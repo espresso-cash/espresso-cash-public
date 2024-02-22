@@ -11,9 +11,9 @@ import '../models/swap_seed.dart';
 class RouteRepository {
   RouteRepository({
     required EspressoCashClient ecClient,
-  }) : _cpClient = ecClient;
+  }) : _ecClient = ecClient;
 
-  final EspressoCashClient _cpClient;
+  final EspressoCashClient _ecClient;
 
   Future<SwapRoute> findRoute({
     required SwapSeed seed,
@@ -23,7 +23,7 @@ class RouteRepository {
         ? SwapMatch.inAmount
         : SwapMatch.outAmount;
 
-    final route = await _cpClient.getSwapRoute(
+    final route = await _ecClient.getSwapRoute(
       SwapRouteRequestDto(
         amount: seed.amount.value.toString(),
         inputToken: seed.inputToken.forJupiter.address,
