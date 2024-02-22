@@ -64,6 +64,9 @@ abstract class CpColors {
   static const blackTextFieldBackgroundColor = Color(0xff404040);
 
   static const yellowSplashBackgroundColor = Color(0xffB4A270);
+
+  static const darkOrangeBackgroundColor = Color(0xFFD86322);
+  static const goldBackgroundColor = Color(0xFFC8B57D);
 }
 
 const bgGradient = LinearGradient(

@@ -63,6 +63,14 @@ class OutgoingDlnPaymentService implements Disposable {
     return payment.id;
   }
 
+  Future<void> cancel(String orderId) async {
+    final order = await _repository.load(orderId);
+
+    if (order != null && order.status is OutgoingDlnPaymentStatusTxFailure) {
+      await _repository.delete(orderId);
+    }
+  }
+
   void _subscribe(String orderId) {
     _subscriptions[orderId] = _repository
         .watch(orderId)
