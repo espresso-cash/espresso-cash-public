@@ -13,7 +13,7 @@ class _EspressoCashClient implements EspressoCashClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://cryptoplease-link.web.app/api/v1';
+    baseUrl ??= 'https://api.espressocash.com/api/v1';
   }
 
   final Dio _dio;
