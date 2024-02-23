@@ -10,7 +10,7 @@ typedef SignRequest = Future<({String publicKey, String signature})?> Function(
   String data,
 );
 
-@RestApi(baseUrl: 'https://cryptoplease-link.web.app/api/v1')
+@RestApi(baseUrl: 'https://api.espressocash.com/api/v1')
 abstract class EspressoCashClient {
   factory EspressoCashClient({
     String? baseUrl,
