@@ -54,25 +54,15 @@ class Web3Service {
   }) async {
     final credentials = await eth.requestAccounts();
 
-    final gas = await client.getGasPrice();
-
-    final estimate = await client.estimateGas(
-      to: EthereumAddress.fromHex(to),
-      data: data?.let(hexToBytes),
-      value: EtherAmount.inWei(value),
-      gasPrice: gas,
-    );
-
-    print('gas: $gas');
-    print('estimate: ${EtherAmount.inWei(estimate)}');
+    final baseGas = await client.getGasPrice();
+    final updatedGas = baseGas.getValueInUnit(EtherUnit.wei) * 1.4;
+    final gas = EtherAmount.fromDouble(EtherUnit.wei, updatedGas);
 
     final transaction = Transaction(
       to: EthereumAddress.fromHex(to),
       data: data?.let(hexToBytes),
       value: EtherAmount.inWei(value),
-      gasPrice: EtherAmount.inWei(estimate),
-      // gasPrice: gas,
-      // maxGas: 300000,
+      gasPrice: gas,
     );
 
     return client.sendTransaction(

@@ -110,6 +110,14 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
       return;
     }
 
+    _timer?.cancel();
+    emit(
+      state.copyWith(
+        flowState: const Flow.processing(),
+        expiresAt: null,
+      ),
+    );
+
     try {
       final approve = await _web3Service.approveContract(
         contractAddress: quote.usdcErc20Address,
@@ -126,8 +134,16 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
       );
 
       print('tx: $tx');
+
+      emit(
+        state.copyWith(
+          flowState: const Flow.initial(),
+        ),
+      );
     } catch (ex) {
       print('ex: $ex');
+
+      emit(state.error(PaymentException.other(Exception(''))));
     }
 
     // emit(state.copyWith(flowState: const Flow.success(null))); //TODO

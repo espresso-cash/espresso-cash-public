@@ -104,59 +104,84 @@ class _DesktopView extends StatelessWidget {
             child: LandingDesktopWidget(
               header: HeaderDesktop(
                 title: title,
-                trailing: CountdownTimer(expiryDate: state.expiresAt),
+                trailing:
+                    state.flowState.isProcessing || state.expiresAt == null
+                        ? null
+                        : CountdownTimer(expiryDate: state.expiresAt),
                 showBackButton: true,
               ),
               content: Column(
                 children: [
-                  const SizedBox(height: 26),
-                  BlockchainDropDown(
-                    current: chain ?? Blockchain.ethereum,
-                    onBlockchainChanged: onChainChanged,
-                  ),
                   const SizedBox(height: 16),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Select your network:',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 24),
+                      BlockchainDropDown(
+                        current: chain ?? Blockchain.ethereum,
+                        onBlockchainChanged: onChainChanged,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
                   const Divider(),
-                  const SizedBox(height: 8),
-                  Row(
+                  const SizedBox(height: 24),
+                  _Content(
                     children: [
-                      const Text('Amount Requested'),
-                      const Spacer(),
-                      Text(
-                        state.inputAmount.format(context.locale),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        children: [
+                          const Text('Amount Requested'),
+                          const Spacer(),
+                          Text(
+                            state.inputAmount
+                                .format(context.locale, maxDecimals: 2),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          const Text('Network Fee'),
+                          const Spacer(),
+                          Text(
+                            state.fee.format(context.locale, maxDecimals: 2),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(),
+                      Row(
+                        children: [
+                          const Text('Total'),
+                          const Spacer(),
+                          Text(
+                            state.totalAmount
+                                .format(context.locale, maxDecimals: 2),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      CpButton(
+                        text: 'Pay Now',
+                        width: 250,
+                        onPressed: state.quote != null ? onConfirm : null,
                       ),
                     ],
-                  ),
-                  Row(
-                    children: [
-                      const Text('Network Fee'),
-                      const Spacer(),
-                      Text(
-                        state.fee.format(context.locale),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Divider(),
-                  Row(
-                    children: [
-                      const Text('Total'),
-                      const Spacer(),
-                      Text(
-                        state.totalAmount.format(context.locale),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                  CpButton(
-                    text: 'Pay Now',
-                    onPressed: state.quote != null ? onConfirm : null,
                   ),
                   if (request?.solanaReferenceAddress
                       case final reference?) ...[
@@ -169,6 +194,21 @@ class _DesktopView extends StatelessWidget {
             ),
           );
         },
+      );
+}
+
+class _Content extends StatelessWidget {
+  const _Content({required this.children});
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: Column(
+            children: children,
+          ),
+        ),
       );
 }
 
