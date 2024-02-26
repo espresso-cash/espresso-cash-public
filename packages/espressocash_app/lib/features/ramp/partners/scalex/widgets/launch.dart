@@ -53,8 +53,6 @@ extension BuildContextExt on BuildContext {
         calculateEquivalent: (amount) => (
           amount: amount.calculateOnRampFee(
             exchangeRate: rampRate,
-            percentageFee: rampFeePercentage,
-            fixedFee: fixedFee,
           ),
           rate: '1 USDC = $rampRate NGN'
         ),
@@ -325,8 +323,6 @@ extension on Amount {
 
   FiatAmount calculateOnRampFee({
     required double exchangeRate,
-    required double percentageFee,
-    required double fixedFee,
   }) {
     final double inputAmount = decimal.toDouble() * exchangeRate;
 
