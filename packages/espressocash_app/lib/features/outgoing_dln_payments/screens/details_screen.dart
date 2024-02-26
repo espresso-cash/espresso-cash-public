@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:recase/recase.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -12,15 +13,17 @@ import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
-import '../../profile/widgets/extensions.dart';
-import '../../transactions/services/create_transaction_link.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
+import '../services/dln_order_service.dart';
 
 @RoutePage()
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
@@ -77,6 +80,8 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       fulfilled: always(context.l10n.transferSuccessTitle),
     );
 
+    final receiverBlockchain = order.payment.receiverBlockchain.name.titleCase;
+
     final amount = order.amount.format(locale, maxDecimals: 2);
 
     final String statusContent = order.status.maybeMap(
@@ -94,13 +99,25 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
       unfulfilled: always(const _ContactUsButton()),
     );
 
+    void handleCanceled() => showConfirmationDialog(
+          context,
+          title: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          message: context
+              .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
+          onConfirm: () {
+            context.router.pop();
+            sl<OutgoingDlnPaymentService>().cancel(order.id);
+          },
+        );
+
     final Widget? secondaryButton = order.status.mapOrNull(
-      success: (e) => _MoreDetailsButton(signature: e.tx.id),
-      fulfilled: (e) => _MoreDetailsButton(signature: e.tx.id),
-      unfulfilled: (e) => _MoreDetailsButton(signature: e.tx.id),
+      success: (e) => e.orderId?.let((p) => _MoreDetailsButton(orderId: p)),
+      fulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
+      unfulfilled: (e) => _MoreDetailsButton(orderId: e.orderId),
+      txFailure: (_) => _CancelButton(onPressed: handleCanceled),
     );
 
-    final orderId = order.status.mapOrNull(
+    final partnerOrderId = order.status.mapOrNull(
       success: (tx) => tx.orderId,
       fulfilled: (tx) => tx.orderId,
       unfulfilled: (tx) => tx.orderId,
@@ -120,22 +137,11 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
               status: order.status,
               amount: order.amount,
               created: order.created,
+              receiverBlockchain: receiverBlockchain,
             ),
             const Spacer(flex: 4),
-            if (orderId != null && orderId.isNotEmpty)
-              SizedBox(
-                height: CpButtonSize.big.height,
-                child: Center(
-                  child: Text(
-                    context.l10n.orderId(orderId),
-                    style: const TextStyle(
-                      color: Color(0xFF979593),
-                      fontSize: 14,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
+            if (partnerOrderId != null && partnerOrderId.isNotEmpty)
+              PartnerOrderIdWidget(orderId: partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
@@ -157,11 +163,13 @@ class _Timeline extends StatelessWidget {
     required this.status,
     required this.amount,
     required this.created,
+    required this.receiverBlockchain,
   });
 
   final OutgoingDlnPaymentStatus status;
   final CryptoAmount amount;
   final DateTime created;
+  final String receiverBlockchain;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +186,7 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.transactionSentTimeline,
     );
     final paymentSuccess = CpTimelineItem(
-      title: context.l10n.moneyReceived,
+      title: '${context.l10n.moneyReceived} on $receiverBlockchain',
     );
 
     final items = [
@@ -197,19 +205,31 @@ class _Timeline extends StatelessWidget {
 }
 
 class _MoreDetailsButton extends StatelessWidget {
-  const _MoreDetailsButton({required this.signature});
+  const _MoreDetailsButton({required this.orderId});
 
-  final String signature;
+  final String orderId;
 
   @override
   Widget build(BuildContext context) => CpTextButton(
         variant: CpTextButtonVariant.light,
         text: context.l10n.moreDetails,
         onPressed: () {
-          final link =
-              createTransactionLink(signature).let(Uri.parse).toString();
+          final link = 'https://app.debridge.finance/order?orderId=$orderId';
+
           context.openLink(link);
         },
+      );
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({required this.onPressed});
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => CpTextButton(
+        variant: CpTextButtonVariant.light,
+        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+        onPressed: onPressed,
       );
 }
 
@@ -221,7 +241,7 @@ class _ContactUsButton extends StatelessWidget {
         size: CpButtonSize.big,
         width: double.infinity,
         text: context.l10n.contactUs,
-        onPressed: context.launchContactUs,
+        onPressed: () => sl<IntercomService>().displayMessenger(),
       );
 }
 

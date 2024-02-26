@@ -6,10 +6,10 @@ import '../../../../../core/currency.dart';
 @injectable
 class ScalexRepository {
   ScalexRepository({
-    required CryptopleaseClient cryptopleaseClient,
-  }) : _client = cryptopleaseClient;
+    required EspressoCashClient ecClient,
+  }) : _client = ecClient;
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
 
   Future<String> generateLink({
     required String type,

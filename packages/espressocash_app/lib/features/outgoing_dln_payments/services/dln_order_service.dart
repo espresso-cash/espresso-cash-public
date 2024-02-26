@@ -31,7 +31,7 @@ class OutgoingDlnPaymentService implements Disposable {
   final Map<String, StreamSubscription<void>> _watchers = {};
 
   final ECWallet _account;
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final TxSender _sender;
   final OutgoingDlnPaymentRepository _repository;
 
@@ -61,6 +61,14 @@ class OutgoingDlnPaymentService implements Disposable {
     _subscribe(payment.id);
 
     return payment.id;
+  }
+
+  Future<void> cancel(String orderId) async {
+    final order = await _repository.load(orderId);
+
+    if (order != null && order.status is OutgoingDlnPaymentStatusTxFailure) {
+      await _repository.delete(orderId);
+    }
   }
 
   void _subscribe(String orderId) {

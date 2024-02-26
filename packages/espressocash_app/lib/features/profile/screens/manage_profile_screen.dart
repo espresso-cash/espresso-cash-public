@@ -20,6 +20,7 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
+import '../../intercom/services/intercom_service.dart';
 import '../data/profile_repository.dart';
 import '../widgets/pick_profile_picture.dart';
 
@@ -80,7 +81,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             final request = WalletCountryRequestDto(
               countryCode: newCountryCode,
             );
-            await sl<CryptopleaseClient>().updateUserWalletCountry(request);
+            await sl<EspressoCashClient>().updateUserWalletCountry(request);
+            sl<IntercomService>().updateCountry(newCountryCode);
           }
 
           sl<ProfileRepository>()

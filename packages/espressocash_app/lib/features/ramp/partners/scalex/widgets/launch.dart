@@ -99,7 +99,7 @@ extension BuildContextExt on BuildContext {
                       as CryptoAmount;
 
               final order =
-                  await sl<CryptopleaseClient>().fetchScalexTransaction(
+                  await sl<EspressoCashClient>().fetchScalexTransaction(
                 OrderStatusScalexRequestDto(referenceId: reference),
               );
 
@@ -161,6 +161,9 @@ extension BuildContextExt on BuildContext {
                 partner: RampPartner.scalex,
                 receiveAmount: receiveAmount,
                 depositAddress: address,
+                fee: submittedAmount.calculateEspressoFee(
+                  espressoFee: rateAndFee.espressoFeePercentage,
+                ),
               )
                   .then((order) {
                 switch (order) {

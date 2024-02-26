@@ -23,9 +23,9 @@ import 'package:solana/solana.dart';
 import 'odp_service_test.mocks.dart';
 
 final sender = MockTxSender();
-final client = MockCryptopleaseClient();
+final client = MockEspressoCashClient();
 
-@GenerateMocks([TxSender, CryptopleaseClient])
+@GenerateMocks([TxSender, EspressoCashClient])
 Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();

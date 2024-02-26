@@ -34,6 +34,15 @@ deps_graph_features:
 deps_cycles:
 	python3 ./tool/cycles.py deps.dot --only-shortest
 
+build_landing:
+	flutter build web --web-renderer canvaskit --target lib/landing/main.dart
+
+# Deprecated – remove when we're sure we don't need it
+# ====================================================
+
+publish_landing:
+	peanut --web-renderer canvaskit --extra-args "-t lib/landing/main.dart"
+
 build_saga_release:
 ifndef BUILD_NUMBER
 	$(error "BUILD_NUMBER must be set")
@@ -53,5 +62,4 @@ ifndef SOLANA_RPC_URL
 endif
 	cd saga_publishing &&  npx dapp-store publish submit -k publisher.json -u $(SOLANA_RPC_URL) --requestor-is-authorized --complies-with-solana-dapp-store-policies
 
-publish_landing:
-	peanut --web-renderer canvaskit --extra-args "-t lib/landing/main.dart"
+# ====================================================

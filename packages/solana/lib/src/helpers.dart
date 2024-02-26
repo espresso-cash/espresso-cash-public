@@ -37,7 +37,6 @@ Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey mint,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      // ignore: avoid-duplicate-collection-elements, DCM bug
       seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
