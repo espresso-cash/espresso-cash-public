@@ -10,17 +10,11 @@ class ProfileImagePicker extends StatefulWidget {
   const ProfileImagePicker({
     super.key,
     required this.onChanged,
-    required this.label,
-    this.onLabelClicked,
-    this.labelStyle,
     this.photo,
   });
 
-  final TextStyle? labelStyle;
   final ValueSetter<File?> onChanged;
-  final VoidCallback? onLabelClicked;
   final File? photo;
-  final String label;
 
   @override
   State<ProfileImagePicker> createState() => _ProfileImagePickerState();
@@ -98,8 +92,5 @@ class _ProfileImagePickerState extends State<ProfileImagePicker> {
   Widget build(BuildContext context) => PickImageContainer(
         image: widget.photo,
         pickImageClicked: () => _showPicker(context),
-        labelStyle: widget.labelStyle,
-        label: widget.label,
-        onLabelClicked: widget.onLabelClicked,
       );
 }

@@ -29,18 +29,21 @@ class ManageProfileScreen extends StatefulWidget {
   const ManageProfileScreen({
     super.key,
     required this.onSubmitted,
+    this.hasBackButton = true,
   });
 
   static const route = ManageProfileRoute.new;
 
   final VoidCallback onSubmitted;
+  final bool hasBackButton;
 
   @override
   State<ManageProfileScreen> createState() => _ManageProfileScreenState();
 }
 
 class _ManageProfileScreenState extends State<ManageProfileScreen> {
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   Country? _country;
   File? _photo;
@@ -51,7 +54,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
 
     final repository = sl<ProfileRepository>();
 
-    _nameController.text = repository.firstName;
+    _firstNameController.text = repository.firstName;
+    _lastNameController.text = repository.lastName;
     _emailController.text = repository.email;
 
     _photo = repository.photoPath?.let(File.new);
@@ -64,7 +68,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     super.dispose();
   }
@@ -86,7 +91,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
           }
 
           sl<ProfileRepository>()
-            ..firstName = _nameController.text
+            ..firstName = _firstNameController.text
+            ..lastName = _lastNameController.text
             ..country = _country?.code
             ..photoPath = photo?.path
             ..email = _emailController.text;
@@ -97,7 +103,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
       );
 
   bool get _isValid =>
-      _nameController.text.isNotEmpty &&
+      _firstNameController.text.isNotEmpty &&
+      _lastNameController.text.isNotEmpty &&
       _emailController.text.isValidEmail &&
       _country != null;
 
@@ -105,14 +112,18 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
-            leading: CpBackButton(
-              onPressed: () => context.router.pop(),
-            ),
+            leading: widget.hasBackButton
+                ? CpBackButton(onPressed: () => context.router.pop())
+                : null,
           ),
           extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(
-              listenable: Listenable.merge([_nameController, _emailController]),
+              listenable: Listenable.merge([
+                _firstNameController,
+                _lastNameController,
+                _emailController,
+              ]),
               builder: (context, child) => OnboardingFooterButton(
                 text: context.l10n.save,
                 onPressed: _isValid ? _handleSubmitted : null,
@@ -122,7 +133,6 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               SizedBox(height: MediaQuery.paddingOf(context).top + 24),
               ProfileImagePicker(
                 photo: _photo,
-                label: context.l10n.uploadPhoto,
                 onChanged: (File? value) => setState(() => _photo = value),
               ),
               const SizedBox(height: 32),
@@ -135,11 +145,30 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                     vertical: 16,
                   ),
                   placeholder: context.l10n.yourFirstNamePlaceholder,
-                  controller: _nameController,
+                  controller: _firstNameController,
                   textColor: Colors.white,
                   placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
                   fontSize: 16,
+                  inputType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
+                ),
+              ),
+              OnboardingPadding(
+                child: CpTextField(
+                  margin: const EdgeInsets.only(top: 16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 16,
+                  ),
+                  placeholder: context.l10n.yourLastNamePlaceholder,
+                  controller: _lastNameController,
+                  textColor: Colors.white,
+                  placeholderColor: _placeholderTextColor,
+                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
+                  fontSize: 16,
+                  inputType: TextInputType.name,
+                  textCapitalization: TextCapitalization.words,
                 ),
               ),
               OnboardingPadding(
@@ -155,6 +184,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   placeholderColor: _placeholderTextColor,
                   backgroundColor: CpColors.blackTextFieldBackgroundColor,
                   fontSize: 16,
+                  inputType: TextInputType.emailAddress,
                 ),
               ),
               const SizedBox(height: 12),

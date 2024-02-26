@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,12 +12,27 @@ class ProfileRepository extends ChangeNotifier {
   final SharedPreferences _sharedPreferences;
 
   bool get hasAllRequiredFields =>
-      firstName.isNotEmpty && email.isNotEmpty && country != null;
+      firstName.isNotEmpty &&
+      lastName.isNotEmpty &&
+      email.isNotEmpty &&
+      country != null;
 
-  String get firstName => _sharedPreferences.getString(nameKey) ?? '';
+  String get fullName => '$firstName $lastName';
+
+  String get initials =>
+      (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();
+
+  String get firstName => _sharedPreferences.getString(firstNameKey) ?? '';
 
   set firstName(String value) {
-    _sharedPreferences.setString(nameKey, value);
+    _sharedPreferences.setString(firstNameKey, value);
+    notifyListeners();
+  }
+
+  String get lastName => _sharedPreferences.getString(lastNameKey) ?? '';
+
+  set lastName(String value) {
+    _sharedPreferences.setString(lastNameKey, value);
     notifyListeners();
   }
 
@@ -53,7 +69,8 @@ class ProfileRepository extends ChangeNotifier {
   @disposeMethod
   void dispose() {
     _sharedPreferences
-      ..remove(nameKey)
+      ..remove(firstNameKey)
+      ..remove(lastNameKey)
       ..remove(photoKey)
       ..remove(countryKey)
       ..remove(emailKey);
@@ -61,7 +78,8 @@ class ProfileRepository extends ChangeNotifier {
   }
 }
 
-const nameKey = 'name';
+const firstNameKey = 'name';
+const lastNameKey = 'lastName';
 const photoKey = 'photo';
 const countryKey = 'country';
 const emailKey = 'email';

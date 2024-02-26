@@ -65,8 +65,8 @@ class ProfileScreen extends StatelessWidget {
                                         (it) => FileImage(File(it)),
                                       ),
                                   userName: sl<ProfileRepository>()
-                                      .firstName
-                                      .orDefault,
+                                      .initials
+                                      .ifEmpty(() => 'MW'),
                                 ),
                               ),
                             ),
@@ -86,7 +86,9 @@ class ProfileScreen extends StatelessWidget {
                         child: ListenableBuilder(
                           listenable: sl<ProfileRepository>(),
                           builder: (context, child) => Text(
-                            sl<ProfileRepository>().firstName.orDefault,
+                            sl<ProfileRepository>()
+                                .fullName
+                                .ifEmpty(() => 'My Wallet'),
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                         ),
@@ -122,10 +124,6 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-extension on String {
-  String get orDefault => ifEmpty(() => 'My Wallet');
 }
 
 const double _buttonSpacing = 22;
