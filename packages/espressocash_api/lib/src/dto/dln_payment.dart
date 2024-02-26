@@ -86,11 +86,8 @@ class IncomingQuoteRequestDto with _$IncomingQuoteRequestDto {
 @freezed
 class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
   const factory IncomingQuoteResponseDto({
-    required String to,
-    required String data,
-    required int value,
-    required String usdcErc20Address,
-    required int approvalAmount,
+    required QuoteTx tx,
+    required QuoteUsdcInfo usdcInfo,
     required int inputAmount,
     required int receiverAmount,
     required int feeInUsdc,
@@ -98,6 +95,29 @@ class IncomingQuoteResponseDto with _$IncomingQuoteResponseDto {
 
   factory IncomingQuoteResponseDto.fromJson(Map<String, dynamic> json) =>
       _$IncomingQuoteResponseDtoFromJson(json);
+}
+
+@freezed
+class QuoteTx with _$QuoteTx {
+  const factory QuoteTx({
+    required String to,
+    required String data,
+    required int value,
+  }) = _QuoteTx;
+
+  factory QuoteTx.fromJson(Map<String, dynamic> json) =>
+      _$QuoteTxFromJson(json);
+}
+
+@freezed
+class QuoteUsdcInfo with _$QuoteUsdcInfo {
+  const factory QuoteUsdcInfo({
+    required String usdcAddress,
+    required int approvalAmount,
+  }) = _QuoteUsdcInfo;
+
+  factory QuoteUsdcInfo.fromJson(Map<String, dynamic> json) =>
+      _$QuoteUsdcInfoFromJson(json);
 }
 
 @JsonEnum(fieldRename: FieldRename.pascal)
