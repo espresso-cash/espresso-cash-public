@@ -19,10 +19,11 @@ import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../tokens/token_list.dart';
+import '../models/qr_address_data.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
 
-extension BuilContextExt on BuildContext {
+extension BuildContextExt on BuildContext {
   Future<void> launchQrScannerFlow({
     ValueSetter<FiatAmount>? onFiatAmountChanged,
     required CryptoCurrency cryptoCurrency,
@@ -111,7 +112,10 @@ extension BuilContextExt on BuildContext {
     if (!mounted) return null;
 
     if (request is QrScannerAddressRequest) {
-      return request.addressData.address.toBase58();
+      return switch (request.addressData) {
+        QrAddressDataSolana(:final address) => address.toBase58(),
+        QrAddressDataEvm(:final address) => address,
+      };
     }
   }
 }

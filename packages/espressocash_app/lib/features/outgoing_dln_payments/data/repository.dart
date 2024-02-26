@@ -63,6 +63,13 @@ class OutgoingDlnPaymentRepository implements Disposable {
       .into(_db.outgoingDlnPaymentRows)
       .insertOnConflictUpdate(payment.toDto());
 
+  Future<void> delete(String id) {
+    final query = _db.delete(_db.outgoingDlnPaymentRows)
+      ..where((p) => p.id.equals(id));
+
+    return query.go();
+  }
+
   @override
   void onDispose() {
     _db.delete(_db.outgoingDlnPaymentRows).go();
@@ -173,16 +180,20 @@ extension on OutgoingDlnPaymentStatus {
         txCreated: (it) => it.tx.encode(),
         txSent: (it) => it.tx.encode(),
         success: (it) => it.tx.encode(),
+        unfulfilled: (it) => it.tx.encode(),
       );
 
   String? toTxId() => mapOrNull(
         txSent: (it) => it.tx.id,
         success: (it) => it.tx.id,
         txCreated: (it) => it.tx.id,
+        unfulfilled: (it) => it.tx.id,
       );
 
   String? toOrderId() => mapOrNull(
         success: (it) => it.orderId,
+        fulfilled: (it) => it.orderId,
+        unfulfilled: (it) => it.orderId,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(

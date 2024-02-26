@@ -1327,6 +1327,9 @@ mixin _$ScalexRateFeeResponseDto {
   double get offRampRate => throw _privateConstructorUsedError;
   double get offRampFeePercentage => throw _privateConstructorUsedError;
   double get fixedOffRampFee => throw _privateConstructorUsedError;
+  double? get onRampRate => throw _privateConstructorUsedError;
+  double? get onRampFeePercentage => throw _privateConstructorUsedError;
+  double? get fixedOnRampFee => throw _privateConstructorUsedError;
   double get espressoFeePercentage => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1345,6 +1348,9 @@ abstract class $ScalexRateFeeResponseDtoCopyWith<$Res> {
       {double offRampRate,
       double offRampFeePercentage,
       double fixedOffRampFee,
+      double? onRampRate,
+      double? onRampFeePercentage,
+      double? fixedOnRampFee,
       double espressoFeePercentage});
 }
 
@@ -1365,6 +1371,9 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
     Object? offRampRate = null,
     Object? offRampFeePercentage = null,
     Object? fixedOffRampFee = null,
+    Object? onRampRate = freezed,
+    Object? onRampFeePercentage = freezed,
+    Object? fixedOnRampFee = freezed,
     Object? espressoFeePercentage = null,
   }) {
     return _then(_value.copyWith(
@@ -1380,6 +1389,18 @@ class _$ScalexRateFeeResponseDtoCopyWithImpl<$Res,
           ? _value.fixedOffRampFee
           : fixedOffRampFee // ignore: cast_nullable_to_non_nullable
               as double,
+      onRampRate: freezed == onRampRate
+          ? _value.onRampRate
+          : onRampRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      onRampFeePercentage: freezed == onRampFeePercentage
+          ? _value.onRampFeePercentage
+          : onRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fixedOnRampFee: freezed == fixedOnRampFee
+          ? _value.fixedOnRampFee
+          : fixedOnRampFee // ignore: cast_nullable_to_non_nullable
+              as double?,
       espressoFeePercentage: null == espressoFeePercentage
           ? _value.espressoFeePercentage
           : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
@@ -1401,6 +1422,9 @@ abstract class _$$ScalexRateFeeResponseDtoImplCopyWith<$Res>
       {double offRampRate,
       double offRampFeePercentage,
       double fixedOffRampFee,
+      double? onRampRate,
+      double? onRampFeePercentage,
+      double? fixedOnRampFee,
       double espressoFeePercentage});
 }
 
@@ -1420,6 +1444,9 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
     Object? offRampRate = null,
     Object? offRampFeePercentage = null,
     Object? fixedOffRampFee = null,
+    Object? onRampRate = freezed,
+    Object? onRampFeePercentage = freezed,
+    Object? fixedOnRampFee = freezed,
     Object? espressoFeePercentage = null,
   }) {
     return _then(_$ScalexRateFeeResponseDtoImpl(
@@ -1435,6 +1462,18 @@ class __$$ScalexRateFeeResponseDtoImplCopyWithImpl<$Res>
           ? _value.fixedOffRampFee
           : fixedOffRampFee // ignore: cast_nullable_to_non_nullable
               as double,
+      onRampRate: freezed == onRampRate
+          ? _value.onRampRate
+          : onRampRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      onRampFeePercentage: freezed == onRampFeePercentage
+          ? _value.onRampFeePercentage
+          : onRampFeePercentage // ignore: cast_nullable_to_non_nullable
+              as double?,
+      fixedOnRampFee: freezed == fixedOnRampFee
+          ? _value.fixedOnRampFee
+          : fixedOnRampFee // ignore: cast_nullable_to_non_nullable
+              as double?,
       espressoFeePercentage: null == espressoFeePercentage
           ? _value.espressoFeePercentage
           : espressoFeePercentage // ignore: cast_nullable_to_non_nullable
@@ -1450,6 +1489,9 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
       {required this.offRampRate,
       required this.offRampFeePercentage,
       required this.fixedOffRampFee,
+      this.onRampRate,
+      this.onRampFeePercentage,
+      this.fixedOnRampFee,
       required this.espressoFeePercentage});
 
   factory _$ScalexRateFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
@@ -1462,11 +1504,17 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
   @override
   final double fixedOffRampFee;
   @override
+  final double? onRampRate;
+  @override
+  final double? onRampFeePercentage;
+  @override
+  final double? fixedOnRampFee;
+  @override
   final double espressoFeePercentage;
 
   @override
   String toString() {
-    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage, fixedOffRampFee: $fixedOffRampFee, espressoFeePercentage: $espressoFeePercentage)';
+    return 'ScalexRateFeeResponseDto(offRampRate: $offRampRate, offRampFeePercentage: $offRampFeePercentage, fixedOffRampFee: $fixedOffRampFee, onRampRate: $onRampRate, onRampFeePercentage: $onRampFeePercentage, fixedOnRampFee: $fixedOnRampFee, espressoFeePercentage: $espressoFeePercentage)';
   }
 
   @override
@@ -1480,14 +1528,27 @@ class _$ScalexRateFeeResponseDtoImpl implements _ScalexRateFeeResponseDto {
                 other.offRampFeePercentage == offRampFeePercentage) &&
             (identical(other.fixedOffRampFee, fixedOffRampFee) ||
                 other.fixedOffRampFee == fixedOffRampFee) &&
+            (identical(other.onRampRate, onRampRate) ||
+                other.onRampRate == onRampRate) &&
+            (identical(other.onRampFeePercentage, onRampFeePercentage) ||
+                other.onRampFeePercentage == onRampFeePercentage) &&
+            (identical(other.fixedOnRampFee, fixedOnRampFee) ||
+                other.fixedOnRampFee == fixedOnRampFee) &&
             (identical(other.espressoFeePercentage, espressoFeePercentage) ||
                 other.espressoFeePercentage == espressoFeePercentage));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, offRampRate,
-      offRampFeePercentage, fixedOffRampFee, espressoFeePercentage);
+  int get hashCode => Object.hash(
+      runtimeType,
+      offRampRate,
+      offRampFeePercentage,
+      fixedOffRampFee,
+      onRampRate,
+      onRampFeePercentage,
+      fixedOnRampFee,
+      espressoFeePercentage);
 
   @JsonKey(ignore: true)
   @override
@@ -1509,6 +1570,9 @@ abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
           {required final double offRampRate,
           required final double offRampFeePercentage,
           required final double fixedOffRampFee,
+          final double? onRampRate,
+          final double? onRampFeePercentage,
+          final double? fixedOnRampFee,
           required final double espressoFeePercentage}) =
       _$ScalexRateFeeResponseDtoImpl;
 
@@ -1521,6 +1585,12 @@ abstract class _ScalexRateFeeResponseDto implements ScalexRateFeeResponseDto {
   double get offRampFeePercentage;
   @override
   double get fixedOffRampFee;
+  @override
+  double? get onRampRate;
+  @override
+  double? get onRampFeePercentage;
+  @override
+  double? get fixedOnRampFee;
   @override
   double get espressoFeePercentage;
   @override

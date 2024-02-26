@@ -18,7 +18,7 @@ import '../models/outgoing_link_payment.dart';
 class OLPService {
   const OLPService(this._client, this._repository);
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final OLPRepository _repository;
 
   Future<OutgoingLinkPayment> create({

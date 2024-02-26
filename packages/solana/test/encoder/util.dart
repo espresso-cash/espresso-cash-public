@@ -35,7 +35,9 @@ Future<List<Ed25519HDPublicKey>> createTestKeys(int count) async {
 
 AccountMeta createAccountMeta(
   Ed25519HDPublicKey pubKey,
+  // ignore: prefer-named-boolean-parameters, test usage
   bool isSigner,
+  // ignore: prefer-named-boolean-parameters, test usage
   bool isWriteable,
 ) =>
     AccountMeta(pubKey: pubKey, isWriteable: isWriteable, isSigner: isSigner);

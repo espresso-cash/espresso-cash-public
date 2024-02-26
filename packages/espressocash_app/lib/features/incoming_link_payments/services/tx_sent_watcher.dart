@@ -26,13 +26,13 @@ class TxSentWatcher extends PaymentWatcher {
   TxSentWatcher(
     super._repository,
     this._sender,
-    this._cryptopleaseClient,
+    this._ecClient,
     this._rpcClient,
     this._wallet,
   );
 
   final TxSender _sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
   final RpcClient _rpcClient;
   final ECWallet _wallet;
 
@@ -40,7 +40,7 @@ class TxSentWatcher extends PaymentWatcher {
   CancelableJob<IncomingLinkPayment> createJob(
     IncomingLinkPayment payment,
   ) =>
-      _ILPTxSentJob(payment, _sender, _cryptopleaseClient, _rpcClient, _wallet);
+      _ILPTxSentJob(payment, _sender, _ecClient, _rpcClient, _wallet);
 
   @override
   Stream<IList<IncomingLinkPayment>> watchPayments(
@@ -53,14 +53,14 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
   const _ILPTxSentJob(
     this.payment,
     this.sender,
-    this._cryptopleaseClient,
+    this._ecClient,
     this._rpcClient,
     this._wallet,
   );
 
   final IncomingLinkPayment payment;
   final TxSender sender;
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
   final RpcClient _rpcClient;
   final ECWallet _wallet;
 
@@ -77,7 +77,7 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
       success: (_) async {
         try {
           final fee = status.tx.containsAta
-              ? await _cryptopleaseClient
+              ? await _ecClient
                   .getFees()
                   .then((value) => value.escrowPaymentAtaFee)
               : null;

@@ -10,16 +10,16 @@ typedef SignRequest = Future<({String publicKey, String signature})?> Function(
   String data,
 );
 
-@RestApi(baseUrl: 'https://cryptoplease-link.web.app/api/v1')
-abstract class CryptopleaseClient {
-  factory CryptopleaseClient({
+@RestApi(baseUrl: 'https://api.espressocash.com/api/v1')
+abstract class EspressoCashClient {
+  factory EspressoCashClient({
     String? baseUrl,
     required SignRequest sign,
   }) =>
-      _CryptopleaseClient(
+      _EspressoCashClient(
         Dio()
           ..interceptors.add(
-            QueuedInterceptorsWrapper(
+            InterceptorsWrapper(
               onRequest: (options, handler) async {
                 final data =
                     options.data == null ? '' : jsonEncode(options.data);
@@ -29,7 +29,7 @@ abstract class CryptopleaseClient {
                   options.headers['x-signature'] = signed.signature;
                 }
 
-                return handler.next(options);
+                handler.next(options);
               },
             ),
           ),

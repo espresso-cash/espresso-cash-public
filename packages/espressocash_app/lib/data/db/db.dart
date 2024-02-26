@@ -207,8 +207,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 47) {
             await m.createTable(outgoingDlnPaymentRows);
           }
-          if (from >= 39 && from < 48) {
-            await m.addColumn(iLPRows, iLPRows.receivedAmount);
+          if (from >= 40 && from < 48) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
           }
         },
       );
@@ -274,6 +275,8 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get fiatSymbol => text().nullable()();
   TextColumn get partner =>
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  IntColumn get feeAmount => integer().nullable()();
+  TextColumn get feeToken => text().nullable()();
 }
 
 enum OnRampOrderStatus {
@@ -295,6 +298,7 @@ enum OffRampOrderStatus {
   failure,
   completed,
   cancelled,
+  insufficientFunds,
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {

@@ -21,7 +21,7 @@ import '../models/outgoing_direct_payment.dart';
 class ODPService {
   ODPService(this._client, this._repository, this._txSender);
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _client;
   final ODPRepository _repository;
   final TxSender _txSender;
 

@@ -38,7 +38,7 @@ void main() {
       expect: () => [
         QrScannerState.done(
           QrScannerRequest.address(
-            QrAddressData(
+            QrAddressDataSolana(
               address: Ed25519HDPublicKey.fromBase58(sampleAddress),
             ),
           ),
