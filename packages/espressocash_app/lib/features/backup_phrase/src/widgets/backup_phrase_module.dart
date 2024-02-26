@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../di.dart';
 import '../../../accounts/models/account.dart';
-import '../../../accounts/services/accounts_bloc.dart';
+import '../../../accounts/widgets/account_listener.dart';
 import '../screens/puzzle_reminder_setup_screen.dart';
 import '../services/puzzle_reminder_bloc.dart';
 
@@ -36,7 +36,7 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content> {
+class _ContentState extends State<_Content> with AccountListener {
   @override
   void initState() {
     super.initState();
@@ -53,26 +53,22 @@ class _ContentState extends State<_Content> {
   }
 
   @override
-  Widget build(BuildContext context) => Nested(
-        children: [
-          BlocListener<AccountsBloc, AccountsState>(
-            listenWhen: (s1, s2) => s1.account != s2.account,
-            listener: (context, state) {
-              if (state.account == null) {
-                context
-                    .read<PuzzleReminderBloc>()
-                    .add(const PuzzleReminderEvent.loggedOut());
-              }
-            },
-          ),
-          BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
-            listener: (context, state) {
-              if (state is PuzzleReminderStateRemindNow) {
-                _showPuzzleReminderDialog();
-              }
-            },
-          ),
-        ],
+  void handleAccountChanged(MyAccount? account) {
+    if (account == null) {
+      context
+          .read<PuzzleReminderBloc>()
+          .add(const PuzzleReminderEvent.loggedOut());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
+        listener: (context, state) {
+          if (state is PuzzleReminderStateRemindNow) {
+            _showPuzzleReminderDialog();
+          }
+        },
         child: widget.child,
       );
 }

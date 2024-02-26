@@ -3,7 +3,6 @@ import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/presentation/utils.dart';
@@ -12,7 +11,9 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
-import '../../accounts/services/accounts_bloc.dart';
+import '../../../di.dart';
+import '../../../ui/loader.dart';
+import '../../accounts/services/account_service.dart';
 import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 

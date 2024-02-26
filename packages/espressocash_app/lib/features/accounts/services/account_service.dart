@@ -29,14 +29,13 @@ class AccountService extends ChangeNotifier
   @override
   MyAccount? get value => _value;
 
-  set value(MyAccount? value) {
+  void _update(MyAccount? value) {
     if (value == _value) return;
 
     _value = value;
     notifyListeners();
   }
 
-  @PostConstruct(preResolve: true)
   Future<void> initialize() async {
     final account = await _repository.loadAccount();
     if (account != null) {
@@ -61,7 +60,7 @@ class AccountService extends ChangeNotifier
     await _storage.deleteAll();
     await sl.dropScope(authScope);
 
-    _value = null;
+    _update(null);
   }
 
   Future<void> _processLogIn(MyAccount account) async {
@@ -71,6 +70,6 @@ class AccountService extends ChangeNotifier
     _analyticsManager.setWalletAddress(account.address);
     await sl.initAuthScope();
 
-    _value = account;
+    _update(account);
   }
 }

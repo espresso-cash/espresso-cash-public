@@ -1,13 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
-import '../../accounts/services/accounts_bloc.dart';
+import '../../accounts/services/account_service.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/backup_phrase.dart';
 import '../../conversion_rates/module.dart';
@@ -61,9 +61,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         providers: const [
           ConversionRatesModule(),
         ],
-        child: BlocBuilder<AccountsBloc, AccountsState>(
-          builder: (context, state) {
-            final account = state.account;
+        child: ValueListenableBuilder(
+          valueListenable: sl<AccountService>(),
+          builder: (context, account, child) {
             if (account == null) return const SplashScreen();
 
             return MultiProvider(
