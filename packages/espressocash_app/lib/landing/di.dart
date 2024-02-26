@@ -7,6 +7,10 @@ const landingScope = 'landing';
 
 final sl = GetIt.instance;
 
+@InjectableInit(
+  preferRelativeImports: false,
+  throwOnMissingDependencies: true,
+)
 void configureDependencies() => sl.initLandingScope();
 
 @module

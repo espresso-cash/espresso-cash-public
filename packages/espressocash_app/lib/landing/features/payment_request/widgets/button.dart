@@ -6,6 +6,7 @@ import '../../../core/extensions.dart';
 import 'arrow.dart';
 
 class OtherWalletButton extends StatelessWidget {
+  //TODO remove if not needed
   const OtherWalletButton({
     super.key,
     required this.chain,
@@ -87,6 +88,52 @@ class UsdcLogoWidget extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      );
+}
+
+class MetamaskButton extends StatelessWidget {
+  const MetamaskButton({
+    super.key,
+    required this.onTap,
+  });
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: isMobile ? 350 : 250,
+        height: 63,
+        decoration: const ShapeDecoration(
+          color: Colors.black,
+          shape: StadiumBorder(),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              child: ListTile(
+                leading: Assets.landing.metamask.image(
+                  height: 40,
+                  width: 40,
+                ),
+                title: const Text(
+                  'Metamask',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.13,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       );
 }

@@ -6,10 +6,13 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
+import '../../../../ui/snackbar.dart';
 import '../../../core/desktop.dart';
 import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
 import '../../../di.dart';
+import '../../web3/models/exception.dart';
+import '../../web3/web3_service.dart';
 import '../service/bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/button.dart';
@@ -80,7 +83,7 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
           ),
         ],
         child: OtherWalletScreen(
-          chain: chain,
+          // chain: chain,
           request: widget.request,
         ),
       );
@@ -88,6 +91,40 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
 
     Navigator.of(context)
         .push(MaterialPageRoute<void>(builder: (context) => page));
+  }
+
+  Future<void> _onMetaMaskPay() async {
+    try {
+      final service = sl<Web3Service>();
+
+      await service.connect();
+
+      if (!context.mounted) return;
+
+      final page = MultiBlocProvider(
+        providers: [
+          // BlocProvider(create: (_) => sl<IncomingPaymentBloc>()),
+          BlocProvider.value(value: sl<IncomingPaymentBloc>()),
+        ],
+        child: OtherWalletScreen(request: widget.request),
+      );
+
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (context) => page,
+        ),
+      );
+    } on Web3Exception catch (error) {
+      if (!context.mounted) return;
+
+      showCpErrorSnackbar(
+        context,
+        message: switch (error) {
+          MetaMaskNotInstalled() => 'MetaMask is not installed',
+          UserRejected() => 'User rejected the request',
+        },
+      );
+    }
   }
 
   @override
@@ -101,6 +138,7 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
             : _DesktopView(
                 request: widget.request,
                 onEspressoPay: _onSolanaPay,
+                onMetaMaskPay: _onMetaMaskPay,
                 onOtherWallet: (chain) => _onOtherWallet(context, chain),
               ),
       );
@@ -203,10 +241,12 @@ class _DesktopView extends StatelessWidget {
     required this.request,
     required this.onEspressoPay,
     required this.onOtherWallet,
+    required this.onMetaMaskPay,
   });
 
   final SolanaPayRequest request;
   final VoidCallback onEspressoPay;
+  final VoidCallback onMetaMaskPay;
   final void Function(Blockchain chain) onOtherWallet;
 
   @override
@@ -254,10 +294,11 @@ class _DesktopView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              Text(
-                context.l10n.landingPayOtherWallet2,
+              const Text(
+                // context.l10n.landingPayOtherWallet2, //TODO may remove
+                'or pay with a crypto-wallet',
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Color(0xFF2D2B2C),
                   fontSize: 17,
                   fontWeight: FontWeight.w500,
@@ -265,20 +306,21 @@ class _DesktopView extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                alignment: WrapAlignment.center,
-                children: _supportedChains
-                    .map(
-                      (e) => OtherWalletButton(
-                        chain: e,
-                        onTap: () => onOtherWallet(e),
-                      ),
-                    )
-                    .toList(),
-              ),
+              MetamaskButton(onTap: onMetaMaskPay),
+              // Wrap(
+              //   spacing: 8,
+              //   runSpacing: 8,
+              //   crossAxisAlignment: WrapCrossAlignment.center,
+              //   alignment: WrapAlignment.center,
+              //   children: _supportedChains
+              //       .map(
+              //         (e) => OtherWalletButton(
+              //           chain: e,
+              //           onTap: () => onOtherWallet(e),
+              //         ),
+              //       )
+              //       .toList(),
+              // ),
               if (request.reference?.first case final reference?) ...[
                 const Spacer(),
                 InvoiceWidget(address: reference.toBase58()),

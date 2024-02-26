@@ -12,6 +12,8 @@ class IncomingPaymentQuote with _$IncomingPaymentQuote {
     required CryptoAmount fee,
     required String to,
     required String data,
-    required String value,
+    required int value,
+    required int approvalAmount,
+    required String usdcErc20Address,
   }) = _IncomingPaymentQuote;
 }

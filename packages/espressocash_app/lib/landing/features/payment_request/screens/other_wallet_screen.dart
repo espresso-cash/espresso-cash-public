@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
+import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
-import '../../../../l10n/l10n.dart';
+import '../../../../l10n/device_locale.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
-import '../../../../ui/rounded_rectangle.dart';
-import '../../../../ui/snackbar.dart';
-import '../../../core/extensions.dart';
 import '../../../core/landing_widget.dart';
 import '../../../di.dart';
 import '../models/request_model.dart';
 import '../service/bloc.dart';
 import '../widgets/countdown.dart';
+import '../widgets/dropdown.dart';
 import '../widgets/invoice.dart';
 
 class OtherWalletScreen extends StatefulWidget {
   const OtherWalletScreen({
     super.key,
-    required this.chain,
     required this.request,
   });
 
-  final Blockchain chain;
   final SolanaPayRequest request;
 
   @override
@@ -34,7 +30,7 @@ class OtherWalletScreen extends StatefulWidget {
 }
 
 class _OtherWalletScreenState extends State<OtherWalletScreen> {
-  // late final IncomingPaymentBloc _bloc;
+  final _bloc = sl<IncomingPaymentBloc>();
 
   @override
   void initState() {
@@ -42,9 +38,7 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
 
     final request = widget.request;
 
-    // _bloc = sl<IncomingPaymentBloc>();
-
-    sl<IncomingPaymentBloc>().add(
+    _bloc.add(
       IncomingPaymentEvent.init(
         IncomingPaymentRequest(
           receiverAddress: request.recipient.toBase58(),
@@ -59,16 +53,122 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
     );
   }
 
+  void _onChainChanged(Blockchain chain) {
+    _bloc.add(IncomingPaymentEvent.chainChanged(chain));
+  }
+
+  void _onConfirmed() {
+    _bloc.add(const IncomingPaymentEvent.confirmed());
+  }
+
   @override
   void dispose() {
-    // _bloc.close();
+    _bloc.close();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) => const Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         // body: isMobile ? const _MobileView() : const _DesktopView(),
-        body: _DesktopView(),
+        body: _DesktopView(
+          onConfirm: _onConfirmed,
+          onChainChanged: _onChainChanged,
+        ),
+      );
+}
+
+class _DesktopView extends StatelessWidget {
+  const _DesktopView({
+    required this.onConfirm,
+    required this.onChainChanged,
+  });
+
+  final VoidCallback onConfirm;
+  final ValueChanged<Blockchain> onChainChanged;
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocBuilder<IncomingPaymentBloc, IncomingPaymentState>(
+        builder: (context, state) {
+          final request = state.request;
+          final chain = state.sender?.blockchain;
+
+          final chainLabel =
+              chain != null ? 'on ${chain.displayName} network' : '';
+
+          final String title =
+              'Pay ${request?.receiverName ?? ''} with USDC $chainLabel';
+
+          return CpLoader(
+            isLoading: state.flowState.isProcessing,
+            child: LandingDesktopWidget(
+              header: HeaderDesktop(
+                title: title,
+                trailing: CountdownTimer(expiryDate: state.expiresAt),
+                showBackButton: true,
+              ),
+              content: Column(
+                children: [
+                  const SizedBox(height: 26),
+                  BlockchainDropDown(
+                    current: chain ?? Blockchain.ethereum,
+                    onBlockchainChanged: onChainChanged,
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Text('Amount Requested'),
+                      const Spacer(),
+                      Text(
+                        state.inputAmount.format(context.locale),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('Network Fee'),
+                      const Spacer(),
+                      Text(
+                        state.fee.format(context.locale),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Divider(),
+                  Row(
+                    children: [
+                      const Text('Total'),
+                      const Spacer(),
+                      Text(
+                        state.totalAmount.format(context.locale),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  CpButton(
+                    text: 'Pay Now',
+                    onPressed: state.quote != null ? onConfirm : null,
+                  ),
+                  if (request?.solanaReferenceAddress
+                      case final reference?) ...[
+                    const Spacer(),
+                    const SizedBox(height: 24),
+                    InvoiceWidget(address: reference),
+                  ],
+                ],
+              ),
+            ),
+          );
+        },
       );
 }
 
@@ -209,146 +309,3 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
 //         },
 //       );
 // }
-
-class _DesktopView extends StatelessWidget {
-  const _DesktopView();
-
-  @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<IncomingPaymentBloc, IncomingPaymentState>(
-        builder: (context, state) {
-          final request = state.request;
-          final chain = state.sender?.blockchain;
-
-          final chainLabel =
-              chain != null ? 'on ${chain.displayName} network' : '';
-
-          final String title =
-              'Pay ${request?.receiverName ?? ''} with USDC $chainLabel';
-
-          return CpLoader(
-            isLoading: state.flowState.isProcessing,
-            child: LandingDesktopWidget(
-              header: HeaderDesktop(
-                title: title,
-                trailing: CountdownTimer(expiryDate: state.expiresAt),
-                showBackButton: true,
-              ),
-              content: Column(
-                children: [
-                  const SizedBox(height: 26),
-                  CpButton(
-                    text: 'Connect wallet',
-                    onPressed: () {
-                      sl<IncomingPaymentBloc>().add(
-                        const IncomingPaymentEvent.onChangeWallet(
-                          UserWalletInfo(
-                            address:
-                                '0x43b2595b3e6C200EBfd7F058dddF9403Ac457c1D',
-                            blockchain: Blockchain.ethereum,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                  // const RequestStatus(),
-                  // Text(
-                  //   context.l10n.landingPayRequestInstruction,
-                  //   textAlign: TextAlign.center,
-                  //   style: const TextStyle(
-                  //     color: Colors.black,
-                  //     fontSize: 19,
-                  //     fontWeight: FontWeight.w500,
-                  //     letterSpacing: 0.23,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 8),
-                  // Text(
-                  //   context.l10n.landingTotalAmount,
-                  //   textAlign: TextAlign.center,
-                  //   style: const TextStyle(
-                  //     color: Color(0xFF2D2B2C),
-                  //     fontSize: 17,
-                  //     fontWeight: FontWeight.w500,
-                  //     letterSpacing: 0.23,
-                  //   ),
-                  // ),
-                  const SizedBox(height: 4),
-                  // _BubbleWidget(
-                  //   content: Column(
-                  //     children: [
-                  //       Text(
-                  //         '${state.totalAmount ?? ''} USDC',
-                  //         style: const TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 18,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //       Text(
-                  //         context.l10n.landingNetworkFee(
-                  //           chain,
-                  //           '${state.fee ?? '0'}',
-                  //         ),
-                  //         textAlign: TextAlign.center,
-                  //         style: const TextStyle(
-                  //           color: Colors.white,
-                  //           fontSize: 14,
-                  //           fontWeight: FontWeight.w400,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                  if (request?.solanaReferenceAddress
-                      case final reference?) ...[
-                    const Spacer(),
-                    const SizedBox(height: 24),
-                    InvoiceWidget(address: reference),
-                  ],
-                ],
-              ),
-            ),
-          );
-        },
-      );
-}
-
-class _BubbleWidget extends StatelessWidget {
-  const _BubbleWidget({
-    required this.content,
-    required this.textToCopy,
-  });
-
-  final Widget content;
-  final String textToCopy;
-
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 24),
-        constraints: const BoxConstraints(maxWidth: 780),
-        child: CpRoundedRectangle(
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-          backgroundColor: Colors.black,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(child: content),
-              const SizedBox(width: 4),
-              CpButton(
-                text: context.l10n.copy,
-                minWidth: 80,
-                onPressed: () {
-                  final data = ClipboardData(text: textToCopy);
-                  Clipboard.setData(data);
-                  showClipboardSnackbar(context);
-                },
-                size: isMobile ? CpButtonSize.micro : CpButtonSize.small,
-              ),
-            ],
-          ),
-        ),
-      );
-}

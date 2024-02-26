@@ -48,6 +48,8 @@ class IncomingQuoteRepository {
       to: quote.to,
       data: quote.data,
       value: quote.value,
+      approvalAmount: quote.approvalAmount,
+      usdcErc20Address: quote.usdcErc20Address,
     );
   }
 }

@@ -7,7 +7,9 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
+import '../../../../features/blockchain/models/blockchain.dart';
 import '../../../di.dart';
+import '../../web3/web3_service.dart';
 import '../data/repository.dart';
 import '../models/incoming_quote.dart';
 import '../models/request_model.dart';
@@ -22,44 +24,112 @@ typedef _Emitter = Emitter<_State>;
 class IncomingPaymentBloc extends Bloc<_Event, _State> {
   IncomingPaymentBloc({
     required IncomingQuoteRepository quoteRepository,
+    required Web3Service web3Service,
   })  : _quoteRepository = quoteRepository,
+        _web3Service = web3Service,
         super(IncomingPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
-    on<OnWalletChange>(_onWalletChange);
+    on<AccountChanged>(_onWalletChanged);
     on<Confirmed>(_onConfirmed);
+    on<ChainChanged>(
+      _onChainChanged,
+      transformer: (events, mapper) => events
+          .debounceTime(const Duration(milliseconds: 500))
+          .switchMap(mapper),
+    );
     on<Invalidated>(
       _onInvalidated,
       transformer: (events, mapper) => events
           .debounceTime(const Duration(milliseconds: 500))
           .switchMap(mapper),
     );
+
+    _chainChangedSubscription = _web3Service.chainChanged.listen((chainId) {
+      final chain = chainId.fromHexChainId ?? _defaultBlockchain;
+
+      add(ChainChanged(chain));
+    });
+
+    _accountsChangedSubscription =
+        _web3Service.accountsChanged.listen((address) {
+      add(AccountChanged(address));
+    });
   }
 
   final IncomingQuoteRepository _quoteRepository;
+  final Web3Service _web3Service;
 
   Timer? _timer;
+  StreamSubscription<String>? _chainChangedSubscription;
+  StreamSubscription<String>? _accountsChangedSubscription;
 
   void _startTimer() {
     _timer?.cancel();
     _timer = Timer(_quoteDuration, () => add(const Invalidated()));
   }
 
-  void _onInit(Init event, _Emitter emit) {
+  Future<void> _onInit(Init event, _Emitter emit) async {
+    final account = await _web3Service.connect();
+
+    final sender = UserWalletInfo(
+      address: account.$1.toString(),
+      blockchain: account.$2.blockchain ?? _defaultBlockchain,
+    );
+
     emit(
       IncomingPaymentState(
         request: event.request,
-        flowState: const Flow.initial(),
+        sender: sender,
+        flowState: const Flow.processing(),
       ),
     );
-  }
-
-  void _onWalletChange(OnWalletChange event, _Emitter emit) {
-    emit(state.onWalletUpdate(event.wallet));
 
     add(const Invalidated());
   }
 
-  void _onConfirmed(Confirmed _, _Emitter emit) {
+  Future<void> _onChainChanged(ChainChanged event, _Emitter emit) async {
+    await _web3Service.switchChain(event.chain);
+
+    emit(state.chainChanged(event.chain));
+
+    add(const Invalidated());
+  }
+
+  void _onWalletChanged(AccountChanged event, _Emitter emit) {
+    emit(state.walletUpdated(event.account));
+
+    add(const Invalidated());
+  }
+
+  Future<void> _onConfirmed(Confirmed _, _Emitter emit) async {
+    final quote = state.quote;
+
+    if (quote == null) {
+      emit(state.error(const PaymentException.quoteNotFound()));
+
+      return;
+    }
+
+    try {
+      final approve = await _web3Service.approveContract(
+        contractAddress: quote.usdcErc20Address,
+        to: quote.to,
+        amount: quote.approvalAmount,
+      );
+
+      print('approve tx: $approve');
+
+      final tx = await _web3Service.sendTransaction(
+        to: quote.to,
+        value: BigInt.from(quote.value),
+        data: quote.data,
+      );
+
+      print('tx: $tx');
+    } catch (ex) {
+      print('ex: $ex');
+    }
+
     // emit(state.copyWith(flowState: const Flow.success(null))); //TODO
   }
 
@@ -96,7 +166,9 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
 
   @override
   Future<void> close() {
-    _timer?.cancel();
+    _timer?.cancel(); //TODO not properly disposed
+    _chainChangedSubscription?.cancel();
+    _accountsChangedSubscription?.cancel();
 
     return super.close();
   }
@@ -117,9 +189,15 @@ extension on IncomingPaymentState {
         flowState: const Flow.initial(),
         expiresAt: DateTime.now().add(_quoteDuration),
       );
-  IncomingPaymentState onWalletUpdate(UserWalletInfo sender) => copyWith(
-        sender: sender,
-        flowState: const Flow.processing(),
+
+  IncomingPaymentState chainChanged(Blockchain chain) => copyWith(
+        sender: sender?.copyWith(
+          blockchain: chain,
+        ),
+      );
+
+  IncomingPaymentState walletUpdated(String address) => copyWith(
+        sender: sender?.copyWith(address: address),
       );
 }
 
@@ -128,8 +206,11 @@ sealed class IncomingPaymentEvent with _$IncomingPaymentEvent {
   const factory IncomingPaymentEvent.init(IncomingPaymentRequest request) =
       Init;
 
-  const factory IncomingPaymentEvent.onChangeWallet(UserWalletInfo wallet) =
-      OnWalletChange;
+  const factory IncomingPaymentEvent.chainChanged(Blockchain chain) =
+      ChainChanged;
+
+  const factory IncomingPaymentEvent.accountsChanged(String account) =
+      AccountChanged;
 
   const factory IncomingPaymentEvent.confirmed() = Confirmed;
 
@@ -159,6 +240,8 @@ extension IncomingPaymentStateExt on IncomingPaymentState {
   CryptoAmount get receiverAmount =>
       quote?.receiverAmount ??
       const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+
+  CryptoAmount get totalAmount => (receiverAmount + fee) as CryptoAmount;
 }
 
 @freezed
@@ -166,6 +249,9 @@ class PaymentException with _$PaymentException implements Exception {
   const factory PaymentException.other(Exception e) = OtherException;
 
   const factory PaymentException.quoteNotFound() = QuoteNotFound;
+
+  const factory PaymentException.unsupportedChain() = UnsupportedChain;
 }
 
 const _quoteDuration = Duration(seconds: 25);
+const _defaultBlockchain = Blockchain.ethereum;

@@ -1068,7 +1068,7 @@ packages:
     source: hosted
     version: "1.0.4"
   js:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: js
       sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
@@ -1083,6 +1083,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  json_rpc_2:
+    dependency: transitive
+    description:
+      name: json_rpc_2
+      sha256: "5e469bffa23899edacb7b22787780068d650b106a21c76db3c49218ab7ca447e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   json_serializable:
     dependency: "direct dev"
     description:
@@ -1645,7 +1653,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.30.2"
+    version: "0.30.3"
   solana_mobile_wallet:
     dependency: "direct main"
     description:
@@ -1892,6 +1900,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.0"
+  universal_html:
+    dependency: transitive
+    description:
+      name: universal_html
+      sha256: "56536254004e24d9d8cfdb7dbbf09b74cf8df96729f38a2f5c238163e3d58971"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.4"
   universal_io:
     dependency: transitive
     description:
@@ -2052,6 +2068,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.1"
+  webthree:
+    dependency: "direct main"
+    description:
+      name: webthree
+      sha256: bd2c92c00ed5f672e9d7bb837953c8b35367b21b71c589b9310583a22a71c2c8
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.3"
   win32:
     dependency: transitive
     description:

@@ -34,10 +34,37 @@ extension BlockchainExt on Blockchain {
         Blockchain.arbitrum => '42161',
       };
 
+  String get hexChainId => switch (this) {
+        Blockchain.solana => '0x74657374',
+        Blockchain.ethereum => '0x1',
+        Blockchain.polygon => '0x89',
+        Blockchain.arbitrum => '0xa4b1',
+      };
+
   AssetGenImage get logo => switch (this) {
         Blockchain.solana => Assets.landing.solanaLogo,
         Blockchain.ethereum => Assets.landing.ethLogo,
         Blockchain.polygon => Assets.landing.polygonLogo,
-        Blockchain.arbitrum => Assets.landing.polygonLogo, //TODO
+        Blockchain.arbitrum => Assets.landing.arbitrumLogo,
+      };
+}
+
+extension BlockchainIntExt on int {
+  Blockchain? get blockchain => switch (this) {
+        1 => Blockchain.ethereum,
+        137 => Blockchain.polygon,
+        42161 => Blockchain.arbitrum,
+        7565164 => Blockchain.solana,
+        _ => null,
+      };
+}
+
+extension BlockchainStringExt on String {
+  Blockchain? get fromHexChainId => switch (this) {
+        '0x1' => Blockchain.ethereum,
+        '0x89' => Blockchain.polygon,
+        '0xa4b1' => Blockchain.arbitrum,
+        '0x74657374' => Blockchain.solana,
+        _ => null,
       };
 }
