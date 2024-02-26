@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nested/nested.dart';
 
 import '../../../../di.dart';
-import '../../../accounts/services/accounts_bloc.dart';
+import '../../../accounts/models/account.dart';
+import '../../../accounts/widgets/account_listener.dart';
 import '../screens/app_lock_screen.dart';
 import '../services/app_lock_bloc.dart';
 
@@ -31,7 +32,8 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content>
     with
         // ignore: prefer_mixin, Flutter way
-        WidgetsBindingObserver {
+        WidgetsBindingObserver,
+        AccountListener {
   @override
   void initState() {
     super.initState();
@@ -52,23 +54,22 @@ class _ContentState extends State<_Content>
   }
 
   @override
+  void handleAccountChanged(MyAccount? account) {
+    if (account == null) {
+      context.read<AppLockBloc>().add(const AppLockEvent.logout());
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isLocked =
         context.select<AppLockBloc, bool>((b) => b.state is AppLockStateLocked);
 
-    return BlocListener<AccountsBloc, AccountsState>(
-      listenWhen: (s1, s2) => s1.account != s2.account,
-      listener: (context, state) {
-        if (state.account == null) {
-          context.read<AppLockBloc>().add(const AppLockEvent.logout());
-        }
-      },
-      child: Stack(
-        children: [
-          widget.child ?? const SizedBox.shrink(),
-          if (isLocked) const AppLockScreen(),
-        ],
-      ),
+    return Stack(
+      children: [
+        widget.child ?? const SizedBox.shrink(),
+        if (isLocked) const AppLockScreen(),
+      ],
     );
   }
 }

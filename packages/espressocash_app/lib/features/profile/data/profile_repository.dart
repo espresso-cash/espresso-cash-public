@@ -17,7 +17,8 @@ class ProfileRepository extends ChangeNotifier {
       email.isNotEmpty &&
       country != null;
 
-  String get fullName => '$firstName $lastName';
+  String get fullName =>
+      [firstName, lastName].where((it) => it.isNotEmpty).join(' ');
 
   String get initials =>
       (substring(firstName, 0, 1) + substring(lastName, 0, 1)).toUpperCase();

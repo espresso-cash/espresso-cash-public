@@ -12,14 +12,16 @@ import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
-import '../../accounts/services/accounts_bloc.dart';
+import '../../accounts/services/account_service.dart';
 import '../services/sign_in_bloc.dart';
 
 @RoutePage()
 class SignInFlowScreen extends StatefulWidget {
-  const SignInFlowScreen({super.key});
+  const SignInFlowScreen({super.key, this.onSignedIn});
 
   static const route = SignInFlowRoute.new;
+
+  final VoidCallback? onSignedIn;
 
   @override
   State<SignInFlowScreen> createState() => _SignInFlowScreenState();
@@ -61,12 +63,11 @@ class _SignInFlowScreenState extends State<SignInFlowScreen> {
                 seedVaultActionCanceled: ignore,
                 generic: (e) => showErrorDialog(context, 'Error', e),
               ),
-            FlowSuccess(:final result) => context.read<AccountsBloc>().add(
-                  AccountsEvent.created(
-                    account: result.account,
-                    source: state.source,
-                  ),
-                ),
+            FlowSuccess(:final result) => runWithLoader(
+                context,
+                () => sl<AccountService>()
+                    .logIn(source: state.source, account: result.account),
+              ).then((_) => widget.onSignedIn?.call()),
             _ => null,
           },
           builder: (context, state) => CpLoader(
