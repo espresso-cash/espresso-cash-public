@@ -10,10 +10,10 @@ class WalletService {
   const WalletService(
     this._sharedPreferences,
     this._profileRepository,
-    this._cryptopleaseClient,
+    this._ecClient,
   );
 
-  final CryptopleaseClient _cryptopleaseClient;
+  final EspressoCashClient _ecClient;
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
 
@@ -29,7 +29,7 @@ class WalletService {
   Future<void> _postCountry(String? countryCode) async {
     if (countryCode != null) {
       final request = WalletCountryRequestDto(countryCode: countryCode);
-      await _cryptopleaseClient.updateUserWalletCountry(request);
+      await _ecClient.updateUserWalletCountry(request);
     }
     await _sharedPreferences.setBool(_countrySyncedKey, true);
   }

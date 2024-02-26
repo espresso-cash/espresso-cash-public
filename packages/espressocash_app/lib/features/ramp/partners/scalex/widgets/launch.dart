@@ -99,7 +99,7 @@ extension BuildContextExt on BuildContext {
                 Amount.fromDecimal(value: decimal, currency: Currency.usdc)
                     as CryptoAmount;
 
-            final order = await sl<CryptopleaseClient>().fetchScalexTransaction(
+            final order = await sl<EspressoCashClient>().fetchScalexTransaction(
               OrderStatusScalexRequestDto(referenceId: reference),
             );
 

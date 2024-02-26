@@ -5,32 +5,31 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/back_button.dart';
 import '../../../../ui/theme.dart';
 
-class PayPage extends StatelessWidget {
-  const PayPage({
+class PayDetailsPage extends StatelessWidget {
+  const PayDetailsPage({
     super.key,
     this.headerIcon,
-    required this.headerContent,
     required this.content,
     required this.title,
     required this.headerBackground,
+    this.backgroundColor,
   });
 
   final String title;
   final AssetGenImage? headerIcon;
   final AssetGenImage headerBackground;
-  final Widget headerContent;
   final Widget content;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
             leading: const CpBackButton(),
-            title: Text(
-              title.toUpperCase(),
-            ),
+            title: Text(title.toUpperCase()),
           ),
           extendBodyBehindAppBar: true,
+          backgroundColor: backgroundColor,
           body: LayoutBuilder(
             builder: (context, viewportConstraints) => SingleChildScrollView(
               child: ConstrainedBox(
@@ -38,14 +37,20 @@ class PayPage extends StatelessWidget {
                   minHeight: viewportConstraints.maxHeight,
                 ),
                 child: IntrinsicHeight(
-                  child: Column(
+                  child: Stack(
                     children: [
                       _Header(
                         icon: headerIcon,
-                        content: headerContent,
                         background: headerBackground,
                       ),
-                      Expanded(child: content),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: viewportConstraints.maxHeight * 0.4,
+                          ),
+                          Expanded(child: content),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -59,47 +64,24 @@ class PayPage extends StatelessWidget {
 class _Header extends StatelessWidget {
   const _Header({
     this.icon,
-    required this.content,
     required this.background,
   });
 
   final AssetGenImage? icon;
   final AssetGenImage background;
-  final Widget content;
 
   @override
   Widget build(BuildContext context) => AspectRatio(
-        aspectRatio: 428 / 453,
+        aspectRatio: 420 / 480,
         child: Stack(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.center,
           children: [
             background.image(
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.paddingOf(context).top,
-                  ),
-                  if (icon case final icon?)
-                    Expanded(
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: icon.image(),
-                      ),
-                    ),
-                  const SizedBox(height: 18),
-                  content,
-                ],
-              ),
-            ),
+            if (icon case final icon?) icon.image(height: 160),
           ],
         ),
       );

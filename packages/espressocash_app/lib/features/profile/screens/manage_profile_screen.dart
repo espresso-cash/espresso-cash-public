@@ -81,7 +81,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
             final request = WalletCountryRequestDto(
               countryCode: newCountryCode,
             );
-            await sl<CryptopleaseClient>().updateUserWalletCountry(request);
+            await sl<EspressoCashClient>().updateUserWalletCountry(request);
             sl<IntercomService>().updateCountry(newCountryCode);
           }
 

@@ -21,7 +21,6 @@ abstract class SearchCoingeckoClient {
 
   @GET('/search')
   @Extra({maxAgeOption: Duration(hours: 1)})
-  // ignore: avoid-missing-interpolation, valid case
   Future<SearchResponseDto> search(@Query('query') String query);
 
   @GET('/coins/markets')

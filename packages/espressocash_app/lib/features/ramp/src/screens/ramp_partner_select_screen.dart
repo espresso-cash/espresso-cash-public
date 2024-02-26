@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/theme.dart';
+import '../../../wallet_flow/widgets/pay_main_page.dart';
 import '../../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
-import '../widgets/ramp_page.dart';
+import 'ramp_more_options_screen.dart';
 
 @RoutePage()
 class RampPartnerSelectScreen extends StatelessWidget {
@@ -29,119 +28,44 @@ class RampPartnerSelectScreen extends StatelessWidget {
   final ValueSetter<RampPartner> onPartnerSelected;
 
   @override
-  Widget build(BuildContext context) => RampPage(
+  Widget build(BuildContext context) => PayMainPage(
+        title: switch (type) {
+          RampType.onRamp => context.l10n.ramp_btnAddCash,
+          RampType.offRamp => context.l10n.ramp_btnCashOut,
+        }
+            .toUpperCase(),
         headerIcon: switch (type) {
           RampType.onRamp => Assets.images.cashInGraphic,
           RampType.offRamp => Assets.images.cashOutGraphic,
         },
-        headerContent: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 300,
-              child: Text(
-                switch (type) {
-                  RampType.onRamp => context.l10n.onRampTopPartnerTitle,
-                  RampType.offRamp => context.l10n.offRampTopPartnerTitle,
-                },
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            CpButton(
-              text: context.l10n.ramp_btnContinue,
-              width: double.infinity,
-              size: CpButtonSize.big,
-              trailing: const Padding(
-                padding: EdgeInsets.only(right: 8),
-                child: _Arrow(),
-              ),
-              onPressed: () => onPartnerSelected(topPartner),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              context.l10n.rampMinimumTransferAmount(topPartner.minimumAmount),
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 13, color: Colors.white),
-            ),
-            const SizedBox(height: 24),
-          ],
-        ),
-        content: Column(
-          children: [
-            const SizedBox(height: 27),
-            const _OtherPartnersTitle(),
-            const SizedBox(height: 5),
-            for (final partner in otherPartners)
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 7,
-                  horizontal: 18,
-                ),
-                child: ListTile(
-                  tileColor: const Color(0xff413D3F),
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(91)),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-                  title: Text(
-                    partner.title,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  subtitle: Text(
-                    context.l10n
-                        .rampMinimumTransferAmount(partner.minimumAmount),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  trailing: const _Arrow(color: Colors.white),
-                  onTap: () => onPartnerSelected(partner),
-                ),
-              ),
-          ],
-        ),
-        type: type,
-      );
-}
-
-class _OtherPartnersTitle extends StatelessWidget {
-  const _OtherPartnersTitle();
-
-  @override
-  Widget build(BuildContext context) => Text(
-        context.l10n.rampOtherPartnersTitle,
-        style: TextStyle(
-          fontSize: 17,
-          fontWeight: FontWeight.w500,
-          color: CpTheme.of(context).primaryTextColor,
-        ),
-      );
-}
-
-class _Arrow extends StatelessWidget {
-  const _Arrow({this.color});
-
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) => RotatedBox(
-        quarterTurns: 2,
-        child: Assets.icons.arrow.svg(
-          height: 14,
-          color: color ?? const Color(0xFF2D2B2C),
+        headerBackground: switch (type) {
+          RampType.onRamp => Assets.images.cashInBg,
+          RampType.offRamp => Assets.images.cashOutBg,
+        },
+        theme: switch (type) {
+          RampType.onRamp => PayTheme.dark,
+          RampType.offRamp => PayTheme.light,
+        },
+        description: switch (type) {
+          RampType.onRamp => context.l10n.onRampTopPartnerTitle,
+          RampType.offRamp => context.l10n.offRampTopPartnerTitle,
+        },
+        subtitle:
+            context.l10n.rampMinimumTransferAmount(topPartner.minimumAmount),
+        moreOptionsLabel: switch (type) {
+          RampType.onRamp => context.l10n.onRampMorePartnersFooter,
+          RampType.offRamp => context.l10n.offRampMorePartnersFooter,
+        },
+        onContinue: () => onPartnerSelected(topPartner),
+        onMoreOptions: () => context.router.push(
+          RampMoreOptionsPartnerScreen.route(
+            type: type,
+            otherPartners: otherPartners,
+            onPartnerSelected: (partner) {
+              context.router.pop();
+              onPartnerSelected(partner);
+            },
+          ),
         ),
       );
 }

@@ -8,12 +8,12 @@ part of 'client.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _CryptopleaseClient implements CryptopleaseClient {
-  _CryptopleaseClient(
+class _EspressoCashClient implements EspressoCashClient {
+  _EspressoCashClient(
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://cryptoplease-link.web.app/api/v1';
+    baseUrl ??= 'https://api.espressocash.com/api/v1';
   }
 
   final Dio _dio;

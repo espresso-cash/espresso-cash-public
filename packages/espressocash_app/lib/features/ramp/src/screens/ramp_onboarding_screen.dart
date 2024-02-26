@@ -7,6 +7,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../routes.gr.dart';
 import '../../../../ui/button.dart';
+import '../../../../ui/colors.dart';
 import '../../../../ui/text_field.dart';
 import '../../../country_picker/models/country.dart';
 import '../../../country_picker/widgets/country_picker.dart';
@@ -94,8 +95,8 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
         ),
         content: ColoredBox(
           color: switch (widget.rampType) {
-            RampType.onRamp => _onRampBgColor,
-            RampType.offRamp => _offRampBgColor,
+            RampType.onRamp => CpColors.darkOrangeBackgroundColor,
+            RampType.offRamp => CpColors.goldBackgroundColor,
           },
           child: SafeArea(
             top: false,
@@ -168,9 +169,6 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
         type: widget.rampType,
       );
 }
-
-const _onRampBgColor = Color(0xFFD06022);
-const _offRampBgColor = Color(0xFFC8B57D);
 
 const _onRampTextfieldColor = Color(0xFFB84D12);
 const _offRampTextfieldColor = Color(0xFF9D8A59);
