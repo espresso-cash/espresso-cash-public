@@ -18,7 +18,7 @@ class CpUserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double fontSize = (_fontSizeFactor * radius).roundToDouble();
-    final String text = substring(userName, 0, 1).toUpperCase();
+    final String text = substring(userName, 0, 2).toUpperCase();
 
     return CircleAvatar(
       radius: radius,
@@ -40,4 +40,4 @@ class CpUserAvatar extends StatelessWidget {
   }
 }
 
-const _fontSizeFactor = 1.1667;
+const _fontSizeFactor = 1.0;
