@@ -1,16 +1,15 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
 import '../../investments/widgets/home_widget.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
 import '../data/transaction_repository.dart';
-import '../screens/activities_screen.dart';
 import '../services/bloc.dart';
 import 'transaction_item.dart';
 
@@ -87,9 +86,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () => context.router.navigate(
-                          ActivitiesScreen.route(goToTransactions: true),
-                        ),
+                        onPressed: () => context.goNamed(Routes.activities),
                       ),
                     ],
                   ),
@@ -123,8 +120,7 @@ class _NoActivity extends StatelessWidget {
                 minWidth: 120,
                 size: CpButtonSize.wide,
                 text: context.l10n.yes,
-                onPressed: () =>
-                    context.router.navigate(WalletFlowScreen.route()),
+                onPressed: () => context.goNamed(Routes.wallet),
               ),
             ],
           ),

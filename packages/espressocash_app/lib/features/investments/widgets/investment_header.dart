@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -10,6 +11,7 @@ import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
@@ -105,8 +107,7 @@ class _Buttons extends StatelessWidget {
                           minWidth: 250,
                           size: CpButtonSize.wide,
                           text: context.l10n.sendMoney,
-                          onPressed: () =>
-                              context.router.navigate(WalletFlowScreen.route()),
+                          onPressed: () => context.goNamed(Routes.wallet),
                         ),
                       ),
                       const SizedBox(width: 8),

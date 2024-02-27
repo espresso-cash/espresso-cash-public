@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,6 +11,7 @@ import 'features/analytics/analytics_manager.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/investments/screens/main_screen.dart';
+import 'features/profile/screens/profile_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
@@ -20,13 +23,13 @@ abstract class Routes {
   const Routes._();
 
   static const signIn = 'signIn';
-  static const getStarted = 'getStarted';
   static const getStartedTerms = 'getStartedTerms';
   static const getStartedPrivacy = 'getStartedPrivacy';
   static const getStartedRestore = 'getStartedRestore';
   static const home = 'home';
   static const wallet = 'wallet';
   static const activities = 'activities';
+  static const profile = 'profile';
 }
 
 final goRouter = GoRouter(
@@ -53,11 +56,6 @@ final goRouter = GoRouter(
         GoRoute(
           name: Routes.signIn,
           path: '/sign-in',
-          builder: (context, state) => const SplashScreen(),
-        ),
-        GoRoute(
-          name: Routes.getStarted,
-          path: '/get-started',
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
             transitionDuration: const Duration(milliseconds: 1000),
@@ -99,6 +97,13 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HomeScreen(child: MainScreen()),
           ),
+          routes: [
+            GoRoute(
+              name: Routes.profile,
+              path: 'profile',
+              builder: (context, state) => const ProfileScreen(),
+            ),
+          ],
         ),
         GoRoute(
           name: Routes.wallet,

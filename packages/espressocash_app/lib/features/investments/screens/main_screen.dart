@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/currency.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
@@ -15,7 +17,6 @@ import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../onboarding/onboarding.dart';
-import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../widgets/home_carousel.dart';
 import '../widgets/investing_widget.dart';
@@ -84,8 +85,7 @@ class _MainScreenState extends State<MainScreen> {
                           icon: Assets.icons.settingsButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () =>
-                              context.router.push(ProfileScreen.route()),
+                          onPressed: () => context.goNamed(Routes.profile),
                         ),
                         const SizedBox(width: 12),
                       ],

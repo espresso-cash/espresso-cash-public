@@ -35,52 +35,75 @@ class GetStartedScreen extends StatefulWidget {
 class _GetStartedScreenState extends State<GetStartedScreen> {
   void _handleSignInPressed() => context.goNamed(Routes.getStartedRestore);
 
+  late final Future<void> _imagesCache;
+
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.yellowSplashBackgroundColor,
-          body: Stack(
-            children: [
-              Align(
-                child: Assets.images.dollarBg.image(
-                  fit: BoxFit.fitHeight,
-                  height: double.infinity,
-                ),
-              ),
-              SafeArea(
-                minimum: EdgeInsets.only(top: 70.h),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: constraints.copyWith(
-                        minHeight: constraints.maxHeight,
-                        maxHeight: double.infinity,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Expanded(child: Center(child: SplashLogo())),
-                            Column(
-                              children: [
-                                const _Body(),
-                                24.verticalSpace,
-                                _Footer(
-                                  isSaga: isSaga,
-                                  onSignInPressed: _handleSignInPressed,
-                                ),
-                              ],
-                            ),
-                          ],
+  void initState() {
+    super.initState();
+
+    _imagesCache = Future(
+      () => Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _imagesCache,
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.done
+            ? CpTheme.dark(
+                child: Scaffold(
+                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  body: Stack(
+                    children: [
+                      Align(
+                        child: Assets.images.dollarBg.image(
+                          fit: BoxFit.fitHeight,
+                          height: double.infinity,
                         ),
                       ),
-                    ),
+                      SafeArea(
+                        minimum: EdgeInsets.only(top: 70.h),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) =>
+                              SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: constraints.copyWith(
+                                minHeight: constraints.maxHeight,
+                                maxHeight: double.infinity,
+                              ),
+                              child: IntrinsicHeight(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Expanded(
+                                      child: Center(child: SplashLogo()),
+                                    ),
+                                    Column(
+                                      children: [
+                                        const _Body(),
+                                        24.verticalSpace,
+                                        _Footer(
+                                          isSaga: isSaga,
+                                          onSignInPressed: _handleSignInPressed,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : const SplashScreen(),
       );
 }
 
