@@ -111,11 +111,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
-          appBar: CpAppBar(
-            leading: widget.hasBackButton
-                ? CpBackButton(onPressed: () => context.router.pop())
-                : null,
-          ),
+          appBar: CpAppBar(),
           extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(

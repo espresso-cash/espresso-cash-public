@@ -11,6 +11,7 @@ import 'features/analytics/analytics_manager.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/investments/screens/main_screen.dart';
+import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
@@ -30,6 +31,7 @@ abstract class Routes {
   static const wallet = 'wallet';
   static const activities = 'activities';
   static const profile = 'profile';
+  static const manageProfile = 'manageProfile';
 }
 
 final goRouter = GoRouter(
@@ -101,7 +103,19 @@ final goRouter = GoRouter(
             GoRoute(
               name: Routes.profile,
               path: 'profile',
-              builder: (context, state) => const ProfileScreen(),
+              pageBuilder: (context, state) => const MaterialPage(
+                fullscreenDialog: true,
+                child: ProfileScreen(),
+              ),
+              routes: [
+                GoRoute(
+                  name: Routes.manageProfile,
+                  path: 'manage',
+                  builder: (context, state) => ManageProfileScreen(
+                    onSubmitted: () {},
+                  ),
+                ),
+              ],
             ),
           ],
         ),

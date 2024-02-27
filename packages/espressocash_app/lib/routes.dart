@@ -94,9 +94,7 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
             AutoRoute(page: AppLockDisableRoute.page),
           ],
         ),
-        AutoRoute(page: ProfileRoute.page, fullscreenDialog: true),
         AutoRoute(page: ManageProfileRoute.page),
-        AutoRoute(page: CountryPickerRoute.page),
         AutoRoute(
           page: OnboardingFlowRoute.page,
           children: [
