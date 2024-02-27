@@ -15,6 +15,7 @@ import 'config.dart';
 import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
 import 'features/accounts/module.dart';
+import 'features/accounts/services/account_service.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 
@@ -45,6 +46,7 @@ Future<void> _init() async {
   await Firebase.initializeApp();
 
   await configureDependencies();
+  await sl<AccountService>().initialize();
 
   Bloc.observer = Observer();
 
