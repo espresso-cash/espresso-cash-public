@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
@@ -12,6 +13,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -19,7 +21,6 @@ import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
-import 'restore_account_screen.dart';
 
 @RoutePage()
 class GetStartedScreen extends StatefulWidget {
@@ -32,14 +33,7 @@ class GetStartedScreen extends StatefulWidget {
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => context.router.push(
-        RestoreAccountScreen.route(
-          onMnemonicConfirmed: _handleMnemonicConfirmed,
-        ),
-      );
-
-  void _handleMnemonicConfirmed() =>
-      context.read<SignInBloc>().add(const SignInEvent.submitted());
+  void _handleSignInPressed() => context.goNamed(Routes.getStartedRestore);
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(

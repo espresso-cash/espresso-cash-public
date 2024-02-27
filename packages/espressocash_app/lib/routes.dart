@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
-import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'routes.gr.dart';
 
 @AutoRouterConfig(
@@ -22,10 +21,10 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         resolver.route.name == WebViewRoute.name) {
       resolver.next();
     } else {
-      resolver.redirect(
-        SignInFlowScreen.route(onSignedIn: () => resolver.next(true)),
-        replace: true,
-      );
+      // resolver.redirect(
+      //   SignInFlowScreen.route(onSignedIn: () => resolver.next(true)),
+      //   replace: true,
+      // );
     }
   }
 

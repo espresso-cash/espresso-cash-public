@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'di.dart';
-import 'features/accounts/services/account_service.dart';
-import 'features/analytics/analytics_manager.dart';
 import 'features/app_lock/app_lock.dart';
 import 'l10n/gen/app_localizations.dart';
 import 'routes.dart';
+import 'routing.dart';
 import 'ui/theme.dart';
 
 class EspressoCashApp extends StatefulWidget {
@@ -31,12 +29,7 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
         theme: const CpThemeData.light(),
         child: Builder(
           builder: (context) => MaterialApp.router(
-            routerConfig: _router.config(
-              reevaluateListenable: sl<AccountService>(),
-              navigatorObservers: () => [
-                sl<AnalyticsManager>().analyticsObserver,
-              ],
-            ),
+            routerConfig: goRouter,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
             debugShowCheckedModeBanner: false,

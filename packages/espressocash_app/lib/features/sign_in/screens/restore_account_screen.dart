@@ -12,14 +12,9 @@ import '../widgets/mnemonic_input_formatter.dart';
 
 @RoutePage()
 class RestoreAccountScreen extends StatefulWidget {
-  const RestoreAccountScreen({
-    super.key,
-    required this.onMnemonicConfirmed,
-  });
+  const RestoreAccountScreen({super.key});
 
   static const route = RestoreAccountRoute.new;
-
-  final VoidCallback onMnemonicConfirmed;
 
   @override
   State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
@@ -30,10 +25,9 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   bool _mnemonicIsValid = false;
 
   void _restoreAccount() {
-    context
-        .read<SignInBloc>()
-        .add(SignInEvent.existingLocalWalletRequested(_controller.text.trim()));
-    widget.onMnemonicConfirmed();
+    context.read<SignInBloc>()
+      ..add(SignInEvent.existingLocalWalletRequested(_controller.text.trim()))
+      ..add(const SignInEvent.submitted());
   }
 
   @override
