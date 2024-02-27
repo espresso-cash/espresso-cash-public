@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/flow.dart';
@@ -9,6 +10,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
@@ -157,8 +159,10 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         child: ListTile(
-          onTap: () =>
-              context.router.push(TokenDetailsScreen.route(token: token)),
+          onTap: () => context.pushNamed(
+            Routes.tokenDetails,
+            pathParameters: {'id': token.address},
+          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

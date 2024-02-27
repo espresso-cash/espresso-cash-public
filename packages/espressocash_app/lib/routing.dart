@@ -10,12 +10,16 @@ import 'features/activities/screens/activities_screen.dart';
 import 'features/analytics/analytics_manager.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
+import 'features/investments/screens/investments_screen.dart';
 import 'features/investments/screens/main_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
+import 'features/token_details/screens/token_details_screen.dart';
+import 'features/token_search/screens/token_search_screen.dart';
+import 'features/tokens/token_list.dart';
 import 'features/wallet_flow/screens/wallet_flow_screen.dart';
 import 'ui/splash_screen.dart';
 import 'ui/web_view_screen.dart';
@@ -32,6 +36,9 @@ abstract class Routes {
   static const activities = 'activities';
   static const profile = 'profile';
   static const manageProfile = 'manageProfile';
+  static const investments = 'investments';
+  static const searchToken = 'searchToken';
+  static const tokenDetails = 'tokenDetails';
 }
 
 final goRouter = GoRouter(
@@ -89,31 +96,64 @@ final goRouter = GoRouter(
       ],
     ),
     ShellRoute(
+      navigatorKey: _authenticatedNavigatorKey,
       pageBuilder: (context, state, child) => NoTransitionPage(
         child: AuthenticatedFlowScreen(child: child),
       ),
       routes: [
-        GoRoute(
-          name: Routes.home,
-          path: '/home',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: HomeScreen(child: MainScreen()),
+        ShellRoute(
+          pageBuilder: (context, state, child) => NoTransitionPage(
+            child: HomeScreen(child: child),
           ),
           routes: [
             GoRoute(
-              name: Routes.profile,
-              path: 'profile',
-              pageBuilder: (context, state) => const MaterialPage(
-                fullscreenDialog: true,
-                child: ProfileScreen(),
+              name: Routes.home,
+              path: '/home',
+              pageBuilder: (context, state) => const NoTransitionPage(
+                child: MainScreen(),
               ),
               routes: [
                 GoRoute(
-                  name: Routes.manageProfile,
-                  path: 'manage',
-                  builder: (context, state) => ManageProfileScreen(
-                    onSubmitted: () {},
+                  name: Routes.investments,
+                  path: 'investments',
+                  builder: (context, state) => const InvestmentsScreen(),
+                  routes: [
+                    GoRoute(
+                      name: Routes.searchToken,
+                      path: 'search-token',
+                      builder: (context, state) => const TokenSearchScreen(),
+                    ),
+                    GoRoute(
+                      name: Routes.tokenDetails,
+                      path: 'token/:id',
+                      builder: (context, state) {
+                        print(state.pathParameters);
+
+                        return TokenDetailsScreen(
+                          token: sl<TokenList>()
+                              .requireTokenByMint(state.pathParameters['id']!),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                GoRoute(
+                  parentNavigatorKey: _authenticatedNavigatorKey,
+                  name: Routes.profile,
+                  path: 'profile',
+                  pageBuilder: (context, state) => const MaterialPage(
+                    fullscreenDialog: true,
+                    child: ProfileScreen(),
                   ),
+                  routes: [
+                    GoRoute(
+                      name: Routes.manageProfile,
+                      path: 'manage',
+                      builder: (context, state) => ManageProfileScreen(
+                        onSubmitted: () {},
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -137,6 +177,8 @@ final goRouter = GoRouter(
     ),
   ],
 );
+
+final _authenticatedNavigatorKey = GlobalKey<NavigatorState>();
 
 Widget _fadeTransitionBuilder(
   BuildContext _,

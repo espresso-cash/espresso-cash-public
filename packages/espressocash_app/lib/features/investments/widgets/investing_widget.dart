@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
@@ -8,6 +9,7 @@ import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
@@ -62,7 +64,7 @@ class _StartInvestmentBanner extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () => context.router.push(InvestmentsScreen.route()),
+              onTap: () => context.goNamed(Routes.investments),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [

@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
@@ -63,8 +65,7 @@ class InvestmentsScreen extends StatelessWidget {
                           icon: Assets.icons.searchButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () =>
-                              context.router.push(TokenSearchScreen.route()),
+                          onPressed: () => context.goNamed(Routes.searchToken),
                         ),
                         const SizedBox(width: 12),
                       ],
