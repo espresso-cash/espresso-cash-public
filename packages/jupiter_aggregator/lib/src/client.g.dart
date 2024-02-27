@@ -15,7 +15,7 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
   }) {
     baseUrl ??= String.fromEnvironment(
     'QUOTE_API_BASE',
-    defaultValue: 'https://public.jupiterapi.com',
+    defaultValue: 'https://quote-api.jup.ag/v6',
   );
   }
 

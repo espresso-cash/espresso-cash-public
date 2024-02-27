@@ -28,8 +28,10 @@ start using the package.
 Define environmental variables when launching the app with flags on the command line. For example:
 
 ```bash
-flutter run lib/main.dart --dart-define=QUOTE_API_BASE=https://quote-api.jup.ag/v6
+flutter run lib/main.dart --dart-define=QUOTE_API_BASE=https://public.jupiterapi.com
 ```
+
+You can get Swap API urls from [Jupiter Station](https://station.jup.ag/docs/apis/swap-api), [QuickNode](https://marketplace.quicknode.com/add-on/metis-jupiter-v6-swap-api) or [JupiterAPI.com](https://www.jupiterapi.com/).
 
 ## Additional information
 
