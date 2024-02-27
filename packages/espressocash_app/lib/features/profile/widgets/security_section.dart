@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../../features/legal/flow.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
+import '../../../routing.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/account_service.dart';
 import '../../app_lock/app_lock.dart';
@@ -31,11 +32,11 @@ class SecuritySection extends StatelessWidget {
           ),
           ProfileButton(
             label: context.l10n.termsOfUse,
-            onPressed: () => context.navigateToTermsOfUse(),
+            onPressed: () => context.pushNamed(Routes.terms),
           ),
           ProfileButton(
             label: context.l10n.privacyPolicy,
-            onPressed: () => context.navigateToPrivacyPolicy(),
+            onPressed: () => context.pushNamed(Routes.privacy),
           ),
         ],
       );

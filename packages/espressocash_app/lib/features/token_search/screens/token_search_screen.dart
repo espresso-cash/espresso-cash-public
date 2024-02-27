@@ -159,10 +159,7 @@ class _TokenItem extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
         child: ListTile(
-          onTap: () => context.pushNamed(
-            Routes.tokenDetails,
-            pathParameters: {'id': token.address},
-          ),
+          onTap: () => context.pushNamed(Routes.tokenDetails, extra: token),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

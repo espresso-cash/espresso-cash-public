@@ -35,24 +35,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
       page: AuthenticatedFlowRoute.page,
       transitionsBuilder: TransitionsBuilders.noTransition,
       children: [
-        AutoRoute(
-          path: '',
-          page: HomeRoute.page,
-          children: [
-            // CustomRoute(
-            //   page: InvestmentsFlowRoute.page,
-            //   path: '',
-            //   children: [
-            //     AutoRoute(page: MainRoute.page, path: ''),
-            //     AutoRoute(page: InvestmentsRoute.page),
-            //     AutoRoute(page: TokenSearchRoute.page),
-            //     AutoRoute(page: TokenDetailsRoute.page),
-            //   ],
-            // ),
-            CustomRoute(page: WalletFlowRoute.page, maintainState: false),
-            CustomRoute(page: ActivitiesRoute.page, maintainState: false),
-          ],
-        ),
         CustomRoute(page: PayFlowRoute.page, maintainState: false),
         AutoRoute(
           page: PuzzleReminderRoute.page,
@@ -74,8 +56,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         AutoRoute(page: ODPInputRoute.page),
         AutoRoute(page: ODPDetailsRoute.page),
         AutoRoute(page: ODPConfirmationRoute.page),
-        AutoRoute(page: OLPRoute.page),
-        AutoRoute(page: OLPConfirmationRoute.page),
         AutoRoute(page: ShareLinkRoute.page),
         AutoRoute(page: IncomingLinkPaymentRoute.page),
         AutoRoute(page: QrScannerRoute.page),

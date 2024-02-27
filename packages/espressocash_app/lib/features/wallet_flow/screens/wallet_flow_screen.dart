@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
@@ -9,6 +10,7 @@ import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/shake.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -100,84 +102,7 @@ class _State extends State<WalletFlowScreen> {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
-    final cryptoAmount = _cryptoAmount;
-
-    context.router.push(
-      PayFlowScreen.route(
-        onLink: () {
-          context.router.push(
-            OLPConfirmationScreen.route(
-              tokenAmount: cryptoAmount,
-              onSubmit: () async {
-                final id = await context.createOLP(amount: cryptoAmount);
-                if (!mounted) return;
-
-                await context.router.pop();
-                if (!mounted) return;
-
-                await context.router.replace(OLPScreen.route(id: id));
-                if (!mounted) return;
-
-                _reset();
-              },
-            ),
-          );
-        },
-        onManual: () {
-          context.router.push(
-            ODPInputScreen.route(
-              onSubmit: (Blockchain network, String address) async {
-                if (network == Blockchain.solana) {
-                  final formatted = _cryptoAmount
-                      .format(DeviceLocale.localeOf(context), skipSymbol: true);
-
-                  final recipient = Ed25519HDPublicKey.fromBase58(address);
-
-                  final confirmedFiatAmount =
-                      await context.router.push<Decimal>(
-                    ODPConfirmationScreen.route(
-                      initialAmount: formatted,
-                      recipient: recipient,
-                      label: null,
-                      token: _cryptoCurrency.token,
-                      isEnabled: false,
-                    ),
-                  );
-
-                  if (confirmedFiatAmount == null) return;
-                  if (!mounted) return;
-
-                  final confirmedCryptoAmount = _cryptoAmount.decimal;
-
-                  if (!mounted) return;
-                  final id = await context.createODP(
-                    amountInUsdc: confirmedCryptoAmount,
-                    receiver: recipient,
-                    reference: null,
-                  );
-
-                  if (!mounted) return;
-                  await context.router.pop();
-
-                  if (!mounted) return;
-                  await context.router.replace(ODPDetailsScreen.route(id: id));
-
-                  _reset();
-                } else {
-                  await context.router.push(
-                    OutgoingDlnPaymentConfirmationScreen.route(
-                      amount: _cryptoAmount,
-                      blockchain: network,
-                      receiverAddress: address,
-                    ),
-                  );
-                }
-              },
-            ),
-          );
-        },
-      ),
-    );
+    context.goNamed(Routes.pay, extra: _cryptoAmount);
   }
 
   void _handleSmallAmount(WalletOperation operation) {

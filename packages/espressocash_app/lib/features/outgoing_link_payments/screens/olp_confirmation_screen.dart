@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -8,6 +9,7 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -18,19 +20,30 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
+import '../widgets/extensions.dart';
 
 @RoutePage()
-class OLPConfirmationScreen extends StatelessWidget {
+class OLPConfirmationScreen extends StatefulWidget {
   const OLPConfirmationScreen({
     super.key,
     required this.tokenAmount,
-    required this.onSubmit,
   });
 
   static const route = OLPConfirmationRoute.new;
 
-  final Amount tokenAmount;
-  final VoidCallback onSubmit;
+  final CryptoAmount tokenAmount;
+
+  @override
+  State<OLPConfirmationScreen> createState() => _OLPConfirmationScreenState();
+}
+
+class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
+  Future<void> _handleSubmit() async {
+    final id = await context.createOLP(amount: widget.tokenAmount);
+    if (!mounted) return;
+
+    context.goNamed(Routes.detailsOLP, pathParameters: {'id': id});
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -46,7 +59,7 @@ class OLPConfirmationScreen extends StatelessWidget {
             leading: CpBackButton(onPressed: () => context.router.pop()),
           ),
           body: CpContentPadding(
-            child: _TokenCreateLinkContent(amount: tokenAmount),
+            child: _TokenCreateLinkContent(amount: widget.tokenAmount),
           ),
           bottomNavigationBar: SafeArea(
             child: Padding(
@@ -58,7 +71,7 @@ class OLPConfirmationScreen extends StatelessWidget {
                   const SizedBox(height: 21),
                   CpButton(
                     width: double.infinity,
-                    onPressed: onSubmit,
+                    onPressed: _handleSubmit,
                     text: context.l10n.create,
                   ),
                 ],

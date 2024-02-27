@@ -130,10 +130,7 @@ class _Buttons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: _minExtent,
-            child: CpBackButton(onPressed: () => context.router.pop()),
-          ),
+          const SizedBox(height: _minExtent, child: CpBackButton()),
           if (!token.canBeSwapped)
             Expanded(
               child: Opacity(

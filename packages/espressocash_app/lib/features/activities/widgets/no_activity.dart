@@ -1,11 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
+import '../../../routing.dart';
 
 class NoActivity extends StatelessWidget {
   const NoActivity({super.key});
@@ -25,8 +25,7 @@ class NoActivity extends StatelessWidget {
               text: context.l10n.requestOrSendPayment,
               width: double.infinity,
               size: CpButtonSize.big,
-              onPressed: () =>
-                  context.router.navigate(WalletFlowScreen.route()),
+              onPressed: () => context.goNamed(Routes.wallet),
             ),
             const Spacer(),
             const SizedBox(height: cpNavigationBarheight),

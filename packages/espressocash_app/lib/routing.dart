@@ -1,9 +1,10 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: cast_nullable_to_non_nullable
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import 'config.dart';
+import 'core/amount.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'features/activities/screens/activities_screen.dart';
@@ -12,6 +13,8 @@ import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/investments/screens/investments_screen.dart';
 import 'features/investments/screens/main_screen.dart';
+import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
+import 'features/outgoing_link_payments/screens/olp_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
@@ -19,17 +22,17 @@ import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/token_details/screens/token_details_screen.dart';
 import 'features/token_search/screens/token_search_screen.dart';
-import 'features/tokens/token_list.dart';
+import 'features/tokens/token.dart';
+import 'features/wallet_flow/screens/pay_flow_screen.dart';
 import 'features/wallet_flow/screens/wallet_flow_screen.dart';
-import 'ui/splash_screen.dart';
 import 'ui/web_view_screen.dart';
 
 abstract class Routes {
   const Routes._();
 
   static const signIn = 'signIn';
-  static const getStartedTerms = 'getStartedTerms';
-  static const getStartedPrivacy = 'getStartedPrivacy';
+  static const terms = 'getStartedTerms';
+  static const privacy = 'getStartedPrivacy';
   static const getStartedRestore = 'getStartedRestore';
   static const home = 'home';
   static const wallet = 'wallet';
@@ -39,6 +42,9 @@ abstract class Routes {
   static const investments = 'investments';
   static const searchToken = 'searchToken';
   static const tokenDetails = 'tokenDetails';
+  static const pay = 'pay';
+  static const confirmOLP = 'confirmOLP';
+  static const detailsOLP = 'detailsOLP';
 }
 
 final goRouter = GoRouter(
@@ -51,7 +57,8 @@ final goRouter = GoRouter(
       return '/home';
     }
 
-    if (!isLoggedIn && !state.uri.path.startsWith('/sign-in')) {
+    if (!isLoggedIn &&
+        !['/sign-in', '/terms', '/privacy'].contains(state.uri.path)) {
       return '/sign-in';
     }
   },
@@ -59,6 +66,20 @@ final goRouter = GoRouter(
     sl<AnalyticsManager>().analyticsObserver,
   ],
   routes: [
+    GoRoute(
+      name: Routes.terms,
+      path: '/terms',
+      builder: (context, state) => WebViewScreen(
+        url: Uri.parse(termsUrl),
+      ),
+    ),
+    GoRoute(
+      name: Routes.privacy,
+      path: '/privacy',
+      builder: (context, state) => WebViewScreen(
+        url: Uri.parse(privacyUrl),
+      ),
+    ),
     ShellRoute(
       builder: (context, state, child) => SignInFlowScreen(child: child),
       routes: [
@@ -72,20 +93,6 @@ final goRouter = GoRouter(
             transitionsBuilder: _fadeTransitionBuilder,
           ),
           routes: [
-            GoRoute(
-              name: Routes.getStartedTerms,
-              path: 'terms',
-              builder: (context, state) => WebViewScreen(
-                url: Uri.parse(termsUrl),
-              ),
-            ),
-            GoRoute(
-              name: Routes.getStartedPrivacy,
-              path: 'privacy',
-              builder: (context, state) => WebViewScreen(
-                url: Uri.parse(privacyUrl),
-              ),
-            ),
             GoRoute(
               name: Routes.getStartedRestore,
               path: 'restore',
@@ -125,15 +132,10 @@ final goRouter = GoRouter(
                     ),
                     GoRoute(
                       name: Routes.tokenDetails,
-                      path: 'token/:id',
-                      builder: (context, state) {
-                        print(state.pathParameters);
-
-                        return TokenDetailsScreen(
-                          token: sl<TokenList>()
-                              .requireTokenByMint(state.pathParameters['id']!),
-                        );
-                      },
+                      path: 'token',
+                      builder: (context, state) => TokenDetailsScreen(
+                        token: state.extra as Token,
+                      ),
                     ),
                   ],
                 ),
@@ -165,6 +167,24 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HomeScreen(child: WalletFlowScreen()),
           ),
+          routes: [
+            GoRoute(
+              name: Routes.pay,
+              path: 'pay',
+              builder: (context, state) => PayFlowScreen(
+                amount: state.extra as CryptoAmount,
+              ),
+              routes: [
+                GoRoute(
+                  name: Routes.confirmOLP,
+                  path: 'confirm-olp',
+                  builder: (context, state) => OLPConfirmationScreen(
+                    tokenAmount: state.extra as CryptoAmount,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           name: Routes.activities,
@@ -172,6 +192,15 @@ final goRouter = GoRouter(
           pageBuilder: (context, state) => const NoTransitionPage(
             child: HomeScreen(child: ActivitiesScreen()),
           ),
+          routes: [
+            GoRoute(
+              name: Routes.detailsOLP,
+              path: 'details-olp/:id',
+              builder: (context, state) => OLPScreen(
+                id: state.pathParameters['id']!,
+              ),
+            ),
+          ],
         ),
       ],
     ),

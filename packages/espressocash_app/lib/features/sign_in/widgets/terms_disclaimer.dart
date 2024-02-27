@@ -18,14 +18,14 @@ class TermsDisclaimer extends StatelessWidget {
             TextSpan(
               text: context.l10n.terms,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => context.goNamed(Routes.getStartedTerms),
+                ..onTap = () => context.pushNamed(Routes.terms),
               style: const TextStyle(color: CpColors.yellowColor),
             ),
             TextSpan(text: context.l10n.core_and),
             TextSpan(
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => context.goNamed(Routes.getStartedPrivacy),
+                ..onTap = () => context.pushNamed(Routes.privacy),
               style: const TextStyle(color: CpColors.yellowColor),
             ),
           ],
