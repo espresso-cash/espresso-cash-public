@@ -39,16 +39,16 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
           path: '',
           page: HomeRoute.page,
           children: [
-            CustomRoute(
-              page: InvestmentsFlowRoute.page,
-              path: '',
-              children: [
-                AutoRoute(page: MainRoute.page, path: ''),
-                AutoRoute(page: InvestmentsRoute.page),
-                AutoRoute(page: TokenSearchRoute.page),
-                AutoRoute(page: TokenDetailsRoute.page),
-              ],
-            ),
+            // CustomRoute(
+            //   page: InvestmentsFlowRoute.page,
+            //   path: '',
+            //   children: [
+            //     AutoRoute(page: MainRoute.page, path: ''),
+            //     AutoRoute(page: InvestmentsRoute.page),
+            //     AutoRoute(page: TokenSearchRoute.page),
+            //     AutoRoute(page: TokenDetailsRoute.page),
+            //   ],
+            // ),
             CustomRoute(page: WalletFlowRoute.page, maintainState: false),
             CustomRoute(page: ActivitiesRoute.page, maintainState: false),
           ],

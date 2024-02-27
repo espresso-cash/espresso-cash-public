@@ -21,16 +21,11 @@ import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
 
-@immutable
-class HomeRouterKey {
-  const HomeRouterKey(this.value);
-
-  final GlobalKey<AutoRouterState> value;
-}
-
 @RoutePage()
 class AuthenticatedFlowScreen extends StatefulWidget {
-  const AuthenticatedFlowScreen({super.key});
+  const AuthenticatedFlowScreen({super.key, required this.child});
+
+  final Widget child;
 
   static const route = AuthenticatedFlowRoute.new;
 
@@ -40,8 +35,6 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 }
 
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
-  final _homeRouterKey = GlobalKey<AutoRouterState>();
-
   @override
   void didChangeDependencies() {
     precacheImage(Assets.images.cashInBg.provider(), context);
@@ -71,9 +64,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
-                Provider<HomeRouterKey>(
-                  create: (_) => HomeRouterKey(_homeRouterKey),
-                ),
                 const ODPModule(),
                 const OLPModule(),
                 const InvestmentModule(),
@@ -83,14 +73,11 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const PopularTokensModule(),
                 const MobileWalletModule(),
               ],
-              child: AutoRouter(
-                key: _homeRouterKey,
-                builder: (context, child) => MultiProvider(
-                  providers: const [
-                    ILPModule(),
-                  ],
-                  child: child,
-                ),
+              child: MultiProvider(
+                providers: const [
+                  ILPModule(),
+                ],
+                child: widget.child,
               ),
             );
           },

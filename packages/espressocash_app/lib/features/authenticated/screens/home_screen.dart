@@ -1,79 +1,56 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../routes.gr.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
-import '../../activities/screens/activities_screen.dart';
-import '../../investments/screens/investments_flow_screen.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 @RoutePage()
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.child});
 
   static const route = HomeRoute.new;
 
-  @override
-  Widget build(BuildContext context) => AutoTabsRouter(
-        duration: Duration.zero,
-        routes: _pages.map((e) => e.route).toList(),
-        builder: (context, child) {
-          final tabsRouter = AutoTabsRouter.of(context);
+  final Widget child;
 
-          return Scaffold(
-            backgroundColor: Colors.white,
-            extendBody: true,
-            body: child,
-            bottomNavigationBar: CPNavigationBar(
-              items: _pages
-                  .mapIndexed(
-                    (i, p) => CpNavigationButton(
-                      icon: p.icon,
-                      active: tabsRouter.activeIndex == i,
-                      onPressed: () {
-                        if (tabsRouter.activeIndex == i) {
-                          final child = tabsRouter.childControllers.firstOrNull;
-                          if (child is StackRouter) {
-                            child.popUntilRoot();
-                          }
-                        } else {
-                          tabsRouter.setActiveIndex(i);
-                        }
-                      },
-                    ),
-                  )
-                  .toList(),
-            ),
-          );
-        },
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        backgroundColor: Colors.white,
+        extendBody: true,
+        body: child,
+        bottomNavigationBar: CPNavigationBar(
+          items: _pages
+              .mapIndexed(
+                (i, p) => CpNavigationButton(
+                  icon: p.icon,
+                  active: GoRouter.of(context)
+                      .routeInformationProvider
+                      .value
+                      .uri
+                      .path
+                      .startsWith(p.path),
+                  onPressed: () => context.go(p.path),
+                ),
+              )
+              .toList(),
+        ),
       );
 }
 
 final _pages = [
-  _Page(
-    route: InvestmentsFlowScreen.route(),
+  (
+    path: '/home',
     icon: Assets.icons.home,
   ),
-  _Page(
-    route: WalletFlowScreen.route(),
+  (
+    path: '/wallet',
     icon: Assets.icons.wallet,
   ),
-  _Page(
-    route: ActivitiesScreen.route(),
+  (
+    path: '/activities',
     icon: Assets.icons.notifications,
   ),
 ];
-
-@immutable
-class _Page {
-  const _Page({
-    required this.route,
-    required this.icon,
-  });
-
-  final PageRouteInfo route;
-  final SvgGenImage icon;
-}
