@@ -120,17 +120,17 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
 
     try {
       final approve = await _web3Service.approveContract(
-        contractAddress: quote.usdcErc20Address,
-        to: quote.to,
-        amount: quote.approvalAmount,
+        contractAddress: quote.usdcInfo.usdcAddress,
+        amount: quote.usdcInfo.approvalAmount,
+        to: quote.tx.to,
       );
 
       print('approve tx: $approve');
 
       final tx = await _web3Service.sendTransaction(
-        to: quote.to,
-        value: BigInt.from(quote.value),
-        data: quote.data,
+        to: quote.tx.to,
+        value: BigInt.from(quote.tx.value),
+        data: quote.tx.data,
       );
 
       print('tx: $tx');

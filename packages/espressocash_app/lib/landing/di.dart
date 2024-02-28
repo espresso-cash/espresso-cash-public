@@ -18,7 +18,7 @@ abstract class LandingModule {
   const LandingModule();
 
   @LazySingleton(scope: landingScope)
-  CryptopleaseClient cryptopleaseClient() => CryptopleaseClient(
+  EspressoCashClient ecClient() => EspressoCashClient(
         baseUrl: 'http://localhost:8080/api/v1',
         sign: (data) async => null,
       );

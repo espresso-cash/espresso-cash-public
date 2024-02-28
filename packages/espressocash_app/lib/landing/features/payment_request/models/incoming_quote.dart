@@ -1,3 +1,4 @@
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../../core/amount.dart';
@@ -10,10 +11,7 @@ class IncomingPaymentQuote with _$IncomingPaymentQuote {
     required CryptoAmount inputAmount,
     required CryptoAmount receiverAmount,
     required CryptoAmount fee,
-    required String to,
-    required String data,
-    required int value,
-    required int approvalAmount,
-    required String usdcErc20Address,
+    required QuoteTx tx,
+    required QuoteUsdcInfo usdcInfo,
   }) = _IncomingPaymentQuote;
 }

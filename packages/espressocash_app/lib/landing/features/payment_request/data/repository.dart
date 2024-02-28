@@ -10,10 +10,10 @@ import '../models/incoming_quote.dart';
 @LazySingleton(scope: landingScope)
 class IncomingQuoteRepository {
   IncomingQuoteRepository({
-    required CryptopleaseClient cryptopleaseClient,
-  }) : _client = cryptopleaseClient;
+    required EspressoCashClient ecClient,
+  }) : _ecClient = ecClient;
 
-  final CryptopleaseClient _client;
+  final EspressoCashClient _ecClient;
 
   Future<IncomingPaymentQuote> getQuote({
     required CryptoAmount amount,
@@ -22,7 +22,7 @@ class IncomingQuoteRepository {
     required String senderAddress,
     required String? solanaReferenceAddress,
   }) async {
-    final quote = await _client.getIncomingDlnQuote(
+    final quote = await _ecClient.getIncomingDlnQuote(
       IncomingQuoteRequestDto(
         amount: amount.value,
         senderAddress: senderAddress,
@@ -45,11 +45,8 @@ class IncomingQuoteRepository {
         cryptoCurrency: Currency.usdc,
         value: quote.feeInUsdc,
       ),
-      to: quote.to,
-      data: quote.data,
-      value: quote.value,
-      approvalAmount: quote.approvalAmount,
-      usdcErc20Address: quote.usdcErc20Address,
+      tx: quote.tx,
+      usdcInfo: quote.usdcInfo,
     );
   }
 }
