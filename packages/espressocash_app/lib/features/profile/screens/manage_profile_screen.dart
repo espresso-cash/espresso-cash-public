@@ -14,7 +14,6 @@ import '../../../core/email.dart';
 import '../../../data/files/file_manager.dart';
 import '../../../di.dart';
 import '../../../routes.gr.dart';
-import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';

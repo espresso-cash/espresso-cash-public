@@ -2,30 +2,18 @@ import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solana/solana.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../routing.dart';
 import '../../../ui/shake.dart';
-import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/services/amount_ext.dart';
-import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
-import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
-import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
-import '../../outgoing_direct_payments/widgets/extensions.dart';
-import '../../outgoing_dln_payments/screens/confirmation_screen.dart';
-import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
-import '../../outgoing_link_payments/screens/olp_screen.dart';
-import '../../outgoing_link_payments/widgets/extensions.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import 'pay_flow_screen.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
@@ -34,11 +22,8 @@ final _minimumAmount = Amount.fromDecimal(
   currency: Currency.usd,
 ) as FiatAmount;
 
-@RoutePage()
 class WalletFlowScreen extends StatefulWidget {
   const WalletFlowScreen({super.key});
-
-  static const route = WalletFlowRoute.new;
 
   @override
   State<WalletFlowScreen> createState() => _State();

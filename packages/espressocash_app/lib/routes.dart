@@ -68,14 +68,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         AutoRoute(page: SwapFlowRoute.page),
         AutoRoute(page: ProcessSwapRoute.page),
         AutoRoute(
-          page: AppLockSetupFlowRoute.page,
-          children: [
-            AutoRoute(page: AppLockEnableRoute.page),
-            AutoRoute(page: AppLockDisableRoute.page),
-          ],
-        ),
-        AutoRoute(page: ManageProfileRoute.page),
-        AutoRoute(
           page: OnboardingFlowRoute.page,
           children: [
             AutoRoute(page: NoEmailAndPasswordRoute.page),
@@ -97,19 +89,6 @@ class AppRouter extends $AppRouter implements AutoRouteGuard {
         AutoRoute(page: OnRampOrderRoute.page),
         AutoRoute(page: OutgoingDlnPaymentConfirmationRoute.page),
         AutoRoute(page: OutgoingDlnPaymentDetailsRoute.page),
-      ],
-    ),
-    AutoRoute(
-      page: SignInFlowRoute.page,
-      children: [
-        CustomRoute(
-          page: GetStartedRoute.page,
-          durationInMilliseconds: 1000,
-          transitionsBuilder: TransitionsBuilders.fadeIn,
-          initial: true,
-        ),
-        AutoRoute(page: RestoreAccountRoute.page),
-        AutoRoute(page: WebViewRoute.page),
       ],
     ),
   ];

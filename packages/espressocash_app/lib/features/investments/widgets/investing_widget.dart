@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +14,6 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
-import '../screens/investments_screen.dart';
 import 'home_widget.dart';
 import 'portfolio_tile.dart';
 

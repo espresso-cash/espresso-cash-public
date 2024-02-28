@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +8,6 @@ import '../../../core/flow.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
@@ -17,20 +15,16 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
-import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../models/crypto_categories.dart';
 import '../services/bloc.dart';
 import '../widgets/discover_header.dart';
 
-@RoutePage()
 class TokenSearchScreen extends StatelessWidget {
   const TokenSearchScreen({
     super.key,
     this.category,
   });
-
-  static const route = TokenSearchRoute.new;
 
   final CryptoCategories? category;
 

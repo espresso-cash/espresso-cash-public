@@ -20,7 +20,6 @@ import '../../ramp/widgets/ramp_buttons.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
 
 class InvestmentHeader extends StatefulWidget {
   const InvestmentHeader({super.key});

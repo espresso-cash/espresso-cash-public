@@ -9,6 +9,8 @@ import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'features/activities/screens/activities_screen.dart';
 import 'features/analytics/analytics_manager.dart';
+import 'features/app_lock/screens/app_lock_disable_screen.dart';
+import 'features/app_lock/screens/app_lock_enable_screen.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/investments/screens/investments_screen.dart';
@@ -45,6 +47,8 @@ abstract class Routes {
   static const pay = 'pay';
   static const confirmOLP = 'confirmOLP';
   static const detailsOLP = 'detailsOLP';
+  static const enableAppLock = 'enableAppLock';
+  static const disableAppLock = 'disableAppLock';
 }
 
 final goRouter = GoRouter(
@@ -57,8 +61,8 @@ final goRouter = GoRouter(
       return '/home';
     }
 
-    if (!isLoggedIn &&
-        !['/sign-in', '/terms', '/privacy'].contains(state.uri.path)) {
+    const urlsSafeForLogIn = ['/sign-in', '/terms', '/privacy'];
+    if (!isLoggedIn && !urlsSafeForLogIn.contains(state.uri.path)) {
       return '/sign-in';
     }
   },
@@ -149,11 +153,24 @@ final goRouter = GoRouter(
                   ),
                   routes: [
                     GoRoute(
+                      parentNavigatorKey: _authenticatedNavigatorKey,
                       name: Routes.manageProfile,
                       path: 'manage',
                       builder: (context, state) => ManageProfileScreen(
                         onSubmitted: () {},
                       ),
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: _authenticatedNavigatorKey,
+                      name: Routes.enableAppLock,
+                      path: 'enable-app-lock',
+                      builder: (context, state) => const AppLockEnableScreen(),
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: _authenticatedNavigatorKey,
+                      name: Routes.disableAppLock,
+                      path: 'disable-app-lock',
+                      builder: (context, state) => const AppLockDisableScreen(),
                     ),
                   ],
                 ),

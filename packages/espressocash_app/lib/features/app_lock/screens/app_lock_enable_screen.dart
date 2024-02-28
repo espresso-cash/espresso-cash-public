@@ -1,24 +1,15 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../routes.gr.dart';
-import '../../../../ui/back_button.dart';
-import '../../../../ui/decorated_window/decorated_window.dart';
-import '../widgets/pin_input_display_widget.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/back_button.dart';
+import '../../../ui/decorated_window/decorated_window.dart';
+import '../src/services/app_lock_bloc.dart';
+import '../src/widgets/pin_input_display_widget.dart';
 
-@RoutePage()
 class AppLockEnableScreen extends StatefulWidget {
-  const AppLockEnableScreen({
-    super.key,
-    required this.onFinished,
-    required this.onCanceled,
-  });
-
-  final ValueSetter<String> onFinished;
-  final VoidCallback onCanceled;
-
-  static const route = AppLockEnableRoute.new;
+  const AppLockEnableScreen({super.key});
 
   @override
   State<AppLockEnableScreen> createState() => _AppLockEnableScreenState();
@@ -35,7 +26,8 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
       setState(() => _secondPass = value);
       if (_firstPass == _secondPass) {
         // ignore: avoid-non-null-assertion, cannot be null here
-        widget.onFinished(_firstPass!);
+        context.read<AppLockBloc>().add(AppLockEvent.enable(_firstPass!));
+        context.pop();
       }
     }
   }
@@ -46,7 +38,7 @@ class _AppLockEnableScreenState extends State<AppLockEnableScreen> {
 
   @override
   Widget build(BuildContext context) => DecoratedWindow(
-        backButton: CpBackButton(onPressed: widget.onCanceled),
+        backButton: const CpBackButton(),
         hasLogo: true,
         backgroundStyle: BackgroundStyle.dark,
         child: PinInputDisplayWidget(

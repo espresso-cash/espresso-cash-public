@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -8,13 +9,13 @@ import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import '../screens/investments_screen.dart';
 import '../services/watch_investments.dart';
 import 'home_widget.dart';
 
@@ -85,8 +86,7 @@ class PortfolioTile extends StatelessWidget {
                   text: context.l10n.recentActivitySeeAll,
                   size: CpButtonSize.micro,
                   variant: CpButtonVariant.black,
-                  onPressed: () =>
-                      context.router.push(InvestmentsScreen.route()),
+                  onPressed: () => context.goNamed(Routes.investments),
                 ),
               ],
             ),
