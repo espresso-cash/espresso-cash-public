@@ -53,7 +53,7 @@ class RequestMobilePage extends StatelessWidget {
                                 const Spacer(),
                                 const Padding(
                                   padding: EdgeInsets.all(8.0),
-                                  child: Footer(textColor: Color(0xFFBDBDBD)),
+                                  child: Footer(),
                                 ),
                               ],
                             ),

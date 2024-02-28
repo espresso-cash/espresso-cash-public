@@ -18,7 +18,7 @@ class QrWidget extends StatelessWidget {
         barcode: Barcode.qrCode(),
         data: code,
         padding: const EdgeInsets.all(8),
-        color: Colors.black,
-        backgroundColor: const Color(0xFFF8EAC1),
+        color: Colors.white,
+        backgroundColor: Colors.black,
       );
 }

@@ -204,8 +204,6 @@
   "@landingPayOtherWallet": {},
   "landingPayOtherWallet2": "or select a cryptocurrency to pay with another wallet",
   "@landingPayOtherWallet2": {},
-  "landingPaymentMethod": "Payment method",
-  "@landingPaymentMethod": {},
   "landingExpressCheckout": "Express Checkout",
   "@landingExpressCheckout": {},
   "helpSectionTitle": "HELP",

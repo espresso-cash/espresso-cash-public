@@ -5,9 +5,9 @@ import '../../../core/link_payments.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
-import '../../core/desktop.dart';
+import '../../core/espresso_desktop.dart';
 import '../../core/extensions.dart';
-import '../../core/landing_widget.dart';
+import '../../core/landing_mobile.dart';
 import '../../core/presentation/step_circle.dart';
 
 class LinkPaymentScreen extends StatelessWidget {
@@ -28,31 +28,8 @@ class LinkPaymentScreen extends StatelessWidget {
           )
         : EspressoDesktopView(
             actionLink: actionLink,
-            header: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Color(0xFF2D2B2C),
-                      fontSize: 30,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  Text(
-                    context.l10n.landingInstruction,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Color(0xFF2D2B2C),
-                      fontSize: 19,
-                      fontWeight: FontWeight.w500,
-                      letterSpacing: 0.23,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            title: title,
+            subtitle: context.l10n.landingInstruction,
           );
   }
 }
@@ -71,7 +48,7 @@ class MobileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: LandingMobileWidget(
+        body: LandingMobilePage(
           children: [
             SizedBox(
               height: MediaQuery.sizeOf(context).height * 0.35,

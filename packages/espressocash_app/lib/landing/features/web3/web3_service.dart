@@ -55,7 +55,7 @@ class Web3Service {
     final credentials = await eth.requestAccounts();
 
     final baseGas = await client.getGasPrice();
-    final updatedGas = baseGas.getValueInUnit(EtherUnit.wei) * 1.6;
+    final updatedGas = baseGas.getValueInUnit(EtherUnit.wei) * 1.8;
     final gas = EtherAmount.fromDouble(EtherUnit.wei, updatedGas);
 
     final transaction = Transaction(

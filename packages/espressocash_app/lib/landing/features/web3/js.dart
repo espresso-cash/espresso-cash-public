@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_untyped_parameter, strict_raw_type, inference_failure_on_function_invocation, avoid-recursive-calls, prefer-explicit-type-arguments
+
 import 'package:js/js.dart'
     if (dart.library.io) 'package:webthree/src/browser/js_stub.dart'
     if (dart.library.js) 'package:js/js.dart';

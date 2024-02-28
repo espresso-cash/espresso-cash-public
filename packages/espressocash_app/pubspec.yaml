@@ -51,6 +51,7 @@ dependencies:
   injectable: ^2.3.2
   intercom_flutter: ^8.0.9
   intl: ^0.18.1
+  js: ^0.6.7
   json_annotation: ^4.8.1
   logging: ^1.2.0
   meta: ^1.10.0
@@ -83,7 +84,6 @@ dependencies:
   url_launcher: ^6.2.2
   uuid: ^4.2.2
   webthree: ^2.7.3
-  js: ^0.6.7
 
 dev_dependencies:
   auto_route_generator: ^7.3.2

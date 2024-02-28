@@ -7,13 +7,13 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 import '../../../../l10n/device_locale.dart';
+import '../../../../ui/arrow.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
-import '../../../core/landing_widget.dart';
+import '../../../core/landing_desktop.dart';
 import '../../../di.dart';
 import '../models/request_model.dart';
 import '../service/bloc.dart';
-import '../widgets/countdown.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/invoice.dart';
 
@@ -67,13 +67,11 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
     super.dispose();
   }
 
+  // isMobile ? const _MobileView() : const _DesktopView(),
   @override
-  Widget build(BuildContext context) => Scaffold(
-        // body: isMobile ? const _MobileView() : const _DesktopView(),
-        body: _DesktopView(
-          onConfirm: _onConfirmed,
-          onChainChanged: _onChainChanged,
-        ),
+  Widget build(BuildContext context) => _DesktopView(
+        onConfirm: _onConfirmed,
+        onChainChanged: _onChainChanged,
       );
 }
 
@@ -93,35 +91,31 @@ class _DesktopView extends StatelessWidget {
           final request = state.request;
           final chain = state.sender?.blockchain;
 
-          final chainLabel =
-              chain != null ? 'on ${chain.displayName} network' : '';
+          final inputAmount =
+              request?.requestAmount.format(context.locale, maxDecimals: 2) ??
+                  0;
 
-          final String title =
-              'Pay ${request?.receiverName ?? ''} with USDC $chainLabel';
+          final receiver = request?.receiverName != null
+              ? 'to ${request?.receiverName}'
+              : '';
+
+          final String title = 'Pay $inputAmount $receiver';
 
           return CpLoader(
             isLoading: state.flowState.isProcessing,
-            child: LandingDesktopWidget(
-              header: HeaderDesktop(
-                title: title,
-                trailing:
-                    state.flowState.isProcessing || state.expiresAt == null
-                        ? null
-                        : CountdownTimer(expiryDate: state.expiresAt),
-                showBackButton: true,
-              ),
+            child: LandingDesktopPage(
+              title: title,
               content: Column(
                 children: [
-                  const SizedBox(height: 16),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Select your network:',
+                        'Payment network',
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(width: 24),
@@ -131,54 +125,75 @@ class _DesktopView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
-                  const Divider(),
                   const SizedBox(height: 24),
+                  const Divider(color: borderColor),
+                  const Spacer(),
                   _Content(
                     children: [
                       Row(
                         children: [
-                          const Text('Amount Requested'),
+                          const Text(
+                            'Amount Requested',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const Spacer(),
                           Text(
                             state.inputAmount
                                 .format(context.locale, maxDecimals: 2),
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
                       ),
+                      const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text('Network Fee'),
+                          const Text(
+                            'Network Fee',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const Spacer(),
                           Text(
                             state.fee.format(context.locale, maxDecimals: 2),
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
                       ),
-                      const Divider(),
+                      const SizedBox(height: 8),
                       Row(
                         children: [
-                          const Text('Total'),
+                          const Text(
+                            'Total',
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                           const Spacer(),
                           Text(
                             state.totalAmount
                                 .format(context.locale, maxDecimals: 2),
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      const SizedBox(height: 48),
                       CpButton(
-                        text: 'Pay Now',
-                        width: 250,
+                        text: 'Pay with Metamask',
+                        size: CpButtonSize.big,
+                        width: 500,
+                        trailing: const Arrow(),
                         onPressed: state.quote != null ? onConfirm : null,
                       ),
                     ],
