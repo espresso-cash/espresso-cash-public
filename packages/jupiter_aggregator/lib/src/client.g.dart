@@ -14,9 +14,9 @@ class _JupiterAggregatorClient implements JupiterAggregatorClient {
     this.baseUrl,
   }) {
     baseUrl ??= String.fromEnvironment(
-    'QUOTE_API_BASE',
-    defaultValue: 'https://quote-api.jup.ag/v6',
-  );
+      'QUOTE_API_BASE',
+      defaultValue: 'https://quote-api.jup.ag/v6',
+    );
   }
 
   final Dio _dio;
