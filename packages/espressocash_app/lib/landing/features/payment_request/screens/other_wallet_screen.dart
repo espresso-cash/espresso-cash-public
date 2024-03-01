@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
@@ -44,7 +45,7 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
         IncomingPaymentRequest(
           receiverAddress: request.recipient.toBase58(),
           requestAmount: Amount.fromDecimal(
-            value: request.amount!,
+            value: request.amount ?? Decimal.zero,
             currency: Currency.usdc,
           ) as CryptoAmount,
           solanaReferenceAddress: request.reference?.first.toBase58(),
@@ -244,12 +245,15 @@ class _MobileView extends StatelessWidget {
                         .format(context.locale, maxDecimals: 2),
                   ),
                   const SizedBox(height: 32),
-                  CpButton(
-                    text: 'Pay with Metamask',
-                    size: CpButtonSize.big,
-                    width: 500,
-                    trailing: const Arrow(),
-                    onPressed: state.quote != null ? onConfirm : null,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: CpButton(
+                      text: 'Pay with Metamask',
+                      size: CpButtonSize.big,
+                      width: 500,
+                      trailing: const Arrow(),
+                      onPressed: state.quote != null ? onConfirm : null,
+                    ),
                   ),
                   if (request?.solanaReferenceAddress
                       case final reference?) ...[

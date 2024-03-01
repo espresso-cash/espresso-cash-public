@@ -253,11 +253,7 @@ extension IncomingPaymentStateExt on IncomingPaymentState {
       quote?.inputAmount ??
       const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
-  CryptoAmount get receiverAmount =>
-      quote?.receiverAmount ??
-      const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
-
-  CryptoAmount get totalAmount => (receiverAmount + fee) as CryptoAmount;
+  CryptoAmount get totalAmount => (inputAmount + fee) as CryptoAmount;
 }
 
 @freezed
