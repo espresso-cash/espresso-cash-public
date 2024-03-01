@@ -1,50 +1,102 @@
 import 'package:flutter/material.dart';
 
-import '../../gen/assets.gen.dart';
+import '../../../../gen/assets.gen.dart';
 import 'presentation/footer.dart';
 
 class LandingMobilePage extends StatelessWidget {
-  const LandingMobilePage({super.key, required this.children});
+  const LandingMobilePage({
+    super.key,
+    required this.header,
+    required this.content,
+  });
 
-  final List<Widget> children;
+  final Widget header;
+  final Widget content;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(color: Color(0xffB4A270)),
-        child: Stack(
-          children: [
-            Align(
-              child: Assets.images.dollarBg.image(
-                fit: BoxFit.fitHeight,
-                height: double.infinity,
-                alignment: Alignment.center,
+  Widget build(BuildContext context) => Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) => DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xffB4A270),
+                  Colors.white,
+                ],
+                stops: [0.49, 0.5],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
               ),
             ),
-            LayoutBuilder(
-              builder: (context, constraints) => SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: constraints.copyWith(
-                    minHeight: constraints.maxHeight,
-                    maxHeight: double.infinity,
-                  ),
-                  child: IntrinsicHeight(
-                    child: Center(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(children: children),
-                          ),
-                          const Spacer(),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 12),
-                            child: Footer(),
-                          ),
-                        ],
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: constraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: constraints.maxHeight * 0.33,
+                        child: _Header(content: header),
                       ),
-                    ),
+                      Expanded(
+                        child: ColoredBox(
+                          color: Colors.white,
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              children: [
+                                Expanded(child: content),
+                                const Padding(
+                                  padding: EdgeInsets.only(top: 16, bottom: 8),
+                                  child: Footer(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class _Header extends StatelessWidget {
+  const _Header({
+    required this.content,
+  });
+
+  final Widget content;
+
+  @override
+  Widget build(BuildContext context) => ColoredBox(
+        color: const Color(0xffB4A270),
+        child: Stack(
+          children: [
+            Center(
+              child: Assets.images.dollarBg.image(
+                fit: BoxFit.fitWidth,
+                alignment: Alignment.topLeft,
+                width: double.infinity,
+              ),
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: content,
+              ),
+            ),
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Assets.images.logoDark.image(height: 35),
               ),
             ),
           ],

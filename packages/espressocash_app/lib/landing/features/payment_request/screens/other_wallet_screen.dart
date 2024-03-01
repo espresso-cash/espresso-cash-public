@@ -7,13 +7,14 @@ import '../../../../core/currency.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 import '../../../../l10n/device_locale.dart';
-import '../../../../ui/arrow.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
 import '../../../core/landing_desktop.dart';
+import '../../../core/landing_mobile.dart';
 import '../../../di.dart';
 import '../models/request_model.dart';
 import '../service/bloc.dart';
+import '../widgets/arrow.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/invoice.dart';
 
@@ -67,7 +68,6 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
     super.dispose();
   }
 
-  // isMobile ? const _MobileView() : const _DesktopView(),
   @override
   Widget build(BuildContext context) => _DesktopView(
         onConfirm: _onConfirmed,
@@ -93,7 +93,7 @@ class _DesktopView extends StatelessWidget {
 
           final inputAmount =
               request?.requestAmount.format(context.locale, maxDecimals: 2) ??
-                  0;
+                  '0';
 
           final receiver = request?.receiverName != null
               ? 'to ${request?.receiverName}'
@@ -107,9 +107,9 @@ class _DesktopView extends StatelessWidget {
               title: title,
               content: Column(
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       const Text(
                         'Payment network',
@@ -128,75 +128,27 @@ class _DesktopView extends StatelessWidget {
                   const SizedBox(height: 24),
                   const Divider(color: borderColor),
                   const Spacer(),
-                  _Content(
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Amount Requested',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            state.inputAmount
-                                .format(context.locale, maxDecimals: 2),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Text(
-                            'Network Fee',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            state.fee.format(context.locale, maxDecimals: 2),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Text(
-                            'Total',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            state.totalAmount
-                                .format(context.locale, maxDecimals: 2),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 48),
-                      CpButton(
-                        text: 'Pay with Metamask',
-                        size: CpButtonSize.big,
-                        width: 500,
-                        trailing: const Arrow(),
-                        onPressed: state.quote != null ? onConfirm : null,
-                      ),
-                    ],
+                  _Item(
+                    label: 'Amount Requested',
+                    value: state.inputAmount
+                        .format(context.locale, maxDecimals: 2),
+                  ),
+                  _Item(
+                    label: 'Network Fee',
+                    value: state.fee.format(context.locale, maxDecimals: 2),
+                  ),
+                  _Item(
+                    label: 'Total',
+                    value: state.totalAmount
+                        .format(context.locale, maxDecimals: 2),
+                  ),
+                  const SizedBox(height: 32),
+                  CpButton(
+                    text: 'Pay with Metamask',
+                    size: CpButtonSize.big,
+                    width: 500,
+                    trailing: const Arrow(),
+                    onPressed: state.quote != null ? onConfirm : null,
                   ),
                   if (request?.solanaReferenceAddress
                       case final reference?) ...[
@@ -212,155 +164,136 @@ class _DesktopView extends StatelessWidget {
       );
 }
 
-class _Content extends StatelessWidget {
-  const _Content({required this.children});
-  final List<Widget> children;
+class _MobileView extends StatelessWidget {
+  const _MobileView({required this.onConfirm, required this.onChainChanged});
+
+  final VoidCallback onConfirm;
+  final ValueChanged<Blockchain> onChainChanged;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: Column(
-            children: children,
-          ),
-        ),
+  Widget build(BuildContext context) =>
+      BlocBuilder<IncomingPaymentBloc, IncomingPaymentState>(
+        builder: (context, state) {
+          final request = state.request;
+          final chain = state.sender?.blockchain;
+
+          final inputAmount =
+              request?.requestAmount.format(context.locale, maxDecimals: 2) ??
+                  '0';
+
+          return CpLoader(
+            isLoading: state.flowState.isProcessing,
+            child: LandingMobilePage(
+              header: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    request?.receiverName == null
+                        ? 'You have a request of'
+                        : '${request?.receiverName} is requesting',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 23,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.23,
+                    ),
+                  ),
+                  Text(
+                    inputAmount,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -1,
+                    ),
+                  ),
+                ],
+              ),
+              content: Column(
+                children: [
+                  const Spacer(),
+                  const Text(
+                    'Payment network',
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  BlockchainDropDown(
+                    current: chain ?? Blockchain.ethereum,
+                    onBlockchainChanged: onChainChanged,
+                  ),
+                  const SizedBox(height: 16),
+                  const Divider(color: borderColor),
+                  const SizedBox(height: 24),
+                  _Item(
+                    label: 'Amount Requested',
+                    value: state.inputAmount
+                        .format(context.locale, maxDecimals: 2),
+                  ),
+                  _Item(
+                    label: 'Network Fee',
+                    value: state.fee.format(context.locale, maxDecimals: 2),
+                  ),
+                  _Item(
+                    label: 'Total',
+                    value: state.totalAmount
+                        .format(context.locale, maxDecimals: 2),
+                  ),
+                  const SizedBox(height: 32),
+                  CpButton(
+                    text: 'Pay with Metamask',
+                    size: CpButtonSize.big,
+                    width: 500,
+                    trailing: const Arrow(),
+                    onPressed: state.quote != null ? onConfirm : null,
+                  ),
+                  if (request?.solanaReferenceAddress
+                      case final reference?) ...[
+                    const Spacer(),
+                    InvoiceWidget(address: reference),
+                  ],
+                ],
+              ),
+            ),
+          );
+        },
       );
 }
 
-// class _MobileView extends StatelessWidget {
-//   const _MobileView();
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.label,
+    required this.value,
+  });
+  final String label;
+  final String value;
 
-//   @override
-//   Widget build(BuildContext context) =>
-//       BlocBuilder<IncomingPaymentBloc, IncomingPaymentState>(
-//         builder: (context, state) {
-//           final chain = state.selectedChain ?? Blockchain.solana;
-//           final request = context.read<SolanaPayRequest>();
-
-//           final String title =
-//               'Pay ${request.label ?? ''} with USDC on ${chain.name} network';
-
-//           return CpLoader(
-//             isLoading: state.processingState.isProcessing,
-//             child: RequestMobilePage(
-//               header: Stack(
-//                 children: [
-//                   Align(
-//                     alignment: Alignment.bottomRight,
-//                     child: Padding(
-//                       padding: const EdgeInsets.all(16),
-//                       child: CountdownTimer(expiryDate: state.expiresAt),
-//                     ),
-//                   ),
-//                   Align(
-//                     child: QrWidget(code: state.destinationEvmAddress),
-//                   ),
-//                 ],
-//               ),
-//               content: Padding(
-//                 padding: const EdgeInsets.all(12.0),
-//                 child: Column(
-//                   children: [
-//                     const SizedBox(height: 24),
-//                     const RequestStatus(),
-//                     Container(
-//                       width: 75,
-//                       height: 75,
-//                       decoration: const ShapeDecoration(
-//                         color: Color(0xFFEFEFEF),
-//                         shape: OvalBorder(),
-//                       ),
-//                       child: Center(
-//                         child: UsdcLogoWidget(chain, size: 38),
-//                       ),
-//                     ),
-//                     const SizedBox(height: 8),
-//                     Padding(
-//                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-//                       child: Text(
-//                         title,
-//                         textAlign: TextAlign.center,
-//                         style: const TextStyle(
-//                           color: Colors.black,
-//                           fontSize: 20,
-//                           fontWeight: FontWeight.w500,
-//                           letterSpacing: 0.23,
-//                         ),
-//                       ),
-//                     ),
-//                     const SizedBox(height: 28),
-//                     Text(
-//                       '${chain.name} Address',
-//                       textAlign: TextAlign.center,
-//                       style: const TextStyle(
-//                         color: Color(0xFF2D2B2C),
-//                         fontSize: 17,
-//                         fontWeight: FontWeight.w500,
-//                         letterSpacing: 0.23,
-//                       ),
-//                     ),
-//                     const SizedBox(height: 4),
-//                     _BubbleWidget(
-//                       content: Text(
-//                         state.destinationEvmAddress,
-//                         textAlign: TextAlign.center,
-//                         style: const TextStyle(
-//                           color: Colors.white,
-//                           fontSize: 16,
-//                           fontWeight: FontWeight.w500,
-//                         ),
-//                       ),
-//                       textToCopy: state.destinationEvmAddress,
-//                     ),
-//                     const SizedBox(height: 12),
-//                     Text(
-//                       context.l10n.landingTotalAmount,
-//                       textAlign: TextAlign.center,
-//                       style: const TextStyle(
-//                         color: Color(0xFF2D2B2C),
-//                         fontSize: 17,
-//                         fontWeight: FontWeight.w500,
-//                         letterSpacing: 0.23,
-//                       ),
-//                     ),
-//                     const SizedBox(height: 4),
-//                     _BubbleWidget(
-//                       content: Column(
-//                         children: [
-//                           Text(
-//                             '${state.totalAmount ?? ''} USDC',
-//                             style: const TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 16,
-//                               fontWeight: FontWeight.w500,
-//                             ),
-//                           ),
-//                           Text(
-//                             context.l10n.landingNetworkFee(
-//                               chain.name,
-//                               '${state.fee ?? '0'}',
-//                             ),
-//                             textAlign: TextAlign.center,
-//                             style: const TextStyle(
-//                               color: Colors.white,
-//                               fontSize: 14,
-//                               fontWeight: FontWeight.w400,
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                       textToCopy: state.fee.toString(),
-//                     ),
-//                     if (request.reference?.first case final reference?) ...[
-//                       const SizedBox(height: 24),
-//                       InvoiceWidget(address: reference.toBase58()),
-//                       const SizedBox(height: 4),
-//                     ],
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           );
-//         },
-//       );
-// }
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+        constraints: const BoxConstraints(maxWidth: 500),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      );
+}

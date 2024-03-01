@@ -3,9 +3,7 @@ import 'package:flutter/widgets.dart';
 import '../../../../gen/assets.gen.dart';
 
 class Arrow extends StatelessWidget {
-  const Arrow({super.key, this.color});
-
-  final Color? color;
+  const Arrow({super.key});
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -14,7 +12,7 @@ class Arrow extends StatelessWidget {
           quarterTurns: 2,
           child: Assets.icons.arrow.svg(
             height: 14,
-            color: color ?? const Color(0xFF2D2B2C),
+            color: const Color(0xFF2D2B2C),
           ),
         ),
       );
