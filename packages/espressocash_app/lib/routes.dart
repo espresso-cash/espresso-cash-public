@@ -1,23 +1,38 @@
 import 'package:auto_route/auto_route.dart';
 
+import 'di.dart';
+import 'features/accounts/services/account_service.dart';
+import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'routes.gr.dart';
 
 @AutoRouterConfig(
   replaceInRouteName: 'Screen,Route',
   deferredLoading: false,
 )
-class AppRouter extends $AppRouter {
+class AppRouter extends $AppRouter implements AutoRouteGuard {
   @override
   RouteType get defaultRouteType => const RouteType.material();
 
   @override
+  void onNavigation(NavigationResolver resolver, StackRouter router) {
+    if (sl<AccountService>().value != null ||
+        resolver.route.name == SignInFlowRoute.name ||
+        resolver.route.name == GetStartedRoute.name ||
+        resolver.route.name == RestoreAccountRoute.name ||
+        resolver.route.name == WebViewRoute.name) {
+      resolver.next();
+    } else {
+      resolver.redirect(
+        SignInFlowScreen.route(onSignedIn: () => resolver.next(true)),
+        replace: true,
+      );
+    }
+  }
+
+  @override
   final List<AutoRoute> routes = [
     CustomRoute(
-      page: SplashRoute.page,
-      transitionsBuilder: TransitionsBuilders.noTransition,
       initial: true,
-    ),
-    CustomRoute(
       page: AuthenticatedFlowRoute.page,
       transitionsBuilder: TransitionsBuilders.noTransition,
       children: [
@@ -111,18 +126,13 @@ class AppRouter extends $AppRouter {
       page: SignInFlowRoute.page,
       children: [
         CustomRoute(
-          page: SplashRoute.page,
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          initial: true,
-        ),
-        CustomRoute(
           page: GetStartedRoute.page,
           durationInMilliseconds: 1000,
           transitionsBuilder: TransitionsBuilders.fadeIn,
+          initial: true,
         ),
         AutoRoute(page: RestoreAccountRoute.page),
         AutoRoute(page: WebViewRoute.page),
-        AutoRoute(page: CountryPickerRoute.page),
       ],
     ),
   ];

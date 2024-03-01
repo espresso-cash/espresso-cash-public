@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';
@@ -8,7 +7,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../accounts/models/account.dart';
 import '../../../accounts/models/ec_wallet.dart';
-import '../../../accounts/services/accounts_bloc.dart';
+import '../../../accounts/services/account_service.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_flow_screen.dart';
 
@@ -24,7 +23,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
   void initState() {
     super.initState();
 
-    final account = context.read<AccountsBloc>().state.account;
+    final account = sl<AccountService>().value;
     if (account?.accessMode == const AccessMode.seedInputted() ||
         account?.wallet is SagaWallet) {
       sl<OnboardingRepository>().hasConfirmedPassphrase = true;

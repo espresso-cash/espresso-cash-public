@@ -7,9 +7,10 @@ class DangerSection extends StatelessWidget {
         context,
         title: context.l10n.signOut,
         message: context.l10n.signOutConfirmation,
-        onConfirm: () {
-          context.read<AccountsBloc>().add(const AccountsEvent.loggedOut());
-        },
+        onConfirm: () => runWithLoader(
+          context,
+          () => sl<AccountService>().logOut(),
+        ),
         confirmLabel: context.l10n.yesDeleteMyWallet,
       );
 
