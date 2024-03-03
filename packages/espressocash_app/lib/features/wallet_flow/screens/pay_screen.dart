@@ -18,8 +18,8 @@ import '../../outgoing_dln_payments/screens/confirmation_screen.dart';
 import '../../outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import '../widgets/pay_main_page.dart';
 
-class PayFlowScreen extends StatefulWidget {
-  const PayFlowScreen({
+class PayScreen extends StatefulWidget {
+  const PayScreen({
     super.key,
     required this.amount,
   });
@@ -27,10 +27,10 @@ class PayFlowScreen extends StatefulWidget {
   final CryptoAmount amount;
 
   @override
-  State<PayFlowScreen> createState() => _PayFlowScreenState();
+  State<PayScreen> createState() => _PayScreenState();
 }
 
-class _PayFlowScreenState extends State<PayFlowScreen> {
+class _PayScreenState extends State<PayScreen> {
   void _handlePrimaryPressed() =>
       OLPConfirmationRoute(widget.amount).push<void>(context);
 
@@ -101,5 +101,5 @@ class PayRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      PayFlowScreen(amount: $extra);
+      PayScreen(amount: $extra);
 }

@@ -46,7 +46,7 @@ class HomeShellRoute extends ShellRouteData {
       HomeScreen(child: navigator);
 }
 
-final _pages = [
+final List<({SvgGenImage icon, String path})> _pages = [
   (
     path: '/home',
     icon: Assets.icons.home,

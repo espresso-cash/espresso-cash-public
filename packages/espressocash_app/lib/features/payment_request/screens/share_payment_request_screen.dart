@@ -18,7 +18,6 @@ import '../widgets/share_qr_code.dart';
 class SharePaymentRequestScreen extends StatelessWidget {
   const SharePaymentRequestScreen({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     final request = context.watch<PaymentRequest>();

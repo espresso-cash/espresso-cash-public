@@ -62,8 +62,8 @@ import 'features/token_search/screens/token_search_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
-import 'features/wallet_flow/screens/pay_flow_screen.dart';
-import 'features/wallet_flow/screens/wallet_flow_screen.dart';
+import 'features/wallet_flow/screens/pay_screen.dart';
+import 'features/wallet_flow/screens/wallet_screen.dart';
 import 'ui/web_view_screen.dart';
 
 part 'routing.g.dart';

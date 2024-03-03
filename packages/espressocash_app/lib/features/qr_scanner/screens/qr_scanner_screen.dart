@@ -108,8 +108,7 @@ class _ContentState extends State<_Content> {
     }
   }
 
-  void _onScanComplete([QrScannerRequest? request]) =>
-      context.pop(request);
+  void _onScanComplete([QrScannerRequest? request]) => context.pop(request);
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(

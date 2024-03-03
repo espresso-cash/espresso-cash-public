@@ -5,7 +5,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../routing.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
+import '../../wallet_flow/screens/wallet_screen.dart';
 
 class NoActivity extends StatelessWidget {
   const NoActivity({super.key});

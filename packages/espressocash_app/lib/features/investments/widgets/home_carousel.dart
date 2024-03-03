@@ -6,7 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
+import '../../wallet_flow/screens/wallet_screen.dart';
 import 'home_widget.dart';
 
 class HomeCarouselWidget extends StatefulWidget {

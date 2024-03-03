@@ -14,7 +14,7 @@ import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
 import '../../tokens/token.dart';
-import '../widgets/extensions.dart';
+import 'extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({

@@ -1,5 +1,5 @@
 import 'package:espressocash_app/features/sign_in/screens/get_started_screen.dart';
-import 'package:espressocash_app/features/wallet_flow/screens/wallet_flow_screen.dart';
+import 'package:espressocash_app/features/wallet_flow/screens/wallet_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'utils.dart';
@@ -13,6 +13,6 @@ void main() {
 
   testGoldensWidget(
     'WalletFlowScreen',
-    const Scaffold(body: WalletFlowScreen()),
+    const Scaffold(body: WalletScreen()),
   );
 }

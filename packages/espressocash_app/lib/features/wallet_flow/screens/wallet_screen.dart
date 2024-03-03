@@ -14,8 +14,8 @@ import '../../conversion_rates/services/amount_ext.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import 'pay_flow_screen.dart';
-import 'wallet_main_screen.dart';
+import '../widgets/wallet_tab_view.dart';
+import 'pay_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
 final _minimumAmount = Amount.fromDecimal(
@@ -23,14 +23,14 @@ final _minimumAmount = Amount.fromDecimal(
   currency: Currency.usd,
 ) as FiatAmount;
 
-class WalletFlowScreen extends StatefulWidget {
-  const WalletFlowScreen({super.key});
+class WalletScreen extends StatefulWidget {
+  const WalletScreen({super.key});
 
   @override
-  State<WalletFlowScreen> createState() => _State();
+  State<WalletScreen> createState() => _State();
 }
 
-class _State extends State<WalletFlowScreen> {
+class _State extends State<WalletScreen> {
   final _shakeKey = GlobalKey<ShakeState>();
 
   FiatAmount _fiatAmount = const FiatAmount(
@@ -128,5 +128,5 @@ class WalletRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: HomeScreen(child: WalletFlowScreen()));
+      const NoTransitionPage(child: HomeScreen(child: WalletScreen()));
 }
