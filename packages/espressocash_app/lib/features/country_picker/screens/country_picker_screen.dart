@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -143,7 +144,7 @@ class _ContentState extends State<_Content> {
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () => Navigator.pop(context, country),
+                    onTap: () => context.pop(country),
                   ),
                 );
               },
