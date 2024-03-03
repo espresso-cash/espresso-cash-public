@@ -13,7 +13,7 @@ class CpAppBar extends AppBar {
   }) : super(
           backgroundColor: backgroundColor,
           clipBehavior: Clip.none,
-          leading: leading ?? const CpBackButton(ensureBackNavigation: true),
+          leading: leading ?? const CpBackButton(),
           actions: nextButton != null
               ? [
                   Center(

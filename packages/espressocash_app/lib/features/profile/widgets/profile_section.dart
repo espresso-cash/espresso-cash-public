@@ -1,7 +1,6 @@
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../../config.dart';
@@ -15,6 +14,7 @@ import '../../../di.dart';
 import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/account_service.dart';
+import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 
 part 'danger_section.dart';

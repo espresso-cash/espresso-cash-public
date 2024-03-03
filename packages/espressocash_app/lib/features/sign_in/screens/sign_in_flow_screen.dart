@@ -1,23 +1,19 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/flow.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/account_service.dart';
 import '../services/sign_in_bloc.dart';
 
-@RoutePage()
 class SignInFlowScreen extends StatelessWidget {
   const SignInFlowScreen({super.key, required this.child});
-
-  static const route = SignInFlowRoute.new;
 
   final Widget child;
 
@@ -48,4 +44,12 @@ class SignInFlowScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class SignInFlowRoute extends ShellRouteData {
+  const SignInFlowRoute();
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
+      SignInFlowScreen(child: navigator);
 }

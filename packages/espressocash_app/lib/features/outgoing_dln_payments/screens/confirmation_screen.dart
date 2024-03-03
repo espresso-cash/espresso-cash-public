@@ -1,12 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-import '../../../../routes.gr.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/theme.dart';
 import '../../../core/amount.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../models/payment_quote.dart';
@@ -14,7 +14,6 @@ import '../services/dln_order_service.dart';
 import '../widgets/confirmation.dart';
 import 'details_screen.dart';
 
-@RoutePage()
 class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
   const OutgoingDlnPaymentConfirmationScreen({
     super.key,
@@ -22,8 +21,6 @@ class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
     required this.blockchain,
     required this.amount,
   });
-
-  static const route = OutgoingDlnPaymentConfirmationRoute.new;
 
   final CryptoAmount amount;
   final String receiverAddress;
@@ -38,8 +35,7 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
     final id = await context.createDlnPayment(quote);
 
     if (!mounted) return;
-    context.router.popUntilRoot();
-    await context.router.push(OutgoingDlnPaymentDetailsScreen.route(id: id));
+    OutgoingDlnPaymentDetailsRoute(id).go(context);
   }
 
   @override
@@ -58,6 +54,26 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
         ),
       );
 }
+
+class OutgoingDlnPaymentConfirmationRoute extends GoRouteData {
+  const OutgoingDlnPaymentConfirmationRoute(this.$extra);
+
+  final OutgoingDlnPaymentConfirmationParams $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      OutgoingDlnPaymentConfirmationScreen(
+        amount: $extra.amount,
+        receiverAddress: $extra.receiverAddress,
+        blockchain: $extra.blockchain,
+      );
+}
+
+typedef OutgoingDlnPaymentConfirmationParams = ({
+  CryptoAmount amount,
+  String receiverAddress,
+  Blockchain blockchain,
+});
 
 extension on BuildContext {
   Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(

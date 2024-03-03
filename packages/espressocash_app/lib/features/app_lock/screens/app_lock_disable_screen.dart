@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/decorated_window/decorated_window.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../src/services/app_lock_bloc.dart';
 import '../src/widgets/pin_input_display_widget.dart';
 
@@ -33,4 +34,15 @@ class AppLockDisableScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class AppLockDisableRoute extends GoRouteData {
+  const AppLockDisableRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const AppLockDisableScreen();
 }

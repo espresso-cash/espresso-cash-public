@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,10 +9,12 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/shake.dart';
+import '../../authenticated/screens/home_screen.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
+import 'pay_flow_screen.dart';
 import 'wallet_main_screen.dart';
 
 const _cryptoCurrency = Currency.usdc;
@@ -76,10 +77,7 @@ class _State extends State<WalletFlowScreen> {
     final id = await context.createPayRequest(tokenAmount: _cryptoAmount);
     if (!mounted) return;
 
-    await context.router.navigate(LinkDetailsFlowScreen.route(id: id));
-    if (!mounted) return;
-
-    _reset();
+    SharePaymentRequestRoute(id).go(context);
   }
 
   void _handlePay() {
@@ -87,7 +85,7 @@ class _State extends State<WalletFlowScreen> {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
-    context.goNamed(Routes.pay, extra: _cryptoAmount);
+    PayRoute(_cryptoAmount).go(context);
   }
 
   void _handleSmallAmount(WalletOperation operation) {
@@ -123,4 +121,12 @@ class _State extends State<WalletFlowScreen> {
           error: _errorMessage,
         ),
       );
+}
+
+class WalletRoute extends GoRouteData {
+  const WalletRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      const NoTransitionPage(child: HomeScreen(child: WalletFlowScreen()));
 }

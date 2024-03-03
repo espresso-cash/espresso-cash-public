@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../../../../../ui/colors.dart';
@@ -13,6 +12,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/context_ext.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../data/repository.dart';
@@ -101,7 +101,7 @@ class _TokenItem extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () => context.goNamed(Routes.tokenDetails, extra: token),
+        onTap: () => TokenDetailsRoute(token).go(context),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),

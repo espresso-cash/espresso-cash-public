@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/amount.dart';
@@ -14,6 +13,7 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/services/watch_user_total_fiat_balance.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
+import '../screens/investments_screen.dart';
 import 'home_widget.dart';
 import 'portfolio_tile.dart';
 
@@ -62,7 +62,7 @@ class _StartInvestmentBanner extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             GestureDetector(
-              onTap: () => context.goNamed(Routes.investments),
+              onTap: () => const InvestmentsRoute().go(context),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [

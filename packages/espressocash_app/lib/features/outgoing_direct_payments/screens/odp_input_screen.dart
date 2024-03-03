@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
@@ -15,13 +15,10 @@ import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);
 
-@RoutePage()
 class ODPInputScreen extends StatefulWidget {
   const ODPInputScreen({super.key, required this.onSubmit});
 
   final ODPInputResponse onSubmit;
-
-  static const route = ODPInputRoute.new;
 
   @override
   State<ODPInputScreen> createState() => _ODPInputScreenState();
@@ -42,15 +39,15 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
         _walletAddressController.text,
       );
 
-  void _handleOnNetworkTap() => context.router.push(
-        NetworkPickerScreen.route(
+  void _handleOnNetworkTap() => NetworkPickerRoute(
+        (
           initial: _selectedNetwork,
-          onSubmitted: (network) {
-            context.router.pop();
+          onSubmitted: (Blockchain network) {
+            context.pop();
             setState(() => _selectedNetwork = network);
           },
         ),
-      );
+      ).push<void>(context);
 
   Future<void> _handleOnQrScan() async {
     final code = await context.launchQrForAddress();
@@ -144,6 +141,16 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
           ),
         ),
       );
+}
+
+class ODPInputRoute extends GoRouteData {
+  const ODPInputRoute(this.$extra);
+
+  final ODPInputResponse $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ODPInputScreen(onSubmit: $extra);
 }
 
 class _WalletTextField extends StatelessWidget {

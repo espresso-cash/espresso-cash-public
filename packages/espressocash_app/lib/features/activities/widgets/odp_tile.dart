@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -29,7 +29,6 @@ class ODPTile extends StatelessWidget {
           success: always(CpActivityTileStatus.success),
           txFailure: always(CpActivityTileStatus.failure),
         ),
-        onTap: () =>
-            context.router.navigate(ODPDetailsScreen.route(id: activity.id)),
+        onTap: () => ODPDetailsRoute(activity.id).go(context),
       );
 }

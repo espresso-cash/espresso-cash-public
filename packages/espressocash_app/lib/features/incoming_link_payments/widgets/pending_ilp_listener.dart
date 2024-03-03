@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,6 +5,7 @@ import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/link_payments.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
+import '../../../routing.dart';
 import '../../analytics/analytics_manager.dart';
 import '../screens/incoming_link_payment_screen.dart';
 import 'extensions.dart';
@@ -29,9 +29,7 @@ class _PendingILPListenerState extends State<PendingILPListener> {
     final id = await context.createILP(escrow: escrow);
 
     if (!mounted) return;
-    await context.router.push(
-      IncomingLinkPaymentScreen.route(id: id),
-    );
+    IncomingLinkPaymentRoute(id).go(context);
   }
 
   @override

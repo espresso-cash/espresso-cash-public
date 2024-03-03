@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   async: ^2.11.0
-  auto_route: ^7.8.4
   barcode_widget: ^2.0.4
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.3
@@ -85,7 +84,6 @@ dependencies:
   uuid: ^4.2.2
 
 dev_dependencies:
-  auto_route_generator: ^7.3.2
   bloc_test: ^9.1.5
   build_runner: ^2.4.7
   drift_dev: ^2.14.1
@@ -96,6 +94,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6
+  go_router_builder: ^2.4.1
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
   integration_test:

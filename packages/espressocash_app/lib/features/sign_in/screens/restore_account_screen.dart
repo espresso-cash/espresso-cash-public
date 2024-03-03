@@ -1,20 +1,16 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/mnemonic_input_formatter.dart';
 
-@RoutePage()
 class RestoreAccountScreen extends StatefulWidget {
   const RestoreAccountScreen({super.key});
-
-  static const route = RestoreAccountRoute.new;
 
   @override
   State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
@@ -95,3 +91,11 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
 }
 
 const keyRecoverMnemonic = Key('keyRecoverMnemonic');
+
+class RestoreAccountRoute extends GoRouteData {
+  const RestoreAccountRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const RestoreAccountScreen();
+}

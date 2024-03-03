@@ -1,15 +1,14 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart' hide Notification;
+import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/tab_bar.dart';
+import '../../authenticated/screens/home_screen.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
-@RoutePage()
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({
     super.key,
@@ -17,8 +16,6 @@ class ActivitiesScreen extends StatelessWidget {
   });
 
   final bool? goToTransactions;
-
-  static const route = ActivitiesRoute.new;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +60,14 @@ class ActivitiesScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ActivitiesRoute extends GoRouteData {
+  const ActivitiesRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      const NoTransitionPage(child: HomeScreen(child: ActivitiesScreen()));
 }
 
 const double _padding = 40;

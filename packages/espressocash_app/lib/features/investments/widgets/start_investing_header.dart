@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/crypto_header.dart';
+import '../../token_search/screens/token_search_screen.dart';
 import '../../token_search/widgets/discover_header.dart';
 import '../services/watch_user_has_investments.dart';
 
@@ -28,7 +28,7 @@ class StartInvestingHeader extends StatelessWidget {
                     const SizedBox(height: 12),
                     DiscoverHeader(
                       showTitle: false,
-                      onTap: (it) => context.goNamed(Routes.searchToken),
+                      onTap: (it) => const TokenSearchRoute().go(context),
                     ),
                   ],
                 ),

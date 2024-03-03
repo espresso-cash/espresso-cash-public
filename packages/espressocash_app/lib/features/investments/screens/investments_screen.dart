@@ -17,6 +17,7 @@ import '../../favorite_tokens/widgets/extensions.dart';
 import '../../favorite_tokens/widgets/favorite_tokens_list.dart';
 import '../../popular_tokens/widgets/extensions.dart';
 import '../../popular_tokens/widgets/popular_token_list.dart';
+import '../../token_search/screens/token_search_screen.dart';
 import '../widgets/crypto_investments.dart';
 import '../widgets/popular_crypto_header.dart';
 import '../widgets/start_investing_header.dart';
@@ -59,7 +60,7 @@ class InvestmentsScreen extends StatelessWidget {
                           icon: Assets.icons.searchButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () => context.goNamed(Routes.searchToken),
+                          onPressed: () => const TokenSearchRoute().go(context),
                         ),
                         const SizedBox(width: 12),
                       ],
@@ -91,4 +92,12 @@ class InvestmentsScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class InvestmentsRoute extends GoRouteData {
+  const InvestmentsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const InvestmentsScreen();
 }

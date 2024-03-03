@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import '../../../core/link_payments.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../routing.dart';
 import '../../../saga.dart';
 import '../../../ui/button.dart';
@@ -21,19 +19,17 @@ import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
+import 'restore_account_screen.dart';
 
-@RoutePage()
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
-
-  static const route = GetStartedRoute.new;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => context.goNamed(Routes.getStartedRestore);
+  void _handleSignInPressed() => const RestoreAccountRoute().go(context);
 
   late final Future<void> _imagesCache;
 
@@ -248,3 +244,27 @@ bool _parseUri(Uri? link) {
 
   return LinkPayments.tryParse(link) != null;
 }
+
+class SignInRoute extends GoRouteData {
+  const SignInRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      CustomTransitionPage(
+        key: state.pageKey,
+        transitionDuration: const Duration(milliseconds: 1000),
+        child: const GetStartedScreen(),
+        transitionsBuilder: _fadeTransitionBuilder,
+      );
+}
+
+Widget _fadeTransitionBuilder(
+  BuildContext _,
+  Animation<double> animation,
+  Animation<double> __,
+  Widget child,
+) =>
+    FadeTransition(
+      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+      child: child,
+    );

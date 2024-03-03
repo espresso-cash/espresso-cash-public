@@ -6,7 +6,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/back_button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import '../models/ramp_type.dart';
+import '../../models/ramp_type.dart';
 
 class RampPage extends StatelessWidget {
   const RampPage({

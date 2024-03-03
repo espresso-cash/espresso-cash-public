@@ -1,10 +1,12 @@
-// ignore_for_file: cast_nullable_to_non_nullable
-
+import 'package:decimal/decimal.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
+import 'package:solana/solana.dart';
 
-import 'config.dart';
 import 'core/amount.dart';
+import 'core/currency.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'features/activities/screens/activities_screen.dart';
@@ -13,226 +15,186 @@ import 'features/app_lock/screens/app_lock_disable_screen.dart';
 import 'features/app_lock/screens/app_lock_enable_screen.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
+import 'features/backup_phrase/screens/puzzle_reminder_message_screen.dart';
+import 'features/backup_phrase/screens/puzzle_reminder_setup_screen.dart';
+import 'features/blockchain/models/blockchain.dart';
+import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import 'features/investments/screens/investments_screen.dart';
 import 'features/investments/screens/main_screen.dart';
+import 'features/legal/privacy_screen.dart';
+import 'features/legal/terms_screen.dart';
+import 'features/mobile_wallet/models/remote_request.dart';
+import 'features/mobile_wallet/screens/remote_request_screen.dart';
+import 'features/onboarding/screens/confirm_recovery_phrase_screen.dart';
+import 'features/onboarding/screens/no_email_and_password_screen.dart';
+import 'features/onboarding/screens/onboarding_screen.dart';
+import 'features/onboarding/screens/success_screen.dart';
+import 'features/onboarding/screens/view_recovery_phrase_screen.dart';
+import 'features/outgoing_direct_payments/screens/network_picker_screen.dart';
+import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
+import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
+import 'features/outgoing_direct_payments/screens/odp_input_screen.dart';
+import 'features/outgoing_dln_payments/screens/confirmation_screen.dart';
+import 'features/outgoing_dln_payments/screens/details_screen.dart';
+import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
 import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import 'features/outgoing_link_payments/screens/olp_screen.dart';
+import 'features/outgoing_link_payments/screens/share_link_screen.dart';
+import 'features/payment_request/screens/link_details_flow_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
+import 'features/qr_scanner/screens/qr_scanner_screen.dart';
+import 'features/ramp/models/ramp_partner.dart';
+import 'features/ramp/models/ramp_type.dart';
+import 'features/ramp/screens/off_ramp_order_screen.dart';
+import 'features/ramp/screens/on_ramp_order_screen.dart';
+import 'features/ramp/screens/ramp_amount_screen.dart';
+import 'features/ramp/screens/ramp_more_options_screen.dart';
+import 'features/ramp/screens/ramp_onboarding_screen.dart';
+import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
+import 'features/swap/screens/process_swap_screen.dart';
+import 'features/swap/screens/swap_flow_screen.dart';
 import 'features/token_details/screens/token_details_screen.dart';
 import 'features/token_search/screens/token_search_screen.dart';
 import 'features/tokens/token.dart';
+import 'features/view_phrase/screens/quiz_intro_screen.dart';
+import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_flow_screen.dart';
 import 'features/wallet_flow/screens/wallet_flow_screen.dart';
 import 'ui/web_view_screen.dart';
 
-abstract class Routes {
-  const Routes._();
+part 'routing.g.dart';
 
-  static const signIn = 'signIn';
-  static const terms = 'getStartedTerms';
-  static const privacy = 'getStartedPrivacy';
-  static const getStartedRestore = 'getStartedRestore';
-  static const home = 'home';
-  static const wallet = 'wallet';
-  static const activities = 'activities';
-  static const profile = 'profile';
-  static const manageProfile = 'manageProfile';
-  static const investments = 'investments';
-  static const searchToken = 'searchToken';
-  static const tokenDetails = 'tokenDetails';
-  static const pay = 'pay';
-  static const confirmOLP = 'confirmOLP';
-  static const detailsOLP = 'detailsOLP';
-  static const enableAppLock = 'enableAppLock';
-  static const disableAppLock = 'disableAppLock';
+@TypedShellRoute<AppRoute>(
+  routes: [
+    TypedGoRoute<TermsRoute>(path: '/terms'),
+    TypedGoRoute<PrivacyRoute>(path: '/privacy'),
+    TypedGoRoute<WebViewRoute>(path: '/web-view'),
+    TypedShellRoute<SignInFlowRoute>(
+      routes: [
+        TypedGoRoute<SignInRoute>(
+          path: '/sign-in',
+          routes: [
+            TypedGoRoute<RestoreAccountRoute>(path: 'restore'),
+          ],
+        ),
+      ],
+    ),
+    TypedShellRoute<AuthenticatedRoute>(
+      routes: [
+        TypedShellRoute<HomeShellRoute>(
+          routes: [
+            TypedGoRoute<HomeRoute>(
+              path: '/home',
+              routes: [
+                TypedGoRoute<InvestmentsRoute>(
+                  path: 'investments',
+                  routes: [
+                    TypedGoRoute<TokenSearchRoute>(path: 'search-token'),
+                    TypedGoRoute<TokenDetailsRoute>(path: 'token'),
+                  ],
+                ),
+                TypedGoRoute<ProfileRoute>(
+                  path: 'profile',
+                  routes: [
+                    TypedGoRoute<ManageProfileRoute>(path: 'manage'),
+                    TypedGoRoute<AppLockEnableRoute>(path: 'enable-app-lock'),
+                    TypedGoRoute<AppLockDisableRoute>(path: 'disable-app-lock'),
+                    TypedGoRoute<QuizIntroRoute>(path: 'quiz-intro'),
+                    TypedGoRoute<QuizRoute>(path: 'quiz'),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+        TypedGoRoute<WalletRoute>(
+          path: '/wallet',
+          routes: [
+            TypedGoRoute<PayRoute>(path: 'pay'),
+          ],
+        ),
+        TypedGoRoute<ActivitiesRoute>(
+          path: '/activities',
+          routes: [
+            TypedGoRoute<OLPRoute>(path: 'olp/:id'),
+            TypedGoRoute<ProcessSwapRoute>(path: 'process-swap/:id'),
+            TypedGoRoute<OffRampOrderRoute>(path: 'off-ramp/:id'),
+            TypedGoRoute<OnRampOrderRoute>(path: 'on-ramp/:id'),
+            TypedGoRoute<ODPDetailsRoute>(path: 'odp/:id'),
+            TypedGoRoute<IncomingLinkPaymentRoute>(path: 'details-ilp/:id'),
+            TypedGoRoute<ShareLinkRoute>(path: 'share-link'),
+            TypedGoRoute<SharePaymentRequestRoute>(
+              path: 'share-payment-request/:id',
+            ),
+            TypedGoRoute<OutgoingDlnPaymentDetailsRoute>(
+              path: 'details-outgoing-dln-payment/:id',
+            ),
+          ],
+        ),
+        TypedGoRoute<OnboardingRoute>(path: '/onboarding/profile'),
+        TypedGoRoute<OnboardingNoPasswordRoute>(
+          path: '/onboarding/no-password',
+        ),
+        TypedGoRoute<OnboardingRecoveryPhraseRoute>(
+          path: '/onboarding/recovery-phrase',
+        ),
+        TypedGoRoute<OnboardingConfirmRecoveryPhraseRoute>(
+          path: '/onboarding/confirm-recovery-phrase',
+        ),
+        TypedGoRoute<OnboardingSuccessRoute>(path: '/onboarding/success'),
+        TypedGoRoute<CreateSwapRoute>(path: '/create-swap'),
+        TypedGoRoute<RampPartnerSelectRoute>(path: '/ramp-select-partner'),
+        TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
+        TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),
+        TypedGoRoute<RampOnboardingRoute>(path: '/ramp-onboarding'),
+        TypedGoRoute<QrScannerRoute>(path: '/qr-scanner'),
+        TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
+        TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
+        TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
+        TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
+        TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
+        TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
+        TypedGoRoute<RemoteRequestRoute>(path: '/remote-request'),
+        TypedGoRoute<OutgoingDlnPaymentConfirmationRoute>(
+          path: '/outgoing-dln-payment-confirmation',
+        ),
+      ],
+    ),
+  ],
+)
+class AppRoute extends ShellRouteData {
+  const AppRoute();
+
+  @override
+  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
+      navigator;
 }
 
 final goRouter = GoRouter(
-  initialLocation: '/home',
+  initialLocation: const HomeRoute().location,
   refreshListenable: sl<AccountService>(),
   redirect: (context, state) {
     final isLoggedIn = sl<AccountService>().value != null;
 
-    if (isLoggedIn && state.uri.path.startsWith('/sign-in')) {
-      return '/home';
+    if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
+      return const HomeRoute().location;
     }
 
-    const urlsSafeForLogIn = ['/sign-in', '/terms', '/privacy'];
+    final urlsSafeForLogIn = [
+      const SignInRoute().location,
+      const TermsRoute().location,
+      const PrivacyRoute().location,
+    ];
     if (!isLoggedIn && !urlsSafeForLogIn.contains(state.uri.path)) {
-      return '/sign-in';
+      return const SignInRoute().location;
     }
   },
   observers: [
     sl<AnalyticsManager>().analyticsObserver,
   ],
-  routes: [
-    GoRoute(
-      name: Routes.terms,
-      path: '/terms',
-      builder: (context, state) => WebViewScreen(
-        url: Uri.parse(termsUrl),
-      ),
-    ),
-    GoRoute(
-      name: Routes.privacy,
-      path: '/privacy',
-      builder: (context, state) => WebViewScreen(
-        url: Uri.parse(privacyUrl),
-      ),
-    ),
-    ShellRoute(
-      builder: (context, state, child) => SignInFlowScreen(child: child),
-      routes: [
-        GoRoute(
-          name: Routes.signIn,
-          path: '/sign-in',
-          pageBuilder: (context, state) => CustomTransitionPage(
-            key: state.pageKey,
-            transitionDuration: const Duration(milliseconds: 1000),
-            child: const GetStartedScreen(),
-            transitionsBuilder: _fadeTransitionBuilder,
-          ),
-          routes: [
-            GoRoute(
-              name: Routes.getStartedRestore,
-              path: 'restore',
-              builder: (context, state) => const RestoreAccountScreen(),
-            ),
-          ],
-        ),
-      ],
-    ),
-    ShellRoute(
-      navigatorKey: _authenticatedNavigatorKey,
-      pageBuilder: (context, state, child) => NoTransitionPage(
-        child: AuthenticatedFlowScreen(child: child),
-      ),
-      routes: [
-        ShellRoute(
-          pageBuilder: (context, state, child) => NoTransitionPage(
-            child: HomeScreen(child: child),
-          ),
-          routes: [
-            GoRoute(
-              name: Routes.home,
-              path: '/home',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: MainScreen(),
-              ),
-              routes: [
-                GoRoute(
-                  name: Routes.investments,
-                  path: 'investments',
-                  builder: (context, state) => const InvestmentsScreen(),
-                  routes: [
-                    GoRoute(
-                      name: Routes.searchToken,
-                      path: 'search-token',
-                      builder: (context, state) => const TokenSearchScreen(),
-                    ),
-                    GoRoute(
-                      name: Routes.tokenDetails,
-                      path: 'token',
-                      builder: (context, state) => TokenDetailsScreen(
-                        token: state.extra as Token,
-                      ),
-                    ),
-                  ],
-                ),
-                GoRoute(
-                  parentNavigatorKey: _authenticatedNavigatorKey,
-                  name: Routes.profile,
-                  path: 'profile',
-                  pageBuilder: (context, state) => const MaterialPage(
-                    fullscreenDialog: true,
-                    child: ProfileScreen(),
-                  ),
-                  routes: [
-                    GoRoute(
-                      parentNavigatorKey: _authenticatedNavigatorKey,
-                      name: Routes.manageProfile,
-                      path: 'manage',
-                      builder: (context, state) => ManageProfileScreen(
-                        onSubmitted: () {},
-                      ),
-                    ),
-                    GoRoute(
-                      parentNavigatorKey: _authenticatedNavigatorKey,
-                      name: Routes.enableAppLock,
-                      path: 'enable-app-lock',
-                      builder: (context, state) => const AppLockEnableScreen(),
-                    ),
-                    GoRoute(
-                      parentNavigatorKey: _authenticatedNavigatorKey,
-                      name: Routes.disableAppLock,
-                      path: 'disable-app-lock',
-                      builder: (context, state) => const AppLockDisableScreen(),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-        GoRoute(
-          name: Routes.wallet,
-          path: '/wallet',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: HomeScreen(child: WalletFlowScreen()),
-          ),
-          routes: [
-            GoRoute(
-              name: Routes.pay,
-              path: 'pay',
-              builder: (context, state) => PayFlowScreen(
-                amount: state.extra as CryptoAmount,
-              ),
-              routes: [
-                GoRoute(
-                  name: Routes.confirmOLP,
-                  path: 'confirm-olp',
-                  builder: (context, state) => OLPConfirmationScreen(
-                    tokenAmount: state.extra as CryptoAmount,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        GoRoute(
-          name: Routes.activities,
-          path: '/activities',
-          pageBuilder: (context, state) => const NoTransitionPage(
-            child: HomeScreen(child: ActivitiesScreen()),
-          ),
-          routes: [
-            GoRoute(
-              name: Routes.detailsOLP,
-              path: 'details-olp/:id',
-              builder: (context, state) => OLPScreen(
-                id: state.pathParameters['id']!,
-              ),
-            ),
-          ],
-        ),
-      ],
-    ),
-  ],
+  routes: $appRoutes,
 );
-
-final _authenticatedNavigatorKey = GlobalKey<NavigatorState>();
-
-Widget _fadeTransitionBuilder(
-  BuildContext _,
-  Animation<double> animation,
-  Animation<double> __,
-  Widget child,
-) =>
-    FadeTransition(
-      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-      child: child,
-    );
