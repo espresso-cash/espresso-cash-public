@@ -42,8 +42,12 @@ class HomeShellRoute extends ShellRouteData {
   const HomeShellRoute();
 
   @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
-      HomeScreen(child: navigator);
+  Page<void> pageBuilder(
+    BuildContext context,
+    GoRouterState state,
+    Widget navigator,
+  ) =>
+      NoTransitionPage(child: HomeScreen(child: navigator));
 }
 
 final List<({SvgGenImage icon, String path})> _pages = [
