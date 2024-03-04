@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,14 +12,13 @@ import '../../../core/landing_mobile.dart';
 import '../../../di.dart';
 import '../../web3/models/exception.dart';
 import '../../web3/web3_service.dart';
-import '../service/bloc.dart';
 import '../widgets/arrow.dart';
 import '../widgets/button.dart';
 import '../widgets/divider.dart';
 import '../widgets/invoice.dart';
 import 'espresso_request_screen.dart';
 import 'other_wallet_screen.dart';
-import 'result_screen.dart';
+import 'solana_wallet_screen.dart';
 
 class RequestInitialScreen extends StatefulWidget {
   const RequestInitialScreen(this.request, {super.key});
@@ -52,11 +50,8 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
     } else {
       Navigator.of(context).push(
         MaterialPageRoute<void>(
-          // builder: (context) => SolanaWalletScreen( //TODO revert
-          //   title: widget.request.headerTitle,
-          //   request: widget.request,
-          // ),
-          builder: (context) => ResultScreen(
+          builder: (context) => SolanaWalletScreen(
+            title: widget.request.headerTitle,
             request: widget.request,
           ),
         ),
@@ -72,16 +67,9 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
 
       if (!context.mounted) return;
 
-      final page = MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => sl<IncomingPaymentBloc>()),
-        ],
-        child: OtherWalletScreen(request: widget.request),
-      );
-
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (context) => page,
+          builder: (context) => OtherWalletScreen(request: widget.request),
         ),
       );
     } on Web3Exception catch (error) {
@@ -90,8 +78,9 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
       showCpErrorSnackbar(
         context,
         message: switch (error) {
-          MetaMaskNotInstalled() => 'MetaMask is not installed',
-          UserRejected() => 'User rejected the request',
+          MetaMaskNotInstalled() => context.l10n.landingMetamaskNotInstalled,
+          UserRejected() => context.l10n.landingMetamaskRejected,
+          OtherException() => context.l10n.landingGenericError,
         },
       );
     }
@@ -100,13 +89,13 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
   @override
   Widget build(BuildContext context) => Builder(
         builder: (context) => isMobile
-            ? _MobileView(
+            ? _Mobile(
                 request: widget.request,
                 onEspressoPay: _onEspressoPay,
                 onMetaMaskPay: _onMetaMaskPay,
                 onSolanaPay: _onSolanaPay,
               )
-            : _DesktopView(
+            : _Desktop(
                 request: widget.request,
                 onEspressoPay: _onEspressoPay,
                 onMetaMaskPay: _onMetaMaskPay,
@@ -115,8 +104,8 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
       );
 }
 
-class _MobileView extends StatelessWidget {
-  const _MobileView({
+class _Mobile extends StatelessWidget {
+  const _Mobile({
     required this.request,
     required this.onEspressoPay,
     required this.onMetaMaskPay,
@@ -135,8 +124,9 @@ class _MobileView extends StatelessWidget {
           children: [
             Text(
               request.label == null
-                  ? 'You have a request of'
-                  : '${request.label} is requesting',
+                  ? context.l10n.landingRequestTitle
+                  : context.l10n
+                      .landingUserRequestingTitle(request.label ?? ''),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -180,10 +170,10 @@ class _MobileView extends StatelessWidget {
               onPressed: onEspressoPay,
             ),
             const DividerWidget(),
-            const Text(
-              'or pay with a crypto-wallet',
+            Text(
+              context.l10n.landingPayOtherWallet,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF2D2B2C),
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
@@ -191,12 +181,12 @@ class _MobileView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            WalletButton(
-              label: 'Metamask',
-              icon: Assets.landing.metamask,
-              onTap: onMetaMaskPay,
-            ),
-            const SizedBox(height: 8),
+            if (sl<Web3Service>().isEnabled)
+              WalletButton(
+                label: 'Metamask',
+                icon: Assets.landing.metamask,
+                onTap: onMetaMaskPay,
+              ),
             WalletButton(
               label: 'Solana Wallet',
               icon: Assets.landing.solanaLogo,
@@ -212,8 +202,8 @@ class _MobileView extends StatelessWidget {
       );
 }
 
-class _DesktopView extends StatelessWidget {
-  const _DesktopView({
+class _Desktop extends StatelessWidget {
+  const _Desktop({
     required this.request,
     required this.onEspressoPay,
     required this.onSolanaPay,
@@ -255,22 +245,22 @@ class _DesktopView extends StatelessWidget {
             const Spacer(),
             const Divider(color: borderColor),
             const Spacer(),
-            const Text(
-              'or pay with a crypto-wallet',
+            Text(
+              context.l10n.landingPayOtherWallet,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.23,
               ),
             ),
             const SizedBox(height: 16),
-            WalletButton(
-              label: 'Metamask',
-              icon: Assets.landing.metamask,
-              onTap: onMetaMaskPay,
-            ),
-            const SizedBox(height: 8),
+            if (sl<Web3Service>().isEnabled)
+              WalletButton(
+                label: 'Metamask',
+                icon: Assets.landing.metamask,
+                onTap: onMetaMaskPay,
+              ),
             WalletButton(
               label: 'Solana Wallet',
               icon: Assets.landing.solanaLogo,

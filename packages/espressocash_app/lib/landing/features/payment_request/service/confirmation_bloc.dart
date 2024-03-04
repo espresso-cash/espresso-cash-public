@@ -14,13 +14,13 @@ import '../data/repository.dart';
 import '../models/incoming_quote.dart';
 import '../models/request_model.dart';
 
-part 'bloc.freezed.dart';
+part 'confirmation_bloc.freezed.dart';
 
 typedef _Event = IncomingPaymentEvent;
 typedef _State = IncomingPaymentState;
 typedef _Emitter = Emitter<_State>;
 
-@LazySingleton(scope: landingScope)
+@Injectable(scope: landingScope)
 class IncomingPaymentBloc extends Bloc<_Event, _State> {
   IncomingPaymentBloc({
     required IncomingQuoteRepository quoteRepository,
@@ -119,13 +119,11 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
     );
 
     try {
-      final approve = await _web3Service.approveContract(
+      await _web3Service.approveContract(
         contractAddress: quote.usdcInfo.usdcAddress,
         amount: quote.usdcInfo.approvalAmount,
         to: quote.tx.to,
       );
-
-      print('approve tx: $approve');
 
       final tx = await _web3Service.sendTransaction(
         to: quote.tx.to,
@@ -133,20 +131,12 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
         data: quote.tx.data,
       );
 
-      print('tx: $tx');
-
-      emit(
-        state.copyWith(
-          flowState: const Flow.initial(),
-        ),
-      );
-    } catch (ex) {
-      print('ex: $ex');
+      emit(state.copyWith(flowState: Flow.success((quote, tx))));
+    } catch (error) {
+      print('ex: $error');
 
       emit(state.error(PaymentException.other(Exception(''))));
     }
-
-    // emit(state.copyWith(flowState: const Flow.success(null))); //TODO
   }
 
   Future<void> _onInvalidated(Invalidated _, _Emitter emit) async {
@@ -170,6 +160,8 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
         solanaReferenceAddress: request.solanaReferenceAddress,
       );
 
+      print(quote.receiverAmount);
+
       _startTimer();
 
       emit(state.update(quote));
@@ -182,7 +174,7 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
 
   @override
   Future<void> close() {
-    _timer?.cancel(); //TODO not properly disposed
+    _timer?.cancel();
     _chainChangedSubscription?.cancel();
     _accountsChangedSubscription?.cancel();
 
@@ -239,8 +231,8 @@ class IncomingPaymentState with _$IncomingPaymentState {
     IncomingPaymentRequest? request,
     UserWalletInfo? sender,
     IncomingPaymentQuote? quote,
-    @Default(Flow<PaymentException, IncomingPaymentQuote>.initial())
-    Flow<PaymentException, IncomingPaymentQuote> flowState,
+    @Default(Flow<PaymentException, (IncomingPaymentQuote, String)>.initial())
+    Flow<PaymentException, (IncomingPaymentQuote, String)> flowState,
     DateTime? expiresAt,
   }) = Initialized;
 }

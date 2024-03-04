@@ -6,4 +6,5 @@ part 'exception.freezed.dart';
 sealed class Web3Exception with _$Web3Exception implements Exception {
   const factory Web3Exception.metaMaskNotInstalled() = MetaMaskNotInstalled;
   const factory Web3Exception.userRejected() = UserRejected;
+  const factory Web3Exception.other() = OtherException;
 }

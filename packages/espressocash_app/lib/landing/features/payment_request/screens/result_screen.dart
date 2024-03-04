@@ -1,58 +1,101 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:solana/solana_pay.dart';
-
+import '../../../../core/presentation/format_amount.dart';
+import '../../../../features/transactions/widgets/transfer_progress.dart';
 import '../../../../gen/assets.gen.dart';
+import '../../../../l10n/device_locale.dart';
+import '../../../../l10n/l10n.dart';
 import '../../../core/landing_desktop.dart';
+import '../../../data/db_landing.dart';
+import '../../../di.dart';
+import '../service/order_service.dart';
 import '../widgets/invoice.dart';
 
-class ResultScreen extends StatelessWidget {
-  const ResultScreen({super.key, required this.request});
-  final SolanaPayRequest request;
+class ResultScreen extends StatefulWidget {
+  const ResultScreen({super.key, required this.id});
+
+  final String id;
 
   @override
-  Widget build(BuildContext context) => _DesktopView(request);
+  State<ResultScreen> createState() => _ResultScreenState();
 }
 
-class _DesktopView extends StatelessWidget {
-  const _DesktopView(this.request);
-
-  final SolanaPayRequest request;
+class _ResultScreenState extends State<ResultScreen> {
+  late final Stream<PaymentOrder?> _stream;
 
   @override
-  Widget build(BuildContext context) => LandingDesktopPage(
-        title: 'Thank you',
-        subtitle: 'Your payment has been accepted.',
-        content: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Assets.landing.receipt.image(height: 87, width: 87),
-            ),
-            const Divider(color: borderColor),
-            const Spacer(),
-            const _Item(
-              title: 'Status',
-              value: 'Pending',
-            ),
-            const _Item(
-              title: 'Amount paid',
-              value: '23 USDC',
-            ),
-            const _Item(
-              title: 'Network fee',
-              value: '3.45 USDC',
-            ),
-            const _Item(
-              title: 'Total',
-              value: '26.45 USDC',
-            ),
-            if (request.reference?.first case final reference?) ...[
-              const Spacer(),
-              InvoiceWidget(address: reference.toBase58()),
-            ],
-          ],
-        ),
+  void initState() {
+    super.initState();
+    _stream = sl<IncomingDlnPaymentService>().watch(widget.id);
+  }
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder(
+        stream: _stream,
+        builder: (context, snapshot) {
+          final order = snapshot.data;
+
+          return order == null
+              ? TransferProgress(onBack: () => context.router.pop())
+              : _Desktop(order);
+        },
       );
+}
+
+class _Desktop extends StatelessWidget {
+  const _Desktop(this.order);
+
+  final PaymentOrder order;
+
+  @override
+  Widget build(BuildContext context) {
+    final request = order.request;
+
+    final status = switch (order.status) {
+      PaymentStatus.txSent => 'Pending',
+      PaymentStatus.success => 'Success',
+      PaymentStatus.txFailure || PaymentStatus.unfulfilled => 'Failed',
+    };
+
+    final requestAmount = order.request.requestAmount;
+    final fee = order.fee;
+    final total = requestAmount + fee;
+
+    return LandingDesktopPage(
+      title: context.l10n.landingThankYouLbl,
+      subtitle: context.l10n.landingPaymentSent,
+      content: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: Assets.landing.receipt.image(height: 87, width: 87),
+          ),
+          const Divider(color: borderColor),
+          const Spacer(),
+          _Item(
+            title: context.l10n.landingStatusLbl,
+            value: status,
+          ),
+          _Item(
+            title: context.l10n.landingRequestAmountLbl,
+            value: requestAmount.format(context.locale, maxDecimals: 2),
+          ),
+          _Item(
+            title: context.l10n.landingFeeLbl,
+            value: fee.format(context.locale, maxDecimals: 2),
+          ),
+          _Item(
+            title: context.l10n.landingTotalLbl,
+            value: total.format(context.locale, maxDecimals: 2),
+          ),
+          if (request.solanaReferenceAddress case final reference?) ...[
+            const Spacer(),
+            InvoiceWidget(address: reference),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class _Item extends StatelessWidget {

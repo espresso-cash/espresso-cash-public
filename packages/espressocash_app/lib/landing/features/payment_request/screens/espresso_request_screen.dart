@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
+import '../../../../l10n/l10n.dart';
 import '../../../core/espresso_desktop.dart';
 import '../../../core/espresso_mobile.dart';
 import '../../../core/extensions.dart';
@@ -20,8 +21,9 @@ class EspressoRequestScreen extends StatelessWidget {
             children: [
               Text(
                 request.label == null
-                    ? 'You have a request of'
-                    : '${request.label} is requesting',
+                    ? context.l10n.landingRequestTitle
+                    : context.l10n
+                        .landingUserRequestingTitle(request.label ?? ''),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -47,6 +49,6 @@ class EspressoRequestScreen extends StatelessWidget {
       : EspressoDesktopView(
           actionLink: Uri.parse(request.toUrl()),
           title: request.headerTitle,
-          subtitle: 'To complete the transaction, follow the steps below.',
+          subtitle: context.l10n.landingInstruction,
         );
 }
