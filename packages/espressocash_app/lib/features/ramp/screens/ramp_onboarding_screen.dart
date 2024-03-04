@@ -104,63 +104,27 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
             minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
             child: Column(
               children: [
-                CpTextField(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 26,
-                    right: 26,
-                  ),
-                  controller: _firstNameController,
-                  textInputAction: TextInputAction.next,
-                  textCapitalization: TextCapitalization.words,
-                  backgroundColor: switch (widget.rampType) {
-                    RampType.onRamp => _onRampTextfieldColor,
-                    RampType.offRamp => _offRampTextfieldColor,
-                  },
+                _ProfileTextField(
+                  emailController: _firstNameController,
+                  rampType: widget.rampType,
+                  inputType: TextInputType.name,
                   placeholder: context.l10n.yourFirstNamePlaceholder,
-                  placeholderColor: Colors.white,
-                  textColor: Colors.white,
-                  fontSize: 16,
-                ),
-                const SizedBox(height: 14),
-                CpTextField(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 26,
-                    right: 26,
-                  ),
-                  controller: _lastNameController,
-                  textInputAction: TextInputAction.next,
                   textCapitalization: TextCapitalization.words,
-                  backgroundColor: switch (widget.rampType) {
-                    RampType.onRamp => _onRampTextfieldColor,
-                    RampType.offRamp => _offRampTextfieldColor,
-                  },
-                  placeholder: context.l10n.yourLastNamePlaceholder,
-                  placeholderColor: Colors.white,
-                  textColor: Colors.white,
-                  fontSize: 16,
                 ),
                 const SizedBox(height: 14),
-                CpTextField(
-                  padding: const EdgeInsets.only(
-                    top: 18,
-                    bottom: 16,
-                    left: 26,
-                    right: 26,
-                  ),
-                  controller: _emailController,
+                _ProfileTextField(
+                  emailController: _lastNameController,
+                  rampType: widget.rampType,
+                  inputType: TextInputType.name,
+                  placeholder: context.l10n.yourLastNamePlaceholder,
+                  textCapitalization: TextCapitalization.words,
+                ),
+                const SizedBox(height: 14),
+                _ProfileTextField(
+                  emailController: _emailController,
+                  rampType: widget.rampType,
                   inputType: TextInputType.emailAddress,
-                  backgroundColor: switch (widget.rampType) {
-                    RampType.onRamp => _onRampTextfieldColor,
-                    RampType.offRamp => _offRampTextfieldColor,
-                  },
                   placeholder: context.l10n.yourEmailPlaceholder,
-                  placeholderColor: Colors.white,
-                  textColor: Colors.white,
-                  fontSize: 16,
                 ),
                 const SizedBox(height: 14),
                 CountryPicker(
@@ -190,6 +154,44 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
           ),
         ),
         type: widget.rampType,
+      );
+}
+
+class _ProfileTextField extends StatelessWidget {
+  const _ProfileTextField({
+    required this.emailController,
+    required this.rampType,
+    required this.inputType,
+    required this.placeholder,
+    this.textCapitalization = TextCapitalization.none,
+  });
+
+  final TextEditingController emailController;
+  final RampType rampType;
+  final TextInputType inputType;
+  final TextCapitalization textCapitalization;
+  final String placeholder;
+
+  @override
+  Widget build(BuildContext context) => CpTextField(
+        padding: const EdgeInsets.only(
+          top: 18,
+          bottom: 16,
+          left: 26,
+          right: 26,
+        ),
+        controller: emailController,
+        inputType: inputType,
+        textInputAction: TextInputAction.next,
+        textCapitalization: textCapitalization,
+        backgroundColor: switch (rampType) {
+          RampType.onRamp => _onRampTextfieldColor,
+          RampType.offRamp => _offRampTextfieldColor,
+        },
+        placeholder: placeholder,
+        placeholderColor: Colors.white,
+        textColor: Colors.white,
+        fontSize: 16,
       );
 }
 
