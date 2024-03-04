@@ -29,7 +29,8 @@ class RampOnboardingScreen extends StatefulWidget {
 }
 
 class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
-  final _nameController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
   Country? _country;
 
@@ -39,7 +40,8 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
 
     final repository = sl<ProfileRepository>();
 
-    _nameController.text = repository.firstName;
+    _firstNameController.text = repository.firstName;
+    _lastNameController.text = repository.lastName;
     _emailController.text = repository.email;
 
     final country = repository.country;
@@ -50,14 +52,16 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
     _emailController.dispose();
     super.dispose();
   }
 
   void _handleSubmitted() {
     sl<ProfileRepository>()
-      ..firstName = _nameController.text
+      ..firstName = _firstNameController.text
+      ..lastName = _lastNameController.text
       ..country = _country?.code
       ..email = _emailController.text;
 
@@ -65,7 +69,8 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
   }
 
   bool get _isValid =>
-      _nameController.text.isNotEmpty &&
+      _firstNameController.text.isNotEmpty &&
+      _lastNameController.text.isNotEmpty &&
       _emailController.text.isValidEmail &&
       _country != null;
 
@@ -106,13 +111,34 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
                     left: 26,
                     right: 26,
                   ),
-                  controller: _nameController,
+                  controller: _firstNameController,
                   textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
                   backgroundColor: switch (widget.rampType) {
                     RampType.onRamp => _onRampTextfieldColor,
                     RampType.offRamp => _offRampTextfieldColor,
                   },
                   placeholder: context.l10n.yourFirstNamePlaceholder,
+                  placeholderColor: Colors.white,
+                  textColor: Colors.white,
+                  fontSize: 16,
+                ),
+                const SizedBox(height: 14),
+                CpTextField(
+                  padding: const EdgeInsets.only(
+                    top: 18,
+                    bottom: 16,
+                    left: 26,
+                    right: 26,
+                  ),
+                  controller: _lastNameController,
+                  textInputAction: TextInputAction.next,
+                  textCapitalization: TextCapitalization.words,
+                  backgroundColor: switch (widget.rampType) {
+                    RampType.onRamp => _onRampTextfieldColor,
+                    RampType.offRamp => _offRampTextfieldColor,
+                  },
+                  placeholder: context.l10n.yourLastNamePlaceholder,
                   placeholderColor: Colors.white,
                   textColor: Colors.white,
                   fontSize: 16,
@@ -147,7 +173,8 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
                     alignment: Alignment.bottomCenter,
                     child: ListenableBuilder(
                       listenable: Listenable.merge([
-                        _nameController,
+                        _firstNameController,
+                        _lastNameController,
                         _emailController,
                       ]),
                       builder: (context, child) => CpButton(
