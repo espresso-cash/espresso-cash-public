@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import 'config.dart';
 import 'di.config.dart';
@@ -46,11 +45,4 @@ abstract class AppModule {
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
-
-  @lazySingleton
-  SeedVault get seedVault => SeedVault.instance;
-
-  @preResolve
-  @Named('isSaga')
-  Future<bool> isSaga(SeedVault vault) => Future.value(false);
 }

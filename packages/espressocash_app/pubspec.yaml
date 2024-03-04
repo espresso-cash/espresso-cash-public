@@ -75,8 +75,6 @@ dependencies:
     path: ../solana/
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
-  solana_seed_vault:
-    path: ../solana_seed_vault/
   sqlite3_flutter_libs: ^0.5.18
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1

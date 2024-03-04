@@ -6,7 +6,6 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/account_service.dart';
 import '../data/onboarding_repository.dart';
 import '../screens/onboarding_screen.dart';
@@ -26,8 +25,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     super.initState();
 
     final account = sl<AccountService>().value;
-    if (account?.accessMode == const AccessMode.seedInputted() ||
-        account?.wallet is SagaWallet) {
+    if (account?.accessMode == const AccessMode.seedInputted()) {
       sl<OnboardingRepository>().hasConfirmedPassphrase = true;
     }
   }

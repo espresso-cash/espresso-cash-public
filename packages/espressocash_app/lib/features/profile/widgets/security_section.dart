@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
 import '../../../routing.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/services/account_service.dart';
 import '../../app_lock/app_lock.dart';
 import '../../legal/privacy_screen.dart';
@@ -23,13 +22,11 @@ class SecuritySection extends StatelessWidget {
           const AppLockMenuItem(),
           ValueListenableBuilder(
             valueListenable: sl<AccountService>(),
-            builder: (context, value, child) => value?.wallet is! SagaWallet
-                ? ProfileButton(
-                    label: context.l10n.viewRecoveryPhrase,
-                    description: context.l10n.viewRecoveryPhraseDescription,
-                    onPressed: () => context.launchViewRecoveryPhraseFlow(),
-                  )
-                : const SizedBox.shrink(),
+            builder: (context, value, child) => ProfileButton(
+              label: context.l10n.viewRecoveryPhrase,
+              description: context.l10n.viewRecoveryPhraseDescription,
+              onPressed: () => context.launchViewRecoveryPhraseFlow(),
+            ),
           ),
           ProfileButton(
             label: context.l10n.termsOfUse,
