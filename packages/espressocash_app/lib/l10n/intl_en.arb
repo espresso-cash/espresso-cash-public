@@ -1057,5 +1057,7 @@
   "onRampMorePartnersTitle": "Additional Add Cash Partners:",
   "@onRampMorePartnersTitle": {},
   "offRampMorePartnersTitle": "Additional Payment Partners:",
-  "@offRampMorePartnersTitle": {}
+  "@offRampMorePartnersTitle": {},
+  "incomingLinkSuccessMessage": "{amount} Transaction successfully received.",
+  "@incomingLinkSuccessMessage": {}
 }
