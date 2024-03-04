@@ -1,4 +1,4 @@
-enum CryptoCategories {
+enum CryptoCategory {
   ethereum,
   stablecoins,
   defi,

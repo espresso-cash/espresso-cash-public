@@ -29,7 +29,7 @@ class StartInvestingHeader extends StatelessWidget {
                     DiscoverHeader(
                       showTitle: false,
                       onTap: (category) =>
-                          TokenSearchRoute(category).go(context),
+                          TokenSearchRoute(category: category).go(context),
                     ),
                   ],
                 ),

@@ -58,7 +58,7 @@ import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/swap/screens/process_swap_screen.dart';
 import 'features/swap/screens/swap_flow_screen.dart';
 import 'features/token_details/screens/token_details_screen.dart';
-import 'features/token_search/models/crypto_categories.dart';
+import 'features/token_search/models/crypto_category.dart';
 import 'features/token_search/screens/token_search_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';

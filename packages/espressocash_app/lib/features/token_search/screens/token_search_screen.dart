@@ -17,7 +17,7 @@ import '../../../ui/text_field.dart';
 import '../../favorite_tokens/widgets/favorite_button.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
-import '../models/crypto_categories.dart';
+import '../models/crypto_category.dart';
 import '../services/bloc.dart';
 import '../widgets/discover_header.dart';
 
@@ -27,7 +27,7 @@ class TokenSearchScreen extends StatelessWidget {
     this.category,
   });
 
-  final CryptoCategories? category;
+  final CryptoCategory? category;
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -35,7 +35,7 @@ class TokenSearchScreen extends StatelessWidget {
           BlocProvider<TokenSearchBloc>(
             create: (context) => sl<TokenSearchBloc>(),
           ),
-          Provider<CryptoCategories?>.value(value: category),
+          Provider<CryptoCategory?>.value(value: category),
         ],
         child: Scaffold(
           backgroundColor: Colors.white,
@@ -48,13 +48,13 @@ class TokenSearchScreen extends StatelessWidget {
 }
 
 class TokenSearchRoute extends GoRouteData {
-  const TokenSearchRoute(this.$extra);
+  const TokenSearchRoute({this.category});
 
-  final CryptoCategories? $extra;
+  final CryptoCategory? category;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      TokenSearchScreen(category: $extra);
+      TokenSearchScreen(category: category);
 }
 
 class _Content extends StatefulWidget {
@@ -66,9 +66,9 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   final TextEditingController _controller = TextEditingController();
-  CryptoCategories? _selected;
+  CryptoCategory? _selected;
 
-  void _handleCategoryPressed(CryptoCategories val) {
+  void _handleCategoryPressed(CryptoCategory val) {
     _selected = _selected != val ? val : null;
     context.read<TokenSearchBloc>().add(SearchCategoryRequest(_selected));
   }
@@ -76,7 +76,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
-    context.read<CryptoCategories?>().maybeFlatMap(_handleCategoryPressed);
+    context.read<CryptoCategory?>().maybeFlatMap(_handleCategoryPressed);
     _controller.addListener(() {
       _selected = null;
       context.read<TokenSearchBloc>().add(SearchTextRequest(_controller.text));

@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
-import '../models/crypto_categories.dart';
+import '../models/crypto_category.dart';
 import 'coingecko_client.dart';
 
 @injectable
@@ -24,7 +24,7 @@ class SearchRepository {
                 response.coins.map((e) => e.toToken(_tokenList)).toIList(),
           );
 
-  AsyncResult<IList<Token>> category(CryptoCategories category) =>
+  AsyncResult<IList<Token>> category(CryptoCategory category) =>
       _coingeckoClient
           .searchByCategory(CategorySearchRequestDto(category: category.dtoId))
           .toEither()
@@ -33,18 +33,18 @@ class SearchRepository {
           );
 }
 
-extension on CryptoCategories {
+extension on CryptoCategory {
   String get dtoId {
     switch (this) {
-      case CryptoCategories.ethereum:
+      case CryptoCategory.ethereum:
         return 'ethereum-ecosystem';
-      case CryptoCategories.stablecoins:
+      case CryptoCategory.stablecoins:
         return 'stablecoins';
-      case CryptoCategories.solana:
+      case CryptoCategory.solana:
         return 'solana-ecosystem';
-      case CryptoCategories.defi:
+      case CryptoCategory.defi:
         return 'decentralized-finance-defi';
-      case CryptoCategories.amm:
+      case CryptoCategory.amm:
         return 'automated-market-maker-amm';
     }
   }
