@@ -1,13 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../l10n/l10n.dart';
-import '../routes.gr.dart';
 import 'app_bar.dart';
 
-@RoutePage()
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
     super.key,
@@ -15,8 +13,6 @@ class WebViewScreen extends StatefulWidget {
     this.title,
     this.onLoaded,
   });
-
-  static const route = WebViewRoute.new;
 
   final Uri url;
   final String? title;
@@ -73,3 +69,22 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       );
 }
+
+class WebViewRoute extends GoRouteData {
+  const WebViewRoute(this.$extra);
+
+  final WebViewParams $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => WebViewScreen(
+        url: $extra.url,
+        title: $extra.title,
+        onLoaded: $extra.onLoaded,
+      );
+}
+
+typedef WebViewParams = ({
+  Uri url,
+  String? title,
+  ValueSetter<InAppWebViewController>? onLoaded,
+});

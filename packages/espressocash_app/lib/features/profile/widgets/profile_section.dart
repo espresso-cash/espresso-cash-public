@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:firebase_app_installations/firebase_app_installations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,6 +11,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../di.dart';
+import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/services/account_service.dart';
 import '../screens/manage_profile_screen.dart';

@@ -1,9 +1,8 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
@@ -11,15 +10,12 @@ import '../models/outgoing_link_payment.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr.dart';
 
-@RoutePage()
 class ShareLinkScreen extends StatelessWidget {
   const ShareLinkScreen({
     super.key,
     required this.amount,
     required this.status,
   });
-
-  static const route = ShareLinkRoute.new;
 
   final CryptoAmount amount;
   final OLPStatusLinkReady status;
@@ -70,3 +66,18 @@ class ShareLinkScreen extends StatelessWidget {
     );
   }
 }
+
+class ShareLinkRoute extends GoRouteData {
+  const ShareLinkRoute(this.$extra);
+
+  final ShareLinkParams $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ShareLinkScreen(amount: $extra.amount, status: $extra.status);
+}
+
+typedef ShareLinkParams = ({
+  CryptoAmount amount,
+  OLPStatusLinkReady status,
+});

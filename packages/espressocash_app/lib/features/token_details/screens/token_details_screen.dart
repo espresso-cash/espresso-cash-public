@@ -1,10 +1,10 @@
 import 'dart:math';
 
-import 'package:auto_route/annotations.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -17,7 +17,6 @@ import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/loader.dart';
@@ -38,11 +37,8 @@ import '../widgets/exchange_buttons.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_details_widget.dart';
 
-@RoutePage()
 class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
-
-  static const route = TokenDetailsRoute.new;
 
   final Token token;
 
@@ -95,6 +91,16 @@ class TokenDetailsScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class TokenDetailsRoute extends GoRouteData {
+  const TokenDetailsRoute(this.$extra);
+
+  final Token $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      TokenDetailsScreen(token: $extra);
 }
 
 class _TokenPrice extends StatelessWidget {

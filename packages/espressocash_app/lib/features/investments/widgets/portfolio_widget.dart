@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -9,6 +8,7 @@ import '../../../../../ui/colors.dart';
 import '../../../core/amount.dart';
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
+import '../../../routing.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
@@ -47,8 +47,7 @@ class _BalanceItem extends StatelessWidget {
       builder: (context, fiatAmount) => Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () =>
-              context.router.push(TokenDetailsScreen.route(token: token)),
+          onTap: () => TokenDetailsRoute(token).push<void>(context),
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
             padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),

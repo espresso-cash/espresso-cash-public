@@ -1,5 +1,5 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
@@ -7,7 +7,7 @@ import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -18,19 +18,28 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
+import '../widgets/extensions.dart';
+import 'olp_screen.dart';
 
-@RoutePage()
-class OLPConfirmationScreen extends StatelessWidget {
+class OLPConfirmationScreen extends StatefulWidget {
   const OLPConfirmationScreen({
     super.key,
     required this.tokenAmount,
-    required this.onSubmit,
   });
 
-  static const route = OLPConfirmationRoute.new;
+  final CryptoAmount tokenAmount;
 
-  final Amount tokenAmount;
-  final VoidCallback onSubmit;
+  @override
+  State<OLPConfirmationScreen> createState() => _OLPConfirmationScreenState();
+}
+
+class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
+  Future<void> _handleSubmit() async {
+    final id = await context.createOLP(amount: widget.tokenAmount);
+    if (!mounted) return;
+
+    OLPRoute(id).go(context);
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -43,10 +52,10 @@ class OLPConfirmationScreen extends StatelessWidget {
                 fontSize: 17,
               ),
             ),
-            leading: CpBackButton(onPressed: () => context.router.pop()),
+            leading: const CpBackButton(),
           ),
           body: CpContentPadding(
-            child: _TokenCreateLinkContent(amount: tokenAmount),
+            child: _TokenCreateLinkContent(amount: widget.tokenAmount),
           ),
           bottomNavigationBar: SafeArea(
             child: Padding(
@@ -58,7 +67,7 @@ class OLPConfirmationScreen extends StatelessWidget {
                   const SizedBox(height: 21),
                   CpButton(
                     width: double.infinity,
-                    onPressed: onSubmit,
+                    onPressed: _handleSubmit,
                     text: context.l10n.create,
                   ),
                 ],
@@ -67,6 +76,16 @@ class OLPConfirmationScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class OLPConfirmationRoute extends GoRouteData {
+  const OLPConfirmationRoute(this.$extra);
+
+  final CryptoAmount $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      OLPConfirmationScreen(tokenAmount: $extra);
 }
 
 class _TokenCreateLinkContent extends StatelessWidget {

@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
@@ -11,7 +11,7 @@ import '../../../core/link_payments.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -21,72 +21,85 @@ import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 import 'restore_account_screen.dart';
 
-@RoutePage()
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
-
-  static const route = GetStartedRoute.new;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => context.router.push(
-        RestoreAccountScreen.route(
-          onMnemonicConfirmed: _handleMnemonicConfirmed,
-        ),
-      );
+  void _handleSignInPressed() => const RestoreAccountRoute().go(context);
 
-  void _handleMnemonicConfirmed() =>
-      context.read<SignInBloc>().add(const SignInEvent.submitted());
+  late final Future<void> _imagesCache;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.yellowSplashBackgroundColor,
-          body: Stack(
-            children: [
-              Align(
-                child: Assets.images.dollarBg.image(
-                  fit: BoxFit.fitHeight,
-                  height: double.infinity,
-                ),
-              ),
-              SafeArea(
-                minimum: EdgeInsets.only(top: 70.h),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: constraints.copyWith(
-                        minHeight: constraints.maxHeight,
-                        maxHeight: double.infinity,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Expanded(child: Center(child: SplashLogo())),
-                            Column(
-                              children: [
-                                const _Body(),
-                                24.verticalSpace,
-                                _Footer(
-                                  isSaga: isSaga,
-                                  onSignInPressed: _handleSignInPressed,
-                                ),
-                              ],
-                            ),
-                          ],
+  void initState() {
+    super.initState();
+
+    _imagesCache = Future(
+      () => Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _imagesCache,
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.done
+            ? CpTheme.dark(
+                child: Scaffold(
+                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  body: Stack(
+                    children: [
+                      Align(
+                        child: Assets.images.dollarBg.image(
+                          fit: BoxFit.fitHeight,
+                          height: double.infinity,
                         ),
                       ),
-                    ),
+                      SafeArea(
+                        minimum: EdgeInsets.only(top: 70.h),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) =>
+                              SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: constraints.copyWith(
+                                minHeight: constraints.maxHeight,
+                                maxHeight: double.infinity,
+                              ),
+                              child: IntrinsicHeight(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Expanded(
+                                      child: Center(child: SplashLogo()),
+                                    ),
+                                    Column(
+                                      children: [
+                                        const _Body(),
+                                        24.verticalSpace,
+                                        _Footer(
+                                          isSaga: isSaga,
+                                          onSignInPressed: _handleSignInPressed,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : const SplashScreen(),
       );
 }
 
@@ -231,3 +244,27 @@ bool _parseUri(Uri? link) {
 
   return LinkPayments.tryParse(link) != null;
 }
+
+class SignInRoute extends GoRouteData {
+  const SignInRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      CustomTransitionPage(
+        key: state.pageKey,
+        transitionDuration: const Duration(milliseconds: 1000),
+        child: const GetStartedScreen(),
+        transitionsBuilder: _fadeTransitionBuilder,
+      );
+}
+
+Widget _fadeTransitionBuilder(
+  BuildContext _,
+  Animation<double> animation,
+  Animation<double> __,
+  Widget child,
+) =>
+    FadeTransition(
+      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+      child: child,
+    );

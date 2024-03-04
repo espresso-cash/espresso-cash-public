@@ -1,9 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/presentation/value_stream_builder.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/crypto_header.dart';
 import '../../token_search/screens/token_search_screen.dart';
 import '../../token_search/widgets/discover_header.dart';
@@ -28,8 +28,8 @@ class StartInvestingHeader extends StatelessWidget {
                     const SizedBox(height: 12),
                     DiscoverHeader(
                       showTitle: false,
-                      onTap: (it) => context.router
-                          .push(TokenSearchScreen.route(category: it)),
+                      onTap: (category) =>
+                          TokenSearchRoute(category: category).go(context),
                     ),
                   ],
                 ),

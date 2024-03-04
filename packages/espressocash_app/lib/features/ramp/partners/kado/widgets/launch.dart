@@ -1,22 +1,23 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
+import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
+import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../src/models/profile_data.dart';
-import '../../../src/models/ramp_type.dart';
-import '../../../src/screens/ramp_amount_screen.dart';
 import '../data/kado_api_client.dart';
 
 extension BuildContextExt on BuildContext {
@@ -26,11 +27,11 @@ extension BuildContextExt on BuildContext {
   }) async {
     Amount? amount;
 
-    await router.push(
-      RampAmountScreen.route(
+    await RampAmountRoute(
+      (
         partner: RampPartner.kado,
-        onSubmitted: (value) {
-          router.pop();
+        onSubmitted: (Amount? value) {
+          pop();
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
@@ -38,8 +39,9 @@ extension BuildContextExt on BuildContext {
         calculateEquivalent: null,
         calculateFee: null,
         type: RampType.onRamp,
+        partnerFeeLabel: null,
       ),
-    );
+    ).push<void>(this);
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
@@ -84,7 +86,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  router.replace(OnRampOrderScreen.route(orderId: value));
+                  OnRampOrderRoute(value).go(this);
               }
             });
             orderWasCreated = true;
@@ -100,7 +102,8 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
+    await WebViewRoute((url: uri, onLoaded: handleLoaded, title: null))
+        .push<void>(this);
   }
 
   Future<void> launchKadoOffRamp({
@@ -109,11 +112,11 @@ window.addEventListener("message", (event) => {
   }) async {
     Amount? amount;
 
-    await router.push(
-      RampAmountScreen.route(
+    await RampAmountRoute(
+      (
         partner: RampPartner.kado,
-        onSubmitted: (value) {
-          router.pop();
+        onSubmitted: (Amount? value) {
+          pop();
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
@@ -121,8 +124,9 @@ window.addEventListener("message", (event) => {
         calculateEquivalent: null,
         calculateFee: null,
         type: RampType.onRamp,
+        partnerFeeLabel: null,
       ),
-    );
+    ).push<void>(this);
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
@@ -175,7 +179,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  router.replace(OffRampOrderScreen.route(orderId: value));
+                  OffRampOrderRoute(value).go(this);
               }
             });
             orderWasCreated = true;
@@ -191,6 +195,7 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await router.push(WebViewScreen.route(url: uri, onLoaded: handleLoaded));
+    await WebViewRoute((url: uri, onLoaded: handleLoaded, title: null))
+        .push<void>(this);
   }
 }

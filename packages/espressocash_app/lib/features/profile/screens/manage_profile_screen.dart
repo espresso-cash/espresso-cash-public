@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -13,26 +13,22 @@ import '../../../../../ui/theme.dart';
 import '../../../core/email.dart';
 import '../../../data/files/file_manager.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
-import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../data/profile_repository.dart';
 import '../widgets/pick_profile_picture.dart';
 
-@RoutePage()
 class ManageProfileScreen extends StatefulWidget {
   const ManageProfileScreen({
     super.key,
     required this.onSubmitted,
     this.hasBackButton = true,
   });
-
-  static const route = ManageProfileRoute.new;
 
   final VoidCallback onSubmitted;
   final bool hasBackButton;
@@ -111,11 +107,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
-          appBar: CpAppBar(
-            leading: widget.hasBackButton
-                ? CpBackButton(onPressed: () => context.router.pop())
-                : null,
-          ),
+          appBar: CpAppBar(),
           extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(
@@ -212,6 +204,17 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
           ),
         ),
       );
+}
+
+class ManageProfileRoute extends GoRouteData {
+  const ManageProfileRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ManageProfileScreen(onSubmitted: () => context.pop());
 }
 
 const _placeholderTextColor = Color(0xff858585);

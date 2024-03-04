@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../gen/assets.gen.dart';
 import 'icon_button.dart';
@@ -7,18 +8,15 @@ class CpBackButton extends StatelessWidget {
   const CpBackButton({
     super.key,
     this.onPressed,
-    this.ensureBackNavigation = false,
   });
 
-  final bool ensureBackNavigation;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final canPop =
-        Navigator.maybeOf(context) != null && Navigator.of(context).canPop();
+    final canPop = ModalRoute.of(context)?.impliesAppBarDismissal ?? false;
 
-    return ensureBackNavigation && !canPop
+    return !canPop
         ? const SizedBox.shrink()
         : CpIconButton(
             icon: Assets.icons.arrow.svg(
@@ -27,7 +25,7 @@ class CpBackButton extends StatelessWidget {
                   : Colors.black,
             ),
             variant: CpIconButtonVariant.transparent,
-            onPressed: onPressed ?? () => Navigator.of(context).pop(),
+            onPressed: onPressed ?? () => context.pop(),
           );
   }
 }

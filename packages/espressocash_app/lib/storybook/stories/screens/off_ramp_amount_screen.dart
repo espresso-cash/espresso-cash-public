@@ -7,8 +7,8 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
-import '../../../features/ramp/src/models/ramp_type.dart';
-import '../../../features/ramp/src/screens/ramp_amount_screen.dart';
+import '../../../features/ramp/models/ramp_type.dart';
+import '../../../features/ramp/screens/ramp_amount_screen.dart';
 import '../../utils.dart';
 
 final offRampAmountScreenStory = Story(

@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +9,7 @@ import '../../../../../../ui/colors.dart';
 import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
@@ -71,8 +71,7 @@ class _TokenItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 18),
       child: ListTile(
-        onTap: () =>
-            context.router.push(TokenDetailsScreen.route(token: token)),
+        onTap: () => TokenDetailsRoute(token).push<void>(context),
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(_iconSize / 2),
           child: ColoredBox(

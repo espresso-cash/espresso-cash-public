@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -130,10 +129,7 @@ class _Buttons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: _minExtent,
-            child: CpBackButton(onPressed: () => context.router.pop()),
-          ),
+          const SizedBox(height: _minExtent, child: CpBackButton()),
           if (!token.canBeSwapped)
             Expanded(
               child: Opacity(

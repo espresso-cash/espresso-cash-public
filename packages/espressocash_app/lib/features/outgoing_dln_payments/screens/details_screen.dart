@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:recase/recase.dart';
 
 import '../../../core/amount.dart';
@@ -10,7 +10,6 @@ import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
@@ -25,14 +24,11 @@ import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
 import '../services/dln_order_service.dart';
 
-@RoutePage()
 class OutgoingDlnPaymentDetailsScreen extends StatefulWidget {
   const OutgoingDlnPaymentDetailsScreen({
     super.key,
     required this.id,
   });
-
-  static const route = OutgoingDlnPaymentDetailsRoute.new;
 
   final String id;
 
@@ -58,10 +54,20 @@ class _OutgoingDlnPaymentDetailsScreenState
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => context.pop())
               : OutgoingDlnOrderScreenContent(order: order);
         },
       );
+}
+
+class OutgoingDlnPaymentDetailsRoute extends GoRouteData {
+  const OutgoingDlnPaymentDetailsRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      OutgoingDlnPaymentDetailsScreen(id: id);
 }
 
 class OutgoingDlnOrderScreenContent extends StatelessWidget {
@@ -105,7 +111,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
           message: context
               .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
           onConfirm: () {
-            context.router.pop();
+            context.pop();
             sl<OutgoingDlnPaymentService>().cancel(order.id);
           },
         );
@@ -124,7 +130,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
     );
 
     return StatusScreen(
-      onBackButtonPressed: () => context.router.pop(),
+      onBackButtonPressed: () => context.pop(),
       title: context.l10n.splitKeyTransferTitle,
       statusType: order.status.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),
