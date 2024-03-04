@@ -48,11 +48,13 @@ class TokenSearchScreen extends StatelessWidget {
 }
 
 class TokenSearchRoute extends GoRouteData {
-  const TokenSearchRoute();
+  const TokenSearchRoute(this.$extra);
+
+  final CryptoCategories? $extra;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      const TokenSearchScreen();
+      TokenSearchScreen(category: $extra);
 }
 
 class _Content extends StatefulWidget {

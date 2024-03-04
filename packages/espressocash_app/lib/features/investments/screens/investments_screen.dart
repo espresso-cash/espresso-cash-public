@@ -60,7 +60,8 @@ class InvestmentsScreen extends StatelessWidget {
                           icon: Assets.icons.searchButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () => const TokenSearchRoute().go(context),
+                          onPressed: () =>
+                              const TokenSearchRoute(null).go(context),
                         ),
                         const SizedBox(width: 12),
                       ],

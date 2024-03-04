@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
@@ -59,6 +58,7 @@ import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/swap/screens/process_swap_screen.dart';
 import 'features/swap/screens/swap_flow_screen.dart';
 import 'features/token_details/screens/token_details_screen.dart';
+import 'features/token_search/models/crypto_categories.dart';
 import 'features/token_search/screens/token_search_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';

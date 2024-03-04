@@ -28,7 +28,8 @@ class StartInvestingHeader extends StatelessWidget {
                     const SizedBox(height: 12),
                     DiscoverHeader(
                       showTitle: false,
-                      onTap: (it) => const TokenSearchRoute().go(context),
+                      onTap: (category) =>
+                          TokenSearchRoute(category).go(context),
                     ),
                   ],
                 ),
