@@ -157,6 +157,24 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
       );
 }
 
+class RampOnboardingRoute extends GoRouteData {
+  const RampOnboardingRoute(this.$extra);
+
+  final RampOnboardingParams $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      RampOnboardingScreen(
+        rampType: $extra.rampType,
+        onConfirmed: $extra.onConfirmed,
+      );
+}
+
+typedef RampOnboardingParams = ({
+  RampType rampType,
+  VoidCallback onConfirmed,
+});
+
 class _ProfileTextField extends StatelessWidget {
   const _ProfileTextField({
     required this.emailController,
@@ -171,6 +189,9 @@ class _ProfileTextField extends StatelessWidget {
   final TextInputType inputType;
   final TextCapitalization textCapitalization;
   final String placeholder;
+
+  static const _onRampTextfieldColor = Color(0xFFB84D12);
+  static const _offRampTextfieldColor = Color(0xFF9D8A59);
 
   @override
   Widget build(BuildContext context) => CpTextField(
@@ -194,24 +215,3 @@ class _ProfileTextField extends StatelessWidget {
         fontSize: 16,
       );
 }
-
-class RampOnboardingRoute extends GoRouteData {
-  const RampOnboardingRoute(this.$extra);
-
-  final RampOnboardingParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RampOnboardingScreen(
-        rampType: $extra.rampType,
-        onConfirmed: $extra.onConfirmed,
-      );
-}
-
-typedef RampOnboardingParams = ({
-  RampType rampType,
-  VoidCallback onConfirmed,
-});
-
-const _onRampTextfieldColor = Color(0xFFB84D12);
-const _offRampTextfieldColor = Color(0xFF9D8A59);
