@@ -4,15 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/link_payments.dart';
-import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
-import '../../../saga.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
@@ -83,7 +80,6 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                                         const _Body(),
                                         24.verticalSpace,
                                         _Footer(
-                                          isSaga: isSaga,
                                           onSignInPressed: _handleSignInPressed,
                                         ),
                                       ],
@@ -104,9 +100,8 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({required this.isSaga, required this.onSignInPressed});
+  const _Footer({required this.onSignInPressed});
 
-  final bool isSaga;
   final VoidCallback onSignInPressed;
 
   @override
@@ -116,28 +111,22 @@ class _Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             8.verticalSpace,
-            if (isSaga) ...[
-              const _SignInWithSagaButton(),
-              37.verticalSpace,
-            ] else ...[
-              const _CreateLocalWalletButton(),
-              19.verticalSpace,
-              Text.rich(
-                key: keyUseExistingWalletButton,
-                TextSpan(
-                  text: context.l10n.signIn1,
-                  children: [
-                    TextSpan(
-                      text: context.l10n.signIn2,
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = onSignInPressed,
-                      style: const TextStyle(color: CpColors.yellowColor),
-                    ),
-                  ],
-                ),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
+            const _CreateLocalWalletButton(),
+            19.verticalSpace,
+            Text.rich(
+              key: keyUseExistingWalletButton,
+              TextSpan(
+                text: context.l10n.signIn1,
+                children: [
+                  TextSpan(
+                    text: context.l10n.signIn2,
+                    recognizer: TapGestureRecognizer()..onTap = onSignInPressed,
+                    style: const TextStyle(color: CpColors.yellowColor),
+                  ),
+                ],
               ),
-            ],
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
+            ),
             67.verticalSpace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 19.w),
@@ -160,33 +149,6 @@ class _CreateLocalWalletButton extends StatelessWidget {
         onPressed: () => context
             .read<SignInBloc>()
             .add(const SignInEvent.newLocalWalletRequested()),
-      );
-}
-
-class _SignInWithSagaButton extends StatefulWidget {
-  const _SignInWithSagaButton();
-
-  @override
-  State<_SignInWithSagaButton> createState() => _SignInWithSagaButtonState();
-}
-
-class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
-  Future<void> _handlePressed() async {
-    final hasPermission = await sl<SeedVault>().checkPermission();
-    if (!mounted) return;
-    if (!hasPermission) return;
-
-    context
-        .read<SignInBloc>()
-        .add(const SignInEvent.existingSagaWalletRequested());
-  }
-
-  @override
-  Widget build(BuildContext context) => CpButton(
-        key: keyCreateWalletButton,
-        text: context.l10n.signInWithSaga,
-        width: double.infinity,
-        onPressed: _handlePressed,
       );
 }
 

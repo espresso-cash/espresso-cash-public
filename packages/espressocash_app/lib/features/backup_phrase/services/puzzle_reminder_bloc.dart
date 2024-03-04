@@ -81,13 +81,6 @@ class PuzzleReminderBloc
     PuzzleReminderEventCheckRequested event,
     Emitter<PuzzleReminderState> emit,
   ) async {
-    if (event.wallet is SagaWallet) {
-      // Don't set a reminder if wallet is from Saga
-      add(const PuzzleReminderEvent.solved());
-
-      return;
-    }
-
     await event.accessMode.when(
       // Don't set a reminder if user logged in (they already know the seed)
       seedInputted: () async => add(const PuzzleReminderEvent.solved()),

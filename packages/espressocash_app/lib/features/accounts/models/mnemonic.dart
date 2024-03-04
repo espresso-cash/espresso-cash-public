@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
 
 part 'mnemonic.freezed.dart';
 
@@ -24,5 +23,4 @@ extension MnemonicExt on Mnemonic {
 @freezed
 class AccountSource with _$AccountSource {
   const factory AccountSource.local(Mnemonic mnemonic) = AccountSourceLocal;
-  const factory AccountSource.saga(AuthToken token) = AccountSourceSaga;
 }
