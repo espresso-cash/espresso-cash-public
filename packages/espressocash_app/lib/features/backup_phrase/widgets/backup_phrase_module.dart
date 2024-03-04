@@ -48,8 +48,7 @@ class _ContentState extends State<_Content> with AccountListener {
     context.read<PuzzleReminderBloc>().add(event);
   }
 
-  void _showPuzzleReminderDialog() =>
-      const PuzzleReminderRoute().push<void>(context);
+  void _showPuzzleReminderDialog() => const PuzzleReminderRoute().go(context);
 
   @override
   void handleAccountChanged(MyAccount? account) {

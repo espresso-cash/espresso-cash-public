@@ -33,7 +33,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
   }
 
   void _handlePressed() =>
-      OnboardingRoute(finishPath: widget.finishPath).go(context);
+      OnboardingRoute(finishPath: widget.finishPath).push<void>(context);
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
