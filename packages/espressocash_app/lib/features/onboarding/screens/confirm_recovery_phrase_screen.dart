@@ -43,9 +43,7 @@ class _ConfirmRecoveryPhraseScreenState
                 _currentPhrase == correctPhrase ? widget.onConfirmed : null,
           ),
           children: [
-            CpAppBar(
-              leading: const CpBackButton(),
-            ),
+            const CpAppBar(leading: CpBackButton()),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),
             OnboardingPadding(

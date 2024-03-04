@@ -54,7 +54,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
               onPressed: _mnemonicIsValid ? _restoreAccount : null,
             ),
             children: [
-              CpAppBar(),
+              const CpAppBar(),
               const OnboardingLogo(),
               OnboardingTitle(text: context.l10n.enterYourSecretWords),
               OnboardingDescription(text: context.l10n.toRestoreYourAccount),

@@ -75,7 +75,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(),
+        appBar: const CpAppBar(),
         body: SafeArea(
           child: Column(
             children: [

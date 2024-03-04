@@ -26,6 +26,10 @@ class RampPage extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
+            scrolledUnderColor: switch (type) {
+              RampType.onRamp => CpColors.darkOrangeBackgroundColor,
+              RampType.offRamp => CpColors.goldBackgroundColor,
+            },
             leading: const CpBackButton(),
             title: Text(
               switch (type) {

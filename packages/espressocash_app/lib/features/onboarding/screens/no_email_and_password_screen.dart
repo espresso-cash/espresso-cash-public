@@ -24,9 +24,7 @@ class NoEmailAndPasswordScreen extends StatelessWidget {
               onPressed: onDone,
             ),
             children: [
-              CpAppBar(
-                leading: const CpBackButton(),
-              ),
+              const CpAppBar(leading: CpBackButton()),
               const OnboardingLogo(),
               OnboardingPadding(
                 child: CpInfoWidget(
