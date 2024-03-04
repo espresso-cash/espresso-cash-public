@@ -47,9 +47,7 @@ class _FlowState extends State<SwapFlowScreen> {
     return CpTheme.dark(
       child: Scaffold(
         backgroundColor: CpColors.darkBackground,
-        appBar: CpAppBar(
-          leading: const CloseButton(),
-        ),
+        appBar: const CpAppBar(leading: CloseButton()),
         body: CreateSwapScreen(
           onRouteReady: _handleRouteReady,
           operation: operation,

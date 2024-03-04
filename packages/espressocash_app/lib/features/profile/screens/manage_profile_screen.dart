@@ -107,7 +107,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
-          appBar: CpAppBar(),
+          appBar: const CpAppBar(),
           extendBodyBehindAppBar: true,
           body: OnboardingScreen(
             footer: ListenableBuilder(

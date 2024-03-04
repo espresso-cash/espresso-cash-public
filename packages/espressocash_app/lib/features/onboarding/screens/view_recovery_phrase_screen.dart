@@ -48,7 +48,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
               onPressed: () => widget.onConfirmed(_phrase),
             ),
             children: [
-              CpAppBar(),
+              const CpAppBar(),
               const OnboardingLogo(),
               OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
               OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
