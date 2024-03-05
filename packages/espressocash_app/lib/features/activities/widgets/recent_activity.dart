@@ -87,8 +87,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () =>
-                            const ActivitiesRoute().push<void>(context),
+                        onPressed: () => const ActivitiesRoute(
+                          initialTab: ActivitiesTab.transactions,
+                        ).go(context),
                       ),
                     ],
                   ),

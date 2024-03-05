@@ -8,24 +8,25 @@ import '../../../ui/tab_bar.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
+enum ActivitiesTab { pending, transactions }
+
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({
     super.key,
-    this.goToTransactions = false,
+    this.initialTab = ActivitiesTab.pending,
   });
 
-  final bool? goToTransactions;
+  final ActivitiesTab? initialTab;
 
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
-    final isTransactions = goToTransactions ?? false;
 
     return PageFadeWrapper(
       child: DefaultTabController(
         length: 2,
-        initialIndex: isTransactions ? 1 : 0,
+        initialIndex: initialTab == ActivitiesTab.pending ? 0 : 1,
         child: Column(
           children: [
             CpAppBar(
@@ -62,11 +63,13 @@ class ActivitiesScreen extends StatelessWidget {
 }
 
 class ActivitiesRoute extends GoRouteData {
-  const ActivitiesRoute();
+  const ActivitiesRoute({this.initialTab});
+
+  final ActivitiesTab? initialTab;
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: ActivitiesScreen());
+      NoTransitionPage(child: ActivitiesScreen(initialTab: initialTab));
 }
 
 const double _padding = 40;
