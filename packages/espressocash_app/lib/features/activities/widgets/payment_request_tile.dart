@@ -58,7 +58,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                       completed: always(CpActivityTileStatus.success),
                       failure: always(CpActivityTileStatus.failure),
                     ),
-                    onTap: () => SharePaymentRequestRoute(data.id).go(context),
+                    onTap: () =>
+                        SharePaymentRequestRoute(data.id).push<void>(context),
                   ),
                 );
         },

@@ -29,6 +29,6 @@ class ODPTile extends StatelessWidget {
           success: always(CpActivityTileStatus.success),
           txFailure: always(CpActivityTileStatus.failure),
         ),
-        onTap: () => ODPDetailsRoute(activity.id).go(context),
+        onTap: () => ODPDetailsRoute(activity.id).push<void>(context),
       );
 }

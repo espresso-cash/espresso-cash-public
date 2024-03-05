@@ -49,7 +49,7 @@ class SwapTile extends StatelessWidget {
         success: always(CpActivityTileStatus.success),
         txFailure: always(CpActivityTileStatus.failure),
       ),
-      onTap: () => ProcessSwapRoute(activity.id).go(context),
+      onTap: () => ProcessSwapRoute(activity.id).push<void>(context),
     );
   }
 }

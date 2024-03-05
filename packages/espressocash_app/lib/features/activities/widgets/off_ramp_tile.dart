@@ -33,7 +33,7 @@ class OffRampTile extends StatelessWidget {
                   ? CpActivityTileStatus.failure
                   : CpActivityTileStatus.inProgress,
           timestamp: context.formatDate(activity.created),
-          onTap: () => OffRampOrderRoute(activity.id).go(context),
+          onTap: () => OffRampOrderRoute(activity.id).push<void>(context),
         ),
       );
 }

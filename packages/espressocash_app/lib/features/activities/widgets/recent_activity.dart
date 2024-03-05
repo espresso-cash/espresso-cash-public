@@ -87,7 +87,8 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () => const ActivitiesRoute().go(context),
+                        onPressed: () =>
+                            const ActivitiesRoute().push<void>(context),
                       ),
                     ],
                   ),
@@ -121,7 +122,7 @@ class _NoActivity extends StatelessWidget {
                 minWidth: 120,
                 size: CpButtonSize.wide,
                 text: context.l10n.yes,
-                onPressed: () => const WalletRoute().go(context),
+                onPressed: () => const WalletRoute().push<void>(context),
               ),
             ],
           ),

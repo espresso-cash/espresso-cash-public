@@ -5,7 +5,6 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/tab_bar.dart';
-import '../../authenticated/screens/home_screen.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
@@ -67,7 +66,7 @@ class ActivitiesRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: HomeScreen(child: ActivitiesScreen()));
+      const NoTransitionPage(child: ActivitiesScreen());
 }
 
 const double _padding = 40;

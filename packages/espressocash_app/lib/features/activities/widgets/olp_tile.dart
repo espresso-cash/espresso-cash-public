@@ -29,6 +29,6 @@ class OLPTile extends StatelessWidget {
           txFailure: always(CpActivityTileStatus.failure),
           orElse: always(CpActivityTileStatus.inProgress),
         ),
-        onTap: () => OLPRoute(activity.id).go(context),
+        onTap: () => OLPRoute(activity.id).push<void>(context),
       );
 }

@@ -31,6 +31,7 @@ class OutgoingDlnTile extends StatelessWidget {
           fulfilled: always(CpActivityTileStatus.success),
           unfulfilled: always(CpActivityTileStatus.failure),
         ),
-        onTap: () => OutgoingDlnPaymentDetailsRoute(activity.id).go(context),
+        onTap: () =>
+            OutgoingDlnPaymentDetailsRoute(activity.id).push<void>(context),
       );
 }
