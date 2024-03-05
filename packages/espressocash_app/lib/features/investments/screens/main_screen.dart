@@ -81,7 +81,8 @@ class _MainScreenState extends State<MainScreen> {
                           icon: Assets.icons.settingsButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () => const ProfileRoute().go(context),
+                          onPressed: () =>
+                              const ProfileRoute().push<void>(context),
                         ),
                         const SizedBox(width: 12),
                       ],
