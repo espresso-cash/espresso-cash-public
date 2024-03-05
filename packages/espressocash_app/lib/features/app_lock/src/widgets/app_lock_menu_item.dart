@@ -18,8 +18,8 @@ class AppLockMenuItem extends StatelessWidget {
           subtitle: context.l10n.appLock_lblAutoLockDescription,
           value: state is AppLockStateEnabled,
           onChanged: (value) => value
-              ? const AppLockEnableRoute().go(context)
-              : const AppLockDisableRoute().go(context),
+              ? const AppLockEnableRoute().push<void>(context)
+              : const AppLockDisableRoute().push<void>(context),
         ),
       );
 }

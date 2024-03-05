@@ -197,6 +197,7 @@ final goRouter = GoRouter(
 
     final urlsSafeForLogIn = [
       const SignInRoute().location,
+      const RestoreAccountRoute().location,
       const TermsRoute().location,
       const PrivacyRoute().location,
     ];

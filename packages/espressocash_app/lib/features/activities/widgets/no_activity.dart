@@ -25,7 +25,7 @@ class NoActivity extends StatelessWidget {
               text: context.l10n.requestOrSendPayment,
               width: double.infinity,
               size: CpButtonSize.big,
-              onPressed: () => const WalletRoute().push<void>(context),
+              onPressed: () => const WalletRoute().go(context),
             ),
             const Spacer(),
             const SizedBox(height: cpNavigationBarheight),

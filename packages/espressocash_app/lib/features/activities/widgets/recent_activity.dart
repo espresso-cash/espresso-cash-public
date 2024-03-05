@@ -122,7 +122,7 @@ class _NoActivity extends StatelessWidget {
                 minWidth: 120,
                 size: CpButtonSize.wide,
                 text: context.l10n.yes,
-                onPressed: () => const WalletRoute().push<void>(context),
+                onPressed: () => const WalletRoute().go(context),
               ),
             ],
           ),
