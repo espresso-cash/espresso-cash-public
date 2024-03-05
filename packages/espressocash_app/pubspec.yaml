@@ -25,10 +25,11 @@ dependencies:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
   fast_immutable_collections: ^9.2.0
-  firebase_analytics: ^10.7.4
-  firebase_app_installations: ^0.2.4+8
-  firebase_core: ^2.24.2
-  firebase_remote_config: ^4.3.8
+  firebase_analytics: ^10.8.7
+  firebase_app_installations: ^0.2.4+15
+  firebase_core: ^2.25.5
+  firebase_messaging: ^14.7.17
+  firebase_remote_config: ^4.3.15
   fl_chart: ^0.65.0
   flutter:
     sdk: flutter

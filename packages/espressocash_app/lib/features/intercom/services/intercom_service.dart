@@ -5,8 +5,10 @@ import 'package:injectable/injectable.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 
 import '../../../config.dart';
+import '../../../di.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../messaging/services/messaging_service.dart';
 
 @Singleton(scope: authScope)
 class IntercomService implements Disposable {
@@ -27,6 +29,13 @@ class IntercomService implements Disposable {
     final IntercomService instance = _instance ??= const IntercomService._();
 
     await Intercom.instance.loginIdentifiedUser(userId: account.address);
+
+    final token =
+        await sl<MessagingService>().getToken().onError((_, __) => null);
+
+    if (token != null) {
+      await Intercom.instance.sendTokenToIntercom(token);
+    }
 
     return instance;
   }
