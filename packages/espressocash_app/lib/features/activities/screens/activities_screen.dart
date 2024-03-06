@@ -13,10 +13,10 @@ enum ActivitiesTab { pending, transactions }
 class ActivitiesScreen extends StatelessWidget {
   const ActivitiesScreen({
     super.key,
-    this.initialTab = ActivitiesTab.pending,
+    required this.initialTab,
   });
 
-  final ActivitiesTab? initialTab;
+  final ActivitiesTab initialTab;
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +63,17 @@ class ActivitiesScreen extends StatelessWidget {
 }
 
 class ActivitiesRoute extends GoRouteData {
-  const ActivitiesRoute({this.initialTab});
+  const ActivitiesRoute({required this.initialTab});
 
   final ActivitiesTab? initialTab;
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      NoTransitionPage(child: ActivitiesScreen(initialTab: initialTab));
+      NoTransitionPage(
+        child: ActivitiesScreen(
+          initialTab: initialTab ?? ActivitiesTab.pending,
+        ),
+      );
 }
 
 const double _padding = 40;
