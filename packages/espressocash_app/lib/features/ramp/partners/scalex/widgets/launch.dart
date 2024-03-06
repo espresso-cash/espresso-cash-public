@@ -2,12 +2,14 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
@@ -83,6 +85,10 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(
+        source: await _loadCustomStyle(RampType.onRamp),
+      );
+
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
         callback: (args) async {
@@ -211,6 +217,10 @@ window.addEventListener("message", (event) => {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(
+        source: await _loadCustomStyle(RampType.offRamp),
+      );
+
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
         callback: (args) async {
@@ -347,4 +357,22 @@ extension on Amount {
       cryptoCurrency: Currency.usdc,
     );
   }
+}
+
+Future<String> _loadCustomStyle(RampType type) async {
+  final css = await rootBundle.loadString(
+    switch (type) {
+      RampType.onRamp => Assets.scalex.onramp,
+      RampType.offRamp => Assets.scalex.offramp,
+    },
+  );
+
+  return """
+  (function() {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `$css`;
+    document.head.appendChild(style);
+  })();
+""";
 }
