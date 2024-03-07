@@ -100,50 +100,58 @@ part 'routing.g.dart';
                         TypedGoRoute<TokenDetailsRoute>(path: 'token'),
                       ],
                     ),
+                    TypedGoRoute<ProfileRoute>(
+                      path: 'profile',
+                      routes: [
+                        TypedGoRoute<ManageProfileRoute>(path: 'manage'),
+                        TypedGoRoute<AppLockEnableRoute>(
+                          path: 'enable-app-lock',
+                        ),
+                        TypedGoRoute<AppLockDisableRoute>(
+                          path: 'disable-app-lock',
+                        ),
+                        TypedGoRoute<QuizIntroRoute>(path: 'quiz-intro'),
+                        TypedGoRoute<QuizRoute>(path: 'quiz'),
+                      ],
+                    ),
                   ],
                 ),
               ],
             ),
             TypedStatefulShellBranch(
               routes: [
-                TypedGoRoute<WalletRoute>(path: '/wallet'),
+                TypedGoRoute<WalletRoute>(
+                  path: '/wallet',
+                  routes: [
+                    TypedGoRoute<PayRoute>(path: 'pay'),
+                  ],
+                ),
               ],
             ),
             TypedStatefulShellBranch(
               routes: [
-                TypedGoRoute<ActivitiesRoute>(path: '/activities'),
+                TypedGoRoute<ActivitiesRoute>(
+                  path: '/activities',
+                  routes: [
+                    TypedGoRoute<OLPRoute>(path: 'olp/:id'),
+                    TypedGoRoute<ProcessSwapRoute>(path: 'process-swap/:id'),
+                    TypedGoRoute<OffRampOrderRoute>(path: 'off-ramp/:id'),
+                    TypedGoRoute<OnRampOrderRoute>(path: 'on-ramp/:id'),
+                    TypedGoRoute<ODPDetailsRoute>(path: 'odp/:id'),
+                    TypedGoRoute<IncomingLinkPaymentRoute>(
+                      path: 'details-ilp/:id',
+                    ),
+                    TypedGoRoute<ShareLinkRoute>(path: 'share-link'),
+                    TypedGoRoute<SharePaymentRequestRoute>(
+                      path: 'share-payment-request/:id',
+                    ),
+                    TypedGoRoute<OutgoingDlnPaymentDetailsRoute>(
+                      path: 'details-outgoing-dln-payment/:id',
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
-        ),
-        TypedGoRoute<OLPRoute>(path: '/olp/:id'),
-        TypedGoRoute<ProcessSwapRoute>(path: '/process-swap/:id'),
-        TypedGoRoute<OffRampOrderRoute>(path: '/off-ramp/:id'),
-        TypedGoRoute<OnRampOrderRoute>(path: '/on-ramp/:id'),
-        TypedGoRoute<ODPDetailsRoute>(path: '/odp/:id'),
-        TypedGoRoute<IncomingLinkPaymentRoute>(
-          path: '/details-ilp/:id',
-        ),
-        TypedGoRoute<ShareLinkRoute>(path: '/share-link'),
-        TypedGoRoute<SharePaymentRequestRoute>(
-          path: '/share-payment-request/:id',
-        ),
-        TypedGoRoute<OutgoingDlnPaymentDetailsRoute>(
-          path: '/details-outgoing-dln-payment/:id',
-        ),
-        TypedGoRoute<PayRoute>(path: '/pay'),
-        TypedGoRoute<ProfileRoute>(
-          path: '/profile',
-          routes: [
-            TypedGoRoute<ManageProfileRoute>(path: 'manage'),
-            TypedGoRoute<AppLockEnableRoute>(
-              path: 'enable-app-lock',
-            ),
-            TypedGoRoute<AppLockDisableRoute>(
-              path: 'disable-app-lock',
-            ),
-            TypedGoRoute<QuizIntroRoute>(path: 'quiz-intro'),
-            TypedGoRoute<QuizRoute>(path: 'quiz'),
           ],
         ),
         TypedGoRoute<OnboardingRoute>(path: '/onboarding/profile'),

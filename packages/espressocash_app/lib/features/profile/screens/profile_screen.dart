@@ -130,8 +130,8 @@ class ProfileRoute extends GoRouteData {
       authenticatedNavigatorKey;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const ProfileScreen();
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      const MaterialPage(fullscreenDialog: true, child: ProfileScreen());
 }
 
 const double _buttonSpacing = 22;

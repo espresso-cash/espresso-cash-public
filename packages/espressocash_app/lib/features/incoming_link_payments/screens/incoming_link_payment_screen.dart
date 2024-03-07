@@ -10,6 +10,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/message_info_widget.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -76,6 +77,9 @@ class IncomingLinkPaymentRoute extends GoRouteData {
   const IncomingLinkPaymentRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>

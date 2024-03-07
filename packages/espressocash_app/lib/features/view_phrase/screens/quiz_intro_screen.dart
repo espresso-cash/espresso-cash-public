@@ -74,6 +74,6 @@ class QuizIntroRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => QuizIntroScreen(
-        onConfirmed: () => const QuizRoute().replace(context),
+        onConfirmed: () => const QuizRoute().go(context),
       );
 }
