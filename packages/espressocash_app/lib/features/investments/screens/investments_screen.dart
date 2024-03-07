@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
@@ -22,11 +22,8 @@ import '../widgets/crypto_investments.dart';
 import '../widgets/popular_crypto_header.dart';
 import '../widgets/start_investing_header.dart';
 
-@RoutePage()
 class InvestmentsScreen extends StatelessWidget {
   const InvestmentsScreen({super.key});
-
-  static const route = InvestmentsRoute.new;
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
@@ -63,8 +60,7 @@ class InvestmentsScreen extends StatelessWidget {
                           icon: Assets.icons.searchButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () =>
-                              context.router.push(TokenSearchScreen.route()),
+                          onPressed: () => const TokenSearchRoute().go(context),
                         ),
                         const SizedBox(width: 12),
                       ],
@@ -96,4 +92,12 @@ class InvestmentsScreen extends StatelessWidget {
           ),
         ),
       );
+}
+
+class InvestmentsRoute extends GoRouteData {
+  const InvestmentsRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const InvestmentsScreen();
 }

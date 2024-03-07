@@ -1,21 +1,13 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../../../routing.dart';
 import '../../tokens/token.dart';
 import '../screens/swap_flow_screen.dart';
 
 extension BuildContextExt on BuildContext {
-  void navigateToBuyToken(Token token) => navigateTo(
-        SwapFlowScreen.route(
-          inputToken: Token.usdc,
-          outputToken: token,
-        ),
-      );
+  void navigateToBuyToken(Token token) =>
+      CreateSwapRoute((input: Token.usdc, output: token)).push<void>(this);
 
-  void navigateToSellToken(Token token) => navigateTo(
-        SwapFlowScreen.route(
-          inputToken: token,
-          outputToken: Token.usdc,
-        ),
-      );
+  void navigateToSellToken(Token token) =>
+      CreateSwapRoute((input: token, output: Token.usdc)).push<void>(this);
 }

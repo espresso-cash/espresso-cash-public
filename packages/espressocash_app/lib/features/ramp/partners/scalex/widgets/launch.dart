@@ -1,32 +1,32 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
+import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
+import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../src/models/profile_data.dart';
-import '../../../src/models/ramp_type.dart';
-import '../../../src/screens/ramp_amount_screen.dart';
 import '../data/scalex_repository.dart';
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchScalexRamp({
+  Future<void> launchScalexOnRamp({
     required String address,
     required ProfileData profile,
-    required RampType type,
   }) async {
     final rateAndFee = await _fetchRateAndFee();
 
@@ -38,39 +38,168 @@ extension BuildContextExt on BuildContext {
 
     Amount? amount;
 
-    await router.push(
-      RampAmountScreen.route(
+    final double rampRate = rateAndFee.onRampRate ?? 0;
+    final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
+    final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
+
+    await RampAmountRoute(
+      (
         partner: RampPartner.scalex,
-        onSubmitted: (value) {
-          router.pop();
+        onSubmitted: (Amount? value) {
+          pop();
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        calculateEquivalent: (amount) => (
-          amount: amount.calculateTotalFee(
-            exchangeRate: rateAndFee.offRampRate,
-            offRampFee: rateAndFee.offRampFeePercentage,
-            fixedFee: rateAndFee.fixedOffRampFee,
-          ),
-          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
-        ),
+        calculateEquivalent: (Amount amount) => (
+              amount: amount.calculateOnRampFee(
+                exchangeRate: rampRate,
+              ),
+              rate: '1 USDC = $rampRate NGN'
+            ),
         partnerFeeLabel:
-            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
-        calculateFee: (amount) => amount.calculateEspressoFee(
-          espressoFee: rateAndFee.espressoFeePercentage,
-        ),
-        type: RampType.offRamp,
+            'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+        calculateFee: null,
+        type: RampType.onRamp,
       ),
-    );
+    ).push<void>(this);
 
     final submittedAmount = amount;
+
     if (submittedAmount is! CryptoAmount) return;
 
     final link = await _generateRampLink(
       address: address,
       profile: profile,
-      type: type,
+      type: RampType.onRamp,
+      amount: submittedAmount.decimal.toDouble() * rampRate,
+    );
+
+    if (link == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    bool orderWasCreated = false;
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      controller.addJavaScriptHandler(
+        handlerName: 'scalex',
+        callback: (args) async {
+          if (orderWasCreated) return;
+
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'reference': final String reference,
+                'to_amount': final num toAmount,
+              }) {
+            final decimal = Decimal.parse(toAmount.toString());
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                    as CryptoAmount;
+
+            final order = await sl<EspressoCashClient>().fetchScalexTransaction(
+              OrderStatusScalexRequestDto(referenceId: reference),
+            );
+
+            final details = order.onRampDetails;
+
+            if (details == null) return;
+
+            final transferAmount = Amount.fromDecimal(
+              value: Decimal.parse(details.fromAmount.toString()),
+              currency: currencyFromString(details.currency.toUpperCase()),
+            ) as FiatAmount;
+
+            await sl<OnRampOrderService>()
+                .createForManualTransfer(
+              orderId: reference,
+              receiveAmount: amount,
+              partner: RampPartner.scalex,
+              bankAccount: details.bankAccount,
+              bankName: details.bankName,
+              transferAmount: transferAmount,
+              transferExpiryDate:
+                  DateTime.now().add(const Duration(minutes: 30)),
+            )
+                .then((order) {
+              switch (order) {
+                case Left<Exception, String>():
+                  break;
+                case Right<Exception, String>(:final value):
+                  OnRampOrderRoute(value).go(this);
+              }
+            });
+            orderWasCreated = true;
+          }
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('scalex', event.data);
+}, false);
+''',
+      );
+    }
+
+    await WebViewRoute(
+      (
+        url: Uri.parse(link),
+        onLoaded: handleLoaded,
+        title: null,
+      ),
+    ).push<void>(this);
+  }
+
+  Future<void> launchScalexOffRamp({
+    required String address,
+    required ProfileData profile,
+  }) async {
+    final rateAndFee = await _fetchRateAndFee();
+
+    if (rateAndFee == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    Amount? amount;
+
+    await RampAmountRoute(
+      (
+        partner: RampPartner.scalex,
+        onSubmitted: (value) {
+          pop();
+          amount = value;
+        },
+        minAmount: Decimal.fromInt(10),
+        currency: Currency.usdc,
+        calculateEquivalent: (amount) => (
+              amount: amount.calculateOffRampFee(
+                exchangeRate: rateAndFee.offRampRate,
+                percentageFee: rateAndFee.offRampFeePercentage,
+                fixedFee: rateAndFee.fixedOffRampFee,
+              ),
+              rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+            ),
+        partnerFeeLabel:
+            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
+        calculateFee: (amount) => amount.calculateEspressoFee(
+              espressoFee: rateAndFee.espressoFeePercentage,
+            ),
+        type: RampType.offRamp,
+      ),
+    ).push<void>(this);
+
+    final submittedAmount = amount;
+
+    if (submittedAmount is! CryptoAmount) return;
+
+    final link = await _generateRampLink(
+      address: address,
+      profile: profile,
+      type: RampType.offRamp,
       amount: submittedAmount.decimal.toDouble(),
     );
 
@@ -87,94 +216,41 @@ extension BuildContextExt on BuildContext {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          if (type == RampType.onRamp) {
-            if (args.firstOrNull
-                case <String, dynamic>{
-                  'reference': final String reference,
-                  'to_amount': final num toAmount,
-                }) {
-              final decimal = Decimal.parse(toAmount.toString());
-              final amount =
-                  Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                      as CryptoAmount;
+          if (args.firstOrNull
+              case <String, dynamic>{
+                'reference': final String reference,
+                'from_amount': final num fromAmount,
+                'to_amount': final num toAmount,
+                // ignore: avoid-missing-interpolation, similar names
+                'address': final String address,
+              }) {
+            final decimal = Decimal.parse(fromAmount.toString());
+            final amount =
+                Amount.fromDecimal(value: decimal, currency: Currency.usdc)
+                    as CryptoAmount;
 
-              final order =
-                  await sl<EspressoCashClient>().fetchScalexTransaction(
-                OrderStatusScalexRequestDto(referenceId: reference),
-              );
+            final receiveAmount = Amount.fromDecimal(
+              value: Decimal.parse(toAmount.toString()),
+              currency: Currency.ngn,
+            ) as FiatAmount;
 
-              final details = order.onRampDetails;
-
-              if (details == null) return;
-
-              final transferAmount = Amount.fromDecimal(
-                value: Decimal.parse(details.fromAmount.toString()),
-                currency: currencyFromString(details.currency.toUpperCase()),
-              ) as FiatAmount;
-
-              await sl<OnRampOrderService>()
-                  .createForManualTransfer(
-                orderId: reference,
-                receiveAmount: amount,
-                partner: RampPartner.scalex,
-                bankAccount: details.bankAccount,
-                bankName: details.bankName,
-                transferAmount: transferAmount,
-                transferExpiryDate:
-                    DateTime.now().add(const Duration(minutes: 30)),
-              )
-                  .then((order) {
-                switch (order) {
-                  case Left<Exception, String>():
-                    break;
-                  case Right<Exception, String>(:final value):
-                    router.replace(OnRampOrderScreen.route(orderId: value));
-                }
-              });
-              orderWasCreated = true;
-            }
-          }
-
-          if (type == RampType.offRamp) {
-            if (args.firstOrNull
-                case <String, dynamic>{
-                  'reference': final String reference,
-                  'from_amount': final num fromAmount,
-                  'to_amount': final num toAmount,
-                  // ignore: avoid-missing-interpolation, similar names
-                  'address': final String address,
-                }) {
-              final decimal = Decimal.parse(fromAmount.toString());
-              final amount =
-                  Amount.fromDecimal(value: decimal, currency: Currency.usdc)
-                      as CryptoAmount;
-
-              final receiveAmount = Amount.fromDecimal(
-                value: Decimal.parse(toAmount.toString()),
-                currency: Currency.ngn,
-              ) as FiatAmount;
-
-              await sl<OffRampOrderService>()
-                  .create(
-                partnerOrderId: reference,
-                amount: amount,
-                partner: RampPartner.scalex,
-                receiveAmount: receiveAmount,
-                depositAddress: address,
-                fee: submittedAmount.calculateEspressoFee(
-                  espressoFee: rateAndFee.espressoFeePercentage,
-                ),
-              )
-                  .then((order) {
-                switch (order) {
-                  case Left<Exception, String>():
-                    break;
-                  case Right<Exception, String>(:final value):
-                    router.replace(OffRampOrderScreen.route(orderId: value));
-                }
-              });
-              orderWasCreated = true;
-            }
+            await sl<OffRampOrderService>()
+                .create(
+              partnerOrderId: reference,
+              amount: amount,
+              partner: RampPartner.scalex,
+              receiveAmount: receiveAmount,
+              depositAddress: address,
+            )
+                .then((order) {
+              switch (order) {
+                case Left<Exception, String>():
+                  break;
+                case Right<Exception, String>(:final value):
+                  OffRampOrderRoute(value).go(this);
+              }
+            });
+            orderWasCreated = true;
           }
         },
       );
@@ -187,12 +263,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await router.push(
-      WebViewScreen.route(
+    await WebViewRoute(
+      (
         url: Uri.parse(link),
         onLoaded: handleLoaded,
+        title: null,
       ),
-    );
+    ).push<void>(this);
   }
 
   Future<String?> _generateRampLink({
@@ -229,13 +306,13 @@ window.addEventListener("message", (event) => {
 }
 
 extension on Amount {
-  FiatAmount calculateTotalFee({
+  FiatAmount calculateOffRampFee({
     required double exchangeRate,
-    required double offRampFee,
+    required double percentageFee,
     required double fixedFee,
   }) {
     final double inputAmount = decimal.toDouble();
-    final double totalFeeInUsdc = (inputAmount * offRampFee) + fixedFee;
+    final double totalFeeInUsdc = (inputAmount * percentageFee) + fixedFee;
 
     final double netAmountInFiat =
         (inputAmount - totalFeeInUsdc) * exchangeRate;
@@ -243,6 +320,17 @@ extension on Amount {
     return FiatAmount(
       value:
           Currency.ngn.decimalToInt(Decimal.parse(netAmountInFiat.toString())),
+      fiatCurrency: Currency.ngn,
+    );
+  }
+
+  FiatAmount calculateOnRampFee({
+    required double exchangeRate,
+  }) {
+    final double inputAmount = decimal.toDouble() * exchangeRate;
+
+    return FiatAmount(
+      value: Currency.ngn.decimalToInt(Decimal.parse(inputAmount.toString())),
       fiatCurrency: Currency.ngn,
     );
   }

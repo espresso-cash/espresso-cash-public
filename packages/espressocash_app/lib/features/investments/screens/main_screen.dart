@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/currency.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
@@ -14,18 +14,15 @@ import '../../../ui/theme.dart';
 import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
-import '../../onboarding/onboarding.dart';
+import '../../onboarding/widgets/onboarding_notice.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../widgets/home_carousel.dart';
 import '../widgets/investing_widget.dart';
 import '../widgets/investment_header.dart';
 
-@RoutePage()
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
-
-  static const route = MainRoute.new;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -84,15 +81,18 @@ class _MainScreenState extends State<MainScreen> {
                           icon: Assets.icons.settingsButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () =>
-                              context.router.push(ProfileScreen.route()),
+                          onPressed: () => const ProfileRoute().go(context),
                         ),
                         const SizedBox(width: 12),
                       ],
                       toolbarHeight: kToolbarHeight + 12,
                     ),
                     const SliverToBoxAdapter(child: InvestmentHeader()),
-                    const SliverToBoxAdapter(child: OnboardingNotice()),
+                    SliverToBoxAdapter(
+                      child: OnboardingNotice(
+                        finishPath: const HomeRoute().location,
+                      ),
+                    ),
                     const SliverToBoxAdapter(child: HomeCarouselWidget()),
                     const SliverToBoxAdapter(child: RecentActivityWidget()),
                     const SliverToBoxAdapter(child: InvestingWidget()),
@@ -113,4 +113,12 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       );
+}
+
+class HomeRoute extends GoRouteData {
+  const HomeRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      const NoTransitionPage(child: MainScreen());
 }

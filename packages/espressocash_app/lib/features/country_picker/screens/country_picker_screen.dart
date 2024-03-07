@@ -1,8 +1,7 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/page_fade_wrapper.dart';
@@ -10,18 +9,13 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';
 
-@RoutePage()
 class CountryPickerScreen extends StatelessWidget {
   const CountryPickerScreen({
     super.key,
     this.initial,
-    required this.onSubmitted,
   });
 
-  static const route = CountryPickerRoute.new;
-
   final Country? initial;
-  final ValueSetter<Country> onSubmitted;
 
   @override
   Widget build(BuildContext context) => CpTheme.dark(
@@ -30,24 +24,15 @@ class CountryPickerScreen extends StatelessWidget {
           appBar: CpAppBar(
             title: Text(context.l10n.selectCountryTitle.toUpperCase()),
           ),
-          body: _Wrapper(
-            child: _Content(
-              initial: initial,
-              onSubmitted: onSubmitted,
-            ),
-          ),
+          body: _Wrapper(child: _Content(initial: initial)),
         ),
       );
 }
 
 class _Content extends StatefulWidget {
-  const _Content({
-    this.initial,
-    required this.onSubmitted,
-  });
+  const _Content({this.initial});
 
   final Country? initial;
-  final ValueSetter<Country> onSubmitted;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -159,7 +144,7 @@ class _ContentState extends State<_Content> {
                     ),
                     selectedColor: Colors.white,
                     shape: selected ? const StadiumBorder() : null,
-                    onTap: () => widget.onSubmitted(country),
+                    onTap: () => context.pop(country),
                   ),
                 );
               },

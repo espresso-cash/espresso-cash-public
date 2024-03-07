@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../features/legal/flow.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
-import '../../accounts/models/ec_wallet.dart';
+import '../../../routing.dart';
 import '../../accounts/services/account_service.dart';
 import '../../app_lock/app_lock.dart';
+import '../../legal/privacy_screen.dart';
+import '../../legal/terms_screen.dart';
 import '../../view_phrase/view_phrase.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';
@@ -21,21 +22,19 @@ class SecuritySection extends StatelessWidget {
           const AppLockMenuItem(),
           ValueListenableBuilder(
             valueListenable: sl<AccountService>(),
-            builder: (context, value, child) => value?.wallet is! SagaWallet
-                ? ProfileButton(
-                    label: context.l10n.viewRecoveryPhrase,
-                    description: context.l10n.viewRecoveryPhraseDescription,
-                    onPressed: () => context.launchViewRecoveryPhraseFlow(),
-                  )
-                : const SizedBox.shrink(),
+            builder: (context, value, child) => ProfileButton(
+              label: context.l10n.viewRecoveryPhrase,
+              description: context.l10n.viewRecoveryPhraseDescription,
+              onPressed: () => context.launchViewRecoveryPhraseFlow(),
+            ),
           ),
           ProfileButton(
             label: context.l10n.termsOfUse,
-            onPressed: () => context.navigateToTermsOfUse(),
+            onPressed: () => const TermsRoute().push<void>(context),
           ),
           ProfileButton(
             label: context.l10n.privacyPolicy,
-            onPressed: () => context.navigateToPrivacyPolicy(),
+            onPressed: () => const PrivacyRoute().push<void>(context),
           ),
         ],
       );

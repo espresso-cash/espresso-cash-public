@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../core/flow.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
-import '../models/crypto_categories.dart';
+import '../models/crypto_category.dart';
 
 part 'bloc.freezed.dart';
 
@@ -74,7 +74,7 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
 @freezed
 class TokenSearchEvent with _$TokenSearchEvent {
   const factory TokenSearchEvent.textSearch(String query) = SearchTextRequest;
-  const factory TokenSearchEvent.categorySearch(CryptoCategories? category) =
+  const factory TokenSearchEvent.categorySearch(CryptoCategory? category) =
       SearchCategoryRequest;
 }
 

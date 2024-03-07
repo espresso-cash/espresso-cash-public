@@ -1,27 +1,28 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
 import '../models/ramp_partner.dart';
+import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
+import '../screens/ramp_onboarding_screen.dart';
+import '../screens/ramp_partner_select_screen.dart';
 import '../src/models/profile_data.dart';
-import '../src/models/ramp_type.dart';
-import '../src/screens/ramp_onboarding_screen.dart';
-import '../src/screens/ramp_partner_select_screen.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
@@ -81,7 +82,7 @@ class CashOutButton extends StatelessWidget {
 extension on BuildContext {
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
-      router.pop();
+      pop();
     }
 
     final repository = sl<ProfileRepository>();
@@ -92,12 +93,9 @@ extension on BuildContext {
       return (country: country, email: email);
     }
 
-    await router.push(
-      RampOnboardingScreen.route(
-        onConfirmed: handleSubmitted,
-        rampType: rampType,
-      ),
-    );
+    await RampOnboardingRoute(
+      (onConfirmed: handleSubmitted, rampType: rampType),
+    ).push<void>(this);
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
@@ -129,17 +127,17 @@ extension on BuildContext {
       );
     }
 
-    router.push(
-      RampPartnerSelectScreen.route(
+    RampPartnerSelectRoute(
+      (
         topPartner: top,
         otherPartners: others.lock,
         type: RampType.onRamp,
-        onPartnerSelected: (p) {
-          router.pop();
+        onPartnerSelected: (RampPartner p) {
+          pop();
           _launchOnRampPartner(p, profile: profile, address: address);
         },
       ),
-    );
+    ).push<void>(this);
   }
 
   void launchOffRampFlow({
@@ -164,17 +162,17 @@ extension on BuildContext {
       );
     }
 
-    router.push(
-      RampPartnerSelectScreen.route(
+    RampPartnerSelectRoute(
+      (
         topPartner: top,
         otherPartners: others.lock,
         type: RampType.offRamp,
-        onPartnerSelected: (p) {
-          router.pop();
+        onPartnerSelected: (RampPartner p) {
+          pop();
           _launchOffRampPartner(p, profile: profile, address: address);
         },
       ),
-    );
+    ).push<void>(this);
   }
 
   void _launchOnRampPartner(
@@ -190,11 +188,7 @@ extension on BuildContext {
       case RampPartner.guardarian:
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
-        launchScalexRamp(
-          profile: profile,
-          address: address,
-          type: RampType.onRamp,
-        );
+        launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -211,11 +205,7 @@ extension on BuildContext {
       case RampPartner.coinflow:
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
-        launchScalexRamp(
-          profile: profile,
-          address: address,
-          type: RampType.offRamp,
-        );
+        launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');

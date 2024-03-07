@@ -1,15 +1,14 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/account_service.dart';
 import '../../activities/module.dart';
-import '../../backup_phrase/backup_phrase.dart';
+import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../conversion_rates/module.dart';
 import '../../favorite_tokens/module.dart';
 import '../../incoming_link_payments/module.dart';
@@ -20,19 +19,12 @@ import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
 import '../../swap/module.dart';
+import '../authenticated_navigator_key.dart';
 
-@immutable
-class HomeRouterKey {
-  const HomeRouterKey(this.value);
-
-  final GlobalKey<AutoRouterState> value;
-}
-
-@RoutePage()
 class AuthenticatedFlowScreen extends StatefulWidget {
-  const AuthenticatedFlowScreen({super.key});
+  const AuthenticatedFlowScreen({super.key, required this.child});
 
-  static const route = AuthenticatedFlowRoute.new;
+  final Widget child;
 
   @override
   State<AuthenticatedFlowScreen> createState() =>
@@ -40,8 +32,6 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 }
 
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
-  final _homeRouterKey = GlobalKey<AutoRouterState>();
-
   @override
   void didChangeDependencies() {
     precacheImage(Assets.images.cashInBg.provider(), context);
@@ -71,9 +61,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
                 const PaymentRequestModule(),
-                Provider<HomeRouterKey>(
-                  create: (_) => HomeRouterKey(_homeRouterKey),
-                ),
                 const ODPModule(),
                 const OLPModule(),
                 const InvestmentModule(),
@@ -83,17 +70,29 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const PopularTokensModule(),
                 const MobileWalletModule(),
               ],
-              child: AutoRouter(
-                key: _homeRouterKey,
-                builder: (context, child) => MultiProvider(
-                  providers: const [
-                    ILPModule(),
-                  ],
-                  child: child,
-                ),
+              child: MultiProvider(
+                providers: const [
+                  ILPModule(),
+                ],
+                child: widget.child,
               ),
             );
           },
         ),
       );
+}
+
+class AuthenticatedRoute extends ShellRouteData {
+  const AuthenticatedRoute();
+
+  static final GlobalKey<NavigatorState> $navigatorKey =
+      authenticatedNavigatorKey;
+
+  @override
+  Page<void> pageBuilder(
+    BuildContext context,
+    GoRouterState state,
+    Widget navigator,
+  ) =>
+      NoTransitionPage(child: AuthenticatedFlowScreen(child: navigator));
 }

@@ -1,18 +1,15 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:solana_seed_vault/solana_seed_vault.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/link_payments.dart';
-import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
-import '../../../saga.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
@@ -21,79 +18,90 @@ import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 import 'restore_account_screen.dart';
 
-@RoutePage()
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
-
-  static const route = GetStartedRoute.new;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => context.router.push(
-        RestoreAccountScreen.route(
-          onMnemonicConfirmed: _handleMnemonicConfirmed,
-        ),
-      );
+  void _handleSignInPressed() => const RestoreAccountRoute().go(context);
 
-  void _handleMnemonicConfirmed() =>
-      context.read<SignInBloc>().add(const SignInEvent.submitted());
+  late final Future<void> _imagesCache;
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
-        child: Scaffold(
-          backgroundColor: CpColors.yellowSplashBackgroundColor,
-          body: Stack(
-            children: [
-              Align(
-                child: Assets.images.dollarBg.image(
-                  fit: BoxFit.fitHeight,
-                  height: double.infinity,
-                ),
-              ),
-              SafeArea(
-                minimum: EdgeInsets.only(top: 70.h),
-                child: LayoutBuilder(
-                  builder: (context, constraints) => SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: constraints.copyWith(
-                        minHeight: constraints.maxHeight,
-                        maxHeight: double.infinity,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            const Expanded(child: Center(child: SplashLogo())),
-                            Column(
-                              children: [
-                                const _Body(),
-                                24.verticalSpace,
-                                _Footer(
-                                  isSaga: isSaga,
-                                  onSignInPressed: _handleSignInPressed,
-                                ),
-                              ],
-                            ),
-                          ],
+  void initState() {
+    super.initState();
+
+    _imagesCache = Future(
+      () => Future.wait([
+        precacheImage(Assets.images.logo.provider(), context),
+        precacheImage(Assets.images.dollarBg.provider(), context),
+      ]),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _imagesCache,
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.done
+            ? CpTheme.dark(
+                child: Scaffold(
+                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  body: Stack(
+                    children: [
+                      Align(
+                        child: Assets.images.dollarBg.image(
+                          fit: BoxFit.fitHeight,
+                          height: double.infinity,
                         ),
                       ),
-                    ),
+                      SafeArea(
+                        minimum: EdgeInsets.only(top: 70.h),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) =>
+                              SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: constraints.copyWith(
+                                minHeight: constraints.maxHeight,
+                                maxHeight: double.infinity,
+                              ),
+                              child: IntrinsicHeight(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Expanded(
+                                      child: Center(child: SplashLogo()),
+                                    ),
+                                    Column(
+                                      children: [
+                                        const _Body(),
+                                        24.verticalSpace,
+                                        _Footer(
+                                          onSignInPressed: _handleSignInPressed,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              )
+            : const SplashScreen(),
       );
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({required this.isSaga, required this.onSignInPressed});
+  const _Footer({required this.onSignInPressed});
 
-  final bool isSaga;
   final VoidCallback onSignInPressed;
 
   @override
@@ -103,28 +111,22 @@ class _Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             8.verticalSpace,
-            if (isSaga) ...[
-              const _SignInWithSagaButton(),
-              37.verticalSpace,
-            ] else ...[
-              const _CreateLocalWalletButton(),
-              19.verticalSpace,
-              Text.rich(
-                key: keyUseExistingWalletButton,
-                TextSpan(
-                  text: context.l10n.signIn1,
-                  children: [
-                    TextSpan(
-                      text: context.l10n.signIn2,
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = onSignInPressed,
-                      style: const TextStyle(color: CpColors.yellowColor),
-                    ),
-                  ],
-                ),
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
+            const _CreateLocalWalletButton(),
+            19.verticalSpace,
+            Text.rich(
+              key: keyUseExistingWalletButton,
+              TextSpan(
+                text: context.l10n.signIn1,
+                children: [
+                  TextSpan(
+                    text: context.l10n.signIn2,
+                    recognizer: TapGestureRecognizer()..onTap = onSignInPressed,
+                    style: const TextStyle(color: CpColors.yellowColor),
+                  ),
+                ],
               ),
-            ],
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15.sp),
+            ),
             67.verticalSpace,
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 19.w),
@@ -147,33 +149,6 @@ class _CreateLocalWalletButton extends StatelessWidget {
         onPressed: () => context
             .read<SignInBloc>()
             .add(const SignInEvent.newLocalWalletRequested()),
-      );
-}
-
-class _SignInWithSagaButton extends StatefulWidget {
-  const _SignInWithSagaButton();
-
-  @override
-  State<_SignInWithSagaButton> createState() => _SignInWithSagaButtonState();
-}
-
-class _SignInWithSagaButtonState extends State<_SignInWithSagaButton> {
-  Future<void> _handlePressed() async {
-    final hasPermission = await sl<SeedVault>().checkPermission();
-    if (!mounted) return;
-    if (!hasPermission) return;
-
-    context
-        .read<SignInBloc>()
-        .add(const SignInEvent.existingSagaWalletRequested());
-  }
-
-  @override
-  Widget build(BuildContext context) => CpButton(
-        key: keyCreateWalletButton,
-        text: context.l10n.signInWithSaga,
-        width: double.infinity,
-        onPressed: _handlePressed,
       );
 }
 
@@ -231,3 +206,27 @@ bool _parseUri(Uri? link) {
 
   return LinkPayments.tryParse(link) != null;
 }
+
+class SignInRoute extends GoRouteData {
+  const SignInRoute();
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      CustomTransitionPage(
+        key: state.pageKey,
+        transitionDuration: const Duration(milliseconds: 1000),
+        child: const GetStartedScreen(),
+        transitionsBuilder: _fadeTransitionBuilder,
+      );
+}
+
+Widget _fadeTransitionBuilder(
+  BuildContext _,
+  Animation<double> animation,
+  Animation<double> __,
+  Widget child,
+) =>
+    FadeTransition(
+      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+      child: child,
+    );

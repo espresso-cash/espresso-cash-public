@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -11,7 +11,6 @@ import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
@@ -25,13 +24,10 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
 import '../src/widgets/off_ramp_confirmation.dart';
 
-@RoutePage()
 class OffRampOrderScreen extends StatefulWidget {
   const OffRampOrderScreen({super.key, required this.orderId});
 
   final String orderId;
-
-  static const route = OffRampOrderRoute.new;
 
   @override
   State<OffRampOrderScreen> createState() => _OffRampOrderScreenState();
@@ -53,10 +49,20 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => context.pop())
               : OffRampOrderScreenContent(order: order);
         },
       );
+}
+
+class OffRampOrderRoute extends GoRouteData {
+  const OffRampOrderRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      OffRampOrderScreen(orderId: id);
 }
 
 class OffRampOrderScreenContent extends StatelessWidget {

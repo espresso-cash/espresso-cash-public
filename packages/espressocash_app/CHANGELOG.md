@@ -1,3 +1,14 @@
+## 1.105.0
+
+ - **REFACTOR**: remove declarative routes (#1288).
+ - **REFACTOR**: use DCM 1.14.0 (#1282).
+ - **REFACTOR**: rename ec client (#1281).
+ - **FIX**: scalex onramp fee calculation (#1279).
+ - **FIX**: scalex offramp  (#1277).
+ - **FEAT**: add last name (#1287).
+ - **FEAT**: payment screens redesign (#1272).
+ - **FEAT**: outgoing dln module updates (#1266).
+
 ## 1.104.0
 
  - **FIX**: intercom initialization (#1275).

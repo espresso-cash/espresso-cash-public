@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -16,14 +15,11 @@ import '../data/repository.dart';
 import '../models/outgoing_direct_payment.dart';
 import '../widgets/extensions.dart';
 
-@RoutePage()
 class ODPDetailsScreen extends StatefulWidget {
   const ODPDetailsScreen({
     super.key,
     required this.id,
   });
-
-  static const route = ODPDetailsRoute.new;
 
   final String id;
 
@@ -47,11 +43,11 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
           final payment = snapshot.data;
 
           return payment == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => context.pop())
               : payment.status.maybeMap(
                   success: (status) => TransferSuccess(
-                    onBack: () => context.router.pop(),
-                    onOkPressed: () => context.router.pop(),
+                    onBack: () => context.pop(),
+                    onOkPressed: () => context.pop(),
                     statusContent: context.l10n.outgoingTransferSuccess(
                       payment.amount.format(DeviceLocale.localeOf(context)),
                     ),
@@ -64,14 +60,24 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                     },
                   ),
                   txFailure: (it) => TransferError(
-                    onBack: () => context.router.pop(),
+                    onBack: () => context.pop(),
                     onRetry: () => context.retryODP(paymentId: payment.id),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
-                    onBack: () => context.router.pop(),
+                    onBack: () => context.pop(),
                   ),
                 );
         },
       );
+}
+
+class ODPDetailsRoute extends GoRouteData {
+  const ODPDetailsRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ODPDetailsScreen(id: id);
 }

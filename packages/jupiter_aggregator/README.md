@@ -25,12 +25,13 @@ start using the package.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+Define environmental variables when launching the app with flags on the command line. For example:
 
-```dart
-const like = 'sample';
+```bash
+flutter run lib/main.dart --dart-define=QUOTE_API_BASE=https://public.jupiterapi.com
 ```
+
+You can get Swap API urls from [Jupiter Station](https://station.jup.ag/docs/apis/swap-api), [QuickNode](https://marketplace.quicknode.com/add-on/metis-jupiter-v6-swap-api) or [JupiterAPI.com](https://www.jupiterapi.com/).
 
 ## Additional information
 

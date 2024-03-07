@@ -6,7 +6,7 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/back_button.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import '../models/ramp_type.dart';
+import '../../models/ramp_type.dart';
 
 class RampPage extends StatelessWidget {
   const RampPage({
@@ -26,6 +26,10 @@ class RampPage extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(
+            scrolledUnderColor: switch (type) {
+              RampType.onRamp => CpColors.darkOrangeBackgroundColor,
+              RampType.offRamp => CpColors.goldBackgroundColor,
+            },
             leading: const CpBackButton(),
             title: Text(
               switch (type) {

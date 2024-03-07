@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -54,9 +53,7 @@ class OnRampDepositWidget extends StatelessWidget {
               fontSize: 17,
             ),
           ),
-          leading: CpBackButton(
-            onPressed: () => context.router.popUntilRoot(),
-          ),
+          leading: const CpBackButton(),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 24),

@@ -710,8 +710,6 @@
   "@signIn2": {},
   "signIn_lblByCreatingWalletYouAgree": "Создавая кошелек или используя существующий кошелек, вы соглашаетесь с нашими",
   "@signIn_lblByCreatingWalletYouAgree": {},
-  "signInWithSaga": "Войти с помощью Saga",
-  "@signInWithSaga": {},
   "signOut": "Удалить кошелек",
   "@signOut": {},
   "signOutConfirmation": "Вы уверены, что хотите удалить кошелек?",
