@@ -10,13 +10,39 @@ import '../widgets/transaction_list.dart';
 
 enum ActivitiesTab { pending, transactions }
 
-class ActivitiesScreen extends StatelessWidget {
+class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({
     super.key,
     required this.initialTab,
   });
 
   final ActivitiesTab initialTab;
+
+  @override
+  State<ActivitiesScreen> createState() => _ActivitiesScreenState();
+}
+
+class _ActivitiesScreenState extends State<ActivitiesScreen>
+    with SingleTickerProviderStateMixin {
+  late final _controller = TabController(
+    length: ActivitiesTab.values.length,
+    initialIndex: widget.initialTab.index,
+    vsync: this,
+  );
+
+  @override
+  void didUpdateWidget(covariant ActivitiesScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialTab != widget.initialTab) {
+      _controller.index = widget.initialTab.index;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,27 +66,27 @@ class ActivitiesScreen extends StatelessWidget {
         };
 
     return PageFadeWrapper(
-      child: DefaultTabController(
-        length: ActivitiesTab.values.length,
-        initialIndex: initialTab.index,
-        child: Column(
-          children: [
-            CpAppBar(
-              title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+      child: Column(
+        children: [
+          CpAppBar(
+            title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CpTabBar(
+              controller: _controller,
+              tabs: ActivitiesTab.values.map(mapTab).toList(),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CpTabBar(tabs: ActivitiesTab.values.map(mapTab).toList()),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _controller,
+              children: ActivitiesTab.values.map(mapWrapper).toList(),
             ),
-            Expanded(
-              child: TabBarView(
-                children: ActivitiesTab.values.map(mapWrapper).toList(),
-              ),
-            ),
-            SizedBox(height: bottom),
-          ],
-        ),
+          ),
+          SizedBox(height: bottom),
+        ],
       ),
     );
   }

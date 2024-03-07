@@ -16,24 +16,21 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         extendBody: true,
         body: navigationShell,
-        bottomNavigationBar: ListenableBuilder(
-          listenable: GoRouter.of(context).routeInformationProvider,
-          builder: (context, child) => CPNavigationBar(
-            items: _pages
-                .mapIndexed(
-                  (i, p) => CpNavigationButton(
-                    icon: p.icon,
-                    active: navigationShell.currentIndex == i,
-                    onPressed: () {
-                      navigationShell.goBranch(
-                        i,
-                        initialLocation: i == navigationShell.currentIndex,
-                      );
-                    },
-                  ),
-                )
-                .toList(),
-          ),
+        bottomNavigationBar: CPNavigationBar(
+          items: _pages
+              .mapIndexed(
+                (i, p) => CpNavigationButton(
+                  icon: p.icon,
+                  active: navigationShell.currentIndex == i,
+                  onPressed: () {
+                    navigationShell.goBranch(
+                      i,
+                      initialLocation: i == navigationShell.currentIndex,
+                    );
+                  },
+                ),
+              )
+              .toList(),
         ),
       );
 }
@@ -49,7 +46,7 @@ class HomeShellRoute extends StatefulShellRouteData {
   ) =>
       NoTransitionPage(child: HomeScreen(navigationShell: navigationShell));
 
-  static const String $restorationScopeId = 'restorationScopeId';
+  static const String $restorationScopeId = 'homeShellRoute';
 }
 
 final List<({SvgGenImage icon, String path})> _pages = [
