@@ -17,6 +17,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
@@ -269,6 +270,9 @@ class OLPRoute extends GoRouteData {
   const OLPRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) => OLPScreen(id: id);

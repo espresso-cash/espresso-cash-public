@@ -5,69 +5,105 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/tab_bar.dart';
-import '../../authenticated/screens/home_screen.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
 
-class ActivitiesScreen extends StatelessWidget {
+enum ActivitiesTab { pending, transactions }
+
+class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({
     super.key,
-    this.goToTransactions = false,
+    required this.initialTab,
   });
 
-  final bool? goToTransactions;
+  final ActivitiesTab initialTab;
+
+  @override
+  State<ActivitiesScreen> createState() => _ActivitiesScreenState();
+}
+
+class _ActivitiesScreenState extends State<ActivitiesScreen>
+    with SingleTickerProviderStateMixin {
+  late final _controller = TabController(
+    length: ActivitiesTab.values.length,
+    initialIndex: widget.initialTab.index,
+    vsync: this,
+  );
+
+  @override
+  void didUpdateWidget(covariant ActivitiesScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialTab != widget.initialTab) {
+      _controller.index = widget.initialTab.index;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
-    final isTransactions = goToTransactions ?? false;
+
+    Widget mapTab(ActivitiesTab tab) => Tab(
+          text: switch (tab) {
+            ActivitiesTab.pending => context.l10n.pending,
+            ActivitiesTab.transactions => context.l10n.transactions,
+          },
+        );
+
+    Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
+          ActivitiesTab.pending => const _Wrapper(
+              child: PendingActivitiesList(padding: insets),
+            ),
+          ActivitiesTab.transactions => const _Wrapper(
+              child: TransactionList(padding: insets),
+            ),
+        };
 
     return PageFadeWrapper(
-      child: DefaultTabController(
-        length: 2,
-        initialIndex: isTransactions ? 1 : 0,
-        child: Column(
-          children: [
-            CpAppBar(
-              title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+      child: Column(
+        children: [
+          CpAppBar(
+            title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CpTabBar(
+              controller: _controller,
+              tabs: ActivitiesTab.values.map(mapTab).toList(),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: context.l10n.pending),
-                  Tab(text: context.l10n.transactions),
-                ],
-              ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _controller,
+              children: ActivitiesTab.values.map(mapWrapper).toList(),
             ),
-            const Expanded(
-              child: TabBarView(
-                children: [
-                  _Wrapper(
-                    child: PendingActivitiesList(padding: insets),
-                  ),
-                  _Wrapper(
-                    child: TransactionList(padding: insets),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: bottom),
-          ],
-        ),
+          ),
+          SizedBox(height: bottom),
+        ],
       ),
     );
   }
 }
 
 class ActivitiesRoute extends GoRouteData {
-  const ActivitiesRoute();
+  const ActivitiesRoute({required this.initialTab});
+
+  final ActivitiesTab? initialTab;
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: HomeScreen(child: ActivitiesScreen()));
+      NoTransitionPage(
+        child: ActivitiesScreen(
+          initialTab: initialTab ?? ActivitiesTab.pending,
+        ),
+      );
 }
 
 const double _padding = 40;
