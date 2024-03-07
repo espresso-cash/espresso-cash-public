@@ -38,7 +38,7 @@ class OnRampTile extends StatelessWidget {
             context.locale,
             maxDecimals: 2,
           ),
-          onTap: () => OnRampOrderRoute(order?.id ?? '').push<void>(context),
+          onTap: () => OnRampOrderRoute(order?.id ?? '').go(context),
         ),
       );
 }
