@@ -1,12 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../tokens/token.dart';
@@ -18,14 +17,11 @@ import '../data/swap_repository.dart';
 import '../models/swap.dart';
 import '../services/swap_service.dart';
 
-@RoutePage()
 class ProcessSwapScreen extends StatefulWidget {
   const ProcessSwapScreen({
     super.key,
     required this.id,
   });
-
-  static const route = ProcessSwapRoute.new;
 
   final String id;
 
@@ -49,11 +45,11 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
           final swap = snapshot.data;
 
           return swap == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => context.pop())
               : swap.status.maybeMap(
                   success: (status) => TransferSuccess(
-                    onBack: () => context.router.pop(),
-                    onOkPressed: () => context.router.pop(),
+                    onBack: () => context.pop(),
+                    onOkPressed: () => context.pop(),
                     statusContent: swap.seed.inputToken == Token.usdc
                         ? context.l10n
                             .swapBuySuccess(swap.seed.outputToken.name)
@@ -68,16 +64,26 @@ class _ProcessSwapScreenState extends State<ProcessSwapScreen> {
                     },
                   ),
                   txFailure: (it) => TransferError(
-                    onBack: () => context.router.pop(),
+                    onBack: () => context.pop(),
                     onRetry: () => context.retrySwap(swap),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
-                    onBack: () => context.router.pop(),
+                    onBack: () => context.pop(),
                   ),
                 );
         },
       );
+}
+
+class ProcessSwapRoute extends GoRouteData {
+  const ProcessSwapRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ProcessSwapScreen(id: id);
 }
 
 extension on BuildContext {

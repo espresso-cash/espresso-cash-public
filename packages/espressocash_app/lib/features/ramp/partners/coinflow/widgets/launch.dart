@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
@@ -86,7 +86,7 @@ extension BuildContextExt on BuildContext {
               case Left<Exception, String>():
                 break;
               case Right<Exception, String>(:final value):
-                router.replace(OffRampOrderScreen.route(orderId: value));
+                OffRampOrderRoute(value).go(this);
             }
           });
 
@@ -97,7 +97,8 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await router.push(WebViewScreen.route(url: blank, onLoaded: handleLoaded));
+    await WebViewRoute((url: blank, onLoaded: handleLoaded, title: null))
+        .push<void>(this);
   }
 }
 

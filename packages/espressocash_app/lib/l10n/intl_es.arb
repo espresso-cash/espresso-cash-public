@@ -685,8 +685,6 @@
   "@signIn2": {},
   "signIn_lblByCreatingWalletYouAgree": "Al crear una billetera o usar una billetera existente, usted acepta nuestro ",
   "@signIn_lblByCreatingWalletYouAgree": {},
-  "signInWithSaga": "Inicia sesión con Saga",
-  "@signInWithSaga": {},
   "signOut": "Eliminar la billetera",
   "@signOut": {},
   "signOutConfirmation": "¿Estás seguro de que quieres eliminar la billetera?",

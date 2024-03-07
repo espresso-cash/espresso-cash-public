@@ -1,12 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../wallet_flow/screens/wallet_flow_screen.dart';
+import '../../wallet_flow/screens/wallet_screen.dart';
 import 'home_widget.dart';
 
 class HomeCarouselWidget extends StatefulWidget {
@@ -37,7 +37,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => context.router.navigate(WalletFlowScreen.route()),
+          onPressed: () => const WalletRoute().go(context),
         ),
         backgroundImage: isIos
             ? Assets.images.carousel2Ios.image()
@@ -50,7 +50,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => context.router.navigate(WalletFlowScreen.route()),
+          onPressed: () => const WalletRoute().go(context),
         ),
         backgroundImage: Assets.images.carousel1.image(),
       ),
@@ -61,7 +61,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => context.router.navigate(WalletFlowScreen.route()),
+          onPressed: () => const WalletRoute().go(context),
         ),
         backgroundImage: Assets.images.carousel4.image(),
       ),

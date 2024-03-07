@@ -1,32 +1,36 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../models/qr_scanner_request.dart';
 import '../services/qr_scanner_bloc.dart';
 import '../widgets/qr_scanner_background.dart';
 
-@RoutePage<QrScannerRequest>()
 class QrScannerScreen extends StatelessWidget {
   const QrScannerScreen({
     super.key,
   });
-
-  static const route = QrScannerRoute.new;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
         child: const _Content(),
       );
+}
+
+class QrScannerRoute extends GoRouteData {
+  const QrScannerRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const QrScannerScreen();
 }
 
 class _Content extends StatefulWidget {
@@ -82,14 +86,14 @@ class _ContentState extends State<_Content> {
         _qrViewController.stop();
         _onQRScanError();
 
-        context.router.pop();
+        context.pop();
       },
     );
   }
 
   void _handleClosePressed() {
     _qrViewController.stop();
-    context.router.pop();
+    context.pop();
   }
 
   void _onPermissionSet(bool allowed) {
@@ -104,8 +108,7 @@ class _ContentState extends State<_Content> {
     }
   }
 
-  void _onScanComplete([QrScannerRequest? request]) =>
-      context.router.pop(request);
+  void _onScanComplete([QrScannerRequest? request]) => context.pop(request);
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(

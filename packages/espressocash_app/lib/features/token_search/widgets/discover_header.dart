@@ -4,7 +4,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
-import '../models/crypto_categories.dart';
+import '../models/crypto_category.dart';
 
 class DiscoverHeader extends StatelessWidget {
   const DiscoverHeader({
@@ -15,8 +15,8 @@ class DiscoverHeader extends StatelessWidget {
   });
 
   final bool showTitle;
-  final CryptoCategories? selected;
-  final ValueSetter<CryptoCategories> onTap;
+  final CryptoCategory? selected;
+  final ValueSetter<CryptoCategory> onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class DiscoverHeader extends StatelessWidget {
             Wrap(
               runSpacing: 4,
               spacing: 4,
-              children: CryptoCategories.values
+              children: CryptoCategory.values
                   .map(
                     (e) => CpButton(
                       text: e.label,
@@ -77,18 +77,18 @@ class DiscoverHeader extends StatelessWidget {
   }
 }
 
-extension on CryptoCategories {
+extension on CryptoCategory {
   String get label {
     switch (this) {
-      case CryptoCategories.ethereum:
+      case CryptoCategory.ethereum:
         return 'Ethereum';
-      case CryptoCategories.stablecoins:
+      case CryptoCategory.stablecoins:
         return 'Stablecoins';
-      case CryptoCategories.solana:
+      case CryptoCategory.solana:
         return 'Solana Ecosystem';
-      case CryptoCategories.defi:
+      case CryptoCategory.defi:
         return 'DeFi';
-      case CryptoCategories.amm:
+      case CryptoCategory.amm:
         return 'Automated Market Maker (AMM)';
     }
   }

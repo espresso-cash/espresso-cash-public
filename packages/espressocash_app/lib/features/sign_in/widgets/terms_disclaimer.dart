@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../../ui/colors.dart';
-import '../../legal/flow.dart';
+import '../../legal/privacy_screen.dart';
+import '../../legal/terms_screen.dart';
 
 class TermsDisclaimer extends StatelessWidget {
   const TermsDisclaimer({super.key});
@@ -17,19 +19,15 @@ class TermsDisclaimer extends StatelessWidget {
             TextSpan(
               text: context.l10n.terms,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => context.navigateToTermsOfUse(),
-              style: const TextStyle(
-                color: CpColors.yellowColor,
-              ),
+                ..onTap = () => const TermsRoute().push<void>(context),
+              style: const TextStyle(color: CpColors.yellowColor),
             ),
             TextSpan(text: context.l10n.core_and),
             TextSpan(
               text: context.l10n.privacyPolicy,
               recognizer: TapGestureRecognizer()
-                ..onTap = () => context.navigateToPrivacyPolicy(),
-              style: const TextStyle(
-                color: CpColors.yellowColor,
-              ),
+                ..onTap = () => const PrivacyRoute().push<void>(context),
+              style: const TextStyle(color: CpColors.yellowColor),
             ),
           ],
           style: Theme.of(context).textTheme.displayMedium?.copyWith(

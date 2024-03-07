@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../core/presentation/format_amount.dart';
@@ -7,6 +6,7 @@ import '../../../data/db/db.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../ramp/screens/off_ramp_order_screen.dart';
 import '../../ramp/widgets/off_ramp_order_details.dart';
 import '../models/activity.dart';
@@ -33,8 +33,7 @@ class OffRampTile extends StatelessWidget {
                   ? CpActivityTileStatus.failure
                   : CpActivityTileStatus.inProgress,
           timestamp: context.formatDate(activity.created),
-          onTap: () => context.router
-              .push(OffRampOrderScreen.route(orderId: activity.id)),
+          onTap: () => OffRampOrderRoute(activity.id).go(context),
         ),
       );
 }

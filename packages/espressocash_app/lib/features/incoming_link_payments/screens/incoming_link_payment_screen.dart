@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/message_info_widget.dart';
@@ -20,14 +19,11 @@ import '../models/incoming_link_payment.dart';
 import '../widgets/extensions.dart';
 import '../widgets/invalid_escrow_error_widget.dart';
 
-@RoutePage()
 class IncomingLinkPaymentScreen extends StatefulWidget {
   const IncomingLinkPaymentScreen({
     super.key,
     required this.id,
   });
-
-  static const route = IncomingLinkPaymentRoute.new;
 
   final String id;
 
@@ -53,27 +49,37 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
 
           return payment == null
               ? TransferProgress(
-                  onBack: () => context.router.pop(),
+                  onBack: () => context.pop(),
                 )
               : payment.status.maybeMap(
                   success: (e) => TransferSuccess(
-                    onBack: () => context.router.pop(),
-                    onOkPressed: () => context.router.pop(),
+                    onBack: () => context.pop(),
+                    onOkPressed: () => context.pop(),
                     content: e.fee?.let(_FeeNotice.new),
                     statusContent: context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
                       ? const InvalidEscrowErrorWidget()
                       : TransferError(
-                          onBack: () => context.router.pop(),
+                          onBack: () => context.pop(),
                           onRetry: () => context.retryILP(payment),
                         ),
                   orElse: () => TransferProgress(
-                    onBack: () => context.router.pop(),
+                    onBack: () => context.pop(),
                   ),
                 );
         },
       );
+}
+
+class IncomingLinkPaymentRoute extends GoRouteData {
+  const IncomingLinkPaymentRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      IncomingLinkPaymentScreen(id: id);
 }
 
 class _FeeNotice extends StatelessWidget {

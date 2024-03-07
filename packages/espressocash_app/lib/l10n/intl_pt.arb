@@ -491,8 +491,6 @@
   "@signIn2": {},
   "signIn_lblByCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
   "@signIn_lblByCreatingWalletYouAgree": {},
-  "signInWithSaga": "Entrar com Saga",
-  "@signInWithSaga": {},
   "signOut": "Apagar Carteira",
   "@signOut": {},
   "signOutConfirmation": "Tem certeza que você deseja\napagar a carteira?",

@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
@@ -13,18 +13,15 @@ import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
 import '../../../di.dart';
-import '../../../routes.gr.dart';
 import '../../accounts/models/account.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../data/profile_repository.dart';
 import '../widgets/help_section.dart';
 import '../widgets/profile_section.dart';
 import '../widgets/security_section.dart';
 
-@RoutePage()
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  static const route = ProfileRoute.new;
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +121,17 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class ProfileRoute extends GoRouteData {
+  const ProfileRoute();
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) =>
+      const MaterialPage(fullscreenDialog: true, child: ProfileScreen());
 }
 
 const double _buttonSpacing = 22;

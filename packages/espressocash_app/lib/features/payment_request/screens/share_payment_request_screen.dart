@@ -1,10 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/dialogs.dart';
@@ -16,11 +15,8 @@ import '../models/payment_request.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr_code.dart';
 
-@RoutePage()
 class SharePaymentRequestScreen extends StatelessWidget {
   const SharePaymentRequestScreen({super.key});
-
-  static const route = SharePaymentRequestRoute.new;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +30,7 @@ class SharePaymentRequestScreen extends StatelessWidget {
       child: Scaffold(
         appBar: CpAppBar(
           title: title,
-          leading: CpBackButton(onPressed: () => context.router.pop()),
+          leading: const CpBackButton(),
         ),
         body: DefaultTabController(
           length: 2,
@@ -74,7 +70,7 @@ class SharePaymentRequestScreen extends StatelessWidget {
                         .l10n.paymentRequest_lblCancelConfirmationSubtitle,
                     onConfirm: () {
                       sl<PaymentRequestRepository>().delete(request.id);
-                      context.router.pop();
+                      context.pop();
                     },
                   ),
                 ),

@@ -1,13 +1,12 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/theme.dart';
@@ -17,15 +16,13 @@ import '../models/payment_request.dart';
 import '../services/payment_request_verifier_bloc.dart';
 import '../widgets/formatted_amount.dart';
 import '../widgets/tx_result_screen.dart';
+import 'share_payment_request_screen.dart';
 
-@RoutePage()
 class LinkDetailsFlowScreen extends StatefulWidget {
   const LinkDetailsFlowScreen({
     super.key,
     required this.id,
   });
-
-  static const route = LinkDetailsFlowRoute.new;
 
   final String id;
 
@@ -61,7 +58,7 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
                   ),
                   child: Provider<PaymentRequest>.value(
                     value: data,
-                    child: const AutoRouter(),
+                    child: const SharePaymentRequestScreen(),
                   ),
                 ),
               ),
@@ -73,13 +70,23 @@ class _LinkDetailsFlowScreenState extends State<LinkDetailsFlowScreen> {
       );
 }
 
+class SharePaymentRequestRoute extends GoRouteData {
+  const SharePaymentRequestRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      LinkDetailsFlowScreen(id: id);
+}
+
 class _Loader extends StatelessWidget {
   const _Loader();
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: CpAppBar(
-          leading: CpBackButton(onPressed: () => context.router.pop()),
+          leading: CpBackButton(onPressed: () => context.pop()),
         ),
         body: const Center(child: CircularProgressIndicator()),
       );

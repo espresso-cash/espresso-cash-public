@@ -38,7 +38,7 @@ class _TxResultScreenState extends State<TxResultScreen> {
   Widget build(BuildContext context) => CpTheme.black(
         child: Builder(
           builder: (context) => Scaffold(
-            appBar: CpAppBar(),
+            appBar: const CpAppBar(),
             body: CpContentPadding(
               child: Center(
                 child: Column(

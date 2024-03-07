@@ -7,7 +7,7 @@ import '../../ui/bottom_button.dart';
 final cpBottomButton = Story(
   name: 'CpBottomButton',
   builder: (context) => Scaffold(
-    appBar: CpAppBar(title: const Text('Bottom button')),
+    appBar: const CpAppBar(title: Text('Bottom button')),
     body: Column(
       children: [
         const Expanded(child: Center(child: Text('Espresso Cash'))),

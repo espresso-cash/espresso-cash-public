@@ -8,7 +8,6 @@ environment:
 
 dependencies:
   async: ^2.11.0
-  auto_route: ^7.8.4
   barcode_widget: ^2.0.4
   bip39: ^1.0.6
   bloc_concurrency: ^0.2.3
@@ -46,6 +45,7 @@ dependencies:
     sdk: flutter
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
+  go_router: ^13.2.0
   http: ^1.1.2
   image_picker: ^1.0.5
   injectable: ^2.3.2
@@ -76,8 +76,6 @@ dependencies:
     path: ../solana/
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
-  solana_seed_vault:
-    path: ../solana_seed_vault/
   sqlite3_flutter_libs: ^0.5.18
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
@@ -86,7 +84,6 @@ dependencies:
   webthree: ^2.7.3
 
 dev_dependencies:
-  auto_route_generator: ^7.3.2
   bloc_test: ^9.1.5
   build_runner: ^2.4.7
   drift_dev: ^2.14.1
@@ -97,6 +94,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6
+  go_router_builder: ^2.4.1
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
   integration_test:

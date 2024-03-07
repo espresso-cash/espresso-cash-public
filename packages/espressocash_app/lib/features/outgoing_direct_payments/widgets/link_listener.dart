@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -12,6 +11,7 @@ import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/solana_helpers.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../routing.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../tokens/token.dart';
@@ -64,15 +64,15 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
         ? ''
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
-    final confirmedFiatAmount = await context.router.push<Decimal>(
-      ODPConfirmationScreen.route(
+    final confirmedFiatAmount = await ODPConfirmationRoute(
+      (
         initialAmount: formatted,
         recipient: request.recipient,
         label: request.label,
         token: crypto.token,
         isEnabled: amount.value == 0,
       ),
-    );
+    ).push<Decimal>(context);
 
     if (confirmedFiatAmount == null) return;
     if (!mounted) return;
@@ -91,7 +91,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener> {
     );
 
     if (!mounted) return;
-    await context.router.push(ODPDetailsScreen.route(id: id));
+    ODPDetailsRoute(id).go(context);
   }
 
   @override

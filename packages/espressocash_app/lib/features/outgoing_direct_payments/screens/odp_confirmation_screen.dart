@@ -1,12 +1,11 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/bordered_row.dart';
@@ -20,7 +19,6 @@ import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
 import '../../tokens/token.dart';
 
-@RoutePage<Decimal>()
 class ODPConfirmationScreen extends StatefulWidget {
   const ODPConfirmationScreen({
     super.key,
@@ -30,8 +28,6 @@ class ODPConfirmationScreen extends StatefulWidget {
     required this.token,
     this.isEnabled = true,
   });
-
-  static const route = ODPConfirmationRoute.new;
 
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
@@ -62,7 +58,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
         message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
       );
     } else {
-      context.router.pop(amount);
+      context.pop(amount);
     }
   }
 
@@ -79,7 +75,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: CpAppBar(),
+        appBar: const CpAppBar(),
         body: SafeArea(
           child: Column(
             children: [
@@ -140,6 +136,30 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     );
   }
 }
+
+class ODPConfirmationRoute extends GoRouteData {
+  const ODPConfirmationRoute(this.$extra);
+
+  final ODPConfirmationParams $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      ODPConfirmationScreen(
+        initialAmount: $extra.initialAmount,
+        recipient: $extra.recipient,
+        label: $extra.label,
+        token: $extra.token,
+        isEnabled: $extra.isEnabled,
+      );
+}
+
+typedef ODPConfirmationParams = ({
+  String initialAmount,
+  Ed25519HDPublicKey recipient,
+  String? label,
+  Token token,
+  bool isEnabled,
+});
 
 const _textStyle = TextStyle(
   fontSize: 17,

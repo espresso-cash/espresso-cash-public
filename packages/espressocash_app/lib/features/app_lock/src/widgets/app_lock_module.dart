@@ -5,7 +5,7 @@ import 'package:nested/nested.dart';
 import '../../../../di.dart';
 import '../../../accounts/models/account.dart';
 import '../../../accounts/widgets/account_listener.dart';
-import '../screens/app_lock_screen.dart';
+import '../../screens/app_lock_screen.dart';
 import '../services/app_lock_bloc.dart';
 
 class AppLockModule extends SingleChildStatelessWidget {

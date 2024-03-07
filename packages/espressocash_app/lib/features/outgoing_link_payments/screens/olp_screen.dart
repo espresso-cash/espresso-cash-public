@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
@@ -24,11 +24,8 @@ import '../models/outgoing_link_payment.dart';
 import '../widgets/extensions.dart';
 import 'share_link_screen.dart';
 
-@RoutePage()
 class OLPScreen extends StatefulWidget {
   const OLPScreen({super.key, required this.id});
-
-  static const route = OLPRoute.new;
 
   final String id;
 
@@ -53,9 +50,7 @@ class _OLPScreenState extends State<OLPScreen> {
         .listen((payment) {
       final status = payment.status as OLPStatusLinkReady;
 
-      context.router.popAndPush(
-        ShareLinkScreen.route(amount: payment.amount, status: status),
-      );
+      ShareLinkRoute((amount: payment.amount, status: status)).go(context);
       _shareLinkSubscription?.cancel();
     });
   }
@@ -74,7 +69,7 @@ class _OLPScreenState extends State<OLPScreen> {
           final locale = DeviceLocale.localeOf(context);
 
           if (payment == null) {
-            return TransferProgress(onBack: () => context.router.pop());
+            return TransferProgress(onBack: () => context.pop());
           }
 
           void handleCanceled() => showConfirmationDialog(
@@ -113,12 +108,9 @@ class _OLPScreenState extends State<OLPScreen> {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.resendLink,
-                onPressed: () => context.router.push(
-                  ShareLinkScreen.route(
-                    amount: payment.amount,
-                    status: s,
-                  ),
-                ),
+                onPressed: () =>
+                    ShareLinkRoute((amount: payment.amount, status: s))
+                        .push<void>(context),
               ),
               cancelButton,
             ],
@@ -248,7 +240,7 @@ class _OLPScreenState extends State<OLPScreen> {
               payment.status.maybeMap(orElse: T, linkReady: F);
 
           return StatusScreen(
-            onBackButtonPressed: () => context.router.pop(),
+            onBackButtonPressed: () => context.pop(),
             title: context.l10n.splitKeyTransferTitle,
             statusType: statusType,
             statusTitle: statusTitle?.let(Text.new),
@@ -271,4 +263,13 @@ class _OLPScreenState extends State<OLPScreen> {
           );
         },
       );
+}
+
+class OLPRoute extends GoRouteData {
+  const OLPRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => OLPScreen(id: id);
 }

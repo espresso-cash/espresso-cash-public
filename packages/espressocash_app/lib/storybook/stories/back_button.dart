@@ -20,15 +20,7 @@ final cpBackButton = Story(
         backgroundColor: Theme.of(context).brightness == Brightness.dark
             ? CpColors.shadowPrimaryColor
             : Colors.white,
-        body: Center(
-          child: CpBackButton(
-            ensureBackNavigation: context.knobs.boolean(
-              label: 'Ensure Back Navigation',
-              description:
-                  'When true, the button itself is displayed only if Navigator can pop current route',
-            ),
-          ),
-        ),
+        body: const Center(child: CpBackButton()),
       ),
     ),
   ),

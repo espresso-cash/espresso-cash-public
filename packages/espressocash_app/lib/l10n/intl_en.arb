@@ -640,8 +640,6 @@
   "@signIn2": {},
   "signIn_lblByCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
   "@signIn_lblByCreatingWalletYouAgree": {},
-  "signInWithSaga": "Sign in with Saga",
-  "@signInWithSaga": {},
   "signOut": "Delete Wallet",
   "@signOut": {},
   "signOutConfirmation": "Are you sure you want to\ndelete the wallet?",

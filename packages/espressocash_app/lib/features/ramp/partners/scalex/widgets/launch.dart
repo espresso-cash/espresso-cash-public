@@ -1,25 +1,26 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
+import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
+import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../src/models/profile_data.dart';
-import '../../../src/models/ramp_type.dart';
-import '../../../src/screens/ramp_amount_screen.dart';
 import '../data/scalex_repository.dart';
 
 extension BuildContextExt on BuildContext {
@@ -41,27 +42,27 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
-    await router.push(
-      RampAmountScreen.route(
+    await RampAmountRoute(
+      (
         partner: RampPartner.scalex,
-        onSubmitted: (value) {
-          router.pop();
+        onSubmitted: (Amount? value) {
+          pop();
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
-        calculateEquivalent: (amount) => (
-          amount: amount.calculateOnRampFee(
-            exchangeRate: rampRate,
-          ),
-          rate: '1 USDC = $rampRate NGN'
-        ),
+        calculateEquivalent: (Amount amount) => (
+              amount: amount.calculateOnRampFee(
+                exchangeRate: rampRate,
+              ),
+              rate: '1 USDC = $rampRate NGN'
+            ),
         partnerFeeLabel:
             'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
         calculateFee: null,
         type: RampType.onRamp,
       ),
-    );
+    ).push<void>(this);
 
     final submittedAmount = amount;
 
@@ -126,7 +127,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  router.replace(OnRampOrderScreen.route(orderId: value));
+                  OnRampOrderRoute(value).go(this);
               }
             });
             orderWasCreated = true;
@@ -142,12 +143,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await router.push(
-      WebViewScreen.route(
+    await WebViewRoute(
+      (
         url: Uri.parse(link),
         onLoaded: handleLoaded,
+        title: null,
       ),
-    );
+    ).push<void>(this);
   }
 
   Future<void> launchScalexOffRamp({
@@ -164,31 +166,31 @@ window.addEventListener("message", (event) => {
 
     Amount? amount;
 
-    await router.push(
-      RampAmountScreen.route(
+    await RampAmountRoute(
+      (
         partner: RampPartner.scalex,
         onSubmitted: (value) {
-          router.pop();
+          pop();
           amount = value;
         },
         minAmount: Decimal.fromInt(10),
         currency: Currency.usdc,
         calculateEquivalent: (amount) => (
-          amount: amount.calculateOffRampFee(
-            exchangeRate: rateAndFee.offRampRate,
-            percentageFee: rateAndFee.offRampFeePercentage,
-            fixedFee: rateAndFee.fixedOffRampFee,
-          ),
-          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
-        ),
+              amount: amount.calculateOffRampFee(
+                exchangeRate: rateAndFee.offRampRate,
+                percentageFee: rateAndFee.offRampFeePercentage,
+                fixedFee: rateAndFee.fixedOffRampFee,
+              ),
+              rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
+            ),
         partnerFeeLabel:
             'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
         calculateFee: (amount) => amount.calculateEspressoFee(
-          espressoFee: rateAndFee.espressoFeePercentage,
-        ),
+              espressoFee: rateAndFee.espressoFeePercentage,
+            ),
         type: RampType.offRamp,
       ),
-    );
+    ).push<void>(this);
 
     final submittedAmount = amount;
 
@@ -245,7 +247,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  router.replace(OffRampOrderScreen.route(orderId: value));
+                  OffRampOrderRoute(value).go(this);
               }
             });
             orderWasCreated = true;
@@ -261,12 +263,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await router.push(
-      WebViewScreen.route(
+    await WebViewRoute(
+      (
         url: Uri.parse(link),
         onLoaded: handleLoaded,
+        title: null,
       ),
-    );
+    ).push<void>(this);
   }
 
   Future<String?> _generateRampLink({

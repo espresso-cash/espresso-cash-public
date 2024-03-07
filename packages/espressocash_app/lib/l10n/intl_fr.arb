@@ -695,8 +695,6 @@
   "@signIn2": {},
   "signIn_lblByCreatingWalletYouAgree": "En créant un portefeuille ou en utilisant un portefeuille existant, vous acceptez nos ",
   "@signIn_lblByCreatingWalletYouAgree": {},
-  "signInWithSaga": "Connectez-vous avec Saga",
-  "@signInWithSaga": {},
   "signOut": "Supprimer le portefeuille",
   "@signOut": {},
   "signOutConfirmation": "Êtes-vous sûr de vouloir supprimer le portefeuille?",

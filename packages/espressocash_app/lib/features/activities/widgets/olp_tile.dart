@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
+import '../../../routing.dart';
 import '../../outgoing_link_payments/screens/olp_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -29,6 +29,6 @@ class OLPTile extends StatelessWidget {
           txFailure: always(CpActivityTileStatus.failure),
           orElse: always(CpActivityTileStatus.inProgress),
         ),
-        onTap: () => context.router.navigate(OLPScreen.route(id: activity.id)),
+        onTap: () => OLPRoute(activity.id).go(context),
       );
 }

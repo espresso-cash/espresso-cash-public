@@ -1,6 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
@@ -9,7 +9,6 @@ import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routes.gr.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/partner_order_id.dart';
@@ -22,13 +21,10 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';
 import '../src/widgets/on_ramp_deposit_widget.dart';
 
-@RoutePage()
 class OnRampOrderScreen extends StatefulWidget {
   const OnRampOrderScreen({super.key, required this.orderId});
 
   final String orderId;
-
-  static const route = OnRampOrderRoute.new;
 
   @override
   State<OnRampOrderScreen> createState() => _OnRampOrderScreenState();
@@ -50,10 +46,20 @@ class _OnRampOrderScreenState extends State<OnRampOrderScreen> {
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => context.pop())
               : OnRampOrderScreenContent(order: order);
         },
       );
+}
+
+class OnRampOrderRoute extends GoRouteData {
+  const OnRampOrderRoute(this.id);
+
+  final String id;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      OnRampOrderScreen(orderId: id);
 }
 
 class OnRampOrderScreenContent extends StatelessWidget {
@@ -173,7 +179,7 @@ class _CancelButton extends StatelessWidget {
           variant: CpTextButtonVariant.light,
           onPressed: () {
             sl<OnRampOrderService>().delete(orderId);
-            context.router.pop();
+            context.pop();
           },
         ),
       );

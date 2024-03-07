@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../config.dart';
+import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../src/models/profile_data.dart';
 
@@ -28,6 +28,8 @@ extension BuildContextExt on BuildContext {
         'email': profile.email,
       },
     );
-    router.push(WebViewScreen.route(url: uri, title: 'Guardarian'));
+
+    WebViewRoute((url: uri, title: 'Guardarian', onLoaded: null))
+        .push<void>(this);
   }
 }
