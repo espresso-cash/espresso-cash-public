@@ -23,10 +23,26 @@ class ActivitiesScreen extends StatelessWidget {
     final bottom = MediaQuery.paddingOf(context).bottom;
     const insets = EdgeInsets.only(left: 8, right: 8, top: _padding);
 
+    Widget mapTab(ActivitiesTab tab) => Tab(
+          text: switch (tab) {
+            ActivitiesTab.pending => context.l10n.pending,
+            ActivitiesTab.transactions => context.l10n.transactions,
+          },
+        );
+
+    Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
+          ActivitiesTab.pending => const _Wrapper(
+              child: PendingActivitiesList(padding: insets),
+            ),
+          ActivitiesTab.transactions => const _Wrapper(
+              child: TransactionList(padding: insets),
+            ),
+        };
+
     return PageFadeWrapper(
       child: DefaultTabController(
-        length: 2,
-        initialIndex: initialTab == ActivitiesTab.pending ? 0 : 1,
+        length: ActivitiesTab.values.length,
+        initialIndex: initialTab.index,
         child: Column(
           children: [
             CpAppBar(
@@ -35,23 +51,11 @@ class ActivitiesScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: context.l10n.pending),
-                  Tab(text: context.l10n.transactions),
-                ],
-              ),
+              child: CpTabBar(tabs: ActivitiesTab.values.map(mapTab).toList()),
             ),
-            const Expanded(
+            Expanded(
               child: TabBarView(
-                children: [
-                  _Wrapper(
-                    child: PendingActivitiesList(padding: insets),
-                  ),
-                  _Wrapper(
-                    child: TransactionList(padding: insets),
-                  ),
-                ],
+                children: ActivitiesTab.values.map(mapWrapper).toList(),
               ),
             ),
             SizedBox(height: bottom),
