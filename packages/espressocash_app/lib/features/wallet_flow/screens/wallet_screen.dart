@@ -76,6 +76,8 @@ class _State extends State<WalletScreen> {
     final id = await context.createPayRequest(tokenAmount: _cryptoAmount);
     if (!mounted) return;
 
+    _reset();
+
     SharePaymentRequestRoute(id).go(context);
   }
 
@@ -83,6 +85,8 @@ class _State extends State<WalletScreen> {
     if (_fiatAmount < _minimumAmount) {
       return _handleSmallAmount(WalletOperation.pay);
     }
+
+    _reset();
 
     PayRoute(_cryptoAmount).go(context);
   }
