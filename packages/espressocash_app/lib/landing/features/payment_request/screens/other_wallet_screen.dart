@@ -216,7 +216,7 @@ class _Desktop extends StatelessWidget {
             text: 'Pay with Metamask',
             size: CpButtonSize.big,
             width: 500,
-            trailing: const Arrow(),
+            trailing: const LandingArrow(),
             onPressed: state.quote != null ? onSubmit : null,
           ),
           if (request?.solanaReferenceAddress case final reference?) ...[
@@ -316,7 +316,7 @@ class _Mobile extends StatelessWidget {
               text: 'Pay with Metamask',
               size: CpButtonSize.big,
               width: 500,
-              trailing: const Arrow(),
+              trailing: const LandingArrow(),
               onPressed: state.quote != null ? onSubmit : null,
             ),
           ),
