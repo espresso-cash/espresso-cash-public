@@ -6,6 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../models/outgoing_link_payment.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr.dart';
@@ -71,6 +72,9 @@ class ShareLinkRoute extends GoRouteData {
   const ShareLinkRoute(this.$extra);
 
   final ShareLinkParams $extra;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>

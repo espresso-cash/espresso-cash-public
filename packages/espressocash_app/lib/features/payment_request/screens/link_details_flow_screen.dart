@@ -10,6 +10,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/theme.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../balances/widgets/context_ext.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
@@ -74,6 +75,9 @@ class SharePaymentRequestRoute extends GoRouteData {
   const SharePaymentRequestRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
