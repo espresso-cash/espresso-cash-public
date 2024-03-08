@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
+import '../ui/colors.dart';
 import '../ui/footer.dart';
 
 class LandingMobilePage extends StatelessWidget {
@@ -20,7 +21,7 @@ class LandingMobilePage extends StatelessWidget {
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xffB4A270),
+                  EcLandingColors.primaryColor,
                   Colors.white,
                 ],
                 stops: [0.49, 0.5],
@@ -76,7 +77,7 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ColoredBox(
-        color: const Color(0xffB4A270),
+        color: EcLandingColors.primaryColor,
         child: Stack(
           children: [
             Center(

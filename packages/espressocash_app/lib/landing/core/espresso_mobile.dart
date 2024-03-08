@@ -5,8 +5,8 @@ import '../../l10n/l10n.dart';
 import '../../ui/button.dart';
 import '../core/extensions.dart';
 import '../ui/arrow.dart';
+import '../ui/colors.dart';
 import '../ui/step_circle.dart';
-import 'landing_desktop.dart';
 import 'landing_mobile.dart';
 
 class EspressoMobileView extends StatelessWidget {
@@ -49,7 +49,9 @@ class EspressoMobileView extends StatelessWidget {
               onTap: context.launchStore,
               text: context.l10n.landingInstallApp,
             ),
-            const Divider(color: borderColor),
+            const Divider(
+              color: EcLandingColors.borderColor,
+            ),
             const SizedBox(height: 24),
             const StepCircle(2),
             _MobileButton(

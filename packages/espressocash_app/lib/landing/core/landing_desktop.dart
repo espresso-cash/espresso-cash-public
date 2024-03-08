@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../ui/back_button.dart';
+import '../ui/colors.dart';
 import '../ui/footer.dart';
 
 class LandingDesktopPage extends StatelessWidget {
@@ -31,7 +32,10 @@ class LandingDesktopPage extends StatelessWidget {
                   ),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: borderColor),
+                      border: Border.all(
+                        width: 1,
+                        color: EcLandingColors.borderColor,
+                      ),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -41,7 +45,10 @@ class LandingDesktopPage extends StatelessWidget {
                       child: IntrinsicHeight(
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: borderColor),
+                            border: Border.all(
+                              width: 1,
+                              color: EcLandingColors.borderColor,
+                            ),
                             borderRadius: const BorderRadius.all(
                               Radius.circular(16),
                             ),
@@ -131,5 +138,3 @@ class _AppBar extends StatelessWidget {
         ),
       );
 }
-
-const borderColor = Color(0xffD1D1D1);
