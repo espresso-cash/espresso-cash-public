@@ -1,19 +1,13 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
-import '../../../../gen/assets.gen.dart';
+class LandingArrow extends StatelessWidget {
+  const LandingArrow({super.key, this.color = const Color(0xFF2D2B2C)});
 
-class Arrow extends StatelessWidget {
-  const Arrow({super.key});
+  final Color? color;
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: RotatedBox(
-          quarterTurns: 2,
-          child: Assets.icons.arrow.svg(
-            height: 14,
-            color: const Color(0xFF2D2B2C),
-          ),
-        ),
+        padding: const EdgeInsets.only(right: 4),
+        child: Icon(Icons.arrow_forward_ios, color: color, size: 18),
       );
 }

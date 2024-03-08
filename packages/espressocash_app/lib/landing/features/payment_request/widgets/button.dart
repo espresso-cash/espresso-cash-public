@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
+import 'arrow.dart';
 
 class WalletButton extends StatelessWidget {
   const WalletButton({
@@ -26,12 +27,10 @@ class WalletButton extends StatelessWidget {
           ),
           child: InkWell(
             onTap: onTap,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(8),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Center(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
                 child: ListTile(
                   leading: icon.image(
                     height: 40,
@@ -47,6 +46,7 @@ class WalletButton extends StatelessWidget {
                       letterSpacing: 0.13,
                     ),
                   ),
+                  trailing: const LandingArrow(color: Colors.white),
                 ),
               ),
             ),

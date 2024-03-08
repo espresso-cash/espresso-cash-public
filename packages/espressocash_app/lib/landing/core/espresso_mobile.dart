@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/l10n.dart';
 import '../../ui/button.dart';
+import '../features/payment_request/widgets/arrow.dart';
 import 'extensions.dart';
 import 'landing_desktop.dart';
 import 'landing_mobile.dart';
@@ -79,7 +80,7 @@ class _MobileButton extends StatelessWidget {
           size: CpButtonSize.big,
           width: 340,
           text: text,
-          trailing: const Icon(Icons.arrow_forward_ios),
+          trailing: const LandingArrow(),
           onPressed: onTap,
         ),
       );

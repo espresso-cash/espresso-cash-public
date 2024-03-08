@@ -16,33 +16,45 @@ class EspressoRequestScreen extends StatelessWidget {
   Widget build(BuildContext context) => isMobile
       ? EspressoMobileView(
           actionLink: Uri.parse(request.toUrl()),
-          header: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                request.label == null
-                    ? context.l10n.landingRequestTitle
-                    : context.l10n
-                        .landingUserRequestingTitle(request.label ?? ''),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0.23,
+          header: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  request.label == null
+                      ? context.l10n.landingRequestTitle
+                      : context.l10n
+                          .landingUserRequestingTitle(request.label ?? ''),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 23,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.23,
+                  ),
                 ),
-              ),
-              Text(
-                '${request.amount ?? 0} USDC',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 45,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -1,
+                Text(
+                  '${request.amount ?? 0} USDC',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 45,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -1,
+                  ),
                 ),
-              ),
-            ],
+                Text(
+                  context.l10n.landingInstruction,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
           ),
           actionButtonText: 'Pay',
         )

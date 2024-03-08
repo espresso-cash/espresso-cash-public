@@ -88,7 +88,7 @@ class _Header extends StatelessWidget {
             ),
             Center(
               child: Padding(
-                padding: const EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 24.0),
                 child: content,
               ),
             ),

@@ -19,29 +19,32 @@ class LinkPaymentScreen extends StatelessWidget {
     return isMobile
         ? EspressoMobileView(
             actionLink: actionLink,
-            header: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.23,
+            header: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    title,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.23,
+                    ),
                   ),
-                ),
-                Text(
-                  context.l10n.landingInstruction,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 19,
-                    fontWeight: FontWeight.w500,
+                  Text(
+                    context.l10n.landingInstruction,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             actionButtonText: context.l10n.landingReceiveMoney,
           )
