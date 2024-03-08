@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
-import 'arrow.dart';
+import '../../../ui/arrow.dart';
 
 class WalletButton extends StatelessWidget {
   const WalletButton({
@@ -32,10 +32,7 @@ class WalletButton extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 8.0),
                 child: ListTile(
-                  leading: icon.image(
-                    height: 40,
-                    width: 40,
-                  ),
+                  leading: icon.image(height: 40, width: 40),
                   title: Text(
                     label,
                     textAlign: TextAlign.center,

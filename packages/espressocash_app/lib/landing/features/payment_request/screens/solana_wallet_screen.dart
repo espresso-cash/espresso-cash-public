@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../core/landing_desktop.dart';
-import '../../../core/presentation/qr_code.dart';
+import '../../../ui/landing_desktop.dart';
+import '../../../ui/qr_code.dart';
 import '../widgets/invoice.dart';
 
 class SolanaWalletScreen extends StatelessWidget {

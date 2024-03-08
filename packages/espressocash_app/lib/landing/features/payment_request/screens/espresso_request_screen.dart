@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../core/espresso_desktop.dart';
-import '../../../core/espresso_mobile.dart';
 import '../../../core/extensions.dart';
+import '../../../ui/espresso_desktop.dart';
+import '../../../ui/espresso_mobile.dart';
 import 'request_screen.dart';
 
 class EspressoRequestScreen extends StatelessWidget {

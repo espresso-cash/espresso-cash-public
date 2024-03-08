@@ -4,9 +4,9 @@ import '../../../../features/transactions/widgets/transfer_progress.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../core/landing_desktop.dart';
 import '../../../data/db_landing.dart';
 import '../../../di.dart';
+import '../../../ui/landing_desktop.dart';
 import '../service/order_service.dart';
 import '../widgets/invoice.dart';
 

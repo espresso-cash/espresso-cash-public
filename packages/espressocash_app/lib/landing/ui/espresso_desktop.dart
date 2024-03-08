@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import 'extensions.dart';
+import '../core/extensions.dart';
+import '../ui/qr_code.dart';
+import '../ui/step_circle.dart';
 import 'landing_desktop.dart';
-import 'presentation/qr_code.dart';
-import 'presentation/step_circle.dart';
 
 class EspressoDesktopView extends StatelessWidget {
   const EspressoDesktopView({

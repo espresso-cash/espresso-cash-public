@@ -3,11 +3,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/l10n.dart';
 import '../../ui/button.dart';
-import '../features/payment_request/widgets/arrow.dart';
-import 'extensions.dart';
+import '../core/extensions.dart';
+import '../ui/step_circle.dart';
+import 'arrow.dart';
 import 'landing_desktop.dart';
 import 'landing_mobile.dart';
-import 'presentation/step_circle.dart';
 
 class EspressoMobileView extends StatelessWidget {
   const EspressoMobileView({

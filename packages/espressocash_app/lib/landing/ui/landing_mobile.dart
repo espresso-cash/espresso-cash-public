@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
-import 'presentation/footer.dart';
+import '../ui/footer.dart';
 
 class LandingMobilePage extends StatelessWidget {
   const LandingMobilePage({
