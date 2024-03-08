@@ -6,12 +6,7 @@ import '../../../config.dart';
 import '../../../l10n/l10n.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({
-    super.key,
-    this.textColor = Colors.white,
-  });
-
-  final Color textColor;
+  const Footer({super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -22,14 +17,13 @@ class Footer extends StatelessWidget {
           Text(
             context.l10n.landingCopyright,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 11,
+            style: const TextStyle(
+              color: Color(0xFFBEBEBE),
+              fontSize: 12,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.36,
             ),
           ),
-          const SizedBox(height: 4),
           Text.rich(
             TextSpan(
               children: [
@@ -47,9 +41,9 @@ class Footer extends StatelessWidget {
               ],
             ),
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 12,
+            style: const TextStyle(
+              color: Color(0xFFBEBEBE),
+              fontSize: 13,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.20,
             ),

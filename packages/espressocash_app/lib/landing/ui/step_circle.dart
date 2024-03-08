@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../core/extensions.dart';
+
 class StepCircle extends StatelessWidget {
   const StepCircle(this.number, {super.key});
 
@@ -7,8 +9,8 @@ class StepCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 46,
-        height: 46,
+        width: isMobile ? 36 : 46,
+        height: isMobile ? 36 : 46,
         decoration: const ShapeDecoration(
           color: Colors.black,
           shape: OvalBorder(),
