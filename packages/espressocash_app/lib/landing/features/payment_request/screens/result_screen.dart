@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../features/transactions/widgets/transfer_progress.dart';
@@ -36,7 +35,7 @@ class _ResultScreenState extends State<ResultScreen> {
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.router.pop())
+              ? TransferProgress(onBack: () => Navigator.pop(context))
               : _Desktop(order);
         },
       );

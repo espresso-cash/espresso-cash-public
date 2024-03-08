@@ -114,11 +114,13 @@ class _AppBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 32.0),
         child: Stack(
           children: [
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.only(left: 24, top: 8),
-                child: CpBackButton(ensureBackNavigation: true),
+                padding: const EdgeInsets.only(left: 24, top: 8),
+                child: CpBackButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
               ),
             ),
             Align(

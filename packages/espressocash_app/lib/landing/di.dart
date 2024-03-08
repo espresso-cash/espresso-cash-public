@@ -19,7 +19,6 @@ abstract class LandingModule {
 
   @LazySingleton(scope: landingScope)
   EspressoCashClient ecClient() => EspressoCashClient(
-        baseUrl: 'http://localhost:8080/api/v1', //TODO remove
         sign: (data) async => null,
       );
 }
