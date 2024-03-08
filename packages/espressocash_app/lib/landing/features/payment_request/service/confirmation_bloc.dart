@@ -45,7 +45,7 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
     );
 
     _chainChangedSubscription = _web3Service.chainChanged.listen((chainId) {
-      final chain = chainId.fromHexChainId ?? _defaultBlockchain;
+      final chain = chainId.fromHexChainId;
 
       add(ChainChanged(chain));
     });
@@ -88,9 +88,15 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
   }
 
   Future<void> _onChainChanged(ChainChanged event, _Emitter emit) async {
-    await _web3Service.switchChain(event.chain);
+    if (event.chain == null) {
+      emit(state.error(const PaymentException.unsupportedChain()));
+    }
 
-    emit(state.chainChanged(event.chain));
+    final chain = event.chain ?? _defaultBlockchain;
+
+    await _web3Service.switchChain(chain);
+
+    emit(state.chainChanged(chain));
 
     add(const Invalidated());
   }
@@ -132,10 +138,8 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
       );
 
       emit(state.copyWith(flowState: Flow.success((quote, tx))));
-    } catch (error) {
-      print('ex: $error');
-
-      emit(state.error(PaymentException.other(Exception(''))));
+    } on Exception {
+      emit(state.error(const PaymentException.other()));
     }
   }
 
@@ -159,8 +163,6 @@ class IncomingPaymentBloc extends Bloc<_Event, _State> {
         senderBlockchain: sender.blockchain,
         solanaReferenceAddress: request.solanaReferenceAddress,
       );
-
-      print(quote.receiverAmount);
 
       _startTimer();
 
@@ -214,7 +216,7 @@ sealed class IncomingPaymentEvent with _$IncomingPaymentEvent {
   const factory IncomingPaymentEvent.init(IncomingPaymentRequest request) =
       Init;
 
-  const factory IncomingPaymentEvent.chainChanged(Blockchain chain) =
+  const factory IncomingPaymentEvent.chainChanged(Blockchain? chain) =
       ChainChanged;
 
   const factory IncomingPaymentEvent.accountsChanged(String account) =
@@ -250,7 +252,7 @@ extension IncomingPaymentStateExt on IncomingPaymentState {
 
 @freezed
 class PaymentException with _$PaymentException implements Exception {
-  const factory PaymentException.other(Exception e) = OtherException;
+  const factory PaymentException.other() = OtherException;
 
   const factory PaymentException.quoteNotFound() = QuoteNotFound;
 
