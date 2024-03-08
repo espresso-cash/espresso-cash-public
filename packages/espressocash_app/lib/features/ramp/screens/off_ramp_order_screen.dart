@@ -19,6 +19,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
@@ -59,6 +60,9 @@ class OffRampOrderRoute extends GoRouteData {
   const OffRampOrderRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>

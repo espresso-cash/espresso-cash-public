@@ -9,10 +9,12 @@ class CpTabBar extends StatelessWidget {
     super.key,
     this.variant = CpTabBarVariant.dark,
     required this.tabs,
+    this.controller,
   });
 
   final CpTabBarVariant variant;
   final List<Widget> tabs;
+  final TabController? controller;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -23,6 +25,7 @@ class CpTabBar extends StatelessWidget {
           shape: const StadiumBorder(),
         ),
         child: TabBar(
+          controller: controller,
           indicatorColor: Colors.transparent,
           unselectedLabelColor: _unselectedLabelColor(variant),
           labelColor: _labelColor(variant),

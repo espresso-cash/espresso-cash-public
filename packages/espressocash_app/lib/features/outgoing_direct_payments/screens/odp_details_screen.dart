@@ -7,6 +7,7 @@ import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -76,6 +77,9 @@ class ODPDetailsRoute extends GoRouteData {
   const ODPDetailsRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>

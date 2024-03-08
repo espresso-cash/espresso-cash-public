@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -20,7 +21,7 @@ class PaymentRequestService {
     required CryptoAmount tokenAmount,
     required String? label,
   }) async {
-    final reference = (await Ed25519HDKeyPair.random()).publicKey;
+    final reference = await compute(_randomPublicKey, null);
     final Token token = tokenAmount.token;
     final Decimal amount = tokenAmount.decimal;
 
@@ -44,4 +45,10 @@ class PaymentRequestService {
 
     return paymentRequest;
   }
+}
+
+Future<Ed25519HDPublicKey> _randomPublicKey([dynamic _]) async {
+  final keyPair = await Ed25519HDKeyPair.random();
+
+  return keyPair.publicKey;
 }

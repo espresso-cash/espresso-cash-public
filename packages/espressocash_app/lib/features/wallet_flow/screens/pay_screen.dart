@@ -9,6 +9,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
@@ -98,6 +99,9 @@ class PayRoute extends GoRouteData {
   const PayRoute(this.$extra);
 
   final CryptoAmount $extra;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
