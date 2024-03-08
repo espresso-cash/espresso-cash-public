@@ -93,7 +93,6 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
 
   Future<void> _onException(PaymentException e) async {
     await showWarningDialog(
-      //TODO update to use different dialog
       context,
       title: context.l10n.swapErrorTitle,
       message: e.description(context),
