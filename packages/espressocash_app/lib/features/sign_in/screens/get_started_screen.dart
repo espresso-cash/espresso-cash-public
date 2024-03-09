@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/link_payments.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
@@ -14,6 +14,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
+import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 import 'restore_account_screen.dart';
@@ -156,46 +157,44 @@ class _Body extends StatelessWidget {
   const _Body();
 
   @override
-  Widget build(BuildContext context) {
-    final hasPendingLink =
-        context.watch<DynamicLinksNotifier>().link.let(_parseUri);
-
-    return Padding(
-      padding: EdgeInsets.only(left: 30.w, right: 40.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: hasPendingLink
-            ? [
-                Text(
-                  context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 46.sp,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.25,
-                  ),
-                ),
-                Text(
-                  context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 0.25,
-                  ),
-                ),
-              ]
-            : [
-                Text(
-                  context.l10n.onboardingIntro.toUpperCase(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
-                    fontSize: 46.sp,
-                    height: 0.9,
-                  ),
-                ),
-              ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ListenableBuilder(
+        listenable: sl<DynamicLinksNotifier>(),
+        builder: (context, _) => Padding(
+          padding: EdgeInsets.only(left: 30.w, right: 40.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: sl<DynamicLinksNotifier>().link.let(_parseUri)
+                ? [
+                    Text(
+                      context.l10n.onboardingWithPaymentTitle.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 46.sp,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.25,
+                      ),
+                    ),
+                    Text(
+                      context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 24.sp,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 0.25,
+                      ),
+                    ),
+                  ]
+                : [
+                    Text(
+                      context.l10n.onboardingIntro.toUpperCase(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 46.sp,
+                        height: 0.9,
+                      ),
+                    ),
+                  ],
+          ),
+        ),
+      );
 }
 
 const keyCreateWalletButton = Key('createWalletButton');

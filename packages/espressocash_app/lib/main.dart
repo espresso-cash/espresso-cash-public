@@ -6,13 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app.dart';
 import 'config.dart';
-import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'logging.dart';
@@ -68,15 +66,7 @@ Future<void> _start() async {
       designSize: const Size(428, 926),
       useInheritedMediaQuery: true,
       minTextAdapt: true,
-      builder: (context, child) => MultiProvider(
-        providers: [
-          ChangeNotifierProvider<DynamicLinksNotifier>(
-            create: (_) => sl<DynamicLinksNotifier>(),
-            lazy: false,
-          ),
-        ],
-        child: const EspressoCashApp(),
-      ),
+      builder: (context, child) => const EspressoCashApp(),
     ),
   );
 

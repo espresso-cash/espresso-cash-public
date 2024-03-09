@@ -5,12 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
 
-@injectable
+@singleton
 class DynamicLinksNotifier extends ChangeNotifier {
-  DynamicLinksNotifier() {
-    _init();
-  }
-
   Uri? _link;
   StreamSubscription<dynamic>? _subscription;
 
@@ -25,7 +21,8 @@ class DynamicLinksNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> _init() async {
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
     final initialLink = await getInitialUri();
 
     if (initialLink != null) {
