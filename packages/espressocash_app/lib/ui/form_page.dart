@@ -11,67 +11,98 @@ enum FormPageColorTheme { orange, gold }
 class FormPage extends StatelessWidget {
   const FormPage({
     super.key,
-    required this.headerIcon,
-    required this.headerContent,
-    required this.content,
     required this.colorTheme,
     required this.title,
+    required this.header,
+    required this.child,
   });
 
-  final AssetGenImage headerIcon;
-  final Widget headerContent;
-  final Widget content;
+  final Widget header;
+  final Widget child;
   final FormPageColorTheme colorTheme;
   final Widget title;
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: CpAppBar(
-            scrolledUnderColor: switch (colorTheme) {
-              FormPageColorTheme.orange => CpColors.darkOrangeBackgroundColor,
-              FormPageColorTheme.gold => CpColors.goldBackgroundColor,
-            },
-            leading: const CpBackButton(),
-            title: title,
-          ),
-          extendBodyBehindAppBar: true,
-          body: CpTheme.black(
-            child: LayoutBuilder(
-              builder: (context, viewportConstraints) => SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: viewportConstraints.maxHeight,
-                  ),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      children: [
-                        _Header(
-                          colorTheme: colorTheme,
-                          icon: headerIcon,
-                          content: headerContent,
-                        ),
-                        Expanded(child: content),
-                      ],
-                    ),
-                  ),
+  Widget build(BuildContext context) {
+    final bgColor = switch (colorTheme) {
+      FormPageColorTheme.orange => CpColors.darkOrangeBackgroundColor,
+      FormPageColorTheme.gold => CpColors.goldBackgroundColor,
+    };
+
+    return CpTheme.black(
+      child: Scaffold(
+        appBar: CpAppBar(
+          scrolledUnderColor: bgColor,
+          leading: const CpBackButton(),
+          title: title,
+        ),
+        backgroundColor: bgColor,
+        extendBodyBehindAppBar: true,
+        body: LayoutBuilder(
+          builder: (context, constraints) => SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    _Header(colorTheme: colorTheme, content: header),
+                    _Content(child: child),
+                  ],
                 ),
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FormPageHeader extends StatelessWidget {
+  const FormPageHeader({
+    super.key,
+    required this.title,
+    required this.description,
+    required this.icon,
+  });
+
+  final AssetGenImage icon;
+  final Widget title;
+  final Widget description;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: icon.image(),
+            ),
+          ),
+          const SizedBox(height: 25),
+          DefaultTextStyle(
+            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+            textAlign: TextAlign.center,
+            child: title,
+          ),
+          const SizedBox(height: 16),
+          DefaultTextStyle(
+            style: const TextStyle(fontSize: 13),
+            textAlign: TextAlign.center,
+            child: description,
+          ),
+          const SizedBox(height: 70),
+        ],
       );
 }
 
 class _Header extends StatelessWidget {
   const _Header({
     required this.colorTheme,
-    required this.icon,
     required this.content,
   });
 
   final FormPageColorTheme colorTheme;
-  final AssetGenImage icon;
   final Widget content;
 
   AssetGenImage get image => switch (colorTheme) {
@@ -116,21 +147,29 @@ class _Header extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.paddingOf(context).top,
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: icon.image(),
-                    ),
-                  ),
-                  const SizedBox(height: 18),
-                  content,
+                  SizedBox(height: MediaQuery.paddingOf(context).top),
+                  Expanded(child: content),
                 ],
               ),
             ),
           ],
+        ),
+      );
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    required this.child,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+        child: SafeArea(
+          top: false,
+          minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
+          child: child,
         ),
       );
 }
