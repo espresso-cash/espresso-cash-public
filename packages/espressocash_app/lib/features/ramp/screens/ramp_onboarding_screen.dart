@@ -6,7 +6,7 @@ import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
-import '../../../ui/colors.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/text_field.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
@@ -76,80 +76,57 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
 
   @override
   Widget build(BuildContext context) => RampPage(
-        headerIcon: Assets.images.identityGraphic,
-        headerContent: Column(
+        type: widget.rampType,
+        header: FormPageHeader(
+          title: Text(context.l10n.rampBasicInfoRequired),
+          description: Text(context.l10n.yourEmailDisclaimer),
+          icon: Assets.images.identityGraphic,
+        ),
+        child: Column(
           children: [
-            const SizedBox(height: 7),
-            Text(
-              context.l10n.rampBasicInfoRequired,
-              style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
+            _ProfileTextField(
+              emailController: _firstNameController,
+              rampType: widget.rampType,
+              inputType: TextInputType.name,
+              placeholder: context.l10n.yourFirstNamePlaceholder,
+              textCapitalization: TextCapitalization.words,
             ),
-            const SizedBox(height: 16),
-            Text(
-              context.l10n.yourEmailDisclaimer,
-              style: const TextStyle(fontSize: 13),
-              textAlign: TextAlign.center,
+            const SizedBox(height: 14),
+            _ProfileTextField(
+              emailController: _lastNameController,
+              rampType: widget.rampType,
+              inputType: TextInputType.name,
+              placeholder: context.l10n.yourLastNamePlaceholder,
+              textCapitalization: TextCapitalization.words,
             ),
-            const SizedBox(height: 70),
+            const SizedBox(height: 14),
+            _ProfileTextField(
+              emailController: _emailController,
+              rampType: widget.rampType,
+              inputType: TextInputType.emailAddress,
+              placeholder: context.l10n.yourEmailPlaceholder,
+            ),
+            const SizedBox(height: 14),
+            CountryPicker(
+              country: _country,
+              onSubmitted: (country) => setState(() => _country = country),
+            ),
+            const SizedBox(height: 28),
+            const Spacer(),
+            ListenableBuilder(
+              listenable: Listenable.merge([
+                _firstNameController,
+                _lastNameController,
+                _emailController,
+              ]),
+              builder: (context, child) => CpButton(
+                width: double.infinity,
+                text: context.l10n.next,
+                onPressed: _isValid ? _handleSubmitted : null,
+              ),
+            ),
           ],
         ),
-        content: ColoredBox(
-          color: switch (widget.rampType) {
-            RampType.onRamp => CpColors.darkOrangeBackgroundColor,
-            RampType.offRamp => CpColors.goldBackgroundColor,
-          },
-          child: SafeArea(
-            top: false,
-            minimum: const EdgeInsets.only(bottom: 75, left: 40, right: 40),
-            child: Column(
-              children: [
-                _ProfileTextField(
-                  emailController: _firstNameController,
-                  rampType: widget.rampType,
-                  inputType: TextInputType.name,
-                  placeholder: context.l10n.yourFirstNamePlaceholder,
-                  textCapitalization: TextCapitalization.words,
-                ),
-                const SizedBox(height: 14),
-                _ProfileTextField(
-                  emailController: _lastNameController,
-                  rampType: widget.rampType,
-                  inputType: TextInputType.name,
-                  placeholder: context.l10n.yourLastNamePlaceholder,
-                  textCapitalization: TextCapitalization.words,
-                ),
-                const SizedBox(height: 14),
-                _ProfileTextField(
-                  emailController: _emailController,
-                  rampType: widget.rampType,
-                  inputType: TextInputType.emailAddress,
-                  placeholder: context.l10n.yourEmailPlaceholder,
-                ),
-                const SizedBox(height: 14),
-                CountryPicker(
-                  country: _country,
-                  onSubmitted: (country) => setState(() => _country = country),
-                ),
-                const SizedBox(height: 28),
-                const Spacer(),
-                ListenableBuilder(
-                  listenable: Listenable.merge([
-                    _firstNameController,
-                    _lastNameController,
-                    _emailController,
-                  ]),
-                  builder: (context, child) => CpButton(
-                    width: double.infinity,
-                    text: context.l10n.next,
-                    onPressed: _isValid ? _handleSubmitted : null,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        type: widget.rampType,
       );
 }
 
