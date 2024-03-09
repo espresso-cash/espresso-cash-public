@@ -86,9 +86,9 @@ class _State extends State<WalletScreen> {
       return _handleSmallAmount(WalletOperation.pay);
     }
 
-    _reset();
-
     PayRoute(_cryptoAmount).go(context);
+
+    _reset();
   }
 
   void _handleSmallAmount(WalletOperation operation) {
