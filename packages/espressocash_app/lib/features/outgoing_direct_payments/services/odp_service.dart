@@ -161,7 +161,11 @@ class ODPService {
       return payment;
     }
 
-    final tx = await _txSender.wait(status.tx, minContextSlot: status.slot);
+    final tx = await _txSender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingDirectPayment',
+    );
 
     final ODPStatus? newStatus = tx.map(
       success: (_) => ODPStatus.success(txId: status.tx.id),

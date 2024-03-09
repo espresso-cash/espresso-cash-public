@@ -38,7 +38,11 @@ class _SwapTxSentJob extends CancelableJob<Swap> {
       return swap;
     }
 
-    final tx = await sender.wait(status.tx, minContextSlot: status.slot);
+    final tx = await sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'Swap',
+    );
 
     final SwapStatus? newStatus = tx.map(
       success: (_) => SwapStatus.success(status.tx),
