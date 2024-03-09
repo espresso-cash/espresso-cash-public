@@ -196,6 +196,16 @@
   "@landingInstruction": {},
   "landingLinkPaymentTitle": "Money has been sent to you.",
   "@landingLinkPaymentTitle": {},
+  "landingUserRequestingTitle": "{name} is requesting",
+  "@landingUserRequestingTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "landingRequestTitle": "You have a request of",
+  "@landingRequestTitle": {},
   "helpSectionTitle": "HELP",
   "@helpSectionTitle": {},
   "less": "less",
