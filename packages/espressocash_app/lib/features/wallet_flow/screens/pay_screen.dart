@@ -86,7 +86,7 @@ class _PayScreenState extends State<PayScreen> {
   Widget build(BuildContext context) => PayMainPage(
         title: context.l10n.walletTransactionMethodTitle,
         headerIcon: Assets.images.sendMoneyGraphic,
-        headerBackground: Assets.images.cashInBg,
+        headerBackground: Assets.images.formPageOrangeBg,
         theme: PayTheme.dark,
         description: context.l10n.walletEspressoPayLabel,
         moreOptionsLabel: context.l10n.walletPayOther,
