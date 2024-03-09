@@ -101,4 +101,9 @@ abstract class EspressoCashClient {
   Future<OrderStatusDlnResponseDto> fetchDlnStatus(
     @Body() OrderStatusDlnRequestDto request,
   );
+
+  @POST('/dln/incoming/quote')
+  Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
+    @Body() IncomingQuoteRequestDto request,
+  );
 }

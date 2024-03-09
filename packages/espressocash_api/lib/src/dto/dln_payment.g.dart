@@ -100,3 +100,70 @@ Map<String, dynamic> _$$OrderIdDlnResponseDtoImplToJson(
     <String, dynamic>{
       'orderId': instance.orderId,
     };
+
+_$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncomingQuoteRequestDtoImpl(
+      amount: json['amount'] as int,
+      senderAddress: json['senderAddress'] as String,
+      senderBlockchain: json['senderBlockchain'] as String,
+      receiverAddress: json['receiverAddress'] as String,
+      solanaReferenceAddress: json['solanaReferenceAddress'] as String?,
+    );
+
+Map<String, dynamic> _$$IncomingQuoteRequestDtoImplToJson(
+        _$IncomingQuoteRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'senderAddress': instance.senderAddress,
+      'senderBlockchain': instance.senderBlockchain,
+      'receiverAddress': instance.receiverAddress,
+      'solanaReferenceAddress': instance.solanaReferenceAddress,
+    };
+
+_$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncomingQuoteResponseDtoImpl(
+      tx: QuoteTx.fromJson(json['tx'] as Map<String, dynamic>),
+      usdcInfo:
+          QuoteUsdcInfo.fromJson(json['usdcInfo'] as Map<String, dynamic>),
+      inputAmount: json['inputAmount'] as int,
+      receiverAmount: json['receiverAmount'] as int,
+      feeInUsdc: json['feeInUsdc'] as int,
+    );
+
+Map<String, dynamic> _$$IncomingQuoteResponseDtoImplToJson(
+        _$IncomingQuoteResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'tx': instance.tx,
+      'usdcInfo': instance.usdcInfo,
+      'inputAmount': instance.inputAmount,
+      'receiverAmount': instance.receiverAmount,
+      'feeInUsdc': instance.feeInUsdc,
+    };
+
+_$QuoteTxImpl _$$QuoteTxImplFromJson(Map<String, dynamic> json) =>
+    _$QuoteTxImpl(
+      to: json['to'] as String,
+      data: json['data'] as String,
+      value: json['value'] as int,
+    );
+
+Map<String, dynamic> _$$QuoteTxImplToJson(_$QuoteTxImpl instance) =>
+    <String, dynamic>{
+      'to': instance.to,
+      'data': instance.data,
+      'value': instance.value,
+    };
+
+_$QuoteUsdcInfoImpl _$$QuoteUsdcInfoImplFromJson(Map<String, dynamic> json) =>
+    _$QuoteUsdcInfoImpl(
+      usdcAddress: json['usdcAddress'] as String,
+      approvalAmount: json['approvalAmount'] as int,
+    );
+
+Map<String, dynamic> _$$QuoteUsdcInfoImplToJson(_$QuoteUsdcInfoImpl instance) =>
+    <String, dynamic>{
+      'usdcAddress': instance.usdcAddress,
+      'approvalAmount': instance.approvalAmount,
+    };
