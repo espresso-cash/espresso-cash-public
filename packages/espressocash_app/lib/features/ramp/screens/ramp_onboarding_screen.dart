@@ -132,21 +132,17 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
                   onSubmitted: (country) => setState(() => _country = country),
                 ),
                 const SizedBox(height: 28),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: ListenableBuilder(
-                      listenable: Listenable.merge([
-                        _firstNameController,
-                        _lastNameController,
-                        _emailController,
-                      ]),
-                      builder: (context, child) => CpButton(
-                        width: double.infinity,
-                        text: context.l10n.next,
-                        onPressed: _isValid ? _handleSubmitted : null,
-                      ),
-                    ),
+                const Spacer(),
+                ListenableBuilder(
+                  listenable: Listenable.merge([
+                    _firstNameController,
+                    _lastNameController,
+                    _emailController,
+                  ]),
+                  builder: (context, child) => CpButton(
+                    width: double.infinity,
+                    text: context.l10n.next,
+                    onPressed: _isValid ? _handleSubmitted : null,
                   ),
                 ),
               ],
