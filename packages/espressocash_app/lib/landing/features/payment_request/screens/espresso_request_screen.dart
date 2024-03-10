@@ -5,7 +5,7 @@ import '../../../../l10n/l10n.dart';
 import '../../../core/espresso_desktop.dart';
 import '../../../core/espresso_mobile.dart';
 import '../../../core/extensions.dart';
-import 'request_screen.dart';
+import '../widgets/extensions.dart';
 
 class EspressoRequestScreen extends StatelessWidget {
   const EspressoRequestScreen({super.key, required this.request});

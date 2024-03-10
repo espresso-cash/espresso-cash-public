@@ -16,6 +16,7 @@ import '../../web3/models/exception.dart';
 import '../../web3/web3_service.dart';
 import '../widgets/button.dart';
 import '../widgets/divider.dart';
+import '../widgets/extensions.dart';
 import '../widgets/invoice.dart';
 import 'espresso_request_screen.dart';
 import 'other_wallet_screen.dart';
@@ -273,15 +274,4 @@ class _Desktop extends StatelessWidget {
           ],
         ),
       );
-}
-
-extension SolanaPayRequestExt on SolanaPayRequest {
-  String get headerTitle {
-    final name = label;
-    final amount = this.amount ?? 0;
-
-    return name == null
-        ? 'You have a request of $amount USDC'
-        : '$name is requesting $amount USDC';
-  }
 }
