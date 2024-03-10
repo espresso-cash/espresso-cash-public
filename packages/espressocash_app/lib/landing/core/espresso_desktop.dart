@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
 import '../core/extensions.dart';
-<<<<<<<< HEAD:packages/espressocash_app/lib/landing/ui/espresso_desktop.dart
-========
 import '../ui/colors.dart';
->>>>>>>> efabd176324ceabc22a57cf08d5d94264517a303:packages/espressocash_app/lib/landing/core/espresso_desktop.dart
 import '../ui/qr_code.dart';
 import '../ui/step_circle.dart';
 import 'landing_desktop.dart';
@@ -90,11 +87,7 @@ class EspressoDesktopView extends StatelessWidget {
                   const Spacer(),
                   first,
                   const VerticalDivider(
-<<<<<<<< HEAD:packages/espressocash_app/lib/landing/ui/espresso_desktop.dart
-                    color: Color(0xFFE4E4E4),
-========
                     color: EcLandingColors.dividerColor,
->>>>>>>> efabd176324ceabc22a57cf08d5d94264517a303:packages/espressocash_app/lib/landing/core/espresso_desktop.dart
                     thickness: 1.5,
                     width: 32,
                   ),
@@ -111,11 +104,7 @@ class EspressoDesktopView extends StatelessWidget {
                 children: [
                   first,
                   const Divider(
-<<<<<<<< HEAD:packages/espressocash_app/lib/landing/ui/espresso_desktop.dart
-                    color: Color(0xFFE4E4E4),
-========
                     color: EcLandingColors.dividerColor,
->>>>>>>> efabd176324ceabc22a57cf08d5d94264517a303:packages/espressocash_app/lib/landing/core/espresso_desktop.dart
                     thickness: 1.5,
                     height: 32,
                   ),

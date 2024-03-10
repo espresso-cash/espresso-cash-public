@@ -5,10 +5,11 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../core/extensions.dart';
+import '../../../core/landing_desktop.dart';
 import '../../../data/db_landing.dart';
 import '../../../di.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/footer.dart';
-import '../../../ui/landing_desktop.dart';
 import '../service/order_service.dart';
 import '../widgets/invoice.dart';
 
@@ -73,7 +74,7 @@ class _Desktop extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Assets.landing.receipt.image(height: 87, width: 87),
           ),
-          const Divider(color: borderColor),
+          const Divider(color: EcLandingColors.borderColor),
           const Spacer(),
           _Item(
             title: context.l10n.landingStatusLbl,
@@ -142,7 +143,7 @@ class _Mobile extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Assets.landing.receipt.image(height: 87, width: 87),
           ),
-          const Divider(color: borderColor),
+          const Divider(color: EcLandingColors.borderColor),
         ],
       ),
       content: Column(

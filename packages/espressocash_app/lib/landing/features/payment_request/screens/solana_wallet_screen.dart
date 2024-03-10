@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../ui/landing_desktop.dart';
+import '../../../core/landing_desktop.dart';
 import '../../../ui/qr_code.dart';
 import '../widgets/invoice.dart';
 

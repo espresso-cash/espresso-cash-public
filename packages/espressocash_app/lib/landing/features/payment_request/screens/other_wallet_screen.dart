@@ -15,10 +15,11 @@ import '../../../../ui/button.dart';
 import '../../../../ui/dialogs.dart';
 import '../../../../ui/loader.dart';
 import '../../../core/extensions.dart';
+import '../../../core/landing_desktop.dart';
+import '../../../core/landing_mobile.dart';
 import '../../../di.dart';
 import '../../../ui/arrow.dart';
-import '../../../ui/landing_desktop.dart';
-import '../../../ui/landing_mobile.dart';
+import '../../../ui/colors.dart';
 import '../models/request_model.dart';
 import '../service/confirmation_bloc.dart';
 import '../service/order_service.dart';
@@ -196,7 +197,7 @@ class _Desktop extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Divider(color: borderColor),
+          const Divider(color: EcLandingColors.borderColor),
           const Spacer(),
           _Item(
             label: context.l10n.landingRequestAmountLbl,
@@ -294,7 +295,7 @@ class _Mobile extends StatelessWidget {
             onBlockchainChanged: onChainChanged,
           ),
           const SizedBox(height: 16),
-          const Divider(color: borderColor),
+          const Divider(color: EcLandingColors.borderColor),
           const SizedBox(height: 24),
           _Item(
             label: context.l10n.landingRequestAmountLbl,

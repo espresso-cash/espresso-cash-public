@@ -7,10 +7,11 @@ import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/snackbar.dart';
 import '../../../core/extensions.dart';
+import '../../../core/landing_desktop.dart';
+import '../../../core/landing_mobile.dart';
 import '../../../di.dart';
 import '../../../ui/arrow.dart';
-import '../../../ui/landing_desktop.dart';
-import '../../../ui/landing_mobile.dart';
+import '../../../ui/colors.dart';
 import '../../web3/models/exception.dart';
 import '../../web3/web3_service.dart';
 import '../widgets/button.dart';
@@ -242,7 +243,7 @@ class _Desktop extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            const Divider(color: borderColor),
+            const Divider(color: EcLandingColors.borderColor),
             const Spacer(),
             Text(
               context.l10n.landingPayOtherWallet,
