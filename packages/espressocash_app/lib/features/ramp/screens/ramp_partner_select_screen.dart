@@ -36,8 +36,8 @@ class RampPartnerSelectScreen extends StatelessWidget {
           RampType.offRamp => Assets.images.cashOutGraphic,
         },
         headerBackground: switch (type) {
-          RampType.onRamp => Assets.images.cashInBg,
-          RampType.offRamp => Assets.images.cashOutBg,
+          RampType.onRamp => Assets.images.formPageOrangeBg,
+          RampType.offRamp => Assets.images.formPageGoldBg,
         },
         theme: switch (type) {
           RampType.onRamp => PayTheme.dark,

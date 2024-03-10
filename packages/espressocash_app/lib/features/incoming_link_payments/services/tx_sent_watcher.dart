@@ -53,7 +53,11 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(status.tx, minContextSlot: status.slot);
+    final tx = await sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'IncomingLinkPayment',
+    );
 
     final newStatus = await tx.map(
       success: (_) async {

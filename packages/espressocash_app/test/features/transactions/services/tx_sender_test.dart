@@ -121,7 +121,11 @@ Future<void> main() async {
     );
 
     await service.send(tx, minContextSlot: BigInt.zero);
-    final result = await service.wait(tx, minContextSlot: BigInt.zero);
+    final result = await service.wait(
+      tx,
+      minContextSlot: BigInt.zero,
+      txType: 'Test',
+    );
 
     expect(result, const TxWaitResult.success());
   });
@@ -147,7 +151,11 @@ Future<void> main() async {
 
     await service.send(tx, minContextSlot: BigInt.zero);
     await client.waitForSignatureStatus(tx.id, status: Commitment.confirmed);
-    final result = await service.wait(tx, minContextSlot: BigInt.zero);
+    final result = await service.wait(
+      tx,
+      minContextSlot: BigInt.zero,
+      txType: 'Test',
+    );
 
     expect(result, const TxWaitResult.success());
   });

@@ -8,7 +8,6 @@ import '../balances/widgets/context_ext.dart';
 import 'data/ilp_repository.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
-import 'widgets/pending_ilp_listener.dart';
 
 class ILPModule extends SingleChildStatelessWidget {
   const ILPModule({super.key, super.child});
@@ -31,7 +30,7 @@ class ILPModule extends SingleChildStatelessWidget {
         ],
         child: LogoutListener(
           onLogout: (_) => sl<ILPRepository>().clear(),
-          child: PendingILPListener(child: child ?? const SizedBox.shrink()),
+          child: child ?? const SizedBox.shrink(),
         ),
       );
 }

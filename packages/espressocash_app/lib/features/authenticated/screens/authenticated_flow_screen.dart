@@ -34,8 +34,8 @@ class AuthenticatedFlowScreen extends StatefulWidget {
 class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   @override
   void didChangeDependencies() {
-    precacheImage(Assets.images.cashInBg.provider(), context);
-    precacheImage(Assets.images.cashOutBg.provider(), context);
+    precacheImage(Assets.images.formPageOrangeBg.provider(), context);
+    precacheImage(Assets.images.formPageGoldBg.provider(), context);
     precacheImage(Assets.images.sendManualBg.provider(), context);
     precacheImage(Assets.images.sendMoneyGraphic.provider(), context);
     precacheImage(Assets.images.quizIntroBg.provider(), context);

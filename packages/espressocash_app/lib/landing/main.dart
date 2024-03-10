@@ -11,6 +11,7 @@ import '../l10n/gen/app_localizations.dart';
 import 'di.dart';
 import 'features/link_payment/link_payment_screen.dart';
 import 'features/payment_request/screens/request_screen.dart';
+import 'ui/colors.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());
@@ -31,7 +32,7 @@ class LandingPageApp extends StatelessWidget {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         theme: ThemeData(fontFamily: 'RobotoApp'),
-        color: const Color(0xffB4A270),
+        color: EcLandingColors.primaryColor,
         onGenerateRoute: (settings) {
           final uri = Uri.parse(html.window.location.toString());
           final linkPayment = LinkPayments.tryParse(uri);

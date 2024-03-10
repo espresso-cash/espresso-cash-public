@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config.dart';
 import '../../../l10n/l10n.dart';
+import 'colors.dart';
 
 class Footer extends StatelessWidget {
   const Footer({super.key});
@@ -18,7 +19,7 @@ class Footer extends StatelessWidget {
             context.l10n.landingCopyright,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFFBEBEBE),
+              color: EcLandingColors.footerTextColor,
               fontSize: 12,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.36,
@@ -42,7 +43,7 @@ class Footer extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFFBEBEBE),
+              color: EcLandingColors.footerTextColor,
               fontSize: 13,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.20,

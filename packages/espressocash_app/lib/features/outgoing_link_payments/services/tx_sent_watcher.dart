@@ -44,7 +44,11 @@ class _OLPSentJob extends CancelableJob<OutgoingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(status.tx, minContextSlot: status.slot);
+    final tx = await sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingLinkPayment',
+    );
 
     final OLPStatus? newStatus = tx.map(
       success: (_) => OLPStatus.txConfirmed(escrow: status.escrow),

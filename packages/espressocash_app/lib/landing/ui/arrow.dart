@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import 'colors.dart';
+
 class LandingArrow extends StatelessWidget {
-  const LandingArrow({super.key, this.color = const Color(0xFF2D2B2C)});
+  const LandingArrow({
+    super.key,
+    this.color = EcLandingColors.blackTextColor,
+  });
 
   final Color? color;
 

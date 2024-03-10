@@ -92,8 +92,13 @@ Future<void> main() async {
 
     when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
         .thenAnswer((_) async => const TxSendResult.sent());
-    when(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
-        .thenAnswer((_) async => const TxWaitResult.success());
+    when(
+      sender.wait(
+        any,
+        minContextSlot: anyNamed('minContextSlot'),
+        txType: anyNamed('txType'),
+      ),
+    ).thenAnswer((_) async => const TxWaitResult.success());
 
     final paymentId = await createService().let(createODP);
     final payment = repository.watch(paymentId);
@@ -114,8 +119,13 @@ Future<void> main() async {
 
     verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
         .called(1);
-    verify(sender.wait(any, minContextSlot: anyNamed('minContextSlot')))
-        .called(1);
+    verify(
+      sender.wait(
+        any,
+        minContextSlot: anyNamed('minContextSlot'),
+        txType: anyNamed('txType'),
+      ),
+    ).called(1);
   });
 
   test('Failed to get tx from API', () async {
@@ -142,7 +152,13 @@ Future<void> main() async {
     );
 
     verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
-    verifyNever(sender.wait(any, minContextSlot: anyNamed('minContextSlot')));
+    verifyNever(
+      sender.wait(
+        any,
+        minContextSlot: anyNamed('minContextSlot'),
+        txType: anyNamed('txType'),
+      ),
+    );
   });
 }
 
