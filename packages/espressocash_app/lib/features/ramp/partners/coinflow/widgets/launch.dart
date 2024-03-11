@@ -115,9 +115,7 @@ extension BuildContextExt on BuildContext {
         .push<void>(this);
   }
 
-  Future<bool> _hasKYC({
-    required String address,
-  }) =>
+  Future<bool> _hasKYC({required String address}) =>
       runWithLoader<bool>(this, () async {
         try {
           final client = sl<CoinflowClient>();

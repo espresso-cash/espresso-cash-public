@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
@@ -17,20 +16,22 @@ class CoinflowLinkListener extends SingleChildStatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() => _LogoutListenerState();
+  State<StatefulWidget> createState() => _CoinflowLinkListenerState();
 }
 
-class _LogoutListenerState extends SingleChildState<CoinflowLinkListener>
+class _CoinflowLinkListenerState extends SingleChildState<CoinflowLinkListener>
     with DynamicLinkHandler {
-  @override
-  bool handleDynamicLink(Uri uri) =>
-      uri.let(isCoinflowDeepLink).let((isCoinflowLink) {
-        if (isCoinflowLink) {
-          _handleCoinflowDeepLink();
-        }
+  static bool _isCoinflowDeepLink(Uri uri) =>
+      uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';
 
-        return isCoinflowLink;
-      });
+  @override
+  bool handleDynamicLink(Uri uri) {
+    if (!_isCoinflowDeepLink(uri)) return false;
+
+    _handleCoinflowDeepLink();
+
+    return true;
+  }
 
   Future<void> _handleCoinflowDeepLink() async {
     final profile = await context.ensureProfileData(RampType.offRamp);
@@ -47,6 +48,3 @@ class _LogoutListenerState extends SingleChildState<CoinflowLinkListener>
   Widget buildWithChild(BuildContext context, Widget? child) =>
       child ?? const SizedBox.shrink();
 }
-
-bool isCoinflowDeepLink(Uri uri) =>
-    uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';

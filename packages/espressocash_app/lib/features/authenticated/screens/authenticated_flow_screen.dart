@@ -18,7 +18,6 @@ import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
 import '../../popular_tokens/module.dart';
-import '../../ramp/partners/coinflow/widgets/module.dart';
 import '../../swap/module.dart';
 import '../authenticated_navigator_key.dart';
 
@@ -74,7 +73,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
               child: MultiProvider(
                 providers: const [
                   ILPModule(),
-                  CoinflowLinkListener(),
                 ],
                 child: widget.child,
               ),
