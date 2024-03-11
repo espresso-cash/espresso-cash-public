@@ -22,6 +22,12 @@ abstract class CoinflowClient {
   Future<WithdrawResponseDto> getWithdrawalHistory(
     @Header('x-coinflow-auth-wallet') String walletId,
   );
+
+  @GET('/withdraw')
+  @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
+  Future<HttpResponse<void>> getWithdrawer(
+    @Header('x-coinflow-auth-wallet') String walletId,
+  );
 }
 
 @freezed

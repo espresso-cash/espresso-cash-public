@@ -7,18 +7,21 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../routing.dart';
+import '../../../../../ui/loader.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../src/models/profile_data.dart';
+import '../data/coinflow_api_client.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchCoinflowOffRamp({
@@ -29,6 +32,17 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     bool hasLoaded = false;
+
+    final hasKYC = await _hasKYC(address: address);
+
+    if (!hasKYC) {
+      await launchUrl(
+        _buildKycUrl(address: address, email: profile.email),
+        mode: LaunchMode.externalApplication,
+      );
+
+      return;
+    }
 
     Future<void> handleLoaded(InAppWebViewController controller) async {
       if (!hasLoaded) {
@@ -99,6 +113,42 @@ extension BuildContextExt on BuildContext {
 
     await WebViewRoute((url: blank, onLoaded: handleLoaded, title: null))
         .push<void>(this);
+  }
+
+  Future<bool> _hasKYC({
+    required String address,
+  }) =>
+      runWithLoader<bool>(this, () async {
+        try {
+          final client = sl<CoinflowClient>();
+
+          await client.getWithdrawer(address);
+
+          return true;
+        } on Exception {
+          return false;
+        }
+      });
+
+  Uri _buildKycUrl({
+    required String address,
+    required String email,
+  }) {
+    final baseUrl = Uri.parse(coinflowKycUrl);
+
+    final coinflowDeepLinkUrl = Uri(
+      scheme: espressoCashLinkProtocol,
+      host: '',
+      path: 'coinflow',
+    ).toString();
+
+    return baseUrl.replace(
+      queryParameters: {
+        'pubkey': address,
+        'email': email,
+        'bankAccountLinkRedirect': coinflowDeepLinkUrl,
+      },
+    );
   }
 }
 
