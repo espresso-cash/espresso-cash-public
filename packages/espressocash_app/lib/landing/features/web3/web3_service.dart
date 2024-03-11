@@ -1,7 +1,3 @@
-// ignore_for_file: avoid_web_libraries_in_flutter
-
-import 'dart:html';
-
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:webthree/browser.dart';
@@ -11,6 +7,7 @@ import 'package:webthree/webthree.dart';
 
 import '../../../features/blockchain/models/blockchain.dart';
 import '../../di.dart';
+import 'eth/eth_shared.dart';
 import 'js.dart';
 import 'models/exception.dart';
 
@@ -18,10 +15,10 @@ import 'models/exception.dart';
 class Web3Service {
   const Web3Service();
 
-  bool get isEnabled => window.ethereum != null;
+  bool get isEnabled => ethereum != null;
 
   Ethereum get eth {
-    final eth = window.ethereum;
+    final eth = ethereum;
     if (eth == null) {
       throw const Web3Exception.metaMaskNotInstalled();
     }

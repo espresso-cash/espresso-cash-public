@@ -10,6 +10,7 @@ final sl = GetIt.instance;
 @InjectableInit(
   preferRelativeImports: false,
   throwOnMissingDependencies: true,
+  generateForDir: ['lib/landing'],
 )
 void configureDependencies() => sl.initLandingScope();
 
