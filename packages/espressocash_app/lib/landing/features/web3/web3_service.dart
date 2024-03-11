@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-unnecessary-type-casts, unnecessary_cast
+
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:webthree/browser.dart';
@@ -7,7 +9,7 @@ import 'package:webthree/webthree.dart';
 
 import '../../../features/blockchain/models/blockchain.dart';
 import '../../di.dart';
-import 'eth/eth_shared.dart';
+import 'eth/eth.dart';
 import 'js.dart';
 import 'models/exception.dart';
 
@@ -39,7 +41,9 @@ class Web3Service {
     final credentials = await eth.requestAccounts();
     final chainId = await client.getNetworkId();
 
-    return (credentials[0].address, chainId);
+    final address = credentials[0].address as EthereumAddress;
+
+    return (address, chainId);
   }
 
   Future<int> getChainId() => client.getNetworkId();
