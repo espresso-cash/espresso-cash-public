@@ -33,8 +33,9 @@ extension BuildContextExt on BuildContext {
     WebViewRoute(
       (
         url: uri,
-        title: l10n.ramp_titleCashIn,
         onLoaded: null,
+        title: l10n.ramp_titleCashIn,
+        theme: null,
       ),
     ).push<void>(this);
   }

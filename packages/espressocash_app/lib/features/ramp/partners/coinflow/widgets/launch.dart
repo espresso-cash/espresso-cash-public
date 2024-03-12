@@ -18,6 +18,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
@@ -127,6 +128,7 @@ extension BuildContextExt on BuildContext {
         url: blank,
         onLoaded: handleLoaded,
         title: l10n.ramp_titleCashOut,
+        theme: const CpThemeData.black()
       ),
     ).push<void>(this);
   }
