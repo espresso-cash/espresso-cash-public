@@ -111,7 +111,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
 
     void handleCanceled() => showConfirmationDialog(
           context,
-          title: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          title: context.l10n.outgoingSplitKeyPayments_btnCancel.toUpperCase(),
           message: context
               .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
           onConfirm: () {
