@@ -122,8 +122,13 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await WebViewRoute((url: blank, onLoaded: handleLoaded, title: null))
-        .push<void>(this);
+    await WebViewRoute(
+      (
+        url: blank,
+        onLoaded: handleLoaded,
+        title: l10n.ramp_titleCashOut,
+      ),
+    ).push<void>(this);
   }
 
   AsyncResult<bool> _checkKYC({required String address}) =>
