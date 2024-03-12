@@ -76,7 +76,8 @@ class _OLPScreenState extends State<OLPScreen> {
           void handleCanceled() => showConfirmationDialog(
                 context,
                 title: context
-                    .l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle,
+                    .l10n.outgoingSplitKeyPayments_lblCancelConfirmationTitle
+                    .toUpperCase(),
                 message: context.l10n
                     .outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
                 onConfirm: () {

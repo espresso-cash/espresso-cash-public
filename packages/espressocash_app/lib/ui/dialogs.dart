@@ -49,11 +49,12 @@ Future<void> showConfirmationDialog(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                title.toUpperCase(),
+                title,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 17,
+                  fontSize: 20,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: 24),
@@ -61,7 +62,7 @@ Future<void> showConfirmationDialog(
                 message,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
-                  fontSize: 19,
+                  fontSize: 18,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
                 ),
