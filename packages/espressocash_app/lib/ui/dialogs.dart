@@ -28,7 +28,10 @@ Future<void> showConfirmationDialog(
   required String title,
   required String message,
   required VoidCallback onConfirm,
+  String? confirmLabel,
   String? cancelLabel,
+  TextStyle? titleStyle,
+  TextStyle? messageStyle,
 }) =>
     showModalBottomSheet(
       context: context,
@@ -51,21 +54,23 @@ Future<void> showConfirmationDialog(
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: titleStyle ??
+                    const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
               const SizedBox(height: 24),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: messageStyle ??
+                    const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
               const SizedBox(height: 32),
               Row(
@@ -81,7 +86,7 @@ Future<void> showConfirmationDialog(
                   const SizedBox(width: 16),
                   Expanded(
                     child: CpButton(
-                      text: context.l10n.yes,
+                      text: confirmLabel ?? context.l10n.yes,
                       width: 150,
                       onPressed: () {
                         Navigator.pop(context);
