@@ -103,7 +103,12 @@ window.addEventListener("message", (event) => {
     }
 
     await WebViewRoute(
-      (url: uri, onLoaded: handleLoaded, title: null, theme: null),
+      (
+        url: uri,
+        onLoaded: handleLoaded,
+        title: null,
+        theme: null,
+      ),
     ).push<void>(this);
   }
 
@@ -197,7 +202,12 @@ window.addEventListener("message", (event) => {
     }
 
     await WebViewRoute(
-      (url: uri, onLoaded: handleLoaded, title: null, theme: null),
+      (
+        url: uri,
+        onLoaded: handleLoaded,
+        title: null,
+        theme: null,
+      ),
     ).push<void>(this);
   }
 }

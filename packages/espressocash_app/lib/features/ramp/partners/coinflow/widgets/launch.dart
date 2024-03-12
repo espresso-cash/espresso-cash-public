@@ -103,7 +103,7 @@ extension BuildContextExt on BuildContext {
       (
         url: blank,
         onLoaded: handleLoaded,
-        title: l10n.ramp_btnCashOut,
+        title: l10n.ramp_titleCashOut,
         theme: const CpThemeData.black()
       ),
     ).push<void>(this);

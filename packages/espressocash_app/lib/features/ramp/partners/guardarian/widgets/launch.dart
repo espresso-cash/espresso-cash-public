@@ -29,7 +29,13 @@ extension BuildContextExt on BuildContext {
       },
     );
 
-    WebViewRoute((url: uri, title: 'Guardarian', onLoaded: null, theme: null))
-        .push<void>(this);
+    WebViewRoute(
+      (
+        url: uri,
+        title: 'Guardarian',
+        onLoaded: null,
+        theme: null,
+      ),
+    ).push<void>(this);
   }
 }
