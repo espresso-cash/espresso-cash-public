@@ -79,7 +79,7 @@ class CashOutButton extends StatelessWidget {
       );
 }
 
-extension on BuildContext {
+extension RampBuildContextExt on BuildContext {
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
       pop();
