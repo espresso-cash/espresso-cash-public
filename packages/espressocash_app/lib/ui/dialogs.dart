@@ -28,13 +28,13 @@ Future<void> showConfirmationDialog(
   required String title,
   required String message,
   required VoidCallback onConfirm,
-  String? confirmLabel,
+  String? cancelLabel,
 }) =>
     showModalBottomSheet(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.darkSplashBackgroundColor,
+      backgroundColor: CpColors.goldBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),
@@ -43,7 +43,7 @@ Future<void> showConfirmationDialog(
       ),
       builder: (context) => CpTheme.black(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(64, 40, 64, 64),
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,19 +67,28 @@ Future<void> showConfirmationDialog(
                 ),
               ),
               const SizedBox(height: 32),
-              CpButton(
-                text: confirmLabel ?? context.l10n.yes,
-                width: double.infinity,
-                onPressed: () {
-                  Navigator.pop(context);
-                  onConfirm();
-                },
-              ),
-              const SizedBox(height: 16),
-              CpButton(
-                text: context.l10n.no,
-                width: double.infinity,
-                onPressed: () => Navigator.pop(context),
+              Row(
+                children: [
+                  Expanded(
+                    child: CpButton(
+                      text: cancelLabel ?? context.l10n.no,
+                      width: 150,
+                      variant: CpButtonVariant.muted,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CpButton(
+                      text: context.l10n.yes,
+                      width: 150,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onConfirm();
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

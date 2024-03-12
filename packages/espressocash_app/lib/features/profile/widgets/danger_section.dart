@@ -11,7 +11,7 @@ class DangerSection extends StatelessWidget {
           context,
           () => sl<AccountService>().logOut(),
         ),
-        confirmLabel: context.l10n.yesDeleteMyWallet,
+        cancelLabel: context.l10n.core_btnCancel,
       );
 
   @override
