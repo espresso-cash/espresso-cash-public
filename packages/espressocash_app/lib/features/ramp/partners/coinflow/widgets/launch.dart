@@ -1,5 +1,6 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -13,8 +14,10 @@ import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
+import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
@@ -28,21 +31,29 @@ extension BuildContextExt on BuildContext {
     required String address,
     required ProfileData profile,
   }) async {
+    final hasKYC = await _checkKYC(address: address);
+
+    switch (hasKYC) {
+      case Left<Exception, bool>():
+        showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+        return;
+
+      case Right<Exception, bool>(:final value):
+        if (!value) {
+          await launchUrl(
+            _buildKycUrl(address: address, email: profile.email),
+            mode: LaunchMode.externalApplication,
+          );
+
+          return;
+        }
+    }
+
     final blank = Uri.parse('about:blank');
 
     bool orderWasCreated = false;
     bool hasLoaded = false;
-
-    final hasKYC = await _hasKYC(address: address);
-
-    if (!hasKYC) {
-      await launchUrl(
-        _buildKycUrl(address: address, email: profile.email),
-        mode: LaunchMode.externalApplication,
-      );
-
-      return;
-    }
 
     Future<void> handleLoaded(InAppWebViewController controller) async {
       if (!hasLoaded) {
@@ -115,16 +126,21 @@ extension BuildContextExt on BuildContext {
         .push<void>(this);
   }
 
-  Future<bool> _hasKYC({required String address}) =>
-      runWithLoader<bool>(this, () async {
+  AsyncResult<bool> _checkKYC({required String address}) =>
+      runWithLoader<Result<bool>>(this, () async {
         try {
           final client = sl<CoinflowClient>();
 
           await client.getWithdrawer(address);
 
-          return true;
-        } on Exception {
-          return false;
+          return const Either.right(true);
+        } on DioException catch (exception) {
+          if (exception.response?.statusCode == 401 ||
+              exception.response?.statusCode == 412) {
+            return const Either.right(false);
+          }
+
+          return Either.left(exception);
         }
       });
 
