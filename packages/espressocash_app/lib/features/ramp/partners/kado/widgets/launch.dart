@@ -8,6 +8,7 @@ import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
@@ -106,7 +107,7 @@ window.addEventListener("message", (event) => {
       (
         url: uri,
         onLoaded: handleLoaded,
-        title: null,
+        title: l10n.ramp_titleCashIn,
         theme: null,
       ),
     ).push<void>(this);
@@ -205,7 +206,7 @@ window.addEventListener("message", (event) => {
       (
         url: uri,
         onLoaded: handleLoaded,
-        title: null,
+        title: l10n.ramp_btnCashOut,
         theme: null,
       ),
     ).push<void>(this);

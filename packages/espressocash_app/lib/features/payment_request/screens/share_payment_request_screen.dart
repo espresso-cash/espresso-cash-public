@@ -64,8 +64,9 @@ class SharePaymentRequestScreen extends StatelessWidget {
                   text: context.l10n.paymentRequestCancel,
                   onPressed: () => showConfirmationDialog(
                     context,
-                    title:
-                        context.l10n.paymentRequest_lblCancelConfirmationTitle,
+                    title: context
+                        .l10n.paymentRequest_lblCancelConfirmationTitle
+                        .toUpperCase(),
                     message: context
                         .l10n.paymentRequest_lblCancelConfirmationSubtitle,
                     onConfirm: () {

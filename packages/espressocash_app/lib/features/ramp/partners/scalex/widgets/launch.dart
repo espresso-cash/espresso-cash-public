@@ -147,7 +147,7 @@ window.addEventListener("message", (event) => {
       (
         url: Uri.parse(link),
         onLoaded: handleLoaded,
-        title: null,
+        title: l10n.ramp_titleCashIn,
         theme: null,
       ),
     ).push<void>(this);
@@ -268,7 +268,7 @@ window.addEventListener("message", (event) => {
       (
         url: Uri.parse(link),
         onLoaded: handleLoaded,
-        title: null,
+        title: l10n.ramp_titleCashOut,
         theme: null,
       ),
     ).push<void>(this);
