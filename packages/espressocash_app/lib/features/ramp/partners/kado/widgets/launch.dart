@@ -102,8 +102,9 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute((url: uri, onLoaded: handleLoaded, title: null))
-        .push<void>(this);
+    await WebViewRoute(
+      (url: uri, onLoaded: handleLoaded, title: null, theme: null),
+    ).push<void>(this);
   }
 
   Future<void> launchKadoOffRamp({
@@ -195,7 +196,8 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute((url: uri, onLoaded: handleLoaded, title: null))
-        .push<void>(this);
+    await WebViewRoute(
+      (url: uri, onLoaded: handleLoaded, title: null, theme: null),
+    ).push<void>(this);
   }
 }

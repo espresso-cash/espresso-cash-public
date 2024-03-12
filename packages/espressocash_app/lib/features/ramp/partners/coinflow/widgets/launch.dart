@@ -12,7 +12,9 @@ import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
@@ -97,8 +99,14 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await WebViewRoute((url: blank, onLoaded: handleLoaded, title: null))
-        .push<void>(this);
+    await WebViewRoute(
+      (
+        url: blank,
+        onLoaded: handleLoaded,
+        title: l10n.ramp_btnCashOut,
+        theme: const CpThemeData.black()
+      ),
+    ).push<void>(this);
   }
 }
 
