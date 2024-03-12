@@ -25,8 +25,8 @@ import 'features/legal/privacy_screen.dart';
 import 'features/legal/terms_screen.dart';
 import 'features/mobile_wallet/models/remote_request.dart';
 import 'features/mobile_wallet/screens/remote_request_screen.dart';
+import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/confirm_recovery_phrase_screen.dart';
-import 'features/onboarding/screens/no_email_and_password_screen.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
 import 'features/onboarding/screens/success_screen.dart';
 import 'features/onboarding/screens/view_recovery_phrase_screen.dart';
@@ -155,9 +155,6 @@ part 'routing.g.dart';
           ],
         ),
         TypedGoRoute<OnboardingRoute>(path: '/onboarding/profile'),
-        TypedGoRoute<OnboardingNoPasswordRoute>(
-          path: '/onboarding/no-password',
-        ),
         TypedGoRoute<OnboardingRecoveryPhraseRoute>(
           path: '/onboarding/recovery-phrase',
         ),
@@ -198,6 +195,13 @@ final goRouter = GoRouter(
   refreshListenable: sl<AccountService>(),
   redirect: (context, state) {
     final isLoggedIn = sl<AccountService>().value != null;
+
+    if (isLoggedIn) {
+      final hasFinishedOnboarding =
+          sl<OnboardingRepository>().hasFinishedOnboarding;
+
+      //TODO redirect to onboarding if false
+    }
 
     if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
       return const HomeRoute().location;

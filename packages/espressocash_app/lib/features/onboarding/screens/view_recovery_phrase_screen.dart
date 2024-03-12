@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../l10n/l10n.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../routing.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/onboarding_screen.dart';
+import '../../../ui/button.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
-import '../../../ui/theme.dart';
 import '../../accounts/data/account_repository.dart';
+import '../../ramp/models/ramp_type.dart';
+import '../../ramp/screens/ramp_onboarding_screen.dart';
 import 'confirm_recovery_phrase_screen.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
@@ -39,24 +41,38 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
     });
   }
 
+  void _handleConfirmPress() => showConfirmationDialog(
+        context,
+        title: 'Did you write down the Secret Recovery Phrase?',
+        message:
+            'Without the secret recovery phrase you will not be able to access your key or any assets associated with it.',
+        onConfirm: () => widget.onConfirmed(_phrase),
+      );
+
   @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          body: OnboardingScreen(
-            footer: OnboardingFooterButton(
-              text: widget.buttonLabel ?? context.l10n.next,
-              onPressed: () => widget.onConfirmed(_phrase),
-            ),
-            children: [
-              const CpAppBar(),
-              const OnboardingLogo(),
-              OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
-              OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
-              OnboardingPadding(
-                child: RecoveryPhraseTextView(phrase: _phrase),
-              ),
-            ],
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: const SizedBox(),
+        header: FormPageHeader(
+          title:
+              const Text('Save your secret recovery phrase in a safe place.'),
+          description: const Text(
+            'Your recovery phrase is composed of randomly generated 12 words. Write it down and save it carefully. You will not be able to recover your funds if you lose these words.',
           ),
+          icon: Assets.images.securityGraphic,
+        ),
+        child: Column(
+          children: [
+            RecoveryPhraseTextView(phrase: _phrase),
+            const Spacer(),
+            CpButton(
+              text: 'Ok, I saved it somewhere',
+              width: double.infinity,
+              size: CpButtonSize.big,
+              onPressed: _handleConfirmPress,
+            ),
+            const SizedBox(height: 32),
+          ],
         ),
       );
 }
@@ -69,8 +85,8 @@ class OnboardingRecoveryPhraseRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ViewRecoveryPhraseScreen(
-        onConfirmed: (phrase) =>
-            OnboardingConfirmRecoveryPhraseRoute(phrase, finishPath: finishPath)
-                .push<void>(context),
+        onConfirmed: (phrase) => RampOnboardingRoute(
+          (onConfirmed: () {}, rampType: RampType.offRamp),
+        ).push<void>(context),
       );
 }
