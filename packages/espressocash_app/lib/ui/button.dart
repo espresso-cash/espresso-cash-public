@@ -8,6 +8,7 @@ enum CpButtonVariant {
   light,
   inverted,
   black,
+  muted,
 }
 
 enum CpButtonSize { normal, big, small, micro, wide }
@@ -50,6 +51,8 @@ class CpButton extends StatelessWidget {
         return CpColors.lightGreyBackground;
       case CpButtonVariant.black:
         return Colors.black;
+      case CpButtonVariant.muted:
+        return const Color(0xff97875A);
     }
   }
 
@@ -57,6 +60,7 @@ class CpButton extends StatelessWidget {
     switch (variant) {
       case CpButtonVariant.inverted:
       case CpButtonVariant.black:
+      case CpButtonVariant.muted:
         return CpColors.lightGreyBackground;
       case CpButtonVariant.secondary:
       case CpButtonVariant.dark:

@@ -1,3 +1,5 @@
+import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -76,7 +78,12 @@ class TxSender {
     )
       ..setData('txId', tx.id)
       // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType);
+      ..setTag('txType', txType)
+      ..setMeasurement(
+        'compute_unit_price',
+        tx.computeUnitPrice?.toInt() ?? 0,
+        unit: CustomSentryMeasurementUnit('microlamports'),
+      );
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
@@ -262,6 +269,24 @@ extension on JsonRpcException {
     if (instructionErrorData is! Map<String, dynamic>) return false;
 
     return instructionErrorData['Custom'] == 1;
+  }
+}
+
+extension on SignedTx {
+  BigInt? get computeUnitPrice {
+    final message = decompileMessage();
+
+    final ix = message.instructions
+        .firstWhereOrNull((ix) => ix.programId == ComputeBudgetProgram.id);
+    if (ix == null) return null;
+
+    final data = ix.data;
+    final reader =
+        BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+    final id = reader.readU8();
+    if (id != ComputeBudgetProgram.setComputeUnitPriceIndex.first) return null;
+
+    return reader.readU64();
   }
 }
 

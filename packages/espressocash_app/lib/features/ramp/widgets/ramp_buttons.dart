@@ -79,7 +79,7 @@ class CashOutButton extends StatelessWidget {
       );
 }
 
-extension on BuildContext {
+extension RampBuildContextExt on BuildContext {
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
       pop();
@@ -254,7 +254,7 @@ const _kadoCountries = {'US'};
 const _guardarianCountries = {
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
   'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
-  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH', 'US',
+  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
 };
 
 const _coinflowCountries = {
