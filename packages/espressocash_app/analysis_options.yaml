@@ -21,6 +21,8 @@ analyzer:
 dart_code_metrics:
   rules:
     avoid-passing-self-as-argument: false
+    prefer-overriding-parent-equality: false # too many false positives, temporarily disabled
+    avoid-unnecessary-collections: false # too many false positives, temporarily disabled
     avoid-banned-imports:
       severity: error
       entries:
