@@ -41,8 +41,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 size: CpButtonSize.big,
                 minWidth: 300,
                 onPressed: () =>
-                    OnboardingRoute(finishPath: const HomeRoute().location)
-                        .push<void>(context),
+                    const OnboardingProfileRoute().push<void>(context),
               ),
               const SizedBox(height: 8),
               TextButton(

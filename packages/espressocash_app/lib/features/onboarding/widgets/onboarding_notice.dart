@@ -33,8 +33,7 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
 
   void _handlePressed() {
     // OnboardingRoute(finishPath: widget.finishPath).push<void>(context);
-    OnboardingRecoveryPhraseRoute(finishPath: widget.finishPath)
-        .push<void>(context);
+    const OnboardingRecoveryPhraseRoute().push<void>(context);
   }
 
   @override

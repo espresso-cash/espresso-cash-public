@@ -12,16 +12,15 @@ import '../../accounts/data/account_repository.dart';
 import '../../ramp/models/ramp_type.dart';
 import '../../ramp/screens/ramp_onboarding_screen.dart';
 import 'confirm_recovery_phrase_screen.dart';
+import 'onboarding_screen.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
   const ViewRecoveryPhraseScreen({
     super.key,
     required this.onConfirmed,
-    this.buttonLabel,
   });
 
-  final ValueSetter<String> onConfirmed;
-  final String? buttonLabel;
+  final VoidCallback onConfirmed;
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>
@@ -46,7 +45,7 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
         title: 'Did you write down the Secret Recovery Phrase?',
         message:
             'Without the secret recovery phrase you will not be able to access your key or any assets associated with it.',
-        onConfirm: () => widget.onConfirmed(_phrase),
+        onConfirm: () => widget.onConfirmed(),
       );
 
   @override
@@ -78,15 +77,13 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
 }
 
 class OnboardingRecoveryPhraseRoute extends GoRouteData {
-  const OnboardingRecoveryPhraseRoute({required this.finishPath});
-
-  final String finishPath;
+  const OnboardingRecoveryPhraseRoute();
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       ViewRecoveryPhraseScreen(
-        onConfirmed: (phrase) => RampOnboardingRoute(
-          (onConfirmed: () {}, rampType: RampType.offRamp),
-        ).push<void>(context),
+        onConfirmed: () {
+          const OnboardingProfileRoute().push(context);
+        },
       );
 }
