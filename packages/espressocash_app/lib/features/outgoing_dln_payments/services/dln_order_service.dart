@@ -147,7 +147,11 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _sender.wait(status.tx, minContextSlot: status.slot);
+    final tx = await _sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingDlnPayment',
+    );
     final OutgoingDlnPaymentStatus? newStatus = await tx.map(
       success: (_) => OutgoingDlnPaymentStatus.success(
         status.tx,

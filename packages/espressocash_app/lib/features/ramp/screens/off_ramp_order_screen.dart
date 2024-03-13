@@ -19,6 +19,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
@@ -60,6 +61,9 @@ class OffRampOrderRoute extends GoRouteData {
 
   final String id;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       OffRampOrderScreen(orderId: id);
@@ -83,7 +87,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     void handleCanceled() => showConfirmationDialog(
           context,
-          title: context.l10n.offRampCancelTitle,
+          title: context.l10n.offRampCancelTitle.toUpperCase(),
           message: context.l10n.offRampCancelSubtitle,
           onConfirm: () {
             sl<OffRampOrderService>().cancel(order.id);

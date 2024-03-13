@@ -9,7 +9,6 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/shake.dart';
-import '../../authenticated/screens/home_screen.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
@@ -71,21 +70,29 @@ class _State extends State<WalletScreen> {
 
   Future<void> _handleRequest() async {
     if (_fiatAmount < _minimumAmount) {
-      return _handleSmallAmount(WalletOperation.request);
+      _handleSmallAmount(WalletOperation.request);
+
+      return;
     }
 
     final id = await context.createPayRequest(tokenAmount: _cryptoAmount);
     if (!mounted) return;
+
+    _reset();
 
     SharePaymentRequestRoute(id).go(context);
   }
 
   void _handlePay() {
     if (_fiatAmount < _minimumAmount) {
-      return _handleSmallAmount(WalletOperation.pay);
+      _handleSmallAmount(WalletOperation.pay);
+
+      return;
     }
 
     PayRoute(_cryptoAmount).go(context);
+
+    _reset();
   }
 
   void _handleSmallAmount(WalletOperation operation) {
@@ -128,5 +135,5 @@ class WalletRoute extends GoRouteData {
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: HomeScreen(child: WalletScreen()));
+      const NoTransitionPage(child: WalletScreen());
 }

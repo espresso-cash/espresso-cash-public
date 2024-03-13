@@ -1,3 +1,20 @@
+## 1.106.0
+
+ - **REFACTOR**: simplify FormPage layout (#1304).
+ - **REFACTOR**: extract FormPage (#1303).
+ - **REFACTOR**: move link listeners (#1302).
+ - **REFACTOR**: remove saga code (#1297).
+ - **REFACTOR**: migrate to go_router (#1294).
+ - **FIX**: coinflow plaid bug (#1305).
+ - **FIX**: sending by link amount.
+ - **FIX**: ramp page scroll (#1296).
+ - **FEAT**: update confirmation dialog theme (#1308).
+ - **FEAT**: update ramp header title (#1318).
+ - **FEAT**: update tx performance monitoring.
+ - **FEAT**: web landing pages redesign (#1301).
+ - **FEAT**: routing navigation updates (#1298).
+ - **FEAT**: add last name field to ramp onboarding (#1295).
+
 ## 1.105.0
 
  - **REFACTOR**: remove declarative routes (#1288).

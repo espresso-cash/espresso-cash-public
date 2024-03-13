@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import 'extensions.dart';
-import 'landing_widget.dart';
-import 'presentation/qr_code.dart';
-import 'presentation/step_circle.dart';
+import '../core/extensions.dart';
+import '../ui/colors.dart';
+import '../ui/qr_code.dart';
+import '../ui/step_circle.dart';
+import 'landing_desktop.dart';
 
 class EspressoDesktopView extends StatelessWidget {
   const EspressoDesktopView({
     super.key,
     required this.actionLink,
-    required this.header,
+    required this.title,
+    this.subtitle,
   });
 
   final Uri actionLink;
-  final Widget header;
+  final String title;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class EspressoDesktopView extends StatelessWidget {
             context.l10n.landingInstallApp,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF2D2B2C),
+              color: EcLandingColors.blackTextColor,
               fontSize: 19,
               fontWeight: FontWeight.w600,
               letterSpacing: 0.13,
@@ -41,7 +44,7 @@ class EspressoDesktopView extends StatelessWidget {
             context.l10n.landingAlreadyInstalled,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              color: Color(0xFF2D2B2C),
+              color: EcLandingColors.blackTextColor,
               fontSize: 13,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.19,
@@ -61,7 +64,7 @@ class EspressoDesktopView extends StatelessWidget {
         context.l10n.landingScanQr,
         textAlign: TextAlign.center,
         style: const TextStyle(
-          color: Color(0xFF2D2B2C),
+          color: EcLandingColors.blackTextColor,
           fontSize: 19,
           fontWeight: FontWeight.w600,
           letterSpacing: 0.13,
@@ -69,48 +72,47 @@ class EspressoDesktopView extends StatelessWidget {
       ),
     );
 
-    return Scaffold(
-      body: LandingDesktopWidget(
-        header: header,
-        content: Column(
-          children: [
-            const SizedBox(height: 100),
-            if (width > 750)
-              IntrinsicHeight(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Spacer(),
-                    first,
-                    const VerticalDivider(
-                      color: Color(0xFFE4E4E4),
-                      thickness: 1.5,
-                      width: 32,
-                    ),
-                    second,
-                    const Spacer(),
-                  ],
-                ),
-              )
-            else
-              IntrinsicWidth(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    first,
-                    const Divider(
-                      color: Color(0xFFE4E4E4),
-                      thickness: 1.5,
-                      height: 32,
-                    ),
-                    second,
-                  ],
-                ),
+    return LandingDesktopPage(
+      title: title,
+      subtitle: subtitle,
+      content: Column(
+        children: [
+          const SizedBox(height: 100),
+          if (width > 750)
+            IntrinsicHeight(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Spacer(),
+                  first,
+                  const VerticalDivider(
+                    color: EcLandingColors.dividerColor,
+                    thickness: 1.5,
+                    width: 32,
+                  ),
+                  second,
+                  const Spacer(),
+                ],
               ),
-          ],
-        ),
+            )
+          else
+            IntrinsicWidth(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  first,
+                  const Divider(
+                    color: EcLandingColors.dividerColor,
+                    thickness: 1.5,
+                    height: 32,
+                  ),
+                  second,
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }

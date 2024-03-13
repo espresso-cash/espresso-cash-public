@@ -995,3 +995,815 @@ abstract class _OrderIdDlnResponseDto implements OrderIdDlnResponseDto {
   _$$OrderIdDlnResponseDtoImplCopyWith<_$OrderIdDlnResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+IncomingQuoteRequestDto _$IncomingQuoteRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _IncomingQuoteRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$IncomingQuoteRequestDto {
+  int get amount => throw _privateConstructorUsedError;
+  String get senderAddress => throw _privateConstructorUsedError;
+  String get senderBlockchain => throw _privateConstructorUsedError;
+  String get receiverAddress => throw _privateConstructorUsedError;
+  String? get solanaReferenceAddress => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $IncomingQuoteRequestDtoCopyWith<IncomingQuoteRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IncomingQuoteRequestDtoCopyWith<$Res> {
+  factory $IncomingQuoteRequestDtoCopyWith(IncomingQuoteRequestDto value,
+          $Res Function(IncomingQuoteRequestDto) then) =
+      _$IncomingQuoteRequestDtoCopyWithImpl<$Res, IncomingQuoteRequestDto>;
+  @useResult
+  $Res call(
+      {int amount,
+      String senderAddress,
+      String senderBlockchain,
+      String receiverAddress,
+      String? solanaReferenceAddress});
+}
+
+/// @nodoc
+class _$IncomingQuoteRequestDtoCopyWithImpl<$Res,
+        $Val extends IncomingQuoteRequestDto>
+    implements $IncomingQuoteRequestDtoCopyWith<$Res> {
+  _$IncomingQuoteRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? senderAddress = null,
+    Object? senderBlockchain = null,
+    Object? receiverAddress = null,
+    Object? solanaReferenceAddress = freezed,
+  }) {
+    return _then(_value.copyWith(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
+      senderAddress: null == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      senderBlockchain: null == senderBlockchain
+          ? _value.senderBlockchain
+          : senderBlockchain // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAddress: null == receiverAddress
+          ? _value.receiverAddress
+          : receiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      solanaReferenceAddress: freezed == solanaReferenceAddress
+          ? _value.solanaReferenceAddress
+          : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$IncomingQuoteRequestDtoImplCopyWith<$Res>
+    implements $IncomingQuoteRequestDtoCopyWith<$Res> {
+  factory _$$IncomingQuoteRequestDtoImplCopyWith(
+          _$IncomingQuoteRequestDtoImpl value,
+          $Res Function(_$IncomingQuoteRequestDtoImpl) then) =
+      __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int amount,
+      String senderAddress,
+      String senderBlockchain,
+      String receiverAddress,
+      String? solanaReferenceAddress});
+}
+
+/// @nodoc
+class __$$IncomingQuoteRequestDtoImplCopyWithImpl<$Res>
+    extends _$IncomingQuoteRequestDtoCopyWithImpl<$Res,
+        _$IncomingQuoteRequestDtoImpl>
+    implements _$$IncomingQuoteRequestDtoImplCopyWith<$Res> {
+  __$$IncomingQuoteRequestDtoImplCopyWithImpl(
+      _$IncomingQuoteRequestDtoImpl _value,
+      $Res Function(_$IncomingQuoteRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? senderAddress = null,
+    Object? senderBlockchain = null,
+    Object? receiverAddress = null,
+    Object? solanaReferenceAddress = freezed,
+  }) {
+    return _then(_$IncomingQuoteRequestDtoImpl(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
+      senderAddress: null == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      senderBlockchain: null == senderBlockchain
+          ? _value.senderBlockchain
+          : senderBlockchain // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverAddress: null == receiverAddress
+          ? _value.receiverAddress
+          : receiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      solanaReferenceAddress: freezed == solanaReferenceAddress
+          ? _value.solanaReferenceAddress
+          : solanaReferenceAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IncomingQuoteRequestDtoImpl implements _IncomingQuoteRequestDto {
+  const _$IncomingQuoteRequestDtoImpl(
+      {required this.amount,
+      required this.senderAddress,
+      required this.senderBlockchain,
+      required this.receiverAddress,
+      required this.solanaReferenceAddress});
+
+  factory _$IncomingQuoteRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IncomingQuoteRequestDtoImplFromJson(json);
+
+  @override
+  final int amount;
+  @override
+  final String senderAddress;
+  @override
+  final String senderBlockchain;
+  @override
+  final String receiverAddress;
+  @override
+  final String? solanaReferenceAddress;
+
+  @override
+  String toString() {
+    return 'IncomingQuoteRequestDto(amount: $amount, senderAddress: $senderAddress, senderBlockchain: $senderBlockchain, receiverAddress: $receiverAddress, solanaReferenceAddress: $solanaReferenceAddress)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IncomingQuoteRequestDtoImpl &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.senderAddress, senderAddress) ||
+                other.senderAddress == senderAddress) &&
+            (identical(other.senderBlockchain, senderBlockchain) ||
+                other.senderBlockchain == senderBlockchain) &&
+            (identical(other.receiverAddress, receiverAddress) ||
+                other.receiverAddress == receiverAddress) &&
+            (identical(other.solanaReferenceAddress, solanaReferenceAddress) ||
+                other.solanaReferenceAddress == solanaReferenceAddress));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, amount, senderAddress,
+      senderBlockchain, receiverAddress, solanaReferenceAddress);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl>
+      get copyWith => __$$IncomingQuoteRequestDtoImplCopyWithImpl<
+          _$IncomingQuoteRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IncomingQuoteRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _IncomingQuoteRequestDto implements IncomingQuoteRequestDto {
+  const factory _IncomingQuoteRequestDto(
+          {required final int amount,
+          required final String senderAddress,
+          required final String senderBlockchain,
+          required final String receiverAddress,
+          required final String? solanaReferenceAddress}) =
+      _$IncomingQuoteRequestDtoImpl;
+
+  factory _IncomingQuoteRequestDto.fromJson(Map<String, dynamic> json) =
+      _$IncomingQuoteRequestDtoImpl.fromJson;
+
+  @override
+  int get amount;
+  @override
+  String get senderAddress;
+  @override
+  String get senderBlockchain;
+  @override
+  String get receiverAddress;
+  @override
+  String? get solanaReferenceAddress;
+  @override
+  @JsonKey(ignore: true)
+  _$$IncomingQuoteRequestDtoImplCopyWith<_$IncomingQuoteRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+IncomingQuoteResponseDto _$IncomingQuoteResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _IncomingQuoteResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$IncomingQuoteResponseDto {
+  QuoteTx get tx => throw _privateConstructorUsedError;
+  QuoteUsdcInfo get usdcInfo => throw _privateConstructorUsedError;
+  int get inputAmount => throw _privateConstructorUsedError;
+  int get receiverAmount => throw _privateConstructorUsedError;
+  int get feeInUsdc => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $IncomingQuoteResponseDtoCopyWith<IncomingQuoteResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $IncomingQuoteResponseDtoCopyWith<$Res> {
+  factory $IncomingQuoteResponseDtoCopyWith(IncomingQuoteResponseDto value,
+          $Res Function(IncomingQuoteResponseDto) then) =
+      _$IncomingQuoteResponseDtoCopyWithImpl<$Res, IncomingQuoteResponseDto>;
+  @useResult
+  $Res call(
+      {QuoteTx tx,
+      QuoteUsdcInfo usdcInfo,
+      int inputAmount,
+      int receiverAmount,
+      int feeInUsdc});
+
+  $QuoteTxCopyWith<$Res> get tx;
+  $QuoteUsdcInfoCopyWith<$Res> get usdcInfo;
+}
+
+/// @nodoc
+class _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
+        $Val extends IncomingQuoteResponseDto>
+    implements $IncomingQuoteResponseDtoCopyWith<$Res> {
+  _$IncomingQuoteResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tx = null,
+    Object? usdcInfo = null,
+    Object? inputAmount = null,
+    Object? receiverAmount = null,
+    Object? feeInUsdc = null,
+  }) {
+    return _then(_value.copyWith(
+      tx: null == tx
+          ? _value.tx
+          : tx // ignore: cast_nullable_to_non_nullable
+              as QuoteTx,
+      usdcInfo: null == usdcInfo
+          ? _value.usdcInfo
+          : usdcInfo // ignore: cast_nullable_to_non_nullable
+              as QuoteUsdcInfo,
+      inputAmount: null == inputAmount
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      feeInUsdc: null == feeInUsdc
+          ? _value.feeInUsdc
+          : feeInUsdc // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuoteTxCopyWith<$Res> get tx {
+    return $QuoteTxCopyWith<$Res>(_value.tx, (value) {
+      return _then(_value.copyWith(tx: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $QuoteUsdcInfoCopyWith<$Res> get usdcInfo {
+    return $QuoteUsdcInfoCopyWith<$Res>(_value.usdcInfo, (value) {
+      return _then(_value.copyWith(usdcInfo: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$IncomingQuoteResponseDtoImplCopyWith<$Res>
+    implements $IncomingQuoteResponseDtoCopyWith<$Res> {
+  factory _$$IncomingQuoteResponseDtoImplCopyWith(
+          _$IncomingQuoteResponseDtoImpl value,
+          $Res Function(_$IncomingQuoteResponseDtoImpl) then) =
+      __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {QuoteTx tx,
+      QuoteUsdcInfo usdcInfo,
+      int inputAmount,
+      int receiverAmount,
+      int feeInUsdc});
+
+  @override
+  $QuoteTxCopyWith<$Res> get tx;
+  @override
+  $QuoteUsdcInfoCopyWith<$Res> get usdcInfo;
+}
+
+/// @nodoc
+class __$$IncomingQuoteResponseDtoImplCopyWithImpl<$Res>
+    extends _$IncomingQuoteResponseDtoCopyWithImpl<$Res,
+        _$IncomingQuoteResponseDtoImpl>
+    implements _$$IncomingQuoteResponseDtoImplCopyWith<$Res> {
+  __$$IncomingQuoteResponseDtoImplCopyWithImpl(
+      _$IncomingQuoteResponseDtoImpl _value,
+      $Res Function(_$IncomingQuoteResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? tx = null,
+    Object? usdcInfo = null,
+    Object? inputAmount = null,
+    Object? receiverAmount = null,
+    Object? feeInUsdc = null,
+  }) {
+    return _then(_$IncomingQuoteResponseDtoImpl(
+      tx: null == tx
+          ? _value.tx
+          : tx // ignore: cast_nullable_to_non_nullable
+              as QuoteTx,
+      usdcInfo: null == usdcInfo
+          ? _value.usdcInfo
+          : usdcInfo // ignore: cast_nullable_to_non_nullable
+              as QuoteUsdcInfo,
+      inputAmount: null == inputAmount
+          ? _value.inputAmount
+          : inputAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      receiverAmount: null == receiverAmount
+          ? _value.receiverAmount
+          : receiverAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+      feeInUsdc: null == feeInUsdc
+          ? _value.feeInUsdc
+          : feeInUsdc // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IncomingQuoteResponseDtoImpl implements _IncomingQuoteResponseDto {
+  const _$IncomingQuoteResponseDtoImpl(
+      {required this.tx,
+      required this.usdcInfo,
+      required this.inputAmount,
+      required this.receiverAmount,
+      required this.feeInUsdc});
+
+  factory _$IncomingQuoteResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IncomingQuoteResponseDtoImplFromJson(json);
+
+  @override
+  final QuoteTx tx;
+  @override
+  final QuoteUsdcInfo usdcInfo;
+  @override
+  final int inputAmount;
+  @override
+  final int receiverAmount;
+  @override
+  final int feeInUsdc;
+
+  @override
+  String toString() {
+    return 'IncomingQuoteResponseDto(tx: $tx, usdcInfo: $usdcInfo, inputAmount: $inputAmount, receiverAmount: $receiverAmount, feeInUsdc: $feeInUsdc)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IncomingQuoteResponseDtoImpl &&
+            (identical(other.tx, tx) || other.tx == tx) &&
+            (identical(other.usdcInfo, usdcInfo) ||
+                other.usdcInfo == usdcInfo) &&
+            (identical(other.inputAmount, inputAmount) ||
+                other.inputAmount == inputAmount) &&
+            (identical(other.receiverAmount, receiverAmount) ||
+                other.receiverAmount == receiverAmount) &&
+            (identical(other.feeInUsdc, feeInUsdc) ||
+                other.feeInUsdc == feeInUsdc));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, tx, usdcInfo, inputAmount, receiverAmount, feeInUsdc);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl>
+      get copyWith => __$$IncomingQuoteResponseDtoImplCopyWithImpl<
+          _$IncomingQuoteResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IncomingQuoteResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _IncomingQuoteResponseDto implements IncomingQuoteResponseDto {
+  const factory _IncomingQuoteResponseDto(
+      {required final QuoteTx tx,
+      required final QuoteUsdcInfo usdcInfo,
+      required final int inputAmount,
+      required final int receiverAmount,
+      required final int feeInUsdc}) = _$IncomingQuoteResponseDtoImpl;
+
+  factory _IncomingQuoteResponseDto.fromJson(Map<String, dynamic> json) =
+      _$IncomingQuoteResponseDtoImpl.fromJson;
+
+  @override
+  QuoteTx get tx;
+  @override
+  QuoteUsdcInfo get usdcInfo;
+  @override
+  int get inputAmount;
+  @override
+  int get receiverAmount;
+  @override
+  int get feeInUsdc;
+  @override
+  @JsonKey(ignore: true)
+  _$$IncomingQuoteResponseDtoImplCopyWith<_$IncomingQuoteResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+QuoteTx _$QuoteTxFromJson(Map<String, dynamic> json) {
+  return _QuoteTx.fromJson(json);
+}
+
+/// @nodoc
+mixin _$QuoteTx {
+  String get to => throw _privateConstructorUsedError;
+  String get data => throw _privateConstructorUsedError;
+  int get value => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $QuoteTxCopyWith<QuoteTx> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $QuoteTxCopyWith<$Res> {
+  factory $QuoteTxCopyWith(QuoteTx value, $Res Function(QuoteTx) then) =
+      _$QuoteTxCopyWithImpl<$Res, QuoteTx>;
+  @useResult
+  $Res call({String to, String data, int value});
+}
+
+/// @nodoc
+class _$QuoteTxCopyWithImpl<$Res, $Val extends QuoteTx>
+    implements $QuoteTxCopyWith<$Res> {
+  _$QuoteTxCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
+  }) {
+    return _then(_value.copyWith(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$QuoteTxImplCopyWith<$Res> implements $QuoteTxCopyWith<$Res> {
+  factory _$$QuoteTxImplCopyWith(
+          _$QuoteTxImpl value, $Res Function(_$QuoteTxImpl) then) =
+      __$$QuoteTxImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String to, String data, int value});
+}
+
+/// @nodoc
+class __$$QuoteTxImplCopyWithImpl<$Res>
+    extends _$QuoteTxCopyWithImpl<$Res, _$QuoteTxImpl>
+    implements _$$QuoteTxImplCopyWith<$Res> {
+  __$$QuoteTxImplCopyWithImpl(
+      _$QuoteTxImpl _value, $Res Function(_$QuoteTxImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? to = null,
+    Object? data = null,
+    Object? value = null,
+  }) {
+    return _then(_$QuoteTxImpl(
+      to: null == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as String,
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$QuoteTxImpl implements _QuoteTx {
+  const _$QuoteTxImpl(
+      {required this.to, required this.data, required this.value});
+
+  factory _$QuoteTxImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuoteTxImplFromJson(json);
+
+  @override
+  final String to;
+  @override
+  final String data;
+  @override
+  final int value;
+
+  @override
+  String toString() {
+    return 'QuoteTx(to: $to, data: $data, value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$QuoteTxImpl &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, to, data, value);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$QuoteTxImplCopyWith<_$QuoteTxImpl> get copyWith =>
+      __$$QuoteTxImplCopyWithImpl<_$QuoteTxImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuoteTxImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _QuoteTx implements QuoteTx {
+  const factory _QuoteTx(
+      {required final String to,
+      required final String data,
+      required final int value}) = _$QuoteTxImpl;
+
+  factory _QuoteTx.fromJson(Map<String, dynamic> json) = _$QuoteTxImpl.fromJson;
+
+  @override
+  String get to;
+  @override
+  String get data;
+  @override
+  int get value;
+  @override
+  @JsonKey(ignore: true)
+  _$$QuoteTxImplCopyWith<_$QuoteTxImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+QuoteUsdcInfo _$QuoteUsdcInfoFromJson(Map<String, dynamic> json) {
+  return _QuoteUsdcInfo.fromJson(json);
+}
+
+/// @nodoc
+mixin _$QuoteUsdcInfo {
+  String get usdcAddress => throw _privateConstructorUsedError;
+  int get approvalAmount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $QuoteUsdcInfoCopyWith<QuoteUsdcInfo> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $QuoteUsdcInfoCopyWith<$Res> {
+  factory $QuoteUsdcInfoCopyWith(
+          QuoteUsdcInfo value, $Res Function(QuoteUsdcInfo) then) =
+      _$QuoteUsdcInfoCopyWithImpl<$Res, QuoteUsdcInfo>;
+  @useResult
+  $Res call({String usdcAddress, int approvalAmount});
+}
+
+/// @nodoc
+class _$QuoteUsdcInfoCopyWithImpl<$Res, $Val extends QuoteUsdcInfo>
+    implements $QuoteUsdcInfoCopyWith<$Res> {
+  _$QuoteUsdcInfoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? usdcAddress = null,
+    Object? approvalAmount = null,
+  }) {
+    return _then(_value.copyWith(
+      usdcAddress: null == usdcAddress
+          ? _value.usdcAddress
+          : usdcAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      approvalAmount: null == approvalAmount
+          ? _value.approvalAmount
+          : approvalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$QuoteUsdcInfoImplCopyWith<$Res>
+    implements $QuoteUsdcInfoCopyWith<$Res> {
+  factory _$$QuoteUsdcInfoImplCopyWith(
+          _$QuoteUsdcInfoImpl value, $Res Function(_$QuoteUsdcInfoImpl) then) =
+      __$$QuoteUsdcInfoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String usdcAddress, int approvalAmount});
+}
+
+/// @nodoc
+class __$$QuoteUsdcInfoImplCopyWithImpl<$Res>
+    extends _$QuoteUsdcInfoCopyWithImpl<$Res, _$QuoteUsdcInfoImpl>
+    implements _$$QuoteUsdcInfoImplCopyWith<$Res> {
+  __$$QuoteUsdcInfoImplCopyWithImpl(
+      _$QuoteUsdcInfoImpl _value, $Res Function(_$QuoteUsdcInfoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? usdcAddress = null,
+    Object? approvalAmount = null,
+  }) {
+    return _then(_$QuoteUsdcInfoImpl(
+      usdcAddress: null == usdcAddress
+          ? _value.usdcAddress
+          : usdcAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      approvalAmount: null == approvalAmount
+          ? _value.approvalAmount
+          : approvalAmount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$QuoteUsdcInfoImpl implements _QuoteUsdcInfo {
+  const _$QuoteUsdcInfoImpl(
+      {required this.usdcAddress, required this.approvalAmount});
+
+  factory _$QuoteUsdcInfoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuoteUsdcInfoImplFromJson(json);
+
+  @override
+  final String usdcAddress;
+  @override
+  final int approvalAmount;
+
+  @override
+  String toString() {
+    return 'QuoteUsdcInfo(usdcAddress: $usdcAddress, approvalAmount: $approvalAmount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$QuoteUsdcInfoImpl &&
+            (identical(other.usdcAddress, usdcAddress) ||
+                other.usdcAddress == usdcAddress) &&
+            (identical(other.approvalAmount, approvalAmount) ||
+                other.approvalAmount == approvalAmount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, usdcAddress, approvalAmount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$QuoteUsdcInfoImplCopyWith<_$QuoteUsdcInfoImpl> get copyWith =>
+      __$$QuoteUsdcInfoImplCopyWithImpl<_$QuoteUsdcInfoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuoteUsdcInfoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _QuoteUsdcInfo implements QuoteUsdcInfo {
+  const factory _QuoteUsdcInfo(
+      {required final String usdcAddress,
+      required final int approvalAmount}) = _$QuoteUsdcInfoImpl;
+
+  factory _QuoteUsdcInfo.fromJson(Map<String, dynamic> json) =
+      _$QuoteUsdcInfoImpl.fromJson;
+
+  @override
+  String get usdcAddress;
+  @override
+  int get approvalAmount;
+  @override
+  @JsonKey(ignore: true)
+  _$$QuoteUsdcInfoImplCopyWith<_$QuoteUsdcInfoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

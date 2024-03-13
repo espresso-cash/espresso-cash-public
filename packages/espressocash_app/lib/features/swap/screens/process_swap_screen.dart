@@ -8,6 +8,7 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../tokens/token.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
@@ -80,6 +81,9 @@ class ProcessSwapRoute extends GoRouteData {
   const ProcessSwapRoute(this.id);
 
   final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>

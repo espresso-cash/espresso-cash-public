@@ -1,5 +1,6 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -7,24 +8,49 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
+import '../../../../../ui/loader.dart';
+import '../../../../../ui/snackbar.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../../../src/models/profile_data.dart';
+import '../data/coinflow_api_client.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchCoinflowOffRamp({
     required String address,
     required ProfileData profile,
   }) async {
+    final hasKYC = await _checkKYC(address: address);
+
+    switch (hasKYC) {
+      case Left<Exception, bool>():
+        showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+        return;
+
+      case Right<Exception, bool>(:final value):
+        if (!value) {
+          await launchUrl(
+            _buildKycUrl(address: address, email: profile.email),
+            mode: LaunchMode.externalApplication,
+          );
+
+          return;
+        }
+    }
+
     final blank = Uri.parse('about:blank');
 
     bool orderWasCreated = false;
@@ -97,8 +123,53 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await WebViewRoute((url: blank, onLoaded: handleLoaded, title: null))
-        .push<void>(this);
+    await WebViewRoute(
+      (
+        url: blank,
+        onLoaded: handleLoaded,
+        title: l10n.ramp_titleCashOut,
+        theme: const CpThemeData.black()
+      ),
+    ).push<void>(this);
+  }
+
+  AsyncResult<bool> _checkKYC({required String address}) =>
+      runWithLoader<Result<bool>>(this, () async {
+        try {
+          final client = sl<CoinflowClient>();
+
+          await client.getWithdrawer(address);
+
+          return const Either.right(true);
+        } on DioException catch (exception) {
+          if (exception.response?.statusCode == 401 ||
+              exception.response?.statusCode == 412) {
+            return const Either.right(false);
+          }
+
+          return Either.left(exception);
+        }
+      });
+
+  Uri _buildKycUrl({
+    required String address,
+    required String email,
+  }) {
+    final baseUrl = Uri.parse(coinflowKycUrl);
+
+    final coinflowDeepLinkUrl = Uri(
+      scheme: espressoCashLinkProtocol,
+      host: '',
+      path: 'coinflow',
+    ).toString();
+
+    return baseUrl.replace(
+      queryParameters: {
+        'pubkey': address,
+        'email': email,
+        'bankAccountLinkRedirect': coinflowDeepLinkUrl,
+      },
+    );
   }
 }
 

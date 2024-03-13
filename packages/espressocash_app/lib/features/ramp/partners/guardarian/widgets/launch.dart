@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import '../../../../../config.dart';
+import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../src/models/profile_data.dart';
@@ -29,7 +30,13 @@ extension BuildContextExt on BuildContext {
       },
     );
 
-    WebViewRoute((url: uri, title: 'Guardarian', onLoaded: null))
-        .push<void>(this);
+    WebViewRoute(
+      (
+        url: uri,
+        onLoaded: null,
+        title: l10n.ramp_titleCashIn,
+        theme: null,
+      ),
+    ).push<void>(this);
   }
 }

@@ -1,3 +1,5 @@
+import 'package:borsh_annotation/borsh_annotation.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -67,12 +69,21 @@ class TxSender {
   Future<TxWaitResult> wait(
     SignedTx tx, {
     required BigInt minContextSlot,
+    required String txType,
   }) {
     final sentryTx = Sentry.startTransaction(
+      'Wait TX confirmation',
       'TxSender.wait()',
-      'call',
       waitForChildren: true,
-    )..setData('txId', tx.id);
+    )
+      ..setData('txId', tx.id)
+      // ignore: avoid-missing-interpolation, intentional string
+      ..setTag('txType', txType)
+      ..setMeasurement(
+        'compute_unit_price',
+        tx.computeUnitPrice?.toInt() ?? 0,
+        unit: CustomSentryMeasurementUnit('microlamports'),
+      );
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();
@@ -96,7 +107,7 @@ class TxSender {
       final t = statuses.value.first;
 
       if (t == null) {
-        innerSpan.status = const SpanStatus.notFound();
+        innerSpan.status = const SpanStatus.aborted();
         _logger.fine('${tx.id}: Tx not found.');
 
         // Blockhash is still valid, tx can be submitted.
@@ -110,9 +121,7 @@ class TxSender {
 
         if (DateTime.now().difference(start).inSeconds > 90) {
           const reason = TxFailureReason.invalidBlockhashWaiting;
-          innerSpan
-            ..setData('reason', 'Timeout, failing.')
-            ..status = SpanStatus.fromString(reason.name);
+          innerSpan.setData('reason', 'Timeout, failing.');
           await innerSpan.finish();
           _logger.fine('${tx.id}: Timeout, failing.');
 
@@ -154,9 +163,7 @@ class TxSender {
         // At this stage, blockhash is invalid and it won't be valid, so
         // tx cannot be submitted.
         const reason = TxFailureReason.invalidBlockhashWaiting;
-        innerSpan
-          ..setData('reason', 'Invalid blockhash.')
-          ..status = SpanStatus.fromString(reason.name);
+        innerSpan.setData('reason', 'Invalid blockhash.');
         await innerSpan.finish();
         _logger.fine('${tx.id}: Invalid blockhash.');
 
@@ -165,9 +172,7 @@ class TxSender {
 
       if (t.err != null) {
         const reason = TxFailureReason.txError;
-        innerSpan
-          ..setData('reason', 'Tx error ${t.err}.')
-          ..status = SpanStatus.fromString(reason.name);
+        innerSpan.setData('reason', 'Tx error ${t.err}.');
         await innerSpan.finish();
         _logger.fine('${tx.id}: Tx error ${t.err}.');
 
@@ -182,7 +187,8 @@ class TxSender {
         return const TxWaitResult.success();
       }
 
-      innerSpan.status = SpanStatus.fromString(
+      innerSpan.setData(
+        'reason',
         'Wrong confirmation status ${t.confirmationStatus}.',
       );
       await innerSpan.finish();
@@ -209,7 +215,7 @@ class TxSender {
         const reason = TxFailureReason.txError;
         innerSpan
           ..setData('reason', 'Failure from WS $error.')
-          ..status = SpanStatus.fromString(reason.name);
+          ..status = const SpanStatus.aborted();
         await innerSpan.finish();
         _logger.fine('${tx.id}: Failure from WS $error.');
 
@@ -217,7 +223,7 @@ class TxSender {
       } on Exception catch (error) {
         innerSpan
           ..setData('reason', 'Network error from WS $error.')
-          ..status = const SpanStatus.unknownError();
+          ..status = const SpanStatus.aborted();
         await innerSpan.finish();
         _logger.fine('${tx.id}: Network error from WS $error.');
 
@@ -238,7 +244,7 @@ class TxSender {
       sentryTx.finish(
         status: switch (result) {
           TxWaitSuccess() => const SpanStatus.ok(),
-          TxWaitFailure(:final reason) => SpanStatus.fromString(reason.name),
+          TxWaitFailure() => const SpanStatus.aborted(),
           TxWaitNetworkError() => const SpanStatus.unknownError(),
         },
       );
@@ -263,6 +269,24 @@ extension on JsonRpcException {
     if (instructionErrorData is! Map<String, dynamic>) return false;
 
     return instructionErrorData['Custom'] == 1;
+  }
+}
+
+extension on SignedTx {
+  BigInt? get computeUnitPrice {
+    final message = decompileMessage();
+
+    final ix = message.instructions
+        .firstWhereOrNull((ix) => ix.programId == ComputeBudgetProgram.id);
+    if (ix == null) return null;
+
+    final data = ix.data;
+    final reader =
+        BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
+    final id = reader.readU8();
+    if (id != ComputeBudgetProgram.setComputeUnitPriceIndex.first) return null;
+
+    return reader.readU64();
   }
 }
 

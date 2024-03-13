@@ -18,6 +18,7 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
@@ -65,6 +66,9 @@ class OutgoingDlnPaymentDetailsRoute extends GoRouteData {
 
   final String id;
 
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       OutgoingDlnPaymentDetailsScreen(id: id);
@@ -107,7 +111,7 @@ class OutgoingDlnOrderScreenContent extends StatelessWidget {
 
     void handleCanceled() => showConfirmationDialog(
           context,
-          title: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          title: context.l10n.outgoingSplitKeyPayments_btnCancel.toUpperCase(),
           message: context
               .l10n.outgoingSplitKeyPayments_lblCancelConfirmationSubtitle,
           onConfirm: () {

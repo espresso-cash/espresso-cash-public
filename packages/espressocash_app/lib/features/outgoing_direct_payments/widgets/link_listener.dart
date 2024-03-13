@@ -7,13 +7,13 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../../core/dynamic_links_notifier.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/solana_helpers.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../dynamic_links/widgets/dynamic_link_handler.dart';
 import '../../tokens/token.dart';
 import '../screens/odp_confirmation_screen.dart';
 import '../screens/odp_details_screen.dart';
@@ -28,25 +28,23 @@ class ODPLinkListener extends StatefulWidget {
   State<ODPLinkListener> createState() => _ODPLinkListenerState();
 }
 
-class _ODPLinkListenerState extends State<ODPLinkListener> {
+class _ODPLinkListenerState extends State<ODPLinkListener>
+    with DynamicLinkHandler {
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    context.watch<DynamicLinksNotifier>().processLink((link) {
-      final solanaPayRequest = tryParseSolanaPayRequest(link);
-      if (solanaPayRequest != null) {
-        if (solanaPayRequest.splToken != Token.usdc.publicKey) {
-          // This is not USDC token, silently ignore for now
-          return true;
-        }
-
-        _processSolanaPayRequest(solanaPayRequest);
-
+  bool handleDynamicLink(Uri uri) {
+    final solanaPayRequest = tryParseSolanaPayRequest(uri);
+    if (solanaPayRequest != null) {
+      if (solanaPayRequest.splToken != Token.usdc.publicKey) {
+        // This is not USDC token, silently ignore for now
         return true;
       }
 
-      return false;
-    });
+      _processSolanaPayRequest(solanaPayRequest);
+
+      return true;
+    }
+
+    return false;
   }
 
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {

@@ -13,8 +13,14 @@ extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
       final url = Uri.parse(link);
-      await WebViewRoute((url: url, title: null, onLoaded: null))
-          .push<void>(this);
+      await WebViewRoute(
+        (
+          url: url,
+          title: null,
+          onLoaded: null,
+          theme: null,
+        ),
+      ).push<void>(this);
     } on FormatException catch (_) {
       showCpErrorSnackbar(
         this,

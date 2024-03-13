@@ -42,7 +42,11 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
     SearchTextRequest event,
     _Emitter emit,
   ) async {
-    if (event.query.isEmpty) return emit(const Flow.initial());
+    if (event.query.isEmpty) {
+      emit(const Flow.initial());
+
+      return;
+    }
 
     emit(const Flow.processing());
 
@@ -59,7 +63,11 @@ class TokenSearchBloc extends Bloc<_Event, _State> {
   ) async {
     final category = event.category;
 
-    if (category == null) return emit(const Flow.initial());
+    if (category == null) {
+      emit(const Flow.initial());
+
+      return;
+    }
 
     emit(const Flow.processing());
 

@@ -439,7 +439,11 @@ class OffRampOrderService implements Disposable {
         return _depositError;
     }
 
-    final confirmed = await _sender.wait(tx.$1, minContextSlot: tx.$2);
+    final confirmed = await _sender.wait(
+      tx.$1,
+      minContextSlot: tx.$2,
+      txType: 'OffRamp',
+    );
     switch (confirmed) {
       case TxWaitSuccess():
         return const OffRampOrderRowsCompanion(
