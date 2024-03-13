@@ -5,7 +5,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../../ui/theme.dart';
 import 'core/amount.dart';
 import 'core/currency.dart';
 import 'di.dart';

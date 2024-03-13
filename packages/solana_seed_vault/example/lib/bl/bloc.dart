@@ -46,7 +46,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         await SeedVault.instance.isAvailable(allowSimulated: true);
 
     if (!isInstalled) {
-      return emit(const SeedVaultState.error('Seed vault not installed'));
+      emit(const SeedVaultState.error('Seed vault not installed'));
+
+      return;
     }
 
     final granted = await SeedVault.instance.checkPermission();
@@ -58,7 +60,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       return refreshUI();
     }
 
-    return emit(const SeedVaultState.unauthorized());
+    emit(const SeedVaultState.unauthorized());
   }
 
   Future<void> refreshUI() async {

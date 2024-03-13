@@ -54,6 +54,7 @@ class BorderedRowChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Expanded(
+        // ignore: avoid-single-child-column-or-row, check if needed
         child: Wrap(
           children: [
             CpChip(

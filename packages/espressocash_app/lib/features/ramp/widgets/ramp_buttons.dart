@@ -120,11 +120,13 @@ extension RampBuildContextExt on BuildContext {
     final [top, ...others] = partners.unlock;
 
     if (others.isEmpty) {
-      return _launchOnRampPartner(
+      _launchOnRampPartner(
         top,
         profile: profile,
         address: address,
       );
+
+      return;
     }
 
     RampPartnerSelectRoute(
@@ -155,11 +157,13 @@ extension RampBuildContextExt on BuildContext {
     final [top, ...others] = partners.unlock;
 
     if (others.isEmpty) {
-      return _launchOffRampPartner(
+      _launchOffRampPartner(
         top,
         profile: profile,
         address: address,
       );
+
+      return;
     }
 
     RampPartnerSelectRoute(
