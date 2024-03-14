@@ -70,7 +70,9 @@ class _State extends State<WalletScreen> {
 
   Future<void> _handleRequest() async {
     if (_fiatAmount < _minimumAmount) {
-      return _handleSmallAmount(WalletOperation.request);
+      _handleSmallAmount(WalletOperation.request);
+
+      return;
     }
 
     final id = await context.createPayRequest(tokenAmount: _cryptoAmount);
@@ -83,7 +85,9 @@ class _State extends State<WalletScreen> {
 
   void _handlePay() {
     if (_fiatAmount < _minimumAmount) {
-      return _handleSmallAmount(WalletOperation.pay);
+      _handleSmallAmount(WalletOperation.pay);
+
+      return;
     }
 
     PayRoute(_cryptoAmount).go(context);

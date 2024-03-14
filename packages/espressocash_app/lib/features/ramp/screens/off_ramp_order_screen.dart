@@ -87,7 +87,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     void handleCanceled() => showConfirmationDialog(
           context,
-          title: context.l10n.offRampCancelTitle,
+          title: context.l10n.offRampCancelTitle.toUpperCase(),
           message: context.l10n.offRampCancelSubtitle,
           onConfirm: () {
             sl<OffRampOrderService>().cancel(order.id);

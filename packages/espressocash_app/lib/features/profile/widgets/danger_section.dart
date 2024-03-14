@@ -5,13 +5,13 @@ class DangerSection extends StatelessWidget {
 
   void _handleLogoutPressed(BuildContext context) => showConfirmationDialog(
         context,
-        title: context.l10n.signOut,
+        title: context.l10n.signOut.toUpperCase(),
         message: context.l10n.signOutConfirmation,
         onConfirm: () => runWithLoader(
           context,
           () => sl<AccountService>().logOut(),
         ),
-        confirmLabel: context.l10n.yesDeleteMyWallet,
+        cancelLabel: context.l10n.core_btnCancel,
       );
 
   @override

@@ -5,6 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../l10n/l10n.dart';
 import 'app_bar.dart';
+import 'theme.dart';
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
@@ -12,11 +13,13 @@ class WebViewScreen extends StatefulWidget {
     required this.url,
     this.title,
     this.onLoaded,
+    this.theme,
   });
 
   final Uri url;
   final String? title;
   final ValueSetter<InAppWebViewController>? onLoaded;
+  final CpThemeData? theme;
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
@@ -52,19 +55,22 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: CpAppBar(
-          title: Text(widget.title ?? _title ?? context.l10n.loading),
-        ),
-        body: InAppWebView(
-          initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-          onPermissionRequest: (_, permissionRequest) =>
-              _handlePermissionRequest(permissionRequest.resources),
-          onLoadStop: (controller, _) => _handleLoaded(controller),
-          initialSettings: InAppWebViewSettings(
-            iframeAllowFullscreen: false,
-            allowsInlineMediaPlayback: true,
-            mediaPlaybackRequiresUserGesture: false,
+  Widget build(BuildContext context) => CpTheme(
+        theme: widget.theme ?? const CpThemeData.light(),
+        child: Scaffold(
+          appBar: CpAppBar(
+            title: Text(widget.title ?? _title ?? context.l10n.loading),
+          ),
+          body: InAppWebView(
+            initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
+            onPermissionRequest: (_, permissionRequest) =>
+                _handlePermissionRequest(permissionRequest.resources),
+            onLoadStop: (controller, _) => _handleLoaded(controller),
+            initialSettings: InAppWebViewSettings(
+              iframeAllowFullscreen: false,
+              allowsInlineMediaPlayback: true,
+              mediaPlaybackRequiresUserGesture: false,
+            ),
           ),
         ),
       );
@@ -80,6 +86,7 @@ class WebViewRoute extends GoRouteData {
         url: $extra.url,
         title: $extra.title,
         onLoaded: $extra.onLoaded,
+        theme: $extra.theme,
       );
 }
 
@@ -87,4 +94,5 @@ typedef WebViewParams = ({
   Uri url,
   String? title,
   ValueSetter<InAppWebViewController>? onLoaded,
+  CpThemeData? theme,
 });
