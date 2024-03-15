@@ -15,3 +15,5 @@ dart_code_metrics:
     match-lib-folder-structure: false
     avoid-duplicate-initializers: false
     move-variable-outside-iteration: false
+    prefer-overriding-parent-equality: false # too many false positives, temporarily disabled
+    avoid-unnecessary-collections: false # too many false positives, temporarily disabled
