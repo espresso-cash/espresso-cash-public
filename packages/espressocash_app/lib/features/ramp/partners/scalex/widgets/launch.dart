@@ -86,9 +86,7 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
-      await controller.evaluateJavascript(
-        source: await _loadCustomStyle(RampType.onRamp),
-      );
+      await controller.evaluateJavascript(source: await _loadCustomStyle());
 
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
@@ -155,7 +153,7 @@ window.addEventListener("message", (event) => {
         url: Uri.parse(link),
         onLoaded: handleLoaded,
         title: l10n.ramp_titleCashIn,
-        theme: null,
+        theme: const CpThemeData.black(),
       ),
     ).push<void>(this);
   }
@@ -219,9 +217,7 @@ window.addEventListener("message", (event) => {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
-      await controller.evaluateJavascript(
-        source: await _loadCustomStyle(RampType.offRamp),
-      );
+      await controller.evaluateJavascript(source: await _loadCustomStyle());
 
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
@@ -362,13 +358,8 @@ extension on Amount {
   }
 }
 
-Future<String> _loadCustomStyle(RampType type) async {
-  final css = await rootBundle.loadString(
-    switch (type) {
-      RampType.onRamp => Assets.scalex.onramp,
-      RampType.offRamp => Assets.scalex.offramp,
-    },
-  );
+Future<String> _loadCustomStyle() async {
+  final css = await rootBundle.loadString(Assets.scalex.style);
 
   return """
   (function() {

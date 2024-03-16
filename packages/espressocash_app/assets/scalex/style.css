@@ -177,3 +177,17 @@ div.wallet-container {
 div.address-container {
   background-color: #2D2B2C !important;
 }
+
+div.amount-to-receive {
+  background-color: #2D2B2C !important;
+  border-style: none !important;
+}
+
+div.transfer-into {
+   background-color: #2D2B2C !important;
+  border-style: none !important;
+}
+
+div.account-container {
+  background-color: #2D2B2C !important;
+}
