@@ -75,7 +75,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
 
   @override
   Widget build(BuildContext context) => FormPage(
-        title: const Text('Basic Information'),
+        title: Text(context.l10n.onboardingProfileTitle),
         colorTheme: FormPageColorTheme.gold,
         header: FormPageHeader(
           title: Text(context.l10n.rampBasicInfoRequired),
