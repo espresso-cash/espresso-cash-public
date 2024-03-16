@@ -112,7 +112,7 @@ extension BuildContextExt on BuildContext {
               case Left<Exception, String>():
                 break;
               case Right<Exception, String>(:final value):
-                OffRampOrderRoute(value).go(this);
+                OffRampOrderRoute(value).replace(this);
             }
           });
 
