@@ -30,10 +30,8 @@ class _OnboardingNoticeState extends State<OnboardingNotice> {
     }
   }
 
-  void _handlePressed() {
-    // OnboardingRoute(finishPath: widget.finishPath).push<void>(context);
-    const OnboardingRecoveryPhraseRoute().push<void>(context);
-  }
+  void _handlePressed() =>
+      const OnboardingRecoveryPhraseRoute().push<void>(context);
 
   @override
   Widget build(BuildContext context) => ListenableBuilder(
