@@ -14,6 +14,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
@@ -279,7 +280,7 @@ window.addEventListener("message", (event) => {
         url: Uri.parse(link),
         onLoaded: handleLoaded,
         title: l10n.ramp_titleCashOut,
-        theme: null,
+        theme: const CpThemeData.black(),
       ),
     ).push<void>(this);
   }
