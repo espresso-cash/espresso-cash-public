@@ -1067,5 +1067,8 @@
   "onRampMorePartnersTitle": "Additional Add Cash Partners:",
   "@onRampMorePartnersTitle": {},
   "offRampMorePartnersTitle": "Additional Payment Partners:",
-  "@offRampMorePartnersTitle": {}
+  "@offRampMorePartnersTitle": {},
+  "lblProfileUpdateFailed": "Failed to update profile",
+  "lblConnectionError": "Please check your internet connection and try again.",
+  "lblUnknownError": "Something went wrong Please try again later."
 }
