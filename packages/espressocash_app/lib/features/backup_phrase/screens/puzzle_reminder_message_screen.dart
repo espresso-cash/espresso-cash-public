@@ -5,7 +5,6 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../investments/screens/main_screen.dart';
 import '../../onboarding/screens/onboarding_screen.dart';
 import '../widgets/puzzle_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';

@@ -8,7 +8,6 @@ import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/account_service.dart';
 import '../data/onboarding_repository.dart';
-import '../screens/onboarding_screen.dart';
 import '../screens/view_recovery_phrase_screen.dart';
 
 class OnboardingNotice extends StatefulWidget {
