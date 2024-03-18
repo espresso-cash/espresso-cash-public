@@ -193,7 +193,7 @@ div.account-container {
 }
 
 div.info-frame {
-  background-color: #212121;
+  background-color: #212121 !important;
 }
 
 img.top-page-bg {
