@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,8 +18,8 @@ import '../../../ui/loader.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
-import '../../intercom/services/intercom_service.dart';
 import '../data/profile_repository.dart';
+import '../service/update_profile.dart';
 import '../widgets/pick_profile_picture.dart';
 
 class ManageProfileScreen extends StatefulWidget {
@@ -75,27 +74,24 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
         () async {
           final photo = await _photo?.let(sl<FileManager>().copyToAppDir);
 
-          final newCountryCode = _country?.code;
-          final wasCountryChanged =
-              newCountryCode != sl<ProfileRepository>().country;
-          if (wasCountryChanged && newCountryCode != null) {
-            final request = WalletCountryRequestDto(
-              countryCode: newCountryCode,
-            );
-            await sl<EspressoCashClient>().updateUserWalletCountry(request);
-            sl<IntercomService>().updateCountry(newCountryCode);
-          }
-
-          sl<ProfileRepository>()
-            ..firstName = _firstNameController.text
-            ..lastName = _lastNameController.text
-            ..country = _country?.code
-            ..photoPath = photo?.path
-            ..email = _emailController.text;
+          await sl<UpdateProfile>()
+              .call(
+                firstName: _firstNameController.text,
+                lastName: _lastNameController.text,
+                // ignore: avoid-non-null-assertion, should not be null
+                countryCode: _country!.code,
+                photoPath: photo?.path,
+                email: _emailController.text,
+              )
+              .foldAsync((e) => throw e, ignore);
 
           widget.onSubmitted();
         },
-        onError: (error) => showErrorDialog(context, 'Error', error),
+        onError: (error) => showErrorDialog(
+          context,
+          context.l10n.lblProfileUpdateFailed,
+          error,
+        ),
       );
 
   bool get _isValid =>
