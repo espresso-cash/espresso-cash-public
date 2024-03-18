@@ -82,8 +82,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
           processingState: Flow.success(
             SignInResult(
               account: myAccount,
-              hasFinishedOnboarding:
-                  accessMode == const AccessMode.seedInputted(),
             ),
           ),
         ),
@@ -110,7 +108,6 @@ class SignInState with _$SignInState {
 class SignInResult with _$SignInResult {
   const factory SignInResult({
     required MyAccount account,
-    required bool hasFinishedOnboarding,
   }) = _SignInResult;
 }
 
