@@ -2089,10 +2089,10 @@ packages:
     dependency: "direct main"
     description:
       name: webthree
-      sha256: bd2c92c00ed5f672e9d7bb837953c8b35367b21b71c589b9310583a22a71c2c8
+      sha256: "7b1c743690931559d91227f512d60965752b6753c5dec75eccb489505a6fcbad"
       url: "https://pub.dev"
     source: hosted
-    version: "2.7.3"
+    version: "2.7.4"
   win32:
     dependency: transitive
     description:
