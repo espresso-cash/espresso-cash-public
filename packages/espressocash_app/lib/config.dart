@@ -45,7 +45,7 @@ const privacyUrl = 'https://espressocash.com/docs/legal/privacy';
 /// It's pre-calculated for `TokenProgram.neededAccountSpace = 165`.
 const int tokenProgramRent = 2039280;
 
-const Duration waitForSignatureDefaultTimeout = Duration(seconds: 25);
+const Duration waitForSignatureDefaultTimeout = Duration(seconds: 90);
 const Duration pingDefaultInterval = Duration(seconds: 1);
 
 const _mainNetChainId = 101;
