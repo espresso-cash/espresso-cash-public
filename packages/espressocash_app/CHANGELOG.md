@@ -1,3 +1,7 @@
+## 1.108.0
+
+ - **FEAT**: resend tx on waiting.
+
 ## 1.107.0
 
  - **REFACTOR**: remove unused code.
