@@ -11,7 +11,6 @@ class EditProfileSection extends StatelessWidget {
             label: context.l10n.editProfile,
             onPressed: () => const ManageProfileRoute().go(context),
           ),
-          const InvestmentsZeroBalanceSwitch(),
         ],
       );
 }

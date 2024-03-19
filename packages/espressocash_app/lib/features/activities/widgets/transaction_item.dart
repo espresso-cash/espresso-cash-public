@@ -10,7 +10,6 @@ import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
-import 'swap_tile.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -55,10 +54,6 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: p,
               ),
               outgoingLinkPayment: (p) => OLPTile(
-                key: ValueKey(p.id),
-                activity: p,
-              ),
-              swap: (p) => SwapTile(
                 key: ValueKey(p.id),
                 activity: p,
               ),
