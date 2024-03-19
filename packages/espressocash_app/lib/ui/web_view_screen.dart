@@ -55,25 +55,30 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme(
-        theme: widget.theme ?? const CpThemeData.light(),
-        child: Scaffold(
-          appBar: CpAppBar(
-            title: Text(widget.title ?? _title ?? context.l10n.loading),
-          ),
-          body: InAppWebView(
-            initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
-            onPermissionRequest: (_, permissionRequest) =>
-                _handlePermissionRequest(permissionRequest.resources),
-            onLoadStop: (controller, _) => _handleLoaded(controller),
-            initialSettings: InAppWebViewSettings(
-              iframeAllowFullscreen: false,
-              allowsInlineMediaPlayback: true,
-              mediaPlaybackRequiresUserGesture: false,
-            ),
+  Widget build(BuildContext context) {
+    final theme = widget.theme ?? const CpThemeData.light();
+
+    return CpTheme(
+      theme: theme,
+      child: Scaffold(
+        appBar: CpAppBar(
+          title: Text(widget.title ?? _title ?? context.l10n.loading),
+        ),
+        body: InAppWebView(
+          initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
+          onPermissionRequest: (_, permissionRequest) =>
+              _handlePermissionRequest(permissionRequest.resources),
+          onLoadStop: (controller, _) => _handleLoaded(controller),
+          initialSettings: InAppWebViewSettings(
+            iframeAllowFullscreen: false,
+            allowsInlineMediaPlayback: true,
+            mediaPlaybackRequiresUserGesture: false,
+            underPageBackgroundColor: theme.backgroundColor,
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class WebViewRoute extends GoRouteData {
