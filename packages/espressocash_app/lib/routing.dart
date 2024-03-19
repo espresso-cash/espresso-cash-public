@@ -28,7 +28,7 @@ import 'features/mobile_wallet/models/remote_request.dart';
 import 'features/mobile_wallet/screens/remote_request_screen.dart';
 import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
-import 'features/onboarding/screens/view_recovery_phrase_screen.dart';
+import 'features/onboarding/screens/profile_screen.dart';
 import 'features/outgoing_direct_payments/screens/network_picker_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
@@ -153,7 +153,7 @@ part 'routing.g.dart';
             ),
           ],
         ),
-        TypedGoRoute<OnboardingRecoveryPhraseRoute>(
+        TypedGoRoute<OnboardingRoute>(
           path: '/onboarding/recovery-phrase',
         ),
         TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
@@ -196,13 +196,13 @@ final goRouter = GoRouter(
           sl<OnboardingRepository>().hasFinishedOnboarding;
 
       final onboardingLocations = [
-        const OnboardingRecoveryPhraseRoute().location,
+        const OnboardingRoute().location,
         const OnboardingProfileRoute().location,
       ];
 
       if (!hasFinishedOnboarding &&
           !onboardingLocations.contains(state.uri.path)) {
-        return const OnboardingRecoveryPhraseRoute().location;
+        return const OnboardingRoute().location;
       }
     }
 

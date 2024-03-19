@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/form_page.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
 import '../../accounts/data/account_repository.dart';
-import 'onboarding_screen.dart';
+import '../data/onboarding_repository.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
   const ViewRecoveryPhraseScreen({
@@ -52,7 +50,10 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
           fontWeight: FontWeight.w400,
           color: Colors.white,
         ),
-        onConfirm: () => widget.onConfirmed(),
+        onConfirm: () {
+          sl<OnboardingRepository>().hasConfirmedPassphrase = true;
+          widget.onConfirmed();
+        },
       );
 
   @override
@@ -77,15 +78,5 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
             const SizedBox(height: 32),
           ],
         ),
-      );
-}
-
-class OnboardingRecoveryPhraseRoute extends GoRouteData {
-  const OnboardingRecoveryPhraseRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ViewRecoveryPhraseScreen(
-        onConfirmed: () => const OnboardingProfileRoute().go(context),
       );
 }
