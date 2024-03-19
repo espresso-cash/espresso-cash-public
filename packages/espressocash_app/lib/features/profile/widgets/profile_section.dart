@@ -5,7 +5,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../../config.dart';
 import '../../../../../core/presentation/utils.dart';
-import '../../../../../features/investments/widgets/investments_zero_balance_switch.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';

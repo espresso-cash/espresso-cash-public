@@ -1,1 +1,0 @@
-enum SwapOperation { buy, sell }
