@@ -61,8 +61,17 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
         colorTheme: FormPageColorTheme.gold,
         title: const SizedBox(),
         header: FormPageHeader(
-          title: Text(context.l10n.onboardingPhraseTitle),
-          description: Text(context.l10n.onboardingPhraseSubtitle),
+          title: Text(
+            context.l10n.onboardingPhraseTitle,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          description: Text(
+            context.l10n.onboardingPhraseSubtitle,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
           icon: Assets.images.securityGraphic,
         ),
         child: Column(

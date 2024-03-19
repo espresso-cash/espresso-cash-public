@@ -92,11 +92,14 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
 
   @override
   Widget build(BuildContext context) => FormPage(
-        title: Text(context.l10n.onboardingProfileTitle),
+        title: Text(context.l10n.onboardingProfileTitle.toUpperCase()),
         colorTheme: FormPageColorTheme.gold,
         header: FormPageHeader(
-          title: Text(context.l10n.rampBasicInfoRequired),
-          description: Text(context.l10n.yourEmailDisclaimer),
+          title: const SizedBox.shrink(),
+          description: Text(
+            context.l10n.yourEmailDisclaimer,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
           icon: Assets.images.identityGraphic,
         ),
         child: Column(
