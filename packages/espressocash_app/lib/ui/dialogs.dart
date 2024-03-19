@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/errors.dart';
 import '../l10n/l10n.dart';
 import 'button.dart';
 import 'colors.dart';
@@ -12,7 +13,11 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
         data: ThemeData.light(),
         child: AlertDialog(
           title: Text(title),
-          content: Text(e.toString()),
+          content: Text(
+            e.isConnectionError()
+                ? context.l10n.lblConnectionError
+                : context.l10n.lblUnknownError,
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
