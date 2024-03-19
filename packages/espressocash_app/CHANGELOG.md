@@ -1,3 +1,17 @@
+## 1.107.0
+
+ - **REFACTOR**: remove unused code.
+ - **REFACTOR**: update lint rules (#1320).
+ - **FEAT**: update ws subscription timeout.
+ - **FEAT**: remove investments section (#1327).
+ - **FEAT**: scalex ramp theme update (#1321).
+ - **FEAT**: remove banned countries from selector (#1326).
+ - **FEAT**: update profile error dialog (#1322).
+ - **FEAT**: remove onboarding notice banner (#1325).
+ - **FEAT**: update coinflow webview theme (#1307).
+ - **FEAT**: add compute unit price measurement (#1319).
+ - **FEAT**: remove Guardarian for US on ramp (#1306).
+
 ## 1.106.0
 
  - **REFACTOR**: simplify FormPage layout (#1304).
