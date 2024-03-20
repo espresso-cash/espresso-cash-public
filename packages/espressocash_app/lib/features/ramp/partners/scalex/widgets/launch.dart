@@ -132,7 +132,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OnRampOrderRoute(value).go(this);
+                  OnRampOrderRoute(value).pushReplacement(this);
               }
             });
             orderWasCreated = true;
@@ -255,7 +255,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).go(this);
+                  OffRampOrderRoute(value).pushReplacement(this);
               }
             });
             orderWasCreated = true;
