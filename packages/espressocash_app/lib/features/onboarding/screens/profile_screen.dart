@@ -12,9 +12,9 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
+import '../../authenticated/screens/main_screen.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
-import '../../investments/screens/main_screen.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/service/update_profile.dart';
 

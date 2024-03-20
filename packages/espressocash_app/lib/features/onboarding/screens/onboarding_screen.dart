@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../routing.dart';
-import '../../investments/screens/main_screen.dart';
+import '../../authenticated/screens/main_screen.dart';
 import '../data/onboarding_repository.dart';
 import 'profile_screen.dart';
 import 'view_recovery_phrase_screen.dart';
