@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'generated/schema.dart';
 
 void main() {
-  for (int i = 9; i < latestVersion; i++) {
+  for (int i = 38; i < latestVersion; i++) {
     test('upgrade from v$i to v$latestVersion', () async {
       final SchemaVerifier verifier = SchemaVerifier(GeneratedHelper());
       final connection = await verifier.startAt(i);

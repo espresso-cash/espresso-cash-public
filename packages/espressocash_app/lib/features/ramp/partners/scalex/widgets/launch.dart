@@ -2,16 +2,19 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/amount.dart';
 import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
+import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
+import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_partner.dart';
@@ -83,6 +86,8 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(source: await _loadCustomStyle());
+
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
         callback: (args) async {
@@ -148,7 +153,7 @@ window.addEventListener("message", (event) => {
         url: Uri.parse(link),
         onLoaded: handleLoaded,
         title: l10n.ramp_titleCashIn,
-        theme: null,
+        theme: const CpThemeData.black(),
       ),
     ).push<void>(this);
   }
@@ -212,6 +217,8 @@ window.addEventListener("message", (event) => {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(source: await _loadCustomStyle());
+
       controller.addJavaScriptHandler(
         handlerName: 'scalex',
         callback: (args) async {
@@ -269,7 +276,7 @@ window.addEventListener("message", (event) => {
         url: Uri.parse(link),
         onLoaded: handleLoaded,
         title: l10n.ramp_titleCashOut,
-        theme: null,
+        theme: const CpThemeData.black(),
       ),
     ).push<void>(this);
   }
@@ -349,4 +356,17 @@ extension on Amount {
       cryptoCurrency: Currency.usdc,
     );
   }
+}
+
+Future<String> _loadCustomStyle() async {
+  final css = await rootBundle.loadString(Assets.scalex.style);
+
+  return """
+  (function() {
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = `$css`;
+    document.head.appendChild(style);
+  })();
+""";
 }

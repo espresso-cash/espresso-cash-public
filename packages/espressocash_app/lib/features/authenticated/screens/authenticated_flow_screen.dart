@@ -10,16 +10,12 @@ import '../../accounts/services/account_service.dart';
 import '../../activities/module.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../conversion_rates/module.dart';
-import '../../favorite_tokens/module.dart';
 import '../../incoming_link_payments/module.dart';
-import '../../investments/module.dart';
 import '../../mobile_wallet/module.dart';
 import '../../onboarding/module.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
-import '../../popular_tokens/module.dart';
-import '../../swap/module.dart';
 import '../authenticated_navigator_key.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
@@ -64,11 +60,7 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const PaymentRequestModule(),
                 const ODPModule(),
                 const OLPModule(),
-                const InvestmentModule(),
                 const ActivitiesModule(),
-                const FavoriteTokensModule(),
-                const SwapModule(),
-                const PopularTokensModule(),
                 const MobileWalletModule(),
                 const OnboardingModule(),
               ],

@@ -16,12 +16,11 @@ import 'features/app_lock/screens/app_lock_disable_screen.dart';
 import 'features/app_lock/screens/app_lock_enable_screen.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
+import 'features/authenticated/screens/main_screen.dart';
 import 'features/backup_phrase/screens/puzzle_reminder_message_screen.dart';
 import 'features/backup_phrase/screens/puzzle_reminder_setup_screen.dart';
 import 'features/blockchain/models/blockchain.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
-import 'features/investments/screens/investments_screen.dart';
-import 'features/investments/screens/main_screen.dart';
 import 'features/legal/privacy_screen.dart';
 import 'features/legal/terms_screen.dart';
 import 'features/mobile_wallet/models/remote_request.dart';
@@ -54,11 +53,6 @@ import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
-import 'features/swap/screens/process_swap_screen.dart';
-import 'features/swap/screens/swap_flow_screen.dart';
-import 'features/token_details/screens/token_details_screen.dart';
-import 'features/token_search/models/crypto_category.dart';
-import 'features/token_search/screens/token_search_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
@@ -92,13 +86,6 @@ part 'routing.g.dart';
                 TypedGoRoute<HomeRoute>(
                   path: '/home',
                   routes: [
-                    TypedGoRoute<InvestmentsRoute>(
-                      path: 'investments',
-                      routes: [
-                        TypedGoRoute<TokenSearchRoute>(path: 'search-token'),
-                        TypedGoRoute<TokenDetailsRoute>(path: 'token'),
-                      ],
-                    ),
                     TypedGoRoute<ProfileRoute>(
                       path: 'profile',
                       routes: [
@@ -133,7 +120,6 @@ part 'routing.g.dart';
                   path: '/activities',
                   routes: [
                     TypedGoRoute<OLPRoute>(path: 'olp/:id'),
-                    TypedGoRoute<ProcessSwapRoute>(path: 'process-swap/:id'),
                     TypedGoRoute<OffRampOrderRoute>(path: 'off-ramp/:id'),
                     TypedGoRoute<OnRampOrderRoute>(path: 'on-ramp/:id'),
                     TypedGoRoute<ODPDetailsRoute>(path: 'odp/:id'),
@@ -157,7 +143,6 @@ part 'routing.g.dart';
           path: '/onboarding/recovery-phrase',
         ),
         TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
-        TypedGoRoute<CreateSwapRoute>(path: '/create-swap'),
         TypedGoRoute<RampPartnerSelectRoute>(path: '/ramp-select-partner'),
         TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
         TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),

@@ -7,7 +7,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
-import '../../investments/widgets/home_widget.dart';
+import '../../authenticated/widgets/home_widget.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import '../data/transaction_repository.dart';
 import '../screens/activities_screen.dart';
