@@ -14,6 +14,21 @@ class OnboardingRepository extends ChangeNotifier {
   final SharedPreferences _storage;
   final ProfileRepository _profileRepository;
 
+  @PostConstruct()
+  void init() {
+    if (_storage.getBool(_ofacCheckPerformedKey) ?? false) {
+      return;
+    }
+
+    final currentCountry = _profileRepository.country;
+
+    if (_ofacBlockedCountries.contains(currentCountry)) {
+      _profileRepository.country = null;
+    }
+
+    _storage.setBool(_ofacCheckPerformedKey, true);
+  }
+
   void _handleProfileUpdated() => notifyListeners();
 
   bool get hasSetupProfile => _profileRepository.hasAllRequiredFields;
@@ -38,3 +53,8 @@ class OnboardingRepository extends ChangeNotifier {
 }
 
 const _passphraseConfirmedKey = 'passphraseConfirmed';
+const _ofacCheckPerformedKey = 'ofacCheckPerformed';
+
+const _ofacBlockedCountries = {
+  'BY', 'CU', 'IR', 'KP', 'SD', 'SO', 'SY', 'RU', 'YE', //
+};
