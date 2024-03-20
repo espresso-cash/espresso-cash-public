@@ -107,6 +107,12 @@ class TxSender {
       final t = statuses.value.first;
 
       if (t == null) {
+        await _client.rpcClient.sendTransaction(
+          tx.encode(),
+          preflightCommitment: Commitment.confirmed,
+          minContextSlot: minContextSlot.toInt(),
+        ).toEither();
+
         innerSpan.status = const SpanStatus.aborted();
         _logger.fine('${tx.id}: Tx not found.');
 

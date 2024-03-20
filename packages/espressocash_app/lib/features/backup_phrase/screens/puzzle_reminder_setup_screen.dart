@@ -8,7 +8,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../investments/screens/main_screen.dart';
+import '../../authenticated/screens/main_screen.dart';
 import '../services/puzzle_reminder_bloc.dart';
 import '../widgets/puzzle_screen.dart';
 
