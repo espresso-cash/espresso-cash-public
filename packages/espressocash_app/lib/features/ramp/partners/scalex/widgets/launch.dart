@@ -255,7 +255,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).replace(this);
+                  OffRampOrderRoute(value).pushReplacement(this);
               }
             });
             orderWasCreated = true;
