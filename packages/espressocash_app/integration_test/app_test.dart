@@ -1,4 +1,3 @@
-import 'package:espressocash_app/features/investments/screens/investments_screen.dart';
 import 'package:espressocash_app/features/sign_in/screens/get_started_screen.dart';
 import 'package:espressocash_app/main.dart' as app;
 import 'package:flutter_test/flutter_test.dart';
@@ -16,10 +15,6 @@ void main() {
       await tester.tap(find.byKey(keyCreateWalletButton));
 
       await tester.pumpManual(5);
-
-      // Should display Investment Screen
-      final investmentScreen = find.byType(InvestmentsScreen);
-      expect(investmentScreen, findsOneWidget);
     });
   });
 }

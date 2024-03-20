@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -39,9 +38,6 @@ abstract class AppModule {
 
   @lazySingleton
   RpcClient get rpcClient => solanaClient.rpcClient;
-
-  @lazySingleton
-  JupiterAggregatorClient get jupiterClient => JupiterAggregatorClient();
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
