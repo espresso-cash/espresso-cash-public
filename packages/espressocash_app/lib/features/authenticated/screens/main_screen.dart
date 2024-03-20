@@ -14,11 +14,9 @@ import '../../../ui/theme.dart';
 import '../../activities/widgets/extensions.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
-import '../../onboarding/widgets/onboarding_notice.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../widgets/home_carousel.dart';
-import '../widgets/investing_widget.dart';
 import '../widgets/investment_header.dart';
 
 class MainScreen extends StatefulWidget {
@@ -88,14 +86,8 @@ class _MainScreenState extends State<MainScreen> {
                       toolbarHeight: kToolbarHeight + 12,
                     ),
                     const SliverToBoxAdapter(child: InvestmentHeader()),
-                    SliverToBoxAdapter(
-                      child: OnboardingNotice(
-                        finishPath: const HomeRoute().location,
-                      ),
-                    ),
                     const SliverToBoxAdapter(child: HomeCarouselWidget()),
                     const SliverToBoxAdapter(child: RecentActivityWidget()),
-                    const SliverToBoxAdapter(child: InvestingWidget()),
                     SliverToBoxAdapter(
                       child: SizedBox(
                         height: max(
