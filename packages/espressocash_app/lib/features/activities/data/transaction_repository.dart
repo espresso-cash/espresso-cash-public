@@ -12,7 +12,6 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
-import '../../swap/data/swap_repository.dart';
 import '../../tokens/token_list.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
@@ -67,12 +66,6 @@ class TransactionRepository {
       ignoreWhen: (row) => row.status != ODPStatusDto.success,
     );
 
-    final swap = _db.swapRows.findActivityOrNull(
-      where: (row) => row.txId.equals(txId),
-      builder: (swap) => swap.toActivity(_tokens),
-      ignoreWhen: (row) => row.status != SwapStatusDto.success,
-    );
-
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
       builder: (pr) => pr.toActivity(_tokens),
@@ -106,7 +99,7 @@ class TransactionRepository {
     );
 
     return Rx.combineLatest(
-      [pr, odp, swap, olp, offRamp, onRamp, oDlnP]
+      [pr, odp, olp, offRamp, onRamp, oDlnP]
           .map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );

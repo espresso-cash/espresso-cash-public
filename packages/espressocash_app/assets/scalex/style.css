@@ -1,0 +1,206 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap);
+
+div.custom-layout {
+  background-color: #2D2B2C !important;
+}
+
+.custom-layout {
+  background-color: #2D2B2C !important;
+}
+
+div.children-container {
+  background-color: #2D2B2C !important;
+}
+
+div.container {
+  background-color: #2D2B2C !important;
+  box-shadow: none !important;
+}
+
+* {
+  color: #FFFFFF !important;
+  font-family: Roboto !important;
+}
+
+form.form-control {
+  background-color: #2D2B2C
+}
+
+div div input {
+  background-color: #404040 !important;
+  color: #FFFFFF !important;
+}
+
+button.primary-button {
+  background-color: #FCC829;
+}
+
+div button span {
+  color: #212121 !important;
+}
+
+div.page-footer {
+  border-style: none !important;
+}
+
+p.kyc-title {
+  text-align: center;
+  border-style: none;
+  font-size: 16px;
+  font-weight: 500;
+  font-style: normal;
+  border-style: none !important;
+}
+
+div.page-title {
+  border-style: none !important;
+}
+
+h5.title {
+  text-align: center;
+  font-size: 17px;
+}
+
+p.description {
+  text-align: center;
+  font-size: 14px;
+}
+
+input.input-field {
+  background-color: #404040;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+div.privacy-container {
+  background-color: #000000 !important;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  padding-top: 24px;
+}
+
+div.phone-number-wrapper.error-border {
+  background-color: #404040;
+}
+
+div.data-modal{
+  background-color: #212121;
+  box-shadow: none;
+}
+
+input::placeholder{
+  color: #808080;
+}
+
+div.transaction-top-detail {
+  background-color: #404040 !important;
+  box-shadow: none !important;
+}
+
+p.onramp-active {
+  font-size: 18px;
+  font-weight: 500;
+  font-style: normal
+  
+}
+
+p.user-id {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.back-container p {
+    font-size: 17px !important;
+    font-style: normal !important;
+    text-align: center !important;
+}
+
+div.bold-list {
+  border-color: #4B4B4B !important;
+  
+}
+
+div.light-list {
+  border-color: #4B4B4B !important;
+}
+
+p.address {
+  font-size: 14px
+  
+}
+
+.ramp-main .onramp-top-bar .top-bar .top-bar-user-details {
+    align-items: center !important;
+}
+
+div.bank {
+  border-color: #4B4B4B !important;
+  
+}
+
+div.onramp-top-bar {
+  border-color: #4B4B4B !important;
+}
+
+div.banks-list {
+  border-color: #4B4B4B !important;
+}
+
+div.field {
+  background-color: #404040 !important;
+}
+
+.select-bank-field-container .list-modal {
+  background: #4B4B4B !important;
+}
+
+div.bottom-blur{
+  background: #4B4B4B !important;
+}
+
+.loading-container .dot {
+  background-color: white;
+}
+
+div.fee-price-wrapper.error-fee-price-wrapper {
+  background-color: #e57373 !important;
+  color: #fafafa !important;
+}
+
+div.wallet-container {
+  background-color: #2D2B2C !important;
+  border-style: none !important;
+}
+
+div.address-container {
+  background-color: #2D2B2C !important;
+}
+
+div.amount-to-receive {
+  background-color: #2D2B2C !important;
+  border-style: none !important;
+}
+
+div.transfer-into {
+   background-color: #2D2B2C !important;
+  border-style: none !important;
+}
+
+div.account-container {
+  background-color: #2D2B2C !important;
+}
+
+div.info-frame {
+  background-color: #212121 !important;
+}
+
+img.top-page-bg {
+  visibility: hidden;
+}
+
+.send-crypto .wallet-container .address-container .wallet-flex .token-network-flex span {
+    color: black !important;
+    background: #FCC829 !important;
+}
