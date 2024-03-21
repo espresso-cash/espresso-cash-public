@@ -1,69 +1,51 @@
+// ignore_for_file: avoid_web_libraries_in_flutter
+
+import 'dart:html' as html;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+
+import '../core/link_payments.dart';
+import '../core/solana_helpers.dart';
+import '../l10n/gen/app_localizations.dart';
+import 'features/link_payment/link_payment_screen.dart';
+import 'features/payment_request/payment_request_screen.dart';
+import 'ui/colors.dart';
 
 void main() {
-  runApp(const MyApp());
+  setUrlStrategy(PathUrlStrategy());
+  WidgetsFlutterBinding.ensureInitialized();
+
+  runApp(const LandingPageApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LandingPageApp extends StatelessWidget {
+  const LandingPageApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+  Widget build(BuildContext context) => MaterialApp(
+        title: 'Espresso Cash',
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        theme: ThemeData(fontFamily: 'RobotoApp'),
+        color: EcLandingColors.primaryColor,
+        onGenerateRoute: (settings) {
+          final uri = Uri.parse(html.window.location.toString());
+          final linkPayment = LinkPayments.tryParse(uri);
+          final solanaPay = tryParseSolanaPayRequest(uri);
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+          if (linkPayment != null) {
+            return MaterialPageRoute(
+              builder: (context) => LinkPaymentScreen(linkPayment),
+            );
+          } else if (solanaPay != null) {
+            return MaterialPageRoute(
+              builder: (context) => RequestPaymentScreen(solanaPay),
+            );
+          }
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
-    );
-  }
+          return MaterialPageRoute(builder: (_) => const SizedBox.shrink());
+        },
+      );
 }
