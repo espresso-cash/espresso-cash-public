@@ -7,6 +7,7 @@ import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../ui/dialogs.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
@@ -37,6 +38,15 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
     _payment = sl<ODPRepository>().watch(widget.id);
   }
 
+  void _onCancel(String id) => showConfirmationDialog(
+        context,
+        title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
+            .toUpperCase(),
+        message:
+            context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
+        onConfirm: () => context.cancelODP(paymentId: id),
+      );
+
   @override
   Widget build(BuildContext context) => StreamBuilder<OutgoingDirectPayment>(
         stream: _payment,
@@ -63,6 +73,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                   txFailure: (it) => TransferError(
                     onBack: () => context.pop(),
                     onRetry: () => context.retryODP(paymentId: payment.id),
+                    onCancel: () => _onCancel(payment.id),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
