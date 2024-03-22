@@ -10,7 +10,7 @@ import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'di.dart';
 import 'features/link_payment/link_payment_screen.dart';
-import 'features/payment_request_old/payment_request_screen.dart';
+import 'features/payment_request/screens/request_screen.dart';
 import 'ui/colors.dart';
 
 void main() {
@@ -44,7 +44,7 @@ class LandingPageApp extends StatelessWidget {
             );
           } else if (solanaPay != null) {
             return MaterialPageRoute(
-              builder: (context) => RequestPaymentScreen(solanaPay),
+              builder: (context) => RequestInitialScreen(solanaPay),
             );
           }
 
