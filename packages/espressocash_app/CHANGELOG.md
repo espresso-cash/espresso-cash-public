@@ -1,3 +1,10 @@
+## 1.109.0
+
+ - **FIX**: ramp redirect (#1323).
+ - **FIX**: resend tx when blockhash is valid.
+ - **FEAT**: remove scalex offramp fee (#1329).
+ - **FEAT**: ensure current countries not ofac blocklisted (#1328).
+
 ## 1.108.0
 
  - **FEAT**: resend tx on waiting.

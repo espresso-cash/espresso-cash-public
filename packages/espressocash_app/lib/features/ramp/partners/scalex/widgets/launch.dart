@@ -132,7 +132,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OnRampOrderRoute(value).go(this);
+                  OnRampOrderRoute(value).pushReplacement(this);
               }
             });
             orderWasCreated = true;
@@ -191,9 +191,7 @@ window.addEventListener("message", (event) => {
             ),
         partnerFeeLabel:
             'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
-        calculateFee: (amount) => amount.calculateEspressoFee(
-              espressoFee: rateAndFee.espressoFeePercentage,
-            ),
+        calculateFee: null,
         type: RampType.offRamp,
       ),
     ).push<void>(this);
@@ -255,7 +253,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).go(this);
+                  OffRampOrderRoute(value).pushReplacement(this);
               }
             });
             orderWasCreated = true;
@@ -341,19 +339,6 @@ extension on Amount {
     return FiatAmount(
       value: Currency.ngn.decimalToInt(Decimal.parse(inputAmount.toString())),
       fiatCurrency: Currency.ngn,
-    );
-  }
-
-  CryptoAmount calculateEspressoFee({
-    required double espressoFee,
-  }) {
-    final double inputAmount = decimal.toDouble();
-    final double totalFeeInUsdc = inputAmount * espressoFee;
-
-    return CryptoAmount(
-      value:
-          Currency.usdc.decimalToInt(Decimal.parse(totalFeeInUsdc.toString())),
-      cryptoCurrency: Currency.usdc,
     );
   }
 }
