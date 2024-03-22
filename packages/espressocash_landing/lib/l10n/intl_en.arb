@@ -53,5 +53,9 @@
   "landingGenericError": "Error. Please try again later.",
   "@landingGenericError": {},
   "landingUnsupportedChainError": "Unsupported chain. Please try again",
-  "@landingUnsupportedChainError": {}
+  "@landingUnsupportedChainError": {},
+  "noQuoteFound": "No Quote Found. Please try again.",
+  "@noQuoteFound": {},
+  "errorDialogTitle": "There's a problem",
+  "@errorDialogTitle": {}
 }

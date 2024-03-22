@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../di.dart';
 import 'open_connection.dart';
 
 part 'db_landing.g.dart';
