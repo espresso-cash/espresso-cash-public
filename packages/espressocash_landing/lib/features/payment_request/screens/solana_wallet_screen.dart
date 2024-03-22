@@ -29,7 +29,7 @@ class SolanaWalletScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              context.l10n.landingScanSolanaWallet,
+              context.l10n.scanSolanaWallet,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF2D2B2C),

@@ -21,9 +21,8 @@ class RequestPaymentScreen extends StatelessWidget {
               children: [
                 Text(
                   request.label == null
-                      ? context.l10n.landingRequestTitle
-                      : context.l10n
-                          .landingUserRequestingTitle(request.label ?? ''),
+                      ? context.l10n.requestTitle
+                      : context.l10n.userRequestingTitle(request.label ?? ''),
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -43,7 +42,7 @@ class RequestPaymentScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  context.l10n.landingInstruction,
+                  context.l10n.instruction,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Colors.white,
@@ -59,7 +58,7 @@ class RequestPaymentScreen extends StatelessWidget {
       : EspressoDesktopView(
           actionLink: Uri.parse(request.toUrl()),
           title: request.headerTitle,
-          subtitle: context.l10n.landingInstruction,
+          subtitle: context.l10n.instruction,
         );
 }
 

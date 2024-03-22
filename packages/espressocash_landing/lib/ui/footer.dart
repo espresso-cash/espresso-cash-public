@@ -16,7 +16,7 @@ class Footer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            context.l10n.landingCopyright,
+            context.l10n.copyright,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: EcLandingColors.footerTextColor,

@@ -183,7 +183,7 @@ class _Desktop extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
-                context.l10n.landingNetworkLbl,
+                context.l10n.networkLbl,
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
@@ -200,15 +200,15 @@ class _Desktop extends StatelessWidget {
           const Divider(color: EcLandingColors.borderColor),
           const Spacer(),
           _Item(
-            label: context.l10n.landingRequestAmountLbl,
+            label: context.l10n.requestAmountLbl,
             value: state.inputAmount.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            label: context.l10n.landingFeeLbl,
+            label: context.l10n.feeLbl,
             value: state.fee.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            label: context.l10n.landingTotalLbl,
+            label: context.l10n.totalLbl,
             value: state.totalAmount.format(context.locale, maxDecimals: 2),
           ),
           const SizedBox(height: 32),
@@ -256,9 +256,8 @@ class _Mobile extends StatelessWidget {
         children: [
           Text(
             request?.receiverName == null
-                ? context.l10n.landingRequestTitle
-                : context.l10n
-                    .landingUserRequestingTitle(request?.receiverName ?? ''),
+                ? context.l10n.requestTitle
+                : context.l10n.userRequestingTitle(request?.receiverName ?? ''),
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.white,
@@ -283,7 +282,7 @@ class _Mobile extends StatelessWidget {
         children: [
           const Spacer(),
           Text(
-            context.l10n.landingNetworkLbl,
+            context.l10n.networkLbl,
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
@@ -298,15 +297,15 @@ class _Mobile extends StatelessWidget {
           const Divider(color: EcLandingColors.borderColor),
           const SizedBox(height: 24),
           _Item(
-            label: context.l10n.landingRequestAmountLbl,
+            label: context.l10n.requestAmountLbl,
             value: state.inputAmount.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            label: context.l10n.landingFeeLbl,
+            label: context.l10n.feeLbl,
             value: state.fee.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            label: context.l10n.landingTotalLbl,
+            label: context.l10n.totalLbl,
             value: state.totalAmount.format(context.locale, maxDecimals: 2),
           ),
           const SizedBox(height: 32),
@@ -366,8 +365,8 @@ class _Item extends StatelessWidget {
 
 extension on PaymentException {
   String description(BuildContext context) => this.map(
-        other: always(context.l10n.landingGenericError),
+        other: always(context.l10n.genericError),
         quoteNotFound: always(context.l10n.noQuoteFound),
-        unsupportedChain: always(context.l10n.landingUnsupportedChainError),
+        unsupportedChain: always(context.l10n.unsupportedChainError),
       );
 }

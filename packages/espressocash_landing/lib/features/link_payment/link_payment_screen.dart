@@ -14,7 +14,7 @@ class LinkPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final actionLink = linkPayment.toDeepLinkUri();
-    final title = context.l10n.landingLinkPaymentTitle;
+    final title = context.l10n.linkPaymentTitle;
 
     return isMobile
         ? EspressoMobileView(
@@ -35,7 +35,7 @@ class LinkPaymentScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    context.l10n.landingInstruction,
+                    context.l10n.instruction,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: Colors.white,
@@ -46,12 +46,12 @@ class LinkPaymentScreen extends StatelessWidget {
                 ],
               ),
             ),
-            actionButtonText: context.l10n.landingReceiveMoney,
+            actionButtonText: context.l10n.receiveMoney,
           )
         : EspressoDesktopView(
             actionLink: actionLink,
             title: title,
-            subtitle: context.l10n.landingInstruction,
+            subtitle: context.l10n.instruction,
           );
   }
 }

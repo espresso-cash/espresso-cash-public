@@ -65,8 +65,8 @@ class _Desktop extends StatelessWidget {
     final total = requestAmount + fee;
 
     return LandingDesktopPage(
-      title: context.l10n.landingThankYouLbl,
-      subtitle: context.l10n.landingPaymentSent,
+      title: context.l10n.thankYouLbl,
+      subtitle: context.l10n.paymentSent,
       content: Column(
         children: [
           Padding(
@@ -76,19 +76,19 @@ class _Desktop extends StatelessWidget {
           const Divider(color: EcLandingColors.borderColor),
           const Spacer(),
           _Item(
-            title: context.l10n.landingStatusLbl,
+            title: context.l10n.statusLbl,
             value: status,
           ),
           _Item(
-            title: context.l10n.landingRequestAmountLbl,
+            title: context.l10n.requestAmountLbl,
             value: requestAmount.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            title: context.l10n.landingFeeLbl,
+            title: context.l10n.feeLbl,
             value: fee.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            title: context.l10n.landingTotalLbl,
+            title: context.l10n.totalLbl,
             value: total.format(context.locale, maxDecimals: 2),
           ),
           if (request.solanaReferenceAddress case final reference?) ...[
@@ -125,14 +125,14 @@ class _Mobile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            context.l10n.landingThankYouLbl,
+            context.l10n.thankYouLbl,
             style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.w500,
             ),
           ),
           Text(
-            context.l10n.landingPaymentSent,
+            context.l10n.paymentSent,
             style: const TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w500,
@@ -148,19 +148,19 @@ class _Mobile extends StatelessWidget {
       content: Column(
         children: [
           _Item(
-            title: context.l10n.landingStatusLbl,
+            title: context.l10n.statusLbl,
             value: status,
           ),
           _Item(
-            title: context.l10n.landingRequestAmountLbl,
+            title: context.l10n.requestAmountLbl,
             value: requestAmount.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            title: context.l10n.landingFeeLbl,
+            title: context.l10n.feeLbl,
             value: fee.format(context.locale, maxDecimals: 2),
           ),
           _Item(
-            title: context.l10n.landingTotalLbl,
+            title: context.l10n.totalLbl,
             value: total.format(context.locale, maxDecimals: 2),
           ),
           if (request.solanaReferenceAddress case final reference?) ...[

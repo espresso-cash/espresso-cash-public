@@ -80,9 +80,9 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
       showCpErrorSnackbar(
         context,
         message: switch (error) {
-          MetaMaskNotInstalled() => context.l10n.landingMetamaskNotInstalled,
-          UserRejected() => context.l10n.landingMetamaskRejected,
-          OtherException() => context.l10n.landingGenericError,
+          MetaMaskNotInstalled() => context.l10n.metamaskNotInstalled,
+          UserRejected() => context.l10n.metamaskRejected,
+          OtherException() => context.l10n.genericError,
         },
       );
     }
@@ -126,9 +126,8 @@ class _Mobile extends StatelessWidget {
           children: [
             Text(
               request.label == null
-                  ? context.l10n.landingRequestTitle
-                  : context.l10n
-                      .landingUserRequestingTitle(request.label ?? ''),
+                  ? context.l10n.requestTitle
+                  : context.l10n.userRequestingTitle(request.label ?? ''),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -153,7 +152,7 @@ class _Mobile extends StatelessWidget {
           children: [
             const SizedBox(height: 48),
             Text(
-              context.l10n.landingExpressCheckout,
+              context.l10n.expressCheckout,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF2D2B2C),
@@ -164,7 +163,7 @@ class _Mobile extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             CpButton(
-              text: context.l10n.landingPayEspresso,
+              text: context.l10n.payEspresso,
               size: CpButtonSize.big,
               width: 340,
               trailing: const LandingArrow(),
@@ -172,7 +171,7 @@ class _Mobile extends StatelessWidget {
             ),
             const DividerWidget(),
             Text(
-              context.l10n.landingPayOtherWallet,
+              context.l10n.payOtherWallet,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xFF2D2B2C),
@@ -224,7 +223,7 @@ class _Desktop extends StatelessWidget {
           children: [
             const Spacer(),
             Text(
-              context.l10n.landingExpressCheckout,
+              context.l10n.expressCheckout,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 22,
@@ -236,7 +235,7 @@ class _Desktop extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CpButton(
-                text: context.l10n.landingPayEspresso,
+                text: context.l10n.payEspresso,
                 size: CpButtonSize.big,
                 width: 500,
                 trailing: const LandingArrow(),
@@ -247,7 +246,7 @@ class _Desktop extends StatelessWidget {
             const Divider(color: EcLandingColors.borderColor),
             const Spacer(),
             Text(
-              context.l10n.landingPayOtherWallet,
+              context.l10n.payOtherWallet,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 17,

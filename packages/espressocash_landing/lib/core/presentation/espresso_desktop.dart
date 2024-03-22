@@ -30,7 +30,7 @@ class EspressoDesktopView extends StatelessWidget {
       text: Column(
         children: [
           Text(
-            context.l10n.landingInstallApp,
+            context.l10n.installApp,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: EcLandingColors.blackTextColor,
@@ -41,7 +41,7 @@ class EspressoDesktopView extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(
-            context.l10n.landingAlreadyInstalled,
+            context.l10n.alreadyInstalled,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: EcLandingColors.blackTextColor,
@@ -61,7 +61,7 @@ class EspressoDesktopView extends StatelessWidget {
         size: 178,
       ),
       text: Text(
-        context.l10n.landingScanQr,
+        context.l10n.scanQr,
         textAlign: TextAlign.center,
         style: const TextStyle(
           color: EcLandingColors.blackTextColor,

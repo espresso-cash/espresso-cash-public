@@ -30,7 +30,7 @@ class EspressoMobileView extends StatelessWidget {
             const StepCircle(1),
             const SizedBox(height: 8),
             Text(
-              context.l10n.landingInstallApp,
+              context.l10n.installApp,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 17,
@@ -38,7 +38,7 @@ class EspressoMobileView extends StatelessWidget {
               ),
             ),
             Text(
-              context.l10n.landingAlreadyInstalled,
+              context.l10n.alreadyInstalled,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 13,
@@ -47,7 +47,7 @@ class EspressoMobileView extends StatelessWidget {
             ),
             _MobileButton(
               onTap: context.launchStore,
-              text: context.l10n.landingInstallApp,
+              text: context.l10n.installApp,
             ),
             const Divider(
               color: EcLandingColors.borderColor,
