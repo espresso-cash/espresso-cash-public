@@ -8,6 +8,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import '../core/link_payments.dart';
 import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
+import 'di.dart';
 import 'features/link_payment/link_payment_screen.dart';
 import 'features/payment_request/payment_request_screen.dart';
 import 'ui/colors.dart';
@@ -15,6 +16,8 @@ import 'ui/colors.dart';
 void main() {
   setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
+
+  configureDependencies();
 
   runApp(const LandingPageApp());
 }
