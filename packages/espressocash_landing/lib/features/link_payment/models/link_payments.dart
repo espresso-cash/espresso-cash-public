@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
-import '../config.dart';
+import '../../../config.dart';
 
 part 'link_payments.freezed.dart';
 part 'link_payments.g.dart';

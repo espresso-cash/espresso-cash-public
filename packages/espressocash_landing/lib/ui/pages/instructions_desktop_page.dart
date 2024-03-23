@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../core/extensions.dart';
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import '../../ui/colors.dart';
-import '../../ui/desktop_page.dart';
-import '../../ui/qr_code.dart';
-import '../../ui/step_circle.dart';
+import '../../utils/extensions.dart';
+import '../colors.dart';
+import 'landing_desktop_page.dart';
+import '../qr_code.dart';
+import '../step_circle.dart';
 
-class EspressoDesktopView extends StatelessWidget {
-  const EspressoDesktopView({
+class InstructionsDesktopPage extends StatelessWidget {
+  const InstructionsDesktopPage({
     super.key,
     required this.actionLink,
     required this.title,

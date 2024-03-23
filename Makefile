@@ -87,3 +87,15 @@ ifndef SENTRY_DSN
 	$(error "SENTRY_DSN must be set")
 endif
 	flutter build appbundle --build-number=$(BUILD_NUMBER) $(PROD_DEFINITIONS)
+
+dump_schema:
+ifndef VERSION
+	$(error "VERSION must be set")
+endif
+	dart run drift_dev schema dump lib/data/db/db.dart moor_schemas/moor_schema_v$(VERSION).json
+
+deps_graph_all:
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,l10n/gen/**,routing.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
+
+deps_graph_features:
+	lakos lib/features -i "{**.freezed.dart,**.g.dart,**/src/**}" --metrics > features.dot

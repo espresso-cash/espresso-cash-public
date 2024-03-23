@@ -202,3 +202,55 @@ jobs:
         with:
           name: golden-test-failure
           path: "**/test/golden/**/failures/"
+
+  espressocash_landing:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      SCOPE: --scope="espressocash_landing"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
+
+      - name: Activate utils
+        run: make activate_utils
+
+      - name: Install dependencies
+        run: melos bs ${{ env.SCOPE }}
+
+      - name: Generate code
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="flutter_localizations" -- flutter gen-l10n
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
+
+      - name: Generate test schemas
+        run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
+
+      - name: Analyze
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+          melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_all
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
+
+      - name: Store failure artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: golden-test-failure
+          path: "**/test/golden/**/failures/"
