@@ -38,7 +38,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
     _payment = sl<ODPRepository>().watch(widget.id);
   }
 
-  void _onCancel(String id) => showConfirmationDialog(
+  void _handleCancel(String id) => showConfirmationDialog(
         context,
         title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
             .toUpperCase(),
@@ -73,7 +73,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                   txFailure: (it) => TransferError(
                     onBack: () => context.pop(),
                     onRetry: () => context.retryODP(paymentId: payment.id),
-                    onCancel: () => _onCancel(payment.id),
+                    onCancel: () => _handleCancel(payment.id),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
