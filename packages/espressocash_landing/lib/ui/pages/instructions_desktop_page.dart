@@ -4,9 +4,9 @@ import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/extensions.dart';
 import '../colors.dart';
-import 'landing_desktop_page.dart';
 import '../qr_code.dart';
 import '../step_circle.dart';
+import 'landing_desktop_page.dart';
 
 class InstructionsDesktopPage extends StatelessWidget {
   const InstructionsDesktopPage({
