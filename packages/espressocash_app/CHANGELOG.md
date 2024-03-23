@@ -1,3 +1,9 @@
+## 1.110.0
+
+ - **REFACTOR**: remove landing code from main app (#1336).
+ - **FEAT**: add cancel for failed direct payments (#1337).
+ - **FEAT**: update onboarding flow (#1324).
+
 ## 1.109.0
 
  - **FIX**: ramp redirect (#1323).
