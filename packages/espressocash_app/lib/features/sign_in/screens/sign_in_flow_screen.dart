@@ -31,7 +31,7 @@ class SignInFlowScreen extends StatelessWidget {
             FlowSuccess(:final result) => runWithLoader(
                 context,
                 () => sl<AccountService>()
-                    .logIn(source: state.source, account: result.account),
+                    .logIn(source: state.source, account: result),
               ),
             _ => null,
           },

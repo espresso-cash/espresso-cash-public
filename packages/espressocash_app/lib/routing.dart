@@ -25,11 +25,9 @@ import 'features/legal/privacy_screen.dart';
 import 'features/legal/terms_screen.dart';
 import 'features/mobile_wallet/models/remote_request.dart';
 import 'features/mobile_wallet/screens/remote_request_screen.dart';
-import 'features/onboarding/screens/confirm_recovery_phrase_screen.dart';
-import 'features/onboarding/screens/no_email_and_password_screen.dart';
+import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
-import 'features/onboarding/screens/success_screen.dart';
-import 'features/onboarding/screens/view_recovery_phrase_screen.dart';
+import 'features/onboarding/screens/profile_screen.dart';
 import 'features/outgoing_direct_payments/screens/network_picker_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
@@ -141,17 +139,10 @@ part 'routing.g.dart';
             ),
           ],
         ),
-        TypedGoRoute<OnboardingRoute>(path: '/onboarding/profile'),
-        TypedGoRoute<OnboardingNoPasswordRoute>(
-          path: '/onboarding/no-password',
-        ),
-        TypedGoRoute<OnboardingRecoveryPhraseRoute>(
+        TypedGoRoute<OnboardingRoute>(
           path: '/onboarding/recovery-phrase',
         ),
-        TypedGoRoute<OnboardingConfirmRecoveryPhraseRoute>(
-          path: '/onboarding/confirm-recovery-phrase',
-        ),
-        TypedGoRoute<OnboardingSuccessRoute>(path: '/onboarding/success'),
+        TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
         TypedGoRoute<RampPartnerSelectRoute>(path: '/ramp-select-partner'),
         TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
         TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),
@@ -184,6 +175,21 @@ final goRouter = GoRouter(
   refreshListenable: sl<AccountService>(),
   redirect: (context, state) {
     final isLoggedIn = sl<AccountService>().value != null;
+
+    if (isLoggedIn) {
+      final hasFinishedOnboarding =
+          sl<OnboardingRepository>().hasFinishedOnboarding;
+
+      final onboardingLocations = [
+        const OnboardingRoute().location,
+        const OnboardingProfileRoute().location,
+      ];
+
+      if (!hasFinishedOnboarding &&
+          !onboardingLocations.contains(state.uri.path)) {
+        return const OnboardingRoute().location;
+      }
+    }
 
     if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
       return const HomeRoute().location;
