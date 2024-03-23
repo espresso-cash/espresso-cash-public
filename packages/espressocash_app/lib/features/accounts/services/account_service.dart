@@ -68,8 +68,9 @@ class AccountService extends ChangeNotifier
       (scope) => scope.setExtra('walletAddress', account.address),
     );
     _analyticsManager.setWalletAddress(account.address);
-    await sl.initAuthScope();
 
-    _update(account);
+    _value = account;
+    await sl.initAuthScope();
+    notifyListeners();
   }
 }

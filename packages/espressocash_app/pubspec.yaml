@@ -114,7 +114,6 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/rive/
-    - assets/landing/
     - assets/coinflow/
     - assets/coinflow/static/
     - assets/coinflow/static/js/
