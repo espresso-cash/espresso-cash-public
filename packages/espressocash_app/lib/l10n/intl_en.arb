@@ -808,5 +808,11 @@
   "@offRampMorePartnersTitle": {},
   "lblProfileUpdateFailed": "Failed to update profile",
   "lblConnectionError": "Please check your internet connection and try again.",
-  "lblUnknownError": "Something went wrong. Please try again later."
+  "lblUnknownError": "Something went wrong. Please try again later.",
+  "outgoingDirectPayments_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
+  "@outgoingDirectPayments_lblCancelConfirmationSubtitle": {},
+  "outgoingDirectPayments_lblCancelConfirmationTitle": "Cancel Transfer",
+  "@outgoingDirectPayments_lblCancelConfirmationTitle": {},
+  "cancelTransferBtn": "Cancel transfer",
+  "@cancelTransferBtn": {}
 }

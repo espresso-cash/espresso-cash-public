@@ -44,4 +44,8 @@ class AnalyticsManager {
   // User creates a direct payment
   void directPaymentCreated() =>
       _analytics.logEvent(name: 'directPaymentCreated');
+
+  // User cancels a direct payment
+  void directPaymentCancelled() =>
+      _analytics.logEvent(name: 'directPaymentCancelled');
 }
