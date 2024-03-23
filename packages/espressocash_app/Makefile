@@ -33,14 +33,3 @@ deps_graph_features:
 
 deps_cycles:
 	python3 ./tool/cycles.py deps.dot --only-shortest
-
-build_landing:
-	flutter build web --web-renderer canvaskit --target lib/landing/main.dart
-
-# Deprecated – remove when we're sure we don't need it
-# ====================================================
-
-publish_landing:
-	peanut --web-renderer canvaskit --extra-args "-t lib/landing/main.dart"
-
-# ====================================================
