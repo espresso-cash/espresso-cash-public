@@ -129,30 +129,6 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
   "@iUnderstandIfLoseMySecret": {},
-  "landingAlreadyInstalled": "Already have Espresso installed? Skip to step 2",
-  "@landingAlreadyInstalled": {},
-  "landingCopyright": "Copyright ©2024 Espresso Cash Inc. All rights reserved.",
-  "@landingCopyright": {},
-  "landingInstallApp": "Install Espresso Cash",
-  "@landingInstallApp": {},
-  "landingReceiveMoney": "Receive Your Money",
-  "@landingReceiveMoney": {},
-  "landingScanQr": "Scan the QR code",
-  "@landingScanQr": {},
-  "landingInstruction": "To complete the transaction, follow the steps below.",
-  "@landingInstruction": {},
-  "landingLinkPaymentTitle": "Money has been sent to you.",
-  "@landingLinkPaymentTitle": {},
-  "landingUserRequestingTitle": "{name} is requesting",
-  "@landingUserRequestingTitle": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "landingRequestTitle": "You have a request of",
-  "@landingRequestTitle": {},
   "helpSectionTitle": "HELP",
   "@helpSectionTitle": {},
   "loading": "Loading...",

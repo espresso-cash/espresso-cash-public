@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../l10n/l10n.dart';
-import '../../ui/button.dart';
-import '../core/extensions.dart';
-import '../ui/arrow.dart';
-import '../ui/colors.dart';
-import '../ui/step_circle.dart';
-import 'landing_mobile.dart';
+import '../../utils/extensions.dart';
+import '../arrow.dart';
+import '../button.dart';
+import '../colors.dart';
+import '../step_circle.dart';
+import 'landing_mobile_page.dart';
 
-class EspressoMobileView extends StatelessWidget {
-  const EspressoMobileView({
+class InstructionsMobilePage extends StatelessWidget {
+  const InstructionsMobilePage({
     super.key,
     required this.actionLink,
     required this.header,

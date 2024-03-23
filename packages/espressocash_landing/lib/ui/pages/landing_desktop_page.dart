@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../../../../ui/back_button.dart';
-import '../ui/colors.dart';
-import '../ui/footer.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../back_button.dart';
+import '../colors.dart';
+import '../footer.dart';
 
 class LandingDesktopPage extends StatelessWidget {
   const LandingDesktopPage({

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../ui/colors.dart';
-import '../ui/footer.dart';
+import '../../../../../gen/assets.gen.dart';
+import '../colors.dart';
+import '../footer.dart';
 
 class LandingMobilePage extends StatelessWidget {
   const LandingMobilePage({

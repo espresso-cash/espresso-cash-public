@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/l10n.dart';
-import '../core/extensions.dart';
-import '../ui/colors.dart';
-import '../ui/qr_code.dart';
-import '../ui/step_circle.dart';
-import 'landing_desktop.dart';
+import '../../utils/extensions.dart';
+import '../colors.dart';
+import '../qr_code.dart';
+import '../step_circle.dart';
+import 'landing_desktop_page.dart';
 
-class EspressoDesktopView extends StatelessWidget {
-  const EspressoDesktopView({
+class InstructionsDesktopPage extends StatelessWidget {
+  const InstructionsDesktopPage({
     super.key,
     required this.actionLink,
     required this.title,
@@ -171,12 +171,12 @@ class _AppStoreWidget extends StatelessWidget {
         children: [
           InkWell(
             onTap: context.launchPlayStore,
-            child: Assets.landing.playstore.image(height: 64),
+            child: Assets.images.playstore.image(height: 64),
           ),
           const SizedBox(height: 16),
           InkWell(
             onTap: context.launchAppStore,
-            child: Assets.landing.appstore.image(height: 64),
+            child: Assets.images.appstore.image(height: 64),
           ),
         ],
       );

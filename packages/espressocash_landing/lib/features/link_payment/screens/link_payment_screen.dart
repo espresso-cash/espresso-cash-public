@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/link_payments.dart';
-import '../../../l10n/l10n.dart';
-import '../../core/espresso_desktop.dart';
-import '../../core/espresso_mobile.dart';
-import '../../core/extensions.dart';
+import '../../../../l10n/l10n.dart';
+import '../../../ui/pages/instructions_desktop_page.dart';
+import '../../../ui/pages/instructions_mobile_page.dart';
+import '../../../utils/extensions.dart';
+import '../models/link_payments.dart';
 
 class LinkPaymentScreen extends StatelessWidget {
   const LinkPaymentScreen(this.linkPayment, {super.key});
@@ -17,7 +17,7 @@ class LinkPaymentScreen extends StatelessWidget {
     final title = context.l10n.landingLinkPaymentTitle;
 
     return isMobile
-        ? EspressoMobileView(
+        ? InstructionsMobilePage(
             actionLink: actionLink,
             header: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -48,7 +48,7 @@ class LinkPaymentScreen extends StatelessWidget {
             ),
             actionButtonText: context.l10n.landingReceiveMoney,
           )
-        : EspressoDesktopView(
+        : InstructionsDesktopPage(
             actionLink: actionLink,
             title: title,
             subtitle: context.l10n.landingInstruction,
