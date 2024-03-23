@@ -12,7 +12,6 @@ import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../conversion_rates/module.dart';
 import '../../incoming_link_payments/module.dart';
 import '../../mobile_wallet/module.dart';
-import '../../onboarding/module.dart';
 import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_link_payments/module.dart';
 import '../../payment_request/module.dart';
@@ -62,7 +61,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 const OLPModule(),
                 const ActivitiesModule(),
                 const MobileWalletModule(),
-                const OnboardingModule(),
               ],
               child: MultiProvider(
                 providers: const [

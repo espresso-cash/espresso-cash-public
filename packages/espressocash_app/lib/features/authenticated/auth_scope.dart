@@ -5,8 +5,9 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../accounts/data/account_repository.dart';
+import '../accounts/models/account.dart';
 import '../accounts/models/ec_wallet.dart';
+import '../accounts/services/account_service.dart';
 
 const authScope = 'auth';
 
@@ -15,12 +16,11 @@ abstract class AuthModule {
   const AuthModule();
 
   @Singleton(scope: authScope)
-  Future<ECWallet> wallet(AccountRepository repository) async {
-    final account = await repository.loadAccount();
+  // ignore: avoid-non-null-assertion, shouldn't be null
+  MyAccount account(AccountService service) => service.value!;
 
-    // ignore: avoid-non-null-assertion, shouldn't be null
-    return account!.wallet;
-  }
+  @Singleton(scope: authScope)
+  ECWallet wallet(MyAccount account) => account.wallet;
 
   @LazySingleton(scope: authScope)
   EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(

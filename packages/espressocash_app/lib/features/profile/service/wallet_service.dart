@@ -17,7 +17,7 @@ class WalletService {
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
 
-  @PostConstruct(preResolve: true)
+  @PostConstruct()
   void init() {
     final wasSynced = _sharedPreferences.getBool(_countrySyncedKey) ?? false;
     if (wasSynced) return;
