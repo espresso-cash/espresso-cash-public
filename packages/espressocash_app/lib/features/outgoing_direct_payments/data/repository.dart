@@ -68,6 +68,10 @@ class ODPRepository {
     await _db.into(_db.oDPRows).insertOnConflictUpdate(payment.toDto());
   }
 
+  Future<void> delete(String id) async {
+    await (_db.delete(_db.oDPRows)..where((p) => p.id.equals(id))).go();
+  }
+
   Future<void> clear() => _db.delete(_db.oDPRows).go();
 }
 

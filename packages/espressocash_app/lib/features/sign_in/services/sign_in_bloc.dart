@@ -73,21 +73,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
 
-      final myAccount = MyAccount(
-        wallet: wallet,
-        accessMode: accessMode,
-      );
-      emit(
-        state.copyWith(
-          processingState: Flow.success(
-            SignInResult(
-              account: myAccount,
-              hasFinishedOnboarding:
-                  accessMode == const AccessMode.seedInputted(),
-            ),
-          ),
-        ),
-      );
+      final myAccount = MyAccount(wallet: wallet, accessMode: accessMode);
+      emit(state.copyWith(processingState: Flow.success(myAccount)));
     } on Exception catch (error) {
       emit(state.toGenericException(error));
     }
@@ -102,16 +89,8 @@ bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
 class SignInState with _$SignInState {
   const factory SignInState({
     @Default(AccountSource.local(Mnemonic.empty())) AccountSource source,
-    required Flow<SignInException, SignInResult> processingState,
+    required Flow<SignInException, MyAccount> processingState,
   }) = _SignInState;
-}
-
-@freezed
-class SignInResult with _$SignInResult {
-  const factory SignInResult({
-    required MyAccount account,
-    required bool hasFinishedOnboarding,
-  }) = _SignInResult;
 }
 
 @freezed

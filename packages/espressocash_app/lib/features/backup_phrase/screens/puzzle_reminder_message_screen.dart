@@ -5,8 +5,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../authenticated/screens/main_screen.dart';
-import '../../onboarding/screens/onboarding_screen.dart';
+import '../../onboarding/screens/profile_screen.dart';
 import '../widgets/puzzle_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
@@ -41,8 +40,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 size: CpButtonSize.big,
                 minWidth: 300,
                 onPressed: () =>
-                    OnboardingRoute(finishPath: const HomeRoute().location)
-                        .push<void>(context),
+                    const OnboardingProfileRoute().push<void>(context),
               ),
               const SizedBox(height: 8),
               TextButton(
