@@ -19,11 +19,11 @@ void main() {
 
   configureDependencies();
 
-  runApp(const LandingPageApp());
+  runApp(const EspressoCashLandingApp());
 }
 
-class LandingPageApp extends StatelessWidget {
-  const LandingPageApp({super.key});
+class EspressoCashLandingApp extends StatelessWidget {
+  const EspressoCashLandingApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
