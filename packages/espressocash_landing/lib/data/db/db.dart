@@ -17,6 +17,9 @@ class LandingDatabase extends _$LandingDatabase {
   @factoryMethod
   LandingDatabase() : super(openConnection());
 
+  LandingDatabase.connect(DatabaseConnection connection)
+      : super(connection.executor);
+
   @override
   int get schemaVersion => latestVersion;
 }
