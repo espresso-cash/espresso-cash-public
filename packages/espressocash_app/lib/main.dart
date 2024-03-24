@@ -43,7 +43,6 @@ Future<void> _init() async {
   await Firebase.initializeApp();
 
   await configureDependencies();
-  await sl<AccountService>().initialize();
 
   Bloc.observer = Observer();
 
@@ -55,6 +54,8 @@ Future<void> _init() async {
     await const FlutterSecureStorage().deleteAll();
   }
   await sharedPreferences.setBool(_firstRunKey, true);
+
+  await sl<AccountService>().initialize();
 }
 
 Future<void> _start() async {
