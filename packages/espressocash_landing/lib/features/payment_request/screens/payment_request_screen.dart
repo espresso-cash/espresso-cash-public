@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../core/extensions.dart';
 import '../../../ui/pages/instructions_desktop_page.dart';
 import '../../../ui/pages/instructions_mobile_page.dart';
 import '../../../utils/extensions.dart';

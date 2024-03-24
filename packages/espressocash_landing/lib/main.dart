@@ -5,11 +5,8 @@ import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-import '../core/link_payments.dart';
-import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'di.dart';
-import 'features/link_payment/link_payment_screen.dart';
 import 'features/link_payment/models/link_payments.dart';
 import 'features/link_payment/screens/link_payment_screen.dart';
 import 'features/payment_request/screens/request_screen.dart';

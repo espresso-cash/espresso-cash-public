@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../l10n/l10n.dart';
-import '../../../core/extensions.dart';
-import '../../../core/presentation/espresso_desktop.dart';
-import '../../../core/presentation/espresso_mobile.dart';
+import '../../../ui/pages/instructions_desktop_page.dart';
+import '../../../ui/pages/instructions_mobile_page.dart';
+import '../../../utils/extensions.dart';
 import '../widgets/extensions.dart';
 
 class EspressoRequestScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class EspressoRequestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => isMobile
-      ? EspressoMobileView(
+      ? InstructionsMobilePage(
           actionLink: Uri.parse(request.toUrl()),
           header: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -57,7 +57,7 @@ class EspressoRequestScreen extends StatelessWidget {
           ),
           actionButtonText: 'Pay',
         )
-      : EspressoDesktopView(
+      : InstructionsDesktopPage(
           actionLink: Uri.parse(request.toUrl()),
           title: request.headerTitle,
           subtitle: context.l10n.instruction,
