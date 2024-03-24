@@ -2,7 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-import '../amount.dart';
+import '../core/amount.dart';
 
 extension FormatAmountExt on Amount {
   String format(

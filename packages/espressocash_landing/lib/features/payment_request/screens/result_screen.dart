@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../core/presentation/format_amount.dart';
+
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
@@ -9,6 +9,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/desktop_page.dart';
 import '../../../ui/footer.dart';
 import '../../../utils/extensions.dart';
+import '../../../utils/format_amount.dart';
 import '../service/order_service.dart';
 import '../widgets/invoice.dart';
 
