@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 
 import 'open_connection.dart';
 
-part 'db_landing.g.dart';
+part 'db.g.dart';
 
 const _tables = [
   IncomingDlnPaymentRows,

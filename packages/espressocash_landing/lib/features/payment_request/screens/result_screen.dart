@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../data/db_landing.dart';
+import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/desktop_page.dart';

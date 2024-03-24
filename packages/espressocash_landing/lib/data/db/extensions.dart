@@ -1,5 +1,5 @@
 import '../../features/blockchain/models/blockchain.dart';
-import 'db_landing.dart';
+import 'db.dart';
 
 extension BlockchainExt on Blockchain {
   BlockchainDto toDto() => switch (this) {

@@ -9,8 +9,8 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
-import '../../../data/db_landing.dart';
-import '../../../data/extensions.dart';
+import '../../../data/db/db.dart';
+import '../../../data/db/extensions.dart';
 import '../models/request_model.dart';
 
 typedef PaymentOrder = ({
