@@ -10,8 +10,11 @@ import '../core/solana_helpers.dart';
 import '../l10n/gen/app_localizations.dart';
 import 'di.dart';
 import 'features/link_payment/link_payment_screen.dart';
+import 'features/link_payment/models/link_payments.dart';
+import 'features/link_payment/screens/link_payment_screen.dart';
 import 'features/payment_request/screens/request_screen.dart';
 import 'ui/colors.dart';
+import 'utils/solana_helpers.dart';
 
 void main() {
   setUrlStrategy(PathUrlStrategy());

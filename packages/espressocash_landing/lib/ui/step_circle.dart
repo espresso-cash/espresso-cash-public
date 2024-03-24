@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/extensions.dart';
+import '../utils/extensions.dart';
 
 class StepCircle extends StatelessWidget {
   const StepCircle(this.number, {super.key});

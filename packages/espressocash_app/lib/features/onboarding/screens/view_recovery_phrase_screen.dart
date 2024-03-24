@@ -1,25 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
-import '../../../ui/app_bar.dart';
-import '../../../ui/onboarding_screen.dart';
+import '../../../ui/button.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
-import '../../../ui/theme.dart';
 import '../../accounts/data/account_repository.dart';
-import 'confirm_recovery_phrase_screen.dart';
+import '../data/onboarding_repository.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
   const ViewRecoveryPhraseScreen({
     super.key,
     required this.onConfirmed,
-    this.buttonLabel,
   });
 
-  final ValueSetter<String> onConfirmed;
-  final String? buttonLabel;
+  final VoidCallback onConfirmed;
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>
@@ -39,38 +36,56 @@ class _ViewRecoveryPhraseScreenState extends State<ViewRecoveryPhraseScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          body: OnboardingScreen(
-            footer: OnboardingFooterButton(
-              text: widget.buttonLabel ?? context.l10n.next,
-              onPressed: () => widget.onConfirmed(_phrase),
-            ),
-            children: [
-              const CpAppBar(),
-              const OnboardingLogo(),
-              OnboardingTitle(text: context.l10n.yourRecoveryPhrase),
-              OnboardingDescription(text: context.l10n.yourRecoveryPhraseSub),
-              OnboardingPadding(
-                child: RecoveryPhraseTextView(phrase: _phrase),
-              ),
-            ],
-          ),
+  void _handleConfirmPress() => showConfirmationDialog(
+        context,
+        title: context.l10n.onboardingPhraseConfirmTitle,
+        titleStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
         ),
+        message: context.l10n.onboardingPhraseConfirmSubtitle,
+        messageStyle: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+        onConfirm: () {
+          sl<OnboardingRepository>().hasConfirmedPassphrase = true;
+          widget.onConfirmed();
+        },
       );
-}
-
-class OnboardingRecoveryPhraseRoute extends GoRouteData {
-  const OnboardingRecoveryPhraseRoute({required this.finishPath});
-
-  final String finishPath;
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ViewRecoveryPhraseScreen(
-        onConfirmed: (phrase) =>
-            OnboardingConfirmRecoveryPhraseRoute(phrase, finishPath: finishPath)
-                .push<void>(context),
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: const SizedBox(),
+        header: FormPageHeader(
+          title: Text(
+            context.l10n.onboardingPhraseTitle,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          description: Text(
+            context.l10n.onboardingPhraseSubtitle,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+          ),
+          icon: Assets.images.securityGraphic,
+        ),
+        child: Column(
+          children: [
+            RecoveryPhraseTextView(phrase: _phrase),
+            const Spacer(),
+            CpButton(
+              text: context.l10n.onboardingPhraseConfirmBtn,
+              width: double.infinity,
+              size: CpButtonSize.big,
+              onPressed: _handleConfirmPress,
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
       );
 }

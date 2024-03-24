@@ -181,6 +181,11 @@ class MemoryRepository implements ODPRepository {
   }
 
   @override
+  Future<void> delete(String id) async {
+    _data.add(_data.value.remove(id));
+  }
+
+  @override
   Stream<OutgoingDirectPayment> watch(String id) =>
       // ignore: avoid-non-null-assertion, should fail if not existent
       _data.stream.map((it) => it[id]!);

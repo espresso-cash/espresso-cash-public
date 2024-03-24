@@ -1,11 +1,11 @@
 name: espressocash_landing
 description: Espresso Cash Landing pages
-publish_to: 'none' 
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.6 <4.0.0'
+  sdk: ">=3.2.0 <4.0.0"
 
 dependencies:
   barcode_widget: ^2.0.4
@@ -57,35 +57,35 @@ flutter:
     - assets/icons/
 
   fonts:
-  - family: RobotoApp
-    fonts:
-      - asset: assets/fonts/Roboto-Thin.ttf
-        weight: 100
-      - asset: assets/fonts/Roboto-ThinItalic.ttf
-        style: italic
-        weight: 100
-      - asset: assets/fonts/Roboto-Light.ttf
-        weight: 300
-      - asset: assets/fonts/Roboto-LightItalic.ttf
-        style: italic
-        weight: 300
-      - asset: assets/fonts/Roboto-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/Roboto-Italic.ttf
-        style: italic
-        weight: 400
-      - asset: assets/fonts/Roboto-Medium.ttf
-        weight: 500
-      - asset: assets/fonts/Roboto-MediumItalic.ttf
-        style: italic
-        weight: 500
-      - asset: assets/fonts/Roboto-Bold.ttf
-        weight: 700
-      - asset: assets/fonts/Roboto-BoldItalic.ttf
-        style: italic
-        weight: 700
-      - asset: assets/fonts/Roboto-Black.ttf
-        weight: 900
-      - asset: assets/fonts/Roboto-BlackItalic.ttf
-        style: italic
-        weight: 900
+    - family: RobotoApp
+      fonts:
+        - asset: assets/fonts/Roboto-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Roboto-ThinItalic.ttf
+          style: italic
+          weight: 100
+        - asset: assets/fonts/Roboto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Roboto-LightItalic.ttf
+          style: italic
+          weight: 300
+        - asset: assets/fonts/Roboto-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Roboto-Italic.ttf
+          style: italic
+          weight: 400
+        - asset: assets/fonts/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Roboto-MediumItalic.ttf
+          style: italic
+          weight: 500
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Roboto-BoldItalic.ttf
+          style: italic
+          weight: 700
+        - asset: assets/fonts/Roboto-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Roboto-BlackItalic.ttf
+          style: italic
+          weight: 900

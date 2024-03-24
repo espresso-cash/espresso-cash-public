@@ -548,7 +548,7 @@ packages:
     description:
       path: "packages/jupiter_aggregator"
       ref: HEAD
-      resolved-ref: "3b8ea69bb729152f57ba09e919b300f281be8c0c"
+      resolved-ref: c8897a79f01059a95dfbde0ed10023f49a371d99
       url: "https://github.com/espresso-cash/espresso-cash-public.git"
     source: git
     version: "0.0.4"
@@ -1053,5 +1053,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.2.6 <4.0.0"
+  dart: ">=3.2.3 <4.0.0"
   flutter: ">=3.16.6"

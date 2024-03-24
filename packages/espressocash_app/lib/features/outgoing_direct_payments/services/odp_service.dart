@@ -86,6 +86,13 @@ class ODPService {
     _subscribe(newPayment.id);
   }
 
+  Future<void> cancel(String paymentId) async {
+    final payment = await _repository.load(paymentId);
+    if (payment == null || !payment.isRetriable) return;
+
+    await _repository.delete(paymentId);
+  }
+
   Future<ODPStatus> _createTx({
     required CryptoAmount amount,
     required ECWallet account,
