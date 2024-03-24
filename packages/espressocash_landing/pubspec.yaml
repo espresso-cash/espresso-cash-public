@@ -1,0 +1,91 @@
+name: espressocash_landing
+description: Espresso Cash Landing pages
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  barcode_widget: ^2.0.4
+  decimal: ^2.3.3
+  dfunc: ^0.9.0
+  drift: ^2.14.1
+  espressocash_api:
+    path: ../espressocash_api/
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.3
+  flutter_localizations:
+    sdk: flutter
+  flutter_svg: ^2.0.9
+  flutter_web_plugins:
+    sdk: flutter
+  freezed_annotation: ^2.4.1
+  get_it: ^7.6.4
+  injectable: ^2.3.2
+  intl: ^0.18.1
+  js: ^0.6.7
+  json_annotation: ^4.8.1
+  meta: ^1.10.0
+  rxdart: ^0.27.7
+  solana:
+    path: ../solana/
+  url_launcher: ^6.2.2
+  uuid: ^4.2.2
+  webthree: ^2.7.4
+
+dev_dependencies:
+  build_runner: ^2.4.7
+  drift_dev: ^2.14.1
+  flutter_gen_runner: ^5.3.2
+  freezed: ^2.4.6
+  injectable_generator: ^2.4.1
+  json_serializable: ^6.7.1
+  mews_pedantic: ^0.25.0
+
+flutter_gen:
+  integrations:
+    flutter_svg: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+
+  fonts:
+  - family: RobotoApp
+    fonts:
+      - asset: assets/fonts/Roboto-Thin.ttf
+        weight: 100
+      - asset: assets/fonts/Roboto-ThinItalic.ttf
+        style: italic
+        weight: 100
+      - asset: assets/fonts/Roboto-Light.ttf
+        weight: 300
+      - asset: assets/fonts/Roboto-LightItalic.ttf
+        style: italic
+        weight: 300
+      - asset: assets/fonts/Roboto-Regular.ttf
+        weight: 400
+      - asset: assets/fonts/Roboto-Italic.ttf
+        style: italic
+        weight: 400
+      - asset: assets/fonts/Roboto-Medium.ttf
+        weight: 500
+      - asset: assets/fonts/Roboto-MediumItalic.ttf
+        style: italic
+        weight: 500
+      - asset: assets/fonts/Roboto-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Roboto-BoldItalic.ttf
+        style: italic
+        weight: 700
+      - asset: assets/fonts/Roboto-Black.ttf
+        weight: 900
+      - asset: assets/fonts/Roboto-BlackItalic.ttf
+        style: italic
+        weight: 900
