@@ -5,6 +5,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../core/link_payments.dart';
+import '../../../core/solana_helpers.dart';
 import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
@@ -28,9 +29,15 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.address(address);
     }
 
-    final request = SolanaPayRequest.tryParse(code);
-    if (request != null) {
-      return QrScannerRequest.solanaPay(request);
+    final solanaPayRequest = SolanaPayRequest.tryParse(code);
+    if (solanaPayRequest != null) {
+      return QrScannerRequest.solanaPay(solanaPayRequest);
+    }
+
+    final espressocashRequest =
+        Uri.tryParse(code)?.let(tryParseSolanaPayRequest);
+    if (espressocashRequest != null) {
+      return QrScannerRequest.solanaPay(espressocashRequest);
     }
 
     final payment = Uri.tryParse(code)?.let(LinkPayments.tryParse);
