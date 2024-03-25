@@ -4,86 +4,55 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-
 import '../../../core/currency.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import 'conversion_rates_client.dart';
 
 @lazySingleton
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
     required ConversionRatesClient coingeckoClient,
-  })  : _maxCoingeckoIds = 30,
-        _coingeckoClient = coingeckoClient;
+  }) : _coingeckoClient = coingeckoClient;
 
   @visibleForTesting
   ConversionRatesRepository.test({
     required ConversionRatesClient coingeckoClient,
-    required int maxCoingeckoIds,
-  })  : _maxCoingeckoIds = maxCoingeckoIds,
-        _coingeckoClient = coingeckoClient;
+  }) : _coingeckoClient = coingeckoClient;
 
-  final BehaviorSubject<IMap<FiatCurrency, IMap<CryptoCurrency, Decimal>>>
-      _value = BehaviorSubject.seeded(const IMapConst({}));
+  final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
+      BehaviorSubject.seeded(const IMapConst({}));
 
-  final int _maxCoingeckoIds;
   final ConversionRatesClient _coingeckoClient;
 
-  Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
-      _value.value[to]?[crypto];
+  Decimal? readRate({required FiatCurrency to}) => _value.value[to];
 
-  Stream<Decimal?> watchRate(
-    CryptoCurrency crypto, {
+  Stream<Decimal?> watchRate({
     required FiatCurrency to,
   }) =>
-      _value.map((v) => v[to]?[crypto]).distinct();
+      _value.map((v) => v[to]).distinct();
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
-      tryEitherAsync((_) async {
+  AsyncResult<void> refresh(FiatCurrency currency) => tryEitherAsync((_) async {
         if (currency != Currency.usd) throw UnimplementedError();
 
-        final ids = await Stream.fromIterable(tokens.coingeckoIds)
-            .bufferCount(_maxCoingeckoIds)
-            .toList();
+        // ignore:  avoid-non-null-assertion, we know its not null
+        final usdcId = Token.usdc.coingeckoId!;
 
-        final results = await Future.wait(
-          ids.map((ids) async {
-            final request = RateRequestDto(
-              vsCurrencies: [currency.symbol].lock,
-              ids: ids.lock,
-            );
-
-            return _coingeckoClient.getPrice(request);
-          }),
+        final request = RateRequestDto(
+          vsCurrencies: [currency.symbol].lock,
+          ids: [usdcId].lock,
         );
 
-        final Map<String, PricesMapDto> conversionRates = {};
-        results.forEach(conversionRates.addAll);
+        final data =
+            await _coingeckoClient.getPrice(request).letAsync((p) => p[usdcId]);
 
-        final previous = _value.value[currency] ?? const IMapConst({});
+        if (data == null) return;
 
-        final newValue = _value.value.add(
+        final value = _value.value.add(
           currency,
-          previous.addAll(
-            conversionRates.keys.fold<IMap<CryptoCurrency, Decimal>>(
-                const IMapConst({}), (map, value) {
-              final data = conversionRates[value];
-
-              if (data == null) return map;
-              final rate = currency == Currency.usd ? data.usd : data.eur;
-              if (rate == null) return map;
-
-              return map.add(
-                CryptoCurrency(
-                  token: tokens.firstWhere((t) => t.coingeckoId == value),
-                ),
-                Decimal.parse(rate.toString()),
-              );
-            }),
-          ),
+          data.to(currency),
         );
-        _value.add(newValue);
+
+        _value.add(value);
         notifyListeners();
       });
 }

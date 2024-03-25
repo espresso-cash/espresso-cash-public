@@ -27,7 +27,7 @@ class BalancesRepository extends ChangeNotifier {
 
   CryptoAmount read() => _usdcBalance.value;
 
-  Stream<CryptoAmount> watch() => _usdcBalance.stream;
+  (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
   void dispose() {

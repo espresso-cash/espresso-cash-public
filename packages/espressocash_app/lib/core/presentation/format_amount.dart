@@ -12,10 +12,8 @@ extension FormatAmountWithFiatExt on CryptoAmount {
     const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
-    final conversionRate = context.watchConversionRate(
-      from: cryptoCurrency.token,
-      to: fiat,
-    );
+    final conversionRate = context.watchConversionRate(to: fiat);
+
     if (conversionRate == null) return formattedAmount;
 
     final converted = convert(rate: conversionRate, to: Currency.usd);

@@ -68,7 +68,7 @@ class _Buttons extends StatelessWidget {
         child: ValueStreamBuilder<bool>(
           create: () => (
             sl<WatchUserFiatBalance>()
-                .call(Token.usdc)
+                .call()
                 .$1
                 .map((event) => event ?? Amount.zero(currency: Currency.usd))
                 .map((event) => event.isZero),
@@ -173,7 +173,7 @@ class _Amount extends StatelessWidget {
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
         create: () => (
           sl<WatchUserFiatBalance>()
-              .call(Token.usdc)
+              .call()
               .$1
               .map((event) => event ?? Amount.zero(currency: Currency.usd)),
           Amount.zero(currency: Currency.usd),
