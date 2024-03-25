@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../core/currency.dart';
 import '../../di.dart';
-import '../balances/data/balances_repository.dart';
 import 'data/repository.dart';
 import 'services/conversion_rates_bloc.dart';
 
@@ -21,9 +20,8 @@ class ConversionRatesModule extends SingleChildStatelessWidget {
           BlocProvider(
             create: (context) => sl<ConversionRatesBloc>()
               ..add(
-                ConversionRatesEvent.init(
-                  userTokens: sl<BalancesRepository>().watchUserTokens(),
-                  userCurrency: defaultFiatCurrency,
+                const ConversionRatesEvent.refreshRequested(
+                  currency: defaultFiatCurrency,
                 ),
               ),
           ),

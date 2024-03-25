@@ -1,20 +1,35 @@
-import 'dart:async';
-
-import 'package:solana/dto.dart' hide Instruction;
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../config.dart';
+import '../features/tokens/token.dart';
+import 'amount.dart';
+import 'currency.dart';
 
 extension SolanaClientExt on SolanaClient {
-  Future<Iterable<ProgramAccount>> getSplAccounts(String address) => rpcClient
-      .getTokenAccountsByOwner(
-        address,
-        const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-        commitment: Commitment.confirmed,
-        encoding: Encoding.jsonParsed,
-      )
-      .value;
+  Future<CryptoAmount?> getUsdcBalance(String address) async {
+    try {
+      final usdcTokenAccount = await findAssociatedTokenAddress(
+        owner: Ed25519HDPublicKey.fromBase58(address),
+        mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
+      );
+
+      final balance = await rpcClient
+          .getTokenAccountBalance(
+            usdcTokenAccount.toBase58(),
+            commitment: Commitment.confirmed,
+          )
+          .value;
+
+      return CryptoAmount(
+        value: int.parse(balance.amount),
+        cryptoCurrency: Currency.usdc,
+      );
+    } on Exception {
+      return null;
+    }
+  }
 }
 
 SolanaPayRequest? tryParseSolanaPayRequest(Uri link) {

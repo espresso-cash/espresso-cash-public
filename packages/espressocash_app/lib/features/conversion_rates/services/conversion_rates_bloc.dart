@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -27,19 +26,10 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
     required ConversionRatesRepository repository,
   })  : _repository = repository,
         super(const ProcessingStateNone()) {
-    on<Init>(_onInit);
     on<RefreshRequested>(_onRefreshRequested, transformer: restartable());
   }
 
   final ConversionRatesRepository _repository;
-  StreamSubscription<void>? _userTokensSubscription;
-
-  void _onInit(Init event, Emitter<_State> emit) {
-    _userTokensSubscription?.cancel();
-    _userTokensSubscription = event.userTokens.distinct().listen((userTokens) {
-      add(RefreshRequested(currency: event.userCurrency, tokens: userTokens));
-    });
-  }
 
   Future<void> _onRefreshRequested(
     RefreshRequested event,
@@ -47,7 +37,7 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
   ) async {
     emit(const ProcessingState.processing());
 
-    await _repository.refresh(event.currency, event.tokens).doOnLeftAsync(
+    await _repository.refresh(event.currency, [Token.usdc]).doOnLeftAsync(
       (exception) {
         _logger.severe('Failed to fetch conversion rates', exception);
         const e = ConversionRatesRequestException();
@@ -55,13 +45,6 @@ class ConversionRatesBloc extends Bloc<_Event, _State> {
       },
     );
     emit(const ProcessingState.none());
-  }
-
-  @override
-  Future<void> close() {
-    _userTokensSubscription?.cancel();
-
-    return super.close();
   }
 }
 
@@ -71,13 +54,7 @@ class ConversionRatesRequestException implements Exception {
 
 @freezed
 sealed class ConversionRatesEvent with _$ConversionRatesEvent {
-  const factory ConversionRatesEvent.init({
-    required Stream<ISet<Token>> userTokens,
-    required FiatCurrency userCurrency,
-  }) = Init;
-
   const factory ConversionRatesEvent.refreshRequested({
     required FiatCurrency currency,
-    required Iterable<Token> tokens,
   }) = RefreshRequested;
 }

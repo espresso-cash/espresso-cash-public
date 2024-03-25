@@ -23,7 +23,7 @@ class WatchUserFiatBalance {
     final conversionRate = _conversionRatesRepository
         .watchRate(CryptoCurrency(token: token), to: fiatCurrency);
 
-    final balance = _balancesRepository.watch(token);
+    final balance = _balancesRepository.watch();
 
     return (
       Rx.combineLatest2(

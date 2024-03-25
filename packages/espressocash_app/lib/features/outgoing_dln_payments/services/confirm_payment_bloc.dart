@@ -9,7 +9,6 @@ import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
 import '../../balances/data/balances_repository.dart';
-import '../../tokens/token.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -26,8 +25,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     required QuoteRepository quoteRepository,
     required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
-        _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
-            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+        _usdcBalance = balancesRepository.read(),
         super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
