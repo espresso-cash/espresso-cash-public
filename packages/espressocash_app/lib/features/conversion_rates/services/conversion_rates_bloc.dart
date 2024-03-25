@@ -9,7 +9,6 @@ import 'package:logging/logging.dart';
 
 import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
-import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 part 'conversion_rates_bloc.freezed.dart';

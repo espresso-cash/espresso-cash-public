@@ -14,11 +14,6 @@ class ConversionRatesRepository extends ChangeNotifier {
     required ConversionRatesClient coingeckoClient,
   }) : _coingeckoClient = coingeckoClient;
 
-  @visibleForTesting
-  ConversionRatesRepository.test({
-    required ConversionRatesClient coingeckoClient,
-  }) : _coingeckoClient = coingeckoClient;
-
   final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
       BehaviorSubject.seeded(const IMapConst({}));
 
