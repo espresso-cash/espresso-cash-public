@@ -25,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 48;
+const int latestVersion = 49;
 
 const _tables = [
   OutgoingTransferRows,
@@ -37,6 +37,7 @@ const _tables = [
   OnRampOrderRows,
   OffRampOrderRows,
   OutgoingDlnPaymentRows,
+  UsdcCacheRows,
 ];
 
 @lazySingleton
@@ -100,6 +101,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 40 && from < 48) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
             await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
+          }
+          if (from < 49) {
+            await m.createTable(usdcCacheRows);
           }
         },
       );
@@ -190,4 +194,17 @@ enum ODLNPaymentStatusDto {
   txFailure,
   fulfilled,
   unfulfilled,
+}
+
+class UsdcCacheRows extends Table {
+  const UsdcCacheRows();
+
+  TextColumn get id => text()();
+  IntColumn get balance => integer().nullable()();
+  RealColumn get rate => real().nullable()();
+  TextColumn get currency => text().nullable()();
+  DateTimeColumn get timestamp => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
 }

@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../core/currency.dart';
+import '../../authenticated/auth_scope.dart';
+import '../../balances/data/balance_cache.dart';
 import '../../tokens/token.dart';
 import 'conversion_rates_client.dart';
 
-@lazySingleton
+@Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
-  ConversionRatesRepository({
+  ConversionRatesRepository(
+    this._cache, {
     required ConversionRatesClient coingeckoClient,
   }) : _coingeckoClient = coingeckoClient;
 
@@ -18,6 +21,23 @@ class ConversionRatesRepository extends ChangeNotifier {
       BehaviorSubject.seeded(const IMapConst({}));
 
   final ConversionRatesClient _coingeckoClient;
+  final BalanceCache _cache;
+
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    final rate = await _cache.fetchRate();
+
+    if (rate == null) return;
+
+    if (rate.$2 != Currency.usd) return;
+
+    _value.add(
+      IMapConst({
+        rate.$2:
+            rate.$1.let((s) => Decimal.tryParse(s.toString()) ?? Decimal.zero),
+      }),
+    );
+  }
 
   Decimal? readRate({required FiatCurrency to}) => _value.value[to];
 
@@ -48,6 +68,12 @@ class ConversionRatesRepository extends ChangeNotifier {
         );
 
         _value.add(value);
+
         notifyListeners();
+
+        await _cache.saveRate(
+          rate: data.usd ?? 0,
+          currency: currency,
+        );
       });
 }
