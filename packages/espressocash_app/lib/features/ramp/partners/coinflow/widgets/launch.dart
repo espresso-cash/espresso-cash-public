@@ -138,9 +138,9 @@ extension BuildContextExt on BuildContext {
         try {
           final client = sl<CoinflowClient>();
 
-          await client.getWithdrawer(address);
+          final response = await client.getWithdrawer(address);
 
-          return const Either.right(true);
+          return Either.right(response.withdrawer.hasLinkedAccounts);
         } on DioException catch (exception) {
           if (exception.response?.statusCode == 401 ||
               exception.response?.statusCode == 412) {

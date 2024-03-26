@@ -25,7 +25,7 @@ abstract class CoinflowClient {
 
   @GET('/withdraw')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<HttpResponse<void>> getWithdrawer(
+  Future<WithdrawerResponseDto> getWithdrawer(
     @Header('x-coinflow-auth-wallet') String walletId,
   );
 }
@@ -51,6 +51,35 @@ class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
 
   factory WithdrawHistoryResponseDataDto.fromJson(Map<String, dynamic> data) =>
       _$WithdrawHistoryResponseDataDtoFromJson(data);
+}
+
+@freezed
+class WithdrawerResponseDto with _$WithdrawerResponseDto {
+  const factory WithdrawerResponseDto({
+    required WithdrawerDto withdrawer,
+  }) = _WithdrawerResponseDto;
+  factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawerResponseDtoFromJson(data);
+}
+
+@freezed
+class WithdrawerDto with _$WithdrawerDto {
+  const factory WithdrawerDto({
+    required bool isBlocked,
+    required String currency,
+    String? email,
+    @Default([]) List<dynamic> bankAccounts,
+    @Default([]) List<dynamic> cards,
+    @Default([]) List<dynamic> ibans,
+  }) = _WithdrawerDto;
+
+  const WithdrawerDto._();
+
+  factory WithdrawerDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawerDtoFromJson(data);
+
+  bool get hasLinkedAccounts =>
+      bankAccounts.isNotEmpty || cards.isNotEmpty || ibans.isNotEmpty;
 }
 
 @JsonEnum()
