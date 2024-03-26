@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../core/currency.dart';
 import '../../authenticated/auth_scope.dart';
-import '../../balances/data/balance_cache.dart';
+import '../../balances/data/balance_cache_repository.dart';
 import '../../tokens/token.dart';
 import 'conversion_rates_client.dart';
 
@@ -21,11 +21,11 @@ class ConversionRatesRepository extends ChangeNotifier {
       BehaviorSubject.seeded(const IMapConst({}));
 
   final ConversionRatesClient _coingeckoClient;
-  final BalanceCache _cache;
+  final BalanceCacheRepository _cache;
 
-  @PostConstruct(preResolve: true)
-  Future<void> init() async {
-    final rate = await _cache.fetchRate();
+  @PostConstruct()
+  void init() {
+    final rate = _cache.fetchRate();
 
     if (rate == null) return;
 
@@ -71,7 +71,7 @@ class ConversionRatesRepository extends ChangeNotifier {
 
         notifyListeners();
 
-        await _cache.saveRate(
+        _cache.saveRate(
           rate: data.usd ?? 0,
           currency: currency,
         );

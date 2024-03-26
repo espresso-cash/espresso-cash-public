@@ -4,7 +4,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../core/amount.dart';
 import '../../../core/currency.dart';
-import '../../balances/data/balances_repository.dart';
+import '../../balances/data/balance_repository.dart';
 
 import '../data/repository.dart';
 
@@ -16,7 +16,7 @@ class WatchUserFiatBalance {
   );
 
   final ConversionRatesRepository _conversionRatesRepository;
-  final BalancesRepository _balancesRepository;
+  final BalanceRepository _balancesRepository;
 
   (Stream<FiatAmount?>, FiatAmount?) call() {
     const fiatCurrency = defaultFiatCurrency;

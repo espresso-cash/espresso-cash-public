@@ -8,7 +8,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../core/amount.dart';
 import '../../../../core/currency.dart';
 import '../../../../core/flow.dart';
-import '../../balances/data/balances_repository.dart';
+import '../../balances/data/balance_repository.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -23,7 +23,7 @@ typedef _Emitter = Emitter<_State>;
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     required QuoteRepository quoteRepository,
-    required BalancesRepository balancesRepository,
+    required BalanceRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
         _usdcBalance = balancesRepository.read(),
         super(ConfirmPaymentState(flowState: const Flow.initial())) {

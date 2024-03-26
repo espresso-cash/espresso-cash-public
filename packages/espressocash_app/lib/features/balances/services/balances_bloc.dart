@@ -11,7 +11,7 @@ import '../../../core/disposable_bloc.dart';
 import '../../../core/processing_state.dart';
 import '../../../core/solana_helpers.dart';
 import '../../authenticated/auth_scope.dart';
-import '../data/balances_repository.dart';
+import '../data/balance_repository.dart';
 
 part 'balances_bloc.freezed.dart';
 
@@ -29,7 +29,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   }
 
   final SolanaClient _solanaClient;
-  final BalancesRepository _repository;
+  final BalanceRepository _repository;
 
   Future<void> _handleRequested(
     BalancesEventRequested event,

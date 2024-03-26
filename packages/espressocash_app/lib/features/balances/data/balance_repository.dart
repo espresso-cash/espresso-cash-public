@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,17 +8,17 @@ import '../../../core/amount.dart';
 import '../../../core/currency.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../tokens/token.dart';
-import 'balance_cache.dart';
+import 'balance_cache_repository.dart';
 
 @Singleton(scope: authScope)
-class BalancesRepository extends ChangeNotifier implements Disposable {
-  BalancesRepository(this._cache);
+class BalanceRepository extends ChangeNotifier {
+  BalanceRepository(this._cache);
 
-  final BalanceCache _cache;
+  final BalanceCacheRepository _cache;
 
-  @PostConstruct(preResolve: true)
-  Future<void> init() async {
-    final balance = await _cache.fetchBalance();
+  @PostConstruct()
+  void init() {
+    final balance = _cache.balance;
 
     if (balance == null) return;
 
@@ -55,8 +54,11 @@ class BalancesRepository extends ChangeNotifier implements Disposable {
   (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
-  void onDispose() {
+  @disposeMethod
+  void dispose() {
     _usdcBalance.close();
     _cache.clear();
+
+    super.dispose();
   }
 }
