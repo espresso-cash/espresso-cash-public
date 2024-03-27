@@ -1,7 +1,7 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../l10n/device_locale.dart';

@@ -1,12 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/solana_helpers.dart';
 import '../../../l10n/device_locale.dart';
@@ -14,7 +13,6 @@ import '../../../routing.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
-import '../../tokens/token.dart';
 import '../screens/odp_confirmation_screen.dart';
 import '../screens/odp_details_screen.dart';
 import 'extensions.dart';

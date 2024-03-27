@@ -1,9 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../di.dart';
-import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 extension CryptoAmountExt on CryptoAmount {

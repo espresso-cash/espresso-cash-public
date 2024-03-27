@@ -1,11 +1,9 @@
 import 'package:collection/collection.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../balances/data/balances_repository.dart';
-import '../../tokens/token.dart';
 import 'watch_user_fiat_balance.dart';
 
 @injectable

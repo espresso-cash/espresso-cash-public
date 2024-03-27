@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/amount.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,7 +13,6 @@ import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
-import '../../tokens/token.dart';
 import 'extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {

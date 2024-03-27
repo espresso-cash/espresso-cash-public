@@ -1,8 +1,7 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/decimal_separator.dart';
 import '../../../l10n/device_locale.dart';
@@ -12,7 +11,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/shake.dart';
 import '../../../ui/usdc_info.dart';
-import '../../tokens/token.dart';
 import '../../wallet_flow/widgets/extensions.dart';
 import '../services/amount_ext.dart';
 

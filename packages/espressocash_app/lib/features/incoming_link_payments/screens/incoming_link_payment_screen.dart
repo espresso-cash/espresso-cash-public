@@ -1,8 +1,8 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';

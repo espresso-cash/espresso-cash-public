@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 import '../../config.dart';
-import 'token.dart';
 
 part 'token_list.g.dart';
 

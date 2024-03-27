@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/cancelable_job.dart';
 import '../../../core/link_payments.dart';
 import '../data/repository.dart';

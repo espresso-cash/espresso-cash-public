@@ -1,12 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/currency.dart';
-import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import 'conversion_rates_client.dart';
 
