@@ -5,10 +5,7 @@ import 'token.dart';
 
 part 'currency.freezed.dart';
 
-@Freezed(
-  when: FreezedWhenOptions.none,
-  map: FreezedMapOptions.none,
-)
+@freezed
 sealed class Currency with _$Currency {
   const factory Currency.fiat({
     required String name,
