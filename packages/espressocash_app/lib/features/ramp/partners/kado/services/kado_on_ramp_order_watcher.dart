@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:drift/drift.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../../core/currency.dart';
 import '../../../../../../data/db/db.dart';
 import '../../../data/my_database_ext.dart';
 import '../../../src/models/ramp_watcher.dart';

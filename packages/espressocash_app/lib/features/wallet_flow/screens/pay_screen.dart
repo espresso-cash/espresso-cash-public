@@ -1,9 +1,9 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';

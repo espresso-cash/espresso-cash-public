@@ -1,12 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../features/tokens/token.dart';
 import 'currency.dart';
+import 'token.dart';
 
 part 'amount.freezed.dart';
 
-@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+@freezed
 sealed class Amount with _$Amount {
   factory Amount({required int value, required Currency currency}) =>
       switch (currency) {

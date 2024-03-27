@@ -1,6 +1,7 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -11,8 +12,6 @@ import 'package:solana/solana.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
-import '../../../../../core/amount.dart';
-import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
@@ -20,7 +19,6 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
-import '../../../../tokens/token.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
