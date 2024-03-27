@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-
-import '../core/amount.dart';
 
 extension FormatAmountExt on Amount {
   String format(

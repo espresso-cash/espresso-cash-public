@@ -1,7 +1,7 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/amount.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 
 part 'request_model.freezed.dart';
