@@ -18,6 +18,10 @@ class Token {
     required this.extensions,
   });
 
+  const factory Token.solana() = _SolanaToken;
+
+  const factory Token.wrappedSolana() = _WrappedSolanaToken;
+
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -30,6 +34,14 @@ class Token {
   }) = SplToken;
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
+
+  static const usdc = _UsdcMainToken();
+
+  static const sol = Token.solana();
+
+  static const wrappedSol = Token.wrappedSolana();
+
+  bool get isSolana => this is _SolanaToken;
 
   String? get coingeckoId => extensions?.coingeckoId;
 
@@ -58,6 +70,23 @@ class Token {
   final Extensions? extensions;
 }
 
+class _SolanaToken extends Token {
+  const _SolanaToken()
+      : super(
+          address: 'So11111111111111111111111111111111111111111',
+          extensions: const Extensions(
+            coingeckoId: 'solana',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+          chainId: 101,
+          tags: const [],
+          decimals: 9,
+          name: 'Solana',
+          symbol: 'SOL',
+        );
+}
+
 class SplToken extends Token {
   const SplToken({
     required super.chainId,
@@ -69,6 +98,40 @@ class SplToken extends Token {
     required List<String> super.tags,
     super.extensions,
   });
+}
+
+class _WrappedSolanaToken extends SplToken {
+  const _WrappedSolanaToken()
+      : super(
+          address: 'So11111111111111111111111111111111111111112',
+          extensions: const Extensions(
+            coingeckoId: 'wrapped-solana',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
+          chainId: 101,
+          tags: const [],
+          decimals: 9,
+          name: 'Wrapped SOL',
+          symbol: 'SOL',
+        );
+}
+
+class _UsdcMainToken extends SplToken {
+  const _UsdcMainToken()
+      : super(
+          address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+          extensions: const Extensions(
+            coingeckoId: 'usd-coin',
+          ),
+          logoURI:
+              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
+          chainId: 101,
+          tags: const ['stablecoin'],
+          decimals: 6,
+          name: 'USD Coin',
+          symbol: 'USDC',
+        );
 }
 
 @JsonSerializable()

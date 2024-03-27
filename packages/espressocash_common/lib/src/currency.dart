@@ -23,6 +23,24 @@ sealed class Currency with _$Currency {
 
   const Currency._();
 
+  static const CryptoCurrency sol = CryptoCurrency(token: Token.sol);
+
+  static const CryptoCurrency usdc = CryptoCurrency(token: Token.usdc);
+
+  static const FiatCurrency usd = FiatCurrency(
+    symbol: 'USD',
+    sign: r'$',
+    name: 'US dollar',
+    decimals: 2,
+  );
+
+  static const FiatCurrency ngn = FiatCurrency(
+    symbol: 'NGN',
+    sign: '₦',
+    name: 'Nigerian Naira',
+    decimals: 2,
+  );
+
   String get name => switch (this) {
         FiatCurrency(:final name) => name,
         CryptoCurrency(:final token) => token.name,
@@ -40,4 +58,17 @@ sealed class Currency with _$Currency {
 
   int decimalToInt(Decimal value) =>
       value.shift(decimals).round().toBigInt().toInt();
+}
+
+const defaultFiatCurrency = Currency.usd;
+
+FiatCurrency currencyFromString(String currency) {
+  switch (currency) {
+    case 'USD':
+      return Currency.usd;
+    case 'NGN':
+      return Currency.ngn;
+    default:
+      return defaultFiatCurrency;
+  }
 }
