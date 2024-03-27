@@ -1,6 +1,6 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../core/amount.dart';
 import '../../blockchain/models/blockchain.dart';
 
 part 'dln_payment.freezed.dart';

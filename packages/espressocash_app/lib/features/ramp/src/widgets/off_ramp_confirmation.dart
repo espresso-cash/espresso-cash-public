@@ -1,6 +1,6 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/amount.dart';
 import '../../../../core/presentation/format_amount.dart';
 import '../../../../di.dart';
 import '../../../../gen/assets.gen.dart';

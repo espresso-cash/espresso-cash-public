@@ -1,9 +1,9 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:recase/recase.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/format_date.dart';
 import '../../../core/presentation/utils.dart';

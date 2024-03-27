@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_app/core/currency.dart';
 import 'package:espressocash_app/features/conversion_rates/data/conversion_rates_client.dart';
 import 'package:espressocash_app/features/conversion_rates/data/repository.dart';
-import 'package:espressocash_app/features/tokens/token.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';

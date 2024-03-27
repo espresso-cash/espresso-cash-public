@@ -1,8 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../features/tokens/token.dart';
 import 'currency.dart';
+import 'token.dart';
 
 part 'amount.freezed.dart';
 

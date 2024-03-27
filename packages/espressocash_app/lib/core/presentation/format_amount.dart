@@ -1,11 +1,10 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../features/conversion_rates/widgets/context_ext.dart';
 import '../../l10n/device_locale.dart';
-import '../amount.dart';
-import '../currency.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
