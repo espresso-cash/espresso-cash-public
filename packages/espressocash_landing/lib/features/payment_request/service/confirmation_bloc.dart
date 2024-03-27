@@ -1,12 +1,10 @@
 import 'dart:async';
 
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
-import '../../../../core/flow.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 import '../../web3/web3_service.dart';
 import '../data/repository.dart';

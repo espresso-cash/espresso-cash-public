@@ -1,8 +1,6 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 @injectable

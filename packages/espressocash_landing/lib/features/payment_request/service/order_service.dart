@@ -2,13 +2,12 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/extensions.dart';
 import '../models/request_model.dart';

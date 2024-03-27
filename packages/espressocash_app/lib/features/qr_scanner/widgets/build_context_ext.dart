@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';

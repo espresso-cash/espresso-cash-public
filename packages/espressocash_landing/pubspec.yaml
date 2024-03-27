@@ -14,6 +14,8 @@ dependencies:
   drift: ^2.14.1
   espressocash_api:
     path: ../espressocash_api/
+  espressocash_common:
+    path: ../espressocash_common/
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3

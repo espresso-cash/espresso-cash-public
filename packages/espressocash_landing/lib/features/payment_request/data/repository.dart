@@ -1,8 +1,7 @@
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../core/amount.dart';
-import '../../../../core/currency.dart';
 import '../../../../features/blockchain/models/blockchain.dart';
 import '../models/incoming_quote.dart';
 

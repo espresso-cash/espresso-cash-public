@@ -2,15 +2,14 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-import '../../../core/currency.dart';
 import '../../../core/processing_state.dart';
-import '../../tokens/token.dart';
 import '../data/repository.dart';
 
 part 'conversion_rates_bloc.freezed.dart';
