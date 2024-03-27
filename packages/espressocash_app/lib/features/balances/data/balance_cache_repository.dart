@@ -16,7 +16,7 @@ class BalanceCacheRepository {
     required FiatCurrency currency,
   }) =>
       _storage
-        ..setDouble(_usdcBalanceKey, rate)
+        ..setDouble(_usdcRateKey, rate)
         ..setString(_usdcCurrencyKey, currency.symbol);
 
   int? get balance => _storage.getInt(_usdcBalanceKey);

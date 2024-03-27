@@ -37,6 +37,7 @@ class ConversionRatesRepository extends ChangeNotifier {
             rate.$1.let((s) => Decimal.tryParse(s.toString()) ?? Decimal.zero),
       }),
     );
+    notifyListeners();
   }
 
   Decimal? readRate({required FiatCurrency to}) => _value.value[to];
