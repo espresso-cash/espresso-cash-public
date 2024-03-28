@@ -1,8 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../data/db/db.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
 import '../../../features/ramp/screens/on_ramp_order_screen.dart';

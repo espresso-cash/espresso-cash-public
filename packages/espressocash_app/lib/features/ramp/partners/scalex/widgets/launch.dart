@@ -1,13 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../core/amount.dart';
-import '../../../../../core/currency.dart';
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';

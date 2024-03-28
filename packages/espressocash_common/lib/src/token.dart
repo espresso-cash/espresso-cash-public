@@ -2,8 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
 
-import '../../config.dart';
-
 part 'token.g.dart';
 
 @immutable
@@ -37,7 +35,7 @@ class Token {
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
-  static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
+  static const usdc = _UsdcMainToken();
 
   static const sol = Token.solana();
 
@@ -81,7 +79,7 @@ class _SolanaToken extends Token {
           ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
-          chainId: currentChainId,
+          chainId: 101,
           tags: const [],
           decimals: 9,
           name: 'Solana',
@@ -111,7 +109,7 @@ class _WrappedSolanaToken extends SplToken {
           ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
-          chainId: currentChainId,
+          chainId: 101,
           tags: const [],
           decimals: 9,
           name: 'Wrapped SOL',
@@ -128,24 +126,7 @@ class _UsdcMainToken extends SplToken {
           ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
-          chainId: currentChainId,
-          tags: const ['stablecoin'],
-          decimals: 6,
-          name: 'USD Coin',
-          symbol: 'USDC',
-        );
-}
-
-class _UsdcDevToken extends SplToken {
-  const _UsdcDevToken()
-      : super(
-          address: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
-          extensions: const Extensions(
-            coingeckoId: 'usd-coin',
-          ),
-          logoURI:
-              'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
-          chainId: currentChainId,
+          chainId: 101,
           tags: const ['stablecoin'],
           decimals: 6,
           name: 'USD Coin',

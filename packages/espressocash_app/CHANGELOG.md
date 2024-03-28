@@ -1,3 +1,7 @@
+## 1.110.2
+
+ - **FIX**: coinflow kyc flow  (#1347).
+
 ## 1.110.1
 
  - **FIX**: clear secure storage on first run (#1340).

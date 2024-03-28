@@ -1,10 +1,9 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/amount.dart';
 import '../../../core/callback.dart';
-import '../../../core/flow.dart';
 import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';

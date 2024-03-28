@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -6,8 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../../../ui/theme.dart';
-import 'core/amount.dart';
-import 'core/currency.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'features/activities/screens/activities_screen.dart';
@@ -53,7 +52,6 @@ import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
-import 'features/tokens/token.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_screen.dart';
