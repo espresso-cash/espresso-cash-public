@@ -1,0 +1,7 @@
+global_options:
+  freezed:
+    runs_before:
+      - json_serializable
+    options:
+      map: false
+      when: false

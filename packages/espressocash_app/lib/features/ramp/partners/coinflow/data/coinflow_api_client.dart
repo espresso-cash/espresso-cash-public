@@ -19,38 +19,67 @@ abstract class CoinflowClient {
 
   @GET('/withdraw/history')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<WithdrawResponseDto> getWithdrawalHistory(
+  Future<WithdrawHistoryResponseDto> getWithdrawalHistory(
     @Header('x-coinflow-auth-wallet') String walletId,
   );
 
   @GET('/withdraw')
   @Headers(<String, dynamic>{'x-coinflow-auth-blockchain': 'solana'})
-  Future<HttpResponse<void>> getWithdrawer(
+  Future<WithdrawerResponseDto> getWithdrawer(
     @Header('x-coinflow-auth-wallet') String walletId,
   );
 }
 
 @freezed
-class WithdrawResponseDto with _$WithdrawResponseDto {
-  const factory WithdrawResponseDto({
-    @Default([]) List<WithdrawResponseDataDto> withdraws,
-  }) = _WithdrawResponseDto;
+class WithdrawHistoryResponseDto with _$WithdrawHistoryResponseDto {
+  const factory WithdrawHistoryResponseDto({
+    @Default([]) List<WithdrawHistoryResponseDataDto> withdraws,
+  }) = _WithdrawHistoryResponseDto;
 
-  factory WithdrawResponseDto.fromJson(Map<String, dynamic> data) =>
-      _$WithdrawResponseDtoFromJson(data);
+  factory WithdrawHistoryResponseDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawHistoryResponseDtoFromJson(data);
 }
 
 @freezed
-class WithdrawResponseDataDto with _$WithdrawResponseDataDto {
-  const factory WithdrawResponseDataDto({
+class WithdrawHistoryResponseDataDto with _$WithdrawHistoryResponseDataDto {
+  const factory WithdrawHistoryResponseDataDto({
     required String transaction,
     @JsonKey(unknownEnumValue: CoinflowOrderStatus.unknown)
     required CoinflowOrderStatus status,
     required DateTime updatedAt,
-  }) = _WithdrawResponseDataDto;
+  }) = _WithdrawHistoryResponseDataDto;
 
-  factory WithdrawResponseDataDto.fromJson(Map<String, dynamic> data) =>
-      _$WithdrawResponseDataDtoFromJson(data);
+  factory WithdrawHistoryResponseDataDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawHistoryResponseDataDtoFromJson(data);
+}
+
+@freezed
+class WithdrawerResponseDto with _$WithdrawerResponseDto {
+  const factory WithdrawerResponseDto({
+    required WithdrawerDto withdrawer,
+  }) = _WithdrawerResponseDto;
+  factory WithdrawerResponseDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawerResponseDtoFromJson(data);
+}
+
+@freezed
+class WithdrawerDto with _$WithdrawerDto {
+  const factory WithdrawerDto({
+    required bool isBlocked,
+    required String currency,
+    String? email,
+    @Default([]) List<dynamic> bankAccounts,
+    @Default([]) List<dynamic> cards,
+    @Default([]) List<dynamic> ibans,
+  }) = _WithdrawerDto;
+
+  const WithdrawerDto._();
+
+  factory WithdrawerDto.fromJson(Map<String, dynamic> data) =>
+      _$WithdrawerDtoFromJson(data);
+
+  bool get hasLinkedAccounts =>
+      bankAccounts.isNotEmpty || cards.isNotEmpty || ibans.isNotEmpty;
 }
 
 @JsonEnum()

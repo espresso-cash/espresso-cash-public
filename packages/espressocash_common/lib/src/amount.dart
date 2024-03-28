@@ -6,7 +6,7 @@ import 'token.dart';
 
 part 'amount.freezed.dart';
 
-@Freezed(when: FreezedWhenOptions.none, map: FreezedMapOptions.none)
+@freezed
 sealed class Amount with _$Amount {
   factory Amount({required int value, required Currency currency}) =>
       switch (currency) {
