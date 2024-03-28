@@ -1,7 +1,6 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../core/currency.dart';
 
 @injectable
 class BalanceCacheRepository {
