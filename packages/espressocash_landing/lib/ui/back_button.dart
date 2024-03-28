@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CpBackButton extends StatelessWidget {
-  const CpBackButton({
+class EcBackButton extends StatelessWidget {
+  const EcBackButton({
     super.key,
     this.onPressed,
   });

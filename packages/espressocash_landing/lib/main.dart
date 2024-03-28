@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 import '../l10n/gen/app_localizations.dart';
+import 'di.dart';
 import 'features/link_payment/models/link_payments.dart';
 import 'features/link_payment/screens/link_payment_screen.dart';
-import 'features/payment_request/screens/payment_request_screen.dart';
+import 'features/payment_request/screens/request_screen.dart';
 import 'ui/colors.dart';
 import 'utils/solana_helpers.dart';
 
@@ -16,11 +17,13 @@ void main() {
   setUrlStrategy(PathUrlStrategy());
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const LandingPageApp());
+  configureDependencies();
+
+  runApp(const EspressoCashLandingApp());
 }
 
-class LandingPageApp extends StatelessWidget {
-  const LandingPageApp({super.key});
+class EspressoCashLandingApp extends StatelessWidget {
+  const EspressoCashLandingApp({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -41,7 +44,7 @@ class LandingPageApp extends StatelessWidget {
             );
           } else if (solanaPay != null) {
             return MaterialPageRoute(
-              builder: (context) => RequestPaymentScreen(solanaPay),
+              builder: (context) => RequestInitialScreen(solanaPay),
             );
           }
 
