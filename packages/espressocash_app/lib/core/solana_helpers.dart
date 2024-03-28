@@ -1,11 +1,9 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../config.dart';
-import '../features/tokens/token.dart';
-import 'amount.dart';
-import 'currency.dart';
 
 extension SolanaClientExt on SolanaClient {
   Future<CryptoAmount?> getUsdcBalance(String address) async {
