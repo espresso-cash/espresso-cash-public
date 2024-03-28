@@ -1,10 +1,8 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../config.dart';
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
-import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 
 part 'payment_request.freezed.dart';

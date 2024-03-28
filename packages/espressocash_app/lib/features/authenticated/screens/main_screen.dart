@@ -1,9 +1,9 @@
 import 'dart:math';
 
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/currency.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routing.dart';
 import '../../../ui/colors.dart';

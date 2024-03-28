@@ -24,7 +24,7 @@ class ShareQrCode extends StatelessWidget {
         .cryptoAmount(tokenlist)
         ?.formatWithFiat(context);
 
-    final qrData = paymentRequest.payRequest.toUrl();
+    final qrData = paymentRequest.dynamicLink;
 
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),

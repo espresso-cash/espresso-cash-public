@@ -2,10 +2,9 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/currency.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
 import '../../../features/ramp/models/ramp_type.dart';
 import '../../../features/ramp/screens/ramp_amount_screen.dart';

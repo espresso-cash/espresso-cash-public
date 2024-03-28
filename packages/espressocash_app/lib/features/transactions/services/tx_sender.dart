@@ -47,7 +47,7 @@ class TxSender {
         return const TxSendResult.networkError();
       }
 
-      if (error.isInsufficientFunds) {
+      if (error.isInsufficientFunds || error.invalidTransferAccount) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
         );
@@ -277,6 +277,24 @@ extension on JsonRpcException {
     if (instructionErrorData is! Map<String, dynamic>) return false;
 
     return instructionErrorData['Custom'] == 1;
+  }
+
+  bool get invalidTransferAccount {
+    if (code != JsonRpcErrorCode.sendTransactionPreflightFailure) return false;
+
+    final data = this.data;
+    if (data is! Map<String, dynamic>) return false;
+
+    final error = data['err'];
+    if (error is! Map<String, dynamic>) return false;
+
+    final instructionError = error['InstructionError'];
+    if (instructionError is! List<dynamic>) return false;
+    if (instructionError.length < 2) return false;
+
+    final instructionErrorData = instructionError[1];
+
+    return instructionErrorData == 'InvalidAccountData';
   }
 }
 

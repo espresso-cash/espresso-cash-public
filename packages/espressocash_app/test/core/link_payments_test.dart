@@ -1,5 +1,5 @@
 import 'package:espressocash_app/core/link_payments.dart';
-import 'package:espressocash_app/features/tokens/token.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

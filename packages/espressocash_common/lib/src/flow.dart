@@ -6,11 +6,7 @@ part 'flow.freezed.dart';
 /// of type [E].
 ///
 /// If you don't care about the result, you can use `ProcessingState` insted.
-@Freezed(
-  when: FreezedWhenOptions.none,
-  map: FreezedMapOptions.none,
-  copyWith: false,
-)
+@Freezed(copyWith: false)
 sealed class Flow<E extends Exception, R> with _$Flow<E, R> {
   const factory Flow.initial() = FlowInitial;
 

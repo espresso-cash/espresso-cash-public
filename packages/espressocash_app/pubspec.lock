@@ -448,6 +448,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0"
+  espressocash_common:
+    dependency: "direct main"
+    description:
+      path: "../espressocash_common"
+      relative: true
+    source: path
+    version: "1.0.0"
   ethereum_addresses:
     dependency: "direct main"
     description:
