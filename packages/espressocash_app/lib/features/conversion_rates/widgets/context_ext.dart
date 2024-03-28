@@ -7,9 +7,7 @@ import '../data/repository.dart';
 
 extension ConversionRates on BuildContext {
   Decimal? watchConversionRate({
-    required Token from,
     required FiatCurrency to,
   }) =>
-      watch<ConversionRatesRepository>()
-          .readRate(CryptoCurrency(token: from), to: to);
+      watch<ConversionRatesRepository>().readRate(to: to);
 }

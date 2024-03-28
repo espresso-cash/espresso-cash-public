@@ -23,8 +23,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     required QuoteRepository quoteRepository,
     required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
-        _usdcBalance = balancesRepository.readAll()[Token.usdc] ??
-            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
+        _usdcBalance = balancesRepository.read(),
         super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
