@@ -19,6 +19,7 @@ class TransactionRequestResponse with _$TransactionRequestResponse {
   const factory TransactionRequestResponse({
     required String transaction,
     String? message,
+    String? redirect,
   }) = _TransactionRequestResponse;
 
   factory TransactionRequestResponse.fromJson(Map<String, dynamic> json) =>

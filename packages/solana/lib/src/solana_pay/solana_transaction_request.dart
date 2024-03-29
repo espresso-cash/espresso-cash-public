@@ -74,7 +74,7 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
     ).toString();
   }
 
-  Future<TransactionRequestInfo> getTransactionRequestInfo() async {
+  Future<TransactionRequestInfo> get() async {
     final response = await http.get(link);
 
     if (response.statusCode != 200) {
@@ -82,6 +82,25 @@ class SolanaTransactionRequest with _$SolanaTransactionRequest {
     }
 
     return TransactionRequestInfo.fromJson(
+      json.decode(response.body) as Map<String, dynamic>,
+    );
+  }
+
+  Future<TransactionRequestResponse> post({required String account}) async {
+    final response = await http.post(
+      link,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({'account': account}),
+    );
+
+    if (response.statusCode != 200) {
+      throw HttpException(response.statusCode, response.body);
+    }
+
+    return TransactionRequestResponse.fromJson(
       json.decode(response.body) as Map<String, dynamic>,
     );
   }

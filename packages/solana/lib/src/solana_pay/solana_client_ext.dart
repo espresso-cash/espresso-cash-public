@@ -291,9 +291,9 @@ extension SolanaClientSolanaPay on SolanaClient {
     return response;
   }
 
-  /// Fetch a transaction from a Solana Pay transaction request link.
+  /// Processes the transaction from a Solana Pay transaction request link.
   ///
-  /// Link is `link` in the [Solana Pay Transaction Request spec][1].
+  /// Transaction is `transaction` in the [Solana Pay Transaction Request spec][1].
   ///
   /// Signer is account the that may [sign the transaction][2].
   ///
@@ -301,37 +301,8 @@ extension SolanaClientSolanaPay on SolanaClient {
   ///
   /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
   /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
-  Future<SignedTx> fetchSolanaPayTransactionRequest({
-    required SolanaTransactionRequest link,
-    required Ed25519HDPublicKey signer,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final response = await http.post(
-      link.link,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'account': signer.toBase58()}),
-    );
-
-    if (response.statusCode != 200) {
-      throw HttpException(response.statusCode, response.body);
-    }
-
-    final transactionResponse = TransactionRequestResponse.fromJson(
-      json.decode(response.body) as Map<String, dynamic>,
-    );
-
-    return processTransactionResponse(
-      transaction: transactionResponse.transaction,
-      signer: signer,
-      commitment: commitment,
-    );
-  }
-
   @visibleForTesting
-  Future<SignedTx> processTransactionResponse({
+  Future<SignedTx> processSolanaPayTransactionRequest({
     required String transaction,
     required Ed25519HDPublicKey signer,
     Commitment commitment = Commitment.finalized,
@@ -343,14 +314,33 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     if (signatures.isEmpty ||
         (signatures.length == 1 && signatures.first.publicKey == signer)) {
+      final addressTableLookups = compiledMessage.map(
+        legacy: (_) => <MessageAddressTableLookup>[],
+        v0: (v0) => v0.addressTableLookups,
+      );
+
+      final lookUpTables =
+          await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
+
+      final message =
+          tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
+
+      final isLegacyTx = tx.version == TransactionVersion.legacy;
+
       final latestBlockhash = await rpcClient.getLatestBlockhash(
         commitment: commitment,
       );
 
-      compiledMessage = tx.decompileMessage().compile(
-            recentBlockhash: latestBlockhash.value.blockhash,
-            feePayer: signer,
-          );
+      compiledMessage = isLegacyTx
+          ? message.compile(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+            )
+          : message.compileV0(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+              addressLookupTableAccounts: lookUpTables,
+            );
 
       signatures = [
         Signature(List.filled(64, 0), publicKey: signer),
