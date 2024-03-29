@@ -343,14 +343,33 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     if (signatures.isEmpty ||
         (signatures.length == 1 && signatures.first.publicKey == signer)) {
+      final addressTableLookups = compiledMessage.map(
+        legacy: (_) => <MessageAddressTableLookup>[],
+        v0: (v0) => v0.addressTableLookups,
+      );
+
+      final lookUpTables =
+          await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
+
+      final message =
+          tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
+
+      final isLegacyTx = tx.version == TransactionVersion.legacy;
+
       final latestBlockhash = await rpcClient.getLatestBlockhash(
         commitment: commitment,
       );
 
-      compiledMessage = tx.decompileMessage().compile(
-            recentBlockhash: latestBlockhash.value.blockhash,
-            feePayer: signer,
-          );
+      compiledMessage = isLegacyTx
+          ? message.compile(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+            )
+          : message.compileV0(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+              addressLookupTableAccounts: lookUpTables,
+            );
 
       signatures = [
         Signature(List.filled(64, 0), publicKey: signer),
