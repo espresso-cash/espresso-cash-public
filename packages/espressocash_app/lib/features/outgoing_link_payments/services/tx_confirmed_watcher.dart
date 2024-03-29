@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 
 import '../../../core/cancelable_job.dart';
-import '../../../core/link_payments.dart';
+import '../../link_payments/models/link_payment.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 import 'payment_watcher.dart';
@@ -46,7 +46,7 @@ class _OLPConfirmedJob extends CancelableJob<OutgoingLinkPayment> {
     final privateKey = status.escrow.bytes.lock;
     final key = base58encode(privateKey.toList());
 
-    final link = LinkPayments(
+    final link = LinkPayment(
       key: key,
       token: token.publicKey,
     ).toShareableLink();
