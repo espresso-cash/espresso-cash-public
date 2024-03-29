@@ -12,9 +12,7 @@ import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../conversion_rates/module.dart';
 import '../../incoming_link_payments/module.dart';
 import '../../mobile_wallet/module.dart';
-import '../../outgoing_direct_payments/module.dart';
 import '../../outgoing_link_payments/module.dart';
-import '../../payment_request/module.dart';
 import '../authenticated_navigator_key.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
@@ -56,8 +54,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
               providers: [
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
-                const PaymentRequestModule(),
-                const ODPModule(),
                 const OLPModule(),
                 const ActivitiesModule(),
                 const MobileWalletModule(),

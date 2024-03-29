@@ -1,9 +1,12 @@
 // ignore_for_file: avoid-non-null-assertion
 
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
@@ -11,12 +14,13 @@ import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../authenticated/auth_scope.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_direct_payment.dart';
 
-@injectable
-class ODPRepository {
+@Singleton(scope: authScope)
+class ODPRepository implements Disposable {
   const ODPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
@@ -71,7 +75,8 @@ class ODPRepository {
     await (_db.delete(_db.oDPRows)..where((p) => p.id.equals(id))).go();
   }
 
-  Future<void> clear() => _db.delete(_db.oDPRows).go();
+  @override
+  Future<void> onDispose() => _db.delete(_db.oDPRows).go();
 }
 
 class ODPRows extends Table with AmountMixin, EntityMixin {
