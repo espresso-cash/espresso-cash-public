@@ -3,12 +3,16 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
+import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../core/presentation/format_amount.dart';
+import '../../../core/solana_helpers.dart';
 import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
@@ -41,6 +45,28 @@ extension BuildContextExt on BuildContext {
 
       if (!mounted) return;
       IncomingLinkPaymentRoute(id).go(this);
+    } else if (request is QrScannerSolanaPayTransactionRequest) {
+      final transaction = request.request;
+
+      final info = await transaction.getTransactionRequestInfo();
+
+      print(info);
+
+      final wallet = sl<ECWallet>().publicKey;
+
+      final client = sl<SolanaClient>();
+      final tx = await client.fetchSolanaPayTransactionRequest(
+        link: transaction,
+        signer: wallet,
+      );
+
+      final simulate = await client.simulateTransfer(
+        tx: tx,
+        account: wallet,
+        currency: Currency.usdc,
+      );
+
+      print(simulate?.amountTransferred);
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;
