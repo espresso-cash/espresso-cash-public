@@ -355,9 +355,9 @@ extension SolanaClientSolanaPay on SolanaClient {
           publicKey: Ed25519HDPublicKey.fromBase58(publicKey.toString()),
         );
 
-        // if (!isValid) {
-        //   throw const FetchTransactionException('Invalid signature');
-        // }
+        if (!isValid) {
+          throw const FetchTransactionException('Invalid signature');
+        }
       }
     }
 
