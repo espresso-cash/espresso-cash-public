@@ -7,8 +7,8 @@ import 'package:storybook_flutter/storybook_flutter.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
 import '../../../features/ramp/models/ramp_type.dart';
 import '../../../features/ramp/screens/ramp_partner_select_screen.dart';
+import '../../app_wrapper.dart';
 import '../../utils.dart';
-import '../../utils/app_wrapper.dart';
 
 final onRampPartnerSelectScreen = Story(
   name: 'Screens/RampPartnerSelectScreen',

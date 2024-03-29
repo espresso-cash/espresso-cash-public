@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../l10n/gen/app_localizations.dart';
-import '../../ui/theme.dart';
+import '../l10n/gen/app_localizations.dart';
+import '../ui/theme.dart';
 
 class AppWrapper extends StatelessWidget {
   const AppWrapper({super.key, required this.child});

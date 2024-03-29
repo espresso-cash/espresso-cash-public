@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/cancelable_job.dart';
+import '../../../utils/cancelable_job.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';

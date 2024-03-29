@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../features/accounts/models/ec_wallet.dart';
+import 'ec_wallet.dart';
 
 Future<LocalWallet> createLocalWallet({required String mnemonic}) async {
   final wallet = await compute(_createKeyPair, KeyPairParams(mnemonic, 0, 0));

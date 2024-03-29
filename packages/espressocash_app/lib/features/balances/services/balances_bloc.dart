@@ -1,15 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/disposable_bloc.dart';
-import '../../../core/processing_state.dart';
-import '../../../core/solana_helpers.dart';
+import '../../../utils/disposable_bloc.dart';
+import '../../../utils/processing_state.dart';
 import '../../authenticated/auth_scope.dart';
 import '../data/balances_repository.dart';
 
@@ -69,4 +70,29 @@ sealed class BalancesEvent with _$BalancesEvent {
   const factory BalancesEvent.refreshRequested({
     required String address,
   }) = BalancesEventRequested;
+}
+
+extension on SolanaClient {
+  Future<CryptoAmount?> getUsdcBalance(String address) async {
+    try {
+      final usdcTokenAccount = await findAssociatedTokenAddress(
+        owner: Ed25519HDPublicKey.fromBase58(address),
+        mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
+      );
+
+      final balance = await rpcClient
+          .getTokenAccountBalance(
+            usdcTokenAccount.toBase58(),
+            commitment: Commitment.confirmed,
+          )
+          .value;
+
+      return CryptoAmount(
+        value: int.parse(balance.amount),
+        cryptoCurrency: Currency.usdc,
+      );
+    } on Exception {
+      return null;
+    }
+  }
 }

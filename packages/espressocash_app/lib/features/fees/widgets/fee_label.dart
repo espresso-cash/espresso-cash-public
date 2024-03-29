@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/async_snapshot.dart';
-import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
+import '../../../utils/async_snapshot.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../models/fee_type.dart';
 import '../services/fee_calculator.dart';
 

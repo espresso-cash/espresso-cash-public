@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../config.dart';
-import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../intercom/services/intercom_service.dart';
 import 'profile_button.dart';
 import 'profile_section.dart';

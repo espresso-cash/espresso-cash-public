@@ -2,24 +2,24 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
-import '../config.dart';
+import '../../../config.dart';
 
-part 'link_payments.freezed.dart';
-part 'link_payments.g.dart';
+part 'link_payment.freezed.dart';
+part 'link_payment.g.dart';
 
 @freezed
-abstract class LinkPayments with _$LinkPayments {
-  const factory LinkPayments({
+abstract class LinkPayment with _$LinkPayment {
+  const factory LinkPayment({
     required String key,
     @Ed25519HDPublicKeyConverter() required Ed25519HDPublicKey token,
-  }) = _LinkPayments;
+  }) = _LinkPayment;
 
-  factory LinkPayments.fromJson(Map<String, dynamic> json) =>
-      _$LinkPaymentsFromJson(json);
+  factory LinkPayment.fromJson(Map<String, dynamic> json) =>
+      _$LinkPaymentFromJson(json);
 
-  const LinkPayments._();
+  const LinkPayment._();
 
-  static LinkPayments? tryParse(Uri link) {
+  static LinkPayment? tryParse(Uri link) {
     final isProperHost =
         link.scheme == 'https' && link.host == espressoCashLinkDomain ||
             link.host == 'localhost';
@@ -32,7 +32,7 @@ abstract class LinkPayments with _$LinkPayments {
     final key = link.queryParameters['k'];
     if (key == null) return null;
 
-    return LinkPayments(
+    return LinkPayment(
       key: key,
       token: Token.usdc.publicKey,
     );

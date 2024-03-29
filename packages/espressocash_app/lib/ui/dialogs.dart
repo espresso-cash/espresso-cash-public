@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../core/errors.dart';
 import '../l10n/l10n.dart';
+import '../utils/errors.dart';
 import 'button.dart';
 import 'colors.dart';
 import 'theme.dart';

@@ -8,7 +8,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 
-import '../../../core/processing_state.dart';
+import '../../../utils/processing_state.dart';
 import '../data/repository.dart';
 
 part 'conversion_rates_bloc.freezed.dart';
