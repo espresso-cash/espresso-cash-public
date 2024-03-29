@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
@@ -16,21 +18,26 @@ class TxUpdaterRepository {
   final SolanaClient _client;
 
   Future<void> update(Ed25519HDPublicKey publicKey) async {
+    final usdcTokenAccount = await findAssociatedTokenAddress(
+      owner: publicKey,
+      mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
+    );
+
     final mostRecentTx = await _mostRecentTx();
     final mostRecentSignature = mostRecentTx?.tx.id;
 
     const fetchLimit = 50;
 
     final details = await _client.rpcClient.getTransactionsList(
+      usdcTokenAccount,
       limit: fetchLimit,
-      publicKey,
       until: mostRecentSignature,
       encoding: Encoding.base64,
       commitment: Commitment.confirmed,
     );
 
     if (details.isNotEmpty) {
-      final txs = details.map((it) => it.toFetched());
+      final txs = details.map((it) => it.toFetched(usdcTokenAccount));
 
       final hasGap = mostRecentSignature != null && txs.length == fetchLimit;
 
@@ -73,6 +80,7 @@ class TransactionRows extends Table {
   DateTimeColumn get created => dateTime().nullable()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
+  IntColumn get amount => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
@@ -83,6 +91,9 @@ extension TransactionRowExt on TransactionRow {
         SignedTx.decode(encodedTx),
         created: created,
         status: status,
+        amount: amount?.let(
+          (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+        ),
       );
 }
 
@@ -92,13 +103,39 @@ extension on TxCommon {
         created: created,
         encodedTx: tx.encode(),
         status: status,
+        amount: amount?.value,
       );
 }
 
 extension on TransactionDetails {
-  TxCommon toFetched() {
+  TxCommon toFetched(Ed25519HDPublicKey usdcTokenAddress) {
     final rawTx = transaction as RawTransaction;
     final tx = SignedTx.fromBytes(rawTx.data);
+
+    final accountIndex =
+        tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
+
+    final preTokenBalance = meta?.preTokenBalances
+        .where((e) => e.mint == Token.usdc.address)
+        .where((e) => e.accountIndex == accountIndex)
+        .firstOrNull;
+
+    final postTokenBalance = meta?.postTokenBalances
+        .where((e) => e.mint == Token.usdc.address)
+        .where((e) => e.accountIndex == accountIndex)
+        .firstOrNull;
+
+    CryptoAmount? amount;
+
+    if (preTokenBalance != null && postTokenBalance != null) {
+      final rawAmount = int.parse(postTokenBalance.uiTokenAmount.amount) -
+          int.parse(preTokenBalance.uiTokenAmount.amount);
+
+      amount = CryptoAmount(
+        value: rawAmount,
+        cryptoCurrency: Currency.usdc,
+      );
+    }
 
     return TxCommon(
       tx,
@@ -106,6 +143,7 @@ extension on TransactionDetails {
           meta?.err == null ? TxCommonStatus.success : TxCommonStatus.failure,
       created: blockTime
           ?.let((it) => DateTime.fromMillisecondsSinceEpoch(1000 * it)),
+      amount: amount,
     );
   }
 }
