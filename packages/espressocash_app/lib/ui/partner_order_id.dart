@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../core/presentation/utils.dart';
 import '../l10n/l10n.dart';
 import 'button.dart';
+import 'clipboard.dart';
 
 class PartnerOrderIdWidget extends StatelessWidget {
   const PartnerOrderIdWidget({super.key, required this.orderId});

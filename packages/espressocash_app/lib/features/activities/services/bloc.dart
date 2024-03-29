@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../core/processing_state.dart';
+import '../../../utils/processing_state.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../data/tx_updater_repository.dart';
 

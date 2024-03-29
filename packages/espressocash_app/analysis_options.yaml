@@ -41,6 +41,10 @@ dart_code_metrics:
         - paths: [".*/ui/.+\\.dart"]
           deny: [".*/features/.*"]
           message: "Do not import features from ui"
+
+        - paths: [".*/utils/.+\\.dart"]
+          deny: [".*/(features|ui)/.*"]
+          message: "Do not import features|ui from utils"
     avoid-nullable-interpolation:
       exclude:
         - test/**

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../routing.dart';
+import '../../accounts/models/wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
 import '../../link_payments/models/link_payment.dart';

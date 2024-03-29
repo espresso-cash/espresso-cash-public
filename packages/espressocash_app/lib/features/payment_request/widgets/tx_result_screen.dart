@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/presentation/utils.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/theme.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../transactions/services/create_transaction_link.dart';
 
 class TxResultScreen extends StatefulWidget {

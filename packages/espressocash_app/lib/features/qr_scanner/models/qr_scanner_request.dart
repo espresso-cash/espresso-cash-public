@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/solana_helpers.dart';
+import '../../../utils/solana_pay.dart';
 import '../../link_payments/models/link_payment.dart';
 import 'qr_address_data.dart';
 

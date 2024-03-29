@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/callback.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
+import '../../../utils/callback.dart';
 import '../models/quiz.dart';
 import 'quiz_page.dart';
 
