@@ -2,7 +2,6 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,6 +12,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../data/on_ramp_order_service.dart';
 import 'countdown_timer.dart';
 

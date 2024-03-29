@@ -10,7 +10,7 @@ import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/text_field.dart';
 import '../../../../../ui/theme.dart';
 import '../../../core/email.dart';
-import '../../../data/files/file_manager.dart';
+import '../../../data/file_manager.dart';
 import '../../../di.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';

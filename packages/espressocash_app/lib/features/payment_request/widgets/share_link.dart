@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../core/presentation/utils.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -9,6 +8,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 
