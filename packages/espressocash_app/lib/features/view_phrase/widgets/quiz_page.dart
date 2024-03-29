@@ -1,10 +1,10 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/theme.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/theme.dart';
 
 enum QuizPageType { light, dark }
 

@@ -6,7 +6,7 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../models/fee_type.dart';
-import '../src/services/fee_calculator.dart';
+import '../services/fee_calculator.dart';
 
 class FeeLabel extends StatefulWidget {
   const FeeLabel({super.key, required this.type});

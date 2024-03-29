@@ -19,10 +19,10 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../models/profile_data.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
-import '../../../src/models/profile_data.dart';
 import '../data/coinflow_api_client.dart';
 
 extension BuildContextExt on BuildContext {

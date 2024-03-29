@@ -4,8 +4,8 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/shake.dart';
-import '../src/models/quiz.dart';
-import '../src/widgets/quiz_page.dart';
+import '../models/quiz.dart';
+import 'quiz_page.dart';
 
 class QuizAnswerView extends StatefulWidget {
   const QuizAnswerView({

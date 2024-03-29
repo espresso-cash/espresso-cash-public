@@ -23,10 +23,10 @@ import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_partner.dart';
+import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
 import '../partners/scalex/services/scalex_off_ramp_order_watcher.dart';
-import '../src/models/ramp_watcher.dart';
 
 typedef OffRampOrder = ({
   String id,

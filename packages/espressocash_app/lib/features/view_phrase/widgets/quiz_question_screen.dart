@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../core/callback.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
-import '../src/models/quiz.dart';
-import '../src/widgets/quiz_page.dart';
+import '../models/quiz.dart';
+import 'quiz_page.dart';
 
 class QuizQuestionView extends StatelessWidget {
   const QuizQuestionView({
