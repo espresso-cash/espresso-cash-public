@@ -299,14 +299,7 @@
       }
     }
   },
-  "paymentRequestTitle": "Payment request for {amount}",
-  "@paymentRequestTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "paymentRequestTitle": "Payment request",
   "pending": "Pending",
   "@pending": {},
   "photoLibrary": "Photo Library",
