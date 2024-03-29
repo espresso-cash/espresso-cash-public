@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:http/http.dart' as http;
 import 'package:solana/dto.dart'
     show FutureContextResultExt, ParsedTransaction, TransactionDetails;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/solana_pay/accounts/transaction_request.dart';
 import 'package:solana/src/solana_pay/exceptions.dart';
-import 'package:solana/src/solana_pay/solana_transaction_request.dart';
 
 extension SolanaClientSolanaPay on SolanaClient {
   /// Creates Solana Pay transaction from [payer] to [recipient].
@@ -301,7 +295,6 @@ extension SolanaClientSolanaPay on SolanaClient {
   ///
   /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
   /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
-  @visibleForTesting
   Future<SignedTx> processSolanaPayTransactionRequest({
     required String transaction,
     required Ed25519HDPublicKey signer,
