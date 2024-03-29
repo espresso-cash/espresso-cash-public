@@ -48,15 +48,19 @@ extension BuildContextExt on BuildContext {
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final transaction = request.request;
 
-      final info = await transaction.getTransactionRequestInfo();
+      final info = await transaction.get();
 
       print(info);
 
       final wallet = sl<ECWallet>().publicKey;
 
       final client = sl<SolanaClient>();
-      final tx = await client.fetchSolanaPayTransactionRequest(
-        link: transaction,
+      final respTx = await transaction.post(account: wallet.toBase58());
+
+      print(respTx);
+
+      final tx = await client.processSolanaPayTransactionRequest(
+        transaction: respTx.transaction,
         signer: wallet,
       );
 
