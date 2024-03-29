@@ -11,3 +11,9 @@ Header _$HeaderFromJson(Map<String, dynamic> json) => Header(
       numReadonlySignedAccounts: json['numReadonlySignedAccounts'] as int,
       numReadonlyUnsignedAccounts: json['numReadonlyUnsignedAccounts'] as int,
     );
+
+Map<String, dynamic> _$HeaderToJson(Header instance) => <String, dynamic>{
+      'numRequiredSignatures': instance.numRequiredSignatures,
+      'numReadonlySignedAccounts': instance.numReadonlySignedAccounts,
+      'numReadonlyUnsignedAccounts': instance.numReadonlyUnsignedAccounts,
+    };

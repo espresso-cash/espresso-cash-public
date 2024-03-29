@@ -95,11 +95,11 @@ class _$ParsedAccountDataCopyWithImpl<$Res, $Val extends ParsedAccountData>
 }
 
 /// @nodoc
-abstract class _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  factory _$$ParsedSplTokenProgramAccountDataCopyWith(
-          _$ParsedSplTokenProgramAccountData value,
-          $Res Function(_$ParsedSplTokenProgramAccountData) then) =
-      __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$ParsedSplTokenProgramAccountDataImplCopyWith<$Res> {
+  factory _$$ParsedSplTokenProgramAccountDataImplCopyWith(
+          _$ParsedSplTokenProgramAccountDataImpl value,
+          $Res Function(_$ParsedSplTokenProgramAccountDataImpl) then) =
+      __$$ParsedSplTokenProgramAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({SplTokenProgramAccountData parsed});
 
@@ -107,13 +107,13 @@ abstract class _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
+class __$$ParsedSplTokenProgramAccountDataImplCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res,
-        _$ParsedSplTokenProgramAccountData>
-    implements _$$ParsedSplTokenProgramAccountDataCopyWith<$Res> {
-  __$$ParsedSplTokenProgramAccountDataCopyWithImpl(
-      _$ParsedSplTokenProgramAccountData _value,
-      $Res Function(_$ParsedSplTokenProgramAccountData) _then)
+        _$ParsedSplTokenProgramAccountDataImpl>
+    implements _$$ParsedSplTokenProgramAccountDataImplCopyWith<$Res> {
+  __$$ParsedSplTokenProgramAccountDataImplCopyWithImpl(
+      _$ParsedSplTokenProgramAccountDataImpl _value,
+      $Res Function(_$ParsedSplTokenProgramAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -121,7 +121,7 @@ class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
   $Res call({
     Object? parsed = null,
   }) {
-    return _then(_$ParsedSplTokenProgramAccountData(
+    return _then(_$ParsedSplTokenProgramAccountDataImpl(
       null == parsed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
@@ -140,14 +140,15 @@ class __$$ParsedSplTokenProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedSplTokenProgramAccountData
+class _$ParsedSplTokenProgramAccountDataImpl
     implements ParsedSplTokenProgramAccountData {
-  const _$ParsedSplTokenProgramAccountData(this.parsed, {final String? $type})
+  const _$ParsedSplTokenProgramAccountDataImpl(this.parsed,
+      {final String? $type})
       : $type = $type ?? 'spl-token';
 
-  factory _$ParsedSplTokenProgramAccountData.fromJson(
+  factory _$ParsedSplTokenProgramAccountDataImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$ParsedSplTokenProgramAccountDataFromJson(json);
+      _$$ParsedSplTokenProgramAccountDataImplFromJson(json);
 
   @override
   final SplTokenProgramAccountData parsed;
@@ -161,10 +162,10 @@ class _$ParsedSplTokenProgramAccountData
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedSplTokenProgramAccountData &&
+            other is _$ParsedSplTokenProgramAccountDataImpl &&
             (identical(other.parsed, parsed) || other.parsed == parsed));
   }
 
@@ -175,10 +176,10 @@ class _$ParsedSplTokenProgramAccountData
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedSplTokenProgramAccountDataCopyWith<
-          _$ParsedSplTokenProgramAccountData>
-      get copyWith => __$$ParsedSplTokenProgramAccountDataCopyWithImpl<
-          _$ParsedSplTokenProgramAccountData>(this, _$identity);
+  _$$ParsedSplTokenProgramAccountDataImplCopyWith<
+          _$ParsedSplTokenProgramAccountDataImpl>
+      get copyWith => __$$ParsedSplTokenProgramAccountDataImplCopyWithImpl<
+          _$ParsedSplTokenProgramAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -250,7 +251,7 @@ class _$ParsedSplTokenProgramAccountData
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedSplTokenProgramAccountDataToJson(
+    return _$$ParsedSplTokenProgramAccountDataImplToJson(
       this,
     );
   }
@@ -259,25 +260,25 @@ class _$ParsedSplTokenProgramAccountData
 abstract class ParsedSplTokenProgramAccountData implements ParsedAccountData {
   const factory ParsedSplTokenProgramAccountData(
           final SplTokenProgramAccountData parsed) =
-      _$ParsedSplTokenProgramAccountData;
+      _$ParsedSplTokenProgramAccountDataImpl;
 
   factory ParsedSplTokenProgramAccountData.fromJson(Map<String, dynamic> json) =
-      _$ParsedSplTokenProgramAccountData.fromJson;
+      _$ParsedSplTokenProgramAccountDataImpl.fromJson;
 
   @override
   SplTokenProgramAccountData get parsed;
   @JsonKey(ignore: true)
-  _$$ParsedSplTokenProgramAccountDataCopyWith<
-          _$ParsedSplTokenProgramAccountData>
+  _$$ParsedSplTokenProgramAccountDataImplCopyWith<
+          _$ParsedSplTokenProgramAccountDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
-  factory _$$ParsedStakeProgramAccountDataCopyWith(
-          _$ParsedStakeProgramAccountData value,
-          $Res Function(_$ParsedStakeProgramAccountData) then) =
-      __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$ParsedStakeProgramAccountDataImplCopyWith<$Res> {
+  factory _$$ParsedStakeProgramAccountDataImplCopyWith(
+          _$ParsedStakeProgramAccountDataImpl value,
+          $Res Function(_$ParsedStakeProgramAccountDataImpl) then) =
+      __$$ParsedStakeProgramAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({StakeProgramAccountData parsed});
 
@@ -285,13 +286,13 @@ abstract class _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
+class __$$ParsedStakeProgramAccountDataImplCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res,
-        _$ParsedStakeProgramAccountData>
-    implements _$$ParsedStakeProgramAccountDataCopyWith<$Res> {
-  __$$ParsedStakeProgramAccountDataCopyWithImpl(
-      _$ParsedStakeProgramAccountData _value,
-      $Res Function(_$ParsedStakeProgramAccountData) _then)
+        _$ParsedStakeProgramAccountDataImpl>
+    implements _$$ParsedStakeProgramAccountDataImplCopyWith<$Res> {
+  __$$ParsedStakeProgramAccountDataImplCopyWithImpl(
+      _$ParsedStakeProgramAccountDataImpl _value,
+      $Res Function(_$ParsedStakeProgramAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -299,7 +300,7 @@ class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
   $Res call({
     Object? parsed = null,
   }) {
-    return _then(_$ParsedStakeProgramAccountData(
+    return _then(_$ParsedStakeProgramAccountDataImpl(
       null == parsed
           ? _value.parsed
           : parsed // ignore: cast_nullable_to_non_nullable
@@ -318,12 +319,14 @@ class __$$ParsedStakeProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
-  const _$ParsedStakeProgramAccountData(this.parsed, {final String? $type})
+class _$ParsedStakeProgramAccountDataImpl
+    implements ParsedStakeProgramAccountData {
+  const _$ParsedStakeProgramAccountDataImpl(this.parsed, {final String? $type})
       : $type = $type ?? 'stake';
 
-  factory _$ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$ParsedStakeProgramAccountDataFromJson(json);
+  factory _$ParsedStakeProgramAccountDataImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$ParsedStakeProgramAccountDataImplFromJson(json);
 
   @override
   final StakeProgramAccountData parsed;
@@ -337,10 +340,10 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ParsedStakeProgramAccountData &&
+            other is _$ParsedStakeProgramAccountDataImpl &&
             (identical(other.parsed, parsed) || other.parsed == parsed));
   }
 
@@ -351,9 +354,10 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
-      get copyWith => __$$ParsedStakeProgramAccountDataCopyWithImpl<
-          _$ParsedStakeProgramAccountData>(this, _$identity);
+  _$$ParsedStakeProgramAccountDataImplCopyWith<
+          _$ParsedStakeProgramAccountDataImpl>
+      get copyWith => __$$ParsedStakeProgramAccountDataImplCopyWithImpl<
+          _$ParsedStakeProgramAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -425,7 +429,7 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ParsedStakeProgramAccountDataToJson(
+    return _$$ParsedStakeProgramAccountDataImplToJson(
       this,
     );
   }
@@ -433,36 +437,38 @@ class _$ParsedStakeProgramAccountData implements ParsedStakeProgramAccountData {
 
 abstract class ParsedStakeProgramAccountData implements ParsedAccountData {
   const factory ParsedStakeProgramAccountData(
-      final StakeProgramAccountData parsed) = _$ParsedStakeProgramAccountData;
+          final StakeProgramAccountData parsed) =
+      _$ParsedStakeProgramAccountDataImpl;
 
   factory ParsedStakeProgramAccountData.fromJson(Map<String, dynamic> json) =
-      _$ParsedStakeProgramAccountData.fromJson;
+      _$ParsedStakeProgramAccountDataImpl.fromJson;
 
   @override
   StakeProgramAccountData get parsed;
   @JsonKey(ignore: true)
-  _$$ParsedStakeProgramAccountDataCopyWith<_$ParsedStakeProgramAccountData>
+  _$$ParsedStakeProgramAccountDataImplCopyWith<
+          _$ParsedStakeProgramAccountDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$UnsupportedProgramAccountDataCopyWith<$Res> {
-  factory _$$UnsupportedProgramAccountDataCopyWith(
-          _$UnsupportedProgramAccountData value,
-          $Res Function(_$UnsupportedProgramAccountData) then) =
-      __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>;
+abstract class _$$UnsupportedProgramAccountDataImplCopyWith<$Res> {
+  factory _$$UnsupportedProgramAccountDataImplCopyWith(
+          _$UnsupportedProgramAccountDataImpl value,
+          $Res Function(_$UnsupportedProgramAccountDataImpl) then) =
+      __$$UnsupportedProgramAccountDataImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Map<String, dynamic> parsed});
 }
 
 /// @nodoc
-class __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>
+class __$$UnsupportedProgramAccountDataImplCopyWithImpl<$Res>
     extends _$ParsedAccountDataCopyWithImpl<$Res,
-        _$UnsupportedProgramAccountData>
-    implements _$$UnsupportedProgramAccountDataCopyWith<$Res> {
-  __$$UnsupportedProgramAccountDataCopyWithImpl(
-      _$UnsupportedProgramAccountData _value,
-      $Res Function(_$UnsupportedProgramAccountData) _then)
+        _$UnsupportedProgramAccountDataImpl>
+    implements _$$UnsupportedProgramAccountDataImplCopyWith<$Res> {
+  __$$UnsupportedProgramAccountDataImplCopyWithImpl(
+      _$UnsupportedProgramAccountDataImpl _value,
+      $Res Function(_$UnsupportedProgramAccountDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -470,7 +476,7 @@ class __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>
   $Res call({
     Object? parsed = null,
   }) {
-    return _then(_$UnsupportedProgramAccountData(
+    return _then(_$UnsupportedProgramAccountDataImpl(
       null == parsed
           ? _value._parsed
           : parsed // ignore: cast_nullable_to_non_nullable
@@ -481,14 +487,16 @@ class __$$UnsupportedProgramAccountDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
-  const _$UnsupportedProgramAccountData(final Map<String, dynamic> parsed,
+class _$UnsupportedProgramAccountDataImpl
+    implements UnsupportedProgramAccountData {
+  const _$UnsupportedProgramAccountDataImpl(final Map<String, dynamic> parsed,
       {final String? $type})
       : _parsed = parsed,
         $type = $type ?? 'unsupported';
 
-  factory _$UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =>
-      _$$UnsupportedProgramAccountDataFromJson(json);
+  factory _$UnsupportedProgramAccountDataImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$UnsupportedProgramAccountDataImplFromJson(json);
 
   final Map<String, dynamic> _parsed;
   @override
@@ -507,10 +515,10 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UnsupportedProgramAccountData &&
+            other is _$UnsupportedProgramAccountDataImpl &&
             const DeepCollectionEquality().equals(other._parsed, _parsed));
   }
 
@@ -522,9 +530,10 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
-      get copyWith => __$$UnsupportedProgramAccountDataCopyWithImpl<
-          _$UnsupportedProgramAccountData>(this, _$identity);
+  _$$UnsupportedProgramAccountDataImplCopyWith<
+          _$UnsupportedProgramAccountDataImpl>
+      get copyWith => __$$UnsupportedProgramAccountDataImplCopyWithImpl<
+          _$UnsupportedProgramAccountDataImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -596,7 +605,7 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UnsupportedProgramAccountDataToJson(
+    return _$$UnsupportedProgramAccountDataImplToJson(
       this,
     );
   }
@@ -604,14 +613,15 @@ class _$UnsupportedProgramAccountData implements UnsupportedProgramAccountData {
 
 abstract class UnsupportedProgramAccountData implements ParsedAccountData {
   const factory UnsupportedProgramAccountData(
-      final Map<String, dynamic> parsed) = _$UnsupportedProgramAccountData;
+      final Map<String, dynamic> parsed) = _$UnsupportedProgramAccountDataImpl;
 
   factory UnsupportedProgramAccountData.fromJson(Map<String, dynamic> json) =
-      _$UnsupportedProgramAccountData.fromJson;
+      _$UnsupportedProgramAccountDataImpl.fromJson;
 
   @override
   Map<String, dynamic> get parsed;
   @JsonKey(ignore: true)
-  _$$UnsupportedProgramAccountDataCopyWith<_$UnsupportedProgramAccountData>
+  _$$UnsupportedProgramAccountDataImplCopyWith<
+          _$UnsupportedProgramAccountDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

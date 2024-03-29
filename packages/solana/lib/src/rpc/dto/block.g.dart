@@ -11,7 +11,7 @@ Block _$BlockFromJson(Map<String, dynamic> json) => Block(
       previousBlockhash: json['previousBlockhash'] as String,
       parentSlot: json['parentSlot'] as int,
       transactions: (json['transactions'] as List<dynamic>)
-          .map((e) => Transaction.fromJson(e))
+          .map(Transaction.fromJson)
           .toList(),
       meta: json['meta'] == null
           ? null
@@ -25,3 +25,15 @@ Block _$BlockFromJson(Map<String, dynamic> json) => Block(
       blockTime: json['blockTime'] as int?,
       blockHeight: json['blockHeight'] as int?,
     );
+
+Map<String, dynamic> _$BlockToJson(Block instance) => <String, dynamic>{
+      'blockhash': instance.blockhash,
+      'previousBlockhash': instance.previousBlockhash,
+      'parentSlot': instance.parentSlot,
+      'transactions': instance.transactions.map((e) => e.toJson()).toList(),
+      'meta': instance.meta?.toJson(),
+      'signatures': instance.signatures,
+      'rewards': instance.rewards.map((e) => e.toJson()).toList(),
+      'blockTime': instance.blockTime,
+      'blockHeight': instance.blockHeight,
+    };

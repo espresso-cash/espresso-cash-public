@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/src/subscription_client/notification_result.dart';
@@ -19,4 +21,7 @@ class NotificationParams<T> {
 
   final NotificationResult<T> result;
   final int subscription;
+
+  Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
+      _$NotificationParamsToJson(this, toJsonT);
 }

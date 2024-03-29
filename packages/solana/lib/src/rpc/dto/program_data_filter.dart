@@ -42,7 +42,7 @@ class _DataSizeProgramDataFilter implements ProgramDataFilter {
   final int dataSize;
 }
 
-@JsonSerializable(createFactory: false, explicitToJson: true)
+@JsonSerializable(createFactory: false)
 class _MemcmpProgramDataFilter implements ProgramDataFilter {
   const _MemcmpProgramDataFilter({
     required this.memcmp,

@@ -46,7 +46,9 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         await SeedVault.instance.isAvailable(allowSimulated: true);
 
     if (!isInstalled) {
-      return emit(const SeedVaultState.error('Seed vault not installed'));
+      emit(const SeedVaultState.error('Seed vault not installed'));
+
+      return;
     }
 
     final granted = await SeedVault.instance.checkPermission();
@@ -58,7 +60,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
       return refreshUI();
     }
 
-    return emit(const SeedVaultState.unauthorized());
+    emit(const SeedVaultState.unauthorized());
   }
 
   Future<void> refreshUI() async {
@@ -93,7 +95,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> signMessageWithAccount(
     AuthToken authToken,
     Account account,
-  ) async =>
+  ) =>
       _signMessages(
         authToken: authToken,
         signingRequests: [
@@ -107,7 +109,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   AsyncResult<String> signTransactionWithAccount(
     AuthToken authToken,
     Account account,
-  ) async =>
+  ) =>
       _signTransactions(
         authToken: authToken,
         signingRequests: [
@@ -139,7 +141,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
         ),
       );
 
-  AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) async =>
+  AsyncResult<List<String>> requestPublicKeys(AuthToken authToken) =>
       _requestPublicKeys(
         authToken,
         _generateUris(_maxRequestedPublicKeys),
@@ -173,7 +175,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
 
   AsyncResult<List<String>> exceedMaxRequestedPublicKeys(
     AuthToken authToken,
-  ) async =>
+  ) =>
       _requestPublicKeys(
         authToken,
         _generateUris(_maxRequestedPublicKeys + 1),
@@ -223,7 +225,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
   // Mark accounts as user wallets. This simulates a real wallet app
   // exploring each account and marking them as containing user funds.
   Future<void> _onNewSeed(AuthToken authToken) async {
-    for (var i = 0; i < _accountsPerSeed; i++) {
+    for (int i = 0; i < _accountsPerSeed; i++) {
       final derivationPath = Bip44DerivationPath.toUri(
         [BipLevel(index: i, hardened: true)],
       );
@@ -313,7 +315,7 @@ class SeedVaultBloc extends Cubit<SeedVaultState> {
     required int payloadCount,
     required int signatureCount,
     required _PayloadType payloadType,
-  }) async {
+  }) {
     final maxRequestedSignatures = _maxRequestedSignatures;
 
     return Future.wait(

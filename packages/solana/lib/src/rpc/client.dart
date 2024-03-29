@@ -202,6 +202,7 @@ abstract class RpcClient {
   /// [see this document]: https://docs.solana.com/developing/clients/jsonrpc-api#configuring-state-commitment
   ///
   /// [minContextSlot] Set the minimum slot that the request can be evaluated at.
+  @WithContextResult()
   Future<int?> getFeeForMessage(
     String message, {
     Commitment? commitment,

@@ -82,7 +82,7 @@ extension BinaryReaderExt on BinaryReader {
   int readCompactU16Value() {
     final keysLength = CompactU16.raw(buf.buffer.asUint8List(offset));
 
-    for (var i = 0; i < keysLength.size; i++) {
+    for (int i = 0; i < keysLength.size; i++) {
       readU8();
     }
 

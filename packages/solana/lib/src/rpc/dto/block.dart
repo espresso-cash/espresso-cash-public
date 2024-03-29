@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/transaction.dart';
 part 'block.g.dart';
 
 /// A block
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Block {
   const Block({
     required this.blockhash,
@@ -56,4 +56,6 @@ class Block {
 
   /// The number of blocks beneath this block
   final int? blockHeight;
+
+  Map<String, dynamic> toJson() => _$BlockToJson(this);
 }

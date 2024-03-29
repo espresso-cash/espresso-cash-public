@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 import 'util.dart';
 
-Future<void> main() async {
+void main() {
   test('Compile', () async {
     final payer = await Ed25519HDKeyPair.random();
     final keys = await createTestKeys(6);
@@ -163,6 +163,7 @@ Future<void> main() async {
     _setMapEntry(map, keys[4], true, false, true);
     _setMapEntry(map, keys[5], false, false, true);
 
+    // ignore: avoid-duplicate-collection-elements, intended here
     final lookupTable = await createTestAddressLookUpTable([...keys, ...keys]);
     final compiledKeys = CompiledKeys(payer: keys.first, keyMetaMap: map);
 

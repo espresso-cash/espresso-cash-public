@@ -1,17 +1,15 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../core/transactions/tx_sender.dart';
-import '../../features/activities/db.dart';
+import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
-import '../../features/favorite_tokens/db.dart';
-import '../../features/incoming_split_key_payments/db.dart';
-import '../../features/outgoing_direct_payments/db.dart';
-import '../../features/outgoing_split_key_payments/db.dart';
-import '../../features/payment_request/db.dart';
-import '../../features/popular_tokens/db.dart';
-import '../../features/swap/db.dart';
-import 'deprecated.dart';
+import '../../features/incoming_link_payments/data/ilp_repository.dart';
+import '../../features/outgoing_direct_payments/data/repository.dart';
+import '../../features/outgoing_link_payments/data/repository.dart';
+import '../../features/payment_request/data/repository.dart';
+import '../../features/ramp/models/ramp_partner.dart';
+import '../../features/transactions/models/tx_results.dart';
+import 'mixins.dart';
 import 'open_connection.dart';
 
 part 'db.g.dart';
@@ -27,26 +25,27 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 36;
+const int latestVersion = 48;
 
 const _tables = [
   OutgoingTransferRows,
   PaymentRequestRows,
   ODPRows,
-  OSKPRows,
-  ISKPRows,
-  SwapRows,
   TransactionRows,
-  FavoriteTokenRows,
-  PopularTokenRows,
-  OTRows,
-  ITRows,
+  OLPRows,
+  ILPRows,
+  OnRampOrderRows,
+  OffRampOrderRows,
+  OutgoingDlnPaymentRows,
 ];
 
 @lazySingleton
 @DriftDatabase(tables: _tables)
 class MyDatabase extends _$MyDatabase {
+  @factoryMethod
   MyDatabase() : super(openConnection());
+
+  MyDatabase.withExecutor(super.e);
 
   MyDatabase.connect(DatabaseConnection connection)
       : super(connection.executor);
@@ -58,125 +57,137 @@ class MyDatabase extends _$MyDatabase {
   MigrationStrategy get migration => MigrationStrategy(
         onCreate: (Migrator m) => m.createAll(),
         onUpgrade: (Migrator m, int from, int to) async {
-          if (from < 12) {
-            await m.createTable(outgoingTransferRows);
+          if (from < 39) {
+            await m.createTable(oLPRows);
+            await m.createTable(iLPRows);
           }
-          if (from < 13) {
-            await m.createTable(paymentRequestRows);
+          if (from < 40) {
+            await m.createTable(offRampOrderRows);
           }
-          if (from >= 13 && from < 14) {
+          if (from >= 37 && from < 41) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.partner);
+          }
+          if (from >= 40 && from < 42) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.partner);
+          }
+          if (from >= 40 && from < 43) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.resolvedAt);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.receiveAmount);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.fiatSymbol);
+          }
+          if (from >= 37 && from < 44) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.status);
+          }
+          if (from >= 37 && from < 45) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bankName);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bankAccount);
             await m.addColumn(
-              paymentRequestRows,
-              paymentRequestRows.transactionId,
+              onRampOrderRows,
+              onRampOrderRows.bankTransferExpiry,
             );
+            await m.addColumn(
+              onRampOrderRows,
+              onRampOrderRows.bankTransferAmount,
+            );
+            await m.addColumn(onRampOrderRows, onRampOrderRows.fiatSymbol);
           }
-          if (from < 15) {
-            await m.createTable(oDPRows);
+          if (from >= 39 && from < 46) {
+            await m.addColumn(iLPRows, iLPRows.feeAmount);
           }
-          if (from < 16) {
-            await m.createTable(oSKPRows);
+          if (from < 47) {
+            await m.createTable(outgoingDlnPaymentRows);
           }
-          if (from < 17) {
-            await m.createTable(iSKPRows);
-          }
-
-          if (from >= 15 && from < 18) {
-            await m.addColumn(oDPRows, oDPRows.reference);
-          }
-
-          if (from >= 15 && from < 19) {
-            await m.addColumn(oDPRows, oDPRows.txFailureReason);
-          }
-          if (from >= 16 && from < 19) {
-            await m.addColumn(oSKPRows, oSKPRows.txFailureReason);
-          }
-          if (from < 20) {
-            await m.createTable(transactionRows);
-          }
-          if (from < 21) {
-            await m.createTable(swapRows);
-          }
-          if (from < 22) {
-            await m.createTable(oTRows);
-            await m.createTable(iTRows);
-          }
-          if (from < 23) {
-            await m.createTable(popularTokenRows);
-          }
-          if (from < 24) {
-            await m.createTable(favoriteTokenRows);
-          }
-          if (from >= 16 && from < 25) {
-            await m.addColumn(oSKPRows, oSKPRows.withdrawTxId);
-          }
-          if (from >= 16 && from < 26) {
-            await m.addColumn(oSKPRows, oSKPRows.cancelTx);
-            await m.addColumn(oSKPRows, oSKPRows.cancelTxId);
-          }
-          if (from >= 22 && from < 26) {
-            await m.addColumn(oTRows, oTRows.withdrawTxId);
-            await m.addColumn(oTRows, oTRows.cancelTx);
-            await m.addColumn(oTRows, oTRows.cancelTxId);
-          }
-          if (from >= 16 && from < 27) {
-            await m.addColumn(oSKPRows, oSKPRows.link3);
-          }
-          if (from >= 22 && from < 28) {
-            await _migrateOTP();
-          }
-          if (from >= 16 && from < 29) {
-            await m.addColumn(oSKPRows, oSKPRows.slot);
-          }
-          if (from >= 15 && from < 30) {
-            await m.addColumn(oDPRows, oDPRows.slot);
-          }
-          if (from >= 21 && from < 31) {
-            await m.addColumn(swapRows, swapRows.slot);
-            await m.addColumn(swapRows, swapRows.txFailureReason);
-          }
-          if (from >= 17 && from < 32) {
-            await m.addColumn(iSKPRows, iSKPRows.txFailureReason);
-            await m.addColumn(iSKPRows, iSKPRows.slot);
-          }
-          if (from >= 16 && from < 34) {
-            await m.addColumn(oSKPRows, oSKPRows.resolvedAt);
-            await m.addColumn(oSKPRows, oSKPRows.generatedLinksAt);
-          }
-          if (from >= 16 && from < 35) {
-            await m.addColumn(oSKPRows, oSKPRows.apiVersion);
-          }
-          if (from >= 17 && from < 35) {
-            await m.addColumn(iSKPRows, iSKPRows.apiVersion);
-          }
-          if (from < 36) {
-            await m.deleteTable('i_s_l_p_rows');
+          if (from >= 40 && from < 48) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
           }
         },
       );
+}
 
-  Future<void> _migrateOTP() async {
-    final otpRows = await select(oTRows).get();
-    for (final row in otpRows) {
-      await into(oSKPRows).insert(
-        OSKPRow(
-          id: row.id,
-          created: row.created,
-          amount: row.amount,
-          token: row.token,
-          status: row.status.toOSKPStatus(),
-          txFailureReason: row.txFailureReason,
-          withdrawTxId: row.withdrawTxId,
-          cancelTx: row.cancelTx,
-          cancelTxId: row.cancelTxId,
-          privateKey: row.privateKey,
-          link1: null,
-          link2: null,
-          link3: row.link,
-          tx: row.tx,
-          txId: row.txId,
-          apiVersion: OskpApiVersionDto.manual,
-        ),
-      );
-    }
-  }
+class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
+  const OnRampOrderRows();
+
+  BoolColumn get isCompleted => boolean()();
+  TextColumn get humanStatus => text()();
+  TextColumn get machineStatus => text()();
+  TextColumn get partnerOrderId => text()();
+  IntColumn get receiveAmount => integer().nullable()();
+  TextColumn get txHash => text()();
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  TextColumn get status => textEnum<OnRampOrderStatus>()();
+  TextColumn get bankName => text().nullable()();
+  TextColumn get bankAccount => text().nullable()();
+  DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
+  IntColumn get bankTransferAmount => integer().nullable()();
+  TextColumn get fiatSymbol => text().nullable()();
+}
+
+class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
+  const OffRampOrderRows();
+
+  TextColumn get status => textEnum<OffRampOrderStatus>()();
+  TextColumn get humanStatus => text()();
+  TextColumn get machineStatus => text()();
+  TextColumn get partnerOrderId => text()();
+  TextColumn get transaction => text()();
+  TextColumn get depositAddress => text()();
+  Int64Column get slot => int64()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
+  IntColumn get receiveAmount => integer().nullable()();
+  TextColumn get fiatSymbol => text().nullable()();
+  TextColumn get partner =>
+      textEnum<RampPartner>().withDefault(const Constant('kado'))();
+  IntColumn get feeAmount => integer().nullable()();
+  TextColumn get feeToken => text().nullable()();
+}
+
+enum OnRampOrderStatus {
+  waitingForDeposit,
+  depositExpired,
+  waitingForPartner,
+  failure,
+  completed,
+}
+
+enum OffRampOrderStatus {
+  depositTxRequired,
+  creatingDepositTx,
+  depositTxReady,
+  sendingDepositTx,
+  depositError,
+  depositTxConfirmError,
+  waitingForPartner,
+  failure,
+  completed,
+  cancelled,
+  insufficientFunds,
+}
+
+class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
+  const OutgoingDlnPaymentRows();
+
+  TextColumn get receiverBlockchain => textEnum<BlockchainDto>()();
+  TextColumn get receiverAddress => text()();
+  IntColumn get amount => integer()();
+  IntColumn get status => intEnum<ODLNPaymentStatusDto>()();
+
+  TextColumn get orderId => text().nullable()();
+}
+
+enum BlockchainDto {
+  solana,
+  arbitrum,
+  polygon,
+  ethereum,
+}
+
+enum ODLNPaymentStatusDto {
+  txCreated,
+  txSent,
+  success,
+  txFailure,
+  fulfilled,
+  unfulfilled,
 }

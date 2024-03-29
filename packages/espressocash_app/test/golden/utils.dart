@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:meta/meta.dart';
 import 'package:mockito/mockito.dart';
@@ -13,12 +14,13 @@ import 'wrapper.dart';
 void testGoldensWidget(
   String name,
   Widget widget, {
-  FutureOr<void> Function()? setUp,
+  Func0<FutureOr<void>>? setUp,
   CustomPump? customPump,
+  bool? skip,
 }) {
   final snakeName = name.snakeCase;
 
-  testGoldens(name, (tester) async {
+  testGoldens(name, skip: skip, (tester) async {
     await setUp?.call();
 
     final builder = DeviceBuilder()

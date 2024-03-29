@@ -10,6 +10,7 @@ import 'anchor_tutorial_types/basic1.dart';
 import 'config.dart';
 
 void main() {
+  // ignore: avoid-unnecessary-late, needed here
   late final Ed25519HDKeyPair payer;
   late final Ed25519HDKeyPair updater;
   final client = SolanaClient(
@@ -46,7 +47,7 @@ void main() {
         commitment: Commitment.confirmed,
       );
 
-      expect(signature, isNotNull);
+      expect(signature, isNotEmpty);
     },
     skip: true,
   );

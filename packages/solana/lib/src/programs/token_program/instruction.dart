@@ -99,7 +99,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.initializeMintInstructionIndex,
@@ -129,7 +129,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.transferInstructionIndex,
@@ -158,7 +158,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge(
           [
@@ -183,7 +183,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: TokenProgram.revokeInstructionIndex,
       );
@@ -208,7 +208,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.setAuthorityInstructionIndex,
@@ -266,7 +266,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.burnInstructionIndex,
@@ -293,7 +293,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: TokenProgram.closeAccountInstructionIndex,
       );
@@ -315,7 +315,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: TokenProgram.freezeAccountInstructionIndex,
       );
@@ -337,7 +337,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: TokenProgram.thawAccountInstructionIndex,
       );
@@ -369,7 +369,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.transferCheckedInstructionIndex,
@@ -404,7 +404,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge(
           [
@@ -467,7 +467,7 @@ class TokenInstruction extends Instruction {
           ),
           ...signers.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.burnCheckedInstructionIndex,
@@ -510,7 +510,7 @@ class TokenInstruction extends Instruction {
   }) =>
       TokenInstruction._(
         accounts: [
-          AccountMeta.writeable(pubKey: nativeTokenAccount, isSigner: false)
+          AccountMeta.writeable(pubKey: nativeTokenAccount, isSigner: false),
         ],
         data: TokenProgram.syncNativeInstructionIndex,
       );
@@ -544,7 +544,7 @@ class TokenInstruction extends Instruction {
           AccountMeta.writeable(pubKey: pubKey, isSigner: true),
           ...signerPubKeys.map(
             (pubKey) => AccountMeta.readonly(pubKey: pubKey, isSigner: true),
-          )
+          ),
         ],
         data: ByteArray.merge([
           TokenProgram.initializeMultisig2InstructionIndex,

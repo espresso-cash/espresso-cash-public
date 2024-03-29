@@ -1,19 +1,26 @@
 import 'dart:async';
 
-import 'package:auto_route/auto_route.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../l10n/l10n.dart';
-import '../../routes.gr.dart';
+import '../../routing.dart';
 import '../../ui/snackbar.dart';
+import '../../ui/web_view_screen.dart';
 
 extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
       final url = Uri.parse(link);
-      await router.push(WebViewRoute(url: url));
+      await WebViewRoute(
+        (
+          url: url,
+          title: null,
+          onLoaded: null,
+          theme: null,
+        ),
+      ).push<void>(this);
     } on FormatException catch (_) {
       showCpErrorSnackbar(
         this,
@@ -43,5 +50,5 @@ extension StringExt on String {
   }
 
   String withZeroWidthSpaces() =>
-      splitMapJoin('', onMatch: (m) => '${m.group(0)}\u200b');
+      splitMapJoin('', onMatch: (m) => '${m.group(0) ?? ''}\u200b');
 }

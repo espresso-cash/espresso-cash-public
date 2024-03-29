@@ -5,7 +5,7 @@ import 'package:solana/src/rpc/dto/confirmation_status.dart';
 part 'transaction_signature_information.g.dart';
 
 /// The information of a transaction signature
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class TransactionSignatureInformation {
   const TransactionSignatureInformation({
     required this.signature,
@@ -42,4 +42,7 @@ class TransactionSignatureInformation {
   /// [Commitment](@help/commitment/link) for more on optimistic
   /// confirmation.
   final ConfirmationStatus? confirmationStatus;
+
+  Map<String, dynamic> toJson() =>
+      _$TransactionSignatureInformationToJson(this);
 }

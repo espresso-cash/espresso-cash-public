@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'return_data.g.dart';
 
 /// A ReturnData
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class ReturnData {
   const ReturnData({
     required this.programId,
@@ -18,4 +18,6 @@ class ReturnData {
 
   /// The return data itself, as base-64 encoded binary data
   final String data;
+
+  Map<String, dynamic> toJson() => _$ReturnDataToJson(this);
 }

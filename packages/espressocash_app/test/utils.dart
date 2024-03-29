@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:espressocash_app/core/tokens/token.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 

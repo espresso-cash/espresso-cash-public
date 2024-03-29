@@ -6,5 +6,14 @@ analyzer:
   errors:
     invalid_annotation_target: ignore
 
-  plugins:
-    - dart_code_metrics
+dart_code_metrics:
+  rules:
+    avoid-barrel-files: false
+    avoid-missing-interpolation: false
+    avoid-passing-self-as-argument: false
+    prefer-correct-handler-name: false
+    match-lib-folder-structure: false
+    avoid-duplicate-initializers: false
+    move-variable-outside-iteration: false
+    prefer-overriding-parent-equality: false # too many false positives, temporarily disabled
+    avoid-unnecessary-collections: false # too many false positives, temporarily disabled

@@ -9,8 +9,9 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FLUTTER_VERSION: "3.10.2"
-  DART_VERSION: "3.0.2"
+  FLUTTER_VERSION: "3.16.5"
+  DART_VERSION: "3.2.3"
+  DCM_VERSION: "1.15.1"
 
 jobs:
   formatting:
@@ -29,7 +30,7 @@ jobs:
     needs: [formatting]
     runs-on: ubuntu-latest
     env:
-      SCOPE: --no-flutter --ignore="espressocash*" --ignore="solana"
+      SCOPE: --no-flutter --ignore="solana"
 
     steps:
       - uses: actions/checkout@v2
@@ -37,57 +38,17 @@ jobs:
         with:
           sdk: ${{ env.DART_VERSION }}
 
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
+
       - name: Activate utils
         run: make activate_utils
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
-
-      - name: Analyze project source
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
-
-      - name: Run tests
-        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make dart_test
-
-  espressocash_backend:
-    needs: [formatting]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: read
-    env:
-      DEVNET_RPC_URL: "http://localhost:8899"
-      DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
-      SCOPE: --scope="espressocash_backend" --scope="espressocash_api" --scope="jupiter_aggregator"
-      EC_LINKS_ID: "7rE2We9zMQzj2xmhJRTvYXKP22VKDGh3krujdBqWibBL"
-      EC_LINKS_SO: "packages/espressocash_backend/test/bpf-programs/ec_shareable_links.so"
-    steps:
-      - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1.3
-        with:
-          sdk: ${{ env.DART_VERSION }}
-
-      - uses: subosito/flutter-action@v2
-        with:
-          flutter-version: ${{ env.FLUTTER_VERSION }}
-          channel: "stable"
-          cache: true
-
-      - name: Activate utils
-        run: make activate_utils
-
-      - name: Start Solana Local Validator
-        uses: switchboard-xyz/solana-local-validator@v0.1
-        with:
-          solana-version: stable
-          cluster: mainnet
-          args: --bpf-program ${{ env.EC_LINKS_ID }} ${{ env.EC_LINKS_SO }}
-
-      - name: Activate melos
-        run: make activate_utils
-
-      - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
+        run: melos bs ${{ env.SCOPE }}
 
       - name: Analyze project source
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_analyze
@@ -109,7 +70,8 @@ jobs:
       DEVNET_RPC_URL: "http://localhost:8899"
       DEVNET_WEBSOCKET_URL: "ws://localhost:8900"
       SCOPE: --scope="solana"
-
+      METAPLEX_ID: "metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
+      METAPLEX_SO: "packages/solana/test/bpf-programs/metaplex.so"
     steps:
       - uses: actions/checkout@v2
       - run: echo "$HOME/.pub-cache/bin" >> $GITHUB_PATH
@@ -118,7 +80,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
 
       - name: Activate utils
         run: make activate_utils
@@ -128,6 +95,7 @@ jobs:
         with:
           solana-version: ${{ matrix.solanaVersion }}
           cluster: mainnet
+          args: --bpf-program ${{ env.METAPLEX_ID }} ${{ env.METAPLEX_SO }}
 
       - name: Install dependencies
         run: melos exec -c 1 ${{ env.SCOPE }} -- make dart_get
@@ -156,6 +124,12 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
 
       - name: Activate utils
         run: make activate_utils
@@ -187,7 +161,12 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: "stable"
-          cache: true
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
 
       - name: Activate utils
         run: make activate_utils
@@ -199,10 +178,64 @@ jobs:
           cluster: mainnet
 
       - name: Install dependencies
-        run: melos exec -c 1 ${{ env.SCOPE }} -- make flutter_get
+        run: melos bs ${{ env.SCOPE }}
 
-      - name: Run build_runner
-        run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
+      - name: Generate code
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="flutter_localizations" -- flutter gen-l10n
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
+
+      - name: Generate test schemas
+        run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas
+
+      - name: Analyze
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
+          melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_all
+
+      - name: Test
+        run: melos exec -c 1 ${{ env.SCOPE }} --dir-exists="test" -- make flutter_test
+
+      - name: Store failure artifacts
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: golden-test-failure
+          path: "**/test/golden/**/failures/"
+
+  espressocash_landing:
+    needs: [formatting]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+    env:
+      SCOPE: --scope="espressocash_landing"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: "stable"
+
+      - name: Install DCM
+        uses: CQLabs/setup-dcm@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          version: ${{ env.DCM_VERSION }}
+
+      - name: Activate utils
+        run: make activate_utils
+
+      - name: Install dependencies
+        run: melos bs ${{ env.SCOPE }}
+
+      - name: Generate code
+        run: |
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="flutter_localizations" -- flutter gen-l10n
+          melos exec -c 1 ${{ env.SCOPE }} --depends-on="build_runner" -- make flutter_build
 
       - name: Generate test schemas
         run: melos exec -c 1 ${{ env.SCOPE }} --depends-on="drift_dev" -- make flutter_generate_test_schemas

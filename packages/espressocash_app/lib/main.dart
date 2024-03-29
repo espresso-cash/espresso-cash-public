@@ -1,26 +1,24 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:localizely_sdk/localizely_sdk.dart';
-import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'app/app.dart';
+import 'app.dart';
 import 'config.dart';
-import 'core/accounts/module.dart';
-import 'core/balances/module.dart';
-import 'core/dynamic_links_notifier.dart';
 import 'di.dart';
+import 'features/accounts/services/account_service.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 
 Future<void> main() async {
-  Localizely.init(localizelySdkToken, localizelyDistributionId);
-  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const SplashScreen());
+
   if (!kIsWeb) {
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
@@ -28,13 +26,6 @@ Future<void> main() async {
     ]);
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
-
-  runApp(
-    const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    ),
-  );
 
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
@@ -48,7 +39,7 @@ Future<void> main() async {
       : _start();
 }
 
-Future<void> _start() async {
+Future<void> _init() async {
   await Firebase.initializeApp();
 
   await configureDependencies();
@@ -64,15 +55,20 @@ Future<void> _start() async {
   }
   await sharedPreferences.setBool(_firstRunKey, true);
 
-  final app = MultiProvider(
-    providers: [
-      const BalancesModule(),
-      const AccountsModule(),
-      ChangeNotifierProvider<DynamicLinksNotifier>(
-        create: (_) => sl<DynamicLinksNotifier>(),
-      ),
-    ],
-    child: const CryptopleaseApp(),
+  await sl<AccountService>().initialize();
+}
+
+Future<void> _start() async {
+  await _init();
+
+  final app = DevicePreview(
+    enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),
+    builder: (context) => ScreenUtilInit(
+      designSize: const Size(428, 926),
+      useInheritedMediaQuery: true,
+      minTextAdapt: true,
+      builder: (context, child) => const EspressoCashApp(),
+    ),
   );
 
   runApp(app);

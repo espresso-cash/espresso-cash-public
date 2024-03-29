@@ -8,24 +8,24 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => CpTheme.dark(
+  Widget build(BuildContext context) => const CpTheme.black(
         child: DecoratedBox(
-          decoration: const BoxDecoration(
-            color: CpColors.darkSplashBackgroundColor,
+          decoration: BoxDecoration(
+            color: CpColors.yellowSplashBackgroundColor,
           ),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Assets.icons.logoDark
-                    .svg(alignment: Alignment.bottomCenter),
-              ),
-              Align(
-                alignment: const Alignment(0, -0.7),
-                child: Assets.images.logo.image(height: 195, width: 275),
-              ),
-            ],
+          child: Center(
+            child: SplashLogo(),
           ),
         ),
+      );
+}
+
+class SplashLogo extends StatelessWidget {
+  const SplashLogo({super.key});
+
+  @override
+  Widget build(BuildContext context) => Hero(
+        tag: 'logo',
+        child: Assets.images.logo.image(height: 66),
       );
 }

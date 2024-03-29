@@ -4,7 +4,7 @@ import 'package:solana/src/rpc/dto/reward_type.dart';
 part 'reward.g.dart';
 
 /// A reward
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class Reward {
   const Reward({
     required this.pubkey,
@@ -33,4 +33,6 @@ class Reward {
   /// vote account commission when the reward was credited, only
   /// present for voting and staking rewards
   final int commission;
+
+  Map<String, dynamic> toJson() => _$RewardToJson(this);
 }

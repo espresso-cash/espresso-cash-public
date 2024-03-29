@@ -6,18 +6,8 @@
 		<string>development</string>
 		<key>com.apple.developer.associated-domains</key>
 		<array>
-			<!-- Support for cryptoplease.link protocol -->
-			<string>applinks:solana1.cryptoplease.link</string>
-			<string>applinks:solana2.cryptoplease.link</string>
-			<string>applinks:link.espressocash.com</string>
-
-			<!-- Support for requests -->
-			<string>applinks:solanapay.cryptoplease.link</string>
-			<string>applinks:solanapay.espressocash.com</string>
-
-			<!-- Firebase deep link for installing the app -->
-			<string>applinks:cryptoplease.page.link</string>
-			<string>applinks:espressocash.page.link</string>
+			<!-- Support for espressocash link and solanapay protocol -->
+			<string>applinks:pay.espressocash.com</string>
 		</array>
 	</dict>
 </plist>

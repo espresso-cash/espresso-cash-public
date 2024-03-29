@@ -116,7 +116,11 @@ class _CpSliderState extends State<CpSlider>
                             final value =
                                 _positionNotifier.value + details.delta.dx;
                             if (value < 0) return;
-                            if (value > maxSlideWidth) return _onDone();
+                            if (value > maxSlideWidth) {
+                              _onDone();
+
+                              return;
+                            }
                             _positionNotifier.value = value;
                           },
                           onHorizontalDragEnd: (_) => _resetPosition(),

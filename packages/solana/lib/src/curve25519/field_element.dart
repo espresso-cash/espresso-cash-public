@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-self-assignment
+// ignore_for_file: avoid-self-assignment, avoid-duplicate-collection-elements, avoid-unnecessary-reassignment
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/src/curve25519/extensions.dart';
@@ -27,45 +27,36 @@ class FieldElement {
     BigInt h7 = load_3(input, 23) << 5;
     BigInt h8 = load_3(input, 26) << 4;
     BigInt h9 = (load_3(input, 29) & BigInt.from(0x7FFFFF)) << 2;
-    BigInt carry0;
-    BigInt carry1;
-    BigInt carry2;
-    BigInt carry3;
-    BigInt carry4;
-    BigInt carry5;
-    BigInt carry6;
-    BigInt carry7;
-    BigInt carry8;
-    BigInt carry9;
     // Remember: 2^255 congruent 19 modulo p
-    carry9 = (h9 + (BigInt.one << 24)) >> 25;
+
+    final BigInt carry9 = (h9 + (BigInt.one << 24)) >> 25;
     h0 += carry9 * BigInt.from(19);
     h9 -= carry9 << 25;
-    carry1 = (h1 + (BigInt.one << 24)) >> 25;
+    final BigInt carry1 = (h1 + (BigInt.one << 24)) >> 25;
     h2 += carry1;
     h1 -= carry1 << 25;
-    carry3 = (h3 + (BigInt.one << 24)) >> 25;
+    final BigInt carry3 = (h3 + (BigInt.one << 24)) >> 25;
     h4 += carry3;
     h3 -= carry3 << 25;
-    carry5 = (h5 + (BigInt.one << 24)) >> 25;
+    final BigInt carry5 = (h5 + (BigInt.one << 24)) >> 25;
     h6 += carry5;
     h5 -= carry5 << 25;
-    carry7 = (h7 + (BigInt.one << 24)) >> 25;
+    final BigInt carry7 = (h7 + (BigInt.one << 24)) >> 25;
     h8 += carry7;
     h7 -= carry7 << 25;
-    carry0 = (h0 + (BigInt.one << 25)) >> 26;
+    final BigInt carry0 = (h0 + (BigInt.one << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    carry2 = (h2 + (BigInt.one << 25)) >> 26;
+    final BigInt carry2 = (h2 + (BigInt.one << 25)) >> 26;
     h3 += carry2;
     h2 -= carry2 << 26;
-    carry4 = (h4 + (BigInt.one << 25)) >> 26;
+    final BigInt carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry6 = (h6 + (BigInt.one << 25)) >> 26;
+    final BigInt carry6 = (h6 + (BigInt.one << 25)) >> 26;
     h7 += carry6;
     h6 -= carry6 << 26;
-    carry8 = (h8 + (BigInt.one << 25)) >> 26;
+    final BigInt carry8 = (h8 + (BigInt.one << 25)) >> 26;
     h9 += carry8;
     h8 -= carry8 << 26;
     _t[0] = h0;
@@ -110,7 +101,7 @@ class FieldElement {
   final List<BigInt> _t;
 
   static BigInt load_3(List<BigInt> input, int offset) {
-    var result = input[offset] & BigInt.from(0xff);
+    BigInt result = input[offset] & BigInt.from(0xff);
     result |= (input[offset + 1] & BigInt.from(0xff)) << 8;
     result |= (input[offset + 2] & BigInt.from(0xff)) << 16;
 
@@ -118,7 +109,7 @@ class FieldElement {
   }
 
   static BigInt load_4(List<BigInt> input, int offset) {
-    var result = input[offset] & BigInt.from(0xff);
+    BigInt result = input[offset] & BigInt.from(0xff);
     result |= (input[offset + 1] & BigInt.from(0xff)) << 8;
     result |= (input[offset + 2] & BigInt.from(0xff)) << 16;
     result |= input[offset + 3] << 24;
@@ -137,20 +128,10 @@ class FieldElement {
     BigInt h7 = _t[7];
     BigInt h8 = _t[8];
     BigInt h9 = _t[9];
-    BigInt q;
-    BigInt carry0;
-    BigInt carry1;
-    BigInt carry2;
-    BigInt carry3;
-    BigInt carry4;
-    BigInt carry5;
-    BigInt carry6;
-    BigInt carry7;
-    BigInt carry8;
-    BigInt carry9;
+
     // Step 1:
     // Calculate q
-    q = (BigInt.from(19) * h9 + (BigInt.from(1) << 24)) >> 25;
+    BigInt q = (BigInt.from(19) * h9 + (BigInt.from(1) << 24)) >> 25;
     q = (h0 + q) >> 26;
     q = (h1 + q) >> 25;
     q = (h2 + q) >> 26;
@@ -164,34 +145,34 @@ class FieldElement {
     // r = h - q * p = h - 2^255 * q + 19 * q
     // First add 19 * q then discard the bit 255
     h0 += BigInt.from(19) * q;
-    carry0 = h0 >> 26;
+    final BigInt carry0 = h0 >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    carry1 = h1 >> 25;
+    final BigInt carry1 = h1 >> 25;
     h2 += carry1;
     h1 -= carry1 << 25;
-    carry2 = h2 >> 26;
+    final BigInt carry2 = h2 >> 26;
     h3 += carry2;
     h2 -= carry2 << 26;
-    carry3 = h3 >> 25;
+    final BigInt carry3 = h3 >> 25;
     h4 += carry3;
     h3 -= carry3 << 25;
-    carry4 = h4 >> 26;
+    final BigInt carry4 = h4 >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry5 = h5 >> 25;
+    final BigInt carry5 = h5 >> 25;
     h6 += carry5;
     h5 -= carry5 << 25;
-    carry6 = h6 >> 26;
+    final BigInt carry6 = h6 >> 26;
     h7 += carry6;
     h6 -= carry6 << 26;
-    carry7 = h7 >> 25;
+    final BigInt carry7 = h7 >> 25;
     h8 += carry7;
     h7 -= carry7 << 25;
-    carry8 = h8 >> 26;
+    final BigInt carry8 = h8 >> 26;
     h9 += carry8;
     h8 -= carry8 << 26;
-    carry9 = h9 >> 25;
+    final BigInt carry9 = h9 >> 25;
     h9 -= carry9 << 25;
     // Step 2 (straight forward conversion):
     final s = List.filled(32, BigInt.zero);
@@ -489,47 +470,37 @@ class FieldElement {
         f9g9_38;
     BigInt h9 =
         f0g9 + f1g8 + f2g7 + f3g6 + f4g5 + f5g4 + f6g3 + f7g2 + f8g1 + f9g0;
-    BigInt carry0;
-    BigInt carry1;
-    BigInt carry2;
-    BigInt carry3;
-    BigInt carry4;
-    BigInt carry5;
-    BigInt carry6;
-    BigInt carry7;
-    BigInt carry8;
-    BigInt carry9;
-    carry0 = (h0 + (BigInt.one << 25)) >> 26;
+    BigInt carry0 = (h0 + (BigInt.one << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    carry4 = (h4 + (BigInt.one << 25)) >> 26;
+    BigInt carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry1 = (h1 + (BigInt.one << 24)) >> 25;
+    final BigInt carry1 = (h1 + (BigInt.one << 24)) >> 25;
     h2 += carry1;
     h1 -= carry1 << 25;
-    carry5 = (h5 + (BigInt.one << 24)) >> 25;
+    final BigInt carry5 = (h5 + (BigInt.one << 24)) >> 25;
     h6 += carry5;
     h5 -= carry5 << 25;
-    carry2 = (h2 + (BigInt.one << 25)) >> 26;
+    final BigInt carry2 = (h2 + (BigInt.one << 25)) >> 26;
     h3 += carry2;
     h2 -= carry2 << 26;
-    carry6 = (h6 + (BigInt.one << 25)) >> 26;
+    final BigInt carry6 = (h6 + (BigInt.one << 25)) >> 26;
     h7 += carry6;
     h6 -= carry6 << 26;
-    carry3 = (h3 + (BigInt.one << 24)) >> 25;
+    final BigInt carry3 = (h3 + (BigInt.one << 24)) >> 25;
     h4 += carry3;
     h3 -= carry3 << 25;
-    carry7 = (h7 + (BigInt.one << 24)) >> 25;
+    final BigInt carry7 = (h7 + (BigInt.one << 24)) >> 25;
     h8 += carry7;
     h7 -= carry7 << 25;
     carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry8 = (h8 + (BigInt.one << 25)) >> 26;
+    final BigInt carry8 = (h8 + (BigInt.one << 25)) >> 26;
     h9 += carry8;
     h8 -= carry8 << 26;
-    carry9 = (h9 + (BigInt.one << 24)) >> 25;
+    final BigInt carry9 = (h9 + (BigInt.one << 24)) >> 25;
     h0 += carry9 * BigInt.from(19);
     h9 -= carry9 << 25;
     carry0 = (h0 + (BigInt.one << 25)) >> 26;
@@ -639,47 +610,37 @@ class FieldElement {
     BigInt h7 = f0f7_2 + f1f6_2 + f2f5_2 + f3f4_2 + f8f9_38;
     BigInt h8 = f0f8_2 + f1f7_4 + f2f6_2 + f3f5_4 + f4f4 + f9f9_38;
     BigInt h9 = f0f9_2 + f1f8_2 + f2f7_2 + f3f6_2 + f4f5_2;
-    BigInt carry0;
-    BigInt carry1;
-    BigInt carry2;
-    BigInt carry3;
-    BigInt carry4;
-    BigInt carry5;
-    BigInt carry6;
-    BigInt carry7;
-    BigInt carry8;
-    BigInt carry9;
-    carry0 = (h0 + (BigInt.one << 25)) >> 26;
+    BigInt carry0 = (h0 + (BigInt.one << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    carry4 = (h4 + (BigInt.one << 25)) >> 26;
+    BigInt carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry1 = (h1 + (BigInt.one << 24)) >> 25;
+    final BigInt carry1 = (h1 + (BigInt.one << 24)) >> 25;
     h2 += carry1;
     h1 -= carry1 << 25;
-    carry5 = (h5 + (BigInt.one << 24)) >> 25;
+    final BigInt carry5 = (h5 + (BigInt.one << 24)) >> 25;
     h6 += carry5;
     h5 -= carry5 << 25;
-    carry2 = (h2 + (BigInt.one << 25)) >> 26;
+    final BigInt carry2 = (h2 + (BigInt.one << 25)) >> 26;
     h3 += carry2;
     h2 -= carry2 << 26;
-    carry6 = (h6 + (BigInt.one << 25)) >> 26;
+    final BigInt carry6 = (h6 + (BigInt.one << 25)) >> 26;
     h7 += carry6;
     h6 -= carry6 << 26;
-    carry3 = (h3 + (BigInt.one << 24)) >> 25;
+    final BigInt carry3 = (h3 + (BigInt.one << 24)) >> 25;
     h4 += carry3;
     h3 -= carry3 << 25;
-    carry7 = (h7 + (BigInt.one << 24)) >> 25;
+    final BigInt carry7 = (h7 + (BigInt.one << 24)) >> 25;
     h8 += carry7;
     h7 -= carry7 << 25;
     carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry8 = (h8 + (BigInt.one << 25)) >> 26;
+    final BigInt carry8 = (h8 + (BigInt.one << 25)) >> 26;
     h9 += carry8;
     h8 -= carry8 << 26;
-    carry9 = (h9 + (BigInt.one << 24)) >> 25;
+    final BigInt carry9 = (h9 + (BigInt.one << 24)) >> 25;
     h0 += carry9 * BigInt.from(19);
     h9 -= carry9 << 25;
     carry0 = (h0 + (BigInt.one << 25)) >> 26;
@@ -789,16 +750,6 @@ class FieldElement {
     BigInt h7 = f0f7_2 + f1f6_2 + f2f5_2 + f3f4_2 + f8f9_38;
     BigInt h8 = f0f8_2 + f1f7_4 + f2f6_2 + f3f5_4 + f4f4 + f9f9_38;
     BigInt h9 = f0f9_2 + f1f8_2 + f2f7_2 + f3f6_2 + f4f5_2;
-    BigInt carry0;
-    BigInt carry1;
-    BigInt carry2;
-    BigInt carry3;
-    BigInt carry4;
-    BigInt carry5;
-    BigInt carry6;
-    BigInt carry7;
-    BigInt carry8;
-    BigInt carry9;
     h0 += h0;
     h1 += h1;
     h2 += h2;
@@ -809,37 +760,37 @@ class FieldElement {
     h7 += h7;
     h8 += h8;
     h9 += h9;
-    carry0 = (h0 + (BigInt.one << 25)) >> 26;
+    BigInt carry0 = (h0 + (BigInt.one << 25)) >> 26;
     h1 += carry0;
     h0 -= carry0 << 26;
-    carry4 = (h4 + (BigInt.one << 25)) >> 26;
+    BigInt carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry1 = (h1 + (BigInt.one << 24)) >> 25;
+    final BigInt carry1 = (h1 + (BigInt.one << 24)) >> 25;
     h2 += carry1;
     h1 -= carry1 << 25;
-    carry5 = (h5 + (BigInt.one << 24)) >> 25;
+    final BigInt carry5 = (h5 + (BigInt.one << 24)) >> 25;
     h6 += carry5;
     h5 -= carry5 << 25;
-    carry2 = (h2 + (BigInt.one << 25)) >> 26;
+    final BigInt carry2 = (h2 + (BigInt.one << 25)) >> 26;
     h3 += carry2;
     h2 -= carry2 << 26;
-    carry6 = (h6 + (BigInt.one << 25)) >> 26;
+    final BigInt carry6 = (h6 + (BigInt.one << 25)) >> 26;
     h7 += carry6;
     h6 -= carry6 << 26;
-    carry3 = (h3 + (BigInt.one << 24)) >> 25;
+    final BigInt carry3 = (h3 + (BigInt.one << 24)) >> 25;
     h4 += carry3;
     h3 -= carry3 << 25;
-    carry7 = (h7 + (BigInt.one << 24)) >> 25;
+    final BigInt carry7 = (h7 + (BigInt.one << 24)) >> 25;
     h8 += carry7;
     h7 -= carry7 << 25;
     carry4 = (h4 + (BigInt.one << 25)) >> 26;
     h5 += carry4;
     h4 -= carry4 << 26;
-    carry8 = (h8 + (BigInt.one << 25)) >> 26;
+    final BigInt carry8 = (h8 + (BigInt.one << 25)) >> 26;
     h9 += carry8;
     h8 -= carry8 << 26;
-    carry9 = (h9 + (BigInt.one << 24)) >> 25;
+    final BigInt carry9 = (h9 + (BigInt.one << 24)) >> 25;
     h0 += carry9 * BigInt.from(19);
     h9 -= carry9 << 25;
     carry0 = (h0 + (BigInt.one << 25)) >> 26;
@@ -861,11 +812,10 @@ class FieldElement {
   }
 
   FieldElement invert() {
-    FieldElement t0, t1, t2, t3;
     // 2 == 2 * 1
-    t0 = square();
+    FieldElement t0 = square();
     // 4 == 2 * 2
-    t1 = t0.square();
+    FieldElement t1 = t0.square();
     // 8 == 2 * 4
     t1 = t1.square();
     // 9 == 8 + 1
@@ -873,7 +823,7 @@ class FieldElement {
     // 11 == 9 + 2
     t0 = t0 * t1;
     // 22 == 2 * 11
-    t2 = t0.square();
+    FieldElement t2 = t0.square();
     // 31 == 22 + 9
     t1 = t1 * t2;
     // 2^6 - 2^1
@@ -893,7 +843,7 @@ class FieldElement {
     // 2^20 - 2^0
     t2 = t2 * t1;
     // 2^21 - 2^1
-    t3 = t2.square();
+    FieldElement t3 = t2.square();
     // 2^40 - 2^20
     for (int i = 1; i < 20; ++i) {
       t3 = t3.square();
@@ -944,11 +894,10 @@ class FieldElement {
   }
 
   FieldElement powP58() {
-    FieldElement t0, t1, t2;
     // 2 == 2 * 1
-    t0 = square();
+    FieldElement t0 = square();
     // 4 == 2 * 2
-    t1 = t0.square();
+    FieldElement t1 = t0.square();
     // 8 == 2 * 4
     t1 = t1.square();
     // z9 = z1*z8
@@ -976,7 +925,7 @@ class FieldElement {
     // 2^20 - 2^0
     t1 = t1 * t0;
     // 2^21 - 2^1
-    t2 = t1.square();
+    FieldElement t2 = t1.square();
     // 2^40 - 2^20
     for (int i = 1; i < 20; ++i) {
       t2 = t2.square();

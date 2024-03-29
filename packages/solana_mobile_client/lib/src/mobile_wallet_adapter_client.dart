@@ -84,7 +84,7 @@ class MobileWalletAdapterClient {
     try {
       await api.deauthorize(_scenarioId, authToken);
     } on PlatformException {
-      return;
+      // ignore
     }
   }
 

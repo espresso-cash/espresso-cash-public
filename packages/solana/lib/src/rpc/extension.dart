@@ -1,3 +1,5 @@
+// ignore_for_file: prefer-typedefs-for-callbacks
+
 part of 'client.dart';
 
 extension RpcClientExt on RpcClient {
@@ -46,6 +48,7 @@ extension RpcClientExt on RpcClient {
     String? until,
     Commitment? commitment,
     Encoding? encoding,
+    // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
     num? maxSupportedTransactionVersion = 0,
     num? minContextSlot,
   }) async {
@@ -78,6 +81,7 @@ extension RpcClientExt on RpcClient {
     List<TransactionSignatureInformation> signatures, {
     Commitment? commitment,
     Encoding? encoding,
+    // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
     num? maxSupportedTransactionVersion = 0,
   }) async {
     final response = await _jsonRpcClient.bulkRequest(
@@ -129,7 +133,7 @@ extension RpcClientExt on RpcClient {
 
   Future<List<AddressLookupTableAccount>> getAddressLookUpTableAccounts(
     List<MessageAddressTableLookup> addressTableLookups,
-  ) async =>
+  ) =>
       Future.wait(
         addressTableLookups
             .map((lookup) async => getAddressLookupTable(lookup.accountKey))
@@ -140,7 +144,7 @@ extension RpcClientExt on RpcClient {
     final tx = SignedTx.decode(encodedTx);
 
     return tx.compiledMessage.map(
-      legacy: (_) async => tx.decompileMessage(),
+      legacy: (_) => tx.decompileMessage(),
       v0: (compiledMessage) async {
         final addressTableLookups = compiledMessage.addressTableLookups;
 

@@ -1,3 +1,36 @@
+## 0.30.3
+
+ - **FEAT**: export ComputeBudgetProgram.
+
+## 0.30.2
+
+ - **FEAT**: add ComputeBudgetProgram (#1267).
+
+## 0.30.1
+
+ - **REFACTOR**: update linter (#1223).
+ - **REFACTOR**: migrate to Flutter 3.16.2 (#1157).
+ - **REFACTOR**: update lint rules (#1102).
+ - **FIX**: simulateTransaction parameters.
+ - **FEAT**: add toJson methods to solana dtos (#1224).
+
+## 0.30.0+1
+
+ - **REFACTOR**: update lint rules (#1091).
+ - **REFACTOR**: migrate to Flutter 3.13.6 (#1077).
+
+## 0.30.0
+
+> Note: This release has breaking changes.
+
+ - **REFACTOR**: update linter (#1030).
+ - **REFACTOR**: bump linter (#993).
+ - **REFACTOR**: update lint rules.
+ - **REFACTOR**: update linter.
+ - **REFACTOR**: migrate to Dart 3 and Flutter 3.10 (#981).
+ - **FIX**: getFeeForMessage response parsing (#1023).
+ - **BREAKING** **FIX**: update solana seed derivation (#970).
+
 ## 0.29.1
 
  - **FIX**: update Ed25519HDKeyPairData interface (#874).

@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-enum CpTabBarVariant { dark, inverted, light }
+enum CpTabBarVariant { dark, inverted, light, black }
 
 class CpTabBar extends StatelessWidget {
   const CpTabBar({
     super.key,
     this.variant = CpTabBarVariant.dark,
     required this.tabs,
+    this.controller,
   });
 
   final CpTabBarVariant variant;
   final List<Widget> tabs;
+  final TabController? controller;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -23,6 +25,7 @@ class CpTabBar extends StatelessWidget {
           shape: const StadiumBorder(),
         ),
         child: TabBar(
+          controller: controller,
           indicatorColor: Colors.transparent,
           unselectedLabelColor: _unselectedLabelColor(variant),
           labelColor: _labelColor(variant),
@@ -47,6 +50,8 @@ Color _backgroundColor(CpTabBarVariant variant) {
       return CpColors.darkBackground;
     case CpTabBarVariant.inverted:
       return CpColors.yellowColor;
+    case CpTabBarVariant.black:
+      return Colors.black;
   }
 }
 
@@ -56,6 +61,7 @@ Color _indicatorBackground(CpTabBarVariant variant) {
       return Colors.white;
     case CpTabBarVariant.inverted:
       return Colors.black;
+    case CpTabBarVariant.black:
     case CpTabBarVariant.light:
       return CpColors.yellowColor;
   }
@@ -63,6 +69,7 @@ Color _indicatorBackground(CpTabBarVariant variant) {
 
 Color _labelColor(CpTabBarVariant variant) {
   switch (variant) {
+    case CpTabBarVariant.black:
     case CpTabBarVariant.dark:
     case CpTabBarVariant.light:
       return Colors.black;
@@ -73,6 +80,7 @@ Color _labelColor(CpTabBarVariant variant) {
 
 Color _unselectedLabelColor(CpTabBarVariant variant) {
   switch (variant) {
+    case CpTabBarVariant.black:
     case CpTabBarVariant.dark:
     case CpTabBarVariant.light:
       return Colors.white;

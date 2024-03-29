@@ -1,75 +1,47 @@
 {
   "@@locale": "en",
-  "aboutTokenLabel": "About {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "activitiesTitle": "Activity",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Canceled",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Failure",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "In Progress",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Success",
-  "@activityStatusSuccess": {},
-  "addCash": "Add Cash",
-  "@addCash": {},
-  "all": "All",
-  "@all": {},
-  "amount": "Amount",
-  "@amount": {},
-  "and": " and ",
-  "@and": {},
-  "appLock": "Auto-Lock",
-  "@appLock": {},
-  "appLockDescription": "Require passcode to access the app",
-  "@appLockDescription": {},
-  "backupPhraseSuccessMessage": "You’ve successfully saved your secret recovery phrase in a safe place. Make sure to keep it private!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Balance",
-  "@balance": {},
-  "boughtToken": "Bought {amount}",
-  "@boughtToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "buy": "Buy",
-  "@buy": {},
-  "byCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Camera",
-  "@camera": {},
-  "cancel": "Cancel",
-  "@cancel": {},
-  "cancelErrorMessageInsufficientFunds": "The money has already been withdrawn.",
-  "@cancelErrorMessageInsufficientFunds": {},
-  "cancelPaymentRequestConfirmationSubtitle": "Are you sure you want to cancel this payment request?",
-  "@cancelPaymentRequestConfirmationSubtitle": {},
-  "cancelPaymentRequestConfirmationTitle": "Cancel Payment Request",
-  "@cancelPaymentRequestConfirmationTitle": {},
-  "cancelTransfer": "Cancel transfer",
-  "@cancelTransfer": {},
-  "cancelTransferConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
-  "@cancelTransferConfirmationSubtitle": {},
-  "cancelTransferConfirmationTitle": "Cancel Transfer",
-  "@cancelTransferConfirmationTitle": {},
-  "cannotConnectToTheNetwork": "Cannot connect to the network!",
-  "@cannotConnectToTheNetwork": {},
-  "cashOut": "Cash Out",
-  "@cashOut": {},
+  "activities_lblCanceled": "Canceled",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Failure",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "In Progress",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Success",
+  "@activities_lblSuccess": {},
+  "activities_lblTitle": "Activity",
+  "@activities_lblTitle": {},
+  "activities_lblAddCash": "Add Cash",
+  "@activities_lblAddCash": {},
+  "activities_lblWithdraw": "Cash Out",
+  "@activities_lblWithdraw": {},
+  "appLock_lblAutoLock": "Auto-Lock",
+  "@appLock_lblAutoLock": {},
+  "appLock_lblAutoLockDescription": "Require passcode to access the app",
+  "@appLock_lblAutoLockDescription": {},
+  "balances_lblConnectionError": "Cannot connect to the network!",
+  "@balances_lblConnectionError": {},
+  "carousel1Subtitle": "Instant & Low Fee Money Transfers to 200+ Countries & Territories.",
+  "@carousel1Subtitle": {},
+  "carousel1Title": "Welcome to Espresso Cash!",
+  "@carousel1Title": {},
+  "carousel2Subtitle": "The Money Gets Transferred to Their Bank Account as Local Currency.",
+  "@carousel2Subtitle": {},
+  "carousel2Title": "Send Money Home In Seconds",
+  "@carousel2Title": {},
+  "carousel3Subtitle": "Payments are shared using messaging platforms like WhatsApp, Messenger, Telegram or SMS.",
+  "@carousel3Subtitle": {},
+  "carousel3Title": "Send With Messaging Platforms",
+  "@carousel3Title": {},
+  "carousel4Subtitle": "Use an Espresso Cash QR Code to Instantly Pay Local Businesses",
+  "@carousel4Subtitle": {},
+  "carousel4Title": "Pay Locally",
+  "@carousel4Title": {},
+  "carouselSendMoneyBtn": "Send Money Now",
+  "@carouselSendMoneyBtn": {},
+  "close": "Close",
+  "@close": {},
   "comingSoon": "Coming soon!",
   "@comingSoon": {},
-  "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
-  "@completeThePuzzle": {},
   "contactUs": "Contact Us",
   "@contactUs": {},
   "copiedFid": "Copied FID: {fid}",
@@ -84,28 +56,18 @@
   "@copiedToClipboard": {},
   "copy": "Copy",
   "@copy": {},
+  "core_and": " and ",
+  "@core_and": {},
+  "core_btnCancel": "Cancel",
+  "@core_btnCancel": {},
+  "countryOfResidence": "Country of residence",
+  "@countryOfResidence": {},
   "create": "Create",
   "@create": {},
-  "crypto": "Crypto",
-  "@crypto": {},
-  "cryptoCashBalance": "Your Crypto Cash\nBalance ",
+  "cryptoCashBalance": "Your Cash Balance",
   "@cryptoCashBalance": {},
-  "cryptoInvestments": "Your Crypto\nInvestments",
-  "@cryptoInvestments": {},
-  "decline": "Decline",
-  "@decline": {},
-  "discover": "DISCOVER",
-  "@discover": {},
-  "displayEmptyBalanceSubtitle": "Show your crypto with zero balances",
-  "@displayEmptyBalanceSubtitle": {},
-  "displayEmptyBalanceTitle": "Display Empty Balances",
-  "@displayEmptyBalanceTitle": {},
   "editProfile": "Edit Profile",
   "@editProfile": {},
-  "editProfileDescription": "Make changes to your current profile",
-  "@editProfileDescription": {},
-  "emptySearch": "Token not found",
-  "@emptySearch": {},
   "enterAmount": "Enter amount",
   "@enterAmount": {},
   "enterPasscode": "Enter your passcode",
@@ -114,12 +76,6 @@
   "@enterYourSecretWords": {},
   "errorMessageInsufficientFunds": "You do not have enough funds.",
   "@errorMessageInsufficientFunds": {},
-  "failedToLoadDescription": "Failed to load description",
-  "@failedToLoadDescription": {},
-  "failedToLoadTokens": "Failed to load tokens",
-  "@failedToLoadTokens": {},
-  "failedToSearch": "Failed to search token",
-  "@failedToSearch": {},
   "faq": "Frequently Asked Questions (FAQ)",
   "@faq": {},
   "feeAmount": "Fee: {value}",
@@ -142,25 +98,10 @@
       }
     }
   },
-  "following": "Following",
-  "@following": {},
-  "fundYourAccount": "Fund your account to begin your crypto journey. You can buy and sell crypto or send money anywhere in the world!",
+  "fundYourAccount": "Add Cash to your account to start sending money",
   "@fundYourAccount": {},
-  "help": "Help",
-  "@help": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
-  "insufficientFundsForFeeMessage": "You don't have enough {feeToken} to pay for the network fee, you need at least {amount}.",
-  "@insufficientFundsForFeeMessage": {
-    "placeholders": {
-      "feeToken": {
-        "type": "String"
-      },
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
   "@insufficientFundsMessage": {
     "placeholders": {
@@ -182,20 +123,26 @@
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "I understand that if I lose my Secret Recovery Phrase I will not be able to access funds.",
   "@iUnderstandIfLoseMySecret": {},
-  "learnAboutCrypto": "Learning About Crypto",
-  "@learnAboutCrypto": {},
-  "learnAboutCryptoDescription": "Get help with all things crypto",
-  "@learnAboutCryptoDescription": {},
-  "learningSectionTitle": "LEARNING CENTER",
-  "@learningSectionTitle": {},
-  "less": "less",
-  "@less": {},
-  "linkSubtitle": "The recipient will need to click on the two links below to redeem the money.",
-  "@linkSubtitle": {},
+  "helpSectionTitle": "HELP",
+  "@helpSectionTitle": {},
   "loading": "Loading...",
   "@loading": {},
-  "marketCapRank": "Market Cap Rank",
-  "@marketCapRank": {},
+  "minAmountToOffRamp": "{amount} is the minimum you can cash out",
+  "@minAmountToOffRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "minAmountToOnRamp": "{amount} is the minimum you can add",
+  "@minAmountToOnRamp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "minimumAmountToRequest": "{amount} is the minimum to request",
   "@minimumAmountToRequest": {
     "placeholders": {
@@ -212,10 +159,56 @@
       }
     }
   },
+  "mobileWalletAcceptAuthorization": "Authorize",
+  "@mobileWalletAcceptAuthorization": {},
+  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
+  "@mobileWalletAcceptSignAndSendPayloads": {},
+  "mobileWalletAcceptSignMessages": "Sign Messages",
+  "@mobileWalletAcceptSignMessages": {},
+  "mobileWalletAcceptSignTransactions": "Sign Transactions",
+  "@mobileWalletAcceptSignTransactions": {},
+  "mobileWalletAuthorize": "Authorize {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSendTransactions": "These transactions will be immediately submitted after signing.",
+  "@mobileWalletSendTransactions": {},
+  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
+  "@mobileWalletSignAndSendTransactions": {},
+  "mobileWalletSignMessages": "Sign Message",
+  "@mobileWalletSignMessages": {},
+  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Sign Transaction",
+  "@mobileWalletSignTransactions": {},
+  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletTitle": "Espresso Cash Wallet",
+  "@mobileWalletTitle": {},
   "moneyReceived": "Money has been received",
   "@moneyReceived": {},
-  "more": "more",
-  "@more": {},
   "moreDetails": "View more details",
   "@moreDetails": {},
   "next": "Next",
@@ -228,24 +221,50 @@
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "You need a secret recovery phrase. This phrase is composed of randomly generated security words which will be provided to you. Without these words, you will not be able to access your funds. These words can never be recovered.\n\nKeep them safe! ",
   "@noEmailInCryptoParagraph": {},
+  "noResultsFound": "No results found",
+  "@noResultsFound": {},
+  "offRampTopPartnerTitle": "Cash Out To Your Bank Account",
+  "@offRampTopPartnerTitle": {},
   "ok": "OK",
   "@ok": {},
-  "onboardingBullet": "Crypto investing made simple whether you’re new or a seasoned pro!",
-  "@onboardingBullet": {},
-  "onboardingIntro": "A faster, simpler way to pay & receive money instantly.",
+  "onboardingIntro": "A faster, simpler way to send & receive money.",
   "@onboardingIntro": {},
-  "onboardingNoticeFinishSetup": "Finish Setup",
+  "onboardingWithPaymentTitle": "Money is waiting for you.",
+  "@onboardingWithPaymentTitle": {},
+  "onboardingWithPaymentSubtitle": "Create an espresso wallet to receive your payment.",
+  "@onboardingWithPaymentSubtitle": {},
+  "onboardingNoticeFinishSetup": "Finish",
   "@onboardingNoticeFinishSetup": {},
-  "onboardingNoticeMessage": "Complete setup by securing your account.",
+  "onboardingNoticeMessage": "Complete setup by\nsecuring your account.",
   "@onboardingNoticeMessage": {},
-  "onboardingNoticeTitle": "You’re almost done!",
-  "@onboardingNoticeTitle": {},
+  "onboardingPhraseTitle": "Save your secret recovery phrase in a safe place.",
+  "@onboardingPhraseTitle": {},
+  "onboardingPhraseSubtitle": "Your recovery phrase is composed of randomly generated 12 words. Write it down and save it carefully. You will not be able to recover your funds if you lose these words.",
+  "@onboardingPhraseSubtitle": {},
+  "onboardingPhraseConfirmBtn": "Ok, I saved it somewhere",
+  "@onboardingPhraseConfirmBtn": {},
+  "onboardingPhraseConfirmTitle": "Did you write down the Secret Recovery Phrase?",
+  "@onboardingPhraseConfirmTitle": {},
+  "onboardingPhraseConfirmSubtitle": "Without the secret recovery phrase you will not be able to access your key or any assets associated with it.",
+  "@onboardingPhraseConfirmSubtitle": {},
+  "onboardingProfileTitle": "Basic Information",
+  "@onboardingProfileTitle": {},
   "oneMonth": "1 month",
   "@oneMonth": {},
   "oneWeek": "1 week",
   "@oneWeek": {},
+  "onRampTopPartnerTitle": "Transfer Money Into Your Espresso Account",
+  "@onRampTopPartnerTitle": {},
   "operationSend": "sent",
   "@operationSend": {},
+  "outgoingSplitKeyPayments_btnCancel": "Cancel transfer",
+  "@outgoingSplitKeyPayments_btnCancel": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationTitle": "Cancel Transfer",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationTitle": {},
+  "outgoingSplitKeyPayments_lblMoneyWithdrawn": "The money has already been withdrawn.",
+  "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
   "outgoingTransferSuccess": "{amount} has been sent",
   "@outgoingTransferSuccess": {
     "placeholders": {
@@ -260,32 +279,30 @@
   "@paymentInitiated": {},
   "paymentRequestCancel": "Cancel request",
   "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Failed payment of {amount} for {label}.",
+  "paymentRequestFailureNotificationTitle": "Failed payment of {amount}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      },
       "amount": {
         "type": "String"
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} for {label} was paid.",
+  "paymentRequest_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this payment request?",
+  "@paymentRequest_lblCancelConfirmationSubtitle": {},
+  "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
+  "@paymentRequest_lblCancelConfirmationTitle": {},
+  "paymentRequestSuccessNotificationTitle": "Your request of {amount} was paid.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
-      },
-      "label": {
-        "type": "String"
       }
     }
   },
-  "paymentRequestTitle": "Payment request for {label}",
+  "paymentRequestTitle": "Payment request for {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
-      "label": {
+      "amount": {
         "type": "String"
       }
     }
@@ -294,32 +311,10 @@
   "@pending": {},
   "photoLibrary": "Photo Library",
   "@photoLibrary": {},
-  "popularCryptoSubtitle": "A fast and easy way to buy and sell\ncrypto anywhere in the world.",
-  "@popularCryptoSubtitle": {},
-  "popularCryptoTitle": "Popular Crypto",
-  "@popularCryptoTitle": {},
-  "pressAndHoldToBuy": "Slide to Buy {token}",
-  "@pressAndHoldToBuy": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "pressAndHoldToSell": "Slide to Sell {token}",
-  "@pressAndHoldToSell": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "price": "Price",
-  "@price": {},
   "privacyPolicy": "Privacy Policy",
   "@privacyPolicy": {},
-  "processing": "Processing...",
-  "@processing": {},
+  "profile_lblCamera": "Camera",
+  "@profile_lblCamera": {},
   "protectWallet": "Protect Wallet",
   "@protectWallet": {},
   "protectWalletTitle": "WALLET PROTECTION",
@@ -336,69 +331,85 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Scan Failed",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Enter the crypto address here",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "You can enter the receiver Solana wallet address to send money directly to them.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Send manually",
-  "@qrInputAddressTitle": {},
-  "qrPaymentSubtitle": "The recipient will receive the money by scanning this QR Code:",
-  "@qrPaymentSubtitle": {},
-  "receive": "Request",
-  "@receive": {},
-  "receivedBy": "Received by {address}",
-  "@receivedBy": {
+  "rampAmountEquivalent": "You will get approx. {amount}",
+  "@rampAmountEquivalent": {
     "placeholders": {
-      "address": {
+      "amount": {
         "type": "String"
       }
     }
   },
-  "recoverySubHeading": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
-  "@recoverySubHeading": {},
-  "recoveryWarningInfo": "Please read carefully the information below before viewing your secret recovery phrase",
-  "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "To recover your wallet, you will need your secret recovery phrase. Please write down your following secret recovery phrase and save it carefully.\n\nAnyone else who has access to your secret recovery phrase has also an irrevocable access to your money.\n\nPlease never share this secret recovery phrase to a stranger and never enter this secret recovery phrase into a form or an another application.",
-  "@recoveryWarningParagraph": {},
+  "rampBasicInfoRequired": "To get started, we need some basic information from you.",
+  "@rampBasicInfoRequired": {},
+  "ramp_btnAddCash": "Add Cash",
+  "@ramp_btnAddCash": {},
+  "ramp_btnCashOut": "Cash Out",
+  "@ramp_btnCashOut": {},
+  "ramp_btnContinue": "Continue",
+  "@ramp_btnContinue": {},
+  "rampMinimumTransferAmount": "Minimum amount to transfer {amount}",
+  "@rampMinimumTransferAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "ramp_titleCashIn": "Cash In",
+  "@ramp_titleCashIn": {},
+  "ramp_titleCashOut": "Cash Out",
+  "@ramp_titleCashOut": {},
+  "receive": "Request",
+  "@receive": {},
+  "recentActivityEmpty": "There is no recent activity. Do you want to send money to family now?",
+  "@recentActivityEmpty": {},
+  "recentActivityLbl": "Recent Activity",
+  "@recentActivityLbl": {},
+  "recentActivitySeeAll": "See All",
+  "@recentActivitySeeAll": {},
   "reEnterPasscode": "Re-enter your passcode",
   "@reEnterPasscode": {},
   "remindMeLater": "Remind me later",
   "@remindMeLater": {},
-  "removePhoto": "Remove Photo",
-  "@removePhoto": {},
-  "requestNoteFor": "For",
-  "@requestNoteFor": {},
-  "requestNotePlaceholder": "Add a note for your request",
-  "@requestNotePlaceholder": {},
-  "requestNoteRequesting": "Requesting",
-  "@requestNoteRequesting": {},
   "requestOrSendPayment": "Request or send a payment",
   "@requestOrSendPayment": {},
-  "resendLink": "Resend Links",
+  "resendLink": "Resend Link",
   "@resendLink": {},
   "retry": "Retry",
   "@retry": {},
   "save": "Save",
   "@save": {},
-  "search": "Search",
-  "@search": {},
+  "scanToReceive": "Scan to receive {amount}",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "scanToSend": "Scan to send {amount}",
+  "@scanToSend": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "searchPlaceholder": "Search...",
   "@searchPlaceholder": {},
   "securitySectionTitle": "SECURITY AND PRIVACY",
   "@securitySectionTitle": {},
-  "sell": "Sell",
-  "@sell": {},
-  "send": "Send",
-  "@send": {},
+  "selectCountryTitle": "SELECT YOUR COUNTRY",
+  "@selectCountryTitle": {},
   "sendAs": "Send as",
   "@sendAs": {},
-  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the links.",
+  "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the link.",
   "@sendExplanation": {},
   "sendMoney": "Send Money",
   "@sendMoney": {},
   "sentDirectly": "Sent",
   "@sentDirectly": {},
-  "sentViaLink": "Sent via links",
+  "sentViaLink": "Sent via link",
   "@sentViaLink": {},
   "setReminder": "SET A REMINDER FOR {duration}",
   "@setReminder": {
@@ -408,25 +419,19 @@
       }
     }
   },
-  "settings": "Settings",
-  "@settings": {},
   "share": "Share",
   "@share": {},
-  "shareInstructions": "To receive it, you need to click on two links. Follow these two steps below:",
+  "shareInstructions": "To receive it, you need to click on the link:",
   "@shareInstructions": {},
   "shareIntroFt": "Hi!\n\nI’ve just sent you ",
   "@shareIntroFt": {},
-  "shareLink": "Share payment links",
+  "shareLink": "Share payment link",
   "@shareLink": {},
-  "shareLinks": "Share Links",
-  "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "The recipient will need to click the link below to pay you.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "To pay me with one click, visit:",
   "@sharePaymentRequestLinkInstructions": {},
-  "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request of ",
+  "sharePaymentRequestLinkIntro": "Hi!\n\nI have sent a request for ",
   "@sharePaymentRequestLinkIntro": {},
-  "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request of {amount}. To pay me with one click, visit:\n\n{link}",
+  "sharePaymentRequestLinkMessage": "Hi!\n\nI have sent a request for {amount}. To pay me with one click, visit:\n\n{link}",
   "@sharePaymentRequestLinkMessage": {
     "placeholders": {
       "amount": {
@@ -439,17 +444,11 @@
   },
   "sharePaymentRequestLinkTitle": "Share Link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "The recipient can pay you with Espresso Cash (or another Solana Pay wallet) by scanning the QR code below.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Share QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Request has been created!",
   "@sharePaymentRequestTitle": {},
-  "shareStep1": "Step 1 – Click on the first link:",
-  "@shareStep1": {},
-  "shareStep2": "Step 2 – When the application asks you, click on the second link:",
-  "@shareStep2": {},
-  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on two links. Follow these two steps below:\n\nStep 1 – Click on the first link:\n\n{firstLink}\n\nStep 2 – When the application asks you, click on the second link:\n\n{secondLink}",
+  "shareText": "Hi!\n\nI've just sent you {amount}.\n\nTo receive it, you need to click on the link:\n\n{firstLink}",
   "@shareText": {
     "placeholders": {
       "amount": {
@@ -457,32 +456,21 @@
       },
       "firstLink": {
         "type": "Uri"
-      },
-      "secondLink": {
-        "type": "Uri"
       }
     }
   },
-  "signIn1": "Already have a Solana wallet? ",
+  "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",
   "@signIn2": {},
+  "signIn_lblByCreatingWalletYouAgree": "By creating a wallet or using an existing wallet, you agree to our ",
+  "@signIn_lblByCreatingWalletYouAgree": {},
   "signOut": "Delete Wallet",
   "@signOut": {},
   "signOutConfirmation": "Are you sure you want to\ndelete the wallet?",
   "@signOutConfirmation": {},
   "signUp": "Create Wallet",
   "@signUp": {},
-  "signInWithSaga": "Sign in with Saga",
-  "@signInWithSaga": {},
-  "soldToken": "Sold {amount}",
-  "@soldToken": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "splitKeyCanceledMessage1": "{amount} Transaction successfully canceled.",
   "@splitKeyCanceledMessage1": {
     "placeholders": {
@@ -493,8 +481,6 @@
   },
   "splitKeyCancelErrorMessage": "There was an issue canceling your transfer.",
   "@splitKeyCancelErrorMessage": {},
-  "splitKeyConfirmationDialogContent": "Are you sure you don't want to get the money available for you?",
-  "@splitKeyConfirmationDialogContent": {},
   "splitKeyErrorMessage2": "There was an issue with your transfer.",
   "@splitKeyErrorMessage2": {},
   "splitKeyErrorRetry": "Please retry.",
@@ -503,9 +489,9 @@
   "@splitKeyProgressCanceled": {},
   "splitKeyProgressCanceling": "Canceling transfer",
   "@splitKeyProgressCanceling": {},
-  "splitKeyProgressCreated": "Links are created",
+  "splitKeyProgressCreated": "Link is created",
   "@splitKeyProgressCreated": {},
-  "splitKeyProgressOngoing": "Sending {amount} using secure links...",
+  "splitKeyProgressOngoing": "Sending {amount} using secure link...",
   "@splitKeyProgressOngoing": {
     "placeholders": {
       "amount": {
@@ -515,71 +501,14 @@
   },
   "splitKeyProgressSuccess": "Money has been successfully received",
   "@splitKeyProgressSuccess": {},
-  "splitKeySecondLinkMessage": "Please click the second link in the message you've received.",
-  "@splitKeySecondLinkMessage": {},
-  "splitKeySecondLinkTitle": "Money is waiting for you!",
-  "@splitKeySecondLinkTitle": {},
   "splitKeySuccessMessage2": "Your transfer has been sent.",
   "@splitKeySuccessMessage2": {},
-  "splitKeyTransactionLoading": "Hang tight. We're almost done...",
-  "@splitKeyTransactionLoading": {},
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "@splitKeyTransferTitle": {},
-  "stablecoin": "Stablecoin",
-  "@stablecoin": {},
-  "startInvestingSubtitle": "New to crypto investing? We got you.\nHere are some popular crypto that you might like.",
-  "@startInvestingSubtitle": {},
-  "startInvestingTitle": "Start Investing",
-  "@startInvestingTitle": {},
-  "swap": "Swap",
-  "@swap": {},
-  "swapAmountAvailable": "{amount} available for use.",
-  "@swapAmountAvailable": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "swapBuySuccess": "Your purchase of {token} was successful.",
-  "@swapBuySuccess": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "swapEquivalent": "For {input} you will get aprox. {output}",
-  "@swapEquivalent": {
-    "placeholders": {
-      "input": {
-        "type": "String"
-      },
-      "output": {
-        "type": "String"
-      }
-    }
-  },
   "swapErrorTitle": "There's a problem",
   "@swapErrorTitle": {},
-  "swapFailRouteNotFound": "No routes found for given tokens and amount!",
-  "@swapFailRouteNotFound": {},
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
   "@swapFailUnknown": {},
-  "swapSellSuccess": "Your sale of {token} was successful.",
-  "@swapSellSuccess": {
-    "placeholders": {
-      "token": {
-        "type": "String"
-      }
-    }
-  },
-  "swapSlippageExplanation": "Slippage is the difference observed due to  changing market conditions between the moment the transaction is submitted and its verification.",
-  "@swapSlippageExplanation": {},
-  "swapSlippageTitle": "Slippage tolerance",
-  "@swapSlippageTitle": {},
-  "swapSlippageWarning": "Your transaction will be cancelled\nif the price varies more than ",
-  "@swapSlippageWarning": {},
   "terms": "Terms",
   "@terms": {},
   "termsOfUse": "Terms of Use",
@@ -594,21 +523,10 @@
       }
     }
   },
-  "tokenBalance": "{symbol} Balance",
-  "@tokenBalance": {
-    "placeholders": {
-      "symbol": {
-        "type": "String"
-      }
-    }
-  },
-  "tokenEquivalent": "Equivalent to {value} {symbol}",
+  "tokenEquivalent": "Equivalent to {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
@@ -617,17 +535,14 @@
   "@tomorrow": {},
   "toRestoreYourAccount": "Please enter your secret recovery phrase below. This phrase is composed of random generated 12 words.",
   "@toRestoreYourAccount": {},
+  "transactions": "Transactions",
   "@transactions": {},
   "transferErrorTitle": "OOPS!",
   "@transferErrorTitle": {},
-  "transferInitiated": "Transfer initiated",
-  "@transferInitiated": {},
   "transferSuccessTitle": "SUCCESS!",
   "@transferSuccessTitle": {},
   "tryAgainLater": "Please, try again later",
   "@tryAgainLater": {},
-  "uploadPhoto": "Upload A Photo",
-  "@uploadPhoto": {},
   "usdcExplanation": "The USD Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar.",
   "@usdcExplanation": {},
   "usdcInfo": "The US Dollar Coin (USDC) is a digital stablecoin that should be fixed to the United States dollar. ($1 = 1USDC)",
@@ -643,32 +558,43 @@
       }
     }
   },
-  "transactions": "Transactions",
-  "view": "View",
-  "@view": {},
   "viewRecoveryPhrase": "View secret recovery phrase",
   "@viewRecoveryPhrase": {},
   "viewRecoveryPhraseDescription": "Words generated by your crypto wallet",
   "@viewRecoveryPhraseDescription": {},
   "viewTransaction": "View Transaction",
   "@viewTransaction": {},
+  "walletAddress": "Wallet Address",
+  "@walletAddress": {},
+  "walletAddressFieldHint": "Type, Paste or Scan Address Here",
+  "@walletAddressFieldHint": {},
+  "walletEspressoPayLabel": "Pay anyone by sharing the payment link using any messaging platform",
+  "@walletEspressoPayLabel": {},
+  "walletPayOther": "Want to pay using a wallet address?",
+  "@walletPayOther": {},
+  "walletNetworks": "Networks",
+  "@walletNetworks": {},
+  "walletSendToAddressTitle": "Wallet Address",
+  "@walletSendToAddressTitle": {},
+  "walletTransactionMethodTitle": "Send Money",
+  "@walletTransactionMethodTitle": {},
   "weWereUnableToFetchTokenPrice": "We were unable to fetch token prices.",
   "@weWereUnableToFetchTokenPrice": {},
   "yes": "Yes",
   "@yes": {},
-  "yesDeleteMyWallet": "Yes, delete my wallet",
-  "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "You’re creating a secure link containing:",
-  "@youAreCreatingUniqueLink": {},
-  "youOwn": "You own",
-  "@youOwn": {},
-  "yourFirstNamePlaceholder": "Choose a username",
+  "yourEmailDisclaimer": "Your email address is stored locally and only shared with partners for the purposes of adding cash and cashing out.",
+  "@yourEmailDisclaimer": {},
+  "yourEmailPlaceholder": "Email Address",
+  "@yourEmailPlaceholder": {},
+  "yourFirstNamePlaceholder": "First Name",
   "@yourFirstNamePlaceholder": {},
+  "yourLastNamePlaceholder": "Last Name",
+  "@yourLastNamePlaceholder": {},
   "yourLinkIsReady": "Your link is ready",
   "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Your Secret Recovery Phrase",
   "@yourRecoveryPhrase": {},
-  "yourRecoveryPhraseSub": "Please write down your following secret recovery phrase and save it carefully. This phrase is composed of randomly generated 12 words. You will not be able to recover your funds if you lose these words.",
+  "yourRecoveryPhraseSub": "This phrase is composed of randomly generated 12 words. Please write down your following secret recovery phrase and save it carefully.",
   "@yourRecoveryPhraseSub": {},
   "zeroAmountMessage": "Please enter an amount greater than zero to be {operation}.",
   "@zeroAmountMessage": {
@@ -680,76 +606,213 @@
   },
   "zeroAmountTitle": "Invalid amount",
   "@zeroAmountTitle": {},
-  "paymentInitiated": "Payment initiated",
-  "@paymentInitiated": {},
-  "qrScanInfo1": "If the recipient has the app installed:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "They should use the in-app QR scanner.",
-  "@qrScanInfo2": {},
-  "scanToReceive": "Scan to receive {amount}",
-  "@scanToReceive": {
+  "offRampWithdrawTitle": "Withdrawal Progress",
+  "@offRampWithdrawTitle": {},
+  "offRampCancelTitle": "Cancel Withdrawal",
+  "@offRampCancelTitle": {},
+  "offRampCancelSubtitle": "Are you sure you want to cancel this withdrawal?",
+  "@offRampCancelSubtitle": {},
+  "offRampWithdrawInitiated": "Withdrawal initiated",
+  "@offRampWithdrawInitiated": {},
+  "offRampWithdrawSent": "USDC sent to partner",
+  "@offRampWithdrawSent": {},
+  "offRampWithdrawReceived": "Money has been received",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawCancelledTitle": "Withdrawal has been canceled",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampDepositError": "There was an issue with your withdrawal.",
+  "@offRampDepositError": {},
+  "offRampWithdrawalFailure": "There was an issue with your withdrawal. Please contact us.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWaitingForPartner": "Your money is on the way",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawSuccess": "Your withdrawal was successful.",
+  "@offRampWithdrawSuccess": {},
+  "offRampWithdrawOngoing": "Sending {amount}",
+  "@offRampWithdrawOngoing": {
     "placeholders": {
       "amount": {
         "type": "String"
       }
     }
   },
-  "openInAppScanner": "Open in-app QR Scanner",
-  "@openInAppScanner": {},
-  "qrPaymentInstructions": "For security reasons, please scan the senders QR code using the in-app scanner.",
-  "@qrPaymentInstructions": {},
-  "qrTermsDisclaimer": "By opening the secure QR code scanner, you agree to our ",
-  "@qrTermsDisclaimer": {},
-  "money": "Money",
-  "@money": {},
-  "isWaitingForYou": "is waiting for you.",
-  "@isWaitingForYou": {},
-  "mobileWalletTitle": "Espresso Cash Wallet",
-  "mobileWalletAuthorize": "Authorize {appName}?",
-  "@mobileWalletAuthorize": {
+  "offRampWithdrawCancelled": "{amount} withdrawal successfully canceled.",
+  "@offRampWithdrawCancelled": {
     "placeholders": {
-      "appName": {
+      "amount": {
         "type": "String"
       }
     }
   },
-  "mobileWalletSignTransactions": "Sign Transaction",
-  "mobileWalletSignMessages": "Sign Message",
-  "mobileWalletSignMessagesRequest": "{appName} is requesting you to sign {count} message(s)",
-  "@mobileWalletSignMessagesRequest": {
+  "offRampWithdrawNotice": "Withdrawals can normally take up to 3 business days to receive.",
+  "@offRampWithdrawNotice": {},
+  "offRampReceiveAmount": "You'll receive {value}",
+  "@offRampReceiveAmount": {
     "placeholders": {
-      "appName": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "orderId": "Order ID: {orderId}",
+  "@orderId": {
+    "placeholders": {
+      "orderId": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampDepositTitle": "Add Cash Progress",
+  "@onRampDepositTitle": {},
+  "onRampDepositInitiated": "Deposit initiated",
+  "@onRampDepositInitiated": {},
+  "onRampDepositReceived": "USDC received",
+  "@onRampDepositReceived": {},
+  "onRampDepositSuccess": "Your deposit was successful.",
+  "@onRampDepositSuccess": {},
+  "onRampDepositFailure": "There was an issue with your deposit. Please contact us.",
+  "@onRampDepositFailure": {},
+  "onRampDepositExpired": "Your order has expired. Please try again.",
+  "@onRampDepositExpired": {},
+  "onRampLocalTransferTile": "Local currency transferred\nAmount sent: {amount}\n{name}: {account}",
+  "@onRampLocalTransferTile": {
+    "placeholders": {
+      "amount": {
         "type": "String"
       },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignTransactionsRequest": "{appName} is requesting you to sign {count} transaction(s)",
-  "@mobileWalletSignTransactionsRequest": {
-    "placeholders": {
-      "appName": {
+      "name": {
         "type": "String"
       },
-      "count": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignAndSendTransactions": "Sign and Send Transaction(s)",
-  "mobileWalletSendTransactions": "Thesze transactions will be immediately submitted after signing.",
-  "mobileWalletAcceptSignTransactions": "Sign Transactions",
-  "mobileWalletAcceptSignMessages": "Sign Messages",
-  "mobileWalletAcceptAuthorization": "Authorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
-  "unavailableToken": "{tokenName} is currently unavailable for purchase. You can still follow to track pricing.",
-  "@unavailableToken": {
-    "placeholders": {
-      "tokenName": {
+      "account": {
         "type": "String"
       }
     }
   },
-  "byClickingTheSecondLink": "By clicking the second link in the message or the cancel button, you agree to our "
+  "onRampDepositOngoing": "Depositing {amount}",
+  "@onRampDepositOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "onRampAwaitingFunds": "Hang tight. Your order is being processed.",
+  "@onRampAwaitingFunds": {},
+  "incomingUsdcFeeNotice": "You were charged a one time {amount} fee for your first incoming transaction.",
+  "@incomingUsdcFeeNotice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "depositTitle": "Add Cash",
+  "@depositTitle": {},
+  "depositInstruction1": "Transfer money from your bank account to our local partner:",
+  "@depositInstruction1": {},
+  "depositInstruction2": "Once money has been transferred, return to Espresso Cash and continue below.",
+  "@depositInstruction2": {},
+  "depositTransferAmount": "Amount to be transferred",
+  "@depositTransferAmount": {},
+  "depositDisclaimer": "Funds must be sent from your personal account. Any funds sent through an account that does not match your identification details will be reserved.",
+  "@depositDisclaimer": {},
+  "depositReceiveAmount": "You will receive: {amount}",
+  "@depositReceiveAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "quizCorrect": "Correct!",
+  "@quizCorrect": {},
+  "quizWrong": "Wrong!",
+  "@quizWrong": {},
+  "quizContinue": "Continue",
+  "@quizContinue": {},
+  "quizTryAgain": "Try Again",
+  "@quizTryAgain": {},
+  "quizFirstQuestion": "If you lose your Secret Recovery Phrase, Espresso Cash...",
+  "@quizFirstQuestion": {},
+  "quizFirstQuestionOptionA": "Can retrieve it for you",
+  "@quizFirstQuestionOptionA": {},
+  "quizFirstQuestionOptionB": "Can not help you",
+  "@quizFirstQuestionOptionB": {},
+  "quizFirstQuestionExplanationTitle": "No one can help retrieve your Secret Recovery Phrase.",
+  "@quizFirstQuestionExplanationTitle": {},
+  "quizFirstQuestionExplanationSubtitle1": "Record it, engrave it on metal, or stash it in various secret places to prevent loss. Once lost, it's gone forever.",
+  "@quizFirstQuestionExplanationSubtitle1": {},
+  "quizFirstQuestionExplanationSubtitle2": "Losing your Secret Recovery Phrase means it's lost forever. No one can assist in retrieving it, regardless of their claims.",
+  "@quizFirstQuestionExplanationSubtitle2": {},
+  "quizSecondQuestion": "If anyone, even a support agent, requests your Secret Recovery Phrase...",
+  "@quizSecondQuestion": {},
+  "quizSecondQuestionOptionA": "It’s a scam",
+  "@quizSecondQuestionOptionA": {},
+  "quizSecondQuestionOptionB": "You should give it to them",
+  "@quizSecondQuestionOptionB": {},
+  "quizSecondQuestionExplanationTitle": "It’s never a good idea to share your Secret Recovery Phrase.",
+  "@quizSecondQuestionExplanationTitle": {},
+  "quizSecondQuestionExplanationSubtitle": "Anyone claiming to need your Secret Recovery Phrase is lying to you. If you share it with them, they will steal your assets.",
+  "@quizSecondQuestionExplanationSubtitle": {},
+  "quizIntroTitle": "Security Quiz",
+  "@quizIntroTitle": {},
+  "quizIntroDescription": "To access your Secret Recovery Phrase, You’ll need to correctly answer two questions.",
+  "@quizIntroDescription": {},
+  "quizStart": "Get Started",
+  "@quizStart": {},
+  "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
+  "@profileDisclaimer": {},
+  "confirmation": "Confirmation",
+  "@confirmation": {},
+  "confirm": "Confirm",
+  "@confirm": {},
+  "walletNetwork": "Network",
+  "@walletNetwork": {},
+  "totalAmount": "Total Amount Deducted",
+  "@totalAmount": {},
+  "transferReceiver": "Receiver Receives",
+  "@transferReceiver": {},
+  "transactionSentTimeline": "Transaction has been sent",
+  "@transactionSentTimeline": {},
+  "transactionFulfilled": "Your order has been fulfilled",
+  "@transactionFulfilled": {},
+  "transactionAwaitingFulfillment": "Your order is awaiting fulfillment",
+  "@transactionAwaitingFulfillment": {},
+  "paymentProgressOngoing": "Sending {amount}",
+  "@paymentProgressOngoing": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "outgoingDlnDisclaimer1": "This feature is currently in BETA.\nPlease contact ",
+  "@outgoingDlnDisclaimer1": {},
+  "outgoingDlnDisclaimer2": "Espresso customer support",
+  "@outgoingDlnDisclaimer2": {},
+  "outgoingDlnDisclaimer3": " if you experience any issues.",
+  "@outgoingDlnDisclaimer3": {},
+  "outgoingDlnFailure": "There was an issue with your transfer. Please contact us.",
+  "@outgoingDlnFailure": {},
+  "outgoingDlnNoQuoteFound": "No Quote Found. Please try again.",
+  "@outgoingDlnNoQuoteFound": {},
+  "continueHereBtn": "Continue here",
+  "@continueHereBtn": {},
+  "onRampMorePartnersFooter": "Want more add cash options?",
+  "@onRampMorePartnersFooter": {},
+  "offRampMorePartnersFooter": "Want more cash out options?",
+  "@offRampMorePartnersFooter": {},
+  "onRampMorePartnersTitle": "Additional Add Cash Partners:",
+  "@onRampMorePartnersTitle": {},
+  "offRampMorePartnersTitle": "Additional Payment Partners:",
+  "@offRampMorePartnersTitle": {},
+  "lblProfileUpdateFailed": "Failed to update profile",
+  "lblConnectionError": "Please check your internet connection and try again.",
+  "lblUnknownError": "Something went wrong. Please try again later.",
+  "outgoingDirectPayments_lblCancelConfirmationSubtitle": "Are you sure you want to cancel this transfer?",
+  "@outgoingDirectPayments_lblCancelConfirmationSubtitle": {},
+  "outgoingDirectPayments_lblCancelConfirmationTitle": "Cancel Transfer",
+  "@outgoingDirectPayments_lblCancelConfirmationTitle": {},
+  "cancelTransferBtn": "Cancel transfer",
+  "@cancelTransferBtn": {}
 }

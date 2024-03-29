@@ -7,6 +7,8 @@ enum CpButtonVariant {
   dark,
   light,
   inverted,
+  black,
+  muted,
 }
 
 enum CpButtonSize { normal, big, small, micro, wide }
@@ -23,6 +25,8 @@ class CpButton extends StatelessWidget {
     this.minWidth,
     this.size = CpButtonSize.normal,
     this.alignment = CpButtonAlignment.center,
+    this.trailing,
+    this.leading,
   });
 
   final String text;
@@ -32,6 +36,8 @@ class CpButton extends StatelessWidget {
   final double? minWidth;
   final CpButtonSize size;
   final CpButtonAlignment alignment;
+  final Widget? trailing;
+  final Widget? leading;
 
   Color get _backgroundColor {
     switch (variant) {
@@ -43,12 +49,18 @@ class CpButton extends StatelessWidget {
         return CpColors.lightButtonBackgroundColor;
       case CpButtonVariant.secondary:
         return CpColors.lightGreyBackground;
+      case CpButtonVariant.black:
+        return Colors.black;
+      case CpButtonVariant.muted:
+        return const Color(0xff97875A);
     }
   }
 
   Color get _foregroundColor {
     switch (variant) {
       case CpButtonVariant.inverted:
+      case CpButtonVariant.black:
+      case CpButtonVariant.muted:
         return CpColors.lightGreyBackground;
       case CpButtonVariant.secondary:
       case CpButtonVariant.dark:
@@ -83,15 +95,12 @@ class CpButton extends StatelessWidget {
     switch (size) {
       case CpButtonSize.micro:
         horizontalPadding = 8;
-        break;
       case CpButtonSize.wide:
         horizontalPadding = 4;
-        break;
       case CpButtonSize.normal:
       case CpButtonSize.big:
       case CpButtonSize.small:
         horizontalPadding = 16;
-        break;
     }
 
     final button = TextButton(
@@ -122,7 +131,26 @@ class CpButton extends StatelessWidget {
         ),
         textStyle: MaterialStateProperty.all(textStyle),
       ),
-      child: Text(text),
+      child: SizedBox(
+        width: trailing == null ? null : double.infinity,
+        height: size.height,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (leading case final leading?)
+              Positioned(
+                left: 0,
+                child: leading,
+              ),
+            Text(text),
+            if (trailing case final trailing?)
+              Positioned(
+                right: 0,
+                child: trailing,
+              ),
+          ],
+        ),
+      ),
     );
 
     return width != null ? SizedBox(width: width, child: button) : button;
@@ -142,7 +170,7 @@ extension on CpButtonAlignment {
   }
 }
 
-extension on CpButtonSize {
+extension CpButtonSizeExt on CpButtonSize {
   double get height {
     switch (this) {
       case CpButtonSize.normal:

@@ -1,14 +1,11 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'transaction_version.g.dart';
-
-@JsonSerializable(createFactory: false)
 abstract class TransactionVersion {
   factory TransactionVersion.fromJson(dynamic value) => value is String
       ? LegacyTransactionVersion()
       : VersionedTransactionVersion(value as num);
 
   abstract final num? version;
+
+  dynamic toJson();
 }
 
 class LegacyTransactionVersion implements TransactionVersion {
@@ -16,6 +13,9 @@ class LegacyTransactionVersion implements TransactionVersion {
 
   @override
   final num? version = null;
+
+  @override
+  String toJson() => 'legacy';
 }
 
 class VersionedTransactionVersion implements TransactionVersion {
@@ -23,4 +23,7 @@ class VersionedTransactionVersion implements TransactionVersion {
 
   @override
   final num? version;
+
+  @override
+  num? toJson() => version;
 }

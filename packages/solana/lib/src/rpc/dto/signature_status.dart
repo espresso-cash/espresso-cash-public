@@ -6,7 +6,7 @@ import 'package:solana/src/rpc/dto/context.dart';
 part 'signature_status.g.dart';
 
 /// The status of a signature
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SignatureStatus {
   const SignatureStatus({
     required this.slot,
@@ -33,12 +33,16 @@ class SignatureStatus {
   /// [Commitment](@help/commitment/link) for more on optimistic
   /// confirmation.
   final ConfirmationStatus confirmationStatus;
+
+  Map<String, dynamic> toJson() => _$SignatureStatusToJson(this);
 }
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 class SignatureStatusesResult extends ContextResult<List<SignatureStatus?>> {
   const SignatureStatusesResult({required super.context, required super.value});
 
   factory SignatureStatusesResult.fromJson(Map<String, dynamic> json) =>
       _$SignatureStatusesResultFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignatureStatusesResultToJson(this);
 }

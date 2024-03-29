@@ -18,6 +18,8 @@ void showSnackBar(
     backgroundColor: result.fold(always(Colors.red), always(Colors.green)),
     content: ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 24),
+      // TODO(KB): Check if needed
+      // ignore: avoid-single-child-column-or-row
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -35,6 +37,7 @@ void showSnackBar(
   ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
+// ignore: prefer-public-exception-classes, intentionally private
 class _ErrorMessage implements Exception {
   const _ErrorMessage(this.message);
 

@@ -13,12 +13,25 @@ JsonRpcException _$JsonRpcExceptionFromJson(Map<String, dynamic> json) =>
       json['data'],
     );
 
+Map<String, dynamic> _$JsonRpcExceptionToJson(JsonRpcException instance) =>
+    <String, dynamic>{
+      'message': instance.message,
+      'code': instance.code,
+      'data': instance.data,
+    };
+
 _TransactionErrorData _$TransactionErrorDataFromJson(
         Map<String, dynamic> json) =>
     _TransactionErrorData(
       $enumDecode(_$TransactionErrorEnumMap, json['err'],
           unknownValue: TransactionError.other),
     );
+
+Map<String, dynamic> _$TransactionErrorDataToJson(
+        _TransactionErrorData instance) =>
+    <String, dynamic>{
+      'err': _$TransactionErrorEnumMap[instance.err]!,
+    };
 
 const _$TransactionErrorEnumMap = {
   TransactionError.accountInUse: 'AccountInUse',

@@ -1,11 +1,10 @@
 import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../features/conversion_rates/widgets/context_ext.dart';
 import '../../l10n/device_locale.dart';
-import '../amount.dart';
-import '../conversion_rates/context_ext.dart';
-import '../currency.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
@@ -31,24 +30,24 @@ extension FormatAmountExt on Amount {
     bool roundInteger = false,
     int? maxDecimals,
   }) =>
-      currency.map(
-        fiat: (FiatCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : currency.sign,
-          prefixedSymbol: true,
-          roundInteger: roundInteger,
-        ),
-        crypto: (CryptoCurrency currency) => formatAmount(
-          locale: locale,
-          value: decimal,
-          decimals: maxDecimals ?? currency.decimals,
-          symbol: skipSymbol ? null : currency.symbol,
-          prefixedSymbol: false,
-          roundInteger: roundInteger,
-        ),
-      );
+      switch (currency) {
+        FiatCurrency(:final sign) => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : sign,
+            prefixedSymbol: true,
+            roundInteger: roundInteger,
+          ),
+        CryptoCurrency() => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : currency.symbol,
+            prefixedSymbol: false,
+            roundInteger: roundInteger,
+          ),
+      };
 }
 
 String formatAmount({
@@ -59,10 +58,9 @@ String formatAmount({
   required bool roundInteger,
   String? symbol,
 }) {
-  late final NumberFormat formatter;
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
-  formatter = NumberFormat.decimalPattern(locale.languageCode)
+  final formatter = NumberFormat.decimalPattern(locale.languageCode)
     ..minimumFractionDigits = minimumDigits
     ..maximumFractionDigits = decimals;
 

@@ -22,7 +22,7 @@ void main() {
 
   test('Creating a keypair directly from private key bytes works', () async {
     // Test with a bunch different random keys
-    for (var i = 0; i < 20; i++) {
+    for (int i = 0; i < 20; i++) {
       final randomKeyPair = await Ed25519HDKeyPair.random();
       final simpleKeyPairData = await randomKeyPair.extract();
       final testKeyPair = await Ed25519HDKeyPair.fromPrivateKeyBytes(
@@ -32,7 +32,7 @@ void main() {
       expect(randomKeyPair.address, equals(testKeyPair.address));
 
       // Sign a bunch of random messages to check that it works
-      for (var j = 0; j < 20; ++j) {
+      for (int j = 0; j < 20; ++j) {
         int random(int _) => _random.nextInt(256);
 
         // Create the seed
@@ -48,7 +48,7 @@ void main() {
 
   test(
     'Can derive a public key from another public key and a seed',
-    () async {
+    () {
       _withSeedKeyDerivationData.forEach((key, value) async {
         final derived = await Ed25519HDPublicKey.createWithSeed(
           fromPublicKey: Ed25519HDPublicKey.fromBase58(key),
@@ -170,43 +170,43 @@ const _testCases = {
 final _withSeedKeyDerivationData = {
   'AKt2Mb3WWRvrQVVRKzPDKz2eJxt6FFp2JpqCQ2Dd6aiD': {
     'result': '3mofn5aDR85AQADM1sjg5EJkQzxm5mfARMdf8sGHMRnU',
-    'seed': '83wbay35jln'
+    'seed': '83wbay35jln',
   },
   '4p4Q2mMS6beJHjWFq3Rf15yeTEagKx6xrNxS6BykHg5d': {
     'result': '71SdWBfp5Vc5B88UsTrDmRQnaUxjR9dWPrHfUFibz63i',
-    'seed': 'sg7strvv6i8'
+    'seed': 'sg7strvv6i8',
   },
   'JAJyHWhKKt1wQR393Vngd2KRGd2qp9Jt35xWRLBcE8vm': {
     'result': 'AUvp4exymYnFp64XZVBwgd9YqrRJ5YYRfi29myUHLpQh',
-    'seed': 'hrhev1c4qka'
+    'seed': 'hrhev1c4qka',
   },
   '2jTtpQYE26bjEjVtzTHBbsavTGh827Hero7YhTHkDL1P': {
     'result': '4fKy3JG28Z1GkLW8Gk5zLHwn24sVSMsS6in81LTy4eya',
-    'seed': 'iafkw47ezrm'
+    'seed': 'iafkw47ezrm',
   },
   '7vWmVQmLZw2YEGKoGVasxdBVS3BLLfv3iiLx9SnhNLu5': {
     'result': '8UQ48VTBQ9kVYKPRPpW7igGBk5kfBHNqf5ajvX4PwhEJ',
-    'seed': 'oq4jdymivkp'
+    'seed': 'oq4jdymivkp',
   },
   'AA8VS3DAdhyL6UEnrUuxYCdfVu8feyy8ccdYxbmfFpQF': {
     'result': 'CiTXxToxwwXRSxJ2zpqbzCALV4KC7nopgVs8U9LsWjB3',
-    'seed': 'r6vuncch21s'
+    'seed': 'r6vuncch21s',
   },
   '5VxhCStjRsynKV74wAQ11DYRwW96yWxDoRdbbupayoF7': {
     'result': '8hxtWoVLpC8m5bfjFrmukDEHcAHtY7RUCFz3VUsjsKsy',
-    'seed': '123wdwcqeq7l'
+    'seed': '123wdwcqeq7l',
   },
   'E6iWcpEk7wAcEpX3ksGe1WuvrjTJekRicumJuPkbvYWh': {
     'result': '35KWzKbGVFnKAJADtKGrLTw8XUUofrLLAipuWeKw8VPE',
-    'seed': 'gg21d582kt9'
+    'seed': 'gg21d582kt9',
   },
   '7PN32epxuKt71sG6Kygy9Dn2uhkvWHMbscka3kDdu1QE': {
     'result': 'GTreHFzqAtAYDDkg5ahCMT4Vc5zoXHzduL918Y4ZzQQ2',
-    'seed': 'ayddb9axjft'
+    'seed': 'ayddb9axjft',
   },
   'F8UWuuDN6qo8Yh4zdofTCKQpMSh23sqA3rfFBWewHDZw': {
     'result': '3VDGgSjBASPHP35WwMv4G5U9WZEMQgfR4sMsbraKUHhQ',
-    'seed': 'tf5b60vh0rl'
+    'seed': 'tf5b60vh0rl',
   },
 };
 

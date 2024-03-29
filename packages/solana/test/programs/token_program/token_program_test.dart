@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-unnecessary-late
+
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
@@ -83,7 +85,7 @@ void main() {
     );
   });
 
-  test('Mint To', () async {
+  test('Mint To', () {
     final instruction = TokenInstruction.mintTo(
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
@@ -97,7 +99,7 @@ void main() {
     );
   });
 
-  test('Mint To Checked', () async {
+  test('Mint To Checked', () {
     final instruction = TokenInstruction.mintToChecked(
       mint: mint.publicKey,
       destination: tokensHolder.publicKey,
@@ -112,7 +114,7 @@ void main() {
     );
   });
 
-  test('Transfer', () async {
+  test('Transfer', () {
     final instruction = TokenInstruction.transfer(
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
@@ -126,7 +128,7 @@ void main() {
     );
   });
 
-  test('Transfer Checked', () async {
+  test('Transfer Checked', () {
     final instruction = TokenInstruction.transferChecked(
       source: tokensHolder.publicKey,
       destination: tokensHolder.publicKey,
@@ -142,7 +144,7 @@ void main() {
     );
   });
 
-  test('Approve', () async {
+  test('Approve', () {
     final instruction = TokenInstruction.approve(
       amount: 1000000,
       source: tokensHolder.publicKey,
@@ -156,7 +158,7 @@ void main() {
     );
   });
 
-  test('Revoke', () async {
+  test('Revoke', () {
     final instruction = TokenInstruction.revoke(
       source: tokensHolder.publicKey,
       sourceOwner: mintAuthority.publicKey,
@@ -168,7 +170,7 @@ void main() {
     );
   });
 
-  test('Approve Checked', () async {
+  test('Approve Checked', () {
     final instruction = TokenInstruction.approveChecked(
       amount: 1000000,
       decimals: 5,
@@ -184,7 +186,7 @@ void main() {
     );
   });
 
-  test('Burn', () async {
+  test('Burn', () {
     final instruction = TokenInstruction.burn(
       amount: 100000,
       accountToBurnFrom: tokensHolder.publicKey,
@@ -198,7 +200,7 @@ void main() {
     );
   });
 
-  test('Burn Checked', () async {
+  test('Burn Checked', () {
     final instruction = TokenInstruction.burnChecked(
       amount: 100000,
       accountToBurnFrom: tokensHolder.publicKey,
@@ -213,7 +215,7 @@ void main() {
     );
   });
 
-  test('Freeze Account', () async {
+  test('Freeze Account', () {
     final instruction = TokenInstruction.freezeAccount(
       account: tokensHolder.publicKey,
       mint: mint.publicKey,
@@ -226,7 +228,7 @@ void main() {
     );
   });
 
-  test('Thaw Account', () async {
+  test('Thaw Account', () {
     final instruction = TokenInstruction.thawAccount(
       account: tokensHolder.publicKey,
       mint: mint.publicKey,

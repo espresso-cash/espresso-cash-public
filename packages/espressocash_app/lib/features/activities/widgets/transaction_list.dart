@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../ui/loader.dart';
-import '../src/transaction_repository.dart';
-import '../src/updater/bloc.dart';
-import '../src/widgets/no_activity.dart';
-import '../src/widgets/transaction_item.dart';
+import '../data/transaction_repository.dart';
+import '../services/bloc.dart';
+import 'no_activity.dart';
+import 'transaction_item.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({

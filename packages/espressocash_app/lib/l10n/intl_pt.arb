@@ -1,75 +1,31 @@
 {
   "@@locale": "pt",
-  "aboutTokenLabel": "Sobre {name}",
-  "@aboutTokenLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
-  "activitiesTitle": "Atividade",
-  "@activitiesTitle": {},
-  "activityStatusCanceled": "Cancelada",
-  "@activityStatusCanceled": {},
-  "activityStatusFailure": "Falha",
-  "@activityStatusFailure": {},
-  "activityStatusInProgress": "Em andamento",
-  "@activityStatusInProgress": {},
-  "activityStatusSuccess": "Sucesso",
-  "@activityStatusSuccess": {},
-  "addCash": "Depositar",
-  "@addCash": {},
-  "all": "Todos",
-  "@all": {},
-  "amount": "Quantia",
-  "@amount": {},
-  "and": " e ",
-  "@and": {},
-  "appLock": "Bloqueio automático",
-  "@appLock": {},
-  "appLockDescription": "Requer senha para acessar o aplicativo",
-  "@appLockDescription": {},
-  "backupPhraseSuccessMessage": "Você salvou com sucesso sua frase de recuperação secreta em um local seguro. Certifique-se de mantê-la em segredo!",
-  "@backupPhraseSuccessMessage": {},
-  "balance": "Saldo",
-  "@balance": {},
-  "boughtToken": "Comprou {amount}",
-  "@boughtToken": {
+  "activities_lblBoughtToken": "Comprou {amount}",
+  "@activities_lblBoughtToken": {
     "placeholders": {
       "amount": {
         "type": "String"
       }
     }
   },
-  "buy": "Comprar",
-  "@buy": {},
-  "byCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
-  "@byCreatingWalletYouAgree": {},
-  "camera": "Câmera",
-  "@camera": {},
-  "cancel": "Cancelar",
-  "@cancel": {},
-  "cancelErrorMessageInsufficientFunds": "O dinheiro já foi retirado.",
-  "@cancelErrorMessageInsufficientFunds": {},
-  "cancelPaymentRequestConfirmationSubtitle": "Tem certeza de que deseja cancelar esta solicitação de pagamento?",
-  "@cancelPaymentRequestConfirmationSubtitle": {},
-  "cancelPaymentRequestConfirmationTitle": "Cancelar a solicitação de pagamento",
-  "@cancelPaymentRequestConfirmationTitle": {},
-  "cancelTransfer": "Cancelar transferência",
-  "@cancelTransfer": {},
-  "cancelTransferConfirmationSubtitle": "Tem certeza de que deseja cancelar esta transferência?",
-  "@cancelTransferConfirmationSubtitle": {},
-  "cancelTransferConfirmationTitle": "Cancelar transferência",
-  "@cancelTransferConfirmationTitle": {},
-  "cannotConnectToTheNetwork": "Não foi possível conectar-se à rede!",
-  "@cannotConnectToTheNetwork": {},
-  "cashOut": "Sacar",
-  "@cashOut": {},
+  "activities_lblCanceled": "Cancelada",
+  "@activities_lblCanceled": {},
+  "activities_lblFailure": "Falha",
+  "@activities_lblFailure": {},
+  "activities_lblInProgress": "Em andamento",
+  "@activities_lblInProgress": {},
+  "activities_lblSuccess": "Sucesso",
+  "@activities_lblSuccess": {},
+  "activities_lblTitle": "Atividade",
+  "@activities_lblTitle": {},
+  "appLock_lblAutoLock": "Bloqueio automático",
+  "@appLock_lblAutoLock": {},
+  "appLock_lblAutoLockDescription": "Requer senha para acessar o aplicativo",
+  "@appLock_lblAutoLockDescription": {},
+  "balances_lblConnectionError": "Não foi possível conectar-se à rede!",
+  "@balances_lblConnectionError": {},
   "comingSoon": "Em breve!",
   "@comingSoon": {},
-  "completeThePuzzle": "Você escreveu sua frase de recuperação corretamente? Teste aqui:",
-  "@completeThePuzzle": {},
   "contactUs": "Contate-nos",
   "@contactUs": {},
   "copiedFid": "FID copiado: {fid}",
@@ -84,11 +40,15 @@
   "@copiedToClipboard": {},
   "copy": "Copiar",
   "@copy": {},
+  "core_and": " y ",
+  "@core_and": {},
+  "core_btnCancel": "Cancelar",
+  "@core_btnCancel": {},
   "create": "Criar",
   "@create": {},
   "crypto": "Cripto",
   "@crypto": {},
-  "cryptoCashBalance": "Seu Saldo\nCripto",
+  "cryptoCashBalance": "Seu Saldo Cripto",
   "@cryptoCashBalance": {},
   "cryptoInvestments": "Seus Investmentos\nem Cripto",
   "@cryptoInvestments": {},
@@ -144,10 +104,12 @@
   },
   "following": "Seguindo",
   "@following": {},
-  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode comprar e vender cripto ou enviar dinheiro para qualquer lugar do mundo!",
+  "fundYourAccount": "Deposite em sua conta para iniciar sua jornada. Você pode enviar dinheiro para qualquer lugar do mundo ou comprar e vender cripto !",
   "@fundYourAccount": {},
   "help": "Ajuda",
   "@help": {},
+  "incomingSplitKeyPayments_lblByClickingTheSecondLink": "Ao clicar no segundo link da mensagem ou no botão de cancelar, você concorda com nossos ",
+  "@incomingSplitKeyPayments_lblByClickingTheSecondLink": {},
   "incorrectPasscode": "Senha incorreta. Tente novamente",
   "@incorrectPasscode": {},
   "insufficientFundsForFeeMessage": "Você não tem o suficiente {feeToken} para pagar pela taxa de rede, você precisa de pelo menos {amount}.",
@@ -178,6 +140,8 @@
   "@invalidEscrowError": {},
   "investmentHeaderButtonsTitle": "Eu quero",
   "@investmentHeaderButtonsTitle": {},
+  "isWaitingForYou": "está esperando por você.",
+  "@isWaitingForYou": {},
   "iUnderstand": "Eu entendi",
   "@iUnderstand": {},
   "iUnderstandIfLoseMySecret": "Entendo que, se perder minha frase de recuperação secreta, não poderei acessar os ativos.",
@@ -190,8 +154,6 @@
   "@learningSectionTitle": {},
   "less": "menos",
   "@less": {},
-  "linkSubtitle": "O destinatário precisará clicar nos dois links abaixo para resgatar o dinheiro.",
-  "@linkSubtitle": {},
   "loading": "Carregando...",
   "@loading": {},
   "marketCapRank": "Ranking de Capitalização de Mercado",
@@ -212,6 +174,56 @@
       }
     }
   },
+  "mobileWalletAcceptAuthorization": "Autorizar",
+  "@mobileWalletAcceptAuthorization": {},
+  "mobileWalletAcceptSignAndSendPayloads": "Assinar e enviar",
+  "@mobileWalletAcceptSignAndSendPayloads": {},
+  "mobileWalletAcceptSignMessages": "Assinar mensagens",
+  "@mobileWalletAcceptSignMessages": {},
+  "mobileWalletAcceptSignTransactions": "Assinar transações",
+  "@mobileWalletAcceptSignTransactions": {},
+  "mobileWalletAuthorize": "Autorizar {appName}?",
+  "@mobileWalletAuthorize": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      }
+    }
+  },
+  "mobileWalletSendTransactions": "Essas transações serão imediatamente enviadas após serem assinadas.",
+  "@mobileWalletSendTransactions": {},
+  "mobileWalletSignAndSendTransactions": "Assinar e Enviar Transações",
+  "@mobileWalletSignAndSendTransactions": {},
+  "mobileWalletSignMessages": "Assinar mensagem",
+  "@mobileWalletSignMessages": {},
+  "mobileWalletSignMessagesRequest": "{appName} está solicitando que você assine {count} mensagem(ns).",
+  "@mobileWalletSignMessagesRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletSignTransactions": "Assinar transação",
+  "@mobileWalletSignTransactions": {},
+  "mobileWalletSignTransactionsRequest": "{appName} está solicitando que você assine {count} transação(ões).",
+  "@mobileWalletSignTransactionsRequest": {
+    "placeholders": {
+      "appName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mobileWalletTitle": "Carteira Espresso Cash",
+  "@mobileWalletTitle": {},
+  "money": "Dinheiro",
+  "@money": {},
   "moneyReceived": "Dinheiro recebido",
   "@moneyReceived": {},
   "more": "mais",
@@ -228,18 +240,42 @@
   "@noEmailInCryptoInfo": {},
   "noEmailInCryptoParagraph": "Você precisa de uma frase de recuperação secreta. Essa frase é composta por palavras de segurança geradas aleatoriamente que serão fornecidas a você. Sem essas palavras, você não poderá acessar seu dinheiro. Essas palavras nunca podem ser recuperadas.\n\nMantenha-as em um lugar seguro! ",
   "@noEmailInCryptoParagraph": {},
+  "offRampDepositError": "Houve um problema com sua retirada.",
+  "@offRampDepositError": {},
+  "offRampWaitingForPartner": "Seu dinheiro está a caminho",
+  "@offRampWaitingForPartner": {},
+  "offRampWithdrawalFailure": "Houve um problema com sua retirada. Por favor, entre em contato conosco.",
+  "@offRampWithdrawalFailure": {},
+  "offRampWithdrawCancelledTitle": "A retirada foi cancelada",
+  "@offRampWithdrawCancelledTitle": {},
+  "offRampWithdrawReceived": "O dinheiro foi recebido",
+  "@offRampWithdrawReceived": {},
+  "offRampWithdrawSent": "USDC enviado ao parceiro",
+  "@offRampWithdrawSent": {},
   "ok": "OK",
   "@ok": {},
   "onboardingBullet": "Investimento em Cripto simplificado, seja você novato ou profissional experiente!",
   "@onboardingBullet": {},
-  "onboardingIntro": "Uma forma rápida e simples de enviar & receber dinheiro na hora.",
+  "onboardingIntro": "Uma forma rápida e simples de enviar & receber dinheiro.",
   "@onboardingIntro": {},
+  "onboardingNoticeFinishSetup": "Concluir configuração",
+  "@onboardingNoticeFinishSetup": {},
   "oneMonth": "1 mês",
   "@oneMonth": {},
   "oneWeek": "1 semana",
   "@oneWeek": {},
+  "openInAppScanner": "Abrir o leitor de QR code do app",
+  "@openInAppScanner": {},
   "operationSend": "enviada",
   "@operationSend": {},
+  "outgoingSplitKeyPayments_btnCancel": "Cancelar transferência",
+  "@outgoingSplitKeyPayments_btnCancel": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": "Tem certeza de que deseja cancelar esta transferência?",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationSubtitle": {},
+  "outgoingSplitKeyPayments_lblCancelConfirmationTitle": "Cancelar transferência",
+  "@outgoingSplitKeyPayments_lblCancelConfirmationTitle": {},
+  "outgoingSplitKeyPayments_lblMoneyWithdrawn": "O dinheiro já foi retirado.",
+  "@outgoingSplitKeyPayments_lblMoneyWithdrawn": {},
   "outgoingTransferSuccess": "{amount} foi enviado",
   "@outgoingTransferSuccess": {
     "placeholders": {
@@ -254,32 +290,30 @@
   "@paymentInitiated": {},
   "paymentRequestCancel": "Cancelar solicitação",
   "@paymentRequestCancel": {},
-  "paymentRequestFailureNotificationTitle": "Falha no pagamento de {amount} para {label}.",
+  "paymentRequestFailureNotificationTitle": "Falha no pagamento de {amount}.",
   "@paymentRequestFailureNotificationTitle": {
     "placeholders": {
-      "label": {
-        "type": "String"
-      },
       "amount": {
         "type": "String"
       }
     }
   },
-  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount} para {label} foi paga.",
+  "paymentRequest_lblCancelConfirmationSubtitle": "Tem certeza de que deseja cancelar esta solicitação de pagamento?",
+  "@paymentRequest_lblCancelConfirmationSubtitle": {},
+  "paymentRequest_lblCancelConfirmationTitle": "Cancelar a solicitação de pagamento",
+  "@paymentRequest_lblCancelConfirmationTitle": {},
+  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount} foi paga.",
   "@paymentRequestSuccessNotificationTitle": {
     "placeholders": {
       "amount": {
         "type": "String"
-      },
-      "label": {
-        "type": "String"
       }
     }
   },
-  "paymentRequestTitle": "Solicitação de pagamento para {label}",
+  "paymentRequestTitle": "Solicitação de pagamento para {amount}",
   "@paymentRequestTitle": {
     "placeholders": {
-      "label": {
+      "amount": {
         "type": "String"
       }
     }
@@ -314,6 +348,8 @@
   "@privacyPolicy": {},
   "processing": "Processando...",
   "@processing": {},
+  "profile_lblCamera": "Câmera",
+  "@profile_lblCamera": {},
   "protectWallet": "Proteger Carteira",
   "@protectWallet": {},
   "protectWalletTitle": "PROTEÇÃO DA CARTEIRA",
@@ -330,14 +366,16 @@
   "@qrCodeScanErrorContent": {},
   "qrCodeScanErrorTitle": "Falha ao escanear QR code",
   "@qrCodeScanErrorTitle": {},
-  "qrInputAddressHint": "Digite o endereço cripto aqui",
-  "@qrInputAddressHint": {},
-  "qrInputAddressMessage": "Você pode inserir o endereço da carteira Solana do destinatário para enviar dinheiro diretamente para ele.",
-  "@qrInputAddressMessage": {},
-  "qrInputAddressTitle": "Enviar manualmente",
-  "@qrInputAddressTitle": {},
+  "qrPaymentInstructions": "Por questões de segurança, por favor leia o QR code enviado utilizando o scanner do app.",
+  "@qrPaymentInstructions": {},
   "qrPaymentSubtitle": "O destinatário receberá o dinheiro escaneando este QR Code:",
   "@qrPaymentSubtitle": {},
+  "qrTermsDisclaimer": "Ao abrir o leitor de QR code, você concorda com os nossos ",
+  "@qrTermsDisclaimer": {},
+  "ramp_btnAddCash": "Depositar",
+  "@ramp_btnAddCash": {},
+  "ramp_btnCashOut": "Sacar",
+  "@ramp_btnCashOut": {},
   "receive": "Solicitar",
   "@receive": {},
   "receivedBy": "Recebido por {address}",
@@ -350,10 +388,6 @@
   },
   "recoverySubHeading": "Por favor, digite sua frase de recuperação secreta a seguir e salve-a com cuidado. Essa frase é composta de 12 palavras geradas aleatoriamente. Você não poderá recuperar seu dinheiro se perder essas palavras.",
   "@recoverySubHeading": {},
-  "recoveryWarningInfo": "Leia cuidadosamente as informações abaixo antes de visualizar sua frase de recuperação secreta",
-  "@recoveryWarningInfo": {},
-  "recoveryWarningParagraph": "Para recuperar sua carteira, você precisará da sua frase de recuperação secreta. Anote sua seguinte frase de recuperação secreta e salve-a com cuidado.\n\nQualquer pessoa que tenha acesso à sua frase de recuperação secreta também tem um acesso irrevogável ao seu dinheiro.\n\nPor favor, nunca compartilhe esta frase de recuperação secreta com um estranho e nunca insira esta frase de recuperação secreta em um formulário ou outro aplicativo.",
-  "@recoveryWarningParagraph": {},
   "reEnterPasscode": "Insira sua senha novamente",
   "@reEnterPasscode": {},
   "remindMeLater": "Lembre-me mais tarde",
@@ -374,6 +408,14 @@
   "@retry": {},
   "save": "Salvar",
   "@save": {},
+  "scanToReceive": "Digitalize para receber {amount} ",
+  "@scanToReceive": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "search": "Buscar",
   "@search": {},
   "searchPlaceholder": "Buscar...",
@@ -414,8 +456,6 @@
   "@shareLink": {},
   "shareLinks": "Compartilhar links",
   "@shareLinks": {},
-  "sharePaymentRequestLinkDescription": "O destinatário precisará clicar no link abaixo para pagar você.",
-  "@sharePaymentRequestLinkDescription": {},
   "sharePaymentRequestLinkInstructions": "Para me pagar com um clique, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Olá!\n\nEnviei uma solicitação de ",
@@ -433,8 +473,6 @@
   },
   "sharePaymentRequestLinkTitle": "Compartilhar link",
   "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeDescription": "O destinatário pode pagar você com Espresso Cash (ou outra carteira Solana Pay), escaneando o QR Code abaixo.",
-  "@sharePaymentRequestQrCodeDescription": {},
   "sharePaymentRequestQrCodeTitle": "Compartilhar QR Code",
   "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Solicitação criada!",
@@ -443,24 +481,12 @@
   "@shareStep1": {},
   "shareStep2": "Etapa 2 - Quando o aplicativo pedir, clique no segundo link:",
   "@shareStep2": {},
-  "shareText": "Olá!\n\nAcabei de te enviar {amount}.\n\nPara receber, você precisa clicar em dois links. Siga estas duas etapas abaixo:\n\nEtapa 1 - Clique no primeiro link:\n\n{firstLink}\n\nEtapa 2 - Quando o aplicativo pedir, clique no segundo link:\n\n{secondLink}",
-  "@shareText": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      },
-      "firstLink": {
-        "type": "Uri"
-      },
-      "secondLink": {
-        "type": "Uri"
-      }
-    }
-  },
   "signIn1": "Já tem uma carteira Solana? ",
   "@signIn1": {},
   "signIn2": "Continue aqui",
   "@signIn2": {},
+  "signIn_lblByCreatingWalletYouAgree": "Ao criar uma carteira ou usar uma carteira existente, você concorda com os nossos ",
+  "@signIn_lblByCreatingWalletYouAgree": {},
   "signOut": "Apagar Carteira",
   "@signOut": {},
   "signOutConfirmation": "Tem certeza que você deseja\napagar a carteira?",
@@ -594,13 +620,22 @@
       }
     }
   },
-  "tokenEquivalent": "Equivalente a {value} {symbol}",
+  "tokenDetails_btnBuy": "Comprar",
+  "@tokenDetails_btnBuy": {},
+  "tokenDetails_lblAboutToken": "Sobre {name}",
+  "@tokenDetails_lblAboutToken": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tokenDetails_lblBalance": "Saldo",
+  "@tokenDetails_lblBalance": {},
+  "tokenEquivalent": "Equivalente a {value}",
   "@tokenEquivalent": {
     "placeholders": {
       "value": {
-        "type": "String"
-      },
-      "symbol": {
         "type": "String"
       }
     }
@@ -619,6 +654,14 @@
   "@transferSuccessTitle": {},
   "tryAgainLater": "Por favor, tente novamente mais tarde",
   "@tryAgainLater": {},
+  "unavailableToken": "{tokenName} está atualmente indisponível para compra. Você ainda pode seguir para acompanhar o preço.",
+  "@unavailableToken": {
+    "placeholders": {
+      "tokenName": {
+        "type": "String"
+      }
+    }
+  },
   "uploadPhoto": "Carregar uma Foto",
   "@uploadPhoto": {},
   "usdcExplanation": "O USD Coin (USDC) é uma moeda digital estável (Stablecoin) vinculada ao dólar dos Estados Unidos.",
@@ -636,33 +679,6 @@
       }
     }
   },
-  "mobileWalletTitle": "Espresso Cash Wallet",
-  "mobileWalletAuthorize": "Authorizar {appName}?",
-  "@mobileWalletAuthorize": {
-    "placeholders": {
-      "appName": {
-            "type": "String"
-      }
-    }
-  },
-  "mobileWalletSignTransactions": "Assinar transações",
-  "mobileWalletSignMessages": "Assinar mensagens",
-   "mobileWalletSignRequesting": "{appName} está pedindo que você assine {payloadCount} transação(ões)",
-  "@mobileWalletSignRequesting": {
-    "placeholders": {
-      "appName": {
-        "type": "String"
-      },
-      "payloadCount": {
-        "type": "int"
-      }
-    }
-  },
-  "mobileWalletSignAndSendTransactions": "Assinar e Enviar Transações",
-  "mobileWalletSendTransactions": "Essas transações serão enviadas imediatamente após a assinatura.",
-  "mobileWalletAcceptSignPayloads": "Sim, assine",
-  "mobileWalletAcceptAuthorization": "Sim, autorize",
-  "mobileWalletAcceptSignAndSendPayloads": "Sim, assine e envie",
   "view": "Visualizar",
   "@view": {},
   "viewRecoveryPhrase": "Ver a frase de recuperação secreta",
@@ -675,10 +691,6 @@
   "@weWereUnableToFetchTokenPrice": {},
   "yes": "Sim",
   "@yes": {},
-  "yesDeleteMyWallet": "Sim, exclua minha carteira",
-  "@yesDeleteMyWallet": {},
-  "youAreCreatingUniqueLink": "Você está criando um link seguro contendo:",
-  "@youAreCreatingUniqueLink": {},
   "youOwn": "Você possui",
   "@youOwn": {},
   "yourFirstNamePlaceholder": "Escolha um nome de usuário",
@@ -698,29 +710,5 @@
     }
   },
   "zeroAmountTitle": "Quantia inválida",
-  "@zeroAmountTitle": {},
-  "paymentInitiated": "Payment initiated",
-  "@paymentInitiated": {},
-  "qrScanInfo1": "Se o destinatário estiver com o app instalado:",
-  "@qrScanInfo1": {},
-  "qrScanInfo2": "Eles devem usar o leitor de QR Code do app.",
-  "@qrScanInfo2": {},
-  "scanToReceive": "Escaneie para receber {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "openInAppScanner": "Abra o leitor de QR Code do aplicaitvo.",
-  "@openInAppScanner": {},
-  "qrPaymentInstructions": "Por motivos de segurança, escaneie o QR Code do remetente usando o leitor do aplicativo.",
-  "@qrPaymentInstructions": {},
-  "qrTermsDisclaimer": "Ao abrir o leitor de QR Code, você concorda com o nosso ",
-  "@qrTermsDisclaimer": {},
-  "money": "O dinheiro",
-  "@money": {},
-  "isWaitingForYou": "Está esperando por você.",
-  "@isWaitingForYou": {}
+  "@zeroAmountTitle": {}
 }

@@ -2,13 +2,15 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
-import '../src/activity.dart';
-import '../src/pending_activities_repository.dart';
-import '../src/widgets/no_activity.dart';
-import '../src/widgets/odp_tile.dart';
-import '../src/widgets/oskp_tile.dart';
-import '../src/widgets/payment_request_tile.dart';
-import '../src/widgets/swap_tile.dart';
+import '../models/activity.dart';
+import '../services/pending_activities_repository.dart';
+import 'no_activity.dart';
+import 'odp_tile.dart';
+import 'off_ramp_tile.dart';
+import 'olp_tile.dart';
+import 'on_ramp_tile.dart';
+import 'outgoing_dln_tile.dart';
+import 'payment_request_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
@@ -57,13 +59,21 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         key: ValueKey(p.id),
                         activity: p,
                       ),
-                      outgoingSplitKeyPayment: (p) => OSKPTile(
+                      outgoingLinkPayment: (p) => OLPTile(
                         key: ValueKey(p.id),
                         activity: p,
                       ),
-                      swap: (p) => SwapTile(
-                        key: ValueKey(p.id),
-                        activity: p,
+                      onRamp: (it) => OnRampTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      offRamp: (it) => OffRampTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      outgoingDlnPayment: (it) => OutgoingDlnTile(
+                        key: ValueKey(it.id),
+                        activity: it,
                       ),
                     );
                   },

@@ -13,4 +13,6 @@ abstract class Instruction {
 
     return SimpleInstruction.fromJson(json);
   }
+
+  Map<String, dynamic> toJson();
 }

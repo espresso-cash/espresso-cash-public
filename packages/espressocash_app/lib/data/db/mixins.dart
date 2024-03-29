@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
 
-import '../../core/transactions/tx_sender.dart';
+import '../../features/transactions/models/tx_results.dart';
 
 mixin AmountMixin on Table {
   IntColumn get amount => integer()();

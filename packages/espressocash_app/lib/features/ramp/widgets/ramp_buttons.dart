@@ -1,13 +1,28 @@
+import 'dart:async';
+
+import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ramp_flutter/configuration.dart';
-import 'package:ramp_flutter/ramp_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
-import '../../../config.dart';
-import '../../../core/accounts/bl/account.dart';
-import '../../../core/balances/context_ext.dart';
+import '../../../di.dart';
+import '../../../routing.dart';
 import '../../../ui/button.dart';
+import '../../accounts/models/account.dart';
+import '../../country_picker/models/country.dart';
+import '../../profile/data/profile_repository.dart';
+import '../models/ramp_partner.dart';
+import '../models/ramp_type.dart';
+import '../partners/coinflow/widgets/launch.dart';
+import '../partners/guardarian/widgets/launch.dart';
+import '../partners/kado/widgets/launch.dart';
+import '../partners/ramp_network/widgets/launch.dart';
+import '../partners/scalex/widgets/launch.dart';
+import '../screens/ramp_onboarding_screen.dart';
+import '../screens/ramp_partner_select_screen.dart';
+import '../src/models/profile_data.dart';
 import '../src/widgets/off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
@@ -23,18 +38,15 @@ class AddCashButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.addCash,
-          onPressed: () {
-            final configuration = _defaultConfiguration
-              ..defaultFlow = 'ONRAMP'
-              ..userAddress =
-                  context.read<MyAccount>().wallet.publicKey.toBase58();
-
-            RampFlutter()
-              ..onRampClosed = () {
-                context.notifyBalanceAffected();
-              }
-              ..showRamp(configuration);
+          text: context.l10n.ramp_btnAddCash,
+          onPressed: () async {
+            final data = await context.ensureProfileData(RampType.onRamp);
+            if (context.mounted && data != null) {
+              context.launchOnRampFlow(
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+              );
+            }
           },
         ),
       );
@@ -53,16 +65,206 @@ class CashOutButton extends StatelessWidget {
         child: CpButton(
           size: size,
           minWidth: 250,
-          text: context.l10n.cashOut,
-          onPressed: () => OffRampBottomSheet.show(context),
+          text: context.l10n.ramp_btnCashOut,
+          onPressed: () async {
+            final data = await context.ensureProfileData(RampType.offRamp);
+            if (context.mounted && data != null) {
+              context.launchOffRampFlow(
+                profile: data,
+                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+              );
+            }
+          },
         ),
       );
 }
 
-final _defaultConfiguration = Configuration()
-  ..hostAppName = 'Espresso Cash'
-  ..hostLogoUrl =
-      'https://www.espressocash.com/landing/img/asset-2-2x-copy@2x.png'
-  ..hostApiKey = rampApiKey
-  ..swapAsset = 'SOLANA_USDC'
-  ..defaultAsset = 'SOLANA_USDC';
+extension RampBuildContextExt on BuildContext {
+  Future<ProfileData?> ensureProfileData(RampType rampType) async {
+    void handleSubmitted() {
+      pop();
+    }
+
+    final repository = sl<ProfileRepository>();
+    Country? country = repository.country?.let(Country.findByCode);
+    String email = repository.email;
+
+    if (country != null && email.isNotEmpty) {
+      return (country: country, email: email);
+    }
+
+    await RampOnboardingRoute(
+      (onConfirmed: handleSubmitted, rampType: rampType),
+    ).push<void>(this);
+
+    country = repository.country?.let(Country.findByCode);
+    email = repository.email;
+
+    return country != null && email.isNotEmpty
+        ? (country: country, email: email)
+        : null;
+  }
+
+  void launchOnRampFlow({
+    required ProfileData profile,
+    required String address,
+  }) {
+    final partners = _getOnRampPartners(profile.country.code);
+
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnAddCash);
+
+      return;
+    }
+
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
+      _launchOnRampPartner(
+        top,
+        profile: profile,
+        address: address,
+      );
+
+      return;
+    }
+
+    RampPartnerSelectRoute(
+      (
+        topPartner: top,
+        otherPartners: others.lock,
+        type: RampType.onRamp,
+        onPartnerSelected: (RampPartner p) {
+          pop();
+          _launchOnRampPartner(p, profile: profile, address: address);
+        },
+      ),
+    ).push<void>(this);
+  }
+
+  void launchOffRampFlow({
+    required ProfileData profile,
+    required String address,
+  }) {
+    final partners = _getOffRampPartners(profile.country.code);
+
+    if (partners.isEmpty) {
+      OffRampBottomSheet.show(this, title: l10n.ramp_btnCashOut);
+
+      return;
+    }
+
+    final [top, ...others] = partners.unlock;
+
+    if (others.isEmpty) {
+      _launchOffRampPartner(
+        top,
+        profile: profile,
+        address: address,
+      );
+
+      return;
+    }
+
+    RampPartnerSelectRoute(
+      (
+        topPartner: top,
+        otherPartners: others.lock,
+        type: RampType.offRamp,
+        onPartnerSelected: (RampPartner p) {
+          pop();
+          _launchOffRampPartner(p, profile: profile, address: address);
+        },
+      ),
+    ).push<void>(this);
+  }
+
+  void _launchOnRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
+    switch (partner) {
+      case RampPartner.rampNetwork:
+        launchRampNetworkOnRamp(profile: profile, address: address);
+      case RampPartner.kado:
+        launchKadoOnRamp(profile: profile, address: address);
+      case RampPartner.guardarian:
+        launchGuardarianOnRamp(profile: profile, address: address);
+      case RampPartner.scalex:
+        launchScalexOnRamp(profile: profile, address: address);
+      case RampPartner.coinflow:
+        throw UnimplementedError('Not implemented for $partner');
+    }
+  }
+
+  void _launchOffRampPartner(
+    RampPartner partner, {
+    required ProfileData profile,
+    required String address,
+  }) {
+    switch (partner) {
+      case RampPartner.kado:
+        launchKadoOffRamp(address: address, profile: profile);
+      case RampPartner.coinflow:
+        launchCoinflowOffRamp(address: address, profile: profile);
+      case RampPartner.scalex:
+        launchScalexOffRamp(profile: profile, address: address);
+      case RampPartner.rampNetwork:
+      case RampPartner.guardarian:
+        throw UnimplementedError('Not implemented for $partner');
+    }
+  }
+}
+
+typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
+
+IList<RampPartner> _getOnRampPartners(String countryCode) {
+  final partners = <RampPartner>{};
+
+  if (_kadoCountries.contains(countryCode)) {
+    partners.add(RampPartner.kado);
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  partners.add(RampPartner.rampNetwork);
+
+  if (_guardarianCountries.contains(countryCode)) {
+    partners.add(RampPartner.guardarian);
+  }
+
+  return IList(partners);
+}
+
+IList<RampPartner> _getOffRampPartners(String countryCode) {
+  final partners = <RampPartner>{};
+
+  if (_coinflowCountries.contains(countryCode)) {
+    partners.add(RampPartner.coinflow);
+  }
+
+  if (_scalexCountries.contains(countryCode)) {
+    partners.add(RampPartner.scalex);
+  }
+
+  return IList(partners);
+}
+
+const _kadoCountries = {'US'};
+
+const _guardarianCountries = {
+  'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', //
+  'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL', 'PL', 'PT', 'RO', 'SK',
+  'SI', 'ES', 'SE', 'IS', 'LI', 'NO', 'CH',
+};
+
+const _coinflowCountries = {
+  'AD', 'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', //
+  'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'MC', 'NL', 'NO',
+  'PL', 'PT', 'RO', 'SM', 'SK', 'SI', 'ES', 'SE', 'CH', 'US',
+};
+
+const _scalexCountries = {'NG'};

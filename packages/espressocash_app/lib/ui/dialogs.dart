@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/errors.dart';
 import '../l10n/l10n.dart';
 import 'button.dart';
 import 'colors.dart';
@@ -12,7 +13,11 @@ void showErrorDialog(BuildContext context, String title, Exception e) =>
         data: ThemeData.light(),
         child: AlertDialog(
           title: Text(title),
-          content: Text(e.toString()),
+          content: Text(
+            e.isConnectionError()
+                ? context.l10n.lblConnectionError
+                : context.l10n.lblUnknownError,
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -27,59 +32,74 @@ Future<void> showConfirmationDialog(
   BuildContext context, {
   required String title,
   required String message,
-  required void Function() onConfirm,
+  required VoidCallback onConfirm,
   String? confirmLabel,
+  String? cancelLabel,
+  TextStyle? titleStyle,
+  TextStyle? messageStyle,
 }) =>
     showModalBottomSheet(
       context: context,
       elevation: 0,
       barrierColor: _barrierColor,
-      backgroundColor: CpColors.primaryColor,
+      backgroundColor: CpColors.yellowSplashBackgroundColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(44),
           topRight: Radius.circular(44),
         ),
       ),
-      builder: (context) => CpTheme.dark(
+      builder: (context) => CpTheme.black(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(64, 40, 64, 64),
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                title.toUpperCase(),
-                style: const TextStyle(
-                  fontSize: 17,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                title,
+                textAlign: TextAlign.center,
+                style: titleStyle ??
+                    const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
               ),
               const SizedBox(height: 24),
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 19,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: messageStyle ??
+                    const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
               const SizedBox(height: 32),
-              CpButton(
-                text: confirmLabel ?? context.l10n.yes,
-                width: double.infinity,
-                onPressed: () {
-                  Navigator.pop(context);
-                  onConfirm();
-                },
-              ),
-              const SizedBox(height: 16),
-              CpButton(
-                text: context.l10n.no,
-                width: double.infinity,
-                onPressed: () => Navigator.pop(context),
+              Row(
+                children: [
+                  Expanded(
+                    child: CpButton(
+                      text: cancelLabel ?? context.l10n.no,
+                      width: 150,
+                      variant: CpButtonVariant.muted,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CpButton(
+                      text: confirmLabel ?? context.l10n.yes,
+                      width: 150,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onConfirm();
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -98,7 +118,6 @@ Future<void> showWarningDialog(
       builder: (context) => CpTheme.dark(
         child: Dialog(
           elevation: 0,
-          backgroundColor: CpColors.primaryColor,
           insetPadding: const EdgeInsets.symmetric(horizontal: 24),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(

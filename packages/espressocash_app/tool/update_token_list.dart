@@ -45,11 +45,21 @@ Future<_CoinMap> _fetchCoins() async {
       .let(Map.fromEntries);
 }
 
-Future<_Json> _matchTokens(_CoinMap coins) async {
+Future<_Json> _fetchTokenList() async {
   final response = await http.get(Uri.parse(_tokenListUrl));
-  final coingecko = json.decode(response.body) as _Json;
+  if (response.statusCode == 200) {
+    return {
+      'tokens':
+          (json.decode(response.body) as List).map((e) => e as _Json).toList(),
+    };
+  }
+  throw Exception('Failed to load tokens');
+}
 
-  return coingecko
+Future<_Json> _matchTokens(_CoinMap coins) async {
+  final tokenList = await _fetchTokenList();
+
+  return tokenList
     ..update(
       'tokens',
       (tokens) => (tokens as List)
@@ -59,7 +69,7 @@ Future<_Json> _matchTokens(_CoinMap coins) async {
     );
 }
 
-FutureOr<void> _writeToFile(_Json coingecko) async {
+Future<void> _writeToFile(_Json coingecko) async {
   final file = File(_path);
 
   // Let's keep the old non-mainnet tokens, since coingecko only return mainnet
@@ -76,36 +86,23 @@ FutureOr<void> _writeToFile(_Json coingecko) async {
     ..update(
       'tokens',
       (tokens) => (tokens as List)..addAll(nonMainnetTokens ?? <_Json>[]),
-    );
+    )
+    ..['timestamp'] = DateTime.now().toIso8601String();
 
   await file.writeAsString(jsonEncode(allTokens));
 }
 
 extension on _Json {
   _Json updateToken(_CoinMap coins) {
-    final address = this['address'] as String;
-    final coinData = coins[address];
+    final coin = coins[this['address'] as String];
 
-    final coingeckoId = coinData?.coingeckoId;
-    final isStablecoin = coinData?.isStablecoin ?? false;
+    if (coin != null) {
+      this['extensions'] = {'coingeckoId': coin.coingeckoId};
+      if (coin.isStablecoin) this['tags'] = const ['stablecoin'];
+      this['chainId'] = _mainnetChainId;
+    }
 
-    if (coingeckoId != null) this['extensions'] = {'coingeckoId': coingeckoId};
-    if (isStablecoin) this['tags'] = const ['stablecoin'];
-
-    return this
-      ..update('chainId', (_) => _mainnetChainId)
-      ..update('logoURI', (it) => it is String ? it.updateLogoUri() : '');
-  }
-}
-
-extension on String {
-  String updateLogoUri() {
-    final uri = Uri.parse(this);
-    final path = uri.path.replaceFirst('thumb', 'large');
-
-    uri.replace(path: path);
-
-    return uri.toString();
+    return this;
   }
 }
 
@@ -119,12 +116,12 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'lib/core/tokens/solana.tokenlist.json';
+const _path = 'lib/features/tokens/solana.tokenlist.json';
 
 const _mainnetChainId = 101;
 
 const _stablecoinsUrl =
     'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=stablecoins';
-const _tokenListUrl = 'https://tokens.coingecko.com/solana/all.json';
+const _tokenListUrl = 'https://token.jup.ag/strict';
 const _coinsUrl =
     'https://api.coingecko.com/api/v3/coins/list?include_platform=true';

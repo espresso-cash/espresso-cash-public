@@ -19,4 +19,6 @@ class SplTokenTransferInfo {
   final String amount;
   final String source;
   final String destination;
+
+  Map<String, dynamic> toJson() => _$SplTokenTransferInfoToJson(this);
 }

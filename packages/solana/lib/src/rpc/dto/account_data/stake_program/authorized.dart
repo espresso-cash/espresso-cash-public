@@ -20,4 +20,6 @@ class Authorized {
 
   final String staker;
   final String withdrawer;
+
+  Map<String, dynamic> toJson() => _$AuthorizedToJson(this);
 }

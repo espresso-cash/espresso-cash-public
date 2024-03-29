@@ -13,8 +13,13 @@
     </queries>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.solanamobile.seedvault.ACCESS_SEED_VAULT" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIDEO_CAPTURE" />
+    <uses-permission android:name="android.permission.AUDIO_CAPTURE" />
 
-    <application android:name="${applicationName}"
+    <application android:name=".MyApp"
         tools:replace="android:label"
         android:allowBackup="false"
         android:fullBackupContent="false"
@@ -50,35 +55,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <!-- Support for cryptoplease.link protocol -->
-                <data android:host="solana1.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="solana2.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="link.espressocash.com"
-                    android:scheme="https" />
-
-                <!-- Support for requests -->
-                <data android:host="solanapay.cryptoplease.link"
-                    android:scheme="https" />
-                <data android:host="solanapay.espressocash.com"
-                    android:scheme="https" />
-
-                <!-- Firebase deep link for installing the app -->
-                <data android:host="cryptoplease.page.link"
-                    android:scheme="https" />
-                <data android:host="espressocash.page.link"
+                <!-- Support for espressocash link and solanapay protocol -->
+                <data android:host="pay.espressocash.com"
                     android:scheme="https" />
             </intent-filter>
 
-            <!-- Support for cryptoplease.link protocol -->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="cryptoplease-sol" />
-            </intent-filter>
+            <!-- Support for espressocash link protocol -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -113,6 +95,16 @@
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data android:name="flutterEmbedding"
             android:value="2" />
+
+        <provider
+            android:name="com.pichillilorenzo.flutter_inappwebview_android.InAppWebViewFileProvider"
+            android:authorities="${applicationId}.flutter_inappwebview_android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
 
     </application>
 </manifest>

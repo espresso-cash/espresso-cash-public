@@ -69,22 +69,22 @@ class _$CompiledInstructionCopyWithImpl<$Res, $Val extends CompiledInstruction>
 }
 
 /// @nodoc
-abstract class _$$_CompiledInstructionCopyWith<$Res>
+abstract class _$$CompiledInstructionImplCopyWith<$Res>
     implements $CompiledInstructionCopyWith<$Res> {
-  factory _$$_CompiledInstructionCopyWith(_$_CompiledInstruction value,
-          $Res Function(_$_CompiledInstruction) then) =
-      __$$_CompiledInstructionCopyWithImpl<$Res>;
+  factory _$$CompiledInstructionImplCopyWith(_$CompiledInstructionImpl value,
+          $Res Function(_$CompiledInstructionImpl) then) =
+      __$$CompiledInstructionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({int programIdIndex, List<int> accountKeyIndexes, ByteArray data});
 }
 
 /// @nodoc
-class __$$_CompiledInstructionCopyWithImpl<$Res>
-    extends _$CompiledInstructionCopyWithImpl<$Res, _$_CompiledInstruction>
-    implements _$$_CompiledInstructionCopyWith<$Res> {
-  __$$_CompiledInstructionCopyWithImpl(_$_CompiledInstruction _value,
-      $Res Function(_$_CompiledInstruction) _then)
+class __$$CompiledInstructionImplCopyWithImpl<$Res>
+    extends _$CompiledInstructionCopyWithImpl<$Res, _$CompiledInstructionImpl>
+    implements _$$CompiledInstructionImplCopyWith<$Res> {
+  __$$CompiledInstructionImplCopyWithImpl(_$CompiledInstructionImpl _value,
+      $Res Function(_$CompiledInstructionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_CompiledInstructionCopyWithImpl<$Res>
     Object? accountKeyIndexes = null,
     Object? data = null,
   }) {
-    return _then(_$_CompiledInstruction(
+    return _then(_$CompiledInstructionImpl(
       programIdIndex: null == programIdIndex
           ? _value.programIdIndex
           : programIdIndex // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_CompiledInstructionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_CompiledInstruction extends _CompiledInstruction {
-  const _$_CompiledInstruction(
+class _$CompiledInstructionImpl extends _CompiledInstruction {
+  const _$CompiledInstructionImpl(
       {required this.programIdIndex,
       required final List<int> accountKeyIndexes,
       required this.data})
@@ -141,10 +141,10 @@ class _$_CompiledInstruction extends _CompiledInstruction {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_CompiledInstruction &&
+            other is _$CompiledInstructionImpl &&
             (identical(other.programIdIndex, programIdIndex) ||
                 other.programIdIndex == programIdIndex) &&
             const DeepCollectionEquality()
@@ -162,8 +162,8 @@ class _$_CompiledInstruction extends _CompiledInstruction {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_CompiledInstructionCopyWith<_$_CompiledInstruction> get copyWith =>
-      __$$_CompiledInstructionCopyWithImpl<_$_CompiledInstruction>(
+  _$$CompiledInstructionImplCopyWith<_$CompiledInstructionImpl> get copyWith =>
+      __$$CompiledInstructionImplCopyWithImpl<_$CompiledInstructionImpl>(
           this, _$identity);
 }
 
@@ -171,7 +171,7 @@ abstract class _CompiledInstruction extends CompiledInstruction {
   const factory _CompiledInstruction(
       {required final int programIdIndex,
       required final List<int> accountKeyIndexes,
-      required final ByteArray data}) = _$_CompiledInstruction;
+      required final ByteArray data}) = _$CompiledInstructionImpl;
   const _CompiledInstruction._() : super._();
 
   @override
@@ -182,6 +182,6 @@ abstract class _CompiledInstruction extends CompiledInstruction {
   ByteArray get data;
   @override
   @JsonKey(ignore: true)
-  _$$_CompiledInstructionCopyWith<_$_CompiledInstruction> get copyWith =>
+  _$$CompiledInstructionImplCopyWith<_$CompiledInstructionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

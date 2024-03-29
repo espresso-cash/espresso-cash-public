@@ -23,14 +23,14 @@ class SeedVault implements SeedVaultFlutterApi {
 
   final WalletApiHost _platform;
 
-  static var _instance = SeedVault._(WalletApiHost());
+  static SeedVault _instance = SeedVault._(WalletApiHost());
 
   static SeedVault get instance => _instance;
 
   Stream<SeedVaultNotification> get notificationStream => _eventStream.stream;
 
   @visibleForTesting
-  static set instance(SeedVault vault) => _instance = vault;
+  static set instance(SeedVault value) => _instance = value;
 
   final _eventStream = StreamController<SeedVaultNotification>.broadcast();
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-unnecessary-late
+
 import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -93,7 +95,7 @@ void main() {
     });
 
     test('Create an associated token account', () async {
-      var accounts = await solanaClient.rpcClient
+      List<ProgramAccount> accounts = await solanaClient.rpcClient
           .getTokenAccountsByOwner(
             owner.address,
             TokenAccountsFilter.byMint(newToken.address.toBase58()),
@@ -117,6 +119,7 @@ void main() {
             commitment: Commitment.confirmed,
           )
           .value;
+      // ignore: avoid-duplicate-test-assertions, accounts have changed
       expect(accounts, isNot(null));
       expect(accounts.length, equals(1));
       expect(

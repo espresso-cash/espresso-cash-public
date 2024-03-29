@@ -1,5 +1,7 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../core/callback.dart';
 import 'colors.dart';
 
 class CpLoader extends StatefulWidget {
@@ -24,8 +26,8 @@ class _CpLoaderState extends State<CpLoader> {
     final child = KeyedSubtree(key: _key, child: widget.child);
 
     return widget.isLoading
-        ? WillPopScope(
-            onWillPop: () async => false,
+        ? PopScope(
+            canPop: false,
             child: Stack(
               children: [
                 child,
@@ -56,16 +58,17 @@ class LoadingIndicator extends StatelessWidget {
 
 Future<T> runWithLoader<T>(
   BuildContext context,
-  Future<T> Function() fn,
-) async {
+  Func0<Future<T>> fn, {
+  Callback1<Exception>? onError,
+}) async {
   final future = fn();
 
   await showDialog<T>(
     barrierDismissible: false,
     context: context,
-    builder: (context) => WillPopScope(
-      onWillPop: () async => false,
-      child: LoadingDialog<T>(future: future),
+    builder: (context) => PopScope(
+      canPop: false,
+      child: LoadingDialog<T>(future: future, onError: onError),
     ),
   );
 
@@ -73,9 +76,14 @@ Future<T> runWithLoader<T>(
 }
 
 class LoadingDialog<T> extends StatefulWidget {
-  const LoadingDialog({super.key, required this.future});
+  const LoadingDialog({
+    super.key,
+    required this.future,
+    this.onError,
+  });
 
   final Future<T> future;
+  final Callback1<Exception>? onError;
 
   @override
   State<LoadingDialog<T>> createState() => _LoadingDialogState();
@@ -85,7 +93,17 @@ class _LoadingDialogState<T> extends State<LoadingDialog<T>> {
   @override
   void initState() {
     super.initState();
-    widget.future.then((_) => Navigator.of(context).pop());
+    widget.future.then(
+      (_) => Navigator.of(context).pop(),
+      onError: (Object error, StackTrace stackTrace) {
+        Navigator.of(context).pop();
+        if (error is Exception) {
+          widget.onError?.call(error);
+        } else {
+          Error.throwWithStackTrace(error, stackTrace);
+        }
+      },
+    );
   }
 
   @override

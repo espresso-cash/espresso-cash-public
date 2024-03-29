@@ -1,9 +1,9 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/amount.dart';
-import '../../../core/transactions/tx_sender.dart';
+import '../../transactions/models/tx_results.dart';
 
 part 'outgoing_direct_payment.freezed.dart';
 
@@ -20,7 +20,7 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 }
 
 @freezed
-class ODPStatus with _$ODPStatus {
+sealed class ODPStatus with _$ODPStatus {
   /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
   const factory ODPStatus.txCreated(
     SignedTx tx, {
@@ -40,4 +40,8 @@ class ODPStatus with _$ODPStatus {
   /// case, it's safe to recreate the tx.
   const factory ODPStatus.txFailure({TxFailureReason? reason}) =
       ODPStatusTxFailure;
+}
+
+extension OutgoingDirectPaymentExt on OutgoingDirectPayment {
+  bool get isRetriable => status is ODPStatusTxFailure;
 }

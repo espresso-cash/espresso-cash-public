@@ -26,7 +26,7 @@ dart_get:
 
 dart_analyze:
 	dart analyze --fatal-infos .
-	dart pub run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
+	dcm analyze --fatal-style --fatal-performance --fatal-warnings lib
 
 dart_test:
 	dart test
@@ -46,11 +46,11 @@ flutter_generate_test_schemas:
 
 flutter_analyze:
 	flutter analyze --fatal-infos
-	flutter pub run dart_code_metrics:metrics analyze --fatal-style --fatal-performance --fatal-warnings lib
+	dcm analyze --fatal-style --fatal-performance --fatal-warnings lib
 
 flutter_check_unused_code:
-	flutter pub run dart_code_metrics:metrics check-unused-code lib --fatal-unused --exclude=$(excludeUnused)
-	flutter pub run dart_code_metrics:metrics check-unused-files lib --fatal-unused --exclude=$(excludeUnused)
+	dcm check-unused-code lib --fatal-unused --exclude=$(excludeUnused)
+	dcm check-unused-files lib --fatal-unused --exclude=$(excludeUnused)
 
 flutter_test:
 	flutter test
@@ -87,3 +87,15 @@ ifndef SENTRY_DSN
 	$(error "SENTRY_DSN must be set")
 endif
 	flutter build appbundle --build-number=$(BUILD_NUMBER) $(PROD_DEFINITIONS)
+
+dump_schema:
+ifndef VERSION
+	$(error "VERSION must be set")
+endif
+	dart run drift_dev schema dump lib/data/db/db.dart moor_schemas/moor_schema_v$(VERSION).json
+
+deps_graph_all:
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,l10n/gen/**,routing.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
+
+deps_graph_features:
+	lakos lib/features -i "{**.freezed.dart,**.g.dart,**/src/**}" --metrics > features.dot

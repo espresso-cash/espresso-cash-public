@@ -243,7 +243,7 @@ class _RpcClient implements RpcClient {
         if (config.isNotEmpty) config,
       ],
     );
-    final dynamic value = getResult(response);
+    final dynamic value = unwrapAndGetResult(response);
 
     return (value == null) ? null : value as int;
   }
