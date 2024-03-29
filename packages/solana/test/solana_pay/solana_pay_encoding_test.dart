@@ -1,5 +1,4 @@
 import 'package:solana/solana_pay.dart';
-import 'package:solana/src/solana_pay/accounts/transaction_request.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -7,7 +6,7 @@ void main() {
     test('fromJson returns correct object', () {
       final json = {
         'label': 'Test Label',
-        'icon': 'https://example.com/image.png'
+        'icon': 'https://example.com/image.png',
       };
       final info = TransactionRequestInfo.fromJson(json);
       expect(info.label, equals('Test Label'));

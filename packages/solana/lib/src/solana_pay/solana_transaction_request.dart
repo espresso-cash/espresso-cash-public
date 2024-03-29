@@ -4,7 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:http/http.dart' as http;
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
-import 'package:solana/src/solana_pay/accounts/transaction_request.dart';
 import 'package:solana/src/solana_pay/constants.dart';
 
 part 'solana_transaction_request.freezed.dart';
