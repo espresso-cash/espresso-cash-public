@@ -1,17 +1,21 @@
+import 'dart:async';
+
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../authenticated/auth_scope.dart';
 import '../models/payment_request.dart';
 
-@injectable
-class PaymentRequestRepository {
+@Singleton(scope: authScope)
+class PaymentRequestRepository implements Disposable {
   const PaymentRequestRepository(this._db);
 
   final MyDatabase _db;
@@ -30,7 +34,8 @@ class PaymentRequestRepository {
       (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
           .go();
 
-  Future<void> clear() => _db.delete(_db.paymentRequestRows).go();
+  @override
+  Future<void> onDispose() => _db.delete(_db.paymentRequestRows).go();
 }
 
 enum PaymentRequestStateDto { initial, completed, error }
