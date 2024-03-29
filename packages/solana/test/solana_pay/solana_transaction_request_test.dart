@@ -1,5 +1,4 @@
 import 'package:solana/solana_pay.dart';
-import 'package:solana/src/solana_pay/solana_transaction_request.dart';
 import 'package:test/test.dart';
 
 void main() {
