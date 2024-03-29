@@ -1,7 +1,7 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../l10n/gen/app_localizations.dart';
+import '../../../l10n/gen/app_localizations.dart';
 import '../models/quiz.dart';
 
 @injectable

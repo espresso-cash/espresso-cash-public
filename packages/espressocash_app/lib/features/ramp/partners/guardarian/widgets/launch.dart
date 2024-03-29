@@ -6,7 +6,7 @@ import '../../../../../config.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
-import '../../../src/models/profile_data.dart';
+import '../../../models/profile_data.dart';
 
 extension BuildContextExt on BuildContext {
   void launchGuardarianOnRamp({

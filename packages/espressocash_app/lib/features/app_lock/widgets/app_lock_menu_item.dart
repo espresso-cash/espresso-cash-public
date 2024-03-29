@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../routing.dart';
-import '../../../../ui/profile_switch.dart';
-import '../../screens/app_lock_disable_screen.dart';
-import '../../screens/app_lock_enable_screen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../routing.dart';
+import '../../../ui/profile_switch.dart';
+import '../screens/app_lock_disable_screen.dart';
+import '../screens/app_lock_enable_screen.dart';
 import '../services/app_lock_bloc.dart';
 
 class AppLockMenuItem extends StatelessWidget {

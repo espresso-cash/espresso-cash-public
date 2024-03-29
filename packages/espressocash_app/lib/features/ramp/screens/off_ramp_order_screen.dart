@@ -23,7 +23,7 @@ import '../../authenticated/authenticated_navigator_key.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
-import '../src/widgets/off_ramp_confirmation.dart';
+import '../widgets/off_ramp_confirmation.dart';
 
 class OffRampOrderScreen extends StatefulWidget {
   const OffRampOrderScreen({super.key, required this.orderId});

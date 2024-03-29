@@ -5,8 +5,8 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../../../ramp/models/ramp_partner.dart';
-import '../../models/fee_type.dart';
+import '../../ramp/models/ramp_partner.dart';
+import '../models/fee_type.dart';
 
 @injectable
 class FeeCalculator {

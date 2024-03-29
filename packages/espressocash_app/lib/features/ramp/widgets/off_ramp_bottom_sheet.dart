@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/colors.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 
 class OffRampBottomSheet extends StatelessWidget {
   const OffRampBottomSheet({

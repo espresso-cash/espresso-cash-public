@@ -1,22 +1,22 @@
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/format_amount.dart';
-import '../../../../di.dart';
-import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
-import '../../../../l10n/l10n.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/back_button.dart';
-import '../../../../ui/button.dart';
-import '../../../../ui/chip.dart';
-import '../../../../ui/colors.dart';
-import '../../../../ui/content_padding.dart';
-import '../../../../ui/info_widget.dart';
-import '../../../../ui/theme.dart';
-import '../../../fees/models/fee_type.dart';
-import '../../../fees/widgets/fee_label.dart';
-import '../../services/off_ramp_order_service.dart';
+import '../../../core/presentation/format_amount.dart';
+import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/back_button.dart';
+import '../../../ui/button.dart';
+import '../../../ui/chip.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/content_padding.dart';
+import '../../../ui/info_widget.dart';
+import '../../../ui/theme.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/widgets/fee_label.dart';
+import '../services/off_ramp_order_service.dart';
 
 class OffRampConfirmation extends StatelessWidget {
   const OffRampConfirmation({
