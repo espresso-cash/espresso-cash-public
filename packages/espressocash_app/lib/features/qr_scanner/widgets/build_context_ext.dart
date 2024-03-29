@@ -12,6 +12,7 @@ import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
+import '../../../ui/loader.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -22,6 +23,7 @@ import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../tokens/token_list.dart';
+import '../../transaction_request/screens/confirmation_screen.dart';
 import '../models/qr_address_data.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
@@ -48,29 +50,42 @@ extension BuildContextExt on BuildContext {
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final transaction = request.request;
 
-      final info = await transaction.get();
+      await runWithLoader(this, () async {
+        //TODO update and move this somewhere
+        final info = await transaction.get();
 
-      print(info);
+        final wallet = sl<ECWallet>().publicKey;
 
-      final wallet = sl<ECWallet>().publicKey;
+        final client = sl<SolanaClient>();
+        final respTx = await transaction.post(account: wallet.toBase58());
 
-      final client = sl<SolanaClient>();
-      final respTx = await transaction.post(account: wallet.toBase58());
+        final tx = await client.processSolanaPayTransactionRequest(
+          transaction: respTx.transaction,
+          signer: wallet,
+        );
 
-      print(respTx);
+        final simulate = await client.simulateTransfer(
+          tx: tx,
+          account: wallet,
+          currency: Currency.usdc,
+        );
 
-      final tx = await client.processSolanaPayTransactionRequest(
-        transaction: respTx.transaction,
-        signer: wallet,
-      );
+        unawaited(
+          //TODO remove unawaited
+          OTRConfirmationRoute(
+            (
+              request: info,
+              amount: CryptoAmount(
+                value: simulate?.amountTransferred ?? 0,
+                cryptoCurrency: Currency.usdc,
+              ),
+              message: respTx.message,
+            ),
+          ).push<void>(this),
+        );
 
-      final simulate = await client.simulateTransfer(
-        tx: tx,
-        account: wallet,
-        currency: Currency.usdc,
-      );
-
-      print(simulate?.amountTransferred);
+        // TODO after confirmation, send the tx
+      });
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;

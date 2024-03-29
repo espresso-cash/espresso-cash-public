@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../../../ui/theme.dart';
 import 'di.dart';
@@ -52,6 +53,7 @@ import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
+import 'features/transaction_request/screens/confirmation_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_screen.dart';
@@ -149,6 +151,7 @@ part 'routing.g.dart';
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
+        TypedGoRoute<OTRConfirmationRoute>(path: '/otr-confirmation'),
         TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
         TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
         TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
