@@ -127,7 +127,7 @@ void main() {
       const encodedTx =
           'AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAIEiaZg9Lkn2gVxqom87eECt4H62LM1hBxMk3LDOX8MctsWgpgG4aSV2c7Va+7QvrUUggYmXm+uTV8Q8PI3tL9YpwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA76Ota4pjNcs57Qyj1wuPt73dQBdG//Hq8qo4l/NvdS5TdC0ssRbOsq2jxByJWSJK4DsvHhRU+cy2w+Qpm494DgECAwABAwwCAAAAAMLrCwAAAAA=';
 
-      final tx = await client.processTransactionResponse(
+      final tx = await client.processSolanaPayTransactionRequest(
         transaction: encodedTx,
         signer: sender.publicKey,
       );
@@ -185,7 +185,7 @@ void main() {
           'AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAECC4JMKqNplIXybGb/GhK1ofdVWeuEjXnQor7gi0Y2hMcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQECAAAMAgAAAAAAAAAAAAAA';
 
       expect(
-        () => client.processTransactionResponse(
+        () => client.processSolanaPayTransactionRequest(
           transaction: encodedTx,
           signer: sender.publicKey,
         ),

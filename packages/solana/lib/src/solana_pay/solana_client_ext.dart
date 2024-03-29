@@ -291,9 +291,9 @@ extension SolanaClientSolanaPay on SolanaClient {
     return response;
   }
 
-  /// Fetch a transaction from a Solana Pay transaction request link.
+  /// Processes the transaction from a Solana Pay transaction request link.
   ///
-  /// Link is `link` in the [Solana Pay Transaction Request spec][1].
+  /// Transaction is `transaction` in the [Solana Pay Transaction Request spec][1].
   ///
   /// Signer is account the that may [sign the transaction][2].
   ///
@@ -301,37 +301,8 @@ extension SolanaClientSolanaPay on SolanaClient {
   ///
   /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
   /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
-  Future<SignedTx> fetchSolanaPayTransactionRequest({
-    required SolanaTransactionRequest link,
-    required Ed25519HDPublicKey signer,
-    Commitment commitment = Commitment.finalized,
-  }) async {
-    final response = await http.post(
-      link.link,
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode({'account': signer.toBase58()}),
-    );
-
-    if (response.statusCode != 200) {
-      throw HttpException(response.statusCode, response.body);
-    }
-
-    final transactionResponse = TransactionRequestResponse.fromJson(
-      json.decode(response.body) as Map<String, dynamic>,
-    );
-
-    return processTransactionResponse(
-      transaction: transactionResponse.transaction,
-      signer: signer,
-      commitment: commitment,
-    );
-  }
-
   @visibleForTesting
-  Future<SignedTx> processTransactionResponse({
+  Future<SignedTx> processSolanaPayTransactionRequest({
     required String transaction,
     required Ed25519HDPublicKey signer,
     Commitment commitment = Commitment.finalized,
