@@ -46,9 +46,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   key: ValueKey(widget.id),
                   paymentRequest: data,
                   child: CpActivityTile(
-                    title: context.l10n.paymentRequestTitle(
-                      data.formattedAmount(DeviceLocale.localeOf(context)),
-                    ),
+                    title: context.l10n.paymentRequestTitle,
                     icon: Assets.icons.paymentIcon.svg(),
                     timestamp: context.formatDate(data.created),
                     incomingAmount:
