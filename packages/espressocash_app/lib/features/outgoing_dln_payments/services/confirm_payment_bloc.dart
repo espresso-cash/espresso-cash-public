@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../balances/data/balance_repository.dart';
+import '../../balances/data/balances_repository.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -21,7 +21,7 @@ typedef _Emitter = Emitter<_State>;
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     required QuoteRepository quoteRepository,
-    required BalanceRepository balancesRepository,
+    required BalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
         _usdcBalance = balancesRepository.read(),
         super(ConfirmPaymentState(flowState: const Flow.initial())) {

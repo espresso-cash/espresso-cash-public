@@ -1,12 +1,34 @@
+import 'dart:async';
+
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../authenticated/auth_scope.dart';
+import 'balance_cache_repository.dart';
 
 @Singleton(scope: authScope)
 class BalancesRepository extends ChangeNotifier {
+  BalancesRepository(this._cache);
+
+  final BalanceCacheRepository _cache;
+
+  @PostConstruct()
+  void init() {
+    final balance = _cache.balance;
+
+    if (balance == null) return;
+
+    _usdcBalance.add(
+      CryptoAmount(
+        value: balance,
+        cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+      ),
+    );
+    notifyListeners();
+  }
+
   final _usdcBalance = BehaviorSubject<CryptoAmount>.seeded(
     const CryptoAmount(
       value: 0,
@@ -21,6 +43,8 @@ class BalancesRepository extends ChangeNotifier {
 
     _usdcBalance.add(balance);
     notifyListeners();
+
+    _cache.saveBalance(balance.value);
   }
 
   CryptoAmount read() => _usdcBalance.value;
@@ -28,8 +52,11 @@ class BalancesRepository extends ChangeNotifier {
   (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
+  @disposeMethod
   void dispose() {
     _usdcBalance.close();
+    _cache.clear();
+
     super.dispose();
   }
 }

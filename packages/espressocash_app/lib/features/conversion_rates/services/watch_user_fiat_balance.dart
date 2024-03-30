@@ -3,8 +3,7 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../balances/data/balance_repository.dart';
-
+import '../../balances/data/balances_repository.dart';
 import '../data/repository.dart';
 
 @injectable
@@ -15,7 +14,7 @@ class WatchUserFiatBalance {
   );
 
   final ConversionRatesRepository _conversionRatesRepository;
-  final BalanceRepository _balancesRepository;
+  final BalancesRepository _balancesRepository;
 
   (Stream<FiatAmount?>, FiatAmount?) call() {
     const fiatCurrency = defaultFiatCurrency;
