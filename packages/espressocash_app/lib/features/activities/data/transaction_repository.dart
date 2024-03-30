@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -142,6 +143,9 @@ extension TransactionRowExt on TransactionRow {
         SignedTx.decode(encodedTx),
         created: created,
         status: status,
+        amount: amount?.let(
+          (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+        ),
       );
 }
 
@@ -151,6 +155,7 @@ extension on TxCommon {
         created: created,
         encodedTx: tx.encode(),
         status: status,
+        amount: amount?.value,
       );
 }
 
