@@ -1,44 +1,35 @@
 import 'package:espressocash_common/espressocash_common.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
-class BalancesRepository implements Disposable {
-  final BehaviorSubject<IMap<Token, CryptoAmount>> _data =
-      BehaviorSubject.seeded(const IMapConst({}));
+class BalancesRepository extends ChangeNotifier {
+  final _usdcBalance = BehaviorSubject<CryptoAmount>.seeded(
+    const CryptoAmount(
+      value: 0,
+      cryptoCurrency: CryptoCurrency(token: Token.usdc),
+    ),
+  );
 
-  void saveAll(IMap<Token, CryptoAmount> data) {
-    _data.add(data);
+  void save(CryptoAmount balance) {
+    if (balance.cryptoCurrency.token != Token.usdc) {
+      throw ArgumentError('Only USDC balances can be saved.');
+    }
+
+    _usdcBalance.add(balance);
+    notifyListeners();
   }
 
-  IMap<Token, CryptoAmount> readAll() => _data.value;
+  CryptoAmount read() => _usdcBalance.value;
 
-  CryptoAmount read(Token token) =>
-      _data.value[token] ??
-      CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
-
-  (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
-        _data.map(
-          (data) =>
-              data[token] ??
-              CryptoAmount(
-                value: 0,
-                cryptoCurrency: CryptoCurrency(token: token),
-              ),
-        ),
-        read(token),
-      );
-
-  Stream<ISet<Token>> watchUserTokens() =>
-      _data.map((data) => {...data.keys, Token.sol, Token.usdc}.lock);
-
-  ISet<Token> readUserTokens() =>
-      {..._data.value.keys, Token.sol, Token.usdc}.lock;
+  (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
-  void onDispose() => _data.add(const IMapConst({}));
+  void dispose() {
+    _usdcBalance.close();
+    super.dispose();
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
 
-import '../../core/callback.dart';
+import '../../utils/callback.dart';
 import 'models/account.dart';
 import 'widgets/account_listener.dart';
 

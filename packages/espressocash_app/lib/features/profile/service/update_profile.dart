@@ -2,7 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/errors.dart';
+import '../../../utils/errors.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../data/profile_repository.dart';
 

@@ -2,7 +2,7 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../core/escrow_private_key.dart';
+import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 
 part 'outgoing_link_payment.freezed.dart';

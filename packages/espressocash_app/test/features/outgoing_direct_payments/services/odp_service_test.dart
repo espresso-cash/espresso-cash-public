@@ -36,7 +36,7 @@ Future<void> main() async {
 
   tearDown(
     () async {
-      await repository.clear();
+      await repository.onDispose();
     },
   );
 
@@ -174,7 +174,7 @@ class MemoryRepository implements ODPRepository {
   }
 
   @override
-  Future<void> clear() async {
+  Future<void> onDispose() async {
     _data.add(_data.value.clear());
   }
 

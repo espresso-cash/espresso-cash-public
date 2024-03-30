@@ -284,4 +284,86 @@ extension SolanaClientSolanaPay on SolanaClient {
 
     return response;
   }
+
+  /// Processes the transaction from a Solana Pay transaction request link.
+  ///
+  /// Transaction is `transaction` in the [Solana Pay Transaction Request spec][1].
+  ///
+  /// Signer is account the that may [sign the transaction][2].
+  ///
+  /// Commitment is used when getting latest blockhash.
+  ///
+  /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
+  /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
+  Future<SignedTx> processSolanaPayTransactionRequest({
+    required String transaction,
+    required Ed25519HDPublicKey signer,
+    Commitment commitment = Commitment.finalized,
+  }) async {
+    final tx = SignedTx.decode(transaction);
+
+    List<Signature> signatures = tx.signatures;
+    CompiledMessage compiledMessage = tx.compiledMessage;
+
+    if (signatures.isEmpty ||
+        (signatures.length == 1 && signatures.first.publicKey == signer)) {
+      final addressTableLookups = compiledMessage.map(
+        legacy: (_) => <MessageAddressTableLookup>[],
+        v0: (v0) => v0.addressTableLookups,
+      );
+
+      final lookUpTables =
+          await rpcClient.getAddressLookUpTableAccounts(addressTableLookups);
+
+      final message =
+          tx.decompileMessage(addressLookupTableAccounts: lookUpTables);
+
+      final isLegacyTx = tx.version == TransactionVersion.legacy;
+
+      final latestBlockhash = await rpcClient.getLatestBlockhash(
+        commitment: commitment,
+      );
+
+      compiledMessage = isLegacyTx
+          ? message.compile(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+            )
+          : message.compileV0(
+              recentBlockhash: latestBlockhash.value.blockhash,
+              feePayer: signer,
+              addressLookupTableAccounts: lookUpTables,
+            );
+
+      signatures = [
+        Signature(List.filled(64, 0), publicKey: signer),
+      ];
+    } else {
+      final feePayer = tx.compiledMessage.accountKeys.first;
+
+      if (feePayer != signatures.first.publicKey) {
+        throw const FetchTransactionException('Invalid fee payer');
+      }
+
+      for (final sig in signatures) {
+        final signature = sig.bytes;
+        final publicKey = sig.publicKey;
+
+        final isValid = await verifySignature(
+          message: compiledMessage.toByteArray().toList(),
+          signature: signature,
+          publicKey: Ed25519HDPublicKey.fromBase58(publicKey.toString()),
+        );
+
+        if (!isValid) {
+          throw const FetchTransactionException('Invalid signature');
+        }
+      }
+    }
+
+    return SignedTx(
+      compiledMessage: compiledMessage,
+      signatures: signatures,
+    );
+  }
 }

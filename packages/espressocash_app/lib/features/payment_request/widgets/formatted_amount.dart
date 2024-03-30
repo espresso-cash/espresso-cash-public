@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../core/presentation/format_amount.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 

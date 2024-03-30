@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
 import '../../../../ui/theme.dart';
-import '../../../core/feature_flags.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../blockchain/models/blockchain.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 
 class NetworkPickerScreen extends StatelessWidget {
   const NetworkPickerScreen({

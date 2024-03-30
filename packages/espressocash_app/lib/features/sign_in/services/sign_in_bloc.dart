@@ -6,9 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../core/wallet.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/mnemonic.dart';
+import '../../accounts/models/wallet.dart';
 
 part 'sign_in_bloc.freezed.dart';
 

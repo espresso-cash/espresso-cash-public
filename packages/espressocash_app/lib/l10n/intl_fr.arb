@@ -460,14 +460,7 @@
       }
     }
   },
-  "paymentRequestTitle": "Demande de paiement pour {amount}",
-  "@paymentRequestTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "paymentRequestTitle": "Demande de paiement",
   "pending": "En attente",
   "@pending": {},
   "photoLibrary": "Galerie de photos",

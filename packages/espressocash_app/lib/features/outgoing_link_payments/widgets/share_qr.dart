@@ -2,9 +2,9 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/rounded_rectangle.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 
 class ShareQr extends StatelessWidget {
   const ShareQr({

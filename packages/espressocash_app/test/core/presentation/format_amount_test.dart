@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:espressocash_app/core/presentation/format_amount.dart';
+import 'package:espressocash_app/features/conversion_rates/widgets/extensions.dart';
 import 'package:espressocash_app/features/tokens/token_list.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter_test/flutter_test.dart';

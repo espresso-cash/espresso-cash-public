@@ -452,14 +452,7 @@
       }
     }
   },
-  "paymentRequestTitle": "Solicitud de pago para {amount}",
-  "@paymentRequestTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "paymentRequestTitle": "Solicitud de pago",
   "pending": "Pendiente",
   "@pending": {},
   "photoLibrary": "Librería fotográfica",

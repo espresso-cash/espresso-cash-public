@@ -9,7 +9,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../core/cancelable_job.dart';
+import '../../../utils/cancelable_job.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';

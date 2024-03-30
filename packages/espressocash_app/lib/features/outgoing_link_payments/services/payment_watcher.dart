@@ -5,7 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../../core/cancelable_job.dart';
+import '../../../utils/cancelable_job.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
