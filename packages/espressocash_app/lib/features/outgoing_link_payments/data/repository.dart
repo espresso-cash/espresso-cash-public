@@ -4,6 +4,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
@@ -11,13 +12,14 @@ import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../authenticated/auth_scope.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_link_payment.dart';
 
-@injectable
-class OLPRepository {
+@Singleton(scope: authScope)
+class OLPRepository implements Disposable {
   const OLPRepository(this._db, this._tokens);
 
   final MyDatabase _db;
@@ -91,7 +93,8 @@ class OLPRepository {
         OLPStatusDto.cancelTxSent,
       ]);
 
-  Future<void> clear() => _db.delete(_db.oLPRows).go();
+  @override
+  Future<void> onDispose() => _db.delete(_db.oLPRows).go();
 
   Stream<IList<OutgoingLinkPayment>> _watchWithStatuses(
     Iterable<OLPStatusDto> statuses,
