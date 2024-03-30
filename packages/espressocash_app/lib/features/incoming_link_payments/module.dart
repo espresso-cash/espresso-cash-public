@@ -3,9 +3,7 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
-import 'data/ilp_repository.dart';
 import 'services/tx_created_watcher.dart';
 import 'services/tx_sent_watcher.dart';
 
@@ -28,9 +26,6 @@ class ILPModule extends SingleChildStatelessWidget {
             dispose: (_, value) => value.dispose(),
           ),
         ],
-        child: LogoutListener(
-          onLogout: (_) => sl<ILPRepository>().clear(),
-          child: child ?? const SizedBox.shrink(),
-        ),
+        child: child,
       );
 }
