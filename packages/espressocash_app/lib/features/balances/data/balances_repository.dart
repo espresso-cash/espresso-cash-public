@@ -4,19 +4,19 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticated/auth_scope.dart';
-import 'balance_cache_repository.dart';
 
 @Singleton(scope: authScope)
 class BalancesRepository extends ChangeNotifier {
-  BalancesRepository(this._cache);
+  BalancesRepository(this._storage);
 
-  final BalanceCacheRepository _cache;
+  final SharedPreferences _storage;
 
   @PostConstruct()
   void init() {
-    final balance = _cache.balance;
+    final balance = _storage.getInt(_usdcBalanceKey);
 
     if (balance == null) return;
 
@@ -44,7 +44,7 @@ class BalancesRepository extends ChangeNotifier {
     _usdcBalance.add(balance);
     notifyListeners();
 
-    _cache.saveBalance(balance.value);
+    _storage.setInt(_usdcBalanceKey, balance.value);
   }
 
   CryptoAmount read() => _usdcBalance.value;
@@ -55,8 +55,10 @@ class BalancesRepository extends ChangeNotifier {
   @disposeMethod
   void dispose() {
     _usdcBalance.close();
-    _cache.clear();
+    _storage.remove(_usdcBalanceKey);
 
     super.dispose();
   }
 }
+
+const _usdcBalanceKey = 'usdcBalance';

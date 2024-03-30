@@ -5,15 +5,15 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import '../../authenticated/auth_scope.dart';
-import '../../balances/data/balance_cache_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authenticated/auth_scope.dart';
 import 'conversion_rates_client.dart';
 
 @Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository(
-    this._cache, {
+    this._storage, {
     required ConversionRatesClient coingeckoClient,
   }) : _coingeckoClient = coingeckoClient;
 
@@ -21,20 +21,17 @@ class ConversionRatesRepository extends ChangeNotifier {
       BehaviorSubject.seeded(const IMapConst({}));
 
   final ConversionRatesClient _coingeckoClient;
-  final BalanceCacheRepository _cache;
+  final SharedPreferences _storage;
 
   @PostConstruct()
   void init() {
-    final rate = _cache.fetchRate();
+    final rate = _storage.getDouble(_usdcRateKey);
 
     if (rate == null) return;
 
-    if (rate.$2 != Currency.usd) return;
-
     _value.add(
       IMapConst({
-        rate.$2:
-            rate.$1.let((s) => Decimal.tryParse(s.toString()) ?? Decimal.zero),
+        Currency.usd: Decimal.tryParse(rate.toString()) ?? Decimal.zero,
       }),
     );
     notifyListeners();
@@ -69,12 +66,17 @@ class ConversionRatesRepository extends ChangeNotifier {
         );
 
         _value.add(value);
+        await _storage.setDouble(_usdcRateKey, data.usd ?? 0);
 
         notifyListeners();
-
-        _cache.saveRate(
-          rate: data.usd ?? 0,
-          currency: currency,
-        );
       });
+
+  @override
+  @disposeMethod
+  void dispose() {
+    super.dispose();
+    _storage.remove(_usdcRateKey);
+  }
 }
+
+const _usdcRateKey = 'usdcRate';
