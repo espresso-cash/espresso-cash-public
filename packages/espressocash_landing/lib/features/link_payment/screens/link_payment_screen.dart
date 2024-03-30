@@ -4,12 +4,12 @@ import '../../../../l10n/l10n.dart';
 import '../../../ui/pages/instructions_desktop_page.dart';
 import '../../../ui/pages/instructions_mobile_page.dart';
 import '../../../utils/extensions.dart';
-import '../models/link_payments.dart';
+import '../models/link_payment.dart';
 
 class LinkPaymentScreen extends StatelessWidget {
   const LinkPaymentScreen(this.linkPayment, {super.key});
 
-  final LinkPayments linkPayment;
+  final LinkPayment linkPayment;
 
   @override
   Widget build(BuildContext context) {
