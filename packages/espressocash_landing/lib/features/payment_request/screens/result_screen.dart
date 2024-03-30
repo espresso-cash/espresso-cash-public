@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/desktop_page.dart';
@@ -14,9 +13,7 @@ import '../service/order_service.dart';
 import '../widgets/invoice.dart';
 
 class ResultScreen extends StatefulWidget {
-  const ResultScreen({super.key, required this.id});
-
-  final String id;
+  const ResultScreen({super.key});
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -28,7 +25,7 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   void initState() {
     super.initState();
-    _stream = sl<IncomingDlnPaymentService>().watch(widget.id);
+    _stream = sl<IncomingDlnPaymentService>().watch();
   }
 
   @override
@@ -38,7 +35,7 @@ class _ResultScreenState extends State<ResultScreen> {
           final order = snapshot.data;
 
           if (order == null) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
 
           return isMobile ? _Mobile(order) : _Desktop(order);

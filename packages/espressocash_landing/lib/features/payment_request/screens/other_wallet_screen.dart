@@ -67,25 +67,19 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
   void _onSubmit() => _bloc.add(const IncomingPaymentEvent.confirmed());
 
   Future<void> _onSuccess({
-    required String txId,
     required IncomingPaymentRequest request,
-    required UserWalletInfo sender,
     required CryptoAmount fee,
   }) async {
-    final id = await sl<IncomingDlnPaymentService>().create(
+    sl<IncomingDlnPaymentService>().create(
       request: request,
-      sender: sender,
-      txId: txId,
       fee: fee,
     );
-
-    if (!mounted) return;
 
     Navigator.of(context).pop();
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => ResultScreen(id: id),
+        builder: (context) => const ResultScreen(),
       ),
     );
   }
@@ -123,9 +117,7 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
 
               _onSuccess(
                 request: request,
-                sender: sender,
                 fee: result.$1.fee,
-                txId: result.$2,
               );
             }(),
           _ => null,
