@@ -12,10 +12,11 @@ import 'conversion_rates_client.dart';
 
 @Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
-  ConversionRatesRepository(
-    this._storage, {
+  ConversionRatesRepository({
+    required SharedPreferences storage,
     required ConversionRatesClient coingeckoClient,
-  }) : _coingeckoClient = coingeckoClient;
+  })  : _coingeckoClient = coingeckoClient,
+        _storage = storage;
 
   final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
       BehaviorSubject.seeded(const IMapConst({}));
@@ -74,8 +75,9 @@ class ConversionRatesRepository extends ChangeNotifier {
   @override
   @disposeMethod
   void dispose() {
-    super.dispose();
+    _value.close();
     _storage.remove(_usdcRateKey);
+    super.dispose();
   }
 }
 
