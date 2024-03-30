@@ -4,6 +4,7 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../routing.dart';
 import '../../../ui/colors.dart';
@@ -11,7 +12,7 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/page_fade_wrapper.dart';
 import '../../../ui/theme.dart';
-import '../../activities/widgets/extensions.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../profile/screens/profile_screen.dart';
@@ -51,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
                 displacement: 80,
                 onRefresh: () => Future.wait([
                   onRefresh(),
-                  context.refreshTransactions(),
+                  sl<TxUpdater>().call(),
                 ]),
                 color: CpColors.primaryColor,
                 backgroundColor: Colors.white,

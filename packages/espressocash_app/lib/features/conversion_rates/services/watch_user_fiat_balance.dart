@@ -17,7 +17,7 @@ class WatchUserFiatBalance {
   final ConversionRatesRepository _conversionRatesRepository;
   final BalancesRepository _balancesRepository;
 
-  (Stream<FiatAmount?>, FiatAmount?) call() {
+  (Stream<FiatAmount>, FiatAmount) call() {
     const fiatCurrency = defaultFiatCurrency;
     final conversionRate =
         _conversionRatesRepository.watchRate(to: fiatCurrency);
@@ -28,17 +28,15 @@ class WatchUserFiatBalance {
       Rx.combineLatest2(
         balance.$1,
         conversionRate,
-        (cryptoAmount, rate) {
-          if (rate == null) return null;
-
-          return cryptoAmount.convert(rate: rate, to: fiatCurrency)
-              as FiatAmount;
-        },
+        (cryptoAmount, rate) => rate == null
+            ? const FiatAmount(value: 0, fiatCurrency: Currency.usd)
+            : cryptoAmount.convert(rate: rate, to: fiatCurrency) as FiatAmount,
       ).distinct(),
       _conversionRatesRepository.readRate(to: fiatCurrency)?.let(
-            (rate) =>
-                balance.$2.convert(rate: rate, to: fiatCurrency) as FiatAmount,
-          ),
+                (rate) => balance.$2.convert(rate: rate, to: fiatCurrency)
+                    as FiatAmount,
+              ) ??
+          const FiatAmount(value: 0, fiatCurrency: Currency.usd),
     );
   }
 }
