@@ -5,19 +5,38 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../authenticated/auth_scope.dart';
 import 'conversion_rates_client.dart';
 
-@lazySingleton
+@Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
+    required SharedPreferences storage,
     required ConversionRatesClient coingeckoClient,
-  }) : _coingeckoClient = coingeckoClient;
+  })  : _coingeckoClient = coingeckoClient,
+        _storage = storage;
 
   final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
       BehaviorSubject.seeded(const IMapConst({}));
 
   final ConversionRatesClient _coingeckoClient;
+  final SharedPreferences _storage;
+
+  @PostConstruct()
+  void init() {
+    final rate = _storage.getDouble(_usdcRateKey);
+
+    if (rate == null) return;
+
+    _value.add(
+      IMapConst({
+        Currency.usd: Decimal.tryParse(rate.toString()) ?? Decimal.zero,
+      }),
+    );
+    notifyListeners();
+  }
 
   Decimal? readRate({required FiatCurrency to}) => _value.value[to];
 
@@ -48,6 +67,18 @@ class ConversionRatesRepository extends ChangeNotifier {
         );
 
         _value.add(value);
+        await _storage.setDouble(_usdcRateKey, data.usd ?? 0);
+
         notifyListeners();
       });
+
+  @override
+  @disposeMethod
+  void dispose() {
+    _value.close();
+    _storage.remove(_usdcRateKey);
+    super.dispose();
+  }
 }
+
+const _usdcRateKey = 'usdcRate';
