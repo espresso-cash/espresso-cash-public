@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../balances/data/balances_repository.dart';
+
 import '../data/repository.dart';
 
 @injectable
@@ -16,12 +17,12 @@ class WatchUserFiatBalance {
   final ConversionRatesRepository _conversionRatesRepository;
   final BalancesRepository _balancesRepository;
 
-  (Stream<FiatAmount?>, FiatAmount?) call(Token token) {
+  (Stream<FiatAmount?>, FiatAmount?) call() {
     const fiatCurrency = defaultFiatCurrency;
-    final conversionRate = _conversionRatesRepository
-        .watchRate(CryptoCurrency(token: token), to: fiatCurrency);
+    final conversionRate =
+        _conversionRatesRepository.watchRate(to: fiatCurrency);
 
-    final balance = _balancesRepository.watch(token);
+    final balance = _balancesRepository.watch();
 
     return (
       Rx.combineLatest2(
@@ -34,9 +35,7 @@ class WatchUserFiatBalance {
               as FiatAmount;
         },
       ).distinct(),
-      _conversionRatesRepository
-          .readRate(CryptoCurrency(token: token), to: fiatCurrency)
-          ?.let(
+      _conversionRatesRepository.readRate(to: fiatCurrency)?.let(
             (rate) =>
                 balance.$2.convert(rate: rate, to: fiatCurrency) as FiatAmount,
           ),

@@ -4,7 +4,7 @@ import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
 import '../../../routing.dart';
 import '../../accounts/services/account_service.dart';
-import '../../app_lock/app_lock.dart';
+import '../../app_lock/widgets/app_lock_menu_item.dart';
 import '../../legal/privacy_screen.dart';
 import '../../legal/terms_screen.dart';
 import '../../view_phrase/view_phrase.dart';

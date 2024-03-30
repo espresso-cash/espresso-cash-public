@@ -1,11 +1,11 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/format_date.dart';
-import '../../../../core/presentation/utils.dart';
 import '../../../../gen/assets.gen.dart';
-import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../ui/web_view_screen.dart';
+import '../../../utils/extensions.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../models/transaction.dart';
 import 'activity_tile.dart';

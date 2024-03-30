@@ -6,10 +6,10 @@ import 'package:go_router/go_router.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../src/data/quiz_repository.dart';
-import '../src/models/quiz.dart';
-import '../src/widgets/quiz_indicator.dart';
+import '../data/quiz_repository.dart';
+import '../models/quiz.dart';
 import '../widgets/quiz_answer_view.dart';
+import '../widgets/quiz_indicator.dart';
 import '../widgets/quiz_question_screen.dart';
 import '../widgets/recovery_phrase_view.dart';
 

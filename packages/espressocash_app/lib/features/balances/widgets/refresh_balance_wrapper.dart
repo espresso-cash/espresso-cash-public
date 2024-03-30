@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
-import '../../../core/processing_state.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
+import '../../../utils/processing_state.dart';
 import '../../conversion_rates/services/conversion_rates_bloc.dart';
-import '../data/balances_repository.dart';
 import '../services/balances_bloc.dart';
 import 'context_ext.dart';
 
@@ -55,9 +54,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _updateConversionRates() {
     final bloc = context.read<ConversionRatesBloc>();
 
-    final conversionEvent = ConversionRatesEvent.refreshRequested(
+    const conversionEvent = ConversionRatesEvent.refreshRequested(
       currency: defaultFiatCurrency,
-      tokens: sl<BalancesRepository>().readUserTokens(),
     );
     bloc.add(conversionEvent);
 

@@ -3,10 +3,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
-import '../../../core/wallet.dart';
 import '../models/account.dart';
 import '../models/ec_wallet.dart';
 import '../models/mnemonic.dart';
+import '../models/wallet.dart';
 
 @injectable
 class AccountRepository {

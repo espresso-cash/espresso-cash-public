@@ -9,9 +9,9 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../core/escrow_private_key.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../escrow/models/escrow_private_key.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_link_payment.dart';
