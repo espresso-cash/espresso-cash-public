@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
 import '../../../data/my_database_ext.dart';
-import '../../../src/models/ramp_watcher.dart';
+import '../../../models/ramp_watcher.dart';
 import '../data/scalex_repository.dart';
 
 @injectable

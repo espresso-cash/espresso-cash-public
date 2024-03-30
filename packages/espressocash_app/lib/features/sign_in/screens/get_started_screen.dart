@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/link_payments.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -15,6 +14,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
+import '../../link_payments/models/link_payment.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 import 'restore_account_screen.dart';
@@ -203,7 +203,7 @@ const keyUseExistingWalletButton = Key('useExistingWalletButton');
 bool _parseUri(Uri? link) {
   if (link == null) return false;
 
-  return LinkPayments.tryParse(link) != null;
+  return LinkPayment.tryParse(link) != null;
 }
 
 class SignInRoute extends GoRouteData {

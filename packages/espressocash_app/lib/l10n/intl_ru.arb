@@ -460,14 +460,7 @@
       }
     }
   },
-  "paymentRequestTitle": "Запрос на оплату {amount}",
-  "@paymentRequestTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "paymentRequestTitle": "Запросить оплату",
   "pending": "Незавершено",
   "@pending": {},
   "photoLibrary": "Галерея",

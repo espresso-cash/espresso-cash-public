@@ -7,7 +7,7 @@ import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../src/widgets/quiz_page.dart';
+import '../widgets/quiz_page.dart';
 import 'quiz_screen.dart';
 
 class QuizIntroScreen extends StatelessWidget {

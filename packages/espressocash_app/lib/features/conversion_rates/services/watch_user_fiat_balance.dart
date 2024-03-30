@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../balances/data/balance_repository.dart';
+
 import '../data/repository.dart';
 
 @injectable

@@ -6,7 +6,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/recovery_phrase_text_view.dart';
 import '../../accounts/data/account_repository.dart';
-import '../src/widgets/quiz_page.dart';
+import 'quiz_page.dart';
 
 class RecoveryPhraseView extends StatefulWidget {
   const RecoveryPhraseView({

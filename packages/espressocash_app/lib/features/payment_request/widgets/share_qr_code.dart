@@ -1,10 +1,10 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/rounded_rectangle.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 

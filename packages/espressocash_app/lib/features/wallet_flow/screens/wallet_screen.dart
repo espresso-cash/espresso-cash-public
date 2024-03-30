@@ -3,12 +3,12 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/shake.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';

@@ -4,8 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/presentation/format_amount.dart';
-import '../../../core/presentation/format_date.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -17,7 +15,9 @@ import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
+import '../../../utils/extensions.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';

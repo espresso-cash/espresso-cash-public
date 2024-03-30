@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'features/app_lock/app_lock.dart';
+import 'features/app_lock/widgets/app_lock_module.dart';
 import 'l10n/gen/app_localizations.dart';
 import 'routing.dart';
 import 'ui/theme.dart';
