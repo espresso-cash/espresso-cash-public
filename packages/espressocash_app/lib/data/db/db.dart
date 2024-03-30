@@ -201,6 +201,7 @@ class TransactionRows extends Table {
   DateTimeColumn get created => dateTime().nullable()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
+  IntColumn get amount => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};
