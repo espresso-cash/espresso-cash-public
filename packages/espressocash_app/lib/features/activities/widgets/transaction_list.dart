@@ -1,11 +1,9 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
-import '../../../ui/loader.dart';
 import '../data/transaction_repository.dart';
-import '../services/bloc.dart';
+import '../services/tx_updater.dart';
 import 'no_activity.dart';
 import 'transaction_item.dart';
 
@@ -28,13 +26,12 @@ class _TransactionListState extends State<TransactionList> {
   void initState() {
     super.initState();
     _txs = sl<TransactionRepository>().watchAll();
-
-    context.read<TxUpdaterBloc>().add(const TxUpdaterEvent.fetch());
+    sl<TxUpdater>().call();
   }
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: () => context.read<TxUpdaterBloc>().update(),
+        onRefresh: () => sl<TxUpdater>().call(),
         child: StreamBuilder<IList<String>>(
           stream: _txs,
           builder: (context, snapshot) {
@@ -42,16 +39,8 @@ class _TransactionListState extends State<TransactionList> {
 
             if (data == null) return const SizedBox.shrink();
 
-            final isLoading = context.select<TxUpdaterBloc, bool>(
-              (value) => value.state.isProcessing,
-            );
-
             return data.isEmpty
-                ? Center(
-                    child: isLoading
-                        ? const LoadingIndicator()
-                        : const NoActivity(),
-                  )
+                ? const Center(child: NoActivity())
                 : ListView.custom(
                     padding: widget.padding,
                     childrenDelegate: SliverChildBuilderDelegate(
