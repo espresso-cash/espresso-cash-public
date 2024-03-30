@@ -42,9 +42,8 @@ class BalancesRepository extends ChangeNotifier {
     }
 
     _usdcBalance.add(balance);
-    notifyListeners();
-
     _storage.setInt(_usdcBalanceKey, balance.value);
+    notifyListeners();
   }
 
   CryptoAmount read() => _usdcBalance.value;
@@ -56,7 +55,6 @@ class BalancesRepository extends ChangeNotifier {
   void dispose() {
     _usdcBalance.close();
     _storage.remove(_usdcBalanceKey);
-
     super.dispose();
   }
 }
