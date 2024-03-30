@@ -16,7 +16,6 @@ import '../../tokens/token_list.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
-import 'tx_updater_repository.dart';
 
 @injectable
 class TransactionRepository {
@@ -46,6 +45,38 @@ class TransactionRepository {
 
     return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
   }
+
+  Future<void> saveAll(
+    Iterable<TxCommon> txs, {
+    required bool clear,
+  }) {
+    Future<void> save() => _db.batch(
+          (batch) => batch.insertAll(
+            _db.transactionRows,
+            txs.map((e) => e.toRow()),
+            mode: InsertMode.insertOrReplace,
+          ),
+        );
+
+    return clear
+        ? _db.transaction(() async {
+            await _db.delete(_db.transactionRows).go();
+            await save();
+          })
+        : save();
+  }
+
+  Future<String?> mostRecentTxId() async {
+    final query = _db.select(_db.transactionRows)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)])
+      ..limit(1);
+
+    final result = await query.getSingleOrNull();
+
+    return result?.id;
+  }
+
+  Future<void> clear() => _db.delete(_db.transactionRows).go();
 
   Stream<Transaction> _match(TxCommon fetched) => _matchActivity(fetched.tx)
       .map(Transaction.activity)
@@ -104,6 +135,23 @@ class TransactionRepository {
       (values) => values.whereNotNull().first,
     );
   }
+}
+
+extension TransactionRowExt on TransactionRow {
+  TxCommon toModel() => TxCommon(
+        SignedTx.decode(encodedTx),
+        created: created,
+        status: status,
+      );
+}
+
+extension on TxCommon {
+  TransactionRow toRow() => TransactionRow(
+        id: tx.id,
+        created: created,
+        encodedTx: tx.encode(),
+        status: status,
+      );
 }
 
 extension Q<Tbl extends HasResultSet, D> on ResultSetImplementation<Tbl, D> {

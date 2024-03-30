@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../features/activities/data/tx_updater_repository.dart';
 import '../../features/activities/models/transaction.dart';
 import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
@@ -193,4 +192,16 @@ enum ODLNPaymentStatusDto {
   txFailure,
   fulfilled,
   unfulfilled,
+}
+
+class TransactionRows extends Table {
+  const TransactionRows();
+
+  TextColumn get id => text()();
+  DateTimeColumn get created => dateTime().nullable()();
+  TextColumn get encodedTx => text()();
+  IntColumn get status => intEnum<TxCommonStatus>()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
 }

@@ -1,6 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -11,7 +10,7 @@ import '../../authenticated/widgets/home_widget.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import '../data/transaction_repository.dart';
 import '../screens/activities_screen.dart';
-import '../services/bloc.dart';
+import '../services/tx_updater.dart';
 import 'transaction_item.dart';
 
 class RecentActivityWidget extends StatefulWidget {
@@ -30,8 +29,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
   void initState() {
     super.initState();
     _txs = sl<TransactionRepository>().watchCount(_activityCount);
-
-    context.read<TxUpdaterBloc>().add(const TxUpdaterEvent.fetch());
+    sl<TxUpdater>().call();
   }
 
   @override
@@ -41,12 +39,6 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
           final data = snapshot.data;
 
           if (data == null) return const SizedBox.shrink();
-
-          final isLoading = context.select<TxUpdaterBloc, bool>(
-            (value) => value.state.isProcessing,
-          );
-
-          if (isLoading && data.isEmpty) return const SizedBox.shrink();
 
           return HomeTile(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

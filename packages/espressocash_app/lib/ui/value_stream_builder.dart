@@ -3,6 +3,10 @@ import 'package:flutter/widgets.dart';
 typedef ValueWidgetBuilder<T> = Widget Function(BuildContext context, T value);
 typedef ValueStreamFactory<T> = (Stream<T>, T) Function();
 
+extension ValueExt<T> on (Stream<T>, T) {
+  (Stream<U>, U) map<U>(U Function(T value) fn) => ($1.map<U>(fn), fn($2));
+}
+
 class ValueStreamBuilder<T> extends StatefulWidget {
   const ValueStreamBuilder({
     super.key,

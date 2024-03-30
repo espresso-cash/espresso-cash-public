@@ -64,14 +64,8 @@ class _Buttons extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(color: Color(0xff202020)),
         child: ValueStreamBuilder<bool>(
-          create: () => (
-            sl<WatchUserFiatBalance>()
-                .call()
-                .$1
-                .map((event) => event ?? Amount.zero(currency: Currency.usd))
-                .map((event) => event.isZero),
-            true,
-          ),
+          create: () =>
+              sl<WatchUserFiatBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => Padding(
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
             child: Column(
@@ -169,13 +163,7 @@ class _Amount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => (
-          sl<WatchUserFiatBalance>()
-              .call()
-              .$1
-              .map((event) => event ?? Amount.zero(currency: Currency.usd)),
-          Amount.zero(currency: Currency.usd),
-        ),
+        create: () => sl<WatchUserFiatBalance>().call(),
         builder: (context, amount) {
           final formattedAmount = amount.format(
             DeviceLocale.localeOf(context),

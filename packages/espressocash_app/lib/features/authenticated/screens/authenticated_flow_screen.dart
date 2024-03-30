@@ -7,7 +7,6 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/account_service.dart';
-import '../../activities/module.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../conversion_rates/module.dart';
 import '../../incoming_link_payments/module.dart';
@@ -55,7 +54,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
                 Provider<MyAccount>.value(value: account),
                 const BackupPhraseModule(),
                 const OLPModule(),
-                const ActivitiesModule(),
                 const MobileWalletModule(),
               ],
               child: MultiProvider(

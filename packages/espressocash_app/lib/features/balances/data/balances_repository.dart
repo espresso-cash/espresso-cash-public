@@ -1,12 +1,34 @@
+import 'dart:async';
+
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
 class BalancesRepository extends ChangeNotifier {
+  BalancesRepository(this._storage);
+
+  final SharedPreferences _storage;
+
+  @PostConstruct()
+  void init() {
+    final balance = _storage.getInt(_usdcBalanceKey);
+
+    if (balance == null) return;
+
+    _usdcBalance.add(
+      CryptoAmount(
+        value: balance,
+        cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+      ),
+    );
+    notifyListeners();
+  }
+
   final _usdcBalance = BehaviorSubject<CryptoAmount>.seeded(
     const CryptoAmount(
       value: 0,
@@ -20,6 +42,7 @@ class BalancesRepository extends ChangeNotifier {
     }
 
     _usdcBalance.add(balance);
+    _storage.setInt(_usdcBalanceKey, balance.value);
     notifyListeners();
   }
 
@@ -28,8 +51,12 @@ class BalancesRepository extends ChangeNotifier {
   (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
+  @disposeMethod
   void dispose() {
     _usdcBalance.close();
+    _storage.remove(_usdcBalanceKey);
     super.dispose();
   }
 }
+
+const _usdcBalanceKey = 'usdcBalance';
