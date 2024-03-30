@@ -1,7 +1,9 @@
-// ignore_for_file: avoid-unnecessary-type-casts, unnecessary_cast
+// ignore_for_file: avoid-unnecessary-type-casts, unnecessary_cast, avoid_web_libraries_in_flutter
+import 'dart:html';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
+
 import 'package:webthree/browser.dart';
 import 'package:webthree/contracts/erc20.dart';
 import 'package:webthree/crypto.dart';
@@ -9,13 +11,14 @@ import 'package:webthree/webthree.dart';
 
 import '../../../features/blockchain/models/blockchain.dart';
 
-import 'eth/eth.dart';
 import 'js.dart';
 import 'models/exception.dart';
 
 @lazySingleton
 class Web3Service {
   const Web3Service();
+
+  Ethereum? get ethereum => window.ethereum;
 
   bool get isEnabled => ethereum != null;
 

@@ -34,7 +34,6 @@ dependencies:
   solana:
     path: ../solana/
   url_launcher: ^6.2.2
-  uuid: ^4.2.2
   webthree: ^2.7.4
 
 dev_dependencies:
