@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../di.dart';
 import '../accounts/models/account.dart';
-import '../accounts/module.dart';
 import '../balances/widgets/context_ext.dart';
-import 'data/repository.dart';
 import 'services/cancel_tx_created_watcher.dart';
 import 'services/cancel_tx_sent_watcher.dart';
 import 'services/tx_confirmed_watcher.dart';
@@ -58,9 +56,6 @@ class OLPModule extends SingleChildStatelessWidget {
             dispose: (_, value) => value.dispose(),
           ),
         ],
-        child: LogoutListener(
-          onLogout: (_) => sl<OLPRepository>().clear(),
-          child: child,
-        ),
+        child: child,
       );
 }
