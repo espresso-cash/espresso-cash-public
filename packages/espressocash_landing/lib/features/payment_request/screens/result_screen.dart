@@ -1,4 +1,8 @@
+import 'package:decimal/decimal.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
@@ -9,38 +13,52 @@ import '../../../ui/desktop_page.dart';
 import '../../../ui/footer.dart';
 import '../../../utils/extensions.dart';
 import '../../../utils/format_amount.dart';
-import '../service/order_service.dart';
+import '../../request_verifier/service/request_verifier_bloc.dart';
 import '../widgets/invoice.dart';
 
-class ResultScreen extends StatefulWidget {
-  const ResultScreen({super.key});
-
-  @override
-  State<ResultScreen> createState() => _ResultScreenState();
+enum PaymentStatus {
+  pending,
+  success,
+  failed,
 }
 
-class _ResultScreenState extends State<ResultScreen> {
-  late final Stream<PaymentOrder?> _stream;
+typedef PaymentOrder = ({
+  PaymentStatus status,
+  CryptoAmount? fee,
+  SolanaPayRequest request,
+});
+
+class ResultScreen extends StatelessWidget {
+  const ResultScreen({
+    super.key,
+    required this.request,
+    this.fee,
+  });
+
+  final SolanaPayRequest request;
+  final CryptoAmount? fee;
 
   @override
-  void initState() {
-    super.initState();
-    _stream = sl<IncomingDlnPaymentService>().watch();
+  Widget build(BuildContext context) {
+    final bloc = sl<RequestVerifierBloc>();
+
+    return BlocBuilder<RequestVerifierBloc, PaymentRequestVerifierState>(
+      bloc: bloc,
+      builder: (context, state) {
+        final order = (
+          status: switch (state) {
+            Waiting() || Retrying() || Verifying() => PaymentStatus.pending,
+            Success() => PaymentStatus.success,
+            Failure() => PaymentStatus.failed,
+          },
+          fee: fee,
+          request: request,
+        );
+
+        return isMobile ? _Mobile(order) : _Desktop(order);
+      },
+    );
   }
-
-  @override
-  Widget build(BuildContext context) => StreamBuilder(
-        stream: _stream,
-        builder: (context, snapshot) {
-          final order = snapshot.data;
-
-          if (order == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          return isMobile ? _Mobile(order) : _Desktop(order);
-        },
-      );
 }
 
 class _Desktop extends StatelessWidget {
@@ -53,14 +71,13 @@ class _Desktop extends StatelessWidget {
     final request = order.request;
 
     final status = switch (order.status) {
-      PaymentStatus.txSent => 'Pending',
+      PaymentStatus.pending => 'Pending',
       PaymentStatus.success => 'Success',
-      PaymentStatus.txFailure || PaymentStatus.unfulfilled => 'Failed',
+      PaymentStatus.failed => 'Failed',
     };
 
     final requestAmount = order.request.requestAmount;
     final fee = order.fee;
-    final total = requestAmount + fee;
 
     return LandingDesktopPage(
       title: context.l10n.thankYouLbl,
@@ -81,14 +98,17 @@ class _Desktop extends StatelessWidget {
             title: context.l10n.requestAmountLbl,
             value: requestAmount.format(context.locale, maxDecimals: 2),
           ),
-          _Item(
-            title: context.l10n.feeLbl,
-            value: fee.format(context.locale, maxDecimals: 2),
-          ),
-          _Item(
-            title: context.l10n.totalLbl,
-            value: total.format(context.locale, maxDecimals: 2),
-          ),
+          if (fee != null)
+            _Item(
+              title: context.l10n.feeLbl,
+              value: fee.format(context.locale, maxDecimals: 2),
+            ),
+          if (fee != null)
+            _Item(
+              title: context.l10n.totalLbl,
+              value:
+                  (requestAmount + fee).format(context.locale, maxDecimals: 2),
+            ),
           if (request.solanaReferenceAddress case final reference?) ...[
             const Spacer(),
             InvoiceWidget(address: reference),
@@ -109,14 +129,13 @@ class _Mobile extends StatelessWidget {
     final request = order.request;
 
     final status = switch (order.status) {
-      PaymentStatus.txSent => 'Pending',
+      PaymentStatus.pending => 'Pending',
       PaymentStatus.success => 'Success',
-      PaymentStatus.txFailure || PaymentStatus.unfulfilled => 'Failed',
+      PaymentStatus.failed => 'Failed',
     };
 
     final requestAmount = order.request.requestAmount;
     final fee = order.fee;
-    final total = requestAmount + fee;
 
     return _MobileLayout(
       header: Column(
@@ -153,14 +172,17 @@ class _Mobile extends StatelessWidget {
             title: context.l10n.requestAmountLbl,
             value: requestAmount.format(context.locale, maxDecimals: 2),
           ),
-          _Item(
-            title: context.l10n.feeLbl,
-            value: fee.format(context.locale, maxDecimals: 2),
-          ),
-          _Item(
-            title: context.l10n.totalLbl,
-            value: total.format(context.locale, maxDecimals: 2),
-          ),
+          if (fee != null)
+            _Item(
+              title: context.l10n.feeLbl,
+              value: fee.format(context.locale, maxDecimals: 2),
+            ),
+          if (fee != null)
+            _Item(
+              title: context.l10n.totalLbl,
+              value:
+                  (requestAmount + fee).format(context.locale, maxDecimals: 2),
+            ),
           if (request.solanaReferenceAddress case final reference?) ...[
             const Spacer(),
             InvoiceWidget(address: reference),
@@ -264,4 +286,13 @@ class _Item extends StatelessWidget {
           ],
         ),
       );
+}
+
+extension on SolanaPayRequest {
+  CryptoAmount get requestAmount => Amount.fromDecimal(
+        value: amount ?? Decimal.zero,
+        currency: Currency.usdc,
+      ) as CryptoAmount;
+
+  String? get solanaReferenceAddress => reference?.first.toBase58();
 }

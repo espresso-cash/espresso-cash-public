@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,6 +13,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/desktop_page.dart';
 import '../../../ui/mobile_page.dart';
 import '../../../utils/extensions.dart';
+import '../../request_verifier/service/request_verifier_bloc.dart';
 import '../../web3/models/exception.dart';
 import '../../web3/web3_service.dart';
 import '../widgets/button.dart';
@@ -20,6 +22,7 @@ import '../widgets/extensions.dart';
 import '../widgets/invoice.dart';
 import 'espresso_request_screen.dart';
 import 'other_wallet_screen.dart';
+import 'result_screen.dart';
 import 'solana_wallet_screen.dart';
 
 class RequestInitialScreen extends StatefulWidget {
@@ -32,12 +35,27 @@ class RequestInitialScreen extends StatefulWidget {
 }
 
 class _RequestInitialScreenState extends State<RequestInitialScreen> {
+  final _bloc = sl<RequestVerifierBloc>();
+
   void _onEspressoPay() {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) => EspressoRequestScreen(request: widget.request),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bloc.add(Init(widget.request));
+  }
+
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
   }
 
   void _onSolanaPay() {
@@ -89,20 +107,33 @@ class _RequestInitialScreenState extends State<RequestInitialScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Builder(
-        builder: (context) => isMobile
-            ? _Mobile(
-                request: widget.request,
-                onEspressoPay: _onEspressoPay,
-                onMetaMaskPay: _onMetaMaskPay,
-                onSolanaPay: _onSolanaPay,
-              )
-            : _Desktop(
-                request: widget.request,
-                onEspressoPay: _onEspressoPay,
-                onMetaMaskPay: _onMetaMaskPay,
-                onSolanaPay: _onSolanaPay,
+  Widget build(BuildContext context) =>
+      BlocListener<RequestVerifierBloc, PaymentRequestVerifierState>(
+        bloc: _bloc,
+        listener: (context, state) {
+          if (state is Success) {
+            Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (context) => ResultScreen(request: widget.request),
               ),
+            );
+          }
+        },
+        child: Builder(
+          builder: (context) => isMobile
+              ? _Mobile(
+                  request: widget.request,
+                  onEspressoPay: _onEspressoPay,
+                  onMetaMaskPay: _onMetaMaskPay,
+                  onSolanaPay: _onSolanaPay,
+                )
+              : _Desktop(
+                  request: widget.request,
+                  onEspressoPay: _onEspressoPay,
+                  onMetaMaskPay: _onMetaMaskPay,
+                  onSolanaPay: _onSolanaPay,
+                ),
+        ),
       );
 }
 

@@ -20,7 +20,6 @@ import '../../../utils/extensions.dart';
 import '../../../utils/format_amount.dart';
 import '../models/request_model.dart';
 import '../service/confirmation_bloc.dart';
-import '../service/order_service.dart';
 import '../widgets/dropdown.dart';
 import '../widgets/invoice.dart';
 import 'result_screen.dart';
@@ -67,19 +66,16 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
   void _onSubmit() => _bloc.add(const IncomingPaymentEvent.confirmed());
 
   Future<void> _onSuccess({
-    required IncomingPaymentRequest request,
     required CryptoAmount fee,
   }) async {
-    sl<IncomingDlnPaymentService>().create(
-      request: request,
-      fee: fee,
-    );
-
     Navigator.of(context).pop();
 
     await Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => const ResultScreen(),
+        builder: (context) => ResultScreen(
+          request: widget.request,
+          fee: fee,
+        ),
       ),
     );
   }
@@ -108,17 +104,7 @@ class _OtherWalletScreenState extends State<OtherWalletScreen> {
         listener: (context, state) => switch (state.flowState) {
           FlowFailure(:final error) => _onException(error),
           FlowSuccess(:final result) => () {
-              final request = state.request;
-              final sender = state.sender;
-
-              if (request == null || sender == null) {
-                return;
-              }
-
-              _onSuccess(
-                request: request,
-                fee: result.$1.fee,
-              );
+              _onSuccess(fee: result.$1.fee);
             }(),
           _ => null,
         },
