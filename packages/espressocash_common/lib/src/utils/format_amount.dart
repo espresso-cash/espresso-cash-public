@@ -1,7 +1,8 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+
+import '../../espressocash_common.dart';
 
 extension FormatAmountExt on Amount {
   String format(
@@ -10,14 +11,24 @@ extension FormatAmountExt on Amount {
     bool roundInteger = false,
     int? maxDecimals,
   }) =>
-      formatAmount(
-        locale: locale,
-        value: decimal,
-        decimals: maxDecimals ?? currency.decimals,
-        symbol: skipSymbol ? null : currency.symbol,
-        prefixedSymbol: false,
-        roundInteger: roundInteger,
-      );
+      switch (currency) {
+        FiatCurrency(:final sign) => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : sign,
+            prefixedSymbol: true,
+            roundInteger: roundInteger,
+          ),
+        CryptoCurrency() => formatAmount(
+            locale: locale,
+            value: decimal,
+            decimals: maxDecimals ?? currency.decimals,
+            symbol: skipSymbol ? null : currency.symbol,
+            prefixedSymbol: false,
+            roundInteger: roundInteger,
+          ),
+      };
 }
 
 String formatAmount({

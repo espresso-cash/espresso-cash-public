@@ -1,8 +1,8 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../gen/assets.gen.dart';
 import '../../l10n/decimal_separator.dart';
-import '../../l10n/device_locale.dart';
 import '../theme.dart';
 
 class _NumericKey extends KeypadKey {
@@ -41,7 +41,7 @@ class _DecimalSeparatorKey extends KeypadKey {
 
   @override
   Widget build(BuildContext context) => Text(
-        getDecimalSeparator(DeviceLocale.localeOf(context)),
+        getDecimalSeparator(context.locale),
         style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
       );
 }

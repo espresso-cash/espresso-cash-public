@@ -1,8 +1,8 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../utils/extensions.dart';
@@ -49,8 +49,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                     title: context.l10n.paymentRequestTitle,
                     icon: Assets.icons.paymentIcon.svg(),
                     timestamp: context.formatDate(data.created),
-                    incomingAmount:
-                        data.formattedAmount(DeviceLocale.localeOf(context)),
+                    incomingAmount: data.formattedAmount(context.locale),
                     status: data.state.map(
                       initial: always(CpActivityTileStatus.inProgress),
                       completed: always(CpActivityTileStatus.success),

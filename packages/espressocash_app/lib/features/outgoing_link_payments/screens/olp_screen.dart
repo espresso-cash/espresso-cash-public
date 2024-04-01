@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
@@ -17,7 +17,6 @@ import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/repository.dart';
@@ -67,7 +66,6 @@ class _OLPScreenState extends State<OLPScreen> {
         stream: _payment,
         builder: (context, snapshot) {
           final payment = snapshot.data;
-          final locale = DeviceLocale.localeOf(context);
 
           if (payment == null) {
             return TransferProgress(onBack: () => context.pop());
@@ -157,7 +155,7 @@ class _OLPScreenState extends State<OLPScreen> {
             withdrawn: always(context.l10n.splitKeySuccessMessage2),
             canceled: always(
               context.l10n.splitKeyCanceledMessage1(
-                payment.amount.format(locale),
+                payment.amount.format(context.locale),
               ),
             ),
             txFailure: (it) => [
@@ -174,7 +172,7 @@ class _OLPScreenState extends State<OLPScreen> {
             ].join(' '),
             orElse: always(
               context.l10n.splitKeyProgressOngoing(
-                payment.amount.format(locale),
+                payment.amount.format(context.locale),
               ),
             ),
           );
@@ -202,7 +200,7 @@ class _OLPScreenState extends State<OLPScreen> {
 
           final paymentInitiated = CpTimelineItem(
             title: context.l10n.paymentInitiated,
-            trailing: payment.amount.format(locale),
+            trailing: payment.amount.format(context.locale),
             subtitle: created.let((t) => context.formatDate(t)),
           );
           final linksCreated = CpTimelineItem(

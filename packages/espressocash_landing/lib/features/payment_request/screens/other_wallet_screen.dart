@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../features/blockchain/models/blockchain.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/loader.dart';
@@ -17,7 +16,6 @@ import '../../../ui/desktop_page.dart';
 import '../../../ui/dialog.dart';
 import '../../../ui/mobile_page.dart';
 import '../../../utils/extensions.dart';
-import '../../../utils/format_amount.dart';
 import '../models/request_model.dart';
 import '../service/confirmation_bloc.dart';
 import '../widgets/dropdown.dart';

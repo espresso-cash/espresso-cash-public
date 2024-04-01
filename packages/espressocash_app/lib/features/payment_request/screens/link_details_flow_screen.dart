@@ -1,3 +1,4 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -5,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
@@ -105,7 +105,7 @@ class _Success extends StatelessWidget {
   Widget build(BuildContext context) => TxResultScreen(
         icon: Assets.icons.txSucceeded,
         text: context.l10n.paymentRequestSuccessNotificationTitle(
-          request.formattedAmount(DeviceLocale.localeOf(context)),
+          request.formattedAmount(context.locale),
         ),
         signature: null,
       );
@@ -122,7 +122,7 @@ class _Failure extends StatelessWidget {
   Widget build(BuildContext context) => TxResultScreen(
         icon: Assets.icons.txFailed,
         text: context.l10n.paymentRequestFailureNotificationTitle(
-          request.formattedAmount(DeviceLocale.localeOf(context)),
+          request.formattedAmount(context.locale),
         ),
         signature: null,
       );

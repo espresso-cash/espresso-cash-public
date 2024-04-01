@@ -5,14 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../di.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/desktop_page.dart';
 import '../../../ui/footer.dart';
 import '../../../utils/extensions.dart';
-import '../../../utils/format_amount.dart';
 import '../../request_verifier/service/request_verifier_bloc.dart';
 import '../widgets/invoice.dart';
 

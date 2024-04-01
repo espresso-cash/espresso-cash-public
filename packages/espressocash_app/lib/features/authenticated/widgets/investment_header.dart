@@ -4,7 +4,6 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/button.dart';
@@ -12,7 +11,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/widgets/token_icon.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
