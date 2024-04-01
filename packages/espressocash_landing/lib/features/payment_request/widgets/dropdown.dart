@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-non-null-assertion
-
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -146,7 +144,12 @@ class _BlockchainDropDownState extends State<_BlockchainDropDown>
       );
 
   OverlayEntry _createOverlayEntry() {
-    final renderBox = context.findRenderObject()! as RenderBox;
+    final renderBox = context.findRenderObject() as RenderBox?;
+
+    if (renderBox == null) {
+      return OverlayEntry(builder: (_) => const SizedBox.shrink());
+    }
+
     final size = renderBox.size;
 
     final offset = renderBox.localToGlobal(Offset.zero);

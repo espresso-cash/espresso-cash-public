@@ -1,4 +1,4 @@
-// ignore_for_file: avoid-unnecessary-type-casts, unnecessary_cast, avoid_web_libraries_in_flutter
+// ignore_for_file: avoid_web_libraries_in_flutter
 import 'dart:html';
 
 import 'package:dfunc/dfunc.dart';
@@ -44,7 +44,7 @@ class Web3Service {
     final credentials = await eth.requestAccounts();
     final chainId = await client.getNetworkId();
 
-    final address = credentials[0].address as EthereumAddress;
+    final address = credentials[0].address;
 
     return (address, chainId);
   }
