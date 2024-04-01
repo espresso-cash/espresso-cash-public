@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -62,7 +63,7 @@ extension BuildContextExt on BuildContext {
           defaultFiatAmount;
       final formatted = initialAmount.value == 0
           ? ''
-          : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
+          : initialAmount.format(locale, skipSymbol: true);
 
       final fiatDecimal = await ODPConfirmationRoute(
         (

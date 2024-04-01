@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -164,7 +165,7 @@ class _Amount extends StatelessWidget {
         create: () => sl<WatchUserFiatBalance>().call(),
         builder: (context, amount) {
           final formattedAmount = amount.format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             roundInteger: amount.isZero,
           );
 

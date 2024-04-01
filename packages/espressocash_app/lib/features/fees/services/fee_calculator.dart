@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 

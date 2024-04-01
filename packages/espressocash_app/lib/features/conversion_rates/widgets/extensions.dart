@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ extension ConversionRates on BuildContext {
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
     const fiat = Currency.usd;
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
     final conversionRate = context.watchConversionRate(to: fiat);
 

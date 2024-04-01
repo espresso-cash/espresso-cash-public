@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../gen/assets.gen.dart';
@@ -68,8 +69,8 @@ class _ScreenState extends State<WalletMainScreen> {
     super.didUpdateWidget(oldWidget);
 
     final newAmount = widget.amount.decimal;
-    final locale = DeviceLocale.localeOf(context);
-    final currentAmount = _amountController.text.toDecimalOrZero(locale);
+    final currentAmount =
+        _amountController.text.toDecimalOrZero(context.locale);
     if (newAmount != oldWidget.amount.decimal && newAmount != currentAmount) {
       _amountController.text = newAmount.toString();
     }
@@ -85,7 +86,7 @@ class _ScreenState extends State<WalletMainScreen> {
   }
 
   void _updateValue() {
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final amount = _amountController.text.toDecimalOrZero(locale);
     widget.onAmountChanged(amount);
   }

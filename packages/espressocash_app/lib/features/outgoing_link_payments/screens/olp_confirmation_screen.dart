@@ -1,4 +1,5 @@
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -118,7 +119,7 @@ class _AmountView extends StatelessWidget {
   Widget build(BuildContext context) {
     final fiatAmount = sl<ConvertToUsd>().call(amount);
 
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final formattedAmount = amount.format(
       locale,
       maxDecimals: amount.currency.decimals,

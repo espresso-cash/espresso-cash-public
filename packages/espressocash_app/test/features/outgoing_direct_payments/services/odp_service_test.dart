@@ -9,7 +9,7 @@ import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoi
 import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_service.dart';
 import 'package:espressocash_app/features/transactions/models/tx_results.dart';
 import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
