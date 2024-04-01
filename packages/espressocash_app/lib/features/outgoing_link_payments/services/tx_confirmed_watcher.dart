@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';

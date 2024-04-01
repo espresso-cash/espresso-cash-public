@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 

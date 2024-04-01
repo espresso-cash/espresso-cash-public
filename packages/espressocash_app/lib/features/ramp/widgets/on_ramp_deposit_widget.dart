@@ -1,4 +1,5 @@
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +32,7 @@ class OnRampDepositWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
 
     final formattedTransferAmount = deposit.transferAmount.format(locale);
 

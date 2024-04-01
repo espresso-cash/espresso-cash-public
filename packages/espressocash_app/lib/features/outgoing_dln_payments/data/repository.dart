@@ -1,7 +1,7 @@
 // ignore_for_file: avoid-non-null-assertion
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';

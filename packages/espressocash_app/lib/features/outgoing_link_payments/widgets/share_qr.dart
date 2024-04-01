@@ -1,5 +1,5 @@
 import 'package:barcode_widget/barcode_widget.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';

@@ -2,7 +2,7 @@
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../features/ramp/models/ramp_partner.dart';

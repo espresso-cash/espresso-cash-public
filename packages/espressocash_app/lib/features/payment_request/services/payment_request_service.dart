@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';

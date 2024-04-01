@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
@@ -48,8 +49,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
   }
 
   void _handleSubmitted() {
-    final locale = DeviceLocale.localeOf(context);
-    final amount = _amountController.text.toDecimalOrZero(locale);
+    final amount = _amountController.text.toDecimalOrZero(context.locale);
     if (amount == Decimal.zero) {
       showWarningDialog(
         context,

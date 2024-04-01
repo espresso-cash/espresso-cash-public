@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -272,12 +273,12 @@ extension on CreateOrderException {
         quoteNotFound: always(context.l10n.outgoingDlnNoQuoteFound),
         insufficientBalance: (e) => context.l10n.insufficientFundsMessage(
           e.amount.format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             maxDecimals: 2,
             roundInteger: false,
           ),
           e.balance.format(
-            DeviceLocale.localeOf(context),
+            context.locale,
             maxDecimals: 2,
             roundInteger: false,
           ),

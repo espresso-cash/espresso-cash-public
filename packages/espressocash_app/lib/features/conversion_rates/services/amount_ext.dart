@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 
 import '../../../di.dart';
 import '../data/repository.dart';

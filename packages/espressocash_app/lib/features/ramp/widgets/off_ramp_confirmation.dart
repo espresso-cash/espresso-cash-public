@@ -1,4 +1,5 @@
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -122,7 +123,7 @@ class _AmountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final formattedAmount = withdrawAmount.format(
       locale,
       maxDecimals: withdrawAmount.currency.decimals,

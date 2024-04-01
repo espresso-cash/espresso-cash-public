@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/decimal_separator.dart';
@@ -35,8 +36,7 @@ class AmountWithEquivalent extends StatelessWidget {
       ValueListenableBuilder<TextEditingValue>(
         valueListenable: inputController,
         builder: (context, value, _) {
-          final num =
-              value.text.toDecimalOrZero(DeviceLocale.localeOf(context));
+          final num = value.text.toDecimalOrZero(context.locale);
 
           final isZero = num.toDouble() == 0;
           final hasError = error.isNotEmpty;
@@ -107,7 +107,7 @@ class _EquivalentDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final value = input.toDecimalOrZero(locale);
     final shouldDisplay = value.toDouble() != 0;
 
@@ -247,7 +247,7 @@ class _InputDisplay extends StatelessWidget {
 
 extension on String {
   String formatted(BuildContext context) {
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final decimalSeparator = getDecimalSeparator(locale);
     final value = toDecimalOrZero(locale);
 

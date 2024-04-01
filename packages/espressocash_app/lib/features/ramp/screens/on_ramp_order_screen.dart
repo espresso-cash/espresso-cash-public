@@ -1,5 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -92,7 +93,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
       );
     }
 
-    final locale = DeviceLocale.localeOf(context);
+    final locale = context.locale;
     final amount = order.receiveAmount ?? order.submittedAmount;
 
     final String? statusTitle = order.status == OnRampOrderStatus.completed

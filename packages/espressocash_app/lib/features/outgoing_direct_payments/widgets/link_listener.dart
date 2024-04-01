@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
+import 'package:espressocash_common/flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
@@ -56,7 +57,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
 
     final formatted = amount.value == 0
         ? ''
-        : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
+        : amount.format(context.locale, skipSymbol: true);
 
     final confirmedFiatAmount = await ODPConfirmationRoute(
       (
