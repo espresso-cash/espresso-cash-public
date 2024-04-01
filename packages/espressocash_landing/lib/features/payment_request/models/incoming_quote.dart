@@ -1,5 +1,5 @@
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+import 'package:espressocash_common/dart.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'incoming_quote.freezed.dart';
