@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -11,6 +10,7 @@ import '../../../ui/bordered_row.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
 import '../widgets/merchant_logo_icon.dart';

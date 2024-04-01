@@ -9,7 +9,6 @@ import 'package:solana/solana.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../config.dart';
-import '../../../../../core/solana_helpers.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
@@ -17,6 +16,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../../utils/solana_client.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';

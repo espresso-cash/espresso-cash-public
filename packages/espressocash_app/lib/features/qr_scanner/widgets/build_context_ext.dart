@@ -10,6 +10,7 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
 import '../../../ui/loader.dart';
+import '../../../utils/solana_client.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
@@ -63,6 +64,7 @@ extension BuildContextExt on BuildContext {
           signer: wallet,
         );
 
+        // TODO catch simulate error, mostlikely insufficient funds
         final simulate = await client.simulateTransfer(
           tx: tx,
           account: wallet,
