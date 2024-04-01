@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
@@ -12,7 +12,10 @@ import '../../../utils/solana_pay.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
+import '../../tokens/token.dart';
 import '../screens/odp_confirmation_screen.dart';
 import '../screens/odp_details_screen.dart';
 import 'extensions.dart';

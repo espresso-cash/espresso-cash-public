@@ -1,1 +1,0 @@
-# espressocash_common

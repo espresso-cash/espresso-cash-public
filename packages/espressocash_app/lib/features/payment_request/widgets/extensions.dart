@@ -1,10 +1,11 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
+import '../../currency/models/amount.dart';
 import '../../profile/data/profile_repository.dart';
 import '../services/payment_request_service.dart';
 
