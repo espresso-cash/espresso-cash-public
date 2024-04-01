@@ -1,6 +1,8 @@
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:injectable/injectable.dart';
+
+import '../../../../currency/models/currency.dart';
 
 @injectable
 class ScalexRepository {

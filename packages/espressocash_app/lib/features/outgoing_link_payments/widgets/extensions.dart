@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 import '../services/olp_service.dart';
 

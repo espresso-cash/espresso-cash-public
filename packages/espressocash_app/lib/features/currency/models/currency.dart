@@ -1,11 +1,14 @@
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'token.dart';
+import '../../tokens/token.dart';
 
 part 'currency.freezed.dart';
 
-@freezed
+@Freezed(
+  when: FreezedWhenOptions.none,
+  map: FreezedMapOptions.none,
+)
 sealed class Currency with _$Currency {
   const factory Currency.fiat({
     required String name,

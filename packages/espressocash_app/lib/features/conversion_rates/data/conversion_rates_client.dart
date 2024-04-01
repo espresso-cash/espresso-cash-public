@@ -1,12 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../currency/models/currency.dart';
 import 'coingecko_client.dart';
 
 part 'conversion_rates_client.freezed.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -10,6 +10,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
