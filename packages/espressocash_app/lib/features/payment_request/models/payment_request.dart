@@ -28,19 +28,21 @@ class PaymentRequestState with _$PaymentRequestState {
 }
 
 extension SolanaPayRequestExt on SolanaPayRequest {
-  Uri toUniversalLink() {
-    final link = Uri.parse(toUrl());
+  String toUniversalLink() {
+    final queryParameters = <String, dynamic>{
+      't': 's',
+      'r': recipient.toBase58(),
+      'a': amount?.toString(),
+      'p': reference?.map((r) => r.toBase58()).toList(),
+      'l': label,
+    };
 
-    return link.replace(
+    return Uri(
       scheme: 'https',
       path: '/',
       host: espressoCashLinkDomain,
-      queryParameters: {
-        't': 'solanapay',
-        'recipient': link.path,
-        ...link.queryParameters,
-      },
-    );
+      queryParameters: queryParameters,
+    ).toString().replaceAll('+', '%20');
   }
 
   CryptoAmount? cryptoAmount(TokenList tokenList) {

@@ -37,7 +37,7 @@ class PaymentRequestService {
       id: id,
       created: DateTime.now(),
       payRequest: request,
-      dynamicLink: request.toUniversalLink().toString(),
+      dynamicLink: request.toUniversalLink(),
       state: const PaymentRequestState.initial(),
     );
     await _repository.save(paymentRequest);

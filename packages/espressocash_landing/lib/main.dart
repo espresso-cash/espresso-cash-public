@@ -33,7 +33,7 @@ class LandingPageApp extends StatelessWidget {
         onGenerateRoute: (settings) {
           final uri = Uri.parse(html.window.location.toString());
           final linkPayment = LinkPayments.tryParse(uri);
-          final solanaPay = tryParseSolanaPayRequest(uri);
+          final solanaPay = tryParseEcRequest(uri);
 
           if (linkPayment != null) {
             return MaterialPageRoute(
