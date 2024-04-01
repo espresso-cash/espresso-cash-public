@@ -1,12 +1,11 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../utils/extensions.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../ramp/screens/on_ramp_order_screen.dart';
 import '../../ramp/widgets/on_ramp_order_details.dart';
 import '../models/activity.dart';

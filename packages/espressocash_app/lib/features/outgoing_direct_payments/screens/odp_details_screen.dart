@@ -1,14 +1,13 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
@@ -60,7 +59,7 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                     onBack: () => context.pop(),
                     onOkPressed: () => context.pop(),
                     statusContent: context.l10n.outgoingTransferSuccess(
-                      payment.amount.format(DeviceLocale.localeOf(context)),
+                      payment.amount.format(context.locale),
                     ),
                     onMoreDetailsPressed: () {
                       final link = status.txId

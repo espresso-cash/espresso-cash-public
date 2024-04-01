@@ -1,12 +1,11 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../utils/extensions.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../outgoing_link_payments/screens/olp_screen.dart';
 import '../models/activity.dart';
 import 'activity_tile.dart';
@@ -19,8 +18,7 @@ class OLPTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpActivityTile(
         title: context.l10n.sentViaLink,
-        outgoingAmount:
-            activity.data.amount.format(DeviceLocale.localeOf(context)),
+        outgoingAmount: activity.data.amount.format(context.locale),
         timestamp: context.formatDate(activity.created),
         icon: Assets.icons.paymentIcon.svg(),
         status: activity.data.status.maybeMap(

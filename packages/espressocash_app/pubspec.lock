@@ -454,7 +454,7 @@ packages:
       path: "../espressocash_common"
       relative: true
     source: path
-    version: "1.0.0"
+    version: "1.0.1"
   ethereum_addresses:
     dependency: "direct main"
     description:

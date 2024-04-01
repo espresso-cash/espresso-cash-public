@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
@@ -19,7 +18,6 @@ import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';

@@ -3,7 +3,6 @@ import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
@@ -11,7 +10,6 @@ import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 

@@ -1,8 +1,8 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/decimal_separator.dart';
-import '../../l10n/device_locale.dart';
 import 'keypad_key.dart';
 
 class AmountKeypad extends StatelessWidget {
@@ -99,8 +99,7 @@ class AmountKeypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
-          final decimalSeparator =
-              getDecimalSeparator(DeviceLocale.localeOf(context));
+          final decimalSeparator = getDecimalSeparator(context.locale);
 
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),

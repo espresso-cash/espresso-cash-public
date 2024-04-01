@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
@@ -14,7 +13,6 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/services/convert_to_usd.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
 import '../widgets/extensions.dart';

@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/message_info_widget.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';

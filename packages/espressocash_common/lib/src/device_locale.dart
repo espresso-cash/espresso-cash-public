@@ -1,6 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+extension BuildContextExt on BuildContext {
+  Locale get locale => DeviceLocale.localeOf(this);
+}
+
 class DeviceLocale {
   static Locale localeOf(BuildContext context) {
     final installedIntlLocale = Localizations.localeOf(context);
@@ -10,7 +14,7 @@ class DeviceLocale {
 
         // NOTE: This locale reflects current user settings preferred locale
         //       as opposed to extracting it from the locales installed by the
-        //       cryptoplease application.
+        //       application.
         //
         //       The locale that we request from here is needed for
         //       things like, formatting phone numbers, currency values
@@ -19,8 +23,4 @@ class DeviceLocale {
         //       used to.
         : PlatformDispatcher.instance.locales.first;
   }
-}
-
-extension BuildContextExt on BuildContext {
-  Locale get locale => DeviceLocale.localeOf(this);
 }

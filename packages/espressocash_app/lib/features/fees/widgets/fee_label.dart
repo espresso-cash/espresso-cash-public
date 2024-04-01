@@ -1,10 +1,9 @@
+import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/async_snapshot.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../models/fee_type.dart';
 import '../services/fee_calculator.dart';
 

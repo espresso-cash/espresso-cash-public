@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/slider.dart';
 import '../../../utils/callback.dart';
 import '../../blockchain/models/blockchain.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 import '../services/confirm_payment_bloc.dart';
