@@ -4,19 +4,21 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
-import '../../../core/escrow_private_key.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../authenticated/auth_scope.dart';
+import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/incoming_link_payment.dart';
 
-@injectable
-class ILPRepository {
+@Singleton(scope: authScope)
+class ILPRepository implements Disposable {
   const ILPRepository(this._db);
 
   final MyDatabase _db;
@@ -50,7 +52,8 @@ class ILPRepository {
     await _db.into(_db.iLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 
-  Future<void> clear() => _db.delete(_db.iLPRows).go();
+  @override
+  Future<void> onDispose() => _db.delete(_db.iLPRows).go();
 
   Stream<IList<IncomingLinkPayment>> watchTxCreated() => _watchWithStatuses([
         ILPStatusDto.txCreated,

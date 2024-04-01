@@ -4,8 +4,31 @@ import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../l10n/l10n.dart';
+import '../routing.dart';
 import 'app_bar.dart';
+import 'snackbar.dart';
 import 'theme.dart';
+
+extension LinkOpenerExt on BuildContext {
+  Future<void> openLink(String link) async {
+    try {
+      final url = Uri.parse(link);
+      await WebViewRoute(
+        (
+          url: url,
+          title: null,
+          onLoaded: null,
+          theme: null,
+        ),
+      ).push<void>(this);
+    } on FormatException catch (_) {
+      showCpErrorSnackbar(
+        this,
+        message: l10n.tryAgainLater,
+      );
+    }
+  }
+}
 
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({

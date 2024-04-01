@@ -7,8 +7,8 @@ import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../config.dart';
-import '../../../core/escrow_private_key.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/repository.dart';

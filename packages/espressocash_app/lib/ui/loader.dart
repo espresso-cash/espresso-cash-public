@@ -1,7 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../core/callback.dart';
+import '../utils/callback.dart';
 import 'colors.dart';
 
 class CpLoader extends StatefulWidget {

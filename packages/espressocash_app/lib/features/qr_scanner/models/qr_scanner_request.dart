@@ -4,8 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/link_payments.dart';
-import '../../../core/solana_helpers.dart';
+import '../../../utils/solana_pay.dart';
+import '../../link_payments/models/link_payment.dart';
 import 'qr_address_data.dart';
 
 part 'qr_scanner_request.freezed.dart';
@@ -22,7 +22,7 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
-  const factory QrScannerRequest.linkPayment(LinkPayments payment) =
+  const factory QrScannerRequest.linkPayment(LinkPayment payment) =
       QrScannerLinkPayment;
 
   const QrScannerRequest._();
@@ -49,7 +49,7 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.solanaPay(espressocashRequest);
     }
 
-    final payment = Uri.tryParse(code)?.let(LinkPayments.tryParse);
+    final payment = Uri.tryParse(code)?.let(LinkPayment.tryParse);
     if (payment != null) {
       return QrScannerRequest.linkPayment(payment);
     }

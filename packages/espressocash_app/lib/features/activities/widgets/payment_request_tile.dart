@@ -1,11 +1,11 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/presentation/format_date.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../routing.dart';
+import '../../../utils/extensions.dart';
 import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../payment_request/screens/link_details_flow_screen.dart';
@@ -46,9 +46,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   key: ValueKey(widget.id),
                   paymentRequest: data,
                   child: CpActivityTile(
-                    title: context.l10n.paymentRequestTitle(
-                      data.formattedAmount(DeviceLocale.localeOf(context)),
-                    ),
+                    title: context.l10n.paymentRequestTitle,
                     icon: Assets.icons.paymentIcon.svg(),
                     timestamp: context.formatDate(data.created),
                     incomingAmount:

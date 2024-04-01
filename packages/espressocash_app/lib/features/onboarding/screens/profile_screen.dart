@@ -2,7 +2,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/email.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -12,6 +11,7 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
+import '../../../utils/email.dart';
 import '../../authenticated/screens/main_screen.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';

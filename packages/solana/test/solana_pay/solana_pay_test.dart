@@ -145,10 +145,8 @@ void main() {
       );
 
       await client.validateSolanaPayTransaction(
-        // ignore: avoid-non-null-assertion, cannot be null here
         signature: signature,
         recipient: recipient.publicKey,
-        // ignore: avoid-non-null-assertion, cannot be null here
         amount: amount,
         commitment: Commitment.confirmed,
       );

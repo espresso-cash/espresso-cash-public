@@ -8,11 +8,11 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../../core/presentation/utils.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
 import '../../../di.dart';
+import '../../../ui/clipboard.dart';
 import '../../accounts/models/account.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../data/profile_repository.dart';

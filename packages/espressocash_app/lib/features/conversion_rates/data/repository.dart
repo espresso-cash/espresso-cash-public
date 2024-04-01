@@ -5,84 +5,80 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../tokens/token_list.dart';
+import '../../authenticated/auth_scope.dart';
 import 'conversion_rates_client.dart';
 
-@lazySingleton
+@Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
+    required SharedPreferences storage,
     required ConversionRatesClient coingeckoClient,
-  })  : _maxCoingeckoIds = 30,
-        _coingeckoClient = coingeckoClient;
+  })  : _coingeckoClient = coingeckoClient,
+        _storage = storage;
 
-  @visibleForTesting
-  ConversionRatesRepository.test({
-    required ConversionRatesClient coingeckoClient,
-    required int maxCoingeckoIds,
-  })  : _maxCoingeckoIds = maxCoingeckoIds,
-        _coingeckoClient = coingeckoClient;
+  final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
+      BehaviorSubject.seeded(const IMapConst({}));
 
-  final BehaviorSubject<IMap<FiatCurrency, IMap<CryptoCurrency, Decimal>>>
-      _value = BehaviorSubject.seeded(const IMapConst({}));
-
-  final int _maxCoingeckoIds;
   final ConversionRatesClient _coingeckoClient;
+  final SharedPreferences _storage;
 
-  Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
-      _value.value[to]?[crypto];
+  @PostConstruct()
+  void init() {
+    final rate = _storage.getDouble(_usdcRateKey);
 
-  Stream<Decimal?> watchRate(
-    CryptoCurrency crypto, {
+    if (rate == null) return;
+
+    _value.add(
+      IMapConst({
+        Currency.usd: Decimal.tryParse(rate.toString()) ?? Decimal.zero,
+      }),
+    );
+    notifyListeners();
+  }
+
+  Decimal? readRate({required FiatCurrency to}) => _value.value[to];
+
+  Stream<Decimal?> watchRate({
     required FiatCurrency to,
   }) =>
-      _value.map((v) => v[to]?[crypto]).distinct();
+      _value.map((v) => v[to]).distinct();
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
-      tryEitherAsync((_) async {
+  AsyncResult<void> refresh(FiatCurrency currency) => tryEitherAsync((_) async {
         if (currency != Currency.usd) throw UnimplementedError();
 
-        final ids = await Stream.fromIterable(tokens.coingeckoIds)
-            .bufferCount(_maxCoingeckoIds)
-            .toList();
+        // ignore:  avoid-non-null-assertion, we know its not null
+        final usdcId = Token.usdc.coingeckoId!;
 
-        final results = await Future.wait(
-          ids.map((ids) async {
-            final request = RateRequestDto(
-              vsCurrencies: [currency.symbol].lock,
-              ids: ids.lock,
-            );
-
-            return _coingeckoClient.getPrice(request);
-          }),
+        final request = RateRequestDto(
+          vsCurrencies: [currency.symbol].lock,
+          ids: [usdcId].lock,
         );
 
-        final Map<String, PricesMapDto> conversionRates = {};
-        results.forEach(conversionRates.addAll);
+        final data =
+            await _coingeckoClient.getPrice(request).letAsync((p) => p[usdcId]);
 
-        final previous = _value.value[currency] ?? const IMapConst({});
+        if (data == null) return;
 
-        final newValue = _value.value.add(
+        final value = _value.value.add(
           currency,
-          previous.addAll(
-            conversionRates.keys.fold<IMap<CryptoCurrency, Decimal>>(
-                const IMapConst({}), (map, value) {
-              final data = conversionRates[value];
-
-              if (data == null) return map;
-              final rate = currency == Currency.usd ? data.usd : data.eur;
-              if (rate == null) return map;
-
-              return map.add(
-                CryptoCurrency(
-                  token: tokens.firstWhere((t) => t.coingeckoId == value),
-                ),
-                Decimal.parse(rate.toString()),
-              );
-            }),
-          ),
+          data.to(currency),
         );
-        _value.add(newValue);
+
+        _value.add(value);
+        await _storage.setDouble(_usdcRateKey, data.usd ?? 0);
+
         notifyListeners();
       });
+
+  @override
+  @disposeMethod
+  void dispose() {
+    _value.close();
+    _storage.remove(_usdcRateKey);
+    super.dispose();
+  }
 }
+
+const _usdcRateKey = 'usdcRate';

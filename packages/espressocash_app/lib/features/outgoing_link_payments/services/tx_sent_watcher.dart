@@ -4,7 +4,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../../core/cancelable_job.dart';
+import '../../../utils/cancelable_job.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';

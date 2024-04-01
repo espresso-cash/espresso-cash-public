@@ -2,7 +2,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/presentation/format_amount.dart';
 import '../../../l10n/decimal_separator.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,6 +12,7 @@ import '../../../ui/shake.dart';
 import '../../../ui/usdc_info.dart';
 import '../../wallet_flow/widgets/extensions.dart';
 import '../services/amount_ext.dart';
+import 'extensions.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
   const AmountWithEquivalent({

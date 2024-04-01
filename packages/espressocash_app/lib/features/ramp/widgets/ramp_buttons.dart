@@ -13,6 +13,7 @@ import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
+import '../models/profile_data.dart';
 import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
@@ -22,8 +23,7 @@ import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
-import '../src/models/profile_data.dart';
-import '../src/widgets/off_ramp_bottom_sheet.dart';
+import 'off_ramp_bottom_sheet.dart';
 
 class AddCashButton extends StatelessWidget {
   const AddCashButton({

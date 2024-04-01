@@ -6,16 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../core/presentation/format_amount.dart';
-import '../../../core/solana_helpers.dart';
-import '../../../core/wallet.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import '../../incoming_link_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';

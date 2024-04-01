@@ -1,44 +1,62 @@
+import 'dart:async';
+
 import 'package:espressocash_common/espressocash_common.dart';
-import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:get_it/get_it.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
-class BalancesRepository implements Disposable {
-  final BehaviorSubject<IMap<Token, CryptoAmount>> _data =
-      BehaviorSubject.seeded(const IMapConst({}));
+class BalancesRepository extends ChangeNotifier {
+  BalancesRepository(this._storage);
 
-  void saveAll(IMap<Token, CryptoAmount> data) {
-    _data.add(data);
+  final SharedPreferences _storage;
+
+  @PostConstruct()
+  void init() {
+    final balance = _storage.getInt(_usdcBalanceKey);
+
+    if (balance == null) return;
+
+    _usdcBalance.add(
+      CryptoAmount(
+        value: balance,
+        cryptoCurrency: const CryptoCurrency(token: Token.usdc),
+      ),
+    );
+    notifyListeners();
   }
 
-  IMap<Token, CryptoAmount> readAll() => _data.value;
+  final _usdcBalance = BehaviorSubject<CryptoAmount>.seeded(
+    const CryptoAmount(
+      value: 0,
+      cryptoCurrency: CryptoCurrency(token: Token.usdc),
+    ),
+  );
 
-  CryptoAmount read(Token token) =>
-      _data.value[token] ??
-      CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
+  void save(CryptoAmount balance) {
+    if (balance.cryptoCurrency.token != Token.usdc) {
+      throw ArgumentError('Only USDC balances can be saved.');
+    }
 
-  (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
-        _data.map(
-          (data) =>
-              data[token] ??
-              CryptoAmount(
-                value: 0,
-                cryptoCurrency: CryptoCurrency(token: token),
-              ),
-        ),
-        read(token),
-      );
+    _usdcBalance.add(balance);
+    _storage.setInt(_usdcBalanceKey, balance.value);
+    notifyListeners();
+  }
 
-  Stream<ISet<Token>> watchUserTokens() =>
-      _data.map((data) => {...data.keys, Token.sol, Token.usdc}.lock);
+  CryptoAmount read() => _usdcBalance.value;
 
-  ISet<Token> readUserTokens() =>
-      {..._data.value.keys, Token.sol, Token.usdc}.lock;
+  (Stream<CryptoAmount>, CryptoAmount) watch() => (_usdcBalance.stream, read());
 
   @override
-  void onDispose() => _data.add(const IMapConst({}));
+  @disposeMethod
+  void dispose() {
+    _usdcBalance.close();
+    _storage.remove(_usdcBalanceKey);
+    super.dispose();
+  }
 }
+
+const _usdcBalanceKey = 'usdcBalance';
