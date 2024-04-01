@@ -1,7 +1,8 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
+import '../../../features/currency/amount.dart';
+import '../../../features/currency/currency.dart';
 import '../../../features/wallet_flow/widgets/wallet_tab_view.dart';
 import '../../app_wrapper.dart';
 

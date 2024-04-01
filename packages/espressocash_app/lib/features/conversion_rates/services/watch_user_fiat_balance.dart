@@ -1,10 +1,12 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../balances/data/balances_repository.dart';
 
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
 import '../data/repository.dart';
 
 @injectable

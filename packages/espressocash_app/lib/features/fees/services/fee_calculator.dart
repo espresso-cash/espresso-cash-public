@@ -1,11 +1,14 @@
 import 'dart:math';
 
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
 import '../../ramp/models/ramp_partner.dart';
+import '../../tokens/token.dart';
 import '../models/fee_type.dart';
 
 @injectable

@@ -1,11 +1,13 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../currency/amount.dart';
+import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
 

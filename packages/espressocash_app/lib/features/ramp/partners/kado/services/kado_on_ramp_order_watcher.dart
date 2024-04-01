@@ -2,11 +2,12 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:drift/drift.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
+import '../../../../currency/currency.dart';
 import '../../../data/my_database_ext.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/kado_api_client.dart';

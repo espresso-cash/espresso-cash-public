@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,6 +12,7 @@ import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/amount.dart';
 import '../data/on_ramp_order_service.dart';
 import 'countdown_timer.dart';
 

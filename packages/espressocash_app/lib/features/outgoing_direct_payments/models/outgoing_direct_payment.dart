@@ -1,8 +1,8 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../currency/amount.dart';
 import '../../transactions/models/tx_results.dart';
 
 part 'outgoing_direct_payment.freezed.dart';

@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
@@ -9,6 +8,7 @@ import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/amount.dart';
 import '../models/outgoing_link_payment.dart';
 
 class ShareLink extends StatelessWidget {

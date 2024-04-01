@@ -1,12 +1,14 @@
 import 'dart:async';
 
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authenticated/auth_scope.dart';
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
+import '../../tokens/token.dart';
 
 @Singleton(scope: authScope)
 class BalancesRepository extends ChangeNotifier {

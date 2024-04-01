@@ -1,5 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,6 +17,7 @@ import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../data/on_ramp_order_service.dart';

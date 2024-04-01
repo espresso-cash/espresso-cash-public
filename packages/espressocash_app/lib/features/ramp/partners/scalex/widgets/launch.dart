@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -15,6 +15,8 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../currency/amount.dart';
+import '../../../../currency/currency.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_partner.dart';

@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +10,8 @@ import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
 import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../currency/amount.dart';
+import '../../../../currency/currency.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_partner.dart';

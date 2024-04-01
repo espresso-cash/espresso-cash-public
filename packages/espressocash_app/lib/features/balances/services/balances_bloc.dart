@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +12,9 @@ import 'package:solana/solana.dart';
 import '../../../utils/disposable_bloc.dart';
 import '../../../utils/processing_state.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
+import '../../tokens/token.dart';
 import '../data/balances_repository.dart';
 
 part 'balances_bloc.freezed.dart';

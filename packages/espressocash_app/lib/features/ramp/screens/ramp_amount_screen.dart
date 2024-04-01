@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -12,6 +12,8 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
 import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 

@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +9,8 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../currency/amount.dart';
+import '../../currency/currency.dart';
 import '../services/odp_service.dart';
 
 extension BuildContextExt on BuildContext {

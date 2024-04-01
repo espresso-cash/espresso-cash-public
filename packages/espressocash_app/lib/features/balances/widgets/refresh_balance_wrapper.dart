@@ -1,5 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
 import '../../conversion_rates/services/conversion_rates_bloc.dart';
+import '../../currency/currency.dart';
 import '../services/balances_bloc.dart';
 import 'context_ext.dart';
 
