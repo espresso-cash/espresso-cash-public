@@ -12,8 +12,8 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 

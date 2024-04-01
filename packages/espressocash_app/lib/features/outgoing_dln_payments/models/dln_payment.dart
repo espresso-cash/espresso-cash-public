@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../blockchain/models/blockchain.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 
 part 'dln_payment.freezed.dart';
 

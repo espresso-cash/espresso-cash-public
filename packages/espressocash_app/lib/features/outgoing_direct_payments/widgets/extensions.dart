@@ -9,8 +9,8 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../services/odp_service.dart';
 
 extension BuildContextExt on BuildContext {

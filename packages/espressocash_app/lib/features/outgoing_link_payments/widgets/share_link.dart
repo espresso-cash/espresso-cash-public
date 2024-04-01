@@ -8,7 +8,7 @@ import '../../../ui/share_message/share_message_bubble.dart';
 import '../../../ui/share_message/share_message_header.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 
 class ShareLink extends StatelessWidget {

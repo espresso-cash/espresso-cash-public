@@ -1,12 +1,10 @@
-// ignore_for_file: avoid-banned-imports
-
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 
 import 'package:storybook_flutter/storybook_flutter.dart';
 
-import '../../../features/currency/amount.dart';
-import '../../../features/currency/currency.dart';
+import '../../../features/currency/models/amount.dart';
+import '../../../features/currency/models/currency.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
 import '../../../features/ramp/models/ramp_type.dart';
 import '../../../features/ramp/screens/ramp_amount_screen.dart';

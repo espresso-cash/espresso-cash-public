@@ -1,8 +1,8 @@
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../data/db/db.dart';
-import '../../../features/currency/amount.dart';
-import '../../../features/currency/currency.dart';
+import '../../../features/currency/models/amount.dart';
+import '../../../features/currency/models/currency.dart';
 import '../../../features/ramp/models/ramp_partner.dart';
 import '../../../features/ramp/screens/off_ramp_order_screen.dart';
 import '../../utils.dart';

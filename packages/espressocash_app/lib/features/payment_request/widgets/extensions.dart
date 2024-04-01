@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../profile/data/profile_repository.dart';
 import '../services/payment_request_service.dart';
 

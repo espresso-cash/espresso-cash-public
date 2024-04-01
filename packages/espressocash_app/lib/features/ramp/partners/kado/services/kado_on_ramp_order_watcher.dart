@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
-import '../../../../currency/currency.dart';
+import '../../../../currency/models/currency.dart';
 import '../../../data/my_database_ext.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/kado_api_client.dart';

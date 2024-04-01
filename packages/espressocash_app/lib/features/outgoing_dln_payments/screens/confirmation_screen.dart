@@ -8,7 +8,7 @@ import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../blockchain/models/blockchain.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../models/payment_quote.dart';
 import '../services/dln_order_service.dart';
 import '../widgets/confirmation.dart';

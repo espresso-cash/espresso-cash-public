@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
 

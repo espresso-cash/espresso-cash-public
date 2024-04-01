@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/device_locale.dart';
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../data/repository.dart';
 
 extension ConversionRates on BuildContext {

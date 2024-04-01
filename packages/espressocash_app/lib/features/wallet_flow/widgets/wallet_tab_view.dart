@@ -12,7 +12,7 @@ import '../../../ui/number_formatter.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
 import 'extensions.dart';
 

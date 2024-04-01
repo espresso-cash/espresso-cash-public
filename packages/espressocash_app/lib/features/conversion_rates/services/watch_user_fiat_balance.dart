@@ -5,8 +5,8 @@ import 'package:rxdart/rxdart.dart';
 
 import '../../balances/data/balances_repository.dart';
 
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../data/repository.dart';
 
 @injectable

@@ -10,8 +10,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../utils/cancelable_job.dart';
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';

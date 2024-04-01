@@ -5,8 +5,8 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../../currency/amount.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../ramp/models/ramp_partner.dart';
 import '../../tokens/token.dart';
 import '../models/fee_type.dart';

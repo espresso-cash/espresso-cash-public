@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 
 class ShareQr extends StatelessWidget {
   const ShareQr({

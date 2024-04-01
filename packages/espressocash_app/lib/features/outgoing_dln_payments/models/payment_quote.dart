@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import 'dln_payment.dart';
 
 part 'payment_quote.freezed.dart';

@@ -14,7 +14,7 @@ import '../../../ui/theme.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/widgets/refresh_balance_wrapper.dart';
-import '../../currency/currency.dart';
+import '../../currency/models/currency.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../widgets/home_carousel.dart';

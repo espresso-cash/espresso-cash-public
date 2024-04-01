@@ -11,7 +11,7 @@ import '../../../routing.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_input_screen.dart';

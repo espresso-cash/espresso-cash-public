@@ -11,7 +11,7 @@ import '../../../ui/info_icon.dart';
 import '../../../ui/message_info_widget.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';

@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 

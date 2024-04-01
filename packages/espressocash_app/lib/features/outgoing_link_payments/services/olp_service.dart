@@ -8,7 +8,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../config.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';

@@ -6,7 +6,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr.dart';

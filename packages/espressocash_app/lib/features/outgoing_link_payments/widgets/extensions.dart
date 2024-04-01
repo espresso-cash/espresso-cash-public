@@ -8,7 +8,7 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
 import '../../analytics/analytics_manager.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 import '../services/olp_service.dart';
 

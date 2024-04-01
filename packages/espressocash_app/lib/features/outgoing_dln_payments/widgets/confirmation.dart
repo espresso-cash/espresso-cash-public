@@ -13,7 +13,7 @@ import '../../../utils/callback.dart';
 import '../../../utils/flow.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/amount.dart';
+import '../../currency/models/amount.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 import '../services/confirm_payment_bloc.dart';

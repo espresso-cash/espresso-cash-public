@@ -4,7 +4,7 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../currency/currency.dart';
+import '../currency/models/currency.dart';
 import 'data/repository.dart';
 import 'services/conversion_rates_bloc.dart';
 
