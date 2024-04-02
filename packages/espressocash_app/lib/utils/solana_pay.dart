@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../config.dart';
@@ -18,7 +17,7 @@ SolanaPayRequest? tryParseSolanaPayRequest(Uri link) {
       'amount': queryParams['amount'] ?? queryParams['a'],
       'reference': queryParams['reference'] ?? queryParams['p'],
       'label': queryParams['label'] ?? queryParams['l'],
-      'spl-token': queryParams['spl-token'] ?? Token.usdc.address,
+      'spl-token': queryParams['spl-token'],
     },
   );
 
