@@ -69,9 +69,7 @@ class PendingActivitiesRepository {
         );
 
     final otrStream = _otrService.watchPending().map(
-          (rows) => rows.map(
-            (it) => Activity.transactionRequest(id: it.id, created: it.created),
-          ),
+          (rows) => rows.map((it) => it.toActivity()),
         );
 
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(

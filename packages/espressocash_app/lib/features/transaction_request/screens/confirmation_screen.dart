@@ -5,14 +5,11 @@ import 'package:solana/solana_pay.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/bordered_row.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../fees/models/fee_type.dart';
-import '../../fees/widgets/fee_label.dart';
 import '../widgets/merchant_logo_icon.dart';
 
 class OTRConfirmationScreen extends StatelessWidget {
@@ -41,11 +38,14 @@ class OTRConfirmationScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              MerchantLogoIcon(logoUrl: request.icon),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 32),
+                child: MerchantLogoIcon(logoUrl: request.icon),
+              ),
               Text(
                 request.label,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 20,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -57,15 +57,13 @@ class OTRConfirmationScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 38),
-              CpBorderedRow(
-                title: const Text('Message'),
-                content: Text(message ?? ''),
-                dividerColor: CpColors.darkDividerColor,
-              ),
+              const SizedBox(height: 42),
+              if (message case final message?)
+                _Item(
+                  title: 'Message',
+                  content: message,
+                ),
               const Spacer(),
-              const FeeLabel(type: FeeType.link()),
-              const SizedBox(height: 21),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
                 child: CpButton(
@@ -82,6 +80,45 @@ class OTRConfirmationScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class _Item extends StatelessWidget {
+  const _Item({
+    required this.title,
+    required this.content,
+  });
+
+  final String title;
+  final String content;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: const BoxDecoration(
+          border: Border.symmetric(
+            horizontal: BorderSide(
+              color: CpColors.darkDividerColor,
+              width: 1,
+            ),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(width: 24),
+              Expanded(child: Text(content)),
+            ],
+          ),
+        ),
+      );
 }
 
 class OTRConfirmationRoute extends GoRouteData {

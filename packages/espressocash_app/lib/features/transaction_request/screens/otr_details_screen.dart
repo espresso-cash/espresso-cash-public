@@ -14,6 +14,7 @@ import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
+import '../models/transaction_request.dart';
 import '../service/otr_service.dart';
 import '../widgets/extensions.dart';
 
