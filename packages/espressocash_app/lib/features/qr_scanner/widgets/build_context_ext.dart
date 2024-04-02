@@ -3,15 +3,10 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 
 import 'package:flutter/material.dart';
-import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
-import '../../../ui/loader.dart';
-import '../../../utils/solana_client.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -25,7 +20,7 @@ import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../tokens/token_list.dart';
-import '../../transaction_request/screens/confirmation_screen.dart';
+import '../../transaction_request/widgets/extensions.dart';
 import '../models/qr_address_data.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
@@ -52,43 +47,7 @@ extension BuildContextExt on BuildContext {
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final transaction = request.request;
 
-      await runWithLoader(this, () async {
-        //TODO update and move this somewhere
-        final info = await transaction.get();
-
-        final wallet = sl<ECWallet>().publicKey;
-
-        final client = sl<SolanaClient>();
-        final respTx = await transaction.post(account: wallet.toBase58());
-
-        final tx = await client.processSolanaPayTransactionRequest(
-          transaction: respTx.transaction,
-          signer: wallet,
-        );
-
-        // TODO catch simulate error, mostlikely insufficient funds
-        final simulate = await client.simulateTransfer(
-          tx: tx,
-          account: wallet,
-          currency: Currency.usdc,
-        );
-
-        unawaited(
-          //TODO remove unawaited
-          OTRConfirmationRoute(
-            (
-              request: info,
-              amount: CryptoAmount(
-                value: simulate?.amountTransferred ?? 0,
-                cryptoCurrency: Currency.usdc,
-              ),
-              message: respTx.message,
-            ),
-          ).push<void>(this),
-        );
-
-        // TODO after confirmation, send the tx
-      });
+      await processSolanaTransactionRequest(transaction);
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;

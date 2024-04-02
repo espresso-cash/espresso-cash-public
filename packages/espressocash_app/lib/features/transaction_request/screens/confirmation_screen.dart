@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana_pay.dart';
@@ -11,6 +10,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
 import '../widgets/merchant_logo_icon.dart';

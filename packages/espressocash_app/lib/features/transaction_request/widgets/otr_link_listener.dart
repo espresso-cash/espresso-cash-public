@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:solana/solana_pay.dart';
+
+import '../../dynamic_links/widgets/dynamic_link_handler.dart';
+import 'extensions.dart';
+
+class OTRLinkListener extends StatefulWidget {
+  const OTRLinkListener({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<OTRLinkListener> createState() => _OTRLinkListenerState();
+}
+
+class _OTRLinkListenerState extends State<OTRLinkListener>
+    with DynamicLinkHandler {
+  @override
+  bool handleDynamicLink(Uri uri) {
+    final transactionRequest =
+        SolanaTransactionRequest.tryParse(uri.toString());
+    if (transactionRequest != null) {
+      context.processSolanaTransactionRequest(transactionRequest);
+
+      return true;
+    }
+
+    return false;
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+}

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../../../ui/theme.dart';
 import 'di.dart';
