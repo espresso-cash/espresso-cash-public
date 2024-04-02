@@ -1,11 +1,9 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
 
 import '../../../../../ui/theme.dart';
 import 'di.dart';
@@ -20,6 +18,8 @@ import 'features/authenticated/screens/main_screen.dart';
 import 'features/backup_phrase/screens/puzzle_reminder_message_screen.dart';
 import 'features/backup_phrase/screens/puzzle_reminder_setup_screen.dart';
 import 'features/blockchain/models/blockchain.dart';
+import 'features/currency/models/amount.dart';
+import 'features/currency/models/currency.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import 'features/legal/privacy_screen.dart';
 import 'features/legal/terms_screen.dart';
@@ -53,6 +53,7 @@ import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
+import 'features/tokens/token.dart';
 import 'features/transaction_request/screens/confirmation_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';

@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -14,6 +13,7 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/info_widget.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/widgets/fee_label.dart';
 import '../services/off_ramp_order_service.dart';

@@ -2,7 +2,7 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -13,6 +13,8 @@ import 'package:solana/encoder.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/incoming_link_payment.dart';

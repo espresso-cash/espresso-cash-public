@@ -1,8 +1,10 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../../features/blockchain/models/blockchain.dart';
+import '../../../features/currency/models/amount.dart';
+import '../../../features/currency/models/currency.dart';
 import '../../../features/outgoing_dln_payments/models/dln_payment.dart';
 import '../../../features/outgoing_dln_payments/models/outgoing_payment.dart';
 import '../../../features/outgoing_dln_payments/screens/details_screen.dart';
