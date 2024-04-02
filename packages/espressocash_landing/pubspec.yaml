@@ -9,8 +9,6 @@ environment:
 
 dependencies:
   barcode_widget: ^2.0.4
-  espressocash_common:
-    path: ../espressocash_common/
   flutter:
     sdk: flutter
   flutter_localizations:
