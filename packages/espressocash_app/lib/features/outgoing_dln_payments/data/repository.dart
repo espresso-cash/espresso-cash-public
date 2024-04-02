@@ -1,7 +1,7 @@
 // ignore_for_file: avoid-non-null-assertion
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -10,6 +10,8 @@ import 'package:solana/encoder.dart';
 import '../../../data/db/db.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../blockchain/models/blockchain.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/dln_payment.dart';
 import '../models/outgoing_payment.dart';
