@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -16,10 +15,10 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
-import '../../../../../utils/solana_client.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../tokens/token.dart';
+import '../../../../transaction_request/widgets/solana_client_ext.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_partner.dart';
 import '../../../screens/off_ramp_order_screen.dart';

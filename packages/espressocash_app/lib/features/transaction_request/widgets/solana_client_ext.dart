@@ -1,10 +1,11 @@
 import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+
+import '../../currency/models/currency.dart';
 
 extension SolanaClientExt on SolanaClient {
   Future<({int amountTransferred, BigInt slot})?> simulateTransfer({

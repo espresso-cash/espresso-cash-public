@@ -28,7 +28,7 @@ class OTRConfirmationScreen extends StatelessWidget {
   final String? message;
 
   void _handleSubmitted(BuildContext context) {
-    context.pop(amount);
+    context.pop(true);
   }
 
   @override
