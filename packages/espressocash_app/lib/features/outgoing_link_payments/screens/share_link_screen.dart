@@ -1,4 +1,3 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +6,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
+import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr.dart';

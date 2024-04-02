@@ -1,5 +1,5 @@
 import 'package:decimal/decimal.dart';
-import 'package:espressocash_common/espressocash_common.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
@@ -11,6 +11,7 @@ import '../../../routing.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_input_screen.dart';
