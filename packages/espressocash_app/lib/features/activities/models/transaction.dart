@@ -1,7 +1,7 @@
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import '../../currency/models/amount.dart';
 import 'activity.dart';
 
 part 'transaction.freezed.dart';

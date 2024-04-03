@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';

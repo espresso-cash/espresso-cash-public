@@ -1,6 +1,5 @@
 import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_common/espressocash_common.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/dto.dart';
@@ -9,6 +8,9 @@ import 'package:solana/solana.dart';
 
 import '../../accounts/models/ec_wallet.dart';
 import '../../authenticated/auth_scope.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
+import '../../tokens/token.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
 
