@@ -8,7 +8,7 @@ import '../../../ui/navigation_bar/navigation_button.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
-import '../../transaction_request/widgets/otr_link_listener.dart';
+import '../../transaction_request/widgets/tr_link_listener.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.navigationShell});
@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ODPLinkListener(
         child: PendingILPListener(
-          child: OTRLinkListener(
+          child: TRLinkListener(
             child: CoinflowLinkListener(
               child: Scaffold(
                 backgroundColor: Colors.white,

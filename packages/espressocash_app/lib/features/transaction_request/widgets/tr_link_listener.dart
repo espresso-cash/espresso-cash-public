@@ -4,16 +4,16 @@ import 'package:solana/solana_pay.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
 import 'extensions.dart';
 
-class OTRLinkListener extends StatefulWidget {
-  const OTRLinkListener({super.key, required this.child});
+class TRLinkListener extends StatefulWidget {
+  const TRLinkListener({super.key, required this.child});
 
   final Widget child;
 
   @override
-  State<OTRLinkListener> createState() => _OTRLinkListenerState();
+  State<TRLinkListener> createState() => _TRLinkListenerState();
 }
 
-class _OTRLinkListenerState extends State<OTRLinkListener>
+class _TRLinkListenerState extends State<TRLinkListener>
     with DynamicLinkHandler {
   @override
   bool handleDynamicLink(Uri uri) {

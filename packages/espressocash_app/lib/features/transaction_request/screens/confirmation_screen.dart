@@ -12,8 +12,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../widgets/merchant_logo_icon.dart';
 
-class OTRConfirmationScreen extends StatelessWidget {
-  const OTRConfirmationScreen({
+class TRConfirmationScreen extends StatelessWidget {
+  const TRConfirmationScreen({
     super.key,
     required this.request,
     required this.amount,
@@ -121,21 +121,21 @@ class _Item extends StatelessWidget {
       );
 }
 
-class OTRConfirmationRoute extends GoRouteData {
-  const OTRConfirmationRoute(this.$extra);
+class TRConfirmationRoute extends GoRouteData {
+  const TRConfirmationRoute(this.$extra);
 
-  final OTRConfirmationParams $extra;
+  final TRConfirmationParams $extra;
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      OTRConfirmationScreen(
+      TRConfirmationScreen(
         request: $extra.request,
         amount: $extra.amount,
         message: $extra.message,
       );
 }
 
-typedef OTRConfirmationParams = ({
+typedef TRConfirmationParams = ({
   TransactionRequestInfo request,
   CryptoAmount amount,
   String? message,

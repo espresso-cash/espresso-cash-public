@@ -213,10 +213,10 @@ class TransactionRequestRows extends Table with AmountMixin, EntityMixin {
   TextColumn get label => text()();
   TextColumn get transaction => text()();
   Int64Column get slot => int64()();
-  TextColumn get status => textEnum<OTRStatus>()();
+  TextColumn get status => textEnum<TRStatusDto>()();
 }
 
-enum OTRStatus {
+enum TRStatusDto {
   created,
   sent,
   success,

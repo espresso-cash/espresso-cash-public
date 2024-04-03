@@ -2,7 +2,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -15,11 +14,11 @@ import '../../transactions/widgets/transfer_error.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../models/transaction_request.dart';
-import '../service/otr_service.dart';
+import '../service/tr_service.dart';
 import '../widgets/extensions.dart';
 
-class OTRDetailsScreen extends StatefulWidget {
-  const OTRDetailsScreen({
+class TRDetailsScreen extends StatefulWidget {
+  const TRDetailsScreen({
     super.key,
     required this.id,
   });
@@ -27,16 +26,16 @@ class OTRDetailsScreen extends StatefulWidget {
   final String id;
 
   @override
-  State<OTRDetailsScreen> createState() => _OTRDetailsScreenState();
+  State<TRDetailsScreen> createState() => _TRDetailsScreenState();
 }
 
-class _OTRDetailsScreenState extends State<OTRDetailsScreen> {
+class _TRDetailsScreenState extends State<TRDetailsScreen> {
   late final Stream<TransactionRequestPayment> _payment;
 
   @override
   void initState() {
     super.initState();
-    _payment = sl<OTRService>().watch(widget.id);
+    _payment = sl<TRService>().watch(widget.id);
   }
 
   void _handleCancel(String id) => showConfirmationDialog(
@@ -45,7 +44,7 @@ class _OTRDetailsScreenState extends State<OTRDetailsScreen> {
             .toUpperCase(),
         message:
             context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
-        onConfirm: () => context.cancelOTR(id),
+        onConfirm: () => context.cancelTR(id),
       );
 
   @override
@@ -62,7 +61,7 @@ class _OTRDetailsScreenState extends State<OTRDetailsScreen> {
           if (payment == null) return loading;
 
           return switch (payment.status) {
-            OTRStatus.success => TransferSuccess(
+            TRStatus.success => TransferSuccess(
                 onBack: () => context.pop(),
                 onOkPressed: () => context.pop(),
                 statusContent: context.l10n.outgoingTransferSuccess(
@@ -76,20 +75,19 @@ class _OTRDetailsScreenState extends State<OTRDetailsScreen> {
                   context.openLink(link);
                 },
               ),
-            OTRStatus.failure => TransferError(
+            TRStatus.failure => TransferError(
                 onBack: () => context.pop(),
-                onRetry: () => context.retryOTR(payment.id),
+                onRetry: () => context.retryTR(payment.id),
                 onCancel: () => _handleCancel(payment.id),
-                // reason: it.reason,
               ),
-            OTRStatus.created || OTRStatus.sent => loading,
+            TRStatus.created || TRStatus.sent => loading,
           };
         },
       );
 }
 
-class OTRDetailsRoute extends GoRouteData {
-  const OTRDetailsRoute(this.id);
+class TRDetailsRoute extends GoRouteData {
+  const TRDetailsRoute(this.id);
 
   final String id;
 
@@ -98,5 +96,5 @@ class OTRDetailsRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) =>
-      OTRDetailsScreen(id: id);
+      TRDetailsScreen(id: id);
 }

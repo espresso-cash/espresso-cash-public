@@ -56,7 +56,7 @@ import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/transaction_request/screens/confirmation_screen.dart';
-import 'features/transaction_request/screens/otr_details_screen.dart';
+import 'features/transaction_request/screens/tr_details_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_screen.dart';
@@ -126,7 +126,7 @@ part 'routing.g.dart';
                     TypedGoRoute<OffRampOrderRoute>(path: 'off-ramp/:id'),
                     TypedGoRoute<OnRampOrderRoute>(path: 'on-ramp/:id'),
                     TypedGoRoute<ODPDetailsRoute>(path: 'odp/:id'),
-                    TypedGoRoute<OTRDetailsRoute>(path: 'otr/:id'),
+                    TypedGoRoute<TRDetailsRoute>(path: 'tr/:id'),
                     TypedGoRoute<IncomingLinkPaymentRoute>(
                       path: 'details-ilp/:id',
                     ),
@@ -155,7 +155,7 @@ part 'routing.g.dart';
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
-        TypedGoRoute<OTRConfirmationRoute>(path: '/otr-confirmation'),
+        TypedGoRoute<TRConfirmationRoute>(path: '/tr-confirmation'),
         TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
         TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
         TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
