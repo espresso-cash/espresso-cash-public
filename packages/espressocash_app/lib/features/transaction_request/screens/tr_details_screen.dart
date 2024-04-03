@@ -15,7 +15,6 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../models/transaction_request.dart';
 import '../service/tr_service.dart';
-import '../widgets/extensions.dart';
 
 class TRDetailsScreen extends StatefulWidget {
   const TRDetailsScreen({
@@ -38,13 +37,20 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
     _payment = sl<TRService>().watch(widget.id);
   }
 
+  void _cancelTR(String id) {
+    sl<TRService>().cancel(id);
+    context.pop();
+  }
+
+  void _retryTR(String id) => sl<TRService>().retry(id);
+
   void _handleCancel(String id) => showConfirmationDialog(
         context,
         title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
             .toUpperCase(),
         message:
             context.l10n.outgoingDirectPayments_lblCancelConfirmationSubtitle,
-        onConfirm: () => context.cancelTR(id),
+        onConfirm: () => _cancelTR(id),
       );
 
   @override
@@ -77,7 +83,7 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
               ),
             TRStatus.failure => TransferError(
                 onBack: () => context.pop(),
-                onRetry: () => context.retryTR(payment.id),
+                onRetry: () => _retryTR(payment.id),
                 onCancel: () => _handleCancel(payment.id),
               ),
             TRStatus.created || TRStatus.sent => loading,

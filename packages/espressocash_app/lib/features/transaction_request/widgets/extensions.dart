@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -123,15 +122,6 @@ extension BuildContextExt on BuildContext {
           label: label,
         ),
       );
-
-  Future<void> cancelTR(String paymentId) => runWithLoader(this, () async {
-        await sl<TRService>().cancel(paymentId);
-        pop();
-      });
-
-  Future<void> retryTR(String id) => runWithLoader(this, () async {
-        await sl<TRService>().retry(id);
-      });
 }
 
 bool _checkIfUsdcTransfer(SignedTx tx) => tx
