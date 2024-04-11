@@ -10,6 +10,7 @@ class CreatePaymentRequestDto with _$CreatePaymentRequestDto {
     required String escrowAccount,
     required int amount,
     required Cluster cluster,
+    @Default(false) bool durable,
   }) = _CreatePaymentRequestDto;
 
   factory CreatePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -33,6 +34,7 @@ class ReceivePaymentRequestDto with _$ReceivePaymentRequestDto {
     required String receiverAccount,
     required String escrowAccount,
     required Cluster cluster,
+    @Default(false) bool durable,
   }) = _ReceivePaymentRequestDto;
 
   factory ReceivePaymentRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -58,6 +60,7 @@ class CreateDirectPaymentRequestDto with _$CreateDirectPaymentRequestDto {
     required String? referenceAccount,
     required int amount,
     required Cluster cluster,
+    @Default(false) bool durable,
   }) = _CreateDirectPaymentRequestDto;
 
   factory CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -82,6 +85,7 @@ class CancelPaymentRequestDto with _$CancelPaymentRequestDto {
     required String senderAccount,
     required String escrowAccount,
     required Cluster cluster,
+    @Default(false) bool durable,
   }) = _CancelPaymentRequestDto;
 
   factory CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =>

@@ -25,6 +25,7 @@ mixin _$CreatePaymentRequestDto {
   String get escrowAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
+  bool get durable => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $CreatePaymentRequestDtoCopyWith<$Res> {
       {String senderAccount,
       String escrowAccount,
       int amount,
-      Cluster cluster});
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -63,6 +65,7 @@ class _$CreatePaymentRequestDtoCopyWithImpl<$Res,
     Object? escrowAccount = null,
     Object? amount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_value.copyWith(
       senderAccount: null == senderAccount
@@ -81,6 +84,10 @@ class _$CreatePaymentRequestDtoCopyWithImpl<$Res,
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -98,7 +105,8 @@ abstract class _$$CreatePaymentRequestDtoImplCopyWith<$Res>
       {String senderAccount,
       String escrowAccount,
       int amount,
-      Cluster cluster});
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -118,6 +126,7 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
     Object? escrowAccount = null,
     Object? amount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_$CreatePaymentRequestDtoImpl(
       senderAccount: null == senderAccount
@@ -136,6 +145,10 @@ class __$$CreatePaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -147,7 +160,8 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
       {required this.senderAccount,
       required this.escrowAccount,
       required this.amount,
-      required this.cluster});
+      required this.cluster,
+      this.durable = false});
 
   factory _$CreatePaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreatePaymentRequestDtoImplFromJson(json);
@@ -160,10 +174,13 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
   final int amount;
   @override
   final Cluster cluster;
+  @override
+  @JsonKey()
+  final bool durable;
 
   @override
   String toString() {
-    return 'CreatePaymentRequestDto(senderAccount: $senderAccount, escrowAccount: $escrowAccount, amount: $amount, cluster: $cluster)';
+    return 'CreatePaymentRequestDto(senderAccount: $senderAccount, escrowAccount: $escrowAccount, amount: $amount, cluster: $cluster, durable: $durable)';
   }
 
   @override
@@ -176,13 +193,14 @@ class _$CreatePaymentRequestDtoImpl implements _CreatePaymentRequestDto {
             (identical(other.escrowAccount, escrowAccount) ||
                 other.escrowAccount == escrowAccount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster));
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            (identical(other.durable, durable) || other.durable == durable));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, senderAccount, escrowAccount, amount, cluster);
+  int get hashCode => Object.hash(
+      runtimeType, senderAccount, escrowAccount, amount, cluster, durable);
 
   @JsonKey(ignore: true)
   @override
@@ -204,7 +222,8 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
       {required final String senderAccount,
       required final String escrowAccount,
       required final int amount,
-      required final Cluster cluster}) = _$CreatePaymentRequestDtoImpl;
+      required final Cluster cluster,
+      final bool durable}) = _$CreatePaymentRequestDtoImpl;
 
   factory _CreatePaymentRequestDto.fromJson(Map<String, dynamic> json) =
       _$CreatePaymentRequestDtoImpl.fromJson;
@@ -217,6 +236,8 @@ abstract class _CreatePaymentRequestDto implements CreatePaymentRequestDto {
   int get amount;
   @override
   Cluster get cluster;
+  @override
+  bool get durable;
   @override
   @JsonKey(ignore: true)
   _$$CreatePaymentRequestDtoImplCopyWith<_$CreatePaymentRequestDtoImpl>
@@ -395,6 +416,7 @@ mixin _$ReceivePaymentRequestDto {
   String get receiverAccount => throw _privateConstructorUsedError;
   String get escrowAccount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
+  bool get durable => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -408,7 +430,11 @@ abstract class $ReceivePaymentRequestDtoCopyWith<$Res> {
           $Res Function(ReceivePaymentRequestDto) then) =
       _$ReceivePaymentRequestDtoCopyWithImpl<$Res, ReceivePaymentRequestDto>;
   @useResult
-  $Res call({String receiverAccount, String escrowAccount, Cluster cluster});
+  $Res call(
+      {String receiverAccount,
+      String escrowAccount,
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -428,6 +454,7 @@ class _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
     Object? receiverAccount = null,
     Object? escrowAccount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_value.copyWith(
       receiverAccount: null == receiverAccount
@@ -442,6 +469,10 @@ class _$ReceivePaymentRequestDtoCopyWithImpl<$Res,
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -455,7 +486,11 @@ abstract class _$$ReceivePaymentRequestDtoImplCopyWith<$Res>
       __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String receiverAccount, String escrowAccount, Cluster cluster});
+  $Res call(
+      {String receiverAccount,
+      String escrowAccount,
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -474,6 +509,7 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
     Object? receiverAccount = null,
     Object? escrowAccount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_$ReceivePaymentRequestDtoImpl(
       receiverAccount: null == receiverAccount
@@ -488,6 +524,10 @@ class __$$ReceivePaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -498,7 +538,8 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
   const _$ReceivePaymentRequestDtoImpl(
       {required this.receiverAccount,
       required this.escrowAccount,
-      required this.cluster});
+      required this.cluster,
+      this.durable = false});
 
   factory _$ReceivePaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReceivePaymentRequestDtoImplFromJson(json);
@@ -509,10 +550,13 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
   final String escrowAccount;
   @override
   final Cluster cluster;
+  @override
+  @JsonKey()
+  final bool durable;
 
   @override
   String toString() {
-    return 'ReceivePaymentRequestDto(receiverAccount: $receiverAccount, escrowAccount: $escrowAccount, cluster: $cluster)';
+    return 'ReceivePaymentRequestDto(receiverAccount: $receiverAccount, escrowAccount: $escrowAccount, cluster: $cluster, durable: $durable)';
   }
 
   @override
@@ -524,13 +568,14 @@ class _$ReceivePaymentRequestDtoImpl implements _ReceivePaymentRequestDto {
                 other.receiverAccount == receiverAccount) &&
             (identical(other.escrowAccount, escrowAccount) ||
                 other.escrowAccount == escrowAccount) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster));
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            (identical(other.durable, durable) || other.durable == durable));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, receiverAccount, escrowAccount, cluster);
+  int get hashCode => Object.hash(
+      runtimeType, receiverAccount, escrowAccount, cluster, durable);
 
   @JsonKey(ignore: true)
   @override
@@ -551,7 +596,8 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   const factory _ReceivePaymentRequestDto(
       {required final String receiverAccount,
       required final String escrowAccount,
-      required final Cluster cluster}) = _$ReceivePaymentRequestDtoImpl;
+      required final Cluster cluster,
+      final bool durable}) = _$ReceivePaymentRequestDtoImpl;
 
   factory _ReceivePaymentRequestDto.fromJson(Map<String, dynamic> json) =
       _$ReceivePaymentRequestDtoImpl.fromJson;
@@ -562,6 +608,8 @@ abstract class _ReceivePaymentRequestDto implements ReceivePaymentRequestDto {
   String get escrowAccount;
   @override
   Cluster get cluster;
+  @override
+  bool get durable;
   @override
   @JsonKey(ignore: true)
   _$$ReceivePaymentRequestDtoImplCopyWith<_$ReceivePaymentRequestDtoImpl>
@@ -742,6 +790,7 @@ mixin _$CreateDirectPaymentRequestDto {
   String? get referenceAccount => throw _privateConstructorUsedError;
   int get amount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
+  bool get durable => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -762,7 +811,8 @@ abstract class $CreateDirectPaymentRequestDtoCopyWith<$Res> {
       String receiverAccount,
       String? referenceAccount,
       int amount,
-      Cluster cluster});
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -784,6 +834,7 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
     Object? referenceAccount = freezed,
     Object? amount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_value.copyWith(
       senderAccount: null == senderAccount
@@ -806,6 +857,10 @@ class _$CreateDirectPaymentRequestDtoCopyWithImpl<$Res,
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -824,7 +879,8 @@ abstract class _$$CreateDirectPaymentRequestDtoImplCopyWith<$Res>
       String receiverAccount,
       String? referenceAccount,
       int amount,
-      Cluster cluster});
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -845,6 +901,7 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? referenceAccount = freezed,
     Object? amount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_$CreateDirectPaymentRequestDtoImpl(
       senderAccount: null == senderAccount
@@ -867,6 +924,10 @@ class __$$CreateDirectPaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -880,7 +941,8 @@ class _$CreateDirectPaymentRequestDtoImpl
       required this.receiverAccount,
       required this.referenceAccount,
       required this.amount,
-      required this.cluster});
+      required this.cluster,
+      this.durable = false});
 
   factory _$CreateDirectPaymentRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
@@ -896,10 +958,13 @@ class _$CreateDirectPaymentRequestDtoImpl
   final int amount;
   @override
   final Cluster cluster;
+  @override
+  @JsonKey()
+  final bool durable;
 
   @override
   String toString() {
-    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, cluster: $cluster)';
+    return 'CreateDirectPaymentRequestDto(senderAccount: $senderAccount, receiverAccount: $receiverAccount, referenceAccount: $referenceAccount, amount: $amount, cluster: $cluster, durable: $durable)';
   }
 
   @override
@@ -914,13 +979,14 @@ class _$CreateDirectPaymentRequestDtoImpl
             (identical(other.referenceAccount, referenceAccount) ||
                 other.referenceAccount == referenceAccount) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster));
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            (identical(other.durable, durable) || other.durable == durable));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, senderAccount, receiverAccount,
-      referenceAccount, amount, cluster);
+      referenceAccount, amount, cluster, durable);
 
   @JsonKey(ignore: true)
   @override
@@ -945,7 +1011,8 @@ abstract class _CreateDirectPaymentRequestDto
       required final String receiverAccount,
       required final String? referenceAccount,
       required final int amount,
-      required final Cluster cluster}) = _$CreateDirectPaymentRequestDtoImpl;
+      required final Cluster cluster,
+      final bool durable}) = _$CreateDirectPaymentRequestDtoImpl;
 
   factory _CreateDirectPaymentRequestDto.fromJson(Map<String, dynamic> json) =
       _$CreateDirectPaymentRequestDtoImpl.fromJson;
@@ -960,6 +1027,8 @@ abstract class _CreateDirectPaymentRequestDto
   int get amount;
   @override
   Cluster get cluster;
+  @override
+  bool get durable;
   @override
   @JsonKey(ignore: true)
   _$$CreateDirectPaymentRequestDtoImplCopyWith<
@@ -1163,6 +1232,7 @@ mixin _$CancelPaymentRequestDto {
   String get senderAccount => throw _privateConstructorUsedError;
   String get escrowAccount => throw _privateConstructorUsedError;
   Cluster get cluster => throw _privateConstructorUsedError;
+  bool get durable => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1176,7 +1246,11 @@ abstract class $CancelPaymentRequestDtoCopyWith<$Res> {
           $Res Function(CancelPaymentRequestDto) then) =
       _$CancelPaymentRequestDtoCopyWithImpl<$Res, CancelPaymentRequestDto>;
   @useResult
-  $Res call({String senderAccount, String escrowAccount, Cluster cluster});
+  $Res call(
+      {String senderAccount,
+      String escrowAccount,
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -1196,6 +1270,7 @@ class _$CancelPaymentRequestDtoCopyWithImpl<$Res,
     Object? senderAccount = null,
     Object? escrowAccount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_value.copyWith(
       senderAccount: null == senderAccount
@@ -1210,6 +1285,10 @@ class _$CancelPaymentRequestDtoCopyWithImpl<$Res,
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -1223,7 +1302,11 @@ abstract class _$$CancelPaymentRequestDtoImplCopyWith<$Res>
       __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String senderAccount, String escrowAccount, Cluster cluster});
+  $Res call(
+      {String senderAccount,
+      String escrowAccount,
+      Cluster cluster,
+      bool durable});
 }
 
 /// @nodoc
@@ -1242,6 +1325,7 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
     Object? senderAccount = null,
     Object? escrowAccount = null,
     Object? cluster = null,
+    Object? durable = null,
   }) {
     return _then(_$CancelPaymentRequestDtoImpl(
       senderAccount: null == senderAccount
@@ -1256,6 +1340,10 @@ class __$$CancelPaymentRequestDtoImplCopyWithImpl<$Res>
           ? _value.cluster
           : cluster // ignore: cast_nullable_to_non_nullable
               as Cluster,
+      durable: null == durable
+          ? _value.durable
+          : durable // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -1266,7 +1354,8 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
   const _$CancelPaymentRequestDtoImpl(
       {required this.senderAccount,
       required this.escrowAccount,
-      required this.cluster});
+      required this.cluster,
+      this.durable = false});
 
   factory _$CancelPaymentRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CancelPaymentRequestDtoImplFromJson(json);
@@ -1277,10 +1366,13 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
   final String escrowAccount;
   @override
   final Cluster cluster;
+  @override
+  @JsonKey()
+  final bool durable;
 
   @override
   String toString() {
-    return 'CancelPaymentRequestDto(senderAccount: $senderAccount, escrowAccount: $escrowAccount, cluster: $cluster)';
+    return 'CancelPaymentRequestDto(senderAccount: $senderAccount, escrowAccount: $escrowAccount, cluster: $cluster, durable: $durable)';
   }
 
   @override
@@ -1292,13 +1384,14 @@ class _$CancelPaymentRequestDtoImpl implements _CancelPaymentRequestDto {
                 other.senderAccount == senderAccount) &&
             (identical(other.escrowAccount, escrowAccount) ||
                 other.escrowAccount == escrowAccount) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster));
+            (identical(other.cluster, cluster) || other.cluster == cluster) &&
+            (identical(other.durable, durable) || other.durable == durable));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, senderAccount, escrowAccount, cluster);
+      Object.hash(runtimeType, senderAccount, escrowAccount, cluster, durable);
 
   @JsonKey(ignore: true)
   @override
@@ -1319,7 +1412,8 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   const factory _CancelPaymentRequestDto(
       {required final String senderAccount,
       required final String escrowAccount,
-      required final Cluster cluster}) = _$CancelPaymentRequestDtoImpl;
+      required final Cluster cluster,
+      final bool durable}) = _$CancelPaymentRequestDtoImpl;
 
   factory _CancelPaymentRequestDto.fromJson(Map<String, dynamic> json) =
       _$CancelPaymentRequestDtoImpl.fromJson;
@@ -1330,6 +1424,8 @@ abstract class _CancelPaymentRequestDto implements CancelPaymentRequestDto {
   String get escrowAccount;
   @override
   Cluster get cluster;
+  @override
+  bool get durable;
   @override
   @JsonKey(ignore: true)
   _$$CancelPaymentRequestDtoImplCopyWith<_$CancelPaymentRequestDtoImpl>
