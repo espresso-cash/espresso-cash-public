@@ -1,3 +1,11 @@
+## 0.30.4
+
+ - **REFACTOR**: update lints.
+ - **REFACTOR**: update lint rules (#1320).
+ - **REFACTOR**: use DCM 1.14.0 (#1282).
+ - **FEAT**: add NonceAccount (#1367).
+ - **FEAT**: add Solana Pay Transaction Requests  (#950).
+
 ## 0.30.3
 
  - **FEAT**: export ComputeBudgetProgram.
