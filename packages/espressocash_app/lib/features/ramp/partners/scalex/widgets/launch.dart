@@ -46,14 +46,16 @@ extension BuildContextExt on BuildContext {
     final double rampFeePercentage = rateAndFee.onRampFeePercentage ?? 0;
     final double fixedFee = rateAndFee.fixedOnRampFee ?? 0;
 
+    const partner = RampPartner.scalex;
+
     await RampAmountRoute(
       (
-        partner: RampPartner.scalex,
+        partner: partner,
         onSubmitted: (Amount? value) {
           pop();
           amount = value;
         },
-        minAmount: Decimal.fromInt(10),
+        minAmount: partner.minimumAmountInDecimal,
         currency: Currency.usdc,
         calculateEquivalent: (Amount amount) => (
               amount: amount.calculateOnRampFee(
@@ -173,14 +175,16 @@ window.addEventListener("message", (event) => {
 
     Amount? amount;
 
+    const partner = RampPartner.scalex;
+
     await RampAmountRoute(
       (
-        partner: RampPartner.scalex,
+        partner: partner,
         onSubmitted: (value) {
           pop();
           amount = value;
         },
-        minAmount: Decimal.fromInt(10),
+        minAmount: partner.minimumAmountInDecimal,
         currency: Currency.usdc,
         calculateEquivalent: (amount) => (
               amount: amount.calculateOffRampFee(
