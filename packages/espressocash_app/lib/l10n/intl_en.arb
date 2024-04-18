@@ -291,14 +291,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} was paid.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Payment request",
   "pending": "Pending",
   "@pending": {},
@@ -452,6 +444,8 @@
       }
     }
   },
+  "requestPaymentTitle": "Request Payment",
+  "@requestPaymentTitle": {},
   "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",

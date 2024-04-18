@@ -452,14 +452,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount} был оплачен.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Запросить оплату",
   "pending": "Незавершено",
   "@pending": {},
