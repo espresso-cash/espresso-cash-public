@@ -13,6 +13,7 @@ _$CreatePaymentRequestDtoImpl _$$CreatePaymentRequestDtoImplFromJson(
       escrowAccount: json['escrowAccount'] as String,
       amount: json['amount'] as int,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+      durable: json['durable'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$CreatePaymentRequestDtoImplToJson(
@@ -22,6 +23,7 @@ Map<String, dynamic> _$$CreatePaymentRequestDtoImplToJson(
       'escrowAccount': instance.escrowAccount,
       'amount': instance.amount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
+      'durable': instance.durable,
     };
 
 const _$ClusterEnumMap = {
@@ -49,6 +51,7 @@ _$ReceivePaymentRequestDtoImpl _$$ReceivePaymentRequestDtoImplFromJson(
       receiverAccount: json['receiverAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+      durable: json['durable'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$ReceivePaymentRequestDtoImplToJson(
@@ -57,6 +60,7 @@ Map<String, dynamic> _$$ReceivePaymentRequestDtoImplToJson(
       'receiverAccount': instance.receiverAccount,
       'escrowAccount': instance.escrowAccount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
+      'durable': instance.durable,
     };
 
 _$ReceivePaymentResponseDtoImpl _$$ReceivePaymentResponseDtoImplFromJson(
@@ -81,6 +85,7 @@ _$CreateDirectPaymentRequestDtoImpl
           referenceAccount: json['referenceAccount'] as String?,
           amount: json['amount'] as int,
           cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+          durable: json['durable'] as bool? ?? false,
         );
 
 Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
@@ -91,6 +96,7 @@ Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
       'referenceAccount': instance.referenceAccount,
       'amount': instance.amount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
+      'durable': instance.durable,
     };
 
 _$CreateDirectPaymentResponseDtoImpl
@@ -115,6 +121,7 @@ _$CancelPaymentRequestDtoImpl _$$CancelPaymentRequestDtoImplFromJson(
       senderAccount: json['senderAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
+      durable: json['durable'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$CancelPaymentRequestDtoImplToJson(
@@ -123,6 +130,7 @@ Map<String, dynamic> _$$CancelPaymentRequestDtoImplToJson(
       'senderAccount': instance.senderAccount,
       'escrowAccount': instance.escrowAccount,
       'cluster': _$ClusterEnumMap[instance.cluster]!,
+      'durable': instance.durable,
     };
 
 _$CancelPaymentResponseDtoImpl _$$CancelPaymentResponseDtoImplFromJson(

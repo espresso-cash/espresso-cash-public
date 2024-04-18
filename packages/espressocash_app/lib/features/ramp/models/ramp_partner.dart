@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+
 enum RampPartner {
   kado(title: 'Kado Money', minimumAmount: r'$10'),
   rampNetwork(title: 'Ramp Network', minimumAmount: r'$7'),
@@ -9,4 +11,7 @@ enum RampPartner {
 
   final String title;
   final String minimumAmount;
+
+  Decimal get minimumAmountInDecimal =>
+      Decimal.parse(minimumAmount.substring(1));
 }

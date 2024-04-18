@@ -1,3 +1,22 @@
+## 1.111.0
+
+ - **REFACTOR**: remove common package (#1360).
+ - **REFACTOR**: remove logout listener (#1357).
+ - **REFACTOR**: tx updater (#1355).
+ - **REFACTOR**: remove unused code.
+ - **REFACTOR**: remove some obsolete modules (#1354).
+ - **REFACTOR**: restructure core (#1353).
+ - **REFACTOR**: remove internal src folders (#1352).
+ - **REFACTOR**: update lints.
+ - **REFACTOR**: transfer core to common package  (#1349).
+ - **FIX**: scalex minimum amount (#1373).
+ - **FIX**: odp failure message for no funds (#1339).
+ - **FEAT**: cache usdc balance (#1348).
+ - **FEAT**: simplify balance tracking  (#1343).
+ - **FEAT**: payment request tile title update (#1351).
+ - **FEAT**: update payment request link (#1341).
+ - **FEAT**: update request message label (#1342).
+
 ## 1.110.2
 
  - **FIX**: coinflow kyc flow  (#1347).

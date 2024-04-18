@@ -2,6 +2,7 @@ import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 
 export 'instruction.dart';
+export 'nonce_account.dart';
 export 'solana_client_ext.dart';
 
 abstract class SystemProgram {
