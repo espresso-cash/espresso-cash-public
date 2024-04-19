@@ -88,19 +88,6 @@ class RequestScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return data.state.when(
-    //   initial: () => BlocProvider<PaymentRequestVerifierBloc>( //TODO initialize this
-    //     create: (_) => sl<PaymentRequestVerifierBloc>(param1: data),
-    //     lazy: false,
-    //     child: BlocListener<PaymentRequestVerifierBloc,
-    //         PaymentRequestVerifierState>(
-    //       listener: (context, state) => state.whenOrNull(
-    //         success: () => context.notifyBalanceAffected(), //TODO balance update also
-    //       ),
-    //     ),
-    //   ),
-    // );
-
     final tokenlist = sl<TokenList>();
 
     final amount = request.payRequest.cryptoAmount(tokenlist);

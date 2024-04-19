@@ -34,6 +34,15 @@ class PaymentRequestRepository implements Disposable {
       (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
           .go();
 
+  Future<IList<PaymentRequest>> getAllPending() async {
+    final query = _db.select(_db.paymentRequestRows)
+      ..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
+
+    final rows = await query.get();
+
+    return rows.map((row) => row.toPaymentRequest()).toIList();
+  }
+
   @override
   Future<void> onDispose() => _db.delete(_db.paymentRequestRows).go();
 }
