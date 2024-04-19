@@ -21,7 +21,7 @@ class PaymentRequest with _$PaymentRequest {
 }
 
 @freezed
-class PaymentRequestState with _$PaymentRequestState {
+sealed class PaymentRequestState with _$PaymentRequestState {
   const factory PaymentRequestState.initial() = PaymentRequestInitial;
   const factory PaymentRequestState.completed({
     required String transactionId,
@@ -63,4 +63,6 @@ extension SolanaPayRequestExt on SolanaPayRequest {
       value: currency.decimalToInt(amount),
     );
   }
+
+  String? get invoice => reference?.firstOrNull?.toBase58();
 }

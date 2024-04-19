@@ -362,6 +362,25 @@
   "@resendLink": {},
   "retry": "Retry",
   "@retry": {},
+  "requestPaymentTitle": "Request Payment",
+  "@requestPaymentTitle": {},
+  "requestPaymentCreated": "Request payment created",
+  "@requestPaymentCreated": {},
+  "requestPaymentReceived": "Money received",
+  "@requestPaymentReceived": {},
+  "requestPaymentPending": "Waiting for payment",
+  "@requestPaymentPending": {},
+  "requestDeletePaymentTitle": "Delete Request",
+  "@requestDeletePaymentTitle": {},
+  "requestPaymentStatus": "Payment status: {status}",
+  "@requestPaymentStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+
   "save": "Save",
   "@save": {},
   "scanToReceive": "Scan to receive {amount}",
@@ -444,8 +463,6 @@
       }
     }
   },
-  "requestPaymentTitle": "Request Payment",
-  "@requestPaymentTitle": {},
   "signIn1": "Already have a wallet? ",
   "@signIn1": {},
   "signIn2": "Continue here",
@@ -801,5 +818,19 @@
   "outgoingDirectPayments_lblCancelConfirmationTitle": "Cancel Transfer",
   "@outgoingDirectPayments_lblCancelConfirmationTitle": {},
   "cancelTransferBtn": "Cancel transfer",
-  "@cancelTransferBtn": {}
+  "@cancelTransferBtn": {},
+  "invoiceNumber": "Invoice number: {reference}",
+  "@invoiceNumber": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "notReceived": "Not received",
+  "@notReceived": {},
+  "received": "Received",
+  "@received": {},
+  "failed": "Failed",
+  "@failed": {}
 }
