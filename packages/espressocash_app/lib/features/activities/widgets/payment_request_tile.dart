@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -48,11 +47,13 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                   timestamp: context.formatDate(data.created),
                   incomingAmount:
                       data.formattedAmount(DeviceLocale.localeOf(context)),
-                  status: data.state.map(
-                    initial: always(CpActivityTileStatus.inProgress),
-                    completed: always(CpActivityTileStatus.success),
-                    failure: always(CpActivityTileStatus.failure),
-                  ),
+                  status: switch (data.state) {
+                    PaymentRequestState.initial =>
+                      CpActivityTileStatus.inProgress,
+                    PaymentRequestState.completed =>
+                      CpActivityTileStatus.success,
+                    PaymentRequestState.error => CpActivityTileStatus.failure,
+                  },
                   onTap: () => PaymentRequestStatusRoute(data.id).go(context),
                 );
         },

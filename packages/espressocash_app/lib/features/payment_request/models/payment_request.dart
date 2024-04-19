@@ -9,6 +9,8 @@ import '../../tokens/token_list.dart';
 
 part 'payment_request.freezed.dart';
 
+enum PaymentRequestState { initial, completed, error }
+
 @freezed
 class PaymentRequest with _$PaymentRequest {
   const factory PaymentRequest({
@@ -17,16 +19,9 @@ class PaymentRequest with _$PaymentRequest {
     required SolanaPayRequest payRequest,
     required String dynamicLink,
     required PaymentRequestState state,
+    required String? transactionId,
+    required DateTime? resolvedAt,
   }) = _PaymentRequest;
-}
-
-@freezed
-sealed class PaymentRequestState with _$PaymentRequestState {
-  const factory PaymentRequestState.initial() = PaymentRequestInitial;
-  const factory PaymentRequestState.completed({
-    required String transactionId,
-  }) = PaymentRequestCompleted;
-  const factory PaymentRequestState.failure() = PaymentRequestFailure;
 }
 
 extension SolanaPayRequestExt on SolanaPayRequest {

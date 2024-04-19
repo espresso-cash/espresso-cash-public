@@ -83,7 +83,7 @@ class PaymentRequestService {
 
   Future<void> _verifyTx(TransactionId id, PaymentRequest request) async {
     try {
-      await _solanaClient.validateSolanaPayTransaction(
+      final txDetails = await _solanaClient.validateSolanaPayTransaction(
         signature: id,
         recipient: request.payRequest.recipient,
         splToken: request.payRequest.splToken,
@@ -91,9 +91,17 @@ class PaymentRequestService {
         amount: request.payRequest.amount ?? Decimal.zero,
         commitment: Commitment.confirmed,
       );
+
+      final timestamp = txDetails.blockTime?.let(
+            (it) => DateTime.fromMillisecondsSinceEpoch(it * 1000),
+          ) ??
+          DateTime.now();
+
       await _repository.save(
         request.copyWith(
-          state: PaymentRequestState.completed(transactionId: id),
+          state: PaymentRequestState.completed,
+          transactionId: id,
+          resolvedAt: timestamp,
         ),
       );
 
@@ -134,7 +142,9 @@ class PaymentRequestService {
       created: DateTime.now(),
       payRequest: request,
       dynamicLink: request.toUniversalLink().toString(),
-      state: const PaymentRequestState.initial(),
+      state: PaymentRequestState.initial,
+      transactionId: null,
+      resolvedAt: null,
     );
     await _repository.save(paymentRequest);
 
@@ -155,5 +165,5 @@ const _minBackoff = Duration(seconds: 2);
 const _maxBackoff = Duration(minutes: 1);
 
 extension on PaymentRequestState {
-  bool get isInitial => maybeWhen(initial: T, orElse: F);
+  bool get isInitial => this == PaymentRequestState.initial;
 }

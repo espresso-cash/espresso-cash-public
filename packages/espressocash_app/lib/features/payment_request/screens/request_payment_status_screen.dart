@@ -88,19 +88,19 @@ class RequestScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = sl<TokenList>();
+    final tokenList = sl<TokenList>();
 
-    final amount = request.payRequest.cryptoAmount(tokenlist);
+    final amount = request.payRequest.cryptoAmount(tokenList);
 
     final String? statusTitle = switch (request.state) {
-      PaymentRequestCompleted() => context.l10n.transferSuccessTitle,
-      PaymentRequestInitial() || PaymentRequestFailure() => null,
+      PaymentRequestState.completed => context.l10n.transferSuccessTitle,
+      PaymentRequestState.initial || PaymentRequestState.error => null,
     };
 
     final String statusContent = switch (request.state) {
-      PaymentRequestCompleted() => context.l10n.moneyReceived,
-      PaymentRequestInitial() => context.l10n.requestPaymentPending,
-      PaymentRequestFailure() =>
+      PaymentRequestState.completed => context.l10n.moneyReceived,
+      PaymentRequestState.initial => context.l10n.requestPaymentPending,
+      PaymentRequestState.error =>
         context.l10n.paymentRequestFailureNotificationTitle(
           amount?.let((a) => a.format(context.locale)) ?? '-',
         ),
@@ -135,11 +135,11 @@ class RequestScreenContent extends StatelessWidget {
     );
 
     final List<Widget> actions = switch (request.state) {
-      PaymentRequestInitial() || PaymentRequestFailure() => [
+      PaymentRequestState.initial || PaymentRequestState.error => [
           resendButton,
           cancelButton,
         ],
-      PaymentRequestCompleted() => const [],
+      PaymentRequestState.completed => const [],
     };
 
     return StatusScreen(
@@ -189,6 +189,7 @@ class _Timeline extends StatelessWidget {
     );
     final moneyReceived = CpTimelineItem(
       title: context.l10n.requestPaymentReceived,
+      subtitle: request.resolvedAt?.let((t) => context.formatDate(t)),
     );
 
     return CpTimeline(
@@ -205,19 +206,19 @@ class _Timeline extends StatelessWidget {
 
 extension on PaymentRequestState {
   CpStatusType toStatusType() => switch (this) {
-        PaymentRequestInitial() => CpStatusType.info,
-        PaymentRequestCompleted() => CpStatusType.success,
-        PaymentRequestFailure() => CpStatusType.error,
+        PaymentRequestState.initial => CpStatusType.info,
+        PaymentRequestState.completed => CpStatusType.success,
+        PaymentRequestState.error => CpStatusType.error,
       };
 
   CpTimelineStatus toTimelineStatus() => switch (this) {
-        PaymentRequestInitial() => CpTimelineStatus.inProgress,
-        PaymentRequestCompleted() => CpTimelineStatus.success,
-        PaymentRequestFailure() => CpTimelineStatus.failure,
+        PaymentRequestState.initial => CpTimelineStatus.inProgress,
+        PaymentRequestState.completed => CpTimelineStatus.success,
+        PaymentRequestState.error => CpTimelineStatus.failure,
       };
 
   int toActiveItem() => switch (this) {
-        PaymentRequestInitial() => 0,
-        PaymentRequestCompleted() || PaymentRequestFailure() => 1,
+        PaymentRequestState.initial => 0,
+        PaymentRequestState.completed || PaymentRequestState.error => 1,
       };
 }

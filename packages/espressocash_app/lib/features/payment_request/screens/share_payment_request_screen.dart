@@ -116,9 +116,9 @@ class _Footer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final status = switch (request.state) {
-      PaymentRequestInitial() => context.l10n.notReceived,
-      PaymentRequestCompleted() => context.l10n.received,
-      PaymentRequestFailure() => context.l10n.failed,
+      PaymentRequestState.initial => context.l10n.notReceived,
+      PaymentRequestState.completed => context.l10n.received,
+      PaymentRequestState.error => context.l10n.failed,
     };
 
     return DefaultTextStyle(
