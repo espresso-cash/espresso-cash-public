@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-recursive-calls
+
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
