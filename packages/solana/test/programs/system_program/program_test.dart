@@ -1,7 +1,7 @@
 import 'package:solana/solana.dart';
 import 'package:test/test.dart';
 
-import 'config.dart';
+import '../../config.dart';
 
 void main() {
   final client = SolanaClient(
