@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../di.dart';
 import '../../../ui/loader.dart';
@@ -51,5 +52,40 @@ extension BuildContextExt on BuildContext {
         pop();
 
         sl<AnalyticsManager>().directPaymentCancelled();
+      });
+
+  Future<bool> isSolanaPayRequestPaid({required SolanaPayRequest request}) =>
+      runWithLoader(this, () async {
+        final client = sl<SolanaClient>();
+
+        final reference = request.reference?.firstOrNull;
+
+        if (reference == null) {
+          return false;
+        }
+
+        final signature = await client.findSolanaPayTransaction(
+          reference: reference,
+          commitment: Commitment.confirmed,
+        );
+
+        if (signature == null) {
+          return false;
+        }
+
+        try {
+          await client.validateSolanaPayTransaction(
+            signature: signature,
+            recipient: request.recipient,
+            splToken: request.splToken,
+            reference: request.reference,
+            amount: request.amount ?? Decimal.zero,
+            commitment: Commitment.confirmed,
+          );
+
+          return true;
+        } on Exception {
+          return false;
+        }
       });
 }
