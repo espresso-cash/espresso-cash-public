@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:socks5_proxy/socks.dart';
+import 'package:http/http.dart';
 import 'package:solana/src/exceptions/http_exception.dart';
 import 'package:solana/src/exceptions/json_rpc_exception.dart';
 import 'package:solana/src/exceptions/rpc_timeout_exception.dart';
@@ -14,15 +12,12 @@ class JsonRpcClient {
     this._url, {
     required Duration timeout,
     required Map<String, String> customHeaders,
-    required Map<String, dynamic> proxyInfo, // {host: String, port: int}
   })  : _timeout = timeout,
-        _headers = {..._defaultHeaders, ...customHeaders},
-        _proxyInfo = proxyInfo;
+        _headers = {..._defaultHeaders, ...customHeaders};
 
   final String _url;
   final Duration _timeout;
   final Map<String, String> _headers;
-  final Map<String, dynamic> _proxyInfo;
   int _lastId = 1;
 
   Future<List<Map<String, dynamic>>> bulkRequest(
@@ -73,51 +68,26 @@ class JsonRpcClient {
   Future<_JsonRpcResponse> _postRequest(
     JsonRpcRequest request,
   ) async {
-    final Uri uri = Uri.parse(_url);
-    final HttpClient httpClient = HttpClient();
-
-    try {
-      // If proxyInfo is provided, configure the proxy.
-      if (_proxyInfo.isNotEmpty) {
-        SocksTCPClient.assignToHttpClient(httpClient, [
-          ProxySettings(
-            InternetAddress(_proxyInfo['host'] as String),
-            _proxyInfo['port'] as int,
-          ),
-        ]);
-      }
-
-      final HttpClientRequest httpClientRequest = await httpClient.postUrl(uri);
-      _headers
-          .forEach((key, value) => httpClientRequest.headers.set(key, value));
-      httpClientRequest.write(json.encode(request.toJson()));
-
-      final HttpClientResponse response =
-          await httpClientRequest.close().timeout(
-        _timeout,
-        onTimeout: () {
-          throw RpcTimeoutException(
-            method: request.method,
-            body: json.encode(request.toJson()),
-            timeout: _timeout,
-          );
-        },
-      );
-
-      // Consolidate the bytes and parse the response.
-      final Uint8List bodyBytes =
-          await consolidateHttpClientResponseBytes(response);
-      final String responseBody = utf8.decode(bodyBytes);
-      final int statusCode = response.statusCode;
-
-      if (statusCode == 200) {
-        return _JsonRpcResponse._parse(json.decode(responseBody));
-      }
-
-      throw HttpException(statusCode, responseBody);
-    } finally {
-      httpClient.close();
+    final body = request.toJson();
+    // Perform the POST request
+    final Response response = await post(
+      Uri.parse(_url),
+      headers: _headers,
+      body: json.encode(body),
+    ).timeout(
+      _timeout,
+      onTimeout: () => throw RpcTimeoutException(
+        method: request.method,
+        body: body,
+        timeout: _timeout,
+      ),
+    );
+    // Handle the response
+    if (response.statusCode == 200) {
+      return _JsonRpcResponse._parse(json.decode(response.body));
     }
+
+    throw HttpException(response.statusCode, response.body);
   }
 }
 
@@ -178,21 +148,3 @@ class _JsonRpcArrayResponse implements _JsonRpcResponse {
 const _defaultHeaders = <String, String>{
   'Content-Type': 'application/json',
 };
-
-/// Helper function to consolidate HttpClientResponse bytes.
-///
-/// Helps ensure HttpClientResponse is fully read before closing the connection.
-/// Helper for proxied connections.
-Future<Uint8List> consolidateHttpClientResponseBytes(
-    HttpClientResponse response) {
-  final Completer<Uint8List> completer = Completer<Uint8List>();
-  final List<int> bytes = [];
-  response.listen(
-    bytes.addAll,
-    onDone: () => completer.complete(Uint8List.fromList(bytes)),
-    onError: completer.completeError,
-    cancelOnError: true,
-  );
-
-  return completer.future;
-}

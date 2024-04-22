@@ -18,7 +18,6 @@ abstract class RpcClient {
     String url, {
     Duration timeout = const Duration(seconds: 30),
     Map<String, String> customHeaders = const {},
-    Map<String, dynamic>? proxyInfo, // {host: String, port: int}
   }) =>
       _RpcClient(
         url,
@@ -26,7 +25,6 @@ abstract class RpcClient {
           url,
           timeout: timeout,
           customHeaders: customHeaders,
-          proxyInfo: proxyInfo ?? {},
         ),
       );
 
