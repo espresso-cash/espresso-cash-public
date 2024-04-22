@@ -187,5 +187,6 @@ class _ProfileTextField extends StatelessWidget {
         placeholderColor: Colors.white,
         textColor: Colors.white,
         fontSize: 16,
+        scrollPadding: const EdgeInsets.only(bottom: 184),
       );
 }

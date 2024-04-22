@@ -25,6 +25,7 @@ class CpTextField extends StatelessWidget {
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
+    this.scrollPadding,
   });
 
   final TextEditingController? controller;
@@ -44,6 +45,7 @@ class CpTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
+  final EdgeInsets? scrollPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class CpTextField extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(8)),
             ),
       child: CupertinoTextField(
+        scrollPadding: scrollPadding ?? const EdgeInsets.all(20.0),
         enabled: !disabled,
         decoration: const BoxDecoration(),
         suffix: suffix,
