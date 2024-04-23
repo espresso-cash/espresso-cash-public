@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/src/rpc/custom_client.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 import 'package:solana/src/rpc/helpers.dart';
 import 'package:solana/src/rpc/json_rpc_client.dart';
@@ -28,7 +29,10 @@ abstract class RpcClient {
         ),
       );
 
-  abstract final JsonRpcClient _jsonRpcClient;
+  factory RpcClient.withCustomClient(JsonRpcClient client) =>
+      CustomRpcClient.withCustomClient(client);
+
+  abstract final JsonRpcClient jsonRpcClient;
 
   /// Returns all information associated with the account of provided Pubkey
   ///

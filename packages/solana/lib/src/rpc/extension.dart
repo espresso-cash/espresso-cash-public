@@ -84,7 +84,7 @@ extension RpcClientExt on RpcClient {
     // ignore: avoid-nullable-parameters-with-default-values, null has a meaning here
     num? maxSupportedTransactionVersion = 0,
   }) async {
-    final response = await _jsonRpcClient.bulkRequest(
+    final response = await jsonRpcClient.bulkRequest(
       'getTransaction',
       signatures
           .map(
