@@ -7,15 +7,17 @@ import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../currency/models/amount.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
 
 @injectable
 class PaymentRequestService {
-  const PaymentRequestService(this._repository);
+  const PaymentRequestService(this._repository, this._featureFlags);
 
   final PaymentRequestRepository _repository;
+  final FeatureFlagsManager _featureFlags;
 
   Future<PaymentRequest> create({
     required Ed25519HDPublicKey recipient,
@@ -35,11 +37,13 @@ class PaymentRequestService {
     );
     final id = const Uuid().v4();
 
+    final showDlnFeature = _featureFlags.isIncomingDlnEnabled();
+
     final paymentRequest = PaymentRequest(
       id: id,
       created: DateTime.now(),
       payRequest: request,
-      dynamicLink: request.toUniversalLink().toString(),
+      dynamicLink: request.toUniversalLink(showDln: showDlnFeature).toString(),
       state: const PaymentRequestState.initial(),
     );
     await _repository.save(paymentRequest);
