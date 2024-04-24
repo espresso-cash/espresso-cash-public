@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 48;
+const int latestVersion = 49;
 
 const _tables = [
   OutgoingTransferRows,
@@ -36,6 +36,7 @@ const _tables = [
   OnRampOrderRows,
   OffRampOrderRows,
   OutgoingDlnPaymentRows,
+  TransactionRequestRows,
 ];
 
 @lazySingleton
@@ -99,6 +100,9 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 40 && from < 48) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.feeAmount);
             await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
+          }
+          if (from < 49) {
+            await m.createTable(transactionRequestRows);
           }
         },
       );
@@ -201,4 +205,20 @@ class TransactionRows extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => {id};
+}
+
+class TransactionRequestRows extends Table with AmountMixin, EntityMixin {
+  const TransactionRequestRows();
+
+  TextColumn get label => text()();
+  TextColumn get transaction => text()();
+  Int64Column get slot => int64()();
+  TextColumn get status => textEnum<TRStatusDto>()();
+}
+
+enum TRStatusDto {
+  created,
+  sent,
+  success,
+  failure,
 }
