@@ -22,8 +22,6 @@ class JsonRpcClient {
   final HttpClient _httpClient;
   int _lastId = 1;
 
-  static get http => null;
-
   Future<List<Map<String, dynamic>>> bulkRequest(
     String method,
     List<List<dynamic>> params,
