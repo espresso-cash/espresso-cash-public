@@ -15,6 +15,7 @@ import 'package:uuid/uuid.dart';
 import '../../authenticated/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
@@ -25,11 +26,13 @@ class PaymentRequestService {
     this._repository,
     this._solanaClient,
     this._refreshBalance,
+    this._featureFlags,
   );
 
   final PaymentRequestRepository _repository;
   final SolanaClient _solanaClient;
   final RefreshBalance _refreshBalance;
+  final FeatureFlagsManager _featureFlags;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, Duration> _currentBackoffs = {};
@@ -137,11 +140,13 @@ class PaymentRequestService {
     );
     final id = const Uuid().v4();
 
+    final showDlnFeature = _featureFlags.isIncomingDlnEnabled();
+
     final paymentRequest = PaymentRequest(
       id: id,
       created: DateTime.now(),
       payRequest: request,
-      dynamicLink: request.toUniversalLink().toString(),
+      dynamicLink: request.toUniversalLink(showDln: showDlnFeature).toString(),
       state: PaymentRequestState.initial,
       transactionId: null,
       resolvedAt: null,

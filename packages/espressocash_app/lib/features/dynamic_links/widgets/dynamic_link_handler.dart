@@ -18,6 +18,12 @@ mixin DynamicLinkHandler<T extends StatefulWidget> on State<T> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _handle());
+  }
+
   void _handle() {
     sl<DynamicLinksNotifier>().processLink(handleDynamicLink);
   }
