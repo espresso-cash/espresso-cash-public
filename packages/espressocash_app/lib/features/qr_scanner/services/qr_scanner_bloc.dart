@@ -18,11 +18,9 @@ typedef _Emitter = Emitter<_State>;
 
 @injectable
 class QrScannerBloc extends Bloc<_Event, _State> {
-  QrScannerBloc(this._featureFlags) : super(const QrScannerState.initial()) {
+  QrScannerBloc() : super(const QrScannerState.initial()) {
     on<_Event>(_eventHandler, transformer: sequential());
   }
-
-  final FeatureFlagsManager _featureFlags;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         received: (e) => _onReceived(e, emit),
@@ -34,11 +32,8 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
-    final isTrEnabled = _featureFlags.isTransactionRequestEnabled();
-
     final newState =
-        QrScannerRequest.tryParse(event.code, isTREnabled: isTrEnabled)
-            .maybeMap(QrScannerState.done);
+        QrScannerRequest.tryParse(event.code).maybeMap(QrScannerState.done);
 
     if (newState != null) {
       emit(newState);

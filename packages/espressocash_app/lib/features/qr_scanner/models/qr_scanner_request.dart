@@ -27,7 +27,7 @@ class QrScannerRequest with _$QrScannerRequest {
 
   const QrScannerRequest._();
 
-  static QrScannerRequest? tryParse(String code, {bool isTREnabled = false}) {
+  static QrScannerRequest? tryParse(String code) {
     final address = QrAddressData.tryParse(code);
     if (address != null) {
       return QrScannerRequest.address(address);
@@ -38,11 +38,9 @@ class QrScannerRequest with _$QrScannerRequest {
       return QrScannerRequest.solanaPay(solanaPayRequest);
     }
 
-    if (isTREnabled) {
-      final transactionRequest = SolanaTransactionRequest.tryParse(code);
-      if (transactionRequest != null) {
-        return QrScannerRequest.transactionRequest(transactionRequest);
-      }
+    final transactionRequest = SolanaTransactionRequest.tryParse(code);
+    if (transactionRequest != null) {
+      return QrScannerRequest.transactionRequest(transactionRequest);
     }
 
     final espressocashRequest =
