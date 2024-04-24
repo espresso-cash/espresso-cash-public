@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../models/qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
