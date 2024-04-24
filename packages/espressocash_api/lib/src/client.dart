@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_api/src/dto/durable_transactions.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
