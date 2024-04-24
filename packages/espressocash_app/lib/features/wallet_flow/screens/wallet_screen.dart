@@ -23,14 +23,38 @@ final _minimumAmount = Amount.fromDecimal(
   currency: Currency.usd,
 ) as FiatAmount;
 
+enum WalletTab { pay, request }
+
 class WalletScreen extends StatefulWidget {
-  const WalletScreen({super.key});
+  const WalletScreen({super.key, required this.initialTab});
+
+  final WalletTab initialTab;
 
   @override
   State<WalletScreen> createState() => _State();
 }
 
-class _State extends State<WalletScreen> {
+class _State extends State<WalletScreen> with SingleTickerProviderStateMixin {
+  late final _controller = TabController(
+    length: WalletTab.values.length,
+    initialIndex: widget.initialTab.index,
+    vsync: this,
+  );
+
+  @override
+  void didUpdateWidget(covariant WalletScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialTab != widget.initialTab) {
+      _controller.index = widget.initialTab.index;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   final _shakeKey = GlobalKey<ShakeState>();
 
   FiatAmount _fiatAmount = const FiatAmount(
@@ -116,25 +140,29 @@ class _State extends State<WalletScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-        length: 2,
-        child: WalletMainScreen(
-          shakeKey: _shakeKey,
-          onScan: _handleScanned,
-          onAmountChanged: _handleFiatAmountChanged,
-          onRequest: _handleRequest,
-          onPay: _handlePay,
-          amount: _fiatAmount,
-          token: _cryptoCurrency.token,
-          error: _errorMessage,
-        ),
+  Widget build(BuildContext context) => WalletMainScreen(
+        controller: _controller,
+        shakeKey: _shakeKey,
+        onScan: _handleScanned,
+        onAmountChanged: _handleFiatAmountChanged,
+        onRequest: _handleRequest,
+        onPay: _handlePay,
+        amount: _fiatAmount,
+        token: _cryptoCurrency.token,
+        error: _errorMessage,
       );
 }
 
 class WalletRoute extends GoRouteData {
-  const WalletRoute();
+  const WalletRoute({this.initialTab});
+
+  final WalletTab? initialTab;
 
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: WalletScreen());
+      NoTransitionPage(
+        child: WalletScreen(
+          initialTab: initialTab ?? WalletTab.pay,
+        ),
+      );
 }

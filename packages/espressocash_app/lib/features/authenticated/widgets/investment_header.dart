@@ -45,7 +45,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   children: [
                     _Headline(onInfo: _handleInfoPressed),
                     const SizedBox(height: 4),
-                    const _Amount(),
+                    const BalanceAmount(),
                     const SizedBox(height: 2),
                   ],
                 ),
@@ -160,8 +160,8 @@ class _Info extends StatelessWidget {
       );
 }
 
-class _Amount extends StatelessWidget {
-  const _Amount();
+class BalanceAmount extends StatelessWidget {
+  const BalanceAmount({super.key});
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(

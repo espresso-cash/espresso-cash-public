@@ -27,6 +27,7 @@ class WalletMainScreen extends StatefulWidget {
     required this.token,
     this.shakeKey,
     this.error = '',
+    required this.controller,
   });
 
   final VoidCallback onScan;
@@ -37,6 +38,7 @@ class WalletMainScreen extends StatefulWidget {
   final Token token;
   final Key? shakeKey;
   final String error;
+  final TabController controller;
 
   @override
   State<WalletMainScreen> createState() => _ScreenState();
@@ -45,13 +47,15 @@ class WalletMainScreen extends StatefulWidget {
 class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
   // ignore: dispose-fields, it's not created in this class
-  TabController? _tabController;
+  late TabController _tabController;
 
   WalletOperation _action = WalletOperation.pay;
 
   @override
   void initState() {
     super.initState();
+    _tabController = widget.controller;
+
     _amountController = TextEditingController();
     _amountController.addListener(_updateValue);
   }
@@ -61,7 +65,7 @@ class _ScreenState extends State<WalletMainScreen> {
     _amountController
       ..removeListener(_updateValue)
       ..dispose();
-    _tabController?.removeListener(_handleTabUpdate);
+    _tabController.removeListener(_handleTabUpdate);
     super.dispose();
   }
 
@@ -80,8 +84,8 @@ class _ScreenState extends State<WalletMainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context)
+    _tabController
+      ..removeListener(_handleTabUpdate)
       ..addListener(_handleTabUpdate);
     _updateAction();
   }
@@ -95,7 +99,7 @@ class _ScreenState extends State<WalletMainScreen> {
   void _handleTabUpdate() => setState(_updateAction);
 
   void _updateAction() {
-    final tab = _tabController?.index ?? 0;
+    final tab = _tabController.index;
 
     _action = WalletOperation.values[tab];
   }
@@ -106,7 +110,7 @@ class _ScreenState extends State<WalletMainScreen> {
 
     return CpTheme.black(
       child: Scaffold(
-        appBar: _AppBar(onQrScanner: widget.onScan),
+        appBar: _AppBar(onQrScanner: widget.onScan, controller: _tabController),
         body: SafeArea(
           child: Column(
             children: [
@@ -153,8 +157,9 @@ class _ScreenState extends State<WalletMainScreen> {
 }
 
 class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-  const _AppBar({required this.onQrScanner});
+  const _AppBar({required this.onQrScanner, required this.controller});
 
+  final TabController controller;
   final VoidCallback onQrScanner;
 
   @override
@@ -176,6 +181,7 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
             child: SizedBox(
               width: 220,
               child: CpTabBar(
+                controller: controller,
                 tabs: [
                   Tab(text: context.l10n.pay),
                   Tab(text: context.l10n.receive),

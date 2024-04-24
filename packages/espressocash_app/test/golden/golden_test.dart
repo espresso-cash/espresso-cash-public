@@ -13,6 +13,10 @@ void main() {
 
   testGoldensWidget(
     'WalletFlowScreen',
-    const Scaffold(body: WalletScreen()),
+    const Scaffold(
+      body: WalletScreen(
+        initialTab: WalletTab.pay,
+      ),
+    ),
   );
 }
