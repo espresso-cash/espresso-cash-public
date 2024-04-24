@@ -18,6 +18,7 @@ final walletMainScreen = Story(
       onPay: () {},
       amount: const FiatAmount(value: 0, fiatCurrency: Currency.usd),
       token: Currency.usdc.token,
+      controller: DefaultTabController.of(context),
     ),
   ),
 );
