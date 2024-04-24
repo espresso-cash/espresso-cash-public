@@ -22,6 +22,9 @@ class FeatureFlagsManager {
 
   bool isOutgoingDlnEnabled() =>
       _remoteConfig.getBool(FeatureFlag.outgoingDln.name);
+
+  bool isIncomingDlnEnabled() =>
+      _remoteConfig.getBool(FeatureFlag.incomingDln.name);
 }
 
-enum FeatureFlag { outgoingDln }
+enum FeatureFlag { outgoingDln, incomingDln }
