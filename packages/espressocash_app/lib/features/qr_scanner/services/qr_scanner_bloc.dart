@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../models/qr_scanner_request.dart';
 
 part 'qr_scanner_bloc.freezed.dart';
@@ -17,9 +18,11 @@ typedef _Emitter = Emitter<_State>;
 
 @injectable
 class QrScannerBloc extends Bloc<_Event, _State> {
-  QrScannerBloc() : super(const QrScannerState.initial()) {
+  QrScannerBloc(this._featureFlags) : super(const QrScannerState.initial()) {
     on<_Event>(_eventHandler, transformer: sequential());
   }
+
+  final FeatureFlagsManager _featureFlags;
 
   _EventHandler get _eventHandler => (event, emit) => event.map(
         received: (e) => _onReceived(e, emit),
@@ -31,8 +34,11 @@ class QrScannerBloc extends Bloc<_Event, _State> {
   }
 
   void _onReceived(QrScannerReceivedEvent event, _Emitter emit) {
+    final isTrEnabled = _featureFlags.isTransactionRequestEnabled();
+
     final newState =
-        QrScannerRequest.tryParse(event.code).maybeMap(QrScannerState.done);
+        QrScannerRequest.tryParse(event.code, isTREnabled: isTrEnabled)
+            .maybeMap(QrScannerState.done);
 
     if (newState != null) {
       emit(newState);

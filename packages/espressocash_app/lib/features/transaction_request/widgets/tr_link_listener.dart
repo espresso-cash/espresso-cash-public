@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:solana/solana_pay.dart';
 
+import '../../../di.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import 'extensions.dart';
 
 class TRLinkListener extends StatefulWidget {
@@ -17,6 +19,12 @@ class _TRLinkListenerState extends State<TRLinkListener>
     with DynamicLinkHandler {
   @override
   bool handleDynamicLink(Uri uri) {
+    final isEnabled = sl<FeatureFlagsManager>().isTransactionRequestEnabled();
+
+    if (!isEnabled) {
+      return false;
+    }
+
     final transactionRequest =
         SolanaTransactionRequest.tryParse(uri.toString());
     if (transactionRequest != null) {
