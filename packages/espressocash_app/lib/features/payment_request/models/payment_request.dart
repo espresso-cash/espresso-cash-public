@@ -29,7 +29,7 @@ extension SolanaPayRequestExt on SolanaPayRequest {
   Uri toUniversalLink({bool showDln = false}) {
     final link = Uri.parse(toUrl());
 
-    final type = showDln ? 'e' : 'solanapay';
+    final type = showDln ? 'espressopay' : 'solanapay';
 
     return link.replace(
       scheme: 'https',
