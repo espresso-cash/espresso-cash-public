@@ -25,6 +25,9 @@ class FeatureFlagsManager {
 
   bool isIncomingDlnEnabled() =>
       _remoteConfig.getBool(FeatureFlag.incomingDln.name);
+
+  bool isTransactionRequestEnabled() =>
+      _remoteConfig.getBool(FeatureFlag.transactionRequest.name);
 }
 
-enum FeatureFlag { outgoingDln, incomingDln }
+enum FeatureFlag { outgoingDln, incomingDln, transactionRequest }

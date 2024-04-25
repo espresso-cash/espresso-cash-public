@@ -11,6 +11,7 @@ import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
 import '../../ramp/services/off_ramp_order_service.dart';
 import '../../tokens/token_list.dart';
+import '../../transaction_request/service/tr_service.dart';
 import '../data/activity_builder.dart';
 import '../models/activity.dart';
 
@@ -21,12 +22,14 @@ class PendingActivitiesRepository {
     this._tokens,
     this._onRampOrderService,
     this._offRampOrderService,
+    this._trService,
   );
 
   final MyDatabase _db;
   final TokenList _tokens;
   final OnRampOrderService _onRampOrderService;
   final OffRampOrderService _offRampOrderService;
+  final TRService _trService;
 
   Stream<IList<Activity>> watchAll() {
     final opr = _db.select(_db.paymentRequestRows)
@@ -65,6 +68,10 @@ class PendingActivitiesRepository {
               .map((it) => Activity.offRamp(id: it.id, created: it.created)),
         );
 
+    final trStream = _trService.watchPending().map(
+          (rows) => rows.map((it) => it.toActivity()),
+        );
+
     return Rx.combineLatest<Iterable<Activity>, IList<Activity>>(
       [
         oprStream,
@@ -73,6 +80,7 @@ class PendingActivitiesRepository {
         outgoingDlnStream,
         olpStream,
         offRampStream,
+        trStream,
       ],
       (values) => values
           .expand(identity)

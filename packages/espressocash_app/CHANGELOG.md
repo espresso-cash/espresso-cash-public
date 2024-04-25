@@ -1,3 +1,9 @@
+## 1.112.0
+
+ - **FIX**: dynamic links on cold start (#1376).
+ - **FEAT**: add support to solana pay transaction request (#1366).
+ - **FEAT**: add feature flag for incoming dln request (#1384).
+
 ## 1.111.0
 
  - **REFACTOR**: remove common package (#1360).

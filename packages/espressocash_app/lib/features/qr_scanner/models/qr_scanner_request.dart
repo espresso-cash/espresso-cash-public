@@ -15,6 +15,10 @@ class QrScannerRequest with _$QrScannerRequest {
   const factory QrScannerRequest.solanaPay(SolanaPayRequest request) =
       QrScannerSolanaPayRequest;
 
+  const factory QrScannerRequest.transactionRequest(
+    SolanaTransactionRequest request,
+  ) = QrScannerSolanaPayTransactionRequest;
+
   const factory QrScannerRequest.address(QrAddressData addressData) =
       QrScannerAddressRequest;
 
@@ -32,6 +36,11 @@ class QrScannerRequest with _$QrScannerRequest {
     final solanaPayRequest = SolanaPayRequest.tryParse(code);
     if (solanaPayRequest != null) {
       return QrScannerRequest.solanaPay(solanaPayRequest);
+    }
+
+    final transactionRequest = SolanaTransactionRequest.tryParse(code);
+    if (transactionRequest != null) {
+      return QrScannerRequest.transactionRequest(transactionRequest);
     }
 
     final espressocashRequest =
@@ -53,6 +62,7 @@ class QrScannerRequest with _$QrScannerRequest {
           QrAddressDataEvm() => null,
         },
         linkPayment: always(null),
+        transactionRequest: always(null),
       );
 
   Ed25519HDPublicKey? get reference => whenOrNull<Ed25519HDPublicKey?>(

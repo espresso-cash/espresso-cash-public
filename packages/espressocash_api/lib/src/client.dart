@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_api/src/dto/durable_transactions.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -114,5 +113,15 @@ abstract class EspressoCashClient {
   @POST('/submitDurableTx')
   Future<void> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
+  );
+
+  @POST('/shortenLink')
+  Future<ShortenLinkResponseDto> shortenLink(
+    @Body() ShortenLinkRequestDto request,
+  );
+
+  @POST('/unshortenLink')
+  Future<UnshortenLinkResponseDto> unshortenLink(
+    @Body() UnshortenLinkRequestDto request,
   );
 }
