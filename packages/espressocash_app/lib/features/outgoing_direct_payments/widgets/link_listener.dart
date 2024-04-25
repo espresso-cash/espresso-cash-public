@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../config.dart';
-import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../routing.dart';
 import '../../../utils/solana_pay.dart';
@@ -17,7 +15,6 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
-import '../../payment_request/services/payment_request_service.dart';
 import '../../tokens/token.dart';
 import '../screens/odp_confirmation_screen.dart';
 import '../screens/odp_details_screen.dart';
@@ -36,8 +33,6 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
     with DynamicLinkHandler {
   @override
   bool handleDynamicLink(Uri uri) {
-    // final uri = await _tryParseShortenedLink(uri);
-
     final solanaPayRequest = tryParseSolanaPayRequest(uri);
     if (solanaPayRequest != null) {
       if (solanaPayRequest.splToken != Token.usdc.publicKey) {
@@ -96,19 +91,6 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
 
     if (!mounted) return;
     ODPDetailsRoute(id).go(context);
-  }
-
-  Future<Uri> _tryParseShortenedLink(Uri uri) async {
-    if (uri.host == espressoCashLinkDomain && uri.pathSegments.first == 's') {
-      final unshortenedUri =
-          await sl<PaymentRequestService>().unshortenLink(uri.toString());
-
-      if (unshortenedUri != null) {
-        return unshortenedUri;
-      }
-    }
-
-    return uri;
   }
 
   @override
