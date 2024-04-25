@@ -236,7 +236,7 @@ class _BottomBalance extends StatelessWidget {
 
 final _bulletTextStyle = TextStyle(
   color: Colors.white,
-  fontSize: 19.h,
+  fontSize: 18.h,
   fontWeight: FontWeight.w700,
   letterSpacing: 0.41,
 );
