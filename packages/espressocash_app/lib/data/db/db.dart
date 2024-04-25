@@ -109,6 +109,7 @@ class MyDatabase extends _$MyDatabase {
               paymentRequestRows,
               paymentRequestRows.resolvedAt,
             );
+            await m.addColumn(paymentRequestRows, paymentRequestRows.shortLink);
           }
         },
       );

@@ -18,6 +18,7 @@ class PaymentRequest with _$PaymentRequest {
     required DateTime created,
     required SolanaPayRequest payRequest,
     required String dynamicLink,
+    required String shortLink,
     required PaymentRequestState state,
     required String? transactionId,
     required DateTime? resolvedAt,

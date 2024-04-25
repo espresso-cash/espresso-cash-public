@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
@@ -27,12 +28,14 @@ class PaymentRequestService {
     this._solanaClient,
     this._refreshBalance,
     this._featureFlags,
+    this._ecClient,
   );
 
   final PaymentRequestRepository _repository;
   final SolanaClient _solanaClient;
   final RefreshBalance _refreshBalance;
   final FeatureFlagsManager _featureFlags;
+  final EspressoCashClient _ecClient;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, Duration> _currentBackoffs = {};
@@ -142,11 +145,19 @@ class PaymentRequestService {
 
     final showDlnFeature = _featureFlags.isIncomingDlnEnabled();
 
+    final fullLink =
+        request.toUniversalLink(showDln: showDlnFeature).toString();
+
+    final shortLink = await _ecClient
+        .shortenLink(ShortenLinkRequestDto(fullLink: fullLink))
+        .then((e) => e.shortLink);
+
     final paymentRequest = PaymentRequest(
       id: id,
       created: DateTime.now(),
       payRequest: request,
-      dynamicLink: request.toUniversalLink(showDln: showDlnFeature).toString(),
+      dynamicLink: fullLink,
+      shortLink: shortLink,
       state: PaymentRequestState.initial,
       transactionId: null,
       resolvedAt: null,
@@ -157,6 +168,10 @@ class PaymentRequestService {
 
     return paymentRequest;
   }
+
+  Future<Uri?> unshortenLink(String shortLink) => _ecClient
+      .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink))
+      .then((e) => Uri.parse(e.fullLink));
 }
 
 Future<Ed25519HDPublicKey> _randomPublicKey([dynamic _]) async {
