@@ -30,7 +30,6 @@ import '../../profile/screens/profile_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../ramp/models/ramp_type.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../wallet_flow/screens/wallet_screen.dart';
 import '../widgets/home_carousel.dart';
 import '../widgets/investment_header.dart';
 
@@ -126,9 +125,9 @@ class _NoBalanceContent extends StatelessWidget {
                       child: IntrinsicHeight(
                         child: Column(
                           children: [
-                            Spacer(flex: 2),
+                            Spacer(flex: 3),
                             _NoticeContent(),
-                            Spacer(),
+                            Spacer(flex: 2),
                             _BottomBalance(),
                           ],
                         ),
@@ -148,7 +147,7 @@ class _NoticeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,15 +175,19 @@ class _NoticeContent extends StatelessWidget {
             CpBulletItemWidget(
               child: Text.rich(
                 style: _bulletTextStyle,
+                textAlign: TextAlign.left,
                 TextSpan(
-                  text: context.l10n.addCash_noInflation1,
+                  text: '${context.l10n.addCash_noInflation1}\n',
                   children: [
                     TextSpan(
                       text: context.l10n.addCash_noInflation2,
-                      style: const TextStyle(color: CpColors.yellowColor),
                     ),
                     TextSpan(
                       text: context.l10n.addCash_noInflation3,
+                      style: const TextStyle(color: Color(0xffFFDA66)),
+                    ),
+                    TextSpan(
+                      text: context.l10n.addCash_noInflation4,
                     ),
                   ],
                 ),
@@ -204,7 +207,7 @@ class _NoticeContent extends StatelessWidget {
                 style: _bulletTextStyle,
               ),
             ),
-            SizedBox(height: 24.h),
+            SizedBox(height: 28.h),
             CpButton(
               text: context.l10n.ramp_btnAddCash,
               onPressed: () async {
@@ -222,17 +225,6 @@ class _NoticeContent extends StatelessWidget {
               trailing: Padding(
                 padding: EdgeInsets.only(right: 8.h),
                 child: const Arrow(),
-              ),
-            ),
-            SizedBox(height: 24.h),
-            Center(
-              child: CpButton(
-                text: context.l10n.addCashNoticeRequestBtn,
-                onPressed: () =>
-                    const WalletRoute(initialTab: WalletTab.request)
-                        .go(context),
-                width: 210.w,
-                size: CpButtonSize.small,
               ),
             ),
           ],
@@ -302,7 +294,7 @@ class _BottomBalance extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(
                 top: 40.h,
-                bottom: 16.h,
+                bottom: 8.h,
               ),
               child: Column(
                 children: [
