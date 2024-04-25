@@ -819,7 +819,5 @@
   "addCash_CashoutAnytime": "Cash-out anytime to your bank account at 1:1 value of US dollar.",
   "@addCash_CashoutAnytime": {},
   "addCash_sendReceiveMoney": "Send & receive money in seconds.",
-  "@addCash_sendReceiveMoney": {},
-  "addCashNoticeRequestBtn": "Request a Payment",
-  "@addCashNoticeRequestBtn": {}
+  "@addCash_sendReceiveMoney": {}
 }
