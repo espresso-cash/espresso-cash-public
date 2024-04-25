@@ -114,4 +114,14 @@ abstract class EspressoCashClient {
   Future<void> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
   );
+
+  @POST('/shortenLink')
+  Future<ShortenLinkResponseDto> shortenLink(
+    @Body() ShortenLinkRequestDto request,
+  );
+
+  @POST('/unshortenLink')
+  Future<UnshortenLinkResponseDto> unshortenLink(
+    @Body() UnshortenLinkRequestDto request,
+  );
 }
