@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "178217337867",
+    "firebase_url": "https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cryptoplease-dev",
     "storage_bucket": "cryptoplease-dev.appspot.com"
   },
@@ -14,11 +15,59 @@
       },
       "oauth_client": [
         {
+          "client_id": "178217337867-2nfosmnpb7i0vgbncrjstdvjoaaiod48.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "f853ce638e45e1d5789b91df8094fd1b2cb7d37f"
+          }
+        },
+        {
+          "client_id": "178217337867-5duaohlo689ihf38lanr645aft8srklj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "98a6851dcc7aef557ae9241fa23c8a651d81f436"
+          }
+        },
+        {
+          "client_id": "178217337867-abk845e4p5hg2no9runkheas32abo55b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "471ff87c37a4f85994f1fe0ec1e6be86fde72496"
+          }
+        },
+        {
+          "client_id": "178217337867-f1454vo6goedai7ide92gq42vnhiqmp2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "3d39f0378733192e6f86c77335d6395fe1ef42b9"
+          }
+        },
+        {
+          "client_id": "178217337867-l85fgjgdk8sl79risg1638sb1ai12ibv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "da2f0904e957e4c6f34d1f61de68040f83199f1f"
+          }
+        },
+        {
           "client_id": "178217337867-pfkf1rj233qrppd8tvef0car30e799p2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.pleasecrypto.flutter",
             "certificate_hash": "4290cd09dbee82f91bc3c3785adf77871eec86f1"
+          }
+        },
+        {
+          "client_id": "178217337867-s7hu8u0egu7e08qbepj20c9cgpr6fb10.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pleasecrypto.flutter",
+            "certificate_hash": "3a6c6fcd55a8f0f2bb58ef888528fd54cd658e91"
           }
         },
         {
@@ -39,10 +88,11 @@
               "client_type": 3
             },
             {
-              "client_id": "178217337867-ujg5flcr9lm3nugduq051la9fjn44uul.apps.googleusercontent.com",
+              "client_id": "178217337867-i1umn59qtgnrproe4gv6ilhpkt1f1ri1.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.pleasecrypto.flutter"
+                "bundle_id": "com.pleasecrypto.cryptoplease",
+                "app_store_id": "1559625715"
               }
             }
           ]
