@@ -40,7 +40,7 @@ Future<void> main() async {
 }
 
 Future<void> _init() async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await configureDependencies();
 
