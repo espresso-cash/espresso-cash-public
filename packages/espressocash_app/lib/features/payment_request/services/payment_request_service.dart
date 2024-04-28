@@ -169,7 +169,7 @@ class PaymentRequestService {
     return paymentRequest;
   }
 
-  Future<Uri?> unshortenLink(String shortLink) => _ecClient
+  Future<Uri> unshortenLink(String shortLink) => _ecClient
       .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink))
       .then((e) => Uri.parse(e.fullLink));
 }
