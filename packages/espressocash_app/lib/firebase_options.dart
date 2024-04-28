@@ -52,7 +52,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '178217337867',
     projectId: 'cryptoplease-dev',
     authDomain: 'cryptoplease-dev.firebaseapp.com',
-    databaseURL: 'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cryptoplease-dev.appspot.com',
     measurementId: 'G-XX672DXR72',
   );
@@ -62,7 +63,8 @@ class DefaultFirebaseOptions {
     appId: '1:178217337867:android:9055de8aa081bf56ab330e',
     messagingSenderId: '178217337867',
     projectId: 'cryptoplease-dev',
-    databaseURL: 'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cryptoplease-dev.appspot.com',
   );
 
@@ -71,11 +73,13 @@ class DefaultFirebaseOptions {
     appId: '1:178217337867:ios:8798f3d0723f5598ab330e',
     messagingSenderId: '178217337867',
     projectId: 'cryptoplease-dev',
-    databaseURL: 'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cryptoplease-dev.appspot.com',
-    androidClientId: '178217337867-2nfosmnpb7i0vgbncrjstdvjoaaiod48.apps.googleusercontent.com',
-    iosClientId: '178217337867-ujg5flcr9lm3nugduq051la9fjn44uul.apps.googleusercontent.com',
+    androidClientId:
+        '178217337867-2nfosmnpb7i0vgbncrjstdvjoaaiod48.apps.googleusercontent.com',
+    iosClientId:
+        '178217337867-ujg5flcr9lm3nugduq051la9fjn44uul.apps.googleusercontent.com',
     iosBundleId: 'com.pleasecrypto.flutter',
   );
-
 }
