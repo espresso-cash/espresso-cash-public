@@ -399,10 +399,10 @@ packages:
     dependency: "direct dev"
     description:
       name: mews_pedantic
-      sha256: c1e06ab8a94a93ab55466840fb5474a24ccbbf6af115a756bac6c27cf3d25908
+      sha256: e05e23939d52f7de00bcef2265f5edc3dfbee1f2bd513ba1f03500c9ab116f16
       url: "https://pub.dev"
     source: hosted
-    version: "0.25.0"
+    version: "0.26.0"
   mime:
     dependency: transitive
     description:
@@ -524,10 +524,10 @@ packages:
     dependency: "direct main"
     description:
       name: solana
-      sha256: "99a6a40a847f57ccf4687a730413d67fcaef4fc6778ddd9c3258e7fe8e4c6743"
+      sha256: "59e9acde91958681070c32e50380daccaa69c275e078deee3b915ba043f6ba9b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.30.3"
+    version: "0.30.4"
   solana_seed_vault:
     dependency: "direct main"
     description:

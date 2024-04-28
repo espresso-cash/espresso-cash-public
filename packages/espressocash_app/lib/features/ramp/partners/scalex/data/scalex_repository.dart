@@ -6,7 +6,7 @@ import '../../../../currency/models/currency.dart';
 
 @injectable
 class ScalexRepository {
-  ScalexRepository({
+  const ScalexRepository({
     required EspressoCashClient ecClient,
   }) : _client = ecClient;
 

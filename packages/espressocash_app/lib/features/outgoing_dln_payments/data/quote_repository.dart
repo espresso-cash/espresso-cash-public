@@ -10,7 +10,7 @@ import '../models/payment_quote.dart';
 
 @injectable
 class QuoteRepository {
-  QuoteRepository({
+  const QuoteRepository({
     required EspressoCashClient ecClient,
   }) : _client = ecClient;
 

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-duplicate-collection-elements
+
 const mintAuthorityPrivateKey = [
   172, 107, 87, 49, 10, 41, 93, 59, //
   181, 45, 111, 185, 43, 117, 253, 194, //
