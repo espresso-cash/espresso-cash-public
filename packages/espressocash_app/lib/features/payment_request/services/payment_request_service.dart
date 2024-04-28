@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-recursive-calls
-
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -82,6 +80,7 @@ class PaymentRequestService {
           _currentBackoffs[request.id] = _maxBackoff;
         }
         await Future<void>.delayed(_currentBackoffs[request.id]!);
+        // ignore: avoid-recursive-calls, called in async callback
         _waitForTx(request);
       },
     );
@@ -121,7 +120,8 @@ class PaymentRequestService {
         _currentBackoffs[request.id] = _maxBackoff;
       }
       await Future<void>.delayed(_currentBackoffs[request.id]!);
-      await _verifyTx(id, request);
+      // ignore: avoid-recursive-calls, async call without waiting
+      unawaited(_verifyTx(id, request));
     }
   }
 

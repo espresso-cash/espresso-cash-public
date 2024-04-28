@@ -53,7 +53,7 @@ class PaymentRequestRows extends Table with EntityMixin {
   const PaymentRequestRows();
 
   TextColumn get dynamicLink => text()();
-  TextColumn get shortLink => text()();
+  TextColumn get shortLink => text().nullable()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();
   TextColumn get transactionId => text().nullable()();
   DateTimeColumn get resolvedAt => dateTime().nullable()();

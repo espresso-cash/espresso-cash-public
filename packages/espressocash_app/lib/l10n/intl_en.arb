@@ -380,7 +380,6 @@
       }
     }
   },
-
   "save": "Save",
   "@save": {},
   "scanToReceive": "Scan to receive {amount}",

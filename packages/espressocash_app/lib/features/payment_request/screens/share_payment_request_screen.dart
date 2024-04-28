@@ -94,7 +94,10 @@ class SharePaymentRequestContent extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ShareLink(amount: amount, link: request.shortLink),
+                    ShareLink(
+                      amount: amount,
+                      link: request.shortLink ?? request.dynamicLink,
+                    ),
                     ShareQrCode(amount: amount, link: request.dynamicLink),
                   ],
                 ),
