@@ -51,7 +51,7 @@ class Instruction {
   }
 
   @override
-  bool operator ==(dynamic other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
       (other.runtimeType == runtimeType &&
           other is Instruction &&

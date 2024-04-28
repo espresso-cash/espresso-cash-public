@@ -13,6 +13,7 @@ import 'app.dart';
 import 'config.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
+import 'firebase_options.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 
@@ -40,7 +41,7 @@ Future<void> main() async {
 }
 
 Future<void> _init() async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await configureDependencies();
 
