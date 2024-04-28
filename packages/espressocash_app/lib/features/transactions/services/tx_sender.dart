@@ -14,7 +14,7 @@ import '../models/tx_results.dart';
 
 @injectable
 class TxSender {
-  TxSender({
+  const TxSender({
     required SolanaClient client,
   }) : _client = client;
 
