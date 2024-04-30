@@ -12,7 +12,6 @@ import 'features/app_lock/screens/app_lock_enable_screen.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/authenticated/screens/main_screen.dart';
-import 'features/blockchain/models/blockchain.dart';
 import 'features/currency/models/amount.dart';
 import 'features/currency/models/currency.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
@@ -20,7 +19,6 @@ import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
 import 'features/onboarding/screens/profile_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
-import 'features/outgoing_direct_payments/screens/odp_input_screen.dart';
 import 'features/outgoing_dln_payments/screens/details_screen.dart';
 import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
 import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
@@ -125,7 +123,6 @@ part 'routing.g.dart';
         TypedGoRoute<RampOnboardingRoute>(path: '/ramp-onboarding'),
         TypedGoRoute<QrScannerRoute>(path: '/qr-scanner'),
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
-        TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
       ],
     ),
   ],

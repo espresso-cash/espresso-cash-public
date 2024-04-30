@@ -17,6 +17,16 @@ typedef ODPInputResponse = void Function(Blockchain network, String address);
 class ODPInputScreen extends StatefulWidget {
   const ODPInputScreen({super.key, required this.onSubmit});
 
+  static void push(
+    BuildContext context, {
+    required ODPInputResponse onSubmit,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => ODPInputScreen(onSubmit: onSubmit),
+        ),
+      );
+
   final ODPInputResponse onSubmit;
 
   @override
@@ -139,16 +149,6 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
           ),
         ),
       );
-}
-
-class ODPInputRoute extends GoRouteData {
-  const ODPInputRoute(this.$extra);
-
-  final ODPInputResponse $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ODPInputScreen(onSubmit: $extra);
 }
 
 class _WalletTextField extends StatelessWidget {

@@ -35,8 +35,9 @@ class _PayScreenState extends State<PayScreen> {
       OLPConfirmationRoute(widget.amount).push<void>(context);
 
   void _handleSecondaryPressed() {
-    ODPInputRoute(
-      (Blockchain network, String address) async {
+    ODPInputScreen.push(
+      context,
+      onSubmit: (Blockchain network, String address) async {
         if (network == Blockchain.solana) {
           final formatted =
               widget.amount.format(context.locale, skipSymbol: true);
@@ -76,7 +77,7 @@ class _PayScreenState extends State<PayScreen> {
           );
         }
       },
-    ).push<void>(context);
+    );
   }
 
   @override
