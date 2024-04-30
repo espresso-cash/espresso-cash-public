@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +12,6 @@ import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/authenticated/screens/main_screen.dart';
 import 'features/currency/models/amount.dart';
-import 'features/currency/models/currency.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
@@ -31,7 +29,6 @@ import 'features/ramp/models/ramp_partner.dart';
 import 'features/ramp/models/ramp_type.dart';
 import 'features/ramp/screens/off_ramp_order_screen.dart';
 import 'features/ramp/screens/on_ramp_order_screen.dart';
-import 'features/ramp/screens/ramp_amount_screen.dart';
 import 'features/ramp/screens/ramp_more_options_screen.dart';
 import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/transaction_request/screens/tr_details_screen.dart';
@@ -116,7 +113,6 @@ part 'routing.g.dart';
         TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
         TypedGoRoute<RampPartnerSelectRoute>(path: '/ramp-select-partner'),
         TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
-        TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),
       ],
     ),
   ],

@@ -47,27 +47,24 @@ extension BuildContextExt on BuildContext {
 
     const partner = RampPartner.scalex;
 
-    await RampAmountRoute(
-      (
-        partner: partner,
-        onSubmitted: (Amount? value) {
-          pop();
-          amount = value;
-        },
-        minAmount: partner.minimumAmountInDecimal,
-        currency: Currency.usdc,
-        calculateEquivalent: (Amount amount) => (
-              amount: amount.calculateOnRampFee(
-                exchangeRate: rampRate,
-              ),
-              rate: '1 USDC = $rampRate NGN'
-            ),
-        partnerFeeLabel:
-            'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
-        calculateFee: null,
-        type: RampType.onRamp,
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (Amount? value) {
+        pop();
+        amount = value;
+      },
+      minAmount: partner.minimumAmountInDecimal,
+      currency: Currency.usdc,
+      calculateEquivalent: (Amount amount) => (
+        amount: amount.calculateOnRampFee(
+          exchangeRate: rampRate,
+        ),
+        rate: '1 USDC = $rampRate NGN'
       ),
-    ).push<void>(this);
+      partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
+      type: RampType.onRamp,
+    );
 
     final submittedAmount = amount;
 
@@ -175,29 +172,27 @@ window.addEventListener("message", (event) => {
 
     const partner = RampPartner.scalex;
 
-    await RampAmountRoute(
-      (
-        partner: partner,
-        onSubmitted: (value) {
-          pop();
-          amount = value;
-        },
-        minAmount: partner.minimumAmountInDecimal,
-        currency: Currency.usdc,
-        calculateEquivalent: (amount) => (
-              amount: amount.calculateOffRampFee(
-                exchangeRate: rateAndFee.offRampRate,
-                percentageFee: rateAndFee.offRampFeePercentage,
-                fixedFee: rateAndFee.fixedOffRampFee,
-              ),
-              rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
-            ),
-        partnerFeeLabel:
-            'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
-        calculateFee: null,
-        type: RampType.offRamp,
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (value) {
+        pop();
+        amount = value;
+      },
+      minAmount: partner.minimumAmountInDecimal,
+      currency: Currency.usdc,
+      calculateEquivalent: (amount) => (
+        amount: amount.calculateOffRampFee(
+          exchangeRate: rateAndFee.offRampRate,
+          percentageFee: rateAndFee.offRampFeePercentage,
+          fixedFee: rateAndFee.fixedOffRampFee,
+        ),
+        rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
       ),
-    ).push<void>(this);
+      partnerFeeLabel:
+          'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
+      type: RampType.offRamp,
+    );
 
     final submittedAmount = amount;
 

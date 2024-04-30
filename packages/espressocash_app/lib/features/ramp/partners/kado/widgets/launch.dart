@@ -28,21 +28,17 @@ extension BuildContextExt on BuildContext {
   }) async {
     Amount? amount;
 
-    await RampAmountRoute(
-      (
-        partner: RampPartner.kado,
-        onSubmitted: (Amount? value) {
-          pop();
-          amount = value;
-        },
-        minAmount: Decimal.fromInt(10),
-        currency: Currency.usdc,
-        calculateEquivalent: null,
-        calculateFee: null,
-        type: RampType.onRamp,
-        partnerFeeLabel: null,
-      ),
-    ).push<void>(this);
+    await RampAmountScreen.push(
+      this,
+      partner: RampPartner.kado,
+      onSubmitted: (Amount? value) {
+        pop();
+        amount = value;
+      },
+      minAmount: Decimal.fromInt(10),
+      currency: Currency.usdc,
+      type: RampType.onRamp,
+    );
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
@@ -118,21 +114,17 @@ window.addEventListener("message", (event) => {
   }) async {
     Amount? amount;
 
-    await RampAmountRoute(
-      (
-        partner: RampPartner.kado,
-        onSubmitted: (Amount? value) {
-          pop();
-          amount = value;
-        },
-        minAmount: Decimal.fromInt(10),
-        currency: Currency.usdc,
-        calculateEquivalent: null,
-        calculateFee: null,
-        type: RampType.onRamp,
-        partnerFeeLabel: null,
-      ),
-    ).push<void>(this);
+    await RampAmountScreen.push(
+      this,
+      partner: RampPartner.kado,
+      onSubmitted: (Amount? value) {
+        pop();
+        amount = value;
+      },
+      minAmount: Decimal.fromInt(10),
+      currency: Currency.usdc,
+      type: RampType.onRamp,
+    );
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
