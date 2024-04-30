@@ -4,7 +4,6 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/widgets/account_listener.dart';
 import '../screens/puzzle_reminder_message_screen.dart';
@@ -48,7 +47,7 @@ class _ContentState extends State<_Content> with AccountListener {
     context.read<PuzzleReminderBloc>().add(event);
   }
 
-  void _showPuzzleReminderDialog() => const PuzzleReminderRoute().go(context);
+  void _showPuzzleReminderDialog() => PuzzleReminderMessageScreen.push(context);
 
   @override
   void handleAccountChanged(MyAccount? account) {

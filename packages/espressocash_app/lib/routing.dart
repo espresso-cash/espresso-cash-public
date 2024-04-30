@@ -14,8 +14,6 @@ import 'features/app_lock/screens/app_lock_enable_screen.dart';
 import 'features/authenticated/screens/authenticated_flow_screen.dart';
 import 'features/authenticated/screens/home_screen.dart';
 import 'features/authenticated/screens/main_screen.dart';
-import 'features/backup_phrase/screens/puzzle_reminder_message_screen.dart';
-import 'features/backup_phrase/screens/puzzle_reminder_setup_screen.dart';
 import 'features/blockchain/models/blockchain.dart';
 import 'features/currency/models/amount.dart';
 import 'features/currency/models/currency.dart';
@@ -137,8 +135,6 @@ part 'routing.g.dart';
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
         TypedGoRoute<TRConfirmationRoute>(path: '/tr-confirmation'),
         TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
-        TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
-        TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
       ],
     ),
   ],

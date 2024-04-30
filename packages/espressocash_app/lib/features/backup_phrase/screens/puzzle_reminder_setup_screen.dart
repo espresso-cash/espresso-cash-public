@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
@@ -14,6 +13,12 @@ import '../widgets/puzzle_screen.dart';
 
 class PuzzleReminderSetupScreen extends StatefulWidget {
   const PuzzleReminderSetupScreen({super.key});
+
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => const PuzzleReminderSetupScreen(),
+        ),
+      );
 
   @override
   State<PuzzleReminderSetupScreen> createState() =>
@@ -139,14 +144,6 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
           ),
         ),
       );
-}
-
-class PuzzleReminderSetupRoute extends GoRouteData {
-  const PuzzleReminderSetupRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const PuzzleReminderSetupScreen();
 }
 
 class _Checkbox extends StatelessWidget {

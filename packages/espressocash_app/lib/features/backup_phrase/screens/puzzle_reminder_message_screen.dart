@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../routing.dart';
@@ -12,8 +11,14 @@ import 'puzzle_reminder_setup_screen.dart';
 class PuzzleReminderMessageScreen extends StatelessWidget {
   const PuzzleReminderMessageScreen({super.key});
 
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => const PuzzleReminderMessageScreen(),
+        ),
+      );
+
   void _handleRemindPressed(BuildContext context) =>
-      const PuzzleReminderSetupRoute().push<void>(context);
+      PuzzleReminderSetupScreen.push(context);
 
   @override
   Widget build(BuildContext context) => PuzzleScreen(
@@ -58,12 +63,4 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
           ),
         ),
       );
-}
-
-class PuzzleReminderRoute extends GoRouteData {
-  const PuzzleReminderRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const PuzzleReminderMessageScreen();
 }
