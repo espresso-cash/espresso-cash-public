@@ -20,8 +20,6 @@ import 'features/blockchain/models/blockchain.dart';
 import 'features/currency/models/amount.dart';
 import 'features/currency/models/currency.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
-import 'features/mobile_wallet/models/remote_request.dart';
-import 'features/mobile_wallet/screens/remote_request_screen.dart';
 import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
 import 'features/onboarding/screens/profile_screen.dart';
@@ -141,7 +139,6 @@ part 'routing.g.dart';
         TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
         TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
         TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
-        TypedGoRoute<RemoteRequestRoute>(path: '/remote-request'),
       ],
     ),
   ],

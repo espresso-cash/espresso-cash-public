@@ -5,7 +5,6 @@ import 'package:nested/nested.dart';
 import 'package:provider/provider.dart';
 
 import '../../di.dart';
-import '../../routing.dart';
 import 'data/repository.dart';
 import 'screens/remote_request_screen.dart';
 import 'services/scenario_handler.dart';
@@ -46,7 +45,7 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
             initialized: ignore,
             sessionTerminated: SystemNavigator.pop,
             deauthorized: SystemNavigator.pop,
-            request: (r) => RemoteRequestRoute(r).push<void>(context),
+            request: (r) => RemoteRequestScreen.push(context, request: r),
           ),
         );
   }

@@ -19,6 +19,16 @@ class RemoteRequestScreen extends StatelessWidget {
     required this.request,
   });
 
+  static void push(
+    BuildContext context, {
+    required RemoteRequest request,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RemoteRequestScreen(request: request),
+        ),
+      );
+
   final RemoteRequest request;
 
   @override
@@ -29,16 +39,6 @@ class RemoteRequestScreen extends StatelessWidget {
         ),
         child: const _Content(),
       );
-}
-
-class RemoteRequestRoute extends GoRouteData {
-  const RemoteRequestRoute(this.$extra);
-
-  final RemoteRequest $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RemoteRequestScreen(request: $extra);
 }
 
 class _Content extends StatefulWidget {
