@@ -86,13 +86,12 @@ extension BuildContextExt on BuildContext {
 
     if (response == null) return;
 
-    final confirmationResult = await TRConfirmationRoute(
-      (
-        request: response.info,
-        amount: response.amount,
-        message: response.message,
-      ),
-    ).push<bool?>(this);
+    final confirmationResult = await TRConfirmationScreen.push(
+      this,
+      request: response.info,
+      amount: response.amount,
+      message: response.message,
+    );
 
     if (confirmationResult == true) {
       final id = await _createTR(

@@ -3,7 +3,6 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/solana_pay.dart';
 
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
@@ -43,7 +42,6 @@ import 'features/ramp/screens/ramp_more_options_screen.dart';
 import 'features/ramp/screens/ramp_onboarding_screen.dart';
 import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/tokens/token.dart';
-import 'features/transaction_request/screens/confirmation_screen.dart';
 import 'features/transaction_request/screens/tr_details_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
@@ -132,7 +130,6 @@ part 'routing.g.dart';
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
-        TypedGoRoute<TRConfirmationRoute>(path: '/tr-confirmation'),
       ],
     ),
   ],

@@ -20,6 +20,22 @@ class TRConfirmationScreen extends StatelessWidget {
     this.message,
   });
 
+  static Future<bool?> push(
+    BuildContext context, {
+    required TransactionRequestInfo request,
+    required CryptoAmount amount,
+    String? message,
+  }) =>
+      Navigator.of(context).push<bool>(
+        MaterialPageRoute(
+          builder: (context) => TRConfirmationScreen(
+            request: request,
+            amount: amount,
+            message: message,
+          ),
+        ),
+      );
+
   final TransactionRequestInfo request;
   final CryptoAmount amount;
   final String? message;
@@ -120,23 +136,3 @@ class _Item extends StatelessWidget {
         ),
       );
 }
-
-class TRConfirmationRoute extends GoRouteData {
-  const TRConfirmationRoute(this.$extra);
-
-  final TRConfirmationParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      TRConfirmationScreen(
-        request: $extra.request,
-        amount: $extra.amount,
-        message: $extra.message,
-      );
-}
-
-typedef TRConfirmationParams = ({
-  TransactionRequestInfo request,
-  CryptoAmount amount,
-  String? message,
-});
