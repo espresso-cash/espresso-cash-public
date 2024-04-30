@@ -1,27 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
-import '../../../routing.dart';
-import '../../authenticated/screens/main_screen.dart';
 import '../data/onboarding_repository.dart';
 import 'profile_screen.dart';
 import 'view_recovery_phrase_screen.dart';
 
-class OnboardingRoute extends GoRouteData {
-  const OnboardingRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) {
+class OnboardingScreen {
+  static void push(BuildContext context) {
     final hasConfirmedPassphrase =
         sl<OnboardingRepository>().hasConfirmedPassphrase;
 
-    return hasConfirmedPassphrase
-        ? OnboardingProfileScreen(
-            onConfirmed: () => const HomeRoute().go(context),
-          )
-        : ViewRecoveryPhraseScreen(
-            onConfirmed: () => const OnboardingProfileRoute().go(context),
-          );
+    if (hasConfirmedPassphrase) {
+      OnboardingProfileScreen.push(context);
+    } else {
+      ViewRecoveryPhraseScreen.push(
+        context,
+        onConfirmed: () => OnboardingProfileScreen.replace(context),
+      );
+    }
   }
 }

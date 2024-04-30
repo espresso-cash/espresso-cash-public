@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -21,10 +20,15 @@ import '../../profile/service/update_profile.dart';
 class OnboardingProfileScreen extends StatefulWidget {
   const OnboardingProfileScreen({
     super.key,
-    required this.onConfirmed,
   });
 
-  final VoidCallback onConfirmed;
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (_) => const OnboardingProfileScreen()),
+      );
+
+  static void replace(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (_) => const OnboardingProfileScreen()),
+      );
 
   @override
   State<OnboardingProfileScreen> createState() =>
@@ -75,7 +79,8 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
               )
               .foldAsync((e) => throw e, ignore);
 
-          widget.onConfirmed();
+          if (!mounted) return;
+          const HomeRoute().go(context);
         },
         onError: (error) => showErrorDialog(
           context,
@@ -144,16 +149,6 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
             ),
           ],
         ),
-      );
-}
-
-class OnboardingProfileRoute extends GoRouteData {
-  const OnboardingProfileRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OnboardingProfileScreen(
-        onConfirmed: () => const HomeRoute().go(context),
       );
 }
 

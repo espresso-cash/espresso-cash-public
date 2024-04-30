@@ -16,6 +16,18 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
     required this.onConfirmed,
   });
 
+  static void push(
+    BuildContext context, {
+    required VoidCallback onConfirmed,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => ViewRecoveryPhraseScreen(
+            onConfirmed: onConfirmed,
+          ),
+        ),
+      );
+
   final VoidCallback onConfirmed;
 
   @override

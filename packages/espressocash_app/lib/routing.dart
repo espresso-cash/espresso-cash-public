@@ -12,9 +12,6 @@ import 'features/authenticated/screens/home_screen.dart';
 import 'features/authenticated/screens/main_screen.dart';
 import 'features/currency/models/amount.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
-import 'features/onboarding/data/onboarding_repository.dart';
-import 'features/onboarding/screens/onboarding_screen.dart';
-import 'features/onboarding/screens/profile_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
 import 'features/outgoing_dln_payments/screens/details_screen.dart';
 import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
@@ -102,10 +99,6 @@ part 'routing.g.dart';
             ),
           ],
         ),
-        TypedGoRoute<OnboardingRoute>(
-          path: '/onboarding/recovery-phrase',
-        ),
-        TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
       ],
     ),
   ],
@@ -122,22 +115,22 @@ final goRouter = GoRouter(
   initialLocation: const HomeRoute().location,
   refreshListenable: sl<AccountService>(),
   redirect: (context, state) {
-    final isLoggedIn = sl<AccountService>().value != null;
+    // final isLoggedIn = sl<AccountService>().value != null;
 
-    if (isLoggedIn) {
-      final hasFinishedOnboarding =
-          sl<OnboardingRepository>().hasFinishedOnboarding;
+    // if (isLoggedIn) {
+    //   final hasFinishedOnboarding =
+    //       sl<OnboardingRepository>().hasFinishedOnboarding;
 
-      final onboardingLocations = [
-        const OnboardingRoute().location,
-        const OnboardingProfileRoute().location,
-      ];
+    //   final onboardingLocations = [
+    //     // const OnboardingRoute().location,
+    //     // const OnboardingProfileRoute().location,
+    //   ];
 
-      if (!hasFinishedOnboarding &&
-          !onboardingLocations.contains(state.uri.path)) {
-        return const OnboardingRoute().location;
-      }
-    }
+    //   if (!hasFinishedOnboarding &&
+    //       !onboardingLocations.contains(state.uri.path)) {
+    //     // return const OnboardingRoute().location;
+    //   }
+    // }
 
     // if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
     //   return const HomeRoute().location;
