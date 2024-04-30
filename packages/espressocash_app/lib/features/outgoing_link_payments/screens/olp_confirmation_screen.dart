@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -26,6 +25,18 @@ class OLPConfirmationScreen extends StatefulWidget {
     super.key,
     required this.tokenAmount,
   });
+
+  static void push(
+    BuildContext context, {
+    required CryptoAmount tokenAmount,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OLPConfirmationScreen(
+            tokenAmount: tokenAmount,
+          ),
+        ),
+      );
 
   final CryptoAmount tokenAmount;
 
@@ -76,16 +87,6 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
           ),
         ),
       );
-}
-
-class OLPConfirmationRoute extends GoRouteData {
-  const OLPConfirmationRoute(this.$extra);
-
-  final CryptoAmount $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OLPConfirmationScreen(tokenAmount: $extra);
 }
 
 class _TokenCreateLinkContent extends StatelessWidget {

@@ -21,7 +21,6 @@ import 'features/onboarding/screens/profile_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
 import 'features/outgoing_dln_payments/screens/details_screen.dart';
 import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
-import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import 'features/outgoing_link_payments/screens/olp_screen.dart';
 import 'features/outgoing_link_payments/screens/share_link_screen.dart';
 import 'features/payment_request/screens/request_payment_status_screen.dart';
@@ -122,7 +121,6 @@ part 'routing.g.dart';
         TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),
         TypedGoRoute<RampOnboardingRoute>(path: '/ramp-onboarding'),
         TypedGoRoute<QrScannerRoute>(path: '/qr-scanner'),
-        TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
       ],
     ),
   ],

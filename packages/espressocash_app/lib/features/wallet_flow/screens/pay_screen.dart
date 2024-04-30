@@ -32,7 +32,7 @@ class PayScreen extends StatefulWidget {
 
 class _PayScreenState extends State<PayScreen> {
   void _handlePrimaryPressed() =>
-      OLPConfirmationRoute(widget.amount).push<void>(context);
+      OLPConfirmationScreen.push(context, tokenAmount: widget.amount);
 
   void _handleSecondaryPressed() {
     ODPInputScreen.push(
