@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -151,14 +150,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: Uri.parse(link),
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashIn,
-        theme: const CpThemeData.black(),
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: Uri.parse(link),
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashIn,
+      theme: const CpThemeData.black(),
+    );
   }
 
   Future<void> launchScalexOffRamp({
@@ -274,14 +272,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: Uri.parse(link),
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashOut,
-        theme: const CpThemeData.black(),
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: Uri.parse(link),
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashOut,
+      theme: const CpThemeData.black(),
+    );
   }
 
   Future<String?> _generateRampLink({

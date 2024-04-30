@@ -1,12 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
-import '../../../../../ui/theme.dart';
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
 import 'features/activities/screens/activities_screen.dart';
@@ -22,8 +20,6 @@ import 'features/blockchain/models/blockchain.dart';
 import 'features/currency/models/amount.dart';
 import 'features/currency/models/currency.dart';
 import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dart';
-import 'features/legal/privacy_screen.dart';
-import 'features/legal/terms_screen.dart';
 import 'features/mobile_wallet/models/remote_request.dart';
 import 'features/mobile_wallet/screens/remote_request_screen.dart';
 import 'features/onboarding/data/onboarding_repository.dart';
@@ -62,15 +58,11 @@ import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_screen.dart';
 import 'features/wallet_flow/screens/wallet_screen.dart';
-import 'ui/web_view_screen.dart';
 
 part 'routing.g.dart';
 
 @TypedShellRoute<AppRoute>(
   routes: [
-    TypedGoRoute<TermsRoute>(path: '/terms'),
-    TypedGoRoute<PrivacyRoute>(path: '/privacy'),
-    TypedGoRoute<WebViewRoute>(path: '/web-view'),
     TypedShellRoute<SignInFlowRoute>(
       routes: [
         TypedGoRoute<SignInRoute>(
@@ -207,8 +199,8 @@ final goRouter = GoRouter(
     final urlsSafeForLogIn = [
       const SignInRoute().location,
       const RestoreAccountRoute().location,
-      const TermsRoute().location,
-      const PrivacyRoute().location,
+      // const TermsRoute().location,
+      // const PrivacyRoute().location,
     ];
     if (!isLoggedIn && !urlsSafeForLogIn.contains(state.uri.path)) {
       return const SignInRoute().location;

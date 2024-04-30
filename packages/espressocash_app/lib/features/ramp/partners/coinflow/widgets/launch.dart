@@ -121,14 +121,13 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: blank,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashOut,
-        theme: const CpThemeData.black()
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: blank,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashOut,
+      theme: const CpThemeData.black(),
+    );
   }
 
   AsyncResult<bool> _checkKYC({required String address}) =>

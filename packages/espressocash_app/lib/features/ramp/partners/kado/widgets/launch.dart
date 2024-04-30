@@ -1,6 +1,5 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
@@ -104,14 +103,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: uri,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashIn,
-        theme: null,
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashIn,
+      theme: null,
+    );
   }
 
   Future<void> launchKadoOffRamp({
@@ -203,13 +201,12 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: uri,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_btnCashOut,
-        theme: null,
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_btnCashOut,
+      theme: null,
+    );
   }
 }
