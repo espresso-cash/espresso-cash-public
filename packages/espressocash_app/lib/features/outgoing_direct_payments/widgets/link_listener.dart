@@ -1,7 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
@@ -63,15 +61,14 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
         ? ''
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
-    final confirmedFiatAmount = await ODPConfirmationRoute(
-      (
-        initialAmount: formatted,
-        recipient: request.recipient,
-        label: request.label,
-        token: crypto.token,
-        isEnabled: amount.value == 0,
-      ),
-    ).push<Decimal>(context);
+    final confirmedFiatAmount = await ODPConfirmationScreen.push(
+      context,
+      initialAmount: formatted,
+      recipient: request.recipient,
+      label: request.label,
+      token: crypto.token,
+      isEnabled: amount.value == 0,
+    );
 
     if (confirmedFiatAmount == null) return;
     if (!mounted) return;

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -81,15 +79,14 @@ extension BuildContextExt on BuildContext {
           ? ''
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
 
-      final fiatDecimal = await ODPConfirmationRoute(
-        (
-          initialAmount: formatted,
-          recipient: recipient,
-          label: name,
-          token: cryptoCurrency.token,
-          isEnabled: isEnabled,
-        ),
-      ).push<Decimal>(this);
+      final fiatDecimal = await ODPConfirmationScreen.push(
+        this,
+        initialAmount: formatted,
+        recipient: recipient,
+        label: name,
+        token: cryptoCurrency.token,
+        isEnabled: isEnabled,
+      );
       if (!mounted) return;
 
       if (fiatDecimal != null) {

@@ -2,7 +2,6 @@ import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:solana/solana.dart';
 
 import 'di.dart';
 import 'features/accounts/services/account_service.dart';
@@ -20,7 +19,6 @@ import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dar
 import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
 import 'features/onboarding/screens/profile_screen.dart';
-import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_input_screen.dart';
 import 'features/outgoing_dln_payments/screens/details_screen.dart';
@@ -41,7 +39,6 @@ import 'features/ramp/screens/ramp_amount_screen.dart';
 import 'features/ramp/screens/ramp_more_options_screen.dart';
 import 'features/ramp/screens/ramp_onboarding_screen.dart';
 import 'features/ramp/screens/ramp_partner_select_screen.dart';
-import 'features/tokens/token.dart';
 import 'features/transaction_request/screens/tr_details_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
@@ -129,7 +126,6 @@ part 'routing.g.dart';
         TypedGoRoute<QrScannerRoute>(path: '/qr-scanner'),
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
-        TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
       ],
     ),
   ],

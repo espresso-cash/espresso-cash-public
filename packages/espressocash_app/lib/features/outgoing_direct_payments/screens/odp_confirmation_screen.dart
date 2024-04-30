@@ -30,6 +30,26 @@ class ODPConfirmationScreen extends StatefulWidget {
     this.isEnabled = true,
   });
 
+  static Future<Decimal?> push(
+    BuildContext context, {
+    required String initialAmount,
+    required Ed25519HDPublicKey recipient,
+    String? label,
+    required Token token,
+    required bool isEnabled,
+  }) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ODPConfirmationScreen(
+            initialAmount: initialAmount,
+            recipient: recipient,
+            label: label,
+            token: token,
+            isEnabled: isEnabled,
+          ),
+        ),
+      );
+
   final String initialAmount;
   final Ed25519HDPublicKey recipient;
   final String? label;
@@ -137,30 +157,6 @@ class _ScreenState extends State<ODPConfirmationScreen> {
     );
   }
 }
-
-class ODPConfirmationRoute extends GoRouteData {
-  const ODPConfirmationRoute(this.$extra);
-
-  final ODPConfirmationParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ODPConfirmationScreen(
-        initialAmount: $extra.initialAmount,
-        recipient: $extra.recipient,
-        label: $extra.label,
-        token: $extra.token,
-        isEnabled: $extra.isEnabled,
-      );
-}
-
-typedef ODPConfirmationParams = ({
-  String initialAmount,
-  Ed25519HDPublicKey recipient,
-  String? label,
-  Token token,
-  bool isEnabled,
-});
 
 const _textStyle = TextStyle(
   fontSize: 17,

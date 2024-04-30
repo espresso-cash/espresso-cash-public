@@ -1,5 +1,3 @@
-import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
@@ -45,15 +43,14 @@ class _PayScreenState extends State<PayScreen> {
 
           final recipient = Ed25519HDPublicKey.fromBase58(address);
 
-          final confirmedFiatAmount = await ODPConfirmationRoute(
-            (
-              initialAmount: formatted,
-              recipient: recipient,
-              label: null,
-              token: widget.amount.token,
-              isEnabled: false,
-            ),
-          ).push<Decimal>(context);
+          final confirmedFiatAmount = await ODPConfirmationScreen.push(
+            context,
+            initialAmount: formatted,
+            recipient: recipient,
+            label: null,
+            token: widget.amount.token,
+            isEnabled: false,
+          );
 
           if (confirmedFiatAmount == null) return;
           if (!mounted) return;
