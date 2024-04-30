@@ -93,9 +93,11 @@ extension RampBuildContextExt on BuildContext {
       return (country: country, email: email);
     }
 
-    await RampOnboardingRoute(
-      (onConfirmed: handleSubmitted, rampType: rampType),
-    ).push<void>(this);
+    await RampOnboardingScreen.push(
+      this,
+      onConfirmed: handleSubmitted,
+      rampType: rampType,
+    );
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
