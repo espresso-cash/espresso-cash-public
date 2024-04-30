@@ -21,7 +21,6 @@ import 'features/incoming_link_payments/screens/incoming_link_payment_screen.dar
 import 'features/onboarding/data/onboarding_repository.dart';
 import 'features/onboarding/screens/onboarding_screen.dart';
 import 'features/onboarding/screens/profile_screen.dart';
-import 'features/outgoing_direct_payments/screens/network_picker_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_input_screen.dart';
@@ -134,7 +133,6 @@ part 'routing.g.dart';
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
         TypedGoRoute<TRConfirmationRoute>(path: '/tr-confirmation'),
-        TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
       ],
     ),
   ],

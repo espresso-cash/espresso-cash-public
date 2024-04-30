@@ -3,7 +3,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
@@ -39,15 +38,14 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
         _walletAddressController.text,
       );
 
-  void _handleOnNetworkTap() => NetworkPickerRoute(
-        (
-          initial: _selectedNetwork,
-          onSubmitted: (Blockchain network) {
-            context.pop();
-            setState(() => _selectedNetwork = network);
-          },
-        ),
-      ).push<void>(context);
+  void _handleOnNetworkTap() => NetworkPickerScreen.push(
+        context,
+        initial: _selectedNetwork,
+        onSubmitted: (Blockchain network) {
+          context.pop();
+          setState(() => _selectedNetwork = network);
+        },
+      );
 
   Future<void> _handleOnQrScan() async {
     final code = await context.launchQrForAddress();
