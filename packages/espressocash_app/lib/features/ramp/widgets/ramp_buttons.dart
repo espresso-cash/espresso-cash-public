@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
@@ -131,17 +130,16 @@ extension RampBuildContextExt on BuildContext {
       return;
     }
 
-    RampPartnerSelectRoute(
-      (
-        topPartner: top,
-        otherPartners: others.lock,
-        type: RampType.onRamp,
-        onPartnerSelected: (RampPartner p) {
-          pop();
-          _launchOnRampPartner(p, profile: profile, address: address);
-        },
-      ),
-    ).push<void>(this);
+    RampPartnerSelectScreen.push(
+      this,
+      topPartner: top,
+      otherPartners: others.lock,
+      type: RampType.onRamp,
+      onPartnerSelected: (RampPartner p) {
+        pop();
+        _launchOnRampPartner(p, profile: profile, address: address);
+      },
+    );
   }
 
   void launchOffRampFlow({
@@ -168,17 +166,16 @@ extension RampBuildContextExt on BuildContext {
       return;
     }
 
-    RampPartnerSelectRoute(
-      (
-        topPartner: top,
-        otherPartners: others.lock,
-        type: RampType.offRamp,
-        onPartnerSelected: (RampPartner p) {
-          pop();
-          _launchOffRampPartner(p, profile: profile, address: address);
-        },
-      ),
-    ).push<void>(this);
+    RampPartnerSelectScreen.push(
+      this,
+      topPartner: top,
+      otherPartners: others.lock,
+      type: RampType.offRamp,
+      onPartnerSelected: (RampPartner p) {
+        pop();
+        _launchOffRampPartner(p, profile: profile, address: address);
+      },
+    );
   }
 
   void _launchOnRampPartner(

@@ -18,6 +18,24 @@ class RampPartnerSelectScreen extends StatelessWidget {
     required this.onPartnerSelected,
   });
 
+  static void push(
+    BuildContext context, {
+    required RampPartner topPartner,
+    required IList<RampPartner> otherPartners,
+    required RampType type,
+    required ValueSetter<RampPartner> onPartnerSelected,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RampPartnerSelectScreen(
+            topPartner: topPartner,
+            otherPartners: otherPartners,
+            type: type,
+            onPartnerSelected: onPartnerSelected,
+          ),
+        ),
+      );
+
   final RampPartner topPartner;
   final IList<RampPartner> otherPartners;
   final RampType type;
@@ -64,27 +82,3 @@ class RampPartnerSelectScreen extends StatelessWidget {
         ),
       );
 }
-
-class RampPartnerSelectRoute extends GoRouteData {
-  const RampPartnerSelectRoute(this.$extra);
-
-  final RampPartnerSelectParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RampPartnerSelectScreen(
-        topPartner: $extra.topPartner,
-        otherPartners: $extra.otherPartners,
-        type: $extra.type,
-        onPartnerSelected: $extra.onPartnerSelected,
-      );
-}
-
-// TODO(KB): refactor to class
-typedef RampPartnerSelectParams = ({
-  RampPartner topPartner,
-  IList<RampPartner> otherPartners,
-  RampType type,
-  // ignore: avoid-function-type-in-records, refactor later
-  ValueSetter<RampPartner> onPartnerSelected,
-});
