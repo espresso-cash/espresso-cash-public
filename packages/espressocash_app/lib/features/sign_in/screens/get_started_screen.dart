@@ -3,12 +3,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
@@ -17,18 +15,17 @@ import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
-import 'restore_account_screen.dart';
 
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({super.key});
+  const GetStartedScreen({super.key, required this.onSignInPressed});
+
+  final VoidCallback onSignInPressed;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => const RestoreAccountRoute().go(context);
-
   late final Future<void> _imagesCache;
 
   @override
@@ -46,57 +43,58 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   @override
   Widget build(BuildContext context) => FutureBuilder(
         future: _imagesCache,
-        builder: (context, snapshot) => snapshot.connectionState ==
-                ConnectionState.done
-            ? CpTheme.dark(
-                child: Scaffold(
-                  backgroundColor: CpColors.yellowSplashBackgroundColor,
-                  body: Stack(
-                    children: [
-                      Align(
-                        child: Assets.images.dollarBg.image(
-                          fit: BoxFit.fitHeight,
-                          height: double.infinity,
-                        ),
-                      ),
-                      SafeArea(
-                        minimum: EdgeInsets.only(top: 70.h),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) =>
-                              SingleChildScrollView(
-                            child: ConstrainedBox(
-                              constraints: constraints.copyWith(
-                                minHeight: constraints.maxHeight,
-                                maxHeight: double.infinity,
-                              ),
-                              child: IntrinsicHeight(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    const Expanded(
-                                      child: Center(child: SplashLogo()),
-                                    ),
-                                    Column(
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.done
+                ? CpTheme.dark(
+                    child: Scaffold(
+                      backgroundColor: CpColors.yellowSplashBackgroundColor,
+                      body: Stack(
+                        children: [
+                          Align(
+                            child: Assets.images.dollarBg.image(
+                              fit: BoxFit.fitHeight,
+                              height: double.infinity,
+                            ),
+                          ),
+                          SafeArea(
+                            minimum: EdgeInsets.only(top: 70.h),
+                            child: LayoutBuilder(
+                              builder: (context, constraints) =>
+                                  SingleChildScrollView(
+                                child: ConstrainedBox(
+                                  constraints: constraints.copyWith(
+                                    minHeight: constraints.maxHeight,
+                                    maxHeight: double.infinity,
+                                  ),
+                                  child: IntrinsicHeight(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        const _Body(),
-                                        24.verticalSpace,
-                                        _Footer(
-                                          onSignInPressed: _handleSignInPressed,
+                                        const Expanded(
+                                          child: Center(child: SplashLogo()),
+                                        ),
+                                        Column(
+                                          children: [
+                                            const _Body(),
+                                            24.verticalSpace,
+                                            _Footer(
+                                              onSignInPressed:
+                                                  widget.onSignInPressed,
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              )
-            : const SplashScreen(),
+                    ),
+                  )
+                : const SplashScreen(),
       );
 }
 
@@ -205,27 +203,3 @@ bool _parseUri(Uri? link) {
 
   return LinkPayment.tryParse(link) != null;
 }
-
-class SignInRoute extends GoRouteData {
-  const SignInRoute();
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      CustomTransitionPage(
-        key: state.pageKey,
-        transitionDuration: const Duration(milliseconds: 1000),
-        child: const GetStartedScreen(),
-        transitionsBuilder: _fadeTransitionBuilder,
-      );
-}
-
-Widget _fadeTransitionBuilder(
-  BuildContext _,
-  Animation<double> animation,
-  Animation<double> __,
-  Widget child,
-) =>
-    FadeTransition(
-      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-      child: child,
-    );

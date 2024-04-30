@@ -1,9 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../di.dart';
@@ -12,11 +9,30 @@ import '../../../ui/loader.dart';
 import '../../../utils/flow.dart';
 import '../../accounts/services/account_service.dart';
 import '../services/sign_in_bloc.dart';
+import 'get_started_screen.dart';
+import 'restore_account_screen.dart';
 
-class SignInFlowScreen extends StatelessWidget {
-  const SignInFlowScreen({super.key, required this.child});
+class SignInFlowScreen extends StatefulWidget {
+  const SignInFlowScreen({super.key});
 
-  final Widget child;
+  static void open(BuildContext context) =>
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil<void>(
+        MaterialPageRoute(builder: (context) => const SignInFlowScreen()),
+        F,
+      );
+
+  @override
+  State<SignInFlowScreen> createState() => _SignInFlowScreenState();
+}
+
+class _SignInFlowScreenState extends State<SignInFlowScreen> {
+  final _navigator = GlobalKey<NavigatorState>();
+
+  void _handleSignInPressed() => _navigator.currentState?.pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const RestoreAccountScreen(),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => MultiProvider(
@@ -40,17 +56,31 @@ class SignInFlowScreen extends StatelessWidget {
             isLoading: state.processingState.isProcessing,
             child: HeroControllerScope(
               controller: HeroController(),
-              child: child,
+              child: Navigator(
+                key: _navigator,
+                onGenerateInitialRoutes: (navigator, initialRoute) => [
+                  PageRouteBuilder(
+                    transitionDuration: const Duration(milliseconds: 1000),
+                    transitionsBuilder: _fadeTransitionBuilder,
+                    pageBuilder: (context, _, __) => GetStartedScreen(
+                      onSignInPressed: _handleSignInPressed,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       );
 }
 
-class SignInFlowRoute extends ShellRouteData {
-  const SignInFlowRoute();
-
-  @override
-  Widget builder(BuildContext context, GoRouterState state, Widget navigator) =>
-      SignInFlowScreen(child: navigator);
-}
+Widget _fadeTransitionBuilder(
+  BuildContext _,
+  Animation<double> animation,
+  Animation<double> __,
+  Widget child,
+) =>
+    FadeTransition(
+      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+      child: child,
+    );

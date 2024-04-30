@@ -48,9 +48,6 @@ import 'features/ramp/screens/ramp_amount_screen.dart';
 import 'features/ramp/screens/ramp_more_options_screen.dart';
 import 'features/ramp/screens/ramp_onboarding_screen.dart';
 import 'features/ramp/screens/ramp_partner_select_screen.dart';
-import 'features/sign_in/screens/get_started_screen.dart';
-import 'features/sign_in/screens/restore_account_screen.dart';
-import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/tokens/token.dart';
 import 'features/transaction_request/screens/confirmation_screen.dart';
 import 'features/transaction_request/screens/tr_details_screen.dart';
@@ -63,16 +60,6 @@ part 'routing.g.dart';
 
 @TypedShellRoute<AppRoute>(
   routes: [
-    TypedShellRoute<SignInFlowRoute>(
-      routes: [
-        TypedGoRoute<SignInRoute>(
-          path: '/sign-in',
-          routes: [
-            TypedGoRoute<RestoreAccountRoute>(path: 'restore'),
-          ],
-        ),
-      ],
-    ),
     TypedShellRoute<AuthenticatedRoute>(
       routes: [
         TypedStatefulShellRoute<HomeShellRoute>(
@@ -192,19 +179,19 @@ final goRouter = GoRouter(
       }
     }
 
-    if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
-      return const HomeRoute().location;
-    }
+    // if (isLoggedIn && state.uri.path.startsWith(const SignInRoute().location)) {
+    //   return const HomeRoute().location;
+    // }
 
-    final urlsSafeForLogIn = [
-      const SignInRoute().location,
-      const RestoreAccountRoute().location,
-      // const TermsRoute().location,
-      // const PrivacyRoute().location,
-    ];
-    if (!isLoggedIn && !urlsSafeForLogIn.contains(state.uri.path)) {
-      return const SignInRoute().location;
-    }
+    // final urlsSafeForLogIn = [
+    // const SignInRoute().location,
+    // const RestoreAccountRoute().location,
+    // const TermsRoute().location,
+    // const PrivacyRoute().location,
+    // ];
+    // if (!isLoggedIn && !urlsSafeForLogIn.contains(state.uri.path)) {
+    //   return const SignInRoute().location;
+    // }
   },
   observers: [
     sl<AnalyticsManager>().analyticsObserver,
