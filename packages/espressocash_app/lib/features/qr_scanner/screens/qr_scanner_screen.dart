@@ -20,19 +20,18 @@ class QrScannerScreen extends StatelessWidget {
     super.key,
   });
 
+  static Future<QrScannerRequest?> push(BuildContext context) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const QrScannerScreen(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
         child: const _Content(),
       );
-}
-
-class QrScannerRoute extends GoRouteData {
-  const QrScannerRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const QrScannerScreen();
 }
 
 class _Content extends StatefulWidget {

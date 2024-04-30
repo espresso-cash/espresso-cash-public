@@ -27,7 +27,6 @@ import 'features/payment_request/screens/request_payment_status_screen.dart';
 import 'features/payment_request/screens/share_payment_request_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
-import 'features/qr_scanner/screens/qr_scanner_screen.dart';
 import 'features/ramp/models/ramp_partner.dart';
 import 'features/ramp/models/ramp_type.dart';
 import 'features/ramp/screens/off_ramp_order_screen.dart';
@@ -120,7 +119,6 @@ part 'routing.g.dart';
         TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
         TypedGoRoute<RampAmountRoute>(path: '/ramp-amount'),
         TypedGoRoute<RampOnboardingRoute>(path: '/ramp-onboarding'),
-        TypedGoRoute<QrScannerRoute>(path: '/qr-scanner'),
       ],
     ),
   ],

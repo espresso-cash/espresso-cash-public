@@ -30,7 +30,7 @@ extension BuildContextExt on BuildContext {
     required CryptoCurrency cryptoCurrency,
     FiatAmount? defaultFiatAmount,
   }) async {
-    final request = await const QrScannerRoute().push<QrScannerRequest>(this);
+    final request = await QrScannerScreen.push(this);
 
     if (request == null) return;
     if (!mounted) return;
@@ -115,7 +115,7 @@ extension BuildContextExt on BuildContext {
   }
 
   Future<String?> launchQrForAddress() async {
-    final request = await const QrScannerRoute().push<QrScannerRequest>(this);
+    final request = await QrScannerScreen.push(this);
 
     if (request == null) return null;
     if (!mounted) return null;
