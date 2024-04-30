@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../wallet_flow/widgets/pay_main_page.dart';
 import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
@@ -54,16 +53,15 @@ class RampPartnerSelectScreen extends StatelessWidget {
           RampType.offRamp => context.l10n.offRampMorePartnersFooter,
         },
         onContinue: () => onPartnerSelected(topPartner),
-        onMoreOptions: () => RampMoreOptionsRoute(
-          (
-            type: type,
-            otherPartners: otherPartners,
-            onPartnerSelected: (RampPartner partner) {
-              context.pop();
-              onPartnerSelected(partner);
-            },
-          ),
-        ).push<void>(context),
+        onMoreOptions: () => RampMoreOptionsScreen.push(
+          context,
+          type: type,
+          otherPartners: otherPartners,
+          onPartnerSelected: (RampPartner partner) {
+            context.pop();
+            onPartnerSelected(partner);
+          },
+        ),
       );
 }
 

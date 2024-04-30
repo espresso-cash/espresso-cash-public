@@ -29,7 +29,6 @@ import 'features/ramp/models/ramp_partner.dart';
 import 'features/ramp/models/ramp_type.dart';
 import 'features/ramp/screens/off_ramp_order_screen.dart';
 import 'features/ramp/screens/on_ramp_order_screen.dart';
-import 'features/ramp/screens/ramp_more_options_screen.dart';
 import 'features/ramp/screens/ramp_partner_select_screen.dart';
 import 'features/transaction_request/screens/tr_details_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
@@ -112,7 +111,6 @@ part 'routing.g.dart';
         ),
         TypedGoRoute<OnboardingProfileRoute>(path: '/onboarding/profile'),
         TypedGoRoute<RampPartnerSelectRoute>(path: '/ramp-select-partner'),
-        TypedGoRoute<RampMoreOptionsRoute>(path: '/ramp-more-options'),
       ],
     ),
   ],
