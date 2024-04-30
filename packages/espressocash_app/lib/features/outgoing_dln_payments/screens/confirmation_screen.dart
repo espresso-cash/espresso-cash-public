@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/theme.dart';
@@ -21,6 +20,22 @@ class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
     required this.blockchain,
     required this.amount,
   });
+
+  static void push(
+    BuildContext context, {
+    required CryptoAmount amount,
+    required String receiverAddress,
+    required Blockchain blockchain,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OutgoingDlnPaymentConfirmationScreen(
+            amount: amount,
+            receiverAddress: receiverAddress,
+            blockchain: blockchain,
+          ),
+        ),
+      );
 
   final CryptoAmount amount;
   final String receiverAddress;
@@ -54,26 +69,6 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
         ),
       );
 }
-
-class OutgoingDlnPaymentConfirmationRoute extends GoRouteData {
-  const OutgoingDlnPaymentConfirmationRoute(this.$extra);
-
-  final OutgoingDlnPaymentConfirmationParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OutgoingDlnPaymentConfirmationScreen(
-        amount: $extra.amount,
-        receiverAddress: $extra.receiverAddress,
-        blockchain: $extra.blockchain,
-      );
-}
-
-typedef OutgoingDlnPaymentConfirmationParams = ({
-  CryptoAmount amount,
-  String receiverAddress,
-  Blockchain blockchain,
-});
 
 extension on BuildContext {
   Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(

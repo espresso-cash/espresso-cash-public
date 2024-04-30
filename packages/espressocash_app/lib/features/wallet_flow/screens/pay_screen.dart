@@ -71,13 +71,12 @@ class _PayScreenState extends State<PayScreen> {
 
           ODPDetailsRoute(id).go(context);
         } else {
-          await OutgoingDlnPaymentConfirmationRoute(
-            (
-              amount: widget.amount,
-              blockchain: network,
-              receiverAddress: address,
-            ),
-          ).push<void>(context);
+          OutgoingDlnPaymentConfirmationScreen.push(
+            context,
+            amount: widget.amount,
+            blockchain: network,
+            receiverAddress: address,
+          );
         }
       },
     ).push<void>(context);

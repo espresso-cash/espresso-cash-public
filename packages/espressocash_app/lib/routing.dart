@@ -29,7 +29,6 @@ import 'features/outgoing_direct_payments/screens/network_picker_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_details_screen.dart';
 import 'features/outgoing_direct_payments/screens/odp_input_screen.dart';
-import 'features/outgoing_dln_payments/screens/confirmation_screen.dart';
 import 'features/outgoing_dln_payments/screens/details_screen.dart';
 import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
 import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
@@ -143,9 +142,6 @@ part 'routing.g.dart';
         TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
         TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),
         TypedGoRoute<RemoteRequestRoute>(path: '/remote-request'),
-        TypedGoRoute<OutgoingDlnPaymentConfirmationRoute>(
-          path: '/outgoing-dln-payment-confirmation',
-        ),
       ],
     ),
   ],
