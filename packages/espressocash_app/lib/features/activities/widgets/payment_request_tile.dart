@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -8,9 +7,8 @@ import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
-import '../../payment_request/screens/link_details_flow_screen.dart';
+import '../../payment_request/screens/request_payment_status_screen.dart';
 import '../../payment_request/widgets/formatted_amount.dart';
-import '../../payment_request/widgets/payment_request_verifier.dart';
 import 'activity_tile.dart';
 
 class PaymentRequestTile extends StatefulWidget {
@@ -42,22 +40,21 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
 
           return data == null
               ? SizedBox.shrink(key: ValueKey(widget.id))
-              : PaymentRequestVerifier(
+              : CpActivityTile(
                   key: ValueKey(widget.id),
-                  paymentRequest: data,
-                  child: CpActivityTile(
-                    title: context.l10n.paymentRequestTitle,
-                    icon: Assets.icons.paymentIcon.svg(),
-                    timestamp: context.formatDate(data.created),
-                    incomingAmount:
-                        data.formattedAmount(DeviceLocale.localeOf(context)),
-                    status: data.state.map(
-                      initial: always(CpActivityTileStatus.inProgress),
-                      completed: always(CpActivityTileStatus.success),
-                      failure: always(CpActivityTileStatus.failure),
-                    ),
-                    onTap: () => SharePaymentRequestRoute(data.id).go(context),
-                  ),
+                  title: context.l10n.paymentRequestTitle,
+                  icon: Assets.icons.paymentIcon.svg(),
+                  timestamp: context.formatDate(data.created),
+                  incomingAmount:
+                      data.formattedAmount(DeviceLocale.localeOf(context)),
+                  status: switch (data.state) {
+                    PaymentRequestState.initial =>
+                      CpActivityTileStatus.inProgress,
+                    PaymentRequestState.completed =>
+                      CpActivityTileStatus.success,
+                    PaymentRequestState.error => CpActivityTileStatus.failure,
+                  },
+                  onTap: () => PaymentRequestStatusRoute(data.id).go(context),
                 );
         },
       );

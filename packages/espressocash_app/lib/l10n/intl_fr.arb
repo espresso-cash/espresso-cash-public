@@ -452,14 +452,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} a été payée.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Demande de paiement",
   "pending": "En attente",
   "@pending": {},

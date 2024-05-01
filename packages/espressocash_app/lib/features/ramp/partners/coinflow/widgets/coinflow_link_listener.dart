@@ -36,7 +36,7 @@ class _CoinflowLinkListenerState extends SingleChildState<CoinflowLinkListener>
   Future<void> _handleCoinflowDeepLink() async {
     final profile = await context.ensureProfileData(RampType.offRamp);
 
-    if (context.mounted && profile != null) {
+    if (mounted && profile != null) {
       await context.launchCoinflowOffRamp(
         address: context.read<MyAccount>().wallet.publicKey.toBase58(),
         profile: profile,

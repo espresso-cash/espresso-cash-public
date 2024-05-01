@@ -291,14 +291,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancel Payment Request",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Your request of {amount} was paid.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Payment request",
   "pending": "Pending",
   "@pending": {},
@@ -370,6 +362,24 @@
   "@resendLink": {},
   "retry": "Retry",
   "@retry": {},
+  "requestPaymentTitle": "Request Payment",
+  "@requestPaymentTitle": {},
+  "requestPaymentCreated": "Request payment created",
+  "@requestPaymentCreated": {},
+  "requestPaymentReceived": "Money received",
+  "@requestPaymentReceived": {},
+  "requestPaymentPending": "Waiting for payment",
+  "@requestPaymentPending": {},
+  "requestDeletePaymentTitle": "Delete Request",
+  "@requestDeletePaymentTitle": {},
+  "requestPaymentStatus": "Payment status: {status}",
+  "@requestPaymentStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
   "save": "Save",
   "@save": {},
   "scanToReceive": "Scan to receive {amount}",
@@ -821,5 +831,19 @@
   "addCash_CashoutAnytime": "Cash-out anytime to your bank account at 1:1 value of US dollar.",
   "@addCash_CashoutAnytime": {},
   "addCash_sendReceiveMoney": "Send & receive money in seconds.",
-  "@addCash_sendReceiveMoney": {}
+  "@addCash_sendReceiveMoney": {},
+  "invoiceNumber": "Invoice number: {reference}",
+  "@invoiceNumber": {
+    "placeholders": {
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "notReceived": "Not received",
+  "@notReceived": {},
+  "received": "Received",
+  "@received": {},
+  "failed": "Failed",
+  "@failed": {}
 }

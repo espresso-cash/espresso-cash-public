@@ -1,30 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
-import '../../../ui/dialogs.dart';
+import '../../../ui/loader.dart';
 import '../../../ui/tab_bar.dart';
-import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
+import '../../authenticated/authenticated_navigator_key.dart';
+import '../../tokens/token_list.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
+import '../widgets/invoice.dart';
 import '../widgets/share_link.dart';
 import '../widgets/share_qr_code.dart';
 
-class SharePaymentRequestScreen extends StatelessWidget {
-  const SharePaymentRequestScreen({super.key});
+class SharePaymentRequestScreen extends StatefulWidget {
+  const SharePaymentRequestScreen({
+    super.key,
+    required this.id,
+  });
+
+  final String id;
+
+  @override
+  State<SharePaymentRequestScreen> createState() =>
+      _SharePaymentRequestScreenState();
+}
+
+class _SharePaymentRequestScreenState extends State<SharePaymentRequestScreen> {
+  late final Stream<PaymentRequest> _stream;
+
+  @override
+  void initState() {
+    super.initState();
+    _stream = sl<PaymentRequestRepository>().watchById(widget.id);
+  }
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder<PaymentRequest>(
+        stream: _stream,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
+
+          return data == null
+              ? const LoadingIndicator()
+              : SharePaymentRequestContent(request: data);
+        },
+      );
+}
+
+class SharePaymentRequestContent extends StatelessWidget {
+  const SharePaymentRequestContent({
+    super.key,
+    required this.request,
+  });
+
+  final PaymentRequest request;
 
   @override
   Widget build(BuildContext context) {
-    final request = context.watch<PaymentRequest>();
     final title = Text(
-      context.l10n.sharePaymentRequestTitle.toUpperCase(),
+      context.l10n.requestPaymentTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
+
+    final tokenList = sl<TokenList>();
+    final amount = request.payRequest.cryptoAmount(tokenList);
 
     return CpTheme.black(
       child: Scaffold(
@@ -51,35 +94,71 @@ class SharePaymentRequestScreen extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    ShareLink(paymentRequest: request),
-                    ShareQrCode(paymentRequest: request),
+                    ShareLink(
+                      amount: amount,
+                      link: request.shortLink ?? request.dynamicLink,
+                    ),
+                    ShareQrCode(amount: amount, link: request.dynamicLink),
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.paddingOf(context).bottom + 24,
-                ),
-                child: CpTextButton(
-                  text: context.l10n.paymentRequestCancel,
-                  onPressed: () => showConfirmationDialog(
-                    context,
-                    title: context
-                        .l10n.paymentRequest_lblCancelConfirmationTitle
-                        .toUpperCase(),
-                    message: context
-                        .l10n.paymentRequest_lblCancelConfirmationSubtitle,
-                    onConfirm: () {
-                      sl<PaymentRequestRepository>().delete(request.id);
-                      context.pop();
-                    },
-                  ),
-                ),
-              ),
+              _Footer(request: request),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+class _Footer extends StatelessWidget {
+  const _Footer({required this.request});
+
+  final PaymentRequest request;
+
+  @override
+  Widget build(BuildContext context) {
+    final status = switch (request.state) {
+      PaymentRequestState.initial => context.l10n.notReceived,
+      PaymentRequestState.completed => context.l10n.received,
+      PaymentRequestState.error => context.l10n.failed,
+    };
+
+    return DefaultTextStyle(
+      style: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 16,
+          bottom: MediaQuery.paddingOf(context).bottom + 24,
+        ),
+        child: Column(
+          children: [
+            Text(context.l10n.requestPaymentStatus(status)),
+            const SizedBox(height: 4),
+            if (request.payRequest.invoice case final reference?)
+              InvoiceTextWidget(reference: reference),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SharePaymentRequestRoute extends GoRouteData {
+  const SharePaymentRequestRoute(this.id);
+
+  final String id;
+
+  static final GlobalKey<NavigatorState> $parentNavigatorKey =
+      authenticatedNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      SharePaymentRequestScreen(
+        id: id,
+      );
 }

@@ -118,9 +118,11 @@ class WebViewRoute extends GoRouteData {
       );
 }
 
+// TODO(KB): refactor to class
 typedef WebViewParams = ({
   Uri url,
   String? title,
+  // ignore: avoid-function-type-in-records, refactor later
   ValueSetter<InAppWebViewController>? onLoaded,
   CpThemeData? theme,
 });

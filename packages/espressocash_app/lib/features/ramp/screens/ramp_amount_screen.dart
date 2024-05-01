@@ -169,13 +169,17 @@ class RampAmountRoute extends GoRouteData {
       );
 }
 
+// TODO(KB): refactor to class
 typedef RampAmountParams = ({
+  // ignore: avoid-function-type-in-records, refactor later
   ValueSetter<Amount> onSubmitted,
   Decimal minAmount,
   Currency currency,
+  // ignore: avoid-function-type-in-records, refactor later
   AmountCalculator? calculateEquivalent,
   RampType type,
   RampPartner partner,
+  // ignore: avoid-function-type-in-records, refactor later
   FeeCalculator? calculateFee,
   String? partnerFeeLabel,
 });

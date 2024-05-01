@@ -27,7 +27,7 @@ class MobileWalletRepository extends ChangeNotifier {
     );
   }
 
-  FutureOr<T?> notifyApp<T>(MobileWalletNotification notification) {
+  Future<T?> notifyApp<T>(MobileWalletNotification notification) async {
     _notification = notification;
     notifyListeners();
 

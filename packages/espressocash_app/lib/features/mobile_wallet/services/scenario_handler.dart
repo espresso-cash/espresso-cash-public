@@ -27,7 +27,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   Scenario? _scenario;
 
   @override
-  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) async {
+  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) {
     final remoteRequest = RemoteRequest.authorizeDapp(request: request);
 
     return _repository.notifyApp(
@@ -44,7 +44,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
-  ) async {
+  ) {
     final remoteRequest =
         RemoteRequest.signTransactionsForSending(request: request);
 
@@ -56,7 +56,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignedPayloadResult?> onSignMessagesRequest(
     SignMessagesRequest request,
-  ) async {
+  ) {
     final remoteRequest = RemoteRequest.signPayloads(request: request);
 
     return _repository.notifyApp(
@@ -67,7 +67,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignedPayloadResult?> onSignTransactionsRequest(
     SignTransactionsRequest request,
-  ) async {
+  ) {
     final remoteRequest = RemoteRequest.signPayloads(request: request);
 
     return _repository.notifyApp(
@@ -105,11 +105,10 @@ class ScenarioHandler implements ScenarioCallbacks {
   }
 
   @override
-  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
-    _repository.notifyApp<void>(
-      const MobileWalletNotification.deauthorized(),
-    );
-  }
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) =>
+      _repository.notifyApp<void>(
+        const MobileWalletNotification.deauthorized(),
+      );
 
   @override
   void onLowPowerAndNoConnection() {}

@@ -82,9 +82,11 @@ class RampPartnerSelectRoute extends GoRouteData {
       );
 }
 
+// TODO(KB): refactor to class
 typedef RampPartnerSelectParams = ({
   RampPartner topPartner,
   IList<RampPartner> otherPartners,
   RampType type,
+  // ignore: avoid-function-type-in-records, refactor later
   ValueSetter<RampPartner> onPartnerSelected,
 });
