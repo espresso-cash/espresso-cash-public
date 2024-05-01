@@ -9,12 +9,12 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
+import '../../../ui/size.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
-import 'extensions.dart';
 
 class WalletMainScreen extends StatefulWidget {
   const WalletMainScreen({
