@@ -84,8 +84,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 }
 
-
-
 @freezed
 class SignInState with _$SignInState {
   const factory SignInState({
