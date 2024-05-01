@@ -7,7 +7,7 @@ import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
-import '../../payment_request/screens/request_payment_status_screen.dart';
+import '../../payment_request/screens/payment_request_screen.dart';
 import '../../payment_request/widgets/formatted_amount.dart';
 import 'activity_tile.dart';
 
@@ -54,7 +54,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                       CpActivityTileStatus.success,
                     PaymentRequestState.error => CpActivityTileStatus.failure,
                   },
-                  onTap: () => PaymentRequestStatusRoute(data.id).go(context),
+                  onTap: () => PaymentRequestRoute(data.id).go(context),
                 );
         },
       );

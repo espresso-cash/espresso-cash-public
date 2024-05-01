@@ -39,8 +39,7 @@ import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
 import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import 'features/outgoing_link_payments/screens/olp_screen.dart';
 import 'features/outgoing_link_payments/screens/share_link_screen.dart';
-import 'features/payment_request/screens/request_payment_status_screen.dart';
-import 'features/payment_request/screens/share_payment_request_screen.dart';
+import 'features/payment_request/screens/payment_request_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/qr_scanner/screens/qr_scanner_screen.dart';
@@ -132,11 +131,8 @@ part 'routing.g.dart';
                       path: 'details-ilp/:id',
                     ),
                     TypedGoRoute<ShareLinkRoute>(path: 'share-link'),
-                    TypedGoRoute<SharePaymentRequestRoute>(
-                      path: 'share-payment-request/:id',
-                    ),
-                    TypedGoRoute<PaymentRequestStatusRoute>(
-                      path: 'payment-request-status/:id',
+                    TypedGoRoute<PaymentRequestRoute>(
+                      path: 'payment-request/:id',
                     ),
                     TypedGoRoute<OutgoingDlnPaymentDetailsRoute>(
                       path: 'details-outgoing-dln-payment/:id',
