@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide Notification;
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -14,9 +13,11 @@ class ActivitiesScreen extends StatefulWidget {
   const ActivitiesScreen({
     super.key,
     required this.initialTab,
+    required this.onSendMoneyPressed,
   });
 
   final ActivitiesTab initialTab;
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<ActivitiesScreen> createState() => _ActivitiesScreenState();
@@ -57,11 +58,17 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         );
 
     Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
-          ActivitiesTab.pending => const _Wrapper(
-              child: PendingActivitiesList(padding: insets),
+          ActivitiesTab.pending => _Wrapper(
+              child: PendingActivitiesList(
+                padding: insets,
+                onSendMoneyPressed: widget.onSendMoneyPressed,
+              ),
             ),
-          ActivitiesTab.transactions => const _Wrapper(
-              child: TransactionList(padding: insets),
+          ActivitiesTab.transactions => _Wrapper(
+              child: TransactionList(
+                padding: insets,
+                onSendMoneyPressed: widget.onSendMoneyPressed,
+              ),
             ),
         };
 
@@ -90,20 +97,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
       ),
     );
   }
-}
-
-class ActivitiesRoute extends GoRouteData {
-  const ActivitiesRoute({required this.initialTab});
-
-  final ActivitiesTab? initialTab;
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      NoTransitionPage(
-        child: ActivitiesScreen(
-          initialTab: initialTab ?? ActivitiesTab.pending,
-        ),
-      );
 }
 
 const double _padding = 40;

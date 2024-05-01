@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/theme.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../currency/models/amount.dart';
@@ -22,6 +20,22 @@ class OutgoingDlnPaymentConfirmationScreen extends StatefulWidget {
     required this.amount,
   });
 
+  static void push(
+    BuildContext context, {
+    required CryptoAmount amount,
+    required String receiverAddress,
+    required Blockchain blockchain,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OutgoingDlnPaymentConfirmationScreen(
+            amount: amount,
+            receiverAddress: receiverAddress,
+            blockchain: blockchain,
+          ),
+        ),
+      );
+
   final CryptoAmount amount;
   final String receiverAddress;
   final Blockchain blockchain;
@@ -35,7 +49,7 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
     final id = await context.createDlnPayment(quote);
 
     if (!mounted) return;
-    OutgoingDlnPaymentDetailsRoute(id).go(context);
+    OutgoingDlnPaymentDetailsScreen.open(context, id: id);
   }
 
   @override
@@ -54,26 +68,6 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
         ),
       );
 }
-
-class OutgoingDlnPaymentConfirmationRoute extends GoRouteData {
-  const OutgoingDlnPaymentConfirmationRoute(this.$extra);
-
-  final OutgoingDlnPaymentConfirmationParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OutgoingDlnPaymentConfirmationScreen(
-        amount: $extra.amount,
-        receiverAddress: $extra.receiverAddress,
-        blockchain: $extra.blockchain,
-      );
-}
-
-typedef OutgoingDlnPaymentConfirmationParams = ({
-  CryptoAmount amount,
-  String receiverAddress,
-  Blockchain blockchain,
-});
 
 extension on BuildContext {
   Future<String> createDlnPayment(PaymentQuote quote) => runWithLoader(

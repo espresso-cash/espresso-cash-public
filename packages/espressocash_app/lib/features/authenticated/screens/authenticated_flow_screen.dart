@@ -1,23 +1,25 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/splash_screen.dart';
-import '../../accounts/models/account.dart';
 import '../../accounts/services/account_service.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
-import '../../conversion_rates/module.dart';
-import '../../incoming_link_payments/module.dart';
-import '../../mobile_wallet/module.dart';
-import '../../outgoing_link_payments/module.dart';
-import '../authenticated_navigator_key.dart';
+import '../../mobile_wallet/widgets/mobile_wallet_listener.dart';
+import 'home_screen.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
-  const AuthenticatedFlowScreen({super.key, required this.child});
+  const AuthenticatedFlowScreen({super.key});
 
-  final Widget child;
+  static void open(BuildContext context, {NavigatorState? navigator}) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<void>(
+        PageRouteBuilder(
+          pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
+        ),
+        F,
+      );
 
   @override
   State<AuthenticatedFlowScreen> createState() =>
@@ -40,45 +42,16 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext _) => MultiProvider(
-        providers: const [
-          ConversionRatesModule(),
-        ],
-        child: ValueListenableBuilder(
-          valueListenable: sl<AccountService>(),
-          builder: (context, account, child) {
-            if (account == null) return const SplashScreen();
+  Widget build(BuildContext _) => ValueListenableBuilder(
+        valueListenable: sl<AccountService>(),
+        builder: (context, account, child) {
+          if (account == null) return const SplashScreen();
 
-            return MultiProvider(
-              providers: [
-                Provider<MyAccount>.value(value: account),
-                const BackupPhraseModule(),
-                const OLPModule(),
-                const MobileWalletModule(),
-              ],
-              child: MultiProvider(
-                providers: const [
-                  ILPModule(),
-                ],
-                child: widget.child,
-              ),
-            );
-          },
-        ),
+          return const BackupPhraseModule(
+            child: MobileWalletListener(
+              child: HomeScreen(),
+            ),
+          );
+        },
       );
-}
-
-class AuthenticatedRoute extends ShellRouteData {
-  const AuthenticatedRoute();
-
-  static final GlobalKey<NavigatorState> $navigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Page<void> pageBuilder(
-    BuildContext context,
-    GoRouterState state,
-    Widget navigator,
-  ) =>
-      NoTransitionPage(child: AuthenticatedFlowScreen(child: navigator));
 }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../outgoing_link_payments/screens/olp_screen.dart';
@@ -29,6 +28,6 @@ class OLPTile extends StatelessWidget {
           txFailure: always(CpActivityTileStatus.failure),
           orElse: always(CpActivityTileStatus.inProgress),
         ),
-        onTap: () => OLPRoute(activity.id).go(context),
+        onTap: () => OLPScreen.push(context, id: activity.id),
       );
 }

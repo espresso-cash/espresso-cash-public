@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../widgets/quiz_page.dart';
 import 'quiz_screen.dart';
 
@@ -15,6 +12,16 @@ class QuizIntroScreen extends StatelessWidget {
     super.key,
     required this.onConfirmed,
   });
+
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => QuizIntroScreen(
+            onConfirmed: () => Navigator.of(context).pushReplacement(
+              MaterialPageRoute<void>(builder: (context) => const QuizScreen()),
+            ),
+          ),
+        ),
+      );
 
   final VoidCallback onConfirmed;
 
@@ -63,17 +70,5 @@ class QuizIntroScreen extends StatelessWidget {
             width: 350,
           ),
         ],
-      );
-}
-
-class QuizIntroRoute extends GoRouteData {
-  const QuizIntroRoute();
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => QuizIntroScreen(
-        onConfirmed: () => const QuizRoute().go(context),
       );
 }

@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -20,19 +19,18 @@ class QrScannerScreen extends StatelessWidget {
     super.key,
   });
 
+  static Future<QrScannerRequest?> push(BuildContext context) =>
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => const QrScannerScreen(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => sl<QrScannerBloc>(),
         child: const _Content(),
       );
-}
-
-class QrScannerRoute extends GoRouteData {
-  const QrScannerRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const QrScannerScreen();
 }
 
 class _Content extends StatefulWidget {
@@ -93,14 +91,14 @@ class _ContentState extends State<_Content>
         _qrViewController.stop();
         _onQRScanError();
 
-        context.pop();
+        Navigator.pop(context);
       },
     );
   }
 
   void _handleClosePressed() {
     _qrViewController.stop();
-    context.pop();
+    Navigator.pop(context);
   }
 
   void _handleDetected(BarcodeCapture capture) {
@@ -110,7 +108,8 @@ class _ContentState extends State<_Content>
     }
   }
 
-  void _onScanComplete([QrScannerRequest? request]) => context.pop(request);
+  void _onScanComplete([QrScannerRequest? request]) =>
+      Navigator.pop(context, request);
 
   @override
   Widget build(BuildContext _) => BlocListener<QrScannerBloc, QrScannerState>(

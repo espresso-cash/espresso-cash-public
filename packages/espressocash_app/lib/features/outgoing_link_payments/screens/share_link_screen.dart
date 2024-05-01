@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/share_link.dart';
 import '../../../ui/theme.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
@@ -16,6 +14,17 @@ class ShareLinkScreen extends StatelessWidget {
     required this.amount,
     required this.status,
   });
+
+  static void push(
+    BuildContext context, {
+    required CryptoAmount amount,
+    required OLPStatusLinkReady status,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => ShareLinkScreen(amount: amount, status: status),
+        ),
+      );
 
   final CryptoAmount amount;
   final OLPStatusLinkReady status;
@@ -50,21 +59,3 @@ class ShareLinkScreen extends StatelessWidget {
     );
   }
 }
-
-class ShareLinkRoute extends GoRouteData {
-  const ShareLinkRoute(this.$extra);
-
-  final ShareLinkParams $extra;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ShareLinkScreen(amount: $extra.amount, status: $extra.status);
-}
-
-typedef ShareLinkParams = ({
-  CryptoAmount amount,
-  OLPStatusLinkReady status,
-});

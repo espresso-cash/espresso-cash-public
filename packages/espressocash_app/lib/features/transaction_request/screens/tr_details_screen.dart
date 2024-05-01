@@ -1,13 +1,11 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/web_view_screen.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
@@ -21,6 +19,13 @@ class TRDetailsScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => TRDetailsScreen(id: id),
+        ),
+      );
 
   final String id;
 
@@ -39,7 +44,7 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
 
   void _cancelTR(String id) {
     sl<TRService>().cancel(id);
-    context.pop();
+    Navigator.pop(context);
   }
 
   void _retryTR(String id) => sl<TRService>().retry(id);
@@ -61,15 +66,15 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
           final payment = snapshot.data;
 
           final loading = TransferProgress(
-            onBack: () => context.pop(),
+            onBack: () => Navigator.pop(context),
           );
 
           if (payment == null) return loading;
 
           return switch (payment.status) {
             TRStatus.success => TransferSuccess(
-                onBack: () => context.pop(),
-                onOkPressed: () => context.pop(),
+                onBack: () => Navigator.pop(context),
+                onOkPressed: () => Navigator.pop(context),
                 statusContent: context.l10n.outgoingTransferSuccess(
                   payment.amount.format(DeviceLocale.localeOf(context)),
                 ),
@@ -82,7 +87,7 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
                 },
               ),
             TRStatus.failure => TransferError(
-                onBack: () => context.pop(),
+                onBack: () => Navigator.pop(context),
                 onRetry: () => _retryTR(payment.id),
                 onCancel: () => _handleCancel(payment.id),
               ),
@@ -90,17 +95,4 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
           };
         },
       );
-}
-
-class TRDetailsRoute extends GoRouteData {
-  const TRDetailsRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      TRDetailsScreen(id: id);
 }

@@ -11,9 +11,11 @@ class TransactionList extends StatefulWidget {
   const TransactionList({
     super.key,
     this.padding,
+    required this.onSendMoneyPressed,
   });
 
   final EdgeInsetsGeometry? padding;
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -40,7 +42,11 @@ class _TransactionListState extends State<TransactionList> {
             if (data == null) return const SizedBox.shrink();
 
             return data.isEmpty
-                ? const Center(child: NoActivity())
+                ? Center(
+                    child: NoActivity(
+                      onSendMoneyPressed: widget.onSendMoneyPressed,
+                    ),
+                  )
                 : ListView.custom(
                     padding: widget.padding,
                     childrenDelegate: SliverChildBuilderDelegate(

@@ -9,7 +9,6 @@ import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/colors.dart';
 import '../../../../../ui/dialogs.dart';
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';

@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../authenticated/auth_scope.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
@@ -14,11 +16,15 @@ import 'payment_watcher.dart';
 /// Watches for [ILPStatus.txCreated] payments and and sends the tx.
 ///
 /// The watcher will try to submit the tx until it's accepted or rejected.
-@injectable
+@Singleton(scope: authScope)
 class TxCreatedWatcher extends PaymentWatcher {
-  TxCreatedWatcher(super._repository, this._sender);
+  TxCreatedWatcher(super._repository, this._sender, this._refreshBalance);
 
   final TxSender _sender;
+  final RefreshBalance _refreshBalance;
+
+  @postConstruct
+  void init() => call(onBalanceAffected: _refreshBalance.call);
 
   @override
   CancelableJob<IncomingLinkPayment> createJob(

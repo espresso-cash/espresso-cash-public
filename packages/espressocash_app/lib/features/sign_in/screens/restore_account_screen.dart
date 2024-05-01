@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
-import '../services/sign_in_bloc.dart';
+import '../services/validate_mnemonic.dart';
 import '../widgets/mnemonic_input_formatter.dart';
 
 class RestoreAccountScreen extends StatefulWidget {
-  const RestoreAccountScreen({super.key});
+  const RestoreAccountScreen({super.key, required this.onSubmit});
+
+  final ValueSetter<String> onSubmit;
 
   @override
   State<RestoreAccountScreen> createState() => _RestoreAccountScreenState();
@@ -20,11 +20,7 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
   late final TextEditingController _controller;
   bool _mnemonicIsValid = false;
 
-  void _restoreAccount() {
-    context.read<SignInBloc>()
-      ..add(SignInEvent.existingLocalWalletRequested(_controller.text.trim()))
-      ..add(const SignInEvent.submitted());
-  }
+  void _restoreAccount() => widget.onSubmit(_controller.text.trim());
 
   @override
   void initState() {
@@ -91,11 +87,3 @@ class _RestoreAccountScreenState extends State<RestoreAccountScreen> {
 }
 
 const keyRecoverMnemonic = Key('keyRecoverMnemonic');
-
-class RestoreAccountRoute extends GoRouteData {
-  const RestoreAccountRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const RestoreAccountScreen();
-}
