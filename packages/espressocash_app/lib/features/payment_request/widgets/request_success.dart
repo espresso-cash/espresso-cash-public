@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/clipboard.dart';
@@ -78,14 +79,40 @@ class _InvoiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: () => context.copyToClipboard(reference),
-        child: Center(
-          child: Text(
-            context.l10n.invoiceNumber(reference.toShortAddress()),
-            style: const TextStyle(
-              color: Color(0xFF929292),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
+        child: Container(
+          height: 40,
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: const ShapeDecoration(
+            color: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                width: 1,
+                color: Color(0xff404040),
+              ),
+              borderRadius: BorderRadius.all(
+                Radius.circular(50),
+              ),
             ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Assets.icons.txIconDark.svg(
+                height: 24,
+                width: 24,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                context.l10n.invoiceNumber(reference.toShortAddress()),
+                style: const TextStyle(
+                  color: Color(0xFF757575),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.23,
+                ),
+              ),
+              const SizedBox(width: 8),
+            ],
           ),
         ),
       );

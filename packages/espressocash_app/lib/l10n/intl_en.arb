@@ -790,7 +790,7 @@
   "@outgoingDirectPayments_lblCancelConfirmationTitle": {},
   "cancelTransferBtn": "Cancel transfer",
   "@cancelTransferBtn": {},
-  "invoiceNumber": "Invoice number: {reference}",
+  "invoiceNumber": "Invoice {reference}",
   "@invoiceNumber": {
     "placeholders": {
       "reference": {
