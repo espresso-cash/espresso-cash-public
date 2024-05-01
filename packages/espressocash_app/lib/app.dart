@@ -40,7 +40,16 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
           navigator: _navigator.currentState,
         );
       } else {
-        OnboardingFlowScreen.open(context, navigator: _navigator.currentState);
+        OnboardingFlowScreen.open(
+          context,
+          navigator: _navigator.currentState,
+          onConfirmed: () {
+            AuthenticatedFlowScreen.open(
+              context,
+              navigator: _navigator.currentState,
+            );
+          },
+        );
       }
     });
   }

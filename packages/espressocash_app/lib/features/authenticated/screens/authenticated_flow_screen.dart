@@ -21,10 +21,6 @@ class AuthenticatedFlowScreen extends StatefulWidget {
         F,
       );
 
-  static void backToHome(BuildContext context) =>
-      Navigator.of(context, rootNavigator: true)
-          .popUntil((route) => route.isFirst);
-
   @override
   State<AuthenticatedFlowScreen> createState() =>
       _AuthenticatedFlowScreenState();

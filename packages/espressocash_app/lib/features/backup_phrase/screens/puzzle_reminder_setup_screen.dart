@@ -6,7 +6,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../authenticated/screens/authenticated_flow_screen.dart';
+import '../../../utils/routing.dart';
 import '../services/puzzle_reminder_bloc.dart';
 import '../widgets/puzzle_screen.dart';
 
@@ -60,7 +60,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
     sl<PuzzleReminderBloc>()
         .add(PuzzleReminderEvent.postponed(postponedBy: _duration));
 
-    AuthenticatedFlowScreen.backToHome(context);
+    context.openFirstScreen();
   }
 
   @override

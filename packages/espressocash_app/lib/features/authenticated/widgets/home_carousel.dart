@@ -5,11 +5,12 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../screens/home_screen.dart';
 import 'home_widget.dart';
 
 class HomeCarouselWidget extends StatefulWidget {
-  const HomeCarouselWidget({super.key});
+  const HomeCarouselWidget({super.key, required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<HomeCarouselWidget> createState() => _HomeCarouselWidgetState();
@@ -36,7 +37,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => HomeScreen.openWalletTab(context),
+          onPressed: widget.onSendMoneyPressed,
         ),
         backgroundImage: isIos
             ? Assets.images.carousel2Ios.image()
@@ -49,7 +50,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => HomeScreen.openWalletTab(context),
+          onPressed: widget.onSendMoneyPressed,
         ),
         backgroundImage: Assets.images.carousel1.image(),
       ),
@@ -60,7 +61,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
           minWidth: 250,
           size: CpButtonSize.wide,
           text: context.l10n.carouselSendMoneyBtn,
-          onPressed: () => HomeScreen.openWalletTab(context),
+          onPressed: widget.onSendMoneyPressed,
         ),
         backgroundImage: Assets.images.carousel4.image(),
       ),

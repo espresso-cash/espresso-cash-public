@@ -12,7 +12,6 @@ import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../../utils/email.dart';
-import '../../authenticated/screens/authenticated_flow_screen.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
@@ -21,12 +20,21 @@ import '../../profile/service/update_profile.dart';
 class OnboardingProfileScreen extends StatefulWidget {
   const OnboardingProfileScreen({
     super.key,
+    required this.onConfirmed,
   });
 
-  static void open(BuildContext context, {NavigatorState? navigator}) =>
+  final VoidCallback onConfirmed;
+
+  static void open(
+    BuildContext context, {
+    required VoidCallback onConfirmed,
+    NavigatorState? navigator,
+  }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
-        MaterialPageRoute(builder: (_) => const OnboardingProfileScreen()),
+        MaterialPageRoute(
+          builder: (_) => OnboardingProfileScreen(onConfirmed: onConfirmed),
+        ),
         F,
       );
 
@@ -79,12 +87,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
               )
               .foldAsync((e) => throw e, ignore);
 
-          unawaited(
-            Future.microtask(() {
-              if (!mounted) return;
-              AuthenticatedFlowScreen.open(context);
-            }),
-          );
+          unawaited(Future.microtask(() => widget.onConfirmed()));
         },
         onError: (error) => showErrorDialog(
           context,

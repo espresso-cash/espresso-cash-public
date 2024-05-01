@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../onboarding/screens/profile_screen.dart';
 import '../widgets/puzzle_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
@@ -43,7 +42,9 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 text: context.l10n.protectWallet,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: () => OnboardingProfileScreen.open(context),
+                onPressed: () {
+                  // TODO(KB): redirect to proper screen
+                },
               ),
               const SizedBox(height: 8),
               TextButton(

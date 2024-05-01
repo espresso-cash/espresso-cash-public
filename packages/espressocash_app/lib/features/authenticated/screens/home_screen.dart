@@ -5,20 +5,20 @@ import 'package:provider/provider.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
+import '../../../utils/routing.dart';
 import '../../activities/screens/activities_screen.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
-import 'authenticated_flow_screen.dart';
 import 'main_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static void openWalletTab(BuildContext context) {
-    AuthenticatedFlowScreen.backToHome(context);
+    context.openFirstScreen();
     context.read<TabNotifier>().value = 1;
   }
 
@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
     // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
   }) {
-    AuthenticatedFlowScreen.backToHome(context);
+    context.openFirstScreen();
     context.read<TabNotifier>().value = 2;
   }
 
@@ -86,7 +86,13 @@ final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
   (
     path: '/home',
     icon: Assets.icons.home,
-    builder: (context) => const MainScreen(),
+    builder: (context) => MainScreen(
+          onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
+          onTransactionsPressed: () => HomeScreen.openActivitiesTab(
+            context,
+            tab: ActivitiesTab.transactions,
+          ),
+        ),
   ),
   (
     path: '/wallet',
@@ -96,8 +102,9 @@ final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
   (
     path: '/activities',
     icon: Assets.icons.notifications,
-    builder: (context) => const ActivitiesScreen(
+    builder: (context) => ActivitiesScreen(
           initialTab: ActivitiesTab.pending,
+          onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
         ),
   ),
 ];

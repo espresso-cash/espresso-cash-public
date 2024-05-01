@@ -5,15 +5,20 @@ import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
-import '../../authenticated/screens/home_screen.dart';
 import '../../authenticated/widgets/home_widget.dart';
 import '../data/transaction_repository.dart';
-import '../screens/activities_screen.dart';
 import '../services/tx_updater.dart';
 import 'transaction_item.dart';
 
 class RecentActivityWidget extends StatefulWidget {
-  const RecentActivityWidget({super.key});
+  const RecentActivityWidget({
+    super.key,
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
+
+  final VoidCallback onSendMoneyPressed;
+  final VoidCallback onTransactionsPressed;
 
   @override
   State<RecentActivityWidget> createState() => _RecentActivityWidgetState();
@@ -54,7 +59,11 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                 ),
                 const SizedBox(height: 16),
                 if (data.isEmpty)
-                  const Center(child: _NoActivity())
+                  Center(
+                    child: _NoActivity(
+                      onSendMoneyPressed: widget.onSendMoneyPressed,
+                    ),
+                  )
                 else ...[
                   _Card(
                     child: Column(
@@ -78,10 +87,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () => HomeScreen.openActivitiesTab(
-                          context,
-                          tab: ActivitiesTab.transactions,
-                        ),
+                        onPressed: widget.onTransactionsPressed,
                       ),
                     ],
                   ),
@@ -94,7 +100,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
 }
 
 class _NoActivity extends StatelessWidget {
-  const _NoActivity();
+  const _NoActivity({required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
 
   @override
   Widget build(BuildContext context) => _Card(
@@ -115,7 +123,7 @@ class _NoActivity extends StatelessWidget {
                 minWidth: 120,
                 size: CpButtonSize.wide,
                 text: context.l10n.yes,
-                onPressed: () => HomeScreen.openWalletTab(context),
+                onPressed: onSendMoneyPressed,
               ),
             ],
           ),

@@ -12,15 +12,14 @@ import '../../accounts/data/account_repository.dart';
 import '../data/onboarding_repository.dart';
 
 class ViewRecoveryPhraseScreen extends StatefulWidget {
-  const ViewRecoveryPhraseScreen({
-    super.key,
-    required this.onConfirmed,
-  });
+  const ViewRecoveryPhraseScreen({super.key, required this.onConfirmed});
+
+  final VoidCallback onConfirmed;
 
   static void open(
     BuildContext context, {
-    required VoidCallback onConfirmed,
     NavigatorState? navigator,
+    required VoidCallback onConfirmed,
   }) =>
       (navigator ?? Navigator.of(context, rootNavigator: true))
           .pushAndRemoveUntil<void>(
@@ -31,8 +30,6 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
         ),
         F,
       );
-
-  final VoidCallback onConfirmed;
 
   @override
   State<ViewRecoveryPhraseScreen> createState() =>

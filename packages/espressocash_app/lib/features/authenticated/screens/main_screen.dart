@@ -19,7 +19,14 @@ import '../widgets/home_carousel.dart';
 import '../widgets/investment_header.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({
+    super.key,
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
+
+  final VoidCallback onSendMoneyPressed;
+  final VoidCallback onTransactionsPressed;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -84,9 +91,22 @@ class _MainScreenState extends State<MainScreen> {
                       ],
                       toolbarHeight: kToolbarHeight + 12,
                     ),
-                    const SliverToBoxAdapter(child: InvestmentHeader()),
-                    const SliverToBoxAdapter(child: HomeCarouselWidget()),
-                    const SliverToBoxAdapter(child: RecentActivityWidget()),
+                    SliverToBoxAdapter(
+                      child: InvestmentHeader(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeCarouselWidget(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: RecentActivityWidget(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                        onTransactionsPressed: widget.onTransactionsPressed,
+                      ),
+                    ),
                     SliverToBoxAdapter(
                       child: SizedBox(
                         height: max(
