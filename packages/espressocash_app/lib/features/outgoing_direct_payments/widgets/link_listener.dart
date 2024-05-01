@@ -86,7 +86,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
     );
 
     if (!mounted) return;
-    ODPDetailsScreen.push(context, id: id);
+    ODPDetailsScreen.open(context, id: id);
   }
 
   @override

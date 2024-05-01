@@ -34,11 +34,5 @@ class _MobileWalletListenerState extends State<MobileWalletListener> {
   }
 
   @override
-  void dispose() {
-    sl<MobileWalletRepository>().removeListener(_handleUpdate);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) => widget.child;
 }

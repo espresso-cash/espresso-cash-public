@@ -10,8 +10,40 @@ import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'l10n/gen/app_localizations.dart';
 import 'ui/theme.dart';
 
-class EspressoCashApp extends StatelessWidget {
+class EspressoCashApp extends StatefulWidget {
   const EspressoCashApp({super.key});
+
+  @override
+  State<EspressoCashApp> createState() => _EspressoCashAppState();
+}
+
+class _EspressoCashAppState extends State<EspressoCashApp> {
+  final _navigator = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    sl<AccountService>().addListener(_handleAccountChanged);
+  }
+
+  void _handleAccountChanged() {
+    Future.microtask(() {
+      if (sl<AccountService>().value == null) {
+        SignInFlowScreen.open(context, navigator: _navigator.currentState);
+      } else {
+        AuthenticatedFlowScreen.open(
+          context,
+          navigator: _navigator.currentState,
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    sl<AccountService>().removeListener(_handleAccountChanged);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) => CpTheme(
@@ -27,6 +59,7 @@ class EspressoCashApp extends StatelessWidget {
             title: 'Espresso Cash',
             theme: context.watch<CpThemeData>().toMaterialTheme(),
             builder: (context, child) => AppLockModule(child: child),
+            navigatorKey: _navigator,
           ),
         ),
       );

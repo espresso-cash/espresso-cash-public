@@ -48,7 +48,7 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
     final id = await context.createOLP(amount: widget.tokenAmount);
     if (!mounted) return;
 
-    OLPScreen.push(context, id: id);
+    OLPScreen.open(context, id: id);
   }
 
   @override

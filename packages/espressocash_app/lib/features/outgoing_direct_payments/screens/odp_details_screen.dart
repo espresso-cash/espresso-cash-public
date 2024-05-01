@@ -28,6 +28,14 @@ class ODPDetailsScreen extends StatefulWidget {
         ),
       );
 
+  static void open(BuildContext context, {required String id}) =>
+      Navigator.of(context).pushAndRemoveUntil<void>(
+        MaterialPageRoute(
+          builder: (context) => ODPDetailsScreen(id: id),
+        ),
+        (route) => route.isFirst,
+      );
+
   final String id;
 
   @override

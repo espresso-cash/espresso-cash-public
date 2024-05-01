@@ -14,8 +14,9 @@ import 'restore_account_screen.dart';
 class SignInFlowScreen extends StatefulWidget {
   const SignInFlowScreen({super.key});
 
-  static void open(BuildContext context) =>
-      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil<void>(
+  static void open(BuildContext context, {NavigatorState? navigator}) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<void>(
         MaterialPageRoute(builder: (context) => const SignInFlowScreen()),
         F,
       );

@@ -108,7 +108,7 @@ extension BuildContextExt on BuildContext {
         );
 
         if (!mounted) return;
-        ODPDetailsScreen.push(this, id: id);
+        ODPDetailsScreen.open(this, id: id);
       }
     }
   }

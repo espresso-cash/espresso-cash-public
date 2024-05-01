@@ -49,7 +49,7 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
     final id = await context.createDlnPayment(quote);
 
     if (!mounted) return;
-    OutgoingDlnPaymentDetailsScreen.push(context, id: id);
+    OutgoingDlnPaymentDetailsScreen.open(context, id: id);
   }
 
   @override

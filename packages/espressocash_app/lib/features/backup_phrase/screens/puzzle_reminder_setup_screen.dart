@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -57,9 +57,8 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   }
 
   void _handleOkPressed(BuildContext context) {
-    context.read<PuzzleReminderBloc>().add(
-          PuzzleReminderEvent.postponed(postponedBy: _duration),
-        );
+    sl<PuzzleReminderBloc>()
+        .add(PuzzleReminderEvent.postponed(postponedBy: _duration));
 
     AuthenticatedFlowScreen.backToHome(context);
   }

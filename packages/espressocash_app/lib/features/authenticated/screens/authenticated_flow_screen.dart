@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -13,8 +12,9 @@ import 'home_screen.dart';
 class AuthenticatedFlowScreen extends StatefulWidget {
   const AuthenticatedFlowScreen({super.key});
 
-  static void open(BuildContext context) =>
-      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil<void>(
+  static void open(BuildContext context, {NavigatorState? navigator}) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<void>(
         PageRouteBuilder(
           pageBuilder: (context, _, __) => const AuthenticatedFlowScreen(),
         ),
@@ -51,11 +51,10 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
         builder: (context, account, child) {
           if (account == null) return const SplashScreen();
 
-          return MultiProvider(
-            providers: const [
-              BackupPhraseModule(),
-            ],
-            child: const MobileWalletListener(child: HomeScreen()),
+          return const BackupPhraseModule(
+            child: MobileWalletListener(
+              child: HomeScreen(),
+            ),
           );
         },
       );

@@ -71,7 +71,7 @@ class _PayScreenState extends State<PayScreen> {
 
           if (!mounted) return;
 
-          ODPDetailsScreen.push(context, id: id);
+          ODPDetailsScreen.open(context, id: id);
         } else {
           OutgoingDlnPaymentConfirmationScreen.push(
             context,
