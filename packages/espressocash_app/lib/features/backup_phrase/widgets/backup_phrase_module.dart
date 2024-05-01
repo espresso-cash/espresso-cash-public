@@ -1,67 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nested/nested.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../accounts/models/account.dart';
-import '../../accounts/widgets/account_listener.dart';
 import '../screens/puzzle_reminder_message_screen.dart';
 import '../services/puzzle_reminder_bloc.dart';
 
-class BackupPhraseModule extends SingleChildStatelessWidget {
-  const BackupPhraseModule({
-    super.key,
-    super.child,
-  });
-
-  @override
-  Widget buildWithChild(BuildContext context, Widget? child) => MultiProvider(
-        providers: [
-          BlocProvider<PuzzleReminderBloc>(
-            create: (_) => sl<PuzzleReminderBloc>(),
-          ),
-        ],
-        child: _Content(child: child),
-      );
-}
-
-class _Content extends StatefulWidget {
-  const _Content({this.child});
+class BackupPhraseModule extends StatefulWidget {
+  const BackupPhraseModule({super.key, this.child});
 
   final Widget? child;
 
   @override
-  State<_Content> createState() => _ContentState();
+  State<BackupPhraseModule> createState() => _BackupPhraseModuleState();
 }
 
-class _ContentState extends State<_Content> with AccountListener {
+class _BackupPhraseModuleState extends State<BackupPhraseModule> {
   @override
   void initState() {
     super.initState();
 
     final event = PuzzleReminderEvent.checkRequested(
-      accessMode: context.read<MyAccount>().accessMode,
-      wallet: context.read<MyAccount>().wallet,
+      accessMode: sl<MyAccount>().accessMode,
+      wallet: sl<MyAccount>().wallet,
     );
-    context.read<PuzzleReminderBloc>().add(event);
+    sl<PuzzleReminderBloc>().add(event);
   }
 
-  void _showPuzzleReminderDialog() => const PuzzleReminderRoute().go(context);
-
-  @override
-  void handleAccountChanged(MyAccount? account) {
-    if (account == null) {
-      context
-          .read<PuzzleReminderBloc>()
-          .add(const PuzzleReminderEvent.loggedOut());
-    }
-  }
+  void _showPuzzleReminderDialog() => PuzzleReminderMessageScreen.push(context);
 
   @override
   Widget build(BuildContext context) =>
       BlocListener<PuzzleReminderBloc, PuzzleReminderState>(
+        bloc: sl<PuzzleReminderBloc>(),
         listener: (context, state) {
           if (state is PuzzleReminderStateRemindNow) {
             _showPuzzleReminderDialog();

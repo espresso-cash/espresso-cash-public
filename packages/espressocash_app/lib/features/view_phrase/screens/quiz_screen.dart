@@ -1,11 +1,9 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../data/quiz_repository.dart';
 import '../models/quiz.dart';
 import '../widgets/quiz_answer_view.dart';
@@ -109,16 +107,6 @@ class _QuizScreenState extends State<QuizScreen>
           ),
         QuizStateSuccess() => RecoveryPhraseView(indicator: _indicator),
       };
-}
-
-class QuizRoute extends GoRouteData {
-  const QuizRoute();
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const QuizScreen();
 }
 
 @freezed

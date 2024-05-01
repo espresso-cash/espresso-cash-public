@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../ui/app_bar.dart';
 import '../../../../ui/colors.dart';
@@ -15,6 +14,20 @@ class NetworkPickerScreen extends StatelessWidget {
     this.initial,
     required this.onSubmitted,
   });
+
+  static void push(
+    BuildContext context, {
+    Blockchain? initial,
+    required ValueSetter<Blockchain> onSubmitted,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => NetworkPickerScreen(
+            initial: initial,
+            onSubmitted: onSubmitted,
+          ),
+        ),
+      );
 
   final Blockchain? initial;
   final ValueSetter<Blockchain> onSubmitted;
@@ -33,26 +46,6 @@ class NetworkPickerScreen extends StatelessWidget {
         ),
       );
 }
-
-class NetworkPickerRoute extends GoRouteData {
-  const NetworkPickerRoute(this.$extra);
-
-  final NetworkPickerParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      NetworkPickerScreen(
-        initial: $extra.initial,
-        onSubmitted: $extra.onSubmitted,
-      );
-}
-
-// TODO(KB): refactor to class
-typedef NetworkPickerParams = ({
-  Blockchain? initial,
-  // ignore: avoid-function-type-in-records, refactor later
-  ValueSetter<Blockchain> onSubmitted,
-});
 
 class _Content extends StatefulWidget {
   const _Content({

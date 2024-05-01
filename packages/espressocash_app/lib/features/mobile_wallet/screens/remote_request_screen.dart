@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../di.dart';
@@ -19,26 +18,26 @@ class RemoteRequestScreen extends StatelessWidget {
     required this.request,
   });
 
+  static void push(
+    BuildContext context, {
+    required RemoteRequest request,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RemoteRequestScreen(request: request),
+        ),
+      );
+
   final RemoteRequest request;
 
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => sl<RemoteRequestBloc>(
           param1: request,
-          param2: context.read<MyAccount>(),
+          param2: sl<MyAccount>(),
         ),
         child: const _Content(),
       );
-}
-
-class RemoteRequestRoute extends GoRouteData {
-  const RemoteRequestRoute(this.$extra);
-
-  final RemoteRequest $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RemoteRequestScreen(request: $extra);
 }
 
 class _Content extends StatefulWidget {
@@ -65,7 +64,7 @@ class _ContentState extends State<_Content> {
           ),
           body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
             listener: (context, state) => state.whenOrNull(
-              result: (r) => context.pop(r),
+              result: (r) => Navigator.pop(context, r),
             ),
             builder: (context, state) => state.when(
               loading: always(

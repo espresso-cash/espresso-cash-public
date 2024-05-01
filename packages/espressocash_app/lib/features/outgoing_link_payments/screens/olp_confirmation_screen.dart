@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -27,6 +25,18 @@ class OLPConfirmationScreen extends StatefulWidget {
     required this.tokenAmount,
   });
 
+  static void push(
+    BuildContext context, {
+    required CryptoAmount tokenAmount,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OLPConfirmationScreen(
+            tokenAmount: tokenAmount,
+          ),
+        ),
+      );
+
   final CryptoAmount tokenAmount;
 
   @override
@@ -38,7 +48,7 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
     final id = await context.createOLP(amount: widget.tokenAmount);
     if (!mounted) return;
 
-    OLPRoute(id).go(context);
+    OLPScreen.open(context, id: id);
   }
 
   @override
@@ -76,16 +86,6 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
           ),
         ),
       );
-}
-
-class OLPConfirmationRoute extends GoRouteData {
-  const OLPConfirmationRoute(this.$extra);
-
-  final CryptoAmount $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OLPConfirmationScreen(tokenAmount: $extra);
 }
 
 class _TokenCreateLinkContent extends StatelessWidget {

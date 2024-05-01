@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../config.dart';
 import '../../ui/web_view_screen.dart';
 
-class TermsRoute extends GoRouteData {
-  const TermsRoute();
+class TermsScreen extends StatelessWidget {
+  const TermsScreen({super.key});
+
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => const TermsScreen()),
+      );
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      WebViewScreen(url: Uri.parse(termsUrl));
+  Widget build(BuildContext context) => WebViewScreen(url: Uri.parse(termsUrl));
 }

@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../routing.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
@@ -21,7 +19,14 @@ import '../widgets/home_carousel.dart';
 import '../widgets/investment_header.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({
+    super.key,
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
+
+  final VoidCallback onSendMoneyPressed;
+  final VoidCallback onTransactionsPressed;
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -80,15 +85,28 @@ class _MainScreenState extends State<MainScreen> {
                           icon: Assets.icons.settingsButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () => const ProfileRoute().go(context),
+                          onPressed: () => ProfileScreen.push(context),
                         ),
                         const SizedBox(width: 12),
                       ],
                       toolbarHeight: kToolbarHeight + 12,
                     ),
-                    const SliverToBoxAdapter(child: InvestmentHeader()),
-                    const SliverToBoxAdapter(child: HomeCarouselWidget()),
-                    const SliverToBoxAdapter(child: RecentActivityWidget()),
+                    SliverToBoxAdapter(
+                      child: InvestmentHeader(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: HomeCarouselWidget(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: RecentActivityWidget(
+                        onSendMoneyPressed: widget.onSendMoneyPressed,
+                        onTransactionsPressed: widget.onTransactionsPressed,
+                      ),
+                    ),
                     SliverToBoxAdapter(
                       child: SizedBox(
                         height: max(
@@ -106,12 +124,4 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       );
-}
-
-class HomeRoute extends GoRouteData {
-  const HomeRoute();
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: MainScreen());
 }

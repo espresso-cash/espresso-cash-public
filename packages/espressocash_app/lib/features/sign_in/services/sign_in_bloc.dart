@@ -84,8 +84,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
   }
 }
 
-bool validateMnemonic(String mnemonic) => bip39.validateMnemonic(mnemonic);
-
 @freezed
 class SignInState with _$SignInState {
   const factory SignInState({

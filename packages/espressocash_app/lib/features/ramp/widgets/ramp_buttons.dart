@@ -3,12 +3,9 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
@@ -44,7 +41,7 @@ class AddCashButton extends StatelessWidget {
             if (context.mounted && data != null) {
               context.launchOnRampFlow(
                 profile: data,
-                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+                address: sl<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
           },
@@ -71,7 +68,7 @@ class CashOutButton extends StatelessWidget {
             if (context.mounted && data != null) {
               context.launchOffRampFlow(
                 profile: data,
-                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+                address: sl<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
           },
@@ -82,7 +79,7 @@ class CashOutButton extends StatelessWidget {
 extension RampBuildContextExt on BuildContext {
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
-      pop();
+      Navigator.pop(this);
     }
 
     final repository = sl<ProfileRepository>();
@@ -93,9 +90,11 @@ extension RampBuildContextExt on BuildContext {
       return (country: country, email: email);
     }
 
-    await RampOnboardingRoute(
-      (onConfirmed: handleSubmitted, rampType: rampType),
-    ).push<void>(this);
+    await RampOnboardingScreen.push(
+      this,
+      onConfirmed: handleSubmitted,
+      rampType: rampType,
+    );
 
     country = repository.country?.let(Country.findByCode);
     email = repository.email;
@@ -129,17 +128,16 @@ extension RampBuildContextExt on BuildContext {
       return;
     }
 
-    RampPartnerSelectRoute(
-      (
-        topPartner: top,
-        otherPartners: others.lock,
-        type: RampType.onRamp,
-        onPartnerSelected: (RampPartner p) {
-          pop();
-          _launchOnRampPartner(p, profile: profile, address: address);
-        },
-      ),
-    ).push<void>(this);
+    RampPartnerSelectScreen.push(
+      this,
+      topPartner: top,
+      otherPartners: others.lock,
+      type: RampType.onRamp,
+      onPartnerSelected: (RampPartner p) {
+        Navigator.pop(this);
+        _launchOnRampPartner(p, profile: profile, address: address);
+      },
+    );
   }
 
   void launchOffRampFlow({
@@ -166,17 +164,16 @@ extension RampBuildContextExt on BuildContext {
       return;
     }
 
-    RampPartnerSelectRoute(
-      (
-        topPartner: top,
-        otherPartners: others.lock,
-        type: RampType.offRamp,
-        onPartnerSelected: (RampPartner p) {
-          pop();
-          _launchOffRampPartner(p, profile: profile, address: address);
-        },
-      ),
-    ).push<void>(this);
+    RampPartnerSelectScreen.push(
+      this,
+      topPartner: top,
+      otherPartners: others.lock,
+      type: RampType.offRamp,
+      onPartnerSelected: (RampPartner p) {
+        Navigator.pop(this);
+        _launchOffRampPartner(p, profile: profile, address: address);
+      },
+    );
   }
 
   void _launchOnRampPartner(

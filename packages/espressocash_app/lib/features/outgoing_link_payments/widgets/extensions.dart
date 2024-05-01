@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../ui/loader.dart';
@@ -17,7 +15,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader(this, () async {
         final payment = await sl<OLPService>().create(
           amount: amount,
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().linksCreated();
 
@@ -28,7 +26,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader<void>(this, () async {
         await sl<OLPService>().cancel(
           payment,
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().linksCreated();
       });
@@ -37,7 +35,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader<void>(this, () async {
         await sl<OLPService>().retry(
           payment,
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().linksCreated();
       });
