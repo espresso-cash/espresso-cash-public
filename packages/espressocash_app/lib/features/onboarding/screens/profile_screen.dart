@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
@@ -21,12 +23,11 @@ class OnboardingProfileScreen extends StatefulWidget {
     super.key,
   });
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  static void open(BuildContext context, {NavigatorState? navigator}) =>
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<void>(
         MaterialPageRoute(builder: (_) => const OnboardingProfileScreen()),
-      );
-
-  static void replace(BuildContext context) => Navigator.of(context).push<void>(
-        MaterialPageRoute(builder: (_) => const OnboardingProfileScreen()),
+        F,
       );
 
   @override
@@ -78,8 +79,12 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
               )
               .foldAsync((e) => throw e, ignore);
 
-          if (!mounted) return;
-          AuthenticatedFlowScreen.backToHome(context);
+          unawaited(
+            Future.microtask(() {
+              if (!mounted) return;
+              AuthenticatedFlowScreen.open(context);
+            }),
+          );
         },
         onError: (error) => showErrorDialog(
           context,

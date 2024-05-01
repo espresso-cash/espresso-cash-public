@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -16,16 +17,19 @@ class ViewRecoveryPhraseScreen extends StatefulWidget {
     required this.onConfirmed,
   });
 
-  static void push(
+  static void open(
     BuildContext context, {
     required VoidCallback onConfirmed,
+    NavigatorState? navigator,
   }) =>
-      Navigator.of(context).push<void>(
+      (navigator ?? Navigator.of(context, rootNavigator: true))
+          .pushAndRemoveUntil<void>(
         MaterialPageRoute(
           builder: (context) => ViewRecoveryPhraseScreen(
             onConfirmed: onConfirmed,
           ),
         ),
+        F,
       );
 
   final VoidCallback onConfirmed;

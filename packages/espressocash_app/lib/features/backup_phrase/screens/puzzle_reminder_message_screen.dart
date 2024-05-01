@@ -43,7 +43,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 text: context.l10n.protectWallet,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: () => OnboardingProfileScreen.push(context),
+                onPressed: () => OnboardingProfileScreen.open(context),
               ),
               const SizedBox(height: 8),
               TextButton(

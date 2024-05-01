@@ -5,17 +5,21 @@ import '../data/onboarding_repository.dart';
 import 'profile_screen.dart';
 import 'view_recovery_phrase_screen.dart';
 
-class OnboardingScreen {
-  static void push(BuildContext context) {
+class OnboardingFlowScreen {
+  static void open(BuildContext context, {NavigatorState? navigator}) {
     final hasConfirmedPassphrase =
         sl<OnboardingRepository>().hasConfirmedPassphrase;
 
     if (hasConfirmedPassphrase) {
-      OnboardingProfileScreen.push(context);
+      OnboardingProfileScreen.open(context, navigator: navigator);
     } else {
-      ViewRecoveryPhraseScreen.push(
+      ViewRecoveryPhraseScreen.open(
         context,
-        onConfirmed: () => OnboardingProfileScreen.replace(context),
+        onConfirmed: () => OnboardingProfileScreen.open(
+          context,
+          navigator: navigator,
+        ),
+        navigator: navigator,
       );
     }
   }
