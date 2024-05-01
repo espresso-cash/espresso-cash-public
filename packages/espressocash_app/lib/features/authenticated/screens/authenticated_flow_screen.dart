@@ -8,7 +8,6 @@ import '../../../ui/splash_screen.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/services/account_service.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
-import '../../conversion_rates/module.dart';
 import '../../incoming_link_payments/module.dart';
 import '../../mobile_wallet/module.dart';
 import '../../outgoing_link_payments/module.dart';
@@ -50,36 +49,31 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
   }
 
   @override
-  Widget build(BuildContext _) => MultiProvider(
-        providers: const [
-          ConversionRatesModule(),
-        ],
-        child: ValueListenableBuilder(
-          valueListenable: sl<AccountService>(),
-          builder: (context, account, child) {
-            if (account == null) return const SplashScreen();
+  Widget build(BuildContext _) => ValueListenableBuilder(
+        valueListenable: sl<AccountService>(),
+        builder: (context, account, child) {
+          if (account == null) return const SplashScreen();
 
-            return MultiProvider(
-              providers: [
-                Provider<MyAccount>.value(value: account),
-                const BackupPhraseModule(),
-                const OLPModule(),
-                const MobileWalletModule(),
+          return MultiProvider(
+            providers: [
+              Provider<MyAccount>.value(value: account),
+              const BackupPhraseModule(),
+              const OLPModule(),
+              const MobileWalletModule(),
+            ],
+            child: MultiProvider(
+              providers: const [
+                ILPModule(),
               ],
-              child: MultiProvider(
-                providers: const [
-                  ILPModule(),
+              child: Navigator(
+                onGenerateInitialRoutes: (_, __) => [
+                  PageRouteBuilder(
+                    pageBuilder: (context, _, __) => const HomeScreen(),
+                  ),
                 ],
-                child: Navigator(
-                  onGenerateInitialRoutes: (_, __) => [
-                    PageRouteBuilder(
-                      pageBuilder: (context, _, __) => const HomeScreen(),
-                    ),
-                  ],
-                ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       );
 }
