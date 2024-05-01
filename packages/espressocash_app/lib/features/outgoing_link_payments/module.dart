@@ -21,7 +21,7 @@ class OLPModule extends SingleChildStatelessWidget {
           Provider<TxReadyWatcher>(
             lazy: false,
             create: (context) => sl<TxReadyWatcher>(
-              param1: context.read<MyAccount>().wallet.publicKey,
+              param1: sl<MyAccount>().wallet.publicKey,
             )..init(onBalanceAffected: () => context.notifyBalanceAffected()),
             dispose: (_, value) => value.dispose(),
           ),

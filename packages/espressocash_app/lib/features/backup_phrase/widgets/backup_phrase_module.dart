@@ -41,8 +41,8 @@ class _ContentState extends State<_Content> with AccountListener {
     super.initState();
 
     final event = PuzzleReminderEvent.checkRequested(
-      accessMode: context.read<MyAccount>().accessMode,
-      wallet: context.read<MyAccount>().wallet,
+      accessMode: sl<MyAccount>().accessMode,
+      wallet: sl<MyAccount>().wallet,
     );
     context.read<PuzzleReminderBloc>().add(event);
   }

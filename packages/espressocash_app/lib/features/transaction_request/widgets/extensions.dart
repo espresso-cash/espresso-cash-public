@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -37,7 +36,7 @@ extension BuildContextExt on BuildContext {
         await runWithLoader<TransactionRequestResult?>(this, () async {
       final info = await request.get();
 
-      final wallet = read<MyAccount>().wallet.publicKey;
+      final wallet = sl<MyAccount>().wallet.publicKey;
       final client = sl<SolanaClient>();
 
       final postResponse = await request.post(account: wallet.toBase58());

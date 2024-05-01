@@ -34,7 +34,7 @@ class RemoteRequestScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider(
         create: (context) => sl<RemoteRequestBloc>(
           param1: request,
-          param2: context.read<MyAccount>(),
+          param2: sl<MyAccount>(),
         ),
         child: const _Content(),
       );

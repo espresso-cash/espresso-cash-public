@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
@@ -42,7 +41,7 @@ class AddCashButton extends StatelessWidget {
             if (context.mounted && data != null) {
               context.launchOnRampFlow(
                 profile: data,
-                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+                address: sl<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
           },
@@ -69,7 +68,7 @@ class CashOutButton extends StatelessWidget {
             if (context.mounted && data != null) {
               context.launchOffRampFlow(
                 profile: data,
-                address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+                address: sl<MyAccount>().wallet.publicKey.toBase58(),
               );
             }
           },

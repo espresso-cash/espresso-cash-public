@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
@@ -14,7 +13,7 @@ extension PaymentRequestExt on BuildContext {
     required CryptoAmount tokenAmount,
   }) =>
       runWithLoader(this, () async {
-        final recipient = read<MyAccount>().wallet.publicKey;
+        final recipient = sl<MyAccount>().wallet.publicKey;
         final name =
             sl<ProfileRepository>().firstName.let((e) => e.isEmpty ? null : e);
 
