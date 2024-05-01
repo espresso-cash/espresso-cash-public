@@ -358,7 +358,7 @@
   "@remindMeLater": {},
   "requestOrSendPayment": "Request or send a payment",
   "@requestOrSendPayment": {},
-  "resendLink": "Resend Link",
+  "resendLink": "Resend",
   "@resendLink": {},
   "retry": "Retry",
   "@retry": {},
@@ -382,7 +382,7 @@
   },
   "save": "Save",
   "@save": {},
-  "scanToReceive": "Scan to receive {amount}",
+  "scanToReceive": "Scan QR code to receive\n{amount}",
   "@scanToReceive": {
     "placeholders": {
       "amount": {

@@ -1,15 +1,17 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share/share.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/tab_bar.dart';
+import '../../../ui/button.dart';
+import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/theme.dart';
 import '../../authenticated/authenticated_navigator_key.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
-import '../widgets/share_link.dart';
-import '../widgets/share_qr.dart';
 
 class ShareLinkScreen extends StatelessWidget {
   const ShareLinkScreen({
@@ -24,8 +26,15 @@ class ShareLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      context.l10n.yourLinkIsReady.toUpperCase(),
+      context.l10n.pay.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+    );
+
+    final formattedAmount = amount.formatWithFiat(context);
+
+    final message = context.l10n.shareText(
+      formattedAmount,
+      status.link,
     );
 
     return CpTheme.black(
@@ -33,33 +42,43 @@ class ShareLinkScreen extends StatelessWidget {
         appBar: CpAppBar(title: title),
         body: SafeArea(
           top: false,
-          child: DefaultTabController(
-            length: 2,
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                  child: CpTabBar(
-                    variant: CpTabBarVariant.black,
-                    tabs: [
-                      Tab(text: context.l10n.sharePaymentRequestLinkTitle),
-                      Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
-                    ],
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: CpRoundedRectangle(
+              backgroundColor: Colors.black,
+              scrollable: false,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    context.l10n.scanToReceive(formattedAmount),
+                    maxLines: 3,
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      ShareLink(status: status, amount: amount),
-                      ShareQr(
-                        qrLink: status.link,
-                        amount: amount,
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 40.0),
+                    child: BarcodeWidget(
+                      height: 250,
+                      barcode: Barcode.qrCode(),
+                      data: status.link.toString(),
+                      padding: EdgeInsets.zero,
+                      color: Colors.white,
+                    ),
                   ),
-                ),
-              ],
+                  CpButton(
+                    text: context.l10n.share,
+                    width: double.infinity,
+                    size: CpButtonSize.big,
+                    onPressed: () => Share.share(message),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
