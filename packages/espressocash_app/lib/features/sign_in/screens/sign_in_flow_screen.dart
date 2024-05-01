@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../ui/dialogs.dart';
@@ -26,61 +25,52 @@ class SignInFlowScreen extends StatefulWidget {
 }
 
 class _SignInFlowScreenState extends State<SignInFlowScreen> {
-  final _navigator = GlobalKey<NavigatorState>();
+  final _bloc = sl<SignInBloc>();
 
-  void _handleSignInPressed() => _navigator.currentState?.pushReplacement(
+  @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+
+  void _handleSignInPressed() => Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (context) => const RestoreAccountScreen(),
+          builder: (context) => RestoreAccountScreen(
+            onSubmit: _handleRestore,
+          ),
         ),
       );
 
+  void _handleCreateLocalPressed() =>
+      _bloc.add(const SignInEvent.newLocalWalletRequested());
+
+  void _handleRestore(String phrase) {
+    _bloc
+      ..add(SignInEvent.existingLocalWalletRequested(phrase))
+      ..add(const SignInEvent.submitted());
+  }
+
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          BlocProvider<SignInBloc>(create: (context) => sl<SignInBloc>()),
-        ],
-        child: BlocConsumer<SignInBloc, SignInState>(
-          listener: (context, state) => switch (state.processingState) {
-            FlowFailure(:final error) => error.when(
-                seedVaultActionCanceled: ignore,
-                generic: (e) => showErrorDialog(context, 'Error', e),
-              ),
-            FlowSuccess(:final result) => runWithLoader(
-                context,
-                () => sl<AccountService>()
-                    .logIn(source: state.source, account: result),
-              ),
-            _ => null,
-          },
-          builder: (context, state) => CpLoader(
-            isLoading: state.processingState.isProcessing,
-            child: HeroControllerScope(
-              controller: HeroController(),
-              child: Navigator(
-                key: _navigator,
-                onGenerateInitialRoutes: (navigator, initialRoute) => [
-                  PageRouteBuilder(
-                    transitionDuration: const Duration(milliseconds: 1000),
-                    transitionsBuilder: _fadeTransitionBuilder,
-                    pageBuilder: (context, _, __) => GetStartedScreen(
-                      onSignInPressed: _handleSignInPressed,
-                    ),
-                  ),
-                ],
-              ),
+  Widget build(BuildContext context) => BlocConsumer<SignInBloc, SignInState>(
+        bloc: _bloc,
+        listener: (context, state) => switch (state.processingState) {
+          FlowFailure(:final error) => error.when(
+              seedVaultActionCanceled: ignore,
+              generic: (e) => showErrorDialog(context, 'Error', e),
             ),
+          FlowSuccess(:final result) => runWithLoader(
+              context,
+              () => sl<AccountService>()
+                  .logIn(source: state.source, account: result),
+            ),
+          _ => null,
+        },
+        builder: (context, state) => CpLoader(
+          isLoading: state.processingState.isProcessing,
+          child: GetStartedScreen(
+            onSignInPressed: _handleSignInPressed,
+            onLocalPressed: _handleCreateLocalPressed,
           ),
         ),
       );
 }
-
-Widget _fadeTransitionBuilder(
-  BuildContext _,
-  Animation<double> animation,
-  Animation<double> __,
-  Widget child,
-) =>
-    FadeTransition(
-      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-      child: child,
-    );

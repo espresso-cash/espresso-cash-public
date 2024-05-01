@@ -7,7 +7,10 @@ import 'utils.dart';
 void main() {
   testGoldensWidget(
     'Get started screen',
-    GetStartedScreen(onSignInPressed: () {}),
+    GetStartedScreen(
+      onSignInPressed: () {},
+      onLocalPressed: () {},
+    ),
     skip: true, // Need to resolve issues with screenutil
   );
 

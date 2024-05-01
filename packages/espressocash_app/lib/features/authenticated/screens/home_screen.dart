@@ -80,6 +80,7 @@ class TabNotifier extends ValueNotifier<int> {
   TabNotifier() : super(0);
 }
 
+// ignore: avoid-function-type-in-records, fix later
 final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
   (
     path: '/home',

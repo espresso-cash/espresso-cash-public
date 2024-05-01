@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../di.dart';
@@ -13,13 +12,17 @@ import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../link_payments/models/link_payment.dart';
-import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
 
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({super.key, required this.onSignInPressed});
+  const GetStartedScreen({
+    super.key,
+    required this.onSignInPressed,
+    required this.onLocalPressed,
+  });
 
   final VoidCallback onSignInPressed;
+  final VoidCallback onLocalPressed;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
@@ -43,65 +46,67 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   @override
   Widget build(BuildContext context) => FutureBuilder(
         future: _imagesCache,
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.done
-                ? CpTheme.dark(
-                    child: Scaffold(
-                      backgroundColor: CpColors.yellowSplashBackgroundColor,
-                      body: Stack(
-                        children: [
-                          Align(
-                            child: Assets.images.dollarBg.image(
-                              fit: BoxFit.fitHeight,
-                              height: double.infinity,
-                            ),
-                          ),
-                          SafeArea(
-                            minimum: EdgeInsets.only(top: 70.h),
-                            child: LayoutBuilder(
-                              builder: (context, constraints) =>
-                                  SingleChildScrollView(
-                                child: ConstrainedBox(
-                                  constraints: constraints.copyWith(
-                                    minHeight: constraints.maxHeight,
-                                    maxHeight: double.infinity,
-                                  ),
-                                  child: IntrinsicHeight(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+        builder: (context, snapshot) => snapshot.connectionState ==
+                ConnectionState.done
+            ? CpTheme.dark(
+                child: Scaffold(
+                  backgroundColor: CpColors.yellowSplashBackgroundColor,
+                  body: Stack(
+                    children: [
+                      Align(
+                        child: Assets.images.dollarBg.image(
+                          fit: BoxFit.fitHeight,
+                          height: double.infinity,
+                        ),
+                      ),
+                      SafeArea(
+                        minimum: EdgeInsets.only(top: 70.h),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) =>
+                              SingleChildScrollView(
+                            child: ConstrainedBox(
+                              constraints: constraints.copyWith(
+                                minHeight: constraints.maxHeight,
+                                maxHeight: double.infinity,
+                              ),
+                              child: IntrinsicHeight(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Expanded(
+                                      child: Center(child: SplashLogo()),
+                                    ),
+                                    Column(
                                       children: [
-                                        const Expanded(
-                                          child: Center(child: SplashLogo()),
-                                        ),
-                                        Column(
-                                          children: [
-                                            const _Body(),
-                                            24.verticalSpace,
-                                            _Footer(
-                                              onSignInPressed:
-                                                  widget.onSignInPressed,
-                                            ),
-                                          ],
+                                        const _Body(),
+                                        24.verticalSpace,
+                                        _Footer(
+                                          onSignInPressed:
+                                              widget.onSignInPressed,
+                                          onLocalPressed: widget.onLocalPressed,
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  )
-                : const SplashScreen(),
+                    ],
+                  ),
+                ),
+              )
+            : const SplashScreen(),
       );
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({required this.onSignInPressed});
+  const _Footer({required this.onSignInPressed, required this.onLocalPressed});
 
   final VoidCallback onSignInPressed;
+  final VoidCallback onLocalPressed;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -110,7 +115,7 @@ class _Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             8.verticalSpace,
-            const _CreateLocalWalletButton(),
+            _CreateLocalWalletButton(onPressed: onLocalPressed),
             19.verticalSpace,
             Text.rich(
               key: keyUseExistingWalletButton,
@@ -138,16 +143,16 @@ class _Footer extends StatelessWidget {
 }
 
 class _CreateLocalWalletButton extends StatelessWidget {
-  const _CreateLocalWalletButton();
+  const _CreateLocalWalletButton({required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) => CpButton(
         key: keyCreateWalletButton,
         text: context.l10n.signUp,
         width: double.infinity,
-        onPressed: () => context
-            .read<SignInBloc>()
-            .add(const SignInEvent.newLocalWalletRequested()),
+        onPressed: onPressed,
       );
 }
 
