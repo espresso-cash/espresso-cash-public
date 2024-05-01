@@ -8,7 +8,6 @@ import '../../../ui/splash_screen.dart';
 import '../../accounts/services/account_service.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../mobile_wallet/module.dart';
-import '../../outgoing_link_payments/module.dart';
 import 'home_screen.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
@@ -55,7 +54,6 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
           return MultiProvider(
             providers: const [
               BackupPhraseModule(),
-              OLPModule(),
               MobileWalletModule(),
             ],
             child: Navigator(
