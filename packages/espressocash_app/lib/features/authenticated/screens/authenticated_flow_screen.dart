@@ -7,7 +7,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/splash_screen.dart';
 import '../../accounts/services/account_service.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
-import '../../mobile_wallet/module.dart';
+import '../../mobile_wallet/widgets/mobile_wallet_listener.dart';
 import 'home_screen.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
@@ -54,15 +54,8 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
           return MultiProvider(
             providers: const [
               BackupPhraseModule(),
-              MobileWalletModule(),
             ],
-            child: Navigator(
-              onGenerateInitialRoutes: (_, __) => [
-                PageRouteBuilder(
-                  pageBuilder: (context, _, __) => const HomeScreen(),
-                ),
-              ],
-            ),
+            child: const MobileWalletListener(child: HomeScreen()),
           );
         },
       );
