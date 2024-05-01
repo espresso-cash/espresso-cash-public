@@ -24,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 
   static void openActivitiesTab(
     BuildContext context, {
+    // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
   }) {
     AuthenticatedFlowScreen.backToHome(context);
