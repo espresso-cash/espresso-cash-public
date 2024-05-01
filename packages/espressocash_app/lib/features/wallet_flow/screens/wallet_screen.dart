@@ -11,7 +11,7 @@ import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../payment_request/screens/link_details_flow_screen.dart';
+import '../../payment_request/screens/share_payment_request_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../widgets/wallet_tab_view.dart';

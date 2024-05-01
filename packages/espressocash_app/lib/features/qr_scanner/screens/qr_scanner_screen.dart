@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
+import '../../../utils/composite_subscription_controller.dart';
 import '../models/qr_scanner_request.dart';
 import '../services/qr_scanner_bloc.dart';
 import '../widgets/qr_scanner_background.dart';
@@ -40,7 +42,8 @@ class _Content extends StatefulWidget {
   State<_Content> createState() => _ContentState();
 }
 
-class _ContentState extends State<_Content> {
+class _ContentState extends State<_Content>
+    with CompositeSubscriptionController {
   bool _flashEnabled = false;
   bool _cameraEnabled = false;
 
@@ -50,10 +53,14 @@ class _ContentState extends State<_Content> {
     context.read<QrScannerBloc>().add(const QrScannerEvent.initialized());
     _qrViewController = MobileScannerController(
       formats: [BarcodeFormat.qrCode],
-    )..start()
-        .then((it) => it != null)
-        .then(_onPermissionSet)
-        .catchError((_) => _onPermissionSet(false));
+    )..start();
+
+    _qrViewController.barcodes.listen(_handleDetected).addTo(subscriptions);
+    _qrViewController.addListener(() {
+      if (mounted && _cameraEnabled != _qrViewController.value.isRunning) {
+        setState(() => _cameraEnabled = _qrViewController.value.isRunning);
+      }
+    });
   }
 
   @override
@@ -96,11 +103,6 @@ class _ContentState extends State<_Content> {
     context.pop();
   }
 
-  void _onPermissionSet(bool allowed) {
-    if (!mounted) return;
-    if (_cameraEnabled != allowed) setState(() => _cameraEnabled = allowed);
-  }
-
   void _handleDetected(BarcodeCapture capture) {
     final code = capture.barcodes.firstOrNull?.rawValue;
     if (code != null) {
@@ -122,7 +124,6 @@ class _ContentState extends State<_Content> {
                     child: MobileScanner(
                       key: _qrKey,
                       controller: _qrViewController,
-                      onDetect: _handleDetected,
                     ),
                   ),
                 if (_cameraEnabled)

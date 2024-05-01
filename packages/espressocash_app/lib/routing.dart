@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
+import 'package:solana/solana_pay.dart';
 
 import '../../../../../ui/theme.dart';
 import 'di.dart';
@@ -38,7 +39,8 @@ import 'features/outgoing_link_payments/models/outgoing_link_payment.dart';
 import 'features/outgoing_link_payments/screens/olp_confirmation_screen.dart';
 import 'features/outgoing_link_payments/screens/olp_screen.dart';
 import 'features/outgoing_link_payments/screens/share_link_screen.dart';
-import 'features/payment_request/screens/link_details_flow_screen.dart';
+import 'features/payment_request/screens/request_payment_status_screen.dart';
+import 'features/payment_request/screens/share_payment_request_screen.dart';
 import 'features/profile/screens/manage_profile_screen.dart';
 import 'features/profile/screens/profile_screen.dart';
 import 'features/qr_scanner/screens/qr_scanner_screen.dart';
@@ -54,6 +56,8 @@ import 'features/sign_in/screens/get_started_screen.dart';
 import 'features/sign_in/screens/restore_account_screen.dart';
 import 'features/sign_in/screens/sign_in_flow_screen.dart';
 import 'features/tokens/token.dart';
+import 'features/transaction_request/screens/confirmation_screen.dart';
+import 'features/transaction_request/screens/tr_details_screen.dart';
 import 'features/view_phrase/screens/quiz_intro_screen.dart';
 import 'features/view_phrase/screens/quiz_screen.dart';
 import 'features/wallet_flow/screens/pay_screen.dart';
@@ -123,12 +127,16 @@ part 'routing.g.dart';
                     TypedGoRoute<OffRampOrderRoute>(path: 'off-ramp/:id'),
                     TypedGoRoute<OnRampOrderRoute>(path: 'on-ramp/:id'),
                     TypedGoRoute<ODPDetailsRoute>(path: 'odp/:id'),
+                    TypedGoRoute<TRDetailsRoute>(path: 'tr/:id'),
                     TypedGoRoute<IncomingLinkPaymentRoute>(
                       path: 'details-ilp/:id',
                     ),
                     TypedGoRoute<ShareLinkRoute>(path: 'share-link'),
                     TypedGoRoute<SharePaymentRequestRoute>(
                       path: 'share-payment-request/:id',
+                    ),
+                    TypedGoRoute<PaymentRequestStatusRoute>(
+                      path: 'payment-request-status/:id',
                     ),
                     TypedGoRoute<OutgoingDlnPaymentDetailsRoute>(
                       path: 'details-outgoing-dln-payment/:id',
@@ -151,6 +159,7 @@ part 'routing.g.dart';
         TypedGoRoute<OLPConfirmationRoute>(path: '/olp-confirmation'),
         TypedGoRoute<ODPInputRoute>(path: '/odp-input'),
         TypedGoRoute<ODPConfirmationRoute>(path: '/odp-confirmation'),
+        TypedGoRoute<TRConfirmationRoute>(path: '/tr-confirmation'),
         TypedGoRoute<NetworkPickerRoute>(path: '/network-picker'),
         TypedGoRoute<PuzzleReminderRoute>(path: '/puzzle-reminder'),
         TypedGoRoute<PuzzleReminderSetupRoute>(path: '/puzzle-reminder-setup'),

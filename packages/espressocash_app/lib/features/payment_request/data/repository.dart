@@ -34,6 +34,15 @@ class PaymentRequestRepository implements Disposable {
       (_db.delete(_db.paymentRequestRows)..where((tbl) => tbl.id.equals(id)))
           .go();
 
+  Future<IList<PaymentRequest>> getAllPending() async {
+    final query = _db.select(_db.paymentRequestRows)
+      ..where((p) => p.state.equalsValue(PaymentRequestStateDto.initial));
+
+    final rows = await query.get();
+
+    return rows.map((row) => row.toPaymentRequest()).toIList();
+  }
+
   @override
   Future<void> onDispose() => _db.delete(_db.paymentRequestRows).go();
 }
@@ -44,8 +53,10 @@ class PaymentRequestRows extends Table with EntityMixin {
   const PaymentRequestRows();
 
   TextColumn get dynamicLink => text()();
+  TextColumn get shortLink => text().nullable()();
   IntColumn get state => intEnum<PaymentRequestStateDto>()();
   TextColumn get transactionId => text().nullable()();
+  DateTimeColumn get resolvedAt => dateTime().nullable()();
 
   // SolanaPayRequest columns
   TextColumn get recipient => text()();
@@ -71,7 +82,10 @@ extension on PaymentRequestRow {
           memo: memo,
         ),
         dynamicLink: dynamicLink,
-        state: state.toPaymentRequestState(transactionId),
+        transactionId: transactionId,
+        resolvedAt: resolvedAt,
+        shortLink: shortLink,
+        state: state.toPaymentRequestState(),
       );
 }
 
@@ -80,41 +94,31 @@ extension on PaymentRequest {
         id: id,
         created: created,
         dynamicLink: dynamicLink,
+        shortLink: shortLink,
         state: state.toPaymentRequestStateDto(),
-        transactionId: state.transactionIdOrNull,
+        transactionId: transactionId,
         recipient: payRequest.recipient.toBase58(),
         amount: payRequest.amount?.toString(),
         memo: payRequest.memo,
         message: payRequest.message,
         reference: payRequest.reference?.map((it) => it.toBase58()).join(','),
         spltToken: payRequest.splToken?.toBase58(),
+        resolvedAt: resolvedAt,
       );
 }
 
 extension on PaymentRequestStateDto {
-  PaymentRequestState toPaymentRequestState(String? transactionId) {
-    switch (this) {
-      case PaymentRequestStateDto.initial:
-        return const PaymentRequestState.initial();
-      case PaymentRequestStateDto.completed:
-        return PaymentRequestState.completed(
-          transactionId: transactionId ?? '',
-        );
-      case PaymentRequestStateDto.error:
-        return const PaymentRequestState.failure();
-    }
-  }
+  PaymentRequestState toPaymentRequestState() => switch (this) {
+        PaymentRequestStateDto.initial => PaymentRequestState.initial,
+        PaymentRequestStateDto.completed => PaymentRequestState.completed,
+        PaymentRequestStateDto.error => PaymentRequestState.error,
+      };
 }
 
 extension on PaymentRequestState {
-  PaymentRequestStateDto toPaymentRequestStateDto() => when(
-        initial: always(PaymentRequestStateDto.initial),
-        completed: always(PaymentRequestStateDto.completed),
-        failure: always(PaymentRequestStateDto.error),
-      );
-
-  String? get transactionIdOrNull => maybeWhen(
-        completed: identity,
-        orElse: always(null),
-      );
+  PaymentRequestStateDto toPaymentRequestStateDto() => switch (this) {
+        PaymentRequestState.initial => PaymentRequestStateDto.initial,
+        PaymentRequestState.completed => PaymentRequestStateDto.completed,
+        PaymentRequestState.error => PaymentRequestStateDto.error,
+      };
 }

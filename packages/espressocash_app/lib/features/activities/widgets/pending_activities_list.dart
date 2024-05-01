@@ -11,6 +11,7 @@ import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
+import 'tr_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
@@ -72,6 +73,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         activity: it,
                       ),
                       outgoingDlnPayment: (it) => OutgoingDlnTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      transactionRequest: (it) => TrTile(
                         key: ValueKey(it.id),
                         activity: it,
                       ),
