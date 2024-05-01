@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -96,7 +95,7 @@ class ShareRequestPayment extends StatelessWidget {
                           .l10n.paymentRequest_lblCancelConfirmationSubtitle,
                       onConfirm: () {
                         sl<PaymentRequestRepository>().delete(request.id);
-                        context.pop();
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),

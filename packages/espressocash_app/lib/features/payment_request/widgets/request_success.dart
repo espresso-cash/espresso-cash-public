@@ -1,6 +1,5 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -41,7 +40,7 @@ class RequestSuccess extends StatelessWidget {
     );
 
     return StatusScreen(
-      onBackButtonPressed: () => context.pop(),
+      onBackButtonPressed: () => Navigator.pop(context),
       title: context.l10n.requestPaymentTitle.toUpperCase(),
       statusType: CpStatusType.success,
       statusTitle: Text(context.l10n.transferSuccessTitle),
