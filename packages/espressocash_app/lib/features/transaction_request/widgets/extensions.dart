@@ -10,7 +10,6 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
@@ -102,7 +101,7 @@ extension BuildContextExt on BuildContext {
       );
 
       if (!mounted) return;
-      TRDetailsRoute(id).go(this);
+      TRDetailsScreen.push(this, id: id);
     }
   }
 

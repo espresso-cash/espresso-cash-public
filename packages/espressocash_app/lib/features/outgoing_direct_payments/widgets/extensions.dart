@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
@@ -48,7 +47,7 @@ extension BuildContextExt on BuildContext {
   Future<void> cancelODP({required String paymentId}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().cancel(paymentId);
-        pop();
+        Navigator.pop(this);
 
         sl<AnalyticsManager>().directPaymentCancelled();
       });

@@ -4,8 +4,7 @@ import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
 import '../../../../ui/navigation_bar/navigation_bar.dart';
-import '../../../routing.dart';
-import '../../wallet_flow/screens/wallet_screen.dart';
+import '../../authenticated/screens/home_screen.dart';
 
 class NoActivity extends StatelessWidget {
   const NoActivity({super.key});
@@ -25,7 +24,7 @@ class NoActivity extends StatelessWidget {
               text: context.l10n.requestOrSendPayment,
               width: double.infinity,
               size: CpButtonSize.big,
-              onPressed: () => const WalletRoute().go(context),
+              onPressed: () => HomeScreen.openWalletTab(context),
             ),
             const Spacer(),
             const SizedBox(height: cpNavigationBarheight),

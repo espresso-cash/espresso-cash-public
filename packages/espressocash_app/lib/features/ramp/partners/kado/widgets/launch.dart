@@ -2,12 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -32,7 +30,7 @@ extension BuildContextExt on BuildContext {
       this,
       partner: RampPartner.kado,
       onSubmitted: (Amount? value) {
-        pop();
+        Navigator.pop(this);
         amount = value;
       },
       minAmount: Decimal.fromInt(10),
@@ -83,7 +81,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OnRampOrderRoute(value).pushReplacement(this);
+                  OnRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;
@@ -118,7 +116,7 @@ window.addEventListener("message", (event) => {
       this,
       partner: RampPartner.kado,
       onSubmitted: (Amount? value) {
-        pop();
+        Navigator.pop(this);
         amount = value;
       },
       minAmount: Decimal.fromInt(10),
@@ -177,7 +175,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).pushReplacement(this);
+                  OffRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;

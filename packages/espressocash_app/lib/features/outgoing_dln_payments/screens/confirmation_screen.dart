@@ -4,7 +4,6 @@ import '../../../../ui/app_bar.dart';
 import '../../../../ui/theme.dart';
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../currency/models/amount.dart';
@@ -50,7 +49,7 @@ class _FlowState extends State<OutgoingDlnPaymentConfirmationScreen> {
     final id = await context.createDlnPayment(quote);
 
     if (!mounted) return;
-    OutgoingDlnPaymentDetailsRoute(id).go(context);
+    OutgoingDlnPaymentDetailsScreen.push(context, id: id);
   }
 
   @override

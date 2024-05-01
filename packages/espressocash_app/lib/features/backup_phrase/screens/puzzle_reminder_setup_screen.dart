@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../authenticated/screens/main_screen.dart';
+import '../../authenticated/screens/authenticated_flow_screen.dart';
 import '../services/puzzle_reminder_bloc.dart';
 import '../widgets/puzzle_screen.dart';
 
@@ -62,7 +61,7 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
           PuzzleReminderEvent.postponed(postponedBy: _duration),
         );
 
-    const HomeRoute().go(context);
+    AuthenticatedFlowScreen.backToHome(context);
   }
 
   @override

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -23,6 +20,13 @@ class PayScreen extends StatefulWidget {
     super.key,
     required this.amount,
   });
+
+  static void push(BuildContext context, {required CryptoAmount amount}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => PayScreen(amount: amount),
+        ),
+      );
 
   final CryptoAmount amount;
 
@@ -67,7 +71,7 @@ class _PayScreenState extends State<PayScreen> {
 
           if (!mounted) return;
 
-          ODPDetailsRoute(id).go(context);
+          ODPDetailsScreen.push(context, id: id);
         } else {
           OutgoingDlnPaymentConfirmationScreen.push(
             context,
@@ -91,17 +95,4 @@ class _PayScreenState extends State<PayScreen> {
         onContinue: _handlePrimaryPressed,
         onMoreOptions: _handleSecondaryPressed,
       );
-}
-
-class PayRoute extends GoRouteData {
-  const PayRoute(this.$extra);
-
-  final CryptoAmount $extra;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      PayScreen(amount: $extra);
 }

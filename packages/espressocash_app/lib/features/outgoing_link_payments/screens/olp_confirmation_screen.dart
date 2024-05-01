@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
@@ -49,7 +48,7 @@ class _OLPConfirmationScreenState extends State<OLPConfirmationScreen> {
     final id = await context.createOLP(amount: widget.tokenAmount);
     if (!mounted) return;
 
-    OLPRoute(id).go(context);
+    OLPScreen.push(context, id: id);
   }
 
   @override

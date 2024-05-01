@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../l10n/device_locale.dart';
@@ -41,7 +40,7 @@ class TRConfirmationScreen extends StatelessWidget {
   final String? message;
 
   void _handleSubmitted(BuildContext context) {
-    context.pop(true);
+    Navigator.pop(context, true);
   }
 
   @override

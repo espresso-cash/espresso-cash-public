@@ -4,14 +4,13 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/text_field.dart';
 import '../../../utils/email.dart';
-import '../../authenticated/screens/main_screen.dart';
+import '../../authenticated/screens/authenticated_flow_screen.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
@@ -80,7 +79,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
               .foldAsync((e) => throw e, ignore);
 
           if (!mounted) return;
-          const HomeRoute().go(context);
+          AuthenticatedFlowScreen.backToHome(context);
         },
         onError: (error) => showErrorDialog(
           context,

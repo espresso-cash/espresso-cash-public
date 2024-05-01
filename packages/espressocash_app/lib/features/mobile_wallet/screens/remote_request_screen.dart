@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../di.dart';
@@ -65,7 +64,7 @@ class _ContentState extends State<_Content> {
           ),
           body: BlocConsumer<RemoteRequestBloc, RemoteRequestState>(
             listener: (context, state) => state.whenOrNull(
-              result: (r) => context.pop(r),
+              result: (r) => Navigator.pop(context, r),
             ),
             builder: (context, state) => state.when(
               loading: always(

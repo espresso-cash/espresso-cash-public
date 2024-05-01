@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
-import '../../../routing.dart';
 import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -42,7 +41,7 @@ extension BuildContextExt on BuildContext {
       final id = await createILP(escrow: escrow);
 
       if (!mounted) return;
-      IncomingLinkPaymentRoute(id).go(this);
+      IncomingLinkPaymentScreen.push(this, id: id);
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final isEnabled = sl<FeatureFlagsManager>().isTransactionRequestEnabled();
 
@@ -109,7 +108,7 @@ extension BuildContextExt on BuildContext {
         );
 
         if (!mounted) return;
-        ODPDetailsRoute(id).go(this);
+        ODPDetailsScreen.push(this, id: id);
       }
     }
   }

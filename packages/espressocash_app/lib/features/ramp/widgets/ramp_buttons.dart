@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../l10n/l10n.dart';
@@ -81,7 +80,7 @@ class CashOutButton extends StatelessWidget {
 extension RampBuildContextExt on BuildContext {
   Future<ProfileData?> ensureProfileData(RampType rampType) async {
     void handleSubmitted() {
-      pop();
+      Navigator.pop(this);
     }
 
     final repository = sl<ProfileRepository>();
@@ -136,7 +135,7 @@ extension RampBuildContextExt on BuildContext {
       otherPartners: others.lock,
       type: RampType.onRamp,
       onPartnerSelected: (RampPartner p) {
-        pop();
+        Navigator.pop(this);
         _launchOnRampPartner(p, profile: profile, address: address);
       },
     );
@@ -172,7 +171,7 @@ extension RampBuildContextExt on BuildContext {
       otherPartners: others.lock,
       type: RampType.offRamp,
       onPartnerSelected: (RampPartner p) {
-        pop();
+        Navigator.pop(this);
         _launchOffRampPartner(p, profile: profile, address: address);
       },
     );

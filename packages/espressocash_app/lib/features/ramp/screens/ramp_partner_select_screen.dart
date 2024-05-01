@@ -1,6 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
@@ -76,7 +75,7 @@ class RampPartnerSelectScreen extends StatelessWidget {
           type: type,
           otherPartners: otherPartners,
           onPartnerSelected: (RampPartner partner) {
-            context.pop();
+            Navigator.pop(context);
             onPartnerSelected(partner);
           },
         ),

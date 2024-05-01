@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../routing.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
@@ -80,7 +78,7 @@ class _MainScreenState extends State<MainScreen> {
                           icon: Assets.icons.settingsButtonIcon
                               .svg(color: Colors.white),
                           variant: CpIconButtonVariant.black,
-                          onPressed: () => const ProfileRoute().go(context),
+                          onPressed: () => ProfileScreen.push(context),
                         ),
                         const SizedBox(width: 12),
                       ],
@@ -106,12 +104,4 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       );
-}
-
-class HomeRoute extends GoRouteData {
-  const HomeRoute();
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      const NoTransitionPage(child: MainScreen());
 }

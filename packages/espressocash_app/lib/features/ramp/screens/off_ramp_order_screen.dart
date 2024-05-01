@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
@@ -18,7 +16,6 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
@@ -28,6 +25,20 @@ import '../widgets/off_ramp_confirmation.dart';
 
 class OffRampOrderScreen extends StatefulWidget {
   const OffRampOrderScreen({super.key, required this.orderId});
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OffRampOrderScreen(orderId: id),
+        ),
+      );
+
+  static void pushReplacement(BuildContext context, {required String id}) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => OffRampOrderScreen(orderId: id),
+        ),
+      );
 
   final String orderId;
 
@@ -51,23 +62,10 @@ class _OffRampOrderScreenState extends State<OffRampOrderScreen> {
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.pop())
+              ? TransferProgress(onBack: () => Navigator.pop(context))
               : OffRampOrderScreenContent(order: order);
         },
       );
-}
-
-class OffRampOrderRoute extends GoRouteData {
-  const OffRampOrderRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OffRampOrderScreen(orderId: id);
 }
 
 class OffRampOrderScreenContent extends StatelessWidget {

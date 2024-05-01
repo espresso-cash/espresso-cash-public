@@ -4,12 +4,10 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../di.dart';
 import '../../../../../gen/assets.gen.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
@@ -51,7 +49,7 @@ extension BuildContextExt on BuildContext {
       this,
       partner: partner,
       onSubmitted: (Amount? value) {
-        pop();
+        Navigator.pop(this);
         amount = value;
       },
       minAmount: partner.minimumAmountInDecimal,
@@ -131,7 +129,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OnRampOrderRoute(value).pushReplacement(this);
+                  OnRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;
@@ -176,7 +174,7 @@ window.addEventListener("message", (event) => {
       this,
       partner: partner,
       onSubmitted: (value) {
-        pop();
+        Navigator.pop(this);
         amount = value;
       },
       minAmount: partner.minimumAmountInDecimal,
@@ -251,7 +249,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).pushReplacement(this);
+                  OffRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;

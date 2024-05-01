@@ -3,11 +3,10 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/theme.dart';
+import '../../authenticated/screens/home_screen.dart';
 import '../../authenticated/widgets/home_widget.dart';
-import '../../wallet_flow/screens/wallet_screen.dart';
 import '../data/transaction_repository.dart';
 import '../screens/activities_screen.dart';
 import '../services/tx_updater.dart';
@@ -79,9 +78,10 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
                         variant: CpButtonVariant.black,
-                        onPressed: () => const ActivitiesRoute(
-                          initialTab: ActivitiesTab.transactions,
-                        ).go(context),
+                        onPressed: () => HomeScreen.openActivitiesTab(
+                          context,
+                          tab: ActivitiesTab.transactions,
+                        ),
                       ),
                     ],
                   ),
@@ -115,7 +115,7 @@ class _NoActivity extends StatelessWidget {
                 minWidth: 120,
                 size: CpButtonSize.wide,
                 text: context.l10n.yes,
-                onPressed: () => const WalletRoute().go(context),
+                onPressed: () => HomeScreen.openWalletTab(context),
               ),
             ],
           ),

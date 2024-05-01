@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart' hide Notification;
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -90,20 +89,6 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
       ),
     );
   }
-}
-
-class ActivitiesRoute extends GoRouteData {
-  const ActivitiesRoute({required this.initialTab});
-
-  final ActivitiesTab? initialTab;
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      NoTransitionPage(
-        child: ActivitiesScreen(
-          initialTab: initialTab ?? ActivitiesTab.pending,
-        ),
-      );
 }
 
 const double _padding = 40;

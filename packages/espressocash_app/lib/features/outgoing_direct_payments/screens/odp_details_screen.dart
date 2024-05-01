@@ -1,13 +1,11 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/web_view_screen.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../transactions/services/create_transaction_link.dart';
 import '../../transactions/widgets/transfer_error.dart';
@@ -22,6 +20,13 @@ class ODPDetailsScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => ODPDetailsScreen(id: id),
+        ),
+      );
 
   final String id;
 
@@ -54,11 +59,11 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
           final payment = snapshot.data;
 
           return payment == null
-              ? TransferProgress(onBack: () => context.pop())
+              ? TransferProgress(onBack: () => Navigator.pop(context))
               : payment.status.maybeMap(
                   success: (status) => TransferSuccess(
-                    onBack: () => context.pop(),
-                    onOkPressed: () => context.pop(),
+                    onBack: () => Navigator.pop(context),
+                    onOkPressed: () => Navigator.pop(context),
                     statusContent: context.l10n.outgoingTransferSuccess(
                       payment.amount.format(DeviceLocale.localeOf(context)),
                     ),
@@ -71,28 +76,15 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                     },
                   ),
                   txFailure: (it) => TransferError(
-                    onBack: () => context.pop(),
+                    onBack: () => Navigator.pop(context),
                     onRetry: () => context.retryODP(paymentId: payment.id),
                     onCancel: () => _handleCancel(payment.id),
                     reason: it.reason,
                   ),
                   orElse: () => TransferProgress(
-                    onBack: () => context.pop(),
+                    onBack: () => Navigator.pop(context),
                   ),
                 );
         },
       );
-}
-
-class ODPDetailsRoute extends GoRouteData {
-  const ODPDetailsRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ODPDetailsScreen(id: id);
 }

@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
@@ -110,7 +109,7 @@ extension BuildContextExt on BuildContext {
               case Left<Exception, String>():
                 break;
               case Right<Exception, String>(:final value):
-                OffRampOrderRoute(value).pushReplacement(this);
+                OffRampOrderScreen.pushReplacement(this, id: value);
             }
           });
 

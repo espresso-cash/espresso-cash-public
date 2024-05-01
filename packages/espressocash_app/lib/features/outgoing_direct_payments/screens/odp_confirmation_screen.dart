@@ -1,8 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../l10n/device_locale.dart';
@@ -79,7 +77,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
         message: context.l10n.zeroAmountMessage(context.l10n.operationSend),
       );
     } else {
-      context.pop(amount);
+      Navigator.pop(context, amount);
     }
   }
 

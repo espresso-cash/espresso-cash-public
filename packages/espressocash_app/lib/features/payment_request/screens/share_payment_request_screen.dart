@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -8,7 +7,6 @@ import '../../../ui/back_button.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../tokens/token_list.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
@@ -21,6 +19,13 @@ class SharePaymentRequestScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => SharePaymentRequestScreen(id: id),
+        ),
+      );
 
   final String id;
 
@@ -146,19 +151,4 @@ class _Footer extends StatelessWidget {
       ),
     );
   }
-}
-
-class SharePaymentRequestRoute extends GoRouteData {
-  const SharePaymentRequestRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      SharePaymentRequestScreen(
-        id: id,
-      );
 }
