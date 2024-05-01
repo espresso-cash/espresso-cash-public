@@ -17,9 +17,11 @@ class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
     super.key,
     this.padding,
+    required this.onSendMoneyPressed,
   });
 
   final EdgeInsetsGeometry? padding;
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<PendingActivitiesList> createState() => _PendingActivitiesListState();
@@ -41,10 +43,16 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         builder: (context, snapshot) {
           final data = snapshot.data;
 
-          if (data == null) return const NoActivity();
+          if (data == null) {
+            return NoActivity(onSendMoneyPressed: widget.onSendMoneyPressed);
+          }
 
           return data.isEmpty
-              ? const Center(child: NoActivity())
+              ? Center(
+                  child: NoActivity(
+                    onSendMoneyPressed: widget.onSendMoneyPressed,
+                  ),
+                )
               : ListView.builder(
                   padding: widget.padding,
                   itemBuilder: (context, i) {

@@ -1,5 +1,4 @@
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../di.dart';
@@ -14,7 +13,7 @@ extension BuildContextExt on BuildContext {
   }) =>
       runWithLoader(this, () async {
         final payment = await sl<ILPService>().create(
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
           escrow: escrow,
         );
 
@@ -25,7 +24,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader(this, () async {
         await sl<ILPService>().retry(
           payment,
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
         );
       });
 }

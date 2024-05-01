@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../accounts/services/account_service.dart';
 import '../../app_lock/widgets/app_lock_menu_item.dart';
 import '../../legal/privacy_screen.dart';
@@ -30,11 +29,11 @@ class SecuritySection extends StatelessWidget {
           ),
           ProfileButton(
             label: context.l10n.termsOfUse,
-            onPressed: () => const TermsRoute().push<void>(context),
+            onPressed: () => TermsScreen.push(context),
           ),
           ProfileButton(
             label: context.l10n.privacyPolicy,
-            onPressed: () => const PrivacyRoute().push<void>(context),
+            onPressed: () => PrivacyScreen.push(context),
           ),
         ],
       );

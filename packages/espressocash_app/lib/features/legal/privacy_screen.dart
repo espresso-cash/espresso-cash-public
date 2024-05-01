@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../config.dart';
 import '../../ui/web_view_screen.dart';
 
-class PrivacyRoute extends GoRouteData {
-  const PrivacyRoute();
+class PrivacyScreen extends StatelessWidget {
+  const PrivacyScreen({super.key});
+
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(builder: (context) => const PrivacyScreen()),
+      );
 
   @override
-  Widget build(BuildContext context, GoRouterState state) =>
+  Widget build(BuildContext context) =>
       WebViewScreen(url: Uri.parse(privacyUrl));
 }

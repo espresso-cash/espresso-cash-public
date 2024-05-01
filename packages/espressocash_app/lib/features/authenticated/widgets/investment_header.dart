@@ -1,12 +1,10 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
@@ -17,10 +15,11 @@ import '../../currency/models/amount.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-import '../../wallet_flow/screens/wallet_screen.dart';
 
 class InvestmentHeader extends StatefulWidget {
-  const InvestmentHeader({super.key});
+  const InvestmentHeader({super.key, required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<InvestmentHeader> createState() => _InvestmentHeaderState();
@@ -50,7 +49,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   ],
                 ),
               ),
-              const _Buttons(),
+              _Buttons(onSendMoneyPressed: widget.onSendMoneyPressed),
             ],
           ),
           second: _Info(onClose: _handleInfoPressed),
@@ -60,7 +59,9 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
 }
 
 class _Buttons extends StatelessWidget {
-  const _Buttons();
+  const _Buttons({required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -98,7 +99,7 @@ class _Buttons extends StatelessWidget {
                           minWidth: 250,
                           size: CpButtonSize.wide,
                           text: context.l10n.sendMoney,
-                          onPressed: () => const WalletRoute().go(context),
+                          onPressed: onSendMoneyPressed,
                         ),
                       ),
                       const SizedBox(width: 8),

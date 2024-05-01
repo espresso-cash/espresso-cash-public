@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
@@ -17,7 +15,6 @@ import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token_list.dart';
@@ -32,6 +29,13 @@ class RequestPaymentStatusScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RequestPaymentStatusScreen(id: id),
+        ),
+      );
 
   final String id;
 
@@ -58,24 +62,11 @@ class _RequestPaymentStatusScreenState
             final data = snapshot.data;
 
             return data == null
-                ? TransferProgress(onBack: () => context.pop())
+                ? TransferProgress(onBack: () => Navigator.pop(context))
                 : RequestScreenContent(request: data);
           },
         ),
       );
-}
-
-class PaymentRequestStatusRoute extends GoRouteData {
-  const PaymentRequestStatusRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RequestPaymentStatusScreen(id: id);
 }
 
 class RequestScreenContent extends StatelessWidget {
@@ -110,7 +101,7 @@ class RequestScreenContent extends StatelessWidget {
       size: CpButtonSize.big,
       width: double.infinity,
       text: context.l10n.resendLink,
-      onPressed: () => SharePaymentRequestRoute(request.id).push<void>(context),
+      onPressed: () => SharePaymentRequestScreen.push(context, id: request.id),
     );
 
     final cancelButton = Padding(
@@ -128,7 +119,7 @@ class RequestScreenContent extends StatelessWidget {
           message: context.l10n.paymentRequest_lblCancelConfirmationSubtitle,
           onConfirm: () {
             sl<PaymentRequestRepository>().delete(request.id);
-            context.pop();
+            Navigator.pop(context);
           },
         ),
       ),
@@ -143,7 +134,7 @@ class RequestScreenContent extends StatelessWidget {
     };
 
     return StatusScreen(
-      onBackButtonPressed: () => context.pop(),
+      onBackButtonPressed: () => Navigator.pop(context),
       title: context.l10n.requestPaymentTitle.toUpperCase(),
       statusType: request.state.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),

@@ -1,12 +1,9 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
-import '../../../routing.dart';
 import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -32,7 +29,7 @@ extension BuildContextExt on BuildContext {
     required CryptoCurrency cryptoCurrency,
     FiatAmount? defaultFiatAmount,
   }) async {
-    final request = await const QrScannerRoute().push<QrScannerRequest>(this);
+    final request = await QrScannerScreen.push(this);
 
     if (request == null) return;
     if (!mounted) return;
@@ -44,7 +41,7 @@ extension BuildContextExt on BuildContext {
       final id = await createILP(escrow: escrow);
 
       if (!mounted) return;
-      IncomingLinkPaymentRoute(id).go(this);
+      IncomingLinkPaymentScreen.push(this, id: id);
     } else if (request is QrScannerSolanaPayTransactionRequest) {
       final isEnabled = sl<FeatureFlagsManager>().isTransactionRequestEnabled();
 
@@ -81,15 +78,14 @@ extension BuildContextExt on BuildContext {
           ? ''
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
 
-      final fiatDecimal = await ODPConfirmationRoute(
-        (
-          initialAmount: formatted,
-          recipient: recipient,
-          label: name,
-          token: cryptoCurrency.token,
-          isEnabled: isEnabled,
-        ),
-      ).push<Decimal>(this);
+      final fiatDecimal = await ODPConfirmationScreen.push(
+        this,
+        initialAmount: formatted,
+        recipient: recipient,
+        label: name,
+        token: cryptoCurrency.token,
+        isEnabled: isEnabled,
+      );
       if (!mounted) return;
 
       if (fiatDecimal != null) {
@@ -112,13 +108,13 @@ extension BuildContextExt on BuildContext {
         );
 
         if (!mounted) return;
-        ODPDetailsRoute(id).go(this);
+        ODPDetailsScreen.open(this, id: id);
       }
     }
   }
 
   Future<String?> launchQrForAddress() async {
-    final request = await const QrScannerRoute().push<QrScannerRequest>(this);
+    final request = await QrScannerScreen.push(this);
 
     if (request == null) return null;
     if (!mounted) return null;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nested/nested.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../config.dart';
+import '../../../../../di.dart';
 import '../../../../accounts/models/account.dart';
 import '../../../../dynamic_links/widgets/dynamic_link_handler.dart';
 import '../../../models/ramp_type.dart';
@@ -38,7 +38,7 @@ class _CoinflowLinkListenerState extends SingleChildState<CoinflowLinkListener>
 
     if (mounted && profile != null) {
       await context.launchCoinflowOffRamp(
-        address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+        address: sl<MyAccount>().wallet.publicKey.toBase58(),
         profile: profile,
       );
     }

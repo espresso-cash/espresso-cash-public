@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../authenticated/auth_scope.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
@@ -12,9 +13,9 @@ import 'payment_watcher.dart';
 
 /// Watches for [OLPStatus.txSent] payments and waits for the tx to be
 /// confirmed.
-@injectable
+@Singleton(scope: authScope)
 class TxSentWatcher extends PaymentWatcher {
-  TxSentWatcher(super._repository, this._sender);
+  TxSentWatcher(super._repository, this._sender, super._refreshBalance);
 
   final TxSender _sender;
 

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../payment_request/data/watch_payment_request.dart';
 import '../../payment_request/models/payment_request.dart';
@@ -54,7 +53,8 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                       CpActivityTileStatus.success,
                     PaymentRequestState.error => CpActivityTileStatus.failure,
                   },
-                  onTap: () => PaymentRequestStatusRoute(data.id).go(context),
+                  onTap: () =>
+                      RequestPaymentStatusScreen.push(context, id: data.id),
                 );
         },
       );

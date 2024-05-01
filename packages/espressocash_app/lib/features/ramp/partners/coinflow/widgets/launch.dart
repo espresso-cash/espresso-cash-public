@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routing.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
@@ -110,7 +109,7 @@ extension BuildContextExt on BuildContext {
               case Left<Exception, String>():
                 break;
               case Right<Exception, String>(:final value):
-                OffRampOrderRoute(value).pushReplacement(this);
+                OffRampOrderScreen.pushReplacement(this, id: value);
             }
           });
 
@@ -121,14 +120,13 @@ extension BuildContextExt on BuildContext {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: blank,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashOut,
-        theme: const CpThemeData.black()
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: blank,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashOut,
+      theme: const CpThemeData.black(),
+    );
   }
 
   AsyncResult<bool> _checkKYC({required String address}) =>
