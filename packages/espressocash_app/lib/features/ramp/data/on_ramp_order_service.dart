@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -13,9 +12,9 @@ import '../../../data/db/db.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
-import '../models/ramp_partner.dart';
 
 typedef OnRampOrder = ({
   String id,

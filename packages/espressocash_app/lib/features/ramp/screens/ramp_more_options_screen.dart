@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/arrow.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../wallet_flow/widgets/pay_details_page.dart';
-import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
 class RampMoreOptionsScreen extends StatelessWidget {

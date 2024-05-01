@@ -6,7 +6,7 @@ import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
-import '../../features/ramp/models/ramp_partner.dart';
+import '../../features/ramp_partner/models/ramp_partner.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
