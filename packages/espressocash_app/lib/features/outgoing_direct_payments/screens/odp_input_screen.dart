@@ -4,11 +4,11 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/pay_details_page.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../../wallet_flow/widgets/pay_details_page.dart';
 import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);
