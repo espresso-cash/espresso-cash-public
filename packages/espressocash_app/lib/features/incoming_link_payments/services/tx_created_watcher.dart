@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../utils/cancelable_job.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -16,8 +15,8 @@ import 'package:uuid/uuid.dart';
 import '../../../config.dart';
 import '../../../data/db/db.dart';
 import '../../../di.dart';
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../authenticated/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token_list.dart';

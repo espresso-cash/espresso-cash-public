@@ -11,7 +11,7 @@ import 'package:solana/solana_pay.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../models/payment_request.dart';
 
 @Singleton(scope: authScope)

@@ -10,7 +10,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../data/db/db.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';

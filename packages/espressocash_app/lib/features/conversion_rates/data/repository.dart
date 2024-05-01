@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import 'conversion_rates_client.dart';

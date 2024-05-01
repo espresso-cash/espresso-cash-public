@@ -11,7 +11,7 @@ import 'package:solana/solana.dart';
 
 import '../../../utils/disposable_bloc.dart';
 import '../../../utils/processing_state.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
