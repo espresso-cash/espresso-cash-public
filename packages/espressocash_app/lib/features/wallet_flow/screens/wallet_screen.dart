@@ -10,7 +10,7 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../payment_request/screens/payment_request_screen.dart';
 import '../../payment_request/widgets/extensions.dart';
-import '../../qr_scanner/widgets/build_context_ext.dart';
+import '../widgets/launch_qr_scanner_flow.dart';
 import '../widgets/wallet_tab_view.dart';
 import 'pay_screen.dart';
 
