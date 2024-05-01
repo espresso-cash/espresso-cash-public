@@ -10,6 +10,7 @@ import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
+import 'tr_tile.dart';
 
 class TransactionItem extends StatefulWidget {
   const TransactionItem({
@@ -66,6 +67,10 @@ class _TransactionItemState extends State<TransactionItem> {
                 activity: it,
               ),
               outgoingDlnPayment: (it) => OutgoingDlnTile(
+                key: ValueKey(it.id),
+                activity: it,
+              ),
+              transactionRequest: (it) => TrTile(
                 key: ValueKey(it.id),
                 activity: it,
               ),

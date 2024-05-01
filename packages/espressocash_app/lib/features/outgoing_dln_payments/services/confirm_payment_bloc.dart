@@ -154,6 +154,7 @@ extension ConfirmPaymentExt on ConfirmPaymentState {
       quote?.receiverAmount ??
       const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
 
+  @useResult
   Either<CreateOrderException, PaymentQuote> validate(
     CryptoAmount usdcBalance,
   ) {

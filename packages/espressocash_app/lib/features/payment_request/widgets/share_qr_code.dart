@@ -1,30 +1,24 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../tokens/token_list.dart';
-import '../models/payment_request.dart';
+import '../../currency/models/amount.dart';
 
 class ShareQrCode extends StatelessWidget {
   const ShareQrCode({
     super.key,
-    required this.paymentRequest,
+    required this.amount,
+    required this.link,
   });
 
-  final PaymentRequest paymentRequest;
+  final CryptoAmount? amount;
+  final String link;
 
   @override
   Widget build(BuildContext context) {
-    final tokenlist = sl<TokenList>();
-
-    final amount = paymentRequest.payRequest
-        .cryptoAmount(tokenlist)
-        ?.formatWithFiat(context);
-
-    final qrData = paymentRequest.dynamicLink;
+    final amount = this.amount?.formatWithFiat(context) ?? '';
 
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
@@ -32,7 +26,7 @@ class ShareQrCode extends StatelessWidget {
       // ignore: avoid-single-child-column-or-row
       child: Column(
         children: [
-          Flexible(child: _QrCodeWrapper(amount: amount, qrData: qrData)),
+          Flexible(child: _QrCodeWrapper(amount: amount, qrData: link)),
         ],
       ),
     );

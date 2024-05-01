@@ -38,11 +38,10 @@ class ProfileScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    _buttonSpacing,
-                    _buttonSpacing,
-                    _buttonSpacing,
-                    0,
+                  padding: const EdgeInsets.only(
+                    left: _buttonSpacing,
+                    top: _buttonSpacing,
+                    right: _buttonSpacing,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,

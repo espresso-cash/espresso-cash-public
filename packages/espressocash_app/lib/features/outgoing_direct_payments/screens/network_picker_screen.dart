@@ -47,8 +47,10 @@ class NetworkPickerRoute extends GoRouteData {
       );
 }
 
+// TODO(KB): refactor to class
 typedef NetworkPickerParams = ({
   Blockchain? initial,
+  // ignore: avoid-function-type-in-records, refactor later
   ValueSetter<Blockchain> onSubmitted,
 });
 

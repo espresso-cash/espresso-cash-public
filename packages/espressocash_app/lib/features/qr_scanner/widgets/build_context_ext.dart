@@ -15,6 +15,7 @@ import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import '../../incoming_link_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
@@ -22,6 +23,7 @@ import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../tokens/token_list.dart';
+import '../../transaction_request/widgets/extensions.dart';
 import '../models/qr_address_data.dart';
 import '../models/qr_scanner_request.dart';
 import '../screens/qr_scanner_screen.dart';
@@ -45,6 +47,17 @@ extension BuildContextExt on BuildContext {
 
       if (!mounted) return;
       IncomingLinkPaymentRoute(id).go(this);
+    } else if (request is QrScannerSolanaPayTransactionRequest) {
+      final isEnabled = sl<FeatureFlagsManager>().isTransactionRequestEnabled();
+
+      if (!isEnabled) {
+        // Silently ignore request for now
+        return;
+      }
+
+      final transaction = request.request;
+
+      await processSolanaTransactionRequest(transaction);
     } else {
       final recipient = request.recipient;
       if (recipient == null) return;

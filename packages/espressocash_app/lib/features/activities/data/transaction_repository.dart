@@ -13,6 +13,7 @@ import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../tokens/token_list.dart';
+import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
@@ -129,8 +130,14 @@ class TransactionRepository {
       ].contains(row.status).not(),
     );
 
+    final tr = _db.transactionRequestRows.findActivityOrNull(
+      where: (row) => row.transaction.equals(tx.encode()),
+      builder: (pr) => pr.toModel().toActivity(),
+      ignoreWhen: (row) => row.status != TRStatusDto.success,
+    );
+
     return Rx.combineLatest(
-      [pr, odp, olp, offRamp, onRamp, oDlnP]
+      [pr, odp, olp, offRamp, onRamp, oDlnP, tr]
           .map((it) => it.onErrorReturn(null)),
       (values) => values.whereNotNull().first,
     );

@@ -1,5 +1,5 @@
 # Uncomment this line to define a global platform for your project
-platform :ios, '13.0'
+platform :ios, '15.0'
 
 $FirebaseAnalyticsWithoutAdIdSupport = true
 
@@ -47,7 +47,7 @@ post_install do |installer|
          end
     end
   end
-  
+
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
 

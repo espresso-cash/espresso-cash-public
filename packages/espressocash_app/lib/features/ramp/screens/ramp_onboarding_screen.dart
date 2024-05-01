@@ -143,8 +143,10 @@ class RampOnboardingRoute extends GoRouteData {
       );
 }
 
+// TODO(KB): refactor to class
 typedef RampOnboardingParams = ({
   RampType rampType,
+  // ignore: avoid-function-type-in-records, refactor later
   VoidCallback onConfirmed,
 });
 

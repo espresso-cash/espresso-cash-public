@@ -135,6 +135,7 @@ class RemoteRequestBloc extends Bloc<RemoteRequestEvent, RemoteRequestState> {
       );
 }
 
+@useResult
 Either<_ValidationError, List<Uint8List>> _validatePayloads({
   required List<Uint8List> payloads,
   required Uint8List authorizationScope,
