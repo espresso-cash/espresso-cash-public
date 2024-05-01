@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/tab_bar.dart';
+import '../../../ui/share_link.dart';
 import '../../../ui/theme.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
-import '../widgets/share_link.dart';
-import '../widgets/share_qr.dart';
 
 class ShareLinkScreen extends StatelessWidget {
   const ShareLinkScreen({
@@ -33,8 +32,15 @@ class ShareLinkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final title = Text(
-      context.l10n.yourLinkIsReady.toUpperCase(),
+      context.l10n.pay.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+    );
+
+    final formattedAmount = amount.formatWithFiat(context);
+
+    final message = context.l10n.shareText(
+      formattedAmount,
+      status.link,
     );
 
     return CpTheme.black(
@@ -42,34 +48,11 @@ class ShareLinkScreen extends StatelessWidget {
         appBar: CpAppBar(title: title),
         body: SafeArea(
           top: false,
-          child: DefaultTabController(
-            length: 2,
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 48, vertical: 16),
-                  child: CpTabBar(
-                    variant: CpTabBarVariant.black,
-                    tabs: [
-                      Tab(text: context.l10n.sharePaymentRequestLinkTitle),
-                      Tab(text: context.l10n.sharePaymentRequestQrCodeTitle),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      ShareLink(status: status, amount: amount),
-                      ShareQr(
-                        qrLink: status.link,
-                        amount: amount,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          child: ShareCodeWidget(
+            title: context.l10n.scanToReceive,
+            amount: formattedAmount,
+            qrCode: status.link.toString(),
+            shareText: message,
           ),
         ),
       ),
