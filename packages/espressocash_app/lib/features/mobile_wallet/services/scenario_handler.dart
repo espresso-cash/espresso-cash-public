@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../config.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../data/repository.dart';
 import '../models/notification.dart';
 import '../models/remote_request.dart';

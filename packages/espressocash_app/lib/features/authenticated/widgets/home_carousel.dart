@@ -5,7 +5,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import 'home_widget.dart';
+import '../../../ui/home_tile.dart';
 
 class HomeCarouselWidget extends StatefulWidget {
   const HomeCarouselWidget({super.key, required this.onSendMoneyPressed});

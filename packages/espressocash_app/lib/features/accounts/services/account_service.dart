@@ -6,7 +6,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import '../../../di.config.dart';
 import '../../../di.dart';
 import '../../analytics/analytics_manager.dart';
-import '../../authenticated/auth_scope.dart';
+import '../auth_scope.dart';
 import '../data/account_repository.dart';
 import '../models/account.dart';
 import '../models/mnemonic.dart';

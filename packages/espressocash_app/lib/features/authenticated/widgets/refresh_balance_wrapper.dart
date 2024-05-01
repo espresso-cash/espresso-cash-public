@@ -8,10 +8,10 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
+import '../../balances/services/balances_bloc.dart';
+import '../../balances/widgets/context_ext.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../currency/models/currency.dart';
-import '../services/balances_bloc.dart';
-import 'context_ext.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 

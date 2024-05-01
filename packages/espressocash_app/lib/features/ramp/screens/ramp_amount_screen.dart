@@ -12,7 +12,7 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../models/ramp_partner.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
 typedef AmountCalculator = ({Amount amount, String? rate}) Function(

@@ -14,7 +14,7 @@ import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token_list.dart';

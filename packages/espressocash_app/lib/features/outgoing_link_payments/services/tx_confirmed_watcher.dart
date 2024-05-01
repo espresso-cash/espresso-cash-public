@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 
 import '../../../utils/cancelable_job.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../data/repository.dart';

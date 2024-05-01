@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../wallet_flow/widgets/pay_main_page.dart';
-import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import 'ramp_more_options_screen.dart';
 

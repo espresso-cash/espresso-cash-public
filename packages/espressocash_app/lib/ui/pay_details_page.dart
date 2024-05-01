@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../gen/assets.gen.dart';
-import '../../../../ui/app_bar.dart';
-import '../../../../ui/back_button.dart';
-import '../../../../ui/theme.dart';
+import '../../gen/assets.gen.dart';
+import '../../ui/app_bar.dart';
+import '../../ui/back_button.dart';
+import '../../ui/theme.dart';
 
 class PayDetailsPage extends StatelessWidget {
   const PayDetailsPage({
