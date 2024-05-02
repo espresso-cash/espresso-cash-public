@@ -53,9 +53,10 @@ CHANGELOG:
   - initial script creation
 """
 
-import sys
-from os import path, access, R_OK
 import argparse
+import sys
+from os import R_OK, access, path
+
 import networkx as nx
 from networkx.drawing.nx_pydot import read_dot
 
@@ -86,6 +87,9 @@ def main():
         # append the first node again so that the cycle is complete
         i.append(i[0])
         print(" -> ".join(i))
+
+    if len(C) != 0:
+        sys.exit(1)
 
 
 def remove_super_cycles(cycle_list):
