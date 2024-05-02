@@ -5,7 +5,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../currency/models/currency.dart';
 import '../../profile/screens/profile_screen.dart';
-import '../../qr_scanner/widgets/build_context_ext.dart';
+import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({

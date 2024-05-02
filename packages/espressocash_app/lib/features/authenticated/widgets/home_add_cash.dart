@@ -11,11 +11,11 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
 import '../../activities/services/tx_updater.dart';
-import '../../balances/widgets/refresh_balance_wrapper.dart';
 import '../../ramp/models/ramp_type.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import 'home_app_bar.dart';
 import 'investment_header.dart';
+import 'refresh_balance_wrapper.dart';
 
 class HomeAddCashContent extends StatelessWidget {
   const HomeAddCashContent({super.key});
