@@ -1,3 +1,16 @@
+## 1.115.0
+
+ - **REFACTOR**: restructure qr_scanner.
+ - **REFACTOR**: break outgoing_direct_payments -> wallet_flow.
+ - **REFACTOR**: break fees -> ramp.
+ - **REFACTOR**: break balances -> conversion_rates.
+ - **REFACTOR**: break conversion_rates -> wallet_flow.
+ - **REFACTOR**: break activities -> authenticated.
+ - **REFACTOR**: restructure accounts.
+ - **REFACTOR**: remove nested dependency (#1401).
+ - **FEAT**: update pay verification interval on opened request (#1410).
+ - **FEAT**: show add cash notice on zero balance (#1388).
+
 ## 1.114.0
 
  - **REFACTOR**: remove go_router (#1399).
