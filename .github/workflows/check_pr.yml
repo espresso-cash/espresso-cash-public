@@ -190,7 +190,7 @@ jobs:
 
       - name: Analyze
         run: |
-          pip3 install -r ./tool/requirements.txt
+          pip3 install networkx graphviz pydot pydotplus
           melos exec -c 1 ${{ env.SCOPE }} -- make flutter_analyze
           melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_all
           melos exec -c 1 ${{ env.SCOPE }} -- make deps_graph_features
