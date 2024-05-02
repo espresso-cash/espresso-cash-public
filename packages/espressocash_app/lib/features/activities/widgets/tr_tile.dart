@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
-import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../transaction_request/models/transaction_request.dart';
@@ -29,6 +28,6 @@ class TrTile extends StatelessWidget {
           context.locale,
           maxDecimals: 2,
         ),
-        onTap: () => TRDetailsRoute(activity.id).go(context),
+        onTap: () => TRDetailsScreen.push(context, id: activity.id),
       );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 
-import '../../../ui/colors.dart';
+import 'colors.dart';
 
 class HomeTile extends StatelessWidget {
   const HomeTile({

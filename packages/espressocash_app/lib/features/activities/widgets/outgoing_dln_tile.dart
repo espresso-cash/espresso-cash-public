@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../gen/assets.gen.dart';
 import '../../../../l10n/device_locale.dart';
 import '../../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../outgoing_dln_payments/screens/details_screen.dart';
@@ -31,6 +30,7 @@ class OutgoingDlnTile extends StatelessWidget {
           fulfilled: always(CpActivityTileStatus.success),
           unfulfilled: always(CpActivityTileStatus.failure),
         ),
-        onTap: () => OutgoingDlnPaymentDetailsRoute(activity.id).go(context),
+        onTap: () =>
+            OutgoingDlnPaymentDetailsScreen.push(context, id: activity.id),
       );
 }

@@ -1,20 +1,17 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../config.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/l10n.dart';
-import '../../../../../routing.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
-import '../../../models/ramp_partner.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
@@ -29,21 +26,17 @@ extension BuildContextExt on BuildContext {
   }) async {
     Amount? amount;
 
-    await RampAmountRoute(
-      (
-        partner: RampPartner.kado,
-        onSubmitted: (Amount? value) {
-          pop();
-          amount = value;
-        },
-        minAmount: Decimal.fromInt(10),
-        currency: Currency.usdc,
-        calculateEquivalent: null,
-        calculateFee: null,
-        type: RampType.onRamp,
-        partnerFeeLabel: null,
-      ),
-    ).push<void>(this);
+    await RampAmountScreen.push(
+      this,
+      partner: RampPartner.kado,
+      onSubmitted: (Amount? value) {
+        Navigator.pop(this);
+        amount = value;
+      },
+      minAmount: Decimal.fromInt(10),
+      currency: Currency.usdc,
+      type: RampType.onRamp,
+    );
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
@@ -88,7 +81,7 @@ extension BuildContextExt on BuildContext {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OnRampOrderRoute(value).pushReplacement(this);
+                  OnRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;
@@ -104,14 +97,13 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: uri,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_titleCashIn,
-        theme: null,
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashIn,
+      theme: null,
+    );
   }
 
   Future<void> launchKadoOffRamp({
@@ -120,21 +112,17 @@ window.addEventListener("message", (event) => {
   }) async {
     Amount? amount;
 
-    await RampAmountRoute(
-      (
-        partner: RampPartner.kado,
-        onSubmitted: (Amount? value) {
-          pop();
-          amount = value;
-        },
-        minAmount: Decimal.fromInt(10),
-        currency: Currency.usdc,
-        calculateEquivalent: null,
-        calculateFee: null,
-        type: RampType.onRamp,
-        partnerFeeLabel: null,
-      ),
-    ).push<void>(this);
+    await RampAmountScreen.push(
+      this,
+      partner: RampPartner.kado,
+      onSubmitted: (Amount? value) {
+        Navigator.pop(this);
+        amount = value;
+      },
+      minAmount: Decimal.fromInt(10),
+      currency: Currency.usdc,
+      type: RampType.onRamp,
+    );
 
     final submittedAmount = amount;
     if (submittedAmount is! CryptoAmount) return;
@@ -187,7 +175,7 @@ window.addEventListener("message", (event) => {
                 case Left<Exception, String>():
                   break;
                 case Right<Exception, String>(:final value):
-                  OffRampOrderRoute(value).pushReplacement(this);
+                  OffRampOrderScreen.pushReplacement(this, id: value);
               }
             });
             orderWasCreated = true;
@@ -203,13 +191,12 @@ window.addEventListener("message", (event) => {
       );
     }
 
-    await WebViewRoute(
-      (
-        url: uri,
-        onLoaded: handleLoaded,
-        title: l10n.ramp_btnCashOut,
-        theme: null,
-      ),
-    ).push<void>(this);
+    await WebViewScreen.push(
+      this,
+      url: uri,
+      onLoaded: handleLoaded,
+      title: l10n.ramp_btnCashOut,
+      theme: null,
+    );
   }
 }

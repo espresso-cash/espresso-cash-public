@@ -3,14 +3,12 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/account.dart';
@@ -38,7 +36,7 @@ extension BuildContextExt on BuildContext {
         await runWithLoader<TransactionRequestResult?>(this, () async {
       final info = await request.get();
 
-      final wallet = read<MyAccount>().wallet.publicKey;
+      final wallet = sl<MyAccount>().wallet.publicKey;
       final client = sl<SolanaClient>();
 
       final postResponse = await request.post(account: wallet.toBase58());
@@ -86,13 +84,12 @@ extension BuildContextExt on BuildContext {
 
     if (response == null) return;
 
-    final confirmationResult = await TRConfirmationRoute(
-      (
-        request: response.info,
-        amount: response.amount,
-        message: response.message,
-      ),
-    ).push<bool?>(this);
+    final confirmationResult = await TRConfirmationScreen.push(
+      this,
+      request: response.info,
+      amount: response.amount,
+      message: response.message,
+    );
 
     if (confirmationResult == true) {
       final id = await _createTR(
@@ -103,7 +100,7 @@ extension BuildContextExt on BuildContext {
       );
 
       if (!mounted) return;
-      TRDetailsRoute(id).go(this);
+      TRDetailsScreen.push(this, id: id);
     }
   }
 

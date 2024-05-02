@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../routing.dart';
 import '../../accounts/models/wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../dynamic_links/widgets/dynamic_link_handler.dart';
@@ -29,7 +28,7 @@ class _PendingILPListenerState extends State<PendingILPListener>
     final id = await context.createILP(escrow: escrow);
 
     if (!mounted) return;
-    IncomingLinkPaymentRoute(id).go(context);
+    IncomingLinkPaymentScreen.push(context, id: id);
   }
 
   @override

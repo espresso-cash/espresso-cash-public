@@ -1,7 +1,5 @@
 import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -14,7 +12,7 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../models/ramp_partner.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
 typedef AmountCalculator = ({Amount amount, String? rate}) Function(
@@ -34,6 +32,32 @@ class RampAmountScreen extends StatefulWidget {
     required this.partner,
     this.partnerFeeLabel,
   });
+
+  static Future<void> push(
+    BuildContext context, {
+    required ValueSetter<Amount> onSubmitted,
+    required Decimal minAmount,
+    required Currency currency,
+    required RampType type,
+    required RampPartner partner,
+    AmountCalculator? calculateEquivalent,
+    FeeCalculator? calculateFee,
+    String? partnerFeeLabel,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RampAmountScreen(
+            onSubmitted: onSubmitted,
+            minAmount: minAmount,
+            currency: currency,
+            calculateEquivalent: calculateEquivalent,
+            type: type,
+            partner: partner,
+            calculateFee: calculateFee,
+            partnerFeeLabel: partnerFeeLabel,
+          ),
+        ),
+      );
 
   final ValueSetter<Amount> onSubmitted;
   final Decimal minAmount;
@@ -150,39 +174,6 @@ class _RampAmountScreenState extends State<RampAmountScreen> {
         ),
       );
 }
-
-class RampAmountRoute extends GoRouteData {
-  const RampAmountRoute(this.$extra);
-
-  final RampAmountParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => RampAmountScreen(
-        onSubmitted: $extra.onSubmitted,
-        minAmount: $extra.minAmount,
-        currency: $extra.currency,
-        calculateEquivalent: $extra.calculateEquivalent,
-        type: $extra.type,
-        partner: $extra.partner,
-        calculateFee: $extra.calculateFee,
-        partnerFeeLabel: $extra.partnerFeeLabel,
-      );
-}
-
-// TODO(KB): refactor to class
-typedef RampAmountParams = ({
-  // ignore: avoid-function-type-in-records, refactor later
-  ValueSetter<Amount> onSubmitted,
-  Decimal minAmount,
-  Currency currency,
-  // ignore: avoid-function-type-in-records, refactor later
-  AmountCalculator? calculateEquivalent,
-  RampType type,
-  RampPartner partner,
-  // ignore: avoid-function-type-in-records, refactor later
-  FeeCalculator? calculateFee,
-  String? partnerFeeLabel,
-});
 
 class _FeeLabel extends StatelessWidget {
   const _FeeLabel({

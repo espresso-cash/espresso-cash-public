@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 import '../../../di.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../data/on_ramp_order_service.dart';
-import '../models/ramp_partner.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/kado/services/kado_on_ramp_order_watcher.dart';
 import '../partners/scalex/services/scalex_on_ramp_order_watcher.dart';

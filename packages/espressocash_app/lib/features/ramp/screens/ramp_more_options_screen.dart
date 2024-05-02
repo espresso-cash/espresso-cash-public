@@ -1,21 +1,36 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/arrow.dart';
-import '../../wallet_flow/widgets/pay_details_page.dart';
-import '../models/ramp_partner.dart';
+import '../../../ui/pay_details_page.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
-class RampMoreOptionsPartnerScreen extends StatelessWidget {
-  const RampMoreOptionsPartnerScreen({
+class RampMoreOptionsScreen extends StatelessWidget {
+  const RampMoreOptionsScreen({
     super.key,
     required this.otherPartners,
     required this.type,
     required this.onPartnerSelected,
   });
+
+  static void push(
+    BuildContext context, {
+    required IList<RampPartner> otherPartners,
+    required RampType type,
+    required ValueSetter<RampPartner> onPartnerSelected,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RampMoreOptionsScreen(
+            otherPartners: otherPartners,
+            type: type,
+            onPartnerSelected: onPartnerSelected,
+          ),
+        ),
+      );
 
   final IList<RampPartner> otherPartners;
   final RampType type;
@@ -95,25 +110,3 @@ class RampMoreOptionsPartnerScreen extends StatelessWidget {
         ),
       );
 }
-
-class RampMoreOptionsRoute extends GoRouteData {
-  const RampMoreOptionsRoute(this.$extra);
-
-  final RampMoreOptionsParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RampMoreOptionsPartnerScreen(
-        type: $extra.type,
-        otherPartners: $extra.otherPartners,
-        onPartnerSelected: $extra.onPartnerSelected,
-      );
-}
-
-// TODO(KB): refactor to class
-typedef RampMoreOptionsParams = ({
-  IList<RampPartner> otherPartners,
-  RampType type,
-  // ignore: avoid-function-type-in-records, refactor later
-  ValueSetter<RampPartner> onPartnerSelected,
-});

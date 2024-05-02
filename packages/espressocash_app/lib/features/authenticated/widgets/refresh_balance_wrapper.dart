@@ -1,8 +1,6 @@
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:logging/logging.dart';
 
 import '../../../di.dart';
@@ -10,10 +8,10 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
-import '../../conversion_rates/services/conversion_rates_bloc.dart';
+import '../../balances/services/balances_bloc.dart';
+import '../../balances/widgets/context_ext.dart';
+import '../../conversion_rates/data/repository.dart';
 import '../../currency/models/currency.dart';
-import '../services/balances_bloc.dart';
-import 'context_ext.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 
@@ -52,16 +50,13 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() {
-    final bloc = context.read<ConversionRatesBloc>();
+  AsyncResult<void> _updateConversionRates() => sl<ConversionRatesRepository>()
+          .refresh(defaultFiatCurrency)
+          .doOnLeftAsync((_) {
+        if (!mounted) return;
 
-    const conversionEvent = ConversionRatesEvent.refreshRequested(
-      currency: defaultFiatCurrency,
-    );
-    bloc.add(conversionEvent);
-
-    return _listenForProcessingStateAndThrowOnError(bloc.stream);
-  }
+        _showConversionRatesFetchErrorToast(context);
+      });
 
   AsyncResult<void> _updateBalances() {
     context.notifyBalanceAffected();
@@ -87,8 +82,6 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
         (error) {
           if (error is BalancesRequestException) {
             _showFetchBalancesErrorToast(context);
-          } else if (error is ConversionRatesRequestException) {
-            _showConversionRatesFetchErrorToast(context);
           } else {
             _logger.severe('Failed to update', error);
           }

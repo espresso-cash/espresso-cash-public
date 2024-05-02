@@ -4,7 +4,6 @@ import '../../../data/db/db.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../ramp/screens/off_ramp_order_screen.dart';
@@ -33,7 +32,7 @@ class OffRampTile extends StatelessWidget {
                   ? CpActivityTileStatus.failure
                   : CpActivityTileStatus.inProgress,
           timestamp: context.formatDate(activity.created),
-          onTap: () => OffRampOrderRoute(activity.id).go(context),
+          onTap: () => OffRampOrderScreen.push(context, id: activity.id),
         ),
       );
 }

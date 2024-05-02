@@ -1,8 +1,5 @@
 import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../di.dart';
@@ -22,7 +19,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader(this, () async {
         const currency = Currency.usdc;
         final payment = await sl<ODPService>().create(
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
           amount: CryptoAmount(
             value: currency.decimalToInt(amountInUsdc),
             cryptoCurrency: currency,
@@ -40,7 +37,7 @@ extension BuildContextExt on BuildContext {
       runWithLoader(this, () async {
         await sl<ODPService>().retry(
           paymentId,
-          account: read<MyAccount>().wallet,
+          account: sl<MyAccount>().wallet,
         );
         sl<AnalyticsManager>().directPaymentCreated();
       });
@@ -48,7 +45,7 @@ extension BuildContextExt on BuildContext {
   Future<void> cancelODP({required String paymentId}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().cancel(paymentId);
-        pop();
+        Navigator.pop(this);
 
         sl<AnalyticsManager>().directPaymentCancelled();
       });

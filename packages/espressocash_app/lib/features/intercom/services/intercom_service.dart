@@ -5,8 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:intercom_flutter/intercom_flutter.dart';
 
 import '../../../config.dart';
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../authenticated/auth_scope.dart';
 
 @Singleton(scope: authScope)
 class IntercomService implements Disposable {

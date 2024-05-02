@@ -7,7 +7,7 @@ import 'package:solana/solana.dart';
 
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../ramp/models/ramp_partner.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/token.dart';
 import '../models/fee_type.dart';
 

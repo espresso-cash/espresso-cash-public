@@ -561,22 +561,10 @@
   "@retry": {},
   "save": "Guardar",
   "@save": {},
-  "scanToReceive": "Escanea para recibir {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "scanToSend": "Escanear para enviar {amount}",
-  "@scanToSend": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "scanToReceive": "Escanea para recibir",
+  "@scanToReceive": {},
+  "scanToSend": "Escanear para enviar",
+  "@scanToSend": {},
   "search": "Buscar",
   "@search": {},
   "searchPlaceholder": "Buscar...",
@@ -615,10 +603,6 @@
   "@shareInstructions": {},
   "shareIntroFt": "¡Hola!\n\nTe acabo de enviar ",
   "@shareIntroFt": {},
-  "shareLink": "Compartir enlace de pago",
-  "@shareLink": {},
-  "shareLinks": "Compartir enlace",
-  "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Para pagarme con un clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hola!\n\nHe enviado una solicitud de ",
@@ -634,10 +618,6 @@
       }
     }
   },
-  "sharePaymentRequestLinkTitle": "Compartir enlace",
-  "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeTitle": "Compartir el código QR",
-  "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "¡Se ha creado una solicitud!",
   "@sharePaymentRequestTitle": {},
   "shareStep1": "Paso 1: haga clic en el primer enlace:",
@@ -888,8 +868,6 @@
   "@yourEmailPlaceholder": {},
   "yourFirstNamePlaceholder": "Elige un nombre de usuario",
   "@yourFirstNamePlaceholder": {},
-  "yourLinkIsReady": "Tu enlace está listo",
-  "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Tu frase de recuperación secreta",
   "@yourRecoveryPhrase": {},
   "yourRecoveryPhraseSub": "Esta frase está compuesta por 12 palabras generadas al azar. Por favor, anota tu siguiente frase secreta de recuperación y guárdala cuidadosamente.",

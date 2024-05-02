@@ -11,7 +11,7 @@ import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';

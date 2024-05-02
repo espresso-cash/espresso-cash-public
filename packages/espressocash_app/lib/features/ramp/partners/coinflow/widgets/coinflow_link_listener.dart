@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:nested/nested.dart';
-import 'package:provider/provider.dart';
 
 import '../../../../../config.dart';
+import '../../../../../di.dart';
 import '../../../../accounts/models/account.dart';
 import '../../../../dynamic_links/widgets/dynamic_link_handler.dart';
 import '../../../models/ramp_type.dart';
 import '../../../widgets/ramp_buttons.dart';
 import 'launch.dart';
 
-class CoinflowLinkListener extends SingleChildStatefulWidget {
+class CoinflowLinkListener extends StatefulWidget {
   const CoinflowLinkListener({
     super.key,
-    super.child,
+    required this.child,
   });
+
+  final Widget child;
 
   @override
   State<StatefulWidget> createState() => _CoinflowLinkListenerState();
 }
 
-class _CoinflowLinkListenerState extends SingleChildState<CoinflowLinkListener>
+class _CoinflowLinkListenerState extends State<CoinflowLinkListener>
     with DynamicLinkHandler {
   static bool _isCoinflowDeepLink(Uri uri) =>
       uri.scheme == espressoCashLinkProtocol && uri.path == '/coinflow';
@@ -38,13 +39,12 @@ class _CoinflowLinkListenerState extends SingleChildState<CoinflowLinkListener>
 
     if (mounted && profile != null) {
       await context.launchCoinflowOffRamp(
-        address: context.read<MyAccount>().wallet.publicKey.toBase58(),
+        address: sl<MyAccount>().wallet.publicKey.toBase58(),
         profile: profile,
       );
     }
   }
 
   @override
-  Widget buildWithChild(BuildContext context, Widget? child) =>
-      child ?? const SizedBox.shrink();
+  Widget build(BuildContext context) => widget.child;
 }

@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../accounts/auth_scope.dart';
 import '../models/notification.dart';
 
 typedef NotificationHanlder = FutureOr<Object?> Function(
   MobileWalletNotification notification,
 );
 
-@lazySingleton
+@Singleton(scope: authScope)
 class MobileWalletRepository extends ChangeNotifier {
   MobileWalletNotification? _notification;
   Completer<Object?>? _completer;

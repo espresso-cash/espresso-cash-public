@@ -6,6 +6,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../utils/disposable_bloc.dart';
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/ec_wallet.dart';
 
@@ -36,13 +38,11 @@ sealed class PuzzleReminderEvent with _$PuzzleReminderEvent {
   const factory PuzzleReminderEvent.postponed({
     required Duration postponedBy,
   }) = PuzzleReminderEventPostponed;
-
-  const factory PuzzleReminderEvent.loggedOut() = PuzzleReminderEventLoggedOut;
 }
 
-@injectable
-class PuzzleReminderBloc
-    extends Bloc<PuzzleReminderEvent, PuzzleReminderState> {
+@Singleton(scope: authScope)
+class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
+    with DisposableBloc {
   PuzzleReminderBloc(this._sharedPreferences)
       : super(const PuzzleReminderState.none()) {
     on<PuzzleReminderEvent>(_eventHandler, transformer: sequential());
@@ -56,7 +56,6 @@ class PuzzleReminderBloc
               _onCheckRequested(event, emit),
             PuzzleReminderEventSolved() => _onSolved(),
             PuzzleReminderEventPostponed() => _onPostponed(event),
-            PuzzleReminderEventLoggedOut() => _onLoggedOut(),
           };
 
   PuzzleReminderData _readSharedPreferences() {
@@ -112,7 +111,12 @@ class PuzzleReminderBloc
   Future<void> _onSolved() =>
       _writeSharedPreferences(const PuzzleReminderData.solved());
 
-  Future<void> _onLoggedOut() => _sharedPreferences.remove(_spKey);
+  @override
+  Future<void> close() {
+    _sharedPreferences.remove(_spKey);
+
+    return super.close();
+  }
 }
 
 const _spKey = 'puzzleReminder';

@@ -1,3 +1,8 @@
+## 1.114.0
+
+ - **REFACTOR**: remove go_router (#1399).
+ - **FEAT**: update share screen uis (#1400).
+
 ## 1.113.0
 
  - **REFACTOR**: migrate to Flutter 3.19 (#1393).
