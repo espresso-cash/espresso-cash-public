@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../gen/assets.gen.dart';
-import '../../../routing.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../currency/models/currency.dart';
@@ -39,7 +38,7 @@ class HomeAppBar extends StatelessWidget {
           CpIconButton(
             icon: Assets.icons.settingsButtonIcon.svg(color: Colors.white),
             variant: CpIconButtonVariant.black,
-            onPressed: () => const ProfileRoute().go(context),
+            onPressed: () => ProfileScreen.push(context),
           ),
           const SizedBox(width: 12),
         ],
