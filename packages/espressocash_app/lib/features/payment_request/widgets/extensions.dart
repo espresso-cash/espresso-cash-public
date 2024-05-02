@@ -25,9 +25,4 @@ extension PaymentRequestExt on BuildContext {
 
         return payment.id;
       });
-
-  void cancelRequest({required String id}) {
-    sl<PaymentRequestService>().cancel(id);
-    Navigator.of(this).pop();
-  }
 }

@@ -13,6 +13,7 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
+import '../services/payment_request_service.dart';
 import 'extensions.dart';
 
 class ShareRequestPayment extends StatelessWidget {
@@ -93,7 +94,10 @@ class ShareRequestPayment extends StatelessWidget {
                           .toUpperCase(),
                       message: context
                           .l10n.paymentRequest_lblCancelConfirmationSubtitle,
-                      onConfirm: () => context.cancelRequest(id: request.id),
+                      onConfirm: () {
+                        sl<PaymentRequestService>().cancel(request.id);
+                        Navigator.of(context).pop();
+                      },
                     ),
                   ),
                 ),
