@@ -1,0 +1,6 @@
+decorator==4.0.10
+graphviz==0.5.1
+networkx==1.11
+pydot==1.2.2
+pydotplus==2.0.2
+pyparsing==2.1.9
