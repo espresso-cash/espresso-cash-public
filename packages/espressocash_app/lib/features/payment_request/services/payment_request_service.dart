@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/solana.dart';
@@ -20,7 +21,7 @@ import '../data/repository.dart';
 import '../models/payment_request.dart';
 
 @Singleton(scope: authScope)
-class PaymentRequestService {
+class PaymentRequestService implements Disposable {
   PaymentRequestService(
     this._repository,
     this._solanaClient,
@@ -38,6 +39,8 @@ class PaymentRequestService {
   final Map<String, StreamSubscription<void>> _subscriptions = {};
   final Map<String, Duration> _currentBackoffs = {};
 
+  StreamSubscription<void>? _watcher;
+
   @PostConstruct(preResolve: true)
   Future<void> init() async {
     final pendingPayments = await _repository.getAllPending();
@@ -48,14 +51,32 @@ class PaymentRequestService {
   }
 
   void _subscribe(PaymentRequest request) {
-    _waitForTx(request);
-  }
-
-  void _waitForTx(PaymentRequest request) {
     if (!request.state.isInitial) return;
 
+    _subscriptions[request.id]?.cancel();
+    _subscriptions[request.id] = _createSubscription(request);
+  }
+
+  void initWatcher(PaymentRequest request) {
+    if (!request.state.isInitial) return;
+
+    _watcher?.cancel();
+    _watcher = _createSubscription(request, interval: _focusedInterval);
+  }
+
+  void disposeWatcher() {
+    _watcher?.cancel();
+  }
+
+  StreamSubscription<void> _createSubscription(
+    PaymentRequest request, {
+    Duration interval = _backgroundInterval,
+  }) {
     final reference = request.payRequest.reference?.firstOrNull;
-    if (reference == null) return;
+
+    if (reference == null) {
+      return const Stream<void>.empty().listen(null);
+    }
 
     Stream<TransactionId> solanaPayTransaction() => _solanaClient
         .findSolanaPayTransaction(
@@ -65,10 +86,9 @@ class PaymentRequestService {
         .asStream()
         .whereType<TransactionId>();
 
-    _subscriptions[request.id] =
-        Stream<void>.periodic(const Duration(seconds: 30))
-            .flatMap((a) => solanaPayTransaction())
-            .mergeWith([solanaPayTransaction()]).listen(
+    return Stream<void>.periodic(interval)
+        .flatMap((a) => solanaPayTransaction())
+        .mergeWith([solanaPayTransaction()]).listen(
       (id) {
         _verifyTx(id, request);
       },
@@ -80,8 +100,8 @@ class PaymentRequestService {
           _currentBackoffs[request.id] = _maxBackoff;
         }
         await Future<void>.delayed(_currentBackoffs[request.id]!);
-        // ignore: avoid-recursive-calls, called in async callback
-        _waitForTx(request);
+
+        _subscribe(request);
       },
     );
   }
@@ -113,6 +133,7 @@ class PaymentRequestService {
       _refreshBalance();
 
       await _subscriptions[request.id]?.cancel();
+      await _watcher?.cancel();
     } on Exception {
       _currentBackoffs[request.id] =
           (_currentBackoffs[request.id] ?? _minBackoff) * _backoffStep;
@@ -169,9 +190,21 @@ class PaymentRequestService {
     return paymentRequest;
   }
 
+  Future<void> cancel(String id) async {
+    await _repository.delete(id);
+
+    await _subscriptions[id]?.cancel();
+  }
+
   Future<Uri> unshortenLink(String shortLink) => _ecClient
       .unshortenLink(UnshortenLinkRequestDto(shortLink: shortLink))
       .then((e) => Uri.parse(e.fullLink));
+
+  @override
+  Future<void> onDispose() async {
+    await _watcher?.cancel();
+    await Future.wait(_subscriptions.values.map((it) => it.cancel()));
+  }
 }
 
 Future<Ed25519HDPublicKey> _randomPublicKey([dynamic _]) async {
@@ -183,6 +216,9 @@ Future<Ed25519HDPublicKey> _randomPublicKey([dynamic _]) async {
 const _backoffStep = 2;
 const _minBackoff = Duration(seconds: 2);
 const _maxBackoff = Duration(minutes: 1);
+
+const _backgroundInterval = Duration(seconds: 30);
+const _focusedInterval = Duration(seconds: 1);
 
 extension on PaymentRequestState {
   bool get isInitial => this == PaymentRequestState.initial;
