@@ -4,11 +4,12 @@ import 'package:injectable/injectable.dart';
 import 'package:solana_mobile_wallet/solana_mobile_wallet.dart';
 
 import '../../../config.dart';
+import '../../accounts/auth_scope.dart';
 import '../data/repository.dart';
 import '../models/notification.dart';
 import '../models/remote_request.dart';
 
-@injectable
+@Singleton(scope: authScope)
 class ScenarioHandler implements ScenarioCallbacks {
   ScenarioHandler(this._repository) {
     Api.instance.setup(
@@ -27,7 +28,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   Scenario? _scenario;
 
   @override
-  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) async {
+  Future<AuthorizeResult?> onAuthorizeRequest(AuthorizeRequest request) {
     final remoteRequest = RemoteRequest.authorizeDapp(request: request);
 
     return _repository.notifyApp(
@@ -44,7 +45,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignaturesResult?> onSignAndSendTransactionsRequest(
     SignAndSendTransactionsRequest request,
-  ) async {
+  ) {
     final remoteRequest =
         RemoteRequest.signTransactionsForSending(request: request);
 
@@ -56,7 +57,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignedPayloadResult?> onSignMessagesRequest(
     SignMessagesRequest request,
-  ) async {
+  ) {
     final remoteRequest = RemoteRequest.signPayloads(request: request);
 
     return _repository.notifyApp(
@@ -67,7 +68,7 @@ class ScenarioHandler implements ScenarioCallbacks {
   @override
   Future<SignedPayloadResult?> onSignTransactionsRequest(
     SignTransactionsRequest request,
-  ) async {
+  ) {
     final remoteRequest = RemoteRequest.signPayloads(request: request);
 
     return _repository.notifyApp(
@@ -105,11 +106,10 @@ class ScenarioHandler implements ScenarioCallbacks {
   }
 
   @override
-  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) async {
-    _repository.notifyApp<void>(
-      const MobileWalletNotification.deauthorized(),
-    );
-  }
+  Future<void> onDeauthorizeEvent(DeauthorizeEvent event) =>
+      _repository.notifyApp<void>(
+        const MobileWalletNotification.deauthorized(),
+      );
 
   @override
   void onLowPowerAndNoConnection() {}

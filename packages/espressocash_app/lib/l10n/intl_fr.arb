@@ -452,14 +452,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Annuler la demande de paiement",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Votre demande de {amount} a été payée.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Demande de paiement",
   "pending": "En attente",
   "@pending": {},
@@ -579,22 +571,10 @@
   "@retry": {},
   "save": "Sauvegarder",
   "@save": {},
-  "scanToReceive": "Scannez pour recevoir {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "scanToSend": "Scanner pour envoyer {amount}",
-  "@scanToSend": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "scanToReceive": "Scannez pour recevoir",
+  "@scanToReceive": {},
+  "scanToSend": "Scanner pour envoyer",
+  "@scanToSend": {},
   "search": "Recherche",
   "@search": {},
   "searchPlaceholder": "Recherche...",
@@ -633,10 +613,6 @@
   "@shareInstructions": {},
   "shareIntroFt": "Hello!\n\nJe viens de t'envoyer ",
   "@shareIntroFt": {},
-  "shareLink": "Partagez le lien de paiement",
-  "@shareLink": {},
-  "shareLinks": "Partager le lien",
-  "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Pour me payer en un seul clic, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Hello!\n\nJe t'envoie une demande de paiement ",
@@ -652,10 +628,6 @@
       }
     }
   },
-  "sharePaymentRequestLinkTitle": "Partager le lien",
-  "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeTitle": "Partager le code QR",
-  "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "La demande a été créée!",
   "@sharePaymentRequestTitle": {},
   "shareStep1": "Étape 1 - Clique sur le premier lien:",
@@ -906,8 +878,6 @@
   "@yourEmailPlaceholder": {},
   "yourFirstNamePlaceholder": "Choisissez un nom d'utilisateur",
   "@yourFirstNamePlaceholder": {},
-  "yourLinkIsReady": "Votre lien est prêt",
-  "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Votre phrase de récupération secrète",
   "@yourRecoveryPhrase": {},
   "yourRecoveryPhraseSub": "Cette phrase est composée de 12 mots générés aléatoirement. Veuillez noter votre phrase secrète de récupération suivante et la sauvegarder attentivement.",

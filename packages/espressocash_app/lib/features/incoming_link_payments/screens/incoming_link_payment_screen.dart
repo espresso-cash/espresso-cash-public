@@ -1,7 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -9,7 +7,6 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
@@ -26,6 +23,13 @@ class IncomingLinkPaymentScreen extends StatefulWidget {
     super.key,
     required this.id,
   });
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => IncomingLinkPaymentScreen(id: id),
+        ),
+      );
 
   final String id;
 
@@ -51,40 +55,27 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
 
           return payment == null
               ? TransferProgress(
-                  onBack: () => context.pop(),
+                  onBack: () => Navigator.pop(context),
                 )
               : payment.status.maybeMap(
                   success: (e) => TransferSuccess(
-                    onBack: () => context.pop(),
-                    onOkPressed: () => context.pop(),
+                    onBack: () => Navigator.pop(context),
+                    onOkPressed: () => Navigator.pop(context),
                     content: e.fee?.let(_FeeNotice.new),
                     statusContent: context.l10n.moneyReceived,
                   ),
                   txFailure: (it) => it.reason == TxFailureReason.escrowFailure
                       ? const InvalidEscrowErrorWidget()
                       : TransferError(
-                          onBack: () => context.pop(),
+                          onBack: () => Navigator.pop(context),
                           onRetry: () => context.retryILP(payment),
                         ),
                   orElse: () => TransferProgress(
-                    onBack: () => context.pop(),
+                    onBack: () => Navigator.pop(context),
                   ),
                 );
         },
       );
-}
-
-class IncomingLinkPaymentRoute extends GoRouteData {
-  const IncomingLinkPaymentRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      IncomingLinkPaymentScreen(id: id);
 }
 
 class _FeeNotice extends StatelessWidget {

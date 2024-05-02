@@ -1,7 +1,5 @@
 import 'package:dfunc/dfunc.dart';
-
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
@@ -15,7 +13,6 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
@@ -25,6 +22,20 @@ import '../widgets/on_ramp_deposit_widget.dart';
 
 class OnRampOrderScreen extends StatefulWidget {
   const OnRampOrderScreen({super.key, required this.orderId});
+
+  static void push(BuildContext context, {required String id}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => OnRampOrderScreen(orderId: id),
+        ),
+      );
+
+  static void pushReplacement(BuildContext context, {required String id}) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => OnRampOrderScreen(orderId: id),
+        ),
+      );
 
   final String orderId;
 
@@ -48,23 +59,10 @@ class _OnRampOrderScreenState extends State<OnRampOrderScreen> {
           final order = snapshot.data;
 
           return order == null
-              ? TransferProgress(onBack: () => context.pop())
+              ? TransferProgress(onBack: () => Navigator.pop(context))
               : OnRampOrderScreenContent(order: order);
         },
       );
-}
-
-class OnRampOrderRoute extends GoRouteData {
-  const OnRampOrderRoute(this.id);
-
-  final String id;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      OnRampOrderScreen(orderId: id);
 }
 
 class OnRampOrderScreenContent extends StatelessWidget {
@@ -184,7 +182,7 @@ class _CancelButton extends StatelessWidget {
           variant: CpTextButtonVariant.light,
           onPressed: () {
             sl<OnRampOrderService>().delete(orderId);
-            context.pop();
+            Navigator.pop(context);
           },
         ),
       );

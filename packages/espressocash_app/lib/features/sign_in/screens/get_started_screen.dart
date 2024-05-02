@@ -1,34 +1,34 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../link_payments/models/link_payment.dart';
-import '../services/sign_in_bloc.dart';
 import '../widgets/terms_disclaimer.dart';
-import 'restore_account_screen.dart';
 
 class GetStartedScreen extends StatefulWidget {
-  const GetStartedScreen({super.key});
+  const GetStartedScreen({
+    super.key,
+    required this.onSignInPressed,
+    required this.onLocalPressed,
+  });
+
+  final VoidCallback onSignInPressed;
+  final VoidCallback onLocalPressed;
 
   @override
   State<GetStartedScreen> createState() => _GetStartedScreenState();
 }
 
 class _GetStartedScreenState extends State<GetStartedScreen> {
-  void _handleSignInPressed() => const RestoreAccountRoute().go(context);
-
   late final Future<void> _imagesCache;
 
   @override
@@ -81,7 +81,9 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
                                         const _Body(),
                                         24.verticalSpace,
                                         _Footer(
-                                          onSignInPressed: _handleSignInPressed,
+                                          onSignInPressed:
+                                              widget.onSignInPressed,
+                                          onLocalPressed: widget.onLocalPressed,
                                         ),
                                       ],
                                     ),
@@ -101,9 +103,10 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 }
 
 class _Footer extends StatelessWidget {
-  const _Footer({required this.onSignInPressed});
+  const _Footer({required this.onSignInPressed, required this.onLocalPressed});
 
   final VoidCallback onSignInPressed;
+  final VoidCallback onLocalPressed;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -112,7 +115,7 @@ class _Footer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             8.verticalSpace,
-            const _CreateLocalWalletButton(),
+            _CreateLocalWalletButton(onPressed: onLocalPressed),
             19.verticalSpace,
             Text.rich(
               key: keyUseExistingWalletButton,
@@ -140,16 +143,16 @@ class _Footer extends StatelessWidget {
 }
 
 class _CreateLocalWalletButton extends StatelessWidget {
-  const _CreateLocalWalletButton();
+  const _CreateLocalWalletButton({required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) => CpButton(
         key: keyCreateWalletButton,
         text: context.l10n.signUp,
         width: double.infinity,
-        onPressed: () => context
-            .read<SignInBloc>()
-            .add(const SignInEvent.newLocalWalletRequested()),
+        onPressed: onPressed,
       );
 }
 
@@ -205,27 +208,3 @@ bool _parseUri(Uri? link) {
 
   return LinkPayment.tryParse(link) != null;
 }
-
-class SignInRoute extends GoRouteData {
-  const SignInRoute();
-
-  @override
-  Page<void> buildPage(BuildContext context, GoRouterState state) =>
-      CustomTransitionPage(
-        key: state.pageKey,
-        transitionDuration: const Duration(milliseconds: 1000),
-        child: const GetStartedScreen(),
-        transitionsBuilder: _fadeTransitionBuilder,
-      );
-}
-
-Widget _fadeTransitionBuilder(
-  BuildContext _,
-  Animation<double> animation,
-  Animation<double> __,
-  Widget child,
-) =>
-    FadeTransition(
-      opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
-      child: child,
-    );

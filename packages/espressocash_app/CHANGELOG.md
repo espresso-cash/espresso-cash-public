@@ -1,3 +1,20 @@
+## 1.114.0
+
+ - **REFACTOR**: remove go_router (#1399).
+ - **FEAT**: update share screen uis (#1400).
+
+## 1.113.0
+
+ - **REFACTOR**: migrate to Flutter 3.19 (#1393).
+ - **REFACTOR**: update linter (#1392).
+ - **FEAT**: request payment module updates (#1375).
+
+## 1.112.0
+
+ - **FIX**: dynamic links on cold start (#1376).
+ - **FEAT**: add support to solana pay transaction request (#1366).
+ - **FEAT**: add feature flag for incoming dln request (#1384).
+
 ## 1.111.0
 
  - **REFACTOR**: remove common package (#1360).

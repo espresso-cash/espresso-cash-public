@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -10,6 +9,8 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../accounts/auth_scope.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../transactions/models/tx_results.dart';
@@ -20,12 +21,21 @@ import 'payment_watcher.dart';
 
 /// Watches for [ILPStatus.txSent] payments and waits for the tx to be
 /// confirmed.
-@injectable
+@Singleton(scope: authScope)
 class TxSentWatcher extends PaymentWatcher {
-  TxSentWatcher(super._repository, this._sender, this._ecClient);
+  TxSentWatcher(
+    super._repository,
+    this._sender,
+    this._ecClient,
+    this._refreshBalance,
+  );
 
   final TxSender _sender;
   final EspressoCashClient _ecClient;
+  final RefreshBalance _refreshBalance;
+
+  @postConstruct
+  void init() => call(onBalanceAffected: _refreshBalance.call);
 
   @override
   CancelableJob<IncomingLinkPayment> createJob(

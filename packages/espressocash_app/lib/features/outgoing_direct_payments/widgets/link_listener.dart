@@ -1,15 +1,10 @@
 import 'package:collection/collection.dart';
-import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana_pay.dart';
 
 import '../../../l10n/device_locale.dart';
-import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
-import '../../../ui/snackbar.dart';
 import '../../../utils/solana_pay.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -65,24 +60,14 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
         ? ''
         : amount.format(DeviceLocale.localeOf(context), skipSymbol: true);
 
-    final isPaid = await context.isSolanaPayRequestPaid(request: request);
-    if (!mounted) return;
-
-    if (isPaid) {
-      showCpSnackbar(context, message: context.l10n.paymentRequestPaidMessage);
-
-      return;
-    }
-
-    final confirmedFiatAmount = await ODPConfirmationRoute(
-      (
-        initialAmount: formatted,
-        recipient: request.recipient,
-        label: request.label,
-        token: crypto.token,
-        isEnabled: amount.value == 0,
-      ),
-    ).push<Decimal>(context);
+    final confirmedFiatAmount = await ODPConfirmationScreen.push(
+      context,
+      initialAmount: formatted,
+      recipient: request.recipient,
+      label: request.label,
+      token: crypto.token,
+      isEnabled: amount.value == 0,
+    );
 
     if (confirmedFiatAmount == null) return;
     if (!mounted) return;
@@ -101,7 +86,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
     );
 
     if (!mounted) return;
-    ODPDetailsRoute(id).go(context);
+    ODPDetailsScreen.open(context, id: id);
   }
 
   @override

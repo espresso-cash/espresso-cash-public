@@ -94,7 +94,6 @@ class ClientBloc extends Cubit<ClientState> {
     if (await _doReauthorize(client)) {
       final signer = state.publicKey as Ed25519HDPublicKey;
 
-      // ignore: avoid-unnecessary-collections, we need to pass a list
       final addresses = [signer.bytes].map(Uint8List.fromList).toList();
       final messages = _generateMessages(number: number, signer: signer)
           .map(

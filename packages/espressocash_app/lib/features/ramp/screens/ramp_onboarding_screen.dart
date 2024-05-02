@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -20,6 +19,20 @@ class RampOnboardingScreen extends StatefulWidget {
     required this.rampType,
     required this.onConfirmed,
   });
+
+  static Future<void> push(
+    BuildContext context, {
+    required RampType rampType,
+    required VoidCallback onConfirmed,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RampOnboardingScreen(
+            rampType: rampType,
+            onConfirmed: onConfirmed,
+          ),
+        ),
+      );
 
   final RampType rampType;
   final VoidCallback onConfirmed;
@@ -129,24 +142,6 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
         ),
       );
 }
-
-class RampOnboardingRoute extends GoRouteData {
-  const RampOnboardingRoute(this.$extra);
-
-  final RampOnboardingParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RampOnboardingScreen(
-        rampType: $extra.rampType,
-        onConfirmed: $extra.onConfirmed,
-      );
-}
-
-typedef RampOnboardingParams = ({
-  RampType rampType,
-  VoidCallback onConfirmed,
-});
 
 class _ProfileTextField extends StatelessWidget {
   const _ProfileTextField({

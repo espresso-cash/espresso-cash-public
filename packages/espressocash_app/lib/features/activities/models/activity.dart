@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import '../../outgoing_dln_payments/models/outgoing_payment.dart';
 import '../../outgoing_link_payments/models/outgoing_link_payment.dart';
+import '../../transaction_request/models/transaction_request.dart';
 
 part 'activity.freezed.dart';
 
@@ -40,4 +41,10 @@ class Activity with _$Activity {
     required DateTime created,
     required OutgoingDlnPayment data,
   }) = OutgoingDlnPaymentActivity;
+
+  const factory Activity.transactionRequest({
+    required String id,
+    required DateTime created,
+    required TransactionRequestPayment data,
+  }) = TransactionRequestActivity;
 }

@@ -66,6 +66,7 @@ class _Painter extends CustomPainter {
     final rrect = RRect.fromRectXY(rect.deflate(8), 61.5, 61.5);
 
     canvas
+      ..save()
       ..drawPath(
         Path.combine(
           PathOperation.difference,

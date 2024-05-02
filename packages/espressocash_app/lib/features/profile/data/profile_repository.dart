@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 
 @Singleton(scope: authScope)
 class ProfileRepository extends ChangeNotifier {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../l10n/l10n.dart';
-import '../routing.dart';
 import 'app_bar.dart';
 import 'snackbar.dart';
 import 'theme.dart';
@@ -13,14 +11,13 @@ extension LinkOpenerExt on BuildContext {
   Future<void> openLink(String link) async {
     try {
       final url = Uri.parse(link);
-      await WebViewRoute(
-        (
-          url: url,
-          title: null,
-          onLoaded: null,
-          theme: null,
-        ),
-      ).push<void>(this);
+      await WebViewScreen.push(
+        this,
+        url: url,
+        title: null,
+        onLoaded: null,
+        theme: null,
+      );
     } on FormatException catch (_) {
       showCpErrorSnackbar(
         this,
@@ -38,6 +35,24 @@ class WebViewScreen extends StatefulWidget {
     this.onLoaded,
     this.theme,
   });
+
+  static Future<void> push(
+    BuildContext context, {
+    required Uri url,
+    String? title,
+    ValueSetter<InAppWebViewController>? onLoaded,
+    CpThemeData? theme,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => WebViewScreen(
+            url: url,
+            title: title,
+            onLoaded: onLoaded,
+            theme: theme,
+          ),
+        ),
+      );
 
   final Uri url;
   final String? title;
@@ -103,24 +118,3 @@ class _WebViewScreenState extends State<WebViewScreen> {
     );
   }
 }
-
-class WebViewRoute extends GoRouteData {
-  const WebViewRoute(this.$extra);
-
-  final WebViewParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => WebViewScreen(
-        url: $extra.url,
-        title: $extra.title,
-        onLoaded: $extra.onLoaded,
-        theme: $extra.theme,
-      );
-}
-
-typedef WebViewParams = ({
-  Uri url,
-  String? title,
-  ValueSetter<InAppWebViewController>? onLoaded,
-  CpThemeData? theme,
-});

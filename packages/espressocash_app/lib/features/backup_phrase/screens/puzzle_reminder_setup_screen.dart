@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../di.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../authenticated/screens/main_screen.dart';
+import '../../../utils/routing.dart';
 import '../services/puzzle_reminder_bloc.dart';
 import '../widgets/puzzle_screen.dart';
 
 class PuzzleReminderSetupScreen extends StatefulWidget {
   const PuzzleReminderSetupScreen({super.key});
+
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => const PuzzleReminderSetupScreen(),
+        ),
+      );
 
   @override
   State<PuzzleReminderSetupScreen> createState() =>
@@ -53,11 +57,10 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
   }
 
   void _handleOkPressed(BuildContext context) {
-    context.read<PuzzleReminderBloc>().add(
-          PuzzleReminderEvent.postponed(postponedBy: _duration),
-        );
+    sl<PuzzleReminderBloc>()
+        .add(PuzzleReminderEvent.postponed(postponedBy: _duration));
 
-    const HomeRoute().go(context);
+    context.openFirstScreen();
   }
 
   @override
@@ -139,14 +142,6 @@ class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
           ),
         ),
       );
-}
-
-class PuzzleReminderSetupRoute extends GoRouteData {
-  const PuzzleReminderSetupRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const PuzzleReminderSetupScreen();
 }
 
 class _Checkbox extends StatelessWidget {
