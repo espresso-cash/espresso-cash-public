@@ -12,8 +12,8 @@ import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
-import '../data/repository.dart';
 import '../models/payment_request.dart';
+import 'extensions.dart';
 
 class ShareRequestPayment extends StatelessWidget {
   const ShareRequestPayment({
@@ -93,10 +93,7 @@ class ShareRequestPayment extends StatelessWidget {
                           .toUpperCase(),
                       message: context
                           .l10n.paymentRequest_lblCancelConfirmationSubtitle,
-                      onConfirm: () {
-                        sl<PaymentRequestRepository>().delete(request.id);
-                        Navigator.of(context).pop();
-                      },
+                      onConfirm: () => context.cancelRequest(id: request.id),
                     ),
                   ),
                 ),
