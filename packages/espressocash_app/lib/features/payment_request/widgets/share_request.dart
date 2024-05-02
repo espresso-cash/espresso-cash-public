@@ -14,7 +14,6 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 import '../services/payment_request_service.dart';
-import 'extensions.dart';
 
 class ShareRequestPayment extends StatelessWidget {
   const ShareRequestPayment({
