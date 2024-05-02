@@ -7,9 +7,9 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/disposable_bloc.dart';
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../authenticated/auth_scope.dart';
 
 part 'puzzle_reminder_bloc.freezed.dart';
 part 'puzzle_reminder_bloc.g.dart';

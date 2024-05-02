@@ -6,8 +6,8 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
-import '../../authenticated/auth_scope.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
 

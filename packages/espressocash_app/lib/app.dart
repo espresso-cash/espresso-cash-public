@@ -71,7 +71,10 @@ class _EspressoCashAppState extends State<EspressoCashApp> {
             debugShowCheckedModeBanner: false,
             title: 'Espresso Cash',
             theme: context.watch<CpThemeData>().toMaterialTheme(),
-            builder: (context, child) => AppLockModule(child: child),
+            builder: (context, child) => AppLockModule(
+              // ignore: avoid-non-null-assertion, should not be null
+              child: child!,
+            ),
             navigatorKey: _navigator,
           ),
         ),

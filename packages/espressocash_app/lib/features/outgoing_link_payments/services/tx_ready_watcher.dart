@@ -9,8 +9,8 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../accounts/auth_scope.dart';
 import '../../accounts/models/account.dart';
-import '../../authenticated/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../transactions/services/tx_destinations.dart';
 import '../data/repository.dart';

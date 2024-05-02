@@ -104,7 +104,7 @@ class _OLPScreenState extends State<OLPScreen> {
             ),
             child: CpTextButton(
               text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-              variant: CpTextButtonVariant.light,
+              variant: CpTextButtonVariant.dark,
               onPressed: handleCanceled,
             ),
           );
