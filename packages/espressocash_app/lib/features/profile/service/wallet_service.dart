@@ -2,7 +2,7 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../data/profile_repository.dart';
 
 @Singleton(scope: authScope)

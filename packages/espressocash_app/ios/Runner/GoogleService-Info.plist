@@ -6,6 +6,8 @@
 	<string>178217337867-ujg5flcr9lm3nugduq051la9fjn44uul.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.178217337867-ujg5flcr9lm3nugduq051la9fjn44uul</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>178217337867-2nfosmnpb7i0vgbncrjstdvjoaaiod48.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAt67sfwN6eAkE-GTuOyo-NB-L7Avzjhn8</string>
 	<key>GCM_SENDER_ID</key>
@@ -30,5 +32,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:178217337867:ios:8798f3d0723f5598ab330e</string>
+	<key>DATABASE_URL</key>
+	<string>https://cryptoplease-dev-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

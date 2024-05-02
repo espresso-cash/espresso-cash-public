@@ -302,14 +302,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Cancelar a solicitação de pagamento",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Sua solicitação de {amount} foi paga.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Solicitação de pagamento",
   "pending": "Pendentes",
   "@pending": {},
@@ -401,14 +393,8 @@
   "@retry": {},
   "save": "Salvar",
   "@save": {},
-  "scanToReceive": "Digitalize para receber {amount} ",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "scanToReceive": "Digitalize para receber",
+  "@scanToReceive": {},
   "search": "Buscar",
   "@search": {},
   "searchPlaceholder": "Buscar...",
@@ -445,10 +431,6 @@
   "@shareInstructions": {},
   "shareIntroFt": "Olá!\n\nAcabei de te enviar ",
   "@shareIntroFt": {},
-  "shareLink": "Compartilhar links de pagamento",
-  "@shareLink": {},
-  "shareLinks": "Compartilhar links",
-  "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Para me pagar com um clique, visite:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Olá!\n\nEnviei uma solicitação de ",
@@ -464,10 +446,6 @@
       }
     }
   },
-  "sharePaymentRequestLinkTitle": "Compartilhar link",
-  "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeTitle": "Compartilhar QR Code",
-  "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Solicitação criada!",
   "@sharePaymentRequestTitle": {},
   "shareStep1": "Etapa 1 - Clique no primeiro link:",
@@ -688,8 +666,6 @@
   "@youOwn": {},
   "yourFirstNamePlaceholder": "Escolha um nome de usuário",
   "@yourFirstNamePlaceholder": {},
-  "yourLinkIsReady": "Seu link está pronto",
-  "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Sua Frase de Recuperação Secreta",
   "@yourRecoveryPhrase": {},
   "yourRecoveryPhraseSub": "Por favor, digite sua frase de recuperação secreta a seguir e salve-a com cuidado. Essa frase é composta de 12 palavras geradas aleatoriamente. Você não poderá recuperar seu dinheiro se perder essas palavras.",

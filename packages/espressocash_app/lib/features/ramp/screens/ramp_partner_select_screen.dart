@@ -1,12 +1,10 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../wallet_flow/widgets/pay_main_page.dart';
-import '../models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 import 'ramp_more_options_screen.dart';
 
@@ -18,6 +16,24 @@ class RampPartnerSelectScreen extends StatelessWidget {
     required this.type,
     required this.onPartnerSelected,
   });
+
+  static void push(
+    BuildContext context, {
+    required RampPartner topPartner,
+    required IList<RampPartner> otherPartners,
+    required RampType type,
+    required ValueSetter<RampPartner> onPartnerSelected,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => RampPartnerSelectScreen(
+            topPartner: topPartner,
+            otherPartners: otherPartners,
+            type: type,
+            onPartnerSelected: onPartnerSelected,
+          ),
+        ),
+      );
 
   final RampPartner topPartner;
   final IList<RampPartner> otherPartners;
@@ -54,37 +70,14 @@ class RampPartnerSelectScreen extends StatelessWidget {
           RampType.offRamp => context.l10n.offRampMorePartnersFooter,
         },
         onContinue: () => onPartnerSelected(topPartner),
-        onMoreOptions: () => RampMoreOptionsRoute(
-          (
-            type: type,
-            otherPartners: otherPartners,
-            onPartnerSelected: (RampPartner partner) {
-              context.pop();
-              onPartnerSelected(partner);
-            },
-          ),
-        ).push<void>(context),
+        onMoreOptions: () => RampMoreOptionsScreen.push(
+          context,
+          type: type,
+          otherPartners: otherPartners,
+          onPartnerSelected: (RampPartner partner) {
+            Navigator.pop(context);
+            onPartnerSelected(partner);
+          },
+        ),
       );
 }
-
-class RampPartnerSelectRoute extends GoRouteData {
-  const RampPartnerSelectRoute(this.$extra);
-
-  final RampPartnerSelectParams $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      RampPartnerSelectScreen(
-        topPartner: $extra.topPartner,
-        otherPartners: $extra.otherPartners,
-        type: $extra.type,
-        onPartnerSelected: $extra.onPartnerSelected,
-      );
-}
-
-typedef RampPartnerSelectParams = ({
-  RampPartner topPartner,
-  IList<RampPartner> otherPartners,
-  RampType type,
-  ValueSetter<RampPartner> onPartnerSelected,
-});

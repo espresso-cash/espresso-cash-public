@@ -106,4 +106,22 @@ abstract class EspressoCashClient {
   Future<IncomingQuoteResponseDto> getIncomingDlnQuote(
     @Body() IncomingQuoteRequestDto request,
   );
+
+  @POST('/getFreeNonce')
+  Future<GetFreeNonceResponseDto> getFreeNonce();
+
+  @POST('/submitDurableTx')
+  Future<void> submitDurableTx(
+    @Body() SubmitDurableTxRequestDto request,
+  );
+
+  @POST('/shortenLink')
+  Future<ShortenLinkResponseDto> shortenLink(
+    @Body() ShortenLinkRequestDto request,
+  );
+
+  @POST('/unshortenLink')
+  Future<UnshortenLinkResponseDto> unshortenLink(
+    @Body() UnshortenLinkRequestDto request,
+  );
 }

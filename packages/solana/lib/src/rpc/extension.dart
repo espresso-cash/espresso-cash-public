@@ -140,11 +140,11 @@ extension RpcClientExt on RpcClient {
             .toList(),
       );
 
-  Future<Message> getMessageFromEncodedTx(String encodedTx) async {
+  Future<Message> getMessageFromEncodedTx(String encodedTx) {
     final tx = SignedTx.decode(encodedTx);
 
     return tx.compiledMessage.map(
-      legacy: (_) => tx.decompileMessage(),
+      legacy: (_) async => tx.decompileMessage(),
       v0: (compiledMessage) async {
         final addressTableLookups = compiledMessage.addressTableLookups;
 

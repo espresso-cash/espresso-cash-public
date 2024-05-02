@@ -6,7 +6,7 @@ import '../../features/incoming_link_payments/data/ilp_repository.dart';
 import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
-import '../../features/ramp/models/ramp_partner.dart';
+import '../../features/ramp_partner/models/ramp_partner.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 49;
+const int latestVersion = 51;
 
 const _tables = [
   OutgoingTransferRows,
@@ -36,6 +36,7 @@ const _tables = [
   OnRampOrderRows,
   OffRampOrderRows,
   OutgoingDlnPaymentRows,
+  TransactionRequestRows,
 ];
 
 @lazySingleton
@@ -101,6 +102,16 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(offRampOrderRows, offRampOrderRows.feeToken);
           }
           if (from < 49) {
+            await m.createTable(transactionRequestRows);
+          }
+          if (from < 50) {
+            await m.addColumn(
+              paymentRequestRows,
+              paymentRequestRows.resolvedAt,
+            );
+            await m.addColumn(paymentRequestRows, paymentRequestRows.shortLink);
+          }
+          if (from < 51) {
             await m.addColumn(transactionRows, transactionRows.amount);
           }
         },
@@ -205,4 +216,20 @@ class TransactionRows extends Table {
 
   @override
   Set<Column<Object>> get primaryKey => {id};
+}
+
+class TransactionRequestRows extends Table with AmountMixin, EntityMixin {
+  const TransactionRequestRows();
+
+  TextColumn get label => text()();
+  TextColumn get transaction => text()();
+  Int64Column get slot => int64()();
+  TextColumn get status => textEnum<TRStatusDto>()();
+}
+
+enum TRStatusDto {
+  created,
+  sent,
+  success,
+  failure,
 }

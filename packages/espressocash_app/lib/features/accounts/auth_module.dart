@@ -5,10 +5,10 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../accounts/models/account.dart';
-import '../accounts/models/ec_wallet.dart';
-import '../accounts/services/account_service.dart';
 import 'auth_scope.dart';
+import 'models/account.dart';
+import 'models/ec_wallet.dart';
+import 'services/account_service.dart';
 
 @module
 abstract class AuthModule {

@@ -12,7 +12,7 @@ import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
-import '../../authenticated/auth_scope.dart';
+import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';

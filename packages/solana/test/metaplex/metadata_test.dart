@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-duplicate-collection-elements
+
 import 'package:solana/metaplex.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';

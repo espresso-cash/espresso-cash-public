@@ -4,6 +4,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../accounts/auth_scope.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
@@ -13,9 +14,13 @@ import 'payment_watcher.dart';
 /// Watches for [OLPStatus.cancelTxCreated] payments and sends the tx.
 ///
 /// The watcher will try to submit the tx until it's accepted or rejected.
-@injectable
+@Singleton(scope: authScope)
 class CancelTxCreatedWatcher extends PaymentWatcher {
-  CancelTxCreatedWatcher(super._repository, this._sender);
+  CancelTxCreatedWatcher(
+    super._repository,
+    super._refreshBalance,
+    this._sender,
+  );
 
   final TxSender _sender;
 

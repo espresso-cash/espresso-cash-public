@@ -4,15 +4,20 @@ import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../utils/cancelable_job.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
-abstract class PaymentWatcher {
-  PaymentWatcher(this._repository);
+abstract class PaymentWatcher implements Disposable {
+  PaymentWatcher(this._repository, this._refreshBalance) {
+    call();
+  }
 
   final OLPRepository _repository;
+  final RefreshBalance _refreshBalance;
 
   StreamSubscription<void>? _repoSubscription;
   final Map<String, CancelableOperation<void>> _operations = {};
@@ -27,7 +32,7 @@ abstract class PaymentWatcher {
     OutgoingLinkPayment payment,
   );
 
-  void call({required VoidCallback onBalanceAffected}) {
+  void call() {
     _repoSubscription =
         watchPayments(_repository).distinct().listen((payments) async {
       final keys = payments.map((e) => e.id).toSet();
@@ -45,7 +50,7 @@ abstract class PaymentWatcher {
             createJob(payment).call().then((newPayment) async {
           if (payment != newPayment) {
             if (newPayment.status.affectsBalance) {
-              onBalanceAffected();
+              _refreshBalance();
             }
             await _repository.save(newPayment);
           }
@@ -55,8 +60,9 @@ abstract class PaymentWatcher {
     });
   }
 
+  @override
   @mustCallSuper
-  void dispose() {
+  void onDispose() {
     _repoSubscription?.cancel();
     for (final subscription in _operations.values) {
       subscription.cancel();

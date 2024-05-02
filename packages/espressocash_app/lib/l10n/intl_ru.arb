@@ -452,14 +452,6 @@
   "@paymentRequest_lblCancelConfirmationSubtitle": {},
   "paymentRequest_lblCancelConfirmationTitle": "Отменить платежный запрос",
   "@paymentRequest_lblCancelConfirmationTitle": {},
-  "paymentRequestSuccessNotificationTitle": "Ваш запрос на {amount} был оплачен.",
-  "@paymentRequestSuccessNotificationTitle": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
   "paymentRequestTitle": "Запросить оплату",
   "pending": "Незавершено",
   "@pending": {},
@@ -581,22 +573,10 @@
   "@retry": {},
   "save": "Сохранить",
   "@save": {},
-  "scanToReceive": "Сканируйте, чтобы получить {amount}",
-  "@scanToReceive": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
-  "scanToSend": "Отсканировать для отправки {amount}",
-  "@scanToSend": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "scanToReceive": "Сканируйте, чтобы получить",
+  "@scanToReceive": {},
+  "scanToSend": "Отсканировать для отправки",
+  "@scanToSend": {},
   "search": "Поиск",
   "@search": {},
   "searchPlaceholder": "Поиск...",
@@ -635,10 +615,6 @@
   "@shareInstructions": {},
   "shareIntroFt": "Привет!\n\nЯ только что отправил вам",
   "@shareIntroFt": {},
-  "shareLink": "Поделиться ссылкой на оплату",
-  "@shareLink": {},
-  "shareLinks": "Поделиться ссылками",
-  "@shareLinks": {},
   "sharePaymentRequestLinkInstructions": "Чтобы заплатить мне одним нажатием, откройте ссылку:",
   "@sharePaymentRequestLinkInstructions": {},
   "sharePaymentRequestLinkIntro": "Привет!\n\nЯ отправил запрос на",
@@ -654,10 +630,6 @@
       }
     }
   },
-  "sharePaymentRequestLinkTitle": "Поделиться ссылкой",
-  "@sharePaymentRequestLinkTitle": {},
-  "sharePaymentRequestQrCodeTitle": "Поделиться QR-кодом",
-  "@sharePaymentRequestQrCodeTitle": {},
   "sharePaymentRequestTitle": "Запрос создан!",
   "@sharePaymentRequestTitle": {},
   "shareStep1": "Шаг 1 – Нажмите на первую ссылку:",
@@ -917,8 +889,6 @@
   "@yourEmailPlaceholder": {},
   "yourFirstNamePlaceholder": "Ваше имя",
   "@yourFirstNamePlaceholder": {},
-  "yourLinkIsReady": "Ссылка готова",
-  "@yourLinkIsReady": {},
   "yourRecoveryPhrase": "Ваша секретная фраза восстановления",
   "@yourRecoveryPhrase": {},
   "yourRecoveryPhraseSub": "Пожалуйста, запишите следующую секретную фразу для восстановления и тщательно сохраните ее. Эта фраза состоит из случайно сгенерированных 12 слов. Вы не сможете вернуть свои средства, если потеряете эти слова.",

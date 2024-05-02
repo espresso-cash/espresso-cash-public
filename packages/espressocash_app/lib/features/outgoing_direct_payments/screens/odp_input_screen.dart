@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/pay_details_page.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../../wallet_flow/widgets/pay_details_page.dart';
 import 'network_picker_screen.dart';
 
 typedef ODPInputResponse = void Function(Blockchain network, String address);
 
 class ODPInputScreen extends StatefulWidget {
   const ODPInputScreen({super.key, required this.onSubmit});
+
+  static void push(
+    BuildContext context, {
+    required ODPInputResponse onSubmit,
+  }) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => ODPInputScreen(onSubmit: onSubmit),
+        ),
+      );
 
   final ODPInputResponse onSubmit;
 
@@ -39,15 +47,14 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
         _walletAddressController.text,
       );
 
-  void _handleOnNetworkTap() => NetworkPickerRoute(
-        (
-          initial: _selectedNetwork,
-          onSubmitted: (Blockchain network) {
-            context.pop();
-            setState(() => _selectedNetwork = network);
-          },
-        ),
-      ).push<void>(context);
+  void _handleOnNetworkTap() => NetworkPickerScreen.push(
+        context,
+        initial: _selectedNetwork,
+        onSubmitted: (Blockchain network) {
+          Navigator.pop(context);
+          setState(() => _selectedNetwork = network);
+        },
+      );
 
   Future<void> _handleOnQrScan() async {
     final code = await context.launchQrForAddress();
@@ -141,16 +148,6 @@ class _ODPInputScreenState extends State<ODPInputScreen> {
           ),
         ),
       );
-}
-
-class ODPInputRoute extends GoRouteData {
-  const ODPInputRoute(this.$extra);
-
-  final ODPInputResponse $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ODPInputScreen(onSubmit: $extra);
 }
 
 class _WalletTextField extends StatelessWidget {

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
-import '../../onboarding/screens/profile_screen.dart';
 import '../widgets/puzzle_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
 class PuzzleReminderMessageScreen extends StatelessWidget {
   const PuzzleReminderMessageScreen({super.key});
 
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => const PuzzleReminderMessageScreen(),
+        ),
+      );
+
   void _handleRemindPressed(BuildContext context) =>
-      const PuzzleReminderSetupRoute().push<void>(context);
+      PuzzleReminderSetupScreen.push(context);
 
   @override
   Widget build(BuildContext context) => PuzzleScreen(
@@ -39,8 +42,9 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 text: context.l10n.protectWallet,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: () =>
-                    const OnboardingProfileRoute().push<void>(context),
+                onPressed: () {
+                  // TODO(KB): redirect to proper screen
+                },
               ),
               const SizedBox(height: 8),
               TextButton(
@@ -58,12 +62,4 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
           ),
         ),
       );
-}
-
-class PuzzleReminderRoute extends GoRouteData {
-  const PuzzleReminderRoute();
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const PuzzleReminderMessageScreen();
 }

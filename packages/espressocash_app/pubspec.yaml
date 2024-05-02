@@ -1,10 +1,10 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.111.0
+version: 1.114.0
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   async: ^2.11.0
@@ -24,19 +24,18 @@ dependencies:
   espressocash_api:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
-  fast_immutable_collections: ^9.2.0
-  firebase_analytics: ^10.7.4
-  firebase_app_installations: ^0.2.4+8
-  firebase_core: ^2.24.2
-  firebase_remote_config: ^4.3.8
-  fl_chart: ^0.65.0
+  fast_immutable_collections: ^10.2.2
+  firebase_analytics: ^10.10.4
+  firebase_app_installations: ^0.2.5
+  firebase_core: ^2.30.1
+  firebase_remote_config: ^4.4.4
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.3
   flutter_inappwebview: ^6.0.0
   flutter_localizations:
     sdk: flutter
-  flutter_markdown: ^0.6.18+2
+  flutter_markdown: ^0.7.1
   flutter_screenutil: ^5.9.0
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
@@ -45,28 +44,26 @@ dependencies:
     sdk: flutter
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
-  go_router: ^13.2.0
   http: ^1.1.2
   image_picker: ^1.0.5
   injectable: ^2.3.2
-  intercom_flutter: ^8.0.9
+  intercom_flutter: ^9.0.2
   intl: ^0.18.1
   json_annotation: ^4.8.1
   logging: ^1.2.0
   meta: ^1.10.0
-  mobile_scanner: ^3.5.5
-  nested: ^1.0.0
-  package_info_plus: ^5.0.1
+  mobile_scanner: ^5.0.1
+  package_info_plus: ^7.0.0
   path: ^1.8.3
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
   provider: ^6.1.1
-  ramp_flutter: ^2.0.2
+  ramp_flutter: ^3.0.0
   recase: ^4.1.0
   retrofit: ^4.0.3
-  rive: ^0.12.4
+  rive: ^0.13.2
   rxdart: ^0.27.7
-  sentry_flutter: ^7.14.0
+  sentry_flutter: ^8.0.0
   share: ^2.0.4
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
@@ -92,13 +89,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6
-  go_router_builder: ^2.4.1
   golden_toolkit: ^0.15.0
   injectable_generator: ^2.4.1
   integration_test:
     sdk: flutter
   json_serializable: ^6.7.1
-  mews_pedantic: ^0.25.0
+  mews_pedantic: ^0.26.0
   mockito: ^5.4.4
   retrofit_generator: ^8.0.6
 

@@ -1,14 +1,9 @@
-import 'package:decimal/decimal.dart';
-
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:solana/solana.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
-import '../../../routing.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -26,6 +21,13 @@ class PayScreen extends StatefulWidget {
     required this.amount,
   });
 
+  static void push(BuildContext context, {required CryptoAmount amount}) =>
+      Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => PayScreen(amount: amount),
+        ),
+      );
+
   final CryptoAmount amount;
 
   @override
@@ -34,26 +36,26 @@ class PayScreen extends StatefulWidget {
 
 class _PayScreenState extends State<PayScreen> {
   void _handlePrimaryPressed() =>
-      OLPConfirmationRoute(widget.amount).push<void>(context);
+      OLPConfirmationScreen.push(context, tokenAmount: widget.amount);
 
   void _handleSecondaryPressed() {
-    ODPInputRoute(
-      (Blockchain network, String address) async {
+    ODPInputScreen.push(
+      context,
+      onSubmit: (Blockchain network, String address) async {
         if (network == Blockchain.solana) {
           final formatted =
               widget.amount.format(context.locale, skipSymbol: true);
 
           final recipient = Ed25519HDPublicKey.fromBase58(address);
 
-          final confirmedFiatAmount = await ODPConfirmationRoute(
-            (
-              initialAmount: formatted,
-              recipient: recipient,
-              label: null,
-              token: widget.amount.token,
-              isEnabled: false,
-            ),
-          ).push<Decimal>(context);
+          final confirmedFiatAmount = await ODPConfirmationScreen.push(
+            context,
+            initialAmount: formatted,
+            recipient: recipient,
+            label: null,
+            token: widget.amount.token,
+            isEnabled: false,
+          );
 
           if (confirmedFiatAmount == null) return;
           if (!mounted) return;
@@ -69,18 +71,17 @@ class _PayScreenState extends State<PayScreen> {
 
           if (!mounted) return;
 
-          ODPDetailsRoute(id).go(context);
+          ODPDetailsScreen.open(context, id: id);
         } else {
-          await OutgoingDlnPaymentConfirmationRoute(
-            (
-              amount: widget.amount,
-              blockchain: network,
-              receiverAddress: address,
-            ),
-          ).push<void>(context);
+          OutgoingDlnPaymentConfirmationScreen.push(
+            context,
+            amount: widget.amount,
+            blockchain: network,
+            receiverAddress: address,
+          );
         }
       },
-    ).push<void>(context);
+    );
   }
 
   @override
@@ -94,17 +95,4 @@ class _PayScreenState extends State<PayScreen> {
         onContinue: _handlePrimaryPressed,
         onMoreOptions: _handleSecondaryPressed,
       );
-}
-
-class PayRoute extends GoRouteData {
-  const PayRoute(this.$extra);
-
-  final CryptoAmount $extra;
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      PayScreen(amount: $extra);
 }

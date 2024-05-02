@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../gen/assets.gen.dart';
 import 'icon_button.dart';
@@ -25,7 +24,7 @@ class CpBackButton extends StatelessWidget {
                   : Colors.black,
             ),
             variant: CpIconButtonVariant.transparent,
-            onPressed: onPressed ?? () => context.pop(),
+            onPressed: onPressed ?? () => Navigator.pop(context),
           );
   }
 }

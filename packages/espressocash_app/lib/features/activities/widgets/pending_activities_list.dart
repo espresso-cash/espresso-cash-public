@@ -11,14 +11,17 @@ import 'olp_tile.dart';
 import 'on_ramp_tile.dart';
 import 'outgoing_dln_tile.dart';
 import 'payment_request_tile.dart';
+import 'tr_tile.dart';
 
 class PendingActivitiesList extends StatefulWidget {
   const PendingActivitiesList({
     super.key,
     this.padding,
+    required this.onSendMoneyPressed,
   });
 
   final EdgeInsetsGeometry? padding;
+  final VoidCallback onSendMoneyPressed;
 
   @override
   State<PendingActivitiesList> createState() => _PendingActivitiesListState();
@@ -40,10 +43,16 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
         builder: (context, snapshot) {
           final data = snapshot.data;
 
-          if (data == null) return const NoActivity();
+          if (data == null) {
+            return NoActivity(onSendMoneyPressed: widget.onSendMoneyPressed);
+          }
 
           return data.isEmpty
-              ? const Center(child: NoActivity())
+              ? Center(
+                  child: NoActivity(
+                    onSendMoneyPressed: widget.onSendMoneyPressed,
+                  ),
+                )
               : ListView.builder(
                   padding: widget.padding,
                   itemBuilder: (context, i) {
@@ -72,6 +81,10 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                         activity: it,
                       ),
                       outgoingDlnPayment: (it) => OutgoingDlnTile(
+                        key: ValueKey(it.id),
+                        activity: it,
+                      ),
+                      transactionRequest: (it) => TrTile(
                         key: ValueKey(it.id),
                         activity: it,
                       ),

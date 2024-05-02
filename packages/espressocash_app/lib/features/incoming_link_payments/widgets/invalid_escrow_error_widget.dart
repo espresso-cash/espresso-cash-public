@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../l10n/l10n.dart';
 import '../../../../ui/button.dart';
@@ -26,7 +25,7 @@ class InvalidEscrowErrorWidget extends StatelessWidget {
                 size: CpButtonSize.big,
                 width: double.infinity,
                 text: context.l10n.ok,
-                onPressed: () => context.pop(),
+                onPressed: () => Navigator.pop(context),
               ),
             ],
           ),

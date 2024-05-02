@@ -1,27 +1,19 @@
 import 'package:decimal/decimal.dart';
-
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../data/repository.dart';
-
-extension ConversionRates on BuildContext {
-  Decimal? watchConversionRate({
-    required FiatCurrency to,
-  }) =>
-      watch<ConversionRatesRepository>().readRate(to: to);
-}
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
     const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
-    final conversionRate = context.watchConversionRate(to: fiat);
+    final conversionRate = sl<ConversionRatesRepository>().readRate(to: fiat);
 
     if (conversionRate == null) return formattedAmount;
 

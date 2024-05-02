@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -15,7 +14,6 @@ import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/loader.dart';
 import '../../../utils/email.dart';
-import '../../authenticated/authenticated_navigator_key.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../data/profile_repository.dart';
@@ -23,14 +21,13 @@ import '../service/update_profile.dart';
 import '../widgets/pick_profile_picture.dart';
 
 class ManageProfileScreen extends StatefulWidget {
-  const ManageProfileScreen({
-    super.key,
-    required this.onSubmitted,
-    this.hasBackButton = true,
-  });
+  const ManageProfileScreen({super.key});
 
-  final VoidCallback onSubmitted;
-  final bool hasBackButton;
+  static void push(BuildContext context) => Navigator.of(context).push<void>(
+        MaterialPageRoute(
+          builder: (context) => const ManageProfileScreen(),
+        ),
+      );
 
   @override
   State<ManageProfileScreen> createState() => _ManageProfileScreenState();
@@ -85,7 +82,8 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
               )
               .foldAsync((e) => throw e, ignore);
 
-          widget.onSubmitted();
+          if (!mounted) return;
+          Navigator.of(context).pop();
         },
         onError: (error) => showErrorDialog(
           context,
@@ -200,17 +198,6 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
           ),
         ),
       );
-}
-
-class ManageProfileRoute extends GoRouteData {
-  const ManageProfileRoute();
-
-  static final GlobalKey<NavigatorState> $parentNavigatorKey =
-      authenticatedNavigatorKey;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      ManageProfileScreen(onSubmitted: () => context.pop());
 }
 
 const _placeholderTextColor = Color(0xff858585);

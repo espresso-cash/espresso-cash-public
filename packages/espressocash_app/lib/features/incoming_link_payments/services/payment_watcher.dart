@@ -4,12 +4,13 @@ import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 
-abstract class PaymentWatcher {
+abstract class PaymentWatcher implements Disposable {
   PaymentWatcher(this._repository);
 
   final ILPRepository _repository;
@@ -55,8 +56,9 @@ abstract class PaymentWatcher {
     });
   }
 
+  @override
   @mustCallSuper
-  void dispose() {
+  void onDispose() {
     _repoSubscription?.cancel();
     for (final subscription in _operations.values) {
       subscription.cancel();

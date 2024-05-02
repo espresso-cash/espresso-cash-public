@@ -40,5 +40,5 @@ abstract class AppModule {
   RpcClient get rpcClient => solanaClient.rpcClient;
 
   @preResolve
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+  Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
 }
