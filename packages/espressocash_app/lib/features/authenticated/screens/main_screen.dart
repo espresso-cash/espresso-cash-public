@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -12,7 +11,6 @@ import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
-import '../../currency/models/amount.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_carousel.dart';
@@ -112,8 +110,4 @@ class _MainContent extends StatelessWidget {
           ),
         ),
       );
-}
-
-extension on Amount {
-  bool get isZero => decimal == Decimal.zero;
 }
