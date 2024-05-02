@@ -133,8 +133,7 @@ class _NoticeContent extends StatelessWidget {
                 if (context.mounted && data != null) {
                   context.launchOnRampFlow(
                     profile: data,
-                    address:
-                        context.read<MyAccount>().wallet.publicKey.toBase58(),
+                    address: sl<MyAccount>().address,
                   );
                 }
               },
