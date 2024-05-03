@@ -1,19 +1,18 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
 
 import '../../../config.dart';
-import '../../accounts/auth_scope.dart';
+import '../data/dynamic_links_client.dart';
 
-@Singleton(scope: authScope)
+@singleton
 class DynamicLinksNotifier extends ChangeNotifier {
-  DynamicLinksNotifier(this._ecClient);
+  DynamicLinksNotifier(this._client);
 
-  final EspressoCashClient _ecClient;
+  final DynamicLinkClient _client;
 
   Uri? _link;
   StreamSubscription<dynamic>? _subscription;
@@ -51,9 +50,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
         _loading = true;
         notifyListeners();
 
-        link = await _ecClient
-            .unshortenLink(UnshortenLinkRequestDto(shortLink: link.toString()))
-            .then((e) => Uri.parse(e.fullLink));
+        link = await _client.unshortenLink(link);
       } on Exception {
         return;
       } finally {
