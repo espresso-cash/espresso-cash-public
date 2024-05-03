@@ -277,6 +277,8 @@
   "@pay": {},
   "paymentInitiated": "Payment initiated",
   "@paymentInitiated": {},
+  "paymentRequestPaidMessage": "Request has already been paid.",
+  "@paymentRequestPaidMessage": {},
   "paymentRequestCancel": "Cancel request",
   "@paymentRequestCancel": {},
   "paymentRequestFailureNotificationTitle": "Failed payment of {amount}.",

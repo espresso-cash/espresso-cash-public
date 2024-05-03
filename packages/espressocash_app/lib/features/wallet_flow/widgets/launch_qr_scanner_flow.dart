@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/snackbar.dart';
 import '../../accounts/models/wallet.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
@@ -76,6 +78,17 @@ extension BuildContextExt on BuildContext {
       final formatted = initialAmount.value == 0
           ? ''
           : initialAmount.format(DeviceLocale.localeOf(this), skipSymbol: true);
+
+      if (request is QrScannerSolanaPayRequest) {
+        final isPaid = await isSolanaPayRequestPaid(request: request.request);
+        if (!mounted) return;
+
+        if (isPaid) {
+          showCpSnackbar(this, message: l10n.paymentRequestPaidMessage);
+
+          return;
+        }
+      }
 
       final fiatDecimal = await ODPConfirmationScreen.push(
         this,
