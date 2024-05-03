@@ -160,41 +160,14 @@ class _Body extends StatelessWidget {
   const _Body();
 
   @override
-  Widget build(BuildContext context) => ListenableBuilder(
-        listenable: sl<DynamicLinksNotifier>(),
-        builder: (context, _) => Padding(
-          padding: EdgeInsets.only(left: 30.w, right: 40.w),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: sl<DynamicLinksNotifier>().link.let(_parseUri)
-                ? [
-                    Text(
-                      context.l10n.onboardingWithPaymentTitle.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 46.sp,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                    Text(
-                      context.l10n.onboardingWithPaymentSubtitle.toUpperCase(),
-                      style: TextStyle(
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w900,
-                        letterSpacing: 0.25,
-                      ),
-                    ),
-                  ]
-                : [
-                    Text(
-                      context.l10n.onboardingIntro.toUpperCase(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 46.sp,
-                        height: 0.9,
-                      ),
-                    ),
-                  ],
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.only(left: 30.w, right: 40.w),
+        child: Text(
+          context.l10n.onboardingIntro.toUpperCase(),
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 46.sp,
+            height: 0.9,
           ),
         ),
       );
@@ -202,9 +175,3 @@ class _Body extends StatelessWidget {
 
 const keyCreateWalletButton = Key('createWalletButton');
 const keyUseExistingWalletButton = Key('useExistingWalletButton');
-
-bool _parseUri(Uri? link) {
-  if (link == null) return false;
-
-  return LinkPayment.tryParse(link) != null;
-}
