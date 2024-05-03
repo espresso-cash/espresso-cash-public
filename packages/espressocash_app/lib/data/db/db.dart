@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 50;
+const int latestVersion = 51;
 
 const _tables = [
   OutgoingTransferRows,
@@ -110,6 +110,9 @@ class MyDatabase extends _$MyDatabase {
               paymentRequestRows.resolvedAt,
             );
             await m.addColumn(paymentRequestRows, paymentRequestRows.shortLink);
+          }
+          if (from < 51) {
+            await m.addColumn(transactionRows, transactionRows.amount);
           }
         },
       );
@@ -209,6 +212,7 @@ class TransactionRows extends Table {
   DateTimeColumn get created => dateTime().nullable()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
+  IntColumn get amount => integer().nullable()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

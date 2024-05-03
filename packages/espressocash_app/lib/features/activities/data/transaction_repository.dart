@@ -9,6 +9,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
@@ -149,6 +151,9 @@ extension TransactionRowExt on TransactionRow {
         SignedTx.decode(encodedTx),
         created: created,
         status: status,
+        amount: amount?.let(
+          (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+        ),
       );
 }
 
@@ -158,6 +163,7 @@ extension on TxCommon {
         created: created,
         encodedTx: tx.encode(),
         status: status,
+        amount: amount?.value,
       );
 }
 

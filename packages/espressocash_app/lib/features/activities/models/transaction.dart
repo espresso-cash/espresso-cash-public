@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 
+import '../../currency/models/amount.dart';
 import 'activity.dart';
 
 part 'transaction.freezed.dart';
@@ -13,6 +14,7 @@ class Transaction with _$Transaction {
     SignedTx tx, {
     required TxCommonStatus status,
     required DateTime? created,
+    CryptoAmount? amount,
   }) = TxCommon;
 
   const factory Transaction.activity(Activity activity) = TxActivity;
