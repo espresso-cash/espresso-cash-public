@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:ethereum_addresses/ethereum_addresses.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
@@ -23,8 +24,10 @@ sealed class QrAddressData with _$QrAddressData {
       );
     }
 
-    if (isValidEthereumAddress(data)) {
-      return QrAddressData.evm(address: data);
+    final address = Uri.tryParse(data)?.let((p) => p.path);
+
+    if (address != null && isValidEthereumAddress(address)) {
+      return QrAddressData.evm(address: address);
     }
   }
 }
