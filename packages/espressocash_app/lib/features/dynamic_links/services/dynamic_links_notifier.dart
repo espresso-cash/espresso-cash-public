@@ -1,16 +1,27 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uni_links/uni_links.dart';
 
-@singleton
+import '../../../config.dart';
+import '../../accounts/auth_scope.dart';
+
+@Singleton(scope: authScope)
 class DynamicLinksNotifier extends ChangeNotifier {
+  DynamicLinksNotifier(this._ecClient);
+
+  final EspressoCashClient _ecClient;
+
   Uri? _link;
   StreamSubscription<dynamic>? _subscription;
 
   Uri? get link => _link;
+
+  bool get loading => _loading;
+  bool _loading = false;
 
   void processLink(Func1<Uri, bool> onLink) {
     final link = _link;
@@ -26,15 +37,29 @@ class DynamicLinksNotifier extends ChangeNotifier {
     final initialLink = await getInitialUri();
 
     if (initialLink != null) {
-      _link = initialLink;
-      notifyListeners();
+      await _processLink(initialLink);
     }
 
     _subscription = uriLinkStream.listen(_processLink);
   }
 
-  void _processLink(Uri? link) {
+  Future<void> _processLink(Uri? link) async {
     if (link == null) return;
+
+    if (link.isShortenedLink) {
+      try {
+        _loading = true;
+        notifyListeners();
+
+        link = await _ecClient
+            .unshortenLink(UnshortenLinkRequestDto(shortLink: link.toString()))
+            .then((e) => Uri.parse(e.fullLink));
+      } on Exception {
+        return;
+      } finally {
+        _loading = false;
+      }
+    }
 
     _link = link;
     notifyListeners();
@@ -45,4 +70,9 @@ class DynamicLinksNotifier extends ChangeNotifier {
     _subscription?.cancel();
     super.dispose();
   }
+}
+
+extension on Uri {
+  bool get isShortenedLink =>
+      host == espressoCashLinkDomain && queryParameters.containsKey('s');
 }
