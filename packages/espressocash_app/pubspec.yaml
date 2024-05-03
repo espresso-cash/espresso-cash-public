@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.114.0
+version: 1.115.0
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -45,15 +45,15 @@ dependencies:
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
   http: ^1.1.2
-  image_picker: ^1.0.5
+  image_picker: ^1.1.1
   injectable: ^2.3.2
   intercom_flutter: ^9.0.2
   intl: ^0.18.1
   json_annotation: ^4.8.1
   logging: ^1.2.0
   meta: ^1.10.0
-  mobile_scanner: ^5.0.1
-  package_info_plus: ^7.0.0
+  mobile_scanner: ^5.0.2
+  package_info_plus: ^8.0.0
   path: ^1.8.3
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
@@ -63,7 +63,7 @@ dependencies:
   retrofit: ^4.0.3
   rive: ^0.13.2
   rxdart: ^0.27.7
-  sentry_flutter: ^8.0.0
+  sentry_flutter: ^8.1.0
   share: ^2.0.4
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
