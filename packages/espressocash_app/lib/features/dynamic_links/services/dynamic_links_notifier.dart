@@ -45,7 +45,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
   Future<void> _processLink(Uri? link) async {
     if (link == null) return;
 
-    if (link.isShortenedLink) {
+    if (link.isShortened) {
       try {
         _loading = true;
         notifyListeners();
@@ -70,6 +70,6 @@ class DynamicLinksNotifier extends ChangeNotifier {
 }
 
 extension on Uri {
-  bool get isShortenedLink =>
+  bool get isShortened =>
       host == espressoCashLinkDomain && queryParameters.containsKey('s');
 }
