@@ -1,13 +1,17 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/splash_screen.dart';
 import '../../../ui/theme.dart';
+import '../../dynamic_links/services/dynamic_links_notifier.dart';
+import '../../link_payments/models/link_payment.dart';
 import '../widgets/terms_disclaimer.dart';
 
 class GetStartedScreen extends StatefulWidget {
