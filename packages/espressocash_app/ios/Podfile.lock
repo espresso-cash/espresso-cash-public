@@ -145,7 +145,7 @@ PODS:
     - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
     - MLImage (= 1.0.0-beta5)
     - MLKitCommon (~> 11.0)
-  - mobile_scanner (5.0.0):
+  - mobile_scanner (5.0.2):
     - Flutter
     - GoogleMLKit/BarcodeScanning (~> 6.0.0)
   - nanopb (2.30909.1):
@@ -168,13 +168,11 @@ PODS:
     - Ramp
   - rive_common (0.0.1):
     - Flutter
-  - Sentry/HybridSDK (8.21.0):
-    - SentryPrivate (= 8.21.0)
-  - sentry_flutter (8.0.0):
+  - Sentry/HybridSDK (8.25.0)
+  - sentry_flutter (8.1.0):
     - Flutter
     - FlutterMacOS
-    - Sentry/HybridSDK (= 8.21.0)
-  - SentryPrivate (8.21.0)
+    - Sentry/HybridSDK (= 8.25.0)
   - share (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -257,7 +255,6 @@ SPEC REPOS:
     - OrderedSet
     - PromisesObjC
     - Sentry
-    - SentryPrivate
     - sqlite3
 
 EXTERNAL SOURCES:
@@ -351,7 +348,7 @@ SPEC CHECKSUMS:
   MLKitBarcodeScanning: 10ca0845a6d15f2f6e911f682a1998b68b973e8b
   MLKitCommon: afec63980417d29ffbb4790529a1b0a2291699e1
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
-  mobile_scanner: 43a31484164e3a7f816c15765d5bf88bc35ff942
+  mobile_scanner: cfc76f77dca7e074fc9ca5993e3e7c35901c8b34
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
@@ -361,9 +358,8 @@ SPEC CHECKSUMS:
   Ramp: 3f843fb75cac12ad40842afa3226bae36dc93521
   ramp_flutter: aac85dee8bc93b5f7563c909ba15a37727fe3fe8
   rive_common: 8630be7f6385198f9d31a5bc8cd7f6ccccedf5a1
-  Sentry: ebc12276bd17613a114ab359074096b6b3725203
-  sentry_flutter: 4ce59806771a82cc2d2a4657b320c9801530db62
-  SentryPrivate: d651efb234cf385ec9a1cdd3eff94b5e78a0e0fe
+  Sentry: cd86fc55628f5b7c572cabe66cc8f95a9d2f165a
+  sentry_flutter: ca7760fc008dc3bc2981730dc0c1d2f892178370
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec

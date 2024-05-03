@@ -938,10 +938,10 @@ packages:
     dependency: "direct main"
     description:
       name: image_picker
-      sha256: fe9ee64ccb8d599a5dfb0e21cc6652232c610bcf667af4e79b9eb175cc30a7a5
+      sha256: "33974eca2e87e8b4e3727f1b94fa3abcb25afe80b6bc2c4d449a0e150aedf720"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   image_picker_android:
     dependency: transitive
     description:
@@ -1174,10 +1174,10 @@ packages:
     dependency: "direct main"
     description:
       name: mobile_scanner
-      sha256: f34c83198d9381f6c100dfaec647c275630840cbcda5d6c5eb6ba264beb96be4
+      sha256: "75bb4f875730f28bd5eb60fd76531ca762ba5d7c272d5b7d4fe55c20178f0a7b"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.1"
+    version: "5.0.2"
   mockito:
     dependency: "direct dev"
     description:
@@ -1230,10 +1230,10 @@ packages:
     dependency: "direct main"
     description:
       name: package_info_plus
-      sha256: "2c582551839386fa7ddbc7770658be7c0f87f388a4bff72066478f597c34d17f"
+      sha256: b93d8b4d624b4ea19b0a5a208b2d6eff06004bc3ce74c06040b120eeadd00ce0
       url: "https://pub.dev"
     source: hosted
-    version: "7.0.0"
+    version: "8.0.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -1526,18 +1526,18 @@ packages:
     dependency: transitive
     description:
       name: sentry
-      sha256: "961630a4dba41cebd692612421fd3805a991ebd8ef4a8d84a6c179e6b89eaf22"
+      sha256: "1d2952d40b99da0dc4bf3ba4797e3985dd60cc61a13d0a1d2c62b02f6528441a"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.1.0"
   sentry_flutter:
     dependency: "direct main"
     description:
       name: sentry_flutter
-      sha256: "705da7adfcd1fb23fc8720b6e222f5e03d53f1d020cd635586c319ee323366b4"
+      sha256: "848aaccfc75f1d35d5f7e5230770761f1b2a33e604f24498200566443da1470a"
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.0"
+    version: "8.1.0"
   share:
     dependency: "direct main"
     description:

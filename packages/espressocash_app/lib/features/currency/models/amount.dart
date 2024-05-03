@@ -49,6 +49,8 @@ sealed class Amount with _$Amount {
 
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
 
+  bool get isZero => decimal == Decimal.zero;
+
   Amount operator +(Amount other) {
     _ensureSameCurrency(other);
 

@@ -1,20 +1,14 @@
-import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/watch_user_fiat_balance.dart';
-import '../../conversion_rates/widgets/extensions.dart';
-import '../../currency/models/amount.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
-import '../../tokens/token.dart';
-import '../../tokens/widgets/token_icon.dart';
+import 'balance_amount.dart';
 
 class InvestmentHeader extends StatefulWidget {
   const InvestmentHeader({super.key, required this.onSendMoneyPressed});
@@ -44,7 +38,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                   children: [
                     _Headline(onInfo: _handleInfoPressed),
                     const SizedBox(height: 4),
-                    const _Amount(),
+                    const BalanceAmount(),
                     const SizedBox(height: 2),
                   ],
                 ),
@@ -161,41 +155,6 @@ class _Info extends StatelessWidget {
       );
 }
 
-class _Amount extends StatelessWidget {
-  const _Amount();
-
-  @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => sl<WatchUserFiatBalance>().call(),
-        builder: (context, amount) {
-          final formattedAmount = amount.format(
-            DeviceLocale.localeOf(context),
-            roundInteger: amount.isZero,
-          );
-
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Text(
-                  formattedAmount,
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: -1,
-                  ),
-                ),
-              ).let((it) => amount.isZero ? it : Flexible(child: it)),
-              const SizedBox(width: 8),
-              const TokenIcon(token: Token.usdc, size: 30),
-            ],
-          );
-        },
-      );
-}
-
 class _Headline extends StatelessWidget {
   const _Headline({required this.onInfo});
 
@@ -231,10 +190,6 @@ class _Headline extends StatelessWidget {
       ),
     );
   }
-}
-
-extension on Amount {
-  bool get isZero => decimal == Decimal.zero;
 }
 
 class _HeaderSwitcher extends StatefulWidget {

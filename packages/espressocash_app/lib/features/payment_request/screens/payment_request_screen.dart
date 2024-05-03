@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
+import '../services/payment_request_service.dart';
 import '../widgets/request_success.dart';
 import '../widgets/share_request.dart';
 
@@ -33,6 +36,21 @@ class _PaymentRequestScreenState extends State<PaymentRequestScreen> {
   void initState() {
     super.initState();
     _stream = sl<PaymentRequestRepository>().watchById(widget.id);
+
+    _watcher();
+  }
+
+  Future<void> _watcher() async {
+    final request = await _stream.first;
+
+    sl<PaymentRequestService>().initWatcher(request);
+  }
+
+  @override
+  void dispose() {
+    sl<PaymentRequestService>().disposeWatcher();
+
+    super.dispose();
   }
 
   @override

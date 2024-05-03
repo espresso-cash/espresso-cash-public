@@ -21,3 +21,9 @@ flutter_test:
 
 deps_cycles:
 	python3 ./tool/cycles.py deps.dot --only-shortest
+
+deps_graph_all:
+	lakos lib -i "{**.freezed.dart,**.g.dart,storybook/**,data/**,di.config.dart,di.dart,gen/**,l10n/gen/**,routing.dart,di.dart,generated_plugin_registrant.dart}" --metrics > deps.dot
+
+deps_graph_features:
+	dcm as lib/features --exclude="" --modules="/features/" > features.dot && python3 ./tool/cycles.py features.dot --only-shortest && echo "No cycles"
