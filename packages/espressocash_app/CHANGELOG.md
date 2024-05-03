@@ -1,3 +1,10 @@
+## 1.116.0
+
+ - **FEAT**: update evm qr parsing (#1418).
+ - **FEAT**: resolve incoming shortened deep links (#1419).
+ - **FEAT**: show only USDC transfers on transaction list (#1350).
+ - **FEAT**: validate solana pay reference if paid (#1379).
+
 ## 1.115.0
 
  - **REFACTOR**: restructure qr_scanner.
