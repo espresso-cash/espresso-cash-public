@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -45,21 +47,27 @@ class DynamicLinksNotifier extends ChangeNotifier {
   Future<void> _processLink(Uri? link) async {
     if (link == null) return;
 
-    if (link.isShortened) {
-      try {
-        _loading = true;
-        notifyListeners();
+    if (!link.isShortened) {
+      _link = link;
+      notifyListeners();
 
-        link = await _client.unshortenLink(link);
-      } on Exception {
-        return;
-      } finally {
-        _loading = false;
-      }
+      return;
     }
 
-    _link = link;
+    _loading = true;
     notifyListeners();
+
+    try {
+      final fullLink = await _client.unshortenLink(link);
+      final hash = _calculateHash(fullLink);
+
+      if (fullLink.isValidHash(hash)) {
+        _link = fullLink;
+      }
+    } finally {
+      _loading = false;
+      notifyListeners();
+    }
   }
 
   @override
@@ -72,4 +80,10 @@ class DynamicLinksNotifier extends ChangeNotifier {
 extension on Uri {
   bool get isShortened =>
       host == espressoCashLinkDomain && queryParameters.containsKey('s');
+
+  bool isValidHash(String hash) => _calculateHash(this) == hash;
 }
+
+String _calculateHash(Uri url) =>
+    // ignore: avoid-weak-cryptographic-algorithms, not crypto
+    md5.convert(utf8.encode(url.toString())).toString();
