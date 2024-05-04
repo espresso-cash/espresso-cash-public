@@ -12,7 +12,6 @@ import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../incoming_link_payments/screens/incoming_link_payment_screen.dart';
 import '../../incoming_link_payments/widgets/extensions.dart';
 import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
@@ -44,13 +43,6 @@ extension BuildContextExt on BuildContext {
       if (!mounted) return;
       IncomingLinkPaymentScreen.push(this, id: id);
     } else if (request is QrScannerSolanaPayTransactionRequest) {
-      final isEnabled = sl<FeatureFlagsManager>().isTransactionRequestEnabled();
-
-      if (!isEnabled) {
-        // Silently ignore request for now
-        return;
-      }
-
       final transaction = request.request;
 
       await processSolanaTransactionRequest(transaction);

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -15,7 +14,6 @@ import 'package:uuid/uuid.dart';
 import '../../accounts/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
-import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
 import '../models/payment_request.dart';
@@ -26,14 +24,12 @@ class PaymentRequestService implements Disposable {
     this._repository,
     this._solanaClient,
     this._refreshBalance,
-    this._featureFlags,
     this._ecClient,
   );
 
   final PaymentRequestRepository _repository;
   final SolanaClient _solanaClient;
   final RefreshBalance _refreshBalance;
-  final FeatureFlagsManager _featureFlags;
   final EspressoCashClient _ecClient;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -164,10 +160,7 @@ class PaymentRequestService implements Disposable {
     );
     final id = const Uuid().v4();
 
-    final showDlnFeature = _featureFlags.isIncomingDlnEnabled();
-
-    final fullLink =
-        request.toUniversalLink(showDln: showDlnFeature).toString();
+    final fullLink = request.toUniversalLink(showDln: true).toString();
 
     final shortLink = await _ecClient
         .shortenLink(ShortenLinkRequestDto(fullLink: fullLink))
