@@ -1,3 +1,10 @@
+## 1.117.0
+
+ - **FIX**: camera overlay rendering (#1423).
+ - **FEAT**: unlock functionality behind FF (#1422).
+ - **FEAT**: validate shortened link hash (#1420).
+ - **FEAT**: minor padding adjustment (#1421).
+
 ## 1.116.0
 
  - **FEAT**: update evm qr parsing (#1418).
