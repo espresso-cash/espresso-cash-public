@@ -6,13 +6,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../gen/assets.gen.dart';
 
-class QrScannerBackground extends StatelessWidget {
+class QrScannerBackground extends StatefulWidget {
   const QrScannerBackground({
     super.key,
     required this.child,
   });
 
   final Widget child;
+
+  @override
+  State<QrScannerBackground> createState() => _QrScannerBackgroundState();
+}
+
+class _QrScannerBackgroundState extends State<QrScannerBackground> {
+  late final Future<PictureInfo> _info;
+
+  @override
+  void initState() {
+    super.initState();
+    _info = _readFrame();
+  }
 
   Future<PictureInfo> _readFrame() async {
     final byteData = await rootBundle.load(Assets.images.qrFrame.path);
@@ -25,13 +38,10 @@ class QrScannerBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => FutureBuilder<PictureInfo?>(
-        future: _readFrame(),
-        builder: (context, frame) => CustomPaint(
-          foregroundPainter: _Painter(
-            frame: frame.data,
-            dimension: 350,
-          ),
-          child: child,
+        future: _info,
+        builder: (context, snapshot) => CustomPaint(
+          foregroundPainter: _Painter(frame: snapshot.data, dimension: 350),
+          child: widget.child,
         ),
       );
 }
@@ -91,5 +101,7 @@ class _Painter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _Painter oldDelegate) =>
+      oldDelegate.dimension != dimension ||
+      oldDelegate.frame?.size != frame?.size;
 }
