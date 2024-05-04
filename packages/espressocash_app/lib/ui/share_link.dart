@@ -26,7 +26,7 @@ class ShareCodeWidget extends StatelessWidget {
         child: CpRoundedRectangle(
           backgroundColor: Colors.black,
           scrollable: false,
-          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 35),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -53,7 +53,7 @@ class ShareCodeWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 35),
+                padding: const EdgeInsets.symmetric(vertical: 25),
                 child: BarcodeWidget(
                   height: 250,
                   barcode: Barcode.qrCode(),

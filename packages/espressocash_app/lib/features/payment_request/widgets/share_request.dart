@@ -71,13 +71,14 @@ class ShareRequestPayment extends StatelessWidget {
                     ),
                   ),
                 ),
-                ShareCodeWidget(
-                  title: context.l10n.scanToSend,
-                  amount: formattedAmount,
-                  qrCode: request.dynamicLink,
-                  shareText: message,
+                Expanded(
+                  child: ShareCodeWidget(
+                    title: context.l10n.scanToSend,
+                    amount: formattedAmount,
+                    qrCode: request.dynamicLink,
+                    shareText: message,
+                  ),
                 ),
-                const Spacer(),
                 Padding(
                   padding: EdgeInsets.only(
                     top: 24,

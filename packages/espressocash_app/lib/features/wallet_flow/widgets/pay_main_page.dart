@@ -211,7 +211,7 @@ class _Footer extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: MediaQuery.paddingOf(context).bottom + 8,
+            height: MediaQuery.paddingOf(context).bottom + 16,
           ),
         ],
       );
