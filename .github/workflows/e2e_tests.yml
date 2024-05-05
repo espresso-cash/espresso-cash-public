@@ -48,6 +48,7 @@ jobs:
         uses: android-actions/setup-android@v2
 
       - run: flutter pub get
+      - run: flutter analyze
       - run: make flutter_build
 
       - name: "Run E2E tests"
