@@ -15,6 +15,7 @@ import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_carousel.dart';
 import '../widgets/investment_header.dart';
+import '../widgets/portfolio_widget.dart';
 import '../widgets/refresh_balance_wrapper.dart';
 
 class MainScreen extends StatelessWidget {
@@ -93,6 +94,9 @@ class _MainContent extends StatelessWidget {
                       onSendMoneyPressed: onSendMoneyPressed,
                       onTransactionsPressed: onTransactionsPressed,
                     ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: PortfolioWidget(),
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(

@@ -66,6 +66,8 @@
   "@create": {},
   "cryptoCashBalance": "Your Cash Balance",
   "@cryptoCashBalance": {},
+  "cryptoPortfolio": "Crypto Portfolio",
+  "@cryptoPortfolio": {},
   "editProfile": "Edit Profile",
   "@editProfile": {},
   "enterAmount": "Enter amount",
