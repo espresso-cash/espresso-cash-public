@@ -4,6 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
 import '../widgets/puzzle_screen.dart';
+import 'puzzle_flow_screen.dart';
 import 'puzzle_reminder_setup_screen.dart';
 
 class PuzzleReminderMessageScreen extends StatelessWidget {
@@ -42,9 +43,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 text: context.l10n.protectWallet,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: () {
-                  // TODO(KB): redirect to proper screen
-                },
+                onPressed: () => PuzzleFlowScreen.open(context),
               ),
               const SizedBox(height: 8),
               TextButton(
