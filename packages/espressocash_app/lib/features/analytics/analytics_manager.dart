@@ -26,6 +26,10 @@ class AnalyticsManager {
     _analytics.setUserProperty(name: 'walletAddress', value: address);
   }
 
+  void setUsdcBalance(double balance) {
+    _analytics.setUserProperty(name: 'usdcBalance', value: balance.toString());
+  }
+
   // User creates shareable link.
   void linksCreated() => _analytics.logEvent(name: 'linksCreated');
 
