@@ -69,12 +69,10 @@ class _WebViewScreenState extends State<WebViewScreen> {
   Future<void> _handleLoaded(InAppWebViewController controller) async {
     widget.onLoaded?.call(controller);
 
-    if (widget.title != null) return;
-
-    final title = await controller.getTitle();
+    final title = widget.title ?? await controller.getTitle() ?? '';
     if (!mounted) return;
 
-    setState(() => _title = title ?? '');
+    setState(() => _title = title);
   }
 
   Future<PermissionResponse?> _handlePermissionRequest(
@@ -100,7 +98,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
       theme: theme,
       child: Scaffold(
         appBar: CpAppBar(
-          title: Text(widget.title ?? _title ?? context.l10n.loading),
+          title: Text(_title ?? context.l10n.loading),
         ),
         body: InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri.uri(widget.url)),
