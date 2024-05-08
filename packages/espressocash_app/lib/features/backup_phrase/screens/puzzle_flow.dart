@@ -15,7 +15,8 @@ extension PuzzleFlow on BuildContext {
           ),
         );
 
-    MaterialPageRoute<void> confirmRoute(String phrase) => MaterialPageRoute(
+    MaterialPageRoute<void> inputPhraseRoute(String phrase) =>
+        MaterialPageRoute(
           builder: (context) => PuzzleInputScreen(
             correctPhrase: phrase,
             onConfirmed: () => navigator.pushAndRemoveUntil(
@@ -28,7 +29,7 @@ extension PuzzleFlow on BuildContext {
     navigator.push<void>(
       MaterialPageRoute(
         builder: (context) => PuzzleViewPhraseScreen(
-          onConfirmed: (phrase) => navigator.push(confirmRoute(phrase)),
+          onConfirmed: (phrase) => navigator.push(inputPhraseRoute(phrase)),
         ),
       ),
     );
