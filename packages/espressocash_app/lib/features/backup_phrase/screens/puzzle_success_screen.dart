@@ -6,6 +6,8 @@ import '../../../../../../ui/button.dart';
 import '../../../../../../ui/content_padding.dart';
 import '../../../../../../ui/theme.dart';
 import '../../../../ui/rounded_rectangle.dart';
+import '../../../di.dart';
+import '../services/puzzle_reminder_bloc.dart';
 
 class PuzzleSuccessScreen extends StatelessWidget {
   const PuzzleSuccessScreen({super.key, required this.onDone});
@@ -39,7 +41,11 @@ class PuzzleSuccessScreen extends StatelessWidget {
                   size: CpButtonSize.big,
                   width: double.infinity,
                   text: context.l10n.ok,
-                  onPressed: onDone,
+                  onPressed: () {
+                    sl<PuzzleReminderBloc>()
+                        .add(const PuzzleReminderEvent.solved());
+                    onDone();
+                  },
                 ),
               ],
             ),

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../di.dart';
 import '../../accounts/models/account.dart';
-import '../screens/puzzle_reminder_message_screen.dart';
+import '../screens/puzzle_reminder_screen.dart';
 import '../services/puzzle_reminder_bloc.dart';
 
 class BackupPhraseModule extends StatefulWidget {
@@ -27,7 +27,7 @@ class _BackupPhraseModuleState extends State<BackupPhraseModule> {
     sl<PuzzleReminderBloc>().add(event);
   }
 
-  void _showPuzzleReminderDialog() => PuzzleReminderMessageScreen.push(context);
+  void _showPuzzleReminderDialog() => PuzzleReminderScreen.push(context);
 
   @override
   Widget build(BuildContext context) =>

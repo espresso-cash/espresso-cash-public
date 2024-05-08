@@ -8,8 +8,8 @@ import '../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../ui/theme.dart';
 import '../../accounts/data/account_repository.dart';
 
-class PuzzleViewRecoveryScreen extends StatefulWidget {
-  const PuzzleViewRecoveryScreen({
+class PuzzleViewPhraseScreen extends StatefulWidget {
+  const PuzzleViewPhraseScreen({
     super.key,
     required this.onConfirmed,
   });
@@ -17,11 +17,10 @@ class PuzzleViewRecoveryScreen extends StatefulWidget {
   final ValueSetter<String> onConfirmed;
 
   @override
-  State<PuzzleViewRecoveryScreen> createState() =>
-      _PuzzleViewRecoveryScreenState();
+  State<PuzzleViewPhraseScreen> createState() => _PuzzleViewPhraseScreenState();
 }
 
-class _PuzzleViewRecoveryScreenState extends State<PuzzleViewRecoveryScreen> {
+class _PuzzleViewPhraseScreenState extends State<PuzzleViewPhraseScreen> {
   String _phrase = '';
 
   @override

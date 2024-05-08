@@ -4,20 +4,20 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/message_info_widget.dart';
 import '../widgets/puzzle_screen.dart';
-import 'puzzle_flow_screen.dart';
-import 'puzzle_reminder_setup_screen.dart';
+import 'puzzle_flow.dart';
+import 'puzzle_postpone_screen.dart';
 
-class PuzzleReminderMessageScreen extends StatelessWidget {
-  const PuzzleReminderMessageScreen({super.key});
+class PuzzleReminderScreen extends StatelessWidget {
+  const PuzzleReminderScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const PuzzleReminderMessageScreen(),
+          builder: (context) => const PuzzleReminderScreen(),
         ),
       );
 
   void _handleRemindPressed(BuildContext context) =>
-      PuzzleReminderSetupScreen.push(context);
+      PuzzlePostponeScreen.push(context);
 
   @override
   Widget build(BuildContext context) => PuzzleScreen(
@@ -43,7 +43,7 @@ class PuzzleReminderMessageScreen extends StatelessWidget {
                 text: context.l10n.protectWallet,
                 size: CpButtonSize.big,
                 minWidth: 300,
-                onPressed: () => PuzzleFlowScreen.open(context),
+                onPressed: () => context.launchPuzzleFlow(),
               ),
               const SizedBox(height: 8),
               TextButton(

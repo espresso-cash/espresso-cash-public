@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../../l10n/l10n.dart';
-
 import '../../../../ui/app_bar.dart';
-import '../../../../ui/back_button.dart';
 import '../../../../ui/onboarding_screen.dart';
 import '../../../../ui/recovery_phrase_text_view.dart';
 import '../../../../ui/theme.dart';
 import '../widgets/grid_phrase.dart';
 
-class PuzzleConfirmRecoveryScreen extends StatefulWidget {
-  const PuzzleConfirmRecoveryScreen({
+class PuzzleInputScreen extends StatefulWidget {
+  const PuzzleInputScreen({
     super.key,
     required this.correctPhrase,
     required this.onConfirmed,
@@ -20,12 +18,10 @@ class PuzzleConfirmRecoveryScreen extends StatefulWidget {
   final VoidCallback onConfirmed;
 
   @override
-  State<PuzzleConfirmRecoveryScreen> createState() =>
-      _PuzzleConfirmRecoveryScreenState();
+  State<PuzzleInputScreen> createState() => _PuzzleInputScreenState();
 }
 
-class _PuzzleConfirmRecoveryScreenState
-    extends State<PuzzleConfirmRecoveryScreen> {
+class _PuzzleInputScreenState extends State<PuzzleInputScreen> {
   String _currentPhrase = '';
 
   @override
@@ -41,9 +37,7 @@ class _PuzzleConfirmRecoveryScreenState
                 _currentPhrase == correctPhrase ? widget.onConfirmed : null,
           ),
           children: [
-            const CpAppBar(
-              leading: CpBackButton(),
-            ),
+            const CpAppBar(),
             const OnboardingLogo(),
             OnboardingDescription(text: context.l10n.completeThePuzzle),
             OnboardingPadding(
