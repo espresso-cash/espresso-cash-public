@@ -60,9 +60,9 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
       if (usdcBalance != null) {
         _usdcRepository.save(usdcBalance);
+        _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       }
 
-      _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       final balances = <Token, CryptoAmount>{};
 
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
