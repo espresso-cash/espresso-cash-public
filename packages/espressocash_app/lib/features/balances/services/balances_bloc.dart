@@ -55,9 +55,9 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
       emit(const ProcessingState.none());
 
-      if (usdcBalance == null) return;
-
-      _usdcRepository.save(usdcBalance);
+      if (usdcBalance != null) {
+        _usdcRepository.save(usdcBalance);
+      }
 
       final balances = <Token, CryptoAmount>{};
 

@@ -62,6 +62,13 @@ class TokensRepository extends ChangeNotifier
 
     _storage.setString(_tokensBalanceKey, tokens.toJson());
   }
+
+  @override
+  @disposeMethod
+  void dispose() {
+    _storage.remove(_tokensBalanceKey);
+    super.dispose();
+  }
 }
 
 const _tokensBalanceKey = 'tokensBalance';
