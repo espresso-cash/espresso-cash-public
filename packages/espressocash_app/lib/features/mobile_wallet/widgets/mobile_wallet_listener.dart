@@ -16,10 +16,19 @@ class MobileWalletListener extends StatefulWidget {
 }
 
 class _MobileWalletListenerState extends State<MobileWalletListener> {
+  // ignore: dispose-fields, not owned by this class
+  late final _repository = sl<MobileWalletRepository>();
+
   @override
   void initState() {
     super.initState();
-    sl<MobileWalletRepository>().addListener(_handleUpdate);
+    _repository.addListener(_handleUpdate);
+  }
+
+  @override
+  void dispose() {
+    _repository.removeListener(_handleUpdate);
+    super.dispose();
   }
 
   void _handleUpdate() {

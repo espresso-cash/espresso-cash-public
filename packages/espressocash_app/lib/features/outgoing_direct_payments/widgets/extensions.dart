@@ -40,7 +40,7 @@ extension BuildContextExt on BuildContext {
           paymentId,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().directPaymentCreated();
+        sl<AnalyticsManager>().directPaymentRetried();
       });
 
   Future<void> cancelODP({required String paymentId}) =>

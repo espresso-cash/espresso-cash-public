@@ -13,6 +13,7 @@ import 'package:solana/solana.dart';
 import '../../../utils/disposable_bloc.dart';
 import '../../../utils/processing_state.dart';
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -33,6 +34,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     this._usdcRepository,
     this._tokens,
     this._tokensRepository,
+    this._analyticsManager,
   ) : super(const ProcessingStateNone()) {
     on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
@@ -41,6 +43,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   final TokenList _tokens;
   final BalancesRepository _usdcRepository;
   final TokensRepository _tokensRepository;
+  final AnalyticsManager _analyticsManager;
 
   Future<void> _handleRequested(
     BalancesEventRequested event,
@@ -59,6 +62,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
         _usdcRepository.save(usdcBalance);
       }
 
+      _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       final balances = <Token, CryptoAmount>{};
 
       balances[Token.sol] = await _solanaClient.getSolBalance(event.address);

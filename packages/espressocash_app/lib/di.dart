@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:solana/solana.dart';
 
@@ -41,4 +42,16 @@ abstract class AppModule {
 
   @preResolve
   Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
+
+  @singleton
+  @preResolve
+  Future<Mixpanel> mixpanel() async {
+    final mixpanel = await Mixpanel.init(
+      const String.fromEnvironment('MIXPANEL_TOKEN'),
+      trackAutomaticEvents: true,
+    );
+    mixpanel.setServerURL('https://api-eu.mixpanel.com');
+
+    return mixpanel;
+  }
 }
