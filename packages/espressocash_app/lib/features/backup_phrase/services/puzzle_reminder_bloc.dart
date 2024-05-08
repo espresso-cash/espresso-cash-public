@@ -91,7 +91,7 @@ class PuzzleReminderBloc extends Bloc<PuzzleReminderEvent, PuzzleReminderState>
       loaded: () async {
         final data = _readSharedPreferences();
 
-        if (data.shouldRemindNow) {
+        if (data.shouldRemindNow || true) {
           emit(const PuzzleReminderState.remindNow());
           emit(const PuzzleReminderState.none());
         }

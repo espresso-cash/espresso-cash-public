@@ -24,17 +24,10 @@ class PuzzleSuccessScreen extends StatelessWidget {
                 const SizedBox(height: 110),
                 Assets.icons.successCheck.svg(width: 72, height: 72),
                 const SizedBox(height: 42),
-                CpRoundedRectangle(
-                  padding: const EdgeInsets.all(32),
+                const CpRoundedRectangle(
+                  padding: EdgeInsets.all(32),
                   backgroundColor: Colors.black,
-                  child: Text(
-                    '${context.l10n.backupPhrase_lblSuccessMessage1}\n\n${context.l10n.backupPhrase_lblSuccessMessage2}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 19,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  child: _SuccessMessage(),
                 ),
                 const SizedBox(height: 80),
                 CpButton(
@@ -51,5 +44,16 @@ class PuzzleSuccessScreen extends StatelessWidget {
             ),
           ),
         ),
+      );
+}
+
+class _SuccessMessage extends StatelessWidget {
+  const _SuccessMessage();
+
+  @override
+  Widget build(BuildContext context) => Text(
+        context.l10n.backupPhrase_lblSuccessMessage,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w400),
       );
 }

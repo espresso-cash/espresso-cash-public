@@ -34,7 +34,7 @@ class _PuzzleInputScreenState extends State<PuzzleInputScreen> {
           footer: OnboardingFooterButton(
             text: context.l10n.next,
             onPressed:
-                _currentPhrase == correctPhrase ? widget.onConfirmed : null,
+                _currentPhrase != correctPhrase ? widget.onConfirmed : null,
           ),
           children: [
             const CpAppBar(),
