@@ -92,7 +92,7 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
         type: widget.rampType,
         header: FormPageHeader(
           title: Text(context.l10n.rampBasicInfoRequired),
-          description: Text(context.l10n.yourEmailDisclaimer),
+          description: const SizedBox(height: 30),
           icon: Assets.images.identityGraphic,
         ),
         child: Column(

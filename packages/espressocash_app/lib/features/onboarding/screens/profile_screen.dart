@@ -108,10 +108,7 @@ class _OnboardingProfileScreenState extends State<OnboardingProfileScreen> {
         colorTheme: FormPageColorTheme.gold,
         header: FormPageHeader(
           title: const SizedBox.shrink(),
-          description: Text(
-            context.l10n.yourEmailDisclaimer,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
+          description: const SizedBox(height: 10),
           icon: Assets.images.identityGraphic,
         ),
         child: Column(
