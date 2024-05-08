@@ -32,6 +32,10 @@ class UpdateProfile {
           _intercomService.updateCountry(countryCode);
         }
 
+        if (_profileRepository.email != email) {
+          _intercomService.updateEmail(email);
+        }
+
         _profileRepository
           ..firstName = firstName
           ..lastName = lastName

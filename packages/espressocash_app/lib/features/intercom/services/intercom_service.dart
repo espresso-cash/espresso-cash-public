@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -35,6 +36,8 @@ class IntercomService implements Disposable {
 
   void updateCountry(String? countryCode) => Intercom.instance
       .updateUser(customAttributes: {'countryCode': countryCode});
+
+  void updateEmail(String? email) => Intercom.instance.updateUser(email: email);
 
   @override
   Future<void> onDispose() => Intercom.instance.logout();
