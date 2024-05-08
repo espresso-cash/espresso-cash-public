@@ -30,7 +30,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     with DisposableBloc {
   BalancesBloc(
     this._solanaClient,
-    this._repository,
+    this._usdcRepository,
     this._tokens,
     this._tokensRepository,
   ) : super(const ProcessingStateNone()) {
@@ -39,7 +39,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
   final SolanaClient _solanaClient;
   final TokenList _tokens;
-  final BalancesRepository _repository;
+  final BalancesRepository _usdcRepository;
   final TokensRepository _tokensRepository;
 
   Future<void> _handleRequested(
@@ -55,9 +55,9 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
       emit(const ProcessingState.none());
 
-      if (usdcBalance == null) {
-        return;
-      }
+      if (usdcBalance == null) return;
+
+      _usdcRepository.save(usdcBalance);
 
       final balances = <Token, CryptoAmount>{};
 
@@ -98,7 +98,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
       balances.addEntries(tokenBalances);
 
       _tokensRepository.save(balances);
-      _repository.save(usdcBalance);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 
