@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../accounts/auth_scope.dart';
@@ -11,7 +12,7 @@ typedef NotificationHanlder = FutureOr<Object?> Function(
 );
 
 @Singleton(scope: authScope)
-class MobileWalletRepository extends ChangeNotifier {
+class MobileWalletRepository extends ChangeNotifier implements Disposable {
   MobileWalletNotification? _notification;
   Completer<Object?>? _completer;
 
@@ -58,4 +59,7 @@ class MobileWalletRepository extends ChangeNotifier {
     }
     _completer = null;
   }
+
+  @override
+  void onDispose() => dispose();
 }
