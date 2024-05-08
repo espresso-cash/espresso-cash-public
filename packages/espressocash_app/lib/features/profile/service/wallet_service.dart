@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../data/profile_repository.dart';
 
 @Singleton(scope: authScope)
@@ -11,19 +12,26 @@ class WalletService {
     this._sharedPreferences,
     this._profileRepository,
     this._ecClient,
+    this._analyticsManager,
   );
 
   final EspressoCashClient _ecClient;
   final SharedPreferences _sharedPreferences;
   final ProfileRepository _profileRepository;
+  final AnalyticsManager _analyticsManager;
 
   @PostConstruct()
   void init() {
-    final wasSynced = _sharedPreferences.getBool(_countrySyncedKey) ?? false;
-    if (wasSynced) return;
-
     final countryCode = _profileRepository.country;
-    _postCountry(countryCode);
+
+    if (countryCode != null) {
+      _analyticsManager.setProfileCountryCode(countryCode);
+    }
+
+    final wasSynced = _sharedPreferences.getBool(_countrySyncedKey) ?? false;
+    if (!wasSynced) {
+      _postCountry(countryCode);
+    }
   }
 
   Future<void> _postCountry(String? countryCode) async {

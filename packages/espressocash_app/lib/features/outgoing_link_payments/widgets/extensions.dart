@@ -17,7 +17,7 @@ extension BuildContextExt on BuildContext {
           amount: amount,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().singleLinkCreated();
 
         return payment.id;
       });
@@ -28,7 +28,7 @@ extension BuildContextExt on BuildContext {
           payment,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().singleLinkCanceled();
       });
 
   Future<void> retryOLP({required OutgoingLinkPayment payment}) =>
@@ -37,6 +37,6 @@ extension BuildContextExt on BuildContext {
           payment,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().linksCreated();
+        sl<AnalyticsManager>().singleLinkRetried();
       });
 }

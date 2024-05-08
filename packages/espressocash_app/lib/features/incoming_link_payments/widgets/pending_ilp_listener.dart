@@ -36,7 +36,7 @@ class _PendingILPListenerState extends State<PendingILPListener>
     final payment = LinkPayment.tryParse(uri);
 
     if (payment != null) {
-      sl<AnalyticsManager>().firstLinkReceived();
+      sl<AnalyticsManager>().singleLinkReceived();
       _processLink(payment);
 
       return true;
