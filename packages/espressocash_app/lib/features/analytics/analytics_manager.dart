@@ -1,21 +1,21 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
+import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
 @lazySingleton
 class AnalyticsManager {
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  const AnalyticsManager(this._analytics);
 
-  FirebaseAnalyticsObserver get analyticsObserver =>
-      FirebaseAnalyticsObserver(analytics: _analytics);
+  final Mixpanel _analytics;
 
   void swapTransactionCreated({
     required String from,
     required String to,
     required int amount,
   }) =>
-      _analytics.logEvent(
-        name: 'swapTransactionCreated',
-        parameters: {
+      _analytics.track(
+        'swapTransactionCreated',
+        properties: {
           'from': from,
           'to': to,
           'amount': amount,
@@ -23,29 +23,33 @@ class AnalyticsManager {
       );
 
   void setWalletAddress(String? address) {
-    _analytics.setUserProperty(name: 'walletAddress', value: address);
+    if (address == null) {
+      _analytics.reset();
+    } else {
+      _analytics.identify(address);
+      _analytics.getPeople().set('walletAddress', address);
+    }
   }
 
-  // User creates shareable link.
-  void linksCreated() => _analytics.logEvent(name: 'linksCreated');
+  void setUsdcBalance(Decimal value) {
+    _analytics.getPeople().set('usdcBalance', value.toDouble());
+  }
 
-  // User pressed on the first shareable link.
-  void firstLinkReceived() => _analytics.logEvent(name: 'firstLinkReceived');
+  void setProfileCountryCode(String countryCode) {
+    _analytics.getPeople().set('profileCountryCode', countryCode);
+  }
 
-  // User pressed on the second shareable link.
-  void secondLinkReceived() => _analytics.logEvent(name: 'secondLinkReceived');
+  void singleLinkCreated() => _analytics.track('singleLinkCreated');
 
-  // User creates shareable link.
-  void singleLinkCreated() => _analytics.logEvent(name: 'singleLinkCreated');
+  void singleLinkCanceled() => _analytics.track('singleLinkCanceled');
 
-  // User pressed on the single link.
-  void singleLinkReceived() => _analytics.logEvent(name: 'singleLinkReceived');
+  void singleLinkRetried() => _analytics.track('singleLinkRetried');
 
-  // User creates a direct payment
-  void directPaymentCreated() =>
-      _analytics.logEvent(name: 'directPaymentCreated');
+  void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
-  // User cancels a direct payment
-  void directPaymentCancelled() =>
-      _analytics.logEvent(name: 'directPaymentCancelled');
+  void directPaymentCreated() => _analytics.track('directPaymentCreated');
+
+  void directPaymentRetried() => _analytics.track('directPaymentRetried');
+
+  void directPaymentCancelled() => _analytics.track('directPaymentCancelled');
 }

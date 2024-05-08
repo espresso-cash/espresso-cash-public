@@ -53,6 +53,7 @@ dependencies:
   json_annotation: ^4.8.1
   logging: ^1.2.0
   meta: ^1.10.0
+  mixpanel_flutter: ^2.2.0
   mobile_scanner: ^5.0.2
   package_info_plus: ^8.0.0
   path: ^1.8.3

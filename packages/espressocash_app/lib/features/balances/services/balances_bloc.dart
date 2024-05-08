@@ -12,6 +12,7 @@ import 'package:solana/solana.dart';
 import '../../../utils/disposable_bloc.dart';
 import '../../../utils/processing_state.dart';
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -28,12 +29,14 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   BalancesBloc(
     this._solanaClient,
     this._repository,
+    this._analyticsManager,
   ) : super(const ProcessingStateNone()) {
     on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
 
   final SolanaClient _solanaClient;
   final BalancesRepository _repository;
+  final AnalyticsManager _analyticsManager;
 
   Future<void> _handleRequested(
     BalancesEventRequested event,
@@ -52,6 +55,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
         return;
       }
 
+      _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       _repository.save(usdcBalance);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
