@@ -735,8 +735,6 @@
   "@quizIntroDescription": {},
   "quizStart": "Get Started",
   "@quizStart": {},
-  "profileDisclaimer": "Your name and email address are only stored locally. Your name is only shared when you request a payment. Emails only shared with our cash in and cash out partners.",
-  "@profileDisclaimer": {},
   "confirmation": "Confirmation",
   "@confirmation": {},
   "confirm": "Confirm",

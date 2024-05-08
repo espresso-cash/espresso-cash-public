@@ -173,21 +173,7 @@ class _ManageProfileScreenState extends State<ManageProfileScreen> {
                   inputType: TextInputType.emailAddress,
                 ),
               ),
-              const SizedBox(height: 12),
-              OnboardingPadding(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Text(
-                    context.l10n.profileDisclaimer,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 24),
               OnboardingPadding(
                 child: CountryPicker(
                   country: _country,
