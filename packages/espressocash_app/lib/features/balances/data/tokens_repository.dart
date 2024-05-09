@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,10 +73,13 @@ class TokensRepository extends ChangeNotifier
 }
 
 const _tokensBalanceKey = 'tokensBalance';
+final _minimumBalance = Decimal.parse('0.01');
 
 extension on Map<Token, CryptoAmount> {
-  void clean() =>
-      removeWhere((token, amount) => amount.value == 0 || token == Token.usdc);
+  void clean() => removeWhere(
+        (token, amount) =>
+            amount.decimal <= _minimumBalance || token == Token.usdc,
+      );
 
   String toJson() {
     final List<TokenBalance> tokensJson = entries
