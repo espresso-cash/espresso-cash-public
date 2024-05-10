@@ -17,16 +17,8 @@ import 'firebase_options.dart';
 import 'logging.dart';
 import 'ui/splash_screen.dart';
 
-Future<void> main() async {
+Future<void> main() {
   runApp(const SplashScreen());
-
-  if (!kIsWeb) {
-    await SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  }
 
   return sentryDsn.isNotEmpty
       ? SentryFlutter.init(
@@ -35,15 +27,27 @@ Future<void> main() async {
               ..dsn = sentryDsn
               ..tracesSampleRate = 1.0;
           },
-          appRunner: _start,
+          appRunner: () async {
+            final spanAppStart = Sentry.startTransaction(
+              'App Start',
+              'Main',
+              bindToScope: true,
+            );
+            await _start(spanAppStart);
+            await spanAppStart.finish();
+          },
         )
       : _start();
 }
 
-Future<void> _init() async {
+Future<void> _init([ISentrySpan? span]) async {
+  final spanFirebase = span?.startChild('Initialize Firebase');
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await spanFirebase?.finish();
 
+  final spanDependencies = span?.startChild('Configure dependencies');
   await configureDependencies();
+  await spanDependencies?.finish();
 
   Bloc.observer = Observer();
 
@@ -53,14 +57,26 @@ Future<void> _init() async {
   final hasPassedFirstRun = sharedPreferences.getBool(_firstRunKey) ?? false;
   if (!hasPassedFirstRun) {
     await const FlutterSecureStorage().deleteAll();
+    await sharedPreferences.setBool(_firstRunKey, true);
   }
-  await sharedPreferences.setBool(_firstRunKey, true);
 
-  await sl<AccountService>().initialize();
+  final spanAccountService = span?.startChild('Initialize AccountService');
+  await sl<AccountService>().initialize(spanAccountService);
+  await spanAccountService?.finish();
 }
 
-Future<void> _start() async {
-  await _init();
+Future<void> _start([ISentrySpan? span]) async {
+  final spanSystemChrome = span?.startChild('SystemChrome');
+  if (!kIsWeb) {
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+  await spanSystemChrome?.finish();
+
+  await _init(span);
 
   final app = DevicePreview(
     enabled: const bool.fromEnvironment('DEVICE_PREVIEW', defaultValue: false),
