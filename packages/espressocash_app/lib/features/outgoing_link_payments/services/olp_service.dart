@@ -10,6 +10,7 @@ import '../../../config.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
+import '../../escrow_payments/create_outgoing_escrow.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/repository.dart';
@@ -17,10 +18,11 @@ import '../models/outgoing_link_payment.dart';
 
 @injectable
 class OLPService {
-  const OLPService(this._client, this._repository);
+  const OLPService(this._client, this._repository, this._createOutgoingEscrow);
 
   final EspressoCashClient _client;
   final OLPRepository _repository;
+  final CreateOutgoingEscrow _createOutgoingEscrow;
 
   Future<OutgoingLinkPayment> create({
     required CryptoAmount amount,
@@ -106,22 +108,30 @@ class OLPService {
       final escrowAccount = await Ed25519HDKeyPair.random();
       final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
 
-      final dto = CreatePaymentRequestDto(
-        senderAccount: account.address,
-        escrowAccount: escrowAccount.address,
+      // final dto = CreatePaymentRequestDto(
+      //   senderAccount: account.address,
+      //   escrowAccount: escrowAccount.address,
+      //   amount: amount.value,
+      //   cluster: apiCluster,
+      // );
+
+      // final CreatePaymentResponseDto response =
+      //     await _client.createPaymentEc(dto);
+
+      final transaction = await _createOutgoingEscrow(
+        senderAccount: account.publicKey,
+        escrowAccount: escrowAccount.publicKey,
         amount: amount.value,
-        cluster: apiCluster,
+        commitment: Commitment.confirmed,
       );
 
-      final CreatePaymentResponseDto response =
-          await _client.createPaymentEc(dto);
-
-      final tx = await response.transaction
-          .let(SignedTx.decode)
+      final tx = await transaction
           .let((it) => it.resign(account))
           .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
 
-      return OLPStatus.txCreated(tx, escrow: privateKey, slot: response.slot);
+      print(tx.encode());
+
+      return OLPStatus.txCreated(tx, escrow: privateKey, slot: BigInt.zero);
     } on Exception {
       return const OLPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,

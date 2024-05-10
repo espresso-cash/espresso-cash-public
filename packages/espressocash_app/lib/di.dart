@@ -54,4 +54,9 @@ abstract class AppModule {
 
     return mixpanel;
   }
+
+  @rpcUrl
+  Uri provideRpcUrl() => Uri.parse(solanaRpcUrl);
 }
+
+const rpcUrl = Named('RpcUrl');

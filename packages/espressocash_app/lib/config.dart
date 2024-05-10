@@ -1,4 +1,5 @@
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:solana/solana.dart';
 
 // If 'PROD' is provided with the value "true" to the dart
 // defines, then we mostly use the default values.
@@ -85,3 +86,11 @@ const appstoreId = '1559625715';
 const intercomAppId = String.fromEnvironment('INTERCOM_APP_ID');
 const intercomIosKey = String.fromEnvironment('INTERCOM_IOS_KEY');
 const intercomAndroidKey = String.fromEnvironment('INTERCOM_ANDROID_KEY');
+
+/// Solana price in USDC – we paid that for buing Solana batch. Hard-coded for
+/// now.
+const solPriceInUsdc = 151.8;
+
+const lamportPriceInUsdcFraction = solPriceInUsdc / lamportsPerSol * 1000000;
+
+const escrowPaymentFee = 20000; // 0.02 USDC
