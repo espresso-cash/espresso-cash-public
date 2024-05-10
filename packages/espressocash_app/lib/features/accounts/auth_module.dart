@@ -23,7 +23,6 @@ abstract class AuthModule {
 
   @LazySingleton(scope: authScope)
   EspressoCashClient ecClient(ECWallet wallet) => EspressoCashClient(
-        baseUrl: 'http://localhost:9090/api/v1',
         sign: (data) async => (
           signature:
               await wallet.sign([Uint8List.fromList(utf8.encode(data))]) //
