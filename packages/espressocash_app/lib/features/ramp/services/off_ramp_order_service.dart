@@ -75,7 +75,7 @@ class OffRampOrderService implements Disposable {
 
     for (final order in orders) {
       _subscribe(order.id);
-      await _watch(order.id);
+      unawaited(_watch(order.id));
     }
   }
 
