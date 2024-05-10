@@ -44,7 +44,6 @@ class WalletMainScreen extends StatefulWidget {
 
 class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
-  // ignore: dispose-fields, it's not created in this class
   TabController? _tabController;
 
   WalletOperation _action = WalletOperation.pay;
