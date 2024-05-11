@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PinDisplay extends StatefulWidget {
+class PinDisplay extends StatelessWidget {
   const PinDisplay({
     super.key,
     required this.maxDigits,
@@ -10,11 +10,6 @@ class PinDisplay extends StatefulWidget {
   final int maxDigits;
   final int currentDigits;
 
-  @override
-  State<PinDisplay> createState() => _PinDisplayState();
-}
-
-class _PinDisplayState extends State<PinDisplay> {
   static final Widget _filled = Container(
     margin: const EdgeInsets.all(4),
     width: 16,
@@ -42,8 +37,8 @@ class _PinDisplayState extends State<PinDisplay> {
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
-          widget.maxDigits,
-          (index) => index < widget.currentDigits ? _filled : _empty,
+          maxDigits,
+          (index) => index < currentDigits ? _filled : _empty,
         ),
       );
 }

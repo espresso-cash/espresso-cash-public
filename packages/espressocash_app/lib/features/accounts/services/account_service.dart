@@ -36,10 +36,14 @@ class AccountService extends ChangeNotifier
     notifyListeners();
   }
 
-  Future<void> initialize() async {
+  Future<void> initialize([ISentrySpan? span]) async {
+    final spanLoadingAccount = span?.startChild('Loading account');
     final account = await _repository.loadAccount();
+    await spanLoadingAccount?.finish();
     if (account != null) {
+      final spanProcessingLogIn = span?.startChild('Processing log in');
       await _processLogIn(account);
+      await spanProcessingLogIn?.finish();
     }
   }
 

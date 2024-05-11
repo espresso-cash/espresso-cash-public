@@ -11,7 +11,7 @@ concurrency:
 env:
   FLUTTER_VERSION: "3.19.6"
   DART_VERSION: "3.2.3"
-  DCM_VERSION: "1.16.2"
+  DCM_VERSION: "1.17.0"
 
 jobs:
   formatting:
