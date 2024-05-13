@@ -1,3 +1,14 @@
+## 1.118.0
+
+ - **REFACTOR**: use dcm 1.17.0 (#1441).
+ - **FIX**: show proper tx status for common tile (#1443).
+ - **FIX**: MobileWalletRepository lifecycle (#1437).
+ - **FEAT**: increase text button tap area (#1438).
+ - **FEAT**: add performance monitoring for app start (#1442).
+ - **FEAT**: re add puzzle quiz screen flow (#1430).
+ - **FEAT**: show loading title on webview (#1429).
+ - **FEAT**: integrate mixpanel (#1436).
+
 ## 1.117.0
 
  - **FIX**: camera overlay rendering (#1423).
