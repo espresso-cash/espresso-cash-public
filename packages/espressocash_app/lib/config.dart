@@ -94,3 +94,4 @@ const solPriceInUsdc = 151.8;
 const lamportPriceInUsdcFraction = solPriceInUsdc / lamportsPerSol * 1000000;
 
 const escrowPaymentFee = 20000; // 0.02 USDC
+const escrowPaymentAccountCreationFee = 250000; // 0.25 USDC

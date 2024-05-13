@@ -162,7 +162,7 @@ class AddPriorityFees {
         Signature(
           List.filled(64, 0),
           publicKey: platform,
-        ), //TODO verify if correct, check if user also needs to sign
+        ),
         ...tx.signatures.where((s) => s.publicKey != platform),
       ],
     );

@@ -108,28 +108,18 @@ class OLPService {
       final escrowAccount = await Ed25519HDKeyPair.random();
       final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
 
-      // final dto = CreatePaymentRequestDto(
-      //   senderAccount: account.address,
-      //   escrowAccount: escrowAccount.address,
-      //   amount: amount.value,
-      //   cluster: apiCluster,
-      // );
-
-      // final CreatePaymentResponseDto response =
-      //     await _client.createPaymentEc(dto);
-
-      final transaction = await _createOutgoingEscrow(
+      final rawTx = await _createOutgoingEscrow(
         senderAccount: account.publicKey,
         escrowAccount: escrowAccount.publicKey,
         amount: amount.value,
         commitment: Commitment.confirmed,
       );
 
-      final tx = await transaction
+      final tx = await rawTx
           .let((it) => it.resign(account))
           .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
 
-      print(tx.encode());
+      printLongString(tx.encode());
 
       return OLPStatus.txCreated(tx, escrow: privateKey, slot: BigInt.zero);
     } on Exception {
@@ -171,4 +161,11 @@ class OLPService {
       );
     }
   }
+}
+
+void printLongString(String text) {
+  final RegExp pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+  pattern
+      .allMatches(text)
+      .forEach((RegExpMatch match) => print(match.group(0)));
 }

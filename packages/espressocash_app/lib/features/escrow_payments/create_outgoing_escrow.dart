@@ -106,7 +106,7 @@ class CreateOutgoingEscrow {
     final message = Message(
       instructions: [
         SystemInstruction.advanceNonceAccount(
-          nonce: Ed25519HDPublicKey.fromBase58(nonceData.nonce),
+          nonce: Ed25519HDPublicKey.fromBase58(nonceData.nonceAccount),
           nonceAuthority: platformAccount,
         ),
         ...instructions,
@@ -118,7 +118,7 @@ class CreateOutgoingEscrow {
       feePayer: platformAccount,
     );
 
-    return await SignedTx(
+    return SignedTx(
       compiledMessage: compiled,
       signatures: [
         Signature(List.filled(64, 0), publicKey: platformAccount),
