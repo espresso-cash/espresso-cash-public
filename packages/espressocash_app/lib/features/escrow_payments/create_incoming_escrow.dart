@@ -22,7 +22,7 @@ class CreateIncomingEscrow {
   final AddPriorityFees _addPriorityFees;
   final EspressoCashClient _ecClient;
 
-  Future<(SignedTx, BigInt)> call({
+  Future<SignedTx> call({
     required Ed25519HDPublicKey escrowAccount,
     required Ed25519HDPublicKey receiverAccount,
     required Commitment commitment,
@@ -102,16 +102,22 @@ class CreateIncomingEscrow {
       fee = 0;
     }
 
-    final message = Message(instructions: instructions);
-    final latestBlockhash =
-        await _client.rpcClient.getLatestBlockhash(commitment: commitment);
+    final message = Message(
+      instructions: [
+        SystemInstruction.advanceNonceAccount(
+          nonce: Ed25519HDPublicKey.fromBase58(nonceData.nonceAccount),
+          nonceAuthority: platformAccount,
+        ),
+        ...instructions,
+      ],
+    );
 
     final compiled = message.compile(
-      recentBlockhash: latestBlockhash.value.blockhash,
+      recentBlockhash: nonceData.nonce,
       feePayer: platformAccount,
     );
 
-    final tx = await SignedTx(
+    return await SignedTx(
       compiledMessage: compiled,
       signatures: [
         Signature(List.filled(64, 0), publicKey: platformAccount),
@@ -127,8 +133,6 @@ class CreateIncomingEscrow {
         platform: platformAccount,
       ),
     );
-
-    return (tx, latestBlockhash.context.slot);
   }
 }
 

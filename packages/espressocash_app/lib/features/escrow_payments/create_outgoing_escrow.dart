@@ -22,18 +22,6 @@ class CreateOutgoingEscrow {
   final AddPriorityFees _addPriorityFees;
   final EspressoCashClient _ecClient;
 
-  /// Creates a transaction that will:
-  ///
-  /// - create ATA for the [escrowAccount] account;
-  /// - send [amount] from [senderAccount] ATA to [escrowAccount] ATA;
-  /// - send fee from [senderAccount] ATA to [_platform] ATA;
-  ///
-  /// Tx will be partially signed by the [_platform]. Keep in mind that
-  /// [senderAccount] and [_platform] should already have the corresponding ATAs for
-  /// the [mint].
-  ///
-  /// [commitment] is used for checking the ATA for [senderAccount] and for retrieving
-  /// the latest blockhash.
   Future<SignedTx> call({
     required Ed25519HDPublicKey senderAccount,
     required Ed25519HDPublicKey escrowAccount,

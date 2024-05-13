@@ -2,14 +2,13 @@ import 'package:dfunc/dfunc.dart';
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../../utils/errors.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../escrow/models/escrow_private_key.dart';
+import '../../escrow_payments/create_incoming_escrow.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../data/ilp_repository.dart';
@@ -17,10 +16,10 @@ import '../models/incoming_link_payment.dart';
 
 @injectable
 class ILPService {
-  const ILPService(this._client, this._repository);
+  const ILPService(this._repository, this._createIncomingEscrow);
 
-  final EspressoCashClient _client;
   final ILPRepository _repository;
+  final CreateIncomingEscrow _createIncomingEscrow;
 
   Future<IncomingLinkPayment> create({
     required ECWallet account,
@@ -66,20 +65,20 @@ class ILPService {
     required Ed25519HDKeyPair escrow,
   }) async {
     try {
-      final dto = ReceivePaymentRequestDto(
-        receiverAccount: account.address,
-        escrowAccount: escrow.address,
-        cluster: apiCluster,
+      final transaction = await _createIncomingEscrow(
+        escrowAccount: escrow.publicKey,
+        receiverAccount: account.publicKey,
+        commitment: Commitment.confirmed,
       );
 
-      final response = await _client.receivePaymentEc(dto);
-
-      final tx = await response.transaction
-          .let(SignedTx.decode)
+      final tx = await transaction
           .let((it) => it.resign(LocalWallet(escrow)))
           .letAsync((it) => it.resign(account));
 
-      return ILPStatus.txCreated(tx, slot: response.slot);
+      return ILPStatus.txCreated(
+        tx,
+        slot: BigInt.zero,
+      ); //TODO remove slot
     } on DioException catch (error) {
       if (error.toEspressoCashError() ==
           EspressoCashError.invalidEscrowAccount) {

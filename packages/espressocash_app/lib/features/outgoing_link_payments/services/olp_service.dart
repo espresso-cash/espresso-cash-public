@@ -1,15 +1,13 @@
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 
 import 'package:injectable/injectable.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
+import '../../escrow_payments/create_canceled_escrow.dart';
 import '../../escrow_payments/create_outgoing_escrow.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -18,11 +16,15 @@ import '../models/outgoing_link_payment.dart';
 
 @injectable
 class OLPService {
-  const OLPService(this._client, this._repository, this._createOutgoingEscrow);
+  const OLPService(
+    this._repository,
+    this._createOutgoingEscrow,
+    this._createCanceledEscrow,
+  );
 
-  final EspressoCashClient _client;
   final OLPRepository _repository;
   final CreateOutgoingEscrow _createOutgoingEscrow;
+  final CreateCanceledEscrow _createCanceledEscrow;
 
   Future<OutgoingLinkPayment> create({
     required CryptoAmount amount,
@@ -119,9 +121,11 @@ class OLPService {
           .let((it) => it.resign(account))
           .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
 
-      printLongString(tx.encode());
-
-      return OLPStatus.txCreated(tx, escrow: privateKey, slot: BigInt.zero);
+      return OLPStatus.txCreated(
+        tx,
+        escrow: privateKey,
+        slot: BigInt.zero,
+      ); //TODO remove slot
     } on Exception {
       return const OLPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -136,23 +140,17 @@ class OLPService {
     final privateKey = await EscrowPrivateKey.fromKeyPair(escrow);
 
     try {
-      final dto = CancelPaymentRequestDto(
-        senderAccount: account.address,
-        escrowAccount: escrow.address,
-        cluster: apiCluster,
+      final transaction = await _createCanceledEscrow(
+        escrowAccount: escrow.publicKey,
+        senderAccount: account.publicKey,
+        commitment: Commitment.confirmed,
       );
-
-      final response = await _client.cancelPaymentEc(dto);
-      final transaction = response.transaction;
-      final slot = response.slot;
-      final tx = await transaction
-          .let(SignedTx.decode)
-          .let((it) => it.resign(account));
+      final tx = await transaction.let((it) => it.resign(account));
 
       return OLPStatus.cancelTxCreated(
         tx,
         escrow: privateKey,
-        slot: slot,
+        slot: BigInt.zero, //TODO remove slot
       );
     } on Exception {
       return OLPStatus.cancelTxFailure(
@@ -161,11 +159,4 @@ class OLPService {
       );
     }
   }
-}
-
-void printLongString(String text) {
-  final RegExp pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-  pattern
-      .allMatches(text)
-      .forEach((RegExpMatch match) => print(match.group(0)));
 }

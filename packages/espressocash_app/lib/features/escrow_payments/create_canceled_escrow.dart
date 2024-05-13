@@ -21,7 +21,7 @@ class CreateCanceledEscrow {
   final AddPriorityFees _addPriorityFees;
   final EspressoCashClient _ecClient;
 
-  Future<(SignedTx, BigInt)> call({
+  Future<SignedTx> call({
     required Ed25519HDPublicKey escrowAccount,
     required Ed25519HDPublicKey senderAccount,
     required Commitment commitment,
@@ -63,16 +63,22 @@ class CreateCanceledEscrow {
       vaultTokenAccount: ataEscrow,
     );
 
-    final message = Message.only(escrowIx);
-    final latestBlockhash =
-        await _client.rpcClient.getLatestBlockhash(commitment: commitment);
+    final message = Message(
+      instructions: [
+        SystemInstruction.advanceNonceAccount(
+          nonce: Ed25519HDPublicKey.fromBase58(nonceData.nonceAccount),
+          nonceAuthority: platformAccount,
+        ),
+        escrowIx,
+      ],
+    );
 
     final compiled = message.compile(
-      recentBlockhash: latestBlockhash.value.blockhash,
+      recentBlockhash: nonceData.nonce,
       feePayer: platformAccount,
     );
 
-    final tx = await SignedTx(
+    return await SignedTx(
       compiledMessage: compiled,
       signatures: [
         Signature(List.filled(64, 0), publicKey: platformAccount),
@@ -86,8 +92,6 @@ class CreateCanceledEscrow {
         platform: platformAccount,
       ),
     );
-
-    return (tx, latestBlockhash.context.slot);
   }
 }
 
