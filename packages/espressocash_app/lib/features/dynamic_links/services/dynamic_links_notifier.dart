@@ -12,7 +12,9 @@ import '../data/dynamic_links_client.dart';
 
 @singleton
 class DynamicLinksNotifier extends ChangeNotifier {
-  DynamicLinksNotifier(this._client);
+  DynamicLinksNotifier(this._client) {
+    _init();
+  }
 
   final DynamicLinkClient _client;
 
@@ -33,8 +35,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
     }
   }
 
-  @PostConstruct(preResolve: true)
-  Future<void> init() async {
+  Future<void> _init() async {
     final initialLink = await getInitialUri();
 
     if (initialLink != null) {
@@ -59,9 +60,7 @@ class DynamicLinksNotifier extends ChangeNotifier {
 
     try {
       final fullLink = await _client.unshortenLink(link);
-      final hash = _calculateHash(fullLink);
-
-      if (fullLink.isValidHash(hash)) {
+      if (fullLink.isValidHash(link.shortLinkHash)) {
         _link = fullLink;
       }
     } finally {
@@ -79,9 +78,11 @@ class DynamicLinksNotifier extends ChangeNotifier {
 
 extension on Uri {
   bool get isShortened =>
-      host == espressoCashLinkDomain && queryParameters.containsKey('s');
+      host == espressoCashLinkDomain && shortLinkHash.isNotEmpty;
 
   bool isValidHash(String hash) => _calculateHash(this) == hash;
+
+  String get shortLinkHash => queryParameters['s'] ?? '';
 }
 
 String _calculateHash(Uri url) =>
