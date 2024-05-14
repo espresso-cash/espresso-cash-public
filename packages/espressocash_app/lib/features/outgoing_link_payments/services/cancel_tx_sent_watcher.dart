@@ -5,7 +5,6 @@ import 'package:injectable/injectable.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../../accounts/auth_scope.dart';
-import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 import 'payment_watcher.dart';
@@ -14,15 +13,13 @@ import 'payment_watcher.dart';
 /// confirmed.
 @Singleton(scope: authScope)
 class CancelTxSentWatcher extends PaymentWatcher {
-  CancelTxSentWatcher(super._repository, this._sender, super._refreshBalance);
-
-  final TxSender _sender;
+  CancelTxSentWatcher(super._repository, super._refreshBalance);
 
   @override
   CancelableJob<OutgoingLinkPayment> createJob(
     OutgoingLinkPayment payment,
   ) =>
-      _OLPCancelTxSentJob(payment, _sender);
+      _OLPCancelTxSentJob(payment);
 
   @override
   Stream<IList<OutgoingLinkPayment>> watchPayments(
@@ -32,36 +29,21 @@ class CancelTxSentWatcher extends PaymentWatcher {
 }
 
 class _OLPCancelTxSentJob extends CancelableJob<OutgoingLinkPayment> {
-  const _OLPCancelTxSentJob(this.payment, this.sender);
+  const _OLPCancelTxSentJob(this.payment);
 
   final OutgoingLinkPayment payment;
-  final TxSender sender;
 
   @override
   Future<OutgoingLinkPayment?> process() async {
     final status = payment.status;
-    if (status is! OLPStatusCancelTxSent) {
-      return payment;
-    }
 
-    final tx = await sender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'OutgoingLinkPaymentCancelation',
-    );
-
-    final OLPStatus? newStatus = tx.map(
-      success: (_) => OLPStatus.canceled(
-        txId: status.tx.id,
-        timestamp: DateTime.now(),
-      ),
-      failure: (tx) => OLPStatus.cancelTxFailure(
-        reason: tx.reason,
-        escrow: status.escrow,
-      ),
-      networkError: (_) => null,
-    );
-
-    return newStatus == null ? null : payment.copyWith(status: newStatus);
+    return status is! OLPStatusCancelTxSent
+        ? payment
+        : payment.copyWith(
+            status: OLPStatus.canceled(
+              txId: status.tx.id,
+              timestamp: DateTime.now(),
+            ),
+          );
   }
 }

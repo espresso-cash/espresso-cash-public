@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:solana/base58.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../../accounts/auth_scope.dart';
-import '../../transactions/services/tx_sender.dart';
+import '../../currency/models/amount.dart';
+import '../../link_payments/models/link_payment.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 import 'payment_watcher.dart';
@@ -15,15 +16,13 @@ import 'payment_watcher.dart';
 /// confirmed.
 @Singleton(scope: authScope)
 class TxSentWatcher extends PaymentWatcher {
-  TxSentWatcher(super._repository, this._sender, super._refreshBalance);
-
-  final TxSender _sender;
+  TxSentWatcher(super._repository, super._refreshBalance);
 
   @override
   CancelableJob<OutgoingLinkPayment> createJob(
     OutgoingLinkPayment payment,
   ) =>
-      _OLPSentJob(payment, _sender);
+      _OLPSentJob(payment);
 
   @override
   Stream<IList<OutgoingLinkPayment>> watchPayments(
@@ -33,10 +32,9 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _OLPSentJob extends CancelableJob<OutgoingLinkPayment> {
-  const _OLPSentJob(this.payment, this.sender);
+  const _OLPSentJob(this.payment);
 
   final OutgoingLinkPayment payment;
-  final TxSender sender;
 
   @override
   Future<OutgoingLinkPayment?> process() async {
@@ -45,20 +43,21 @@ class _OLPSentJob extends CancelableJob<OutgoingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'OutgoingLinkPayment',
+    final token = payment.amount.token;
+
+    final privateKey = status.escrow.bytes.lock;
+    final key = base58encode(privateKey.toList());
+
+    final link = LinkPayment(
+      key: key,
+      token: token.publicKey,
+    ).toShareableLink();
+
+    final newStatus = OLPStatus.linkReady(
+      link: link,
+      escrow: status.escrow,
     );
 
-    final OLPStatus? newStatus = tx.map(
-      success: (_) => OLPStatus.txConfirmed(escrow: status.escrow),
-      failure: (tx) => OLPStatus.txFailure(reason: tx.reason),
-      networkError: (_) {
-        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-      },
-    );
-
-    return newStatus == null ? null : payment.copyWith(status: newStatus);
+    return payment.copyWith(status: newStatus);
   }
 }

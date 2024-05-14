@@ -74,7 +74,6 @@ extension on OLPStatus {
   bool get affectsBalance => this.map(
         txCreated: F,
         txSent: F,
-        txConfirmed: T,
         linkReady: F,
         withdrawn: T,
         canceled: T,

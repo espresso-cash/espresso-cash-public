@@ -133,6 +133,7 @@ class OLPRows extends Table with AmountMixin, EntityMixin {
 enum OLPStatusDto {
   txCreated,
   txSent,
+  // to be deprecated
   txConfirmed,
   linkReady,
   txFailure,
@@ -164,25 +165,22 @@ extension on OLPStatusDto {
     final escrow = row.privateKey?.let(base58decode).let(EscrowPrivateKey.new);
     final cancelTx = row.cancelTx?.let(SignedTx.decode);
     final resolvedAt = row.resolvedAt;
-    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
+      case OLPStatusDto.txConfirmed: //TODO verify
       case OLPStatusDto.txCreated:
         return OLPStatus.txCreated(
           tx!,
           escrow: escrow!,
-          slot: slot ?? BigInt.zero,
         );
+
       case OLPStatusDto.txSent:
         final txId = row.txId;
 
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
-          slot: slot ?? BigInt.zero,
         );
-      case OLPStatusDto.txConfirmed:
-        return OLPStatus.txConfirmed(escrow: escrow!);
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
 
@@ -202,7 +200,6 @@ extension on OLPStatusDto {
         return OLPStatus.cancelTxCreated(
           cancelTx!,
           escrow: escrow!,
-          slot: slot ?? BigInt.zero,
         );
       case OLPStatusDto.cancelTxFailure:
         return OLPStatus.cancelTxFailure(
@@ -213,7 +210,6 @@ extension on OLPStatusDto {
         return OLPStatus.cancelTxSent(
           cancelTx!,
           escrow: escrow!,
-          slot: slot ?? BigInt.zero,
         );
     }
   }
@@ -234,7 +230,6 @@ extension on OutgoingLinkPayment {
         txFailureReason: status.toTxFailureReason(),
         cancelTx: status.toCancelTx(),
         cancelTxId: status.toCancelTxId(),
-        slot: status.toSlot()?.toString(),
         generatedLinksAt: linksGeneratedAt,
         resolvedAt: status.toResolvedAt(),
       );
@@ -244,7 +239,6 @@ extension on OLPStatus {
   OLPStatusDto toDto() => this.map(
         txCreated: always(OLPStatusDto.txCreated),
         txSent: always(OLPStatusDto.txSent),
-        txConfirmed: always(OLPStatusDto.txConfirmed),
         linkReady: always(OLPStatusDto.linkReady),
         withdrawn: always(OLPStatusDto.withdrawn),
         txFailure: always(OLPStatusDto.txFailure),
@@ -280,7 +274,6 @@ extension on OLPStatus {
   Future<String?> toPrivateKey() => this.map(
         txCreated: (it) async => base58encode(it.escrow.bytes),
         txSent: (it) async => base58encode(it.escrow.bytes),
-        txConfirmed: (it) async => base58encode(it.escrow.bytes),
         linkReady: (it) async => base58encode(it.escrow.bytes),
         withdrawn: (it) async => null,
         canceled: (it) async => null,
@@ -302,12 +295,5 @@ extension on OLPStatus {
   DateTime? toResolvedAt() => mapOrNull(
         withdrawn: (it) => it.timestamp,
         canceled: (it) => it.timestamp,
-      );
-
-  BigInt? toSlot() => mapOrNull(
-        txCreated: (it) => it.slot,
-        txSent: (it) => it.slot,
-        cancelTxCreated: (it) => it.slot,
-        cancelTxSent: (it) => it.slot,
       );
 }

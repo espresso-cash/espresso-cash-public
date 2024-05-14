@@ -1,12 +1,12 @@
 import 'dart:async';
 
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../../accounts/auth_scope.dart';
 import '../../transactions/models/tx_results.dart';
-import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 import 'payment_watcher.dart';
@@ -19,16 +19,16 @@ class CancelTxCreatedWatcher extends PaymentWatcher {
   CancelTxCreatedWatcher(
     super._repository,
     super._refreshBalance,
-    this._sender,
+    this._ecClient,
   );
 
-  final TxSender _sender;
+  final EspressoCashClient _ecClient;
 
   @override
   CancelableJob<OutgoingLinkPayment> createJob(
     OutgoingLinkPayment payment,
   ) =>
-      _OLPCancelTxCreatedJob(payment, _sender);
+      _OLPCancelTxCreatedJob(payment, _ecClient);
 
   @override
   Stream<IList<OutgoingLinkPayment>> watchPayments(
@@ -38,10 +38,10 @@ class CancelTxCreatedWatcher extends PaymentWatcher {
 }
 
 class _OLPCancelTxCreatedJob extends CancelableJob<OutgoingLinkPayment> {
-  const _OLPCancelTxCreatedJob(this.payment, this.sender);
+  const _OLPCancelTxCreatedJob(this.payment, this.client);
 
   final OutgoingLinkPayment payment;
-  final TxSender sender;
+  final EspressoCashClient client;
 
   @override
   Future<OutgoingLinkPayment?> process() async {
@@ -50,25 +50,50 @@ class _OLPCancelTxCreatedJob extends CancelableJob<OutgoingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.send(status.tx, minContextSlot: status.slot);
+    final tx = status.tx;
 
-    final OLPStatus? newStatus = tx.map(
-      sent: (_) => OLPStatus.cancelTxSent(
-        status.tx,
-        escrow: status.escrow,
-        slot: status.slot,
-      ),
-      invalidBlockhash: (_) => OLPStatus.cancelTxFailure(
-        reason: TxFailureReason.invalidBlockhashSending,
-        escrow: status.escrow,
-      ),
-      failure: (it) => OLPStatus.cancelTxFailure(
-        reason: it.reason,
-        escrow: status.escrow,
-      ),
-      networkError: (_) => null,
-    );
+    try {
+      await client.submitDurableTx(
+        SubmitDurableTxRequestDto(
+          tx: tx.encode(),
+        ),
+      );
 
-    return newStatus == null ? null : payment.copyWith(status: newStatus);
+      return payment.copyWith(
+        status: OLPStatus.cancelTxSent(
+          tx,
+          escrow: status.escrow,
+        ),
+      );
+    } on Exception catch (ex) {
+      print(ex);
+
+      return payment.copyWith(
+        status: OLPStatus.cancelTxFailure(
+          reason: TxFailureReason.creatingFailure, //TODO
+          escrow: status.escrow,
+        ),
+      );
+    }
+
+    // final tx = await sender.send(status.tx, minContextSlot: BigInt.zero); //TODO
+
+    // final OLPStatus? newStatus = tx.map(
+    //   sent: (_) => OLPStatus.cancelTxSent(
+    //     status.tx,
+    //     escrow: status.escrow,
+    //   ),
+    //   invalidBlockhash: (_) => OLPStatus.cancelTxFailure(
+    //     reason: TxFailureReason.invalidBlockhashSending,
+    //     escrow: status.escrow,
+    //   ),
+    //   failure: (it) => OLPStatus.cancelTxFailure(
+    //     reason: it.reason,
+    //     escrow: status.escrow,
+    //   ),
+    //   networkError: (_) => null,
+    // );
+
+    // return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

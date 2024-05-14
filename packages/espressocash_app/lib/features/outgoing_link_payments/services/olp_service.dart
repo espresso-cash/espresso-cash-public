@@ -124,8 +124,7 @@ class OLPService {
       return OLPStatus.txCreated(
         tx,
         escrow: privateKey,
-        slot: BigInt.zero,
-      ); //TODO remove slot
+      );
     } on Exception {
       return const OLPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -150,7 +149,6 @@ class OLPService {
       return OLPStatus.cancelTxCreated(
         tx,
         escrow: privateKey,
-        slot: BigInt.zero, //TODO remove slot
       );
     } on Exception {
       return OLPStatus.cancelTxFailure(

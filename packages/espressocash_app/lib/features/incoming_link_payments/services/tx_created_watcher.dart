@@ -1,14 +1,13 @@
 import 'dart:async';
 
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../../accounts/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../transactions/models/tx_results.dart';
-import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 import 'payment_watcher.dart';
@@ -18,9 +17,9 @@ import 'payment_watcher.dart';
 /// The watcher will try to submit the tx until it's accepted or rejected.
 @Singleton(scope: authScope)
 class TxCreatedWatcher extends PaymentWatcher {
-  TxCreatedWatcher(super._repository, this._sender, this._refreshBalance);
+  TxCreatedWatcher(super._repository, this._ecClient, this._refreshBalance);
 
-  final TxSender _sender;
+  final EspressoCashClient _ecClient;
   final RefreshBalance _refreshBalance;
 
   @postConstruct
@@ -30,7 +29,7 @@ class TxCreatedWatcher extends PaymentWatcher {
   CancelableJob<IncomingLinkPayment> createJob(
     IncomingLinkPayment payment,
   ) =>
-      _ILPTxCreatedJob(payment, _sender);
+      _ILPTxCreatedJob(payment, _ecClient);
 
   @override
   Stream<IList<IncomingLinkPayment>> watchPayments(
@@ -40,10 +39,10 @@ class TxCreatedWatcher extends PaymentWatcher {
 }
 
 class _ILPTxCreatedJob extends CancelableJob<IncomingLinkPayment> {
-  const _ILPTxCreatedJob(this.payment, this.sender);
+  const _ILPTxCreatedJob(this.payment, this.client);
 
   final IncomingLinkPayment payment;
-  final TxSender sender;
+  final EspressoCashClient client;
 
   @override
   Future<IncomingLinkPayment?> process() async {
@@ -52,22 +51,42 @@ class _ILPTxCreatedJob extends CancelableJob<IncomingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.send(status.tx, minContextSlot: status.slot);
+    final tx = status.tx;
 
-    final ILPStatus? newStatus = tx.map(
-      sent: (_) => ILPStatus.txSent(
-        status.tx,
-        slot: status.slot,
-      ),
-      invalidBlockhash: (_) => const ILPStatus.txFailure(
-        reason: TxFailureReason.invalidBlockhashSending,
-      ),
-      failure: (it) => ILPStatus.txFailure(reason: it.reason),
-      networkError: (_) {
-        Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-      },
-    );
+    try {
+      await client.submitDurableTx(
+        SubmitDurableTxRequestDto(
+          tx: tx.encode(),
+        ),
+      );
 
-    return newStatus == null ? null : payment.copyWith(status: newStatus);
+      return payment.copyWith(
+        status: ILPStatus.txSent(tx),
+      );
+    } on Exception catch (ex) {
+      return payment.copyWith(
+        status: const ILPStatus.txFailure(
+          reason: TxFailureReason.creatingFailure, //TODO
+        ),
+      );
+    }
+
+    // final tx = await sender.send(status.tx, minContextSlot: status.slot);
+
+    // final ILPStatus? newStatus = tx.map(
+    //   sent: (_) => ILPStatus.txSent(
+    //     status.tx,
+    //     slot: status.slot,
+    //   ),
+    //   invalidBlockhash: (_) => const ILPStatus.txFailure(
+    //     reason: TxFailureReason.invalidBlockhashSending,
+    //   ),
+    //   failure: (it) => ILPStatus.txFailure(reason: it.reason),
+    //   networkError: (_) {
+    //     Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
+    //   },
+    // );
+
+    // return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }

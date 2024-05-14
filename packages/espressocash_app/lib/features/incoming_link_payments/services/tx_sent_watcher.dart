@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
@@ -13,8 +12,6 @@ import '../../accounts/auth_scope.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../transactions/models/tx_results.dart';
-import '../../transactions/services/tx_sender.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 import 'payment_watcher.dart';
@@ -25,12 +22,10 @@ import 'payment_watcher.dart';
 class TxSentWatcher extends PaymentWatcher {
   TxSentWatcher(
     super._repository,
-    this._sender,
     this._ecClient,
     this._refreshBalance,
   );
 
-  final TxSender _sender;
   final EspressoCashClient _ecClient;
   final RefreshBalance _refreshBalance;
 
@@ -41,7 +36,7 @@ class TxSentWatcher extends PaymentWatcher {
   CancelableJob<IncomingLinkPayment> createJob(
     IncomingLinkPayment payment,
   ) =>
-      _ILPTxSentJob(payment, _sender, _ecClient);
+      _ILPTxSentJob(payment, _ecClient);
 
   @override
   Stream<IList<IncomingLinkPayment>> watchPayments(
@@ -51,10 +46,9 @@ class TxSentWatcher extends PaymentWatcher {
 }
 
 class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
-  const _ILPTxSentJob(this.payment, this.sender, this._ecClient);
+  const _ILPTxSentJob(this.payment, this._ecClient);
 
   final IncomingLinkPayment payment;
-  final TxSender sender;
   final EspressoCashClient _ecClient;
 
   @override
@@ -64,40 +58,23 @@ class _ILPTxSentJob extends CancelableJob<IncomingLinkPayment> {
       return payment;
     }
 
-    final tx = await sender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'IncomingLinkPayment',
-    );
+    int? fee;
+    try {
+      fee = status.tx.containsAta
+          ? await _ecClient.getFees().then((value) => value.escrowPaymentAtaFee)
+          : null;
+    } on Object {
+      fee = null;
+    }
 
-    final newStatus = await tx.map(
-      success: (_) async {
-        try {
-          final fee = status.tx.containsAta
-              ? await _ecClient
-                  .getFees()
-                  .then((value) => value.escrowPaymentAtaFee)
-              : null;
-
-          return ILPStatus.success(
-            tx: status.tx,
-            fee: fee?.let(
-              (fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc),
-            ),
-          );
-        } on Object {
-          return null;
-        }
-      },
-      failure: (_) async => const ILPStatus.txFailure(
-        reason: TxFailureReason.escrowFailure,
+    return payment.copyWith(
+      status: ILPStatus.success(
+        tx: status.tx,
+        fee: fee?.let(
+          (fee) => CryptoAmount(value: fee, cryptoCurrency: Currency.usdc),
+        ),
       ),
-      networkError: (_) async {
-        await Sentry.addBreadcrumb(Breadcrumb(message: 'Network error'));
-      },
     );
-
-    return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
 }
 

@@ -75,10 +75,7 @@ class ILPService {
           .let((it) => it.resign(LocalWallet(escrow)))
           .letAsync((it) => it.resign(account));
 
-      return ILPStatus.txCreated(
-        tx,
-        slot: BigInt.zero,
-      ); //TODO remove slot
+      return ILPStatus.txCreated(tx);
     } on DioException catch (error) {
       if (error.toEspressoCashError() ==
           EspressoCashError.invalidEscrowAccount) {
