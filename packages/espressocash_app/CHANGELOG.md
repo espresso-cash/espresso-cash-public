@@ -1,3 +1,7 @@
+## 1.119.0
+
+ - **FEAT**: optmize startup time (#1444).
+
 ## 1.118.0
 
  - **REFACTOR**: use dcm 1.17.0 (#1441).
