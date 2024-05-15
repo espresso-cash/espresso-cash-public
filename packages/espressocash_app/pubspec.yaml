@@ -26,7 +26,6 @@ dependencies:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
   fast_immutable_collections: ^10.2.2
-  firebase_analytics: ^10.10.4
   firebase_app_installations: ^0.2.5
   firebase_core: ^2.30.1
   firebase_remote_config: ^4.4.4
@@ -41,8 +40,6 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_svg: ^2.0.9
   flutter_svg_provider: ^1.0.7
-  flutter_web_plugins:
-    sdk: flutter
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
   http: ^1.1.2
