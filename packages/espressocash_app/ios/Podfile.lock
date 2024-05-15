@@ -1,7 +1,4 @@
 PODS:
-  - Firebase/AnalyticsWithoutAdIdSupport (10.24.0):
-    - Firebase/CoreOnly
-    - FirebaseAnalytics/WithoutAdIdSupport (~> 10.24.0)
   - Firebase/CoreOnly (10.24.0):
     - FirebaseCore (= 10.24.0)
   - Firebase/Installations (10.24.0):
@@ -10,10 +7,6 @@ PODS:
   - Firebase/RemoteConfig (10.24.0):
     - Firebase/CoreOnly
     - FirebaseRemoteConfig (~> 10.24.0)
-  - firebase_analytics (10.10.4):
-    - Firebase/AnalyticsWithoutAdIdSupport (= 10.24.0)
-    - firebase_core
-    - Flutter
   - firebase_app_installations (0.2.5-4):
     - Firebase/Installations (= 10.24.0)
     - firebase_core
@@ -27,15 +20,6 @@ PODS:
     - Flutter
   - FirebaseABTesting (10.24.0):
     - FirebaseCore (~> 10.0)
-  - FirebaseAnalytics/WithoutAdIdSupport (10.24.0):
-    - FirebaseCore (~> 10.0)
-    - FirebaseInstallations (~> 10.0)
-    - GoogleAppMeasurement/WithoutAdIdSupport (= 10.24.0)
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
   - FirebaseCore (10.24.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
@@ -69,12 +53,6 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
-  - GoogleAppMeasurement/WithoutAdIdSupport (10.24.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
-    - GoogleUtilities/MethodSwizzler (~> 7.11)
-    - GoogleUtilities/Network (~> 7.11)
-    - "GoogleUtilities/NSData+zlib (~> 7.11)"
-    - nanopb (< 2.30911.0, >= 2.30908.0)
   - GoogleDataTransport (9.4.1):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30911.0, >= 2.30908.0)
@@ -89,31 +67,15 @@ PODS:
     - GoogleToolboxForMac/Defines (= 4.2.1)
   - "GoogleToolboxForMac/NSData+zlib (4.2.1)":
     - GoogleToolboxForMac/Defines (= 4.2.1)
-  - GoogleUtilities/AppDelegateSwizzler (7.13.0):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-    - GoogleUtilities/Privacy
   - GoogleUtilities/Environment (7.13.0):
     - GoogleUtilities/Privacy
     - PromisesObjC (< 3.0, >= 1.2)
   - GoogleUtilities/Logger (7.13.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Privacy
-  - GoogleUtilities/MethodSwizzler (7.13.0):
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
-  - GoogleUtilities/Network (7.13.0):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Privacy
-    - GoogleUtilities/Reachability
   - "GoogleUtilities/NSData+zlib (7.13.0)":
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (7.13.0)
-  - GoogleUtilities/Reachability (7.13.0):
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Privacy
   - GoogleUtilities/UserDefaults (7.13.0):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
@@ -154,11 +116,11 @@ PODS:
   - mobile_scanner (5.0.2):
     - Flutter
     - GoogleMLKit/BarcodeScanning (~> 6.0.0)
-  - nanopb (2.30909.1):
-    - nanopb/decode (= 2.30909.1)
-    - nanopb/encode (= 2.30909.1)
-  - nanopb/decode (2.30909.1)
-  - nanopb/encode (2.30909.1)
+  - nanopb (2.30910.0):
+    - nanopb/decode (= 2.30910.0)
+    - nanopb/encode (= 2.30910.0)
+  - nanopb/decode (2.30910.0)
+  - nanopb/encode (2.30910.0)
   - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
@@ -208,7 +170,6 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
-  - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_app_installations (from `.symlinks/plugins/firebase_app_installations/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
@@ -239,14 +200,12 @@ SPEC REPOS:
   trunk:
     - Firebase
     - FirebaseABTesting
-    - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseInstallations
     - FirebaseRemoteConfig
     - FirebaseRemoteConfigInterop
     - FirebaseSharedSwift
-    - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleMLKit
     - GoogleToolboxForMac
@@ -266,8 +225,6 @@ SPEC REPOS:
     - sqlite3
 
 EXTERNAL SOURCES:
-  firebase_analytics:
-    :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_app_installations:
     :path: ".symlinks/plugins/firebase_app_installations/ios"
   firebase_core:
@@ -327,12 +284,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Firebase: 91fefd38712feb9186ea8996af6cbdef41473442
-  firebase_analytics: 11e52d49aed39ce0913522155cc8dca3c13762aa
   firebase_app_installations: a83011373deea8e62b295e15e31328fca8f426a2
   firebase_core: 7f1e1156934d0da3be260174812842df9420e4ab
   firebase_remote_config: bb9853d3dbca8dc788152371fdfefe982e25a2c8
   FirebaseABTesting: 4431c2c56ac6e56f463b9cab05cc111078639f99
-  FirebaseAnalytics: b5efc493eb0f40ec560b04a472e3e1a15d39ca13
   FirebaseCore: 11dc8a16dfb7c5e3c3f45ba0e191a33ac4f50894
   FirebaseCoreInternal: bcb5acffd4ea05e12a783ecf835f2210ce3dc6af
   FirebaseInstallations: 8f581fca6478a50705d2bd2abd66d306e0f5736e
@@ -343,7 +298,6 @@ SPEC CHECKSUMS:
   flutter_inappwebview_ios: 97215cf7d4677db55df76782dbd2930c5e1c1ea0
   flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
-  GoogleAppMeasurement: f3abf08495ef2cba7829f15318c373b8d9226491
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleMLKit: 97ac7af399057e99182ee8edfa8249e3226a4065
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
@@ -361,7 +315,7 @@ SPEC CHECKSUMS:
   MLKitCommon: afec63980417d29ffbb4790529a1b0a2291699e1
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   mobile_scanner: cfc76f77dca7e074fc9ca5993e3e7c35901c8b34
-  nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
+  nanopb: 438bc412db1928dac798aa6fd75726007be04262
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
