@@ -25,7 +25,8 @@ Future<void> main() {
           (options) {
             options
               ..dsn = sentryDsn
-              ..tracesSampleRate = 1.0;
+              ..tracesSampleRate = 1.0
+              ..profilesSampleRate = 1.0;
           },
           appRunner: () async {
             final spanAppStart = Sentry.startTransaction(
