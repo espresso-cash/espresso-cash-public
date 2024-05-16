@@ -38,8 +38,6 @@ class OLPService implements Disposable {
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
-  void _watchReady() {}
-
   void _subscribe(String id) {
     _subscriptions[id] =
         _repository.watch(id).asyncExpand<OutgoingLinkPayment>((payment) {
