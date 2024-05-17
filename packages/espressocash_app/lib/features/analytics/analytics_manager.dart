@@ -39,17 +39,29 @@ class AnalyticsManager {
     _analytics.getPeople().set('profileCountryCode', countryCode);
   }
 
-  void singleLinkCreated() => _analytics.track('singleLinkCreated');
+  void singleLinkCreated({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'singleLinkCreated',
+        properties: {'amount': amount.toDouble()},
+      );
 
-  void singleLinkCanceled() => _analytics.track('singleLinkCanceled');
-
-  void singleLinkRetried() => _analytics.track('singleLinkRetried');
+  void singleLinkCanceled({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'singleLinkCanceled',
+        properties: {'amount': amount.toDouble()},
+      );
 
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
-  void directPaymentCreated() => _analytics.track('directPaymentCreated');
-
-  void directPaymentRetried() => _analytics.track('directPaymentRetried');
-
-  void directPaymentCancelled() => _analytics.track('directPaymentCancelled');
+  void directPaymentSent({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'directPaymentSent',
+        properties: {'amount': amount.toDouble()},
+      );
 }
