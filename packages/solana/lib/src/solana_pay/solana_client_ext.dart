@@ -294,7 +294,7 @@ extension SolanaClientSolanaPay on SolanaClient {
   /// Commitment is used when getting latest blockhash.
   ///
   /// If [ignoreSignerVerification] is true, signature verification will be
-  /// skipped for the signer. Only applies when the transaction signatures are nonempty
+  /// skipped for [signer]. Only applies when the transaction signatures are nonempty
   ///
   /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
   /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
