@@ -22,14 +22,19 @@ class CommonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final signature = txCommon.tx.id;
 
-    final isOutgoing = txCommon.amount?.let((e) => e.value.isNegative) ?? false;
+    final isOutgoing =
+        txCommon.amount?.let((e) => e.value.isNegative || e.value == 0) ??
+            false;
     final amount = txCommon.amount
         ?.let((e) => e.format(context.locale, maxDecimals: 2))
         .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
       title: signature.toShortAddress(),
-      status: CpActivityTileStatus.success,
+      status: switch (txCommon.status) {
+        TxCommonStatus.success => CpActivityTileStatus.success,
+        TxCommonStatus.failure => CpActivityTileStatus.failure,
+      },
       timestamp: txCommon.created?.let(context.formatDate) ?? '',
       outgoingAmount: isOutgoing ? amount : null,
       incomingAmount: isOutgoing ? null : amount,

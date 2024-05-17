@@ -39,10 +39,10 @@ flutter_get:
 	flutter pub get
 
 flutter_build:
-	flutter pub run build_runner build --delete-conflicting-outputs
+	dart run build_runner build --delete-conflicting-outputs
 
 flutter_generate_test_schemas:
-	flutter pub run drift_dev schema generate moor_schemas test/generated/
+	dart run drift_dev schema generate moor_schemas test/generated/
 
 flutter_analyze:
 	flutter analyze --fatal-infos
