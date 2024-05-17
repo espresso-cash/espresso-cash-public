@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../accounts/models/account.dart';
-import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../models/outgoing_link_payment.dart';
 import '../services/olp_service.dart';
@@ -17,7 +16,6 @@ extension BuildContextExt on BuildContext {
           amount: amount,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().singleLinkCreated();
 
         return payment.id;
       });
@@ -28,7 +26,6 @@ extension BuildContextExt on BuildContext {
           payment,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().singleLinkCanceled();
       });
 
   Future<void> retryOLP({required OutgoingLinkPayment payment}) =>
@@ -37,6 +34,5 @@ extension BuildContextExt on BuildContext {
           payment,
           account: sl<MyAccount>().wallet,
         );
-        sl<AnalyticsManager>().singleLinkRetried();
       });
 }
