@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../utils/cancelable_job.dart';
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
@@ -14,15 +15,21 @@ import 'payment_watcher.dart';
 /// confirmed.
 @Singleton(scope: authScope)
 class CancelTxSentWatcher extends PaymentWatcher {
-  CancelTxSentWatcher(super._repository, this._sender, super._refreshBalance);
+  CancelTxSentWatcher(
+    super._repository,
+    this._sender,
+    super._refreshBalance,
+    this._analyticsManager,
+  );
 
   final TxSender _sender;
+  final AnalyticsManager _analyticsManager;
 
   @override
   CancelableJob<OutgoingLinkPayment> createJob(
     OutgoingLinkPayment payment,
   ) =>
-      _OLPCancelTxSentJob(payment, _sender);
+      _OLPCancelTxSentJob(payment, _sender, _analyticsManager);
 
   @override
   Stream<IList<OutgoingLinkPayment>> watchPayments(
@@ -32,10 +39,11 @@ class CancelTxSentWatcher extends PaymentWatcher {
 }
 
 class _OLPCancelTxSentJob extends CancelableJob<OutgoingLinkPayment> {
-  const _OLPCancelTxSentJob(this.payment, this.sender);
+  const _OLPCancelTxSentJob(this.payment, this.sender, this._analyticsManager);
 
   final OutgoingLinkPayment payment;
   final TxSender sender;
+  final AnalyticsManager _analyticsManager;
 
   @override
   Future<OutgoingLinkPayment?> process() async {
@@ -61,6 +69,10 @@ class _OLPCancelTxSentJob extends CancelableJob<OutgoingLinkPayment> {
       ),
       networkError: (_) => null,
     );
+
+    if (newStatus is OLPStatusCanceled) {
+      _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
+    }
 
     return newStatus == null ? null : payment.copyWith(status: newStatus);
   }
