@@ -124,4 +124,9 @@ abstract class EspressoCashClient {
   Future<UnshortenLinkResponseDto> unshortenLink(
     @Body() UnshortenLinkRequestDto request,
   );
+
+  @POST('/dln/incoming/gasFee')
+  Future<GasFeeResponseDto> getGasFees(
+    @Body() GasFeeRequestDto request,
+  );
 }
