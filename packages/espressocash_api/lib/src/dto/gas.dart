@@ -21,11 +21,6 @@ class GasFeeResponseDto with _$GasFeeResponseDto {
     required GasFeeEstimate high,
     required String estimatedBaseFee,
     required double networkCongestion,
-    required List<String> latestPriorityFeeRange,
-    required List<String> historicalPriorityFeeRange,
-    required List<String> historicalBaseFeeRange,
-    required String priorityFeeTrend,
-    required String baseFeeTrend,
   }) = _GasFeeResponseDto;
 
   factory GasFeeResponseDto.fromJson(Map<String, dynamic> json) =>

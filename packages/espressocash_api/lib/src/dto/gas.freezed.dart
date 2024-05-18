@@ -163,12 +163,6 @@ mixin _$GasFeeResponseDto {
   GasFeeEstimate get high => throw _privateConstructorUsedError;
   String get estimatedBaseFee => throw _privateConstructorUsedError;
   double get networkCongestion => throw _privateConstructorUsedError;
-  List<String> get latestPriorityFeeRange => throw _privateConstructorUsedError;
-  List<String> get historicalPriorityFeeRange =>
-      throw _privateConstructorUsedError;
-  List<String> get historicalBaseFeeRange => throw _privateConstructorUsedError;
-  String get priorityFeeTrend => throw _privateConstructorUsedError;
-  String get baseFeeTrend => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -187,12 +181,7 @@ abstract class $GasFeeResponseDtoCopyWith<$Res> {
       GasFeeEstimate medium,
       GasFeeEstimate high,
       String estimatedBaseFee,
-      double networkCongestion,
-      List<String> latestPriorityFeeRange,
-      List<String> historicalPriorityFeeRange,
-      List<String> historicalBaseFeeRange,
-      String priorityFeeTrend,
-      String baseFeeTrend});
+      double networkCongestion});
 
   $GasFeeEstimateCopyWith<$Res> get low;
   $GasFeeEstimateCopyWith<$Res> get medium;
@@ -217,11 +206,6 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
     Object? high = null,
     Object? estimatedBaseFee = null,
     Object? networkCongestion = null,
-    Object? latestPriorityFeeRange = null,
-    Object? historicalPriorityFeeRange = null,
-    Object? historicalBaseFeeRange = null,
-    Object? priorityFeeTrend = null,
-    Object? baseFeeTrend = null,
   }) {
     return _then(_value.copyWith(
       low: null == low
@@ -244,26 +228,6 @@ class _$GasFeeResponseDtoCopyWithImpl<$Res, $Val extends GasFeeResponseDto>
           ? _value.networkCongestion
           : networkCongestion // ignore: cast_nullable_to_non_nullable
               as double,
-      latestPriorityFeeRange: null == latestPriorityFeeRange
-          ? _value.latestPriorityFeeRange
-          : latestPriorityFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      historicalPriorityFeeRange: null == historicalPriorityFeeRange
-          ? _value.historicalPriorityFeeRange
-          : historicalPriorityFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      historicalBaseFeeRange: null == historicalBaseFeeRange
-          ? _value.historicalBaseFeeRange
-          : historicalBaseFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      priorityFeeTrend: null == priorityFeeTrend
-          ? _value.priorityFeeTrend
-          : priorityFeeTrend // ignore: cast_nullable_to_non_nullable
-              as String,
-      baseFeeTrend: null == baseFeeTrend
-          ? _value.baseFeeTrend
-          : baseFeeTrend // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 
@@ -305,12 +269,7 @@ abstract class _$$GasFeeResponseDtoImplCopyWith<$Res>
       GasFeeEstimate medium,
       GasFeeEstimate high,
       String estimatedBaseFee,
-      double networkCongestion,
-      List<String> latestPriorityFeeRange,
-      List<String> historicalPriorityFeeRange,
-      List<String> historicalBaseFeeRange,
-      String priorityFeeTrend,
-      String baseFeeTrend});
+      double networkCongestion});
 
   @override
   $GasFeeEstimateCopyWith<$Res> get low;
@@ -336,11 +295,6 @@ class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
     Object? high = null,
     Object? estimatedBaseFee = null,
     Object? networkCongestion = null,
-    Object? latestPriorityFeeRange = null,
-    Object? historicalPriorityFeeRange = null,
-    Object? historicalBaseFeeRange = null,
-    Object? priorityFeeTrend = null,
-    Object? baseFeeTrend = null,
   }) {
     return _then(_$GasFeeResponseDtoImpl(
       low: null == low
@@ -363,26 +317,6 @@ class __$$GasFeeResponseDtoImplCopyWithImpl<$Res>
           ? _value.networkCongestion
           : networkCongestion // ignore: cast_nullable_to_non_nullable
               as double,
-      latestPriorityFeeRange: null == latestPriorityFeeRange
-          ? _value._latestPriorityFeeRange
-          : latestPriorityFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      historicalPriorityFeeRange: null == historicalPriorityFeeRange
-          ? _value._historicalPriorityFeeRange
-          : historicalPriorityFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      historicalBaseFeeRange: null == historicalBaseFeeRange
-          ? _value._historicalBaseFeeRange
-          : historicalBaseFeeRange // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      priorityFeeTrend: null == priorityFeeTrend
-          ? _value.priorityFeeTrend
-          : priorityFeeTrend // ignore: cast_nullable_to_non_nullable
-              as String,
-      baseFeeTrend: null == baseFeeTrend
-          ? _value.baseFeeTrend
-          : baseFeeTrend // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -395,15 +329,7 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
       required this.medium,
       required this.high,
       required this.estimatedBaseFee,
-      required this.networkCongestion,
-      required final List<String> latestPriorityFeeRange,
-      required final List<String> historicalPriorityFeeRange,
-      required final List<String> historicalBaseFeeRange,
-      required this.priorityFeeTrend,
-      required this.baseFeeTrend})
-      : _latestPriorityFeeRange = latestPriorityFeeRange,
-        _historicalPriorityFeeRange = historicalPriorityFeeRange,
-        _historicalBaseFeeRange = historicalBaseFeeRange;
+      required this.networkCongestion});
 
   factory _$GasFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GasFeeResponseDtoImplFromJson(json);
@@ -418,41 +344,10 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
   final String estimatedBaseFee;
   @override
   final double networkCongestion;
-  final List<String> _latestPriorityFeeRange;
-  @override
-  List<String> get latestPriorityFeeRange {
-    if (_latestPriorityFeeRange is EqualUnmodifiableListView)
-      return _latestPriorityFeeRange;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_latestPriorityFeeRange);
-  }
-
-  final List<String> _historicalPriorityFeeRange;
-  @override
-  List<String> get historicalPriorityFeeRange {
-    if (_historicalPriorityFeeRange is EqualUnmodifiableListView)
-      return _historicalPriorityFeeRange;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_historicalPriorityFeeRange);
-  }
-
-  final List<String> _historicalBaseFeeRange;
-  @override
-  List<String> get historicalBaseFeeRange {
-    if (_historicalBaseFeeRange is EqualUnmodifiableListView)
-      return _historicalBaseFeeRange;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_historicalBaseFeeRange);
-  }
-
-  @override
-  final String priorityFeeTrend;
-  @override
-  final String baseFeeTrend;
 
   @override
   String toString() {
-    return 'GasFeeResponseDto(low: $low, medium: $medium, high: $high, estimatedBaseFee: $estimatedBaseFee, networkCongestion: $networkCongestion, latestPriorityFeeRange: $latestPriorityFeeRange, historicalPriorityFeeRange: $historicalPriorityFeeRange, historicalBaseFeeRange: $historicalBaseFeeRange, priorityFeeTrend: $priorityFeeTrend, baseFeeTrend: $baseFeeTrend)';
+    return 'GasFeeResponseDto(low: $low, medium: $medium, high: $high, estimatedBaseFee: $estimatedBaseFee, networkCongestion: $networkCongestion)';
   }
 
   @override
@@ -466,34 +361,13 @@ class _$GasFeeResponseDtoImpl implements _GasFeeResponseDto {
             (identical(other.estimatedBaseFee, estimatedBaseFee) ||
                 other.estimatedBaseFee == estimatedBaseFee) &&
             (identical(other.networkCongestion, networkCongestion) ||
-                other.networkCongestion == networkCongestion) &&
-            const DeepCollectionEquality().equals(
-                other._latestPriorityFeeRange, _latestPriorityFeeRange) &&
-            const DeepCollectionEquality().equals(
-                other._historicalPriorityFeeRange,
-                _historicalPriorityFeeRange) &&
-            const DeepCollectionEquality().equals(
-                other._historicalBaseFeeRange, _historicalBaseFeeRange) &&
-            (identical(other.priorityFeeTrend, priorityFeeTrend) ||
-                other.priorityFeeTrend == priorityFeeTrend) &&
-            (identical(other.baseFeeTrend, baseFeeTrend) ||
-                other.baseFeeTrend == baseFeeTrend));
+                other.networkCongestion == networkCongestion));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType,
-      low,
-      medium,
-      high,
-      estimatedBaseFee,
-      networkCongestion,
-      const DeepCollectionEquality().hash(_latestPriorityFeeRange),
-      const DeepCollectionEquality().hash(_historicalPriorityFeeRange),
-      const DeepCollectionEquality().hash(_historicalBaseFeeRange),
-      priorityFeeTrend,
-      baseFeeTrend);
+      runtimeType, low, medium, high, estimatedBaseFee, networkCongestion);
 
   @JsonKey(ignore: true)
   @override
@@ -516,12 +390,7 @@ abstract class _GasFeeResponseDto implements GasFeeResponseDto {
       required final GasFeeEstimate medium,
       required final GasFeeEstimate high,
       required final String estimatedBaseFee,
-      required final double networkCongestion,
-      required final List<String> latestPriorityFeeRange,
-      required final List<String> historicalPriorityFeeRange,
-      required final List<String> historicalBaseFeeRange,
-      required final String priorityFeeTrend,
-      required final String baseFeeTrend}) = _$GasFeeResponseDtoImpl;
+      required final double networkCongestion}) = _$GasFeeResponseDtoImpl;
 
   factory _GasFeeResponseDto.fromJson(Map<String, dynamic> json) =
       _$GasFeeResponseDtoImpl.fromJson;
@@ -536,16 +405,6 @@ abstract class _GasFeeResponseDto implements GasFeeResponseDto {
   String get estimatedBaseFee;
   @override
   double get networkCongestion;
-  @override
-  List<String> get latestPriorityFeeRange;
-  @override
-  List<String> get historicalPriorityFeeRange;
-  @override
-  List<String> get historicalBaseFeeRange;
-  @override
-  String get priorityFeeTrend;
-  @override
-  String get baseFeeTrend;
   @override
   @JsonKey(ignore: true)
   _$$GasFeeResponseDtoImplCopyWith<_$GasFeeResponseDtoImpl> get copyWith =>

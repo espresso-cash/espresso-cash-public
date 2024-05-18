@@ -26,18 +26,6 @@ _$GasFeeResponseDtoImpl _$$GasFeeResponseDtoImplFromJson(
       high: GasFeeEstimate.fromJson(json['high'] as Map<String, dynamic>),
       estimatedBaseFee: json['estimatedBaseFee'] as String,
       networkCongestion: (json['networkCongestion'] as num).toDouble(),
-      latestPriorityFeeRange: (json['latestPriorityFeeRange'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      historicalPriorityFeeRange:
-          (json['historicalPriorityFeeRange'] as List<dynamic>)
-              .map((e) => e as String)
-              .toList(),
-      historicalBaseFeeRange: (json['historicalBaseFeeRange'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      priorityFeeTrend: json['priorityFeeTrend'] as String,
-      baseFeeTrend: json['baseFeeTrend'] as String,
     );
 
 Map<String, dynamic> _$$GasFeeResponseDtoImplToJson(
@@ -48,11 +36,6 @@ Map<String, dynamic> _$$GasFeeResponseDtoImplToJson(
       'high': instance.high,
       'estimatedBaseFee': instance.estimatedBaseFee,
       'networkCongestion': instance.networkCongestion,
-      'latestPriorityFeeRange': instance.latestPriorityFeeRange,
-      'historicalPriorityFeeRange': instance.historicalPriorityFeeRange,
-      'historicalBaseFeeRange': instance.historicalBaseFeeRange,
-      'priorityFeeTrend': instance.priorityFeeTrend,
-      'baseFeeTrend': instance.baseFeeTrend,
     };
 
 _$GasFeeEstimateImpl _$$GasFeeEstimateImplFromJson(Map<String, dynamic> json) =>
