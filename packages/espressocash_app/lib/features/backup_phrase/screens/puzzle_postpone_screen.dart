@@ -10,21 +10,20 @@ import '../../../utils/routing.dart';
 import '../services/puzzle_reminder_bloc.dart';
 import '../widgets/puzzle_screen.dart';
 
-class PuzzleReminderSetupScreen extends StatefulWidget {
-  const PuzzleReminderSetupScreen({super.key});
+class PuzzlePostponeScreen extends StatefulWidget {
+  const PuzzlePostponeScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const PuzzleReminderSetupScreen(),
+          builder: (context) => const PuzzlePostponeScreen(),
         ),
       );
 
   @override
-  State<PuzzleReminderSetupScreen> createState() =>
-      _PuzzleReminderSetupScreenState();
+  State<PuzzlePostponeScreen> createState() => _PuzzlePostponeScreenState();
 }
 
-class _PuzzleReminderSetupScreenState extends State<PuzzleReminderSetupScreen> {
+class _PuzzlePostponeScreenState extends State<PuzzlePostponeScreen> {
   bool _checked = false;
   Duration _duration = const Duration(days: 1);
 

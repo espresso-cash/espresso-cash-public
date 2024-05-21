@@ -46,7 +46,8 @@ workflows:
             --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY \
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
-            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY
+            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN
       - name: Build IPA with Flutter
         script: |
           BUILD_NUMBER=$(($PROJECT_BUILD_NUMBER + 200))
@@ -62,7 +63,8 @@ workflows:
             --dart-define GUARDARIAN_API_KEY=$GUARDARIAN_API_KEY \
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
-            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY
+            --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN
 
     artifacts:
       - build/**/outputs/**/*.aab

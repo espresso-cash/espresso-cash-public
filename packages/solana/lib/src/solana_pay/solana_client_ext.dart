@@ -293,12 +293,16 @@ extension SolanaClientSolanaPay on SolanaClient {
   ///
   /// Commitment is used when getting latest blockhash.
   ///
+  /// If [ignoreSignerVerification] is true, signature verification will be
+  /// skipped for [signer]. Only applies when the transaction signatures are nonempty
+  ///
   /// [1]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#link
   /// [2]: https://github.com/solana-labs/solana-pay/blob/master/SPEC.md#post-request
   Future<SignedTx> processSolanaPayTransactionRequest({
     required String transaction,
     required Ed25519HDPublicKey signer,
     Commitment commitment = Commitment.finalized,
+    bool ignoreSignerVerification = false,
   }) async {
     final tx = SignedTx.decode(transaction);
 
@@ -348,6 +352,10 @@ extension SolanaClientSolanaPay on SolanaClient {
       for (final sig in signatures) {
         final signature = sig.bytes;
         final publicKey = sig.publicKey;
+
+        if (ignoreSignerVerification && publicKey == signer) {
+          continue;
+        }
 
         final isValid = await verifySignature(
           message: compiledMessage.toByteArray().toList(),
