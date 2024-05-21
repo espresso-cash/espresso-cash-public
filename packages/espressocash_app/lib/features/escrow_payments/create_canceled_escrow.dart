@@ -33,7 +33,6 @@ class CreateCanceledEscrow {
 
     final escrow = await tryFetchEscrow(
       address: escrowAccount,
-      platform: platformAccount,
       mint: mint,
       client: _client,
       commitment: commitment,

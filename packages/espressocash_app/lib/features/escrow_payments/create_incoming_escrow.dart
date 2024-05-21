@@ -29,12 +29,8 @@ class CreateIncomingEscrow {
   }) async {
     final mint = Token.usdc.publicKey;
 
-    final nonceData = await _ecClient.getFreeNonce();
-    final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
-
     final escrow = await tryFetchEscrow(
       address: escrowAccount,
-      platform: platformAccount,
       mint: mint,
       client: _client,
       commitment: commitment,
@@ -45,6 +41,9 @@ class CreateIncomingEscrow {
         error: EspressoCashError.invalidEscrowAccount,
       );
     }
+
+    final nonceData = await _ecClient.getFreeNonce();
+    final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
 
     final instructions = <Instruction>[];
 

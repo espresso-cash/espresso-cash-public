@@ -2,7 +2,6 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -21,16 +20,50 @@ class EscrowAccount with _$EscrowAccount {
 @useResult
 Future<EscrowAccount?> tryFetchEscrow({
   required Ed25519HDPublicKey address,
-  required Ed25519HDPublicKey platform,
   required Ed25519HDPublicKey mint,
   required SolanaClient client,
   required Commitment commitment,
 }) async {
+  final usdcAta = await findAssociatedTokenAddress(owner: address, mint: mint);
+
+  final doesAccountExist = await client.rpcClient
+          .getAccountInfo(
+            usdcAta.toBase58(),
+            encoding: Encoding.base64,
+            commitment: commitment,
+          )
+          .value !=
+      null;
+
+  if (doesAccountExist) {
+    final amount = await client.getTokenBalance(
+      owner: address,
+      mint: mint,
+      commitment: commitment,
+    );
+
+    return EscrowAccount(
+      address: address,
+      mint: mint,
+      amount: int.parse(amount.amount),
+    );
+  }
+
   final signatures = await client.rpcClient.getSignaturesForAddress(
     address.toBase58(),
     limit: 100,
     commitment: commitment,
   );
+
+  if (signatures.isEmpty) {
+    throw Exception('escrow not ready');
+  }
+
+  if (signatures.length == 2) {
+    throw Exception('already withdrawn');
+  }
+
+  //TODO update exceptions
 
   if (signatures.length != 1) {
     final escrowTransactions = await client.rpcClient
@@ -63,68 +96,9 @@ Future<EscrowAccount?> tryFetchEscrow({
         }),
       );
 
-      return null;
+      throw Exception('Invalid number of signatures for escrow account');
     }
   }
 
-  final signature = signatures.last;
-
-  if (signature.err != null) {
-    await Sentry.captureMessage(
-      'Signature had an error',
-      level: SentryLevel.warning,
-      withScope: (scope) => scope.setContexts('error', signature.err),
-    );
-
-    return null;
-  }
-
-  final tx = await client.rpcClient.getTransaction(
-    signature.signature,
-    commitment: commitment,
-    encoding: Encoding.base64,
-  );
-
-  if (tx == null) {
-    await Sentry.captureMessage(
-      'Transaction not found',
-      level: SentryLevel.warning,
-      withScope: (scope) => scope.setContexts('signature', signature.signature),
-    );
-
-    return null;
-  }
-
-  final signedTx =
-      SignedTx.fromBytes(ByteArray((tx.transaction as RawTransaction).data));
-
-  final compiled = signedTx.compiledMessage;
-
-  final isValid = await verifySignature(
-    message: compiled.toByteArray().toList(),
-    signature: base58decode(signature.signature),
-    publicKey: platform,
-  );
-
-  if (!isValid) {
-    await Sentry.captureMessage(
-      'Invalid signature',
-      level: SentryLevel.warning,
-      withScope: (scope) => scope.setContexts('signature', signature.signature),
-    );
-
-    return null;
-  }
-
-  final amount = await client.getTokenBalance(
-    owner: address,
-    mint: mint,
-    commitment: commitment,
-  );
-
-  return EscrowAccount(
-    address: address,
-    mint: mint,
-    amount: int.parse(amount.amount),
-  );
+  throw Exception('error');
 }
