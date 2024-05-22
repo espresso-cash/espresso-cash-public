@@ -68,6 +68,5 @@ class TokenList {
 }
 
 extension TokenExt on Iterable<Token> {
-  Iterable<String> get coingeckoIds =>
-      map((t) => t.coingeckoId).whereType<String>();
+  Iterable<String> get addresses => map((t) => t.symbol);
 }

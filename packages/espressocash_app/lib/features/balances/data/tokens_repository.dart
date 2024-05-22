@@ -2,28 +2,48 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
-import 'package:flutter/foundation.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../models/token_balance.dart';
 
 @Singleton(scope: authScope)
-class TokensRepository extends ChangeNotifier
-    implements ValueListenable<Map<Token, CryptoAmount>> {
+class TokensRepository {
   TokensRepository(this._storage, this._tokens);
 
   final SharedPreferences _storage;
   final TokenList _tokens;
 
-  Map<Token, CryptoAmount> _value = <Token, CryptoAmount>{};
+  final BehaviorSubject<IMap<Token, CryptoAmount>> _data =
+      BehaviorSubject.seeded(const IMapConst({}));
 
-  @override
-  Map<Token, CryptoAmount> get value => _value;
+  ISet<Token> readUserTokens() => {..._data.value.keys}.lock;
+
+  CryptoAmount read(Token token) =>
+      _data.value[token] ??
+      CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
+
+  Stream<ISet<Token>> watchUserTokens() =>
+      _data.map((data) => {...data.keys}.lock);
+
+  (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
+        _data.map(
+          (data) =>
+              data[token] ??
+              CryptoAmount(
+                value: 0,
+                cryptoCurrency: CryptoCurrency(token: token),
+              ),
+        ),
+        read(token),
+      );
 
   @PostConstruct()
   void init() {
@@ -50,35 +70,29 @@ class TokensRepository extends ChangeNotifier
       );
     }).whereNotNull();
 
-    _value = Map<Token, CryptoAmount>.fromEntries(tokens);
-
-    notifyListeners();
+    final value = Map<Token, CryptoAmount>.fromEntries(tokens);
+    _data.add(value.lock);
   }
 
   void save(Map<Token, CryptoAmount> tokens) {
     tokens.clean();
-    _value = tokens;
-
-    notifyListeners();
+    _data.add(tokens.lock);
 
     _storage.setString(_tokensBalanceKey, tokens.toJson());
   }
 
-  @override
   @disposeMethod
   void dispose() {
     _storage.remove(_tokensBalanceKey);
-    super.dispose();
   }
 }
 
 const _tokensBalanceKey = 'tokensBalance';
-final _minimumBalance = Decimal.parse('0.01');
 
 extension on Map<Token, CryptoAmount> {
   void clean() => removeWhere(
         (token, amount) =>
-            amount.decimal <= _minimumBalance || token == Token.usdc,
+            amount.decimal <= Decimal.zero || token == Token.usdc,
       );
 
   String toJson() {
