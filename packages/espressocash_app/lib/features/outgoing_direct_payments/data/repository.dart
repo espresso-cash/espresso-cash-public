@@ -57,19 +57,6 @@ class ODPRepository implements Disposable {
   }
 
   Future<void> save(OutgoingDirectPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'ODP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.oDPRows).insertOnConflictUpdate(payment.toDto());
   }
 

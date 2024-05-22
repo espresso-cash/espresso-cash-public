@@ -38,19 +38,6 @@ class ILPRepository implements Disposable {
   }
 
   Future<void> save(IncomingLinkPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'ILP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.iLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 

@@ -34,28 +34,6 @@ class OLPRepository implements Disposable {
   }
 
   Future<void> save(OutgoingLinkPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'OLP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      cancelTxFailure: (status) async {
-        await Sentry.captureMessage(
-          'OLP cancel tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.oLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 
