@@ -1,22 +1,45 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
+import '../../../ui/value_stream_builder.dart';
+import '../../conversion_rates/services/watch_token_total_balance.dart';
+import '../../currency/models/amount.dart';
 
-class HomeCarouselWidget extends StatefulWidget {
+class HomeCarouselWidget extends StatelessWidget {
   const HomeCarouselWidget({super.key, required this.onSendMoneyPressed});
 
   final VoidCallback onSendMoneyPressed;
 
   @override
-  State<HomeCarouselWidget> createState() => _HomeCarouselWidgetState();
+  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
+        create: () => sl<WatchTotalTokenFiatBalance>().call(),
+        builder: (context, balance) {
+          final hasNoInvestments = balance.decimal == Decimal.zero;
+
+          return hasNoInvestments
+              ? CarouselWidget(onSendMoneyPressed: onSendMoneyPressed)
+              : const SizedBox.shrink();
+        },
+      );
 }
 
-class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
+class CarouselWidget extends StatefulWidget {
+  const CarouselWidget({super.key, required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
+
+  @override
+  State<CarouselWidget> createState() => _CarouselWidgetState();
+}
+
+class _CarouselWidgetState extends State<CarouselWidget> {
   late final PageController _controller = PageController();
 
   @override

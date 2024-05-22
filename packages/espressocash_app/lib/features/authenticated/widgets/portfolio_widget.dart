@@ -106,29 +106,15 @@ class _PortfolioWidget extends StatelessWidget {
                   amount: sl<TokenBalancesRepository>().read(token),
                 ),
               )
+              .expand(
+                (widget) => [
+                  widget,
+                  const SizedBox(height: 6),
+                ],
+              )
               .toList();
 
-          // return _Card(
-          //   child: ListView.builder(
-          //     shrinkWrap: true,
-          //     itemBuilder: (context, index) {
-          //       final token = tokens[index];
-
-          //       return _TokenItem(
-          //         key: ValueKey(token),
-          //         token: token,
-          //         amount: sl<TokensRepository>().read(token),
-          //       );
-          //     },
-          //     itemCount: tokens.length,
-          //   ),
-          // );
-
-          return _Card(
-            child: Column(
-              children: children,
-            ),
-          );
+          return Column(children: children);
         },
       );
 }
@@ -140,58 +126,67 @@ class _TokenItem extends StatelessWidget {
   final CryptoAmount amount;
 
   static const double _iconSize = 36.0;
+  static const double minFiatAmount = 0.01;
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
         create: () => sl<WatchTokenFiatBalance>().call(token),
-        builder: (context, fiatAmount) => Material(
-          key: key,
-          color: Colors.transparent,
-          child: ListTile(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-            minLeadingWidth: 0,
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(_iconSize / 2),
-              child: ColoredBox(
-                color: CpColors.darkBackground,
+        builder: (context, fiatAmount) {
+          String fiatAmountText;
+
+          if (fiatAmount != null) {
+            fiatAmountText = fiatAmount.value < minFiatAmount
+                ? r'<$0.01'
+                : fiatAmount.format(context.locale, maxDecimals: 2);
+          } else {
+            fiatAmountText = '-';
+          }
+
+          return _Card(
+            child: ListTile(
+              key: key,
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
+              minLeadingWidth: 0,
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(_iconSize / 2),
                 child: TokenIcon(token: token, size: _iconSize),
               ),
-            ),
-            title: Text(
-              token.name,
-              style: const TextStyle(
-                color: Color(0xFF34393C),
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
+              title: Text(
+                token.name,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                overflow: TextOverflow.ellipsis,
               ),
-              overflow: TextOverflow.ellipsis,
-            ),
-            trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  fiatAmount?.format(context.locale) ?? '-',
-                  style: const TextStyle(
-                    color: Color(0xFF3C3434),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
+              trailing: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    fiatAmountText,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                Text(
-                  amount.format(context.locale),
-                  style: const TextStyle(
-                    color: Color(0xFF34393C),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
+                  Text(
+                    amount.format(context.locale),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
+              // isThreeLine: true,
             ),
-            // isThreeLine: true,
-          ),
-        ),
+          );
+        },
       );
 }
 
@@ -203,10 +198,10 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(4),
         decoration: const ShapeDecoration(
-          color: Colors.white,
+          color: CpColors.darkSplashBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
-              Radius.circular(28),
+              Radius.circular(10),
             ),
           ),
         ),

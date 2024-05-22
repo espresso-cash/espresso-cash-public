@@ -89,14 +89,14 @@ class _MainContent extends StatelessWidget {
                       onSendMoneyPressed: onSendMoneyPressed,
                     ),
                   ),
+                  const SliverToBoxAdapter(
+                    child: PortfolioWidget(),
+                  ),
                   SliverToBoxAdapter(
                     child: RecentActivityWidget(
                       onSendMoneyPressed: onSendMoneyPressed,
                       onTransactionsPressed: onTransactionsPressed,
                     ),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: PortfolioWidget(),
                   ),
                   SliverToBoxAdapter(
                     child: SizedBox(

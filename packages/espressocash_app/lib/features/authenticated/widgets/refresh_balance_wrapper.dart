@@ -63,8 +63,10 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
 
   AsyncResult<void> _updateTokenConversionRates() =>
       sl<TokenConversionRatesRepository>()
-          .refresh(defaultFiatCurrency,
-              sl<TokenBalancesRepository>().readUserTokens())
+          .refresh(
+        defaultFiatCurrency,
+        sl<TokenBalancesRepository>().readUserTokens(),
+      )
           .doOnLeftAsync((_) {
         if (!mounted) return;
 
