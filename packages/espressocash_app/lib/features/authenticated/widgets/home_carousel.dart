@@ -79,7 +79,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
 
     return HomeTile(
       child: SizedBox(
-        height: 405,
+        height: 385,
         child: Stack(
           children: [
             PageView(
@@ -87,7 +87,7 @@ class _HomeCarouselWidgetState extends State<HomeCarouselWidget> {
               children: items,
             ),
             Align(
-              alignment: const Alignment(0, 0.15),
+              alignment: const Alignment(0, 0.1),
               child: SmoothPageIndicator(
                 controller: _controller,
                 count: items.length,
@@ -130,8 +130,8 @@ class _Item extends StatelessWidget {
                 Radius.circular(32.0),
               ),
               child: backgroundImage.image(
-                height: 195,
-                width: double.infinity,
+                height: 175,
+                width: 400,
                 fit: BoxFit.fitWidth,
               ),
             ),
