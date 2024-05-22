@@ -19,8 +19,8 @@ class HomeAppBar extends StatelessWidget {
   Widget build(BuildContext context) => SliverAppBar(
         leading: Center(
           child: CpIconButton(
-            icon: Assets.icons.qrScanner.svg(),
-            variant: CpIconButtonVariant.black,
+            icon: Assets.icons.qrScanner.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
             onPressed: () =>
                 context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
           ),
@@ -36,8 +36,8 @@ class HomeAppBar extends StatelessWidget {
         backgroundColor: backgroundColor,
         actions: [
           CpIconButton(
-            icon: Assets.icons.settingsButtonIcon.svg(color: Colors.white),
-            variant: CpIconButtonVariant.black,
+            icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
             onPressed: () => ProfileScreen.push(context),
           ),
           const SizedBox(width: 12),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide Notification;
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../data/transaction_repository.dart';
@@ -45,7 +46,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
           if (data == null) return const SizedBox.shrink();
 
           return HomeTile(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -71,7 +72,8 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                           .map(
                             (e) => _KeepAlive(
                               key: ValueKey(e),
-                              child: TransactionItem(tx: e),
+                              child:
+                                  CpTheme.black(child: TransactionItem(tx: e)),
                             ),
                           )
                           .toList(),
@@ -86,7 +88,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                       CpButton(
                         text: context.l10n.recentActivitySeeAll,
                         size: CpButtonSize.micro,
-                        variant: CpButtonVariant.black,
+                        variant: CpButtonVariant.dark,
                         onPressed: widget.onTransactionsPressed,
                       ),
                     ],
@@ -139,7 +141,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(4),
         decoration: const ShapeDecoration(
-          color: Colors.white,
+          color: CpColors.darkSplashBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),
