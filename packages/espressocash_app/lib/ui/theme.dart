@@ -183,7 +183,7 @@ const twelveWordsTextStyle = TextStyle(
 const dashboardSectionTitleTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 17,
-  color: CpColors.menuPrimaryTextColor,
+  color: Colors.white,
 );
 
 extension on Brightness {
