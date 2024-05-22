@@ -4,11 +4,9 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
