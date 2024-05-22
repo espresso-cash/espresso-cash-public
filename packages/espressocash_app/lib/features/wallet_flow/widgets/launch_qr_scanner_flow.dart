@@ -7,7 +7,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../accounts/models/wallet.dart';
-import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/data/cash_repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -64,7 +64,7 @@ extension BuildContextExt on BuildContext {
           const FiatAmount(value: 0, fiatCurrency: Currency.usd);
       final FiatAmount initialAmount = requestAmount?.toFiatAmount(
             Currency.usd,
-            ratesRepository: sl<ConversionRatesRepository>(),
+            ratesRepository: sl<CashConversionRatesRepository>(),
           ) ??
           defaultFiatAmount;
       final formatted = initialAmount.value == 0

@@ -8,10 +8,10 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
-import '../../balances/data/tokens_repository.dart';
+import '../../balances/data/token_balance_repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
-import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/data/cash_repository.dart';
 import '../../conversion_rates/data/tokens_repository.dart';
 import '../../currency/models/currency.dart';
 
@@ -52,7 +52,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() => sl<ConversionRatesRepository>()
+  AsyncResult<void> _updateConversionRates() =>
+      sl<CashConversionRatesRepository>()
           .refresh(defaultFiatCurrency)
           .doOnLeftAsync((_) {
         if (!mounted) return;
@@ -62,7 +63,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
 
   AsyncResult<void> _updateTokenConversionRates() =>
       sl<TokenConversionRatesRepository>()
-          .refresh(defaultFiatCurrency, sl<TokensRepository>().readUserTokens())
+          .refresh(defaultFiatCurrency,
+              sl<TokenBalancesRepository>().readUserTokens())
           .doOnLeftAsync((_) {
         if (!mounted) return;
 
@@ -78,7 +80,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   AsyncResult<void> _onPulledToRefreshBalances() {
     final balances = _updateBalances();
     final conversionRates = _updateConversionRates();
-    final tokenConversionRates = _updateTokenConversionRates();
+    _updateTokenConversionRates();
 
     return balances.flatMapAsync((_) => conversionRates);
   }

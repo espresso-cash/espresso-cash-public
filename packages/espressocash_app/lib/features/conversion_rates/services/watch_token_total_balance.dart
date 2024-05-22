@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../balances/data/tokens_repository.dart';
+import '../../balances/data/token_balance_repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import 'watch_token_fiat_balance.dart';
@@ -15,7 +15,7 @@ class WatchTotalTokenFiatBalance {
     this._watchUserFiatBalance,
   );
 
-  final TokensRepository _balancesRepository;
+  final TokenBalancesRepository _balancesRepository;
   final WatchTokenFiatBalance _watchUserFiatBalance;
 
   (Stream<Amount>, Amount) call() => (

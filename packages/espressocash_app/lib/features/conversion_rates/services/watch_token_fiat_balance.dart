@@ -2,7 +2,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../balances/data/tokens_repository.dart';
+import '../../balances/data/token_balance_repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -16,7 +16,7 @@ class WatchTokenFiatBalance {
   );
 
   final TokenConversionRatesRepository _conversionRatesRepository;
-  final TokensRepository _balancesRepository;
+  final TokenBalancesRepository _balancesRepository;
 
   (Stream<FiatAmount?>, FiatAmount?) call(Token token) {
     const fiatCurrency = defaultFiatCurrency;

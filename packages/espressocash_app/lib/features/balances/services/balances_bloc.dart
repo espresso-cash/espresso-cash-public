@@ -18,8 +18,8 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
-import '../data/balances_repository.dart';
-import '../data/tokens_repository.dart';
+import '../data/cash_balance_repository.dart';
+import '../data/token_balance_repository.dart';
 
 part 'balances_bloc.freezed.dart';
 
@@ -41,8 +41,8 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
   final SolanaClient _solanaClient;
   final TokenList _tokens;
-  final BalancesRepository _usdcRepository;
-  final TokensRepository _tokensRepository;
+  final CashBalanceRepository _usdcRepository;
+  final TokenBalancesRepository _tokensRepository;
   final AnalyticsManager _analyticsManager;
 
   Future<void> _handleRequested(

@@ -8,9 +8,9 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/tokens_repository.dart';
+import '../../balances/data/token_balance_repository.dart';
 import '../../conversion_rates/services/watch_token_fiat_balance.dart';
-import '../../conversion_rates/services/watch_user_token_balance.dart';
+import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../investments/services/watch_investments.dart';
@@ -103,7 +103,7 @@ class _PortfolioWidget extends StatelessWidget {
                 (token) => _TokenItem(
                   key: ValueKey(token),
                   token: token,
-                  amount: sl<TokensRepository>().read(token),
+                  amount: sl<TokenBalancesRepository>().read(token),
                 ),
               )
               .toList();

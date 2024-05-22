@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../conversion_rates/services/watch_user_fiat_balance.dart';
+import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
@@ -15,7 +15,7 @@ class BalanceAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => sl<WatchUserFiatBalance>().call(),
+        create: () => sl<WatchUserCashBalance>().call(),
         builder: (context, amount) {
           final formattedAmount = amount.format(
             DeviceLocale.localeOf(context),

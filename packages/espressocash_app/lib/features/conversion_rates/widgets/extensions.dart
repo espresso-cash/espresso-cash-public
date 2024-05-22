@@ -6,14 +6,15 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../data/repository.dart';
+import '../data/cash_repository.dart';
 
 extension FormatAmountWithFiatExt on CryptoAmount {
   String formatWithFiat(BuildContext context) {
     const fiat = Currency.usd;
     final locale = DeviceLocale.localeOf(context);
     final formattedAmount = format(locale, maxDecimals: fiat.decimals);
-    final conversionRate = sl<ConversionRatesRepository>().readRate(to: fiat);
+    final conversionRate =
+        sl<CashConversionRatesRepository>().readRate(to: fiat);
 
     if (conversionRate == null) return formattedAmount;
 

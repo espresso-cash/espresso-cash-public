@@ -4,12 +4,12 @@ import '../../../di.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../data/repository.dart';
+import '../data/cash_repository.dart';
 
 extension CryptoAmountExt on CryptoAmount {
   FiatAmount? toFiatAmount(
     FiatCurrency currency, {
-    required ConversionRatesRepository ratesRepository,
+    required CashConversionRatesRepository ratesRepository,
   }) {
     final rate = ratesRepository.readRate(to: currency);
 
@@ -21,7 +21,7 @@ extension CryptoAmountExt on CryptoAmount {
 
 extension FiatAmountExt on FiatAmount {
   CryptoAmount? toTokenAmount(Token token) {
-    final rate = sl<ConversionRatesRepository>().readRate(
+    final rate = sl<CashConversionRatesRepository>().readRate(
       to: fiatCurrency,
     );
 

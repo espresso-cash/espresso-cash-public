@@ -8,7 +8,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/solana_pay.dart';
-import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/data/cash_repository.dart';
 import '../../conversion_rates/services/amount_ext.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -50,7 +50,7 @@ class _ODPLinkListenerState extends State<ODPLinkListener>
   Future<void> _processSolanaPayRequest(SolanaPayRequest request) async {
     const fiat = Currency.usd;
     const crypto = Currency.usdc;
-    final rates = sl<ConversionRatesRepository>();
+    final rates = sl<CashConversionRatesRepository>();
 
     final amount = request.amount
         .maybeFlatMap((it) => Amount.fromDecimal(value: it, currency: crypto))

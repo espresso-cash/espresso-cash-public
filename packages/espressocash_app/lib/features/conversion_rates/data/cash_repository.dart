@@ -13,8 +13,8 @@ import '../../tokens/token.dart';
 import 'conversion_rates_client.dart';
 
 @Singleton(scope: authScope)
-class ConversionRatesRepository extends ChangeNotifier {
-  ConversionRatesRepository({
+class CashConversionRatesRepository extends ChangeNotifier {
+  CashConversionRatesRepository({
     required SharedPreferences storage,
     required ConversionRatesClient coingeckoClient,
   })  : _coingeckoClient = coingeckoClient,

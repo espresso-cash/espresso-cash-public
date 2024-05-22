@@ -15,8 +15,8 @@ import '../../tokens/token_list.dart';
 import '../models/token_balance.dart';
 
 @Singleton(scope: authScope)
-class TokensRepository {
-  TokensRepository(this._storage, this._tokens);
+class TokenBalancesRepository {
+  TokenBalancesRepository(this._storage, this._tokens);
 
   final SharedPreferences _storage;
   final TokenList _tokens;
