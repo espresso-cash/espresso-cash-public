@@ -115,7 +115,7 @@ class _NoActivity extends StatelessWidget {
               Text(
                 context.l10n.recentActivityEmpty,
                 style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
