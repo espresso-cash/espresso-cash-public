@@ -17,25 +17,19 @@ class TokenConversionRatesRepository extends ChangeNotifier {
   })  : _maxIds = 100,
         _coingeckoClient = client;
 
-  final BehaviorSubject<IMap<FiatCurrency, IMap<CryptoCurrency, Decimal>>>
-      _value = BehaviorSubject.seeded(const IMapConst({}));
+  final BehaviorSubject<IMap<CryptoCurrency, Decimal>> _value =
+      BehaviorSubject.seeded(const IMapConst({}));
 
   final int _maxIds;
   final JupiterPriceClient _coingeckoClient;
 
-  Decimal? readRate(CryptoCurrency crypto, {required FiatCurrency to}) =>
-      _value.value[to]?[crypto];
+  Decimal? readRate(CryptoCurrency crypto) => _value.value[crypto];
 
-  Stream<Decimal?> watchRate(
-    CryptoCurrency crypto, {
-    required FiatCurrency to,
-  }) =>
-      _value.map((v) => v[to]?[crypto]).distinct();
+  Stream<Decimal?> watchRate(CryptoCurrency crypto) =>
+      _value.map((v) => v[crypto]).distinct();
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
+  AsyncResult<void> refresh(Iterable<Token> tokens) =>
       tryEitherAsync((_) async {
-        if (currency != Currency.usd) throw UnimplementedError();
-
         final ids = await Stream.fromIterable(tokens.addresses)
             .bufferCount(_maxIds)
             .toList();
@@ -55,27 +49,24 @@ class TokenConversionRatesRepository extends ChangeNotifier {
           conversionRates.addAll(element.data);
         }
 
-        final previous = _value.value[currency] ?? const IMapConst({});
+        final previous = _value.value;
 
-        final newValue = _value.value.add(
-          currency,
-          previous.addAll(
-            conversionRates.keys.fold<IMap<CryptoCurrency, Decimal>>(
-                const IMapConst({}), (map, value) {
-              final data = conversionRates[value];
+        final newValue = previous.addAll(
+          conversionRates.keys.fold<IMap<CryptoCurrency, Decimal>>(
+              const IMapConst({}), (map, value) {
+            final data = conversionRates[value];
 
-              if (data == null) return map;
+            if (data == null) return map;
 
-              final rate = data.price;
+            final rate = data.price;
 
-              return map.add(
-                CryptoCurrency(
-                  token: tokens.firstWhere((t) => t.symbol == value),
-                ),
-                Decimal.parse(rate.toString()),
-              );
-            }),
-          ),
+            return map.add(
+              CryptoCurrency(
+                token: tokens.firstWhere((t) => t.symbol == value),
+              ),
+              Decimal.parse(rate.toString()),
+            );
+          }),
         );
         _value.add(newValue);
         notifyListeners();

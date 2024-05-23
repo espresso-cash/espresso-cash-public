@@ -20,8 +20,9 @@ class WatchTokenFiatBalance {
 
   (Stream<FiatAmount?>, FiatAmount?) call(Token token) {
     const fiatCurrency = defaultFiatCurrency;
-    final conversionRate = _conversionRatesRepository
-        .watchRate(CryptoCurrency(token: token), to: fiatCurrency);
+    final conversionRate = _conversionRatesRepository.watchRate(
+      CryptoCurrency(token: token),
+    );
 
     final balance = _balancesRepository.watch(token);
 
@@ -36,9 +37,7 @@ class WatchTokenFiatBalance {
               as FiatAmount;
         },
       ).distinct(),
-      _conversionRatesRepository
-          .readRate(CryptoCurrency(token: token), to: fiatCurrency)
-          ?.let(
+      _conversionRatesRepository.readRate(CryptoCurrency(token: token))?.let(
             (rate) =>
                 balance.$2.convert(rate: rate, to: fiatCurrency) as FiatAmount,
           )
