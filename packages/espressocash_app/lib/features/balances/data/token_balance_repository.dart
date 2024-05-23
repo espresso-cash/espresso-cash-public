@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -30,8 +29,11 @@ class TokenBalancesRepository {
       _data.value[token] ??
       CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
 
-  Stream<ISet<Token>> watchUserTokens() =>
-      _data.map((data) => {...data.keys}.lock);
+  Stream<ISet<Token>> watchUserTokens() => _data.map((data) {
+        final tokens = data.keys.where((token) => data[token]?.value != 0);
+
+        return {...tokens}.lock;
+      });
 
   (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
         _data.map(
@@ -57,10 +59,7 @@ class TokenBalancesRepository {
     final tokens = tokensJson.map((json) {
       final tokenBalance = TokenBalance.fromJson(json as Map<String, dynamic>);
 
-      final token = _tokens.fromCoingeckoId(
-        coingeckoId: tokenBalance.id,
-        symbol: tokenBalance.symbol,
-      );
+      final token = _tokens.findTokenByMint(tokenBalance.id);
       if (token == null) return null;
 
       return MapEntry(
@@ -91,16 +90,14 @@ const _tokensBalanceKey = 'tokensBalance';
 
 extension on Map<Token, CryptoAmount> {
   void clean() => removeWhere(
-        (token, amount) =>
-            amount.decimal <= Decimal.zero || token == Token.usdc,
+        (token, amount) => token == Token.usdc,
       );
 
   String toJson() {
     final List<TokenBalance> tokensJson = entries
         .map(
           (entry) => TokenBalance(
-            id: entry.key.coingeckoId ?? entry.key.name,
-            symbol: entry.key.symbol,
+            id: entry.key.address,
             balance: entry.value.value,
           ),
         )

@@ -1,4 +1,4 @@
-import 'package:decimal/decimal.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -9,8 +9,8 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../conversion_rates/services/watch_token_total_balance.dart';
-import '../../currency/models/amount.dart';
+import '../../investments/services/watch_investments.dart';
+import '../../tokens/token.dart';
 
 class HomeCarouselWidget extends StatelessWidget {
   const HomeCarouselWidget({super.key, required this.onSendMoneyPressed});
@@ -18,14 +18,14 @@ class HomeCarouselWidget extends StatelessWidget {
   final VoidCallback onSendMoneyPressed;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => sl<WatchTotalTokenFiatBalance>().call(),
-        builder: (context, balance) {
-          final hasNoInvestments = balance.decimal == Decimal.zero;
+  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
+        create: () => (sl<WatchInvestments>().call(), const IListConst([])),
+        builder: (context, tokens) {
+          final hasTokens = tokens.isNotEmpty;
 
-          return hasNoInvestments
-              ? CarouselWidget(onSendMoneyPressed: onSendMoneyPressed)
-              : const SizedBox.shrink();
+          return hasTokens
+              ? const SizedBox.shrink()
+              : CarouselWidget(onSendMoneyPressed: onSendMoneyPressed);
         },
       );
 }

@@ -1,4 +1,3 @@
-import 'package:decimal/decimal.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +6,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../balances/data/token_balance_repository.dart';
 import '../../conversion_rates/services/watch_token_fiat_balance.dart';
@@ -21,22 +21,22 @@ class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount>(
-        create: () => sl<WatchTotalTokenFiatBalance>().call(),
-        builder: (context, balance) {
-          final hasNoInvestments = balance.decimal == Decimal.zero;
+  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
+        create: () => (sl<WatchInvestments>().call(), const IListConst([])),
+        builder: (context, tokens) {
+          final hasTokens = tokens.isNotEmpty;
 
-          return hasNoInvestments
-              ? const SizedBox.shrink()
-              : PortfolioTile(balance: balance);
+          return hasTokens
+              ? PortfolioTile(tokens: tokens)
+              : const SizedBox.shrink();
         },
       );
 }
 
 class PortfolioTile extends StatelessWidget {
-  const PortfolioTile({super.key, required this.balance});
+  const PortfolioTile({super.key, required this.tokens});
 
-  final Amount balance;
+  final IList<Token> tokens;
 
   @override
   Widget build(BuildContext context) => HomeTile(
@@ -54,25 +54,24 @@ class PortfolioTile extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 4.0),
                     child: Text(
                       context.l10n.cryptoPortfolio,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 0.17,
-                        color: CpColors.menuPrimaryTextColor,
-                      ),
+                      style: dashboardSectionTitleTextStyle,
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Flexible(
-                    child: FittedBox(
-                      child: Text(
-                        balance.format(DeviceLocale.localeOf(context)),
-                        style:
-                            Theme.of(context).textTheme.displayMedium?.copyWith(
-                                  color: CpColors.menuPrimaryTextColor,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                  ValueStreamBuilder<Amount>(
+                    create: () => sl<WatchTotalTokenFiatBalance>().call(),
+                    builder: (context, balance) => Flexible(
+                      child: FittedBox(
+                        child: Text(
+                          balance.format(DeviceLocale.localeOf(context)),
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium
+                              ?.copyWith(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
                       ),
                     ),
                   ),
@@ -80,43 +79,37 @@ class PortfolioTile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const _PortfolioWidget(),
+            _PortfolioWidget(tokens),
           ],
         ),
       );
 }
 
 class _PortfolioWidget extends StatelessWidget {
-  const _PortfolioWidget();
+  const _PortfolioWidget(this.tokens);
+
+  final IList<Token> tokens;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
-        create: () => (
-          sl<WatchInvestments>().call(),
-          const IListConst([]),
-        ),
-        builder: (context, data) {
-          final tokens = data;
+  Widget build(BuildContext context) {
+    final children = tokens
+        .map(
+          (token) => _TokenItem(
+            key: ValueKey(token),
+            token: token,
+            amount: sl<TokenBalancesRepository>().read(token),
+          ),
+        )
+        .expand(
+          (widget) => [
+            widget,
+            const SizedBox(height: 6),
+          ],
+        )
+        .toList();
 
-          final children = tokens
-              .map(
-                (token) => _TokenItem(
-                  key: ValueKey(token),
-                  token: token,
-                  amount: sl<TokenBalancesRepository>().read(token),
-                ),
-              )
-              .expand(
-                (widget) => [
-                  widget,
-                  const SizedBox(height: 6),
-                ],
-              )
-              .toList();
-
-          return Column(children: children);
-        },
-      );
+    return Column(children: children);
+  }
 }
 
 class _TokenItem extends StatelessWidget {
@@ -145,9 +138,9 @@ class _TokenItem extends StatelessWidget {
           return _Card(
             child: ListTile(
               key: key,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
-              minLeadingWidth: 0,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+              dense: true,
+              horizontalTitleGap: 4,
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(_iconSize / 2),
                 child: TokenIcon(token: token, size: _iconSize),

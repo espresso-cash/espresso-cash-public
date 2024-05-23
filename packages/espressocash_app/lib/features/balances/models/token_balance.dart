@@ -7,7 +7,6 @@ part 'token_balance.g.dart';
 class TokenBalance with _$TokenBalance {
   const factory TokenBalance({
     required String id,
-    required String symbol,
     required int balance,
   }) = _TokenBalance;
 
