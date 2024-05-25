@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
@@ -30,10 +31,12 @@ class CpActivityTile extends StatelessWidget {
     final incomingAmount = this.incomingAmount;
     final outgoingAmount = this.outgoingAmount;
 
+    final iconSize = Provider.of<double?>(context, listen: false) ?? 42.0;
+
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: SizedBox.square(dimension: 42, child: icon),
+      leading: SizedBox.square(dimension: iconSize, child: icon),
       title: Row(
         children: [
           Expanded(
