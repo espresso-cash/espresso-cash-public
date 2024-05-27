@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/decimal_separator.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -14,6 +15,7 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../services/amount_ext.dart';
+import '../services/watch_user_fiat_balance.dart';
 import 'extensions.dart';
 
 class AmountWithEquivalent extends StatelessWidget {
@@ -49,11 +51,26 @@ class AmountWithEquivalent extends StatelessWidget {
 
           return Column(
             children: [
-              Shake(
-                key: shakeKey,
-                child: _InputDisplay(
-                  input: value.text,
-                  fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  alignment: WrapAlignment.center,
+                  runAlignment: WrapAlignment.start,
+                  children: [
+                    Shake(
+                      key: shakeKey,
+                      child: _InputDisplay(
+                        input: value.text,
+                        fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    _MaxInputChip(
+                      inputController: inputController,
+                      token: token,
+                    ),
+                  ],
                 ),
               ),
               if (!collapsed)
@@ -87,6 +104,53 @@ class AmountWithEquivalent extends StatelessWidget {
             ],
           );
         },
+      );
+}
+
+class _MaxInputChip extends StatelessWidget {
+  const _MaxInputChip({
+    super.key,
+    required this.inputController,
+    required this.token,
+  });
+  final TextEditingController inputController;
+  final Token token;
+
+  Future<void> onTap(BuildContext context) async {
+    inputController.text = Amount.fromDecimal(
+            value: sl<WatchUserFiatBalance>().call().$2.decimal,
+            currency: Currency.usd)
+        .let((it) => it as FiatAmount)
+        .let(
+          (it) => it.toTokenAmount(token)?.round(Currency.usd.decimals),
+        )
+        .maybeFlatMap(
+          (it) => it.format(
+            DeviceLocale.localeOf(context),
+            roundInteger: true,
+            skipSymbol: true,
+          ),
+        )
+        .ifNull(() => '0');
+  }
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => onTap(context),
+        child: const Chip(
+          padding: EdgeInsets.symmetric(
+            horizontal: 8.0,
+            vertical: 10.0,
+          ),
+          backgroundColor: CpColors.darkBackgroundColor,
+          label: Text(
+            'Max',
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
       );
 }
 
@@ -231,17 +295,14 @@ class _InputDisplay extends StatelessWidget {
 
     return SizedBox(
       height: 94,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(
-            formatted,
-            textAlign: TextAlign.right,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.w700,
-            ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Text(
+          formatted,
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
