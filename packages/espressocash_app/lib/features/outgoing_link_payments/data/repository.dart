@@ -109,6 +109,18 @@ class OLPRepository implements Disposable {
         .map((rows) => rows.map((row) => row.toModel(_tokens)))
         .map((event) => event.toIList());
   }
+
+  Future<IList<String>> getNonCompletedPaymentIds() {
+    final query = _db.select(_db.oLPRows)
+      ..where(
+        (p) => p.status.isNotInValues([
+          OLPStatusDto.withdrawn,
+          OLPStatusDto.canceled,
+        ]),
+      );
+
+    return query.get().then((rows) => rows.map((row) => row.id).toIList());
+  }
 }
 
 class OLPRows extends Table with AmountMixin, EntityMixin {

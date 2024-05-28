@@ -6,6 +6,8 @@ import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import 'escrow_exception.dart';
+
 part 'escrow_account.freezed.dart';
 
 @freezed
@@ -17,8 +19,7 @@ class EscrowAccount with _$EscrowAccount {
   }) = _EscrowAccount;
 }
 
-@useResult
-Future<EscrowAccount?> tryFetchEscrow({
+Future<EscrowAccount?> validateEscrow({
   required Ed25519HDPublicKey address,
   required Ed25519HDPublicKey mint,
   required SolanaClient client,
@@ -56,14 +57,12 @@ Future<EscrowAccount?> tryFetchEscrow({
   );
 
   if (signatures.isEmpty) {
-    throw Exception('escrow not ready');
+    throw const EscrowException.notReady();
   }
 
   if (signatures.length == 2) {
-    throw Exception('already withdrawn');
+    throw const EscrowException.alreadyWithdrawn();
   }
-
-  //TODO update exceptions
 
   if (signatures.length != 1) {
     final escrowTransactions = await client.rpcClient
@@ -96,9 +95,9 @@ Future<EscrowAccount?> tryFetchEscrow({
         }),
       );
 
-      throw Exception('Invalid number of signatures for escrow account');
+      throw const EscrowException.invalidEscrow();
     }
   }
 
-  throw Exception('error');
+  throw const EscrowException.other();
 }

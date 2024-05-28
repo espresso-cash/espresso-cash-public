@@ -31,18 +31,12 @@ class CreateCanceledEscrow {
     final nonceData = await _ecClient.getFreeNonce();
     final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
 
-    final escrow = await tryFetchEscrow(
+    await validateEscrow(
       address: escrowAccount,
       mint: mint,
       client: _client,
       commitment: commitment,
     );
-
-    if (escrow == null) {
-      throw const EspressoCashException(
-        error: EspressoCashError.invalidEscrowAccount,
-      );
-    }
 
     final ataSender = await findAssociatedTokenAddress(
       owner: senderAccount,

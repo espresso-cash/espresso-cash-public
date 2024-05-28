@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -10,7 +9,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../utils/errors.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../balances/services/refresh_balance.dart';
@@ -18,8 +16,10 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../escrow_payments/create_incoming_escrow.dart';
+import '../../escrow_payments/escrow_exception.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
+import '../../transactions/services/tx_confirm.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 
@@ -30,12 +30,14 @@ class ILPService implements Disposable {
     this._createIncomingEscrow,
     this._ecClient,
     this._refreshBalance,
+    this._txConfirm,
   );
 
   final ILPRepository _repository;
   final CreateIncomingEscrow _createIncomingEscrow;
   final EspressoCashClient _ecClient;
   final RefreshBalance _refreshBalance;
+  final TxConfirm _txConfirm;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -115,16 +117,10 @@ class ILPService implements Disposable {
           .letAsync((it) => it.resign(account));
 
       return ILPStatus.txCreated(tx);
-    } on DioException catch (error) {
-      if (error.toEspressoCashError() ==
-          EspressoCashError.invalidEscrowAccount) {
-        return const ILPStatus.txFailure(
-          reason: TxFailureReason.escrowFailure,
-        );
-      }
-
+    } on EscrowException catch (error) {
       return const ILPStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
+        //TODO
+        reason: TxFailureReason.escrowFailure,
       );
     } on Exception {
       return const ILPStatus.txFailure(
@@ -151,8 +147,7 @@ class ILPService implements Disposable {
       return payment.copyWith(
         status: ILPStatus.txSent(tx),
       );
-    } on Exception catch (ex) {
-      //TODO update error handling
+    } on Exception {
       return payment.copyWith(
         status: const ILPStatus.txFailure(
           reason: TxFailureReason.creatingFailure,
@@ -167,6 +162,10 @@ class ILPService implements Disposable {
     if (status is! ILPStatusTxSent) {
       return payment;
     }
+
+    final signature = status.tx.id;
+
+    await _txConfirm(signature: signature);
 
     int? fee;
     try {

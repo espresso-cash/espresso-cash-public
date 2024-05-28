@@ -29,18 +29,12 @@ class CreateIncomingEscrow {
   }) async {
     final mint = Token.usdc.publicKey;
 
-    final escrow = await tryFetchEscrow(
+    await validateEscrow(
       address: escrowAccount,
       mint: mint,
       client: _client,
       commitment: commitment,
     );
-
-    if (escrow == null) {
-      throw const EspressoCashException(
-        error: EspressoCashError.invalidEscrowAccount,
-      );
-    }
 
     final nonceData = await _ecClient.getFreeNonce();
     final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);

@@ -16,9 +16,11 @@ import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../escrow_payments/create_canceled_escrow.dart';
 import '../../escrow_payments/create_outgoing_escrow.dart';
+import '../../escrow_payments/escrow_exception.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
+import '../../transactions/services/tx_confirm.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
@@ -29,14 +31,25 @@ class OLPService implements Disposable {
     this._createOutgoingEscrow,
     this._createCanceledEscrow,
     this._ecClient,
+    this._txConfirm,
   );
 
   final OLPRepository _repository;
   final CreateOutgoingEscrow _createOutgoingEscrow;
   final CreateCanceledEscrow _createCanceledEscrow;
   final EspressoCashClient _ecClient;
+  final TxConfirm _txConfirm;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
+
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    final nonCompletedPayments = await _repository.getNonCompletedPaymentIds();
+
+    for (final payment in nonCompletedPayments) {
+      _subscribe(payment);
+    }
+  }
 
   void _subscribe(String id) {
     _subscriptions[id] =
@@ -58,7 +71,7 @@ class OLPService implements Disposable {
           return _sendCanceled(payment).asStream();
 
         case OLPStatusCancelTxSent():
-          return Stream.value(_processCanceled(payment));
+          return _processCanceled(payment).asStream();
 
         case OLPStatusTxFailure():
         case OLPStatusCancelTxFailure():
@@ -141,6 +154,7 @@ class OLPService implements Disposable {
     final newPayment = payment.copyWith(status: newStatus);
 
     await _repository.save(newPayment);
+    _subscribe(payment.id);
 
     return newPayment;
   }
@@ -169,7 +183,6 @@ class OLPService implements Disposable {
         escrow: privateKey,
       );
     } on Exception {
-      //TODO update error handling
       return const OLPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
       );
@@ -194,7 +207,14 @@ class OLPService implements Disposable {
         tx,
         escrow: privateKey,
       );
-    } on Exception {
+    } on EscrowException {
+      return OLPStatus.cancelTxFailure(
+        escrow: privateKey,
+        reason: TxFailureReason.escrowFailure,
+      );
+    } on Exception catch (ex) {
+      print(ex);
+
       return OLPStatus.cancelTxFailure(
         escrow: privateKey,
         reason: TxFailureReason.creatingFailure,
@@ -236,7 +256,6 @@ class OLPService implements Disposable {
   }
 
   OutgoingLinkPayment _wait(OutgoingLinkPayment payment) {
-    //TODO rename fn
     final status = payment.status;
     if (status is! OLPStatusTxSent) {
       return payment;
@@ -295,17 +314,25 @@ class OLPService implements Disposable {
     }
   }
 
-  OutgoingLinkPayment _processCanceled(OutgoingLinkPayment payment) {
+  Future<OutgoingLinkPayment> _processCanceled(
+    OutgoingLinkPayment payment,
+  ) async {
     final status = payment.status;
 
-    return status is! OLPStatusCancelTxSent
-        ? payment
-        : payment.copyWith(
-            status: OLPStatus.canceled(
-              txId: status.tx.id,
-              timestamp: DateTime.now(),
-            ),
-          );
+    if (status is! OLPStatusCancelTxSent) {
+      return payment;
+    }
+
+    final signature = status.tx.id;
+
+    await _txConfirm(signature: signature);
+
+    return payment.copyWith(
+      status: OLPStatus.canceled(
+        txId: status.tx.id,
+        timestamp: DateTime.now(),
+      ),
+    );
   }
 
   @override
