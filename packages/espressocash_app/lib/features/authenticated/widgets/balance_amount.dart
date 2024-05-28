@@ -7,6 +7,7 @@ import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
@@ -22,24 +23,27 @@ class BalanceAmount extends StatelessWidget {
             roundInteger: amount.isZero,
           );
 
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Text(
-                  formattedAmount,
-                  style: const TextStyle(
-                    fontSize: 48,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    letterSpacing: -1,
+          return GestureDetector(
+            onTap: () => TokenDetailsScreen.push(context, token: Token.usdc),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FittedBox(
+                  child: Text(
+                    formattedAmount,
+                    style: const TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      letterSpacing: -1,
+                    ),
                   ),
-                ),
-              ).let((it) => amount.isZero ? it : Flexible(child: it)),
-              const SizedBox(width: 8),
-              const TokenIcon(token: Token.usdc, size: 30),
-            ],
+                ).let((it) => amount.isZero ? it : Flexible(child: it)),
+                const SizedBox(width: 8),
+                const TokenIcon(token: Token.usdc, size: 30),
+              ],
+            ),
           );
         },
       );

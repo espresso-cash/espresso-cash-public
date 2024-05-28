@@ -14,6 +14,7 @@ import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../investments/services/watch_investments.dart';
+import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
@@ -176,7 +177,7 @@ class _TokenItem extends StatelessWidget {
                   ),
                 ],
               ),
-              // isThreeLine: true,
+              onTap: () => TokenDetailsScreen.push(context, token: token),
             ),
           );
         },
