@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../colors.dart';
 import 'navigation_button.dart';
 
 class CPNavigationBar extends StatelessWidget {
   const CPNavigationBar({
     super.key,
     required this.items,
-    required this.backgroundColor,
   });
 
   final List<CpNavigationButton> items;
-  final Color backgroundColor;
-
   @override
   Widget build(BuildContext context) => Container(
         // prevents from clicking below the navigation bar
@@ -25,9 +23,9 @@ class CPNavigationBar extends StatelessWidget {
           ),
           child: Container(
             clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: backgroundColor,
-              shape: const StadiumBorder(),
+            decoration: const ShapeDecoration(
+              color: CpColors.blackBackgroundColor,
+              shape: StadiumBorder(),
             ),
             child: SizedBox(
               height: _barHeight,

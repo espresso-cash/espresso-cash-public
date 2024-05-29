@@ -71,7 +71,8 @@ class _Buttons extends StatelessWidget {
           create: () =>
               sl<WatchUserFiatBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            padding:
+                const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +113,6 @@ class _Buttons extends StatelessWidget {
                     ],
                   ],
                 ),
-                const SizedBox(height: 8),
               ],
             ),
           ),

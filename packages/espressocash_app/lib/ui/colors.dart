@@ -7,7 +7,7 @@ abstract class CpColors {
 
   static const strokeColor = Color(0xffff8956); // stroke color
 
-  static const yellowColor = Color(0xffF6C83B); // yellow primary color
+  static const yellowColor = Color(0xffFCC829); // yellow primary color
   static const translucentYellowColor = Color(0x30e7b11f);
 
   static const primaryTextColor = Color(0xff231f20); // black primary color
@@ -24,7 +24,7 @@ abstract class CpColors {
 
   static const purple = Color(0xffA695FF);
 
-  static const dashboardBackgroundColor = Color(0xFF181818);
+  static const dashboardBackgroundColor = Color(0xFF2D2B2C);
   static const darkBackground = Color(0xff2d2b2b);
   static const shadowPrimaryColor = Color(0xffeb5f3a);
   static const accentDarkBackground = Color(0xff2c2d31);
@@ -67,7 +67,8 @@ abstract class CpColors {
 
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
   static const goldBackgroundColor = Color(0xFFC8B57D);
-  static const darkGoldBackgroundColor = Color(0xff846919);
+  static const darkGoldBackgroundColor = Color(0xffA08A4B);
+  static const blackBackgroundColor = Color(0xFF181818);
 }
 
 const bgGradient = LinearGradient(

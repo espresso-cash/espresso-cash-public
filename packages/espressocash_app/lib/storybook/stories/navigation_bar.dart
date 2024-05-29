@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 
 import '../../gen/assets.gen.dart';
-import '../../ui/colors.dart';
 import '../../ui/navigation_bar/navigation_bar.dart';
 import '../../ui/navigation_bar/navigation_button.dart';
 
@@ -12,7 +11,6 @@ final cpNavigationBar = Story(
     backgroundColor: Colors.white,
     extendBody: true,
     bottomNavigationBar: CPNavigationBar(
-      backgroundColor: CpColors.darkBackground,
       items: [
         CpNavigationButton(
           icon: Assets.icons.home,
