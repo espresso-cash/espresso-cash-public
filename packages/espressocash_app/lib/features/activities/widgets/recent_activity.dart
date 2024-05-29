@@ -1,5 +1,6 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
+import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -67,16 +68,20 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                   )
                 else ...[
                   _Card(
-                    child: Column(
-                      children: data
-                          .map(
-                            (e) => _KeepAlive(
-                              key: ValueKey(e),
-                              child:
-                                  CpTheme.black(child: TransactionItem(tx: e)),
-                            ),
-                          )
-                          .toList(),
+                    child: Provider<double?>.value(
+                      value: 36,
+                      child: Column(
+                        children: data
+                            .map(
+                              (e) => _KeepAlive(
+                                key: ValueKey(e),
+                                child: CpTheme.black(
+                                  child: TransactionItem(tx: e),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -115,7 +120,7 @@ class _NoActivity extends StatelessWidget {
               Text(
                 context.l10n.recentActivityEmpty,
                 style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
@@ -141,7 +146,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(4),
         decoration: const ShapeDecoration(
-          color: CpColors.darkSplashBackgroundColor,
+          color: CpColors.darkBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),
