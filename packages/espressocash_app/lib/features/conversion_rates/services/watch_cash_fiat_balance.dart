@@ -7,7 +7,8 @@ import '../../balances/data/cash_balance_repository.dart';
 
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../data/cash_repository.dart';
+import '../../tokens/token.dart';
+import '../data/repository.dart';
 
 @injectable
 class WatchUserCashBalance {
@@ -16,13 +17,14 @@ class WatchUserCashBalance {
     this._balancesRepository,
   );
 
-  final CashConversionRatesRepository _conversionRatesRepository;
+  final ConversionRatesRepository _conversionRatesRepository;
   final CashBalanceRepository _balancesRepository;
 
   (Stream<FiatAmount>, FiatAmount) call() {
     const fiatCurrency = defaultFiatCurrency;
-    final conversionRate =
-        _conversionRatesRepository.watchRate(to: fiatCurrency);
+    const token = Token.usdc;
+    final conversionRate = _conversionRatesRepository
+        .watchRate(const CryptoCurrency(token: token), to: fiatCurrency);
 
     final balance = _balancesRepository.watch();
 
@@ -34,7 +36,9 @@ class WatchUserCashBalance {
             ? const FiatAmount(value: 0, fiatCurrency: Currency.usd)
             : cryptoAmount.convert(rate: rate, to: fiatCurrency) as FiatAmount,
       ).distinct(),
-      _conversionRatesRepository.readRate(to: fiatCurrency)?.let(
+      _conversionRatesRepository
+              .readRate(const CryptoCurrency(token: token), to: fiatCurrency)
+              ?.let(
                 (rate) => balance.$2.convert(rate: rate, to: fiatCurrency)
                     as FiatAmount,
               ) ??
