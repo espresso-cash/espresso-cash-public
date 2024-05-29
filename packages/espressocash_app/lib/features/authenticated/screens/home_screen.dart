@@ -60,7 +60,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, value, _) => Scaffold(
                       backgroundColor: Colors.white,
                       extendBody: true,
-                      body: _pages[value].builder(context),
+                      body: IndexedStack(
+                        index: value,
+                        children:
+                            _pages.map((p) => p.builder(context)).toList(),
+                      ),
                       bottomNavigationBar: CPNavigationBar(
                         items: _pages
                             .mapIndexed(
