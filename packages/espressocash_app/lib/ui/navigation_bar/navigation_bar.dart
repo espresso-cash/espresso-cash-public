@@ -24,7 +24,7 @@ class CPNavigationBar extends StatelessWidget {
           child: Container(
             clipBehavior: Clip.antiAlias,
             decoration: const ShapeDecoration(
-              color: CpColors.blackBackgroundColor,
+              color: CpColors.darkBackgroundColor,
               shape: StadiumBorder(),
             ),
             child: SizedBox(

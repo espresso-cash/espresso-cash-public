@@ -68,7 +68,6 @@ abstract class CpColors {
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
   static const goldBackgroundColor = Color(0xFFC8B57D);
   static const darkGoldBackgroundColor = Color(0xffA08A4B);
-  static const blackBackgroundColor = Color(0xFF181818);
 }
 
 const bgGradient = LinearGradient(
