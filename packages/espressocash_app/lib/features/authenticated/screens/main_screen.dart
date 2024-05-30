@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -10,6 +11,8 @@ import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
+import '../../investments/services/watch_investments.dart';
+import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_carousel.dart';
@@ -85,8 +88,16 @@ class _MainContent extends StatelessWidget {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: HomeCarouselWidget(
-                    onSendMoneyPressed: onSendMoneyPressed,
+                  child: ValueStreamBuilder<IList<Token>>(
+                    create: () => (
+                      sl<WatchInvestments>().call(),
+                      const IListConst([]),
+                    ),
+                    builder: (context, tokens) => tokens.isNotEmpty
+                        ? const SizedBox.shrink()
+                        : HomeCarouselWidget(
+                            onSendMoneyPressed: onSendMoneyPressed,
+                          ),
                   ),
                 ),
                 const SliverToBoxAdapter(
