@@ -12,6 +12,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../escrow_payments/create_canceled_escrow.dart';
@@ -32,6 +33,7 @@ class OLPService implements Disposable {
     this._createCanceledEscrow,
     this._ecClient,
     this._txConfirm,
+    this._analyticsManager,
   );
 
   final OLPRepository _repository;
@@ -39,6 +41,7 @@ class OLPService implements Disposable {
   final CreateCanceledEscrow _createCanceledEscrow;
   final EspressoCashClient _ecClient;
   final TxConfirm _txConfirm;
+  final AnalyticsManager _analyticsManager;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -212,9 +215,7 @@ class OLPService implements Disposable {
         escrow: privateKey,
         reason: TxFailureReason.escrowFailure,
       );
-    } on Exception catch (ex) {
-      print(ex);
-
+    } on Exception {
       return OLPStatus.cancelTxFailure(
         escrow: privateKey,
         reason: TxFailureReason.creatingFailure,
@@ -237,16 +238,15 @@ class OLPService implements Disposable {
         ),
       );
 
+      _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
+
       return payment.copyWith(
         status: OLPStatus.txSent(
           tx,
           escrow: status.escrow,
         ),
       );
-    } on Exception catch (ex) {
-      //TODO update error handling
-      print(ex);
-
+    } on Exception {
       return payment.copyWith(
         status: const OLPStatus.txFailure(
           reason: TxFailureReason.creatingFailure, //TODO
@@ -302,9 +302,7 @@ class OLPService implements Disposable {
           escrow: status.escrow,
         ),
       );
-    } on Exception catch (ex) {
-      print(ex);
-
+    } on Exception {
       return payment.copyWith(
         status: OLPStatus.cancelTxFailure(
           reason: TxFailureReason.creatingFailure, //TODO
@@ -326,6 +324,8 @@ class OLPService implements Disposable {
     final signature = status.tx.id;
 
     await _txConfirm(signature: signature);
+
+    _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 
     return payment.copyWith(
       status: OLPStatus.canceled(
