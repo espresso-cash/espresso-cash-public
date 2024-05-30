@@ -11,9 +11,14 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class OutgoingDlnTile extends StatelessWidget {
-  const OutgoingDlnTile({super.key, required this.activity});
+  const OutgoingDlnTile({
+    super.key,
+    required this.activity,
+    this.showIcon = true,
+  });
 
   final OutgoingDlnPaymentActivity activity;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
@@ -32,5 +37,6 @@ class OutgoingDlnTile extends StatelessWidget {
         ),
         onTap: () =>
             OutgoingDlnPaymentDetailsScreen.push(context, id: activity.id),
+        showIcon: showIcon,
       );
 }
