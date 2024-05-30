@@ -26,17 +26,15 @@ class PaymentRequest with _$PaymentRequest {
 }
 
 extension SolanaPayRequestExt on SolanaPayRequest {
-  Uri toUniversalLink({bool showDln = false}) {
+  Uri toUniversalLink() {
     final link = Uri.parse(toUrl());
-
-    final type = showDln ? 'espressopay' : 'solanapay';
 
     return link.replace(
       scheme: 'https',
       path: '/',
       host: espressoCashLinkDomain,
       queryParameters: {
-        't': type,
+        't': 'espressopay',
         'recipient': link.path,
         ...link.queryParameters,
       },
