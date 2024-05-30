@@ -69,7 +69,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                 else ...[
                   _Card(
                     child: Provider<double?>.value(
-                      value: 36,
+                      value: 36, //TODO
                       child: Column(
                         children: data
                             .map(
@@ -144,7 +144,7 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: const ShapeDecoration(
           color: CpColors.darkBackgroundColor,
           shape: RoundedRectangleBorder(

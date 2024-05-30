@@ -36,7 +36,10 @@ class CpActivityTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: SizedBox.square(dimension: iconSize, child: icon),
+      leading: SizedBox.square(
+        dimension: iconSize,
+        child: icon,
+      ), //TODO add flag to hide icon
       title: Row(
         children: [
           Expanded(
