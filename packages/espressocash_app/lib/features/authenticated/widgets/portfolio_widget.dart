@@ -119,7 +119,7 @@ class _TokenItem extends StatelessWidget {
   final CryptoAmount amount;
 
   static const double _iconSize = 36.0;
-  static const double minFiatAmount = 0.01;
+  static const double _minFiatAmount = 0.01;
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
@@ -128,7 +128,7 @@ class _TokenItem extends StatelessWidget {
           String fiatAmountText;
 
           if (fiatAmount != null) {
-            fiatAmountText = fiatAmount.value < minFiatAmount
+            fiatAmountText = fiatAmount.value < _minFiatAmount
                 ? r'<$0.01'
                 : fiatAmount.format(context.locale, maxDecimals: 2);
           } else {
