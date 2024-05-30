@@ -2,11 +2,9 @@
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/encoder.dart';
 
@@ -38,19 +36,6 @@ class ILPRepository implements Disposable {
   }
 
   Future<void> save(IncomingLinkPayment payment) async {
-    await payment.status.maybeMap(
-      txFailure: (status) async {
-        await Sentry.captureMessage(
-          'ILP tx failure',
-          level: SentryLevel.warning,
-          withScope: (scope) => scope.setContexts('data', {
-            'reason': status.reason,
-          }),
-        );
-      },
-      orElse: () async {},
-    );
-
     await _db.into(_db.iLPRows).insertOnConflictUpdate(await payment.toDto());
   }
 

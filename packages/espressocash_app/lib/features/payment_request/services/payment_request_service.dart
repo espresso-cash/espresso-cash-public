@@ -160,7 +160,7 @@ class PaymentRequestService implements Disposable {
     );
     final id = const Uuid().v4();
 
-    final fullLink = request.toUniversalLink(showDln: true).toString();
+    final fullLink = request.toUniversalLink().toString();
 
     final shortLink = await _ecClient
         .shortenLink(ShortenLinkRequestDto(fullLink: fullLink))
