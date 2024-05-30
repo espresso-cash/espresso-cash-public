@@ -14,9 +14,11 @@ class CommonTile extends StatelessWidget {
   const CommonTile({
     super.key,
     required this.txCommon,
+    required this.showIcon,
   });
 
   final TxCommon txCommon;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class CommonTile extends StatelessWidget {
         final link = Uri.parse(createTransactionLink(signature));
         context.openLink(link.toString());
       },
+      showIcon: showIcon,
     );
   }
 }
