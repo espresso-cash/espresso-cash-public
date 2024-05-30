@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
@@ -16,6 +15,7 @@ class CpActivityTile extends StatelessWidget {
     this.incomingAmount,
     this.outgoingAmount,
     this.onTap,
+    this.showIcon = true,
   });
 
   final String title;
@@ -25,21 +25,22 @@ class CpActivityTile extends StatelessWidget {
   final String? incomingAmount;
   final String? outgoingAmount;
   final VoidCallback? onTap;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) {
     final incomingAmount = this.incomingAmount;
     final outgoingAmount = this.outgoingAmount;
 
-    final iconSize = Provider.of<double?>(context, listen: false) ?? 42.0;
-
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: SizedBox.square(
-        dimension: iconSize,
-        child: icon,
-      ), //TODO add flag to hide icon
+      leading: showIcon
+          ? SizedBox.square(
+              dimension: 42,
+              child: icon,
+            )
+          : null,
       title: Row(
         children: [
           Expanded(

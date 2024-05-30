@@ -1,6 +1,5 @@
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/l10n.dart';
@@ -68,20 +67,17 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                   )
                 else ...[
                   _Card(
-                    child: Provider<double?>.value(
-                      value: 36, //TODO
-                      child: Column(
-                        children: data
-                            .map(
-                              (e) => _KeepAlive(
-                                key: ValueKey(e),
-                                child: CpTheme.black(
-                                  child: TransactionItem(tx: e),
-                                ),
+                    child: Column(
+                      children: data
+                          .map(
+                            (e) => _KeepAlive(
+                              key: ValueKey(e),
+                              child: CpTheme.black(
+                                child: TransactionItem(tx: e, showIcon: false),
                               ),
-                            )
-                            .toList(),
-                      ),
+                            ),
+                          )
+                          .toList(),
                     ),
                   ),
                   const SizedBox(height: 8),
