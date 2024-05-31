@@ -26,7 +26,8 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(color: CpColors.darkBackground),
+        decoration:
+            const BoxDecoration(color: CpColors.darkGoldBackgroundColor),
         child: _HeaderSwitcher(
           first: Column(
             children: [
@@ -59,12 +60,19 @@ class _Buttons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(color: Color(0xff202020)),
+        decoration: const BoxDecoration(
+          color: CpColors.dashboardBackgroundColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(31),
+            topRight: Radius.circular(31),
+          ),
+        ),
         child: ValueStreamBuilder<bool>(
           create: () =>
               sl<WatchUserFiatBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 18),
+            padding:
+                const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +113,6 @@ class _Buttons extends StatelessWidget {
                     ],
                   ],
                 ),
-                const SizedBox(height: 8),
               ],
             ),
           ),
