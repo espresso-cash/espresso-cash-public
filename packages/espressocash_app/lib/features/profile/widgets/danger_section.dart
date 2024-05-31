@@ -22,9 +22,9 @@ class DangerSection extends StatelessWidget {
             label: context.l10n.signOut,
             onPressed: () => _handleLogoutPressed(context),
             color: CpColors.primaryColor,
-            backgroundColor: CpColors.darkOrangeBackgroundColor,
+            backgroundColor: CpColors.darkOrangeButtonBackground,
           ),
         ],
-        color: CpColors.darkOrangeBackgroundColor,
+        color: CpColors.darkOrangeButtonBackground,
       );
 }

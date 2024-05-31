@@ -66,6 +66,7 @@ abstract class CpColors {
   static const yellowSplashBackgroundColor = Color(0xffB4A270);
 
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
+  static const darkOrangeButtonBackground = Color(0xFF794630);
   static const goldBackgroundColor = Color(0xFFC8B57D);
   static const darkGoldBackgroundColor = Color(0xffA08A4B);
 }
