@@ -13,6 +13,8 @@ import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
 import '../../outgoing_direct_payments/widgets/link_listener.dart';
 import '../../ramp/partners/coinflow/widgets/coinflow_link_listener.dart';
+import '../../swap/screens/swap_screen.dart';
+import '../../tokens/token.dart';
 import '../../transaction_request/widgets/tr_link_listener.dart';
 import '../../wallet_flow/screens/wallet_screen.dart';
 import 'main_screen.dart';
@@ -32,6 +34,12 @@ class HomeScreen extends StatefulWidget {
   }) {
     context.openFirstScreen();
     context.read<TabNotifier>().value = 2;
+  }
+
+  static void openSwapTab(BuildContext context, {Token? initialToken}) {
+    print(initialToken); //TODO pass to SwapScreen
+    context.openFirstScreen();
+    context.read<TabNotifier>().value = 3;
   }
 
   @override
@@ -122,6 +130,11 @@ final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
     path: '/wallet',
     icon: Assets.icons.wallet,
     builder: (context) => const WalletScreen(),
+  ),
+  (
+    path: '/swap',
+    icon: Assets.icons.swap,
+    builder: (context) => const SwapScreen(),
   ),
   (
     path: '/activities',

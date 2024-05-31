@@ -488,6 +488,26 @@
   "@splitKeySuccessMessage2": {},
   "splitKeyTransferTitle": "TRANSFER PROGRESS",
   "@splitKeyTransferTitle": {},
+  "swapTitle": "Swap",
+  "@swapTitle": {},
+  "swapReviewTitle": "Review Swap",
+  "@swapReviewTitle": {},
+  "swapButtonTitle": "Swap",
+  "@swapButtonTitle": {},
+  "swapInputLabel": "You Pay",
+  "@swapInputLabel": {},
+  "swapOutputLabel": "You Receive",
+  "@swapOutputLabel": {},
+  "swapFeeLabel": "{value} Espresso Cash fee included",
+  "@swapFeeLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "swapNoTokenFound": "No tokens found",
+  "@swapNoTokenFound": {},
   "swapErrorTitle": "There's a problem",
   "@swapErrorTitle": {},
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",

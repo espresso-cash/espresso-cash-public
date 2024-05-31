@@ -80,6 +80,13 @@ class TokenList {
 extension TokenExt on Iterable<Token> {
   Iterable<String> get coingeckoIds =>
       this.map((t) => t.coingeckoId).whereType<String>();
+
+  Iterable<Token> filterTokens(String searchTerm) => where(
+        (token) =>
+            token.address.toLowerCase().contains(searchTerm.toLowerCase()) ||
+            token.symbol.toLowerCase().contains(searchTerm.toLowerCase()) ||
+            token.name.toLowerCase().contains(searchTerm.toLowerCase()),
+      );
 }
 
 Token _createStubToken({
