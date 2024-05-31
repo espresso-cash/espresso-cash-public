@@ -22,7 +22,7 @@ class NoActivity extends StatelessWidget {
             const SizedBox(height: 21),
             Text(
               context.l10n.noActivity,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: CpColors.secondaryTextColor,
                   ),
             ),

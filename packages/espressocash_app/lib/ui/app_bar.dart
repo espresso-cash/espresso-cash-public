@@ -80,7 +80,7 @@ class _CpAppBarState extends State<CpAppBar> {
 
     return AppBar(
       title: widget.title,
-      titleTextStyle: Theme.of(context).textTheme.labelLarge!.copyWith(
+      titleTextStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
             color: CpColors.lightGreyBackground,
           ),
       automaticallyImplyLeading: widget.automaticallyImplyLeading,
