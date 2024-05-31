@@ -14,9 +14,11 @@ class PaymentRequestTile extends StatefulWidget {
   const PaymentRequestTile({
     super.key,
     required this.id,
+    this.showIcon = true,
   });
 
   final String id;
+  final bool showIcon;
 
   @override
   State<PaymentRequestTile> createState() => _PaymentRequestTileState();
@@ -54,6 +56,7 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
                     PaymentRequestState.error => CpActivityTileStatus.failure,
                   },
                   onTap: () => PaymentRequestScreen.push(context, id: data.id),
+                  showIcon: widget.showIcon,
                 );
         },
       );
