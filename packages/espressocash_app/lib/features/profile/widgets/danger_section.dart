@@ -16,14 +16,15 @@ class DangerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ProfileSection(
-        padding: const EdgeInsets.only(left: 4, bottom: 4),
+        padding: const EdgeInsets.only(left: 4, bottom: 4.0),
         actions: [
           ProfileButton(
             label: context.l10n.signOut,
             onPressed: () => _handleLogoutPressed(context),
             color: CpColors.primaryColor,
+            backgroundColor: CpColors.darkOrangeBackgroundColor,
           ),
         ],
-        color: CpColors.primaryAccentColor,
+        color: CpColors.darkOrangeBackgroundColor,
       );
 }
