@@ -43,8 +43,8 @@ _$GasFeeEstimateImpl _$$GasFeeEstimateImplFromJson(Map<String, dynamic> json) =>
       suggestedMaxPriorityFeePerGas:
           json['suggestedMaxPriorityFeePerGas'] as String,
       suggestedMaxFeePerGas: json['suggestedMaxFeePerGas'] as String,
-      minWaitTimeEstimate: json['minWaitTimeEstimate'] as int,
-      maxWaitTimeEstimate: json['maxWaitTimeEstimate'] as int,
+      minWaitTimeEstimate: (json['minWaitTimeEstimate'] as num).toInt(),
+      maxWaitTimeEstimate: (json['maxWaitTimeEstimate'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$GasFeeEstimateImplToJson(

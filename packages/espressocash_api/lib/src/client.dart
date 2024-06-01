@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_api/src/dto/get_rates.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -129,4 +130,7 @@ abstract class EspressoCashClient {
   Future<GasFeeResponseDto> getGasFees(
     @Body() GasFeeRequestDto request,
   );
+
+  @POST('/rates')
+  Future<GetRatesResponseDto> getRates();
 }

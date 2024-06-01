@@ -9,7 +9,7 @@ part of 'dln_payment.dart';
 _$PaymentQuoteRequestDtoImpl _$$PaymentQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PaymentQuoteRequestDtoImpl(
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
       receiverAddress: json['receiverAddress'] as String,
       receiverBlockchain: json['receiverBlockchain'] as String,
     );
@@ -25,10 +25,10 @@ Map<String, dynamic> _$$PaymentQuoteRequestDtoImplToJson(
 _$PaymentQuoteResponseDtoImpl _$$PaymentQuoteResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PaymentQuoteResponseDtoImpl(
-      inputAmount: json['inputAmount'] as int,
-      receiverAmount: json['receiverAmount'] as int,
+      inputAmount: (json['inputAmount'] as num).toInt(),
+      receiverAmount: (json['receiverAmount'] as num).toInt(),
       encodedTx: json['encodedTx'] as String,
-      feeInUsdc: json['feeInUsdc'] as int,
+      feeInUsdc: (json['feeInUsdc'] as num).toInt(),
       slot: BigInt.parse(json['slot'] as String),
     );
 
@@ -104,7 +104,7 @@ Map<String, dynamic> _$$OrderIdDlnResponseDtoImplToJson(
 _$IncomingQuoteRequestDtoImpl _$$IncomingQuoteRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$IncomingQuoteRequestDtoImpl(
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
       senderAddress: json['senderAddress'] as String,
       senderBlockchain: json['senderBlockchain'] as String,
       receiverAddress: json['receiverAddress'] as String,
@@ -127,9 +127,9 @@ _$IncomingQuoteResponseDtoImpl _$$IncomingQuoteResponseDtoImplFromJson(
       tx: QuoteTx.fromJson(json['tx'] as Map<String, dynamic>),
       usdcInfo:
           QuoteUsdcInfo.fromJson(json['usdcInfo'] as Map<String, dynamic>),
-      inputAmount: json['inputAmount'] as int,
-      receiverAmount: json['receiverAmount'] as int,
-      feeInUsdc: json['feeInUsdc'] as int,
+      inputAmount: (json['inputAmount'] as num).toInt(),
+      receiverAmount: (json['receiverAmount'] as num).toInt(),
+      feeInUsdc: (json['feeInUsdc'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$IncomingQuoteResponseDtoImplToJson(
@@ -146,7 +146,7 @@ _$QuoteTxImpl _$$QuoteTxImplFromJson(Map<String, dynamic> json) =>
     _$QuoteTxImpl(
       to: json['to'] as String,
       data: json['data'] as String,
-      value: json['value'] as int,
+      value: (json['value'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$QuoteTxImplToJson(_$QuoteTxImpl instance) =>
@@ -159,7 +159,7 @@ Map<String, dynamic> _$$QuoteTxImplToJson(_$QuoteTxImpl instance) =>
 _$QuoteUsdcInfoImpl _$$QuoteUsdcInfoImplFromJson(Map<String, dynamic> json) =>
     _$QuoteUsdcInfoImpl(
       usdcAddress: json['usdcAddress'] as String,
-      approvalAmount: json['approvalAmount'] as int,
+      approvalAmount: (json['approvalAmount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$QuoteUsdcInfoImplToJson(_$QuoteUsdcInfoImpl instance) =>
