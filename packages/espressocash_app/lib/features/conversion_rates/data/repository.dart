@@ -56,20 +56,20 @@ class ConversionRatesRepository extends ChangeNotifier {
   }) =>
       _value.map((v) => v[to]?[crypto]).distinct();
 
-  AsyncResult<void> _fetchUsdc(FiatCurrency currency) =>
-      tryEitherAsync((_) async {
-        if (currency != Currency.usd) throw UnimplementedError();
-
+  AsyncResult<void> _fetchUsdc() => tryEitherAsync((_) async {
         final data = await _ecClient.getRates().letAsync((p) => p['usdc']);
         if (data == null) return;
 
-        final value = _value.value.add(
-          currency,
-          IMapConst({
-            Currency.usdc: data.let((s) => Decimal.parse(s.toString())),
-          }),
+        final previous = _value.value[Currency.usd] ?? const IMapConst({});
+        final newValue = _value.value.add(
+          Currency.usd,
+          previous.addAll(
+            {
+              Currency.usdc: data.let((s) => Decimal.parse(s.toString())),
+            }.toIMap(),
+          ),
         );
-        _value.add(value);
+        _value.add(newValue);
 
         await _storage.setDouble(_usdcRateKey, data);
 
@@ -129,7 +129,7 @@ class ConversionRatesRepository extends ChangeNotifier {
         if (currency != Currency.usd) throw UnimplementedError();
 
         await Future.wait([
-          _fetchUsdc(currency),
+          _fetchUsdc(),
           _fetchTokens(currency, tokens),
         ]);
       });
