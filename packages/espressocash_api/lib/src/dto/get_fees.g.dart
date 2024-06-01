@@ -11,9 +11,9 @@ _$GetFeesResponseDtoImpl _$$GetFeesResponseDtoImplFromJson(
     _$GetFeesResponseDtoImpl(
       directPayment: DirectPaymentFeeDto.fromJson(
           json['directPayment'] as Map<String, dynamic>),
-      escrowPayment: json['escrowPayment'] as int,
-      escrowPaymentAtaFee: json['escrowPaymentAtaFee'] as int,
-      splitKeyPayment: json['splitKeyPayment'] as int,
+      escrowPayment: (json['escrowPayment'] as num).toInt(),
+      escrowPaymentAtaFee: (json['escrowPaymentAtaFee'] as num).toInt(),
+      splitKeyPayment: (json['splitKeyPayment'] as num).toInt(),
       withdrawFeePercentage: json['withdrawFeePercentage'] == null
           ? const WithdrawFeeDto()
           : WithdrawFeeDto.fromJson(
@@ -33,8 +33,8 @@ Map<String, dynamic> _$$GetFeesResponseDtoImplToJson(
 _$DirectPaymentFeeDtoImpl _$$DirectPaymentFeeDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$DirectPaymentFeeDtoImpl(
-      ataExists: json['ataExists'] as int,
-      ataDoesNotExist: json['ataDoesNotExist'] as int,
+      ataExists: (json['ataExists'] as num).toInt(),
+      ataDoesNotExist: (json['ataDoesNotExist'] as num).toInt(),
     );
 
 Map<String, dynamic> _$$DirectPaymentFeeDtoImplToJson(

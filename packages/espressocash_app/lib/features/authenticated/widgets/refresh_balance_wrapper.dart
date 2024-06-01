@@ -12,7 +12,6 @@ import '../../balances/data/token_balance_repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
 import '../../conversion_rates/data/repository.dart';
-import '../../currency/models/currency.dart';
 
 final _logger = Logger('RefreshBalanceWrapper');
 
@@ -51,12 +50,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() => sl<ConversionRatesRepository>()
-          .refresh(
-        defaultFiatCurrency,
-        sl<TokenBalancesRepository>().readUserTokens(),
-      )
-          .doOnLeftAsync((_) {
+  AsyncResult<void> _updateConversionRates() =>
+      sl<ConversionRatesRepository>().refresh().doOnLeftAsync((_) {
         if (!mounted) return;
 
         _showConversionRatesFetchErrorToast(context);
