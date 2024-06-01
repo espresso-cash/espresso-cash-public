@@ -1,9 +1,11 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
+import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'escrow_account.dart';
 import 'instructions.dart';
@@ -12,10 +14,12 @@ import 'instructions.dart';
 class CreateIncomingEscrow {
   const CreateIncomingEscrow(
     this._client,
+    this._addPriorityFees,
     this._ecClient,
   );
 
   final SolanaClient _client;
+  final AddPriorityFees _addPriorityFees;
   final EspressoCashClient _ecClient;
 
   Future<SignedTx> call({
@@ -106,7 +110,7 @@ class CreateIncomingEscrow {
       feePayer: platformAccount,
     );
 
-    return SignedTx(
+    return await SignedTx(
       compiledMessage: compiled,
       signatures: [
         Signature(List.filled(64, 0), publicKey: platformAccount),
@@ -114,6 +118,15 @@ class CreateIncomingEscrow {
         if (shouldCreateAta)
           Signature(List.filled(64, 0), publicKey: receiverAccount),
       ],
+    ).let(
+      (tx) => _addPriorityFees(
+        tx: tx,
+        commitment: commitment,
+        maxTxCostUsdc: _maxTxCostUsdc,
+        platform: platformAccount,
+      ),
     );
   }
 }
+
+const _maxTxCostUsdc = 9000;
