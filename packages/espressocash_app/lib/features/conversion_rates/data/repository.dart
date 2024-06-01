@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
@@ -9,21 +10,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
-import '../../tokens/token.dart';
-import 'conversion_rates_client.dart';
 
 @Singleton(scope: authScope)
 class ConversionRatesRepository extends ChangeNotifier {
   ConversionRatesRepository({
     required SharedPreferences storage,
-    required ConversionRatesClient coingeckoClient,
-  })  : _coingeckoClient = coingeckoClient,
+    required EspressoCashClient ecClient,
+  })  : _ecClient = ecClient,
         _storage = storage;
 
   final BehaviorSubject<IMap<FiatCurrency, Decimal>> _value =
       BehaviorSubject.seeded(const IMapConst({}));
 
-  final ConversionRatesClient _coingeckoClient;
+  final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
 
   @PostConstruct()
@@ -50,26 +49,16 @@ class ConversionRatesRepository extends ChangeNotifier {
   AsyncResult<void> refresh(FiatCurrency currency) => tryEitherAsync((_) async {
         if (currency != Currency.usd) throw UnimplementedError();
 
-        // ignore:  avoid-non-null-assertion, we know its not null
-        final usdcId = Token.usdc.coingeckoId!;
-
-        final request = RateRequestDto(
-          vsCurrencies: [currency.symbol].lock,
-          ids: [usdcId].lock,
-        );
-
-        final data =
-            await _coingeckoClient.getPrice(request).letAsync((p) => p[usdcId]);
-
+        final data = await _ecClient.getRates().letAsync((p) => p['usdc']);
         if (data == null) return;
 
         final value = _value.value.add(
           currency,
-          data.to(currency),
+          data.let((s) => Decimal.parse(s.toString())),
         );
-
         _value.add(value);
-        await _storage.setDouble(_usdcRateKey, data.usd ?? 0);
+
+        await _storage.setDouble(_usdcRateKey, data);
 
         notifyListeners();
       });
