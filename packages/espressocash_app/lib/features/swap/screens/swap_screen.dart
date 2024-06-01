@@ -1,16 +1,25 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/decimal_separator.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/amount_keypad/amount_keypad.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/theme.dart';
+import '../../../utils/flow.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
+import '../service/create_swap_bloc.dart';
 import '../widgets/divider.dart';
 import 'confirm_swap.dart';
 import 'token_select_screen.dart';
@@ -26,7 +35,7 @@ class SwapScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
           appBar: CpAppBar(title: Text(context.l10n.swapTitle.toUpperCase())),
-          body: _CreateSwapContent(initialToken: initialToken),
+          body: SafeArea(child: _CreateSwapContent(initialToken: initialToken)),
         ),
       );
 }
@@ -43,110 +52,187 @@ class _CreateSwapContent extends StatefulWidget {
 }
 
 class _CreateSwapContentState extends State<_CreateSwapContent> {
-  late final TextEditingController _amountController;
-
-  Token _inputToken = Token.sol;
-  Token _outputToken = Token.usdc;
+  final _amountController = TextEditingController(text: '0');
+  late final CreateSwapBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    _inputToken = widget.initialToken ?? Token.sol;
-    _amountController = TextEditingController();
+
+    _bloc = sl<CreateSwapBloc>();
+
+    _amountController.addListener(_updateValue);
+  }
+
+  void _onSubmit() {
+    const event = CreateSwapEvent.submitted();
+    _bloc.add(event);
+  }
+
+  void _onAmountChanged(Decimal value) {
+    final event = CreateSwapEvent.amountUpdated(value);
+    _bloc.add(event);
+  }
+
+  void _updateValue() {
+    final amount = _amountController.text.toDecimalOrZero(context.locale);
+    _onAmountChanged(amount);
   }
 
   @override
   void dispose() {
-    _amountController.dispose();
+    _amountController
+      ..removeListener(_updateValue)
+      ..dispose();
+    _bloc.close();
+
     super.dispose();
   }
 
   void _onReviewSwap() {
-    ConfirmSwapScreen.push(
-      context,
-      inputToken: _inputToken,
-      outputToken: _outputToken,
-    );
+    // ConfirmSwapScreen.push( //TODO
+    //   context,
+    //   inputToken: _inputToken,
+    //   outputToken: _outputToken,
+    // );
   }
 
   void _onSwap() {
-    final Token temp = _inputToken;
-    setState(() {
-      _inputToken = _outputToken;
-      _outputToken = temp;
-    });
+    const event = CreateSwapEvent.swapped();
+    _bloc.add(event);
   }
 
-  Future<void> _onTokenChangeSelected(SwapType type) async {
+  Future<void> _onException() async {
+    await showWarningDialog(
+      context,
+      title: context.l10n.swapErrorTitle,
+      // message: e.description(context),
+      message: 'TODO',
+    );
+
+    _bloc.add(const CreateSwapEvent.routeInvalidated());
+  }
+
+  Future<void> _onTokenChangeSelected(
+    SwapType type, {
+    required Token inputToken,
+  }) async {
     final token = await SwapTokenSelectScreen.push(
       context,
       type: type,
-      inputToken: _inputToken,
+      inputToken: inputToken,
     );
 
     if (!mounted) return;
 
     if (token != null) {
-      setState(() {
-        switch (type) {
-          case SwapType.input:
-            if (token == _outputToken) {
-              final temp = _inputToken;
-              _inputToken = _outputToken;
-              _outputToken = temp;
-            } else {
-              _inputToken = token;
-            }
-          case SwapType.output:
-            _outputToken = token;
-        }
-      });
+      final event = CreateSwapEvent.inputTokenUpdated(token);
+      _bloc.add(event);
     }
+
+    // if (token != null) {
+    //   setState(() {
+    //     switch (type) {
+    //       case SwapType.input:
+    //         if (token == _outputToken) {
+    //           final temp = _inputToken;
+    //           _inputToken = _outputToken;
+    //           _outputToken = temp;
+    //         } else {
+    //           _inputToken = token;
+    //         }
+    //       case SwapType.output:
+    //         _outputToken = token;
+    //     }
+    //   });
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
 
-    return SafeArea(
-      child: Column(
-        children: [
-          _TokenItem(
-            type: SwapType.input,
-            token: _inputToken,
-            amount: Amount.fromToken(value: 0, token: _inputToken),
-            onAmountChanged: print,
-            onTokenChangeSelected: () => _onTokenChangeSelected(SwapType.input),
-          ),
-          _SwapButton(onSwap: _onSwap),
-          _TokenItem(
-            type: SwapType.output,
-            token: _outputToken,
-            amount: Amount.fromToken(value: 0, token: _outputToken),
-            onAmountChanged: print,
-            onTokenChangeSelected: () =>
-                _onTokenChangeSelected(SwapType.output),
-          ),
-          Expanded(
-            child: AmountKeypad(
-              controller: _amountController,
-              maxDecimals: 2,
+    return BlocConsumer<CreateSwapBloc, CreateSwapState>(
+      bloc: _bloc,
+      listenWhen: (prev, cur) => prev.flowState != cur.flowState,
+      listener: (context, state) => switch (state.flowState) {
+        FlowFailure(:final error) => _onException(), //TODO
+        FlowSuccess(:final result) => () {
+            //TODO
+          },
+        _ => null,
+      },
+      builder: (context, state) {
+        final formattedOutput = state.outputAmount.format(
+          context.locale,
+          roundInteger: true,
+          skipSymbol: false,
+        );
+
+        return Column(
+          children: [
+            ValueListenableBuilder<TextEditingValue>(
+              valueListenable: _amountController,
+              builder: (context, value, __) => _TokenItem(
+                type: SwapType.input,
+                isLoading: false,
+                token: state.input,
+                amount: value.text,
+                onAmountChanged: print,
+                onTokenChangeSelected: () => _onTokenChangeSelected(
+                  SwapType.input,
+                  inputToken: state.input,
+                ),
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32),
-            child: CpButton(
-              text: context.l10n.swapReviewTitle,
-              minWidth: width,
-              onPressed: _onReviewSwap,
-              size: CpButtonSize.big,
+            _SwapButton(onSwap: _onSwap),
+            _TokenItem(
+              isLoading: state.flowState.isProcessing,
+              type: SwapType.output,
+              token: state.output,
+              amount: formattedOutput,
+              onAmountChanged: print,
+              onTokenChangeSelected: () => _onTokenChangeSelected(
+                SwapType.output,
+                inputToken: state.output,
+              ),
             ),
-          ),
-          const SizedBox(height: 24),
-        ],
-      ),
+            Expanded(
+              child: AmountKeypad(
+                controller: _amountController,
+                maxDecimals: state.requestAmount.token.decimals,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: CpButton(
+                text: context.l10n.swapReviewTitle,
+                minWidth: width,
+                onPressed: _onSubmit,
+                size: CpButtonSize.big,
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        );
+      },
     );
+  }
+}
+
+extension on String {
+  String formatted(BuildContext context) {
+    final locale = DeviceLocale.localeOf(context);
+    final decimalSeparator = getDecimalSeparator(locale);
+
+    if (contains(decimalSeparator)) {
+      return this;
+    } else if (toDecimalOrZero(locale) == Decimal.zero) {
+      return '0';
+    }
+
+    return this;
   }
 }
 
@@ -181,11 +267,13 @@ class _TokenItem extends StatelessWidget {
     required this.onTokenChangeSelected,
     required this.onAmountChanged,
     required this.type,
+    required this.isLoading,
   });
 
+  final bool isLoading;
   final SwapType type;
   final Token token;
-  final Amount amount;
+  final String amount;
   final VoidCallback onTokenChangeSelected;
   final ValueSetter<Decimal> onAmountChanged;
 
@@ -211,20 +299,23 @@ class _TokenItem extends StatelessWidget {
             const SizedBox(height: 8),
             Row(
               children: [
-                const Expanded(
-                  child: _SwapContainer(
-                    child: Padding(
-                      padding: EdgeInsets.all(4),
-                      child: Text(
-                        '0',
-                        style: TextStyle(
-                          fontSize: 34,
-                          fontWeight: FontWeight.w700,
+                if (isLoading && type == SwapType.output)
+                  const Expanded(child: _SwapContainerSkeleton())
+                else
+                  Expanded(
+                    child: _SwapContainer(
+                      child: Padding(
+                        padding: const EdgeInsets.all(4),
+                        child: Text(
+                          amount.formatted(context),
+                          style: const TextStyle(
+                            fontSize: 34,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: GestureDetector(
@@ -281,6 +372,31 @@ class _Arrow extends StatelessWidget {
         child: Assets.icons.arrow.svg(
           height: 15,
           color: Colors.white,
+        ),
+      );
+}
+
+class _SwapContainerSkeleton extends StatelessWidget {
+  const _SwapContainerSkeleton();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 60,
+        decoration: const BoxDecoration(
+          color: CpColors.darkBackgroundColor,
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(40),
+            ),
+            child: LinearProgressIndicator(
+              color: CpColors.darkBackgroundColor,
+              backgroundColor: Colors.grey[800],
+            ),
+          ),
         ),
       );
 }
