@@ -129,4 +129,7 @@ abstract class EspressoCashClient {
   Future<GasFeeResponseDto> getGasFees(
     @Body() GasFeeRequestDto request,
   );
+
+  @POST('/rates')
+  Future<Map<String, double>> getRates();
 }
