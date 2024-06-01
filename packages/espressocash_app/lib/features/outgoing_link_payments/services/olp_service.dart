@@ -248,9 +248,8 @@ class OLPService implements Disposable {
       );
     } on Exception {
       return payment.copyWith(
-        status: const OLPStatus.txFailure(
-          reason: TxFailureReason.creatingFailure, //TODO
-        ),
+        status:
+            const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure),
       );
     }
   }
@@ -305,7 +304,7 @@ class OLPService implements Disposable {
     } on Exception {
       return payment.copyWith(
         status: OLPStatus.cancelTxFailure(
-          reason: TxFailureReason.creatingFailure, //TODO
+          reason: TxFailureReason.creatingFailure,
           escrow: status.escrow,
         ),
       );

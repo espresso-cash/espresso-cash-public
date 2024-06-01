@@ -121,7 +121,7 @@ class OLPRows extends Table with AmountMixin, EntityMixin {
 enum OLPStatusDto {
   txCreated,
   txSent,
-  // to be deprecated
+  // legacy
   txConfirmed,
   linkReady,
   txFailure,
@@ -155,7 +155,7 @@ extension on OLPStatusDto {
     final resolvedAt = row.resolvedAt;
 
     switch (this) {
-      case OLPStatusDto.txConfirmed: //TODO verify
+      case OLPStatusDto.txConfirmed:
       case OLPStatusDto.txCreated:
         return OLPStatus.txCreated(
           tx!,

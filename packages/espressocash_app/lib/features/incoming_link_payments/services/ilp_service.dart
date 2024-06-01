@@ -117,9 +117,8 @@ class ILPService implements Disposable {
           .letAsync((it) => it.resign(account));
 
       return ILPStatus.txCreated(tx);
-    } on EscrowException catch (error) {
+    } on EscrowException {
       return const ILPStatus.txFailure(
-        //TODO
         reason: TxFailureReason.escrowFailure,
       );
     } on Exception {
