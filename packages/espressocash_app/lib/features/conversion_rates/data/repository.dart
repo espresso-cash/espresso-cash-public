@@ -1,13 +1,14 @@
+import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../utils/async_cache.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 
@@ -24,6 +25,7 @@ class ConversionRatesRepository extends ChangeNotifier {
 
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
+  final AsyncCache<void> _cache = AsyncCache(const Duration(minutes: 1));
 
   @PostConstruct()
   void init() {
@@ -36,7 +38,6 @@ class ConversionRatesRepository extends ChangeNotifier {
         Currency.usd: Decimal.tryParse(rate.toString()) ?? Decimal.zero,
       }),
     );
-    notifyListeners();
   }
 
   Decimal? readRate({required FiatCurrency to}) => _value.value[to];
@@ -46,19 +47,14 @@ class ConversionRatesRepository extends ChangeNotifier {
   }) =>
       _value.map((v) => v[to]).distinct();
 
-  AsyncResult<void> refresh(FiatCurrency currency) => tryEitherAsync((_) async {
-        if (currency != Currency.usd) throw UnimplementedError();
-
-        final data = await _ecClient.getRates().letAsync((p) => p['usdc']);
-        if (data == null) return;
-
+  AsyncResult<void> refresh() => _cache.fetchEither(() async {
+        final data = await _ecClient.getRates().then((p) => p.usdc);
+        await _storage.setDouble(_usdcRateKey, data);
         final value = _value.value.add(
-          currency,
-          data.let((s) => Decimal.parse(s.toString())),
+          Currency.usd,
+          Decimal.parse(data.toString()),
         );
         _value.add(value);
-
-        await _storage.setDouble(_usdcRateKey, data);
 
         notifyListeners();
       });
