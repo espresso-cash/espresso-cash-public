@@ -69,7 +69,7 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         };
 
     return ColoredBox(
-      color: CpColors.darkBackground,
+      color: CpColors.dashboardBackgroundColor,
       child: Column(
         children: [
           CpAppBar(

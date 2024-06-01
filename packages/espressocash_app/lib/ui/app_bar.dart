@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'back_button.dart';
-import 'colors.dart';
 
 class CpAppBar extends StatefulWidget implements PreferredSizeWidget {
   const CpAppBar({
@@ -80,9 +79,6 @@ class _CpAppBarState extends State<CpAppBar> {
 
     return AppBar(
       title: widget.title,
-      titleTextStyle: Theme.of(context).textTheme.labelLarge?.copyWith(
-            color: CpColors.lightGreyBackground,
-          ),
       automaticallyImplyLeading: widget.automaticallyImplyLeading,
       backgroundColor: scrolledUnderColor == null
           ? widget.backgroundColor
