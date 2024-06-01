@@ -11,7 +11,7 @@ _$CreatePaymentRequestDtoImpl _$$CreatePaymentRequestDtoImplFromJson(
     _$CreatePaymentRequestDtoImpl(
       senderAccount: json['senderAccount'] as String,
       escrowAccount: json['escrowAccount'] as String,
-      amount: json['amount'] as int,
+      amount: (json['amount'] as num).toInt(),
       cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
       durable: json['durable'] as bool? ?? false,
     );
@@ -83,7 +83,7 @@ _$CreateDirectPaymentRequestDtoImpl
           senderAccount: json['senderAccount'] as String,
           receiverAccount: json['receiverAccount'] as String,
           referenceAccount: json['referenceAccount'] as String?,
-          amount: json['amount'] as int,
+          amount: (json['amount'] as num).toInt(),
           cluster: $enumDecode(_$ClusterEnumMap, json['cluster']),
           durable: json['durable'] as bool? ?? false,
         );
@@ -102,7 +102,7 @@ Map<String, dynamic> _$$CreateDirectPaymentRequestDtoImplToJson(
 _$CreateDirectPaymentResponseDtoImpl
     _$$CreateDirectPaymentResponseDtoImplFromJson(Map<String, dynamic> json) =>
         _$CreateDirectPaymentResponseDtoImpl(
-          fee: json['fee'] as int,
+          fee: (json['fee'] as num).toInt(),
           transaction: json['transaction'] as String,
           slot: BigInt.parse(json['slot'] as String),
         );
