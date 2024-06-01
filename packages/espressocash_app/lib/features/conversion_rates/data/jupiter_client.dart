@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 
-import 'coingecko_client.dart';
+import 'cache_client.dart';
 
 part 'jupiter_client.freezed.dart';
 part 'jupiter_client.g.dart';
@@ -14,7 +14,7 @@ part 'jupiter_client.g.dart';
 @RestApi(baseUrl: 'https://price.jup.ag/v6/')
 abstract class JupiterPriceClient {
   @factoryMethod
-  factory JupiterPriceClient(CoingeckoClient client) =>
+  factory JupiterPriceClient(DioCacheClient client) =>
       _JupiterPriceClient(client.dio);
 
   @GET('/price')
