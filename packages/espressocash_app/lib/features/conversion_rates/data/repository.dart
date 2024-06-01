@@ -100,6 +100,9 @@ class ConversionRatesRepository extends ChangeNotifier {
           conversionRates.addAll(element.data);
         }
 
+        final usdcRate = _storage.getDouble(_usdcRateKey);
+        if (usdcRate == null) return;
+
         final previous = _value.value[currency] ?? const IMapConst({});
         final newValue = _value.value.add(
           currency,
@@ -108,7 +111,7 @@ class ConversionRatesRepository extends ChangeNotifier {
                 const IMapConst({}), (map, value) {
               final data = conversionRates[value];
               if (data == null) return map;
-              final rate = data.price;
+              final rate = data.price * usdcRate;
 
               return map.add(
                 CryptoCurrency(
@@ -128,10 +131,8 @@ class ConversionRatesRepository extends ChangeNotifier {
       tryEitherAsync((_) async {
         if (currency != Currency.usd) throw UnimplementedError();
 
-        await Future.wait([
-          _fetchUsdc(),
-          _fetchTokens(currency, tokens),
-        ]);
+        await _fetchUsdc();
+        await _fetchTokens(currency, tokens);
       });
 
   @override
