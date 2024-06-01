@@ -7,8 +7,8 @@ part of 'data_slice.dart';
 // **************************************************************************
 
 DataSlice _$DataSliceFromJson(Map<String, dynamic> json) => DataSlice(
-      offset: json['offset'] as int?,
-      length: json['length'] as int?,
+      offset: (json['offset'] as num?)?.toInt(),
+      length: (json['length'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$DataSliceToJson(DataSlice instance) {
