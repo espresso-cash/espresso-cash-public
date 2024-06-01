@@ -78,8 +78,8 @@ dependencies:
   uuid: ^4.2.2
 
 dev_dependencies:
-  borsh: ^0.3.1+4
   bloc_test: ^9.1.5
+  borsh: ^0.3.1+4
   build_runner: ^2.4.7
   drift_dev: ^2.14.1
   flutter_driver:
