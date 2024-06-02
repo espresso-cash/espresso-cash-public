@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -9,11 +10,14 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../conversion_rates/services/watch_user_fiat_balance.dart';
+import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
+import '../../investments/services/watch_investments.dart';
+import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_carousel.dart';
 import '../widgets/investment_header.dart';
+import '../widgets/portfolio_widget.dart';
 import '../widgets/refresh_balance_wrapper.dart';
 
 class MainScreen extends StatelessWidget {
@@ -30,7 +34,7 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
         child: ValueStreamBuilder<bool>(
           create: () =>
-              sl<WatchUserFiatBalance>().call().map((it) => it.isZero),
+              sl<WatchUserCashBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => isZeroAmount
               ? const HomeAddCashContent()
               : _MainContent(
@@ -84,9 +88,20 @@ class _MainContent extends StatelessWidget {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: HomeCarouselWidget(
-                    onSendMoneyPressed: onSendMoneyPressed,
+                  child: ValueStreamBuilder<IList<Token>>(
+                    create: () => (
+                      sl<WatchInvestments>().call(),
+                      const IListConst([]),
+                    ),
+                    builder: (context, tokens) => tokens.isNotEmpty
+                        ? const SizedBox.shrink()
+                        : HomeCarouselWidget(
+                            onSendMoneyPressed: onSendMoneyPressed,
+                          ),
                   ),
+                ),
+                const SliverToBoxAdapter(
+                  child: PortfolioWidget(),
                 ),
                 SliverToBoxAdapter(
                   child: RecentActivityWidget(

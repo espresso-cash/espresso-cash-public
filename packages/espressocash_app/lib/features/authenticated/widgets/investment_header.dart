@@ -6,7 +6,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../conversion_rates/services/watch_user_fiat_balance.dart';
+import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import 'balance_amount.dart';
 
@@ -69,7 +69,7 @@ class _Buttons extends StatelessWidget {
         ),
         child: ValueStreamBuilder<bool>(
           create: () =>
-              sl<WatchUserFiatBalance>().call().map((it) => it.isZero),
+              sl<WatchUserCashBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => Padding(
             padding:
                 const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
