@@ -95,22 +95,24 @@ class _Buttons extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (!isZeroAmount) ...[
-                      Flexible(
-                        child: CpButton(
-                          minWidth: 250,
-                          size: CpButtonSize.wide,
-                          text: context.l10n.sendMoney,
-                          onPressed: onSendMoneyPressed,
+                    if (!isZeroAmount)
+                      SizedBox(
+                        width: 108,
+                        child: PayOrRequestButton(
+                          voidCallback: onSendMoneyPressed,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                    ],
-                    const AddCashButton(size: CpButtonSize.wide),
-                    if (!isZeroAmount) ...[
-                      const SizedBox(width: 8),
-                      const CashOutButton(size: CpButtonSize.wide),
-                    ],
+                    const SizedBox(
+                      width: 108,
+                      child: AddCashButton(size: CpButtonSize.big),
+                    ),
+                    if (!isZeroAmount) const SizedBox(width: 0),
+                    const SizedBox(
+                      width: 108,
+                      child: CashOutButton(
+                        size: CpButtonSize.big,
+                      ),
+                    ),
                   ],
                 ),
               ],
