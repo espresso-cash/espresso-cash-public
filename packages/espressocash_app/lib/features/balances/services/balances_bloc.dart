@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -90,18 +89,12 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
       ).then(compact);
 
       final tokenBalances = mainAccounts.map(
-        (a) => MapEntry(
-          a.token,
-          CryptoAmount(
-            value: int.parse(a.info.tokenAmount.amount),
-            cryptoCurrency: CryptoCurrency(token: a.token),
-          ),
+        (a) => CryptoAmount(
+          value: int.parse(a.info.tokenAmount.amount),
+          cryptoCurrency: CryptoCurrency(token: a.token),
         ),
       );
-
-      balances.addEntries(tokenBalances);
-
-      _tokensRepository.save(balances);
+      await _tokensRepository.save(tokenBalances);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 

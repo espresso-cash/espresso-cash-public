@@ -71,36 +71,22 @@ class TokenBalancesRepository {
         );
   }
 
-  void save(Map<Token, CryptoAmount> tokens) {
-    tokens.clean();
-
-    _db.transaction(() async {
-      await _db.delete(_db.tokenBalanceRows).go();
-      await _db.batch(
-        (batch) => batch.insertAll(
-          _db.tokenBalanceRows,
-          tokens.toList(),
-          mode: InsertMode.insertOrReplace,
-        ),
-      );
-    });
-  }
+  Future<void> save(Iterable<CryptoAmount> balances) =>
+      _db.transaction(() async {
+        await _db.delete(_db.tokenBalanceRows).go();
+        await _db.batch(
+          (batch) => batch.insertAll(
+            _db.tokenBalanceRows,
+            balances.map(
+              (e) => TokenBalanceRow(amount: e.value, token: e.token.address),
+            ),
+            mode: InsertMode.insertOrReplace,
+          ),
+        );
+      });
 
   @disposeMethod
   void dispose() {
     _db.delete(_db.tokenBalanceRows).go();
   }
-}
-
-extension on Map<Token, CryptoAmount> {
-  void clean() => removeWhere(
-        (token, amount) => token == Token.usdc,
-      );
-
-  Iterable<TokenBalanceRow> toList() => entries.map(
-        (entry) => TokenBalanceRow(
-          token: entry.key.address,
-          amount: entry.value.value,
-        ),
-      );
 }
