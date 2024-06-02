@@ -126,7 +126,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        create: () => sl<WatchTokenFiatBalance>().call(amount.token),
+        create: () => (sl<WatchTokenFiatBalance>().call(amount.token), null),
         builder: (context, fiatAmount) {
           String fiatAmountText;
 

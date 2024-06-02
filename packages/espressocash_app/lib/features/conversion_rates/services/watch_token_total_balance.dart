@@ -21,7 +21,7 @@ class WatchTotalTokenFiatBalance {
       .watchUserTokens()
       .flatMap(
         (tokens) => Rx.combineLatest(
-          tokens.map((t) => _watchTokenFiatBalance(t).$1),
+          tokens.map(_watchTokenFiatBalance.call),
           (values) => values.whereNotNull().fold(
                 Amount.zero(currency: defaultFiatCurrency),
                 (total, next) => total + next,
