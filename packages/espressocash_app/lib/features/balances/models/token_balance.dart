@@ -6,7 +6,7 @@ part 'token_balance.g.dart';
 @freezed
 class TokenBalance with _$TokenBalance {
   const factory TokenBalance({
-    required String id,
+    required String address,
     required int balance,
   }) = _TokenBalance;
 

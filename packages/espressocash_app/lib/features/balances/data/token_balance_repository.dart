@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:collection/collection.dart';
+import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/db/db.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -15,9 +14,9 @@ import '../models/token_balance.dart';
 
 @Singleton(scope: authScope)
 class TokenBalancesRepository {
-  TokenBalancesRepository(this._storage, this._tokens);
+  TokenBalancesRepository(this._db, this._tokens);
 
-  final SharedPreferences _storage;
+  final MyDatabase _db;
   final TokenList _tokens;
 
   final BehaviorSubject<IMap<Token, CryptoAmount>> _data =
@@ -47,25 +46,19 @@ class TokenBalancesRepository {
         read(token),
       );
 
-  @PostConstruct()
-  void init() {
-    final tokenBalances = _storage.getString(_tokensBalanceKey);
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    final tokenBalances = await _db.select(_db.tokenBalanceRows).get().then(
+          (rows) => rows.map((row) => row.toModel()).toList(),
+        );
 
-    if (tokenBalances == null) return;
-
-    final List<dynamic> tokensJson =
-        json.decode(tokenBalances) as List<dynamic>;
-
-    final tokens = tokensJson.map((json) {
-      final tokenBalance = TokenBalance.fromJson(json as Map<String, dynamic>);
-
-      final token = _tokens.findTokenByMint(tokenBalance.id);
+    final tokens = tokenBalances.map((balance) {
+      final token = _tokens.findTokenByMint(balance.address);
       if (token == null) return null;
 
       return MapEntry(
         token,
-        Amount.fromToken(value: tokenBalance.balance, token: token)
-            as CryptoAmount,
+        Amount.fromToken(value: balance.balance, token: token) as CryptoAmount,
       );
     }).whereNotNull();
 
@@ -77,32 +70,47 @@ class TokenBalancesRepository {
     tokens.clean();
     _data.add(tokens.lock);
 
-    _storage.setString(_tokensBalanceKey, tokens.toJson());
+    _db.transaction(() async {
+      await _db.delete(_db.tokenBalanceRows).go();
+      await _db.batch(
+        (batch) => batch.insertAll(
+          _db.tokenBalanceRows,
+          tokens.toList(),
+          mode: InsertMode.insertOrReplace,
+        ),
+      );
+    });
   }
 
   @disposeMethod
   void dispose() {
-    _storage.remove(_tokensBalanceKey);
+    _db.delete(_db.tokenBalanceRows).go();
   }
 }
-
-const _tokensBalanceKey = 'tokensBalance';
 
 extension on Map<Token, CryptoAmount> {
   void clean() => removeWhere(
         (token, amount) => token == Token.usdc,
       );
 
-  String toJson() {
-    final List<TokenBalance> tokensJson = entries
-        .map(
-          (entry) => TokenBalance(
-            id: entry.key.address,
-            balance: entry.value.value,
-          ),
-        )
-        .toList();
+  Iterable<TokenBalanceRow> toList() => entries.map(
+        (entry) => TokenBalance(
+          address: entry.key.address,
+          balance: entry.value.value,
+        ).toDto(),
+      );
+}
 
-    return json.encode(tokensJson.map((e) => e.toJson()).toList());
-  }
+extension on TokenBalanceRow {
+  TokenBalance toModel() => TokenBalance(
+        address: token,
+        balance: amount,
+      );
+}
+
+extension on TokenBalance {
+  TokenBalanceRow toDto() => TokenBalanceRow(
+        token: address,
+        amount: balance,
+      );
 }
