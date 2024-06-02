@@ -7,7 +7,7 @@ enum CpTabBarVariant { dark, inverted, light, black }
 class CpTabBar extends StatelessWidget {
   const CpTabBar({
     super.key,
-    this.variant = CpTabBarVariant.dark,
+    this.variant = CpTabBarVariant.black,
     required this.tabs,
     this.controller,
   });

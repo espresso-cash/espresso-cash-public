@@ -8,24 +8,29 @@ class ProfileButton extends StatelessWidget {
     required this.label,
     this.description,
     this.onPressed,
-    this.color = CpColors.primaryTextColor,
+    this.textColor = CpColors.lightGreyBackground,
+    this.iconColor,
+    this.backgroundColor,
   });
 
   final String label;
   final String? description;
-  final Color color;
   final VoidCallback? onPressed;
+  final Color textColor;
+  final Color? backgroundColor;
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
     final description = this.description;
 
     return ListTile(
+      tileColor: backgroundColor,
       onTap: onPressed,
       title: Text(
         label,
         style: TextStyle(
-          color: color,
+          color: textColor,
           fontSize: 17,
           fontWeight: FontWeight.bold,
         ),
@@ -41,7 +46,7 @@ class ProfileButton extends StatelessWidget {
               ),
             )
           : null,
-      trailing: Icon(Icons.chevron_right, color: color),
+      trailing: Icon(Icons.chevron_right, color: iconColor),
     );
   }
 }

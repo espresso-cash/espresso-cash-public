@@ -10,6 +10,7 @@ import '../../../../../ui/icon_button.dart';
 import '../../../../../ui/user_avatar.dart';
 import '../../../di.dart';
 import '../../../ui/clipboard.dart';
+import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
 import '../data/profile_repository.dart';
 import '../widgets/help_section.dart';
@@ -29,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Material(
-          color: const Color(0xffF4F4F4),
+          color: CpColors.darkBackground,
           child: SingleChildScrollView(
             child: SafeArea(
               maintainBottomViewPadding: true,
@@ -142,7 +143,7 @@ class _QrCodeWidget extends StatelessWidget {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: CpColors.darkBackgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: Row(
@@ -152,6 +153,7 @@ class _QrCodeWidget extends StatelessWidget {
                 barcode: Barcode.qrCode(),
                 data: qrData,
                 padding: EdgeInsets.zero,
+                color: CpColors.lightGreyBackground,
               ),
             ),
             const SizedBox(width: 8),
