@@ -93,28 +93,28 @@ class _Buttons extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     if (!isZeroAmount)
                       SizedBox(
-                        width: 108,
+                        width: MediaQuery.of(context).size.width * 0.3,
                         child: PayOrRequestButton(
                           voidCallback: onSendMoneyPressed,
                         ),
                       ),
-                    const SizedBox(
-                      width: 108,
-                      child: AddCashButton(size: CpButtonSize.big),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: const AddCashButton(size: CpButtonSize.big),
                     ),
                     if (!isZeroAmount) const SizedBox(width: 0),
-                    const SizedBox(
-                      width: 108,
-                      child: CashOutButton(
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: const CashOutButton(
                         size: CpButtonSize.big,
                       ),
                     ),
                   ],
-                ),
+                )
               ],
             ),
           ),

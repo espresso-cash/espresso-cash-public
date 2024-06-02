@@ -394,7 +394,7 @@
   "@sendAs": {},
   "sendExplanation": "Once you’ve created this link, you can send it to your recipient! They can then redeem the funds by simply clicking the link.",
   "@sendExplanation": {},
-  "sendMoney": "Send Money",
+  "sendMoney": "Pay or Request",
   "@sendMoney": {},
   "sentDirectly": "Sent",
   "@sentDirectly": {},

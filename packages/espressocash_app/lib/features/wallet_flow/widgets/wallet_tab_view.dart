@@ -109,7 +109,6 @@ class _ScreenState extends State<WalletMainScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              SizedBox(height: context.isSmall ? 24 : 32),
               AmountWithEquivalent(
                 inputController: _amountController,
                 token: widget.token,
@@ -126,20 +125,30 @@ class _ScreenState extends State<WalletMainScreen> {
               ),
               const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: CpButton(
-                  text: _action.buttonLabel(context),
-                  minWidth: width,
-                  onPressed: () {
-                    switch (_action) {
-                      case WalletOperation.pay:
-                        widget.onPay();
-                      case WalletOperation.request:
-                        widget.onRequest();
-                    }
-                  },
-                  size:
-                      context.isSmall ? CpButtonSize.normal : CpButtonSize.big,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CpButton(
+                        text: WalletOperation.request.buttonLabel(context),
+                        minWidth: width,
+                        onPressed: widget.onRequest,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                    const SizedBox(width: 27.0),
+                    Expanded(
+                      child: CpButton(
+                        text: WalletOperation.pay.buttonLabel(context),
+                        minWidth: width,
+                        onPressed: widget.onPay,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 24),
@@ -168,19 +177,6 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
               onPressed: onQrScanner,
               icon: Assets.icons.qrScanner.svg(color: Colors.white),
               variant: CpIconButtonVariant.black,
-            ),
-          ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: SizedBox(
-              width: 220,
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: context.l10n.pay),
-                  Tab(text: context.l10n.receive),
-                ],
-                variant: CpTabBarVariant.black,
-              ),
             ),
           ),
         ),

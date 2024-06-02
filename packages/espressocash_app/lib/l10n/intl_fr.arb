@@ -591,7 +591,7 @@
   "@sendAs": {},
   "sendExplanation": "Une fois que vous avez créé ce lien, vous pouvez l'envoyer à votre destinataire ! Ils pourront ensuite récupérer les fonds en cliquant simplement sur le lien.",
   "@sendExplanation": {},
-  "sendMoney": "Envoyer",
+  "sendMoney": "Payer ou demander",
   "@sendMoney": {},
   "sentDirectly": "Envoyé",
   "@sentDirectly": {},

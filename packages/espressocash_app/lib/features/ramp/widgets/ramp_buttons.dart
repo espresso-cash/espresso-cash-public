@@ -46,7 +46,10 @@ class PayOrRequestButton extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.sendMoney,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -82,7 +85,10 @@ class AddCashButton extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.ramp_btnAddCash,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -118,7 +124,10 @@ class CashOutButton extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               context.l10n.ramp_btnCashOut,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyLarge!
+                  .copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
