@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 51;
+const int latestVersion = 52;
 
 const _tables = [
   OutgoingTransferRows,
@@ -37,6 +37,7 @@ const _tables = [
   OffRampOrderRows,
   OutgoingDlnPaymentRows,
   TransactionRequestRows,
+  TokenBalanceRows,
 ];
 
 @lazySingleton
@@ -113,6 +114,10 @@ class MyDatabase extends _$MyDatabase {
           }
           if (from < 51) {
             await m.addColumn(transactionRows, transactionRows.amount);
+          }
+
+          if (from < 52) {
+            await m.createTable(tokenBalanceRows);
           }
         },
       );
@@ -232,4 +237,11 @@ enum TRStatusDto {
   sent,
   success,
   failure,
+}
+
+class TokenBalanceRows extends Table with AmountMixin {
+  const TokenBalanceRows();
+
+  @override
+  Set<Column> get primaryKey => {token};
 }

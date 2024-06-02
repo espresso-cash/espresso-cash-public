@@ -11,8 +11,8 @@ import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 
 @Singleton(scope: authScope)
-class BalancesRepository extends ChangeNotifier {
-  BalancesRepository(this._storage);
+class CashBalanceRepository extends ChangeNotifier {
+  CashBalanceRepository(this._storage);
 
   final SharedPreferences _storage;
 
