@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../balances/data/token_balance_repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/token.dart';
 import 'watch_token_fiat_balance.dart';
 
 @injectable
@@ -21,7 +22,7 @@ class WatchTotalTokenFiatBalance {
       .watchUserTokens()
       .flatMap(
         (tokens) => Rx.combineLatest(
-          tokens.map(_watchTokenFiatBalance.call),
+          tokens.where((t) => t != Token.usdc).map(_watchTokenFiatBalance.call),
           (values) => values.whereNotNull().fold(
                 Amount.zero(currency: defaultFiatCurrency),
                 (total, next) => total + next,
