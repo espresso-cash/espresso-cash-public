@@ -70,11 +70,6 @@ class _ScreenState extends State<WalletMainScreen> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
@@ -107,10 +102,7 @@ class _ScreenState extends State<WalletMainScreen> {
               ),
               const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 16.0,
-                ),
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
                     Expanded(
