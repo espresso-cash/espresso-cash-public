@@ -16,23 +16,36 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/widgets/token_icon.dart';
 
-class PortfolioWidget extends StatelessWidget {
+class PortfolioWidget extends StatefulWidget {
   const PortfolioWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<IList<CryptoAmount>>(
-        create: () => (
-          sl<TokenBalancesRepository>().watchTokenBalances(),
-          const IListConst([])
-        ),
-        builder: (context, balances) {
-          final hasTokens = balances.isNotEmpty;
+  State<PortfolioWidget> createState() => _PortfolioWidgetState();
+}
 
-          return hasTokens
-              ? PortfolioTile(balances: balances)
-              : const SizedBox.shrink();
-        },
-      );
+class _PortfolioWidgetState extends State<PortfolioWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ValueStreamBuilder<IList<CryptoAmount>>(
+      create: () => (
+        sl<TokenBalancesRepository>().watchTokenBalances(),
+        const IListConst([])
+      ),
+      builder: (context, balances) {
+        final hasTokens = balances.isNotEmpty;
+
+        return hasTokens
+            ? PortfolioTile(balances: balances)
+            : const SizedBox.shrink();
+      },
+    );
+  }
 }
 
 class PortfolioTile extends StatelessWidget {
