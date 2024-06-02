@@ -9,8 +9,6 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
-import '../../../ui/size.dart';
-import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
 import '../../currency/models/amount.dart';
@@ -44,9 +42,6 @@ class WalletMainScreen extends StatefulWidget {
 
 class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
-  TabController? _tabController;
-
-  WalletOperation _action = WalletOperation.pay;
 
   @override
   void initState() {
@@ -60,7 +55,6 @@ class _ScreenState extends State<WalletMainScreen> {
     _amountController
       ..removeListener(_updateValue)
       ..dispose();
-    _tabController?.removeListener(_handleTabUpdate);
     super.dispose();
   }
 
@@ -79,24 +73,12 @@ class _ScreenState extends State<WalletMainScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context)
-      ..addListener(_handleTabUpdate);
-    _updateAction();
   }
 
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     widget.onAmountChanged(amount);
-  }
-
-  void _handleTabUpdate() => setState(_updateAction);
-
-  void _updateAction() {
-    final tab = _tabController?.index ?? 0;
-
-    _action = WalletOperation.values[tab];
   }
 
   @override
