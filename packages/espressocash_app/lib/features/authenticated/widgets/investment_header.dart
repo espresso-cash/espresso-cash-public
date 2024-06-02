@@ -61,6 +61,7 @@ class _Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
+
     return DecoratedBox(
       decoration: const BoxDecoration(
         color: CpColors.dashboardBackgroundColor,
