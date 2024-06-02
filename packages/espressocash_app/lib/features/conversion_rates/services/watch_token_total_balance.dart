@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,32 +11,22 @@ import 'watch_token_fiat_balance.dart';
 class WatchTotalTokenFiatBalance {
   const WatchTotalTokenFiatBalance(
     this._balancesRepository,
-    this._watchUserFiatBalance,
+    this._watchTokenFiatBalance,
   );
 
   final TokenBalancesRepository _balancesRepository;
-  final WatchTokenFiatBalance _watchUserFiatBalance;
+  final WatchTokenFiatBalance _watchTokenFiatBalance;
 
-  (Stream<Amount>, Amount) call() => (
-        _balancesRepository
-            .watchUserTokens()
-            .flatMap(
-              (tokens) => Rx.combineLatest(
-                tokens.map((t) => _watchUserFiatBalance(t).$1),
-                (values) => values.whereNotNull().fold(
-                      Amount.zero(currency: defaultFiatCurrency),
-                      (total, next) => total + next,
-                    ),
+  Stream<Amount> call() => _balancesRepository
+      .watchUserTokens()
+      .flatMap(
+        (tokens) => Rx.combineLatest(
+          tokens.map((t) => _watchTokenFiatBalance(t).$1),
+          (values) => values.whereNotNull().fold(
+                Amount.zero(currency: defaultFiatCurrency),
+                (total, next) => total + next,
               ),
-            )
-            .distinct(),
-        _balancesRepository
-            .readUserTokens()
-            .map((t) => _watchUserFiatBalance(t).$2)
-            .whereNotNull()
-            .fold(
-              Amount.zero(currency: defaultFiatCurrency),
-              (total, next) => total + next,
-            ),
-      );
+        ),
+      )
+      .distinct();
 }

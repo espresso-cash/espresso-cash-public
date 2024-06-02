@@ -1,4 +1,3 @@
-import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -29,7 +28,7 @@ class WatchTokenFiatBalance {
 
     return (
       Rx.combineLatest2(
-        balance.$1,
+        balance,
         conversionRate,
         (cryptoAmount, rate) {
           if (rate == null) return null;
@@ -38,12 +37,7 @@ class WatchTokenFiatBalance {
               as FiatAmount;
         },
       ).distinct(),
-      _conversionRatesRepository
-          .readRate(CryptoCurrency(token: token), to: fiatCurrency)
-          ?.let(
-            (rate) =>
-                balance.$2.convert(rate: rate, to: fiatCurrency) as FiatAmount,
-          )
+      null,
     );
   }
 }

@@ -13,30 +13,32 @@ import '../../conversion_rates/services/watch_token_fiat_balance.dart';
 import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../investments/services/watch_investments.dart';
-import '../../tokens/token.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class PortfolioWidget extends StatelessWidget {
   const PortfolioWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
-        create: () => (sl<WatchInvestments>().call(), const IListConst([])),
-        builder: (context, tokens) {
-          final hasTokens = tokens.isNotEmpty;
+  Widget build(BuildContext context) => ValueStreamBuilder<IList<CryptoAmount>>(
+        create: () => (
+          sl<TokenBalancesRepository>().watchTokenBalances(),
+          const IListConst([])
+        ),
+        builder: (context, balances) {
+          final hasTokens = balances.isNotEmpty;
 
           return hasTokens
-              ? PortfolioTile(tokens: tokens)
+              ? PortfolioTile(balances: balances)
               : const SizedBox.shrink();
         },
       );
 }
 
 class PortfolioTile extends StatelessWidget {
-  const PortfolioTile({super.key, required this.tokens});
+  const PortfolioTile({super.key, required this.balances});
 
-  final IList<Token> tokens;
+  final IList<CryptoAmount> balances;
 
   @override
   Widget build(BuildContext context) => HomeTile(
@@ -59,7 +61,10 @@ class PortfolioTile extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
-                    create: () => sl<WatchTotalTokenFiatBalance>().call(),
+                    create: () => (
+                      sl<WatchTotalTokenFiatBalance>().call(),
+                      Amount.zero(currency: Currency.usd),
+                    ),
                     builder: (context, balance) => Flexible(
                       child: FittedBox(
                         child: Text(
@@ -79,25 +84,24 @@ class PortfolioTile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _PortfolioWidget(tokens),
+            _PortfolioWidget(balances),
           ],
         ),
       );
 }
 
 class _PortfolioWidget extends StatelessWidget {
-  const _PortfolioWidget(this.tokens);
+  const _PortfolioWidget(this.balances);
 
-  final IList<Token> tokens;
+  final IList<CryptoAmount> balances;
 
   @override
   Widget build(BuildContext context) {
-    final children = tokens
+    final children = balances
         .map(
-          (token) => _TokenItem(
-            key: ValueKey(token),
-            token: token,
-            amount: sl<TokenBalancesRepository>().read(token),
+          (balance) => _TokenItem(
+            key: ValueKey(balance.token),
+            amount: balance,
           ),
         )
         .expand(
@@ -113,9 +117,8 @@ class _PortfolioWidget extends StatelessWidget {
 }
 
 class _TokenItem extends StatelessWidget {
-  const _TokenItem({super.key, required this.token, required this.amount});
+  const _TokenItem({super.key, required this.amount});
 
-  final Token token;
   final CryptoAmount amount;
 
   static const double _iconSize = 36.0;
@@ -123,7 +126,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        create: () => sl<WatchTokenFiatBalance>().call(token),
+        create: () => sl<WatchTokenFiatBalance>().call(amount.token),
         builder: (context, fiatAmount) {
           String fiatAmountText;
 
@@ -143,10 +146,10 @@ class _TokenItem extends StatelessWidget {
               horizontalTitleGap: 4,
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(_iconSize / 2),
-                child: TokenIcon(token: token, size: _iconSize),
+                child: TokenIcon(token: amount.token, size: _iconSize),
               ),
               title: Text(
-                token.name,
+                amount.token.name,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,

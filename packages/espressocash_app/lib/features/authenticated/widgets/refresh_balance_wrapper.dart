@@ -51,16 +51,17 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() => sl<ConversionRatesRepository>()
-          .refresh(
-        defaultFiatCurrency,
-        sl<TokenBalancesRepository>().readUserTokens(),
-      )
-          .doOnLeftAsync((_) {
-        if (!mounted) return;
+  AsyncResult<void> _updateConversionRates() async {
+    final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
-        _showConversionRatesFetchErrorToast(context);
-      });
+    return sl<ConversionRatesRepository>()
+        .refresh(defaultFiatCurrency, tokens)
+        .doOnLeftAsync((_) {
+      if (!mounted) return;
+
+      _showConversionRatesFetchErrorToast(context);
+    });
+  }
 
   AsyncResult<void> _updateBalances() {
     context.notifyBalanceAffected();

@@ -68,9 +68,7 @@ class ConversionRatesRepository extends ChangeNotifier {
 
         final results = await Future.wait(
           ids.map((ids) async {
-            final request = TokenRateRequestDto(
-              ids: ids.lock,
-            );
+            final request = TokenRateRequestDto(ids: ids.lock);
 
             return _jupiterClient.getPrice(request);
           }),

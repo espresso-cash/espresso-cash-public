@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../data/db/db.dart';
 import '../../accounts/auth_scope.dart';
@@ -10,65 +9,70 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
-import '../models/token_balance.dart';
 
 @Singleton(scope: authScope)
 class TokenBalancesRepository {
-  TokenBalancesRepository(this._db, this._tokens);
+  const TokenBalancesRepository(this._db, this._tokens);
 
   final MyDatabase _db;
   final TokenList _tokens;
 
-  final BehaviorSubject<IMap<Token, CryptoAmount>> _data =
-      BehaviorSubject.seeded(const IMapConst({}));
+  Future<ISet<Token>> readUserTokens() =>
+      _db.tokenBalanceRows.select().get().then(
+            (rows) => rows
+                .map((row) => _tokens.findTokenByMint(row.token))
+                .whereNotNull()
+                .toISet(),
+          );
 
-  ISet<Token> readUserTokens() => {..._data.value.keys}.lock;
+  Stream<ISet<Token>> watchUserTokens() {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
-  CryptoAmount read(Token token) =>
-      _data.value[token] ??
-      CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token));
-
-  Stream<ISet<Token>> watchUserTokens() => _data.map((data) {
-        final tokens = data.keys.where((token) => data[token]?.value != 0);
-
-        return {...tokens}.lock;
-      });
-
-  (Stream<CryptoAmount>, CryptoAmount) watch(Token token) => (
-        _data.map(
-          (data) =>
-              data[token] ??
-              CryptoAmount(
-                value: 0,
-                cryptoCurrency: CryptoCurrency(token: token),
-              ),
-        ),
-        read(token),
-      );
-
-  @PostConstruct(preResolve: true)
-  Future<void> init() async {
-    final tokenBalances = await _db.select(_db.tokenBalanceRows).get().then(
-          (rows) => rows.map((row) => row.toModel()).toList(),
+    return query.watch().map(
+          (rows) => rows
+              .map((row) => _tokens.findTokenByMint(row.token))
+              .whereNotNull()
+              .toISet(),
         );
+  }
 
-    final tokens = tokenBalances.map((balance) {
-      final token = _tokens.findTokenByMint(balance.address);
-      if (token == null) return null;
+  Stream<IList<CryptoAmount>> watchTokenBalances() {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
-      return MapEntry(
-        token,
-        Amount.fromToken(value: balance.balance, token: token) as CryptoAmount,
-      );
-    }).whereNotNull();
+    return query.watch().map(
+          (rows) => rows
+              .map((row) {
+                final token = _tokens.findTokenByMint(row.token);
 
-    final value = Map<Token, CryptoAmount>.fromEntries(tokens);
-    _data.add(value.lock);
+                return token == null
+                    ? null
+                    : CryptoAmount(
+                        value: row.amount,
+                        cryptoCurrency: CryptoCurrency(token: token),
+                      );
+              })
+              .whereNotNull()
+              .sortedBy((element) => element.token.name)
+              .toIList(),
+        );
+  }
+
+  Stream<CryptoAmount> watch(Token token) {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.token.equals(token.address));
+    final currency = CryptoCurrency(token: token);
+
+    return query.watchSingleOrNull().map(
+          (row) => row == null
+              ? CryptoAmount(value: 0, cryptoCurrency: currency)
+              : CryptoAmount(value: row.amount, cryptoCurrency: currency),
+        );
   }
 
   void save(Map<Token, CryptoAmount> tokens) {
     tokens.clean();
-    _data.add(tokens.lock);
 
     _db.transaction(() async {
       await _db.delete(_db.tokenBalanceRows).go();
@@ -94,23 +98,9 @@ extension on Map<Token, CryptoAmount> {
       );
 
   Iterable<TokenBalanceRow> toList() => entries.map(
-        (entry) => TokenBalance(
-          address: entry.key.address,
-          balance: entry.value.value,
-        ).toDto(),
-      );
-}
-
-extension on TokenBalanceRow {
-  TokenBalance toModel() => TokenBalance(
-        address: token,
-        balance: amount,
-      );
-}
-
-extension on TokenBalance {
-  TokenBalanceRow toDto() => TokenBalanceRow(
-        token: address,
-        amount: balance,
+        (entry) => TokenBalanceRow(
+          token: entry.key.address,
+          amount: entry.value.value,
+        ),
       );
 }
