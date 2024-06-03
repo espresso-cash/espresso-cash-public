@@ -133,4 +133,9 @@ abstract class EspressoCashClient {
 
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
+
+  @POST('/getPriorityFeeEstimate')
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
+    @Body() PriorityFeesRequestDto request,
+  );
 }
