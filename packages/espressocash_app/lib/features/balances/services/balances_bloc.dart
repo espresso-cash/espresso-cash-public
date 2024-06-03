@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -48,19 +49,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     try {
       emit(const ProcessingState.processing());
 
-      final usdcBalance = await _solanaClient.getUsdcBalance(event.address);
-
-      if (isClosed) return;
-
-      emit(const ProcessingState.none());
-
-      if (usdcBalance != null) {
-        _analyticsManager.setUsdcBalance(usdcBalance.decimal);
-      }
-
-      final balances = <Token, CryptoAmount>{};
-
-      balances[Token.sol] = await _solanaClient.getSolBalance(event.address);
+      final sol = await _solanaClient.getSolBalance(event.address);
 
       final allAccounts = await _solanaClient.getSplAccounts(event.address);
       final mainAccounts = await Future.wait<_MainTokenAccount?>(
@@ -90,7 +79,20 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
           cryptoCurrency: CryptoCurrency(token: a.token),
         ),
       );
-      await _tokensRepository.save(tokenBalances);
+
+      final usdcBalance = tokenBalances.firstWhereOrNull(
+        (balance) => balance.cryptoCurrency.token == Token.usdc,
+      );
+
+      if (isClosed) return;
+
+      emit(const ProcessingState.none());
+
+      if (usdcBalance != null) {
+        _analyticsManager.setUsdcBalance(usdcBalance.decimal);
+      }
+
+      await _tokensRepository.save([...tokenBalances, sol]);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 
@@ -140,29 +142,6 @@ sealed class BalancesEvent with _$BalancesEvent {
 }
 
 extension on SolanaClient {
-  Future<CryptoAmount?> getUsdcBalance(String address) async {
-    try {
-      final usdcTokenAccount = await findAssociatedTokenAddress(
-        owner: Ed25519HDPublicKey.fromBase58(address),
-        mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
-      );
-
-      final balance = await rpcClient
-          .getTokenAccountBalance(
-            usdcTokenAccount.toBase58(),
-            commitment: Commitment.confirmed,
-          )
-          .value;
-
-      return CryptoAmount(
-        value: int.parse(balance.amount),
-        cryptoCurrency: Currency.usdc,
-      );
-    } on Exception {
-      return null;
-    }
-  }
-
   Future<CryptoAmount> getSolBalance(String address) async {
     final lamports = await rpcClient
         .getBalance(
