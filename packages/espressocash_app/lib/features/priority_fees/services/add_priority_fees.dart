@@ -1,6 +1,7 @@
 import 'dart:convert' hide Encoding;
 import 'dart:math';
 
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
@@ -8,17 +9,14 @@ import 'package:solana/solana.dart';
 
 import '../../../config.dart';
 
-import '../../helius/data/dto.dart';
-import '../../helius/data/helius_api_client.dart';
-
 @injectable
 class AddPriorityFees {
   const AddPriorityFees(
-    this._heliusApiClient,
     this._solanaClient,
+    this._ecClient,
   );
 
-  final HeliusApiClient _heliusApiClient;
+  final EspressoCashClient _ecClient;
   final SolanaClient _solanaClient;
 
   Future<SignedTx> call({
@@ -29,17 +27,11 @@ class AddPriorityFees {
   }) async {
     final maxPriorityFee = maxTxCostUsdc / lamportPriceInUsdcFraction;
 
-    final priorityFees = await _heliusApiClient.getPriorityFeeEstimate(
-      GetPriorityFeeEstimateRequest(
-        transaction: tx.encode(),
-        options: const GetPriorityFeeEstimateOptions(
-          includeAllPriorityFeeLevels: true,
-          transactionEncoding: TransactionEncoding.base64,
-        ),
-      ),
+    final priorityFees = await _ecClient.getPriorityFeeEstimate(
+      PriorityFeesRequestDto(encodedTx: tx.encode()),
     );
 
-    final veryHighFee = priorityFees?.priorityFeeLevels?.veryHigh?.ceil();
+    final veryHighFee = priorityFees.veryHigh;
 
     return await _addPriorityFee(
           tx,
