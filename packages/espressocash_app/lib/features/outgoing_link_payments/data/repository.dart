@@ -168,6 +168,7 @@ extension on OLPStatusDto {
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
+          signature: row.txId ?? '', //TODO confirm
         );
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
@@ -198,6 +199,7 @@ extension on OLPStatusDto {
         return OLPStatus.cancelTxSent(
           cancelTx!,
           escrow: escrow!,
+          signature: row.cancelTxId ?? '', //TODO confirm
         );
     }
   }
@@ -242,8 +244,7 @@ extension on OLPStatus {
       );
 
   String? toTxId() => mapOrNull(
-        txCreated: (it) => it.tx.id,
-        txSent: (it) => it.tx.id,
+        txSent: (it) => it.signature,
       );
 
   String? toWithdrawTxId() => mapOrNull(withdrawn: (it) => it.txId);
@@ -254,8 +255,7 @@ extension on OLPStatus {
       );
 
   String? toCancelTxId() => mapOrNull(
-        cancelTxCreated: (it) => it.tx.id,
-        cancelTxSent: (it) => it.tx.id,
+        cancelTxSent: (it) => it.signature,
         canceled: (it) => it.txId,
       );
 

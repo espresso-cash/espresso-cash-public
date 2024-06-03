@@ -32,6 +32,7 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.txSent(
     SignedTx tx, {
     required EscrowPrivateKey escrow,
+    required String signature,
   }) = OLPStatusTxSent;
 
   /// Link is ready to be sent to the recipient.
@@ -76,5 +77,6 @@ class OLPStatus with _$OLPStatus {
   const factory OLPStatus.cancelTxSent(
     SignedTx tx, {
     required EscrowPrivateKey escrow,
+    required String signature,
   }) = OLPStatusCancelTxSent;
 }

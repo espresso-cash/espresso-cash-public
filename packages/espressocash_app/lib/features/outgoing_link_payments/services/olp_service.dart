@@ -40,7 +40,7 @@ class OLPService implements Disposable {
   final CreateOutgoingEscrow _createOutgoingEscrow;
   final CreateCanceledEscrow _createCanceledEscrow;
   final EspressoCashClient _ecClient;
-  final TxConfirm _txConfirm;
+  final TxConfirm _txConfirm; //TODO confirm not needed
   final AnalyticsManager _analyticsManager;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -73,8 +73,8 @@ class OLPService implements Disposable {
         case OLPStatusCancelTxCreated():
           return _sendCanceled(payment).asStream();
 
-        case OLPStatusCancelTxSent():
-          return _processCanceled(payment).asStream();
+        case OLPStatusCancelTxSent(): //TODO confirm not needed
+        // return _processCanceled(payment).asStream();
 
         case OLPStatusTxFailure():
         case OLPStatusCancelTxFailure():
@@ -232,11 +232,11 @@ class OLPService implements Disposable {
     final tx = status.tx;
 
     try {
-      await _ecClient.submitDurableTx(
+      final signature = await _ecClient.submitDurableTx(
         SubmitDurableTxRequestDto(
           tx: tx.encode(),
         ),
-      );
+      ); //TODO
 
       _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
 
@@ -244,6 +244,7 @@ class OLPService implements Disposable {
         status: OLPStatus.txSent(
           tx,
           escrow: status.escrow,
+          signature: signature,
         ),
       );
     } on Exception {
@@ -289,16 +290,19 @@ class OLPService implements Disposable {
     final tx = status.tx;
 
     try {
-      await _ecClient.submitDurableTx(
+      final signature = await _ecClient.submitDurableTx(
         SubmitDurableTxRequestDto(
           tx: tx.encode(),
         ),
-      );
+      ); //TODO upd signature
+
+      _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 
       return payment.copyWith(
         status: OLPStatus.cancelTxSent(
           tx,
           escrow: status.escrow,
+          signature: signature,
         ),
       );
     } on Exception {
@@ -311,28 +315,26 @@ class OLPService implements Disposable {
     }
   }
 
-  Future<OutgoingLinkPayment> _processCanceled(
-    OutgoingLinkPayment payment,
-  ) async {
-    final status = payment.status;
+  // Future<OutgoingLinkPayment> _processCanceled( //TODO confirm not needed
+  //   OutgoingLinkPayment payment,
+  // ) async {
+  //   final status = payment.status;
 
-    if (status is! OLPStatusCancelTxSent) {
-      return payment;
-    }
+  //   if (status is! OLPStatusCancelTxSent) {
+  //     return payment;
+  //   }
 
-    final signature = status.tx.id;
+  //   await _txConfirm(signature: status.signature);
 
-    await _txConfirm(signature: signature);
+  //   _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 
-    _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
-
-    return payment.copyWith(
-      status: OLPStatus.canceled(
-        txId: status.tx.id,
-        timestamp: DateTime.now(),
-      ),
-    );
-  }
+  //   return payment.copyWith(
+  //     status: OLPStatus.canceled(
+  //       txId: status.signature,
+  //       timestamp: DateTime.now(),
+  //     ),
+  //   );
+  // }
 
   @override
   Future<void> onDispose() async {

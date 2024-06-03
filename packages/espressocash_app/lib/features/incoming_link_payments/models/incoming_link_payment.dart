@@ -23,7 +23,10 @@ sealed class ILPStatus with _$ILPStatus {
   const factory ILPStatus.txCreated(SignedTx tx) = ILPStatusTxCreated;
 
   /// Tx is successfully sent to backend for sending to the blockchain.
-  const factory ILPStatus.txSent(SignedTx tx) = ILPStatusTxSent;
+  const factory ILPStatus.txSent(
+    SignedTx tx, {
+    required String signature,
+  }) = ILPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.
   const factory ILPStatus.success({
