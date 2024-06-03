@@ -111,7 +111,7 @@ abstract class EspressoCashClient {
   Future<GetFreeNonceResponseDto> getFreeNonce();
 
   @POST('/submitDurableTx')
-  Future<void> submitDurableTx(
+  Future<SubmitDurableTxResponseDto> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
   );
 
