@@ -8,8 +8,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/token_balance_repository.dart';
-import '../../conversion_rates/services/watch_token_fiat_balance.dart';
+import '../../conversion_rates/services/watch_investments.dart';
 import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -32,11 +31,8 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return ValueStreamBuilder<IList<CryptoAmount>>(
-      create: () => (
-        sl<TokenBalancesRepository>().watchTokenBalances(),
-        const IListConst([])
-      ),
+    return ValueStreamBuilder<IList<CryptoFiatAmount>>(
+      create: () => (sl<WatchInvestments>().call(), const IListConst([])),
       builder: (context, balances) {
         final hasTokens = balances.isNotEmpty;
 
@@ -51,7 +47,7 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
 class PortfolioTile extends StatelessWidget {
   const PortfolioTile({super.key, required this.balances});
 
-  final IList<CryptoAmount> balances;
+  final IList<CryptoFiatAmount> balances;
 
   @override
   Widget build(BuildContext context) => HomeTile(
@@ -106,15 +102,16 @@ class PortfolioTile extends StatelessWidget {
 class _PortfolioWidget extends StatelessWidget {
   const _PortfolioWidget(this.balances);
 
-  final IList<CryptoAmount> balances;
+  final IList<CryptoFiatAmount> balances;
 
   @override
   Widget build(BuildContext context) {
     final children = balances
         .map(
           (balance) => _TokenItem(
-            key: ValueKey(balance.token),
-            amount: balance,
+            key: ValueKey(balance.$1.token),
+            cryptoAmount: balance.$1,
+            fiatAmount: balance.$2,
           ),
         )
         .expand(
@@ -130,73 +127,71 @@ class _PortfolioWidget extends StatelessWidget {
 }
 
 class _TokenItem extends StatelessWidget {
-  const _TokenItem({super.key, required this.amount});
+  const _TokenItem({
+    super.key,
+    required this.cryptoAmount,
+    required this.fiatAmount,
+  });
 
-  final CryptoAmount amount;
+  final CryptoAmount cryptoAmount;
+  final FiatAmount fiatAmount;
 
   static const double _iconSize = 36.0;
   static const double _minFiatAmount = 0.01;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        create: () => (sl<WatchTokenFiatBalance>().call(amount.token), null),
-        builder: (context, fiatAmount) {
-          String fiatAmountText;
+  Widget build(BuildContext context) {
+    String fiatAmountText;
 
-          if (fiatAmount != null) {
-            fiatAmountText = fiatAmount.value < _minFiatAmount
-                ? r'<$0.01'
-                : fiatAmount.format(context.locale, maxDecimals: 2);
-          } else {
-            fiatAmountText = '-';
-          }
+    fiatAmountText = fiatAmount.value < _minFiatAmount
+        ? r'<$0.01'
+        : fiatAmount.format(context.locale, maxDecimals: 2);
 
-          return _Card(
-            child: ListTile(
-              key: key,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-              dense: true,
-              horizontalTitleGap: 4,
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(_iconSize / 2),
-                child: TokenIcon(token: amount.token, size: _iconSize),
+    return _Card(
+      child: ListTile(
+        key: key,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        dense: true,
+        horizontalTitleGap: 4,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(_iconSize / 2),
+          child: TokenIcon(token: cryptoAmount.token, size: _iconSize),
+        ),
+        title: Text(
+          cryptoAmount.token.name,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              fiatAmountText,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
-              title: Text(
-                amount.token.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    fiatAmountText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    amount.format(context.locale),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              // isThreeLine: true,
             ),
-          );
-        },
-      );
+            Text(
+              cryptoAmount.format(context.locale),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        // isThreeLine: true,
+      ),
+    );
+  }
 }
 
 class _Card extends StatelessWidget {
