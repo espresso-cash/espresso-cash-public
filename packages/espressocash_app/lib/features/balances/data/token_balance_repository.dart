@@ -17,13 +17,17 @@ class TokenBalancesRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
-  Future<ISet<Token>> readUserTokens() =>
-      _db.tokenBalanceRows.select().get().then(
-            (rows) => rows
-                .map((row) => _tokens.findTokenByMint(row.token))
-                .whereNotNull()
-                .toISet(),
-          );
+  Future<ISet<Token>> readUserTokens() {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
+
+    return query.get().then(
+          (rows) => rows
+              .map((row) => _tokens.findTokenByMint(row.token))
+              .whereNotNull()
+              .toISet(),
+        );
+  }
 
   Stream<ISet<Token>> watchUserTokens() {
     final query = _db.tokenBalanceRows.select()
@@ -37,7 +41,9 @@ class TokenBalancesRepository {
         );
   }
 
-  Stream<IList<CryptoAmount>> watchTokenBalances() {
+  Stream<IList<CryptoAmount>> watchTokenBalances({
+    Iterable<Token> ignoreTokens = const [],
+  }) {
     final query = _db.tokenBalanceRows.select()
       ..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
@@ -45,6 +51,10 @@ class TokenBalancesRepository {
           (rows) => rows
               .map((row) {
                 final token = _tokens.findTokenByMint(row.token);
+
+                if (ignoreTokens.contains(token)) {
+                  return null;
+                }
 
                 return token == null
                     ? null

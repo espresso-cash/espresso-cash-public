@@ -18,16 +18,20 @@ class WatchTotalTokenFiatBalance {
   final TokenBalancesRepository _balancesRepository;
   final WatchTokenFiatBalance _watchTokenFiatBalance;
 
-  Stream<Amount> call() => _balancesRepository
-      .watchUserTokens()
-      .flatMap(
-        (tokens) => Rx.combineLatest(
-          tokens.where((t) => t != Token.usdc).map(_watchTokenFiatBalance.call),
-          (values) => values.whereNotNull().fold(
-                Amount.zero(currency: defaultFiatCurrency),
-                (total, next) => total + next,
-              ),
-        ),
-      )
-      .distinct();
+  Stream<Amount> call({
+    Iterable<Token> ignoreTokens = const [],
+  }) =>
+      _balancesRepository
+          .watchUserTokens()
+          .map((tokens) => tokens.where((t) => !ignoreTokens.contains(t)))
+          .flatMap(
+            (tokens) => Rx.combineLatest(
+              tokens.map(_watchTokenFiatBalance.call),
+              (values) => values.whereNotNull().fold(
+                    Amount.zero(currency: defaultFiatCurrency),
+                    (total, next) => total + next,
+                  ),
+            ),
+          )
+          .distinct();
 }
