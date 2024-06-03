@@ -8,6 +8,9 @@ class PriorityFeesRequestDto with _$PriorityFeesRequestDto {
   const factory PriorityFeesRequestDto({
     required String encodedTx,
   }) = _PriorityFeesRequestDto;
+
+  factory PriorityFeesRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$PriorityFeesRequestDtoFromJson(json);
 }
 
 @freezed

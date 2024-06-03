@@ -14,10 +14,16 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+PriorityFeesRequestDto _$PriorityFeesRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _PriorityFeesRequestDto.fromJson(json);
+}
+
 /// @nodoc
 mixin _$PriorityFeesRequestDto {
   String get encodedTx => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $PriorityFeesRequestDtoCopyWith<PriorityFeesRequestDto> get copyWith =>
       throw _privateConstructorUsedError;
@@ -94,9 +100,12 @@ class __$$PriorityFeesRequestDtoImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PriorityFeesRequestDtoImpl implements _PriorityFeesRequestDto {
   const _$PriorityFeesRequestDtoImpl({required this.encodedTx});
+
+  factory _$PriorityFeesRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriorityFeesRequestDtoImplFromJson(json);
 
   @override
   final String encodedTx;
@@ -115,6 +124,7 @@ class _$PriorityFeesRequestDtoImpl implements _PriorityFeesRequestDto {
                 other.encodedTx == encodedTx));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, encodedTx);
 
@@ -124,11 +134,21 @@ class _$PriorityFeesRequestDtoImpl implements _PriorityFeesRequestDto {
   _$$PriorityFeesRequestDtoImplCopyWith<_$PriorityFeesRequestDtoImpl>
       get copyWith => __$$PriorityFeesRequestDtoImplCopyWithImpl<
           _$PriorityFeesRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriorityFeesRequestDtoImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _PriorityFeesRequestDto implements PriorityFeesRequestDto {
   const factory _PriorityFeesRequestDto({required final String encodedTx}) =
       _$PriorityFeesRequestDtoImpl;
+
+  factory _PriorityFeesRequestDto.fromJson(Map<String, dynamic> json) =
+      _$PriorityFeesRequestDtoImpl.fromJson;
 
   @override
   String get encodedTx;

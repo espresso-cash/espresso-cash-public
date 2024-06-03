@@ -6,6 +6,18 @@ part of 'priority_fees.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+_$PriorityFeesRequestDtoImpl _$$PriorityFeesRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriorityFeesRequestDtoImpl(
+      encodedTx: json['encodedTx'] as String,
+    );
+
+Map<String, dynamic> _$$PriorityFeesRequestDtoImplToJson(
+        _$PriorityFeesRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'encodedTx': instance.encodedTx,
+    };
+
 _$PriorityFeesResponseDtoImpl _$$PriorityFeesResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PriorityFeesResponseDtoImpl(
