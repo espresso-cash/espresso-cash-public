@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import '../../balances/data/token_balance_repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/token.dart';
 import 'watch_token_fiat_balance.dart';
 
 typedef CryptoFiatAmount = (CryptoAmount, FiatAmount);
@@ -20,7 +21,7 @@ class WatchInvestments {
   final WatchTokenFiatBalance _watchTokenFiatBalance;
 
   Stream<IList<CryptoFiatAmount>> call() => _balancesRepository
-      .watchTokenBalances() //TODO filter out USDC
+      .watchTokenBalances(ignoreTokens: [Token.usdc])
       .flatMap(
         (tokens) => Rx.combineLatest(
           tokens.map(
