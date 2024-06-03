@@ -24,3 +24,13 @@ class SubmitDurableTxRequestDto with _$SubmitDurableTxRequestDto {
   factory SubmitDurableTxRequestDto.fromJson(Map<String, dynamic> json) =>
       _$SubmitDurableTxRequestDtoFromJson(json);
 }
+
+@freezed
+class SubmitDurableTxResponseDto with _$SubmitDurableTxResponseDto {
+  const factory SubmitDurableTxResponseDto({
+    required String signature,
+  }) = _SubmitDurableTxResponseDto;
+
+  factory SubmitDurableTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$SubmitDurableTxResponseDtoFromJson(json);
+}
