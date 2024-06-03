@@ -82,6 +82,18 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
                 ),
                 orElse: () async => null,
               ),
+              // Temporary fix until Token2022 is supported on Solana package
+              unsupported: (val) async {
+                final info = val['info'] as Map<String, dynamic>;
+
+                final parsedInfo = SplTokenAccountDataInfo.fromJson(info);
+
+                return _MainTokenAccount.createToken2022(
+                  programAccount.pubkey,
+                  parsedInfo,
+                  _tokens,
+                );
+              },
               orElse: () async => null,
             );
           }
@@ -124,6 +136,28 @@ class _MainTokenAccount {
     final token = tokens.findTokenByMint(info.mint);
 
     // TODO(IA): we should find a way to display this
+    return token == null ? null : _MainTokenAccount._(pubKey, info, token);
+  }
+
+  static Future<_MainTokenAccount?> createToken2022(
+    String pubKey,
+    SplTokenAccountDataInfo info,
+    TokenList tokens,
+  ) async {
+    final token2022Program = Ed25519HDPublicKey.fromBase58(token2022ProgramId);
+
+    final owner = Ed25519HDPublicKey.fromBase58(info.owner);
+    final mint = Ed25519HDPublicKey.fromBase58(info.mint);
+
+    final expectedPubKey = await Ed25519HDPublicKey.findProgramAddress(
+      seeds: [owner.bytes, token2022Program.toByteArray(), mint.bytes],
+      programId: AssociatedTokenAccountProgram.id,
+    );
+
+    if (expectedPubKey.toBase58() != pubKey) return null;
+
+    final token = tokens.findTokenByMint(info.mint);
+
     return token == null ? null : _MainTokenAccount._(pubKey, info, token);
   }
 
@@ -178,12 +212,27 @@ extension on SolanaClient {
     return CryptoAmount(value: lamports, cryptoCurrency: Currency.sol);
   }
 
-  Future<Iterable<ProgramAccount>> getSplAccounts(String address) => rpcClient
-      .getTokenAccountsByOwner(
+  Future<Iterable<ProgramAccount>> getSplAccounts(String address) async {
+    final accounts = [
+      rpcClient.getTokenAccountsByOwner(
         address,
         const TokenAccountsFilter.byProgramId(TokenProgram.programId),
         commitment: Commitment.confirmed,
         encoding: Encoding.jsonParsed,
-      )
-      .value;
+      ),
+      rpcClient.getTokenAccountsByOwner(
+        address,
+        const TokenAccountsFilter.byProgramId(token2022ProgramId),
+        commitment: Commitment.confirmed,
+        encoding: Encoding.jsonParsed,
+      ),
+    ];
+
+    final results = await Future.wait(accounts);
+
+    return [...results[0].value, ...results[1].value];
+  }
 }
+
+// Temporary fix until Token2022 is supported on Solana package
+const token2022ProgramId = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
