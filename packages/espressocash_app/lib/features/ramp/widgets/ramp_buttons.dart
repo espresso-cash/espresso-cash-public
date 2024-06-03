@@ -44,7 +44,7 @@ class PayOrRequestButton extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            context.l10n.sendMoney,
+            context.l10n.requestOrSendPayment,
             style: Theme.of(context)
                 .textTheme
                 .bodyLarge
