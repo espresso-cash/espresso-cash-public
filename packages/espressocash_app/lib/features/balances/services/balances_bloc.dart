@@ -17,8 +17,7 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
-import '../data/cash_balance_repository.dart';
-import '../data/token_balance_repository.dart';
+import '../data/repository.dart';
 
 part 'balances_bloc.freezed.dart';
 
@@ -30,7 +29,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     with DisposableBloc {
   BalancesBloc(
     this._solanaClient,
-    this._usdcRepository,
     this._tokens,
     this._tokensRepository,
     this._analyticsManager,
@@ -40,7 +38,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
 
   final SolanaClient _solanaClient;
   final TokenList _tokens;
-  final CashBalanceRepository _usdcRepository;
   final TokenBalancesRepository _tokensRepository;
   final AnalyticsManager _analyticsManager;
 
@@ -58,7 +55,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
       emit(const ProcessingState.none());
 
       if (usdcBalance != null) {
-        _usdcRepository.save(usdcBalance);
         _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       }
 

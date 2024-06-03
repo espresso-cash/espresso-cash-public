@@ -6,8 +6,11 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
+import '../../conversion_rates/services/watch_token_fiat_balance.dart';
+import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../tokens/token.dart';
 import 'balance_amount.dart';
 
 class InvestmentHeader extends StatefulWidget {
@@ -68,8 +71,13 @@ class _Buttons extends StatelessWidget {
           ),
         ),
         child: ValueStreamBuilder<bool>(
-          create: () =>
-              sl<WatchUserCashBalance>().call().map((it) => it.isZero),
+          create: () => (
+            sl<WatchTokenFiatBalance>()
+                .call(Token.usdc)
+                .map((event) => event ?? Amount.zero(currency: Currency.usd))
+                .map((event) => event.isZero),
+            true,
+          ),
           builder: (context, isZeroAmount) => Padding(
             padding:
                 const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
