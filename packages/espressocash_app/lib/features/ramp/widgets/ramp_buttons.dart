@@ -34,25 +34,23 @@ class PayOrRequestButton extends StatelessWidget {
   final CpButtonSize size;
   final VoidCallback voidCallback;
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: Column(
-          children: [
-            CpIconButton(
-              icon: Assets.icons.dolar.svg(color: Colors.black),
-              variant: CpIconButtonVariant.dark,
-              size: CpIconButtonSize.large,
-              onPressed: voidCallback,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.sendMoney,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.dolar.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: voidCallback,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.sendMoney,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
       );
 }
 
@@ -65,33 +63,31 @@ class AddCashButton extends StatelessWidget {
   final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: Column(
-          children: [
-            CpIconButton(
-              icon: Assets.icons.addAlternative.svg(color: Colors.black),
-              variant: CpIconButtonVariant.dark,
-              size: CpIconButtonSize.large,
-              onPressed: () async {
-                final data = await context.ensureProfileData(RampType.onRamp);
-                if (context.mounted && data != null) {
-                  context.launchOnRampFlow(
-                    profile: data,
-                    address: sl<MyAccount>().wallet.publicKey.toBase58(),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.ramp_btnAddCash,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.addAlternative.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: () async {
+              final data = await context.ensureProfileData(RampType.onRamp);
+              if (context.mounted && data != null) {
+                context.launchOnRampFlow(
+                  profile: data,
+                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.ramp_btnAddCash,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
       );
 }
 
@@ -104,33 +100,31 @@ class CashOutButton extends StatelessWidget {
   final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: Column(
-          children: [
-            CpIconButton(
-              icon: Assets.icons.withdrawn.svg(color: Colors.black),
-              variant: CpIconButtonVariant.dark,
-              size: CpIconButtonSize.large,
-              onPressed: () async {
-                final data = await context.ensureProfileData(RampType.offRamp);
-                if (context.mounted && data != null) {
-                  context.launchOffRampFlow(
-                    profile: data,
-                    address: sl<MyAccount>().wallet.publicKey.toBase58(),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 8),
-            Text(
-              context.l10n.ramp_btnCashOut,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge
-                  ?.copyWith(fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.withdrawn.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: () async {
+              final data = await context.ensureProfileData(RampType.offRamp);
+              if (context.mounted && data != null) {
+                context.launchOffRampFlow(
+                  profile: data,
+                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.ramp_btnCashOut,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
       );
 }
 
