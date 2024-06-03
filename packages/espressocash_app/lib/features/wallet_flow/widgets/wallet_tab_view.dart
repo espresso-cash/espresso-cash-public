@@ -107,7 +107,7 @@ class _ScreenState extends State<WalletMainScreen> {
                   children: [
                     Expanded(
                       child: CpButton(
-                        text: WalletOperation.request.buttonLabel(context),
+                        text: context.l10n.receive,
                         minWidth: width,
                         onPressed: widget.onRequest,
                         size: CpButtonSize.big,
@@ -116,7 +116,7 @@ class _ScreenState extends State<WalletMainScreen> {
                     const SizedBox(width: 27.0),
                     Expanded(
                       child: CpButton(
-                        text: WalletOperation.pay.buttonLabel(context),
+                        text: context.l10n.pay,
                         minWidth: width,
                         onPressed: widget.onPay,
                         size: CpButtonSize.big,
@@ -155,17 +155,6 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       );
-}
-
-extension on WalletOperation {
-  String buttonLabel(BuildContext context) {
-    switch (this) {
-      case WalletOperation.pay:
-        return context.l10n.pay;
-      case WalletOperation.request:
-        return context.l10n.receive;
-    }
-  }
 }
 
 enum WalletOperation { pay, request }
