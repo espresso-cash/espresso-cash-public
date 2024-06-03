@@ -7,7 +7,6 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
-import '../../../utils/routing.dart';
 import '../../activities/screens/activities_screen.dart';
 import '../../dynamic_links/services/dynamic_links_notifier.dart';
 import '../../incoming_link_payments/widgets/pending_ilp_listener.dart';
