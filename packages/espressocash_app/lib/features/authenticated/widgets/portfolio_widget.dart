@@ -8,7 +8,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/token_balance_repository.dart';
+import '../../balances/data/repository.dart';
 import '../../conversion_rates/services/watch_token_fiat_balance.dart';
 import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
