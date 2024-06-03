@@ -21,17 +21,24 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   static void openWalletTab(BuildContext context) {
-    context.openFirstScreen();
-    context.read<TabNotifier>().value = 1;
+    final _HomeScreenState? state =
+        context.findAncestorStateOfType<_HomeScreenState>();
+    if (state != null) {
+      state._pageController.jumpToPage(1);
+      state._tabNotifier.value = 1;
+    }
   }
 
   static void openActivitiesTab(
     BuildContext context, {
-    // ignore: avoid-unused-parameters, fix later
     ActivitiesTab tab = ActivitiesTab.pending,
   }) {
-    context.openFirstScreen();
-    context.read<TabNotifier>().value = 2;
+    final _HomeScreenState? state =
+        context.findAncestorStateOfType<_HomeScreenState>();
+    if (state != null) {
+      state._pageController.jumpToPage(2);
+      state._tabNotifier.value = 2;
+    }
   }
 
   @override
