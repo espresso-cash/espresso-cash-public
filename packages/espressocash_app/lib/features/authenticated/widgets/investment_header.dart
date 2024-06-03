@@ -59,69 +59,66 @@ class _Buttons extends StatelessWidget {
   final VoidCallback onSendMoneyPressed;
 
   @override
-  Widget build(BuildContext context) {
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);
-
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: CpColors.dashboardBackgroundColor,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(31),
-          topRight: Radius.circular(31),
-        ),
-      ),
-      child: ValueStreamBuilder<bool>(
-        create: () => sl<WatchUserCashBalance>().call().map((it) => it.isZero),
-        builder: (context, isZeroAmount) => Padding(
-          padding:
-              const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Text(
-                  isZeroAmount
-                      ? context.l10n.fundYourAccount
-                      : context.l10n.investmentHeaderButtonsTitle,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
-                    letterSpacing: 0.23,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  if (!isZeroAmount) ...[
-                    SizedBox(
-                      width: mediaQueryData.size.width * 0.3,
-                      child:
-                          PayOrRequestButton(voidCallback: onSendMoneyPressed),
-                    ),
-                  ],
-                  SizedBox(
-                    width: mediaQueryData.size.width * 0.3,
-                    child: const AddCashButton(size: CpButtonSize.wide),
-                  ),
-                  if (!isZeroAmount) ...[
-                    SizedBox(
-                      width: mediaQueryData.size.width * 0.3,
-                      child: const CashOutButton(size: CpButtonSize.wide),
-                    ),
-                  ],
-                ],
-              ),
-            ],
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: const BoxDecoration(
+          color: CpColors.dashboardBackgroundColor,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(31),
+            topRight: Radius.circular(31),
           ),
         ),
-      ),
-    );
-  }
+        child: ValueStreamBuilder<bool>(
+          create: () =>
+              sl<WatchUserCashBalance>().call().map((it) => it.isZero),
+          builder: (context, isZeroAmount) => Padding(
+            padding: const EdgeInsets.only(
+              left: 18,
+              top: 20,
+              right: 18,
+              bottom: 8,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                FittedBox(
+                  child: Text(
+                    isZeroAmount
+                        ? context.l10n.fundYourAccount
+                        : context.l10n.investmentHeaderButtonsTitle,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                      letterSpacing: 0.23,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    if (!isZeroAmount)
+                      Expanded(
+                        child: PayOrRequestButton(
+                          voidCallback: onSendMoneyPressed,
+                        ),
+                      ),
+                    const Expanded(
+                      child: AddCashButton(size: CpButtonSize.wide),
+                    ),
+                    if (!isZeroAmount)
+                      const Expanded(
+                        child: CashOutButton(size: CpButtonSize.wide),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
 }
 
 class _Info extends StatelessWidget {
