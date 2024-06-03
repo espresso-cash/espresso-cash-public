@@ -1,3 +1,16 @@
+## 1.120.0
+
+ - **REFACTOR**: request feature flag cleanup (#1455).
+ - **REFACTOR**: remove tx failure logging (#1453).
+ - **REFACTOR**: enable profiling (#1447).
+ - **FIX**: transaction request fixes (#1449).
+ - **FEAT**: show users list of tokens (#1433).
+ - **FEAT**: black background in activity and profile page (#1461).
+ - **FEAT**: fetch usd rate from backend (#1465).
+ - **FEAT**: homepage theme (#1452).
+ - **FEAT**: update local token list data (#1454).
+ - **FEAT**: update analytics (#1451).
+
 ## 1.119.0
 
  - **FEAT**: optmize startup time (#1444).

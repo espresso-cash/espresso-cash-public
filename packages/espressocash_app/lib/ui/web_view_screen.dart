@@ -33,8 +33,8 @@ class WebViewScreen extends StatefulWidget {
     required this.url,
     this.title,
     this.onLoaded,
-    this.theme,
-  });
+    CpThemeData? theme,
+  }) : theme = theme ?? const CpThemeData.black();
 
   static Future<void> push(
     BuildContext context, {

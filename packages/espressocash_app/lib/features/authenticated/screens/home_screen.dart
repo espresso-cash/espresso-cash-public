@@ -40,10 +40,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _tabNotifier = TabNotifier();
+  final _pageController = PageController();
 
   @override
   void dispose() {
     _tabNotifier.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -60,14 +62,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     builder: (context, value, _) => Scaffold(
                       backgroundColor: Colors.white,
                       extendBody: true,
-                      body: _pages[value].builder(context),
+                      body: PageView(
+                        controller: _pageController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children:
+                            _pages.map((e) => e.builder(context)).toList(),
+                      ),
                       bottomNavigationBar: CPNavigationBar(
                         items: _pages
                             .mapIndexed(
                               (i, p) => CpNavigationButton(
                                 icon: p.icon,
                                 active: value == i,
-                                onPressed: () => _tabNotifier.value = i,
+                                onPressed: () {
+                                  _tabNotifier.value = i;
+                                  _pageController.jumpToPage(i);
+                                },
                               ),
                             )
                             .toList(),
@@ -106,9 +116,8 @@ class TabNotifier extends ValueNotifier<int> {
 }
 
 // ignore: avoid-function-type-in-records, fix later
-final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
+final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
-    path: '/home',
     icon: Assets.icons.home,
     builder: (context) => MainScreen(
           onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
@@ -119,12 +128,10 @@ final List<({SvgGenImage icon, String path, WidgetBuilder builder})> _pages = [
         ),
   ),
   (
-    path: '/wallet',
     icon: Assets.icons.wallet,
     builder: (context) => const WalletScreen(),
   ),
   (
-    path: '/activities',
     icon: Assets.icons.notifications,
     builder: (context) => ActivitiesScreen(
           initialTab: ActivitiesTab.pending,
