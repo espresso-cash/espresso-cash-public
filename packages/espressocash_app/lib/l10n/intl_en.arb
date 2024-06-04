@@ -104,8 +104,6 @@
       }
     }
   },
-  "fundYourAccount": "Add Cash to your account to start sending money",
-  "@fundYourAccount": {},
   "incorrectPasscode": "Incorrect passcode. Retry again",
   "@incorrectPasscode": {},
   "insufficientFundsMessage": "You cannot send {amount}, you only have {balance} available.",
