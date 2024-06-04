@@ -54,5 +54,5 @@ class TokenList {
 }
 
 extension TokenExt on Iterable<Token> {
-  Iterable<String> get addresses => map((t) => t.symbol);
+  Iterable<String> get symbols => map((t) => t.symbol);
 }

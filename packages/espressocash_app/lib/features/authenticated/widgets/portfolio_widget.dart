@@ -14,6 +14,7 @@ import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class PortfolioWidget extends StatefulWidget {
@@ -34,7 +35,9 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
 
     return ValueStreamBuilder<IList<CryptoAmount>>(
       create: () => (
-        sl<TokenBalancesRepository>().watchTokenBalances(),
+        sl<TokenBalancesRepository>().watchTokenBalances(
+          ignoreTokens: [Token.usdc],
+        ),
         const IListConst([])
       ),
       builder: (context, balances) {

@@ -9,8 +9,6 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
-import '../../../ui/size.dart';
-import '../../../ui/tab_bar.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
 import '../../currency/models/amount.dart';
@@ -44,9 +42,6 @@ class WalletMainScreen extends StatefulWidget {
 
 class _ScreenState extends State<WalletMainScreen> {
   late final TextEditingController _amountController;
-  TabController? _tabController;
-
-  WalletOperation _action = WalletOperation.pay;
 
   @override
   void initState() {
@@ -60,7 +55,6 @@ class _ScreenState extends State<WalletMainScreen> {
     _amountController
       ..removeListener(_updateValue)
       ..dispose();
-    _tabController?.removeListener(_handleTabUpdate);
     super.dispose();
   }
 
@@ -76,27 +70,10 @@ class _ScreenState extends State<WalletMainScreen> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _tabController?.removeListener(_handleTabUpdate);
-    _tabController = DefaultTabController.of(context)
-      ..addListener(_handleTabUpdate);
-    _updateAction();
-  }
-
   void _updateValue() {
     final locale = DeviceLocale.localeOf(context);
     final amount = _amountController.text.toDecimalOrZero(locale);
     widget.onAmountChanged(amount);
-  }
-
-  void _handleTabUpdate() => setState(_updateAction);
-
-  void _updateAction() {
-    final tab = _tabController?.index ?? 0;
-
-    _action = WalletOperation.values[tab];
   }
 
   @override
@@ -109,7 +86,6 @@ class _ScreenState extends State<WalletMainScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              SizedBox(height: context.isSmall ? 24 : 32),
               AmountWithEquivalent(
                 inputController: _amountController,
                 token: widget.token,
@@ -126,20 +102,27 @@ class _ScreenState extends State<WalletMainScreen> {
               ),
               const SizedBox(height: 8),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: CpButton(
-                  text: _action.buttonLabel(context),
-                  minWidth: width,
-                  onPressed: () {
-                    switch (_action) {
-                      case WalletOperation.pay:
-                        widget.onPay();
-                      case WalletOperation.request:
-                        widget.onRequest();
-                    }
-                  },
-                  size:
-                      context.isSmall ? CpButtonSize.normal : CpButtonSize.big,
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CpButton(
+                        text: context.l10n.receive,
+                        minWidth: width,
+                        onPressed: widget.onRequest,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                    const SizedBox(width: 27.0),
+                    Expanded(
+                      child: CpButton(
+                        text: context.l10n.pay,
+                        minWidth: width,
+                        onPressed: widget.onPay,
+                        size: CpButtonSize.big,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 24),
@@ -170,32 +153,8 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
               variant: CpIconButtonVariant.black,
             ),
           ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 12),
-            child: SizedBox(
-              width: 220,
-              child: CpTabBar(
-                tabs: [
-                  Tab(text: context.l10n.pay),
-                  Tab(text: context.l10n.receive),
-                ],
-                variant: CpTabBarVariant.black,
-              ),
-            ),
-          ),
         ),
       );
-}
-
-extension on WalletOperation {
-  String buttonLabel(BuildContext context) {
-    switch (this) {
-      case WalletOperation.pay:
-        return context.l10n.pay;
-      case WalletOperation.request:
-        return context.l10n.receive;
-    }
-  }
 }
 
 enum WalletOperation { pay, request }

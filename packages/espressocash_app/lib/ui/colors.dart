@@ -57,6 +57,7 @@ abstract class CpColors {
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
   static const darkDividerColor = Color(0xff454243);
+  static const carouselDotColor = Color(0xffF0CE70);
 
   static const sliderDisabledColor = Color(0xff323232);
 
