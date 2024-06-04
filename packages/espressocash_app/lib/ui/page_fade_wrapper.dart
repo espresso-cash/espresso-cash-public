@@ -13,12 +13,13 @@ class PageFadeWrapper extends StatelessWidget {
         children: [
           child,
           const Positioned(
-            bottom: cpNavigationBarheight,
+            bottom: cpNavigationBarheight + 26,
             left: 0,
             right: 0,
             child: FadeGradient(
               height: 50,
               direction: FadeGradientDirection.bottomUp,
+              color: FadeGradientColor.dark,
             ),
           ),
         ],
@@ -34,7 +35,7 @@ class FadeGradient extends StatelessWidget {
     super.key,
     required this.height,
     required this.direction,
-    this.color = FadeGradientColor.white,
+    this.color = FadeGradientColor.dark,
   });
 
   final double height;

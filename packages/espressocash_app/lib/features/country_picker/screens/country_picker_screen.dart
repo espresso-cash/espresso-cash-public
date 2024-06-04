@@ -170,7 +170,6 @@ class _Wrapper extends StatelessWidget {
             child: FadeGradient(
               height: 100,
               direction: FadeGradientDirection.bottomUp,
-              color: FadeGradientColor.dark,
             ),
           ),
         ],
