@@ -8,7 +8,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
-import '../../balances/data/token_balance_repository.dart';
+import '../../balances/data/repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
 import '../../conversion_rates/data/repository.dart';

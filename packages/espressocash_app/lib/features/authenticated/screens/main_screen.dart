@@ -10,7 +10,7 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../balances/data/token_balance_repository.dart';
+import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
