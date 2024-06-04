@@ -81,7 +81,10 @@ class _MainContent extends StatelessWidget {
                 ),
                 const SliverToBoxAdapter(
                   child: Padding(
-                    padding: EdgeInsets.only(top: 24),
+                    padding: EdgeInsets.only(
+                      top: 24,
+                      bottom: 16,
+                    ),
                     child: Divider(
                       color: CpColors.homeDividerColor,
                       thickness: 1.0,
