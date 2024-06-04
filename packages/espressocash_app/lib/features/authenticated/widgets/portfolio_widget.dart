@@ -73,7 +73,7 @@ class PortfolioTile extends StatelessWidget {
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
                     create: () => (
-                      sl<TokenFiatBalanceService>().watchTotal(),
+                      sl<TokenFiatBalanceService>().watchInvestmentsBalance(),
                       Amount.zero(currency: Currency.usd),
                     ),
                     builder: (context, balance) => Flexible(

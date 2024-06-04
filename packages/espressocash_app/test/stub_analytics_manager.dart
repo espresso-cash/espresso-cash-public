@@ -33,5 +33,5 @@ class StubAnalyticsManager implements AnalyticsManager {
   }) {}
 
   @override
-  void setTotalCryptoBalance(Decimal value) {}
+  void setTotalInvestmentsBalance(Decimal value) {}
 }
