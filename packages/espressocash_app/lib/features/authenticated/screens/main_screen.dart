@@ -92,15 +92,7 @@ class _MainContentState extends State<_MainContent> {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CpColors.darkGoldBackgroundColor,
-              CpColors.dashboardBackgroundColor,
-            ],
-            stops: [0.49, 0.51],
-          ),
+          color: CpColors.dashboardBackgroundColor,
         ),
         child: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
@@ -137,6 +129,15 @@ class _MainContentState extends State<_MainContent> {
                       color: CpColors.homeDividerColor,
                       thickness: 1.0,
                       height: 1.0,
+                    ),
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 24),
+                    child: Divider(
+                      color: CpColors.homeDividerColor,
+                      thickness: 1.0,
                     ),
                   ),
                 ),
