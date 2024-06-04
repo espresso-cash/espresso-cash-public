@@ -7,7 +7,7 @@ import '../../currency/models/currency.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 
-class HomeAppBar extends StatefulWidget {
+class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     super.key,
     this.backgroundColor = CpColors.darkBackground,
@@ -17,11 +17,6 @@ class HomeAppBar extends StatefulWidget {
   final Color backgroundColor;
   final ScrollController? scrollController;
 
-  @override
-  State<HomeAppBar> createState() => _HomeAppBarState();
-}
-
-class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) => SliverAppBar(
         leading: Center(
@@ -47,7 +42,7 @@ class _HomeAppBarState extends State<HomeAppBar> {
         snap: false,
         floating: false,
         elevation: 0,
-        backgroundColor: widget.backgroundColor,
+        backgroundColor: backgroundColor,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
