@@ -71,8 +71,11 @@ class ProfileScreen extends StatelessWidget {
                                 top: 0,
                                 right: 0,
                                 child: CpIconButton(
-                                  icon: Assets.icons.closeButtonIcon.svg(),
+                                  icon: Assets.icons.closeButtonIcon.svg(
+                                    color: Colors.white,
+                                  ),
                                   onPressed: Navigator.of(context).pop,
+                                  variant: CpIconButtonVariant.black,
                                 ),
                               ),
                             ],
@@ -141,7 +144,6 @@ class _QrCodeWidget extends StatelessWidget {
       child: Container(
         height: 150,
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         decoration: const BoxDecoration(
           color: CpColors.darkBackgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -152,17 +154,20 @@ class _QrCodeWidget extends StatelessWidget {
               child: BarcodeWidget(
                 barcode: Barcode.qrCode(),
                 data: qrData,
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.all(22.0),
                 color: CpColors.lightGreyBackground,
               ),
             ),
             const SizedBox(width: 8),
             Expanded(
-              child: Text(
-                address.toBase58(),
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 22.0),
+                child: Text(
+                  address.toBase58(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
             ),
