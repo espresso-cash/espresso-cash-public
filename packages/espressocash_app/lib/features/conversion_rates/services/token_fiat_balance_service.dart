@@ -3,6 +3,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../analytics/analytics_manager.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -16,10 +17,12 @@ class TokenFiatBalanceService {
   const TokenFiatBalanceService(
     this._conversionRatesRepository,
     this._balancesRepository,
+    this._analyticsManager,
   );
 
   final ConversionRatesRepository _conversionRatesRepository;
   final TokenBalancesRepository _balancesRepository;
+  final AnalyticsManager _analyticsManager;
 
   static const _zeroFiat =
       FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency);
@@ -42,7 +45,10 @@ class TokenFiatBalanceService {
     ).distinct();
   }
 
-  Stream<FiatAmount> watchTotal() => _balancesRepository
+  Stream<FiatAmount> watchMainBalance() =>
+      watch(Token.usdc).map((it) => it ?? _zeroFiat);
+
+  Stream<FiatAmount> watchTotalInvestmentsBalance() => _balancesRepository
       .watchUserTokens(ignoreTokens: [Token.usdc])
       .flatMap(
         (tokens) => Rx.combineLatest(
@@ -52,22 +58,25 @@ class TokenFiatBalanceService {
               .fold(_zeroFiat, (total, next) => (total + next) as FiatAmount),
         ),
       )
-      .distinct();
+      .distinct()
+      .doOnData(_logTotalCryptoBalance);
 
-  Stream<FiatAmount> watchMainBalance() =>
-      watch(Token.usdc).map((it) => it ?? _zeroFiat);
+  Stream<IList<CryptoFiatAmount>> watchInvestmentBalances() =>
+      _balancesRepository
+          .watchTokenBalances(ignoreTokens: [Token.usdc])
+          .flatMap(
+            (cryptoAmounts) => Rx.combineLatest(
+              cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
+              (values) => values.map((e) => (e.$1, e.$2 ?? _zeroFiat)),
+            ),
+          )
+          .map((amount) => amount.toIList())
+          .map(
+            (amounts) =>
+                amounts.sort((a, b) => b.$2.value.compareTo(a.$2.value)),
+          )
+          .distinct();
 
-  Stream<IList<CryptoFiatAmount>> watchBalances() => _balancesRepository
-      .watchTokenBalances(ignoreTokens: [Token.usdc])
-      .flatMap(
-        (cryptoAmounts) => Rx.combineLatest(
-          cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
-          (values) => values.map((e) => (e.$1, e.$2 ?? _zeroFiat)),
-        ),
-      )
-      .map((amount) => amount.toIList())
-      .map(
-        (amounts) => amounts.sort((a, b) => b.$2.value.compareTo(a.$2.value)),
-      )
-      .distinct();
+  void _logTotalCryptoBalance(Amount total) =>
+      _analyticsManager.setTotalInvestmentsBalance(total.decimal);
 }
