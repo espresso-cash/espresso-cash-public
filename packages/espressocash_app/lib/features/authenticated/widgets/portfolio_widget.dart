@@ -13,10 +13,7 @@ import '../../conversion_rates/services/watch_token_total_balance.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
-
-const _ignoreTokens = [Token.usdc];
 
 class PortfolioWidget extends StatefulWidget {
   const PortfolioWidget({super.key});
@@ -74,9 +71,7 @@ class PortfolioTile extends StatelessWidget {
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
                     create: () => (
-                      sl<WatchTotalTokenFiatBalance>().call(
-                        ignoreTokens: _ignoreTokens,
-                      ),
+                      sl<WatchTotalTokenFiatBalance>().call(),
                       Amount.zero(currency: Currency.usd),
                     ),
                     builder: (context, balance) => Flexible(
