@@ -32,7 +32,7 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
 
     return ValueStreamBuilder<IList<CryptoFiatAmount>>(
       create: () => (
-        sl<TokenFiatBalanceService>().watchBalances(),
+        sl<TokenFiatBalanceService>().watchInvestmentBalances(),
         const IListConst([]),
       ),
       builder: (context, balances) {
@@ -73,7 +73,8 @@ class PortfolioTile extends StatelessWidget {
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
                     create: () => (
-                      sl<TokenFiatBalanceService>().watchInvestmentsBalance(),
+                      sl<TokenFiatBalanceService>()
+                          .watchTotalInvestmentsBalance(),
                       Amount.zero(currency: Currency.usd),
                     ),
                     builder: (context, balance) => Flexible(
