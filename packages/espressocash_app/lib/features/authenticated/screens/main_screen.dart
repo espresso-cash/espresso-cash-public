@@ -60,8 +60,6 @@ class _MainContent extends StatefulWidget {
 
 class _MainContentState extends State<_MainContent> {
   final ScrollController _scrollController = ScrollController();
-  Color homeAppBarBackgroundColor = CpColors.darkGoldBackgroundColor;
-
   Color _appBarColor = CpColors.darkGoldBackgroundColor;
 
   @override
@@ -72,7 +70,9 @@ class _MainContentState extends State<_MainContent> {
 
   @override
   void dispose() {
-    _scrollController.removeListener(_scrollListener);
+    _scrollController
+      ..removeListener(_scrollListener)
+      ..dispose();
     super.dispose();
   }
 
