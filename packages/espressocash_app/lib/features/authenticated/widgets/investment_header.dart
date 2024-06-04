@@ -73,7 +73,7 @@ class _Buttons extends StatelessWidget {
           builder: (context, isZeroAmount) => Padding(
             padding: const EdgeInsets.only(
               left: 18,
-              top: 20,
+              top: 32,
               right: 18,
               bottom: 8,
             ),
@@ -95,7 +95,7 @@ class _Buttons extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
