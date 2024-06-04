@@ -71,8 +71,12 @@ class _Buttons extends StatelessWidget {
           create: () =>
               sl<WatchUserCashBalance>().call().map((it) => it.isZero),
           builder: (context, isZeroAmount) => Padding(
-            padding:
-                const EdgeInsets.only(left: 18, top: 20, right: 18, bottom: 8),
+            padding: const EdgeInsets.only(
+              left: 18,
+              top: 20,
+              right: 18,
+              bottom: 8,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -93,24 +97,21 @@ class _Buttons extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (!isZeroAmount) ...[
-                      Flexible(
-                        child: CpButton(
-                          minWidth: 250,
-                          size: CpButtonSize.wide,
-                          text: context.l10n.sendMoney,
-                          onPressed: onSendMoneyPressed,
+                    if (!isZeroAmount)
+                      Expanded(
+                        child: PayOrRequestButton(
+                          voidCallback: onSendMoneyPressed,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                    ],
-                    const AddCashButton(size: CpButtonSize.wide),
-                    if (!isZeroAmount) ...[
-                      const SizedBox(width: 8),
-                      const CashOutButton(size: CpButtonSize.wide),
-                    ],
+                    const Expanded(
+                      child: AddCashButton(size: CpButtonSize.wide),
+                    ),
+                    if (!isZeroAmount)
+                      const Expanded(
+                        child: CashOutButton(size: CpButtonSize.wide),
+                      ),
                   ],
                 ),
               ],

@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
+import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
 import '../../profile/data/profile_repository.dart';
@@ -22,6 +24,36 @@ import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
 import 'off_ramp_bottom_sheet.dart';
 
+class PayOrRequestButton extends StatelessWidget {
+  const PayOrRequestButton({
+    super.key,
+    required this.voidCallback,
+    this.size = CpButtonSize.normal,
+  });
+
+  final CpButtonSize size;
+  final VoidCallback voidCallback;
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.dolar.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: voidCallback,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.requestOrSendPayment,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
+      );
+}
+
 class AddCashButton extends StatelessWidget {
   const AddCashButton({
     super.key,
@@ -31,21 +63,31 @@ class AddCashButton extends StatelessWidget {
   final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: CpButton(
-          size: size,
-          minWidth: 250,
-          text: context.l10n.ramp_btnAddCash,
-          onPressed: () async {
-            final data = await context.ensureProfileData(RampType.onRamp);
-            if (context.mounted && data != null) {
-              context.launchOnRampFlow(
-                profile: data,
-                address: sl<MyAccount>().wallet.publicKey.toBase58(),
-              );
-            }
-          },
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.addAlternative.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: () async {
+              final data = await context.ensureProfileData(RampType.onRamp);
+              if (context.mounted && data != null) {
+                context.launchOnRampFlow(
+                  profile: data,
+                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.ramp_btnAddCash,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
       );
 }
 
@@ -58,21 +100,31 @@ class CashOutButton extends StatelessWidget {
   final CpButtonSize size;
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        child: CpButton(
-          size: size,
-          minWidth: 250,
-          text: context.l10n.ramp_btnCashOut,
-          onPressed: () async {
-            final data = await context.ensureProfileData(RampType.offRamp);
-            if (context.mounted && data != null) {
-              context.launchOffRampFlow(
-                profile: data,
-                address: sl<MyAccount>().wallet.publicKey.toBase58(),
-              );
-            }
-          },
-        ),
+  Widget build(BuildContext context) => Column(
+        children: [
+          CpIconButton(
+            icon: Assets.icons.withdrawn.svg(color: Colors.black),
+            variant: CpIconButtonVariant.dark,
+            size: CpIconButtonSize.large,
+            onPressed: () async {
+              final data = await context.ensureProfileData(RampType.offRamp);
+              if (context.mounted && data != null) {
+                context.launchOffRampFlow(
+                  profile: data,
+                  address: sl<MyAccount>().wallet.publicKey.toBase58(),
+                );
+              }
+            },
+          ),
+          const SizedBox(height: 8),
+          Text(
+            context.l10n.ramp_btnCashOut,
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge
+                ?.copyWith(fontWeight: FontWeight.w500),
+          ),
+        ],
       );
 }
 

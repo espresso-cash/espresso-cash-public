@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_api/src/dto/get_rates.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -112,7 +111,7 @@ abstract class EspressoCashClient {
   Future<GetFreeNonceResponseDto> getFreeNonce();
 
   @POST('/submitDurableTx')
-  Future<void> submitDurableTx(
+  Future<SubmitDurableTxResponseDto> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
   );
 
@@ -133,4 +132,9 @@ abstract class EspressoCashClient {
 
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
+
+  @POST('/getPriorityFeeEstimate')
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
+    @Body() PriorityFeesRequestDto request,
+  );
 }

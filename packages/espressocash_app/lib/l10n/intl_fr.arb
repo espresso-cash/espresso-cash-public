@@ -563,7 +563,7 @@
   "@requestNotePlaceholder": {},
   "requestNoteRequesting": "Demander",
   "@requestNoteRequesting": {},
-  "requestOrSendPayment": "Demander ou envoyer un paiement",
+  "requestOrSendPayment": "Envoyer ou Demander",
   "@requestOrSendPayment": {},
   "resendLink": "Réenvoyer le lien",
   "@resendLink": {},

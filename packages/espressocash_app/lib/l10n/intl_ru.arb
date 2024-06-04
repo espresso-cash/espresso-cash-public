@@ -565,7 +565,7 @@
   "@requestNotePlaceholder": {},
   "requestNoteRequesting": " Запрос на",
   "@requestNoteRequesting": {},
-  "requestOrSendPayment": "Запросить или отправить платеж",
+  "requestOrSendPayment": "Отправить или запросить",
   "@requestOrSendPayment": {},
   "resendLink": "Отправить ссылки еще раз",
   "@resendLink": {},
