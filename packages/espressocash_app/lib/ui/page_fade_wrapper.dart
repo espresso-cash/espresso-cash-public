@@ -17,7 +17,7 @@ class PageFadeWrapper extends StatelessWidget {
             left: 0,
             right: 0,
             child: FadeGradient(
-              height: 50,
+              height: 24,
               direction: FadeGradientDirection.bottomUp,
               color: FadeGradientColor.dark,
             ),

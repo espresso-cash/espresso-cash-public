@@ -45,7 +45,7 @@ class MainScreen extends StatelessWidget {
       );
 }
 
-class _MainContent extends StatelessWidget {
+class _MainContent extends StatefulWidget {
   const _MainContent({
     required this.onSendMoneyPressed,
     required this.onTransactionsPressed,
@@ -55,10 +55,48 @@ class _MainContent extends StatelessWidget {
   final VoidCallback onTransactionsPressed;
 
   @override
+  State<_MainContent> createState() => _MainContentState();
+}
+
+class _MainContentState extends State<_MainContent> {
+  final ScrollController _scrollController = ScrollController();
+  Color homeAppBarBackgroundColor = CpColors.darkGoldBackgroundColor;
+
+  Color _appBarColor = CpColors.darkGoldBackgroundColor;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    super.dispose();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.offset > 150) {
+      _appBarColor = CpColors.dashboardBackgroundColor;
+    } else {
+      _appBarColor = CpColors.darkGoldBackgroundColor;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
         decoration: const BoxDecoration(
-          color: CpColors.dashboardBackgroundColor,
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              CpColors.darkGoldBackgroundColor,
+              CpColors.dashboardBackgroundColor,
+            ],
+            stops: [0.49, 0.51],
+          ),
         ),
         child: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
@@ -70,24 +108,31 @@ class _MainContent extends StatelessWidget {
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
-                const HomeAppBar(
-                  backgroundColor: CpColors.darkGoldBackgroundColor,
+                AnimatedBuilder(
+                  animation: _scrollController,
+                  builder: (context, child) => HomeAppBar(
+                    backgroundColor: _appBarColor,
+                    scrollController: _scrollController,
+                  ),
                 ),
                 SliverToBoxAdapter(
                   child: InvestmentHeader(
-                    onSendMoneyPressed: onSendMoneyPressed,
+                    onSendMoneyPressed: widget.onSendMoneyPressed,
                   ),
                 ),
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(
+                SliverToBoxAdapter(
+                  child: Container(
+                    padding: const EdgeInsets.only(
                       top: 24,
                       bottom: 16,
                     ),
-                    child: Divider(
+                    color: CpColors.dashboardBackgroundColor,
+                    child: const Divider(
                       color: CpColors.homeDividerColor,
                       thickness: 1.0,
+                      height: 1.0,
                     ),
                   ),
                 ),
@@ -100,7 +145,7 @@ class _MainContent extends StatelessWidget {
                     builder: (context, tokens) => tokens.isNotEmpty
                         ? const SizedBox.shrink()
                         : HomeCarouselWidget(
-                            onSendMoneyPressed: onSendMoneyPressed,
+                            onSendMoneyPressed: widget.onSendMoneyPressed,
                           ),
                   ),
                 ),
@@ -109,8 +154,8 @@ class _MainContent extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: RecentActivityWidget(
-                    onSendMoneyPressed: onSendMoneyPressed,
-                    onTransactionsPressed: onTransactionsPressed,
+                    onSendMoneyPressed: widget.onSendMoneyPressed,
+                    onTransactionsPressed: widget.onTransactionsPressed,
                   ),
                 ),
                 SliverToBoxAdapter(

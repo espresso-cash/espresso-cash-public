@@ -7,24 +7,32 @@ import '../../currency/models/currency.dart';
 import '../../profile/screens/profile_screen.dart';
 import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 
-class HomeAppBar extends StatelessWidget {
+class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
     super.key,
     this.backgroundColor = CpColors.darkBackground,
+    this.scrollController,
   });
 
   final Color backgroundColor;
+  final ScrollController? scrollController;
 
+  @override
+  State<HomeAppBar> createState() => _HomeAppBarState();
+}
+
+class _HomeAppBarState extends State<HomeAppBar> {
   @override
   Widget build(BuildContext context) => SliverAppBar(
         leading: Center(
           child: Padding(
-            padding: const EdgeInsets.only(left: 8.0, bottom: 4.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: CpIconButton(
               icon: Assets.icons.qrScanner.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
-              onPressed: () =>
-                  context.launchQrScannerFlow(cryptoCurrency: Currency.usdc),
+              onPressed: () => context.launchQrScannerFlow(
+                cryptoCurrency: Currency.usdc,
+              ),
             ),
           ),
         ),
@@ -39,13 +47,10 @@ class HomeAppBar extends StatelessWidget {
         snap: false,
         floating: false,
         elevation: 0,
-        backgroundColor: backgroundColor,
+        backgroundColor: widget.backgroundColor,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(
-              right: 8.0,
-              bottom: 4.0,
-            ),
+            padding: const EdgeInsets.only(right: 8.0),
             child: CpIconButton(
               icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
@@ -54,6 +59,6 @@ class HomeAppBar extends StatelessWidget {
           ),
           const SizedBox(width: 12),
         ],
-        toolbarHeight: kToolbarHeight + 12,
+        toolbarHeight: kToolbarHeight + 4,
       );
 }
