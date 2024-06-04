@@ -58,15 +58,7 @@ class _MainContent extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CpColors.darkGoldBackgroundColor,
-              CpColors.dashboardBackgroundColor,
-            ],
-            stops: [0.49, 0.51],
-          ),
+          color: CpColors.dashboardBackgroundColor,
         ),
         child: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
@@ -85,6 +77,15 @@ class _MainContent extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: InvestmentHeader(
                     onSendMoneyPressed: onSendMoneyPressed,
+                  ),
+                ),
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 24),
+                    child: Divider(
+                      color: CpColors.homeDividerColor,
+                      thickness: 1.0,
+                    ),
                   ),
                 ),
                 SliverToBoxAdapter(
