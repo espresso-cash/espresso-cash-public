@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
-import '../../../ui/value_stream_builder.dart';
-import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import 'balance_amount.dart';
 
@@ -67,59 +64,47 @@ class _Buttons extends StatelessWidget {
             topRight: Radius.circular(31),
           ),
         ),
-        child: ValueStreamBuilder<bool>(
-          create: () => (
-            sl<TokenFiatBalanceService>()
-                .watchMainBalance()
-                .map((it) => it.isZero),
-            true,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 18,
+            top: 20,
+            right: 18,
+            bottom: 8,
           ),
-          builder: (context, isZeroAmount) => Padding(
-            padding: const EdgeInsets.only(
-              left: 18,
-              top: 20,
-              right: 18,
-              bottom: 8,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FittedBox(
-                  child: Text(
-                    isZeroAmount
-                        ? context.l10n.fundYourAccount
-                        : context.l10n.investmentHeaderButtonsTitle,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 17,
-                      letterSpacing: 0.23,
-                    ),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              FittedBox(
+                child: Text(
+                  context.l10n.investmentHeaderButtonsTitle,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 17,
+                    letterSpacing: 0.23,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    if (!isZeroAmount)
-                      Expanded(
-                        child: PayOrRequestButton(
-                          voidCallback: onSendMoneyPressed,
-                        ),
-                      ),
-                    const Expanded(
-                      child: AddCashButton(size: CpButtonSize.wide),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Expanded(
+                    child: PayOrRequestButton(
+                      voidCallback: onSendMoneyPressed,
                     ),
-                    if (!isZeroAmount)
-                      const Expanded(
-                        child: CashOutButton(size: CpButtonSize.wide),
-                      ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  const Expanded(
+                    child: AddCashButton(size: CpButtonSize.wide),
+                  ),
+                  const Expanded(
+                    child: CashOutButton(size: CpButtonSize.wide),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       );
