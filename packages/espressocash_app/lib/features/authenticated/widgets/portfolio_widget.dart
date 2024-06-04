@@ -9,7 +9,6 @@ import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
-import '../../conversion_rates/services/watch_investments.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -32,7 +31,10 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
     super.build(context);
 
     return ValueStreamBuilder<IList<CryptoFiatAmount>>(
-      create: () => (sl<WatchInvestments>().call(), const IListConst([])),
+      create: () => (
+        sl<TokenFiatBalanceService>().watchBalances(),
+        const IListConst([]),
+      ),
       builder: (context, balances) {
         final hasTokens = balances.isNotEmpty;
 
