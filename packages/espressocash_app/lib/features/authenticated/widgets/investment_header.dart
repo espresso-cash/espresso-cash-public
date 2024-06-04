@@ -40,7 +40,7 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
                     _Headline(onInfo: _handleInfoPressed),
                     const SizedBox(height: 4),
                     const BalanceAmount(),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: 12),
                   ],
                 ),
               ),
