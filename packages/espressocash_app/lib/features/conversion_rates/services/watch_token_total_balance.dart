@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../analytics/analytics_manager.dart';
 import '../../balances/data/token_balance_repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -13,10 +14,15 @@ class WatchTotalTokenFiatBalance {
   const WatchTotalTokenFiatBalance(
     this._balancesRepository,
     this._watchTokenFiatBalance,
+    this._analyticsManager,
   );
 
   final TokenBalancesRepository _balancesRepository;
   final WatchTokenFiatBalance _watchTokenFiatBalance;
+  final AnalyticsManager _analyticsManager;
+
+  void _logTotalCryptoBalance(Amount total) =>
+      _analyticsManager.setTotalCryptoBalance(total.decimal);
 
   Stream<Amount> call() => _balancesRepository
       .watchUserTokens(ignoreTokens: [Token.usdc])
@@ -29,5 +35,6 @@ class WatchTotalTokenFiatBalance {
               ),
         ),
       )
-      .distinct();
+      .distinct()
+      .doOnData(_logTotalCryptoBalance);
 }

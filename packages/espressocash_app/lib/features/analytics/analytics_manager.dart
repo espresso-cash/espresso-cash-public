@@ -35,6 +35,10 @@ class AnalyticsManager {
     _analytics.getPeople().set('usdcBalance', value.toDouble());
   }
 
+  void setTotalCryptoBalance(Decimal value) {
+    _analytics.getPeople().set('cryptoBalance', value.toDouble());
+  }
+
   void setProfileCountryCode(String countryCode) {
     _analytics.getPeople().set('profileCountryCode', countryCode);
   }
