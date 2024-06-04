@@ -101,6 +101,7 @@ extension on ILPStatusDto {
       case ILPStatusDto.txSent:
         return ILPStatus.txSent(
           tx ?? StubSignedTx(txId!),
+          signature: row.txId!,
         );
       case ILPStatusDto.success:
         final feeAmount = row.feeAmount;
@@ -149,6 +150,7 @@ extension on ILPStatus {
       );
 
   String? toTxId() => mapOrNull(
+        txSent: (it) => it.signature,
         success: (it) => it.tx.id,
       );
 

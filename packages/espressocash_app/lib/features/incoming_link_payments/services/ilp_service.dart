@@ -137,11 +137,13 @@ class ILPService implements Disposable {
     final tx = status.tx;
 
     try {
-      final signature = await _ecClient.submitDurableTx(
-        SubmitDurableTxRequestDto(
-          tx: tx.encode(),
-        ),
-      ); //TODO upd signature
+      final signature = await _ecClient
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
 
       return payment.copyWith(
         status: ILPStatus.txSent(tx, signature: signature),

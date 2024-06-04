@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../escrow/models/escrow_private_key.dart';
 import '../../escrow_payments/create_canceled_escrow.dart';
@@ -34,14 +35,16 @@ class OLPService implements Disposable {
     this._ecClient,
     this._txConfirm,
     this._analyticsManager,
+    this._refreshBalance,
   );
 
   final OLPRepository _repository;
   final CreateOutgoingEscrow _createOutgoingEscrow;
   final CreateCanceledEscrow _createCanceledEscrow;
   final EspressoCashClient _ecClient;
-  final TxConfirm _txConfirm; //TODO confirm not needed
+  final TxConfirm _txConfirm;
   final AnalyticsManager _analyticsManager;
+  final RefreshBalance _refreshBalance;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -73,8 +76,8 @@ class OLPService implements Disposable {
         case OLPStatusCancelTxCreated():
           return _sendCanceled(payment).asStream();
 
-        case OLPStatusCancelTxSent(): //TODO confirm not needed
-        // return _processCanceled(payment).asStream();
+        case OLPStatusCancelTxSent():
+          return _processCanceled(payment).asStream();
 
         case OLPStatusTxFailure():
         case OLPStatusCancelTxFailure():
@@ -232,11 +235,13 @@ class OLPService implements Disposable {
     final tx = status.tx;
 
     try {
-      final signature = await _ecClient.submitDurableTx(
-        SubmitDurableTxRequestDto(
-          tx: tx.encode(),
-        ),
-      ); //TODO
+      final signature = await _ecClient
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
 
       _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
 
@@ -276,6 +281,8 @@ class OLPService implements Disposable {
       escrow: status.escrow,
     );
 
+    _refreshBalance();
+
     return payment.copyWith(status: newStatus);
   }
 
@@ -290,13 +297,13 @@ class OLPService implements Disposable {
     final tx = status.tx;
 
     try {
-      final signature = await _ecClient.submitDurableTx(
-        SubmitDurableTxRequestDto(
-          tx: tx.encode(),
-        ),
-      ); //TODO upd signature
-
-      _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
+      final signature = await _ecClient
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
 
       return payment.copyWith(
         status: OLPStatus.cancelTxSent(
@@ -315,26 +322,28 @@ class OLPService implements Disposable {
     }
   }
 
-  // Future<OutgoingLinkPayment> _processCanceled( //TODO confirm not needed
-  //   OutgoingLinkPayment payment,
-  // ) async {
-  //   final status = payment.status;
+  Future<OutgoingLinkPayment> _processCanceled(
+    OutgoingLinkPayment payment,
+  ) async {
+    final status = payment.status;
 
-  //   if (status is! OLPStatusCancelTxSent) {
-  //     return payment;
-  //   }
+    if (status is! OLPStatusCancelTxSent) {
+      return payment;
+    }
 
-  //   await _txConfirm(signature: status.signature);
+    await _txConfirm(signature: status.signature);
 
-  //   _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
+    _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 
-  //   return payment.copyWith(
-  //     status: OLPStatus.canceled(
-  //       txId: status.signature,
-  //       timestamp: DateTime.now(),
-  //     ),
-  //   );
-  // }
+    _refreshBalance();
+
+    return payment.copyWith(
+      status: OLPStatus.canceled(
+        txId: status.signature,
+        timestamp: DateTime.now(),
+      ),
+    );
+  }
 
   @override
   Future<void> onDispose() async {
