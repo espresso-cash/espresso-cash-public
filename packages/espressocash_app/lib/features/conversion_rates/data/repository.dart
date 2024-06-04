@@ -62,7 +62,7 @@ class ConversionRatesRepository extends ChangeNotifier {
     Iterable<Token> tokens,
   ) =>
       tryEitherAsync((_) async {
-        final ids = await Stream.fromIterable(tokens.addresses)
+        final ids = await Stream.fromIterable(tokens.symbols)
             .bufferCount(_maxIds)
             .toList();
 

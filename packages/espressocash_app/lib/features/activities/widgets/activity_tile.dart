@@ -76,7 +76,7 @@ class CpActivityTile extends StatelessWidget {
 const _titleStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
-  color: CpColors.lightGreyBackground,
+  color: Colors.white,
   fontWeight: FontWeight.w600,
 );
 
@@ -89,7 +89,7 @@ const _inAmountStyle = TextStyle(
 
 const _subtitleStyle = TextStyle(
   fontSize: 14,
-  color: CpColors.secondaryTextColor,
+  color: Colors.white,
   letterSpacing: .19,
 );
 

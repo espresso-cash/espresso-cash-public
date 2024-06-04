@@ -12,7 +12,7 @@ part of 'durable_transactions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 GetFreeNonceResponseDto _$GetFreeNonceResponseDtoFromJson(
     Map<String, dynamic> json) {
@@ -336,5 +336,152 @@ abstract class _SubmitDurableTxRequestDto implements SubmitDurableTxRequestDto {
   @override
   @JsonKey(ignore: true)
   _$$SubmitDurableTxRequestDtoImplCopyWith<_$SubmitDurableTxRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SubmitDurableTxResponseDto _$SubmitDurableTxResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _SubmitDurableTxResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SubmitDurableTxResponseDto {
+  String get signature => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SubmitDurableTxResponseDtoCopyWith<SubmitDurableTxResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SubmitDurableTxResponseDtoCopyWith<$Res> {
+  factory $SubmitDurableTxResponseDtoCopyWith(SubmitDurableTxResponseDto value,
+          $Res Function(SubmitDurableTxResponseDto) then) =
+      _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
+          SubmitDurableTxResponseDto>;
+  @useResult
+  $Res call({String signature});
+}
+
+/// @nodoc
+class _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
+        $Val extends SubmitDurableTxResponseDto>
+    implements $SubmitDurableTxResponseDtoCopyWith<$Res> {
+  _$SubmitDurableTxResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signature = null,
+  }) {
+    return _then(_value.copyWith(
+      signature: null == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SubmitDurableTxResponseDtoImplCopyWith<$Res>
+    implements $SubmitDurableTxResponseDtoCopyWith<$Res> {
+  factory _$$SubmitDurableTxResponseDtoImplCopyWith(
+          _$SubmitDurableTxResponseDtoImpl value,
+          $Res Function(_$SubmitDurableTxResponseDtoImpl) then) =
+      __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String signature});
+}
+
+/// @nodoc
+class __$$SubmitDurableTxResponseDtoImplCopyWithImpl<$Res>
+    extends _$SubmitDurableTxResponseDtoCopyWithImpl<$Res,
+        _$SubmitDurableTxResponseDtoImpl>
+    implements _$$SubmitDurableTxResponseDtoImplCopyWith<$Res> {
+  __$$SubmitDurableTxResponseDtoImplCopyWithImpl(
+      _$SubmitDurableTxResponseDtoImpl _value,
+      $Res Function(_$SubmitDurableTxResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signature = null,
+  }) {
+    return _then(_$SubmitDurableTxResponseDtoImpl(
+      signature: null == signature
+          ? _value.signature
+          : signature // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SubmitDurableTxResponseDtoImpl implements _SubmitDurableTxResponseDto {
+  const _$SubmitDurableTxResponseDtoImpl({required this.signature});
+
+  factory _$SubmitDurableTxResponseDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$SubmitDurableTxResponseDtoImplFromJson(json);
+
+  @override
+  final String signature;
+
+  @override
+  String toString() {
+    return 'SubmitDurableTxResponseDto(signature: $signature)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SubmitDurableTxResponseDtoImpl &&
+            (identical(other.signature, signature) ||
+                other.signature == signature));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, signature);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl>
+      get copyWith => __$$SubmitDurableTxResponseDtoImplCopyWithImpl<
+          _$SubmitDurableTxResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SubmitDurableTxResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SubmitDurableTxResponseDto
+    implements SubmitDurableTxResponseDto {
+  const factory _SubmitDurableTxResponseDto({required final String signature}) =
+      _$SubmitDurableTxResponseDtoImpl;
+
+  factory _SubmitDurableTxResponseDto.fromJson(Map<String, dynamic> json) =
+      _$SubmitDurableTxResponseDtoImpl.fromJson;
+
+  @override
+  String get signature;
+  @override
+  @JsonKey(ignore: true)
+  _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
