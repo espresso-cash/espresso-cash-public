@@ -142,36 +142,41 @@ class _QrCodeWidget extends StatelessWidget {
     return InkWell(
       onTap: () => context.copyToClipboard(qrData),
       child: Container(
-        height: 150,
-        alignment: Alignment.center,
+        padding: EdgeInsets.zero,
+        alignment: Alignment.centerLeft,
         decoration: const BoxDecoration(
           color: CpColors.darkBackgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: BarcodeWidget(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 22,
+            vertical: 19,
+          ),
+          child: Row(
+            children: [
+              BarcodeWidget(
                 barcode: Barcode.qrCode(),
+                width: 101,
+                height: 101,
                 data: qrData,
-                padding: const EdgeInsets.all(22.0),
                 color: CpColors.lightGreyBackground,
               ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 22.0),
-                child: Text(
-                  address.toBase58(),
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+              const SizedBox(width: 32),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.zero,
+                  child: Text(
+                    address.toBase58(),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
