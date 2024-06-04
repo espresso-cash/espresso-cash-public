@@ -10,9 +10,7 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../conversion_rates/services/watch_token_fiat_balance.dart';
-import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../investments/services/watch_investments.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
@@ -36,10 +34,9 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
         child: ValueStreamBuilder<bool>(
           create: () => (
-            sl<WatchTokenFiatBalance>()
-                .call(Token.usdc)
-                .map((event) => event ?? Amount.zero(currency: Currency.usd))
-                .map((event) => event.isZero),
+            sl<TokenFiatBalanceService>()
+                .watchMainBalance()
+                .map((it) => it.isZero),
             true,
           ),
           builder: (context, isZeroAmount) => isZeroAmount
