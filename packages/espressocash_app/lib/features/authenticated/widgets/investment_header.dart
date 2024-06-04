@@ -87,7 +87,7 @@ class _Buttons extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 19),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

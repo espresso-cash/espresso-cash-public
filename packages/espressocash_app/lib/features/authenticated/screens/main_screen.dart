@@ -121,8 +121,8 @@ class _MainContentState extends State<_MainContent> {
                 SliverToBoxAdapter(
                   child: Container(
                     padding: const EdgeInsets.only(
-                      top: 24,
-                      bottom: 16,
+                      top: 28,
+                      bottom: 18,
                     ),
                     color: CpColors.dashboardBackgroundColor,
                     child: const Divider(
