@@ -99,12 +99,11 @@ class _Buttons extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (!isZeroAmount)
-                      Expanded(
-                        child: PayOrRequestButton(
-                          voidCallback: onSendMoneyPressed,
-                        ),
+                    Expanded(
+                      child: PayOrRequestButton(
+                        voidCallback: onSendMoneyPressed,
                       ),
+                    ),
                     const Expanded(
                       child: AddCashButton(size: CpButtonSize.wide),
                     ),
