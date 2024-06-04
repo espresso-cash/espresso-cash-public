@@ -10,8 +10,8 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../conversion_rates/services/token_fiat_balance_service.dart';
-import '../../investments/services/watch_investments.dart';
+import '../../balances/data/repository.dart';
+import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
@@ -34,12 +34,12 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) => CpTheme.dark(
         child: ValueStreamBuilder<bool>(
           create: () => (
-            sl<TokenFiatBalanceService>()
-                .watchMainBalance()
-                .map((it) => it.isZero),
-            true,
+            sl<TokenBalancesRepository>()
+                .watchUserTokens()
+                .map((it) => it.isEmpty),
+            true
           ),
-          builder: (context, isZeroAmount) => isZeroAmount
+          builder: (context, isEmpty) => isEmpty
               ? const HomeAddCashContent()
               : _MainContent(
                   onSendMoneyPressed: onSendMoneyPressed,
@@ -141,10 +141,12 @@ class _MainContentState extends State<_MainContent> {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: ValueStreamBuilder<IList<Token>>(
+                  child: ValueStreamBuilder<IList<CryptoAmount>>(
                     create: () => (
-                      sl<WatchInvestments>().call(),
-                      const IListConst([]),
+                      sl<TokenBalancesRepository>().watchTokenBalances(
+                        ignoreTokens: [Token.usdc],
+                      ),
+                      const IListConst([])
                     ),
                     builder: (context, tokens) => tokens.isNotEmpty
                         ? const SizedBox.shrink()
