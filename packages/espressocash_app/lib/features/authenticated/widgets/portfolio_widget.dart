@@ -188,7 +188,6 @@ class _TokenItem extends StatelessWidget {
             ),
           ],
         ),
-        // isThreeLine: true,
       ),
     );
   }
