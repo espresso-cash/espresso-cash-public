@@ -168,7 +168,7 @@ extension on OLPStatusDto {
         return OLPStatus.txSent(
           tx ?? StubSignedTx(txId!),
           escrow: escrow!,
-          signature: row.txId ?? '', //TODO confirm
+          signature: row.txId ?? '',
         );
       case OLPStatusDto.linkReady:
         final link = row.link?.let(Uri.parse);
@@ -199,7 +199,7 @@ extension on OLPStatusDto {
         return OLPStatus.cancelTxSent(
           cancelTx!,
           escrow: escrow!,
-          signature: row.cancelTxId ?? '', //TODO confirm
+          signature: row.cancelTxId ?? '',
         );
     }
   }
