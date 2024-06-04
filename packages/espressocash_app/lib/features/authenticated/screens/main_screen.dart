@@ -10,7 +10,7 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../conversion_rates/services/watch_cash_fiat_balance.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../investments/services/watch_investments.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
@@ -33,8 +33,12 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => CpTheme.dark(
         child: ValueStreamBuilder<bool>(
-          create: () =>
-              sl<WatchUserCashBalance>().call().map((it) => it.isZero),
+          create: () => (
+            sl<TokenFiatBalanceService>()
+                .watchMainBalance()
+                .map((it) => it.isZero),
+            true,
+          ),
           builder: (context, isZeroAmount) => isZeroAmount
               ? const HomeAddCashContent()
               : _MainContent(

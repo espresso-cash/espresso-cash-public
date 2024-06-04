@@ -8,9 +8,8 @@ import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/token_balance_repository.dart';
-import '../../conversion_rates/services/watch_token_fiat_balance.dart';
-import '../../conversion_rates/services/watch_token_total_balance.dart';
+import '../../balances/data/repository.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -78,7 +77,7 @@ class PortfolioTile extends StatelessWidget {
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
                     create: () => (
-                      sl<WatchTotalTokenFiatBalance>().call(),
+                      sl<TokenFiatBalanceService>().watchTotal(),
                       Amount.zero(currency: Currency.usd),
                     ),
                     builder: (context, balance) => Flexible(
@@ -142,7 +141,7 @@ class _TokenItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        create: () => (sl<WatchTokenFiatBalance>().call(amount.token), null),
+        create: () => (sl<TokenFiatBalanceService>().watch(amount.token), null),
         builder: (context, fiatAmount) {
           String fiatAmountText;
 
