@@ -7,9 +7,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import '../../../utils/flow.dart';
-import '../../balances/data/cash_balance_repository.dart';
+import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/token.dart';
 import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
@@ -24,9 +25,9 @@ typedef _Emitter = Emitter<_State>;
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
     required QuoteRepository quoteRepository,
-    required CashBalanceRepository balancesRepository,
+    required TokenBalancesRepository balancesRepository,
   })  : _quoteRepository = quoteRepository,
-        _usdcBalance = balancesRepository.read(),
+        _balancesRepository = balancesRepository,
         super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
@@ -39,7 +40,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   }
 
   final QuoteRepository _quoteRepository;
-  final CryptoAmount _usdcBalance;
+  final TokenBalancesRepository _balancesRepository;
 
   Timer? _timer;
 
@@ -59,8 +60,9 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     add(const Invalidated());
   }
 
-  void _onConfirmed(Confirmed _, _Emitter emit) {
-    state.validate(_usdcBalance).fold(
+  Future<void> _onConfirmed(Confirmed _, _Emitter emit) async {
+    final usdcBalance = await _balancesRepository.read(Token.usdc);
+    state.validate(usdcBalance).fold(
       (e) {
         emit(state.copyWith(flowState: Flow.failure(e)));
         emit(state.copyWith(flowState: const Flow.initial()));
