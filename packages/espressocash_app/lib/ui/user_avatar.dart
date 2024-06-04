@@ -18,6 +18,7 @@ class CpUserAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String text = substring(userName, 0, 2).toUpperCase();
+
     return CircleAvatar(
       radius: radius,
       backgroundColor: CpColors.darkGoldBackgroundColor,
