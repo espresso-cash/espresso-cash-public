@@ -12,6 +12,7 @@ enum CpIconButtonVariant {
 }
 
 enum CpIconButtonSize {
+  large,
   big,
   normal,
   small,
@@ -49,6 +50,8 @@ class CpIconButton extends StatelessWidget {
 
   double get _size {
     switch (size) {
+      case CpIconButtonSize.large:
+        return 72;
       case CpIconButtonSize.big:
         return 40;
       case CpIconButtonSize.normal:
@@ -68,6 +71,7 @@ class CpIconButton extends StatelessWidget {
           color: _backgroundColor,
         ),
         child: IconButton(
+          iconSize: _size,
           padding: const EdgeInsets.all(6),
           icon: icon,
           onPressed: onPressed,

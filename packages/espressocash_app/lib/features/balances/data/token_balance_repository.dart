@@ -29,9 +29,15 @@ class TokenBalancesRepository {
         );
   }
 
-  Stream<ISet<Token>> watchUserTokens() {
+  Stream<ISet<Token>> watchUserTokens({
+    Iterable<Token> ignoreTokens = const [],
+  }) {
     final query = _db.tokenBalanceRows.select()
-      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
+      ..where(
+        (tbl) =>
+            tbl.amount.isBiggerThanValue(0) &
+            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+      );
 
     return query.watch().map(
           (rows) => rows
@@ -45,7 +51,11 @@ class TokenBalancesRepository {
     Iterable<Token> ignoreTokens = const [],
   }) {
     final query = _db.tokenBalanceRows.select()
-      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
+      ..where(
+        (tbl) =>
+            tbl.amount.isBiggerThanValue(0) &
+            tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
+      );
 
     return query.watch().map(
           (rows) => rows

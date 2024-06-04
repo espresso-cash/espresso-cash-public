@@ -33,3 +33,15 @@ Map<String, dynamic> _$$SubmitDurableTxRequestDtoImplToJson(
     <String, dynamic>{
       'tx': instance.tx,
     };
+
+_$SubmitDurableTxResponseDtoImpl _$$SubmitDurableTxResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SubmitDurableTxResponseDtoImpl(
+      signature: json['signature'] as String,
+    );
+
+Map<String, dynamic> _$$SubmitDurableTxResponseDtoImplToJson(
+        _$SubmitDurableTxResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'signature': instance.signature,
+    };
