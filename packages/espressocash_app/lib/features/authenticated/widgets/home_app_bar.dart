@@ -10,12 +10,10 @@ import '../../wallet_flow/widgets/launch_qr_scanner_flow.dart';
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     super.key,
-    this.backgroundColor = CpColors.darkBackground,
-    this.scrollController,
+    this.backgroundColor = CpColors.darkGoldBackgroundColor,
   });
 
   final Color backgroundColor;
-  final ScrollController? scrollController;
 
   @override
   Widget build(BuildContext context) => SliverAppBar(

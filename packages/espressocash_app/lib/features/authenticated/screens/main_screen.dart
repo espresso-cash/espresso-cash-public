@@ -63,31 +63,6 @@ class _MainContent extends StatefulWidget {
 }
 
 class _MainContentState extends State<_MainContent> {
-  final ScrollController _scrollController = ScrollController();
-  Color _appBarColor = CpColors.darkGoldBackgroundColor;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_scrollListener)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _scrollListener() {
-    if (_scrollController.offset > 150) {
-      _appBarColor = CpColors.dashboardBackgroundColor;
-    } else {
-      _appBarColor = CpColors.darkGoldBackgroundColor;
-    }
-  }
-
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
@@ -112,15 +87,8 @@ class _MainContentState extends State<_MainContent> {
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
             child: CustomScrollView(
-              controller: _scrollController,
               slivers: [
-                AnimatedBuilder(
-                  animation: _scrollController,
-                  builder: (context, child) => HomeAppBar(
-                    backgroundColor: _appBarColor,
-                    scrollController: _scrollController,
-                  ),
-                ),
+                const HomeAppBar(),
                 SliverToBoxAdapter(
                   child: InvestmentHeader(
                     onSendMoneyPressed: widget.onSendMoneyPressed,
