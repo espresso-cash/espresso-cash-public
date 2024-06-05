@@ -3,6 +3,11 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
 import '../../config.dart';
+import '../../data/db/db.dart';
+import '../../di.dart';
+import 'data/token_dto.dart';
+import 'data/token_repository.dart';
+import 'services/token_service.dart';
 import 'token.dart';
 
 part 'token_list.g.dart';
@@ -19,13 +24,18 @@ const Map<String, dynamic> localTokenList = _$localTokenListJsonLiteral;
 class TokenList {
   factory TokenList({
     int chainId = currentChainId,
+    TokenService? service,
     @visibleForTesting Map<String, dynamic>? data,
   }) {
     if (_instance?.chainId == chainId) {
       // ignore: avoid-non-null-assertion, cannot be null here
       return _instance!;
     }
-    _instance = TokenList._(chainId: chainId, data: data ?? _solanaTokenList);
+    _instance = TokenList._(
+      chainId: chainId,
+      data: data ?? _solanaTokenList,
+      service: service ?? TokenService(_repository),
+    );
 
     // ignore: avoid-non-null-assertion, cannot be null here
     return _instance!;
@@ -34,12 +44,23 @@ class TokenList {
   TokenList._({
     required this.chainId,
     required Map<String, dynamic> data,
-  }) : _parsedContent = ParsedContent.fromJson(data);
-
+    required this.service,
+  })  : _parsedContent = ParsedContent.fromJson(data),
+        _allTokensDB = [] {
+    initialize();
+  }
   static TokenList? _instance;
+
+  static final TokenListRepository _repository =
+      TokenListRepository(sl<MyDatabase>());
+
+  final TokenService? service;
 
   final ParsedContent _parsedContent;
   final int chainId;
+
+  // ignore: unused_field
+  Iterable<TokenDTO> _allTokensDB;
 
   Iterable<Token> get _allTokens => _parsedContent.tokens;
 
@@ -51,6 +72,20 @@ class TokenList {
 
   // ignore: avoid-non-null-assertion, required here
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
+
+  Future<void> _populateDatabase() async {
+    await service!.initializeDatabaseWithJson(_solanaTokenList);
+    _allTokensDB = await service!.getAllTokens();
+  }
+
+  Future<void> initialize() async {
+    final tokenList = await service!.getAllTokens();
+    if (tokenList.isEmpty) {
+      await _populateDatabase();
+    } else {
+      _allTokensDB = tokenList;
+    }
+  }
 }
 
 extension TokenExt on Iterable<Token> {
