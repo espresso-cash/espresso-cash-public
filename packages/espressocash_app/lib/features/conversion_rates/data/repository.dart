@@ -92,12 +92,16 @@ class ConversionRatesRepository extends ChangeNotifier {
               if (data == null) return map;
               final rate = data.price * usdcRate;
 
-              return map.add(
-                CryptoCurrency(
-                  token: tokens.firstWhere((t) => t.symbol == value),
-                ),
-                Decimal.parse(rate.toString()),
-              );
+              final matchingTokens = tokens.where((t) => t.symbol == value);
+
+              for (final token in matchingTokens) {
+                map = map.add(
+                  CryptoCurrency(token: token),
+                  Decimal.parse(rate.toString()),
+                );
+              }
+
+              return map;
             }),
           ),
         );
