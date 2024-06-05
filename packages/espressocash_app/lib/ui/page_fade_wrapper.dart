@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
-import 'navigation_bar/navigation_bar.dart';
 
 class PageFadeWrapper extends StatelessWidget {
   const PageFadeWrapper({super.key, required this.child});
@@ -9,21 +8,25 @@ class PageFadeWrapper extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          child,
-          const Positioned(
-            bottom: cpNavigationBarheight + 26,
-            left: 0,
-            right: 0,
-            child: FadeGradient(
-              height: 24,
-              direction: FadeGradientDirection.bottomUp,
-              color: FadeGradientColor.dark,
-            ),
+  Widget build(BuildContext context) {
+    final double bottom = MediaQuery.of(context).padding.bottom;
+
+    return Stack(
+      children: [
+        child,
+        Positioned(
+          bottom: bottom,
+          left: 0,
+          right: 0,
+          child: const FadeGradient(
+            height: 30,
+            direction: FadeGradientDirection.bottomUp,
+            color: FadeGradientColor.dark,
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 enum FadeGradientDirection { topDown, bottomUp }
