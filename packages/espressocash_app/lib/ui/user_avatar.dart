@@ -36,7 +36,6 @@ class CpUserAvatar extends StatelessWidget {
 }
 
 const TextStyle _textStyle = TextStyle(
-  fontFamily: 'RobotoApp',
   height: 1.4,
   fontSize: 32.0,
   fontWeight: FontWeight.w500,
