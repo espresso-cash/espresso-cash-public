@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'colors.dart';
 
 class CpSwitch extends StatelessWidget {
   const CpSwitch({
@@ -15,8 +15,8 @@ class CpSwitch extends StatelessWidget {
   Widget build(BuildContext context) => CupertinoSwitch(
         value: value,
         onChanged: onChanged,
-        thumbColor: value ? const Color(0xffFCC829) : Colors.white,
+        thumbColor: value ? const Color(0xffFCC829) : const Color(0xff555151),
         activeColor: const Color(0xff2D2B2B),
-        trackColor: const Color(0xffD2D2D2),
+        trackColor: CpColors.dashboardBackgroundColor,
       );
 }
