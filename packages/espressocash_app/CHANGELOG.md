@@ -1,3 +1,13 @@
+## 1.121.0
+
+ - **REFACTOR**: balances module (#1476).
+ - **FIX**: main screen flow (#1487).
+ - **FIX**: ignore usdc token on crypto portfolio (#1478).
+ - **FIX**: activity tile text color to white (#1477).
+ - **FEAT**: log total crypto balance (#1488).
+ - **FEAT**: sort crypto portfolio list (#1480).
+ - **FEAT**: home & payment improved buttons (#1468).
+
 ## 1.120.0
 
  - **REFACTOR**: request feature flag cleanup (#1455).
