@@ -31,7 +31,7 @@ class HomeAppBar extends StatelessWidget {
         ),
         shape: const Border(),
         title: Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
+          padding: const EdgeInsets.only(bottom: 4.0, right: 8.0),
           child: Center(
             child: Assets.images.logo.image(height: 32),
           ),
@@ -63,10 +63,10 @@ class HomeScaffoldAppBar extends StatelessWidget
   });
 
   @override
-  Widget build(BuildContext context) => AppBar(
-        leading: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 8.0),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: AppBar(
+          leading: Center(
             child: CpIconButton(
               icon: Assets.icons.qrScanner.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
@@ -75,28 +75,25 @@ class HomeScaffoldAppBar extends StatelessWidget
               ),
             ),
           ),
-        ),
-        shape: const Border(),
-        title: Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
-          child: Center(
-            child: Assets.images.logo.image(height: 32),
+          shape: const Border(),
+          title: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 0.0, right: 16.0),
+              child: Assets.images.logo.image(height: 32),
+            ),
           ),
-        ),
-        elevation: 0,
-        backgroundColor: CpColors.darkGoldBackgroundColor,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: CpIconButton(
+          elevation: 0,
+          backgroundColor: CpColors.darkGoldBackgroundColor,
+          actions: [
+            CpIconButton(
               icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
               variant: CpIconButtonVariant.dark,
               onPressed: () => ProfileScreen.push(context),
             ),
-          ),
-          const SizedBox(width: 12),
-        ],
-        toolbarHeight: kToolbarHeight + 4,
+            const SizedBox(width: 12),
+          ],
+          toolbarHeight: kToolbarHeight + 4,
+        ),
       );
 
   @override
