@@ -45,3 +45,33 @@ Map<String, dynamic> _$$SubmitDurableTxResponseDtoImplToJson(
     <String, dynamic>{
       'signature': instance.signature,
     };
+
+_$GetDurableFeesResponseDtoImpl _$$GetDurableFeesResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GetDurableFeesResponseDtoImpl(
+      lamportPrice: (json['lamportPrice'] as num).toInt(),
+      maxPriorityFee: MaxPriorityFee.fromJson(
+          json['maxPriorityFee'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$GetDurableFeesResponseDtoImplToJson(
+        _$GetDurableFeesResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'lamportPrice': instance.lamportPrice,
+      'maxPriorityFee': instance.maxPriorityFee,
+    };
+
+_$MaxPriorityFeeImpl _$$MaxPriorityFeeImplFromJson(Map<String, dynamic> json) =>
+    _$MaxPriorityFeeImpl(
+      outgoingLink: (json['outgoingLink'] as num).toInt(),
+      incomingLink: (json['incomingLink'] as num).toInt(),
+      cancelLink: (json['cancelLink'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$MaxPriorityFeeImplToJson(
+        _$MaxPriorityFeeImpl instance) =>
+    <String, dynamic>{
+      'outgoingLink': instance.outgoingLink,
+      'incomingLink': instance.incomingLink,
+      'cancelLink': instance.cancelLink,
+    };
