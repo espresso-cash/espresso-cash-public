@@ -14,37 +14,39 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-InitiateStellarDepositRequestDto _$InitiateStellarDepositRequestDtoFromJson(
+MoneygramDepositRequestDto _$MoneygramDepositRequestDtoFromJson(
     Map<String, dynamic> json) {
-  return _InitiateStellarDepositRequestDto.fromJson(json);
+  return _MoneygramDepositRequestDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$InitiateStellarDepositRequestDto {
+mixin _$MoneygramDepositRequestDto {
   String get signedTx => throw _privateConstructorUsedError;
+  String get account => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
+  String get lang => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $InitiateStellarDepositRequestDtoCopyWith<InitiateStellarDepositRequestDto>
+  $MoneygramDepositRequestDtoCopyWith<MoneygramDepositRequestDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InitiateStellarDepositRequestDtoCopyWith<$Res> {
-  factory $InitiateStellarDepositRequestDtoCopyWith(
-          InitiateStellarDepositRequestDto value,
-          $Res Function(InitiateStellarDepositRequestDto) then) =
-      _$InitiateStellarDepositRequestDtoCopyWithImpl<$Res,
-          InitiateStellarDepositRequestDto>;
+abstract class $MoneygramDepositRequestDtoCopyWith<$Res> {
+  factory $MoneygramDepositRequestDtoCopyWith(MoneygramDepositRequestDto value,
+          $Res Function(MoneygramDepositRequestDto) then) =
+      _$MoneygramDepositRequestDtoCopyWithImpl<$Res,
+          MoneygramDepositRequestDto>;
   @useResult
-  $Res call({String signedTx});
+  $Res call({String signedTx, String account, String amount, String lang});
 }
 
 /// @nodoc
-class _$InitiateStellarDepositRequestDtoCopyWithImpl<$Res,
-        $Val extends InitiateStellarDepositRequestDto>
-    implements $InitiateStellarDepositRequestDtoCopyWith<$Res> {
-  _$InitiateStellarDepositRequestDtoCopyWithImpl(this._value, this._then);
+class _$MoneygramDepositRequestDtoCopyWithImpl<$Res,
+        $Val extends MoneygramDepositRequestDto>
+    implements $MoneygramDepositRequestDtoCopyWith<$Res> {
+  _$MoneygramDepositRequestDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -55,47 +57,77 @@ class _$InitiateStellarDepositRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? signedTx = null,
+    Object? account = null,
+    Object? amount = null,
+    Object? lang = null,
   }) {
     return _then(_value.copyWith(
       signedTx: null == signedTx
           ? _value.signedTx
           : signedTx // ignore: cast_nullable_to_non_nullable
               as String,
+      account: null == account
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      lang: null == lang
+          ? _value.lang
+          : lang // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$InitiateStellarDepositRequestDtoImplCopyWith<$Res>
-    implements $InitiateStellarDepositRequestDtoCopyWith<$Res> {
-  factory _$$InitiateStellarDepositRequestDtoImplCopyWith(
-          _$InitiateStellarDepositRequestDtoImpl value,
-          $Res Function(_$InitiateStellarDepositRequestDtoImpl) then) =
-      __$$InitiateStellarDepositRequestDtoImplCopyWithImpl<$Res>;
+abstract class _$$MoneygramDepositRequestDtoImplCopyWith<$Res>
+    implements $MoneygramDepositRequestDtoCopyWith<$Res> {
+  factory _$$MoneygramDepositRequestDtoImplCopyWith(
+          _$MoneygramDepositRequestDtoImpl value,
+          $Res Function(_$MoneygramDepositRequestDtoImpl) then) =
+      __$$MoneygramDepositRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String signedTx});
+  $Res call({String signedTx, String account, String amount, String lang});
 }
 
 /// @nodoc
-class __$$InitiateStellarDepositRequestDtoImplCopyWithImpl<$Res>
-    extends _$InitiateStellarDepositRequestDtoCopyWithImpl<$Res,
-        _$InitiateStellarDepositRequestDtoImpl>
-    implements _$$InitiateStellarDepositRequestDtoImplCopyWith<$Res> {
-  __$$InitiateStellarDepositRequestDtoImplCopyWithImpl(
-      _$InitiateStellarDepositRequestDtoImpl _value,
-      $Res Function(_$InitiateStellarDepositRequestDtoImpl) _then)
+class __$$MoneygramDepositRequestDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramDepositRequestDtoCopyWithImpl<$Res,
+        _$MoneygramDepositRequestDtoImpl>
+    implements _$$MoneygramDepositRequestDtoImplCopyWith<$Res> {
+  __$$MoneygramDepositRequestDtoImplCopyWithImpl(
+      _$MoneygramDepositRequestDtoImpl _value,
+      $Res Function(_$MoneygramDepositRequestDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? signedTx = null,
+    Object? account = null,
+    Object? amount = null,
+    Object? lang = null,
   }) {
-    return _then(_$InitiateStellarDepositRequestDtoImpl(
+    return _then(_$MoneygramDepositRequestDtoImpl(
       signedTx: null == signedTx
           ? _value.signedTx
           : signedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+      account: null == account
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      lang: null == lang
+          ? _value.lang
+          : lang // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -103,101 +135,119 @@ class __$$InitiateStellarDepositRequestDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$InitiateStellarDepositRequestDtoImpl
-    implements _InitiateStellarDepositRequestDto {
-  const _$InitiateStellarDepositRequestDtoImpl({required this.signedTx});
+class _$MoneygramDepositRequestDtoImpl implements _MoneygramDepositRequestDto {
+  const _$MoneygramDepositRequestDtoImpl(
+      {required this.signedTx,
+      required this.account,
+      required this.amount,
+      required this.lang});
 
-  factory _$InitiateStellarDepositRequestDtoImpl.fromJson(
+  factory _$MoneygramDepositRequestDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$InitiateStellarDepositRequestDtoImplFromJson(json);
+      _$$MoneygramDepositRequestDtoImplFromJson(json);
 
   @override
   final String signedTx;
+  @override
+  final String account;
+  @override
+  final String amount;
+  @override
+  final String lang;
 
   @override
   String toString() {
-    return 'InitiateStellarDepositRequestDto(signedTx: $signedTx)';
+    return 'MoneygramDepositRequestDto(signedTx: $signedTx, account: $account, amount: $amount, lang: $lang)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InitiateStellarDepositRequestDtoImpl &&
+            other is _$MoneygramDepositRequestDtoImpl &&
             (identical(other.signedTx, signedTx) ||
-                other.signedTx == signedTx));
+                other.signedTx == signedTx) &&
+            (identical(other.account, account) || other.account == account) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.lang, lang) || other.lang == lang));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, signedTx);
+  int get hashCode => Object.hash(runtimeType, signedTx, account, amount, lang);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InitiateStellarDepositRequestDtoImplCopyWith<
-          _$InitiateStellarDepositRequestDtoImpl>
-      get copyWith => __$$InitiateStellarDepositRequestDtoImplCopyWithImpl<
-          _$InitiateStellarDepositRequestDtoImpl>(this, _$identity);
+  _$$MoneygramDepositRequestDtoImplCopyWith<_$MoneygramDepositRequestDtoImpl>
+      get copyWith => __$$MoneygramDepositRequestDtoImplCopyWithImpl<
+          _$MoneygramDepositRequestDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InitiateStellarDepositRequestDtoImplToJson(
+    return _$$MoneygramDepositRequestDtoImplToJson(
       this,
     );
   }
 }
 
-abstract class _InitiateStellarDepositRequestDto
-    implements InitiateStellarDepositRequestDto {
-  const factory _InitiateStellarDepositRequestDto(
-          {required final String signedTx}) =
-      _$InitiateStellarDepositRequestDtoImpl;
+abstract class _MoneygramDepositRequestDto
+    implements MoneygramDepositRequestDto {
+  const factory _MoneygramDepositRequestDto(
+      {required final String signedTx,
+      required final String account,
+      required final String amount,
+      required final String lang}) = _$MoneygramDepositRequestDtoImpl;
 
-  factory _InitiateStellarDepositRequestDto.fromJson(
-          Map<String, dynamic> json) =
-      _$InitiateStellarDepositRequestDtoImpl.fromJson;
+  factory _MoneygramDepositRequestDto.fromJson(Map<String, dynamic> json) =
+      _$MoneygramDepositRequestDtoImpl.fromJson;
 
   @override
   String get signedTx;
   @override
+  String get account;
+  @override
+  String get amount;
+  @override
+  String get lang;
+  @override
   @JsonKey(ignore: true)
-  _$$InitiateStellarDepositRequestDtoImplCopyWith<
-          _$InitiateStellarDepositRequestDtoImpl>
+  _$$MoneygramDepositRequestDtoImplCopyWith<_$MoneygramDepositRequestDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
-InitiateStellarDepositResponseDto _$InitiateStellarDepositResponseDtoFromJson(
+MoneygramDepositResponseDto _$MoneygramDepositResponseDtoFromJson(
     Map<String, dynamic> json) {
-  return _InitiateStellarDepositResponseDto.fromJson(json);
+  return _MoneygramDepositResponseDto.fromJson(json);
 }
 
 /// @nodoc
-mixin _$InitiateStellarDepositResponseDto {
+mixin _$MoneygramDepositResponseDto {
   String get url => throw _privateConstructorUsedError;
+  String get id => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $InitiateStellarDepositResponseDtoCopyWith<InitiateStellarDepositResponseDto>
+  $MoneygramDepositResponseDtoCopyWith<MoneygramDepositResponseDto>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InitiateStellarDepositResponseDtoCopyWith<$Res> {
-  factory $InitiateStellarDepositResponseDtoCopyWith(
-          InitiateStellarDepositResponseDto value,
-          $Res Function(InitiateStellarDepositResponseDto) then) =
-      _$InitiateStellarDepositResponseDtoCopyWithImpl<$Res,
-          InitiateStellarDepositResponseDto>;
+abstract class $MoneygramDepositResponseDtoCopyWith<$Res> {
+  factory $MoneygramDepositResponseDtoCopyWith(
+          MoneygramDepositResponseDto value,
+          $Res Function(MoneygramDepositResponseDto) then) =
+      _$MoneygramDepositResponseDtoCopyWithImpl<$Res,
+          MoneygramDepositResponseDto>;
   @useResult
-  $Res call({String url});
+  $Res call({String url, String id});
 }
 
 /// @nodoc
-class _$InitiateStellarDepositResponseDtoCopyWithImpl<$Res,
-        $Val extends InitiateStellarDepositResponseDto>
-    implements $InitiateStellarDepositResponseDtoCopyWith<$Res> {
-  _$InitiateStellarDepositResponseDtoCopyWithImpl(this._value, this._then);
+class _$MoneygramDepositResponseDtoCopyWithImpl<$Res,
+        $Val extends MoneygramDepositResponseDto>
+    implements $MoneygramDepositResponseDtoCopyWith<$Res> {
+  _$MoneygramDepositResponseDtoCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -208,47 +258,57 @@ class _$InitiateStellarDepositResponseDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? url = null,
+    Object? id = null,
   }) {
     return _then(_value.copyWith(
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$InitiateStellarDepositResponseDtoImplCopyWith<$Res>
-    implements $InitiateStellarDepositResponseDtoCopyWith<$Res> {
-  factory _$$InitiateStellarDepositResponseDtoImplCopyWith(
-          _$InitiateStellarDepositResponseDtoImpl value,
-          $Res Function(_$InitiateStellarDepositResponseDtoImpl) then) =
-      __$$InitiateStellarDepositResponseDtoImplCopyWithImpl<$Res>;
+abstract class _$$MoneygramDepositResponseDtoImplCopyWith<$Res>
+    implements $MoneygramDepositResponseDtoCopyWith<$Res> {
+  factory _$$MoneygramDepositResponseDtoImplCopyWith(
+          _$MoneygramDepositResponseDtoImpl value,
+          $Res Function(_$MoneygramDepositResponseDtoImpl) then) =
+      __$$MoneygramDepositResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String url});
+  $Res call({String url, String id});
 }
 
 /// @nodoc
-class __$$InitiateStellarDepositResponseDtoImplCopyWithImpl<$Res>
-    extends _$InitiateStellarDepositResponseDtoCopyWithImpl<$Res,
-        _$InitiateStellarDepositResponseDtoImpl>
-    implements _$$InitiateStellarDepositResponseDtoImplCopyWith<$Res> {
-  __$$InitiateStellarDepositResponseDtoImplCopyWithImpl(
-      _$InitiateStellarDepositResponseDtoImpl _value,
-      $Res Function(_$InitiateStellarDepositResponseDtoImpl) _then)
+class __$$MoneygramDepositResponseDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramDepositResponseDtoCopyWithImpl<$Res,
+        _$MoneygramDepositResponseDtoImpl>
+    implements _$$MoneygramDepositResponseDtoImplCopyWith<$Res> {
+  __$$MoneygramDepositResponseDtoImplCopyWithImpl(
+      _$MoneygramDepositResponseDtoImpl _value,
+      $Res Function(_$MoneygramDepositResponseDtoImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? url = null,
+    Object? id = null,
   }) {
-    return _then(_$InitiateStellarDepositResponseDtoImpl(
+    return _then(_$MoneygramDepositResponseDtoImpl(
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
+              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -256,64 +316,68 @@ class __$$InitiateStellarDepositResponseDtoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$InitiateStellarDepositResponseDtoImpl
-    implements _InitiateStellarDepositResponseDto {
-  const _$InitiateStellarDepositResponseDtoImpl({required this.url});
+class _$MoneygramDepositResponseDtoImpl
+    implements _MoneygramDepositResponseDto {
+  const _$MoneygramDepositResponseDtoImpl(
+      {required this.url, required this.id});
 
-  factory _$InitiateStellarDepositResponseDtoImpl.fromJson(
+  factory _$MoneygramDepositResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
-      _$$InitiateStellarDepositResponseDtoImplFromJson(json);
+      _$$MoneygramDepositResponseDtoImplFromJson(json);
 
   @override
   final String url;
+  @override
+  final String id;
 
   @override
   String toString() {
-    return 'InitiateStellarDepositResponseDto(url: $url)';
+    return 'MoneygramDepositResponseDto(url: $url, id: $id)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InitiateStellarDepositResponseDtoImpl &&
-            (identical(other.url, url) || other.url == url));
+            other is _$MoneygramDepositResponseDtoImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.id, id) || other.id == id));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, url);
+  int get hashCode => Object.hash(runtimeType, url, id);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InitiateStellarDepositResponseDtoImplCopyWith<
-          _$InitiateStellarDepositResponseDtoImpl>
-      get copyWith => __$$InitiateStellarDepositResponseDtoImplCopyWithImpl<
-          _$InitiateStellarDepositResponseDtoImpl>(this, _$identity);
+  _$$MoneygramDepositResponseDtoImplCopyWith<_$MoneygramDepositResponseDtoImpl>
+      get copyWith => __$$MoneygramDepositResponseDtoImplCopyWithImpl<
+          _$MoneygramDepositResponseDtoImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InitiateStellarDepositResponseDtoImplToJson(
+    return _$$MoneygramDepositResponseDtoImplToJson(
       this,
     );
   }
 }
 
-abstract class _InitiateStellarDepositResponseDto
-    implements InitiateStellarDepositResponseDto {
-  const factory _InitiateStellarDepositResponseDto(
-      {required final String url}) = _$InitiateStellarDepositResponseDtoImpl;
+abstract class _MoneygramDepositResponseDto
+    implements MoneygramDepositResponseDto {
+  const factory _MoneygramDepositResponseDto(
+      {required final String url,
+      required final String id}) = _$MoneygramDepositResponseDtoImpl;
 
-  factory _InitiateStellarDepositResponseDto.fromJson(
-          Map<String, dynamic> json) =
-      _$InitiateStellarDepositResponseDtoImpl.fromJson;
+  factory _MoneygramDepositResponseDto.fromJson(Map<String, dynamic> json) =
+      _$MoneygramDepositResponseDtoImpl.fromJson;
 
   @override
   String get url;
   @override
+  String get id;
+  @override
   @JsonKey(ignore: true)
-  _$$InitiateStellarDepositResponseDtoImplCopyWith<
-          _$InitiateStellarDepositResponseDtoImpl>
+  _$$MoneygramDepositResponseDtoImplCopyWith<_$MoneygramDepositResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

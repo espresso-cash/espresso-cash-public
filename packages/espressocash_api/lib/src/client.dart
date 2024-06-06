@@ -138,8 +138,8 @@ abstract class EspressoCashClient {
     @Body() PriorityFeesRequestDto request,
   );
 
-  @POST('/stellar/initiateDeposit')
-  Future<InitiateStellarDepositResponseDto> initiateStellarDeposit(
-    @Body() InitiateStellarDepositRequestDto request,
+  @POST('/moneygram/startDeposit')
+  Future<MoneygramDepositResponseDto> initiateMoneygramDeposit(
+    @Body() MoneygramDepositRequestDto request,
   );
 }

@@ -3,26 +3,27 @@ part 'stellar.freezed.dart';
 part 'stellar.g.dart';
 
 @freezed
-class InitiateStellarDepositRequestDto with _$InitiateStellarDepositRequestDto {
-  const factory InitiateStellarDepositRequestDto({
+class MoneygramDepositRequestDto with _$MoneygramDepositRequestDto {
+  const factory MoneygramDepositRequestDto({
     required String signedTx,
-  }) = _InitiateStellarDepositRequestDto;
+    required String account,
+    required String amount,
+    required String lang,
+  }) = _MoneygramDepositRequestDto;
 
-  factory InitiateStellarDepositRequestDto.fromJson(
+  factory MoneygramDepositRequestDto.fromJson(
     Map<String, dynamic> json,
   ) =>
-      _$InitiateStellarDepositRequestDtoFromJson(json);
+      _$MoneygramDepositRequestDtoFromJson(json);
 }
 
 @freezed
-class InitiateStellarDepositResponseDto
-    with _$InitiateStellarDepositResponseDto {
-  const factory InitiateStellarDepositResponseDto({
+class MoneygramDepositResponseDto with _$MoneygramDepositResponseDto {
+  const factory MoneygramDepositResponseDto({
     required String url,
-  }) = _InitiateStellarDepositResponseDto;
+    required String id,
+  }) = _MoneygramDepositResponseDto;
 
-  factory InitiateStellarDepositResponseDto.fromJson(
-    Map<String, dynamic> json,
-  ) =>
-      _$InitiateStellarDepositResponseDtoFromJson(json);
+  factory MoneygramDepositResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MoneygramDepositResponseDtoFromJson(json);
 }
