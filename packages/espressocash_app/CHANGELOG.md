@@ -1,3 +1,9 @@
+## 1.121.1
+
+ - **FIX**: do not wait for intercom login (#1493).
+ - **FIX**: profile spacing colors (#1490).
+ - **FIX**: sol conversion matching (#1491).
+
 ## 1.121.0
 
  - **REFACTOR**: balances module (#1476).
