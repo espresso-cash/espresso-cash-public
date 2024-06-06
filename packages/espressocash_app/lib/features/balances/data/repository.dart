@@ -17,6 +17,20 @@ class TokenBalancesRepository {
   final MyDatabase _db;
   final TokenList _tokens;
 
+  Future<CryptoAmount> read(Token token) async {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.token.equals(token.address));
+
+    final row = await query.getSingleOrNull();
+
+    return row == null
+        ? CryptoAmount(value: 0, cryptoCurrency: CryptoCurrency(token: token))
+        : CryptoAmount(
+            value: row.amount,
+            cryptoCurrency: CryptoCurrency(token: token),
+          );
+  }
+
   Future<ISet<Token>> readUserTokens() {
     final query = _db.tokenBalanceRows.select()
       ..where((tbl) => tbl.amount.isBiggerThanValue(0));
@@ -61,6 +75,10 @@ class TokenBalancesRepository {
           (rows) => rows
               .map((row) {
                 final token = _tokens.findTokenByMint(row.token);
+
+                if (ignoreTokens.contains(token)) {
+                  return null;
+                }
 
                 return token == null
                     ? null
