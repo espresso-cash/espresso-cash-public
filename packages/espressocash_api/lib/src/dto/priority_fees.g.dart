@@ -21,12 +21,12 @@ Map<String, dynamic> _$$PriorityFeesRequestDtoImplToJson(
 _$PriorityFeesResponseDtoImpl _$$PriorityFeesResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$PriorityFeesResponseDtoImpl(
-      none: json['none'] as int?,
-      low: json['low'] as int?,
-      medium: json['medium'] as int?,
-      high: json['high'] as int?,
-      veryHigh: json['veryHigh'] as int?,
-      unsafeMax: json['unsafeMax'] as int?,
+      none: (json['none'] as num?)?.toInt(),
+      low: (json['low'] as num?)?.toInt(),
+      medium: (json['medium'] as num?)?.toInt(),
+      high: (json['high'] as num?)?.toInt(),
+      veryHigh: (json['veryHigh'] as num?)?.toInt(),
+      unsafeMax: (json['unsafeMax'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$PriorityFeesResponseDtoImplToJson(

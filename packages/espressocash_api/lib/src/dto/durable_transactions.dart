@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'durable_transactions.g.dart';
 part 'durable_transactions.freezed.dart';
+part 'durable_transactions.g.dart';
 
 @freezed
 class GetFreeNonceResponseDto with _$GetFreeNonceResponseDto {
@@ -33,4 +33,27 @@ class SubmitDurableTxResponseDto with _$SubmitDurableTxResponseDto {
 
   factory SubmitDurableTxResponseDto.fromJson(Map<String, dynamic> json) =>
       _$SubmitDurableTxResponseDtoFromJson(json);
+}
+
+@freezed
+class GetDurableFeesResponseDto with _$GetDurableFeesResponseDto {
+  const factory GetDurableFeesResponseDto({
+    required int lamportPrice,
+    required MaxPriorityFee maxPriorityFee,
+  }) = _GetDurableFeesResponseDto;
+
+  factory GetDurableFeesResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$GetDurableFeesResponseDtoFromJson(json);
+}
+
+@freezed
+class MaxPriorityFee with _$MaxPriorityFee {
+  const factory MaxPriorityFee({
+    required int outgoingLink,
+    required int incomingLink,
+    required int cancelLink,
+  }) = _MaxPriorityFee;
+
+  factory MaxPriorityFee.fromJson(Map<String, dynamic> json) =>
+      _$MaxPriorityFeeFromJson(json);
 }
