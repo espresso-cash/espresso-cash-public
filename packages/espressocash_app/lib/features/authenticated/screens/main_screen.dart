@@ -82,93 +82,122 @@ class _MainContentState extends State<_MainContent> {
             child: Column(
               children: [
                 const InvestmentHeader(),
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(31),
-                      topRight: Radius.circular(31),
-                    ),
-                    child: DecoratedBox(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            CpColors.darkSplashBackgroundColor,
-                            CpColors.dashboardBackgroundColor,
-                          ],
-                          stops: [0.49, 0.51],
-                        ),
-                      ),
-                      child: SingleChildScrollView(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.paddingOf(context).bottom,
-                        ),
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            DecoratedBox(
-                              decoration: const BoxDecoration(
-                                color: CpColors.dashboardBackgroundColor,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(31),
-                                  topRight: Radius.circular(31),
-                                ),
-                              ),
-                              child: _Buttons(
-                                onSendMoneyPressed: widget.onSendMoneyPressed,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.only(
-                                top: 28,
-                                bottom: 18,
-                              ),
-                              color: CpColors.dashboardBackgroundColor,
-                              child: const Divider(
-                                color: CpColors.homeDividerColor,
-                                thickness: 1.0,
-                                height: 1.0,
-                              ),
-                            ),
-                            ValueStreamBuilder<IList<CryptoAmount>>(
-                              create: () => (
-                                sl<TokenBalancesRepository>()
-                                    .watchTokenBalances(
-                                  ignoreTokens: [Token.usdc],
-                                ),
-                                const IListConst([])
-                              ),
-                              builder: (context, tokens) => tokens.isNotEmpty
-                                  ? const SizedBox.shrink()
-                                  : HomeCarouselWidget(
-                                      onSendMoneyPressed:
-                                          widget.onSendMoneyPressed,
-                                    ),
-                            ),
-                            const PortfolioWidget(),
-                            RecentActivityWidget(
-                              onSendMoneyPressed: widget.onSendMoneyPressed,
-                              onTransactionsPressed:
-                                  widget.onTransactionsPressed,
-                            ),
-                            SizedBox(
-                              height: max(
-                                0,
-                                MediaQuery.paddingOf(context).bottom -
-                                    cpNavigationBarheight +
-                                    16,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                _HomeBody(
+                  onSendMoneyPressed: widget.onSendMoneyPressed,
+                  onTransactionsPressed: widget.onTransactionsPressed,
                 ),
               ],
             ),
           ),
+        ),
+      );
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody({
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
+
+  final VoidCallback onSendMoneyPressed;
+  final VoidCallback onTransactionsPressed;
+
+  @override
+  Widget build(BuildContext context) => Expanded(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(31),
+            topRight: Radius.circular(31),
+          ),
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  CpColors.darkSplashBackgroundColor,
+                  CpColors.dashboardBackgroundColor,
+                ],
+                stops: [0.49, 0.51],
+              ),
+            ),
+            child: _HomeScrollableRegion(
+              onSendMoneyPressed: onSendMoneyPressed,
+              onTransactionsPressed: onTransactionsPressed,
+            ),
+          ),
+        ),
+      );
+}
+
+class _HomeScrollableRegion extends StatelessWidget {
+  const _HomeScrollableRegion({
+    required this.onSendMoneyPressed,
+    required this.onTransactionsPressed,
+  });
+
+  final VoidCallback onSendMoneyPressed;
+  final VoidCallback onTransactionsPressed;
+
+  @override
+  Widget build(BuildContext context) => SingleChildScrollView(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.paddingOf(context).bottom,
+        ),
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: const BoxDecoration(
+                color: CpColors.dashboardBackgroundColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(31),
+                  topRight: Radius.circular(31),
+                ),
+              ),
+              child: _Buttons(
+                onSendMoneyPressed: onSendMoneyPressed,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.only(
+                top: 28,
+                bottom: 18,
+              ),
+              color: CpColors.dashboardBackgroundColor,
+              child: const Divider(
+                color: CpColors.homeDividerColor,
+                thickness: 1.0,
+                height: 1.0,
+              ),
+            ),
+            ValueStreamBuilder<IList<CryptoAmount>>(
+              create: () => (
+                sl<TokenBalancesRepository>().watchTokenBalances(
+                  ignoreTokens: [Token.usdc],
+                ),
+                const IListConst([])
+              ),
+              builder: (context, tokens) => tokens.isNotEmpty
+                  ? const SizedBox.shrink()
+                  : HomeCarouselWidget(
+                      onSendMoneyPressed: onSendMoneyPressed,
+                    ),
+            ),
+            const PortfolioWidget(),
+            RecentActivityWidget(
+              onSendMoneyPressed: onSendMoneyPressed,
+              onTransactionsPressed: onTransactionsPressed,
+            ),
+            SizedBox(
+              height: max(
+                0,
+                MediaQuery.paddingOf(context).bottom -
+                    cpNavigationBarheight +
+                    16,
+              ),
+            ),
+          ],
         ),
       );
 }
