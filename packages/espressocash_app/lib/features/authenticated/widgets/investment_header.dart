@@ -23,22 +23,18 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
         decoration:
             const BoxDecoration(color: CpColors.darkGoldBackgroundColor),
         child: _HeaderSwitcher(
-          first: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _Headline(onInfo: _handleInfoPressed),
-                    const SizedBox(height: 4),
-                    const BalanceAmount(),
-                    const SizedBox(height: 12),
-                  ],
-                ),
-              ),
-            ],
+          first: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _Headline(onInfo: _handleInfoPressed),
+                const SizedBox(height: 4),
+                const BalanceAmount(),
+                const SizedBox(height: 12),
+              ],
+            ),
           ),
           second: _Info(onClose: _handleInfoPressed),
           showMore: _showMore,

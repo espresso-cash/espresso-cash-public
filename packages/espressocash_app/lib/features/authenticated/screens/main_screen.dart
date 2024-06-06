@@ -52,7 +52,7 @@ class MainScreen extends StatelessWidget {
       );
 }
 
-class _MainContent extends StatefulWidget {
+class _MainContent extends StatelessWidget {
   const _MainContent({
     required this.onSendMoneyPressed,
     required this.onTransactionsPressed,
@@ -61,11 +61,6 @@ class _MainContent extends StatefulWidget {
   final VoidCallback onSendMoneyPressed;
   final VoidCallback onTransactionsPressed;
 
-  @override
-  State<_MainContent> createState() => _MainContentState();
-}
-
-class _MainContentState extends State<_MainContent> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: const HomeScaffoldAppBar(),
@@ -83,8 +78,8 @@ class _MainContentState extends State<_MainContent> {
               children: [
                 const InvestmentHeader(),
                 _HomeBody(
-                  onSendMoneyPressed: widget.onSendMoneyPressed,
-                  onTransactionsPressed: widget.onTransactionsPressed,
+                  onSendMoneyPressed: onSendMoneyPressed,
+                  onTransactionsPressed: onTransactionsPressed,
                 ),
               ],
             ),

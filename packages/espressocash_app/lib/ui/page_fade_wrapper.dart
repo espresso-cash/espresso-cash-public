@@ -9,7 +9,7 @@ class PageFadeWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double bottom = MediaQuery.of(context).padding.bottom;
+    final double bottom = MediaQuery.paddingOf(context).bottom;
 
     return Stack(
       children: [
