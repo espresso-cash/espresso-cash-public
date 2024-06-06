@@ -4,6 +4,8 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/theme.dart';
@@ -12,6 +14,7 @@ import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
+import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
@@ -64,20 +67,10 @@ class _MainContent extends StatefulWidget {
 
 class _MainContentState extends State<_MainContent> {
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CpColors.darkGoldBackgroundColor,
-              CpColors.dashboardBackgroundColor,
-            ],
-            stops: [0.49, 0.51],
-          ),
-        ),
-        child: RefreshBalancesWrapper(
+  Widget build(BuildContext context) => Scaffold(
+        appBar: const HomeScaffoldAppBar(),
+        backgroundColor: CpColors.darkGoldBackgroundColor,
+        body: RefreshBalancesWrapper(
           builder: (context, onRefresh) => RefreshIndicator(
             displacement: 80,
             onRefresh: () => Future.wait([
@@ -86,65 +79,147 @@ class _MainContentState extends State<_MainContent> {
             ]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
-            child: CustomScrollView(
-              slivers: [
-                const HomeAppBar(),
-                SliverToBoxAdapter(
-                  child: InvestmentHeader(
-                    onSendMoneyPressed: widget.onSendMoneyPressed,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: Container(
-                    padding: const EdgeInsets.only(
-                      top: 28,
-                      bottom: 18,
+            child: Column(
+              children: [
+                const InvestmentHeader(),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(31),
+                      topRight: Radius.circular(31),
                     ),
-                    color: CpColors.dashboardBackgroundColor,
-                    child: const Divider(
-                      color: CpColors.homeDividerColor,
-                      thickness: 1.0,
-                      height: 1.0,
-                    ),
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: ValueStreamBuilder<IList<CryptoAmount>>(
-                    create: () => (
-                      sl<TokenBalancesRepository>().watchTokenBalances(
-                        ignoreTokens: [Token.usdc],
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            CpColors.darkSplashBackgroundColor,
+                            CpColors.dashboardBackgroundColor,
+                          ],
+                          stops: [0.49, 0.51],
+                        ),
                       ),
-                      const IListConst([])
-                    ),
-                    builder: (context, tokens) => tokens.isNotEmpty
-                        ? const SizedBox.shrink()
-                        : HomeCarouselWidget(
-                            onSendMoneyPressed: widget.onSendMoneyPressed,
-                          ),
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: PortfolioWidget(),
-                ),
-                SliverToBoxAdapter(
-                  child: RecentActivityWidget(
-                    onSendMoneyPressed: widget.onSendMoneyPressed,
-                    onTransactionsPressed: widget.onTransactionsPressed,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: max(
-                      0,
-                      MediaQuery.paddingOf(context).bottom -
-                          cpNavigationBarheight +
-                          16,
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                          bottom: MediaQuery.paddingOf(context).bottom,
+                        ),
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            DecoratedBox(
+                              decoration: const BoxDecoration(
+                                color: CpColors.dashboardBackgroundColor,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(31),
+                                  topRight: Radius.circular(31),
+                                ),
+                              ),
+                              child: _Buttons(
+                                onSendMoneyPressed: widget.onSendMoneyPressed,
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(
+                                top: 28,
+                                bottom: 18,
+                              ),
+                              color: CpColors.dashboardBackgroundColor,
+                              child: const Divider(
+                                color: CpColors.homeDividerColor,
+                                thickness: 1.0,
+                                height: 1.0,
+                              ),
+                            ),
+                            ValueStreamBuilder<IList<CryptoAmount>>(
+                              create: () => (
+                                sl<TokenBalancesRepository>()
+                                    .watchTokenBalances(
+                                  ignoreTokens: [Token.usdc],
+                                ),
+                                const IListConst([])
+                              ),
+                              builder: (context, tokens) => tokens.isNotEmpty
+                                  ? const SizedBox.shrink()
+                                  : HomeCarouselWidget(
+                                      onSendMoneyPressed:
+                                          widget.onSendMoneyPressed,
+                                    ),
+                            ),
+                            const PortfolioWidget(),
+                            RecentActivityWidget(
+                              onSendMoneyPressed: widget.onSendMoneyPressed,
+                              onTransactionsPressed:
+                                  widget.onTransactionsPressed,
+                            ),
+                            SizedBox(
+                              height: max(
+                                0,
+                                MediaQuery.paddingOf(context).bottom -
+                                    cpNavigationBarheight +
+                                    16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
           ),
+        ),
+      );
+}
+
+class _Buttons extends StatelessWidget {
+  const _Buttons({required this.onSendMoneyPressed});
+
+  final VoidCallback onSendMoneyPressed;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(
+          left: 18,
+          top: 32,
+          right: 18,
+          bottom: 8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            FittedBox(
+              child: Text(
+                context.l10n.investmentHeaderButtonsTitle,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 17,
+                  letterSpacing: 0.23,
+                ),
+              ),
+            ),
+            const SizedBox(height: 19),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Expanded(
+                  child: PayOrRequestButton(
+                    voidCallback: onSendMoneyPressed,
+                  ),
+                ),
+                const Expanded(
+                  child: AddCashButton(size: CpButtonSize.wide),
+                ),
+                const Expanded(
+                  child: CashOutButton(size: CpButtonSize.wide),
+                ),
+              ],
+            ),
+          ],
         ),
       );
 }

@@ -55,3 +55,50 @@ class HomeAppBar extends StatelessWidget {
         toolbarHeight: kToolbarHeight + 4,
       );
 }
+
+class HomeScaffoldAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
+  const HomeScaffoldAppBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => AppBar(
+        leading: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: CpIconButton(
+              icon: Assets.icons.qrScanner.svg(color: Colors.black),
+              variant: CpIconButtonVariant.dark,
+              onPressed: () => context.launchQrScannerFlow(
+                cryptoCurrency: Currency.usdc,
+              ),
+            ),
+          ),
+        ),
+        shape: const Border(),
+        title: Padding(
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: Center(
+            child: Assets.images.logo.image(height: 32),
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: CpColors.darkGoldBackgroundColor,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: CpIconButton(
+              icon: Assets.icons.settingsButtonIcon.svg(color: Colors.black),
+              variant: CpIconButtonVariant.dark,
+              onPressed: () => ProfileScreen.push(context),
+            ),
+          ),
+          const SizedBox(width: 12),
+        ],
+        toolbarHeight: kToolbarHeight + 4,
+      );
+
+  @override
+  Size get preferredSize => const Size(double.infinity, kToolbarHeight + 4);
+}
