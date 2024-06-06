@@ -89,31 +89,13 @@ class _MainContent extends StatelessWidget {
                 ]),
                 color: CpColors.primaryColor,
                 backgroundColor: Colors.white,
-                child: _HomeBody(
+                child: _HomeScrollableRegion(
                   onSendMoneyPressed: onSendMoneyPressed,
                   onTransactionsPressed: onTransactionsPressed,
                 ),
               ),
             ),
           ],
-        ),
-      );
-}
-
-class _HomeBody extends StatelessWidget {
-  const _HomeBody({
-    required this.onSendMoneyPressed,
-    required this.onTransactionsPressed,
-  });
-
-  final VoidCallback onSendMoneyPressed;
-  final VoidCallback onTransactionsPressed;
-
-  @override
-  Widget build(BuildContext context) => Expanded(
-        child: _HomeScrollableRegion(
-          onSendMoneyPressed: onSendMoneyPressed,
-          onTransactionsPressed: onTransactionsPressed,
         ),
       );
 }
@@ -134,6 +116,7 @@ class _HomeScrollableRegion extends StatelessWidget {
           topRight: Radius.circular(31),
         ),
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           padding: EdgeInsets.only(
             bottom: MediaQuery.paddingOf(context).bottom,
           ),
