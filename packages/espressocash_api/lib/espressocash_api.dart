@@ -10,6 +10,7 @@ export 'src/dto/get_rates.dart';
 export 'src/dto/priority_fees.dart';
 export 'src/dto/scalex.dart';
 export 'src/dto/shorten_link.dart';
+export 'src/dto/stellar.dart';
 export 'src/dto/swap.dart';
 export 'src/dto/user.dart';
 export 'src/exception.dart';

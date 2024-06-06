@@ -137,4 +137,9 @@ abstract class EspressoCashClient {
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
     @Body() PriorityFeesRequestDto request,
   );
+
+  @POST('/stellar/initiateDeposit')
+  Future<InitiateStellarDepositResponseDto> initiateStellarDeposit(
+    @Body() InitiateStellarDepositRequestDto request,
+  );
 }
