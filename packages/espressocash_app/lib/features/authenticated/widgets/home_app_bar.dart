@@ -78,7 +78,7 @@ class HomeScaffoldAppBar extends StatelessWidget
           shape: const Border(),
           title: Center(
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 0.0, right: 16.0),
+              padding: const EdgeInsets.only(right: 16.0),
               child: Assets.images.logo.image(height: 32),
             ),
           ),
