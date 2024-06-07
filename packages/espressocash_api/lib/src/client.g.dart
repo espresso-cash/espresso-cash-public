@@ -660,7 +660,7 @@ class _EspressoCashClient implements EspressoCashClient {
     )
             .compose(
               _dio.options,
-              '/moneygram/startDeposit',
+              '/moneygram/deposit',
               queryParameters: queryParameters,
               data: _data,
             )

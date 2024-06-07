@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'stellar.freezed.dart';
-part 'stellar.g.dart';
+
+part 'moneygram.freezed.dart';
+part 'moneygram.g.dart';
 
 @freezed
 class MoneygramDepositRequestDto with _$MoneygramDepositRequestDto {
@@ -11,9 +12,7 @@ class MoneygramDepositRequestDto with _$MoneygramDepositRequestDto {
     required String lang,
   }) = _MoneygramDepositRequestDto;
 
-  factory MoneygramDepositRequestDto.fromJson(
-    Map<String, dynamic> json,
-  ) =>
+  factory MoneygramDepositRequestDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramDepositRequestDtoFromJson(json);
 }
 

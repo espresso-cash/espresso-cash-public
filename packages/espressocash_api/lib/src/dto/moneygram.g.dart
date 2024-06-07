@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'stellar.dart';
+part of 'moneygram.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
