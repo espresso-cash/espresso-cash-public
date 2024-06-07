@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/navigation_bar/navigation_bar.dart';
 import '../../../ui/navigation_bar/navigation_button.dart';
@@ -77,9 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             _pages.map((e) => e.builder(context)).toList(),
                       ),
                       bottomNavigationBar: CPNavigationBar(
-                        backgroundColor: value == 1
-                            ? CpColors.dashboardBackgroundColor
-                            : CpColors.darkBackground,
                         items: _pages
                             .mapIndexed(
                               (i, p) => CpNavigationButton(

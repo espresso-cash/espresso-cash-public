@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -10,8 +11,8 @@ import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../balances/data/token_balance_repository.dart';
-import '../../conversion_rates/data/tokens_repository.dart';
-import '../../conversion_rates/services/watch_token_fiat_balance.dart';
+import '../../conversion_rates/data/repository.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -122,29 +123,25 @@ class _TokenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final token = context.watch<Token>();
 
-    final rate = sl<TokenConversionRatesRepository>().readRate(
+    final rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: token),
+          to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
 
     final fiatRate = Amount.fromDecimal(value: rate, currency: Currency.usd);
 
-    return ValueStreamBuilder<({Amount? fiat, CryptoAmount crypto})>(
-      create: () {
-        final fiat = sl<WatchTokenFiatBalance>().call(token);
-        final crypto = sl<TokenBalancesRepository>().watch(token);
-
-        return (
-          Rx.combineLatest2(
-            fiat.$1,
-            crypto.$1,
-            (fiat, crypto) => (fiat: fiat, crypto: crypto),
-          ),
-          (fiat: fiat.$2, crypto: crypto.$2),
-        );
-      },
+    return ValueStreamBuilder<CryptoFiatAmount>(
+      create: () => (
+        sl<TokenFiatBalanceService>().readInvestmentBalance(token),
+        (
+          Amount.zero(currency: Currency.usdc) as CryptoAmount,
+          Amount.zero(currency: Currency.usd) as FiatAmount
+        )
+      ),
       builder: (context, value) {
-        final (:crypto, :fiat) = value;
+        final crypto = value.$1;
+        final fiat = value.$2;
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -159,7 +156,7 @@ class _TokenHeader extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: fiat?.format(context.locale) ?? '-',
+                      text: fiat.format(context.locale),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
@@ -169,15 +166,17 @@ class _TokenHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Text(
-                crypto.format(
-                  context.locale,
-                  maxDecimals: 4,
-                ),
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 59,
-                  fontWeight: FontWeight.w700,
+              FittedBox(
+                child: Text(
+                  crypto.format(
+                    context.locale,
+                    maxDecimals: 4,
+                  ),
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 59,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               Text.rich(

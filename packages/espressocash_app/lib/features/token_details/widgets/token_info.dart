@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
-import '../../conversion_rates/data/tokens_repository.dart';
+import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -18,8 +18,9 @@ class TokenInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final token = Provider.of<Token>(context);
 
-    final rate = sl<TokenConversionRatesRepository>().readRate(
+    final rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: token),
+          to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
 

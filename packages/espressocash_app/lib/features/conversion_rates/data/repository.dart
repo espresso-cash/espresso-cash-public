@@ -16,8 +16,8 @@ import '../../tokens/token_list.dart';
 import 'jupiter_client.dart';
 
 @Singleton(scope: authScope)
-class CashConversionRatesRepository extends ChangeNotifier {
-  CashConversionRatesRepository({
+class ConversionRatesRepository extends ChangeNotifier {
+  ConversionRatesRepository({
     required SharedPreferences storage,
     required EspressoCashClient ecClient,
     required JupiterPriceClient jupiterClient,

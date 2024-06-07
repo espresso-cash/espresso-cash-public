@@ -3,13 +3,13 @@ import 'package:injectable/injectable.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../data/cash_repository.dart';
+import '../data/repository.dart';
 
 @injectable
 class ConvertToUsd {
   const ConvertToUsd(this._repository);
 
-  final CashConversionRatesRepository _repository;
+  final ConversionRatesRepository _repository;
 
   Amount? call(Amount amount) => switch (amount) {
         CryptoAmount(:final token, :final value) => _convert(
