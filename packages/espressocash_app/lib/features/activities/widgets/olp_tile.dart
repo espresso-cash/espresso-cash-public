@@ -11,9 +11,14 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class OLPTile extends StatelessWidget {
-  const OLPTile({super.key, required this.activity});
+  const OLPTile({
+    super.key,
+    required this.activity,
+    this.showIcon = true,
+  });
 
   final OLPActivity activity;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
@@ -29,5 +34,6 @@ class OLPTile extends StatelessWidget {
           orElse: always(CpActivityTileStatus.inProgress),
         ),
         onTap: () => OLPScreen.push(context, id: activity.id),
+        showIcon: showIcon,
       );
 }

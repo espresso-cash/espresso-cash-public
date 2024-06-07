@@ -10,9 +10,14 @@ import '../models/activity.dart';
 import 'activity_tile.dart';
 
 class TrTile extends StatelessWidget {
-  const TrTile({super.key, required this.activity});
+  const TrTile({
+    super.key,
+    required this.activity,
+    this.showIcon = true,
+  });
 
   final TransactionRequestActivity activity;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) => CpActivityTile(
@@ -29,5 +34,6 @@ class TrTile extends StatelessWidget {
           maxDecimals: 2,
         ),
         onTap: () => TRDetailsScreen.push(context, id: activity.id),
+        showIcon: showIcon,
       );
 }

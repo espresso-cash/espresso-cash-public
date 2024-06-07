@@ -5,15 +5,15 @@ import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 
 @singleton
-class CoingeckoClient {
-  const CoingeckoClient._(this.dio, this.options);
+class DioCacheClient {
+  const DioCacheClient._(this.dio, this.options);
 
   final Dio dio;
   final CacheOptions options;
 
   @factoryMethod
   @preResolve
-  static Future<CoingeckoClient> init() async {
+  static Future<DioCacheClient> init() async {
     final directory = await getTemporaryDirectory();
 
     final options = CacheOptions(
@@ -28,7 +28,7 @@ class CoingeckoClient {
       ])
       ..options.listFormat = ListFormat.csv;
 
-    return CoingeckoClient._(dio, options);
+    return DioCacheClient._(dio, options);
   }
 }
 

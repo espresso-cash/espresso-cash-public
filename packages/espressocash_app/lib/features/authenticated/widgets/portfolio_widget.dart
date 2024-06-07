@@ -8,36 +8,48 @@ import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/token_balance_repository.dart';
-import '../../conversion_rates/services/watch_token_fiat_balance.dart';
-import '../../conversion_rates/services/watch_token_total_balance.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../investments/services/watch_investments.dart';
-import '../../token_details/screens/token_details_screen.dart';
-import '../../tokens/token.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/widgets/token_icon.dart';
 
-class PortfolioWidget extends StatelessWidget {
+class PortfolioWidget extends StatefulWidget {
   const PortfolioWidget({super.key});
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<IList<Token>>(
-        create: () => (sl<WatchInvestments>().call(), const IListConst([])),
-        builder: (context, tokens) {
-          final hasTokens = tokens.isNotEmpty;
+  State<PortfolioWidget> createState() => _PortfolioWidgetState();
+}
 
-          return hasTokens
-              ? PortfolioTile(tokens: tokens)
-              : const SizedBox.shrink();
-        },
-      );
+class _PortfolioWidgetState extends State<PortfolioWidget>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+
+    return ValueStreamBuilder<IList<CryptoFiatAmount>>(
+      create: () => (
+        sl<TokenFiatBalanceService>().watchInvestmentBalances(),
+        const IListConst([]),
+      ),
+      builder: (context, balances) {
+        final hasTokens = balances.isNotEmpty;
+
+        return hasTokens
+            ? PortfolioTile(balances: balances)
+            : const SizedBox.shrink();
+      },
+    );
+  }
 }
 
 class PortfolioTile extends StatelessWidget {
-  const PortfolioTile({super.key, required this.tokens});
+  const PortfolioTile({super.key, required this.balances});
 
-  final IList<Token> tokens;
+  final IList<CryptoFiatAmount> balances;
 
   @override
   Widget build(BuildContext context) => HomeTile(
@@ -60,7 +72,11 @@ class PortfolioTile extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   ValueStreamBuilder<Amount>(
-                    create: () => sl<WatchTotalTokenFiatBalance>().call(),
+                    create: () => (
+                      sl<TokenFiatBalanceService>()
+                          .watchTotalInvestmentsBalance(),
+                      Amount.zero(currency: Currency.usd),
+                    ),
                     builder: (context, balance) => Flexible(
                       child: FittedBox(
                         child: Text(
@@ -80,25 +96,25 @@ class PortfolioTile extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            _PortfolioWidget(tokens),
+            _PortfolioWidget(balances),
           ],
         ),
       );
 }
 
 class _PortfolioWidget extends StatelessWidget {
-  const _PortfolioWidget(this.tokens);
+  const _PortfolioWidget(this.balances);
 
-  final IList<Token> tokens;
+  final IList<CryptoFiatAmount> balances;
 
   @override
   Widget build(BuildContext context) {
-    final children = tokens
+    final children = balances
         .map(
-          (token) => _TokenItem(
-            key: ValueKey(token),
-            token: token,
-            amount: sl<TokenBalancesRepository>().read(token),
+          (balance) => _TokenItem(
+            key: ValueKey(balance.$1.token),
+            cryptoAmount: balance.$1,
+            fiatAmount: balance.$2,
           ),
         )
         .expand(
@@ -114,74 +130,70 @@ class _PortfolioWidget extends StatelessWidget {
 }
 
 class _TokenItem extends StatelessWidget {
-  const _TokenItem({super.key, required this.token, required this.amount});
+  const _TokenItem({
+    super.key,
+    required this.cryptoAmount,
+    required this.fiatAmount,
+  });
 
-  final Token token;
-  final CryptoAmount amount;
+  final CryptoAmount cryptoAmount;
+  final FiatAmount fiatAmount;
 
   static const double _iconSize = 36.0;
-  static const double minFiatAmount = 0.01;
+  static const double _minFiatAmount = 0.01;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        create: () => sl<WatchTokenFiatBalance>().call(token),
-        builder: (context, fiatAmount) {
-          String fiatAmountText;
+  Widget build(BuildContext context) {
+    String fiatAmountText;
 
-          if (fiatAmount != null) {
-            fiatAmountText = fiatAmount.value < minFiatAmount
-                ? r'<$0.01'
-                : fiatAmount.format(context.locale, maxDecimals: 2);
-          } else {
-            fiatAmountText = '-';
-          }
+    fiatAmountText = fiatAmount.value < _minFiatAmount
+        ? r'<$0.01'
+        : fiatAmount.format(context.locale, maxDecimals: 2);
 
-          return _Card(
-            child: ListTile(
-              key: key,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-              dense: true,
-              horizontalTitleGap: 4,
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(_iconSize / 2),
-                child: TokenIcon(token: token, size: _iconSize),
+    return _Card(
+      child: ListTile(
+        key: key,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+        dense: true,
+        horizontalTitleGap: 4,
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(_iconSize / 2),
+          child: TokenIcon(token: cryptoAmount.token, size: _iconSize),
+        ),
+        title: Text(
+          cryptoAmount.token.name,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              fiatAmountText,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
-              title: Text(
-                token.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    fiatAmountText,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    amount.format(context.locale),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () => TokenDetailsScreen.push(context, token: token),
             ),
-          );
-        },
-      );
+            Text(
+              cryptoAmount.format(context.locale),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _Card extends StatelessWidget {
@@ -192,7 +204,7 @@ class _Card extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(4),
         decoration: const ShapeDecoration(
-          color: CpColors.darkSplashBackgroundColor,
+          color: CpColors.darkBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),

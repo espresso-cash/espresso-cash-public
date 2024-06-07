@@ -7,7 +7,7 @@ abstract class CpColors {
 
   static const strokeColor = Color(0xffff8956); // stroke color
 
-  static const yellowColor = Color(0xffF6C83B); // yellow primary color
+  static const yellowColor = Color(0xffFCC829); // yellow primary color
   static const translucentYellowColor = Color(0x30e7b11f);
 
   static const primaryTextColor = Color(0xff231f20); // black primary color
@@ -24,7 +24,7 @@ abstract class CpColors {
 
   static const purple = Color(0xffA695FF);
 
-  static const dashboardBackgroundColor = Color(0xFF181818);
+  static const dashboardBackgroundColor = Color(0xFF2D2B2C);
   static const darkBackground = Color(0xff2d2b2b);
   static const shadowPrimaryColor = Color(0xffeb5f3a);
   static const accentDarkBackground = Color(0xff2c2d31);
@@ -48,6 +48,8 @@ abstract class CpColors {
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
   static const errorChipColor = Color(0xffe8452f);
+  static const dangerButtonTextColor = Color(0xffe85c30);
+  static const dangerButtonChevronColor = Color(0xfff5734a);
 
   static const lightPillBackgroundColor = Color(0xffeaeaea);
 
@@ -55,6 +57,7 @@ abstract class CpColors {
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
   static const darkDividerColor = Color(0xff454243);
+  static const carouselDotColor = Color(0xffF0CE70);
 
   static const sliderDisabledColor = Color(0xff323232);
 
@@ -66,8 +69,9 @@ abstract class CpColors {
   static const yellowSplashBackgroundColor = Color(0xffB4A270);
 
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
+  static const darkOrangeButtonBackground = Color(0xFF794630);
   static const goldBackgroundColor = Color(0xFFC8B57D);
-  static const darkGoldBackgroundColor = Color(0xff846919);
+  static const darkGoldBackgroundColor = Color(0xffA08A4B);
 }
 
 const bgGradient = LinearGradient(

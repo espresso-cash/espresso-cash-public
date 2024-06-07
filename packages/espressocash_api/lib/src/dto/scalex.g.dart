@@ -98,7 +98,7 @@ const _$ClusterEnumMap = {
 _$WithdrawPaymentResponseDtoImpl _$$WithdrawPaymentResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$WithdrawPaymentResponseDtoImpl(
-      fee: json['fee'] as int,
+      fee: (json['fee'] as num).toInt(),
       transaction: json['transaction'] as String,
       slot: BigInt.parse(json['slot'] as String),
     );

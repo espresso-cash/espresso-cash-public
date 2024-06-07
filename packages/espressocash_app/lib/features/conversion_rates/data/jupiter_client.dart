@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 
-import 'coingecko_client.dart';
+import 'cache_client.dart';
 
 part 'jupiter_client.freezed.dart';
 part 'jupiter_client.g.dart';
@@ -14,18 +14,18 @@ part 'jupiter_client.g.dart';
 @RestApi(baseUrl: 'https://price.jup.ag/v6/')
 abstract class JupiterPriceClient {
   @factoryMethod
-  factory JupiterPriceClient(CoingeckoClient client) =>
+  factory JupiterPriceClient(DioCacheClient client) =>
       _JupiterPriceClient(client.dio);
 
   @GET('/price')
   @Extra({maxAgeOption: Duration(minutes: 1)})
-  Future<PriceResponseDto> getPrice(@Queries() RateRequestDto request);
+  Future<PriceResponseDto> getPrice(@Queries() TokenRateRequestDto request);
 }
 
 @freezed
 class PriceResponseDto with _$PriceResponseDto {
   const factory PriceResponseDto({
-    required Map<String, PricesMapDto> data,
+    required Map<String, TokenPricesMapDto> data,
   }) = _PriceResponseDto;
 
   factory PriceResponseDto.fromJson(Map<String, dynamic> data) =>
@@ -33,24 +33,24 @@ class PriceResponseDto with _$PriceResponseDto {
 }
 
 @freezed
-class PricesMapDto with _$PricesMapDto {
-  const factory PricesMapDto({
+class TokenPricesMapDto with _$TokenPricesMapDto {
+  const factory TokenPricesMapDto({
     required double price,
     required String vsTokenSymbol,
-  }) = _PricesMapDto;
+  }) = _TokenPricesMapDto;
 
-  const PricesMapDto._();
+  const TokenPricesMapDto._();
 
-  factory PricesMapDto.fromJson(Map<String, dynamic> data) =>
-      _$PricesMapDtoFromJson(data);
+  factory TokenPricesMapDto.fromJson(Map<String, dynamic> data) =>
+      _$TokenPricesMapDtoFromJson(data);
 }
 
 @freezed
-class RateRequestDto with _$RateRequestDto {
-  const factory RateRequestDto({
+class TokenRateRequestDto with _$TokenRateRequestDto {
+  const factory TokenRateRequestDto({
     required IList<String> ids,
-  }) = _RateRequestDto;
+  }) = _TokenRateRequestDto;
 
-  factory RateRequestDto.fromJson(Map<String, dynamic> json) =>
-      _$RateRequestDtoFromJson(json);
+  factory TokenRateRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$TokenRateRequestDtoFromJson(json);
 }

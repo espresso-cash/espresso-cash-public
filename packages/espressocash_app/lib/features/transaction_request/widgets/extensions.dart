@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/solana_pay.dart';
@@ -51,9 +52,18 @@ extension BuildContextExt on BuildContext {
         return null;
       }
 
+      final hasUsdcAccount = await client.hasUsdcAccount(wallet);
+
+      if (!hasUsdcAccount) {
+        showCpErrorSnackbar(this, message: l10n.errorMessageInsufficientFunds);
+
+        return null;
+      }
+
       final tx = await client.processSolanaPayTransactionRequest(
         transaction: postResponse.transaction,
         signer: wallet,
+        ignoreSignerVerification: true,
       );
 
       final simulate = await client.simulateTransfer(
@@ -135,3 +145,20 @@ bool _checkIfUsdcTransfer(SignedTx tx) => tx
           .toList()
           .contains(Token.usdc.address);
     });
+
+extension SolanaClientExt on SolanaClient {
+  Future<bool> hasUsdcAccount(Ed25519HDPublicKey account) async {
+    final tokenAddress = await findAssociatedTokenAddress(
+      owner: account,
+      mint: Token.usdc.publicKey,
+    );
+
+    final accountInfo = await rpcClient.getAccountInfo(
+      tokenAddress.toBase58(),
+      encoding: Encoding.base64,
+      commitment: Commitment.confirmed,
+    );
+
+    return accountInfo.value != null;
+  }
+}

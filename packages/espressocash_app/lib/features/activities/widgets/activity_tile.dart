@@ -15,6 +15,7 @@ class CpActivityTile extends StatelessWidget {
     this.incomingAmount,
     this.outgoingAmount,
     this.onTap,
+    this.showIcon = true,
   });
 
   final String title;
@@ -24,6 +25,7 @@ class CpActivityTile extends StatelessWidget {
   final String? incomingAmount;
   final String? outgoingAmount;
   final VoidCallback? onTap;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,12 @@ class CpActivityTile extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      leading: SizedBox.square(dimension: 42, child: icon),
+      leading: showIcon
+          ? SizedBox.square(
+              dimension: 42,
+              child: icon,
+            )
+          : null,
       title: Row(
         children: [
           Expanded(
@@ -69,6 +76,7 @@ class CpActivityTile extends StatelessWidget {
 const _titleStyle = TextStyle(
   fontSize: 16,
   letterSpacing: .23,
+  color: Colors.white,
   fontWeight: FontWeight.w600,
 );
 
@@ -81,6 +89,7 @@ const _inAmountStyle = TextStyle(
 
 const _subtitleStyle = TextStyle(
   fontSize: 14,
+  color: Colors.white,
   letterSpacing: .19,
 );
 

@@ -72,8 +72,9 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
                           .map(
                             (e) => _KeepAlive(
                               key: ValueKey(e),
-                              child:
-                                  CpTheme.black(child: TransactionItem(tx: e)),
+                              child: CpTheme.black(
+                                child: TransactionItem(tx: e, showIcon: false),
+                              ),
                             ),
                           )
                           .toList(),
@@ -115,7 +116,7 @@ class _NoActivity extends StatelessWidget {
               Text(
                 context.l10n.recentActivityEmpty,
                 style: const TextStyle(
-                  color: Color(0xFF2D2B2C),
+                  color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
                 ),
@@ -139,9 +140,9 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
         decoration: const ShapeDecoration(
-          color: CpColors.darkSplashBackgroundColor,
+          color: CpColors.darkBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(28),

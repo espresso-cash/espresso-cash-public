@@ -30,14 +30,13 @@ Future<_CoinMap> _fetchCoins() async {
           final solAddress = (coin['platforms'] as Map)['solana'];
           if (solAddress is! String) return null;
 
-          final coingeckoId = coin['id'];
-          if (coingeckoId is! String) return null;
+          final coingeckoId = coin['id'] as String?;
 
           final isStablecoin = stablecoins.any((st) => st['id'] == coingeckoId);
 
           return MapEntry(
             solAddress,
-            _CoinData(coingeckoId, isStablecoin: isStablecoin),
+            _CoinData(coingeckoId: coingeckoId, isStablecoin: isStablecoin),
           );
         },
       )
@@ -97,7 +96,9 @@ extension on _Json {
     final coin = coins[this['address'] as String];
 
     if (coin != null) {
-      this['extensions'] = {'coingeckoId': coin.coingeckoId};
+      if (coin.coingeckoId != null) {
+        this['extensions'] = {'coingeckoId': coin.coingeckoId};
+      }
       if (coin.isStablecoin) this['tags'] = const ['stablecoin'];
       this['chainId'] = _mainnetChainId;
     }
@@ -110,9 +111,9 @@ typedef _CoinMap = Map<String, _CoinData>;
 typedef _Json = Map<String, dynamic>;
 
 class _CoinData {
-  const _CoinData(this.coingeckoId, {required this.isStablecoin});
+  const _CoinData({this.coingeckoId, required this.isStablecoin});
 
-  final String coingeckoId;
+  final String? coingeckoId;
   final bool isStablecoin;
 }
 

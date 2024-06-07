@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
 
@@ -52,21 +51,8 @@ class TokenList {
 
   // ignore: avoid-non-null-assertion, required here
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
-
-  Token? fromCoingeckoId({
-    required String? coingeckoId,
-    required String? symbol,
-  }) =>
-      symbol?.toLowerCase() == Token.sol.symbol.toLowerCase()
-          ? Token.sol
-          : tokens.singleWhereOrNull(
-              (t) =>
-                  (symbol?.toLowerCase().contains(t.symbol.toLowerCase()) ??
-                      false) &&
-                  t.coingeckoId?.toLowerCase() == coingeckoId?.toLowerCase(),
-            );
 }
 
 extension TokenExt on Iterable<Token> {
-  Iterable<String> get addresses => map((t) => t.symbol);
+  Iterable<String> get symbols => map((t) => t.symbol);
 }

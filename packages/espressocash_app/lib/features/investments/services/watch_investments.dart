@@ -1,7 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../balances/data/token_balance_repository.dart';
+import '../../balances/data/repository.dart';
 import '../../tokens/token.dart';
 
 @injectable
@@ -12,6 +13,6 @@ class WatchInvestments {
 
   Stream<IList<Token>> call() => _balancesRepository
       .watchUserTokens()
-      .map((event) => event.toIList())
+      .map((event) => event.sortedBy((element) => element.name).toIList())
       .distinct();
 }
