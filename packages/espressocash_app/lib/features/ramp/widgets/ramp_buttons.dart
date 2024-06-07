@@ -18,6 +18,7 @@ import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
+import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
@@ -242,6 +243,8 @@ extension RampBuildContextExt on BuildContext {
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
+      case RampPartner.moneygram:
+        launchMoneygramOnRamp();
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -261,6 +264,7 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
+      case RampPartner.moneygram: //TODO
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -283,6 +287,10 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
 
   if (_guardarianCountries.contains(countryCode)) {
     partners.add(RampPartner.guardarian);
+  }
+
+  if (_moneygramCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
   }
 
   return IList(partners);
@@ -317,3 +325,5 @@ const _coinflowCountries = {
 };
 
 const _scalexCountries = {'NG'};
+
+const _moneygramCountries = {'US'};

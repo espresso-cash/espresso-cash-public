@@ -5,6 +5,7 @@ import '../../ramp_partner/models/ramp_partner.dart';
 import '../data/on_ramp_order_service.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/kado/services/kado_on_ramp_order_watcher.dart';
+import '../partners/moneygram/service/moneygram_on_ramp_order_watcher.dart';
 import '../partners/scalex/services/scalex_on_ramp_order_watcher.dart';
 
 export '../data/on_ramp_order_service.dart' show OnRampOrder;
@@ -48,6 +49,7 @@ class _OnRampOrderDetailsState extends State<OnRampOrderDetails> {
     _watcher = switch (onRamp.partner) {
       RampPartner.kado => sl<KadoOnRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOnRampOrderWatcher>(),
+      RampPartner.moneygram => sl<MoneygramOnRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.coinflow ||
       RampPartner.guardarian =>

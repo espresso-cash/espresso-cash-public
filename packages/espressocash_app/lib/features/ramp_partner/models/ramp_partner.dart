@@ -5,7 +5,8 @@ enum RampPartner {
   rampNetwork(title: 'Ramp Network', minimumAmount: r'$7'),
   coinflow(title: 'Coinflow', minimumAmount: r'$20'),
   guardarian(title: 'Guardarian', minimumAmount: r'$5'),
-  scalex(title: 'Scalex', minimumAmount: r'$5');
+  scalex(title: 'Scalex', minimumAmount: r'$5'),
+  moneygram(title: 'MoneyGram', minimumAmount: r'$1');
 
   const RampPartner({required this.title, required this.minimumAmount});
 
