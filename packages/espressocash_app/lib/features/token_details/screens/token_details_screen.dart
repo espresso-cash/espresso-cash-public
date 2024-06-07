@@ -1,8 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
@@ -10,7 +8,6 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/token_balance_repository.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';

@@ -50,7 +50,6 @@ class TokenInfo extends StatelessWidget {
 
 class _InfoItem extends StatelessWidget {
   const _InfoItem({
-    super.key,
     required this.label,
     required this.value,
   });

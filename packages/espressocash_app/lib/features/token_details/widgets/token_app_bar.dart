@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-single-child-column-or-row
+
 import 'dart:math';
 
 import 'package:dfunc/dfunc.dart';
@@ -132,4 +134,4 @@ class _Buttons extends StatelessWidget {
 
 const double _tokenSize = 68;
 const double _buttonSize = 48;
-const double _minExtent = kToolbarHeight; // Default Flutter toolbar height
+const double _minExtent = kToolbarHeight;
