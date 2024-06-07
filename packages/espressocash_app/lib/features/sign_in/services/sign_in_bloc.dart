@@ -9,6 +9,7 @@ import 'package:injectable/injectable.dart';
 import '../../../utils/flow.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/mnemonic.dart';
+import '../../accounts/models/stellar_wallet.dart';
 import '../../accounts/models/wallet.dart';
 
 part 'sign_in_bloc.freezed.dart';
@@ -63,7 +64,14 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
     emit(state.copyWith(processingState: const Flow.processing()));
     try {
       final wallet = await state.source.when(
-        local: (it) => createLocalWallet(mnemonic: it.phrase),
+        local: (it) async {
+          final phrase = it.phrase;
+
+          final local = await createLocalWallet(mnemonic: phrase);
+          final stellarWallet = await createStellarWallet(mnemonic: it.phrase);
+
+          return (local, stellarWallet);
+        },
       );
 
       final accessMode = state.source.when(
@@ -74,7 +82,11 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         ),
       );
 
-      final myAccount = MyAccount(wallet: wallet, accessMode: accessMode);
+      final myAccount = MyAccount(
+        wallet: wallet.$1,
+        stellarWallet: wallet.$2,
+        accessMode: accessMode,
+      );
       emit(state.copyWith(processingState: Flow.success(myAccount)));
     } on Exception catch (error) {
       emit(state.toGenericException(error));
