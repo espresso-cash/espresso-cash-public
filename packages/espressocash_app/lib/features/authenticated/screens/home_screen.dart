@@ -127,7 +127,7 @@ class TabNotifier extends ValueNotifier<int> {
 final List<({SvgGenImage icon, WidgetBuilder builder})> _pages = [
   (
     icon: Assets.icons.home,
-    builder: (context) => PageFadeWrapper(
+    builder: (context) => PageSpacerWrapper(
           child: MainScreen(
             onSendMoneyPressed: () => HomeScreen.openWalletTab(context),
             onTransactionsPressed: () => HomeScreen.openActivitiesTab(
