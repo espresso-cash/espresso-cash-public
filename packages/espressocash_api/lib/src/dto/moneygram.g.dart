@@ -39,3 +39,47 @@ Map<String, dynamic> _$$MoneygramDepositResponseDtoImplToJson(
       'url': instance.url,
       'token': instance.token,
     };
+
+_$SwapToStellarRequestDtoImpl _$$SwapToStellarRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SwapToStellarRequestDtoImpl(
+      solanaSenderAddress: json['solanaSenderAddress'] as String,
+      stellarReceiverAddress: json['stellarReceiverAddress'] as String,
+      amount: json['amount'] as String,
+    );
+
+Map<String, dynamic> _$$SwapToStellarRequestDtoImplToJson(
+        _$SwapToStellarRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'solanaSenderAddress': instance.solanaSenderAddress,
+      'stellarReceiverAddress': instance.stellarReceiverAddress,
+      'amount': instance.amount,
+    };
+
+_$SwapToSolanaRequestDtoImpl _$$SwapToSolanaRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SwapToSolanaRequestDtoImpl(
+      stellarSenderAddress: json['stellarSenderAddress'] as String,
+      solanaReceiverAddress: json['solanaReceiverAddress'] as String,
+      amount: json['amount'] as String,
+    );
+
+Map<String, dynamic> _$$SwapToSolanaRequestDtoImplToJson(
+        _$SwapToSolanaRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'stellarSenderAddress': instance.stellarSenderAddress,
+      'solanaReceiverAddress': instance.solanaReceiverAddress,
+      'amount': instance.amount,
+    };
+
+_$MoneygramSwapResponseDtoImpl _$$MoneygramSwapResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MoneygramSwapResponseDtoImpl(
+      encodedTx: json['encodedTx'] as String,
+    );
+
+Map<String, dynamic> _$$MoneygramSwapResponseDtoImplToJson(
+        _$MoneygramSwapResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'encodedTx': instance.encodedTx,
+    };

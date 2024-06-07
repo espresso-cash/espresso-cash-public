@@ -27,3 +27,37 @@ class MoneygramDepositResponseDto with _$MoneygramDepositResponseDto {
   factory MoneygramDepositResponseDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramDepositResponseDtoFromJson(json);
 }
+
+@freezed
+class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
+  const factory SwapToStellarRequestDto({
+    required String solanaSenderAddress,
+    required String stellarReceiverAddress,
+    required String amount,
+  }) = _SwapToStellarRequestDto;
+
+  factory SwapToStellarRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapToStellarRequestDtoFromJson(json);
+}
+
+@freezed
+class SwapToSolanaRequestDto with _$SwapToSolanaRequestDto {
+  const factory SwapToSolanaRequestDto({
+    required String stellarSenderAddress,
+    required String solanaReceiverAddress,
+    required String amount,
+  }) = _SwapToSolanaRequestDto;
+
+  factory SwapToSolanaRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$SwapToSolanaRequestDtoFromJson(json);
+}
+
+@freezed
+class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
+  const factory MoneygramSwapResponseDto({
+    required String encodedTx,
+  }) = _MoneygramSwapResponseDto;
+
+  factory MoneygramSwapResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MoneygramSwapResponseDtoFromJson(json);
+}

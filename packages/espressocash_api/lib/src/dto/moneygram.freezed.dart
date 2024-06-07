@@ -398,3 +398,525 @@ abstract class _MoneygramDepositResponseDto
   _$$MoneygramDepositResponseDtoImplCopyWith<_$MoneygramDepositResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+SwapToStellarRequestDto _$SwapToStellarRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _SwapToStellarRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SwapToStellarRequestDto {
+  String get solanaSenderAddress => throw _privateConstructorUsedError;
+  String get stellarReceiverAddress => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SwapToStellarRequestDtoCopyWith<SwapToStellarRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SwapToStellarRequestDtoCopyWith<$Res> {
+  factory $SwapToStellarRequestDtoCopyWith(SwapToStellarRequestDto value,
+          $Res Function(SwapToStellarRequestDto) then) =
+      _$SwapToStellarRequestDtoCopyWithImpl<$Res, SwapToStellarRequestDto>;
+  @useResult
+  $Res call(
+      {String solanaSenderAddress,
+      String stellarReceiverAddress,
+      String amount});
+}
+
+/// @nodoc
+class _$SwapToStellarRequestDtoCopyWithImpl<$Res,
+        $Val extends SwapToStellarRequestDto>
+    implements $SwapToStellarRequestDtoCopyWith<$Res> {
+  _$SwapToStellarRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? solanaSenderAddress = null,
+    Object? stellarReceiverAddress = null,
+    Object? amount = null,
+  }) {
+    return _then(_value.copyWith(
+      solanaSenderAddress: null == solanaSenderAddress
+          ? _value.solanaSenderAddress
+          : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      stellarReceiverAddress: null == stellarReceiverAddress
+          ? _value.stellarReceiverAddress
+          : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SwapToStellarRequestDtoImplCopyWith<$Res>
+    implements $SwapToStellarRequestDtoCopyWith<$Res> {
+  factory _$$SwapToStellarRequestDtoImplCopyWith(
+          _$SwapToStellarRequestDtoImpl value,
+          $Res Function(_$SwapToStellarRequestDtoImpl) then) =
+      __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String solanaSenderAddress,
+      String stellarReceiverAddress,
+      String amount});
+}
+
+/// @nodoc
+class __$$SwapToStellarRequestDtoImplCopyWithImpl<$Res>
+    extends _$SwapToStellarRequestDtoCopyWithImpl<$Res,
+        _$SwapToStellarRequestDtoImpl>
+    implements _$$SwapToStellarRequestDtoImplCopyWith<$Res> {
+  __$$SwapToStellarRequestDtoImplCopyWithImpl(
+      _$SwapToStellarRequestDtoImpl _value,
+      $Res Function(_$SwapToStellarRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? solanaSenderAddress = null,
+    Object? stellarReceiverAddress = null,
+    Object? amount = null,
+  }) {
+    return _then(_$SwapToStellarRequestDtoImpl(
+      solanaSenderAddress: null == solanaSenderAddress
+          ? _value.solanaSenderAddress
+          : solanaSenderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      stellarReceiverAddress: null == stellarReceiverAddress
+          ? _value.stellarReceiverAddress
+          : stellarReceiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SwapToStellarRequestDtoImpl implements _SwapToStellarRequestDto {
+  const _$SwapToStellarRequestDtoImpl(
+      {required this.solanaSenderAddress,
+      required this.stellarReceiverAddress,
+      required this.amount});
+
+  factory _$SwapToStellarRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SwapToStellarRequestDtoImplFromJson(json);
+
+  @override
+  final String solanaSenderAddress;
+  @override
+  final String stellarReceiverAddress;
+  @override
+  final String amount;
+
+  @override
+  String toString() {
+    return 'SwapToStellarRequestDto(solanaSenderAddress: $solanaSenderAddress, stellarReceiverAddress: $stellarReceiverAddress, amount: $amount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SwapToStellarRequestDtoImpl &&
+            (identical(other.solanaSenderAddress, solanaSenderAddress) ||
+                other.solanaSenderAddress == solanaSenderAddress) &&
+            (identical(other.stellarReceiverAddress, stellarReceiverAddress) ||
+                other.stellarReceiverAddress == stellarReceiverAddress) &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, solanaSenderAddress, stellarReceiverAddress, amount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SwapToStellarRequestDtoImplCopyWith<_$SwapToStellarRequestDtoImpl>
+      get copyWith => __$$SwapToStellarRequestDtoImplCopyWithImpl<
+          _$SwapToStellarRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SwapToStellarRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SwapToStellarRequestDto implements SwapToStellarRequestDto {
+  const factory _SwapToStellarRequestDto(
+      {required final String solanaSenderAddress,
+      required final String stellarReceiverAddress,
+      required final String amount}) = _$SwapToStellarRequestDtoImpl;
+
+  factory _SwapToStellarRequestDto.fromJson(Map<String, dynamic> json) =
+      _$SwapToStellarRequestDtoImpl.fromJson;
+
+  @override
+  String get solanaSenderAddress;
+  @override
+  String get stellarReceiverAddress;
+  @override
+  String get amount;
+  @override
+  @JsonKey(ignore: true)
+  _$$SwapToStellarRequestDtoImplCopyWith<_$SwapToStellarRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SwapToSolanaRequestDto _$SwapToSolanaRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _SwapToSolanaRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SwapToSolanaRequestDto {
+  String get stellarSenderAddress => throw _privateConstructorUsedError;
+  String get solanaReceiverAddress => throw _privateConstructorUsedError;
+  String get amount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $SwapToSolanaRequestDtoCopyWith<SwapToSolanaRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SwapToSolanaRequestDtoCopyWith<$Res> {
+  factory $SwapToSolanaRequestDtoCopyWith(SwapToSolanaRequestDto value,
+          $Res Function(SwapToSolanaRequestDto) then) =
+      _$SwapToSolanaRequestDtoCopyWithImpl<$Res, SwapToSolanaRequestDto>;
+  @useResult
+  $Res call(
+      {String stellarSenderAddress,
+      String solanaReceiverAddress,
+      String amount});
+}
+
+/// @nodoc
+class _$SwapToSolanaRequestDtoCopyWithImpl<$Res,
+        $Val extends SwapToSolanaRequestDto>
+    implements $SwapToSolanaRequestDtoCopyWith<$Res> {
+  _$SwapToSolanaRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stellarSenderAddress = null,
+    Object? solanaReceiverAddress = null,
+    Object? amount = null,
+  }) {
+    return _then(_value.copyWith(
+      stellarSenderAddress: null == stellarSenderAddress
+          ? _value.stellarSenderAddress
+          : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      solanaReceiverAddress: null == solanaReceiverAddress
+          ? _value.solanaReceiverAddress
+          : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SwapToSolanaRequestDtoImplCopyWith<$Res>
+    implements $SwapToSolanaRequestDtoCopyWith<$Res> {
+  factory _$$SwapToSolanaRequestDtoImplCopyWith(
+          _$SwapToSolanaRequestDtoImpl value,
+          $Res Function(_$SwapToSolanaRequestDtoImpl) then) =
+      __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String stellarSenderAddress,
+      String solanaReceiverAddress,
+      String amount});
+}
+
+/// @nodoc
+class __$$SwapToSolanaRequestDtoImplCopyWithImpl<$Res>
+    extends _$SwapToSolanaRequestDtoCopyWithImpl<$Res,
+        _$SwapToSolanaRequestDtoImpl>
+    implements _$$SwapToSolanaRequestDtoImplCopyWith<$Res> {
+  __$$SwapToSolanaRequestDtoImplCopyWithImpl(
+      _$SwapToSolanaRequestDtoImpl _value,
+      $Res Function(_$SwapToSolanaRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? stellarSenderAddress = null,
+    Object? solanaReceiverAddress = null,
+    Object? amount = null,
+  }) {
+    return _then(_$SwapToSolanaRequestDtoImpl(
+      stellarSenderAddress: null == stellarSenderAddress
+          ? _value.stellarSenderAddress
+          : stellarSenderAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      solanaReceiverAddress: null == solanaReceiverAddress
+          ? _value.solanaReceiverAddress
+          : solanaReceiverAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SwapToSolanaRequestDtoImpl implements _SwapToSolanaRequestDto {
+  const _$SwapToSolanaRequestDtoImpl(
+      {required this.stellarSenderAddress,
+      required this.solanaReceiverAddress,
+      required this.amount});
+
+  factory _$SwapToSolanaRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SwapToSolanaRequestDtoImplFromJson(json);
+
+  @override
+  final String stellarSenderAddress;
+  @override
+  final String solanaReceiverAddress;
+  @override
+  final String amount;
+
+  @override
+  String toString() {
+    return 'SwapToSolanaRequestDto(stellarSenderAddress: $stellarSenderAddress, solanaReceiverAddress: $solanaReceiverAddress, amount: $amount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SwapToSolanaRequestDtoImpl &&
+            (identical(other.stellarSenderAddress, stellarSenderAddress) ||
+                other.stellarSenderAddress == stellarSenderAddress) &&
+            (identical(other.solanaReceiverAddress, solanaReceiverAddress) ||
+                other.solanaReceiverAddress == solanaReceiverAddress) &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, stellarSenderAddress, solanaReceiverAddress, amount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SwapToSolanaRequestDtoImplCopyWith<_$SwapToSolanaRequestDtoImpl>
+      get copyWith => __$$SwapToSolanaRequestDtoImplCopyWithImpl<
+          _$SwapToSolanaRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SwapToSolanaRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SwapToSolanaRequestDto implements SwapToSolanaRequestDto {
+  const factory _SwapToSolanaRequestDto(
+      {required final String stellarSenderAddress,
+      required final String solanaReceiverAddress,
+      required final String amount}) = _$SwapToSolanaRequestDtoImpl;
+
+  factory _SwapToSolanaRequestDto.fromJson(Map<String, dynamic> json) =
+      _$SwapToSolanaRequestDtoImpl.fromJson;
+
+  @override
+  String get stellarSenderAddress;
+  @override
+  String get solanaReceiverAddress;
+  @override
+  String get amount;
+  @override
+  @JsonKey(ignore: true)
+  _$$SwapToSolanaRequestDtoImplCopyWith<_$SwapToSolanaRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MoneygramSwapResponseDto _$MoneygramSwapResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _MoneygramSwapResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoneygramSwapResponseDto {
+  String get encodedTx => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoneygramSwapResponseDtoCopyWith<MoneygramSwapResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoneygramSwapResponseDtoCopyWith<$Res> {
+  factory $MoneygramSwapResponseDtoCopyWith(MoneygramSwapResponseDto value,
+          $Res Function(MoneygramSwapResponseDto) then) =
+      _$MoneygramSwapResponseDtoCopyWithImpl<$Res, MoneygramSwapResponseDto>;
+  @useResult
+  $Res call({String encodedTx});
+}
+
+/// @nodoc
+class _$MoneygramSwapResponseDtoCopyWithImpl<$Res,
+        $Val extends MoneygramSwapResponseDto>
+    implements $MoneygramSwapResponseDtoCopyWith<$Res> {
+  _$MoneygramSwapResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? encodedTx = null,
+  }) {
+    return _then(_value.copyWith(
+      encodedTx: null == encodedTx
+          ? _value.encodedTx
+          : encodedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MoneygramSwapResponseDtoImplCopyWith<$Res>
+    implements $MoneygramSwapResponseDtoCopyWith<$Res> {
+  factory _$$MoneygramSwapResponseDtoImplCopyWith(
+          _$MoneygramSwapResponseDtoImpl value,
+          $Res Function(_$MoneygramSwapResponseDtoImpl) then) =
+      __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String encodedTx});
+}
+
+/// @nodoc
+class __$$MoneygramSwapResponseDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramSwapResponseDtoCopyWithImpl<$Res,
+        _$MoneygramSwapResponseDtoImpl>
+    implements _$$MoneygramSwapResponseDtoImplCopyWith<$Res> {
+  __$$MoneygramSwapResponseDtoImplCopyWithImpl(
+      _$MoneygramSwapResponseDtoImpl _value,
+      $Res Function(_$MoneygramSwapResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? encodedTx = null,
+  }) {
+    return _then(_$MoneygramSwapResponseDtoImpl(
+      encodedTx: null == encodedTx
+          ? _value.encodedTx
+          : encodedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoneygramSwapResponseDtoImpl implements _MoneygramSwapResponseDto {
+  const _$MoneygramSwapResponseDtoImpl({required this.encodedTx});
+
+  factory _$MoneygramSwapResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoneygramSwapResponseDtoImplFromJson(json);
+
+  @override
+  final String encodedTx;
+
+  @override
+  String toString() {
+    return 'MoneygramSwapResponseDto(encodedTx: $encodedTx)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoneygramSwapResponseDtoImpl &&
+            (identical(other.encodedTx, encodedTx) ||
+                other.encodedTx == encodedTx));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, encodedTx);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoneygramSwapResponseDtoImplCopyWith<_$MoneygramSwapResponseDtoImpl>
+      get copyWith => __$$MoneygramSwapResponseDtoImplCopyWithImpl<
+          _$MoneygramSwapResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoneygramSwapResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoneygramSwapResponseDto implements MoneygramSwapResponseDto {
+  const factory _MoneygramSwapResponseDto({required final String encodedTx}) =
+      _$MoneygramSwapResponseDtoImpl;
+
+  factory _MoneygramSwapResponseDto.fromJson(Map<String, dynamic> json) =
+      _$MoneygramSwapResponseDtoImpl.fromJson;
+
+  @override
+  String get encodedTx;
+  @override
+  @JsonKey(ignore: true)
+  _$$MoneygramSwapResponseDtoImplCopyWith<_$MoneygramSwapResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
