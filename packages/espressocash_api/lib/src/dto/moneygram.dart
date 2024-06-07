@@ -19,8 +19,9 @@ class MoneygramDepositRequestDto with _$MoneygramDepositRequestDto {
 @freezed
 class MoneygramDepositResponseDto with _$MoneygramDepositResponseDto {
   const factory MoneygramDepositResponseDto({
-    required String url,
     required String id,
+    required String url,
+    required String token,
   }) = _MoneygramDepositResponseDto;
 
   factory MoneygramDepositResponseDto.fromJson(Map<String, dynamic> json) =>

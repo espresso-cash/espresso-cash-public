@@ -223,8 +223,9 @@ MoneygramDepositResponseDto _$MoneygramDepositResponseDtoFromJson(
 
 /// @nodoc
 mixin _$MoneygramDepositResponseDto {
-  String get url => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String get url => throw _privateConstructorUsedError;
+  String get token => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -240,7 +241,7 @@ abstract class $MoneygramDepositResponseDtoCopyWith<$Res> {
       _$MoneygramDepositResponseDtoCopyWithImpl<$Res,
           MoneygramDepositResponseDto>;
   @useResult
-  $Res call({String url, String id});
+  $Res call({String id, String url, String token});
 }
 
 /// @nodoc
@@ -257,17 +258,22 @@ class _$MoneygramDepositResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = null,
     Object? id = null,
+    Object? url = null,
+    Object? token = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -282,7 +288,7 @@ abstract class _$$MoneygramDepositResponseDtoImplCopyWith<$Res>
       __$$MoneygramDepositResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String url, String id});
+  $Res call({String id, String url, String token});
 }
 
 /// @nodoc
@@ -298,17 +304,22 @@ class __$$MoneygramDepositResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = null,
     Object? id = null,
+    Object? url = null,
+    Object? token = null,
   }) {
     return _then(_$MoneygramDepositResponseDtoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -319,20 +330,22 @@ class __$$MoneygramDepositResponseDtoImplCopyWithImpl<$Res>
 class _$MoneygramDepositResponseDtoImpl
     implements _MoneygramDepositResponseDto {
   const _$MoneygramDepositResponseDtoImpl(
-      {required this.url, required this.id});
+      {required this.id, required this.url, required this.token});
 
   factory _$MoneygramDepositResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$MoneygramDepositResponseDtoImplFromJson(json);
 
   @override
+  final String id;
+  @override
   final String url;
   @override
-  final String id;
+  final String token;
 
   @override
   String toString() {
-    return 'MoneygramDepositResponseDto(url: $url, id: $id)';
+    return 'MoneygramDepositResponseDto(id: $id, url: $url, token: $token)';
   }
 
   @override
@@ -340,13 +353,14 @@ class _$MoneygramDepositResponseDtoImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MoneygramDepositResponseDtoImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.token, token) || other.token == token));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, url, id);
+  int get hashCode => Object.hash(runtimeType, id, url, token);
 
   @JsonKey(ignore: true)
   @override
@@ -366,16 +380,19 @@ class _$MoneygramDepositResponseDtoImpl
 abstract class _MoneygramDepositResponseDto
     implements MoneygramDepositResponseDto {
   const factory _MoneygramDepositResponseDto(
-      {required final String url,
-      required final String id}) = _$MoneygramDepositResponseDtoImpl;
+      {required final String id,
+      required final String url,
+      required final String token}) = _$MoneygramDepositResponseDtoImpl;
 
   factory _MoneygramDepositResponseDto.fromJson(Map<String, dynamic> json) =
       _$MoneygramDepositResponseDtoImpl.fromJson;
 
   @override
+  String get id;
+  @override
   String get url;
   @override
-  String get id;
+  String get token;
   @override
   @JsonKey(ignore: true)
   _$$MoneygramDepositResponseDtoImplCopyWith<_$MoneygramDepositResponseDtoImpl>
