@@ -60,10 +60,7 @@ class TokenDetailsScreen extends StatelessWidget {
                             children: [
                               const _TokenHeader(),
                               const SizedBox(height: 24),
-                              if (token.isUsdcToken)
-                                const _RampButtons()
-                              else
-                                const _SwapButton(),
+                              if (token.isUsdcToken) const _RampButtons(),
                               const SizedBox(height: 24),
                               const Expanded(
                                 child: DecoratedBox(
@@ -219,6 +216,7 @@ class _RampButtons extends StatelessWidget {
       );
 }
 
+// Won't be available in first release
 class _SwapButton extends StatelessWidget {
   const _SwapButton();
 
