@@ -51,7 +51,7 @@ class _PinInputDisplayWidgetState extends State<PinInputDisplayWidget> {
         if (message != null) ...[
           Text(
             message.toUpperCase(),
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
                   fontFamily: 'Roboto App',
                   fontWeight: FontWeight.w700,
                   fontSize: 17,
