@@ -7,8 +7,6 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../../config.dart';
-
 @injectable
 class AddPriorityFees {
   const AddPriorityFees(
@@ -22,11 +20,9 @@ class AddPriorityFees {
   Future<SignedTx> call({
     required SignedTx tx,
     required Commitment commitment,
-    required int maxTxCostUsdc,
+    required int maxPriorityFee,
     required Ed25519HDPublicKey platform,
   }) async {
-    final maxPriorityFee = maxTxCostUsdc / lamportPriceInUsdcFraction;
-
     final priorityFees = await _ecClient.getPriorityFeeEstimate(
       PriorityFeesRequestDto(encodedTx: tx.encode()),
     );
@@ -36,7 +32,7 @@ class AddPriorityFees {
     return await _addPriorityFee(
           tx,
           recommendedCuPrice: veryHighFee ?? (pow(2, 32).toInt()),
-          maxTxFee: maxPriorityFee.floor(),
+          maxTxFee: maxPriorityFee,
           platform: platform,
           commitment: commitment,
         ) ??

@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../config.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'escrow_account.dart';
@@ -79,7 +78,8 @@ class CreateIncomingEscrow {
 
     final int fee;
     if (shouldCreateAta) {
-      fee = escrowPaymentAccountCreationFee;
+      final transactionFees = await _ecClient.getFees();
+      fee = transactionFees.escrowPaymentAtaFee;
       final ataPlatform = await findAssociatedTokenAddress(
         owner: platformAccount,
         mint: mint,
@@ -110,6 +110,11 @@ class CreateIncomingEscrow {
       feePayer: platformAccount,
     );
 
+    final priorityFees = await _ecClient.getDurableFees();
+    final priorityFee =
+        (priorityFees.maxPriorityFee.outgoingLink / priorityFees.lamportPrice)
+            .floor();
+
     return await SignedTx(
       compiledMessage: compiled,
       signatures: [
@@ -122,11 +127,9 @@ class CreateIncomingEscrow {
       (tx) => _addPriorityFees(
         tx: tx,
         commitment: commitment,
-        maxTxCostUsdc: _maxTxCostUsdc,
+        maxPriorityFee: priorityFee,
         platform: platformAccount,
       ),
     );
   }
 }
-
-const _maxTxCostUsdc = 9000;

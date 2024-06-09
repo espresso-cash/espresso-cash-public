@@ -5,7 +5,6 @@ import 'package:solana/dto.dart' hide Instruction;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
-import '../../config.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'instructions.dart';
@@ -66,13 +65,14 @@ class CreateOutgoingEscrow {
 
     instructions.add(iCreateATA);
 
+    final transactionFees = await _ecClient.getFees();
+
     final ataPlatform = await findAssociatedTokenAddress(
       owner: platformAccount,
       mint: mint,
     );
-    const fee = escrowPaymentFee;
     final iTransferFee = TokenInstruction.transfer(
-      amount: fee,
+      amount: transactionFees.escrowPayment,
       source: ataSender,
       destination: ataPlatform,
       owner: senderAccount,
@@ -106,6 +106,11 @@ class CreateOutgoingEscrow {
       feePayer: platformAccount,
     );
 
+    final priorityFees = await _ecClient.getDurableFees();
+    final priorityFee =
+        (priorityFees.maxPriorityFee.outgoingLink / priorityFees.lamportPrice)
+            .floor();
+
     return SignedTx(
       compiledMessage: compiled,
       signatures: [
@@ -117,11 +122,9 @@ class CreateOutgoingEscrow {
       (tx) => _addPriorityFees(
         tx: tx,
         commitment: commitment,
-        maxTxCostUsdc: _maxTxCostUsdc,
+        maxPriorityFee: priorityFee,
         platform: platformAccount,
       ),
     );
   }
 }
-
-const _maxTxCostUsdc = 9000;
