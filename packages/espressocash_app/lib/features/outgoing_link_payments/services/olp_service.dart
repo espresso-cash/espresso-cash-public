@@ -64,7 +64,7 @@ class OLPService implements Disposable {
         case OLPStatusTxCreated():
           return _sendOutgoing(payment).asStream();
         case OLPStatusTxSent():
-          return Stream.value(_wait(payment));
+          return _wait(payment).asStream();
 
         case OLPStatusLinkReady():
         case OLPStatusWithdrawn():
@@ -260,11 +260,13 @@ class OLPService implements Disposable {
     }
   }
 
-  OutgoingLinkPayment _wait(OutgoingLinkPayment payment) {
+  Future<OutgoingLinkPayment> _wait(OutgoingLinkPayment payment) async {
     final status = payment.status;
     if (status is! OLPStatusTxSent) {
       return payment;
     }
+
+    await _txConfirm(signature: status.signature);
 
     final token = payment.amount.token;
 
