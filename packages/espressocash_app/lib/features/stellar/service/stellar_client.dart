@@ -123,4 +123,17 @@ class StellarClient {
 
     return response.success;
   }
+
+  Future<bool> submitTransactionFromXdrString(
+    String xdr, {
+    required KeyPair userKeyPair,
+  }) async {
+    final envelope = AbstractTransaction.fromEnvelopeXdrString(xdr);
+    final transaction = envelope as Transaction
+      ..sign(userKeyPair, stellarNetwork); //TODO
+
+    final response = await _sdk.submitTransaction(transaction);
+
+    return response.success;
+  }
 }
