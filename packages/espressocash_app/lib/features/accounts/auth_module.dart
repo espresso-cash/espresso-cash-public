@@ -5,9 +5,12 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
+import '../stellar/constants.dart';
+import '../stellar/service/stellar_client.dart';
 import 'auth_scope.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
+import 'models/stellar_wallet.dart';
 import 'services/account_service.dart';
 
 @module
@@ -30,4 +33,10 @@ abstract class AuthModule {
           publicKey: wallet.publicKey.toBase58(),
         ),
       );
+
+  @Singleton(scope: authScope)
+  StellarWallet stellarWallet(MyAccount account) => account.stellarWallet;
+
+  @LazySingleton(scope: authScope)
+  StellarClient stellarClient() => StellarClient(stellarSdk);
 }

@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/solana.dart';
 
 import 'ec_wallet.dart';
+import 'stellar_wallet.dart';
 
 part 'account.freezed.dart';
 
@@ -9,6 +10,7 @@ part 'account.freezed.dart';
 class MyAccount with _$MyAccount {
   const factory MyAccount({
     required ECWallet wallet,
+    required StellarWallet stellarWallet,
     required AccessMode accessMode,
   }) = _MyAccount;
 
