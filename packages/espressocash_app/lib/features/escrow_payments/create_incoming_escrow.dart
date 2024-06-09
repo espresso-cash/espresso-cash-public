@@ -111,9 +111,6 @@ class CreateIncomingEscrow {
     );
 
     final priorityFees = await _ecClient.getDurableFees();
-    final priorityFee =
-        (priorityFees.maxPriorityFee.outgoingLink / priorityFees.lamportPrice)
-            .floor();
 
     return await SignedTx(
       compiledMessage: compiled,
@@ -127,7 +124,7 @@ class CreateIncomingEscrow {
       (tx) => _addPriorityFees(
         tx: tx,
         commitment: commitment,
-        maxPriorityFee: priorityFee,
+        maxPriorityFee: priorityFees.outgoingLink,
         platform: platformAccount,
       ),
     );

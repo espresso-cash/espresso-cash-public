@@ -72,9 +72,6 @@ class CreateCanceledEscrow {
     );
 
     final priorityFees = await _ecClient.getDurableFees();
-    final priorityFee =
-        (priorityFees.maxPriorityFee.cancelLink / priorityFees.lamportPrice)
-            .floor();
 
     return await SignedTx(
       compiledMessage: compiled,
@@ -86,7 +83,7 @@ class CreateCanceledEscrow {
       (tx) => _addPriorityFees(
         tx: tx,
         commitment: commitment,
-        maxPriorityFee: priorityFee,
+        maxPriorityFee: priorityFees.cancelLink,
         platform: platformAccount,
       ),
     );
