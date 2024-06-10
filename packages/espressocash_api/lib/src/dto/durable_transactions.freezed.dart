@@ -493,8 +493,9 @@ GetDurableFeesResponseDto _$GetDurableFeesResponseDtoFromJson(
 
 /// @nodoc
 mixin _$GetDurableFeesResponseDto {
-  int get lamportPrice => throw _privateConstructorUsedError;
-  MaxPriorityFee get maxPriorityFee => throw _privateConstructorUsedError;
+  int get outgoingLink => throw _privateConstructorUsedError;
+  int get incomingLink => throw _privateConstructorUsedError;
+  int get cancelLink => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -508,9 +509,7 @@ abstract class $GetDurableFeesResponseDtoCopyWith<$Res> {
           $Res Function(GetDurableFeesResponseDto) then) =
       _$GetDurableFeesResponseDtoCopyWithImpl<$Res, GetDurableFeesResponseDto>;
   @useResult
-  $Res call({int lamportPrice, MaxPriorityFee maxPriorityFee});
-
-  $MaxPriorityFeeCopyWith<$Res> get maxPriorityFee;
+  $Res call({int outgoingLink, int incomingLink, int cancelLink});
 }
 
 /// @nodoc
@@ -527,27 +526,24 @@ class _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lamportPrice = null,
-    Object? maxPriorityFee = null,
+    Object? outgoingLink = null,
+    Object? incomingLink = null,
+    Object? cancelLink = null,
   }) {
     return _then(_value.copyWith(
-      lamportPrice: null == lamportPrice
-          ? _value.lamportPrice
-          : lamportPrice // ignore: cast_nullable_to_non_nullable
+      outgoingLink: null == outgoingLink
+          ? _value.outgoingLink
+          : outgoingLink // ignore: cast_nullable_to_non_nullable
               as int,
-      maxPriorityFee: null == maxPriorityFee
-          ? _value.maxPriorityFee
-          : maxPriorityFee // ignore: cast_nullable_to_non_nullable
-              as MaxPriorityFee,
+      incomingLink: null == incomingLink
+          ? _value.incomingLink
+          : incomingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelLink: null == cancelLink
+          ? _value.cancelLink
+          : cancelLink // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MaxPriorityFeeCopyWith<$Res> get maxPriorityFee {
-    return $MaxPriorityFeeCopyWith<$Res>(_value.maxPriorityFee, (value) {
-      return _then(_value.copyWith(maxPriorityFee: value) as $Val);
-    });
   }
 }
 
@@ -560,10 +556,7 @@ abstract class _$$GetDurableFeesResponseDtoImplCopyWith<$Res>
       __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int lamportPrice, MaxPriorityFee maxPriorityFee});
-
-  @override
-  $MaxPriorityFeeCopyWith<$Res> get maxPriorityFee;
+  $Res call({int outgoingLink, int incomingLink, int cancelLink});
 }
 
 /// @nodoc
@@ -579,18 +572,23 @@ class __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lamportPrice = null,
-    Object? maxPriorityFee = null,
+    Object? outgoingLink = null,
+    Object? incomingLink = null,
+    Object? cancelLink = null,
   }) {
     return _then(_$GetDurableFeesResponseDtoImpl(
-      lamportPrice: null == lamportPrice
-          ? _value.lamportPrice
-          : lamportPrice // ignore: cast_nullable_to_non_nullable
+      outgoingLink: null == outgoingLink
+          ? _value.outgoingLink
+          : outgoingLink // ignore: cast_nullable_to_non_nullable
               as int,
-      maxPriorityFee: null == maxPriorityFee
-          ? _value.maxPriorityFee
-          : maxPriorityFee // ignore: cast_nullable_to_non_nullable
-              as MaxPriorityFee,
+      incomingLink: null == incomingLink
+          ? _value.incomingLink
+          : incomingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelLink: null == cancelLink
+          ? _value.cancelLink
+          : cancelLink // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -599,19 +597,23 @@ class __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
   const _$GetDurableFeesResponseDtoImpl(
-      {required this.lamportPrice, required this.maxPriorityFee});
+      {required this.outgoingLink,
+      required this.incomingLink,
+      required this.cancelLink});
 
   factory _$GetDurableFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetDurableFeesResponseDtoImplFromJson(json);
 
   @override
-  final int lamportPrice;
+  final int outgoingLink;
   @override
-  final MaxPriorityFee maxPriorityFee;
+  final int incomingLink;
+  @override
+  final int cancelLink;
 
   @override
   String toString() {
-    return 'GetDurableFeesResponseDto(lamportPrice: $lamportPrice, maxPriorityFee: $maxPriorityFee)';
+    return 'GetDurableFeesResponseDto(outgoingLink: $outgoingLink, incomingLink: $incomingLink, cancelLink: $cancelLink)';
   }
 
   @override
@@ -619,15 +621,18 @@ class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GetDurableFeesResponseDtoImpl &&
-            (identical(other.lamportPrice, lamportPrice) ||
-                other.lamportPrice == lamportPrice) &&
-            (identical(other.maxPriorityFee, maxPriorityFee) ||
-                other.maxPriorityFee == maxPriorityFee));
+            (identical(other.outgoingLink, outgoingLink) ||
+                other.outgoingLink == outgoingLink) &&
+            (identical(other.incomingLink, incomingLink) ||
+                other.incomingLink == incomingLink) &&
+            (identical(other.cancelLink, cancelLink) ||
+                other.cancelLink == cancelLink));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, lamportPrice, maxPriorityFee);
+  int get hashCode =>
+      Object.hash(runtimeType, outgoingLink, incomingLink, cancelLink);
 
   @JsonKey(ignore: true)
   @override
@@ -646,189 +651,12 @@ class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
 
 abstract class _GetDurableFeesResponseDto implements GetDurableFeesResponseDto {
   const factory _GetDurableFeesResponseDto(
-          {required final int lamportPrice,
-          required final MaxPriorityFee maxPriorityFee}) =
-      _$GetDurableFeesResponseDtoImpl;
+      {required final int outgoingLink,
+      required final int incomingLink,
+      required final int cancelLink}) = _$GetDurableFeesResponseDtoImpl;
 
   factory _GetDurableFeesResponseDto.fromJson(Map<String, dynamic> json) =
       _$GetDurableFeesResponseDtoImpl.fromJson;
-
-  @override
-  int get lamportPrice;
-  @override
-  MaxPriorityFee get maxPriorityFee;
-  @override
-  @JsonKey(ignore: true)
-  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-MaxPriorityFee _$MaxPriorityFeeFromJson(Map<String, dynamic> json) {
-  return _MaxPriorityFee.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MaxPriorityFee {
-  int get outgoingLink => throw _privateConstructorUsedError;
-  int get incomingLink => throw _privateConstructorUsedError;
-  int get cancelLink => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MaxPriorityFeeCopyWith<MaxPriorityFee> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MaxPriorityFeeCopyWith<$Res> {
-  factory $MaxPriorityFeeCopyWith(
-          MaxPriorityFee value, $Res Function(MaxPriorityFee) then) =
-      _$MaxPriorityFeeCopyWithImpl<$Res, MaxPriorityFee>;
-  @useResult
-  $Res call({int outgoingLink, int incomingLink, int cancelLink});
-}
-
-/// @nodoc
-class _$MaxPriorityFeeCopyWithImpl<$Res, $Val extends MaxPriorityFee>
-    implements $MaxPriorityFeeCopyWith<$Res> {
-  _$MaxPriorityFeeCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? outgoingLink = null,
-    Object? incomingLink = null,
-    Object? cancelLink = null,
-  }) {
-    return _then(_value.copyWith(
-      outgoingLink: null == outgoingLink
-          ? _value.outgoingLink
-          : outgoingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      incomingLink: null == incomingLink
-          ? _value.incomingLink
-          : incomingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      cancelLink: null == cancelLink
-          ? _value.cancelLink
-          : cancelLink // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MaxPriorityFeeImplCopyWith<$Res>
-    implements $MaxPriorityFeeCopyWith<$Res> {
-  factory _$$MaxPriorityFeeImplCopyWith(_$MaxPriorityFeeImpl value,
-          $Res Function(_$MaxPriorityFeeImpl) then) =
-      __$$MaxPriorityFeeImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({int outgoingLink, int incomingLink, int cancelLink});
-}
-
-/// @nodoc
-class __$$MaxPriorityFeeImplCopyWithImpl<$Res>
-    extends _$MaxPriorityFeeCopyWithImpl<$Res, _$MaxPriorityFeeImpl>
-    implements _$$MaxPriorityFeeImplCopyWith<$Res> {
-  __$$MaxPriorityFeeImplCopyWithImpl(
-      _$MaxPriorityFeeImpl _value, $Res Function(_$MaxPriorityFeeImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? outgoingLink = null,
-    Object? incomingLink = null,
-    Object? cancelLink = null,
-  }) {
-    return _then(_$MaxPriorityFeeImpl(
-      outgoingLink: null == outgoingLink
-          ? _value.outgoingLink
-          : outgoingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      incomingLink: null == incomingLink
-          ? _value.incomingLink
-          : incomingLink // ignore: cast_nullable_to_non_nullable
-              as int,
-      cancelLink: null == cancelLink
-          ? _value.cancelLink
-          : cancelLink // ignore: cast_nullable_to_non_nullable
-              as int,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MaxPriorityFeeImpl implements _MaxPriorityFee {
-  const _$MaxPriorityFeeImpl(
-      {required this.outgoingLink,
-      required this.incomingLink,
-      required this.cancelLink});
-
-  factory _$MaxPriorityFeeImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MaxPriorityFeeImplFromJson(json);
-
-  @override
-  final int outgoingLink;
-  @override
-  final int incomingLink;
-  @override
-  final int cancelLink;
-
-  @override
-  String toString() {
-    return 'MaxPriorityFee(outgoingLink: $outgoingLink, incomingLink: $incomingLink, cancelLink: $cancelLink)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MaxPriorityFeeImpl &&
-            (identical(other.outgoingLink, outgoingLink) ||
-                other.outgoingLink == outgoingLink) &&
-            (identical(other.incomingLink, incomingLink) ||
-                other.incomingLink == incomingLink) &&
-            (identical(other.cancelLink, cancelLink) ||
-                other.cancelLink == cancelLink));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, outgoingLink, incomingLink, cancelLink);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MaxPriorityFeeImplCopyWith<_$MaxPriorityFeeImpl> get copyWith =>
-      __$$MaxPriorityFeeImplCopyWithImpl<_$MaxPriorityFeeImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MaxPriorityFeeImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MaxPriorityFee implements MaxPriorityFee {
-  const factory _MaxPriorityFee(
-      {required final int outgoingLink,
-      required final int incomingLink,
-      required final int cancelLink}) = _$MaxPriorityFeeImpl;
-
-  factory _MaxPriorityFee.fromJson(Map<String, dynamic> json) =
-      _$MaxPriorityFeeImpl.fromJson;
 
   @override
   int get outgoingLink;
@@ -838,6 +666,6 @@ abstract class _MaxPriorityFee implements MaxPriorityFee {
   int get cancelLink;
   @override
   @JsonKey(ignore: true)
-  _$$MaxPriorityFeeImplCopyWith<_$MaxPriorityFeeImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

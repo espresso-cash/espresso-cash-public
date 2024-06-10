@@ -38,22 +38,11 @@ class SubmitDurableTxResponseDto with _$SubmitDurableTxResponseDto {
 @freezed
 class GetDurableFeesResponseDto with _$GetDurableFeesResponseDto {
   const factory GetDurableFeesResponseDto({
-    required int lamportPrice,
-    required MaxPriorityFee maxPriorityFee,
+    required int outgoingLink,
+    required int incomingLink,
+    required int cancelLink,
   }) = _GetDurableFeesResponseDto;
 
   factory GetDurableFeesResponseDto.fromJson(Map<String, dynamic> json) =>
       _$GetDurableFeesResponseDtoFromJson(json);
-}
-
-@freezed
-class MaxPriorityFee with _$MaxPriorityFee {
-  const factory MaxPriorityFee({
-    required int outgoingLink,
-    required int incomingLink,
-    required int cancelLink,
-  }) = _MaxPriorityFee;
-
-  factory MaxPriorityFee.fromJson(Map<String, dynamic> json) =>
-      _$MaxPriorityFeeFromJson(json);
 }
