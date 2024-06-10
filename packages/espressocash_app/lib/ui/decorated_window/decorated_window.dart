@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app_bar.dart';
 import '../background_gradient.dart';
+import '../colors.dart';
 import '../theme.dart';
 import 'decorated_window_header.dart';
 
@@ -37,6 +38,7 @@ class DecoratedWindow extends StatelessWidget {
   Widget build(BuildContext context) {
     final layout = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -64,9 +66,7 @@ class DecoratedWindow extends StatelessWidget {
           leading: backButton,
           nextButton: nextButton,
         ),
-        backgroundColor: backgroundStyle == BackgroundStyle.gradient
-            ? Colors.transparent
-            : null,
+        backgroundColor: CpColors.darkGoldLockBackgroundColor,
         body: isScrollable
             ? LayoutBuilder(
                 builder: (context, constraints) => SingleChildScrollView(
