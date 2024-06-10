@@ -22,8 +22,9 @@ class PinKeypad extends StatelessWidget {
     KeypadKey.number(number: 7),
     KeypadKey.number(number: 8),
     KeypadKey.number(number: 9),
-    KeypadKey.backspace(),
+    KeypadKey.empty(),
     KeypadKey.number(number: 0),
+    KeypadKey.backspace(),
   ];
 
   void _handleKeyTapped(String key) {
