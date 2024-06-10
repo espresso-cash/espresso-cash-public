@@ -1,12 +1,20 @@
+import 'package:espressocash_api/espressocash_api.dart';
+import 'package:injectable/injectable.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
+import '../../accounts/auth_module.dart';
 import '../constants.dart';
 
+@lazySingleton
 class StellarClient {
-  const StellarClient(this._sdk);
+  const StellarClient(
+    this._ecClient, {
+    @stellar required StellarSDK sdk,
+  }) : _sdk = sdk;
 
   final StellarSDK _sdk;
+  final EspressoCashClient _ecClient;
 
-  Future<String> initiateSep10Token({required KeyPair wallet}) async {
+  Future<String> fetchToken({required KeyPair wallet}) {
     const moneygramAuthUrl = '$moneygramBaseUrl/auth';
     final moneygramDomain = Uri.parse(moneygramBaseUrl).host;
     const clientDomain = espressoClientDomain;
@@ -18,32 +26,16 @@ class StellarClient {
       moneygramDomain,
     );
 
-    final account = wallet.accountId;
-
-    final transaction = await auth.getChallenge(
-      account,
-      null,
-      null,
-      clientDomain,
+    return auth.jwtToken(
+      wallet.accountId,
+      [wallet],
+      clientDomain: clientDomain,
+      clientDomainSigningDelegate: (transactionXdr) async => _ecClient
+          .signChallenge(
+            MoneygramChallengeSignRequestDto(signedTx: transactionXdr),
+          )
+          .then((e) => e.signedTx),
     );
-
-    final StellarToml clientToml =
-        await StellarToml.fromDomain(clientDomain, httpClient: auth.httpClient);
-    if (clientToml.generalInformation.signingKey == null) {
-      throw NoClientDomainSigningKeyFoundException(clientDomain);
-    }
-
-    final clientDomainAccountId = clientToml.generalInformation.signingKey;
-
-    auth.validateChallenge(
-      transaction,
-      account,
-      clientDomainAccountId,
-      60 * 5,
-      null,
-    );
-
-    return auth.signTransaction(transaction, [wallet]);
   }
 
   Future<double> getXlmBalance(String accountId) async {

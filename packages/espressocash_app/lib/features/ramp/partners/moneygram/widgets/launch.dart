@@ -1,5 +1,3 @@
-import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -15,10 +13,10 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_type.dart';
-import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
+import '../data/dto.dart';
+import '../data/moneygram_client.dart';
 
 extension BuildContextExt on BuildContext {
   Future<void> launchMoneygramOnRamp() async {
@@ -42,7 +40,7 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount is! CryptoAmount) return;
 
-    final response = await _generateRampLink(
+    final response = await _generateDepositLink(
       amount: submittedAmount.decimal.toDouble(),
     );
 
@@ -56,24 +54,37 @@ extension BuildContextExt on BuildContext {
     final token = response.token;
     final orderId = response.id;
 
-    print(orderId);
+    final client = sl<MoneygramApiClient>();
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
-        callback: (args) {
+        callback: (args) async {
           if (orderWasCreated) return;
 
-          if (args.first != null) {}
-
           print('args: $args');
+
+          final transaction = args.first as Map<String, dynamic>;
+
+          final id = transaction['transaction']['id'] as String;
+
+          print('id: $id');
+
+          print('matches with orderId: ${id == orderId}');
+
+          final response = await client.fetchTransaction(
+            id: id,
+            authHeader: token.toAuthHeader(),
+          );
+
+          print(response);
 
           // await sl<OnRampOrderService>()
           //     .createForManualTransfer(
           //   orderId: link,
           //   receiveAmount: amount,
-          //   partner: RampPartner.moneygram,
+          //   partner: partner,
           //   bankAccount: 'details.bankAccount',
           //   bankName: 'details.bankName',
           //   transferAmount: transferAmount,
@@ -108,27 +119,29 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<MoneygramDepositResponseDto?> _generateRampLink({
+  Future<({String id, String url, String token})?> _generateDepositLink({
     required double amount,
   }) =>
-      runWithLoader<MoneygramDepositResponseDto?>(this, () async {
+      runWithLoader<({String id, String url, String token})?>(this, () async {
         try {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();
 
-          final signedTx =
-              await stellarClient.initiateSep10Token(wallet: wallet.keyPair);
+          final token = await stellarClient.fetchToken(wallet: wallet.keyPair);
 
-          final client = sl<EspressoCashClient>();
+          final client = sl<MoneygramApiClient>();
 
-          return await client.initiateMoneygramDeposit(
-            MoneygramDepositRequestDto(
+          final response = await client.generateDepositUrl(
+            MgWithdrawRequestDto(
+              assetCode: 'USDC',
               account: wallet.keyPair.accountId,
-              signedTx: signedTx,
-              amount: amount.toString(),
               lang: locale.languageCode,
+              amount: amount.toString(),
             ),
+            token.toAuthHeader(),
           );
+
+          return (id: response.id, url: response.url, token: token);
         } on Exception {
           return null;
         }
