@@ -29,6 +29,31 @@ class MoneygramDepositResponseDto with _$MoneygramDepositResponseDto {
 }
 
 @freezed
+class MoneygramChallengeSignRequestDto with _$MoneygramChallengeSignRequestDto {
+  const factory MoneygramChallengeSignRequestDto({
+    required String signedTx,
+  }) = _MoneygramChallengeSignRequestDto;
+
+  factory MoneygramChallengeSignRequestDto.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$MoneygramChallengeSignRequestDtoFromJson(json);
+}
+
+@freezed
+class MoneygramChallengeSignResponseDto
+    with _$MoneygramChallengeSignResponseDto {
+  const factory MoneygramChallengeSignResponseDto({
+    required String signedTx,
+  }) = _MoneygramChallengeSignResponseDto;
+
+  factory MoneygramChallengeSignResponseDto.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$MoneygramChallengeSignResponseDtoFromJson(json);
+}
+
+@freezed
 class SwapToStellarRequestDto with _$SwapToStellarRequestDto {
   const factory SwapToStellarRequestDto({
     required String solanaSenderAddress,

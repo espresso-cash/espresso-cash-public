@@ -399,6 +399,312 @@ abstract class _MoneygramDepositResponseDto
       get copyWith => throw _privateConstructorUsedError;
 }
 
+MoneygramChallengeSignRequestDto _$MoneygramChallengeSignRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _MoneygramChallengeSignRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoneygramChallengeSignRequestDto {
+  String get signedTx => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoneygramChallengeSignRequestDtoCopyWith<MoneygramChallengeSignRequestDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
+  factory $MoneygramChallengeSignRequestDtoCopyWith(
+          MoneygramChallengeSignRequestDto value,
+          $Res Function(MoneygramChallengeSignRequestDto) then) =
+      _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
+          MoneygramChallengeSignRequestDto>;
+  @useResult
+  $Res call({String signedTx});
+}
+
+/// @nodoc
+class _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
+        $Val extends MoneygramChallengeSignRequestDto>
+    implements $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
+  _$MoneygramChallengeSignRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signedTx = null,
+  }) {
+    return _then(_value.copyWith(
+      signedTx: null == signedTx
+          ? _value.signedTx
+          : signedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MoneygramChallengeSignRequestDtoImplCopyWith<$Res>
+    implements $MoneygramChallengeSignRequestDtoCopyWith<$Res> {
+  factory _$$MoneygramChallengeSignRequestDtoImplCopyWith(
+          _$MoneygramChallengeSignRequestDtoImpl value,
+          $Res Function(_$MoneygramChallengeSignRequestDtoImpl) then) =
+      __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String signedTx});
+}
+
+/// @nodoc
+class __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramChallengeSignRequestDtoCopyWithImpl<$Res,
+        _$MoneygramChallengeSignRequestDtoImpl>
+    implements _$$MoneygramChallengeSignRequestDtoImplCopyWith<$Res> {
+  __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl(
+      _$MoneygramChallengeSignRequestDtoImpl _value,
+      $Res Function(_$MoneygramChallengeSignRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signedTx = null,
+  }) {
+    return _then(_$MoneygramChallengeSignRequestDtoImpl(
+      signedTx: null == signedTx
+          ? _value.signedTx
+          : signedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoneygramChallengeSignRequestDtoImpl
+    implements _MoneygramChallengeSignRequestDto {
+  const _$MoneygramChallengeSignRequestDtoImpl({required this.signedTx});
+
+  factory _$MoneygramChallengeSignRequestDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MoneygramChallengeSignRequestDtoImplFromJson(json);
+
+  @override
+  final String signedTx;
+
+  @override
+  String toString() {
+    return 'MoneygramChallengeSignRequestDto(signedTx: $signedTx)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoneygramChallengeSignRequestDtoImpl &&
+            (identical(other.signedTx, signedTx) ||
+                other.signedTx == signedTx));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, signedTx);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoneygramChallengeSignRequestDtoImplCopyWith<
+          _$MoneygramChallengeSignRequestDtoImpl>
+      get copyWith => __$$MoneygramChallengeSignRequestDtoImplCopyWithImpl<
+          _$MoneygramChallengeSignRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoneygramChallengeSignRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoneygramChallengeSignRequestDto
+    implements MoneygramChallengeSignRequestDto {
+  const factory _MoneygramChallengeSignRequestDto(
+          {required final String signedTx}) =
+      _$MoneygramChallengeSignRequestDtoImpl;
+
+  factory _MoneygramChallengeSignRequestDto.fromJson(
+          Map<String, dynamic> json) =
+      _$MoneygramChallengeSignRequestDtoImpl.fromJson;
+
+  @override
+  String get signedTx;
+  @override
+  @JsonKey(ignore: true)
+  _$$MoneygramChallengeSignRequestDtoImplCopyWith<
+          _$MoneygramChallengeSignRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MoneygramChallengeSignResponseDto _$MoneygramChallengeSignResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _MoneygramChallengeSignResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoneygramChallengeSignResponseDto {
+  String get signedTx => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoneygramChallengeSignResponseDtoCopyWith<MoneygramChallengeSignResponseDto>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
+  factory $MoneygramChallengeSignResponseDtoCopyWith(
+          MoneygramChallengeSignResponseDto value,
+          $Res Function(MoneygramChallengeSignResponseDto) then) =
+      _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
+          MoneygramChallengeSignResponseDto>;
+  @useResult
+  $Res call({String signedTx});
+}
+
+/// @nodoc
+class _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
+        $Val extends MoneygramChallengeSignResponseDto>
+    implements $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
+  _$MoneygramChallengeSignResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signedTx = null,
+  }) {
+    return _then(_value.copyWith(
+      signedTx: null == signedTx
+          ? _value.signedTx
+          : signedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MoneygramChallengeSignResponseDtoImplCopyWith<$Res>
+    implements $MoneygramChallengeSignResponseDtoCopyWith<$Res> {
+  factory _$$MoneygramChallengeSignResponseDtoImplCopyWith(
+          _$MoneygramChallengeSignResponseDtoImpl value,
+          $Res Function(_$MoneygramChallengeSignResponseDtoImpl) then) =
+      __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String signedTx});
+}
+
+/// @nodoc
+class __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramChallengeSignResponseDtoCopyWithImpl<$Res,
+        _$MoneygramChallengeSignResponseDtoImpl>
+    implements _$$MoneygramChallengeSignResponseDtoImplCopyWith<$Res> {
+  __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl(
+      _$MoneygramChallengeSignResponseDtoImpl _value,
+      $Res Function(_$MoneygramChallengeSignResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? signedTx = null,
+  }) {
+    return _then(_$MoneygramChallengeSignResponseDtoImpl(
+      signedTx: null == signedTx
+          ? _value.signedTx
+          : signedTx // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoneygramChallengeSignResponseDtoImpl
+    implements _MoneygramChallengeSignResponseDto {
+  const _$MoneygramChallengeSignResponseDtoImpl({required this.signedTx});
+
+  factory _$MoneygramChallengeSignResponseDtoImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$MoneygramChallengeSignResponseDtoImplFromJson(json);
+
+  @override
+  final String signedTx;
+
+  @override
+  String toString() {
+    return 'MoneygramChallengeSignResponseDto(signedTx: $signedTx)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoneygramChallengeSignResponseDtoImpl &&
+            (identical(other.signedTx, signedTx) ||
+                other.signedTx == signedTx));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, signedTx);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoneygramChallengeSignResponseDtoImplCopyWith<
+          _$MoneygramChallengeSignResponseDtoImpl>
+      get copyWith => __$$MoneygramChallengeSignResponseDtoImplCopyWithImpl<
+          _$MoneygramChallengeSignResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoneygramChallengeSignResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoneygramChallengeSignResponseDto
+    implements MoneygramChallengeSignResponseDto {
+  const factory _MoneygramChallengeSignResponseDto(
+          {required final String signedTx}) =
+      _$MoneygramChallengeSignResponseDtoImpl;
+
+  factory _MoneygramChallengeSignResponseDto.fromJson(
+          Map<String, dynamic> json) =
+      _$MoneygramChallengeSignResponseDtoImpl.fromJson;
+
+  @override
+  String get signedTx;
+  @override
+  @JsonKey(ignore: true)
+  _$$MoneygramChallengeSignResponseDtoImplCopyWith<
+          _$MoneygramChallengeSignResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
 SwapToStellarRequestDto _$SwapToStellarRequestDtoFromJson(
     Map<String, dynamic> json) {
   return _SwapToStellarRequestDto.fromJson(json);

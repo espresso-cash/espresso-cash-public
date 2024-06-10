@@ -40,6 +40,32 @@ Map<String, dynamic> _$$MoneygramDepositResponseDtoImplToJson(
       'token': instance.token,
     };
 
+_$MoneygramChallengeSignRequestDtoImpl
+    _$$MoneygramChallengeSignRequestDtoImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MoneygramChallengeSignRequestDtoImpl(
+          signedTx: json['signedTx'] as String,
+        );
+
+Map<String, dynamic> _$$MoneygramChallengeSignRequestDtoImplToJson(
+        _$MoneygramChallengeSignRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'signedTx': instance.signedTx,
+    };
+
+_$MoneygramChallengeSignResponseDtoImpl
+    _$$MoneygramChallengeSignResponseDtoImplFromJson(
+            Map<String, dynamic> json) =>
+        _$MoneygramChallengeSignResponseDtoImpl(
+          signedTx: json['signedTx'] as String,
+        );
+
+Map<String, dynamic> _$$MoneygramChallengeSignResponseDtoImplToJson(
+        _$MoneygramChallengeSignResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'signedTx': instance.signedTx,
+    };
+
 _$SwapToStellarRequestDtoImpl _$$SwapToStellarRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$SwapToStellarRequestDtoImpl(
