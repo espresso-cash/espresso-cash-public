@@ -170,28 +170,21 @@ class OLPService implements Disposable {
     required ECWallet account,
   }) async {
     try {
-      final escrowAccount = await Ed25519HDKeyPair.random();
-      final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
-
-      final rawTx = await _createOutgoingEscrow(
+      final (tx: rawTx, escrow: escrowAccount) = await _createOutgoingEscrow(
         senderAccount: account.publicKey,
-        escrowAccount: escrowAccount.publicKey,
         amount: amount.value,
         commitment: Commitment.confirmed,
       );
 
+      final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
+
       final tx = await rawTx
           .let((it) => it.resign(account))
-          .letAsync((it) => it.resign(LocalWallet(escrowAccount)));
+          .then((it) => it.resign(LocalWallet(escrowAccount)));
 
-      return OLPStatus.txCreated(
-        tx,
-        escrow: privateKey,
-      );
+      return OLPStatus.txCreated(tx, escrow: privateKey);
     } on Exception {
-      return const OLPStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
-      );
+      return const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure);
     }
   }
 
@@ -209,10 +202,7 @@ class OLPService implements Disposable {
       );
       final tx = await transaction.let((it) => it.resign(account));
 
-      return OLPStatus.cancelTxCreated(
-        tx,
-        escrow: privateKey,
-      );
+      return OLPStatus.cancelTxCreated(tx, escrow: privateKey);
     } on EscrowException {
       return OLPStatus.cancelTxFailure(
         escrow: privateKey,

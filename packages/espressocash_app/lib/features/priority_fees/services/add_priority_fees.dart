@@ -147,10 +147,7 @@ class AddPriorityFees {
     return SignedTx(
       compiledMessage: newCompiledMessage,
       signatures: [
-        Signature(
-          List.filled(64, 0),
-          publicKey: platform,
-        ),
+        Signature(List.filled(64, 0), publicKey: platform),
         ...tx.signatures.where((s) => s.publicKey != platform),
       ],
     );
