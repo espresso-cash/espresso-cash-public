@@ -74,7 +74,7 @@ class TokenList {
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
   Future<void> _populateDatabase() async {
-    await service!.initializeDatabaseWithJson(_solanaTokenList);
+    await service?.initializeDatabaseWithJson(_solanaTokenList);
     _allTokensDB = await service!.getAllTokens();
   }
 

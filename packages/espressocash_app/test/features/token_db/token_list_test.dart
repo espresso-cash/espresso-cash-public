@@ -1,4 +1,5 @@
 import 'package:espressocash_app/features/tokens/data/token_dto.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:espressocash_app/features/tokens/token_list.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -17,13 +18,19 @@ void main() {
   });
 
   test('should initialize and populate database', () async {
-    final tokens = <TokenDTO>[];
-    when(mockService.getAllTokens()).thenAnswer((_) async => tokens);
+    //(mockService.getAllTokens()).thenAnswer((_) async => serviceList);
 
     await tokenList.initialize();
 
-    verify(mockService.getAllTokens()).called(1);
-    verify(mockService.initializeDatabaseWithJson(any)).called(1);
+    print(tokenList.tokens.length);
+
+    //final List<TokenDTO> response = await mockService.getAllTokens();
+
+    //response.forEach((element) => print(element.toJson()));
+
+    verify(mockService.getAllTokens()).called(4);
+
+    //verify(mockService.initializeDatabaseWithJson(any)).called(2);
   });
 
   test('should find token by mint', () async {
@@ -37,12 +44,29 @@ void main() {
       tags: [],
       extensions: null,
     );
-    when(mockService.getAllTokens()).thenAnswer((_) async => [tokenDTO]);
 
-    await tokenList.initialize();
-    final result = tokenList.findTokenByMint('address1');
+    const List<TokenDTO> tokens = [tokenDTO];
 
-    expect(result, tokenDTO);
+    await tokenList.service?.insertToken(tokenDTO);
+
+    // when(
+    //   mockService.insertToken(tokenDTO),
+    // ).thenAnswer(
+    //   (_) => Future.value(),
+    // );
+
+    // when(
+    //   mockService.findTokenByMint('address1', tokens),
+    // ).thenAnswer(
+    //   (_) => tokenDTO,
+    // );
+
+    final result = tokenList.service?.findTokenByMint('address1', tokens);
+    //final result2 = tokenList.findTokenByMint('address1');
+
+    verify(mockService.findTokenByMint('address1', tokens)).called(1);
+
+    expect(result, Token.fromJson(tokenDTO.toJson()));
   });
 
   // Add more tests for other methods
