@@ -43,10 +43,11 @@ void main() {
           'name': 'Token1',
           'decimals': 2,
           'logoURI': 'uri',
+          // ignore: inference_failure_on_collection_literal
           'tags': [],
-          'extensions': null
-        }
-      ]
+          'extensions': null,
+        },
+      ],
     };
 
     await service.initializeDatabaseWithJson(json);
