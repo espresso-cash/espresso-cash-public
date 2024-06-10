@@ -1,3 +1,5 @@
+import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -13,7 +15,9 @@ import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/service/stellar_client.dart';
+import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_type.dart';
+import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
@@ -54,8 +58,6 @@ extension BuildContextExt on BuildContext {
     final token = response.token;
     final orderId = response.id;
 
-    final client = sl<MoneygramApiClient>();
-
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
@@ -63,41 +65,42 @@ extension BuildContextExt on BuildContext {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          print('args: $args');
-
-          final transaction = args.first as Map<String, dynamic>;
-
-          final id = transaction['transaction']['id'] as String;
-
-          print('id: $id');
-
-          print('matches with orderId: ${id == orderId}');
-
-          final response = await client.fetchTransaction(
-            id: id,
-            authHeader: token.toAuthHeader(),
+          final transaction = await fetchTransactionStatus(
+            id: orderId,
+            token: token,
           );
 
-          print(response);
+          final transferAmount = Amount.fromDecimal(
+            value: Decimal.parse(transaction.amountIn ?? '0'),
+            currency: Currency.usd,
+          ) as FiatAmount;
 
-          // await sl<OnRampOrderService>()
-          //     .createForManualTransfer(
-          //   orderId: link,
-          //   receiveAmount: amount,
-          //   partner: partner,
-          //   bankAccount: 'details.bankAccount',
-          //   bankName: 'details.bankName',
-          //   transferAmount: transferAmount,
-          //   transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
-          // )
-          //     .then((order) {
-          //   switch (order) {
-          //     case Left<Exception, String>():
-          //       break;
-          //     case Right<Exception, String>(:final value):
-          //       OnRampOrderScreen.pushReplacement(this, id: value);
-          //   }
-          // });
+          final receiveAmount = Amount.fromDecimal(
+            value: Decimal.parse(transaction.amountOut ?? '0'),
+            currency: Currency.usdc,
+          ) as CryptoAmount;
+
+          await sl<OnRampOrderService>()
+              .createForManualTransfer(
+            orderId: orderId,
+            receiveAmount: receiveAmount,
+            submittedAmount: submittedAmount,
+            partner: partner,
+            bankAccount: null,
+            bankName: 'moneygram',
+            transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
+            transferAmount: transferAmount,
+            authToken: token,
+            moreInfoUrl: transaction.moreInfoUrl,
+          )
+              .then((order) {
+            switch (order) {
+              case Left<Exception, String>():
+                break;
+              case Right<Exception, String>(:final value):
+                OnRampOrderScreen.pushReplacement(this, id: value);
+            }
+          });
           orderWasCreated = true;
         },
       );
@@ -118,6 +121,21 @@ window.addEventListener("message", (event) => {
       theme: const CpThemeData.light(),
     );
   }
+
+  Future<TransactionStatus> fetchTransactionStatus({
+    required String id,
+    required String token,
+  }) =>
+      runWithLoader<TransactionStatus>(this, () async {
+        final client = sl<MoneygramApiClient>();
+
+        return client
+            .fetchTransaction(
+              id: id,
+              authHeader: token.toAuthHeader(),
+            )
+            .then((e) => e.transaction);
+      });
 
   Future<({String id, String url, String token})?> _generateDepositLink({
     required double amount,

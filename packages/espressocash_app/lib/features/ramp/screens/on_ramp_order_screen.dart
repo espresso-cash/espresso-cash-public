@@ -81,6 +81,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
     if (order.status == OnRampOrderStatus.waitingForDeposit &&
         isManualBankTransfer) {
       return OnRampDepositWidget(
+        partner: order.partner,
         deposit: (
           bankAccount: manualDeposit.bankAccount,
           bankName: manualDeposit.bankName,
@@ -89,6 +90,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           orderId: order.id,
           orderCreated: order.created,
           receiveAmount: order.receiveAmount,
+          moreInfoUrl: manualDeposit.moreInfoUrl,
         ),
       );
     }

@@ -19,7 +19,11 @@ final onRampOrderScreenStory = Story(
         cryptoCurrency: Currency.usdc,
       ),
       receiveAmount: null,
-      partner: RampPartner.scalex,
+      partner: context.knobs.options(
+        label: 'Partner',
+        initial: RampPartner.scalex,
+        options: RampPartner.values.toOptions(),
+      ),
       status: context.knobs.options(
         label: 'Status',
         initial: OnRampOrderStatus.waitingForPartner,
@@ -33,8 +37,10 @@ final onRampOrderScreenStory = Story(
           value: Decimal.parse('100000'),
           currency: Currency.ngn,
         ) as FiatAmount,
-        transferExpiryDate: DateTime.now().add(const Duration(minutes: 30))
+        transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
+        moreInfoUrl: 'https://google.com'
       ),
+      authToken: null,
     ),
   ),
 );

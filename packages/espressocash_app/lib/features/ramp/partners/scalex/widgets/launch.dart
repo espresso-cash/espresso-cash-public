@@ -123,6 +123,9 @@ extension BuildContextExt on BuildContext {
               transferAmount: transferAmount,
               transferExpiryDate:
                   DateTime.now().add(const Duration(minutes: 30)),
+              authToken: null,
+              moreInfoUrl: null,
+              submittedAmount: submittedAmount,
             )
                 .then((order) {
               switch (order) {

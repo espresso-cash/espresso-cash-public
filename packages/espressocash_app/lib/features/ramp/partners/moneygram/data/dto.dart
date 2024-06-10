@@ -52,7 +52,11 @@ class TransactionStatus with _$TransactionStatus {
     String? withdrawAnchorAccount,
     String? withdrawMemo,
     String? amountIn,
+    String? amountInAsset,
     String? amountOut,
+    String? amountOutAsset,
+    String? amountFee,
+    String? amountFeeAsset,
     String? moreInfoUrl,
     String? externalTransactionId,
   }) = _TransactionStatus;

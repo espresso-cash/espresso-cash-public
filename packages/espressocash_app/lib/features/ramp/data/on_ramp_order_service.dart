@@ -25,6 +25,7 @@ typedef OnRampOrder = ({
   OnRampOrderStatus status,
   String partnerOrderId,
   DepositDetails? manualDeposit,
+  String? authToken,
 });
 
 typedef DepositDetails = ({
@@ -32,6 +33,7 @@ typedef DepositDetails = ({
   String bankName,
   DateTime transferExpiryDate,
   FiatAmount transferAmount,
+  String? moreInfoUrl
 });
 
 @Singleton(scope: authScope)
@@ -67,6 +69,8 @@ class OnRampOrderService implements Disposable {
     String? bankName,
     DateTime? transferExpiryDate,
     FiatAmount? transferAmount,
+    String? authToken,
+    String? moreInfoUrl,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -88,6 +92,8 @@ class OnRampOrderService implements Disposable {
             bankTransferExpiry: transferExpiryDate,
             bankTransferAmount: transferAmount?.value,
             fiatSymbol: transferAmount?.currency.symbol,
+            authToken: authToken,
+            moreInfoUrl: moreInfoUrl,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -100,22 +106,27 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
-    required CryptoAmount receiveAmount,
-    required String bankAccount,
-    required String bankName,
-    required DateTime transferExpiryDate,
+    required CryptoAmount submittedAmount,
+    required CryptoAmount? receiveAmount,
+    required String? bankAccount,
+    required String? bankName,
+    required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
+    required String? authToken,
+    required String? moreInfoUrl,
   }) =>
       create(
         orderId: orderId,
         partner: partner,
-        submittedAmount: receiveAmount,
+        submittedAmount: submittedAmount,
         receiveAmount: receiveAmount,
         bankAccount: bankAccount,
         bankName: bankName,
         transferExpiryDate: transferExpiryDate,
         transferAmount: transferAmount,
         status: OnRampOrderStatus.waitingForDeposit,
+        authToken: authToken,
+        moreInfoUrl: moreInfoUrl,
       );
 
   Future<void> confirmDeposit(String orderId) async {
@@ -166,9 +177,9 @@ class OnRampOrderService implements Disposable {
         final transferExpiryDate = row.bankTransferExpiry;
         final transferAmount = row.bankTransferAmount;
         final fiatSymbol = row.fiatSymbol;
+        final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit = bankAccount != null &&
-            bankName != null &&
+        final isManualDeposit = bankName != null &&
             transferExpiryDate != null &&
             transferAmount != null &&
             fiatSymbol != null;
@@ -195,15 +206,17 @@ class OnRampOrderService implements Disposable {
           partnerOrderId: row.partnerOrderId,
           manualDeposit: isManualDeposit
               ? (
-                  bankAccount: bankAccount,
+                  bankAccount: bankAccount ?? '',
                   bankName: bankName,
                   transferExpiryDate: transferExpiryDate,
                   transferAmount: FiatAmount(
                     value: transferAmount,
                     fiatCurrency: currencyFromString(fiatSymbol),
                   ),
+                  moreInfoUrl: moreInfoUrl
                 )
               : null,
+          authToken: row.authToken,
         );
       },
     );
