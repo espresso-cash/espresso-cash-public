@@ -9,7 +9,6 @@ import '../../../utils/flow.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/mnemonic.dart';
 import '../../accounts/models/wallet.dart';
-import '../../stellar/models/stellar_wallet.dart';
 
 part 'sign_in_bloc.freezed.dart';
 
