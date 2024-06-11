@@ -73,31 +73,31 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
             ),
         };
 
-    return PageFadeWrapper(
-      child: ColoredBox(
-        color: CpColors.dashboardBackgroundColor,
-        child: Column(
-          children: [
-            CpAppBar(
-              title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+    return ColoredBox(
+      color: CpColors.dashboardBackgroundColor,
+      child: Column(
+        children: [
+          CpAppBar(
+            title: Text(
+              context.l10n.activities_lblTitle.toUpperCase(),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: CpTabBar(
-                controller: _controller,
-                tabs: ActivitiesTab.values.map(mapTab).toList(),
-              ),
+          ),
+          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: CpTabBar(
+              controller: _controller,
+              tabs: ActivitiesTab.values.map(mapTab).toList(),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _controller,
-                children: ActivitiesTab.values.map(mapWrapper).toList(),
-              ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _controller,
+              children: ActivitiesTab.values.map(mapWrapper).toList(),
             ),
-            SizedBox(height: bottom),
-          ],
-        ),
+          ),
+          SizedBox(height: bottom),
+        ],
       ),
     );
   }
@@ -114,9 +114,19 @@ class _Wrapper extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         children: [
           child,
-          const FadeGradient(
-            height: _padding,
-            direction: FadeGradientDirection.topDown,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
           ),
         ],
       );

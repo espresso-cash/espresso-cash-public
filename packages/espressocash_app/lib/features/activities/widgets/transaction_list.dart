@@ -51,6 +51,7 @@ class _TransactionListState extends State<TransactionList> {
                     ),
                   )
                 : ListView.custom(
+                    physics: const BouncingScrollPhysics(),
                     padding: widget.padding,
                     childrenDelegate: SliverChildBuilderDelegate(
                       (context, i) => _KeepAlive(
@@ -96,4 +97,17 @@ class _KeepAliveState extends State<_KeepAlive>
 
     return widget.child;
   }
+}
+
+class BouncingScrollBehavior extends ScrollBehavior {
+  Widget buildViewportChrome(
+    BuildContext context,
+    Widget child,
+    AxisDirection axisDirection,
+  ) =>
+      GlowingOverscrollIndicator(
+        axisDirection: axisDirection,
+        color: Colors.blue,
+        child: child,
+      );
 }
