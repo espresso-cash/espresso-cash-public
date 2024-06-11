@@ -22,8 +22,6 @@ void main() {
 
     await tokenList.initialize();
 
-    //print(tokenList.tokens.length);
-
     //final List<TokenDTO> response = await mockService.getAllTokens();
 
     //response.forEach((element) => print(element.toJson()));
