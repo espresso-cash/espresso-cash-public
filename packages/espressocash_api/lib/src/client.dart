@@ -111,9 +111,12 @@ abstract class EspressoCashClient {
   Future<GetFreeNonceResponseDto> getFreeNonce();
 
   @POST('/submitDurableTx')
-  Future<void> submitDurableTx(
+  Future<SubmitDurableTxResponseDto> submitDurableTx(
     @Body() SubmitDurableTxRequestDto request,
   );
+
+  @POST('/getDurableFees')
+  Future<GetDurableFeesResponseDto> getDurableFees();
 
   @POST('/shortenLink')
   Future<ShortenLinkResponseDto> shortenLink(
@@ -128,5 +131,13 @@ abstract class EspressoCashClient {
   @POST('/dln/incoming/gasFee')
   Future<GasFeeResponseDto> getGasFees(
     @Body() GasFeeRequestDto request,
+  );
+
+  @POST('/rates')
+  Future<GetRatesResponseDto> getRates();
+
+  @POST('/getPriorityFeeEstimate')
+  Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
+    @Body() PriorityFeesRequestDto request,
   );
 }

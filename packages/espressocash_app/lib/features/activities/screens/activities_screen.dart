@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide Notification;
 
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
-import '../../../ui/page_fade_wrapper.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/tab_bar.dart';
 import '../widgets/pending_activities_list.dart';
 import '../widgets/transaction_list.dart';
@@ -58,21 +58,18 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         );
 
     Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
-          ActivitiesTab.pending => _Wrapper(
-              child: PendingActivitiesList(
-                padding: insets,
-                onSendMoneyPressed: widget.onSendMoneyPressed,
-              ),
+          ActivitiesTab.pending => PendingActivitiesList(
+              padding: insets,
+              onSendMoneyPressed: widget.onSendMoneyPressed,
             ),
-          ActivitiesTab.transactions => _Wrapper(
-              child: TransactionList(
-                padding: insets,
-                onSendMoneyPressed: widget.onSendMoneyPressed,
-              ),
+          ActivitiesTab.transactions => TransactionList(
+              padding: insets,
+              onSendMoneyPressed: widget.onSendMoneyPressed,
             ),
         };
 
-    return PageFadeWrapper(
+    return ColoredBox(
+      color: CpColors.dashboardBackgroundColor,
       child: Column(
         children: [
           CpAppBar(
@@ -100,20 +97,3 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
 }
 
 const double _padding = 40;
-
-class _Wrapper extends StatelessWidget {
-  const _Wrapper({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          child,
-          const FadeGradient(
-            height: _padding,
-            direction: FadeGradientDirection.topDown,
-          ),
-        ],
-      );
-}

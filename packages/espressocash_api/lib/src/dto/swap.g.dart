@@ -48,7 +48,7 @@ _$SwapRouteResponseDtoImpl _$$SwapRouteResponseDtoImplFromJson(
       outAmount: json['outAmount'] as String,
       amount: json['amount'] as String,
       encodedTx: json['encodedTx'] as String,
-      feeInUsdc: json['feeInUsdc'] as int,
+      feeInUsdc: (json['feeInUsdc'] as num).toInt(),
       slot: BigInt.parse(json['slot'] as String),
     );
 

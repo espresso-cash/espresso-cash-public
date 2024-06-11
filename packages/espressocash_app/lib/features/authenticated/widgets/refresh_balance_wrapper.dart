@@ -8,6 +8,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
+import '../../balances/data/repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
 import '../../conversion_rates/data/repository.dart';
@@ -50,13 +51,17 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() => sl<ConversionRatesRepository>()
-          .refresh(defaultFiatCurrency)
-          .doOnLeftAsync((_) {
-        if (!mounted) return;
+  AsyncResult<void> _updateConversionRates() async {
+    final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
-        _showConversionRatesFetchErrorToast(context);
-      });
+    return sl<ConversionRatesRepository>()
+        .refresh(defaultFiatCurrency, tokens)
+        .doOnLeftAsync((_) {
+      if (!mounted) return;
+
+      _showConversionRatesFetchErrorToast(context);
+    });
+  }
 
   AsyncResult<void> _updateBalances() {
     context.notifyBalanceAffected();

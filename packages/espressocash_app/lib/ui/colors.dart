@@ -48,6 +48,8 @@ abstract class CpColors {
   static const disabledColor = Color(0xffbbbbbb);
   static const accentDisabledColor = Color(0xffff8666);
   static const errorChipColor = Color(0xffe8452f);
+  static const dangerButtonTextColor = Color(0xffe85c30);
+  static const dangerButtonChevronColor = Color(0xfff5734a);
 
   static const lightPillBackgroundColor = Color(0xffeaeaea);
 
@@ -55,6 +57,7 @@ abstract class CpColors {
   static const lightBackgroundColor = Color(0xff464646);
   static const darkBackgroundColor = Color(0xff181818);
   static const darkDividerColor = Color(0xff454243);
+  static const carouselDotColor = Color(0xffF0CE70);
 
   static const sliderDisabledColor = Color(0xff323232);
 
@@ -66,8 +69,10 @@ abstract class CpColors {
   static const yellowSplashBackgroundColor = Color(0xffB4A270);
 
   static const darkOrangeBackgroundColor = Color(0xFFD86322);
+  static const darkOrangeButtonBackground = Color(0xFF794630);
   static const goldBackgroundColor = Color(0xFFC8B57D);
   static const darkGoldBackgroundColor = Color(0xffA08A4B);
+  static const darkGoldLockBackgroundColor = Color(0xFFB7A572);
 }
 
 const bgGradient = LinearGradient(

@@ -11,9 +11,9 @@ class PinDisplay extends StatelessWidget {
   final int currentDigits;
 
   static final Widget _filled = Container(
-    margin: const EdgeInsets.all(4),
-    width: 16,
-    height: 16,
+    margin: const EdgeInsets.all(7),
+    width: 19,
+    height: 19,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: Colors.white,
@@ -22,9 +22,9 @@ class PinDisplay extends StatelessWidget {
   );
 
   static final Widget _empty = Container(
-    margin: const EdgeInsets.all(4),
-    width: 16,
-    height: 16,
+    margin: const EdgeInsets.all(7),
+    width: 19,
+    height: 19,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
       color: Colors.transparent,
