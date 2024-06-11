@@ -62,40 +62,40 @@ class _MainContent extends StatelessWidget {
   final VoidCallback onTransactionsPressed;
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        backgroundColor: CpColors.darkGoldBackgroundColor,
-        appBar: const HomeScaffoldAppBar(),
-        body: Stack(
-          children: <Widget>[
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    CpColors.darkGoldBackgroundColor,
-                    CpColors.dashboardBackgroundColor,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.49, 0.51],
+  Widget build(BuildContext context) => RefreshBalancesWrapper(
+        builder: (context, onRefresh) => RefreshIndicator(
+          displacement: 80,
+          onRefresh: () => Future.wait([
+            onRefresh(),
+            sl<TxUpdater>().call(),
+          ]),
+          color: CpColors.primaryColor,
+          backgroundColor: Colors.white,
+          child: Scaffold(
+            backgroundColor: CpColors.darkGoldBackgroundColor,
+            appBar: const HomeScaffoldAppBar(),
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        CpColors.darkGoldBackgroundColor,
+                        CpColors.dashboardBackgroundColor,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.49, 0.51],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            RefreshBalancesWrapper(
-              builder: (context, onRefresh) => RefreshIndicator(
-                displacement: 0,
-                onRefresh: () => Future.wait([
-                  onRefresh(),
-                  sl<TxUpdater>().call(),
-                ]),
-                color: CpColors.primaryColor,
-                backgroundColor: Colors.white,
-                child: _HomeScrollableRegion(
+                _HomeScrollableRegion(
                   onSendMoneyPressed: onSendMoneyPressed,
                   onTransactionsPressed: onTransactionsPressed,
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       );
 }
