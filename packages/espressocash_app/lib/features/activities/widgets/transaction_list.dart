@@ -100,16 +100,3 @@ class _KeepAliveState extends State<_KeepAlive>
     return widget.child;
   }
 }
-
-class BouncingScrollBehavior extends ScrollBehavior {
-  Widget buildViewportChrome(
-    BuildContext context,
-    Widget child,
-    AxisDirection axisDirection,
-  ) =>
-      GlowingOverscrollIndicator(
-        axisDirection: axisDirection,
-        color: Colors.blue,
-        child: child,
-      );
-}
