@@ -1,7 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -9,8 +8,8 @@ import 'package:injectable/injectable.dart';
 import '../../../utils/flow.dart';
 import '../../accounts/models/account.dart';
 import '../../accounts/models/mnemonic.dart';
-import '../../accounts/models/stellar_wallet.dart';
 import '../../accounts/models/wallet.dart';
+import '../../stellar/models/stellar_wallet.dart';
 
 part 'sign_in_bloc.freezed.dart';
 
@@ -84,7 +83,6 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       final myAccount = MyAccount(
         wallet: wallet.$1,
-        stellarWallet: wallet.$2,
         accessMode: accessMode,
       );
       emit(state.copyWith(processingState: Flow.success(myAccount)));

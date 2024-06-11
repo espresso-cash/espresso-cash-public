@@ -6,7 +6,6 @@ import 'package:meta/meta.dart';
 import '../models/account.dart';
 import '../models/ec_wallet.dart';
 import '../models/mnemonic.dart';
-import '../models/stellar_wallet.dart';
 import '../models/wallet.dart';
 
 @injectable
@@ -27,11 +26,9 @@ class AccountRepository {
     final mnemonic = await loadMnemonic();
 
     final ECWallet wallet;
-    final StellarWallet stellarWallet;
 
     if (mnemonic.isNotEmpty) {
       wallet = await createLocalWallet(mnemonic: mnemonic);
-      stellarWallet = await createStellarWallet(mnemonic: mnemonic);
     } else {
       return null;
     }
@@ -39,7 +36,6 @@ class AccountRepository {
     return MyAccount(
       accessMode: const AccessMode.loaded(),
       wallet: wallet,
-      stellarWallet: stellarWallet,
     );
   }
 }

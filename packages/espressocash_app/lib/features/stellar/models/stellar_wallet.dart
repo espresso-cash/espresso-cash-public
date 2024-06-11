@@ -9,7 +9,9 @@ Future<StellarWallet> createStellarWallet({required String mnemonic}) async {
 }
 
 class StellarWallet {
-  const StellarWallet(this.keyPair);
+  StellarWallet(this.keyPair) {
+    print('Created wallet with address: $address');
+  }
 
   final KeyPair keyPair;
 
