@@ -12,24 +12,10 @@ void main() {
     service = TokenService(mockRepository);
   });
 
-  test('should initialize database with JSON', () async {
-    final json = {
-      'tokens': [
-        {
-          'chainId': 1,
-          'address': 'address1',
-          'symbol': 'SYM1',
-          'name': 'Token1',
-          'decimals': 2,
-          'logoURI': 'uri',
-          // ignore: inference_failure_on_collection_literal
-          'tags': [],
-          'extensions': null,
-        },
-      ],
-    };
-
-    await service.initializeDatabaseWithJson(json);
+  test('should initialize database from CSV file', () async {
+    await service.initializeDatabaseFromCsvFile(
+      'lib/features/tokens/solana.tokenlist.csv',
+    );
 
     verify(mockRepository.clearAllTokens()).called(1);
     verify(mockRepository.insertToken(any)).called(1);

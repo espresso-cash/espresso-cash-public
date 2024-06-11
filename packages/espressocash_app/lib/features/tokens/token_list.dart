@@ -5,7 +5,6 @@ import 'package:meta/meta.dart' show visibleForTesting;
 import '../../config.dart';
 import '../../data/db/db.dart';
 import '../../di.dart';
-import 'data/token_dto.dart';
 import 'data/token_repository.dart';
 import 'services/token_service.dart';
 import 'token.dart';
@@ -66,6 +65,9 @@ class TokenList {
 
   Iterable<Token> get tokens => _allTokens.where((t) => t.chainId == chainId);
 
+  Iterable<TokenRow> get tokensDB =>
+      _allTokensDB.where((t) => t.chainId == chainId);
+
   Token? findTokenByMint(String mint) => mint == Token.sol.address
       ? Token.sol
       : tokens.firstWhereOrNull((t) => t.address == mint);
@@ -73,15 +75,17 @@ class TokenList {
   // ignore: avoid-non-null-assertion, required here
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
-  Future<void> _populateDatabase() async {
-    await service?.initializeDatabaseWithJson(_solanaTokenList);
+  Future<void> _populateDatabaseFromCSV() async {
+    await service?.initializeDatabaseFromCsvFile(
+      'lib/features/tokens/solana.tokenlist.csv',
+    );
     _allTokensDB = await service!.tokenRepository.getAllTokens();
   }
 
   Future<void> initialize() async {
     final tokenList = await service!.tokenRepository.getAllTokens();
     if (tokenList.isEmpty) {
-      await _populateDatabase();
+      await _populateDatabaseFromCSV();
     } else {
       _allTokensDB = tokenList;
     }

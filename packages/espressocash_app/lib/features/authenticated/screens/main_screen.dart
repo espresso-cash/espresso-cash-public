@@ -13,6 +13,7 @@ import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
 import '../widgets/home_carousel.dart';
@@ -59,75 +60,84 @@ class _MainContent extends StatelessWidget {
   final VoidCallback onTransactionsPressed;
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              CpColors.darkGoldBackgroundColor,
-              CpColors.dashboardBackgroundColor,
+  Widget build(BuildContext context) {
+    // for (final element in TokenList().tokensDB) {
+    //   print('>>> $element');
+    // }
+    // for (final element in TokenList().tokens) {
+    //   print('--> $element');
+    // }
+
+    return Container(
+      padding: const EdgeInsets.only(bottom: cpNavigationBarheight),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            CpColors.darkGoldBackgroundColor,
+            CpColors.dashboardBackgroundColor,
+          ],
+          stops: [0.49, 0.51],
+        ),
+      ),
+      child: RefreshBalancesWrapper(
+        builder: (context, onRefresh) => RefreshIndicator(
+          displacement: 80,
+          onRefresh: () => Future.wait([
+            onRefresh(),
+            sl<TxUpdater>().call(),
+          ]),
+          color: CpColors.primaryColor,
+          backgroundColor: Colors.white,
+          child: CustomScrollView(
+            slivers: [
+              const HomeAppBar(
+                backgroundColor: CpColors.darkGoldBackgroundColor,
+              ),
+              SliverToBoxAdapter(
+                child: InvestmentHeader(
+                  onSendMoneyPressed: onSendMoneyPressed,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: ValueStreamBuilder<IList<CryptoAmount>>(
+                  create: () => (
+                    sl<TokenBalancesRepository>().watchTokenBalances(
+                      ignoreTokens: [Token.usdc],
+                    ),
+                    const IListConst([])
+                  ),
+                  builder: (context, tokens) => tokens.isNotEmpty
+                      ? const SizedBox.shrink()
+                      : HomeCarouselWidget(
+                          onSendMoneyPressed: onSendMoneyPressed,
+                        ),
+                ),
+              ),
+              const SliverToBoxAdapter(
+                child: PortfolioWidget(),
+              ),
+              SliverToBoxAdapter(
+                child: RecentActivityWidget(
+                  onSendMoneyPressed: onSendMoneyPressed,
+                  onTransactionsPressed: onTransactionsPressed,
+                ),
+              ),
+              SliverToBoxAdapter(
+                child: SizedBox(
+                  height: max(
+                    0,
+                    MediaQuery.paddingOf(context).bottom -
+                        cpNavigationBarheight +
+                        16,
+                  ),
+                ),
+              ),
             ],
-            stops: [0.49, 0.51],
           ),
         ),
-        child: RefreshBalancesWrapper(
-          builder: (context, onRefresh) => RefreshIndicator(
-            displacement: 80,
-            onRefresh: () => Future.wait([
-              onRefresh(),
-              sl<TxUpdater>().call(),
-            ]),
-            color: CpColors.primaryColor,
-            backgroundColor: Colors.white,
-            child: CustomScrollView(
-              slivers: [
-                const HomeAppBar(
-                  backgroundColor: CpColors.darkGoldBackgroundColor,
-                ),
-                SliverToBoxAdapter(
-                  child: InvestmentHeader(
-                    onSendMoneyPressed: onSendMoneyPressed,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: ValueStreamBuilder<IList<CryptoAmount>>(
-                    create: () => (
-                      sl<TokenBalancesRepository>().watchTokenBalances(
-                        ignoreTokens: [Token.usdc],
-                      ),
-                      const IListConst([])
-                    ),
-                    builder: (context, tokens) => tokens.isNotEmpty
-                        ? const SizedBox.shrink()
-                        : HomeCarouselWidget(
-                            onSendMoneyPressed: onSendMoneyPressed,
-                          ),
-                  ),
-                ),
-                const SliverToBoxAdapter(
-                  child: PortfolioWidget(),
-                ),
-                SliverToBoxAdapter(
-                  child: RecentActivityWidget(
-                    onSendMoneyPressed: onSendMoneyPressed,
-                    onTransactionsPressed: onTransactionsPressed,
-                  ),
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: max(
-                      0,
-                      MediaQuery.paddingOf(context).bottom -
-                          cpNavigationBarheight +
-                          16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
+      ),
+    );
+  }
 }
