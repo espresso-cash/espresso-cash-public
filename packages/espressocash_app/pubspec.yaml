@@ -72,6 +72,7 @@ dependencies:
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18
+  stellar_flutter_sdk: ^1.8.0
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
   url_launcher: ^6.2.2
@@ -84,7 +85,7 @@ dev_dependencies:
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.4.0
-  flutter_native_splash: ^2.3.8
+  flutter_native_splash: ^2.3.7
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6
