@@ -9,11 +9,6 @@ const _devBaseUrl = 'https://extstellar.moneygram.com/stellaradapterservice';
 const _prodBaseUrl = 'https://stellar.moneygram.com/stellaradapterservice';
 const moneygramBaseUrl = isProd ? _prodBaseUrl : _devBaseUrl;
 
-const _prodPlatformSecret = String.fromEnvironment('STELLAR_PROD_SECRET');
-const _devPlatformSecret = String.fromEnvironment('STELLAR_DEV_SECRET');
-final stellarPlatformKeyPair =
-    KeyPair.fromSecretSeed(isProd ? _prodPlatformSecret : _devPlatformSecret);
-
 const _devSigningKey =
     'GCSESAP5ILVM6CWIEGK2SDOCQU7PHVFYYT7JNKRDAQNVQWKD5YEE5ZJ4';
 const _prodSigningKey =
@@ -27,5 +22,5 @@ const _prodAssetIssuer =
 const moneygramAssetIssuer = isProd ? _prodAssetIssuer : _devAssetIssuer;
 
 const _devAuthDomain = 'stellar-dev.espressocash.com';
-const _prodAuthDomain = 'stellar-prod.espressocash.com';
+const _prodAuthDomain = 'espressocash.com';
 const espressoClientDomain = isProd ? _prodAuthDomain : _devAuthDomain;
