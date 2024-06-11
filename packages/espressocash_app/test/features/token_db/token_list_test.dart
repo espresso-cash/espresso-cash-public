@@ -22,7 +22,7 @@ void main() {
 
     await tokenList.initialize();
 
-    print(tokenList.tokens.length);
+    //print(tokenList.tokens.length);
 
     //final List<TokenDTO> response = await mockService.getAllTokens();
 

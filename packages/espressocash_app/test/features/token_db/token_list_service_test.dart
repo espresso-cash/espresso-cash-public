@@ -1,4 +1,3 @@
-import 'package:espressocash_app/features/tokens/data/token_dto.dart';
 import 'package:espressocash_app/features/tokens/services/token_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
