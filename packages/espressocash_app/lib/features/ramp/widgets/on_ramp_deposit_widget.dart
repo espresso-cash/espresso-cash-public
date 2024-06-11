@@ -253,18 +253,33 @@ class _MoneygramDepositContent extends StatelessWidget {
                   text:
                       'Head to your chosen MoneyGram location to pay for your purchase',
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 4),
                 _ItemWidget(
                   title: context.l10n.depositTransferAmount,
                   value: formattedTransferAmount,
                   showCopy: false,
                 ),
-                const SizedBox(height: 24),
+                const SizedBox(height: 4),
                 const _InstructionItem(
                   index: 2,
                   text: 'Follow instructions from More info link below',
                 ),
-                const SizedBox(height: 16),
+                if (deposit.moreInfoUrl case final link?) ...[
+                  Center(
+                    child: CpTextButton(
+                      text: 'More Info',
+                      variant: CpTextButtonVariant.light,
+                      onPressed: () async {
+                        await WebViewScreen.push(
+                          context,
+                          url: Uri.parse(link),
+                          title: 'MoneyGram',
+                          theme: const CpThemeData.light(),
+                        );
+                      },
+                    ),
+                  ),
+                ],
                 _InstructionItem(
                   index: 3,
                   text: context.l10n.depositInstruction2,
@@ -287,30 +302,10 @@ class _MoneygramDepositContent extends StatelessWidget {
           bottomNavigationBar: SafeArea(
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CpButton(
-                    width: double.infinity,
-                    onPressed: onConfirmPress,
-                    text: context.l10n.ramp_btnContinue,
-                  ),
-                  if (deposit.moreInfoUrl case final link?) ...[
-                    const SizedBox(height: 12),
-                    CpTextButton(
-                      text: 'More Info',
-                      variant: CpTextButtonVariant.light,
-                      onPressed: () async {
-                        await WebViewScreen.push(
-                          context,
-                          url: Uri.parse(link),
-                          title: 'MoneyGram',
-                          theme: const CpThemeData.light(),
-                        );
-                      },
-                    ),
-                  ],
-                ],
+              child: CpButton(
+                width: double.infinity,
+                onPressed: onConfirmPress,
+                text: context.l10n.ramp_btnContinue,
               ),
             ),
           ),

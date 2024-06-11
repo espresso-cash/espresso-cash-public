@@ -177,7 +177,7 @@ class OnRampOrderService implements Disposable {
             bankTransferExpiry: transferExpiryDate != null
                 ? Value(transferExpiryDate)
                 : const Value.absent(),
-            status: const Value(OnRampOrderStatus.waitingForDeposit),
+            status: const Value(OnRampOrderStatus.processing),
           ),
         );
       });
@@ -202,6 +202,7 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
       case OnRampOrderStatus.pending:
+      case OnRampOrderStatus.processing:
         break;
     }
   }

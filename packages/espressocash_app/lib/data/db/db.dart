@@ -172,10 +172,10 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
 
 enum OnRampOrderStatus {
   pending,
+  processing,
   waitingForDeposit,
   depositExpired,
   waitingForPartner,
-  // processing,
   failure,
   completed,
 }
