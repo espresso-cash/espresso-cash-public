@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
@@ -12,6 +13,7 @@ import 'package:solana/solana.dart';
 import '../../../utils/flow.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -43,19 +45,12 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   CreateSwapBloc({
     required RouteRepository routeRepository,
     required AnalyticsManager analyticsManager,
-    // required BalancesRepository balancesRepository, //TODO add when merged
+    required TokenBalancesRepository balancesRepository,
     required ECWallet wallet,
   })  : _routeRepository = routeRepository,
         _analyticsManager = analyticsManager,
         _userAccount = wallet.publicKey,
-        _balances = IMap.fromEntries(const {}),
-        // _balances = balancesRepository.readAll().add(
-        //       Token.wrappedSol,
-        //       balancesRepository.read(Token.sol).copyWith(
-        //             cryptoCurrency:
-        //                 const CryptoCurrency(token: Token.wrappedSol),
-        //           ),
-        //     ),
+        _balancesRepository = balancesRepository,
         super(
           CreateSwapState(
             inputAmount: _defaultInputToken.toZeroAmount(),
@@ -80,7 +75,7 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
 
   final RouteRepository _routeRepository;
   final AnalyticsManager _analyticsManager;
-  final IMap<Token, Amount> _balances;
+  final TokenBalancesRepository _balancesRepository;
   final Ed25519HDPublicKey _userAccount;
 
   // void _onInitialize(Initialize event, _Emitter emit) {
@@ -135,8 +130,10 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   //   add(const CreateSwapEvent.routeInvalidated());
   // }
 
-  void _onSubmitted(Submitted _, _Emitter emit) {
-    state.validate(_balances).fold(
+  Future<void> _onSubmitted(Submitted _, _Emitter emit) async {
+    final balances = await _balancesRepository.readTokenBalances();
+
+    state.validate(balances).fold(
       (e) {
         emit(state.copyWith(flowState: Flow.failure(e)));
         emit(state.copyWith(flowState: const Flow.initial()));
@@ -182,11 +179,6 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
       );
 
       emit(state.updateOutputFromRoute(bestRoute));
-
-      // state.editingMode.when(
-      //   input: () => ,
-      //   output: () => emit(state.updateInputFromRoute(bestRoute)),
-      // );
     } on CreateSwapException catch (error) {
       emit(state.error(error));
     } on Exception {
@@ -195,19 +187,17 @@ class CreateSwapBloc extends Bloc<_Event, _State> {
   }
 }
 
-extension CreateSwapBlocExt on CreateSwapBloc {
-  CryptoAmount calculateMaxAmount() => _balances.balanceFromToken(state.input);
-}
-
-extension BalanceExt on IMap<Token, Amount> {
+extension BalanceExt on IList<CryptoAmount> {
   bool isPositive(Token token) {
-    final balance = this[token];
+    final balance =
+        firstWhereOrNull((element) => element.cryptoCurrency.token == token);
 
     return balance != null && balance.value > 0;
   }
 
   CryptoAmount balanceFromToken(Token token) {
-    final balance = this[token];
+    final balance =
+        firstWhereOrNull((element) => element.cryptoCurrency.token == token);
     final value = balance?.value ?? 0;
 
     return CryptoAmount(
@@ -248,17 +238,6 @@ extension on CreateSwapState {
         outputAmount: outputAmount.copyWith(value: bestRoute.outAmount),
         expiresAt: DateTime.now().add(_routeDuration),
       );
-
-  // CreateSwapState toggleEditingMode() => copyWith(
-  //       editingMode: editingMode.map(
-  //         input: always(const SwapEditingMode.output()),
-  //         output: always(const SwapEditingMode.input()),
-  //       ),
-  //       inputAmount:
-  //           inputAmount?.copyWithDecimal(outputAmount?.decimal ?? Decimal.zero),
-  //       outputAmount:
-  //           outputAmount?.copyWithDecimal(inputAmount?.decimal ?? Decimal.zero),
-  //     );
 }
 
 extension on Token {

@@ -7,6 +7,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/ramp_partner/models/ramp_partner.dart';
+import '../../features/swap/data/swap_repository.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -24,7 +25,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 52;
+const int latestVersion = 53;
 
 const _tables = [
   OutgoingTransferRows,
@@ -38,6 +39,7 @@ const _tables = [
   OutgoingDlnPaymentRows,
   TransactionRequestRows,
   TokenBalanceRows,
+  SwapRows,
 ];
 
 @lazySingleton
@@ -118,6 +120,10 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 52) {
             await m.createTable(tokenBalanceRows);
+          }
+
+          if (from < 53) {
+            await m.createTable(swapRows);
           }
         },
       );

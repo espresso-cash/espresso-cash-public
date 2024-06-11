@@ -1,3 +1,4 @@
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
@@ -8,8 +9,10 @@ import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
+import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../../tokens/widgets/token_icon.dart';
@@ -20,24 +23,28 @@ class SwapTokenSelectScreen extends StatelessWidget {
     super.key,
     required this.type,
     required this.inputToken,
+    required this.userTokens,
   });
 
   static Future<Token?> push(
     BuildContext context, {
     required SwapType type,
     required Token inputToken,
+    required IList<Token> userTokens,
   }) =>
       Navigator.of(context).push<Token?>(
         MaterialPageRoute(
           builder: (context) => SwapTokenSelectScreen(
             type: type,
             inputToken: inputToken,
+            userTokens: userTokens,
           ),
         ),
       );
 
   final SwapType type;
   final Token inputToken;
+  final IList<Token> userTokens;
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -55,6 +62,7 @@ class SwapTokenSelectScreen extends StatelessWidget {
             child: _TokenSelectContent(
               type: type,
               inputToken: inputToken,
+              userTokens: userTokens,
             ),
           ),
         ),
@@ -65,10 +73,12 @@ class _TokenSelectContent extends StatefulWidget {
   const _TokenSelectContent({
     required this.type,
     required this.inputToken,
+    required this.userTokens,
   });
 
   final SwapType type;
   final Token inputToken;
+  final IList<Token> userTokens;
 
   @override
   State<_TokenSelectContent> createState() => __TokenSelectContentState();
@@ -81,10 +91,7 @@ class __TokenSelectContentState extends State<_TokenSelectContent> {
 
   List<Token> _getTokens() => widget.type == SwapType.output
       ? sl<TokenList>().tokens.where((e) => e != widget.inputToken).toList()
-      : [
-          Token.sol,
-          Token.usdc,
-        ]; //TODO fetch from user token list
+      : widget.userTokens.toList();
 
   @override
   void initState() {
@@ -158,8 +165,6 @@ class __TokenSelectContentState extends State<_TokenSelectContent> {
 
                   return _TokenItem(
                     token: token,
-                    amount: Amount.fromToken(value: 0, token: token)
-                        as CryptoAmount,
                     onTap: () => _onTokenSelected(token),
                   );
                 },
@@ -171,37 +176,35 @@ class __TokenSelectContentState extends State<_TokenSelectContent> {
 }
 
 class _TokenItem extends StatelessWidget {
-  //TODO update when token list is merged
   const _TokenItem({
     required this.token,
-    required this.amount,
     required this.onTap,
   });
 
   final Token token;
-  final CryptoAmount amount;
   final VoidCallback onTap;
 
   static const double _iconSize = 36.0;
   static const double _minFiatAmount = 0.01;
 
   @override
-  Widget build(BuildContext context) => ValueStreamBuilder<Amount?>(
-        // create: () => sl<WatchTokenFiatBalance>().call(token),
+  Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
         create: () => (
-          const Stream.empty(),
-          null,
+          sl<TokenFiatBalanceService>().readInvestmentBalance(token),
+          (
+            Amount.zero(currency: Currency.usdc) as CryptoAmount,
+            Amount.zero(currency: Currency.usd) as FiatAmount
+          )
         ),
-        builder: (context, fiatAmount) {
+        builder: (context, value) {
+          final crypto = value.$1;
+          final fiat = value.$2;
+
           String fiatAmountText;
 
-          if (fiatAmount != null) {
-            fiatAmountText = fiatAmount.value < _minFiatAmount
-                ? r'<$0.01'
-                : fiatAmount.format(context.locale, maxDecimals: 2);
-          } else {
-            fiatAmountText = '-';
-          }
+          fiatAmountText = fiat.value < _minFiatAmount
+              ? '-'
+              : fiat.format(context.locale, maxDecimals: 2);
 
           return _Card(
             child: ListTile(
@@ -236,7 +239,7 @@ class _TokenItem extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    amount.format(context.locale),
+                    crypto.format(context.locale),
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,

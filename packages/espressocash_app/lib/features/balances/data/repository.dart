@@ -61,6 +61,28 @@ class TokenBalancesRepository {
         );
   }
 
+  Future<IList<CryptoAmount>> readTokenBalances() async {
+    final query = _db.tokenBalanceRows.select()
+      ..where((tbl) => tbl.amount.isBiggerThanValue(0));
+
+    final rows = await query.get();
+
+    return rows
+        .map((row) {
+          final token = _tokens.findTokenByMint(row.token);
+
+          return token == null
+              ? null
+              : CryptoAmount(
+                  value: row.amount,
+                  cryptoCurrency: CryptoCurrency(token: token),
+                );
+        })
+        .whereNotNull()
+        .sortedBy((element) => element.token.name)
+        .toIList();
+  }
+
   Stream<IList<CryptoAmount>> watchTokenBalances({
     Iterable<Token> ignoreTokens = const [],
   }) {

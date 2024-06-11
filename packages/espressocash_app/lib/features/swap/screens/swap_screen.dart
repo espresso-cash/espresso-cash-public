@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:solana/dto.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
@@ -15,6 +16,7 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/theme.dart';
 import '../../../utils/flow.dart';
+import '../../balances/data/repository.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
@@ -117,10 +119,15 @@ class _CreateSwapContentState extends State<_CreateSwapContent> {
     SwapType type, {
     required Token inputToken,
   }) async {
+    final userTokens = await sl<TokenBalancesRepository>().readUserTokens();
+
+    if (!mounted) return;
+
     final token = await SwapTokenSelectScreen.push(
       context,
       type: type,
       inputToken: inputToken,
+      userTokens: userTokens.toIList(),
     );
 
     if (!mounted) return;
@@ -129,23 +136,6 @@ class _CreateSwapContentState extends State<_CreateSwapContent> {
       final event = CreateSwapEvent.inputTokenUpdated(token);
       _bloc.add(event);
     }
-
-    // if (token != null) {
-    //   setState(() {
-    //     switch (type) {
-    //       case SwapType.input:
-    //         if (token == _outputToken) {
-    //           final temp = _inputToken;
-    //           _inputToken = _outputToken;
-    //           _outputToken = temp;
-    //         } else {
-    //           _inputToken = token;
-    //         }
-    //       case SwapType.output:
-    //         _outputToken = token;
-    //     }
-    //   });
-    // }
   }
 
   @override

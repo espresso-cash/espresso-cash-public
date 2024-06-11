@@ -16,7 +16,10 @@ class CreateSwapState with _$CreateSwapState {
 extension CreateSwapExt on CreateSwapState {
   CryptoAmount get fee =>
       bestRoute?.fee ??
-      const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc);
+      const CryptoAmount(
+        value: 0,
+        cryptoCurrency: Currency.usdc,
+      ); //TODO update fees to be in SOL
 
   Token get input => inputAmount.token;
   Token get output => outputAmount.token;
@@ -25,31 +28,24 @@ extension CreateSwapExt on CreateSwapState {
   CryptoAmount get requestAmount => inputAmount;
 
   Either<CreateSwapException, SwapRoute> validate(
-    IMap<Token, Amount> balances,
+    IList<CryptoAmount> balances,
   ) {
     final tokenBalance = balances.balanceFromToken(input);
 
     // Check if the total amount doesn't exceed the user's balance.
-    // final totalAmount = //TODO
-    //     input == Token.usdc ? inputAmount + fee as CryptoAmount : inputAmount;
+    final totalAmount =
+        input == Token.usdc ? inputAmount + fee as CryptoAmount : inputAmount;
 
-    // if (tokenBalance < totalAmount) {
-    //   return Either.left(
-    //     CreateSwapException.insufficientBalance(
-    //       balance: tokenBalance,
-    //       amount: totalAmount,
-    //     ),
-    //   );
-    // }
-
-    // Check if the user has enough USDC balance to pay the fee. If the outgoing
-    // token is USDC, it will always succeed since the total amount was checked
-    // before, but for other tokens, we need to check the fee as the fee is
-    // always paid in USDC.
-    final usdcBalance = balances.balanceFromToken(Token.usdc);
-    if (usdcBalance < fee) {
-      return Either.left(CreateSwapException.insufficientFee(fee: fee));
+    if (tokenBalance < totalAmount) {
+      return Either.left(
+        CreateSwapException.insufficientBalance(
+          balance: tokenBalance,
+          amount: totalAmount,
+        ),
+      );
     }
+
+    // TODOcheck if user has enough SOL fee
 
     final route = bestRoute;
 
