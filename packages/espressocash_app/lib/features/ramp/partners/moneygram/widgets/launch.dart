@@ -58,6 +58,27 @@ extension BuildContextExt on BuildContext {
     final token = response.token;
     final orderId = response.id;
 
+    final id = await sl<OnRampOrderService>()
+        .createPendingMoneygram(
+      orderId: orderId,
+      partner: partner,
+      submittedAmount: submittedAmount,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          return null;
+        case Right<Exception, String>(:final value):
+          return value;
+      }
+    });
+
+    if (id == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
@@ -81,26 +102,23 @@ extension BuildContextExt on BuildContext {
           ) as CryptoAmount;
 
           await sl<OnRampOrderService>()
-              .createForManualTransfer(
-            orderId: orderId,
+              .updateMoneygramOrder(
+            id: id,
             receiveAmount: receiveAmount,
-            submittedAmount: submittedAmount,
-            partner: partner,
-            bankAccount: null,
-            bankName: 'moneygram',
             transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
             transferAmount: transferAmount,
             authToken: token,
-            moreInfoUrl: transaction.moreInfoUrl,
+            moreInfoUrl: transaction.moreInfoUrl ?? '',
           )
               .then((order) {
             switch (order) {
-              case Left<Exception, String>():
+              case Left<Exception, void>():
                 break;
-              case Right<Exception, String>(:final value):
-                OnRampOrderScreen.pushReplacement(this, id: value);
+              case Right<Exception, void>():
+                OnRampOrderScreen.pushReplacement(this, id: id);
             }
           });
+
           orderWasCreated = true;
         },
       );

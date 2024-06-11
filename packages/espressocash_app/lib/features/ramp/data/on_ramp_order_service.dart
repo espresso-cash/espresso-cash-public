@@ -69,8 +69,6 @@ class OnRampOrderService implements Disposable {
     String? bankName,
     DateTime? transferExpiryDate,
     FiatAmount? transferAmount,
-    String? authToken,
-    String? moreInfoUrl,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -92,8 +90,8 @@ class OnRampOrderService implements Disposable {
             bankTransferExpiry: transferExpiryDate,
             bankTransferAmount: transferAmount?.value,
             fiatSymbol: transferAmount?.currency.symbol,
-            authToken: authToken,
-            moreInfoUrl: moreInfoUrl,
+            authToken: null,
+            moreInfoUrl: null,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -112,8 +110,6 @@ class OnRampOrderService implements Disposable {
     required String? bankName,
     required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
-    required String? authToken,
-    required String? moreInfoUrl,
   }) =>
       create(
         orderId: orderId,
@@ -125,9 +121,66 @@ class OnRampOrderService implements Disposable {
         transferExpiryDate: transferExpiryDate,
         transferAmount: transferAmount,
         status: OnRampOrderStatus.waitingForDeposit,
-        authToken: authToken,
-        moreInfoUrl: moreInfoUrl,
       );
+
+  AsyncResult<String> createPendingMoneygram({
+    required String orderId,
+    required RampPartner partner,
+    required CryptoAmount submittedAmount,
+    OnRampOrderStatus status = OnRampOrderStatus.pending,
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final order = OnRampOrderRow(
+            id: const Uuid().v4(),
+            partnerOrderId: orderId,
+            amount: submittedAmount.value,
+            token: Token.usdc.address,
+            created: DateTime.now(),
+            isCompleted: false,
+            humanStatus: '',
+            machineStatus: '',
+            txHash: '',
+            partner: partner,
+            status: status,
+          );
+
+          await _db.into(_db.onRampOrderRows).insert(order);
+          _subscribe(order.id);
+
+          return order.id;
+        }
+      });
+
+  AsyncResult<void> updateMoneygramOrder({
+    required String id,
+    required String authToken,
+    required CryptoAmount? receiveAmount,
+    required FiatAmount transferAmount,
+    required String moreInfoUrl,
+    required DateTime? transferExpiryDate,
+  }) =>
+      tryEitherAsync((_) async {
+        const bankName = 'moneygram';
+
+        final updateQuery = _db.update(_db.onRampOrderRows)
+          ..where((tbl) => tbl.id.equals(id));
+
+        await updateQuery.write(
+          OnRampOrderRowsCompanion(
+            receiveAmount: Value(receiveAmount?.value),
+            bankTransferAmount: Value(transferAmount.value),
+            fiatSymbol: Value(transferAmount.currency.symbol),
+            authToken: Value(authToken),
+            moreInfoUrl: Value(moreInfoUrl),
+            bankName: const Value(bankName),
+            bankTransferExpiry: transferExpiryDate != null
+                ? Value(transferExpiryDate)
+                : const Value.absent(),
+            status: const Value(OnRampOrderStatus.waitingForDeposit),
+          ),
+        );
+      });
 
   Future<void> confirmDeposit(String orderId) async {
     final query = _db.select(_db.onRampOrderRows)
@@ -148,6 +201,7 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
+      case OnRampOrderStatus.pending:
         break;
     }
   }
@@ -224,7 +278,10 @@ class OnRampOrderService implements Disposable {
 
   Stream<IList<({String id, DateTime created})>> watchPending() {
     final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.isCompleted.equals(false));
+      ..where(
+        (tbl) =>
+            tbl.isCompleted.equals(false) & tbl.status.isNotValue('pending'),
+      );
 
     return query
         .watch()

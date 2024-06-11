@@ -103,6 +103,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
         : null;
 
     final String statusContent = switch (order.status) {
+      OnRampOrderStatus.pending ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.waitingForPartner =>
         context.l10n
@@ -261,6 +262,7 @@ class _Timeline extends StatelessWidget {
 
 extension on OnRampOrderStatus {
   CpStatusType toStatusType() => switch (this) {
+        OnRampOrderStatus.pending ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -271,6 +273,7 @@ extension on OnRampOrderStatus {
       };
 
   CpTimelineStatus toTimelineStatus() => switch (this) {
+        OnRampOrderStatus.pending ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -281,6 +284,7 @@ extension on OnRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
+        OnRampOrderStatus.pending ||
         OnRampOrderStatus.depositExpired ||
         OnRampOrderStatus.waitingForDeposit =>
           0,

@@ -47,7 +47,7 @@ class TransactionStatus with _$TransactionStatus {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TransactionStatus({
     required String id,
-    required String status,
+    @JsonKey(unknownEnumValue: MgStatus.unknown) required MgStatus status,
     required String kind,
     String? withdrawAnchorAccount,
     String? withdrawMemo,
@@ -63,4 +63,12 @@ class TransactionStatus with _$TransactionStatus {
 
   factory TransactionStatus.fromJson(Map<String, dynamic> json) =>
       _$TransactionStatusFromJson(json);
+}
+
+@JsonEnum(fieldRename: FieldRename.none)
+enum MgStatus {
+  incomplete,
+  pendingUserTransferStart,
+  pendingUserTransferComplete,
+  unknown,
 }
