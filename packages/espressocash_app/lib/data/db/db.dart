@@ -9,7 +9,6 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/ramp_partner/models/ramp_partner.dart';
-import '../../features/tokens/data/token_dao.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -45,7 +44,7 @@ const _tables = [
 ];
 
 @lazySingleton
-@DriftDatabase(tables: _tables, daos: [TokenDao])
+@DriftDatabase(tables: _tables)
 class MyDatabase extends _$MyDatabase {
   @factoryMethod
   MyDatabase() : super(openConnection());

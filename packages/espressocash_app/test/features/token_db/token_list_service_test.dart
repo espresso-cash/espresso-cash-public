@@ -13,26 +13,6 @@ void main() {
     service = TokenService(mockRepository);
   });
 
-  test('should fetch all tokens', () async {
-    final tokens = [
-      const TokenDTO(
-        chainId: 1,
-        address: 'address1',
-        symbol: 'SYM1',
-        name: 'Token1',
-        decimals: 2,
-        logoURI: 'uri',
-        tags: [],
-        extensions: null,
-      ),
-    ];
-    when(mockRepository.getAllTokens()).thenAnswer((_) async => tokens);
-
-    final result = await service.getAllTokens();
-
-    expect(result.length, tokens.length);
-  });
-
   test('should initialize database with JSON', () async {
     final json = {
       'tokens': [

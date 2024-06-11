@@ -6,13 +6,10 @@ import 'mocks.mocks.dart';
 
 void main() {
   late MockMyDatabase mockDatabase;
-  late MockTokenDao mockTokenDao;
   late TokenListRepository repository;
 
   setUp(() {
     mockDatabase = MockMyDatabase();
-    mockTokenDao = MockTokenDao();
-    when(mockDatabase.tokenDao).thenReturn(mockTokenDao);
     repository = TokenListRepository(mockDatabase);
   });
 
@@ -30,7 +27,7 @@ void main() {
       ),
     ];
 
-    when(mockTokenDao.getAllTokens()).thenAnswer((_) async => tokens);
+    when(repository.getAllTokens()).thenAnswer((_) async => tokens);
 
     final result = await repository.getAllTokens();
 
@@ -60,26 +57,26 @@ void main() {
       extensions: null,
     );
 
-    when(mockTokenDao.insertToken(tokenRow))
+    when(repository.insertToken(tokenRow))
         .thenAnswer((_) async => Future.value());
-    when(mockTokenDao.getAllTokens()).thenAnswer((_) async => [tokenRow]);
+    when(repository.getAllTokens()).thenAnswer((_) async => [tokenRow]);
 
-    await mockTokenDao.insertToken(tokenRow);
+    await repository.insertToken(tokenRow);
 
-    final List<TokenRow> resultOne = await mockTokenDao.getAllTokens();
+    final List<TokenRow> resultOne = await repository.getAllTokens();
 
-    when(mockTokenDao.insertToken(tokenRow2))
+    when(repository.insertToken(tokenRow2))
         .thenAnswer((_) async => Future.value());
-    when(mockTokenDao.getAllTokens())
+    when(repository.getAllTokens())
         .thenAnswer((_) async => [tokenRow, tokenRow2]);
 
-    await mockTokenDao.insertToken(tokenRow2);
+    await repository.insertToken(tokenRow2);
 
-    final List<TokenRow> resultTwo = await mockTokenDao.getAllTokens();
+    final List<TokenRow> resultTwo = await repository.getAllTokens();
 
-    verify(mockTokenDao.insertToken(tokenRow)).called(1);
-    verify(mockTokenDao.insertToken(tokenRow2)).called(1);
-    verify(mockTokenDao.getAllTokens()).called(2);
+    verify(repository.insertToken(tokenRow)).called(1);
+    verify(repository.insertToken(tokenRow2)).called(1);
+    verify(repository.getAllTokens()).called(2);
 
     expect(resultOne.length, 1);
     expect(resultTwo.length, 2);
@@ -110,26 +107,26 @@ void main() {
       extensions: null,
     );
 
-    when(mockTokenDao.insertToken(tokenRow))
+    when(repository.insertToken(tokenRow))
         .thenAnswer((_) async => Future.value());
-    when(mockTokenDao.getAllTokens()).thenAnswer((_) async => [tokenRow]);
+    when(repository.getAllTokens()).thenAnswer((_) async => [tokenRow]);
 
-    await mockTokenDao.insertToken(tokenRow);
+    await repository.insertToken(tokenRow);
 
-    final List<TokenRow> resultOne = await mockTokenDao.getAllTokens();
+    final List<TokenRow> resultOne = await repository.getAllTokens();
 
-    when(mockTokenDao.insertToken(tokenRow2))
+    when(repository.insertToken(tokenRow2))
         .thenAnswer((_) async => Future.value());
-    when(mockTokenDao.getAllTokens())
+    when(repository.getAllTokens())
         .thenAnswer((_) async => [tokenRow, tokenRow2]);
 
-    await mockTokenDao.insertToken(tokenRow2);
+    await repository.insertToken(tokenRow2);
 
-    final List<TokenRow> resultTwo = await mockTokenDao.getAllTokens();
+    final List<TokenRow> resultTwo = await repository.getAllTokens();
 
-    verify(mockTokenDao.insertToken(tokenRow)).called(1);
-    verify(mockTokenDao.insertToken(tokenRow2)).called(1);
-    verify(mockTokenDao.getAllTokens()).called(2);
+    verify(repository.insertToken(tokenRow)).called(1);
+    verify(repository.insertToken(tokenRow2)).called(1);
+    verify(repository.getAllTokens()).called(2);
 
     expect(resultOne.length, 1);
     expect(resultTwo.length, 2);

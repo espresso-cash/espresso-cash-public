@@ -1,7 +1,7 @@
+import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
-import 'token_dto.dart';
 
 @singleton
 class TokenListRepository {
@@ -9,49 +9,19 @@ class TokenListRepository {
 
   final MyDatabase _db;
 
-  Future<List<TokenDTO>> getAllTokens() async {
-    final tokens = await _db.tokenDao.getAllTokens();
-    return tokens.map(_mapToTokenDTO).toList();
-  }
+  Future<List<TokenRow>> getAllTokens() async =>
+      _db.select(_db.tokenRows).get();
 
-  Stream<List<TokenDTO>> watchAllTokens() => _db.tokenDao
-      .watchAllTokens()
-      .map((tokens) => tokens.map(_mapToTokenDTO).toList());
+  Stream<List<TokenRow>> watchAllTokens() => _db.select(_db.tokenRows).watch();
 
-  Future<void> insertToken(TokenDTO tokenDTO) async {
-    final token = _mapFromTokenDTO(tokenDTO);
-    await _db.tokenDao.insertToken(token);
-  }
+  Future<dynamic> insertToken(Insertable<TokenRow> token) =>
+      _db.into(_db.tokenRows).insert(token);
 
-  Future<void> updateToken(TokenDTO tokenDTO) async {}
+  Future<dynamic> updateToken(Insertable<TokenRow> token) =>
+      _db.update(_db.tokenRows).replace(token);
 
-  Future<void> deleteToken(TokenDTO tokenDTO) async {}
+  Future<dynamic> deleteToken(Insertable<TokenRow> token) =>
+      _db.delete(_db.tokenRows).delete(token);
 
-  Future<void> clearAllTokens() async {
-    await _db.tokenDao.clearAllTokens();
-  }
-
-  TokenDTO _mapToTokenDTO(TokenRow token) => TokenDTO(
-        chainId: token.chainId,
-        address: token.address,
-        symbol: token.symbol,
-        name: token.name,
-        decimals: token.decimals,
-        logoURI: token.logoURI,
-        tags: token.tags,
-        extensions: ExtensionsDTO(coingeckoId: token.extensions?.coingeckoId),
-      );
-
-  TokenRow _mapFromTokenDTO(TokenDTO tokenDTO) => TokenRow(
-        chainId: tokenDTO.chainId,
-        address: tokenDTO.address,
-        symbol: tokenDTO.symbol,
-        name: tokenDTO.name,
-        decimals: tokenDTO.decimals,
-        logoURI: tokenDTO.logoURI,
-        tags: tokenDTO.tags,
-        extensions: tokenDTO.extensions == null
-            ? null
-            : Extensions(coingeckoId: tokenDTO.extensions!.coingeckoId),
-      );
+  Future<dynamic> clearAllTokens() => _db.delete(_db.tokenRows).go();
 }

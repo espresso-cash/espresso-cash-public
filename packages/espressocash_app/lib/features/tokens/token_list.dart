@@ -60,7 +60,7 @@ class TokenList {
   final int chainId;
 
   // ignore: unused_field
-  Iterable<TokenDTO> _allTokensDB;
+  Iterable<TokenRow> _allTokensDB;
 
   Iterable<Token> get _allTokens => _parsedContent.tokens;
 
@@ -75,11 +75,11 @@ class TokenList {
 
   Future<void> _populateDatabase() async {
     await service?.initializeDatabaseWithJson(_solanaTokenList);
-    _allTokensDB = await service!.getAllTokens();
+    _allTokensDB = await service!.tokenRepository.getAllTokens();
   }
 
   Future<void> initialize() async {
-    final tokenList = await service!.getAllTokens();
+    final tokenList = await service!.tokenRepository.getAllTokens();
     if (tokenList.isEmpty) {
       await _populateDatabase();
     } else {

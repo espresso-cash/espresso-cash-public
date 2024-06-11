@@ -28,7 +28,7 @@ void main() {
 
     //response.forEach((element) => print(element.toJson()));
 
-    verify(mockService.getAllTokens()).called(4);
+    verify(mockService.tokenRepository.getAllTokens()).called(4);
 
     //verify(mockService.initializeDatabaseWithJson(any)).called(2);
   });
@@ -47,7 +47,7 @@ void main() {
 
     const List<TokenDTO> tokens = [tokenDTO];
 
-    await tokenList.service?.insertToken(tokenDTO);
+    //await tokenList.service?.tokenRepository.insertToken(tokenDTO);
 
     // when(
     //   mockService.insertToken(tokenDTO),

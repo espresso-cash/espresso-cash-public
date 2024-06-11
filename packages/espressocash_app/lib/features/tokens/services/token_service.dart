@@ -1,42 +1,35 @@
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
+import 'package:drift/src/runtime/data_class.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import '../../../data/db/db.dart';
 import '../data/token_dto.dart';
 import '../data/token_repository.dart';
 
 @lazySingleton
 class TokenService {
-  TokenService(this._tokenRepository);
+  TokenService(this.tokenRepository);
 
-  final TokenListRepository _tokenRepository;
+  final TokenListRepository tokenRepository;
 
-  Future<List<TokenDTO>> getAllTokens() => _tokenRepository.getAllTokens();
+  Future<Either<Exception, void>> initializeDatabaseWithJson(
+    Map<String, dynamic> json,
+  ) =>
+      tryEitherAsync(
+        (_) async {
+          await tokenRepository.clearAllTokens();
+          for (final tokenData in json['tokens'] as Iterable) {
+            final tokenDTO =
+                TokenDTO.fromJson(tokenData as Map<String, dynamic>);
+            await tokenRepository.insertToken(tokenDTO as Insertable<TokenRow>);
+          }
+        },
+      );
 
-  Stream<List<TokenDTO>> watchAllTokens() => _tokenRepository.watchAllTokens();
+  //Future<Either<Exception, void>> initializeDatabaseFromJsonFile() {}
 
-  Future<void> insertToken(TokenDTO tokenDTO) =>
-      _tokenRepository.insertToken(tokenDTO);
-
-  Future<void> updateToken(TokenDTO tokenDTO) =>
-      _tokenRepository.updateToken(tokenDTO);
-
-  Future<void> deleteToken(TokenDTO tokenDTO) =>
-      _tokenRepository.deleteToken(tokenDTO);
-
-  Future<void> clearAllTokens() => _tokenRepository.clearAllTokens();
-
-  Future<void> initializeDatabaseWithJson(Map<String, dynamic> json) async {
-    await clearAllTokens();
-    for (final tokenData in json['tokens'] as Iterable) {
-      try {
-        final tokenDTO = TokenDTO.fromJson(tokenData as Map<String, dynamic>);
-        await insertToken(tokenDTO);
-        // ignore: avoid_catches_without_on_clauses
-      } catch (e) {
-        debugPrint(e.toString());
-      }
-    }
-  }
+  //Future<Either<Exception, void>> initializeDatabaseFromCsvFile() {}
 
   TokenDTO? findTokenByMint(String mint, List<TokenDTO> tokens) =>
       tokens.firstWhereOrNull((t) => t.address == mint);
