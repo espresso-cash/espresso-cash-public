@@ -6,7 +6,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
-import '../../../gen/assets.gen.dart';
 import '../data/token_dto.dart';
 import '../data/token_repository.dart';
 
