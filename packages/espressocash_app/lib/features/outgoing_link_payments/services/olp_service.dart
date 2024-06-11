@@ -256,7 +256,7 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(signature: status.signature);
+    await _txConfirm(txId: status.signature);
 
     final token = payment.amount.token;
 
@@ -323,7 +323,7 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(signature: status.signature);
+    await _txConfirm(txId: status.signature);
 
     _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 

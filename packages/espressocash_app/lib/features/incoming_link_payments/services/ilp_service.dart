@@ -164,7 +164,7 @@ class ILPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(signature: status.signature);
+    await _txConfirm(txId: status.signature);
 
     int? fee;
     try {
