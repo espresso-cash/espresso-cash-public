@@ -51,7 +51,9 @@ class _TransactionListState extends State<TransactionList> {
                     ),
                   )
                 : ListView.custom(
-                    physics: const BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     padding: widget.padding,
                     childrenDelegate: SliverChildBuilderDelegate(
                       (context, i) => _KeepAlive(

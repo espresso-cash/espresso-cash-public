@@ -54,7 +54,9 @@ class _PendingActivitiesListState extends State<PendingActivitiesList> {
                   ),
                 )
               : ListView.builder(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
                   padding: widget.padding,
                   itemBuilder: (context, i) {
                     // ignore: avoid-non-null-assertion, cannot be null here
