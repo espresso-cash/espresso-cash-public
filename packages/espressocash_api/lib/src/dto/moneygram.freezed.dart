@@ -1226,3 +1226,307 @@ abstract class _MoneygramSwapResponseDto implements MoneygramSwapResponseDto {
   _$$MoneygramSwapResponseDtoImplCopyWith<_$MoneygramSwapResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+MoneygramFeeResponseDto _$MoneygramFeeResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _MoneygramFeeResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoneygramFeeResponseDto {
+  String get amount => throw _privateConstructorUsedError;
+  RampTypeDto get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoneygramFeeResponseDtoCopyWith<MoneygramFeeResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoneygramFeeResponseDtoCopyWith<$Res> {
+  factory $MoneygramFeeResponseDtoCopyWith(MoneygramFeeResponseDto value,
+          $Res Function(MoneygramFeeResponseDto) then) =
+      _$MoneygramFeeResponseDtoCopyWithImpl<$Res, MoneygramFeeResponseDto>;
+  @useResult
+  $Res call({String amount, RampTypeDto type});
+}
+
+/// @nodoc
+class _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
+        $Val extends MoneygramFeeResponseDto>
+    implements $MoneygramFeeResponseDtoCopyWith<$Res> {
+  _$MoneygramFeeResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RampTypeDto,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MoneygramFeeResponseDtoImplCopyWith<$Res>
+    implements $MoneygramFeeResponseDtoCopyWith<$Res> {
+  factory _$$MoneygramFeeResponseDtoImplCopyWith(
+          _$MoneygramFeeResponseDtoImpl value,
+          $Res Function(_$MoneygramFeeResponseDtoImpl) then) =
+      __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String amount, RampTypeDto type});
+}
+
+/// @nodoc
+class __$$MoneygramFeeResponseDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramFeeResponseDtoCopyWithImpl<$Res,
+        _$MoneygramFeeResponseDtoImpl>
+    implements _$$MoneygramFeeResponseDtoImplCopyWith<$Res> {
+  __$$MoneygramFeeResponseDtoImplCopyWithImpl(
+      _$MoneygramFeeResponseDtoImpl _value,
+      $Res Function(_$MoneygramFeeResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+    Object? type = null,
+  }) {
+    return _then(_$MoneygramFeeResponseDtoImpl(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as RampTypeDto,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoneygramFeeResponseDtoImpl implements _MoneygramFeeResponseDto {
+  const _$MoneygramFeeResponseDtoImpl(
+      {required this.amount, required this.type});
+
+  factory _$MoneygramFeeResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoneygramFeeResponseDtoImplFromJson(json);
+
+  @override
+  final String amount;
+  @override
+  final RampTypeDto type;
+
+  @override
+  String toString() {
+    return 'MoneygramFeeResponseDto(amount: $amount, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoneygramFeeResponseDtoImpl &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, amount, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoneygramFeeResponseDtoImplCopyWith<_$MoneygramFeeResponseDtoImpl>
+      get copyWith => __$$MoneygramFeeResponseDtoImplCopyWithImpl<
+          _$MoneygramFeeResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoneygramFeeResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
+  const factory _MoneygramFeeResponseDto(
+      {required final String amount,
+      required final RampTypeDto type}) = _$MoneygramFeeResponseDtoImpl;
+
+  factory _MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =
+      _$MoneygramFeeResponseDtoImpl.fromJson;
+
+  @override
+  String get amount;
+  @override
+  RampTypeDto get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$MoneygramFeeResponseDtoImplCopyWith<_$MoneygramFeeResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+MoneygramFeeRequestDto _$MoneygramFeeRequestDtoFromJson(
+    Map<String, dynamic> json) {
+  return _MoneygramFeeRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MoneygramFeeRequestDto {
+  String get amount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $MoneygramFeeRequestDtoCopyWith<MoneygramFeeRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MoneygramFeeRequestDtoCopyWith<$Res> {
+  factory $MoneygramFeeRequestDtoCopyWith(MoneygramFeeRequestDto value,
+          $Res Function(MoneygramFeeRequestDto) then) =
+      _$MoneygramFeeRequestDtoCopyWithImpl<$Res, MoneygramFeeRequestDto>;
+  @useResult
+  $Res call({String amount});
+}
+
+/// @nodoc
+class _$MoneygramFeeRequestDtoCopyWithImpl<$Res,
+        $Val extends MoneygramFeeRequestDto>
+    implements $MoneygramFeeRequestDtoCopyWith<$Res> {
+  _$MoneygramFeeRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+  }) {
+    return _then(_value.copyWith(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MoneygramFeeRequestDtoImplCopyWith<$Res>
+    implements $MoneygramFeeRequestDtoCopyWith<$Res> {
+  factory _$$MoneygramFeeRequestDtoImplCopyWith(
+          _$MoneygramFeeRequestDtoImpl value,
+          $Res Function(_$MoneygramFeeRequestDtoImpl) then) =
+      __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String amount});
+}
+
+/// @nodoc
+class __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>
+    extends _$MoneygramFeeRequestDtoCopyWithImpl<$Res,
+        _$MoneygramFeeRequestDtoImpl>
+    implements _$$MoneygramFeeRequestDtoImplCopyWith<$Res> {
+  __$$MoneygramFeeRequestDtoImplCopyWithImpl(
+      _$MoneygramFeeRequestDtoImpl _value,
+      $Res Function(_$MoneygramFeeRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? amount = null,
+  }) {
+    return _then(_$MoneygramFeeRequestDtoImpl(
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MoneygramFeeRequestDtoImpl implements _MoneygramFeeRequestDto {
+  const _$MoneygramFeeRequestDtoImpl({required this.amount});
+
+  factory _$MoneygramFeeRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MoneygramFeeRequestDtoImplFromJson(json);
+
+  @override
+  final String amount;
+
+  @override
+  String toString() {
+    return 'MoneygramFeeRequestDto(amount: $amount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MoneygramFeeRequestDtoImpl &&
+            (identical(other.amount, amount) || other.amount == amount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, amount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MoneygramFeeRequestDtoImplCopyWith<_$MoneygramFeeRequestDtoImpl>
+      get copyWith => __$$MoneygramFeeRequestDtoImplCopyWithImpl<
+          _$MoneygramFeeRequestDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MoneygramFeeRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MoneygramFeeRequestDto implements MoneygramFeeRequestDto {
+  const factory _MoneygramFeeRequestDto({required final String amount}) =
+      _$MoneygramFeeRequestDtoImpl;
+
+  factory _MoneygramFeeRequestDto.fromJson(Map<String, dynamic> json) =
+      _$MoneygramFeeRequestDtoImpl.fromJson;
+
+  @override
+  String get amount;
+  @override
+  @JsonKey(ignore: true)
+  _$$MoneygramFeeRequestDtoImplCopyWith<_$MoneygramFeeRequestDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

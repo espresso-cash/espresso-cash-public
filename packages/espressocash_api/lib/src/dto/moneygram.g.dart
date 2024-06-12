@@ -109,3 +109,34 @@ Map<String, dynamic> _$$MoneygramSwapResponseDtoImplToJson(
     <String, dynamic>{
       'encodedTx': instance.encodedTx,
     };
+
+_$MoneygramFeeResponseDtoImpl _$$MoneygramFeeResponseDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MoneygramFeeResponseDtoImpl(
+      amount: json['amount'] as String,
+      type: $enumDecode(_$RampTypeDtoEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
+        _$MoneygramFeeResponseDtoImpl instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+      'type': _$RampTypeDtoEnumMap[instance.type]!,
+    };
+
+const _$RampTypeDtoEnumMap = {
+  RampTypeDto.onRamp: 'onRamp',
+  RampTypeDto.offRamp: 'offRamp',
+};
+
+_$MoneygramFeeRequestDtoImpl _$$MoneygramFeeRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MoneygramFeeRequestDtoImpl(
+      amount: json['amount'] as String,
+    );
+
+Map<String, dynamic> _$$MoneygramFeeRequestDtoImplToJson(
+        _$MoneygramFeeRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'amount': instance.amount,
+    };

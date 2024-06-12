@@ -160,4 +160,9 @@ abstract class EspressoCashClient {
   Future<MoneygramSwapResponseDto> swapToStellar(
     @Body() SwapToStellarRequestDto request,
   );
+
+  @POST('/moneygram/calculateFee')
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
+    @Body() MoneygramFeeRequestDto request,
+  );
 }
