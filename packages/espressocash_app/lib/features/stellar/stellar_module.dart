@@ -20,6 +20,10 @@ abstract class StellarModule {
 
   @stellar
   StellarSDK sdk() => stellarSdk;
+
+  @soroban
+  SorobanServer client() => SorobanServer(sorobanRpcUrl);
 }
 
 const stellar = Named('StellarSdk');
+const soroban = Named('SorobanServer');

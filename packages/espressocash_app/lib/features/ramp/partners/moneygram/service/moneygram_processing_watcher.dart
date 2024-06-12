@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
@@ -8,13 +7,9 @@ import 'package:injectable/injectable.dart';
 import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
-import '../../../../accounts/models/stellar_wallet.dart';
-import '../../../../currency/models/amount.dart';
-import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/on_ramp_order_service.dart';
-import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 
 @Singleton(scope: authScope)
@@ -23,7 +18,6 @@ class MoneygramProcessingWatcher {
     this._db,
     this._apiClient,
     this._stellarClient,
-    this._wallet,
     this._ecClient,
   );
 
@@ -31,7 +25,6 @@ class MoneygramProcessingWatcher {
   final EspressoCashClient _ecClient;
   final MoneygramApiClient _apiClient;
   final StellarClient _stellarClient;
-  final StellarWallet _wallet;
 
   StreamSubscription<void>? _subscription;
 
@@ -52,7 +45,8 @@ class MoneygramProcessingWatcher {
   }
 
   Future<void> processOrder(OnRampOrderRow order) async {
-    final accountId = _wallet.address;
+    final wallet = sl<StellarWallet>();
+    final accountId = wallet.address;
     final cashInAmount = order.amount;
 
     final xlmBalance = await _stellarClient.getUsdcBalance(accountId);

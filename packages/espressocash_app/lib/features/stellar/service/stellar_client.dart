@@ -7,11 +7,13 @@ import '../stellar_module.dart';
 @lazySingleton
 class StellarClient {
   const StellarClient(
-    this._ecClient, {
-    @stellar required StellarSDK sdk,
-  }) : _sdk = sdk;
+    this._ecClient,
+    @stellar this._sdk,
+    @soroban this._sorobanClient,
+  );
 
   final StellarSDK _sdk;
+  final SorobanServer _sorobanClient;
   final EspressoCashClient _ecClient;
 
   Future<String> fetchToken({required KeyPair wallet}) {
@@ -120,12 +122,41 @@ class StellarClient {
     String xdr, {
     required KeyPair userKeyPair,
   }) async {
+    print('account id ${userKeyPair.accountId}');
+
     final envelope = AbstractTransaction.fromEnvelopeXdrString(xdr);
     final transaction = envelope as Transaction
-      ..sign(userKeyPair, stellarNetwork); //TODO
+      ..fee = 1000
+      ..sign(userKeyPair, stellarNetwork);
 
-    final response = await _sdk.submitTransaction(transaction);
+    final signed = transaction.toEnvelopeXdrBase64();
 
-    return response.success;
+    final envelopeNew =
+        AbstractTransaction.fromEnvelopeXdrString(signed) as Transaction;
+
+    final response = await _sorobanClient.sendTransaction(envelopeNew);
+
+    print(response);
+
+    return true;
+  }
+
+  Future<GetTransactionResponse> pollStatus(String transactionId) async {
+    String status = GetTransactionResponse.STATUS_NOT_FOUND;
+    GetTransactionResponse? transactionResponse;
+    while (status == GetTransactionResponse.STATUS_NOT_FOUND) {
+      await Future.delayed(const Duration(seconds: 3), () {});
+      transactionResponse = await _sorobanClient.getTransaction(transactionId);
+      assert(transactionResponse.error == null);
+      status = transactionResponse.status!;
+      if (status == GetTransactionResponse.STATUS_FAILED) {
+        assert(transactionResponse.resultXdr != null);
+        assert(false);
+      } else if (status == GetTransactionResponse.STATUS_SUCCESS) {
+        assert(transactionResponse.resultXdr != null);
+      }
+    }
+
+    return transactionResponse!;
   }
 }
