@@ -1530,3 +1530,159 @@ abstract class _MoneygramFeeResponseDto implements MoneygramFeeResponseDto {
   _$$MoneygramFeeResponseDtoImplCopyWith<_$MoneygramFeeResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
+
+FundXlmRequestDto _$FundXlmRequestDtoFromJson(Map<String, dynamic> json) {
+  return _FundXlmRequestDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FundXlmRequestDto {
+  String get accountId => throw _privateConstructorUsedError;
+  FundType get type => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $FundXlmRequestDtoCopyWith<FundXlmRequestDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FundXlmRequestDtoCopyWith<$Res> {
+  factory $FundXlmRequestDtoCopyWith(
+          FundXlmRequestDto value, $Res Function(FundXlmRequestDto) then) =
+      _$FundXlmRequestDtoCopyWithImpl<$Res, FundXlmRequestDto>;
+  @useResult
+  $Res call({String accountId, FundType type});
+}
+
+/// @nodoc
+class _$FundXlmRequestDtoCopyWithImpl<$Res, $Val extends FundXlmRequestDto>
+    implements $FundXlmRequestDtoCopyWith<$Res> {
+  _$FundXlmRequestDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? accountId = null,
+    Object? type = null,
+  }) {
+    return _then(_value.copyWith(
+      accountId: null == accountId
+          ? _value.accountId
+          : accountId // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as FundType,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FundXlmRequestDtoImplCopyWith<$Res>
+    implements $FundXlmRequestDtoCopyWith<$Res> {
+  factory _$$FundXlmRequestDtoImplCopyWith(_$FundXlmRequestDtoImpl value,
+          $Res Function(_$FundXlmRequestDtoImpl) then) =
+      __$$FundXlmRequestDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String accountId, FundType type});
+}
+
+/// @nodoc
+class __$$FundXlmRequestDtoImplCopyWithImpl<$Res>
+    extends _$FundXlmRequestDtoCopyWithImpl<$Res, _$FundXlmRequestDtoImpl>
+    implements _$$FundXlmRequestDtoImplCopyWith<$Res> {
+  __$$FundXlmRequestDtoImplCopyWithImpl(_$FundXlmRequestDtoImpl _value,
+      $Res Function(_$FundXlmRequestDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? accountId = null,
+    Object? type = null,
+  }) {
+    return _then(_$FundXlmRequestDtoImpl(
+      accountId: null == accountId
+          ? _value.accountId
+          : accountId // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as FundType,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FundXlmRequestDtoImpl implements _FundXlmRequestDto {
+  const _$FundXlmRequestDtoImpl({required this.accountId, required this.type});
+
+  factory _$FundXlmRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FundXlmRequestDtoImplFromJson(json);
+
+  @override
+  final String accountId;
+  @override
+  final FundType type;
+
+  @override
+  String toString() {
+    return 'FundXlmRequestDto(accountId: $accountId, type: $type)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FundXlmRequestDtoImpl &&
+            (identical(other.accountId, accountId) ||
+                other.accountId == accountId) &&
+            (identical(other.type, type) || other.type == type));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, accountId, type);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FundXlmRequestDtoImplCopyWith<_$FundXlmRequestDtoImpl> get copyWith =>
+      __$$FundXlmRequestDtoImplCopyWithImpl<_$FundXlmRequestDtoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FundXlmRequestDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FundXlmRequestDto implements FundXlmRequestDto {
+  const factory _FundXlmRequestDto(
+      {required final String accountId,
+      required final FundType type}) = _$FundXlmRequestDtoImpl;
+
+  factory _FundXlmRequestDto.fromJson(Map<String, dynamic> json) =
+      _$FundXlmRequestDtoImpl.fromJson;
+
+  @override
+  String get accountId;
+  @override
+  FundType get type;
+  @override
+  @JsonKey(ignore: true)
+  _$$FundXlmRequestDtoImplCopyWith<_$FundXlmRequestDtoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

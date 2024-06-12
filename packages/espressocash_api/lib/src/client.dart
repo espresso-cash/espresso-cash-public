@@ -165,4 +165,9 @@ abstract class EspressoCashClient {
   Future<MoneygramFeeResponseDto> calculateMoneygramFee(
     @Body() MoneygramFeeRequestDto request,
   );
+
+  @POST('/moneygram/fund')
+  Future<void> fundXlmRequest(
+    @Body() FundXlmRequestDto request,
+  );
 }

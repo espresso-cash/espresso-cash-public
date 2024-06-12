@@ -140,3 +140,23 @@ Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
     <String, dynamic>{
       'amount': instance.amount,
     };
+
+_$FundXlmRequestDtoImpl _$$FundXlmRequestDtoImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FundXlmRequestDtoImpl(
+      accountId: json['accountId'] as String,
+      type: $enumDecode(_$FundTypeEnumMap, json['type']),
+    );
+
+Map<String, dynamic> _$$FundXlmRequestDtoImplToJson(
+        _$FundXlmRequestDtoImpl instance) =>
+    <String, dynamic>{
+      'accountId': instance.accountId,
+      'type': _$FundTypeEnumMap[instance.type]!,
+    };
+
+const _$FundTypeEnumMap = {
+  FundType.init: 'init',
+  FundType.bridge: 'bridge',
+  FundType.send: 'send',
+};
