@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -38,6 +39,10 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.onRamp,
+      calculateEquivalent: (amount) => _calculateMoneygramFee(
+        amount: amount,
+        type: RampType.onRamp,
+      ),
     );
 
     final submittedAmount = amount;
@@ -86,7 +91,7 @@ extension BuildContextExt on BuildContext {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          final transaction = await fetchTransactionStatus(
+          final transaction = await _fetchTransactionStatus(
             id: orderId,
             token: token,
           );
@@ -140,7 +145,7 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<TransactionStatus> fetchTransactionStatus({
+  Future<TransactionStatus> _fetchTransactionStatus({
     required String id,
     required String token,
   }) =>
@@ -182,4 +187,30 @@ window.addEventListener("message", (event) => {
           return null;
         }
       });
+
+  Future<Either<Exception, ({Amount amount, String? rate})>>
+      _calculateMoneygramFee({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final client = sl<EspressoCashClient>();
+
+    final fee = await client.calculateMoneygramFee(
+      MoneygramFeeRequestDto(
+        type:
+            type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
+        amount: amount.decimal.toString(),
+      ),
+    );
+
+    return Either.right(
+      (
+        amount: Amount.fromDecimal(
+          value: Decimal.parse(fee.amount),
+          currency: Currency.usdc,
+        ),
+        rate: null
+      ),
+    );
+  }
 }
