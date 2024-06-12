@@ -1,10 +1,11 @@
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
+import '../../accounts/auth_scope.dart';
 import '../constants.dart';
 import '../stellar_module.dart';
 
-@lazySingleton
+@LazySingleton(scope: authScope)
 class StellarClient {
   const StellarClient(
     this._ecClient,
