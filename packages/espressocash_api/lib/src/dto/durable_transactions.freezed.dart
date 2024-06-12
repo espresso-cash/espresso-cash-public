@@ -12,7 +12,7 @@ part of 'durable_transactions.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 GetFreeNonceResponseDto _$GetFreeNonceResponseDtoFromJson(
     Map<String, dynamic> json) {
@@ -483,5 +483,189 @@ abstract class _SubmitDurableTxResponseDto
   @override
   @JsonKey(ignore: true)
   _$$SubmitDurableTxResponseDtoImplCopyWith<_$SubmitDurableTxResponseDtoImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+GetDurableFeesResponseDto _$GetDurableFeesResponseDtoFromJson(
+    Map<String, dynamic> json) {
+  return _GetDurableFeesResponseDto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GetDurableFeesResponseDto {
+  int get outgoingLink => throw _privateConstructorUsedError;
+  int get incomingLink => throw _privateConstructorUsedError;
+  int get cancelLink => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GetDurableFeesResponseDtoCopyWith<GetDurableFeesResponseDto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GetDurableFeesResponseDtoCopyWith<$Res> {
+  factory $GetDurableFeesResponseDtoCopyWith(GetDurableFeesResponseDto value,
+          $Res Function(GetDurableFeesResponseDto) then) =
+      _$GetDurableFeesResponseDtoCopyWithImpl<$Res, GetDurableFeesResponseDto>;
+  @useResult
+  $Res call({int outgoingLink, int incomingLink, int cancelLink});
+}
+
+/// @nodoc
+class _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
+        $Val extends GetDurableFeesResponseDto>
+    implements $GetDurableFeesResponseDtoCopyWith<$Res> {
+  _$GetDurableFeesResponseDtoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? outgoingLink = null,
+    Object? incomingLink = null,
+    Object? cancelLink = null,
+  }) {
+    return _then(_value.copyWith(
+      outgoingLink: null == outgoingLink
+          ? _value.outgoingLink
+          : outgoingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      incomingLink: null == incomingLink
+          ? _value.incomingLink
+          : incomingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelLink: null == cancelLink
+          ? _value.cancelLink
+          : cancelLink // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GetDurableFeesResponseDtoImplCopyWith<$Res>
+    implements $GetDurableFeesResponseDtoCopyWith<$Res> {
+  factory _$$GetDurableFeesResponseDtoImplCopyWith(
+          _$GetDurableFeesResponseDtoImpl value,
+          $Res Function(_$GetDurableFeesResponseDtoImpl) then) =
+      __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int outgoingLink, int incomingLink, int cancelLink});
+}
+
+/// @nodoc
+class __$$GetDurableFeesResponseDtoImplCopyWithImpl<$Res>
+    extends _$GetDurableFeesResponseDtoCopyWithImpl<$Res,
+        _$GetDurableFeesResponseDtoImpl>
+    implements _$$GetDurableFeesResponseDtoImplCopyWith<$Res> {
+  __$$GetDurableFeesResponseDtoImplCopyWithImpl(
+      _$GetDurableFeesResponseDtoImpl _value,
+      $Res Function(_$GetDurableFeesResponseDtoImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? outgoingLink = null,
+    Object? incomingLink = null,
+    Object? cancelLink = null,
+  }) {
+    return _then(_$GetDurableFeesResponseDtoImpl(
+      outgoingLink: null == outgoingLink
+          ? _value.outgoingLink
+          : outgoingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      incomingLink: null == incomingLink
+          ? _value.incomingLink
+          : incomingLink // ignore: cast_nullable_to_non_nullable
+              as int,
+      cancelLink: null == cancelLink
+          ? _value.cancelLink
+          : cancelLink // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GetDurableFeesResponseDtoImpl implements _GetDurableFeesResponseDto {
+  const _$GetDurableFeesResponseDtoImpl(
+      {required this.outgoingLink,
+      required this.incomingLink,
+      required this.cancelLink});
+
+  factory _$GetDurableFeesResponseDtoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GetDurableFeesResponseDtoImplFromJson(json);
+
+  @override
+  final int outgoingLink;
+  @override
+  final int incomingLink;
+  @override
+  final int cancelLink;
+
+  @override
+  String toString() {
+    return 'GetDurableFeesResponseDto(outgoingLink: $outgoingLink, incomingLink: $incomingLink, cancelLink: $cancelLink)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GetDurableFeesResponseDtoImpl &&
+            (identical(other.outgoingLink, outgoingLink) ||
+                other.outgoingLink == outgoingLink) &&
+            (identical(other.incomingLink, incomingLink) ||
+                other.incomingLink == incomingLink) &&
+            (identical(other.cancelLink, cancelLink) ||
+                other.cancelLink == cancelLink));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, outgoingLink, incomingLink, cancelLink);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
+      get copyWith => __$$GetDurableFeesResponseDtoImplCopyWithImpl<
+          _$GetDurableFeesResponseDtoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GetDurableFeesResponseDtoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GetDurableFeesResponseDto implements GetDurableFeesResponseDto {
+  const factory _GetDurableFeesResponseDto(
+      {required final int outgoingLink,
+      required final int incomingLink,
+      required final int cancelLink}) = _$GetDurableFeesResponseDtoImpl;
+
+  factory _GetDurableFeesResponseDto.fromJson(Map<String, dynamic> json) =
+      _$GetDurableFeesResponseDtoImpl.fromJson;
+
+  @override
+  int get outgoingLink;
+  @override
+  int get incomingLink;
+  @override
+  int get cancelLink;
+  @override
+  @JsonKey(ignore: true)
+  _$$GetDurableFeesResponseDtoImplCopyWith<_$GetDurableFeesResponseDtoImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

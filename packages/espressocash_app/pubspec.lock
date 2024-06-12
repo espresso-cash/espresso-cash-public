@@ -1753,10 +1753,10 @@ packages:
     dependency: "direct main"
     description:
       name: stellar_flutter_sdk
-      sha256: "3403c33c03a3fc7aea677910a9b00534f91194c5ed5d1b49f5deb8cd4a17cdb7"
+      sha256: "7d505963fe11d0f90b3f798964c485ed9fa64731c38f14c9b2fb76d5d5bd6cd8"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   storybook_flutter:
     dependency: "direct main"
     description:

@@ -1,7 +1,6 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:dfunc/dfunc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
