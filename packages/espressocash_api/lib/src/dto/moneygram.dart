@@ -88,24 +88,24 @@ class MoneygramSwapResponseDto with _$MoneygramSwapResponseDto {
 }
 
 @freezed
-class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
-  const factory MoneygramFeeResponseDto({
-    required String amount,
-    required RampTypeDto type,
-  }) = _MoneygramFeeResponseDto;
-
-  factory MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =>
-      _$MoneygramFeeResponseDtoFromJson(json);
-}
-
-@freezed
 class MoneygramFeeRequestDto with _$MoneygramFeeRequestDto {
   const factory MoneygramFeeRequestDto({
     required String amount,
+    required RampTypeDto type,
   }) = _MoneygramFeeRequestDto;
 
   factory MoneygramFeeRequestDto.fromJson(Map<String, dynamic> json) =>
       _$MoneygramFeeRequestDtoFromJson(json);
+}
+
+@freezed
+class MoneygramFeeResponseDto with _$MoneygramFeeResponseDto {
+  const factory MoneygramFeeResponseDto({
+    required String amount,
+  }) = _MoneygramFeeResponseDto;
+
+  factory MoneygramFeeResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$MoneygramFeeResponseDtoFromJson(json);
 }
 
 enum RampTypeDto { onRamp, offRamp }
