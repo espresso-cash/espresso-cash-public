@@ -5,18 +5,17 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../data/db/db.dart';
-import '../../../../../di.dart';
 import '../../../../accounts/auth_scope.dart';
+import '../../../../currency/models/amount.dart';
+import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../data/moneygram_client.dart';
 
 @Singleton(scope: authScope)
 class MoneygramProcessingWatcher {
   MoneygramProcessingWatcher(
     this._db,
-    this._apiClient,
     this._stellarClient,
     this._ecClient,
     this._wallet,
@@ -24,7 +23,6 @@ class MoneygramProcessingWatcher {
 
   final MyDatabase _db;
   final EspressoCashClient _ecClient;
-  final MoneygramApiClient _apiClient;
   final StellarClient _stellarClient;
   final StellarWallet _wallet;
 
@@ -48,26 +46,35 @@ class MoneygramProcessingWatcher {
 
   Future<void> processOrder(OnRampOrderRow order) async {
     final accountId = _wallet.address;
-    final cashInAmount = order.amount;
+    const minimumXlmBalance = 1.0; //TODO
 
-    final xlmBalance = await _stellarClient.getUsdcBalance(accountId);
+    final cashInAmount = CryptoAmount(
+      value: order.amount,
+      cryptoCurrency: Currency.usdc,
+    );
+
+    final xlmBalance = await _stellarClient.getUsdcBalance(accountId) ?? 0;
+
+    if (xlmBalance < minimumXlmBalance) {
+      await _ecClient.fundXlmRequest(
+        FundXlmRequestDto(
+          accountId: accountId,
+          type: FundType.init,
+        ),
+      );
+    }
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
       accountId,
-      amount: 1,
-    ); //TODO amount
+      amount: cashInAmount.decimal.toDouble(),
+    );
 
-    //TODO callback if xlmBalance is not enough
-
-    print('xlmBalance: $xlmBalance');
-    print('hasUsdcTrustline: $hasUsdcTrustline');
-
-    // if (hasUsdcTrustline) {
-    //   await _stellarClient.createUsdcTrustline(
-    //     userKeyPair: _wallet.keyPair,
-    //     limit: 1000,
-    //   );
-    // }
+    if (!hasUsdcTrustline) {
+      await _stellarClient.createUsdcTrustline(
+        userKeyPair: _wallet.keyPair,
+        limit: 1000,
+      );
+    }
 
     updateOrderStatus(order.id);
   }
