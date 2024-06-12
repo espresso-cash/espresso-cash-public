@@ -19,12 +19,14 @@ class MoneygramProcessingWatcher {
     this._apiClient,
     this._stellarClient,
     this._ecClient,
+    this._wallet,
   );
 
   final MyDatabase _db;
   final EspressoCashClient _ecClient;
   final MoneygramApiClient _apiClient;
   final StellarClient _stellarClient;
+  final StellarWallet _wallet;
 
   StreamSubscription<void>? _subscription;
 
@@ -45,8 +47,7 @@ class MoneygramProcessingWatcher {
   }
 
   Future<void> processOrder(OnRampOrderRow order) async {
-    final wallet = sl<StellarWallet>();
-    final accountId = wallet.address;
+    final accountId = _wallet.address;
     final cashInAmount = order.amount;
 
     final xlmBalance = await _stellarClient.getUsdcBalance(accountId);

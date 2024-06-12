@@ -22,11 +22,13 @@ class MoneygramPendingWatcher {
     this._db,
     this._apiClient,
     this._stellarClient,
+    this._wallet,
   );
 
   final MyDatabase _db;
   final MoneygramApiClient _apiClient;
   final StellarClient _stellarClient;
+  final StellarWallet _wallet;
 
   @PostConstruct()
   Future<void> init() async {
@@ -50,9 +52,7 @@ class MoneygramPendingWatcher {
     final orderId = order.partnerOrderId;
     String? token = order.authToken;
 
-    final wallet = sl<StellarWallet>();
-
-    token ??= await _stellarClient.fetchToken(wallet: wallet.keyPair);
+    token ??= await _stellarClient.fetchToken(wallet: _wallet.keyPair);
 
     final transaction = await _apiClient
         .fetchTransaction(
