@@ -145,6 +145,28 @@ window.addEventListener("message", (event) => {
     );
   }
 
+  Future<void> launchMoneygramOffRamp() async {
+    Amount? amount;
+
+    const partner = RampPartner.moneygram;
+
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (Amount? value) {
+        Navigator.pop(this);
+        amount = value;
+      },
+      minAmount: partner.minimumAmountInDecimal,
+      currency: Currency.usdc,
+      type: RampType.offRamp,
+      calculateEquivalent: (amount) => _calculateMoneygramFee(
+        amount: amount,
+        type: RampType.offRamp,
+      ),
+    );
+  }
+
   Future<TransactionStatus> _fetchTransactionStatus({
     required String id,
     required String token,

@@ -264,8 +264,8 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.moneygram: //TODO
-        throw UnimplementedError('Not implemented for $partner');
+      case RampPartner.moneygram:
+        launchMoneygramOffRamp();
     }
   }
 }
@@ -305,6 +305,10 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
 
   if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
+  }
+
+  if (_moneygramCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
   }
 
   return IList(partners);
