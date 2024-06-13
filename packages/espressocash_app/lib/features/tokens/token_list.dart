@@ -54,12 +54,11 @@ class TokenList {
   static final TokenListRepository _repository =
       TokenListRepository(sl<MyDatabase>());
 
-  final TokenService? service;
+  final TokenService service;
 
   final ParsedContent _parsedContent;
   final int chainId;
 
-  // ignore: unused_field
   Iterable<TokenRow> _allTokensDB;
 
   Iterable<Token> get _allTokens => _parsedContent.tokens;
@@ -77,15 +76,15 @@ class TokenList {
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
   Future<void> _populateDatabaseFromCSV() async {
-    await service?.initializeDatabaseFromCsvFile(
+    await service.initializeDatabaseFromCsvFile(
       Assets.tokens.solanaTokenlist,
     );
-    // ignore: avoid-non-null-assertion, cannot be null here
-    _allTokensDB = await service!.tokenRepository.getAllTokens();
+
+    _allTokensDB = await service.tokenRepository.getAllTokens();
   }
 
   Future<void> initialize() async {
-    final tokenList = await service!.tokenRepository.getAllTokens();
+    final tokenList = await service.tokenRepository.getAllTokens();
     if (tokenList.isEmpty) {
       await _populateDatabaseFromCSV();
     } else {

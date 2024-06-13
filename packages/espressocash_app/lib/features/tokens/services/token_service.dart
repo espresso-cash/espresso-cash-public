@@ -15,21 +15,6 @@ class TokenService {
 
   final TokenListRepository tokenRepository;
 
-  Future<Either<Exception, void>> initializeDatabaseFromJson(
-    Map<String, dynamic> json,
-  ) =>
-      tryEitherAsync(
-        (_) async {
-          await tokenRepository.clearAllTokens();
-          for (final Object tokenData
-              in json['tokens'] as Iterable<Map<String, dynamic>>) {
-            await tokenRepository.insertToken(
-              TokenRow.fromJson(tokenData as Map<String, dynamic>),
-            );
-          }
-        },
-      );
-
   Future<Either<Exception, void>> initializeDatabaseFromCsvFile(
     String filePath,
   ) =>
@@ -75,15 +60,11 @@ class TokenService {
   }
 
   Extensions? _parseExtensions(String? extensionString) {
-    if (extensionString == null || extensionString.isEmpty) {
-      return null;
-    }
-    final parts = extensionString.split(':');
-    if (parts.length == 2 && parts[0] == 'coingeckoId') {
-      return Extensions(coingeckoId: parts[1]);
-    }
+    final parts = extensionString?.split(':');
 
-    return null;
+    return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
+        ? Extensions(coingeckoId: parts[1])
+        : null;
   }
 
   TokenDTO? findTokenByMint(String mint, List<TokenDTO> tokens) =>
