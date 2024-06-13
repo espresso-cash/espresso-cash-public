@@ -76,7 +76,9 @@ class MoneygramPostProcessingWatcher {
 
     print('hash: $hash');
 
-    updateOrderStatus(order.id);
+    // TODOcheck if amount is receievd in solana wallet, it should take a few mins
+
+    // updateOrderStatus(order.id);
   }
 
   void updateOrderStatus(String id) {
