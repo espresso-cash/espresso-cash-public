@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/page_fade_wrapper.dart';
+import '../../../ui/page_spacer_wrapper.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../models/country.dart';

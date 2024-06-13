@@ -2,33 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'colors.dart';
 
-class PageFadeWrapper extends StatelessWidget {
-  const PageFadeWrapper({super.key, required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final double bottom = MediaQuery.paddingOf(context).bottom;
-
-    return Stack(
-      children: [
-        child,
-        Positioned(
-          bottom: bottom,
-          left: 0,
-          right: 0,
-          child: const FadeGradient(
-            height: 30,
-            direction: FadeGradientDirection.bottomUp,
-            color: FadeGradientColor.dark,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class PageSpacerWrapper extends StatelessWidget {
   const PageSpacerWrapper({super.key, required this.child});
 
