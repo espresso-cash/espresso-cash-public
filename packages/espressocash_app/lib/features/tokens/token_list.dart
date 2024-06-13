@@ -73,13 +73,14 @@ class TokenList {
       ? Token.sol
       : tokens.firstWhereOrNull((t) => t.address == mint);
 
-  // ignore: avoid-non-null-assertion, required here
+  // ignore: avoid-non-null-assertion, cannot be null here
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
   Future<void> _populateDatabaseFromCSV() async {
     await service?.initializeDatabaseFromCsvFile(
       Assets.tokens.solanaTokenlist,
     );
+    // ignore: avoid-non-null-assertion, cannot be null here
     _allTokensDB = await service!.tokenRepository.getAllTokens();
   }
 

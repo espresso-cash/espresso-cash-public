@@ -254,6 +254,8 @@ class TokenBalanceRows extends Table with AmountMixin {
 }
 
 class TokenRows extends Table {
+  const TokenRows();
+
   IntColumn get chainId => integer()();
   TextColumn get address => text()();
   TextColumn get symbol => text()();
@@ -269,7 +271,7 @@ class TokenRows extends Table {
 }
 
 class Extensions {
-  Extensions({this.coingeckoId});
+  const Extensions({this.coingeckoId});
 
   factory Extensions.fromJson(Map<String, dynamic> json) => Extensions(
         coingeckoId: json['coingeckoId'] as String?,
@@ -288,12 +290,14 @@ class TagsConverter extends TypeConverter<List<String>, String> {
   @override
   List<String> fromSql(String fromDb) {
     if (fromDb.isEmpty) return [];
+
     return fromDb.split(',');
   }
 
   @override
   String toSql(List<String> value) {
     if (value.isEmpty) return '';
+
     return value.join(',');
   }
 }

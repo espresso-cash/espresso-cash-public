@@ -11,7 +11,7 @@ import '../data/token_repository.dart';
 
 @lazySingleton
 class TokenService {
-  TokenService(this.tokenRepository);
+  const TokenService(this.tokenRepository);
 
   final TokenListRepository tokenRepository;
 
@@ -21,10 +21,11 @@ class TokenService {
       tryEitherAsync(
         (_) async {
           await tokenRepository.clearAllTokens();
-          for (final Map<String, dynamic> tokenData
+          for (final Object tokenData
               in json['tokens'] as Iterable<Map<String, dynamic>>) {
-            final tokenRow = TokenRow.fromJson(tokenData);
-            await tokenRepository.insertToken(tokenRow);
+            await tokenRepository.insertToken(
+              TokenRow.fromJson(tokenData as Map<String, dynamic>),
+            );
           }
         },
       );
@@ -64,6 +65,7 @@ class TokenService {
 
   List<String>? _parseTags(String? tagString) {
     if (tagString == null || tagString.isEmpty) return null;
+
     return tagString
         .replaceAll('[', '')
         .replaceAll(']', '')
@@ -73,11 +75,14 @@ class TokenService {
   }
 
   Extensions? _parseExtensions(String? extensionString) {
-    if (extensionString == null || extensionString.isEmpty) return null;
+    if (extensionString == null || extensionString.isEmpty) {
+      return null;
+    }
     final parts = extensionString.split(':');
     if (parts.length == 2 && parts[0] == 'coingeckoId') {
       return Extensions(coingeckoId: parts[1]);
     }
+
     return null;
   }
 

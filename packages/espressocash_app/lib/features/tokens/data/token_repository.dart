@@ -5,12 +5,11 @@ import '../../../data/db/db.dart';
 
 @singleton
 class TokenListRepository {
-  TokenListRepository(this._db);
+  const TokenListRepository(this._db);
 
   final MyDatabase _db;
 
-  Future<List<TokenRow>> getAllTokens() async =>
-      _db.select(_db.tokenRows).get();
+  Future<List<TokenRow>> getAllTokens() => _db.select(_db.tokenRows).get();
 
   Stream<List<TokenRow>> watchAllTokens() => _db.select(_db.tokenRows).watch();
 
