@@ -114,6 +114,7 @@ flutter:
     - assets/coinflow/static/js/
     - assets/coinflow/static/css/
     - assets/scalex/
+    - assets/tokens/
 
   fonts:
     - family: RobotoApp
