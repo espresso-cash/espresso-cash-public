@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
@@ -34,16 +34,13 @@ class TokenService {
   ) =>
       tryEitherAsync(
         (_) async {
-          final file = File(filePath);
+          String? data = await rootBundle.loadString(filePath);
+
           await tokenRepository.clearAllTokens();
 
-          final lines = file
-              .openRead()
-              .transform(utf8.decoder)
-              .transform(const LineSplitter())
-              .skip(1);
+          final lines = const LineSplitter().convert(data).skip(1);
 
-          await for (final line in lines) {
+          for (final line in lines) {
             final values = line.split(',');
             final tags = _parseTags(values[6]);
             final extensions = _parseExtensions(values[7]);
@@ -60,6 +57,8 @@ class TokenService {
             );
             await tokenRepository.insertToken(tokenRow);
           }
+
+          data = null;
         },
       );
 

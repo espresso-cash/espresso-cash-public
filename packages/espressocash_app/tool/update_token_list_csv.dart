@@ -143,7 +143,7 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'lib/features/tokens/solana.tokenlist.csv';
+const _path = 'assets/tokens/solana.tokenlist.csv';
 
 const _mainnetChainId = 101;
 

@@ -5,6 +5,7 @@ import 'package:meta/meta.dart' show visibleForTesting;
 import '../../config.dart';
 import '../../data/db/db.dart';
 import '../../di.dart';
+import '../../gen/assets.gen.dart';
 import 'data/token_repository.dart';
 import 'services/token_service.dart';
 import 'token.dart';
@@ -77,7 +78,7 @@ class TokenList {
 
   Future<void> _populateDatabaseFromCSV() async {
     await service?.initializeDatabaseFromCsvFile(
-      'lib/features/tokens/solana.tokenlist.csv',
+      Assets.tokens.solanaTokenlist,
     );
     _allTokensDB = await service!.tokenRepository.getAllTokens();
   }
