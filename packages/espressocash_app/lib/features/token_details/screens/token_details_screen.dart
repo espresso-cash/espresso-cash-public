@@ -58,9 +58,13 @@ class TokenDetailsScreen extends StatelessWidget {
                         child: IntrinsicHeight(
                           child: Column(
                             children: [
+                              const SizedBox(height: 4),
                               const _TokenHeader(),
-                              const SizedBox(height: 24),
-                              if (token.isUsdcToken) const _RampButtons(),
+                              const SizedBox(height: 33),
+                              if (token.isUsdcToken)
+                                const _RampButtons()
+                              else
+                                const _SwapButton(),
                               const SizedBox(height: 24),
                               const Expanded(
                                 child: DecoratedBox(
@@ -159,7 +163,7 @@ class _TokenHeader extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24),
               FittedBox(
                 child: Text(
                   crypto.format(
@@ -229,14 +233,14 @@ class _SwapButton extends StatelessWidget {
             CpButton(
               text: 'Swap',
               minWidth: 106,
-              size: CpButtonSize.normal,
+              size: CpButtonSize.big,
               onPressed: () {},
             ),
-            const SizedBox(width: 8),
+            const SizedBox(width: 14),
             CpButton(
               text: 'Send',
               minWidth: 106,
-              size: CpButtonSize.normal,
+              size: CpButtonSize.big,
               onPressed: () {},
             ),
           ],

@@ -46,7 +46,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Material(
       color: CpColors.darkGoldBackgroundColor,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Stack(
           children: [
             _buildIcon(ratio, iconSize),
@@ -67,7 +67,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildIcon(double ratio, double iconSize) => Positioned(
-        top: (iconSize * ratio) - iconSize,
+        top: (iconSize * ratio) - iconSize + 10,
         left: 0,
         right: 0,
         child: Opacity(
@@ -77,7 +77,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       );
 
   Widget _buildText(double ratio, double iconSize) => Positioned.fill(
-        top: iconSize * ratio,
+        top: iconSize * ratio + 16,
         left: _buttonSize,
         right: _buttonSize,
         child: Center(
