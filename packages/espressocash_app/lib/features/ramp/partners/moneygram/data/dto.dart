@@ -70,5 +70,6 @@ enum MgStatus {
   incomplete,
   pendingUserTransferStart,
   pendingUserTransferComplete,
+  expired,
   unknown,
 }

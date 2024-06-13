@@ -63,7 +63,9 @@ class MoneygramPendingWatcher {
 
     final moreInfoUrl = transaction.moreInfoUrl;
 
-    if (transaction.status == MgStatus.incomplete || moreInfoUrl == null) {
+    if (transaction.status == MgStatus.incomplete ||
+        transaction.status == MgStatus.expired ||
+        moreInfoUrl == null) {
       await (_db.delete(_db.onRampOrderRows)..where((p) => p.id.equals(id)))
           .go();
 
