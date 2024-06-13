@@ -59,7 +59,7 @@ void main() {
     //   (_) => tokenDTO,
     // );
 
-    final result = tokenList.service?.findTokenByMint('address1', tokens);
+    final result = tokenList.service.findTokenByMint('address1', tokens);
     //final result2 = tokenList.findTokenByMint('address1');
 
     verify(mockService.findTokenByMint('address1', tokens)).called(1);
