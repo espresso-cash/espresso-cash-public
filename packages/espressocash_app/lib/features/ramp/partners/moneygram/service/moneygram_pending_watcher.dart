@@ -16,6 +16,9 @@ import '../../../data/on_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 
+/// Watches for [OnRampOrderStatus.pending] Moneygram orders. An order is left
+/// with pending status when user doesn't click Ok on final screen or when
+/// the transaction is not completed.
 @Singleton(scope: authScope)
 class MoneygramPendingWatcher {
   const MoneygramPendingWatcher(

@@ -12,9 +12,12 @@ import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 
+/// Watches for [OnRampOrderStatus.preProcessing] Moneygram orders. This will
+/// check if the user has enough XLM balance and USDC trustline to successfully
+/// receive the payment.
 @Singleton(scope: authScope)
-class MoneygramProcessingWatcher {
-  MoneygramProcessingWatcher(
+class MoneygramPreProcessingWatcher {
+  MoneygramPreProcessingWatcher(
     this._db,
     this._stellarClient,
     this._ecClient,
@@ -33,7 +36,7 @@ class MoneygramProcessingWatcher {
     final processing = _db.select(_db.onRampOrderRows)
       ..where(
         (tbl) =>
-            tbl.status.equalsValue(OnRampOrderStatus.processing) &
+            tbl.status.equalsValue(OnRampOrderStatus.preProcessing) &
             tbl.partner.equalsValue(RampPartner.moneygram),
       );
 
@@ -53,7 +56,7 @@ class MoneygramProcessingWatcher {
       cryptoCurrency: Currency.usdc,
     );
 
-    final xlmBalance = await _stellarClient.getUsdcBalance(accountId) ?? 0;
+    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
 
     if (xlmBalance < minimumXlmBalance) {
       await _ecClient.fundXlmRequest(

@@ -75,6 +75,12 @@ class StellarClient {
     }
   }
 
+  Future<List<OperationResponse>> getPayments(String accountId) async {
+    final operations = await _sdk.operations.forAccount(accountId).execute();
+
+    return operations.records ?? [];
+  }
+
   Future<bool> hasUsdcTrustline(String accountId, {double? amount}) async {
     try {
       final account = await _sdk.accounts.account(accountId);
