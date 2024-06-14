@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
-import '../data/token_dto.dart';
 import '../data/token_repository.dart';
+import '../token.dart';
 
 @lazySingleton
 class TokenService {
@@ -66,7 +66,4 @@ class TokenService {
         ? Extensions(coingeckoId: parts[1])
         : null;
   }
-
-  TokenDTO? findTokenByMint(String mint, List<TokenDTO> tokens) =>
-      tokens.firstWhereOrNull((t) => t.address == mint);
 }

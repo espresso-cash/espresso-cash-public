@@ -9,6 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/ramp_partner/models/ramp_partner.dart';
+import '../../features/tokens/token.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -268,20 +269,6 @@ class TokenRows extends Table {
 
   @override
   Set<Column> get primaryKey => {chainId, address};
-}
-
-class Extensions {
-  const Extensions({this.coingeckoId});
-
-  factory Extensions.fromJson(Map<String, dynamic> json) => Extensions(
-        coingeckoId: json['coingeckoId'] as String?,
-      );
-
-  final String? coingeckoId;
-
-  Map<String, dynamic> toJson() => {
-        'coingeckoId': coingeckoId,
-      };
 }
 
 class TagsConverter extends TypeConverter<List<String>, String> {

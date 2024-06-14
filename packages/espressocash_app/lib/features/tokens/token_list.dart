@@ -75,21 +75,10 @@ class TokenList {
   // ignore: avoid-non-null-assertion, cannot be null here
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
-  Future<void> _populateDatabaseFromCSV() async {
+  Future<void> initialize() async {
     await service.initializeDatabaseFromCsvFile(
       Assets.tokens.solanaTokenlist,
     );
-
-    _allTokensDB = await service.tokenRepository.getAllTokens();
-  }
-
-  Future<void> initialize() async {
-    final tokenList = await service.tokenRepository.getAllTokens();
-    if (tokenList.isEmpty) {
-      await _populateDatabaseFromCSV();
-    } else {
-      _allTokensDB = tokenList;
-    }
   }
 }
 
