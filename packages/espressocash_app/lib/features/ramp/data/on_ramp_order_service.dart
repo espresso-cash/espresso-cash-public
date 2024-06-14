@@ -127,6 +127,7 @@ class OnRampOrderService implements Disposable {
     required String orderId,
     required RampPartner partner,
     required CryptoAmount submittedAmount,
+    required String authToken,
     OnRampOrderStatus status = OnRampOrderStatus.pending,
   }) =>
       tryEitherAsync((_) async {
@@ -143,6 +144,7 @@ class OnRampOrderService implements Disposable {
             txHash: '',
             partner: partner,
             status: status,
+            authToken: authToken,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
