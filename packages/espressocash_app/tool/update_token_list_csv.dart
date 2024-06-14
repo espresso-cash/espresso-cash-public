@@ -97,7 +97,8 @@ Future<void> _writeToFile(List<Map<String, String>> tokens) async {
     if (nonMainnetTokens != null) ...nonMainnetTokens,
   ];
 
-  final csv = StringBuffer();
+  final csv = StringBuffer()
+    ..writeln('address,chainId,symbol,name,decimals,logoURI,tags,extensions');
 
   for (final token in allTokens) {
     csv.writeln(
