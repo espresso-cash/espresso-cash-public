@@ -1,6 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart' show visibleForTesting;
+import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config.dart';
 import '../../data/db/db.dart';
@@ -76,12 +78,40 @@ class TokenList {
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
   Future<void> initialize() async {
-    await service.initializeDatabaseFromCsvFile(
-      Assets.tokens.solanaTokenlist,
-    );
+    final csvFilePath = Assets.tokens.solanaTokenlist;
+
+    final newTimestamp =
+        TimestampStorage.extractTimestamp(basename(csvFilePath));
+
+    final lastTimestamp = await TimestampStorage.getTimestamp();
+
+    if (newTimestamp != null && newTimestamp != lastTimestamp) {
+      await service.initializeDatabaseFromCsvFile(csvFilePath);
+      await TimestampStorage.saveTimestamp(newTimestamp);
+    }
   }
 }
 
 extension TokenExt on Iterable<Token> {
   Iterable<String> get symbols => map((t) => t.symbol);
+}
+
+class TimestampStorage {
+  static const String _key = 'lastTokenListTimestamp';
+
+  static Future<void> saveTimestamp(String timestamp) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_key, timestamp);
+  }
+
+  static Future<String?> getTimestamp() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_key);
+  }
+
+  static String? extractTimestamp(String filePath) {
+    final regex = RegExp(r'solana\.tokenlist\.(.+)');
+    final match = regex.firstMatch(filePath);
+    return match?.group(1);
+  }
 }

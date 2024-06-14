@@ -48,28 +48,28 @@ class TokenService {
     await tokenRepository.insertTokens(tokenIterable);
   }
 
-  Future<void> _parseAndInsertTokens2(String data) async {
-    final lines = const LineSplitter().convert(data).skip(1);
+  // Future<void> _parseAndInsertTokens2(String data) async {
+  //   final lines = const LineSplitter().convert(data).skip(1);
 
-    for (final line in lines) {
-      final values = line.split(',');
-      final tags = _parseTags(values[6]);
-      final extensions = _parseExtensions(values[7]);
+  //   for (final line in lines) {
+  //     final values = line.split(',');
+  //     final tags = _parseTags(values[6]);
+  //     final extensions = _parseExtensions(values[7]);
 
-      final tokenRow = TokenRow(
-        chainId: int.parse(values[1]),
-        address: values[0],
-        symbol: values[2],
-        name: values[3],
-        decimals: int.parse(values[4]),
-        logoURI: values[5],
-        tags: tags,
-        extensions: extensions,
-      );
+  //     final tokenRow = TokenRow(
+  //       chainId: int.parse(values[1]),
+  //       address: values[0],
+  //       symbol: values[2],
+  //       name: values[3],
+  //       decimals: int.parse(values[4]),
+  //       logoURI: values[5],
+  //       tags: tags,
+  //       extensions: extensions,
+  //     );
 
-      await tokenRepository.insertToken(tokenRow);
-    }
-  }
+  //     await tokenRepository.insertToken(tokenRow);
+  //   }
+  // }
 
   List<String>? _parseTags(String? tagString) {
     if (tagString == null || tagString.isEmpty) return null;

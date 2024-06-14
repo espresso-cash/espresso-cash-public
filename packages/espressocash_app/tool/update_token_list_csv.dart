@@ -59,7 +59,8 @@ Future<List<Map<String, String>>> _matchTokens(_CoinMap coins) async {
 }
 
 Future<void> _writeToFile(List<Map<String, String>> tokens) async {
-  final file = File(_path);
+  final String timestamp = DateTime.now().toIso8601String();
+  final file = File('$_path$timestamp.csv');
   final directory = file.parent;
 
   if (!directory.existsSync()) {
@@ -144,7 +145,7 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'assets/tokens/solana.tokenlist.csv';
+const _path = 'assets/tokens/solana.tokenlist.';
 
 const _mainnetChainId = 101;
 
