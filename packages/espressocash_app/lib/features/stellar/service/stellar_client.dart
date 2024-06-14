@@ -125,27 +125,21 @@ class StellarClient {
     return response.success;
   }
 
-  Future<bool> submitTransactionFromXdrString(
+  Future<String?> submitTransactionFromXdrString(
     String xdr, {
     required KeyPair userKeyPair,
   }) async {
-    print('account id ${userKeyPair.accountId}');
-
-    final envelope = AbstractTransaction.fromEnvelopeXdrString(xdr);
-    final transaction = envelope as Transaction
-      ..fee = 1000
+    final transaction = AbstractTransaction.fromEnvelopeXdrString(xdr)
+        as Transaction
       ..sign(userKeyPair, stellarNetwork);
 
-    final signed = transaction.toEnvelopeXdrBase64();
+    final response = await _sorobanClient.sendTransaction(transaction);
 
-    final envelopeNew =
-        AbstractTransaction.fromEnvelopeXdrString(signed) as Transaction;
+    if (response.status == 'ERROR') {
+      throw Exception('error');
+    }
 
-    final response = await _sorobanClient.sendTransaction(envelopeNew);
-
-    print(response);
-
-    return true;
+    return response.hash;
   }
 
   Future<GetTransactionResponse> pollStatus(String transactionId) async {
