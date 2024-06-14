@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
 
 import '../../../data/db/db.dart';
 import '../token.dart';
@@ -21,8 +20,33 @@ class TokenListRepository {
         );
   }
 
-  Future<dynamic> insertToken(Insertable<TokenRow> token) =>
-      _db.into(_db.tokenRows).insert(token);
+  Future<dynamic> insertToken(Insertable<TokenRow> token) async =>
+      _db.transaction(() async {
+        await _db.into(_db.tokenRows).insert(token);
+      });
+
+  Future<dynamic> insertTokens(Iterable<TokenRow> tokens) async =>
+      _db.transaction(() async {
+        await clearAllTokens();
+        await _db.batch(
+          (batch) => batch.insertAll(
+            _db.tokenRows,
+            tokens.map(
+              (e) => TokenRow(
+                chainId: e.chainId,
+                address: e.address,
+                symbol: e.symbol,
+                name: e.name,
+                decimals: e.decimals,
+                logoURI: e.logoURI,
+                tags: e.tags,
+                extensions: e.extensions,
+              ),
+            ),
+            mode: InsertMode.insertOrReplace,
+          ),
+        );
+      });
 
   Future<dynamic> updateToken(Insertable<TokenRow> token) =>
       _db.update(_db.tokenRows).replace(token);
