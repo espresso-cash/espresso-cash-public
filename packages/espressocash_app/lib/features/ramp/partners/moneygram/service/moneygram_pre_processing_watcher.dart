@@ -49,7 +49,6 @@ class MoneygramPreProcessingWatcher {
 
   Future<void> processOrder(OnRampOrderRow order) async {
     final accountId = _wallet.address;
-    const minimumXlmBalance = 1.0; //TODO
 
     final cashInAmount = CryptoAmount(
       value: order.amount,
@@ -58,7 +57,7 @@ class MoneygramPreProcessingWatcher {
 
     final xlmBalance = await _stellarClient.getXlmBalance(accountId);
 
-    if (xlmBalance < minimumXlmBalance) {
+    if (xlmBalance <= _minimumXlmBalance) {
       await _ecClient.fundXlmRequest(
         FundXlmRequestDto(
           accountId: accountId,
@@ -75,7 +74,7 @@ class MoneygramPreProcessingWatcher {
     if (!hasUsdcTrustline) {
       await _stellarClient.createUsdcTrustline(
         userKeyPair: _wallet.keyPair,
-        limit: 1000,
+        limit: 10000,
       );
     }
 
@@ -98,3 +97,5 @@ class MoneygramPreProcessingWatcher {
     _subscription = null;
   }
 }
+
+const _minimumXlmBalance = 1.5; // 1.5 XLM
