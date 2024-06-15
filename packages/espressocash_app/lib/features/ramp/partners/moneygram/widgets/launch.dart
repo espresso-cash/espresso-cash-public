@@ -39,10 +39,7 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.onRamp,
-      calculateEquivalent: (amount) => _calculateMoneygramFee(
-        amount: amount,
-        type: RampType.onRamp,
-      ),
+      calculateEquivalent: (amount) => _calculateMoneygramFee(amount: amount),
     );
 
     final submittedAmount = amount;
@@ -161,10 +158,106 @@ window.addEventListener("message", (event) => {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.offRamp,
-      calculateEquivalent: (amount) => _calculateMoneygramFee(
-        amount: amount,
-        type: RampType.offRamp,
-      ),
+      calculateEquivalent: (amount) => _calculateMoneygramFee(amount: amount),
+    );
+
+    final submittedAmount = amount;
+
+    if (submittedAmount is! CryptoAmount) return;
+
+    final response = await _generateWithdrawLink(
+      amount: submittedAmount.decimal.toDouble(),
+    );
+
+    if (response == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
+    final link = response.url;
+    final token = response.token;
+    final orderId = response.id;
+
+    // final id = await sl<OnRampOrderService>()
+    //     .createPendingMoneygram(
+    //   orderId: orderId,
+    //   partner: partner,
+    //   submittedAmount: submittedAmount,
+    // )
+    //     .then((order) {
+    //   switch (order) {
+    //     case Left<Exception, String>():
+    //       return null;
+    //     case Right<Exception, String>(:final value):
+    //       return value;
+    //   }
+    // });
+
+    // if (id == null) {
+    //   showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+    //   return;
+    // }
+
+    bool orderWasCreated = false;
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      controller.addJavaScriptHandler(
+        handlerName: 'moneygram',
+        callback: (args) async {
+          if (orderWasCreated) return;
+
+          // final transaction = await _fetchTransactionStatus(
+          //   id: orderId,
+          //   token: token,
+          // );
+
+          // final transferAmount = Amount.fromDecimal(
+          //   value: Decimal.parse(transaction.amountIn ?? '0'),
+          //   currency: Currency.usd,
+          // ) as FiatAmount;
+
+          // final receiveAmount = Amount.fromDecimal(
+          //   value: Decimal.parse(transaction.amountOut ?? '0'),
+          //   currency: Currency.usdc,
+          // ) as CryptoAmount;
+
+          // await sl<OnRampOrderService>()
+          //     .updateMoneygramOrder(
+          //   id: id,
+          //   receiveAmount: receiveAmount,
+          //   transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
+          //   transferAmount: transferAmount,
+          //   authToken: token,
+          //   moreInfoUrl: transaction.moreInfoUrl ?? '',
+          // )
+          //     .then((order) {
+          //   switch (order) {
+          //     case Left<Exception, void>():
+          //       break;
+          //     case Right<Exception, void>():
+          //       OnRampOrderScreen.pushReplacement(this, id: id);
+          //   }
+          // });
+
+          orderWasCreated = true;
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('moneygram', event.data);
+}, false);
+''',
+      );
+    }
+
+    await WebViewScreen.push(
+      this,
+      url: Uri.parse(link),
+      onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashOut,
+      theme: const CpThemeData.light(),
     );
   }
 
@@ -211,17 +304,40 @@ window.addEventListener("message", (event) => {
         }
       });
 
+  Future<({String id, String url, String token})?> _generateWithdrawLink({
+    required double amount,
+  }) =>
+      runWithLoader<({String id, String url, String token})?>(this, () async {
+        try {
+          final wallet = sl<StellarWallet>();
+          final stellarClient = sl<StellarClient>();
+
+          final token = await stellarClient.fetchToken(wallet: wallet.keyPair);
+
+          final client = sl<MoneygramApiClient>();
+
+          final response = await client.generateWithdrawUrl(
+            MgWithdrawRequestDto(
+              assetCode: 'USDC',
+              account: wallet.keyPair.accountId,
+              lang: locale.languageCode,
+              amount: amount.toString(),
+            ),
+            token.toAuthHeader(),
+          );
+
+          return (id: response.id, url: response.url, token: token);
+        } on Exception {
+          return null;
+        }
+      });
+
   Future<Either<Exception, ({Amount amount, String? rate})>>
-      _calculateMoneygramFee({
-    required Amount amount,
-    required RampType type,
-  }) async {
+      _calculateMoneygramFee({required Amount amount}) async {
     final client = sl<EspressoCashClient>();
 
     final fee = await client.calculateMoneygramFee(
       MoneygramFeeRequestDto(
-        type:
-            type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
         amount: amount.decimal.toString(),
       ),
     );

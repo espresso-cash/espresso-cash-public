@@ -12,7 +12,7 @@ part of 'moneygram.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 MoneygramDepositRequestDto _$MoneygramDepositRequestDtoFromJson(
     Map<String, dynamic> json) {
@@ -1235,7 +1235,6 @@ MoneygramFeeRequestDto _$MoneygramFeeRequestDtoFromJson(
 /// @nodoc
 mixin _$MoneygramFeeRequestDto {
   String get amount => throw _privateConstructorUsedError;
-  RampTypeDto get type => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1249,7 +1248,7 @@ abstract class $MoneygramFeeRequestDtoCopyWith<$Res> {
           $Res Function(MoneygramFeeRequestDto) then) =
       _$MoneygramFeeRequestDtoCopyWithImpl<$Res, MoneygramFeeRequestDto>;
   @useResult
-  $Res call({String amount, RampTypeDto type});
+  $Res call({String amount});
 }
 
 /// @nodoc
@@ -1267,17 +1266,12 @@ class _$MoneygramFeeRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? amount = null,
-    Object? type = null,
   }) {
     return _then(_value.copyWith(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as RampTypeDto,
     ) as $Val);
   }
 }
@@ -1291,7 +1285,7 @@ abstract class _$$MoneygramFeeRequestDtoImplCopyWith<$Res>
       __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String amount, RampTypeDto type});
+  $Res call({String amount});
 }
 
 /// @nodoc
@@ -1308,17 +1302,12 @@ class __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? amount = null,
-    Object? type = null,
   }) {
     return _then(_$MoneygramFeeRequestDtoImpl(
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as RampTypeDto,
     ));
   }
 }
@@ -1326,20 +1315,17 @@ class __$$MoneygramFeeRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MoneygramFeeRequestDtoImpl implements _MoneygramFeeRequestDto {
-  const _$MoneygramFeeRequestDtoImpl(
-      {required this.amount, required this.type});
+  const _$MoneygramFeeRequestDtoImpl({required this.amount});
 
   factory _$MoneygramFeeRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$MoneygramFeeRequestDtoImplFromJson(json);
 
   @override
   final String amount;
-  @override
-  final RampTypeDto type;
 
   @override
   String toString() {
-    return 'MoneygramFeeRequestDto(amount: $amount, type: $type)';
+    return 'MoneygramFeeRequestDto(amount: $amount)';
   }
 
   @override
@@ -1347,13 +1333,12 @@ class _$MoneygramFeeRequestDtoImpl implements _MoneygramFeeRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MoneygramFeeRequestDtoImpl &&
-            (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, amount, type);
+  int get hashCode => Object.hash(runtimeType, amount);
 
   @JsonKey(ignore: true)
   @override
@@ -1371,17 +1356,14 @@ class _$MoneygramFeeRequestDtoImpl implements _MoneygramFeeRequestDto {
 }
 
 abstract class _MoneygramFeeRequestDto implements MoneygramFeeRequestDto {
-  const factory _MoneygramFeeRequestDto(
-      {required final String amount,
-      required final RampTypeDto type}) = _$MoneygramFeeRequestDtoImpl;
+  const factory _MoneygramFeeRequestDto({required final String amount}) =
+      _$MoneygramFeeRequestDtoImpl;
 
   factory _MoneygramFeeRequestDto.fromJson(Map<String, dynamic> json) =
       _$MoneygramFeeRequestDtoImpl.fromJson;
 
   @override
   String get amount;
-  @override
-  RampTypeDto get type;
   @override
   @JsonKey(ignore: true)
   _$$MoneygramFeeRequestDtoImplCopyWith<_$MoneygramFeeRequestDtoImpl>
