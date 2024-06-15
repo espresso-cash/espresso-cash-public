@@ -69,12 +69,12 @@ class MoneygramPostProcessingWatcher {
 
     // print('bridgeTx: $bridgeTx');
 
-    final hash = await _stellarClient.submitTransactionFromXdrString(
-      bridgeTx,
-      userKeyPair: _stellarWallet.keyPair,
-    );
+    // final hash = await _stellarClient.submitTransactionFromXdrString(
+    //   bridgeTx,
+    //   userKeyPair: _stellarWallet.keyPair,
+    // );
 
-    print('hash: $hash');
+    // print('hash: $hash');
 
     // TODOcheck if amount is receievd in solana wallet, it should take a few mins
 

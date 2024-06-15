@@ -68,6 +68,7 @@ extension BuildContextExt on BuildContext {
       orderId: orderId,
       partner: partner,
       submittedAmount: submittedAmount,
+      authToken: token,
     )
         .then((order) {
       switch (order) {
