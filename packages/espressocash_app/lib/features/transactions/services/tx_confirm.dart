@@ -17,7 +17,6 @@ class TxConfirm {
 
   final SolanaClient _client;
 
-  // TODO(KB): Get proper status + poll status
   Future<TxWaitResult?> call({required String txId}) {
     final sentryTx = Sentry.startTransaction(
       'Wait TX confirmation',
