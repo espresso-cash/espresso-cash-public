@@ -1,3 +1,7 @@
+## 1.122.1
+
+ - **FIX**: durable tx signing.
+
 ## 1.122.0
 
  - **FIX**: home spacing (#1489).
