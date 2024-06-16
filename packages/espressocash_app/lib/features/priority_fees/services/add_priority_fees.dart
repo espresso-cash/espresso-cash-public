@@ -7,6 +7,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../../utils/transactions.dart';
+
 @injectable
 class AddPriorityFees {
   const AddPriorityFees(
@@ -147,7 +149,7 @@ class AddPriorityFees {
     return SignedTx(
       compiledMessage: newCompiledMessage,
       signatures: [
-        Signature(List.filled(64, 0), publicKey: platform),
+        platform.emptySignature(),
         ...tx.signatures.where((s) => s.publicKey != platform),
       ],
     );

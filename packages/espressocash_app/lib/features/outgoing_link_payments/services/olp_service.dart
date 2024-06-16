@@ -4,7 +4,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
-
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
 import 'package:solana/solana.dart';
@@ -176,11 +175,8 @@ class OLPService implements Disposable {
         commitment: Commitment.confirmed,
       );
 
+      final tx = await rawTx.resign(account);
       final privateKey = await EscrowPrivateKey.fromKeyPair(escrowAccount);
-
-      final tx = await rawTx
-          .let((it) => it.resign(account))
-          .then((it) => it.resign(LocalWallet(escrowAccount)));
 
       return OLPStatus.txCreated(tx, escrow: privateKey);
     } on Exception {
@@ -200,7 +196,7 @@ class OLPService implements Disposable {
         senderAccount: account.publicKey,
         commitment: Commitment.confirmed,
       );
-      final tx = await transaction.let((it) => it.resign(account));
+      final tx = await transaction.resign(account);
 
       return OLPStatus.cancelTxCreated(tx, escrow: privateKey);
     } on EscrowException {

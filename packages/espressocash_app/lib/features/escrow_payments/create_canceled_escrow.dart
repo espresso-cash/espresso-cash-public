@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../utils/transactions.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'escrow_account.dart';
@@ -76,8 +77,8 @@ class CreateCanceledEscrow {
     return await SignedTx(
       compiledMessage: compiled,
       signatures: [
-        Signature(List.filled(64, 0), publicKey: platformAccount),
-        Signature(List.filled(64, 0), publicKey: senderAccount),
+        platformAccount.emptySignature(),
+        senderAccount.emptySignature(),
       ],
     ).let(
       (tx) => _addPriorityFees(

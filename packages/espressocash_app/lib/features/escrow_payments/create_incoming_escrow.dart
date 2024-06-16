@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../utils/transactions.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'escrow_account.dart';
@@ -22,14 +23,14 @@ class CreateIncomingEscrow {
   final EspressoCashClient _ecClient;
 
   Future<SignedTx> call({
-    required Ed25519HDPublicKey escrowAccount,
+    required Ed25519HDKeyPair escrowAccount,
     required Ed25519HDPublicKey receiverAccount,
     required Commitment commitment,
   }) async {
     final mint = Token.usdc.publicKey;
 
     await validateEscrow(
-      address: escrowAccount,
+      address: escrowAccount.publicKey,
       mint: mint,
       client: _client,
       commitment: commitment,
@@ -41,7 +42,7 @@ class CreateIncomingEscrow {
     final instructions = <Instruction>[];
 
     final ataEscrow = await findAssociatedTokenAddress(
-      owner: escrowAccount,
+      owner: escrowAccount.publicKey,
       mint: mint,
     );
 
@@ -68,7 +69,7 @@ class CreateIncomingEscrow {
     }
 
     final escrowIx = await EscrowInstruction.completeEscrow(
-      escrowAccount: escrowAccount,
+      escrowAccount: escrowAccount.publicKey,
       receiverTokenAccount: ataReceiver,
       depositorAccount: platformAccount,
       vaultTokenAccount: ataEscrow,
@@ -109,16 +110,16 @@ class CreateIncomingEscrow {
       recentBlockhash: nonceData.nonce,
       feePayer: platformAccount,
     );
+    final data = compiled.toByteArray().toList();
 
     final priorityFees = await _ecClient.getDurableFees();
 
     return await SignedTx(
       compiledMessage: compiled,
       signatures: [
-        Signature(List.filled(64, 0), publicKey: platformAccount),
-        Signature(List.filled(64, 0), publicKey: escrowAccount),
-        if (shouldCreateAta)
-          Signature(List.filled(64, 0), publicKey: receiverAccount),
+        platformAccount.emptySignature(),
+        await escrowAccount.sign(data),
+        if (shouldCreateAta) receiverAccount.emptySignature(),
       ],
     ).let(
       (tx) => _addPriorityFees(

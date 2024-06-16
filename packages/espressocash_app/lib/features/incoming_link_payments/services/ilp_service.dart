@@ -107,14 +107,12 @@ class ILPService implements Disposable {
   }) async {
     try {
       final transaction = await _createIncomingEscrow(
-        escrowAccount: escrow.publicKey,
+        escrowAccount: escrow,
         receiverAccount: account.publicKey,
         commitment: Commitment.confirmed,
       );
 
-      final tx = await transaction
-          .let((it) => it.resign(LocalWallet(escrow)))
-          .letAsync((it) => it.resign(account));
+      final tx = await transaction.resign(account);
 
       return ILPStatus.txCreated(tx);
     } on EscrowException {

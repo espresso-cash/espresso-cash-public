@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../utils/transactions.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'instructions.dart';
@@ -101,15 +102,16 @@ class CreateOutgoingEscrow {
       recentBlockhash: nonceData.nonce,
       feePayer: platformAccount,
     );
+    final data = compiled.toByteArray().toList();
 
     final priorityFees = await _ecClient.getDurableFees();
 
     return SignedTx(
       compiledMessage: compiled,
       signatures: [
-        Signature(List.filled(64, 0), publicKey: platformAccount),
-        Signature(List.filled(64, 0), publicKey: escrowAccount.publicKey),
-        Signature(List.filled(64, 0), publicKey: senderAccount),
+        platformAccount.emptySignature(),
+        await escrowAccount.sign(data),
+        senderAccount.emptySignature(),
       ],
     )
         .let(
