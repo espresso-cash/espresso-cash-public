@@ -182,6 +182,8 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
+  preProcessing,
+  postProcessing,
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,

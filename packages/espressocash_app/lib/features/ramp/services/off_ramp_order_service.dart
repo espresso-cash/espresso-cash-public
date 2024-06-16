@@ -182,6 +182,8 @@ class OffRampOrderService implements Disposable {
         }
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
@@ -205,6 +207,8 @@ class OffRampOrderService implements Disposable {
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
@@ -307,6 +311,8 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
         case OffRampOrderStatus.depositTxConfirmError:
+        case OffRampOrderStatus.preProcessing:
+        case OffRampOrderStatus.postProcessing:
         case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();

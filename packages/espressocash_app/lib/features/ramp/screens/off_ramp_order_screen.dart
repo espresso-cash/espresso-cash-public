@@ -103,6 +103,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
         order.fee?.let((fee) => order.amount + fee) ?? order.amount;
 
     final String statusContent = switch (order.status) {
+      OffRampOrderStatus.preProcessing ||
+      OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -132,6 +134,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.failure => const _ContactUsButton(),
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
+      OffRampOrderStatus.preProcessing ||
+      OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
       OffRampOrderStatus.waitingForPartner ||
@@ -272,6 +276,8 @@ class _Timeline extends StatelessWidget {
 
 extension on OffRampOrderStatus {
   CpStatusType toStatusType() => switch (this) {
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
@@ -292,6 +298,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -305,6 +313,7 @@ extension on OffRampOrderStatus {
 
   int toActiveItem() => switch (this) {
         OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
@@ -314,6 +323,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
+        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           2,
