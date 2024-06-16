@@ -5,8 +5,10 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../utils/transactions.dart';
+import '../accounts/models/ec_wallet.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
+import '../transactions/services/resign_tx.dart';
 import 'escrow_account.dart';
 import 'instructions.dart';
 
@@ -110,24 +112,25 @@ class CreateIncomingEscrow {
       recentBlockhash: nonceData.nonce,
       feePayer: platformAccount,
     );
-    final data = compiled.toByteArray().toList();
 
     final priorityFees = await _ecClient.getDurableFees();
 
-    return await SignedTx(
+    return SignedTx(
       compiledMessage: compiled,
       signatures: [
         platformAccount.emptySignature(),
-        await escrowAccount.sign(data),
+        escrowAccount.publicKey.emptySignature(),
         if (shouldCreateAta) receiverAccount.emptySignature(),
       ],
-    ).let(
-      (tx) => _addPriorityFees(
-        tx: tx,
-        commitment: commitment,
-        maxPriorityFee: priorityFees.outgoingLink,
-        platform: platformAccount,
-      ),
-    );
+    )
+        .let(
+          (tx) => _addPriorityFees(
+            tx: tx,
+            commitment: commitment,
+            maxPriorityFee: priorityFees.outgoingLink,
+            platform: platformAccount,
+          ),
+        )
+        .then((value) => value.resign(LocalWallet(escrowAccount)));
   }
 }
