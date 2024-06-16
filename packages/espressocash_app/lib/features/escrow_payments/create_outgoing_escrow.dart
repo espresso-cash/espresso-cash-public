@@ -123,11 +123,7 @@ class CreateOutgoingEscrow {
             platform: platformAccount,
           ),
         )
-        .then((tx) => (tx: tx, escrow: escrowAccount))
-        .then((value) async {
-      final tx = await value.tx.resign(LocalWallet(escrowAccount));
-
-      return (tx: tx, escrow: value.escrow);
-    });
+        .then((value) => value.resign(LocalWallet(escrowAccount)))
+        .then((tx) => (tx: tx, escrow: escrowAccount));
   }
 }
