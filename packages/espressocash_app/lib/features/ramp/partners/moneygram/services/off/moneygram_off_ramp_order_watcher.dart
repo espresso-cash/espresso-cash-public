@@ -13,8 +13,7 @@ import '../../../../data/my_database_ext.dart';
 import '../../../../models/ramp_watcher.dart';
 
 /// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. This will
-/// check if Moneygram has sent the funds to the user's Stellar account after the user
-/// has deposited. It will verify the amount and memo of the payment.
+/// check if money was taken by user and approved by Moneygram team
 @injectable
 class MoneygramOffRampOrderWatcher implements RampWatcher {
   MoneygramOffRampOrderWatcher(
