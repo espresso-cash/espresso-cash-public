@@ -168,6 +168,10 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get feeToken => text().nullable()();
+
+  // Moneygram
+  TextColumn get authToken => text().nullable()();
+  TextColumn get moreInfoUrl => text().nullable()();
 }
 
 enum OnRampOrderStatus {
@@ -184,6 +188,7 @@ enum OnRampOrderStatus {
 enum OffRampOrderStatus {
   preProcessing,
   postProcessing,
+  // pendingUserPickup?
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,

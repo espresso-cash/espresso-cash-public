@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -259,6 +260,61 @@ class OffRampOrderService implements Disposable {
 
           return order.id;
         }
+      });
+
+  AsyncResult<String> createMoneygramOrder({
+    required String orderId,
+    required RampPartner partner,
+    required CryptoAmount submittedAmount,
+    required String authToken,
+    OffRampOrderStatus status = OffRampOrderStatus.preProcessing,
+  }) =>
+      tryEitherAsync((_) async {
+        {
+          final order = OffRampOrderRow(
+            id: const Uuid().v4(),
+            partnerOrderId: orderId,
+            amount: submittedAmount.value,
+            token: Token.usdc.address,
+            created: DateTime.now(),
+            humanStatus: '',
+            machineStatus: '',
+            partner: partner,
+            status: status,
+            transaction: '',
+            depositAddress: '',
+            slot: BigInt.zero,
+          );
+
+          await _db.into(_db.offRampOrderRows).insert(order);
+          _subscribe(order.id);
+
+          return order.id;
+        }
+      });
+
+  AsyncResult<void> updateMoneygramOrder({
+    required String id,
+    required CryptoAmount? receiveAmount,
+    required FiatAmount transferAmount,
+    required String depositAddress,
+    required String moreInfoUrl,
+  }) =>
+      tryEitherAsync((_) async {
+        const bankName = 'moneygram';
+
+        final updateQuery = _db.update(_db.offRampOrderRows)
+          ..where((tbl) => tbl.id.equals(id));
+
+        await updateQuery.write(
+          OffRampOrderRowsCompanion(
+            receiveAmount: Value(receiveAmount?.value),
+            fiatSymbol: Value(transferAmount.currency.symbol),
+            depositAddress: Value(depositAddress),
+            moreInfoUrl: Value(moreInfoUrl),
+            status: const Value(OffRampOrderStatus.waitingForPartner),
+          ),
+        );
       });
 
   @useResult

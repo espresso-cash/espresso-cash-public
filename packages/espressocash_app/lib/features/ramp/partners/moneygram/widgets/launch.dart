@@ -18,8 +18,10 @@ import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_type.dart';
+import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 
@@ -179,26 +181,27 @@ window.addEventListener("message", (event) => {
     final token = response.token;
     final orderId = response.id;
 
-    // final id = await sl<OnRampOrderService>()
-    //     .createPendingMoneygram(
-    //   orderId: orderId,
-    //   partner: partner,
-    //   submittedAmount: submittedAmount,
-    // )
-    //     .then((order) {
-    //   switch (order) {
-    //     case Left<Exception, String>():
-    //       return null;
-    //     case Right<Exception, String>(:final value):
-    //       return value;
-    //   }
-    // });
+    final id = await sl<OffRampOrderService>()
+        .createMoneygramOrder(
+      orderId: orderId,
+      partner: partner,
+      submittedAmount: submittedAmount,
+      authToken: token,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          return null;
+        case Right<Exception, String>(:final value):
+          return value;
+      }
+    });
 
-    // if (id == null) {
-    //   showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+    if (id == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
-    //   return;
-    // }
+      return;
+    }
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
@@ -207,38 +210,37 @@ window.addEventListener("message", (event) => {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          // final transaction = await _fetchTransactionStatus(
-          //   id: orderId,
-          //   token: token,
-          // );
+          final transaction = await _fetchTransactionStatus(
+            id: orderId,
+            token: token,
+          );
 
-          // final transferAmount = Amount.fromDecimal(
-          //   value: Decimal.parse(transaction.amountIn ?? '0'),
-          //   currency: Currency.usd,
-          // ) as FiatAmount;
+          final transferAmount = Amount.fromDecimal(
+            value: Decimal.parse(transaction.amountIn ?? '0'),
+            currency: Currency.usd,
+          ) as FiatAmount;
 
-          // final receiveAmount = Amount.fromDecimal(
-          //   value: Decimal.parse(transaction.amountOut ?? '0'),
-          //   currency: Currency.usdc,
-          // ) as CryptoAmount;
+          final receiveAmount = Amount.fromDecimal(
+            value: Decimal.parse(transaction.amountOut ?? '0'),
+            currency: Currency.usdc,
+          ) as CryptoAmount;
 
-          // await sl<OnRampOrderService>()
-          //     .updateMoneygramOrder(
-          //   id: id,
-          //   receiveAmount: receiveAmount,
-          //   transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
-          //   transferAmount: transferAmount,
-          //   authToken: token,
-          //   moreInfoUrl: transaction.moreInfoUrl ?? '',
-          // )
-          //     .then((order) {
-          //   switch (order) {
-          //     case Left<Exception, void>():
-          //       break;
-          //     case Right<Exception, void>():
-          //       OnRampOrderScreen.pushReplacement(this, id: id);
-          //   }
-          // });
+          await sl<OffRampOrderService>()
+              .updateMoneygramOrder(
+            id: id,
+            receiveAmount: receiveAmount,
+            transferAmount: transferAmount,
+            depositAddress: transaction.withdrawAnchorAccount ?? '',
+            moreInfoUrl: transaction.moreInfoUrl ?? '',         
+          )
+              .then((order) {
+            switch (order) {
+              case Left<Exception, void>():
+                break;
+              case Right<Exception, void>():
+                OffRampOrderScreen.pushReplacement(this, id: id);
+            }
+          });
 
           orderWasCreated = true;
         },
