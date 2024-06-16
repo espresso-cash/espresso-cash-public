@@ -1,3 +1,10 @@
+## 1.122.0
+
+ - **FIX**: home spacing (#1489).
+ - **FEAT**: use durable nonce for escrow txs (#1459).
+ - **FEAT**: integrate stellar wallet (#1497).
+ - **FEAT**: new lock screen theme  (#1494).
+
 ## 1.121.1
 
  - **FIX**: do not wait for intercom login (#1493).
