@@ -14,7 +14,9 @@ import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -95,6 +97,17 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     void handleRetry() => sl<OffRampOrderService>().retry(order.id);
 
+    // Todo this should have handler
+    Future<void> handleContinue() async {
+      final withdrawUrl = order.withdrawUrl ?? '';
+      await WebViewScreen.push(
+        context,
+        url: Uri.parse(withdrawUrl),
+        title: context.l10n.ramp_titleCashOut,
+        theme: const CpThemeData.light(),
+      );
+    }
+
     final String? statusTitle = order.status == OffRampOrderStatus.completed
         ? context.l10n.transferSuccessTitle
         : null;
@@ -132,10 +145,11 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.insufficientFunds =>
         _RetryButton(handleRetry: handleRetry),
       OffRampOrderStatus.failure => const _ContactUsButton(),
+      OffRampOrderStatus.postProcessing =>
+        _ContinueButton(handleContinue: handleContinue),
+      OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
-      OffRampOrderStatus.preProcessing ||
-      OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
       OffRampOrderStatus.waitingForPartner ||
@@ -143,6 +157,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.cancelled =>
         null,
     };
+
+    final showCancelButton = order.status == OffRampOrderStatus.depositError ||
+        order.status == OffRampOrderStatus.postProcessing;
 
     return StatusScreen(
       title: context.l10n.offRampWithdrawTitle.toUpperCase(),
@@ -164,7 +181,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
               primaryButton,
             ],
             Opacity(
-              opacity: order.status == OffRampOrderStatus.depositError ? 1 : 0,
+              opacity: showCancelButton ? 1 : 0,
               child: _CancelButton(handleCanceled: handleCanceled),
             ),
           ],
@@ -185,6 +202,21 @@ class _RetryButton extends StatelessWidget {
         width: double.infinity,
         text: context.l10n.retry,
         onPressed: handleRetry,
+      );
+}
+
+class _ContinueButton extends StatelessWidget {
+  const _ContinueButton({required this.handleContinue});
+
+  final VoidCallback handleContinue;
+
+  @override
+  Widget build(BuildContext context) => CpButton(
+        size: CpButtonSize.big,
+        width: double.infinity,
+        // todo add to l10n
+        text: 'Continue',
+        onPressed: handleContinue,
       );
 }
 
@@ -256,6 +288,7 @@ class _Timeline extends StatelessWidget {
       amountSent,
       paymentSuccess,
     ];
+
     final cancelingItems = [
       withdrawInitiated,
       paymentCanceled,
@@ -314,6 +347,7 @@ extension on OffRampOrderStatus {
   int toActiveItem() => switch (this) {
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
@@ -323,7 +357,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
-        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           2,

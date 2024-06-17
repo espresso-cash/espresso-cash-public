@@ -42,6 +42,7 @@ typedef OffRampOrder = ({
   FiatAmount? receiveAmount,
   String partnerOrderId,
   Ed25519HDPublicKey? depositAddress,
+  String? withdrawUrl,
   String? authToken,
 });
 
@@ -147,6 +148,7 @@ class OffRampOrderService implements Disposable {
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
         fee: fee,
+        withdrawUrl: row.withdrawUrl,
         authToken: row.authToken,
       );
     });
@@ -208,11 +210,11 @@ class OffRampOrderService implements Disposable {
     switch (order.status) {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
-      case OffRampOrderStatus.preProcessing:
-      case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
@@ -318,7 +320,7 @@ class OffRampOrderService implements Disposable {
             depositAddress: Value(depositAddress),
             withdrawMemo: Value(withdrawMemo),
             moreInfoUrl: Value(moreInfoUrl),
-            status: const Value(OffRampOrderStatus.postProcessing),
+            status: const Value(OffRampOrderStatus.depositTxReady),
           ),
         );
       });
@@ -396,10 +398,16 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.sendingDepositTx:
-          final tx =
-              SignedTx.decode(order.transaction).let((it) => (it, order.slot));
+          if (order.partner == RampPartner.moneygram) {
+            // send tx to moneygram
+            return const Stream.empty();
+          } else {
+            final tx = SignedTx.decode(order.transaction)
+                .let((it) => (it, order.slot));
 
-          return Stream.fromFuture(_sendTx(tx));
+            return Stream.fromFuture(_sendTx(tx));
+          }
+
         case OffRampOrderStatus.depositTxReady:
           return Stream.value(
             const OffRampOrderRowsCompanion(
