@@ -4,13 +4,13 @@ import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../data/db/db.dart';
-import '../../../../accounts/auth_scope.dart';
-import '../../../../currency/models/amount.dart';
-import '../../../../currency/models/currency.dart';
-import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../../stellar/models/stellar_wallet.dart';
-import '../../../../stellar/service/stellar_client.dart';
+import '../../../../../../data/db/db.dart';
+import '../../../../../accounts/auth_scope.dart';
+import '../../../../../currency/models/amount.dart';
+import '../../../../../currency/models/currency.dart';
+import '../../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../../stellar/models/stellar_wallet.dart';
+import '../../../../../stellar/service/stellar_client.dart';
 
 /// Watches for [OnRampOrderStatus.preProcessing] Moneygram orders. This will
 /// check if the user has enough XLM balance and USDC trustline to successfully

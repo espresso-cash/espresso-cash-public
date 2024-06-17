@@ -4,17 +4,17 @@ import 'package:decimal/decimal.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../../../data/db/db.dart';
-import '../../../../../di.dart';
-import '../../../../accounts/auth_scope.dart';
-import '../../../../currency/models/amount.dart';
-import '../../../../currency/models/currency.dart';
-import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../../stellar/models/stellar_wallet.dart';
-import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/on_ramp_order_service.dart';
-import '../data/dto.dart';
-import '../data/moneygram_client.dart';
+import '../../../../../../data/db/db.dart';
+import '../../../../../../di.dart';
+import '../../../../../accounts/auth_scope.dart';
+import '../../../../../currency/models/amount.dart';
+import '../../../../../currency/models/currency.dart';
+import '../../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../../stellar/models/stellar_wallet.dart';
+import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../data/on_ramp_order_service.dart';
+import '../../data/dto.dart';
+import '../../data/moneygram_client.dart';
 
 /// Watches for [OnRampOrderStatus.pending] Moneygram orders. An order is left
 /// with pending status when user doesn't click Ok on final screen or when
