@@ -142,22 +142,21 @@ class StellarClient {
     return response.hash;
   }
 
-  Future<GetTransactionResponse> pollStatus(String transactionId) async {
-    String status = GetTransactionResponse.STATUS_NOT_FOUND;
+  Future<GetTransactionResponse?> pollStatus(String transactionId) async {
+    String? status = GetTransactionResponse.STATUS_NOT_FOUND;
+
     GetTransactionResponse? transactionResponse;
     while (status == GetTransactionResponse.STATUS_NOT_FOUND) {
-      await Future.delayed(const Duration(seconds: 3), () {});
+      await Future<void>.delayed(_pollingInterval);
+
       transactionResponse = await _sorobanClient.getTransaction(transactionId);
-      assert(transactionResponse.error == null);
-      status = transactionResponse.status!;
-      if (status == GetTransactionResponse.STATUS_FAILED) {
-        assert(transactionResponse.resultXdr != null);
-        assert(false);
-      } else if (status == GetTransactionResponse.STATUS_SUCCESS) {
-        assert(transactionResponse.resultXdr != null);
-      }
+
+      status =
+          transactionResponse.status ?? GetTransactionResponse.STATUS_NOT_FOUND;
     }
 
-    return transactionResponse!;
+    return transactionResponse;
   }
 }
+
+const _pollingInterval = Duration(seconds: 5);
