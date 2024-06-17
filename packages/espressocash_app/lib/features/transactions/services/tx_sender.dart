@@ -1,5 +1,3 @@
-import 'package:borsh_annotation/borsh_annotation.dart';
-import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
@@ -11,6 +9,7 @@ import 'package:solana/solana.dart';
 
 import '../../../config.dart';
 import '../models/tx_results.dart';
+import 'extensions.dart';
 
 @injectable
 class TxSender {
@@ -295,24 +294,6 @@ extension on JsonRpcException {
     final instructionErrorData = instructionError[1];
 
     return instructionErrorData == 'InvalidAccountData';
-  }
-}
-
-extension on SignedTx {
-  BigInt? get computeUnitPrice {
-    final message = decompileMessage();
-
-    final ix = message.instructions
-        .firstWhereOrNull((ix) => ix.programId == ComputeBudgetProgram.id);
-    if (ix == null) return null;
-
-    final data = ix.data;
-    final reader =
-        BinaryReader(Uint8List.fromList(data.toList()).buffer.asByteData());
-    final id = reader.readU8();
-    if (id != ComputeBudgetProgram.setComputeUnitPriceIndex.first) return null;
-
-    return reader.readU64();
   }
 }
 
