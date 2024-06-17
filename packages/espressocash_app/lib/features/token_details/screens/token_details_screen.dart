@@ -6,6 +6,7 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/data/repository.dart';
@@ -234,14 +235,26 @@ class _SwapButton extends StatelessWidget {
               text: 'Swap',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () {},
+              onPressed: () => showInfoDialog(
+                context,
+                title: 'Swap',
+                message: 'Coming soon!',
+                confirmLabel: 'OK',
+                onConfirm: () {},
+              ),
             ),
             const SizedBox(width: 14),
             CpButton(
               text: 'Send',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () {},
+              onPressed: () => showInfoDialog(
+                context,
+                title: 'Send',
+                message: 'Coming soon!',
+                confirmLabel: 'OK',
+                onConfirm: () {},
+              ),
             ),
           ],
         ),

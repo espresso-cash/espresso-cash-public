@@ -107,6 +107,75 @@ Future<void> showConfirmationDialog(
       ),
     );
 
+Future<void> showInfoDialog(
+  BuildContext context, {
+  required String title,
+  required String message,
+  required VoidCallback onConfirm,
+  String? confirmLabel,
+  TextStyle? titleStyle,
+  TextStyle? messageStyle,
+}) =>
+    showModalBottomSheet(
+      context: context,
+      elevation: 0,
+      barrierColor: _barrierColor,
+      backgroundColor: CpColors.yellowSplashBackgroundColor,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(44),
+          topRight: Radius.circular(44),
+        ),
+      ),
+      builder: (context) => CpTheme.black(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: titleStyle ??
+                    const TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: messageStyle ??
+                    const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+              const SizedBox(height: 32),
+              Row(
+                children: [
+                  Expanded(
+                    child: CpButton(
+                      text: confirmLabel ?? context.l10n.yes,
+                      width: 150,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        onConfirm();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
 Future<void> showWarningDialog(
   BuildContext context, {
   required String title,
