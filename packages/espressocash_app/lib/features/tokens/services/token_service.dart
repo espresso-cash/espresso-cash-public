@@ -26,7 +26,7 @@ class TokenService {
       });
 }
 
-Future<List<TokenRow>> _parseAndInsertTokens(String data) async {
+List<TokenRow> _parseAndInsertTokens(String data) {
   final lines = const LineSplitter().convert(data).skip(1);
   final List<TokenRow> tokenIterable = [];
 
