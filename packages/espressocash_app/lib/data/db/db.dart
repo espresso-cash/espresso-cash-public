@@ -186,18 +186,17 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
-  preProcessing,
-  postProcessing,
-  // pendingUserPickup?
+  preProcessing, // it means that bridge was done, but user have not finished transaction yet
+  postProcessing, // after iframe flow done
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,
   sendingDepositTx,
   depositError,
   depositTxConfirmError,
-  waitingForPartner,
+  waitingForPartner, // send money to moneygram and waiting for user pickup
   failure,
-  completed,
+  completed, // after pickup
   cancelled,
   insufficientFunds,
 }

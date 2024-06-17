@@ -312,7 +312,7 @@ class OffRampOrderService implements Disposable {
             fiatSymbol: Value(transferAmount.currency.symbol),
             depositAddress: Value(depositAddress),
             moreInfoUrl: Value(moreInfoUrl),
-            status: const Value(OffRampOrderStatus.waitingForPartner),
+            status: const Value(OffRampOrderStatus.postProcessing),
           ),
         );
       });

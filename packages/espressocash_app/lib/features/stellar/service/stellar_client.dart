@@ -160,4 +160,11 @@ class StellarClient {
 
     return transactionResponse!;
   }
+
+  Future<void> sendUsdc() async {
+    // String destinationAddress
+    // String memo  
+    // String amountIn
+    // Todo implement sending USDC to moneygram (s)
+  }
 }

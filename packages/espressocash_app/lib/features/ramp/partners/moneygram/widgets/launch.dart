@@ -187,6 +187,7 @@ window.addEventListener("message", (event) => {
       partner: partner,
       submittedAmount: submittedAmount,
       authToken: token,
+      // url store id db , and be able to open it in transaction screen
     )
         .then((order) {
       switch (order) {
