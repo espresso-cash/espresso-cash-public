@@ -153,7 +153,6 @@ class _OLPScreenState extends State<OLPScreen> {
           final CpStatusType statusType = payment.status.map(
             txCreated: always(CpStatusType.info),
             txSent: always(CpStatusType.info),
-            txConfirmed: always(CpStatusType.info),
             linkReady: always(CpStatusType.info),
             withdrawn: always(CpStatusType.success),
             canceled: always(CpStatusType.neutral),
@@ -209,7 +208,6 @@ class _OLPScreenState extends State<OLPScreen> {
             txSent: always(1),
             cancelTxCreated: always(1),
             cancelTxSent: always(1),
-            txConfirmed: always(1),
             linkReady: always(1),
             withdrawn: always(2),
           );
