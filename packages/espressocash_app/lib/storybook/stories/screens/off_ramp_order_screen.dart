@@ -27,7 +27,8 @@ final offRampOrderScreenStory = Story(
       resolved: null,
       partnerOrderId: 'PARTNER_ORDER_ID',
       depositAddress: null,
-      fee: null
+      fee: null,
+      authToken: null,
     ),
   ),
 );

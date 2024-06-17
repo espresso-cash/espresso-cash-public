@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 53;
+const int latestVersion = 54;
 
 const _tables = [
   OutgoingTransferRows,
@@ -124,9 +124,13 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
             await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
             await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
+          }
+
+          if (from < 54) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
           }
         },
       );
@@ -204,7 +208,7 @@ enum OffRampOrderStatus {
   waitingForPartner, // send money to moneygram and waiting for user pickup
   failure,
   completed, // after pickup
-  cancelled,
+  cancelled, // bridge Stellar usdc back to solana
   insufficientFunds,
 }
 

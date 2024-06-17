@@ -186,8 +186,8 @@ window.addEventListener("message", (event) => {
       orderId: orderId,
       partner: partner,
       submittedAmount: submittedAmount,
+      withdrawUrl: link,
       authToken: token,
-      // url store id db , and be able to open it in transaction screen
     )
         .then((order) {
       switch (order) {
@@ -233,7 +233,6 @@ window.addEventListener("message", (event) => {
             transferAmount: transferAmount,
             depositAddress: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
-            withdrawUrl: link,
             moreInfoUrl: transaction.moreInfoUrl ?? '',         
           )
               .then((order) {

@@ -28,6 +28,7 @@ import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
+import '../partners/moneygram/service/offramp/moneygram_off_ramp_order_watcher.dart';
 import '../partners/scalex/services/scalex_off_ramp_order_watcher.dart';
 
 typedef OffRampOrder = ({
@@ -41,6 +42,7 @@ typedef OffRampOrder = ({
   FiatAmount? receiveAmount,
   String partnerOrderId,
   Ed25519HDPublicKey? depositAddress,
+  String? authToken,
 });
 
 @Singleton(scope: authScope)
@@ -145,6 +147,7 @@ class OffRampOrderService implements Disposable {
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
         fee: fee,
+        authToken: row.authToken,
       );
     });
   }
@@ -266,6 +269,7 @@ class OffRampOrderService implements Disposable {
     required String orderId,
     required RampPartner partner,
     required CryptoAmount submittedAmount,
+    required String withdrawUrl,
     required String authToken,
     OffRampOrderStatus status = OffRampOrderStatus.preProcessing,
   }) =>
@@ -277,6 +281,7 @@ class OffRampOrderService implements Disposable {
             amount: submittedAmount.value,
             token: Token.usdc.address,
             created: DateTime.now(),
+            withdrawUrl: withdrawUrl,
             humanStatus: '',
             machineStatus: '',
             partner: partner,
@@ -284,6 +289,7 @@ class OffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
+            authToken: authToken,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -299,7 +305,6 @@ class OffRampOrderService implements Disposable {
     required FiatAmount transferAmount,
     required String withdrawMemo,
     required String depositAddress,
-    required String withdrawUrl,
     required String moreInfoUrl,
   }) =>
       tryEitherAsync((_) async {
@@ -312,7 +317,6 @@ class OffRampOrderService implements Disposable {
             fiatSymbol: Value(transferAmount.currency.symbol),
             depositAddress: Value(depositAddress),
             withdrawMemo: Value(withdrawMemo),
-            withdrawUrl: Value(withdrawUrl),
             moreInfoUrl: Value(moreInfoUrl),
             status: const Value(OffRampOrderStatus.postProcessing),
           ),
@@ -352,8 +356,8 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.moneygram => sl<MoneygramOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
-      RampPartner.moneygram || //TODO
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }
