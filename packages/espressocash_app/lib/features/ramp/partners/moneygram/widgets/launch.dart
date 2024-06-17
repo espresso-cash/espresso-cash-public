@@ -41,7 +41,8 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.onRamp,
-      calculateEquivalent: (amount) => _calculateMoneygramFee(amount: amount),
+      calculateEquivalent: (amount) =>
+          _calculateMoneygramFee(amount: amount, type: RampType.onRamp),
     );
 
     final submittedAmount = amount;
@@ -160,7 +161,8 @@ window.addEventListener("message", (event) => {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.offRamp,
-      calculateEquivalent: (amount) => _calculateMoneygramFee(amount: amount),
+      calculateEquivalent: (amount) =>
+          _calculateMoneygramFee(amount: amount, type: RampType.offRamp),
     );
 
     final submittedAmount = amount;
@@ -233,7 +235,7 @@ window.addEventListener("message", (event) => {
             transferAmount: transferAmount,
             depositAddress: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
-            moreInfoUrl: transaction.moreInfoUrl ?? '',         
+            moreInfoUrl: transaction.moreInfoUrl ?? '',
           )
               .then((order) {
             switch (order) {
@@ -337,11 +339,16 @@ window.addEventListener("message", (event) => {
       });
 
   Future<Either<Exception, ({Amount amount, String? rate})>>
-      _calculateMoneygramFee({required Amount amount}) async {
+      _calculateMoneygramFee({
+    required Amount amount,
+    required RampType type,
+  }) async {
     final client = sl<EspressoCashClient>();
 
     final fee = await client.calculateMoneygramFee(
       MoneygramFeeRequestDto(
+        type:
+            type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
         amount: amount.decimal.toString(),
       ),
     );
