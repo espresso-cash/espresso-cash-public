@@ -54,7 +54,7 @@ class PortfolioTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => HomeTile(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -96,7 +96,7 @@ class PortfolioTile extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             _PortfolioWidget(balances),
           ],
         ),
@@ -121,7 +121,7 @@ class _PortfolioWidget extends StatelessWidget {
         .expand(
           (widget) => [
             widget,
-            const SizedBox(height: 6),
+            const SizedBox(height: 8),
           ],
         )
         .toList();
