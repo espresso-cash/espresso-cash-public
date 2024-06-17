@@ -67,12 +67,18 @@ class MoneygramPostProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
-    // print('bridgeTx: $bridgeTx');
+    final hash = await _stellarClient.submitTransactionFromXdrString(
+      bridgeTx,
+      userKeyPair: _stellarWallet.keyPair,
+    );
 
-    // final hash = await _stellarClient.submitTransactionFromXdrString(
-    //   bridgeTx,
-    //   userKeyPair: _stellarWallet.keyPair,
-    // );
+    if (hash == null) {
+      return;
+    }
+
+    updateHash(order.id, hash: hash);
+
+    final result = await _stellarClient.pollStatus(hash);
 
     // print('hash: $hash');
 
@@ -88,6 +94,16 @@ class MoneygramPostProcessingWatcher {
         const OnRampOrderRowsCompanion(
           status: Value(OnRampOrderStatus.completed),
           isCompleted: Value(true),
+        ),
+      );
+  }
+
+  void updateHash(String id, {required String hash}) {
+    _db.update(_db.onRampOrderRows)
+      ..where((tbl) => tbl.id.equals(id))
+      ..write(
+        OnRampOrderRowsCompanion(
+          stellarTxHash: Value(hash),
         ),
       );
   }
