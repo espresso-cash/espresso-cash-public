@@ -78,7 +78,7 @@ class TokenList {
   Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
 
   Future<void> initialize() async {
-    final csvFilePath = Assets.tokens.solanaTokenlist;
+    final csvFilePath = Assets.tokens.values.first;
 
     final newTimestamp =
         TimestampStorage.extractTimestamp(basename(csvFilePath));
