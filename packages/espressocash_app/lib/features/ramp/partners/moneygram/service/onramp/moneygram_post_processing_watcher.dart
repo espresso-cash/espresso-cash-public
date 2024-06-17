@@ -17,6 +17,8 @@ import '../../../../../stellar/service/stellar_client.dart';
 /// Watches for [OnRampOrderStatus.postProcessing] Moneygram orders. This will
 /// bridge the USDC on Stellar to Solana. It will also check if the user has
 /// enough XLM to pay for the transaction.
+///
+/// Completes the order when amount is received in Solana.
 @Singleton(scope: authScope)
 class MoneygramPostProcessingWatcher {
   MoneygramPostProcessingWatcher(
@@ -24,6 +26,7 @@ class MoneygramPostProcessingWatcher {
     this._stellarClient,
     this._ecClient,
     this._stellarWallet,
+    this._solanaClient,
     ECWallet ecWallet,
   ) : _solanaAddress = ecWallet.publicKey;
 
@@ -31,6 +34,7 @@ class MoneygramPostProcessingWatcher {
   final EspressoCashClient _ecClient;
   final StellarClient _stellarClient;
   final StellarWallet _stellarWallet;
+  final SolanaClient _solanaClient;
   final Ed25519HDPublicKey _solanaAddress;
 
   StreamSubscription<void>? _subscription;
@@ -67,6 +71,17 @@ class MoneygramPostProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
+    // if (xlmBalance <= _minimumXlmBalance) {
+    //   await _ecClient.fundXlmRequest(
+    //     FundXlmRequestDto(
+    //       accountId: accountId,
+    //       type: FundType.init,
+    //     ),
+    //   );
+    // }
+
+    //TODO simulate and check if enough funds
+
     final hash = await _stellarClient.submitTransactionFromXdrString(
       bridgeTx,
       userKeyPair: _stellarWallet.keyPair,
@@ -76,11 +91,15 @@ class MoneygramPostProcessingWatcher {
       return;
     }
 
-    updateHash(order.id, hash: hash);
+    updateHash(
+      order.id,
+      hash: hash,
+    );
+    //TODO verify, this may recall the function
 
     final result = await _stellarClient.pollStatus(hash);
 
-    // print('hash: $hash');
+    print('hash: $hash');
 
     // TODOcheck if amount is receievd in solana wallet, it should take a few mins
 
