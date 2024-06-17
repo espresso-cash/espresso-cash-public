@@ -193,7 +193,7 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
-  preProcessing, // it means that bridge was done, but user have not finished transaction yet
+  preProcessing, // it means that bridge was done, but user have not finished iframe flow yet
   postProcessing, // after iframe flow done
   depositTxRequired,
   creatingDepositTx,

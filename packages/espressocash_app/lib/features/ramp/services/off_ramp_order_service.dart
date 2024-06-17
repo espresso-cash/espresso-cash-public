@@ -297,12 +297,12 @@ class OffRampOrderService implements Disposable {
     required String id,
     required CryptoAmount? receiveAmount,
     required FiatAmount transferAmount,
+    required String withdrawMemo,
     required String depositAddress,
+    required String withdrawUrl,
     required String moreInfoUrl,
   }) =>
       tryEitherAsync((_) async {
-        const bankName = 'moneygram';
-
         final updateQuery = _db.update(_db.offRampOrderRows)
           ..where((tbl) => tbl.id.equals(id));
 
@@ -311,6 +311,8 @@ class OffRampOrderService implements Disposable {
             receiveAmount: Value(receiveAmount?.value),
             fiatSymbol: Value(transferAmount.currency.symbol),
             depositAddress: Value(depositAddress),
+            withdrawMemo: Value(withdrawMemo),
+            withdrawUrl: Value(withdrawUrl),
             moreInfoUrl: Value(moreInfoUrl),
             status: const Value(OffRampOrderStatus.postProcessing),
           ),

@@ -232,6 +232,8 @@ window.addEventListener("message", (event) => {
             receiveAmount: receiveAmount,
             transferAmount: transferAmount,
             depositAddress: transaction.withdrawAnchorAccount ?? '',
+            withdrawMemo: transaction.withdrawMemo ?? '',
+            withdrawUrl: link,
             moreInfoUrl: transaction.moreInfoUrl ?? '',         
           )
               .then((order) {
