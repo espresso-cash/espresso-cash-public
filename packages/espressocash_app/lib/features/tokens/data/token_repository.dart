@@ -20,12 +20,12 @@ class TokenListRepository {
         );
   }
 
-  Future<dynamic> insertToken(Insertable<TokenRow> token) async =>
+  Future<dynamic> insertToken(Insertable<TokenRow> token) =>
       _db.transaction(() async {
         await _db.into(_db.tokenRows).insert(token);
       });
 
-  Future<dynamic> insertTokens(Iterable<TokenRow> tokens) async =>
+  Future<dynamic> insertTokens(Iterable<TokenRow> tokens) =>
       _db.transaction(() async {
         await clearAllTokens();
         await _db.batch(

@@ -80,14 +80,14 @@ class TokenList {
   Future<void> initialize() async {
     final csvFilePath = Assets.tokens.values.first;
 
-    final newTimestamp =
+    final actualTimestamp =
         TimestampStorage.extractTimestamp(basename(csvFilePath));
 
     final lastTimestamp = await TimestampStorage.getTimestamp();
 
-    if (newTimestamp != null && newTimestamp != lastTimestamp) {
+    if (actualTimestamp != null && actualTimestamp != lastTimestamp) {
       await service.initializeDatabaseFromCsvFile(csvFilePath);
-      await TimestampStorage.saveTimestamp(newTimestamp);
+      await TimestampStorage.saveTimestamp(actualTimestamp);
     }
   }
 }
@@ -106,12 +106,14 @@ class TimestampStorage {
 
   static Future<String?> getTimestamp() async {
     final prefs = await SharedPreferences.getInstance();
+
     return prefs.getString(_key);
   }
 
   static String? extractTimestamp(String filePath) {
-    final regex = RegExp(r'solana\.tokenlist\.(.+)');
+    final regex = RegExp(r'solana\.tokenlist\.(\d+)\.csv');
     final match = regex.firstMatch(filePath);
+
     return match?.group(1);
   }
 }

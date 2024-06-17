@@ -20,73 +20,53 @@ class TokenService {
   ) =>
       tryEitherAsync((_) async {
         final String data = await rootBundle.loadString(filePath);
-        await compute(_parseAndInsertTokens, data);
+        final List<TokenRow> tokenIterable =
+            await compute(_parseAndInsertTokens, data);
+        await tokenRepository.insertTokens(tokenIterable);
       });
+}
 
-  Future<void> _parseAndInsertTokens(String data) async {
-    final lines = const LineSplitter().convert(data).skip(1);
-    final List<TokenRow> tokenIterable = [];
+Future<List<TokenRow>> _parseAndInsertTokens(String data) async {
+  final lines = const LineSplitter().convert(data).skip(1);
+  final List<TokenRow> tokenIterable = [];
 
-    for (final line in lines) {
-      final values = line.split(',');
-      final tags = _parseTags(values[6]);
-      final extensions = _parseExtensions(values[7]);
+  for (final line in lines) {
+    final values = line.split(',');
+    final tags = _parseTags(values[6]);
+    final extensions = _parseExtensions(values[7]);
 
-      final tokenRow = TokenRow(
-        chainId: int.parse(values[1]),
-        address: values[0],
-        symbol: values[2],
-        name: values[3],
-        decimals: int.parse(values[4]),
-        logoURI: values[5],
-        tags: tags,
-        extensions: extensions,
-      );
+    final tokenRow = TokenRow(
+      chainId: int.parse(values[1]),
+      address: values[0],
+      symbol: values[2],
+      name: values[3],
+      decimals: int.parse(values[4]),
+      logoURI: values[5],
+      tags: tags,
+      extensions: extensions,
+    );
 
-      tokenIterable.add(tokenRow);
-    }
-    await tokenRepository.insertTokens(tokenIterable);
+    tokenIterable.add(tokenRow);
   }
 
-  // Future<void> _parseAndInsertTokens2(String data) async {
-  //   final lines = const LineSplitter().convert(data).skip(1);
+  return tokenIterable;
+}
 
-  //   for (final line in lines) {
-  //     final values = line.split(',');
-  //     final tags = _parseTags(values[6]);
-  //     final extensions = _parseExtensions(values[7]);
+List<String>? _parseTags(String? tagString) {
+  if (tagString == null || tagString.isEmpty) return null;
 
-  //     final tokenRow = TokenRow(
-  //       chainId: int.parse(values[1]),
-  //       address: values[0],
-  //       symbol: values[2],
-  //       name: values[3],
-  //       decimals: int.parse(values[4]),
-  //       logoURI: values[5],
-  //       tags: tags,
-  //       extensions: extensions,
-  //     );
+  return tagString
+      .replaceAll('[', '')
+      .replaceAll(']', '')
+      .split(',')
+      .map((e) => e.trim())
+      .toList();
+}
 
-  //     await tokenRepository.insertToken(tokenRow);
-  //   }
-  // }
+Extensions? _parseExtensions(String? extensionString) {
+  final parts = extensionString?.split(':');
 
-  List<String>? _parseTags(String? tagString) {
-    if (tagString == null || tagString.isEmpty) return null;
-
-    return tagString
-        .replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(',')
-        .map((e) => e.trim())
-        .toList();
-  }
-
-  Extensions? _parseExtensions(String? extensionString) {
-    final parts = extensionString?.split(':');
-
-    return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
-        ? Extensions(coingeckoId: parts[1])
-        : null;
-  }
+  return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
+      ? Extensions(coingeckoId: parts[1])
+      : null;
 }
