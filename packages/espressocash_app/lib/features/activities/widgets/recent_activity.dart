@@ -46,7 +46,7 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
           if (data == null) return const SizedBox.shrink();
 
           return HomeTile(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
