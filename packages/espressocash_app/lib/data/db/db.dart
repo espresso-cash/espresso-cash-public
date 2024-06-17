@@ -123,6 +123,7 @@ class MyDatabase extends _$MyDatabase {
           if (from < 53) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
             await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
           }
         },
       );
@@ -149,6 +150,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   // Moneygram
   TextColumn get authToken => text().nullable()();
   TextColumn get moreInfoUrl => text().nullable()();
+  TextColumn get stellarTxHash => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {

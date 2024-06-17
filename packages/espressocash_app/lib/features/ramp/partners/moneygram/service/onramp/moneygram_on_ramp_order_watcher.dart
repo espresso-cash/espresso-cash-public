@@ -4,13 +4,13 @@ import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
-import '../../../../../data/db/db.dart';
-import '../../../../currency/models/amount.dart';
-import '../../../../currency/models/currency.dart';
-import '../../../../stellar/models/stellar_wallet.dart';
-import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/my_database_ext.dart';
-import '../../../models/ramp_watcher.dart';
+import '../../../../../../data/db/db.dart';
+import '../../../../../currency/models/amount.dart';
+import '../../../../../currency/models/currency.dart';
+import '../../../../../stellar/models/stellar_wallet.dart';
+import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../data/my_database_ext.dart';
+import '../../../../models/ramp_watcher.dart';
 
 /// Watches for [OnRampOrderStatus.waitingForPartner] Moneygram orders. This will
 /// check if Moneygram has sent the funds to the user's Stellar account after the user
@@ -39,13 +39,8 @@ class MoneygramOnRampOrderWatcher implements RampWatcher {
         ..where(
           (tbl) =>
               tbl.id.equals(orderId) &
-              tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
+              tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
         );
-
-      final amount = CryptoAmount(
-        value: order.amount,
-        cryptoCurrency: Currency.usdc,
-      );
 
       final usdcBalance =
           await _stellarClient.getUsdcBalance(_stellarWallet.address) ?? 0;
@@ -54,6 +49,11 @@ class MoneygramOnRampOrderWatcher implements RampWatcher {
         // Funds not received yet
         return;
       }
+
+      final amount = CryptoAmount(
+        value: order.amount,
+        cryptoCurrency: Currency.usdc,
+      );
 
       final payments = await _stellarClient.getPayments(_stellarWallet.address);
 

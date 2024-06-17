@@ -5,14 +5,14 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 
-import '../../../../../data/db/db.dart';
-import '../../../../accounts/auth_scope.dart';
-import '../../../../accounts/models/ec_wallet.dart';
-import '../../../../currency/models/amount.dart';
-import '../../../../currency/models/currency.dart';
-import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../../stellar/models/stellar_wallet.dart';
-import '../../../../stellar/service/stellar_client.dart';
+import '../../../../../../data/db/db.dart';
+import '../../../../../accounts/auth_scope.dart';
+import '../../../../../accounts/models/ec_wallet.dart';
+import '../../../../../currency/models/amount.dart';
+import '../../../../../currency/models/currency.dart';
+import '../../../../../ramp_partner/models/ramp_partner.dart';
+import '../../../../../stellar/models/stellar_wallet.dart';
+import '../../../../../stellar/service/stellar_client.dart';
 
 /// Watches for [OnRampOrderStatus.postProcessing] Moneygram orders. This will
 /// bridge the USDC on Stellar to Solana. It will also check if the user has
@@ -67,12 +67,18 @@ class MoneygramPostProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
-    // print('bridgeTx: $bridgeTx');
+    final hash = await _stellarClient.submitTransactionFromXdrString(
+      bridgeTx,
+      userKeyPair: _stellarWallet.keyPair,
+    );
 
-    // final hash = await _stellarClient.submitTransactionFromXdrString(
-    //   bridgeTx,
-    //   userKeyPair: _stellarWallet.keyPair,
-    // );
+    if (hash == null) {
+      return;
+    }
+
+    updateHash(order.id, hash: hash);
+
+    final result = await _stellarClient.pollStatus(hash);
 
     // print('hash: $hash');
 
@@ -88,6 +94,16 @@ class MoneygramPostProcessingWatcher {
         const OnRampOrderRowsCompanion(
           status: Value(OnRampOrderStatus.completed),
           isCompleted: Value(true),
+        ),
+      );
+  }
+
+  void updateHash(String id, {required String hash}) {
+    _db.update(_db.onRampOrderRows)
+      ..where((tbl) => tbl.id.equals(id))
+      ..write(
+        OnRampOrderRowsCompanion(
+          stellarTxHash: Value(hash),
         ),
       );
   }
