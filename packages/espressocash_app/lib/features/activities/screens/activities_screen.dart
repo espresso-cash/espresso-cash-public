@@ -58,13 +58,17 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
         );
 
     Widget mapWrapper(ActivitiesTab tab) => switch (tab) {
-          ActivitiesTab.pending => PendingActivitiesList(
-              padding: insets,
-              onSendMoneyPressed: widget.onSendMoneyPressed,
+          ActivitiesTab.pending => _Wrapper(
+              child: PendingActivitiesList(
+                padding: insets,
+                onSendMoneyPressed: widget.onSendMoneyPressed,
+              ),
             ),
-          ActivitiesTab.transactions => TransactionList(
-              padding: insets,
-              onSendMoneyPressed: widget.onSendMoneyPressed,
+          ActivitiesTab.transactions => _Wrapper(
+              child: TransactionList(
+                padding: insets,
+                onSendMoneyPressed: widget.onSendMoneyPressed,
+              ),
             ),
         };
 
@@ -73,7 +77,9 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
       child: Column(
         children: [
           CpAppBar(
-            title: Text(context.l10n.activities_lblTitle.toUpperCase()),
+            title: Text(
+              context.l10n.activities_lblTitle.toUpperCase(),
+            ),
           ),
           const SizedBox(height: 20),
           Padding(
@@ -97,3 +103,30 @@ class _ActivitiesScreenState extends State<ActivitiesScreen>
 }
 
 const double _padding = 40;
+
+class _Wrapper extends StatelessWidget {
+  const _Wrapper({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          child,
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: CpColors.dashboardBackgroundColor,
+              height: 10,
+            ),
+          ),
+        ],
+      );
+}

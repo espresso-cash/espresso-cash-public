@@ -4,13 +4,10 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
-import '../../ramp/widgets/ramp_buttons.dart';
 import 'balance_amount.dart';
 
 class InvestmentHeader extends StatefulWidget {
-  const InvestmentHeader({super.key, required this.onSendMoneyPressed});
-
-  final VoidCallback onSendMoneyPressed;
+  const InvestmentHeader({super.key});
 
   @override
   State<InvestmentHeader> createState() => _InvestmentHeaderState();
@@ -26,86 +23,21 @@ class _InvestmentHeaderState extends State<InvestmentHeader> {
         decoration:
             const BoxDecoration(color: CpColors.darkGoldBackgroundColor),
         child: _HeaderSwitcher(
-          first: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _Headline(onInfo: _handleInfoPressed),
-                    const SizedBox(height: 4),
-                    const BalanceAmount(),
-                    const SizedBox(height: 2),
-                  ],
-                ),
-              ),
-              _Buttons(onSendMoneyPressed: widget.onSendMoneyPressed),
-            ],
+          first: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _Headline(onInfo: _handleInfoPressed),
+                const SizedBox(height: 4),
+                const BalanceAmount(),
+                const SizedBox(height: 12),
+              ],
+            ),
           ),
           second: _Info(onClose: _handleInfoPressed),
           showMore: _showMore,
-        ),
-      );
-}
-
-class _Buttons extends StatelessWidget {
-  const _Buttons({required this.onSendMoneyPressed});
-
-  final VoidCallback onSendMoneyPressed;
-
-  @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: const BoxDecoration(
-          color: CpColors.dashboardBackgroundColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(31),
-            topRight: Radius.circular(31),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 18,
-            top: 20,
-            right: 18,
-            bottom: 8,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Text(
-                  context.l10n.investmentHeaderButtonsTitle,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 17,
-                    letterSpacing: 0.23,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: PayOrRequestButton(
-                      voidCallback: onSendMoneyPressed,
-                    ),
-                  ),
-                  const Expanded(
-                    child: AddCashButton(size: CpButtonSize.wide),
-                  ),
-                  const Expanded(
-                    child: CashOutButton(size: CpButtonSize.wide),
-                  ),
-                ],
-              ),
-            ],
-          ),
         ),
       );
 }

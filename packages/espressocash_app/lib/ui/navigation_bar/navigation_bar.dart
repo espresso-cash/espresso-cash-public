@@ -14,7 +14,7 @@ class CPNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         // prevents from clicking below the navigation bar
         padding: const EdgeInsets.only(bottom: 8),
-        color: Colors.transparent,
+        color: CpColors.dashboardBackgroundColor,
         child: SafeArea(
           minimum: const EdgeInsets.only(
             bottom: _barPadding,
