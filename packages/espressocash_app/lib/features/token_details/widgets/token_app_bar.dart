@@ -46,7 +46,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     return Material(
       color: CpColors.darkGoldBackgroundColor,
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Stack(
           children: [
             _buildIcon(ratio, iconSize),

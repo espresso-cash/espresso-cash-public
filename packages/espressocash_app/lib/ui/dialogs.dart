@@ -129,7 +129,7 @@ Future<void> showInfoDialog(
       ),
       builder: (context) => CpTheme.black(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 40, 40, 48),
+          padding: const EdgeInsets.fromLTRB(40, 58, 40, 58),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,20 +155,17 @@ Future<void> showInfoDialog(
                       fontWeight: FontWeight.w500,
                     ),
               ),
-              const SizedBox(height: 32),
-              Row(
-                children: [
-                  Expanded(
-                    child: CpButton(
-                      text: confirmLabel ?? context.l10n.yes,
-                      width: 150,
-                      onPressed: () {
-                        Navigator.pop(context);
-                        onConfirm();
-                      },
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 47),
+              SizedBox(
+                height: 60,
+                child: CpButton(
+                  text: confirmLabel ?? context.l10n.yes,
+                  width: MediaQuery.sizeOf(context).width * 0.6,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    onConfirm();
+                  },
+                ),
               ),
             ],
           ),
