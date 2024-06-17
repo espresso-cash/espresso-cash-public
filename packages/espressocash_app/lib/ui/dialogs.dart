@@ -129,7 +129,7 @@ Future<void> showInfoDialog(
       ),
       builder: (context) => CpTheme.black(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(40, 58, 40, 58),
+          padding: const EdgeInsets.symmetric(vertical: 58, horizontal: 40),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
