@@ -21,6 +21,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../stellar/service/stellar_client.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -42,6 +43,7 @@ typedef OffRampOrder = ({
   FiatAmount? receiveAmount,
   String partnerOrderId,
   Ed25519HDPublicKey? depositAddress,
+  String? withdrawAnchorAccount,
   String? withdrawUrl,
   String? authToken,
 });
@@ -51,6 +53,7 @@ class OffRampOrderService implements Disposable {
   OffRampOrderService(
     this._account,
     this._client,
+    this._stellarClient,
     this._sender,
     this._db,
     this._tokens,
@@ -61,6 +64,7 @@ class OffRampOrderService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
+  final StellarClient _stellarClient;
   final TxSender _sender;
   final MyDatabase _db;
   final TokenList _tokens;
@@ -147,6 +151,7 @@ class OffRampOrderService implements Disposable {
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
+        withdrawAnchorAccount: row.withdrawAnchorAccount,
         fee: fee,
         withdrawUrl: row.withdrawUrl,
         authToken: row.authToken,
@@ -303,10 +308,10 @@ class OffRampOrderService implements Disposable {
 
   AsyncResult<void> updateMoneygramOrder({
     required String id,
-    required CryptoAmount? receiveAmount,
-    required FiatAmount transferAmount,
+    required FiatAmount? receiveAmount,
+    required CryptoAmount transferAmount,
     required String withdrawMemo,
-    required String depositAddress,
+    required String withdrawAnchorAccount,
     required String moreInfoUrl,
   }) =>
       tryEitherAsync((_) async {
@@ -316,11 +321,11 @@ class OffRampOrderService implements Disposable {
         await updateQuery.write(
           OffRampOrderRowsCompanion(
             receiveAmount: Value(receiveAmount?.value),
-            fiatSymbol: Value(transferAmount.currency.symbol),
-            depositAddress: Value(depositAddress),
+            fiatSymbol: Value(receiveAmount?.fiatCurrency.symbol),
+            withdrawAnchorAccount: Value(withdrawAnchorAccount),
             withdrawMemo: Value(withdrawMemo),
             moreInfoUrl: Value(moreInfoUrl),
-            status: const Value(OffRampOrderStatus.depositTxReady),
+           // status: const Value(OffRampOrderStatus.depositTxReady),
           ),
         );
       });
@@ -399,7 +404,11 @@ class OffRampOrderService implements Disposable {
           );
         case OffRampOrderStatus.sendingDepositTx:
           if (order.partner == RampPartner.moneygram) {
-            // send tx to moneygram
+            // _stellarClient.sendUsdc(
+            //   destinationAddress: order.depositAddress,
+            //   memo: order.withdrawMemo,
+            //   // amountIn: order.amount,
+            // );
             return const Stream.empty();
           } else {
             final tx = SignedTx.decode(order.transaction)

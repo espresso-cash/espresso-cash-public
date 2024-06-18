@@ -3,18 +3,21 @@ import 'package:injectable/injectable.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import '../../accounts/auth_scope.dart';
 import '../constants.dart';
+import '../models/stellar_wallet.dart';
 import '../stellar_module.dart';
 
 @LazySingleton(scope: authScope)
 class StellarClient {
   const StellarClient(
     this._ecClient,
+    this._stellarWallet,
     @stellar this._sdk,
     @soroban this._sorobanClient,
   );
 
   final StellarSDK _sdk;
   final SorobanServer _sorobanClient;
+  final StellarWallet _stellarWallet;
   final EspressoCashClient _ecClient;
 
   Future<String> fetchToken({required KeyPair wallet}) {
@@ -158,11 +161,30 @@ class StellarClient {
     return transactionResponse;
   }
 
-  Future<void> sendUsdc() async {
-    // String destinationAddress
-    // String memo  
-    // String amountIn
-    // Todo implement sending USDC to moneygram (s)
+  Future<void> sendUsdc(
+    String accountId,
+    String destinationAddress,
+    String memo,
+    double amount,
+  ) async {
+    final sourceAccount = await _sdk.accounts.account(accountId);
+
+    final transactionBuilder = TransactionBuilder(sourceAccount)
+      ..addOperation(
+        PaymentOperationBuilder(
+          destinationAddress,
+          AssetTypeNative(),
+          amount.toString(),
+        ).build(),
+      )
+      ..addMemo(MemoHash.string(memo!));
+
+    final transaction = transactionBuilder.build()
+      ..sign(_stellarWallet.keyPair, stellarNetwork);
+
+    final response = await _sdk.submitTransaction(transaction);
+
+    // return response.success;
   }
 }
 

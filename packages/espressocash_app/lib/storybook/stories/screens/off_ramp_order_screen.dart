@@ -28,6 +28,7 @@ final offRampOrderScreenStory = Story(
       partnerOrderId: 'PARTNER_ORDER_ID',
       depositAddress: null,
       fee: null,
+      withdrawAnchorAccount: null,
       withdrawUrl: null,
       authToken: null,
     ),

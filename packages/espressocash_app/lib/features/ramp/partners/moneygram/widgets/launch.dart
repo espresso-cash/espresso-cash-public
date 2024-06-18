@@ -220,20 +220,20 @@ window.addEventListener("message", (event) => {
 
           final transferAmount = Amount.fromDecimal(
             value: Decimal.parse(transaction.amountIn ?? '0'),
-            currency: Currency.usd,
-          ) as FiatAmount;
+            currency: Currency.usdc,
+          ) as CryptoAmount;
 
           final receiveAmount = Amount.fromDecimal(
             value: Decimal.parse(transaction.amountOut ?? '0'),
-            currency: Currency.usdc,
-          ) as CryptoAmount;
+            currency: Currency.usd,
+          ) as FiatAmount;
 
           await sl<OffRampOrderService>()
               .updateMoneygramOrder(
             id: id,
             receiveAmount: receiveAmount,
             transferAmount: transferAmount,
-            depositAddress: transaction.withdrawAnchorAccount ?? '',
+            withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
             moreInfoUrl: transaction.moreInfoUrl ?? '',
           )

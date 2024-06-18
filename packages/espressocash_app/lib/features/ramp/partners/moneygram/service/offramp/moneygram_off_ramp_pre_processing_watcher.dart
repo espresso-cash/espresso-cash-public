@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
+import '../../../../../accounts/models/ec_wallet.dart';
 import '../../../../../currency/models/amount.dart';
 import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
@@ -17,17 +18,19 @@ import '../../../../../stellar/service/stellar_client.dart';
 /// to stellar in order to proceed withdraw process.
 @Singleton(scope: authScope)
 class MoneygramOffRampPreProcessingWatcher {
-   MoneygramOffRampPreProcessingWatcher(
+  MoneygramOffRampPreProcessingWatcher(
     this._db,
     this._stellarClient,
+    this._ecWallet,
     this._ecClient,
-    this._wallet,
+    this._stellarWallet,
   );
 
   final MyDatabase _db;
   final EspressoCashClient _ecClient;
+  final ECWallet _ecWallet;
   final StellarClient _stellarClient;
-  final StellarWallet _wallet;
+  final StellarWallet _stellarWallet;
 
   StreamSubscription<void>? _subscription;
 
@@ -48,9 +51,9 @@ class MoneygramOffRampPreProcessingWatcher {
   }
 
   Future<void> processOrder(OffRampOrderRow order) async {
-    final accountId = _wallet.address;
+    final accountId = _stellarWallet.address;
 
-    final cashInAmount = CryptoAmount(
+    final cashOutAmount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
     );
@@ -68,17 +71,35 @@ class MoneygramOffRampPreProcessingWatcher {
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
       accountId,
-      amount: cashInAmount.decimal.toDouble(),
+      amount: cashOutAmount.decimal.toDouble(),
     );
 
     if (!hasUsdcTrustline) {
       await _stellarClient.createUsdcTrustline(
-        userKeyPair: _wallet.keyPair,
+        userKeyPair: _stellarWallet.keyPair,
         limit: 10000,
       );
     }
 
     // Todo implement bridge here
+    // final bridgeTx = await _ecClient
+    //     .swapToStellar(
+    //       SwapToStellarRequestDto(
+    //         amount: cashOutAmount.value.toString(),
+    //         solanaSenderAddress: _ecWallet.address,
+    //         stellarReceiverAddress: accountId,
+    //       ),
+    //     )
+    //     .then((e) => e.encodedTx);
+
+    // final hash = await _stellarClient.submitTransactionFromXdrString(
+    //   bridgeTx,
+    //   userKeyPair: _stellarWallet.keyPair,
+    // );
+
+    // if (hash == null) {
+    //   return;
+    // }
 
     updateOrderStatus(order.id);
   }

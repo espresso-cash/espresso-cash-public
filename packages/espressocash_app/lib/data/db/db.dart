@@ -131,6 +131,10 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.withdrawAnchorAccount,
+            );
           }
         },
       );
@@ -180,6 +184,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
 
   // Moneygram
   TextColumn get authToken => text().nullable()();
+  TextColumn get withdrawAnchorAccount => text().nullable()();
   TextColumn get withdrawMemo => text().nullable()();
   TextColumn get withdrawUrl => text().nullable()();
   TextColumn get moreInfoUrl => text().nullable()();
