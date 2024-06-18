@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
+import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
@@ -56,6 +57,15 @@ class MoneygramPostProcessingWatcher {
   }
 
   Future<void> processOrder(OnRampOrderRow order) async {
+    final existingHash = order.stellarTxHash;
+    final id = order.id;
+
+    if (existingHash != null) {
+      await _pollSolanaWallet();
+
+      return;
+    }
+
     final amount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
@@ -83,31 +93,34 @@ class MoneygramPostProcessingWatcher {
       );
     }
 
-    // final hash = await _stellarClient.submitTransactionFromXdrString(
-    //   bridgeTx,
-    //   userKeyPair: _stellarWallet.keyPair,
-    // );
+    final hash = await _stellarClient.submitTransactionFromXdrString(
+      bridgeTx,
+      userKeyPair: _stellarWallet.keyPair,
+    );
 
-    // if (hash == null) {
-    //   return;
-    // }
+    if (hash == null) {
+      return;
+    }
 
-    // updateHash(
-    //   order.id,
-    //   hash: 'hash',
-    // );
     //TODO verify, this may recall the function
 
-    // final result = await _stellarClient.pollStatus(hash);
+    final result = await _stellarClient.pollStatus(hash);
 
-    // print('hash: $hash');
+    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
+      // Tx failed, retry
 
-    // TODOcheck if amount is receievd in solana wallet, it should take a few mins
+      return;
+    }
 
-    // updateOrderStatus(order.id);
+    _updateStellarTxHash(id, hash: hash);
   }
 
-  void updateOrderStatus(String id) {
+  Future<void> _pollSolanaWallet() async {
+    //TODO
+    await Future.delayed(const Duration(seconds: 10));
+  }
+
+  void _updateOrderStatus(String id) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
@@ -118,7 +131,7 @@ class MoneygramPostProcessingWatcher {
       );
   }
 
-  void updateHash(String id, {required String hash}) {
+  void _updateStellarTxHash(String id, {required String hash}) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
