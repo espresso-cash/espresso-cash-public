@@ -65,9 +65,10 @@ class TransactionStatus with _$TransactionStatus {
       _$TransactionStatusFromJson(json);
 }
 
-@JsonEnum(fieldRename: FieldRename.none)
+@JsonEnum(fieldRename: FieldRename.snake)
 enum MgStatus {
   incomplete,
+  pendingAnchor,
   pendingUserTransferStart,
   pendingUserTransferComplete,
   expired,

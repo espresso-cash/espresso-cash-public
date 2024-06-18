@@ -161,30 +161,33 @@ class StellarClient {
     return transactionResponse;
   }
 
-  Future<void> sendUsdc(
+  Future<bool> sendUsdc(
     String accountId,
     String destinationAddress,
     String memo,
-    double amount,
+    String amount,
   ) async {
     final sourceAccount = await _sdk.accounts.account(accountId);
+
+    final Asset usdcAsset =
+        Asset.createNonNativeAsset('USDC', moneygramAssetIssuer);
 
     final transactionBuilder = TransactionBuilder(sourceAccount)
       ..addOperation(
         PaymentOperationBuilder(
           destinationAddress,
-          AssetTypeNative(),
-          amount.toString(),
+          usdcAsset,
+          amount,
         ).build(),
       )
-      ..addMemo(MemoHash.string(memo!));
+      ..addMemo(Memo.text(memo));
 
     final transaction = transactionBuilder.build()
       ..sign(_stellarWallet.keyPair, stellarNetwork);
 
     final response = await _sdk.submitTransaction(transaction);
 
-    // return response.success;
+    return response.success;
   }
 }
 
