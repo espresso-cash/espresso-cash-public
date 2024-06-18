@@ -9,8 +9,6 @@ import 'data/token_repository.dart';
 import 'services/token_service.dart';
 import 'token.dart';
 
-part 'token_list.g.dart';
-
 class TokenList {
   factory TokenList({
     int chainId = currentChainId,
