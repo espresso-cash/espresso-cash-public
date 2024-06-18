@@ -1,6 +1,3 @@
-import 'package:collection/collection.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart' show visibleForTesting;
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,20 +11,10 @@ import 'token.dart';
 
 part 'token_list.g.dart';
 
-// ignore: invalid_annotation_target, we need const here
-@JsonLiteral('solana.tokenlist.json', asConst: true)
-const Map<String, dynamic> _solanaTokenList = _$_solanaTokenListJsonLiteral;
-
-// ignore: invalid_annotation_target, we need const here
-@JsonLiteral('local.tokenlist.json', asConst: true)
-@visibleForTesting
-const Map<String, dynamic> localTokenList = _$localTokenListJsonLiteral;
-
 class TokenList {
   factory TokenList({
     int chainId = currentChainId,
     TokenService? service,
-    @visibleForTesting Map<String, dynamic>? data,
   }) {
     if (_instance?.chainId == chainId) {
       // ignore: avoid-non-null-assertion, cannot be null here
@@ -35,7 +22,6 @@ class TokenList {
     }
     _instance = TokenList._(
       chainId: chainId,
-      data: data ?? _solanaTokenList,
       service: service ?? TokenService(_repository),
     );
 
@@ -45,10 +31,8 @@ class TokenList {
 
   TokenList._({
     required this.chainId,
-    required Map<String, dynamic> data,
     required this.service,
-  })  : _parsedContent = ParsedContent.fromJson(data),
-        _allTokensDB = [] {
+  }) {
     initialize();
   }
   static TokenList? _instance;
@@ -58,24 +42,11 @@ class TokenList {
 
   final TokenService service;
 
-  final ParsedContent _parsedContent;
   final int chainId;
 
-  Iterable<TokenRow> _allTokensDB;
-
-  Iterable<Token> get _allTokens => _parsedContent.tokens;
-
-  Iterable<Token> get tokens => _allTokens.where((t) => t.chainId == chainId);
-
-  Iterable<TokenRow> get tokensDB =>
-      _allTokensDB.where((t) => t.chainId == chainId);
-
-  Token? findTokenByMint(String mint) => mint == Token.sol.address
+  Token getTokenByMint(String mint) => mint == Token.sol.address
       ? Token.sol
-      : tokens.firstWhereOrNull((t) => t.address == mint);
-
-  // ignore: avoid-non-null-assertion, cannot be null here
-  Token requireTokenByMint(String mint) => findTokenByMint(mint)!;
+      : service.tokenRepository.getToken(mint);
 
   Future<void> initialize() async {
     final csvFilePath = Assets.tokens.values.first;

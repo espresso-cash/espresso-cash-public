@@ -48,9 +48,7 @@ extension SolanaPayRequestExt on SolanaPayRequest {
     final splToken = this.splToken;
     final token = splToken == null
         ? Token.sol
-        : tokenList.findTokenByMint(splToken.toBase58());
-
-    if (token == null) return null;
+        : tokenList.getTokenByMint(splToken.toBase58());
 
     final currency = CryptoCurrency(token: token);
 

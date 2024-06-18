@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:espressocash_app/features/tokens/token_list.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:solana/solana.dart';
 
 import '../test/keys/keys.dart';
@@ -28,21 +28,15 @@ Future<void> main() async {
 
   final accountKey = await Ed25519HDKeyPair.fromMnemonic(accountMnemonic);
 
-  // ignore: invalid_use_of_visible_for_testing_member, part of tests setup
-  final tokenList = TokenList(data: localTokenList);
-
   await solanaClient.createAndFundAccount(accountKey.address, sol: 1000);
   print('created test account');
 
-  await Future.wait(
-    tokenList.tokens.map(
-      (token) => solanaClient.airdropSplTokens(
-        accountKey.publicKey,
-        token,
-        amount: 100000,
-      ),
-    ),
+  await solanaClient.airdropSplTokens(
+    accountKey.publicKey,
+    Token.sol,
+    amount: 100000,
   );
+
   print('airdropped some tokens');
 
   print('all done');

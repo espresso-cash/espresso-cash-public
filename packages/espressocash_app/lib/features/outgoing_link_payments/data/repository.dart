@@ -139,7 +139,7 @@ extension OLPRowExt on OLPRow {
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(
-            token: tokens.requireTokenByMint(token),
+            token: tokens.getTokenByMint(token),
           ),
         ),
         status: status.toOLPStatus(this),

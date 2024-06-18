@@ -96,7 +96,7 @@ extension ODPRowExt on ODPRow {
         reference: reference?.let(Ed25519HDPublicKey.fromBase58),
         amount: CryptoAmount(
           value: amount,
-          cryptoCurrency: CryptoCurrency(token: tokens.findTokenByMint(token)!),
+          cryptoCurrency: CryptoCurrency(token: tokens.getTokenByMint(token)),
         ),
         created: created,
         status: status.toModel(this),

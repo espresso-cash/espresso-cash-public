@@ -102,7 +102,7 @@ class OffRampOrderService implements Disposable {
       final amount = CryptoAmount(
         value: row.amount,
         cryptoCurrency: CryptoCurrency(
-          token: _tokens.requireTokenByMint(row.token),
+          token: _tokens.getTokenByMint(row.token),
         ),
       );
 
@@ -115,7 +115,7 @@ class OffRampOrderService implements Disposable {
           return CryptoAmount(
             value: amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(token),
+              token: _tokens.getTokenByMint(token),
             ),
           );
         },
@@ -364,7 +364,7 @@ class OffRampOrderService implements Disposable {
   CryptoAmount _amount(OffRampOrderRow order) => CryptoAmount(
         value: order.amount,
         cryptoCurrency: CryptoCurrency(
-          token: _tokens.requireTokenByMint(order.token),
+          token: _tokens.getTokenByMint(order.token),
         ),
       );
 

@@ -119,10 +119,9 @@ class _MainTokenAccount {
 
     if (expectedPubKey.toBase58() != pubKey) return null;
 
-    final token = tokens.findTokenByMint(info.mint);
+    final token = tokens.getTokenByMint(info.mint);
 
-    // TODO(IA): we should find a way to display this
-    return token == null ? null : _MainTokenAccount._(pubKey, info, token);
+    return _MainTokenAccount._(pubKey, info, token);
   }
 
   final Token token;

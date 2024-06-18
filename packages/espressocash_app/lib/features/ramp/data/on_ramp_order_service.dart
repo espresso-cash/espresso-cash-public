@@ -179,14 +179,14 @@ class OnRampOrderService implements Disposable {
           submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(row.token),
+              token: _tokens.getTokenByMint(row.token),
             ),
           ),
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
               cryptoCurrency: CryptoCurrency(
-                token: _tokens.requireTokenByMint(row.token),
+                token: _tokens.getTokenByMint(row.token),
               ),
             ),
           ),

@@ -168,17 +168,3 @@ class Extensions {
 
   final String? coingeckoId;
 }
-
-@JsonSerializable(createToJson: false)
-class ParsedContent {
-  const ParsedContent({
-    required this.timestamp,
-    required this.tokens,
-  });
-
-  factory ParsedContent.fromJson(Map<String, dynamic> json) =>
-      _$ParsedContentFromJson(json);
-
-  final List<Token> tokens;
-  final DateTime timestamp;
-}

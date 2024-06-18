@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
@@ -37,7 +38,7 @@ class TokenBalancesRepository {
 
     return query.get().then(
           (rows) => rows
-              .map((row) => _tokens.findTokenByMint(row.token))
+              .map((row) => _tokens.getTokenByMint(row.token))
               .whereNotNull()
               .toISet(),
         );
@@ -55,7 +56,7 @@ class TokenBalancesRepository {
 
     return query.watch().map(
           (rows) => rows
-              .map((row) => _tokens.findTokenByMint(row.token))
+              .map((row) => _tokens.getTokenByMint(row.token))
               .whereNotNull()
               .toISet(),
         );
@@ -74,18 +75,19 @@ class TokenBalancesRepository {
     return query.watch().map(
           (rows) => rows
               .map((row) {
-                final token = _tokens.findTokenByMint(row.token);
+                final token = _tokens.getTokenByMint(row.token);
 
                 if (ignoreTokens.contains(token)) {
                   return null;
                 }
-
-                return token == null
-                    ? null
-                    : CryptoAmount(
-                        value: row.amount,
-                        cryptoCurrency: CryptoCurrency(token: token),
-                      );
+                try {
+                  return CryptoAmount(
+                    value: row.amount,
+                    cryptoCurrency: CryptoCurrency(token: token),
+                  );
+                } on Exception catch (e) {
+                  debugPrint('Error while creating CryptoAmount: $e');
+                }
               })
               .whereNotNull()
               .sortedBy((element) => element.token.name)
