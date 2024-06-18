@@ -12,30 +12,11 @@ class TokenListRepository {
 
   final MyDatabase _db;
 
-  Token getToken(String address) {
+  Future<TokenRow> getToken(String address) async {
     final query = _db.select(_db.tokenRows)
-      ..where((token) => token.address.equals(address));
-
-    Token? token;
-    final completer = Completer<void>();
-
-    query.getSingle().then((row) {
-      token = _db.tokenRows.toModel(row);
-      completer.complete();
-    });
-
-    completer.future.then((_) {}).catchError((_) {});
-
-    if (completer.isCompleted) {
-      if (token != null) {
-        // ignore: avoid-non-null-assertion, cannot be null here
-        return token!;
-      } else {
-        throw Exception('Error fetching token');
-      }
-    } else {
-      throw Exception('Error fetching token');
-    }
+      ..where((token) => token.address.equals(address))
+      ..limit(1);
+    return query.getSingle();
   }
 
   Future<dynamic> insertToken(Insertable<TokenRow> token) =>

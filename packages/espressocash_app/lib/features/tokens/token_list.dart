@@ -42,9 +42,27 @@ class TokenList {
 
   final int chainId;
 
-  Token getTokenByMint(String mint) => mint == Token.sol.address
-      ? Token.sol
-      : service.tokenRepository.getToken(mint);
+  Future<Token> getTokenByMint(String mint) {
+    if (mint == Token.sol.address) {
+      return Future.value(Token.sol);
+    }
+    if (mint == Token.usdc.address) {
+      return Future.value(Token.usdc);
+    } else {
+      return service.tokenRepository.getToken(mint).then(
+            (onValue) => Token(
+              address: onValue.address,
+              chainId: onValue.chainId,
+              decimals: onValue.decimals,
+              logoURI: onValue.logoURI,
+              name: onValue.name,
+              symbol: onValue.symbol,
+              tags: onValue.tags,
+              extensions: onValue.extensions,
+            ),
+          );
+    }
+  }
 
   Future<void> initialize() async {
     final csvFilePath = Assets.tokens.values.first;
