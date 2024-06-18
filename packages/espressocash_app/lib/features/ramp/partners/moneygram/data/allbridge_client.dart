@@ -6,7 +6,7 @@ import 'package:retrofit/retrofit.dart';
 import 'allbridge_dto.dart';
 part 'allbridge_client.g.dart';
 
-@RestApi(baseUrl: 'http://localhost:3000')
+@RestApi(baseUrl: 'https://allbridge.espressocash.com')
 @injectable
 abstract class AllbridgeApiClient {
   @factoryMethod

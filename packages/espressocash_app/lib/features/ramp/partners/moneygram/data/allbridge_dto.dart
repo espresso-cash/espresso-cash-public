@@ -20,8 +20,8 @@ class BridgeStatusResponseDto with _$BridgeStatusResponseDto {
     required String txId,
     required String senderAddress,
     required String recipientAddress,
-    required TransactionStatus send,
-    required TransactionStatus receive,
+    required TransactionStatus? send,
+    required TransactionStatus? receive,
   }) = _BridgeStatusResponseDto;
 
   factory BridgeStatusResponseDto.fromJson(Map<String, dynamic> json) =>
