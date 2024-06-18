@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
+import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
@@ -17,6 +18,8 @@ import '../../../../../stellar/service/stellar_client.dart';
 /// Watches for [OnRampOrderStatus.postProcessing] Moneygram orders. This will
 /// bridge the USDC on Stellar to Solana. It will also check if the user has
 /// enough XLM to pay for the transaction.
+///
+/// Completes the order when amount is received in Solana.
 @Singleton(scope: authScope)
 class MoneygramPostProcessingWatcher {
   MoneygramPostProcessingWatcher(
@@ -24,6 +27,7 @@ class MoneygramPostProcessingWatcher {
     this._stellarClient,
     this._ecClient,
     this._stellarWallet,
+    this._solanaClient,
     ECWallet ecWallet,
   ) : _solanaAddress = ecWallet.publicKey;
 
@@ -31,6 +35,7 @@ class MoneygramPostProcessingWatcher {
   final EspressoCashClient _ecClient;
   final StellarClient _stellarClient;
   final StellarWallet _stellarWallet;
+  final SolanaClient _solanaClient;
   final Ed25519HDPublicKey _solanaAddress;
 
   StreamSubscription<void>? _subscription;
@@ -52,6 +57,15 @@ class MoneygramPostProcessingWatcher {
   }
 
   Future<void> processOrder(OnRampOrderRow order) async {
+    final existingHash = order.stellarTxHash;
+    final id = order.id;
+
+    if (existingHash != null) {
+      await _pollSolanaWallet();
+
+      return;
+    }
+
     final amount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
@@ -67,6 +81,18 @@ class MoneygramPostProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
+    final accountId = _stellarWallet.address;
+    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
+
+    if (xlmBalance <= _minimumXlmBalance) {
+      await _ecClient.fundXlmRequest(
+        FundXlmRequestDto(
+          accountId: accountId,
+          type: FundType.bridge,
+        ),
+      );
+    }
+
     final hash = await _stellarClient.submitTransactionFromXdrString(
       bridgeTx,
       userKeyPair: _stellarWallet.keyPair,
@@ -76,18 +102,25 @@ class MoneygramPostProcessingWatcher {
       return;
     }
 
-    updateHash(order.id, hash: hash);
+    //TODO verify, this may recall the function
 
     final result = await _stellarClient.pollStatus(hash);
 
-    // print('hash: $hash');
+    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
+      // Tx failed, retry
 
-    // TODOcheck if amount is receievd in solana wallet, it should take a few mins
+      return;
+    }
 
-    // updateOrderStatus(order.id);
+    _updateStellarTxHash(id, hash: hash);
   }
 
-  void updateOrderStatus(String id) {
+  Future<void> _pollSolanaWallet() async {
+    //TODO
+    await Future.delayed(const Duration(seconds: 10));
+  }
+
+  void _updateOrderStatus(String id) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
@@ -98,7 +131,7 @@ class MoneygramPostProcessingWatcher {
       );
   }
 
-  void updateHash(String id, {required String hash}) {
+  void _updateStellarTxHash(String id, {required String hash}) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
@@ -114,3 +147,5 @@ class MoneygramPostProcessingWatcher {
     _subscription = null;
   }
 }
+
+const _minimumXlmBalance = 2.5; // 1.5 XLM
