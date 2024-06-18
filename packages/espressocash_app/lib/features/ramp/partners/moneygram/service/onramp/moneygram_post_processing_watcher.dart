@@ -71,35 +71,36 @@ class MoneygramPostProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
-    // if (xlmBalance <= _minimumXlmBalance) {
-    //   await _ecClient.fundXlmRequest(
-    //     FundXlmRequestDto(
-    //       accountId: accountId,
-    //       type: FundType.init,
-    //     ),
-    //   );
-    // }
+    final accountId = _stellarWallet.address;
+    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
 
-    //TODO simulate and check if enough funds
-
-    final hash = await _stellarClient.submitTransactionFromXdrString(
-      bridgeTx,
-      userKeyPair: _stellarWallet.keyPair,
-    );
-
-    if (hash == null) {
-      return;
+    if (xlmBalance <= _minimumXlmBalance) {
+      await _ecClient.fundXlmRequest(
+        FundXlmRequestDto(
+          accountId: accountId,
+          type: FundType.bridge,
+        ),
+      );
     }
 
-    updateHash(
-      order.id,
-      hash: hash,
-    );
+    // final hash = await _stellarClient.submitTransactionFromXdrString(
+    //   bridgeTx,
+    //   userKeyPair: _stellarWallet.keyPair,
+    // );
+
+    // if (hash == null) {
+    //   return;
+    // }
+
+    // updateHash(
+    //   order.id,
+    //   hash: 'hash',
+    // );
     //TODO verify, this may recall the function
 
-    final result = await _stellarClient.pollStatus(hash);
+    // final result = await _stellarClient.pollStatus(hash);
 
-    print('hash: $hash');
+    // print('hash: $hash');
 
     // TODOcheck if amount is receievd in solana wallet, it should take a few mins
 
@@ -133,3 +134,5 @@ class MoneygramPostProcessingWatcher {
     _subscription = null;
   }
 }
+
+const _minimumXlmBalance = 2.5; // 1.5 XLM

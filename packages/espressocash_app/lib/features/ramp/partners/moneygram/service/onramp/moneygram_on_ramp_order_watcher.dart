@@ -42,6 +42,11 @@ class MoneygramOnRampOrderWatcher implements RampWatcher {
               tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
         );
 
+      final amount = CryptoAmount(
+        value: order.amount,
+        cryptoCurrency: Currency.usdc,
+      );
+
       final usdcBalance =
           await _stellarClient.getUsdcBalance(_stellarWallet.address) ?? 0;
 
@@ -50,14 +55,12 @@ class MoneygramOnRampOrderWatcher implements RampWatcher {
         return;
       }
 
-      final amount = CryptoAmount(
-        value: order.amount,
-        cryptoCurrency: Currency.usdc,
-      );
+      if (usdcBalance < amount.decimal.toDouble()) {
+        // Not enough funds
+        return;
+      }
 
       final payments = await _stellarClient.getPayments(_stellarWallet.address);
-
-      //TODO verify memo
 
       await statement.write(
         const OnRampOrderRowsCompanion(

@@ -244,6 +244,7 @@ class _Timeline extends StatelessWidget {
       depositInitiated,
       if (isManualBankTransfer)
         CpTimelineItem(
+          //TODO label
           title: context.l10n.onRampLocalTransferTile(
             manualDeposit.transferAmount.format(context.locale),
             manualDeposit.bankName,
