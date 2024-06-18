@@ -41,29 +41,5 @@ class MoneygramOffRampPostProcessingWatcher {
     }
   }
 
-  Future<void> _subscribe(OffRampOrderRow order) async {
-    final id = order.id;
-    final accountId = _wallet.address;
-
-    final orderId = order.partnerOrderId;
-    String? token = order.authToken;
-
-    token ??= await _stellarClient.fetchToken(wallet: _wallet.keyPair);
-
-    final transaction = await _apiClient
-        .fetchTransaction(
-          id: orderId,
-          authHeader: token.toAuthHeader(),
-        )
-        .then((e) => e.transaction);
-
-    if (transaction.status == MgStatus.pendingUserTransferStart) {
-      await _stellarClient.sendUsdc(
-        accountId,
-        order.withdrawAnchorAccount ?? '',
-        order.withdrawMemo ?? '',
-        transaction.amountIn ?? '',
-      );
-    }
-  }
+  Future<void> _subscribe(OffRampOrderRow order) async {}
 }

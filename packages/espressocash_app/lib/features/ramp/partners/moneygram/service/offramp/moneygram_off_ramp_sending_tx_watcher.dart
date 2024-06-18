@@ -8,13 +8,12 @@ import '../../../../../accounts/auth_scope.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
-import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
-/// Watches for [OffRampOrderStatus.waitingForPartner]
+/// Watches for [OffRampOrderStatus.sendingDepositTx]
 @Singleton(scope: authScope)
-class MoneygramOffRampOrderWatcher {
-  MoneygramOffRampOrderWatcher(
+class MoneygramOffRampSendingTXWatcher {
+  MoneygramOffRampSendingTXWatcher(
     this._db,
     this._apiClient,
     this._stellarClient,
@@ -33,7 +32,7 @@ class MoneygramOffRampOrderWatcher {
     final processing = _db.select(_db.offRampOrderRows)
       ..where(
         (tbl) =>
-            tbl.status.equalsValue(OffRampOrderStatus.waitingForPartner) &
+            tbl.status.equalsValue(OffRampOrderStatus.sendingDepositTx) &
             tbl.partner.equalsValue(RampPartner.moneygram),
       );
 
@@ -45,6 +44,8 @@ class MoneygramOffRampOrderWatcher {
   }
 
   Future<void> processOrder(OffRampOrderRow order) async {
+    final accountId = _wallet.address;
+
     final orderId = order.partnerOrderId;
     String? token = order.authToken;
 
@@ -57,7 +58,14 @@ class MoneygramOffRampOrderWatcher {
         )
         .then((e) => e.transaction);
 
-    if (transaction.status == MgStatus.pendingUserTransferComplete) {
+    final transactionSucceed = await _stellarClient.sendUsdc(
+      accountId,
+      destinationAddress: order.withdrawAnchorAccount ?? '',
+      memo: order.withdrawMemo ?? '',
+      amount: transaction.amountIn ?? '',
+    );
+
+    if (transactionSucceed) {
       updateOrderStatus(order.id);
     }
   }
@@ -67,7 +75,7 @@ class MoneygramOffRampOrderWatcher {
       ..where((tbl) => tbl.id.equals(id))
       ..write(
         const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.waitingPickup),
+          status: Value(OffRampOrderStatus.waitingForPartner),
         ),
       );
   }

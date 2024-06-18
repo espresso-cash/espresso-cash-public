@@ -108,6 +108,16 @@ class OffRampOrderScreenContent extends StatelessWidget {
       );
     }
 
+    Future<void> handleMoreInfo() async {
+      final withdrawUrl = order.moreInfoUrl ?? '';
+      await WebViewScreen.push(
+        context,
+        url: Uri.parse(withdrawUrl),
+        title: context.l10n.ramp_titleCashOut,
+        theme: const CpThemeData.light(),
+      );
+    }
+
     final String? statusTitle = order.status == OffRampOrderStatus.completed
         ? context.l10n.transferSuccessTitle
         : null;
@@ -127,6 +137,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
         ),
       OffRampOrderStatus.waitingForPartner =>
         context.l10n.offRampWaitingForPartner,
+      OffRampOrderStatus.waitingPickup => context.l10n.offRampWaitingForPartner,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
@@ -147,6 +158,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.failure => const _ContactUsButton(),
       OffRampOrderStatus.postProcessing =>
         _ContinueButton(handleContinue: handleContinue),
+      OffRampOrderStatus.waitingPickup =>
+        _MoreInfoButton(handleMoreInfo: handleMoreInfo),
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
@@ -217,6 +230,21 @@ class _ContinueButton extends StatelessWidget {
         // todo add to l10n
         text: 'Continue',
         onPressed: handleContinue,
+      );
+}
+
+class _MoreInfoButton extends StatelessWidget {
+  const _MoreInfoButton({required this.handleMoreInfo});
+
+  final VoidCallback handleMoreInfo;
+
+  @override
+  Widget build(BuildContext context) => CpButton(
+        size: CpButtonSize.big,
+        width: double.infinity,
+        // todo add to l10n
+        text: 'View more',
+        onPressed: handleMoreInfo,
       );
 }
 
@@ -315,6 +343,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OffRampOrderStatus.depositError ||
@@ -333,6 +362,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -357,6 +387,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
+        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           2,

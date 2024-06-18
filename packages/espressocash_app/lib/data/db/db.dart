@@ -202,18 +202,19 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
-  preProcessing, // it means that bridge was done, but user have not finished iframe flow yet
-  postProcessing, // after iframe flow done
+  preProcessing, 
+  postProcessing, 
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,
   sendingDepositTx,
   depositError,
   depositTxConfirmError,
-  waitingForPartner, // send money to moneygram and waiting for user pickup
+  waitingForPartner,
+  waitingPickup, 
   failure,
-  completed, // after pickup
-  cancelled, // bridge Stellar usdc back to solana
+  completed,
+  cancelled, 
   insufficientFunds,
 }
 

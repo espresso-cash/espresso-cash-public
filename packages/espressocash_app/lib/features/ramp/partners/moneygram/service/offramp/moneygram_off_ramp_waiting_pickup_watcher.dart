@@ -8,13 +8,12 @@ import '../../../../../accounts/auth_scope.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
-import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
-/// Watches for [OffRampOrderStatus.waitingForPartner]
+/// Watches for [OffRampOrderStatus.waitingPickup]
 @Singleton(scope: authScope)
-class MoneygramOffRampOrderWatcher {
-  MoneygramOffRampOrderWatcher(
+class MoneygramOffRampWaitingPickupWatcher {
+  MoneygramOffRampWaitingPickupWatcher(
     this._db,
     this._apiClient,
     this._stellarClient,
@@ -33,7 +32,7 @@ class MoneygramOffRampOrderWatcher {
     final processing = _db.select(_db.offRampOrderRows)
       ..where(
         (tbl) =>
-            tbl.status.equalsValue(OffRampOrderStatus.waitingForPartner) &
+            tbl.status.equalsValue(OffRampOrderStatus.waitingPickup) &
             tbl.partner.equalsValue(RampPartner.moneygram),
       );
 
@@ -45,32 +44,10 @@ class MoneygramOffRampOrderWatcher {
   }
 
   Future<void> processOrder(OffRampOrderRow order) async {
-    final orderId = order.partnerOrderId;
-    String? token = order.authToken;
-
-    token ??= await _stellarClient.fetchToken(wallet: _wallet.keyPair);
-
-    final transaction = await _apiClient
-        .fetchTransaction(
-          id: orderId,
-          authHeader: token.toAuthHeader(),
-        )
-        .then((e) => e.transaction);
-
-    if (transaction.status == MgStatus.pendingUserTransferComplete) {
-      updateOrderStatus(order.id);
-    }
+    // todo this will complete order, need to know MG Status when user picked money;
   }
 
-  void updateOrderStatus(String id) {
-    _db.update(_db.offRampOrderRows)
-      ..where((tbl) => tbl.id.equals(id))
-      ..write(
-        const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.waitingPickup),
-        ),
-      );
-  }
+  void updateOrderStatus(String id) {}
 
   @disposeMethod
   void dispose() {

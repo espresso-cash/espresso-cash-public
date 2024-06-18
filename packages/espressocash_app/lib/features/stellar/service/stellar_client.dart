@@ -162,11 +162,11 @@ class StellarClient {
   }
 
   Future<bool> sendUsdc(
-    String accountId,
-    String destinationAddress,
-    String memo,
-    String amount,
-  ) async {
+    String accountId, {
+    required String destinationAddress,
+    required String memo,
+    required String amount,
+  }) async {
     final sourceAccount = await _sdk.accounts.account(accountId);
 
     final Asset usdcAsset =

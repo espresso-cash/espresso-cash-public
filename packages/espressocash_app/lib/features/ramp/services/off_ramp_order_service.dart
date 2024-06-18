@@ -43,6 +43,7 @@ typedef OffRampOrder = ({
   FiatAmount? receiveAmount,
   String partnerOrderId,
   Ed25519HDPublicKey? depositAddress,
+  String? moreInfoUrl,
   String? withdrawAnchorAccount,
   String? withdrawUrl,
   String? authToken,
@@ -53,7 +54,6 @@ class OffRampOrderService implements Disposable {
   OffRampOrderService(
     this._account,
     this._client,
-    this._stellarClient,
     this._sender,
     this._db,
     this._tokens,
@@ -64,7 +64,6 @@ class OffRampOrderService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
-  final StellarClient _stellarClient;
   final TxSender _sender;
   final MyDatabase _db;
   final TokenList _tokens;
@@ -152,6 +151,7 @@ class OffRampOrderService implements Disposable {
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
         withdrawAnchorAccount: row.withdrawAnchorAccount,
+        moreInfoUrl: row.moreInfoUrl,
         fee: fee,
         withdrawUrl: row.withdrawUrl,
         authToken: row.authToken,
@@ -197,6 +197,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
+      case OffRampOrderStatus.waitingPickup:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
@@ -223,6 +224,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
+      case OffRampOrderStatus.waitingPickup:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
@@ -325,7 +327,7 @@ class OffRampOrderService implements Disposable {
             withdrawAnchorAccount: Value(withdrawAnchorAccount),
             withdrawMemo: Value(withdrawMemo),
             moreInfoUrl: Value(moreInfoUrl),
-           // status: const Value(OffRampOrderStatus.depositTxReady),
+            status: const Value(OffRampOrderStatus.depositTxReady),
           ),
         );
       });
@@ -363,7 +365,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.moneygram => sl<MoneygramOffRampOrderWatcher>(),
+      RampPartner.moneygram || //=> sl<MoneygramOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
@@ -384,6 +386,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.postProcessing:
         case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
+        case OffRampOrderStatus.waitingPickup:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(
@@ -404,19 +407,12 @@ class OffRampOrderService implements Disposable {
           );
         case OffRampOrderStatus.sendingDepositTx:
           if (order.partner == RampPartner.moneygram) {
-            // _stellarClient.sendUsdc(
-            //   destinationAddress: order.depositAddress,
-            //   memo: order.withdrawMemo,
-            //   // amountIn: order.amount,
-            // );
             return const Stream.empty();
-          } else {
-            final tx = SignedTx.decode(order.transaction)
-                .let((it) => (it, order.slot));
-
-            return Stream.fromFuture(_sendTx(tx));
           }
 
+          final tx =
+              SignedTx.decode(order.transaction).let((it) => (it, order.slot));
+          return Stream.fromFuture(_sendTx(tx));
         case OffRampOrderStatus.depositTxReady:
           return Stream.value(
             const OffRampOrderRowsCompanion(
