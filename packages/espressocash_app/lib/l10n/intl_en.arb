@@ -823,5 +823,11 @@
   "received": "Received",
   "@received": {},
   "failed": "Failed",
-  "@failed": {}
+  "@failed": {},
+  "moreInfo": "More info",
+  "@moreInfo": {},
+  "openMoneygram": "Open Moneygram",
+  "@openMoneygram": {},
+  "bridgingText": "Bridging USDC to Stellar",
+  "@bridgingText": {}
 }

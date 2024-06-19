@@ -8,7 +8,6 @@ import '../../../../../accounts/auth_scope.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
-import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
 @Singleton(scope: authScope)

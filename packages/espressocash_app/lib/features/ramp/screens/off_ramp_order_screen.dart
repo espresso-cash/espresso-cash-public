@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
@@ -21,6 +22,7 @@ import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/off_ramp_order_service.dart';
 import '../widgets/off_ramp_confirmation.dart';
@@ -84,6 +86,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
       return OffRampConfirmation(order: order);
     }
 
+    final isMoneygramOrder = order.partner == RampPartner.moneygram;
+
     final locale = DeviceLocale.localeOf(context);
 
     void handleCanceled() => showConfirmationDialog(
@@ -127,7 +131,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     final String statusContent = switch (order.status) {
       OffRampOrderStatus.preProcessing ||
-      OffRampOrderStatus.postProcessing ||
+      OffRampOrderStatus.postProcessing || // => 'Bridging USDC to Stellar',
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -157,12 +161,14 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.failure => const _ContactUsButton(),
       OffRampOrderStatus.postProcessing =>
         _ContinueButton(handleContinue: handleContinue),
+      OffRampOrderStatus.waitingForPartner => isMoneygramOrder
+          ? _MoreInfoButton(handleMoreInfo: handleMoreInfo)
+          : null,
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
-      OffRampOrderStatus.waitingForPartner ||
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.cancelled =>
         null,
@@ -225,7 +231,7 @@ class _ContinueButton extends StatelessWidget {
         size: CpButtonSize.big,
         width: double.infinity,
         // todo add to l10n
-        text: 'Continue',
+        text: context.l10n.openMoneygram,
         onPressed: handleContinue,
       );
 }
@@ -240,7 +246,7 @@ class _MoreInfoButton extends StatelessWidget {
         size: CpButtonSize.big,
         width: double.infinity,
         // todo add to l10n
-        text: 'View more',
+        text: context.l10n.moreInfo,
         onPressed: handleMoreInfo,
       );
 }
@@ -287,14 +293,20 @@ class _Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
     final animated = timelineStatus == CpTimelineStatus.inProgress;
-    final int activeItem = order.status.toActiveItem();
+    final int activeItem = isMoneygramOrder
+        ? order.status.toActiveItemForMoneygram()
+        : order.status.toActiveItem();
 
     final withdrawInitiated = CpTimelineItem(
       title: context.l10n.offRampWithdrawInitiated,
       trailing: amount.format(context.locale),
       subtitle: order.created.let((t) => context.formatDate(t)),
+    );
+    final bridgingToStellar = CpTimelineItem(
+      title: context.l10n.bridgingText,
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,
@@ -313,6 +325,10 @@ class _Timeline extends StatelessWidget {
       amountSent,
       paymentSuccess,
     ];
+
+    if (isMoneygramOrder) {
+      normalItems.insert(1, bridgingToStellar);
+    }
 
     final cancelingItems = [
       withdrawInitiated,
@@ -370,9 +386,9 @@ extension on OffRampOrderStatus {
       };
 
   int toActiveItem() => switch (this) {
-        OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
@@ -385,5 +401,24 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           2,
+      };
+
+  int toActiveItemForMoneygram() => switch (this) {
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.depositError ||
+        OffRampOrderStatus.depositTxConfirmError ||
+        OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.cancelled =>
+          1,
+        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.creatingDepositTx ||
+        OffRampOrderStatus.depositTxReady =>
+          2,
+        OffRampOrderStatus.waitingForPartner ||
+        OffRampOrderStatus.failure ||
+        OffRampOrderStatus.completed =>
+          3,
       };
 }
