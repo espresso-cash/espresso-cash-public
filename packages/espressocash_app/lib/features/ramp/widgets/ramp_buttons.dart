@@ -264,7 +264,7 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.moneygram: //TODO
+      case RampPartner.moneygram:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
