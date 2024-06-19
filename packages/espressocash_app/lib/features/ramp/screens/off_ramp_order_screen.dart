@@ -137,7 +137,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
         ),
       OffRampOrderStatus.waitingForPartner =>
         context.l10n.offRampWaitingForPartner,
-      OffRampOrderStatus.waitingPickup => context.l10n.offRampWaitingForPartner,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
@@ -158,8 +157,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.failure => const _ContactUsButton(),
       OffRampOrderStatus.postProcessing =>
         _ContinueButton(handleContinue: handleContinue),
-      OffRampOrderStatus.waitingPickup =>
-        _MoreInfoButton(handleMoreInfo: handleMoreInfo),
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
@@ -343,7 +340,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
-        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OffRampOrderStatus.depositError ||
@@ -362,7 +358,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
-        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -387,7 +382,6 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
-        OffRampOrderStatus.waitingPickup ||
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           2,

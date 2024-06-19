@@ -2,79 +2,68 @@ import 'dart:async';
 
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
-import '../../../../../accounts/auth_scope.dart';
-import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
-import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../data/my_database_ext.dart';
+import '../../../../models/ramp_watcher.dart';
 import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
-/// Watches for [OffRampOrderStatus.waitingForPartner]
-@Singleton(scope: authScope)
-class MoneygramOffRampOrderWatcher {
+
+/// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. This will
+/// check if user has taken money and order is completed.
+@injectable
+class MoneygramOffRampOrderWatcher implements RampWatcher {
   MoneygramOffRampOrderWatcher(
     this._db,
     this._apiClient,
-    this._stellarClient,
     this._wallet,
   );
 
   final MyDatabase _db;
   final MoneygramApiClient _apiClient;
-  final StellarClient _stellarClient;
   final StellarWallet _wallet;
-
   StreamSubscription<void>? _subscription;
 
-  @PostConstruct()
-  void init() {
-    final processing = _db.select(_db.offRampOrderRows)
-      ..where(
-        (tbl) =>
-            tbl.status.equalsValue(OffRampOrderStatus.waitingForPartner) &
-            tbl.partner.equalsValue(RampPartner.moneygram),
-      );
+  @override
+  void watch(String orderId) {
+    _subscription = Stream<void>.periodic(const Duration(seconds: 15))
+        .startWith(null)
+        .asyncMap((_) => _db.getWaitingForPartnerOffRampOrder(orderId))
+        .listen((order) async {
+      final statement = _db.update(_db.offRampOrderRows)
+        ..where(
+          (tbl) =>
+              tbl.id.equals(orderId) &
+              tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
+        );
+      String token = order?.authToken ?? '';
+      final transaction = await _apiClient
+          .fetchTransaction(
+            id: order?.partnerOrderId ?? '',
+            authHeader: token.toAuthHeader(),
+          )
+          .then((e) => e.transaction);
 
-    final orders = processing.watch();
+     final isCompleted = transaction.status == MgStatus.unknown;
 
-    _subscription = orders.listen((orderList) {
-      orderList.forEach(processOrder);
+      // if (isCompleted) {
+      //   await _subscription?.cancel();
+      //   await statement.write(
+      //     OffRampOrderRowsCompanion(
+      //       status: isCompleted
+      //           ? const Value(OffRampOrderStatus.completed)
+      //           : const Value(OffRampOrderStatus.waitingForPartner),
+      //     ),
+      //   );
+      // }
     });
   }
 
-  Future<void> processOrder(OffRampOrderRow order) async {
-    final orderId = order.partnerOrderId;
-    String? token = order.authToken;
-
-    token ??= await _stellarClient.fetchToken(wallet: _wallet.keyPair);
-
-    final transaction = await _apiClient
-        .fetchTransaction(
-          id: orderId,
-          authHeader: token.toAuthHeader(),
-        )
-        .then((e) => e.transaction);
-
-    if (transaction.status == MgStatus.pendingUserTransferComplete) {
-      updateOrderStatus(order.id);
-    }
-  }
-
-  void updateOrderStatus(String id) {
-    _db.update(_db.offRampOrderRows)
-      ..where((tbl) => tbl.id.equals(id))
-      ..write(
-        const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.waitingPickup),
-        ),
-      );
-  }
-
-  @disposeMethod
-  void dispose() {
+  @override
+  void close() {
     _subscription?.cancel();
-    _subscription = null;
   }
 }

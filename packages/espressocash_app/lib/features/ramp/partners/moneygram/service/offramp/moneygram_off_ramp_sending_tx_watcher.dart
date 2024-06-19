@@ -11,6 +11,7 @@ import '../../../../../stellar/service/stellar_client.dart';
 import '../../data/moneygram_client.dart';
 
 /// Watches for [OffRampOrderStatus.sendingDepositTx]
+/// Send transaction to Moneygram
 @Singleton(scope: authScope)
 class MoneygramOffRampSendingTXWatcher {
   MoneygramOffRampSendingTXWatcher(

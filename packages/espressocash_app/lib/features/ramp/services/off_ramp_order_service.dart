@@ -197,7 +197,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.postProcessing:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
-      case OffRampOrderStatus.waitingPickup:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
@@ -224,7 +223,6 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
-      case OffRampOrderStatus.waitingPickup:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
@@ -365,7 +363,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.moneygram || //=> sl<MoneygramOffRampOrderWatcher>(),
+      RampPartner.moneygram => sl<MoneygramOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
@@ -386,7 +384,6 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.postProcessing:
         case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
-        case OffRampOrderStatus.waitingPickup:
           return const Stream.empty();
         case OffRampOrderStatus.creatingDepositTx:
           return Stream.fromFuture(

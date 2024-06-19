@@ -211,7 +211,6 @@ enum OffRampOrderStatus {
   depositError,
   depositTxConfirmError,
   waitingForPartner,
-  waitingPickup, 
   failure,
   completed,
   cancelled, 
