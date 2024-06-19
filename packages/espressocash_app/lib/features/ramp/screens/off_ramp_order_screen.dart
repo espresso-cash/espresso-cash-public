@@ -131,7 +131,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     final String statusContent = switch (order.status) {
       OffRampOrderStatus.preProcessing ||
-      OffRampOrderStatus.postProcessing || // => 'Bridging USDC to Stellar',
+      OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -145,6 +145,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
       OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
+      OffRampOrderStatus.refunded => 'Your withdrawal refunded',
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           totalAmount.format(locale),
@@ -169,6 +170,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
+      OffRampOrderStatus.refunded ||
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.cancelled =>
         null,
@@ -364,7 +366,9 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpStatusType.error,
         OffRampOrderStatus.completed => CpStatusType.success,
-        OffRampOrderStatus.cancelled => CpStatusType.neutral,
+        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.cancelled =>
+          CpStatusType.neutral,
       };
 
   CpTimelineStatus toTimelineStatus() => switch (this) {
@@ -382,7 +386,9 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpTimelineStatus.failure,
         OffRampOrderStatus.completed => CpTimelineStatus.success,
-        OffRampOrderStatus.cancelled => CpTimelineStatus.neutral,
+        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.cancelled =>
+          CpTimelineStatus.neutral,
       };
 
   int toActiveItem() => switch (this) {
@@ -395,6 +401,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.refunded ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
@@ -409,6 +416,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.refunded ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.postProcessing ||

@@ -212,6 +212,7 @@ enum OffRampOrderStatus {
   depositTxConfirmError,
   waitingForPartner,
   failure,
+  refunded,
   completed,
   cancelled, 
   insufficientFunds,

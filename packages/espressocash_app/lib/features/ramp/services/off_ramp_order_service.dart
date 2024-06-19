@@ -21,7 +21,6 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../../stellar/service/stellar_client.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -198,6 +197,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
         break;
@@ -224,6 +224,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.depositTxConfirmError:
@@ -418,6 +419,7 @@ class OffRampOrderService implements Disposable {
           );
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
+        case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 
