@@ -16,4 +16,9 @@ abstract class AllbridgeApiClient {
   Future<BridgeStatusResponseDto> fetchBridgeStatus(
     @Queries() BridgeStatusRequestDto requestDto,
   );
+
+  @GET('/raw/stellar/restore')
+  Future<String> restoreStellarTx(
+    @Queries() RestoreStellarTxRequestDto requestDto,
+  );
 }

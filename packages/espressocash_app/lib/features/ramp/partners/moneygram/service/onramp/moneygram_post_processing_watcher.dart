@@ -14,6 +14,10 @@ import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../../transactions/models/tx_results.dart';
+import '../../../../../transactions/services/tx_confirm.dart';
+import '../../data/allbridge_client.dart';
+import '../../data/allbridge_dto.dart';
 
 /// Watches for [OnRampOrderStatus.postProcessing] Moneygram orders. This will
 /// bridge the USDC on Stellar to Solana. It will also check if the user has
@@ -27,16 +31,18 @@ class MoneygramPostProcessingWatcher {
     this._stellarClient,
     this._ecClient,
     this._stellarWallet,
-    this._solanaClient,
+    this._allbridgeApiClient,
+    this._txConfirm,
     ECWallet ecWallet,
   ) : _solanaAddress = ecWallet.publicKey;
 
   final MyDatabase _db;
   final EspressoCashClient _ecClient;
   final StellarClient _stellarClient;
+  final AllbridgeApiClient _allbridgeApiClient;
   final StellarWallet _stellarWallet;
-  final SolanaClient _solanaClient;
   final Ed25519HDPublicKey _solanaAddress;
+  final TxConfirm _txConfirm;
 
   StreamSubscription<void>? _subscription;
 
@@ -61,7 +67,10 @@ class MoneygramPostProcessingWatcher {
     final id = order.id;
 
     if (existingHash != null) {
-      await _pollSolanaWallet();
+      await _pollBridgeStatus(
+        orderId: id,
+        stellarHash: existingHash,
+      );
 
       return;
     }
@@ -102,31 +111,60 @@ class MoneygramPostProcessingWatcher {
       return;
     }
 
-    //TODO verify, this may recall the function
-
     final result = await _stellarClient.pollStatus(hash);
 
     if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
-      // Tx failed, retry
-
       return;
     }
 
     _updateStellarTxHash(id, hash: hash);
   }
 
-  Future<void> _pollSolanaWallet() async {
-    //TODO
-    await Future.delayed(const Duration(seconds: 10));
+  Future<void> _pollBridgeStatus({
+    required String orderId,
+    required String stellarHash,
+  }) async {
+    TransactionStatus? status;
+
+    do {
+      final response = await _allbridgeApiClient.fetchBridgeStatus(
+        BridgeStatusRequestDto(
+          chain: Chain.stellar,
+          txId: stellarHash,
+        ),
+      );
+
+      status = response.receive;
+
+      if (status == null) {
+        await Future<void>.delayed(const Duration(seconds: 15));
+      }
+    } while (status == null);
+
+    final solanaTxId = status.txId;
+    final receiveAmount = int.tryParse(status.amount);
+
+    final waitResult = await _txConfirm(txId: solanaTxId);
+    if (waitResult != const TxWaitSuccess()) {
+      return;
+    }
+
+    _completeOrder(orderId, txId: solanaTxId, receiveAmount: receiveAmount);
   }
 
-  void _updateOrderStatus(String id) {
+  void _completeOrder(
+    String id, {
+    required String txId,
+    required int? receiveAmount,
+  }) {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
-        const OnRampOrderRowsCompanion(
-          status: Value(OnRampOrderStatus.completed),
-          isCompleted: Value(true),
+        OnRampOrderRowsCompanion(
+          status: const Value(OnRampOrderStatus.completed),
+          isCompleted: const Value(true),
+          txHash: Value(txId),
+          receiveAmount: Value.absentIfNull(receiveAmount),
         ),
       );
   }
@@ -135,9 +173,7 @@ class MoneygramPostProcessingWatcher {
     _db.update(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
-        OnRampOrderRowsCompanion(
-          stellarTxHash: Value(hash),
-        ),
+        OnRampOrderRowsCompanion(stellarTxHash: Value(hash)),
       );
   }
 
@@ -148,4 +184,4 @@ class MoneygramPostProcessingWatcher {
   }
 }
 
-const _minimumXlmBalance = 2.5; // 1.5 XLM
+const _minimumXlmBalance = 2.5; // 2.5 XLM
