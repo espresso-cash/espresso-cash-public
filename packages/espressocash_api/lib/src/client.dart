@@ -141,11 +141,6 @@ abstract class EspressoCashClient {
     @Body() PriorityFeesRequestDto request,
   );
 
-  @POST('/moneygram/deposit')
-  Future<MoneygramDepositResponseDto> initiateMoneygramDeposit(
-    @Body() MoneygramDepositRequestDto request,
-  );
-
   @POST('/moneygram/sign')
   Future<MoneygramChallengeSignResponseDto> signChallenge(
     @Body() MoneygramChallengeSignRequestDto request,
