@@ -11,8 +11,8 @@ import '../../../../models/ramp_watcher.dart';
 import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
-/// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. This will
-/// check if user has taken money and order is completed.
+/// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. 
+/// Completes the order when user has taken money.
 @injectable
 class MoneygramOffRampOrderWatcher implements RampWatcher {
   MoneygramOffRampOrderWatcher(
@@ -39,15 +39,15 @@ class MoneygramOffRampOrderWatcher implements RampWatcher {
               tbl.id.equals(orderId) &
               tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
         );
-      final String token = order.authToken ?? '';
-      final transaction = await _apiClient
-          .fetchTransaction(
-            id: order.partnerOrderId,
-            authHeader: token.toAuthHeader(),
-          )
-          .then((e) => e.transaction);
+      // final String token = order.authToken ?? '';
+      // final transaction = await _apiClient
+      //     .fetchTransaction(
+      //       id: order.partnerOrderId,
+      //       authHeader: token.toAuthHeader(),
+      //     )
+      //     .then((e) => e.transaction);
 
-      final isCompleted = transaction.status == MgStatus.unknown;
+      // final isCompleted = transaction.status == MgStatus.unknown;
 
       // if (isCompleted) {
       //   await _subscription?.cancel();

@@ -4,6 +4,7 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
+import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
@@ -232,6 +233,7 @@ window.addEventListener("message", (event) => {
             withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
             moreInfoUrl: transaction.moreInfoUrl ?? '',
+            status: OffRampOrderStatus.depositTxReady,
           );
           orderWasCreated = true;
         },
@@ -256,10 +258,44 @@ window.addEventListener("message", (event) => {
 
   // Todo(vsumin): finish refund
   Future<void> openMoneygramMoreInfoUrl(OffRampOrder order) async {
+    Future<void> handleLoaded(InAppWebViewController controller) async {
+      controller.addJavaScriptHandler(
+        handlerName: 'moneygram',
+        callback: (args) async {
+
+          final transaction = await _fetchTransactionStatus(
+            id: order.partnerOrderId,
+            token: order.authToken ?? '',
+          );
+
+          final receiveAmount = Amount.fromDecimal(
+            value: Decimal.parse(transaction.amountOut ?? '0'),
+            currency: Currency.usd,
+          ) as FiatAmount;
+
+          await sl<OffRampOrderService>().updateMoneygramOrder(
+            id: order.id,
+            receiveAmount: receiveAmount,
+            withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
+            withdrawMemo: transaction.withdrawMemo ?? '',
+            moreInfoUrl: transaction.moreInfoUrl ?? '',
+            status:  OffRampOrderStatus.processingRefund,
+          );
+        },
+      );
+      await controller.evaluateJavascript(
+        source: '''
+window.addEventListener("message", (event) => {
+  window.flutter_inappwebview.callHandler('moneygram', event.data);
+}, false);
+''',
+      );
+    }
+
     await WebViewScreen.push(
       this,
       url: Uri.parse(order.moreInfoUrl ?? ''),
-      onLoaded: null,
+      onLoaded: handleLoaded,
       title: l10n.ramp_titleCashOut,
       theme: const CpThemeData.light(),
     );

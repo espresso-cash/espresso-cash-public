@@ -200,7 +200,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
-      case OffRampOrderStatus.refunded:
+      case OffRampOrderStatus.processingRefund:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
         break;
@@ -227,7 +227,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
-      case OffRampOrderStatus.refunded:
+      case OffRampOrderStatus.processingRefund:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.depositTxConfirmError:
@@ -312,6 +312,7 @@ class OffRampOrderService implements Disposable {
     required String withdrawMemo,
     required String withdrawAnchorAccount,
     required String moreInfoUrl,
+    required OffRampOrderStatus status,
   }) =>
       tryEitherAsync((_) async {
         final updateQuery = _db.update(_db.offRampOrderRows)
@@ -324,7 +325,7 @@ class OffRampOrderService implements Disposable {
             withdrawAnchorAccount: Value(withdrawAnchorAccount),
             withdrawMemo: Value(withdrawMemo),
             moreInfoUrl: Value(moreInfoUrl),
-            status: const Value(OffRampOrderStatus.depositTxReady),
+            status: Value(status),
           ),
         );
       });
@@ -418,7 +419,7 @@ class OffRampOrderService implements Disposable {
           );
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
-        case OffRampOrderStatus.refunded:
+        case OffRampOrderStatus.processingRefund:
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 

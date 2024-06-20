@@ -130,7 +130,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
       OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
-      OffRampOrderStatus.refunded => 'Your withdrawal refunded',
+      OffRampOrderStatus.processingRefund => 'Your withdrawal refunded',
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           totalAmount.format(locale),
@@ -155,7 +155,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
-      OffRampOrderStatus.refunded ||
+      OffRampOrderStatus.processingRefund ||
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.cancelled =>
         null,
@@ -346,7 +346,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpStatusType.error,
         OffRampOrderStatus.completed => CpStatusType.success,
-        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.cancelled =>
           CpStatusType.neutral,
       };
@@ -366,7 +366,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpTimelineStatus.failure,
         OffRampOrderStatus.completed => CpTimelineStatus.success,
-        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.cancelled =>
           CpTimelineStatus.neutral,
       };
@@ -381,7 +381,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
-        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
@@ -396,7 +396,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
-        OffRampOrderStatus.refunded ||
+        OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.postProcessing ||
