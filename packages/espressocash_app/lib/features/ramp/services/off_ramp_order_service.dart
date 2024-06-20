@@ -291,7 +291,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
-      RampPartner.moneygram || //TODO
+      RampPartner.moneygram ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }

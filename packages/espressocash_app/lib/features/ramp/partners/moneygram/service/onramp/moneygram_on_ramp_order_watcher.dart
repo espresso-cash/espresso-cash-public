@@ -60,14 +60,12 @@ class MoneygramOnRampOrderWatcher implements RampWatcher {
         return;
       }
 
-      final payments = await _stellarClient.getPayments(_stellarWallet.address);
-
-      // await statement.write(
-      //   const OnRampOrderRowsCompanion(
-      //     status: Value.absentIfNull(OnRampOrderStatus.postProcessing),
-      //     isCompleted: Value(false),
-      //   ),
-      // );
+      await statement.write(
+        const OnRampOrderRowsCompanion(
+          status: Value.absentIfNull(OnRampOrderStatus.postProcessing),
+          isCompleted: Value(false),
+        ),
+      );
     });
   }
 
