@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
@@ -15,15 +14,14 @@ import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
-import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
-import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
+import '../partners/moneygram/widgets/launch.dart';
 import '../services/off_ramp_order_service.dart';
 import '../widgets/off_ramp_confirmation.dart';
 
@@ -101,25 +99,12 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     void handleRetry() => sl<OffRampOrderService>().retry(order.id);
 
-    // Todo this should have handler
     Future<void> handleContinue() async {
-      final withdrawUrl = order.withdrawUrl ?? '';
-      await WebViewScreen.push(
-        context,
-        url: Uri.parse(withdrawUrl),
-        title: context.l10n.ramp_titleCashOut,
-        theme: const CpThemeData.light(),
-      );
+      await context.openMoneygramWithdrawUrl(order);
     }
 
     Future<void> handleMoreInfo() async {
-      final withdrawUrl = order.moreInfoUrl ?? '';
-      await WebViewScreen.push(
-        context,
-        url: Uri.parse(withdrawUrl),
-        title: context.l10n.ramp_titleCashOut,
-        theme: const CpThemeData.light(),
-      );
+      await context.openMoneygramMoreInfoUrl(order);
     }
 
     final String? statusTitle = order.status == OffRampOrderStatus.completed
@@ -232,7 +217,6 @@ class _ContinueButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         size: CpButtonSize.big,
         width: double.infinity,
-        // todo add to l10n
         text: context.l10n.openMoneygram,
         onPressed: handleContinue,
       );
@@ -247,7 +231,6 @@ class _MoreInfoButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         size: CpButtonSize.big,
         width: double.infinity,
-        // todo add to l10n
         text: context.l10n.moreInfo,
         onPressed: handleMoreInfo,
       );

@@ -206,6 +206,10 @@ window.addEventListener("message", (event) => {
       return;
     }
 
+    OffRampOrderScreen.pushReplacement(this, id: id);
+  }
+
+  Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
@@ -214,8 +218,8 @@ window.addEventListener("message", (event) => {
           if (orderWasCreated) return;
 
           final transaction = await _fetchTransactionStatus(
-            id: orderId,
-            token: token,
+            id: order.partnerOrderId,
+            token: order.authToken ?? '',
           );
 
           final transferAmount = Amount.fromDecimal(
@@ -228,24 +232,14 @@ window.addEventListener("message", (event) => {
             currency: Currency.usd,
           ) as FiatAmount;
 
-          await sl<OffRampOrderService>()
-              .updateMoneygramOrder(
-            id: id,
+          await sl<OffRampOrderService>().updateMoneygramOrder(
+            id: order.id,
             receiveAmount: receiveAmount,
             transferAmount: transferAmount,
             withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
             moreInfoUrl: transaction.moreInfoUrl ?? '',
-          )
-              .then((order) {
-            switch (order) {
-              case Left<Exception, void>():
-                break;
-              case Right<Exception, void>():
-                OffRampOrderScreen.pushReplacement(this, id: id);
-            }
-          });
-
+          );
           orderWasCreated = true;
         },
       );
@@ -260,8 +254,19 @@ window.addEventListener("message", (event) => {
 
     await WebViewScreen.push(
       this,
-      url: Uri.parse(link),
+      url: Uri.parse(order.withdrawUrl ?? ''),
       onLoaded: handleLoaded,
+      title: l10n.ramp_titleCashOut,
+      theme: const CpThemeData.light(),
+    );
+  }
+
+  // Todo(vsumin): finish refund
+  Future<void> openMoneygramMoreInfoUrl(OffRampOrder order) async {
+    await WebViewScreen.push(
+      this,
+      url: Uri.parse(order.moreInfoUrl ?? ''),
+      onLoaded: null,
       title: l10n.ramp_titleCashOut,
       theme: const CpThemeData.light(),
     );
