@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
@@ -13,6 +14,7 @@ import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../../transactions/models/tx_results.dart';
 import '../../../../../transactions/services/resign_tx.dart';
 import '../../../../../transactions/services/tx_sender.dart';
 
@@ -28,6 +30,7 @@ class MoneygramOffRampPreProcessingWatcher {
     this._ecClient,
     this._stellarWallet,
     this._txSender,
+    this._solanaClient,
   );
 
   final MyDatabase _db;
@@ -35,6 +38,7 @@ class MoneygramOffRampPreProcessingWatcher {
   final ECWallet _ecWallet;
   final StellarClient _stellarClient;
   final StellarWallet _stellarWallet;
+  final SolanaClient _solanaClient;
   final TxSender _txSender;
 
   StreamSubscription<void>? _subscription;
@@ -56,6 +60,8 @@ class MoneygramOffRampPreProcessingWatcher {
   }
 
   Future<void> processOrder(OffRampOrderRow order) async {
+    print('TX ID: ${order.solanaBridgeTx}');
+
     final accountId = _stellarWallet.address;
 
     final cashOutAmount = CryptoAmount(
@@ -96,21 +102,44 @@ class MoneygramOffRampPreProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
-    final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
+    // final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
-    await _txSender.send(tx, minContextSlot: BigInt.zero);
+    // final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
+    //   commitment: Commitment.confirmed,
+    // );
 
-    //TODO finish logic
+    // final slot = latestBlockhash.context.slot;
 
-    updateOrderStatus(order.id);
+    // final send = await _txSender.send(tx, minContextSlot: slot);
+
+    // if (send != const TxSendSent()) {
+    //   //TODO refresh if failed
+    //   return;
+    // }
+
+    // final wait = await _txSender.wait(
+    //   tx,
+    //   minContextSlot: slot,
+    //   txType: 'AllBridgeTx',
+    // );
+
+    // if (wait != const TxWaitSuccess()) {
+    //   //TODO refresh if failed
+    //   return;
+    // }
+
+    print('bridging done');
+
+    updateOrderStatus(order.id, solanaTx: 'tx.id');
   }
 
-  void updateOrderStatus(String id) {
+  void updateOrderStatus(String id, {required String solanaTx}) {
     _db.update(_db.offRampOrderRows)
       ..where((tbl) => tbl.id.equals(id))
       ..write(
-        const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.postProcessing),
+        OffRampOrderRowsCompanion(
+          status: const Value(OffRampOrderStatus.postProcessing),
+          solanaBridgeTx: Value(solanaTx),
         ),
       );
   }

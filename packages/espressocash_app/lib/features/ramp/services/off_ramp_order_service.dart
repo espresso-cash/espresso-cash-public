@@ -80,6 +80,10 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      if (order.partner == RampPartner.moneygram) {
+        continue;
+      }
+
       _subscribe(order.id);
       unawaited(_watch(order.id));
     }
@@ -130,8 +134,7 @@ class OffRampOrderService implements Disposable {
       final receiveAmount = row.receiveAmount?.let(
         (it) => Amount(
           value: it,
-          // ignore: avoid-non-null-assertion, checked amount
-          currency: currencyFromString(row.fiatSymbol!),
+          currency: currencyFromString(row.fiatSymbol),
         ) as FiatAmount,
       );
 
@@ -276,7 +279,7 @@ class OffRampOrderService implements Disposable {
   AsyncResult<String> createMoneygramOrder({
     required RampPartner partner,
     required CryptoAmount submittedAmount,
-    required Amount? receiveAmount,
+    required FiatAmount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -286,6 +289,7 @@ class OffRampOrderService implements Disposable {
             amount: submittedAmount.value,
             token: Token.usdc.address,
             receiveAmount: receiveAmount?.value,
+            fiatSymbol: receiveAmount?.fiatCurrency.symbol,
             created: DateTime.now(),
             humanStatus: '',
             machineStatus: '',

@@ -190,7 +190,7 @@ window.addEventListener("message", (event) => {
         .createMoneygramOrder(
       partner: partner,
       submittedAmount: submittedAmount,
-      receiveAmount: receiveAmount,
+      receiveAmount: receiveAmount as FiatAmount,
     )
         .then((order) {
       switch (order) {
@@ -348,7 +348,7 @@ window.addEventListener("message", (event) => {
 
     return Amount.fromDecimal(
       value: Decimal.parse(fee.amount),
-      currency: type == RampType.onRamp ? Currency.usd : Currency.usdc,
+      currency: type == RampType.onRamp ? Currency.usdc : Currency.usd,
     );
   }
 

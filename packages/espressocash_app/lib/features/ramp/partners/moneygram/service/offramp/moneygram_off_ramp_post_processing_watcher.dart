@@ -12,7 +12,7 @@ import '../../data/moneygram_client.dart';
 
 @Singleton(scope: authScope)
 class MoneygramOffRampPostProcessingWatcher {
-  MoneygramOffRampPostProcessingWatcher(
+  const MoneygramOffRampPostProcessingWatcher(
     this._db,
     this._apiClient,
     this._stellarClient,
@@ -36,9 +36,13 @@ class MoneygramOffRampPostProcessingWatcher {
     final pendingOrders = await pending.get();
 
     for (final order in pendingOrders) {
-      unawaited(_subscribe(order));
+      _subscribe(order);
     }
   }
 
-  Future<void> _subscribe(OffRampOrderRow order) async {}
+  void _subscribe(OffRampOrderRow order) {
+    print(order.id);
+
+    print('post processing start');
+  }
 }

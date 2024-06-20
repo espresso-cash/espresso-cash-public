@@ -307,13 +307,10 @@ class _Timeline extends StatelessWidget {
 
     final normalItems = [
       withdrawInitiated,
+      if (isMoneygramOrder) bridgingToStellar,
       amountSent,
       paymentSuccess,
     ];
-
-    if (isMoneygramOrder) {
-      normalItems.insert(1, bridgingToStellar);
-    }
 
     final cancelingItems = [
       withdrawInitiated,

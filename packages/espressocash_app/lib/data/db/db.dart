@@ -135,6 +135,10 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.withdrawAnchorAccount,
             );
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.solanaBridgeTx,
+            );
           }
         },
       );
@@ -188,6 +192,8 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get withdrawMemo => text().nullable()();
   TextColumn get withdrawUrl => text().nullable()();
   TextColumn get moreInfoUrl => text().nullable()();
+
+  TextColumn get solanaBridgeTx => text().nullable()();
 }
 
 enum OnRampOrderStatus {
@@ -202,8 +208,8 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
-  preProcessing, 
-  postProcessing, 
+  preProcessing,
+  postProcessing,
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,
@@ -214,7 +220,7 @@ enum OffRampOrderStatus {
   failure,
   refunded,
   completed,
-  cancelled, 
+  cancelled,
   insufficientFunds,
 }
 
