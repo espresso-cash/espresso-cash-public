@@ -39,15 +39,15 @@ class MoneygramOffRampOrderWatcher implements RampWatcher {
               tbl.id.equals(orderId) &
               tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
         );
-      final String token = order.authToken ?? '';
-      final transaction = await _apiClient
-          .fetchTransaction(
-            id: order.partnerOrderId,
-            authHeader: token.toAuthHeader(),
-          )
-          .then((e) => e.transaction);
+      // final String token = order.authToken ?? '';
+      // final transaction = await _apiClient
+      //     .fetchTransaction(
+      //       id: order.partnerOrderId,
+      //       authHeader: token.toAuthHeader(),
+      //     )
+      //     .then((e) => e.transaction);
 
-      final isCompleted = transaction.status == MgStatus.unknown;
+      // final isCompleted = transaction.status == MgStatus.unknown;
 
       // if (isCompleted) {
       //   await _subscription?.cancel();
