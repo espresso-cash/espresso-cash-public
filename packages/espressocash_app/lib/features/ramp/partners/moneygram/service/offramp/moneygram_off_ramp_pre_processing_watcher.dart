@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/encoder.dart';
 
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
@@ -12,6 +13,8 @@ import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
+import '../../../../../transactions/services/resign_tx.dart';
+import '../../../../../transactions/services/tx_sender.dart';
 
 /// Watches for [OffRampOrderStatus.preProcessing] Moneygram orders. This will
 /// check if the user has enough XLM balance and USDC trustline, bridge solana USDC
@@ -24,6 +27,7 @@ class MoneygramOffRampPreProcessingWatcher {
     this._ecWallet,
     this._ecClient,
     this._stellarWallet,
+    this._txSender,
   );
 
   final MyDatabase _db;
@@ -31,6 +35,7 @@ class MoneygramOffRampPreProcessingWatcher {
   final ECWallet _ecWallet;
   final StellarClient _stellarClient;
   final StellarWallet _stellarWallet;
+  final TxSender _txSender;
 
   StreamSubscription<void>? _subscription;
 
@@ -81,25 +86,21 @@ class MoneygramOffRampPreProcessingWatcher {
       );
     }
 
-    // Todo implement bridge here
-    // final bridgeTx = await _ecClient
-    //     .swapToStellar(
-    //       SwapToStellarRequestDto(
-    //         amount: cashOutAmount.value.toString(),
-    //         solanaSenderAddress: _ecWallet.address,
-    //         stellarReceiverAddress: accountId,
-    //       ),
-    //     )
-    //     .then((e) => e.encodedTx);
+    final bridgeTx = await _ecClient
+        .swapToStellar(
+          SwapToStellarRequestDto(
+            amount: cashOutAmount.value.toString(),
+            solanaSenderAddress: _ecWallet.address,
+            stellarReceiverAddress: accountId,
+          ),
+        )
+        .then((e) => e.encodedTx);
 
-    // final hash = await _stellarClient.submitTransactionFromXdrString(
-    //   bridgeTx,
-    //   userKeyPair: _stellarWallet.keyPair,
-    // );
+    final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
-    // if (hash == null) {
-    //   return;
-    // }
+    await _txSender.send(tx, minContextSlot: BigInt.zero);
+
+    //TODO finish logic
 
     updateOrderStatus(order.id);
   }

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -21,6 +20,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -274,34 +274,29 @@ class OffRampOrderService implements Disposable {
       });
 
   AsyncResult<String> createMoneygramOrder({
-    required String orderId,
     required RampPartner partner,
     required CryptoAmount submittedAmount,
-    required String withdrawUrl,
-    required String authToken,
-    OffRampOrderStatus status = OffRampOrderStatus.preProcessing,
+    required Amount? receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
           final order = OffRampOrderRow(
             id: const Uuid().v4(),
-            partnerOrderId: orderId,
+            partnerOrderId: '',
             amount: submittedAmount.value,
             token: Token.usdc.address,
+            receiveAmount: receiveAmount?.value,
             created: DateTime.now(),
-            withdrawUrl: withdrawUrl,
             humanStatus: '',
             machineStatus: '',
             partner: partner,
-            status: status,
+            status: OffRampOrderStatus.preProcessing,
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
-            authToken: authToken,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
-          _subscribe(order.id);
 
           return order.id;
         }
@@ -310,7 +305,6 @@ class OffRampOrderService implements Disposable {
   AsyncResult<void> updateMoneygramOrder({
     required String id,
     required FiatAmount? receiveAmount,
-    required CryptoAmount transferAmount,
     required String withdrawMemo,
     required String withdrawAnchorAccount,
     required String moreInfoUrl,
@@ -410,6 +404,7 @@ class OffRampOrderService implements Disposable {
 
           final tx =
               SignedTx.decode(order.transaction).let((it) => (it, order.slot));
+
           return Stream.fromFuture(_sendTx(tx));
         case OffRampOrderStatus.depositTxReady:
           return Stream.value(

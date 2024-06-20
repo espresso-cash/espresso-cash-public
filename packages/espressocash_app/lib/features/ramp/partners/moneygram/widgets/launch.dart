@@ -7,6 +7,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
@@ -24,6 +25,8 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
+
+typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
   Future<void> launchMoneygramOnRamp() async {
@@ -150,27 +153,59 @@ window.addEventListener("message", (event) => {
     Amount? amount;
 
     const partner = RampPartner.moneygram;
+    const type = RampType.offRamp;
 
     await RampAmountScreen.push(
       this,
       partner: partner,
-      onSubmitted: (Amount? value) {
-        Navigator.pop(this);
-        amount = value;
+      onSubmitted: (Amount? value) async {
+        await showConfirmationDialog(
+          this,
+          title: 'Confirm Withdrawal',
+          message:
+              'We will be transferring the amount now. If you cancel after, you will be charged a fee. Are you sure you want to proceed?',
+          onConfirm: () {
+            Navigator.pop(this);
+            amount = value;
+          },
+        );
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
-      type: RampType.offRamp,
+      type: type,
       calculateEquivalent: (amount) =>
-          _calculateMoneygramFee(amount: amount, type: RampType.offRamp),
+          _calculateMoneygramFee(amount: amount, type: type),
     );
 
     final submittedAmount = amount;
 
     if (submittedAmount is! CryptoAmount) return;
 
+    final receiveAmount = await runWithLoader<Amount>(
+      this,
+      () async => _calculateFee(amount: submittedAmount, type: type),
+    );
+
+    await sl<OffRampOrderService>()
+        .createMoneygramOrder(
+      partner: partner,
+      submittedAmount: submittedAmount,
+      receiveAmount: receiveAmount,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+        case Right<Exception, String>(:final value):
+          OffRampOrderScreen.pushReplacement(this, id: value);
+      }
+    });
+  }
+
+  Future<void> startMoneygramOffRamp({required Amount amount}) async {
     final response = await _generateWithdrawLink(
-      amount: submittedAmount.decimal.toDouble(),
+      amount: amount.decimal.toDouble(),
     );
 
     if (response == null) {
@@ -182,29 +217,6 @@ window.addEventListener("message", (event) => {
     final link = response.url;
     final token = response.token;
     final orderId = response.id;
-
-    final id = await sl<OffRampOrderService>()
-        .createMoneygramOrder(
-      orderId: orderId,
-      partner: partner,
-      submittedAmount: submittedAmount,
-      withdrawUrl: link,
-      authToken: token,
-    )
-        .then((order) {
-      switch (order) {
-        case Left<Exception, String>():
-          return null;
-        case Right<Exception, String>(:final value):
-          return value;
-      }
-    });
-
-    if (id == null) {
-      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-      return;
-    }
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
@@ -228,23 +240,23 @@ window.addEventListener("message", (event) => {
             currency: Currency.usd,
           ) as FiatAmount;
 
-          await sl<OffRampOrderService>()
-              .updateMoneygramOrder(
-            id: id,
-            receiveAmount: receiveAmount,
-            transferAmount: transferAmount,
-            withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
-            withdrawMemo: transaction.withdrawMemo ?? '',
-            moreInfoUrl: transaction.moreInfoUrl ?? '',
-          )
-              .then((order) {
-            switch (order) {
-              case Left<Exception, void>():
-                break;
-              case Right<Exception, void>():
-                OffRampOrderScreen.pushReplacement(this, id: id);
-            }
-          });
+          // await sl<OffRampOrderService>()
+          //     .updateMoneygramOrder(
+          //   id: id,
+          //   receiveAmount: receiveAmount,
+          //   transferAmount: transferAmount,
+          //   withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
+          //   withdrawMemo: transaction.withdrawMemo ?? '',
+          //   moreInfoUrl: transaction.moreInfoUrl ?? '',
+          // )
+          //     .then((order) {
+          //   switch (order) {
+          //     case Left<Exception, void>():
+          //       break;
+          //     case Right<Exception, void>():
+          //       OffRampOrderScreen.pushReplacement(this, id: id);
+          //   }
+          // });
 
           orderWasCreated = true;
         },
@@ -282,10 +294,8 @@ window.addEventListener("message", (event) => {
             .then((e) => e.transaction);
       });
 
-  Future<({String id, String url, String token})?> _generateDepositLink({
-    required double amount,
-  }) =>
-      runWithLoader<({String id, String url, String token})?>(this, () async {
+  Future<MoneygramLink?> _generateDepositLink({required double amount}) =>
+      runWithLoader<MoneygramLink?>(this, () async {
         try {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();
@@ -310,10 +320,8 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  Future<({String id, String url, String token})?> _generateWithdrawLink({
-    required double amount,
-  }) =>
-      runWithLoader<({String id, String url, String token})?>(this, () async {
+  Future<MoneygramLink?> _generateWithdrawLink({required double amount}) =>
+      runWithLoader<MoneygramLink?>(this, () async {
         try {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();
@@ -338,8 +346,7 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  Future<Either<Exception, ({Amount amount, String? rate})>>
-      _calculateMoneygramFee({
+  Future<Amount> _calculateFee({
     required Amount amount,
     required RampType type,
   }) async {
@@ -353,14 +360,22 @@ window.addEventListener("message", (event) => {
       ),
     );
 
-    return Either.right(
-      (
-        amount: Amount.fromDecimal(
-          value: Decimal.parse(fee.amount),
-          currency: Currency.usdc,
-        ),
-        rate: null
-      ),
+    return Amount.fromDecimal(
+      value: Decimal.parse(fee.amount),
+      currency: type == RampType.onRamp ? Currency.usd : Currency.usdc,
     );
+  }
+
+  Future<Either<Exception, ({Amount amount, String? rate})>>
+      _calculateMoneygramFee({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final fee = await _calculateFee(
+      amount: amount,
+      type: type,
+    );
+
+    return Either.right((amount: fee, rate: null));
   }
 }
