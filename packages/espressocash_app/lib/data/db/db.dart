@@ -212,8 +212,6 @@ enum OnRampOrderStatus {
 }
 
 enum OffRampOrderStatus {
-  preProcessing,
-  postProcessing,
   depositTxRequired,
   creatingDepositTx,
   depositTxReady,
@@ -222,10 +220,12 @@ enum OffRampOrderStatus {
   depositTxConfirmError,
   waitingForPartner,
   failure,
-  processingRefund,
   completed,
   cancelled,
   insufficientFunds,
+  preProcessing, // MG
+  postProcessing, // MG
+  processingRefund, // MG
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {

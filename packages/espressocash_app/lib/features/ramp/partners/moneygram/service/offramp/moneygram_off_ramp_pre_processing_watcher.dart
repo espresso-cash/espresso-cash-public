@@ -60,8 +60,6 @@ class MoneygramOffRampPreProcessingWatcher {
   }
 
   Future<void> processOrder(OffRampOrderRow order) async {
-    print('TX ID: ${order.solanaBridgeTx}');
-
     final accountId = _stellarWallet.address;
 
     final cashOutAmount = CryptoAmount(
@@ -102,33 +100,31 @@ class MoneygramOffRampPreProcessingWatcher {
         )
         .then((e) => e.encodedTx);
 
-    // final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
+    final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
-    // final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
-    //   commitment: Commitment.confirmed,
-    // );
+    final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
+      commitment: Commitment.confirmed,
+    );
 
-    // final slot = latestBlockhash.context.slot;
+    final slot = latestBlockhash.context.slot;
 
-    // final send = await _txSender.send(tx, minContextSlot: slot);
+    final send = await _txSender.send(tx, minContextSlot: slot);
 
-    // if (send != const TxSendSent()) {
-    //   //TODO refresh if failed
-    //   return;
-    // }
+    if (send != const TxSendSent()) {
+      //TODO refresh if failed
+      return;
+    }
 
-    // final wait = await _txSender.wait(
-    //   tx,
-    //   minContextSlot: slot,
-    //   txType: 'AllBridgeTx',
-    // );
+    final wait = await _txSender.wait(
+      tx,
+      minContextSlot: slot,
+      txType: 'AllBridgeTx',
+    );
 
-    // if (wait != const TxWaitSuccess()) {
-    //   //TODO refresh if failed
-    //   return;
-    // }
-
-    print('bridging done');
+    if (wait != const TxWaitSuccess()) {
+      //TODO refresh if failed
+      return;
+    }
 
     updateOrderStatus(order.id, solanaTx: 'tx.id');
   }
