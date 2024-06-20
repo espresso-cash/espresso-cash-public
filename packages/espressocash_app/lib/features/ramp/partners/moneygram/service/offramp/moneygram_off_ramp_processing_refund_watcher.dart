@@ -18,11 +18,12 @@ import '../../../../../transactions/models/tx_results.dart';
 import '../../../../../transactions/services/tx_confirm.dart';
 import '../../data/allbridge_client.dart';
 import '../../data/allbridge_dto.dart';
+
 /// Watches for [OffRampOrderStatus.processingRefund] Moneygram orders.
-/// bridge the USDC on Stellar to Solana. It will also check if the user has
-/// enough XLM to pay for the transaction.
+/// bridge the USDC received from Moneygram refund on Stellar to Solana. 
+/// It will also check if the user has enough XLM to pay for the transaction.
 ///
-/// Completes the order when amount is received in Solana.
+/// Cancels the order when amount is received in Solana.
 @Singleton(scope: authScope)
 class MoneygramOffRampProcessingRefundWatcher {
   MoneygramOffRampProcessingRefundWatcher(

@@ -11,8 +11,8 @@ import '../../../../models/ramp_watcher.dart';
 import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 
-/// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. This will
-/// check if user has taken money and order is completed.
+/// Watches for [OffRampOrderStatus.waitingForPartner] Moneygram orders. 
+/// Completes the order when user has taken money.
 @injectable
 class MoneygramOffRampOrderWatcher implements RampWatcher {
   MoneygramOffRampOrderWatcher(
