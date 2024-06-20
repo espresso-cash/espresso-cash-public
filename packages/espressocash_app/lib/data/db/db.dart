@@ -115,9 +115,11 @@ class MyDatabase extends _$MyDatabase {
           if (from < 51) {
             await m.addColumn(transactionRows, transactionRows.amount);
           }
-
           if (from < 52) {
             await m.createTable(tokenBalanceRows);
+          }
+          if (from < 53) {
+            await m.addColumn(transactionRows, transactionRows.tokenAddress);
           }
         },
       );
@@ -215,6 +217,7 @@ class TransactionRows extends Table {
 
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime().nullable()();
+  TextColumn get tokenAddress => text()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
   IntColumn get amount => integer().nullable()();

@@ -15,7 +15,7 @@ class TokenItemContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -27,9 +27,9 @@ class TokenItemContainer extends StatelessWidget {
                 style: dashboardSectionTitleTextStyle,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 11),
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 28),
               decoration: const ShapeDecoration(
                 color: CpColors.darkBackgroundColor,
                 shape: RoundedRectangleBorder(

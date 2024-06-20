@@ -9,6 +9,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../activities/widgets/recent_activity.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -66,10 +67,10 @@ class TokenDetailsScreen extends StatelessWidget {
                                 const _RampButtons()
                               else
                                 const _SwapButton(),
-                              const SizedBox(height: 24),
-                              const Expanded(
+                              const SizedBox(height: 41),
+                              Expanded(
                                 child: DecoratedBox(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: CpColors.dashboardBackgroundColor,
                                     borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(31),
@@ -78,22 +79,14 @@ class TokenDetailsScreen extends StatelessWidget {
                                   ),
                                   child: Center(
                                     child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(vertical: 24),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 41,
+                                      ),
                                       child: Column(
                                         children: [
-                                          TokenInfo(),
-                                          Expanded(
-                                            child: Center(
-                                              child: Text(
-                                                'No recent activity',
-                                                style: TextStyle(
-                                                  color: Color(0xFF484848),
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                            ),
+                                          const TokenInfo(),
+                                          TokenRecentActivityWidget(
+                                            tokenAddress: token.address,
                                           ),
                                         ],
                                       ),

@@ -14,6 +14,7 @@ import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
@@ -29,6 +30,14 @@ class TransactionRepository {
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
+  }
+
+  Stream<IList<String>> watchByAddress(String tokenAddress) {
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.tokenAddress.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
@@ -152,7 +161,12 @@ extension TransactionRowExt on TransactionRow {
         created: created,
         status: status,
         amount: amount?.let(
-          (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+          (it) => CryptoAmount(
+            value: it,
+            cryptoCurrency: CryptoCurrency(
+              token: TokenList().findTokenByMint(tokenAddress) ?? Token.usdc,
+            ),
+          ),
         ),
       );
 }
@@ -161,6 +175,8 @@ extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
+        tokenAddress:
+            amount?.cryptoCurrency.token.address ?? Token.usdc.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,

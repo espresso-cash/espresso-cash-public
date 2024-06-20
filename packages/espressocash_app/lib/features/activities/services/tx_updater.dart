@@ -11,6 +11,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../../tokens/token_list.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
 
@@ -24,31 +25,46 @@ class TxUpdater implements Disposable {
 
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
-  Future<void> call() => _cache.fetch(
+  Future<void> call({
+    String? tokenAddress,
+  }) =>
+      _cache.fetch(
         () => tryEitherAsync((_) async {
-          final usdcTokenAccount = await findAssociatedTokenAddress(
-            owner: _wallet.publicKey,
-            mint: Ed25519HDPublicKey.fromBase58(Token.usdc.address),
-          );
+          final Ed25519HDPublicKey tokenAccount;
+          String? mostRecentTxId;
 
-          final mostRecentTxId = await _repo.mostRecentTxId();
+          if (tokenAddress == Token.sol.address || tokenAddress == null) {
+            tokenAccount = _wallet.publicKey;
+            mostRecentTxId = await _repo.mostRecentTxId();
+          } else {
+            tokenAccount = await findAssociatedTokenAddress(
+              owner: _wallet.publicKey,
+              mint: Ed25519HDPublicKey.fromBase58(
+                tokenAddress,
+              ),
+            );
+          }
 
-          const fetchLimit = 50;
+          const fetchLimit = 100;
 
           final details = await _client.rpcClient.getTransactionsList(
-            usdcTokenAccount,
-            limit: fetchLimit,
+            tokenAccount,
             until: mostRecentTxId,
+            limit: fetchLimit,
             encoding: Encoding.base64,
             commitment: Commitment.confirmed,
           );
 
           if (details.isNotEmpty) {
-            final txs = details.map((it) => it.toFetched(usdcTokenAccount));
+            final txs =
+                details.map((it) => it.toFetched(tokenAccount, tokenAddress));
 
             final hasGap = mostRecentTxId != null && txs.length == fetchLimit;
 
-            await _repo.saveAll(txs, clear: hasGap);
+            await _repo.saveAll(
+              txs,
+              clear: hasGap,
+            );
           }
         }),
       );
@@ -58,33 +74,54 @@ class TxUpdater implements Disposable {
 }
 
 extension on TransactionDetails {
-  TxCommon toFetched(Ed25519HDPublicKey usdcTokenAddress) {
+  TxCommon toFetched(Ed25519HDPublicKey tokenAccount, String? tokenAddress) {
     final rawTx = transaction as RawTransaction;
     final tx = SignedTx.fromBytes(rawTx.data);
 
     final accountIndex =
-        tx.compiledMessage.accountKeys.indexWhere((e) => e == usdcTokenAddress);
+        tx.compiledMessage.accountKeys.indexWhere((e) => e == tokenAccount);
 
-    final preTokenBalance = meta?.preTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
-
-    final postTokenBalance = meta?.postTokenBalances
-        .where((e) => e.mint == Token.usdc.address)
-        .where((e) => e.accountIndex == accountIndex)
-        .firstOrNull;
-
+    Object? preTokenBalance;
+    Object? postTokenBalance;
+    int rawAmount;
     CryptoAmount? amount;
 
-    if (preTokenBalance != null && postTokenBalance != null) {
-      final rawAmount = int.parse(postTokenBalance.uiTokenAmount.amount) -
-          int.parse(preTokenBalance.uiTokenAmount.amount);
+    if (tokenAddress == Token.sol.address) {
+      preTokenBalance = meta!.preBalances;
+      postTokenBalance = meta!.postBalances;
+      rawAmount = (postTokenBalance as List<int>)[0] -
+          (preTokenBalance as List<int>)[0];
 
       amount = CryptoAmount(
         value: rawAmount,
-        cryptoCurrency: Currency.usdc,
+        cryptoCurrency: const CryptoCurrency(token: Token.sol),
       );
+    } else {
+      preTokenBalance = meta?.preTokenBalances
+          .where((e) => e.mint == tokenAddress)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
+      postTokenBalance = meta?.postTokenBalances
+          .where((e) => e.mint == tokenAddress)
+          .where((e) => e.accountIndex == accountIndex)
+          .firstOrNull;
+      final TokenList tokenList = GetIt.I<TokenList>();
+
+      if (preTokenBalance != null && postTokenBalance != null) {
+        rawAmount = int.parse(
+              (postTokenBalance as TokenBalance).uiTokenAmount.amount,
+            ) -
+            int.parse((preTokenBalance as TokenBalance).uiTokenAmount.amount);
+
+        amount = CryptoAmount(
+          value: rawAmount,
+          cryptoCurrency: CryptoCurrency(
+            token:
+                tokenList.findTokenByMint(tokenAddress ?? Token.usdc.address) ??
+                    Token.usdc,
+          ),
+        );
+      }
     }
 
     return TxCommon(

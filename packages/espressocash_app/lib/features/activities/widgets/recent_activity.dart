@@ -11,15 +11,92 @@ import '../data/transaction_repository.dart';
 import '../services/tx_updater.dart';
 import 'transaction_item.dart';
 
+class TokenRecentActivityWidget extends StatefulWidget {
+  const TokenRecentActivityWidget({
+    super.key,
+    required this.tokenAddress,
+  });
+
+  final String tokenAddress;
+
+  @override
+  State<TokenRecentActivityWidget> createState() =>
+      _TokenRecentActivityWidgetState();
+}
+
+class _TokenRecentActivityWidgetState extends State<TokenRecentActivityWidget> {
+  late final Stream<IList<String>> _txs;
+
+  @override
+  void initState() {
+    super.initState();
+    _txs = sl<TransactionRepository>().watchAllByAddress(widget.tokenAddress);
+    sl<TxUpdater>().call(tokenAddress: widget.tokenAddress);
+  }
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder<IList<String>>(
+        stream: _txs,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
+
+          if (data == null) return const SizedBox.shrink();
+
+          return HomeTile(
+            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text(
+                    context.l10n.recentActivityLbl,
+                    style: dashboardSectionTitleTextStyle,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                if (data.isEmpty)
+                  const Center(
+                    child: _NoActivity(),
+                  )
+                else ...[
+                  _Card(
+                    child: Column(
+                      children: data
+                          .map(
+                            (e) => _KeepAlive(
+                              key: ValueKey(e),
+                              child: CpTheme.black(
+                                child: TransactionItem(tx: e, showIcon: false),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  // TODO(KB): Check if needed
+                  // ignore: avoid-single-child-column-or-row
+                ],
+              ],
+            ),
+          );
+        },
+      );
+}
+
 class RecentActivityWidget extends StatefulWidget {
   const RecentActivityWidget({
     super.key,
-    required this.onSendMoneyPressed,
+    this.onSendMoneyPressed,
     required this.onTransactionsPressed,
+    this.tokenAddress,
   });
 
-  final VoidCallback onSendMoneyPressed;
+  final VoidCallback? onSendMoneyPressed;
   final VoidCallback onTransactionsPressed;
+  final String? tokenAddress;
 
   @override
   State<RecentActivityWidget> createState() => _RecentActivityWidgetState();
@@ -103,35 +180,47 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
 }
 
 class _NoActivity extends StatelessWidget {
-  const _NoActivity({required this.onSendMoneyPressed});
+  const _NoActivity({this.onSendMoneyPressed});
 
-  final VoidCallback onSendMoneyPressed;
+  final VoidCallback? onSendMoneyPressed;
 
   @override
-  Widget build(BuildContext context) => _Card(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            children: [
-              Text(
-                context.l10n.recentActivityEmpty,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
+  Widget build(BuildContext context) => onSendMoneyPressed != null
+      ? _Card(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              children: [
+                Text(
+                  context.l10n.recentActivityEmpty,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              CpButton(
-                minWidth: 120,
-                size: CpButtonSize.wide,
-                text: context.l10n.yes,
-                onPressed: onSendMoneyPressed,
-              ),
-            ],
+                const SizedBox(height: 16),
+                CpButton(
+                  minWidth: 120,
+                  size: CpButtonSize.wide,
+                  text: context.l10n.yes,
+                  onPressed: onSendMoneyPressed,
+                ),
+              ],
+            ),
           ),
-        ),
-      );
+        )
+      : const Padding(
+          padding: EdgeInsets.only(top: 72.0),
+          child: Text(
+            'No recent activity',
+            style: TextStyle(
+              color: Color(0xFF484848),
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        );
 }
 
 class _Card extends StatelessWidget {
