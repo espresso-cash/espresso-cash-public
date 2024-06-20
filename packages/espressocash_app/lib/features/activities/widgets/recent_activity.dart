@@ -30,7 +30,7 @@ class _TokenRecentActivityWidgetState extends State<TokenRecentActivityWidget> {
   @override
   void initState() {
     super.initState();
-    _txs = sl<TransactionRepository>().watchAllByAddress(widget.tokenAddress);
+    _txs = sl<TransactionRepository>().watchByAddress(widget.tokenAddress);
     sl<TxUpdater>().call(tokenAddress: widget.tokenAddress);
   }
 

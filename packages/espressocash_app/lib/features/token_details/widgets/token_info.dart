@@ -12,7 +12,9 @@ import '../../tokens/token.dart';
 import 'token_item.dart';
 
 class TokenInfo extends StatelessWidget {
-  const TokenInfo({super.key});
+  const TokenInfo({super.key, required this.tokenAddress});
+
+  final String tokenAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,12 @@ class TokenInfo extends StatelessWidget {
             label: 'Price',
             value: fiatRate.format(context.locale),
           ),
-          const _InfoItem(
-            label: 'Network',
-            value: 'Solana',
+          _InfoItem(
+            label: 'Mint Address',
+            value: '${tokenAddress.substring(0, 4)}...${tokenAddress.substring(
+              tokenAddress.length - 4,
+              tokenAddress.length,
+            )}',
           ),
         ],
       ),
