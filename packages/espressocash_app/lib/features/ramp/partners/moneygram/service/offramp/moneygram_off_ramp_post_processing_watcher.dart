@@ -69,34 +69,37 @@ class MoneygramOffRampPostProcessingWatcher {
               tbl.status.equals(OnRampOrderStatus.postProcessing.name),
         );
 
-      final hash = order.solanaBridgeTx;
+      // final hash = order.solanaBridgeTx;
 
-      if (hash == null) {
-        return;
-      }
+      // if (hash == null) {
+      //   return;
+      // }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
-      );
+      // final response = await _allbridgeApiClient.fetchBridgeStatus(
+      //   BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+      // );
 
-      final destination = response.receive;
+      // final destination = response.receive;
 
-      if (destination == null) {
-        return;
-      }
+      // if (destination == null) {
+      //   return;
+      // }
 
-      final payment = await _stellarClient.getPaymentByTxId(destination.txId);
+      // final payment = await _stellarClient.getPaymentByTxId(destination.txId);
 
-      if (payment == null) {
-        return;
-      }
+      // if (payment == null) {
+      //   return;
+      // }
 
-      final receivedAmount = int.parse(destination.amount);
+      // final receivedAmount = int.parse(destination.amount);
+
+      await Future<void>.delayed(const Duration(seconds: 1)); //MOCK
 
       await statement.write(
         OffRampOrderRowsCompanion(
           status: const Value(OffRampOrderStatus.ready),
-          receiveAmount: Value(receivedAmount),
+          // receiveAmount: Value(receivedAmount),
+          receiveAmount: Value(order.amount),
         ),
       );
     });

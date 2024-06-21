@@ -90,43 +90,43 @@ class MoneygramOffRampPreProcessingWatcher {
       );
     }
 
-    final bridgeTx = await _ecClient
-        .swapToStellar(
-          SwapToStellarRequestDto(
-            amount: cashOutAmount.value.toString(),
-            solanaSenderAddress: _ecWallet.address,
-            stellarReceiverAddress: accountId,
-          ),
-        )
-        .then((e) => e.encodedTx);
+    // final bridgeTx = await _ecClient
+    //     .swapToStellar(
+    //       SwapToStellarRequestDto(
+    //         amount: cashOutAmount.value.toString(),
+    //         solanaSenderAddress: _ecWallet.address,
+    //         stellarReceiverAddress: accountId,
+    //       ),
+    //     )
+    //     .then((e) => e.encodedTx);
 
-    final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
+    // final tx = await SignedTx.decode(bridgeTx).resign(_ecWallet);
 
-    final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
-      commitment: Commitment.confirmed,
-    );
+    // final latestBlockhash = await _solanaClient.rpcClient.getLatestBlockhash(
+    //   commitment: Commitment.confirmed,
+    // );
 
-    final slot = latestBlockhash.context.slot;
+    // final slot = latestBlockhash.context.slot;
 
-    final send = await _txSender.send(tx, minContextSlot: slot);
+    // final send = await _txSender.send(tx, minContextSlot: slot);
 
-    if (send != const TxSendSent()) {
-      //TODO refresh if failed
-      return;
-    }
+    // if (send != const TxSendSent()) {
+    //   //TODO refresh if failed
+    //   return;
+    // }
 
-    final wait = await _txSender.wait(
-      tx,
-      minContextSlot: slot,
-      txType: 'AllBridgeTx',
-    );
+    // final wait = await _txSender.wait(
+    //   tx,
+    //   minContextSlot: slot,
+    //   txType: 'AllBridgeTx',
+    // );
 
-    if (wait != const TxWaitSuccess()) {
-      //TODO refresh if failed
-      return;
-    }
+    // if (wait != const TxWaitSuccess()) {
+    //   //TODO refresh if failed
+    //   return;
+    // }
 
-    updateOrderStatus(order.id, solanaTx: tx.id);
+    updateOrderStatus(order.id, solanaTx: 'tx.id');
   }
 
   void updateOrderStatus(String id, {required String solanaTx}) {

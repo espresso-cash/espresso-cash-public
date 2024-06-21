@@ -208,10 +208,8 @@ window.addEventListener("message", (event) => {
     String? withdrawUrl = order.withdrawUrl;
 
     if (withdrawUrl == null) {
-      print(order.receiveAmount?.decimal.toDouble());
-
       final response = await _generateWithdrawLink(
-        amount: 1.0,
+        amount: order.receiveAmount?.decimal.toDouble() ?? 0.0,
       );
 
       if (response == null) {
