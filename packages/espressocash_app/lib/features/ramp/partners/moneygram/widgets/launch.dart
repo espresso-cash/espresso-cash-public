@@ -206,6 +206,8 @@ window.addEventListener("message", (event) => {
 
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     String? withdrawUrl = order.withdrawUrl;
+    String? orderId = order.partnerOrderId;
+    String? authToken = order.authToken;
 
     if (withdrawUrl == null) {
       final response = await _generateWithdrawLink(
@@ -219,6 +221,8 @@ window.addEventListener("message", (event) => {
       }
 
       withdrawUrl = response.url;
+      orderId = response.id;
+      authToken = response.token;
 
       await sl<OffRampOrderService>().updateMoneygramWithdrawUrl(
         id: order.id,
@@ -236,14 +240,9 @@ window.addEventListener("message", (event) => {
           if (orderWasCreated) return;
 
           final transaction = await _fetchTransactionStatus(
-            id: order.partnerOrderId,
-            token: order.authToken ?? '',
+            id: orderId ?? '',
+            token: authToken ?? '',
           );
-
-          final transferAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountIn ?? '0'),
-            currency: Currency.usdc,
-          ) as CryptoAmount;
 
           final receiveAmount = Amount.fromDecimal(
             value: Decimal.parse(transaction.amountOut ?? '0'),
@@ -256,7 +255,7 @@ window.addEventListener("message", (event) => {
             withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
             moreInfoUrl: transaction.moreInfoUrl ?? '',
-            status: OffRampOrderStatus.depositTxReady,
+            status: OffRampOrderStatus.sendingDepositTx,
           );
           orderWasCreated = true;
         },
