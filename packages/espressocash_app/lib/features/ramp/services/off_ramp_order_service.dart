@@ -424,10 +424,6 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.sendingDepositTx:
-          if (order.partner == RampPartner.moneygram) {
-            return const Stream.empty();
-          }
-
           final tx =
               SignedTx.decode(order.transaction).let((it) => (it, order.slot));
 
