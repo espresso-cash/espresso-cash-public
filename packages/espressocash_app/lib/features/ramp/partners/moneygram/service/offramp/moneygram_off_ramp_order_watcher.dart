@@ -37,7 +37,7 @@ class MoneygramOffRampOrderWatcher implements RampWatcher {
         ..where(
           (tbl) =>
               tbl.id.equals(orderId) &
-              tbl.status.equals(OnRampOrderStatus.waitingForPartner.name),
+              tbl.status.equals(OffRampOrderStatus.waitingForPartner.name),
         );
       final String token = order.authToken ?? '';
       final transaction = await _apiClient
