@@ -80,12 +80,12 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      unawaited(_watch(order.id));
       if (order.partner == RampPartner.moneygram) {
         continue;
       }
 
       _subscribe(order.id);
-      unawaited(_watch(order.id));
     }
   }
 
