@@ -197,6 +197,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
+      case OffRampOrderStatus.ready:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
@@ -218,8 +219,7 @@ class OffRampOrderService implements Disposable {
     switch (order.status) {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
-      case OffRampOrderStatus.preProcessing:
-      case OffRampOrderStatus.postProcessing:
+      case OffRampOrderStatus.ready:
         await updateQuery.write(_cancelled);
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
@@ -231,6 +231,8 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.depositTxConfirmError:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
         break;
     }
   }
@@ -305,6 +307,24 @@ class OffRampOrderService implements Disposable {
           return order.id;
         }
       });
+
+  Future<void> updateMoneygramWithdrawUrl({
+    required String id,
+    required String withdrawUrl,
+    required String authToken,
+    required String orderId,
+  }) async {
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(id));
+
+    await updateQuery.write(
+      OffRampOrderRowsCompanion(
+        partnerOrderId: Value(orderId),
+        withdrawUrl: Value(withdrawUrl),
+        authToken: Value(authToken),
+      ),
+    );
+  }
 
   AsyncResult<void> updateMoneygramOrder({
     required String id,
@@ -382,6 +402,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.depositTxConfirmError:
         case OffRampOrderStatus.preProcessing:
         case OffRampOrderStatus.postProcessing:
+        case OffRampOrderStatus.ready:
         case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();

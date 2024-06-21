@@ -225,6 +225,7 @@ enum OffRampOrderStatus {
   insufficientFunds,
   preProcessing, // MG
   postProcessing, // MG
+  ready, // MG
   processingRefund, // MG
 }
 

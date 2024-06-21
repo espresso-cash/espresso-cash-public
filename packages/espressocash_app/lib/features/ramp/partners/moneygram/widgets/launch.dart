@@ -205,6 +205,31 @@ window.addEventListener("message", (event) => {
   }
 
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
+    String? withdrawUrl = order.withdrawUrl;
+
+    if (withdrawUrl == null) {
+      print(order.receiveAmount?.decimal.toDouble());
+
+      final response = await _generateWithdrawLink(
+        amount: 1.0,
+      );
+
+      if (response == null) {
+        showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+        return;
+      }
+
+      withdrawUrl = response.url;
+
+      await sl<OffRampOrderService>().updateMoneygramWithdrawUrl(
+        id: order.id,
+        withdrawUrl: withdrawUrl,
+        authToken: response.token,
+        orderId: response.id,
+      );
+    }
+
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
@@ -249,7 +274,7 @@ window.addEventListener("message", (event) => {
 
     await WebViewScreen.push(
       this,
-      url: Uri.parse(order.withdrawUrl ?? ''),
+      url: Uri.parse(withdrawUrl),
       onLoaded: handleLoaded,
       title: l10n.ramp_titleCashOut,
       theme: const CpThemeData.light(),
@@ -262,7 +287,6 @@ window.addEventListener("message", (event) => {
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
-
           final transaction = await _fetchTransactionStatus(
             id: order.partnerOrderId,
             token: order.authToken ?? '',
@@ -279,7 +303,7 @@ window.addEventListener("message", (event) => {
             withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
             withdrawMemo: transaction.withdrawMemo ?? '',
             moreInfoUrl: transaction.moreInfoUrl ?? '',
-            status:  OffRampOrderStatus.processingRefund,
+            status: OffRampOrderStatus.processingRefund,
           );
         },
       );

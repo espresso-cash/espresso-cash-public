@@ -117,6 +117,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final String statusContent = switch (order.status) {
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.postProcessing ||
+      OffRampOrderStatus.ready ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -145,12 +146,13 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.insufficientFunds =>
         _RetryButton(handleRetry: handleRetry),
       OffRampOrderStatus.failure => const _ContactUsButton(),
-      OffRampOrderStatus.postProcessing =>
+      OffRampOrderStatus.ready =>
         _ContinueButton(handleContinue: handleContinue),
       OffRampOrderStatus.waitingForPartner => isMoneygramOrder
           ? _MoreInfoButton(handleMoreInfo: handleMoreInfo)
           : null,
       OffRampOrderStatus.preProcessing ||
+      OffRampOrderStatus.postProcessing ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -162,7 +164,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
     };
 
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
-        order.status == OffRampOrderStatus.postProcessing;
+        order.status == OffRampOrderStatus.ready;
 
     return StatusScreen(
       title: context.l10n.offRampWithdrawTitle.toUpperCase(),
@@ -334,6 +336,7 @@ extension on OffRampOrderStatus {
   CpStatusType toStatusType() => switch (this) {
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
@@ -358,6 +361,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -374,6 +378,7 @@ extension on OffRampOrderStatus {
   int toActiveItem() => switch (this) {
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
@@ -392,6 +397,7 @@ extension on OffRampOrderStatus {
 
   int toActiveItemForMoneygram() => switch (this) {
         OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
@@ -399,7 +405,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.cancelled =>
           1,
-        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady =>

@@ -77,12 +77,7 @@ class TxSender {
     )
       ..setData('txId', tx.id)
       // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType)
-      ..setMeasurement(
-        'compute_unit_price',
-        tx.computeUnitPrice?.toInt() ?? 0,
-        unit: CustomSentryMeasurementUnit('microlamports'),
-      );
+      ..setTag('txType', txType);
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();

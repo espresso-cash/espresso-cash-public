@@ -126,7 +126,7 @@ class MoneygramOffRampPreProcessingWatcher {
       return;
     }
 
-    updateOrderStatus(order.id, solanaTx: 'tx.id');
+    updateOrderStatus(order.id, solanaTx: tx.id);
   }
 
   void updateOrderStatus(String id, {required String solanaTx}) {

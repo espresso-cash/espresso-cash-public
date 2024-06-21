@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -8,7 +7,6 @@ import 'package:rxdart/rxdart.dart';
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
 import '../../../../data/my_database_ext.dart';
 import '../../data/allbridge_client.dart';
@@ -19,13 +17,11 @@ class MoneygramOffRampPostProcessingWatcher {
   MoneygramOffRampPostProcessingWatcher(
     this._db,
     this._stellarClient,
-    this._wallet,
     this._allbridgeApiClient,
   );
 
   final MyDatabase _db;
   final StellarClient _stellarClient;
-  final StellarWallet _wallet;
   final AllbridgeApiClient _allbridgeApiClient;
 
   StreamSubscription<void>? _subscription;
@@ -89,27 +85,18 @@ class MoneygramOffRampPostProcessingWatcher {
         return;
       }
 
-      final payments = await _stellarClient.getPayments(_wallet.address);
-
-      final payment = payments.firstWhereOrNull(
-        (it) => it.transactionHash == destination.txId, //TODO confirm
-      );
+      final payment = await _stellarClient.getPaymentByTxId(destination.txId);
 
       if (payment == null) {
         return;
       }
 
-      final receivedAmount =
-          destination.amount; //TODO parse to int, update decimals to 6
-
-      //TODO fetch moneygram withdraw url, order id, token
-      // store to db
+      final receivedAmount = int.parse(destination.amount);
 
       await statement.write(
-        const OffRampOrderRowsCompanion(
-          status: Value.absentIfNull(
-            OffRampOrderStatus.waitingForPartner,
-          ), //TODO upd status
+        OffRampOrderRowsCompanion(
+          status: const Value(OffRampOrderStatus.ready),
+          receiveAmount: Value(receivedAmount),
         ),
       );
     });
