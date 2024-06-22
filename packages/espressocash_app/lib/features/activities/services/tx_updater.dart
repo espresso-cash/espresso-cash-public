@@ -2,6 +2,7 @@ import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:solana/base58.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
@@ -30,44 +31,105 @@ class TxUpdater implements Disposable {
   }) =>
       _cache.fetch(
         () => tryEitherAsync((_) async {
-          final Ed25519HDPublicKey tokenAccount;
-          String? mostRecentTxId;
-
-          if (tokenAddress == Token.sol.address || tokenAddress == null) {
-            tokenAccount = _wallet.publicKey;
-            mostRecentTxId = await _repo.mostRecentTxId();
+          final String? mostRecentTxId = await _repo.mostRecentTxId();
+          if (tokenAddress == null) {
+            await _updateAllTokenAccounts(mostRecentTxId);
+            await _updateSolTransactions(mostRecentTxId);
           } else {
-            tokenAccount = await findAssociatedTokenAddress(
-              owner: _wallet.publicKey,
-              mint: Ed25519HDPublicKey.fromBase58(
-                tokenAddress,
-              ),
-            );
-          }
-
-          const fetchLimit = 100;
-
-          final details = await _client.rpcClient.getTransactionsList(
-            tokenAccount,
-            until: mostRecentTxId,
-            limit: fetchLimit,
-            encoding: Encoding.base64,
-            commitment: Commitment.confirmed,
-          );
-
-          if (details.isNotEmpty) {
-            final txs =
-                details.map((it) => it.toFetched(tokenAccount, tokenAddress));
-
-            final hasGap = mostRecentTxId != null && txs.length == fetchLimit;
-
-            await _repo.saveAll(
-              txs,
-              clear: hasGap,
-            );
+            await _updateTokenTransactions(tokenAddress, mostRecentTxId);
           }
         }),
       );
+
+  Future<void> _updateAllTokenAccounts(String? mostRecentTxId) async {
+    final tokenAccounts = await getAllTokenAccounts(_wallet.publicKey);
+    for (final account in tokenAccounts) {
+      final accountTokenAddress = await getMintAddressForTokenAccount(account);
+      await _fetchAndSaveTransactions(
+        account,
+        accountTokenAddress,
+        mostRecentTxId,
+        50,
+      );
+    }
+  }
+
+  Future<void> _updateSolTransactions(String? mostRecentTxId) async {
+    await _fetchAndSaveTransactions(
+      _wallet.publicKey,
+      Token.sol.address,
+      mostRecentTxId,
+      50,
+    );
+  }
+
+  Future<void> _updateTokenTransactions(
+    String tokenAddress,
+    String? mostRecentTxId,
+  ) async {
+    if (tokenAddress == Token.sol.address) {
+      await _fetchAndSaveTransactions(
+        _wallet.publicKey,
+        tokenAddress,
+        mostRecentTxId,
+        10,
+      );
+    } else {
+      final tokenAccount = await findAssociatedTokenAddress(
+        owner: _wallet.publicKey,
+        mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
+      );
+      await _fetchAndSaveTransactions(tokenAccount, tokenAddress, null, 50);
+    }
+  }
+
+  Future<void> _fetchAndSaveTransactions(
+    Ed25519HDPublicKey account,
+    String tokenAddress,
+    String? until,
+    int limit,
+  ) async {
+    final transactionDetails = await _client.rpcClient.getTransactionsList(
+      account,
+      until: until,
+      limit: limit,
+      encoding: Encoding.base64,
+      commitment: Commitment.confirmed,
+    );
+
+    if (transactionDetails.isNotEmpty) {
+      final txs =
+          transactionDetails.map((it) => it.toFetched(account, tokenAddress));
+      final hasGap = txs.length == limit;
+      await _repo.saveAll(txs, clear: hasGap);
+    }
+  }
+
+  Future<List<Ed25519HDPublicKey>> getAllTokenAccounts(
+    Ed25519HDPublicKey owner,
+  ) async {
+    final accounts = await _client.rpcClient.getTokenAccountsByOwner(
+      owner.toBase58(),
+      encoding: Encoding.base64,
+      const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+    );
+    return accounts.value
+        .map((account) => Ed25519HDPublicKey.fromBase58(account.pubkey))
+        .toList();
+  }
+
+  Future<String> getMintAddressForTokenAccount(
+    Ed25519HDPublicKey tokenAccount,
+  ) async {
+    final accountInfo = await _client.rpcClient.getAccountInfo(
+      tokenAccount.toBase58(),
+      encoding: Encoding.base64,
+    );
+    final data = accountInfo.value!.data! as BinaryAccountData;
+    final mintAddressBytes = data.data.sublist(0, 32);
+    return Ed25519HDPublicKey.fromBase58(base58encode(mintAddressBytes))
+        .toBase58();
+  }
 
   @override
   Future<void> onDispose() => _repo.clear();
@@ -89,8 +151,8 @@ extension on TransactionDetails {
     if (tokenAddress == Token.sol.address) {
       preTokenBalance = meta!.preBalances;
       postTokenBalance = meta!.postBalances;
-      rawAmount = (postTokenBalance as List<int>)[0] -
-          (preTokenBalance as List<int>)[0];
+      rawAmount = (postTokenBalance as List<int>)[accountIndex] -
+          (preTokenBalance as List<int>)[accountIndex];
 
       amount = CryptoAmount(
         value: rawAmount,

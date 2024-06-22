@@ -84,8 +84,10 @@ class TokenDetailsScreen extends StatelessWidget {
                                       ),
                                       child: Column(
                                         children: [
-                                          const TokenInfo(),
-                                          TokenRecentActivityWidget(
+                                          TokenInfo(
+                                            tokenAddress: token.address,
+                                          ),
+                                          RecentTokenActivityWidget(
                                             tokenAddress: token.address,
                                           ),
                                         ],
