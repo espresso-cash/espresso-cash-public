@@ -26,10 +26,7 @@ class TxUpdater implements Disposable {
 
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
-  Future<void> call({
-    String? tokenAddress,
-  }) =>
-      _cache.fetch(
+  Future<void> call({String? tokenAddress}) => _cache.fetch(
         () => tryEitherAsync((_) async {
           final String? mostRecentTxId = await _repo.mostRecentTxId();
           if (tokenAddress == null) {
@@ -43,15 +40,18 @@ class TxUpdater implements Disposable {
 
   Future<void> _updateAllTokenAccounts(String? mostRecentTxId) async {
     final tokenAccounts = await getAllTokenAccounts(_wallet.publicKey);
-    for (final account in tokenAccounts) {
-      final accountTokenAddress = await getMintAddressForTokenAccount(account);
-      await _fetchAndSaveTransactions(
-        account,
-        accountTokenAddress,
-        mostRecentTxId,
-        50,
-      );
-    }
+    await Future.wait(
+      tokenAccounts.map((account) async {
+        final accountTokenAddress =
+            await getMintAddressForTokenAccount(account);
+        return _fetchAndSaveTransactions(
+          account,
+          accountTokenAddress,
+          mostRecentTxId,
+          50,
+        );
+      }),
+    );
   }
 
   Future<void> _updateSolTransactions(String? mostRecentTxId) async {

@@ -35,33 +35,17 @@ class RecentTokenActivityWidget extends StatefulWidget {
 }
 
 class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
-  late final Stream<IList<String>> _txs;
-  final Map<String, List<String>> groupedData = {};
-  final Set<String> fetchedTransactionIds = {};
-  final Map<String, Transaction> transactionsCache = {};
+  late final Stream<Map<String, IList<TxCommon>>> _groupedTxs;
 
   @override
   void initState() {
     super.initState();
-    _txs = sl<TransactionRepository>().watchByAddress(widget.tokenAddress);
     sl<TxUpdater>().call(tokenAddress: widget.tokenAddress);
-    _txs.listen((data) {
-      if (mounted) {
-        for (final e in data) {
-          if (!fetchedTransactionIds.contains(e)) {
-            sl<TransactionRepository>().watch(e).listen((transaction) {
-              if (mounted) {
-                transactionsCache[e] = transaction;
-                addTransaction(e, transaction);
-              }
-            });
-          }
-        }
-      }
-    });
+    _groupedTxs =
+        sl<TransactionRepository>().watchGroupedByDate(widget.tokenAddress);
   }
 
-  String formatDate(String date) {
+  String _formatDate(String date) {
     final parsedDate = DateTime.parse(date);
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
@@ -79,41 +63,22 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
     }
   }
 
-  void addTransaction(String transactionId, Transaction transaction) {
-    final date = DateFormat('yyyy-MM-dd').format(
-      transaction.map(
-        common: (t) => t.created!,
-        activity: (txActivity) => txActivity.activity.map(
-          outgoingPaymentRequest: (p) => p.created,
-          outgoingDirectPayment: (p) => p.created,
-          outgoingLinkPayment: (p) => p.created,
-          onRamp: (it) => it.created,
-          offRamp: (it) => it.created,
-          outgoingDlnPayment: (it) => it.created,
-          transactionRequest: (it) => it.created,
-        ),
-      ),
-    );
-
-    if (!fetchedTransactionIds.contains(transactionId)) {
-      fetchedTransactionIds.add(transactionId);
-
-      groupedData
-        ..putIfAbsent(date, () => [])
-        ..update(date, (list) => list..add(transactionId));
-    }
-  }
-
   @override
-  Widget build(BuildContext context) => StreamBuilder<IList<String>>(
-        stream: _txs,
+  Widget build(BuildContext context) =>
+      StreamBuilder<Map<String, IList<TxCommon>>>(
+        stream: _groupedTxs,
         builder: (context, snapshot) {
           final data = snapshot.data;
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           }
 
-          if (data == null) return const SizedBox.shrink();
+          if (data == null || data.isEmpty) {
+            return const Center(child: _NoActivity());
+          }
+
+          final sortedDates = data.keys.toList()
+            ..sort((a, b) => b.compareTo(a));
 
           return HomeTile(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 32),
@@ -122,110 +87,88 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 16),
-                if (data.isEmpty)
-                  const Center(
-                    child: _NoActivity(),
-                  )
-                else ...[
-                  Column(
-                    children: groupedData.entries.map((entry) {
-                      final date = entry.key;
-                      final transactionIds = entry.value;
-                      final tx = txIdMap(transactionIds).toList();
+                ...sortedDates.map((date) {
+                  final transactions = data[date]!
+                      .sort((a, b) => b.created!.compareTo(a.created!));
 
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 12.0,
-                              bottom: 9.0,
-                            ),
-                            child: Text(
-                              formatDate(date),
-                              style: dashboardSectionTitleTextStyle,
-                            ),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12.0, bottom: 9.0),
+                        child: Text(
+                          _formatDate(date),
+                          style: dashboardSectionTitleTextStyle,
+                        ),
+                      ),
+                      _Card(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: transactions.length * 60,
+                            minWidth: MediaQuery.sizeOf(context).width,
                           ),
-                          _Card(
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: transactionIds.length * 60,
-                                minWidth: MediaQuery.sizeOf(context).width,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    children: tx,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: transactions
+                                .map(
+                                  (tx) => tx.map(
+                                    common: (t) => CommonTile(
+                                      key: ValueKey(t.tx.id),
+                                      txCommon: t,
+                                      showIcon: false,
+                                    ),
+                                    activity: (txActivity) =>
+                                        txActivity.activity.map(
+                                      outgoingPaymentRequest: (p) =>
+                                          PaymentRequestTile(
+                                        key: ValueKey(p.id),
+                                        id: p.id,
+                                        showIcon: false,
+                                      ),
+                                      outgoingDirectPayment: (p) => ODPTile(
+                                        key: ValueKey(p.id),
+                                        activity: p,
+                                        showIcon: false,
+                                      ),
+                                      outgoingLinkPayment: (p) => OLPTile(
+                                        key: ValueKey(p.id),
+                                        activity: p,
+                                        showIcon: false,
+                                      ),
+                                      onRamp: (it) => OnRampTile(
+                                        key: ValueKey(it.id),
+                                        activity: it,
+                                        showIcon: false,
+                                      ),
+                                      offRamp: (it) => OffRampTile(
+                                        key: ValueKey(it.id),
+                                        activity: it,
+                                        showIcon: false,
+                                      ),
+                                      outgoingDlnPayment: (it) =>
+                                          OutgoingDlnTile(
+                                        key: ValueKey(it.id),
+                                        activity: it,
+                                        showIcon: false,
+                                      ),
+                                      transactionRequest: (it) => TrTile(
+                                        key: ValueKey(it.id),
+                                        activity: it,
+                                        showIcon: false,
+                                      ),
+                                    ),
                                   ),
-                                ],
-                              ),
-                            ),
+                                )
+                                .toList(),
                           ),
-                          const SizedBox(
-                            height: 40,
-                          ),
-                        ],
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 8),
-                ],
+                        ),
+                      ),
+                      const SizedBox(height: 40),
+                    ],
+                  );
+                }),
+                const SizedBox(height: 8),
               ],
-            ),
-          );
-        },
-      );
-
-  Iterable<Widget> txIdMap(List<String> transactionIds) => transactionIds.map(
-        (e) {
-          final tx = transactionsCache[e];
-          if (tx == null) {
-            return const SizedBox.shrink();
-          }
-
-          return tx.map(
-            common: (t) => CommonTile(
-              key: ValueKey(t.tx.id),
-              txCommon: t,
-              showIcon: false,
-            ),
-            activity: (txActivity) => txActivity.activity.map(
-              outgoingPaymentRequest: (p) => PaymentRequestTile(
-                key: ValueKey(p.id),
-                id: p.id,
-                showIcon: false,
-              ),
-              outgoingDirectPayment: (p) => ODPTile(
-                key: ValueKey(p.id),
-                activity: p,
-                showIcon: false,
-              ),
-              outgoingLinkPayment: (p) => OLPTile(
-                key: ValueKey(p.id),
-                activity: p,
-                showIcon: false,
-              ),
-              onRamp: (it) => OnRampTile(
-                key: ValueKey(it.id),
-                activity: it,
-                showIcon: false,
-              ),
-              offRamp: (it) => OffRampTile(
-                key: ValueKey(it.id),
-                activity: it,
-                showIcon: false,
-              ),
-              outgoingDlnPayment: (it) => OutgoingDlnTile(
-                key: ValueKey(it.id),
-                activity: it,
-                showIcon: false,
-              ),
-              transactionRequest: (it) => TrTile(
-                key: ValueKey(it.id),
-                activity: it,
-                showIcon: false,
-              ),
             ),
           );
         },
@@ -249,20 +192,20 @@ class RecentActivityWidget extends StatefulWidget {
 }
 
 class _RecentActivityWidgetState extends State<RecentActivityWidget> {
-  final int _activityCount = 3;
+  int activityCount = 3;
 
-  late final Stream<IList<String>> _txs;
+  late final Stream<IList<String>> txs;
 
   @override
   void initState() {
     super.initState();
-    _txs = sl<TransactionRepository>().watchCount(_activityCount);
+    txs = sl<TransactionRepository>().watchCount(activityCount);
     sl<TxUpdater>().call();
   }
 
   @override
   Widget build(BuildContext context) => StreamBuilder<IList<String>>(
-        stream: _txs,
+        stream: txs,
         builder: (context, snapshot) {
           final data = snapshot.data;
 

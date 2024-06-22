@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
@@ -41,6 +42,26 @@ class TransactionRepository {
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
+  }
+
+  Stream<Map<String, IList<TxCommon>>> watchGroupedByDate(String tokenAddress) {
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query.watch().map((rows) {
+      final grouped = <String, IList<TxCommon>>{};
+      for (final row in rows) {
+        final model = row.toModel();
+        final date = DateFormat('yyyy-MM-dd').format(model.created!);
+        grouped.update(
+          date,
+          (list) => list.add(model),
+          ifAbsent: () => IList([model]),
+        );
+      }
+      return grouped;
+    });
   }
 
   Stream<IList<String>> watchCount(int count) {
