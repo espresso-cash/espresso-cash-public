@@ -16,10 +16,10 @@ import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
+import '../../../services/on_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 

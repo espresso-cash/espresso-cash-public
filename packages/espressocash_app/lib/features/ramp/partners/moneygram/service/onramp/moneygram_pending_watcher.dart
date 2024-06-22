@@ -12,7 +12,7 @@ import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../../stellar/models/stellar_wallet.dart';
 import '../../../../../stellar/service/stellar_client.dart';
-import '../../../../data/on_ramp_order_service.dart';
+import '../../../../services/on_ramp_order_service.dart';
 import '../../data/dto.dart';
 import '../../data/moneygram_client.dart';
 

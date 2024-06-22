@@ -17,7 +17,7 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../data/on_ramp_order_service.dart';
+import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
 
 class OnRampOrderScreen extends StatefulWidget {

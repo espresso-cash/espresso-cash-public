@@ -17,7 +17,7 @@ import '../../../ui/web_view_screen.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../data/on_ramp_order_service.dart';
+import '../services/on_ramp_order_service.dart';
 import 'countdown_timer.dart';
 
 typedef Deposit = ({
