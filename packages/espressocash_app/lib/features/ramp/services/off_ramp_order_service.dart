@@ -20,7 +20,6 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
-import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
@@ -28,7 +27,6 @@ import '../../transactions/services/tx_sender.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
-import '../partners/moneygram/service/offramp/moneygram_off_ramp_order_watcher.dart';
 import '../partners/scalex/services/scalex_off_ramp_order_watcher.dart';
 
 typedef OffRampOrder = ({
@@ -59,7 +57,7 @@ class OffRampOrderService implements Disposable {
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
-  final Map<String, RampWatcher> _watchers = {};
+  final Map<String, RampWatcher?> _watchers = {};
 
   final ECWallet _account;
   final EspressoCashClient _client;
@@ -80,12 +78,12 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
-      unawaited(_watch(order.id));
       if (order.partner == RampPartner.moneygram) {
         continue;
       }
 
       _subscribe(order.id);
+      unawaited(_watch(order.id));
     }
   }
 
@@ -278,78 +276,6 @@ class OffRampOrderService implements Disposable {
         }
       });
 
-  AsyncResult<String> createMoneygramOrder({
-    required RampPartner partner,
-    required CryptoAmount submittedAmount,
-    required FiatAmount? receiveAmount,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OffRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: '',
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            receiveAmount: receiveAmount?.value,
-            fiatSymbol: receiveAmount?.fiatCurrency.symbol,
-            created: DateTime.now(),
-            humanStatus: '',
-            machineStatus: '',
-            partner: partner,
-            status: OffRampOrderStatus.preProcessing,
-            transaction: '',
-            depositAddress: '',
-            slot: BigInt.zero,
-          );
-
-          await _db.into(_db.offRampOrderRows).insert(order);
-
-          return order.id;
-        }
-      });
-
-  Future<void> updateMoneygramWithdrawUrl({
-    required String id,
-    required String withdrawUrl,
-    required String authToken,
-    required String orderId,
-  }) async {
-    final updateQuery = _db.update(_db.offRampOrderRows)
-      ..where((tbl) => tbl.id.equals(id));
-
-    await updateQuery.write(
-      OffRampOrderRowsCompanion(
-        partnerOrderId: Value(orderId),
-        withdrawUrl: Value(withdrawUrl),
-        authToken: Value(authToken),
-      ),
-    );
-  }
-
-  AsyncResult<void> updateMoneygramOrder({
-    required String id,
-    required FiatAmount? receiveAmount,
-    required String withdrawMemo,
-    required String withdrawAnchorAccount,
-    required String moreInfoUrl,
-    required OffRampOrderStatus status,
-  }) =>
-      tryEitherAsync((_) async {
-        final updateQuery = _db.update(_db.offRampOrderRows)
-          ..where((tbl) => tbl.id.equals(id));
-
-        await updateQuery.write(
-          OffRampOrderRowsCompanion(
-            receiveAmount: Value(receiveAmount?.value),
-            fiatSymbol: Value(receiveAmount?.fiatCurrency.symbol),
-            withdrawAnchorAccount: Value(withdrawAnchorAccount),
-            withdrawMemo: Value(withdrawMemo),
-            moreInfoUrl: Value(moreInfoUrl),
-            status: Value(status),
-          ),
-        );
-      });
-
   @useResult
   AsyncResult<String> createFromTx({
     required SignedTx tx,
@@ -383,12 +309,12 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
-      RampPartner.moneygram => sl<MoneygramOffRampOrderWatcher>(),
+      RampPartner.moneygram => null,
       RampPartner.rampNetwork ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }
-      ..watch(orderId);
+      ?..watch(orderId);
   }
 
   void _subscribe(String orderId) {
@@ -455,7 +381,7 @@ class OffRampOrderService implements Disposable {
   @override
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
-    _watchers.values.map((it) => it.close());
+    _watchers.values.map((it) => it?.close());
     await _db.delete(_db.offRampOrderRows).go();
   }
 

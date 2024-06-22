@@ -172,24 +172,24 @@ class OffRampOrderScreenContent extends StatelessWidget {
       statusTitle: statusTitle?.let(Text.new),
       statusContent: Text(statusContent),
       content: CpContentPadding(
-        child: Column(
-          children: [
-            const Spacer(flex: 1),
-            _Timeline(
-              order: order,
-              amount: totalAmount,
-            ),
-            const Spacer(flex: 4),
-            PartnerOrderIdWidget(orderId: order.partnerOrderId),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _Timeline(
+                order: order,
+                amount: totalAmount,
+              ),
+              PartnerOrderIdWidget(orderId: order.partnerOrderId),
+              if (primaryButton != null) ...[
+                const SizedBox(height: 12),
+                primaryButton,
+              ],
+              Opacity(
+                opacity: showCancelButton ? 1 : 0,
+                child: _CancelButton(handleCanceled: handleCanceled),
+              ),
             ],
-            Opacity(
-              opacity: showCancelButton ? 1 : 0,
-              child: _CancelButton(handleCanceled: handleCanceled),
-            ),
-          ],
+          ),
         ),
       ),
     );

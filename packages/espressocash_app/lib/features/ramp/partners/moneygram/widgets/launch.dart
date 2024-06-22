@@ -4,7 +4,6 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-import '../../../../../data/db/db.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
@@ -26,6 +25,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
+import '../service/offramp/moneygram_off_ramp_service.dart';
 
 typedef MoneygramLink = ({String id, String url, String token});
 
@@ -187,9 +187,8 @@ window.addEventListener("message", (event) => {
       () async => _calculateFee(amount: submittedAmount, type: type),
     );
 
-    await sl<OffRampOrderService>()
+    await sl<MoneygramOffRampOrderService>()
         .createMoneygramOrder(
-      partner: partner,
       submittedAmount: submittedAmount,
       receiveAmount: receiveAmount as FiatAmount,
     )
@@ -206,8 +205,6 @@ window.addEventListener("message", (event) => {
 
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     String? withdrawUrl = order.withdrawUrl;
-    String? orderId = order.partnerOrderId;
-    String? authToken = order.authToken;
 
     if (withdrawUrl == null) {
       final response = await _generateWithdrawLink(
@@ -221,10 +218,7 @@ window.addEventListener("message", (event) => {
       }
 
       withdrawUrl = response.url;
-      orderId = response.id;
-      authToken = response.token;
-
-      await sl<OffRampOrderService>().updateMoneygramWithdrawUrl(
+      await sl<MoneygramOffRampOrderService>().updateMoneygramWithdrawUrl(
         id: order.id,
         withdrawUrl: withdrawUrl,
         authToken: response.token,
@@ -239,27 +233,14 @@ window.addEventListener("message", (event) => {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          final transaction = await _fetchTransactionStatus(
-            id: orderId ?? '',
-            token: authToken ?? '',
-          );
-
-          final receiveAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountOut ?? '0'),
-            currency: Currency.usd,
-          ) as FiatAmount;
-
-          await sl<OffRampOrderService>().updateMoneygramOrder(
+          Navigator.pop(this);
+          await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
             id: order.id,
-            receiveAmount: receiveAmount,
-            withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
-            withdrawMemo: transaction.withdrawMemo ?? '',
-            moreInfoUrl: transaction.moreInfoUrl ?? '',
-            status: OffRampOrderStatus.sendingDepositTx,
           );
           orderWasCreated = true;
         },
       );
+      //TODO if able, find a way to listen to close button event
       await controller.evaluateJavascript(
         source: '''
 window.addEventListener("message", (event) => {
@@ -278,32 +259,16 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  // Todo(vsumin): finish refund
   Future<void> openMoneygramMoreInfoUrl(OffRampOrder order) async {
     Future<void> handleLoaded(InAppWebViewController controller) async {
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
-          final transaction = await _fetchTransactionStatus(
-            id: order.partnerOrderId,
-            token: order.authToken ?? '',
-          );
-
-          final receiveAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountOut ?? '0'),
-            currency: Currency.usd,
-          ) as FiatAmount;
-
-          await sl<OffRampOrderService>().updateMoneygramOrder(
-            id: order.id,
-            receiveAmount: receiveAmount,
-            withdrawAnchorAccount: transaction.withdrawAnchorAccount ?? '',
-            withdrawMemo: transaction.withdrawMemo ?? '',
-            moreInfoUrl: transaction.moreInfoUrl ?? '',
-            status: OffRampOrderStatus.processingRefund,
-          );
+          Navigator.pop(this);
+          await sl<MoneygramOffRampOrderService>().processRefund(order.id);
         },
       );
+
       await controller.evaluateJavascript(
         source: '''
 window.addEventListener("message", (event) => {
