@@ -19,9 +19,11 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
-import '../../../services/on_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
+import '../service/moneygram_on_ramp_service.dart';
+
+typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
   Future<void> launchMoneygramOnRamp() async {
@@ -63,10 +65,9 @@ extension BuildContextExt on BuildContext {
     final token = response.token;
     final orderId = response.id;
 
-    final id = await sl<OnRampOrderService>()
+    final id = await sl<MoneygramOnRampOrderService>()
         .createPendingMoneygram(
       orderId: orderId,
-      partner: partner,
       submittedAmount: submittedAmount,
       authToken: token,
     )
@@ -92,38 +93,9 @@ extension BuildContextExt on BuildContext {
         callback: (args) async {
           if (orderWasCreated) return;
 
-          final transaction = await _fetchTransactionStatus(
-            id: orderId,
-            token: token,
-          );
+          OnRampOrderScreen.pushReplacement(this, id: id);
 
-          final transferAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountIn ?? '0'),
-            currency: Currency.usd,
-          ) as FiatAmount;
-
-          final receiveAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountOut ?? '0'),
-            currency: Currency.usdc,
-          ) as CryptoAmount;
-
-          await sl<OnRampOrderService>()
-              .updateMoneygramOrder(
-            id: id,
-            receiveAmount: receiveAmount,
-            transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
-            transferAmount: transferAmount,
-            authToken: token,
-            moreInfoUrl: transaction.moreInfoUrl ?? '',
-          )
-              .then((order) {
-            switch (order) {
-              case Left<Exception, void>():
-                break;
-              case Right<Exception, void>():
-                OnRampOrderScreen.pushReplacement(this, id: id);
-            }
-          });
+          await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
 
           orderWasCreated = true;
         },
@@ -146,25 +118,10 @@ window.addEventListener("message", (event) => {
     );
   }
 
-  Future<TransactionStatus> _fetchTransactionStatus({
-    required String id,
-    required String token,
-  }) =>
-      runWithLoader<TransactionStatus>(this, () async {
-        final client = sl<MoneygramApiClient>();
-
-        return client
-            .fetchTransaction(
-              id: id,
-              authHeader: token.toAuthHeader(),
-            )
-            .then((e) => e.transaction);
-      });
-
-  Future<({String id, String url, String token})?> _generateDepositLink({
+  Future<MoneygramLink?> _generateDepositLink({
     required double amount,
   }) =>
-      runWithLoader<({String id, String url, String token})?>(this, () async {
+      runWithLoader<MoneygramLink?>(this, () async {
         try {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();

@@ -78,6 +78,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final manualDeposit = order.manualDeposit;
     final bool isManualBankTransfer = manualDeposit != null;
 
+    if (order.status == OnRampOrderStatus.pending) {
+      return TransferProgress(onBack: () => Navigator.pop(context));
+    }
+
     if (order.status == OnRampOrderStatus.waitingForDeposit &&
         isManualBankTransfer) {
       return OnRampDepositWidget(
@@ -105,6 +109,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
+      OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
       OnRampOrderStatus.waitingForPartner =>
@@ -267,6 +272,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -280,6 +286,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -297,6 +304,7 @@ extension on OnRampOrderStatus {
           0,
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.failure ||
         OnRampOrderStatus.completed =>
           1,
