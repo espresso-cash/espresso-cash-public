@@ -93,6 +93,7 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
                     sortedTxs = transactions.sort((a, b) {
                       final aCreated = a.created;
                       final bCreated = b.created;
+
                       return (aCreated != null && bCreated != null)
                           ? bCreated.compareTo(aCreated)
                           : 0;
