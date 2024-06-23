@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -15,6 +16,8 @@ import 'package:uuid/uuid.dart';
 import '../../../../../../data/db/db.dart';
 import '../../../../../accounts/auth_scope.dart';
 import '../../../../../accounts/models/ec_wallet.dart';
+import '../../../../../balances/services/refresh_balance.dart';
+import '../../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../../currency/models/amount.dart';
 import '../../../../../currency/models/currency.dart';
 import '../../../../../ramp_partner/models/ramp_partner.dart';
@@ -44,11 +47,13 @@ class MoneygramOffRampOrderService implements Disposable {
     this._allbridgeApiClient,
     this._solanaClient,
     this._txConfirm,
+    this._refreshBalance,
   );
 
   final MyDatabase _db;
   final TxSender _sender;
   final TxConfirm _txConfirm;
+  final RefreshBalance _refreshBalance;
 
   final ECWallet _ecWallet;
   final StellarWallet _stellarWallet;
@@ -120,6 +125,11 @@ class MoneygramOffRampOrderService implements Disposable {
 
             case OffRampOrderStatus.processingRefund:
               return Stream.fromFuture(_processRefund(order));
+
+            case OffRampOrderStatus.waitingForRefundBridge:
+              _watchRefundBridge(order);
+
+              return const Stream.empty();
 
             case OffRampOrderStatus.completed:
             case OffRampOrderStatus.cancelled:
@@ -473,24 +483,19 @@ class MoneygramOffRampOrderService implements Disposable {
   Future<OffRampOrderRowsCompanion?> _sendPayment(OffRampOrderRow order) async {
     final accountId = _stellarWallet.address;
 
-    final orderId = order.partnerOrderId;
-    String? token = order.authToken;
+    final amount = CryptoAmount(
+      value: order.amount,
+      cryptoCurrency: Currency.usdc,
+    );
 
-    token ??= await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
-
-    final transaction = await _moneygramClient
-        .fetchTransaction(
-          id: orderId,
-          authHeader: token.toAuthHeader(),
-        )
-        .then((e) => e.transaction);
+    final String formattedAmount =
+        amount.format(const Locale('en'), skipSymbol: true);
 
     final transactionSucceed = await _stellarClient.sendUsdc(
       accountId,
       destinationAddress: order.withdrawAnchorAccount ?? '',
       memo: order.withdrawMemo ?? '',
-      amount: transaction.amountIn ?? '',
-      //TODO get amountIn this from DB instead of fetching to remove fetching of transaction here
+      amount: formattedAmount,
     );
 
     return transactionSucceed
@@ -506,7 +511,9 @@ class MoneygramOffRampOrderService implements Disposable {
     final existingHash = order.stellarTxHash;
 
     if (existingHash != null) {
-      return null;
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.waitingForRefundBridge),
+      );
     }
 
     final amount = CryptoAmount(
@@ -544,7 +551,9 @@ class MoneygramOffRampOrderService implements Disposable {
     );
 
     if (hash == null) {
-      return null;
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.processingRefund),
+      );
     }
 
     final result = await _stellarClient.pollStatus(hash);
@@ -553,12 +562,14 @@ class MoneygramOffRampOrderService implements Disposable {
       return null;
     }
 
-    print('TODO');
-
-    return OffRampOrderRowsCompanion(
-      stellarTxHash: Value(hash),
-      //TODO upd status: awaiting refund bridge maybe
-    );
+    return result?.status != GetTransactionResponse.STATUS_SUCCESS
+        ? const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.processingRefund),
+          )
+        : OffRampOrderRowsCompanion(
+            stellarTxHash: Value(hash),
+            status: const Value(OffRampOrderStatus.waitingForRefundBridge),
+          );
   }
 
   void _watchRefundBridge(OffRampOrderRow order) {
@@ -609,6 +620,8 @@ class MoneygramOffRampOrderService implements Disposable {
       if (waitResult != const TxWaitSuccess()) {
         return;
       }
+
+      _refreshBalance();
 
       await statement.write(
         OffRampOrderRowsCompanion(

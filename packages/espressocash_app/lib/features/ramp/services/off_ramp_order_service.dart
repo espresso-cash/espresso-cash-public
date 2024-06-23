@@ -200,6 +200,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.processingRefund:
+      case OffRampOrderStatus.waitingForRefundBridge:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
         break;
@@ -226,6 +227,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.processingRefund:
+      case OffRampOrderStatus.waitingForRefundBridge:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.depositTxConfirmError:
@@ -363,6 +365,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.processingRefund:
+        case OffRampOrderStatus.waitingForRefundBridge:
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 

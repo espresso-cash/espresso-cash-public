@@ -132,6 +132,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
         context.l10n.offRampDepositError,
       OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
       OffRampOrderStatus.processingRefund => 'Your withdrawal refunded',
+      OffRampOrderStatus.waitingForRefundBridge => 'Your withdrawal refunded',
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           totalAmount.format(locale),
@@ -158,6 +159,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositTxReady ||
       OffRampOrderStatus.sendingDepositTx ||
       OffRampOrderStatus.processingRefund ||
+      OffRampOrderStatus.waitingForRefundBridge ||
       OffRampOrderStatus.completed ||
       OffRampOrderStatus.cancelled =>
         null,
@@ -350,6 +352,7 @@ extension on OffRampOrderStatus {
           CpStatusType.error,
         OffRampOrderStatus.completed => CpStatusType.success,
         OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.cancelled =>
           CpStatusType.neutral,
       };
@@ -371,6 +374,7 @@ extension on OffRampOrderStatus {
           CpTimelineStatus.failure,
         OffRampOrderStatus.completed => CpTimelineStatus.success,
         OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.cancelled =>
           CpTimelineStatus.neutral,
       };
@@ -387,6 +391,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
         OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.waitingForPartner ||
@@ -402,6 +407,7 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
         OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.cancelled =>
           1,
         OffRampOrderStatus.ready ||
