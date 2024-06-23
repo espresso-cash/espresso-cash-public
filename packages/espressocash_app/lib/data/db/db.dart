@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 52;
+const int latestVersion = 53;
 
 const _tables = [
   OutgoingTransferRows,
