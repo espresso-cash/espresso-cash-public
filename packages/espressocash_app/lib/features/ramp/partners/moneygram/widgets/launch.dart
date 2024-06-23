@@ -25,7 +25,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
-import '../service/offramp/moneygram_off_ramp_service.dart';
+import '../service/moneygram_off_ramp_service.dart';
 
 typedef MoneygramLink = ({String id, String url, String token});
 
