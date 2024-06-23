@@ -10,7 +10,6 @@ import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/widgets/recent_activity.dart';
-import '../../authenticated/widgets/refresh_balance_wrapper.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -18,6 +17,7 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
+import '../widgets/loader_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
@@ -167,7 +167,7 @@ class _TokenHeader extends StatelessWidget {
         ) ??
         Decimal.zero;
 
-    return RefreshBalancesWrapper(
+    return LoadBalancesWrapper(
       builder: (context, onRefresh) {
         onRefresh();
 
