@@ -27,6 +27,9 @@ class TokenFiatBalanceService {
   static const _zeroFiat =
       FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency);
 
+  static const _unknownAmount =
+      FiatAmount(value: -1, fiatCurrency: defaultFiatCurrency);
+
   Stream<FiatAmount?> watch(Token token) {
     const fiatCurrency = defaultFiatCurrency;
     final conversionRate = _conversionRatesRepository.watchRate(
@@ -67,7 +70,7 @@ class TokenFiatBalanceService {
           .flatMap(
             (cryptoAmounts) => Rx.combineLatest(
               cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
-              (values) => values.map((e) => (e.$1, e.$2 ?? _zeroFiat)),
+              (values) => values.map((e) => (e.$1, e.$2 ?? _unknownAmount)),
             ),
           )
           .map((amount) => amount.toIList())
