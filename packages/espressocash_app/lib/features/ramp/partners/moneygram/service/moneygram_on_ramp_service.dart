@@ -284,18 +284,6 @@ class MoneygramOnRampOrderService implements Disposable {
         )
         .then((e) => e.encodedTx);
 
-    final accountId = _stellarWallet.address;
-    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
-
-    if (xlmBalance <= _minimumBridgeBalance) {
-      await _ecClient.fundXlmRequest(
-        FundXlmRequestDto(
-          accountId: accountId,
-          type: FundType.bridge,
-        ),
-      );
-    }
-
     final hash = await _stellarClient.submitTransactionFromXdrString(
       bridgeTx,
       userKeyPair: _stellarWallet.keyPair,
@@ -448,5 +436,4 @@ class MoneygramOnRampOrderService implements Disposable {
   }
 }
 
-const _minimumBridgeBalance = 2.0; // 2.0 XLM
 const _minimumInitBalance = 1.5; // 1.5 XLM
