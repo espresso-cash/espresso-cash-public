@@ -48,6 +48,14 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
     _scrollController.addListener(_onScroll);
   }
 
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
   void _onScroll() {
     setState(() {
       _paddingTop =
@@ -162,6 +170,7 @@ class _TokenHeader extends StatelessWidget {
     return RefreshBalancesWrapper(
       builder: (context, onRefresh) {
         onRefresh();
+
         return ValueStreamBuilder<CryptoFiatAmount>(
           create: () => (
             sl<TokenFiatBalanceService>().readInvestmentBalance(token),

@@ -119,7 +119,7 @@ extension FiatAmountExt on FiatAmount {
       copyWith(value: currency.decimalToInt(decimal));
 }
 
-extension FormatedAmount on Amount {
+extension FormattedAmount on Amount {
   String formatRate(double rate, Locale locale) {
     if (rate >= 1) {
       return NumberFormat.currency(
@@ -127,34 +127,34 @@ extension FormatedAmount on Amount {
         symbol: '',
         decimalDigits: 2,
       ).format(rate);
-    } else {
-      String formattedRate = rate.toStringAsFixed(10);
-      int significantDigits = 0;
-      bool pastDecimalPoint = false;
-      bool trailingZero = true;
+    }
 
-      for (int i = 0; i < formattedRate.length; i++) {
-        if (formattedRate[i] == '.') {
-          pastDecimalPoint = true;
-        } else if (pastDecimalPoint) {
-          if (formattedRate[i] != '0') {
-            trailingZero = false;
-            significantDigits++;
-          } else if (!trailingZero) {
-            significantDigits++;
-          }
-          if (significantDigits >= 2) {
-            formattedRate = formattedRate.substring(0, i + 1);
-            break;
-          }
+    String formattedRate = rate.toStringAsFixed(10);
+    int significantDigits = 0;
+    bool pastDecimalPoint = false;
+    bool trailingZero = true;
+
+    for (int i = 0; i < formattedRate.length; i++) {
+      if (formattedRate[i] == '.') {
+        pastDecimalPoint = true;
+      } else if (pastDecimalPoint) {
+        if (formattedRate[i] != '0') {
+          trailingZero = false;
+          significantDigits++;
+        } else if (!trailingZero) {
+          significantDigits++;
+        }
+        if (significantDigits >= 2) {
+          formattedRate = formattedRate.substring(0, i + 1);
+          break;
         }
       }
-
-      if (significantDigits < 2) {
-        formattedRate = rate.toStringAsFixed(2);
-      }
-
-      return formattedRate;
     }
+
+    if (significantDigits < 2) {
+      formattedRate = rate.toStringAsFixed(2);
+    }
+
+    return formattedRate;
   }
 }

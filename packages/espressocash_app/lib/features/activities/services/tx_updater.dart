@@ -44,10 +44,11 @@ class TxUpdater implements Disposable {
       tokenAccounts.map((account) async {
         final accountTokenAddress =
             await getMintAddressForTokenAccount(account);
+
         return _fetchAndSaveTransactions(
           account,
           accountTokenAddress,
-          mostRecentTxId,
+          null,
           50,
         );
       }),
@@ -93,7 +94,7 @@ class TxUpdater implements Disposable {
     try {
       transactionDetails = await _client.rpcClient.getTransactionsList(
         account,
-        until: null,
+        until: until,
         limit: limit,
         encoding: Encoding.base64,
         commitment: Commitment.confirmed,
@@ -118,6 +119,7 @@ class TxUpdater implements Disposable {
       encoding: Encoding.base64,
       const TokenAccountsFilter.byProgramId(TokenProgram.programId),
     );
+
     return accounts.value
         .map((account) => Ed25519HDPublicKey.fromBase58(account.pubkey))
         .toList();
@@ -130,8 +132,15 @@ class TxUpdater implements Disposable {
       tokenAccount.toBase58(),
       encoding: Encoding.base64,
     );
-    final data = accountInfo.value!.data! as BinaryAccountData;
+
+    final accountData = accountInfo.value?.data;
+    if (accountData == null) {
+      throw Exception('Account info or data is null');
+    }
+
+    final data = accountData as BinaryAccountData;
     final mintAddressBytes = data.data.sublist(0, 32);
+
     return Ed25519HDPublicKey.fromBase58(base58encode(mintAddressBytes))
         .toBase58();
   }
@@ -154,15 +163,17 @@ extension on TransactionDetails {
     CryptoAmount? amount;
 
     if (tokenAddress == Token.sol.address) {
-      preTokenBalance = meta!.preBalances;
-      postTokenBalance = meta!.postBalances;
-      rawAmount = (postTokenBalance as List<int>)[accountIndex] -
-          (preTokenBalance as List<int>)[accountIndex];
+      preTokenBalance = meta?.preBalances;
+      postTokenBalance = meta?.postBalances;
+      if (preTokenBalance != null && postTokenBalance != null) {
+        rawAmount = (postTokenBalance as List<int>)[accountIndex] -
+            (preTokenBalance as List<int>)[accountIndex];
 
-      amount = CryptoAmount(
-        value: rawAmount,
-        cryptoCurrency: const CryptoCurrency(token: Token.sol),
-      );
+        amount = CryptoAmount(
+          value: rawAmount,
+          cryptoCurrency: const CryptoCurrency(token: Token.sol),
+        );
+      }
     } else {
       preTokenBalance = meta?.preTokenBalances
           .where((e) => e.mint == tokenAddress)

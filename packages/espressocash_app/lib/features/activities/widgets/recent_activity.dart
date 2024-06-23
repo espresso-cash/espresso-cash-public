@@ -54,13 +54,15 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
         parsedDate.month == now.month &&
         parsedDate.day == now.day) {
       return 'Today';
-    } else if (parsedDate.year == yesterday.year &&
+    }
+
+    if (parsedDate.year == yesterday.year &&
         parsedDate.month == yesterday.month &&
         parsedDate.day == yesterday.day) {
       return 'Yesterday';
-    } else {
-      return DateFormat('MMM d, yyyy').format(parsedDate);
     }
+
+    return DateFormat('MMM d, yyyy').format(parsedDate);
   }
 
   @override
@@ -88,8 +90,19 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
               children: [
                 const SizedBox(height: 16),
                 ...sortedDates.map((date) {
-                  final transactions = data[date]!
-                      .sort((a, b) => b.created!.compareTo(a.created!));
+                  final transactions = data[date];
+                  late final IList<TxCommon> sortedTxs;
+
+                  if (transactions != null) {
+                    sortedTxs = transactions.sort((a, b) {
+                      final aCreated = a.created;
+                      final bCreated = b.created;
+                      if (aCreated != null && bCreated != null) {
+                        return bCreated.compareTo(aCreated);
+                      }
+                      return 0;
+                    });
+                  }
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,12 +117,12 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
                       _Card(
                         child: ConstrainedBox(
                           constraints: BoxConstraints(
-                            minHeight: transactions.length * 60,
+                            minHeight: sortedTxs.length * 60,
                             minWidth: MediaQuery.sizeOf(context).width,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: transactions
+                            children: sortedTxs
                                 .map(
                                   (tx) => tx.map(
                                     common: (t) => CommonTile(
@@ -192,20 +205,20 @@ class RecentActivityWidget extends StatefulWidget {
 }
 
 class _RecentActivityWidgetState extends State<RecentActivityWidget> {
-  int activityCount = 3;
+  final int _activityCount = 3;
 
-  late final Stream<IList<String>> txs;
+  late final Stream<IList<String>> _txs;
 
   @override
   void initState() {
     super.initState();
-    txs = sl<TransactionRepository>().watchCount(activityCount);
+    _txs = sl<TransactionRepository>().watchCount(_activityCount);
     sl<TxUpdater>().call();
   }
 
   @override
   Widget build(BuildContext context) => StreamBuilder<IList<String>>(
-        stream: txs,
+        stream: _txs,
         builder: (context, snapshot) {
           final data = snapshot.data;
 

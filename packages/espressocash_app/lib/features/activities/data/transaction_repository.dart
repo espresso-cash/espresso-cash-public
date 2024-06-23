@@ -53,13 +53,17 @@ class TransactionRepository {
       final grouped = <String, IList<TxCommon>>{};
       for (final row in rows) {
         final model = row.toModel();
-        final date = DateFormat('yyyy-MM-dd').format(model.created!);
-        grouped.update(
-          date,
-          (list) => list.add(model),
-          ifAbsent: () => IList([model]),
-        );
+        final created = model.created;
+        if (created != null) {
+          final date = DateFormat('yyyy-MM-dd').format(created);
+          grouped.update(
+            date,
+            (list) => list.add(model),
+            ifAbsent: () => IList([model]),
+          );
+        }
       }
+
       return grouped;
     });
   }
