@@ -147,7 +147,7 @@ class _TokenItem extends StatelessWidget {
     String fiatAmountText;
 
     fiatAmountText = fiatAmount.value < _minFiatAmount
-        ? r'<$0.01'
+        ? '-'
         : fiatAmount.format(context.locale, maxDecimals: 2);
 
     return _Card(
