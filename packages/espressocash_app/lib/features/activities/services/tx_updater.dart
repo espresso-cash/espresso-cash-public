@@ -1,5 +1,6 @@
 import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
@@ -30,7 +31,7 @@ class TxUpdater implements Disposable {
         () => tryEitherAsync((_) async {
           final String? mostRecentTxId = await _repo.mostRecentTxId();
           if (tokenAddress == null) {
-            await _updateAllTokenAccounts(mostRecentTxId);
+            await _updateAllTokenAccounts();
             await _updateSolTransactions(mostRecentTxId);
           } else {
             await _updateTokenTransactions(tokenAddress, mostRecentTxId);
@@ -38,7 +39,7 @@ class TxUpdater implements Disposable {
         }),
       );
 
-  Future<void> _updateAllTokenAccounts(String? mostRecentTxId) async {
+  Future<void> _updateAllTokenAccounts() async {
     final tokenAccounts = await getAllTokenAccounts(_wallet.publicKey);
     await Future.wait(
       tokenAccounts.map((account) async {
@@ -51,7 +52,7 @@ class TxUpdater implements Disposable {
           null,
           50,
         );
-      }),
+      }).toIList(),
     );
   }
 
@@ -166,8 +167,8 @@ extension on TransactionDetails {
       preTokenBalance = meta?.preBalances;
       postTokenBalance = meta?.postBalances;
       if (preTokenBalance != null && postTokenBalance != null) {
-        rawAmount = (postTokenBalance as List<int>)[accountIndex] -
-            (preTokenBalance as List<int>)[accountIndex];
+        rawAmount = ((postTokenBalance as List<Object>)[accountIndex] as int) -
+            ((preTokenBalance as List<Object>)[accountIndex] as int);
 
         amount = CryptoAmount(
           value: rawAmount,
@@ -183,13 +184,14 @@ extension on TransactionDetails {
           .where((e) => e.mint == tokenAddress)
           .where((e) => e.accountIndex == accountIndex)
           .firstOrNull;
-      final TokenList tokenList = GetIt.I<TokenList>();
 
       if (preTokenBalance != null && postTokenBalance != null) {
         rawAmount = int.parse(
               (postTokenBalance as TokenBalance).uiTokenAmount.amount,
             ) -
             int.parse((preTokenBalance as TokenBalance).uiTokenAmount.amount);
+
+        final TokenList tokenList = GetIt.I<TokenList>();
 
         amount = CryptoAmount(
           value: rawAmount,

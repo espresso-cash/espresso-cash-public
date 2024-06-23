@@ -50,19 +50,15 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
     final now = DateTime.now();
     final yesterday = now.subtract(const Duration(days: 1));
 
-    if (parsedDate.year == now.year &&
-        parsedDate.month == now.month &&
-        parsedDate.day == now.day) {
-      return 'Today';
-    }
-
-    if (parsedDate.year == yesterday.year &&
-        parsedDate.month == yesterday.month &&
-        parsedDate.day == yesterday.day) {
-      return 'Yesterday';
-    }
-
-    return DateFormat('MMM d, yyyy').format(parsedDate);
+    return (parsedDate.year == now.year &&
+            parsedDate.month == now.month &&
+            parsedDate.day == now.day)
+        ? 'Today'
+        : (parsedDate.year == yesterday.year &&
+                parsedDate.month == yesterday.month &&
+                parsedDate.day == yesterday.day)
+            ? 'Yesterday'
+            : DateFormat('MMM d, yyyy').format(parsedDate);
   }
 
   @override
@@ -97,10 +93,9 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
                     sortedTxs = transactions.sort((a, b) {
                       final aCreated = a.created;
                       final bCreated = b.created;
-                      if (aCreated != null && bCreated != null) {
-                        return bCreated.compareTo(aCreated);
-                      }
-                      return 0;
+                      return (aCreated != null && bCreated != null)
+                          ? bCreated.compareTo(aCreated)
+                          : 0;
                     });
                   }
 
