@@ -493,11 +493,11 @@ class MoneygramOffRampOrderService implements Disposable {
       //TODO get amountIn this from DB instead of fetching to remove fetching of transaction here
     );
 
-    return !transactionSucceed
-        ? null
-        : const OffRampOrderRowsCompanion(
+    return transactionSucceed
+        ? const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.waitingForPartner),
-          );
+          )
+        : null;
   }
 
   Future<OffRampOrderRowsCompanion?> _processRefund(

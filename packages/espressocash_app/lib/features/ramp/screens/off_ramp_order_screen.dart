@@ -398,7 +398,6 @@ extension on OffRampOrderStatus {
   int toActiveItemForMoneygram() => switch (this) {
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
-        OffRampOrderStatus.sendingDepositTx ||
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
@@ -408,7 +407,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.ready ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
-        OffRampOrderStatus.depositTxReady =>
+        OffRampOrderStatus.depositTxReady ||
+        OffRampOrderStatus.sendingDepositTx =>
           2,
         OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.failure ||
