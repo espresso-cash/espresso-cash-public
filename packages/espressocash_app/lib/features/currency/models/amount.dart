@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:decimal/decimal.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:intl/intl.dart';
 
 import '../../tokens/token.dart';
 import 'currency.dart';
@@ -114,4 +117,44 @@ extension CryptoAmountExt on CryptoAmount {
 extension FiatAmountExt on FiatAmount {
   FiatAmount copyWithDecimal(Decimal decimal) =>
       copyWith(value: currency.decimalToInt(decimal));
+}
+
+extension FormatedAmount on Amount {
+  String formatRate(double rate, Locale locale) {
+    if (rate >= 1) {
+      return NumberFormat.currency(
+        locale: locale.toString(),
+        symbol: '',
+        decimalDigits: 2,
+      ).format(rate);
+    } else {
+      String formattedRate = rate.toStringAsFixed(10);
+      int significantDigits = 0;
+      bool pastDecimalPoint = false;
+      bool trailingZero = true;
+
+      for (int i = 0; i < formattedRate.length; i++) {
+        if (formattedRate[i] == '.') {
+          pastDecimalPoint = true;
+        } else if (pastDecimalPoint) {
+          if (formattedRate[i] != '0') {
+            trailingZero = false;
+            significantDigits++;
+          } else if (!trailingZero) {
+            significantDigits++;
+          }
+          if (significantDigits >= 2) {
+            formattedRate = formattedRate.substring(0, i + 1);
+            break;
+          }
+        }
+      }
+
+      if (significantDigits < 2) {
+        formattedRate = rate.toStringAsFixed(2);
+      }
+
+      return formattedRate;
+    }
+  }
 }

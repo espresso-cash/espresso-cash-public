@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../conversion_rates/data/repository.dart';
-import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -38,7 +37,7 @@ class TokenInfo extends StatelessWidget {
           ),
           _InfoItem(
             label: 'Price',
-            value: fiatRate.format(context.locale),
+            value: '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
           ),
           _InfoItem(
             label: 'Mint Address',

@@ -59,7 +59,7 @@ class TxUpdater implements Disposable {
       _wallet.publicKey,
       Token.sol.address,
       mostRecentTxId,
-      50,
+      20,
     );
   }
 
@@ -68,18 +68,18 @@ class TxUpdater implements Disposable {
     String? mostRecentTxId,
   ) async {
     if (tokenAddress == Token.sol.address) {
-      await _fetchAndSaveTransactions(
-        _wallet.publicKey,
-        tokenAddress,
-        mostRecentTxId,
-        10,
-      );
+      await _updateSolTransactions(mostRecentTxId);
     } else {
       final tokenAccount = await findAssociatedTokenAddress(
         owner: _wallet.publicKey,
         mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
       );
-      await _fetchAndSaveTransactions(tokenAccount, tokenAddress, null, 50);
+      await _fetchAndSaveTransactions(
+        tokenAccount,
+        tokenAddress,
+        null,
+        50,
+      );
     }
   }
 
@@ -89,13 +89,18 @@ class TxUpdater implements Disposable {
     String? until,
     int limit,
   ) async {
-    final transactionDetails = await _client.rpcClient.getTransactionsList(
-      account,
-      until: until,
-      limit: limit,
-      encoding: Encoding.base64,
-      commitment: Commitment.confirmed,
-    );
+    Iterable<TransactionDetails> transactionDetails = [];
+    try {
+      transactionDetails = await _client.rpcClient.getTransactionsList(
+        account,
+        until: null,
+        limit: limit,
+        encoding: Encoding.base64,
+        commitment: Commitment.confirmed,
+      );
+    } on Exception catch (_) {
+      transactionDetails = [];
+    }
 
     if (transactionDetails.isNotEmpty) {
       final txs =
