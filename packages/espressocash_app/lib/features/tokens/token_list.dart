@@ -51,7 +51,16 @@ class TokenList {
     }
     final tokenRow = await service.tokenRepository.getToken(mint);
 
-    return tokenRow?.toModel();
+    return Token(
+      chainId: tokenRow?.chainId ?? chainId,
+      address: tokenRow?.address ?? mint,
+      symbol: tokenRow?.symbol ?? 'Unknown',
+      name: tokenRow?.name ?? 'Unknown',
+      decimals: tokenRow?.decimals ?? 0,
+      logoURI: tokenRow?.logoURI,
+      tags: tokenRow?.tags,
+      extensions: tokenRow?.extensions,
+    );
   }
 
   Future<void> initialize() async {

@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
@@ -41,9 +40,7 @@ class TokenBalancesRepository {
             rows.map((row) async {
               try {
                 return await _tokens.getTokenByMint(row.token);
-              } on Exception catch (error) {
-                debugPrint('Error while reading user tokens: $error');
-
+              } on Exception catch (_) {
                 return null;
               }
             }),
@@ -68,9 +65,7 @@ class TokenBalancesRepository {
             rows.map((row) async {
               try {
                 return await _tokens.getTokenByMint(row.token);
-              } on Exception catch (error) {
-                debugPrint('Error while watching user tokens: $error');
-
+              } on Exception catch (_) {
                 return null;
               }
             }),
@@ -103,9 +98,7 @@ class TokenBalancesRepository {
                   value: row.amount,
                   cryptoCurrency: CryptoCurrency(token: token),
                 );
-              } on Exception catch (error) {
-                debugPrint('Error while creating CryptoAmount: $error');
-
+              } on Exception catch (_) {
                 return null;
               }
             }),

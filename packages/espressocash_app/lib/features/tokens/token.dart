@@ -4,7 +4,6 @@ import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
-import '../../data/db/db.dart';
 
 part 'token.g.dart';
 
@@ -194,17 +193,4 @@ class Extensions {
   Map<String, dynamic> toJson() => _$ExtensionsToJson(this);
 
   final String? coingeckoId;
-}
-
-extension TokenRowExt on TokenRow {
-  Token toModel() => Token(
-        chainId: chainId,
-        address: address,
-        symbol: symbol,
-        name: name,
-        decimals: decimals,
-        logoURI: logoURI,
-        tags: tags,
-        extensions: extensions,
-      );
 }
