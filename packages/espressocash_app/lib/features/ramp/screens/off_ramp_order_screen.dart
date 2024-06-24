@@ -115,9 +115,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
         order.fee?.let((fee) => order.amount + fee) ?? order.amount;
 
     final String statusContent = switch (order.status) {
-      OffRampOrderStatus.preProcessing ||
-      OffRampOrderStatus.postProcessing ||
-      OffRampOrderStatus.ready ||
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
       OffRampOrderStatus.depositTxReady ||
@@ -131,14 +128,19 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
       OffRampOrderStatus.failure => context.l10n.offRampWithdrawalFailure,
-      OffRampOrderStatus.processingRefund => 'Your withdrawal refunded',
-      OffRampOrderStatus.waitingForRefundBridge => 'Your withdrawal refunded',
       OffRampOrderStatus.completed => context.l10n.offRampWithdrawSuccess,
       OffRampOrderStatus.cancelled => context.l10n.offRampWithdrawCancelled(
           totalAmount.format(locale),
         ),
       OffRampOrderStatus.insufficientFunds =>
         '${context.l10n.splitKeyErrorMessage2} ${context.l10n.errorMessageInsufficientFunds}',
+      OffRampOrderStatus.preProcessing ||
+      OffRampOrderStatus.postProcessing =>
+        'Preparing your withdrawal',
+      OffRampOrderStatus.ready => 'Open Moneygram to continue',
+      OffRampOrderStatus.processingRefund => 'Processing refund',
+      OffRampOrderStatus.waitingForRefundBridge => 'Amount being refunded',
+      OffRampOrderStatus.refunded => 'Your withdrawal refunded',
     };
 
     final Widget? primaryButton = switch (order.status) {
@@ -161,6 +163,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.processingRefund ||
       OffRampOrderStatus.waitingForRefundBridge ||
       OffRampOrderStatus.completed ||
+      OffRampOrderStatus.refunded ||
       OffRampOrderStatus.cancelled =>
         null,
     };
@@ -168,11 +171,24 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
 
+    final bridgeSubtitleContent = [
+      const SizedBox(height: 6),
+      const Text(
+        'Transfer could take a few minutes...',
+        style: TextStyle(fontSize: 14),
+      ),
+    ];
+
     return StatusScreen(
       title: context.l10n.offRampWithdrawTitle.toUpperCase(),
       statusType: order.status.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),
-      statusContent: Text(statusContent),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
+        ],
+      ),
       content: CpContentPadding(
         child: SingleChildScrollView(
           child: Column(
@@ -284,7 +300,9 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress;
+    final animated = timelineStatus == CpTimelineStatus.inProgress &&
+        order.status != OffRampOrderStatus.ready;
+
     final int activeItem = isMoneygramOrder
         ? order.status.toActiveItemForMoneygram()
         : order.status.toActiveItem();
@@ -308,6 +326,9 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.offRampWithdrawCancelledTitle,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
+    const refunding = CpTimelineItem(
+      title: 'Refunding USDC',
+    );
 
     final normalItems = [
       withdrawInitiated,
@@ -321,9 +342,17 @@ class _Timeline extends StatelessWidget {
       paymentCanceled,
     ];
 
+    final refundingItems = [
+      withdrawInitiated,
+      refunding,
+      paymentCanceled,
+    ];
+
     final items = order.status == OffRampOrderStatus.cancelled
         ? cancelingItems
-        : normalItems;
+        : order.status.isRefunding
+            ? refundingItems
+            : normalItems;
 
     return CpTimeline(
       status: timelineStatus,
@@ -343,6 +372,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
         OffRampOrderStatus.depositError ||
@@ -351,9 +382,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpStatusType.error,
         OffRampOrderStatus.completed => CpStatusType.success,
-        OffRampOrderStatus.processingRefund ||
-        OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.cancelled =>
+        OffRampOrderStatus.cancelled ||
+        OffRampOrderStatus.refunded =>
           CpStatusType.neutral,
       };
 
@@ -365,6 +395,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.ready ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
         OffRampOrderStatus.depositTxConfirmError ||
@@ -373,9 +405,8 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.failure =>
           CpTimelineStatus.failure,
         OffRampOrderStatus.completed => CpTimelineStatus.success,
-        OffRampOrderStatus.processingRefund ||
-        OffRampOrderStatus.waitingForRefundBridge ||
-        OffRampOrderStatus.cancelled =>
+        OffRampOrderStatus.cancelled ||
+        OffRampOrderStatus.refunded =>
           CpTimelineStatus.neutral,
       };
 
@@ -396,7 +427,8 @@ extension on OffRampOrderStatus {
           1,
         OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.failure ||
-        OffRampOrderStatus.completed =>
+        OffRampOrderStatus.completed ||
+        OffRampOrderStatus.refunded =>
           2,
       };
 
@@ -407,18 +439,28 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
         OffRampOrderStatus.processingRefund ||
-        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.ready ||
         OffRampOrderStatus.cancelled =>
           1,
-        OffRampOrderStatus.ready ||
         OffRampOrderStatus.depositTxRequired ||
         OffRampOrderStatus.creatingDepositTx ||
         OffRampOrderStatus.depositTxReady ||
-        OffRampOrderStatus.sendingDepositTx =>
+        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.refunded =>
           2,
         OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.failure ||
         OffRampOrderStatus.completed =>
           3,
       };
+
+  bool get isRefunding =>
+      this == OffRampOrderStatus.refunded ||
+      this == OffRampOrderStatus.processingRefund ||
+      this == OffRampOrderStatus.waitingForRefundBridge;
+
+  bool get isWaitingForBridge =>
+      this == OffRampOrderStatus.waitingForRefundBridge ||
+      this == OffRampOrderStatus.postProcessing;
 }

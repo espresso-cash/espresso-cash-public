@@ -76,6 +76,7 @@ class MoneygramOffRampOrderService implements Disposable {
             tbl.status.isNotInValues([
               OffRampOrderStatus.completed,
               OffRampOrderStatus.cancelled,
+              OffRampOrderStatus.refunded,
             ]) &
             tbl.partner.equalsValue(RampPartner.moneygram),
       );
@@ -133,6 +134,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
             case OffRampOrderStatus.completed:
             case OffRampOrderStatus.cancelled:
+            case OffRampOrderStatus.refunded:
               _subscriptions.remove(orderId)?.cancel();
 
               _watchers[orderId]?.cancel();
@@ -291,33 +293,44 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final slot = latestBlockhash.context.slot;
 
-    // TODO: commented to mock bridging
+    // `TODO`: commented to mock bridging
 
-    // final send = await _sender.send(tx, minContextSlot: slot);
+    final send = await _sender.send(tx, minContextSlot: slot);
 
-    // if (send != const TxSendSent()) {
-    //   // return;  //TODO(JE): refresh if failed
-    // }
+    if (send != const TxSendSent()) {
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.preProcessing),
+      );
+    }
 
-    // final wait = await _sender.wait(
-    //   tx,
-    //   minContextSlot: slot,
-    //   txType: 'AllBridgeTx',
-    // );
+    final wait = await _sender.wait(
+      tx,
+      minContextSlot: slot,
+      txType: 'AllBridgeTx',
+    );
 
-    // if (wait != const TxWaitSuccess()) {
-    //   // return;  //TODO(JE): refresh if failed
-    // }
+    if (wait != const TxWaitSuccess()) {
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.preProcessing),
+      );
+    }
+
+    _refreshBalance();
 
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.postProcessing),
       solanaBridgeTx: Value(tx.id),
+      transaction: Value(bridgeTx),
     );
   }
 
   Future<OffRampOrderRowsCompanion?> _readyProcess(
     OffRampOrderRow order,
   ) async {
+    if (order.partnerOrderId.isEmpty) {
+      return null;
+    }
+
     final isReady = order.status == OffRampOrderStatus.ready;
 
     final transaction = await _fetchTransactionStatus(
@@ -386,7 +399,7 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 60))
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30))
         .startWith(null)
         .asyncMap(
           (_) => _db.getOffRampOrderWithStatus(
@@ -403,38 +416,36 @@ class MoneygramOffRampOrderService implements Disposable {
               tbl.status.equals(OnRampOrderStatus.postProcessing.name),
         );
 
-      // final hash = order.solanaBridgeTx;
+      final hash = order.solanaBridgeTx;
 
-      // if (hash == null) {
-      //   return;
-      // }
+      if (hash == null) {
+        return;
+      }
 
-      // final response = await _allbridgeApiClient.fetchBridgeStatus(
-      //   BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
-      // );
+      final response = await _allbridgeApiClient
+          .fetchBridgeStatus(
+            BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+          )
+          .catchError((_) => null);
 
-      // final destination = response.receive;
+      final destination = response?.receive;
 
-      // if (destination == null) {
-      //   return;
-      // }
+      if (destination == null) {
+        return;
+      }
 
-      // final payment = await _stellarClient.getPaymentByTxId(destination.txId);
+      final payment = await _stellarClient.getPaymentByTxId(destination.txId);
 
-      // if (payment == null) {
-      //   return;
-      // }
-
-      // final receivedAmount = int.parse(destination.amount);
+      if (payment == null) {
+        return;
+      }
 
       //TODO: MOCK only
-      final receivedAmount = order.amount;
-      await Future<void>.delayed(const Duration(seconds: 1));
+      // await Future<void>.delayed(const Duration(seconds: 1));
 
       await statement.write(
-        OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.ready),
-          receiveAmount: Value(receivedAmount),
+        const OffRampOrderRowsCompanion(
+          status: Value(OffRampOrderStatus.ready),
         ),
       );
 
@@ -516,17 +527,30 @@ class MoneygramOffRampOrderService implements Disposable {
       );
     }
 
-    final amount = CryptoAmount(
-      value: order.amount,
-      cryptoCurrency: Currency.usdc,
-    );
+    final response = await _allbridgeApiClient
+        .fetchBridgeStatus(
+          BridgeStatusRequestDto(
+            chain: Chain.solana,
+            txId: order.solanaBridgeTx ?? '',
+          ),
+        )
+        .then((e) => e?.receive)
+        .catchError((_) => null);
+
+    if (response == null) {
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.processingRefund),
+      );
+    }
+
+    final amount = int.parse(response.amount) ~/ 10;
 
     final solanaAddress = _ecWallet.address;
 
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.value.toString(),
+            amount: amount.toStringAsFixed(0),
             stellarSenderAddress: _stellarWallet.address,
             solanaReceiverAddress: solanaAddress,
           ),
@@ -595,14 +619,13 @@ class MoneygramOffRampOrderService implements Disposable {
         ),
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;
       }
 
       final solanaTxId = status.txId;
-      final receiveAmount = int.tryParse(status.amount);
 
       final waitResult = await _txConfirm(txId: solanaTxId);
       if (waitResult != const TxWaitSuccess()) {
@@ -612,9 +635,8 @@ class MoneygramOffRampOrderService implements Disposable {
       _refreshBalance();
 
       await statement.write(
-        OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.cancelled),
-          receiveAmount: Value.absentIfNull(receiveAmount),
+        const OffRampOrderRowsCompanion(
+          status: Value(OffRampOrderStatus.refunded),
         ),
       );
 
@@ -652,4 +674,3 @@ class MoneygramOffRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
-const _minimumBridgeBalance = 2.0; // 2.0 XLM

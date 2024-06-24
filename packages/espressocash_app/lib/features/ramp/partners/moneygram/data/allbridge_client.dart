@@ -13,7 +13,7 @@ abstract class AllbridgeApiClient {
   factory AllbridgeApiClient() => _AllbridgeApiClient(Dio());
 
   @GET('/transfer/status')
-  Future<BridgeStatusResponseDto> fetchBridgeStatus(
+  Future<BridgeStatusResponseDto?> fetchBridgeStatus(
     @Queries() BridgeStatusRequestDto requestDto,
   );
 }

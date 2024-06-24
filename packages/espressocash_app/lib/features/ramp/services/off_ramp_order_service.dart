@@ -94,6 +94,9 @@ class OffRampOrderService implements Disposable {
       )
       ..where(
         (tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not(),
+      )
+      ..where(
+        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.refunded).not(),
       );
 
     return query
@@ -201,6 +204,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.failure:
       case OffRampOrderStatus.processingRefund:
       case OffRampOrderStatus.waitingForRefundBridge:
+      case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
         break;
@@ -218,8 +222,11 @@ class OffRampOrderService implements Disposable {
     switch (order.status) {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
-      case OffRampOrderStatus.ready:
         await updateQuery.write(_cancelled);
+      case OffRampOrderStatus.ready:
+        if (order.partner == RampPartner.moneygram) {
+          await updateQuery.write(_processRefund);
+        }
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
@@ -233,6 +240,7 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositTxConfirmError:
       case OffRampOrderStatus.preProcessing:
       case OffRampOrderStatus.postProcessing:
+      case OffRampOrderStatus.refunded:
         break;
     }
   }
@@ -366,6 +374,7 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.failure:
         case OffRampOrderStatus.processingRefund:
         case OffRampOrderStatus.waitingForRefundBridge:
+        case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 
@@ -496,5 +505,9 @@ class OffRampOrderService implements Disposable {
 
   static const _depositError = OffRampOrderRowsCompanion(
     status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
+
+  static const _processRefund = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.processingRefund),
   );
 }

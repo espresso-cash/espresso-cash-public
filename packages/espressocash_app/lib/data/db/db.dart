@@ -228,6 +228,7 @@ enum OffRampOrderStatus {
   ready, // MG
   processingRefund, // MG
   waitingForRefundBridge, // MG
+  refunded, // MG
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
