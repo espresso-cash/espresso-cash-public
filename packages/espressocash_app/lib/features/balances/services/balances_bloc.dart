@@ -119,7 +119,9 @@ class _MainTokenAccount {
 
     if (expectedPubKey.toBase58() != pubKey) return null;
 
-    final token = tokens.getTokenByMint(info.mint);
+    final Token? token = await tokens.getTokenByMint(info.mint);
+
+    if (token == null) return null;
 
     return _MainTokenAccount._(pubKey, info, token);
   }

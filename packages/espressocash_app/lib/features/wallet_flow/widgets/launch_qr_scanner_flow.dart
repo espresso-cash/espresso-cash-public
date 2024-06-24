@@ -53,7 +53,7 @@ extension BuildContextExt on BuildContext {
       final name = request.mapOrNull(
         solanaPay: (r) => r.request.label,
       );
-      final requestAmount = request.whenOrNull(
+      final requestAmount = await request.whenOrNull(
         solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
       );
 

@@ -37,10 +37,18 @@ class TokenBalancesRepository {
       ..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
     return query.get().then(
-          (rows) => rows
-              .map((row) => _tokens.getTokenByMint(row.token))
-              .whereNotNull()
-              .toISet(),
+          (rows) => Future.wait(
+            rows.map((row) async {
+              try {
+                return await _tokens.getTokenByMint(row.token);
+              } on Exception catch (e) {
+                debugPrint('Error while reading user tokens: $e');
+                return null;
+              }
+            }),
+          ).then(
+            (tokens) => tokens.whereNotNull().toISet(),
+          ),
         );
   }
 
@@ -54,11 +62,19 @@ class TokenBalancesRepository {
             tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
       );
 
-    return query.watch().map(
-          (rows) => rows
-              .map((row) => _tokens.getTokenByMint(row.token))
-              .whereNotNull()
-              .toISet(),
+    return query.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map((row) async {
+              try {
+                return await _tokens.getTokenByMint(row.token);
+              } on Exception catch (e) {
+                debugPrint('Error while watching user tokens: $e');
+                return null;
+              }
+            }),
+          ).then(
+            (tokens) => tokens.whereNotNull().toISet(),
+          ),
         );
   }
 
@@ -72,26 +88,26 @@ class TokenBalancesRepository {
             tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
       );
 
-    return query.watch().map(
-          (rows) => rows
-              .map((row) {
-                final token = _tokens.getTokenByMint(row.token);
-
-                if (ignoreTokens.contains(token)) {
+    return query.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map((row) async {
+              try {
+                final Token? token = await _tokens.getTokenByMint(row.token);
+                if (ignoreTokens.contains(token) || token == null) {
                   return null;
                 }
-                try {
-                  return CryptoAmount(
-                    value: row.amount,
-                    cryptoCurrency: CryptoCurrency(token: token),
-                  );
-                } on Exception catch (e) {
-                  debugPrint('Error while creating CryptoAmount: $e');
-                }
-              })
-              .whereNotNull()
-              .sortedBy((element) => element.token.name)
-              .toIList(),
+                return CryptoAmount(
+                  value: row.amount,
+                  cryptoCurrency: CryptoCurrency(token: token),
+                );
+              } on Exception catch (e) {
+                debugPrint('Error while creating CryptoAmount: $e');
+                return null;
+              }
+            }),
+          ).then(
+            (balances) => balances.whereNotNull().toIList(),
+          ),
         );
   }
 

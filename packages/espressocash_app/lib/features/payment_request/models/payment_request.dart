@@ -41,14 +41,16 @@ extension SolanaPayRequestExt on SolanaPayRequest {
     );
   }
 
-  CryptoAmount? cryptoAmount(TokenList tokenList) {
+  Future<CryptoAmount?> cryptoAmount(TokenList tokenList) async {
     final amount = this.amount;
     if (amount == null) return null;
 
     final splToken = this.splToken;
     final token = splToken == null
         ? Token.sol
-        : tokenList.getTokenByMint(splToken.toBase58());
+        : await tokenList.getTokenByMint(splToken.toBase58());
+
+    if (token == null) return null;
 
     final currency = CryptoCurrency(token: token);
 

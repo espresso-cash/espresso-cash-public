@@ -12,16 +12,29 @@ class TokenListRepository {
 
   final MyDatabase _db;
 
-  Future<TokenRow> getToken(String address) async {
+  Future<TokenRow?> getToken(String address) async {
     final query = _db.select(_db.tokenRows)
       ..where((token) => token.address.equals(address))
       ..limit(1);
-    return query.getSingle();
+    return query.getSingleOrNull();
   }
 
-  Future<dynamic> insertToken(Insertable<TokenRow> token) =>
+  Future<dynamic> insertToken(TokenRow token) async =>
       _db.transaction(() async {
-        await _db.into(_db.tokenRows).insert(token);
+        try {
+          final existingToken = await (_db.select(_db.tokenRows)
+                ..where(
+                  (tbl) =>
+                      tbl.chainId.equals(token.chainId) &
+                      tbl.address.equals(token.address),
+                ))
+              .getSingleOrNull();
+          if (existingToken == null) {
+            await _db.into(_db.tokenRows).insert(token);
+          }
+        } on Exception catch (_) {
+          //TODO:BRN handle exception
+        }
       });
 
   Future<dynamic> insertTokens(Iterable<TokenRow> tokens) =>

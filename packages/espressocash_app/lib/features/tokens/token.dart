@@ -1,13 +1,16 @@
+import 'package:injectable/injectable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
 
 import '../../config.dart';
+import '../../data/db/db.dart';
 
 part 'token.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
+@injectable
 class Token {
   const Token({
     required this.chainId,
@@ -20,10 +23,16 @@ class Token {
     required this.extensions,
   });
 
+  @factoryMethod
   const factory Token.solana() = _SolanaToken;
 
+  @factoryMethod
+  const factory Token.unknown() = _UnknownToken;
+
+  @factoryMethod
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
 
+  @factoryMethod
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -35,11 +44,14 @@ class Token {
     required Extensions? extensions,
   }) = SplToken;
 
+  @factoryMethod
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
 
   static const sol = Token.solana();
+
+  static const unk = Token.unknown();
 
   static const wrappedSol = Token.wrappedSolana();
 
@@ -86,6 +98,21 @@ class _SolanaToken extends Token {
           decimals: 9,
           name: 'Solana',
           symbol: 'SOL',
+        );
+}
+
+class _UnknownToken extends Token {
+  const _UnknownToken()
+      : super(
+          address: 'So00000000000000000000000000000000000000000',
+          extensions: null,
+          logoURI:
+              'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
+          chainId: currentChainId,
+          tags: const [],
+          decimals: 9,
+          name: 'Solana',
+          symbol: 'UNKNOWN',
         );
 }
 
@@ -154,17 +181,30 @@ class _UsdcDevToken extends SplToken {
 }
 
 @JsonSerializable()
+@injectable
 class Extensions {
   const Extensions({
     this.coingeckoId,
   });
 
+  @factoryMethod
   factory Extensions.fromJson(Map<String, dynamic> data) =>
       _$ExtensionsFromJson(data);
 
-  Map<String, dynamic> toJson() {
-    throw const FormatException('cannot convert token to json');
-  }
+  Map<String, dynamic> toJson() => _$ExtensionsToJson(this);
 
   final String? coingeckoId;
+}
+
+extension TokenRowExt on TokenRow {
+  Token toModel() => Token(
+        chainId: chainId,
+        address: address,
+        symbol: symbol,
+        name: name,
+        decimals: decimals,
+        logoURI: logoURI,
+        tags: tags,
+        extensions: extensions,
+      );
 }

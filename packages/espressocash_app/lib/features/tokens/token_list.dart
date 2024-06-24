@@ -42,25 +42,15 @@ class TokenList {
 
   final int chainId;
 
-  Future<Token> getTokenByMint(String mint) {
+  Future<Token?> getTokenByMint(String mint) async {
     if (mint == Token.sol.address) {
       return Future.value(Token.sol);
     }
     if (mint == Token.usdc.address) {
       return Future.value(Token.usdc);
     } else {
-      return service.tokenRepository.getToken(mint).then(
-            (onValue) => Token(
-              address: onValue.address,
-              chainId: onValue.chainId,
-              decimals: onValue.decimals,
-              logoURI: onValue.logoURI,
-              name: onValue.name,
-              symbol: onValue.symbol,
-              tags: onValue.tags,
-              extensions: onValue.extensions,
-            ),
-          );
+      final tokenRow = await service.tokenRepository.getToken(mint);
+      return tokenRow?.toModel();
     }
   }
 

@@ -159,8 +159,8 @@ class OnRampOrderService implements Disposable {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().map(
-      (row) {
+    return query.watchSingle().asyncMap(
+      (row) async {
         final bankAccount = row.bankAccount;
         final bankName = row.bankName;
         final transferExpiryDate = row.bankTransferExpiry;
@@ -173,20 +173,22 @@ class OnRampOrderService implements Disposable {
             transferAmount != null &&
             fiatSymbol != null;
 
+        final Token? token = await _tokens.getTokenByMint(row.token);
+
         return (
           id: row.id,
           created: row.created,
           submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.getTokenByMint(row.token),
+              token: token ?? Token.unk,
             ),
           ),
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
               cryptoCurrency: CryptoCurrency(
-                token: _tokens.getTokenByMint(row.token),
+                token: token ?? Token.unk,
               ),
             ),
           ),

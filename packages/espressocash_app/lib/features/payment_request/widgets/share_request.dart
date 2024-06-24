@@ -29,17 +29,7 @@ class ShareRequestPayment extends StatelessWidget {
       context.l10n.requestPaymentTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
-
     final tokenList = sl<TokenList>();
-    final amount = request.payRequest.cryptoAmount(tokenList);
-
-    final link = request.shortLink ?? request.dynamicLink;
-    final formattedAmount = amount?.formatWithFiat(context) ?? '';
-
-    final message = context.l10n.sharePaymentRequestLinkMessage(
-      formattedAmount,
-      link,
-    );
 
     return CpTheme.black(
       child: Scaffold(
@@ -72,11 +62,25 @@ class ShareRequestPayment extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: ShareCodeWidget(
-                    title: context.l10n.scanToSend,
-                    amount: formattedAmount,
-                    qrCode: request.dynamicLink,
-                    shareText: message,
+                  child: FutureBuilder(
+                    future: request.payRequest.cryptoAmount(tokenList),
+                    builder: (context, snapshot) {
+                      final link = request.shortLink ?? request.dynamicLink;
+                      final formattedAmount =
+                          snapshot.data?.formatWithFiat(context) ?? '';
+
+                      final message =
+                          context.l10n.sharePaymentRequestLinkMessage(
+                        formattedAmount,
+                        link,
+                      );
+                      return ShareCodeWidget(
+                        title: context.l10n.scanToSend,
+                        amount: formattedAmount,
+                        qrCode: request.dynamicLink,
+                        shareText: message,
+                      );
+                    },
                   ),
                 ),
                 Padding(

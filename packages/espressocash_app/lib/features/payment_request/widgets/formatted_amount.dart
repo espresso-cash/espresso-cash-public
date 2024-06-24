@@ -5,6 +5,6 @@ import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 
 extension PaymentRequestFormatAmountExt on PaymentRequest {
-  String formattedAmount(Locale locale) =>
-      payRequest.cryptoAmount(TokenList())?.format(locale) ?? '';
+  Future<String> formattedAmount(Locale locale) async =>
+      (await payRequest.cryptoAmount(TokenList()))?.format(locale) ?? '';
 }

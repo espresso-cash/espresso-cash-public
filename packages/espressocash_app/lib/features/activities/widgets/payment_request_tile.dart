@@ -41,22 +41,25 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
 
           return data == null
               ? SizedBox.shrink(key: ValueKey(widget.id))
-              : CpActivityTile(
-                  key: ValueKey(widget.id),
-                  title: context.l10n.paymentRequestTitle,
-                  icon: Assets.icons.paymentIcon.svg(),
-                  timestamp: context.formatDate(data.created),
-                  incomingAmount:
-                      data.formattedAmount(DeviceLocale.localeOf(context)),
-                  status: switch (data.state) {
-                    PaymentRequestState.initial =>
-                      CpActivityTileStatus.inProgress,
-                    PaymentRequestState.completed =>
-                      CpActivityTileStatus.success,
-                    PaymentRequestState.error => CpActivityTileStatus.failure,
-                  },
-                  onTap: () => PaymentRequestScreen.push(context, id: data.id),
-                  showIcon: widget.showIcon,
+              : FutureBuilder(
+                  future: data.formattedAmount(DeviceLocale.localeOf(context)),
+                  builder: (context, snapshot) => CpActivityTile(
+                    key: ValueKey(widget.id),
+                    title: context.l10n.paymentRequestTitle,
+                    icon: Assets.icons.paymentIcon.svg(),
+                    timestamp: context.formatDate(data.created),
+                    incomingAmount: snapshot.data,
+                    status: switch (data.state) {
+                      PaymentRequestState.initial =>
+                        CpActivityTileStatus.inProgress,
+                      PaymentRequestState.completed =>
+                        CpActivityTileStatus.success,
+                      PaymentRequestState.error => CpActivityTileStatus.failure,
+                    },
+                    onTap: () =>
+                        PaymentRequestScreen.push(context, id: data.id),
+                    showIcon: widget.showIcon,
+                  ),
                 );
         },
       );
