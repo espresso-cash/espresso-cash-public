@@ -60,7 +60,7 @@ class MoneygramPendingWatcher {
     final transaction = await _apiClient
         .fetchTransaction(
           id: orderId,
-          authHeader: token.toAuthHeader(),
+          authHeader: token,
         )
         .then((e) => e.transaction);
 

@@ -1,10 +1,12 @@
+import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+
 import '../../../../../data/db/db.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../models/ramp_type.dart';
+import 'moneygram_client.dart';
 
 class MoneygramInterceptor extends Interceptor {
   const MoneygramInterceptor(
@@ -27,23 +29,22 @@ class MoneygramInterceptor extends Interceptor {
   }
 
   Future<void> _handleToken(RequestOptions options) async {
-    final token = options.headers['Authorization'] as String?;
-    if (token == null || _hasTokenExpired(token)) {
-      final newToken =
-          await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
-      options.headers['Authorization'] = 'Bearer $newToken';
+    var token = options.headers['Authorization'] as String?;
+    if (token == null || _isTokenExpired(token)) {
+      token = await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
       final type = options.headers['type'] as RampType?;
       final orderId = options.queryParameters['id'] as String?;
 
       if (type != null && orderId != null) {
         switch (type) {
           case RampType.onRamp:
-            _updateOnRampOrder(orderId, newToken);
+            _updateOnRampOrder(orderId, token);
           case RampType.offRamp:
-            _updateOffRampOrder(orderId, newToken);
+            _updateOffRampOrder(orderId, token);
         }
       }
     }
+    options.headers['Authorization'] = token.toAuthHeader();
   }
 
   void _updateOnRampOrder(String orderId, String token) {
@@ -57,7 +58,7 @@ class MoneygramInterceptor extends Interceptor {
   }
 
   void _updateOffRampOrder(String orderId, String token) {
-      _db.update(_db.offRampOrderRows)
+    _db.update(_db.offRampOrderRows)
       ..where((tbl) => tbl.partnerOrderId.equals(orderId))
       ..write(
         OffRampOrderRowsCompanion(
@@ -66,8 +67,15 @@ class MoneygramInterceptor extends Interceptor {
       );
   }
 
-  bool _hasTokenExpired(String? token) {
+  bool _isTokenExpired(String? token) {
     if (token == null) return true;
-    return JwtDecoder.isExpired(token);
+    final decodedToken = JWT.decode(token);
+    final payload = decodedToken.payload as Map<String, dynamic>?;
+    final expiration = payload?['exp'] as int?;
+    if (expiration == null) {
+      return false;
+    }
+    return DateTime.now()
+        .isAfter(DateTime.fromMillisecondsSinceEpoch(expiration * 1000));
   }
 }

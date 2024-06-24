@@ -297,7 +297,7 @@ window.addEventListener("message", (event) => {
         return client
             .fetchTransaction(
               id: id,
-              authHeader: token.toAuthHeader(),
+              authHeader: token,
               rampType: RampType.onRamp,
             )
             .then((e) => e.transaction);
@@ -320,7 +320,7 @@ window.addEventListener("message", (event) => {
               lang: locale.languageCode,
               amount: amount.toString(),
             ),
-            token.toAuthHeader(),
+            token,
           );
 
           return (id: response.id, url: response.url, token: token);
@@ -346,7 +346,7 @@ window.addEventListener("message", (event) => {
               lang: locale.languageCode,
               amount: amount.toString(),
             ),
-            token.toAuthHeader(),
+            token,
           );
 
           return (id: response.id, url: response.url, token: token);

@@ -474,7 +474,7 @@ class MoneygramOffRampOrderService implements Disposable {
       final transaction = await _moneygramClient
           .fetchTransaction(
             id: order.partnerOrderId,
-            authHeader: token.toAuthHeader(),
+            authHeader: token,
             rampType: RampType.offRamp,
           )
           .then((e) => e.transaction);
@@ -660,7 +660,7 @@ class MoneygramOffRampOrderService implements Disposable {
       _moneygramClient
           .fetchTransaction(
             id: id,
-            authHeader: token.toAuthHeader(),
+            authHeader: token,
             rampType: RampType.offRamp,
           )
           .then((e) => e.transaction);
