@@ -16,6 +16,7 @@ import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
@@ -120,10 +121,19 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
 
-    final String? statusSubtitle =
-        order.status == OnRampOrderStatus.waitingForPartner
-            ? context.l10n.onRampAwaitingFunds
-            : null;
+    final String? statusSubtitle = switch (order.status) {
+      OnRampOrderStatus.waitingForPartner => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForBridge =>
+        'Transfer could take a few minutes...',
+      OnRampOrderStatus.pending ||
+      OnRampOrderStatus.preProcessing ||
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.postProcessing ||
+      OnRampOrderStatus.depositExpired ||
+      OnRampOrderStatus.failure ||
+      OnRampOrderStatus.completed =>
+        null
+    };
 
     final Widget? primaryButton = order.status == OnRampOrderStatus.failure
         ? const _ContactUsButton()
@@ -140,11 +150,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               statusSubtitle,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.23,
-              ),
+              style: _contentSubtitleTextStyle,
             ),
           ],
         ],
@@ -158,6 +164,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
               amount: order.submittedAmount,
               manualDeposit: manualDeposit,
               created: order.created,
+              partner: order.partner,
             ),
             const Spacer(flex: 4),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
@@ -221,11 +228,13 @@ class _Timeline extends StatelessWidget {
     this.amount,
     this.manualDeposit,
     required this.created,
+    required this.partner,
   });
 
   final OnRampOrderStatus status;
   final CryptoAmount? amount;
   final DepositDetails? manualDeposit;
+  final RampPartner partner;
   final DateTime created;
 
   @override
@@ -245,16 +254,22 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.onRampDepositReceived,
     );
 
+    CpTimelineItem? deposited;
+    if (isManualBankTransfer) {
+      deposited = CpTimelineItem(
+        title: partner == RampPartner.moneygram
+            ? 'Deposited to Moneygram'
+            : context.l10n.onRampLocalTransferTile(
+                manualDeposit.transferAmount.format(context.locale),
+                manualDeposit.bankName,
+                manualDeposit.bankAccount,
+              ),
+      );
+    }
+
     final items = [
       depositInitiated,
-      if (isManualBankTransfer)
-        CpTimelineItem(
-          title: context.l10n.onRampLocalTransferTile(
-            manualDeposit.transferAmount.format(context.locale),
-            manualDeposit.bankName,
-            manualDeposit.bankAccount,
-          ),
-        ),
+      if (deposited != null) deposited,
       amountReceived,
     ];
 
@@ -310,3 +325,9 @@ extension on OnRampOrderStatus {
           1,
       };
 }
+
+const _contentSubtitleTextStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  letterSpacing: 0.23,
+);
