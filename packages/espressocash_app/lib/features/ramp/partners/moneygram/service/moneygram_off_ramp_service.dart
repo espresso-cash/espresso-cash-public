@@ -29,6 +29,7 @@ import '../../../../transactions/services/resign_tx.dart';
 import '../../../../transactions/services/tx_confirm.dart';
 import '../../../../transactions/services/tx_sender.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -474,6 +475,7 @@ class MoneygramOffRampOrderService implements Disposable {
           .fetchTransaction(
             id: order.partnerOrderId,
             authHeader: token.toAuthHeader(),
+            rampType: RampType.offRamp,
           )
           .then((e) => e.transaction);
 
@@ -659,6 +661,7 @@ class MoneygramOffRampOrderService implements Disposable {
           .fetchTransaction(
             id: id,
             authHeader: token.toAuthHeader(),
+            rampType: RampType.offRamp,
           )
           .then((e) => e.transaction);
 

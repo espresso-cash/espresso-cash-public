@@ -48,6 +48,7 @@ dependencies:
   intercom_flutter: ^9.0.2
   intl: ^0.18.1
   json_annotation: ^4.8.1
+  jwt_decoder: ^2.0.1
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0

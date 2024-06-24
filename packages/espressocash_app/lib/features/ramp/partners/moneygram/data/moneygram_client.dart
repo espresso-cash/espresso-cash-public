@@ -2,8 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../../data/db/db.dart';
+import '../../../../accounts/auth_scope.dart';
 import '../../../../stellar/constants.dart';
+import '../../../../stellar/models/stellar_wallet.dart';
+import '../../../../stellar/service/stellar_client.dart';
+import '../../../models/ramp_type.dart';
 import 'dto.dart';
+import 'moneygram_interceptor.dart';
 
 part 'moneygram_client.g.dart';
 
@@ -11,7 +17,16 @@ part 'moneygram_client.g.dart';
 @injectable
 abstract class MoneygramApiClient {
   @factoryMethod
-  factory MoneygramApiClient() => _MoneygramApiClient(Dio());
+  factory MoneygramApiClient(
+    MyDatabase db,
+    StellarClient stellarClient,
+    StellarWallet stellarWallet,
+  ) =>
+      _MoneygramApiClient(
+        Dio()
+          ..interceptors
+              .add(MoneygramInterceptor(db, stellarClient, stellarWallet)),
+      );
 
   @POST('/sep24/transactions/withdraw/interactive')
   Future<MgWithdrawResponseDto> generateWithdrawUrl(
@@ -29,6 +44,7 @@ abstract class MoneygramApiClient {
   Future<MgFetchTransactionResponseDto> fetchTransaction({
     @Query('id') required String id,
     @Header('Authorization') required String authHeader,
+    @Header('type') RampType? rampType,
   });
 }
 

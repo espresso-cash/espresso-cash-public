@@ -298,6 +298,7 @@ window.addEventListener("message", (event) => {
             .fetchTransaction(
               id: id,
               authHeader: token.toAuthHeader(),
+              rampType: RampType.onRamp,
             )
             .then((e) => e.transaction);
       });
