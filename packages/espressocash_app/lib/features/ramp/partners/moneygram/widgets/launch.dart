@@ -140,7 +140,9 @@ window.addEventListener("message", (event) => {
             token.toAuthHeader(),
           );
 
-          return (id: response.id, url: response.url, token: token);
+          final url = '${response.url}&callback=postmessage';
+
+          return (id: response.id, url: url, token: token);
         } on Exception {
           return null;
         }

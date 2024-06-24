@@ -71,6 +71,8 @@ enum MgStatus {
   pendingAnchor,
   pendingUserTransferStart,
   pendingUserTransferComplete,
+  refunded,
   expired,
+  completed,
   unknown,
 }

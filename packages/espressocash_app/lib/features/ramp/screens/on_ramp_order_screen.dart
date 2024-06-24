@@ -258,7 +258,7 @@ class _Timeline extends StatelessWidget {
     if (isManualBankTransfer) {
       deposited = CpTimelineItem(
         title: partner == RampPartner.moneygram
-            ? 'Deposited to Moneygram'
+            ? 'Deposited to MoneyGram'
             : context.l10n.onRampLocalTransferTile(
                 manualDeposit.transferAmount.format(context.locale),
                 manualDeposit.bankName,
