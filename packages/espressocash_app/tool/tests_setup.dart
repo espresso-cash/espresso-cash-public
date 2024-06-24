@@ -1,6 +1,5 @@
 // ignore_for_file: avoid_print
 
-import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:solana/solana.dart';
 
 import '../test/keys/keys.dart';
@@ -17,10 +16,13 @@ Future<void> main() async {
 
   // Mint a few tokens
   final tokenKeys = [token1PrivateKey, token2PrivateKey, token3PrivateKey];
+  final List<Ed25519HDKeyPair> tokenPubKeys = [];
   for (final tokenKey in tokenKeys) {
     final key = await Ed25519HDKeyPair.fromPrivateKeyBytes(
       privateKey: tokenKey,
     );
+
+    tokenPubKeys.add(key);
 
     await solanaClient.createToken(mintAuthority, key);
     print('token ${key.address} created');
@@ -31,10 +33,14 @@ Future<void> main() async {
   await solanaClient.createAndFundAccount(accountKey.address, sol: 1000);
   print('created test account');
 
-  await solanaClient.airdropSplTokens(
-    accountKey.publicKey,
-    Token.sol,
-    amount: 100000,
+  await Future.wait(
+    tokenPubKeys.map(
+      (Ed25519HDKeyPair token) async => solanaClient.airdropSplTokens(
+        accountKey.publicKey,
+        token,
+        amount: 100000,
+      ),
+    ),
   );
 
   print('airdropped some tokens');
