@@ -12,15 +12,15 @@ class TokenListRepository {
 
   final MyDatabase _db;
 
-  Future<TokenRow?> getToken(String address) async {
+  Future<TokenRow?> getToken(String address) {
     final query = _db.select(_db.tokenRows)
       ..where((token) => token.address.equals(address))
       ..limit(1);
+
     return query.getSingleOrNull();
   }
 
-  Future<dynamic> insertToken(TokenRow token) async =>
-      _db.transaction(() async {
+  Future<dynamic> insertToken(TokenRow token) => _db.transaction(() async {
         try {
           final existingToken = await (_db.select(_db.tokenRows)
                 ..where(

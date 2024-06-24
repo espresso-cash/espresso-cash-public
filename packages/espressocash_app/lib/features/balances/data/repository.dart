@@ -41,8 +41,9 @@ class TokenBalancesRepository {
             rows.map((row) async {
               try {
                 return await _tokens.getTokenByMint(row.token);
-              } on Exception catch (e) {
-                debugPrint('Error while reading user tokens: $e');
+              } on Exception catch (error) {
+                debugPrint('Error while reading user tokens: $error');
+
                 return null;
               }
             }),
@@ -67,8 +68,9 @@ class TokenBalancesRepository {
             rows.map((row) async {
               try {
                 return await _tokens.getTokenByMint(row.token);
-              } on Exception catch (e) {
-                debugPrint('Error while watching user tokens: $e');
+              } on Exception catch (error) {
+                debugPrint('Error while watching user tokens: $error');
+
                 return null;
               }
             }),
@@ -96,12 +98,14 @@ class TokenBalancesRepository {
                 if (ignoreTokens.contains(token) || token == null) {
                   return null;
                 }
+
                 return CryptoAmount(
                   value: row.amount,
                   cryptoCurrency: CryptoCurrency(token: token),
                 );
-              } on Exception catch (e) {
-                debugPrint('Error while creating CryptoAmount: $e');
+              } on Exception catch (error) {
+                debugPrint('Error while creating CryptoAmount: $error');
+
                 return null;
               }
             }),

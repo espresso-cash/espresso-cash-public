@@ -48,10 +48,10 @@ class TokenList {
     }
     if (mint == Token.usdc.address) {
       return Future.value(Token.usdc);
-    } else {
-      final tokenRow = await service.tokenRepository.getToken(mint);
-      return tokenRow?.toModel();
     }
+    final tokenRow = await service.tokenRepository.getToken(mint);
+
+    return tokenRow?.toModel();
   }
 
   Future<void> initialize() async {

@@ -47,7 +47,7 @@ class RequestSuccess extends StatelessWidget {
               builder: (context, snapshot) => CpTimeline(
                 status: CpTimelineStatus.success,
                 items: [
-                  requestCreated(context, snapshot),
+                  _requestCreated(context, snapshot),
                   moneyReceived,
                 ],
                 active: 1,
@@ -66,7 +66,7 @@ class RequestSuccess extends StatelessWidget {
     );
   }
 
-  CpTimelineItem requestCreated(
+  CpTimelineItem _requestCreated(
     BuildContext context,
     AsyncSnapshot<CryptoAmount?> snapshot,
   ) =>

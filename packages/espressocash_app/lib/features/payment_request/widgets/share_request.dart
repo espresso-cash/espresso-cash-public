@@ -74,6 +74,7 @@ class ShareRequestPayment extends StatelessWidget {
                         formattedAmount,
                         link,
                       );
+
                       return ShareCodeWidget(
                         title: context.l10n.scanToSend,
                         amount: formattedAmount,
