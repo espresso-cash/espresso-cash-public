@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:drift/drift.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../data/db/db.dart';
@@ -32,8 +33,9 @@ class TokenListRepository {
           if (existingToken == null) {
             await _db.into(_db.tokenRows).insert(token);
           }
-        } on Exception catch (_) {
-          //TODO:BRN handle exception
+        } on Exception catch (error) {
+          debugPrint('Error while inserting token: $error');
+          // TODO(BRN): better handle exception
         }
       });
 
