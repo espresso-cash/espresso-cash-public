@@ -45,6 +45,7 @@ extension BuildContextExt on BuildContext {
         amount: amount,
         type: RampType.onRamp,
       ),
+      partnerFeeLabel: 'Fee taken during bridging',
     );
 
     final submittedAmount = amount;

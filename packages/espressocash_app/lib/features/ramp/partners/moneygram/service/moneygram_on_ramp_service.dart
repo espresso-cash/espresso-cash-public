@@ -378,8 +378,9 @@ class MoneygramOnRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] =
-        Stream<void>.periodic(const Duration(seconds: 30)).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 30))
+        .startWith(null)
+        .listen((_) async {
       final statement = _db.update(_db.onRampOrderRows)
         ..where(
           (tbl) => tbl.id.equals(id),
@@ -389,6 +390,21 @@ class MoneygramOnRampOrderService implements Disposable {
         value: order.amount,
         cryptoCurrency: Currency.usdc,
       );
+
+      final orderId = order.partnerOrderId;
+      String? token = order.authToken;
+
+      token ??= await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
+
+      final transaction = await _fetchTransactionStatus(
+        id: orderId,
+        token: token,
+      );
+
+      if (transaction.status != MgStatus.completed) {
+        // Not yet processed by MoneyGram
+        return;
+      }
 
       final usdcBalance =
           await _stellarClient.getUsdcBalance(_stellarWallet.address) ?? 0;
