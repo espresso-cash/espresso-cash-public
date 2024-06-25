@@ -480,16 +480,27 @@ class MoneygramOffRampOrderService implements Disposable {
           .then((e) => e.transaction);
 
       final isCompleted = transaction.status == MgStatus.completed;
+      final isRefunded = transaction.status == MgStatus.refunded;
 
-      if (!isCompleted) return;
+      if (!isCompleted && !isRefunded) return;
 
       _removeWatcher(id);
 
-      await statement.write(
-        const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.completed),
-        ),
-      );
+      if (isCompleted) {
+        await statement.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.completed),
+          ),
+        );
+      }
+
+      if (isRefunded) {
+        await statement.write(
+          const OffRampOrderRowsCompanion(
+            status: Value(OffRampOrderStatus.processingRefund),
+          ),
+        );
+      }
     });
   }
 
