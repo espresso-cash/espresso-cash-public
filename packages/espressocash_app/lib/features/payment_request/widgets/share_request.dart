@@ -11,6 +11,7 @@ import '../../../ui/share_link.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../../tokens/data/token_repository.dart';
 import '../models/payment_request.dart';
 import '../services/payment_request_service.dart';
 
@@ -61,7 +62,9 @@ class ShareRequestPayment extends StatelessWidget {
                 ),
                 Expanded(
                   child: FutureBuilder(
-                    future: request.payRequest.cryptoAmount(),
+                    future: request.payRequest.cryptoAmount(
+                      sl<TokenListRepository>().getToken,
+                    ),
                     builder: (context, snapshot) {
                       final link = request.shortLink ?? request.dynamicLink;
                       final formattedAmount =
