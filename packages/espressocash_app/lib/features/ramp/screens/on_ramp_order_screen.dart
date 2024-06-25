@@ -139,6 +139,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
+    final depositAmount = (order.partner == RampPartner.moneygram)
+        ? manualDeposit?.transferAmount
+        : order.submittedAmount;
+
     return StatusScreen(
       title: context.l10n.onRampDepositTitle.toUpperCase(),
       statusType: order.status.toStatusType(),
@@ -161,7 +165,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: order.submittedAmount,
+              amount: depositAmount ?? order.submittedAmount,
+              receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
               partner: order.partner,
@@ -229,13 +234,15 @@ class _Timeline extends StatelessWidget {
     this.manualDeposit,
     required this.created,
     required this.partner,
+    this.receiveAmount,
   });
 
   final OnRampOrderStatus status;
-  final CryptoAmount? amount;
+  final Amount? amount;
   final DepositDetails? manualDeposit;
   final RampPartner partner;
   final DateTime created;
+  final Amount? receiveAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -252,6 +259,7 @@ class _Timeline extends StatelessWidget {
     );
     final amountReceived = CpTimelineItem(
       title: context.l10n.onRampDepositReceived,
+      trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
     );
 
     CpTimelineItem? deposited;
