@@ -92,12 +92,10 @@ extension BuildContextExt on BuildContext {
         handlerName: 'moneygram',
         callback: (args) async {
           if (orderWasCreated) return;
+          orderWasCreated = true;
 
           OnRampOrderScreen.pushReplacement(this, id: id);
-
           await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
-
-          orderWasCreated = true;
         },
       );
       await controller.evaluateJavascript(
@@ -116,6 +114,10 @@ window.addEventListener("message", (event) => {
       title: l10n.ramp_titleCashIn,
       theme: const CpThemeData.light(),
     );
+
+    if (!orderWasCreated) {
+      await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
+    }
   }
 
   Future<MoneygramLink?> _generateDepositLink({
