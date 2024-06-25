@@ -11,7 +11,6 @@ import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
-import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -245,68 +244,55 @@ class _MoneygramDepositContent extends StatelessWidget {
             bottom: false,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(height: 16),
+                const Spacer(),
                 const _InstructionItem(
                   index: 1,
                   text:
-                      'Head to your chosen MoneyGram location to pay for your purchase',
+                      'Head to your chosen MoneyGram location and transfer the money',
                 ),
-                const SizedBox(height: 4),
+                const Spacer(),
                 _ItemWidget(
                   title: context.l10n.depositTransferAmount,
                   value: formattedTransferAmount,
                   showCopy: false,
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 12),
+                GestureDetector(
+                  onTap: () {
+                    WebViewScreen.push(
+                      context,
+                      url: Uri.parse(deposit.moreInfoUrl ?? ''),
+                      title: 'MoneyGram',
+                      theme: const CpThemeData.light(),
+                    );
+                  },
+                  child: const Center(
+                    child: Text(
+                      'Read full instructions how to transfer the money',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+                const Spacer(flex: 2),
                 const _InstructionItem(
                   index: 2,
-                  text: 'Follow instructions from More info link below',
+                  text:
+                      'Once the money has been transferred, please confirm below',
                 ),
-                if (deposit.moreInfoUrl case final link?) ...[
-                  Center(
-                    child: CpTextButton(
-                      text: 'More Info',
-                      variant: CpTextButtonVariant.light,
-                      onPressed: () async {
-                        await WebViewScreen.push(
-                          context,
-                          url: Uri.parse(link),
-                          title: 'MoneyGram',
-                          theme: const CpThemeData.light(),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-                _InstructionItem(
-                  index: 3,
-                  text: context.l10n.depositInstruction2,
+                const Spacer(flex: 3),
+                CpButton(
+                  width: double.infinity,
+                  onPressed: onConfirmPress,
+                  text: "I've just transferred the money",
                 ),
-                const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.only(left: 42),
-                  child: Text(
-                    'Be sure to bring the Photo ID you used, and be prepared to follow additional instructions from the agent',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                const Spacer(flex: 2),
               ],
-            ),
-          ),
-          bottomNavigationBar: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: CpButton(
-                width: double.infinity,
-                onPressed: onConfirmPress,
-                text: context.l10n.ramp_btnContinue,
-              ),
             ),
           ),
         ),
