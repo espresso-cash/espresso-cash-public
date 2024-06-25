@@ -15,7 +15,8 @@ import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_link_payment.dart';
 
@@ -143,7 +144,8 @@ extension OLPRowExt on OLPRow {
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(
-            token: (await sl<TokenList>().getTokenByMint(token))!,
+            token:
+                (await sl<TokenListRepository>().getToken(token)) ?? Token.unk,
           ),
         ),
         status: status.toOLPStatus(this),

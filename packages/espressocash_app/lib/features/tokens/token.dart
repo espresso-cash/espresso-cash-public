@@ -194,3 +194,7 @@ class Extensions {
 
   final String? coingeckoId;
 }
+
+extension TokenExt on Iterable<Token> {
+  Iterable<String> get symbols => map((t) => t.symbol);
+}

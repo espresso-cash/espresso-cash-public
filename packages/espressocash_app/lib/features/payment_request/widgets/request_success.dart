@@ -1,7 +1,6 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
-import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,7 +12,6 @@ import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 
 class RequestSuccess extends StatelessWidget {
@@ -26,8 +24,6 @@ class RequestSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tokenList = sl<TokenList>();
-
     final moneyReceived = CpTimelineItem(
       title: context.l10n.requestPaymentReceived,
       subtitle: request.resolvedAt?.let((t) => context.formatDate(t)),
@@ -43,7 +39,7 @@ class RequestSuccess extends StatelessWidget {
         child: Column(
           children: [
             FutureBuilder(
-              future: request.payRequest.cryptoAmount(tokenList),
+              future: request.payRequest.cryptoAmount(),
               builder: (context, snapshot) => CpTimeline(
                 status: CpTimelineStatus.success,
                 items: [

@@ -20,8 +20,8 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
@@ -50,7 +50,7 @@ class OffRampOrderService implements Disposable {
     this._client,
     this._sender,
     this._db,
-    this._tokens,
+    this._tokenListRepository,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -60,7 +60,7 @@ class OffRampOrderService implements Disposable {
   final EspressoCashClient _client;
   final TxSender _sender;
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenListRepository _tokenListRepository;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -110,7 +110,7 @@ class OffRampOrderService implements Disposable {
 
           if (tokenAddress == null) return null;
 
-          final token = await _tokens.getTokenByMint(tokenAddress);
+          final token = await _tokenListRepository.getToken(tokenAddress);
 
           if (token == null) return null;
 
@@ -366,7 +366,8 @@ class OffRampOrderService implements Disposable {
   Future<CryptoAmount> _amount(OffRampOrderRow order) async => CryptoAmount(
         value: order.amount,
         cryptoCurrency: CryptoCurrency(
-          token: (await _tokens.getTokenByMint(order.token)) ?? Token.unk,
+          token:
+              (await _tokenListRepository.getToken(order.token)) ?? Token.unk,
         ),
       );
 

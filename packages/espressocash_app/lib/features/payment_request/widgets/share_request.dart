@@ -11,7 +11,6 @@ import '../../../ui/share_link.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../tokens/token_list.dart';
 import '../models/payment_request.dart';
 import '../services/payment_request_service.dart';
 
@@ -29,7 +28,6 @@ class ShareRequestPayment extends StatelessWidget {
       context.l10n.requestPaymentTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
     );
-    final tokenList = sl<TokenList>();
 
     return CpTheme.black(
       child: Scaffold(
@@ -63,7 +61,7 @@ class ShareRequestPayment extends StatelessWidget {
                 ),
                 Expanded(
                   child: FutureBuilder(
-                    future: request.payRequest.cryptoAmount(tokenList),
+                    future: request.payRequest.cryptoAmount(),
                     builder: (context, snapshot) {
                       final link = request.shortLink ?? request.dynamicLink;
                       final formattedAmount =

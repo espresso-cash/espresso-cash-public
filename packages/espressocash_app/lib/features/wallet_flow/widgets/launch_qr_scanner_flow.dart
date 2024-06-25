@@ -20,7 +20,6 @@ import '../../outgoing_direct_payments/widgets/extensions.dart';
 import '../../payment_request/models/payment_request.dart';
 import '../../qr_scanner/models/qr_scanner_request.dart';
 import '../../qr_scanner/screens/qr_scanner_screen.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/widgets/extensions.dart';
 
 extension BuildContextExt on BuildContext {
@@ -54,7 +53,7 @@ extension BuildContextExt on BuildContext {
         solanaPay: (r) => r.request.label,
       );
       final requestAmount = await request.whenOrNull(
-        solanaPay: (r) => r.cryptoAmount(sl<TokenList>()),
+        solanaPay: (r) => r.cryptoAmount(),
       );
 
       if (!mounted) return;

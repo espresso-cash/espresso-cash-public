@@ -13,8 +13,8 @@ import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 
 typedef OnRampOrder = ({
   String id,
@@ -36,12 +36,12 @@ typedef DepositDetails = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokens);
+  OnRampOrderService(this._db, this._tokenListRepository);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenListRepository _tokenListRepository;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -173,7 +173,7 @@ class OnRampOrderService implements Disposable {
             transferAmount != null &&
             fiatSymbol != null;
 
-        final Token? token = await _tokens.getTokenByMint(row.token);
+        final Token? token = await _tokenListRepository.getToken(row.token);
 
         return (
           id: row.id,
