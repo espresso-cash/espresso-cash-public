@@ -75,7 +75,7 @@ class PortfolioTile extends StatelessWidget {
                     create: () => (
                       sl<TokenFiatBalanceService>()
                           .watchTotalInvestmentsBalance(),
-                      Amount.zero(currency: Currency.usd),
+                      Amount.unknown(currency: Currency.usd),
                     ),
                     builder: (context, balance) => Flexible(
                       child: FittedBox(

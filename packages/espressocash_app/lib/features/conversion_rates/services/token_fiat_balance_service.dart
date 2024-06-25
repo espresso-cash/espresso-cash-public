@@ -56,9 +56,10 @@ class TokenFiatBalanceService {
       .flatMap(
         (tokens) => Rx.combineLatest(
           tokens.map(watch),
-          (values) => values
-              .whereNotNull()
-              .fold(_zeroFiat, (total, next) => (total + next) as FiatAmount),
+          (values) => values.whereNotNull().fold(
+                _unknownAmount,
+                (total, next) => (total + next) as FiatAmount,
+              ),
         ),
       )
       .distinct()

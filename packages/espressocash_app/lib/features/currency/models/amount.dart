@@ -28,6 +28,9 @@ sealed class Amount with _$Amount {
   factory Amount.zero({required Currency currency}) =>
       Amount(value: 0, currency: currency);
 
+  factory Amount.unknown({required Currency currency}) =>
+      Amount(value: -1, currency: currency);
+
   factory Amount.fromToken({required int value, required Token token}) =>
       Amount(value: value, currency: Currency.crypto(token: token));
 
@@ -50,6 +53,8 @@ sealed class Amount with _$Amount {
   Decimal get decimal => Decimal.fromInt(value).shift(-currency.decimals);
 
   bool get isZero => decimal == Decimal.zero;
+
+  bool get isUnknown => value < 0;
 
   Amount operator +(Amount other) {
     _ensureSameCurrency(other);
