@@ -11,6 +11,7 @@ import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/profile_data.dart';
@@ -289,7 +290,10 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
     partners.add(RampPartner.guardarian);
   }
 
-  if (_moneygramCountries.contains(countryCode)) {
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
 
@@ -307,7 +311,10 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
     partners.add(RampPartner.scalex);
   }
 
-  if (_moneygramCountries.contains(countryCode)) {
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
 
