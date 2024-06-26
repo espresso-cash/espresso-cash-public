@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../../data/db/db.dart';
-import '../../../../accounts/auth_scope.dart';
 import '../../../../stellar/constants.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
