@@ -314,6 +314,7 @@ class _Timeline extends StatelessWidget {
     );
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
+      trailing: order.bridgeAmount?.format(context.locale, maxDecimals: 2),
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,
