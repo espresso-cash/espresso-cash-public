@@ -29,7 +29,7 @@ class MoneygramInterceptor extends Interceptor {
   }
 
   Future<void> _handleToken(RequestOptions options) async {
-    var token = options.headers['Authorization'] as String?;
+    String? token = options.headers['Authorization'] as String?;
     if (token == null || _isTokenExpired(token)) {
       token = await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
       final type = options.headers['type'] as RampType?;
@@ -72,10 +72,12 @@ class MoneygramInterceptor extends Interceptor {
     final decodedToken = JWT.decode(token);
     final payload = decodedToken.payload as Map<String, dynamic>?;
     final expiration = payload?['exp'] as int?;
-    if (expiration == null) {
-      return false;
-    }
-    return DateTime.now()
-        .isAfter(DateTime.fromMillisecondsSinceEpoch(expiration * 1000));
+
+    if (expiration == null) return true;
+
+    final expirationDate =
+        DateTime.fromMillisecondsSinceEpoch(expiration * 1000);
+    
+    return DateTime.now().isAfter(expirationDate);
   }
 }
