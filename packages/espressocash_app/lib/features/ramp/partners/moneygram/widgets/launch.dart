@@ -206,6 +206,17 @@ window.addEventListener("message", (event) => {
   Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
     String? withdrawUrl = order.withdrawUrl;
 
+    if (withdrawUrl != null) {
+      final transaction = await _fetchTransactionStatus(
+        id: order.partnerOrderId,
+        token: order.authToken ?? '',
+      );
+
+      if (transaction.status == MgStatus.expired) {
+        withdrawUrl = null;
+      }
+    }
+
     if (withdrawUrl == null) {
       final response = await _generateWithdrawLink(
         amount: order.amount.decimal.toDouble(),
