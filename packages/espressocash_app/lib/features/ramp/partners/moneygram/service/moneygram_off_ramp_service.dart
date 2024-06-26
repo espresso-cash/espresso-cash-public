@@ -100,8 +100,6 @@ class MoneygramOffRampOrderService implements Disposable {
     _subscriptions[orderId] = query
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
-          print('id: $orderId, status: ${order.status}');
-
           switch (order.status) {
             case OffRampOrderStatus.preProcessing:
               return Stream.fromFuture(_preProcessOrder(order));
@@ -113,6 +111,11 @@ class MoneygramOffRampOrderService implements Disposable {
 
             case OffRampOrderStatus.ready:
               return Stream.fromFuture(_readyProcess(order));
+
+            case OffRampOrderStatus.depositTxRequired:
+              _waitingForDepositReady(order);
+
+              return const Stream.empty();
 
             case OffRampOrderStatus.creatingDepositTx:
               return Stream.fromFuture(_createDeposit(order));
@@ -143,8 +146,6 @@ class MoneygramOffRampOrderService implements Disposable {
 
               return const Stream.empty();
 
-            // not used statuses
-            case OffRampOrderStatus.depositTxRequired:
             case OffRampOrderStatus.depositError:
             case OffRampOrderStatus.depositTxConfirmError:
             case OffRampOrderStatus.insufficientFunds:
@@ -214,9 +215,30 @@ class MoneygramOffRampOrderService implements Disposable {
         final updateQuery = _db.update(_db.offRampOrderRows)
           ..where((tbl) => tbl.id.equals(id));
 
+        final order = await _fetchOrder(id);
+
+        final transaction = await _fetchTransactionStatus(
+          id: order.partnerOrderId,
+          token: order.authToken ?? '',
+        );
+
+        final status = transaction.status;
+
+        if (status == MgStatus.incomplete) {
+          return;
+        }
+
+        if (status == MgStatus.pendingUserTransferStart) {
+          await updateQuery.write(
+            const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.creatingDepositTx),
+            ),
+          );
+        }
+
         await updateQuery.write(
           const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.creatingDepositTx),
+            status: Value(OffRampOrderStatus.depositTxRequired),
           ),
         );
       });
@@ -232,6 +254,9 @@ class MoneygramOffRampOrderService implements Disposable {
         if (transaction.status != MgStatus.refunded) {
           return;
         }
+
+        // removes waitingForPartner watcher
+        _removeWatcher(id);
 
         final updateQuery = _db.update(_db.offRampOrderRows)
           ..where((tbl) => tbl.id.equals(id));
@@ -294,8 +319,6 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final slot = latestBlockhash.context.slot;
 
-    // `TODO`: commented to mock bridging
-
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
@@ -350,6 +373,43 @@ class MoneygramOffRampOrderService implements Disposable {
         status: Value(OffRampOrderStatus.processingRefund),
       );
     }
+  }
+
+  void _waitingForDepositReady(OffRampOrderRow order) {
+    final id = order.id;
+
+    if (_watchers.containsKey(id)) {
+      return;
+    }
+
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 10))
+        .startWith(null)
+        .listen((order) async {
+      final statement = _db.update(_db.offRampOrderRows)
+        ..where(
+          (tbl) => tbl.id.equals(id),
+        );
+
+      final order = await _fetchOrder(id);
+
+      final transaction = await _fetchTransactionStatus(
+        id: order.partnerOrderId,
+        token: order.authToken ?? '',
+      );
+
+      final isReadyForDeposit =
+          transaction.status == MgStatus.pendingUserTransferStart;
+
+      if (!isReadyForDeposit) return;
+
+      _removeWatcher(id);
+
+      await statement.write(
+        const OffRampOrderRowsCompanion(
+          status: Value(OffRampOrderStatus.creatingDepositTx),
+        ),
+      );
+    });
   }
 
   Future<OffRampOrderRowsCompanion?> _createDeposit(
@@ -440,9 +500,6 @@ class MoneygramOffRampOrderService implements Disposable {
       if (payment == null) {
         return;
       }
-
-      //TODO: MOCK only
-      // await Future<void>.delayed(const Duration(seconds: 1));
 
       await statement.write(
         const OffRampOrderRowsCompanion(

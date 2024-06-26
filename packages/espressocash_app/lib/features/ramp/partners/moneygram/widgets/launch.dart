@@ -233,14 +233,14 @@ window.addEventListener("message", (event) => {
         callback: (args) async {
           if (orderWasCreated) return;
 
+          orderWasCreated = true;
+
           Navigator.pop(this);
           await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
             id: order.id,
           );
-          orderWasCreated = true;
         },
       );
-      //TODO if able, find a way to listen to close button event
       await controller.evaluateJavascript(
         source: '''
 window.addEventListener("message", (event) => {
@@ -257,34 +257,23 @@ window.addEventListener("message", (event) => {
       title: l10n.ramp_titleCashOut,
       theme: const CpThemeData.light(),
     );
+
+    if (!orderWasCreated) {
+      await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
+        id: order.id,
+      );
+    }
   }
 
   Future<void> openMoneygramMoreInfoUrl(OffRampOrder order) async {
-    Future<void> handleLoaded(InAppWebViewController controller) async {
-      controller.addJavaScriptHandler(
-        handlerName: 'moneygram',
-        callback: (args) async {
-          Navigator.pop(this);
-          await sl<MoneygramOffRampOrderService>().processRefund(order.id);
-        },
-      );
-
-      await controller.evaluateJavascript(
-        source: '''
-window.addEventListener("message", (event) => {
-  window.flutter_inappwebview.callHandler('moneygram', event.data);
-}, false);
-''',
-      );
-    }
-
     await WebViewScreen.push(
       this,
       url: Uri.parse(order.moreInfoUrl ?? ''),
-      onLoaded: handleLoaded,
       title: l10n.ramp_titleCashOut,
       theme: const CpThemeData.light(),
     );
+
+    await sl<MoneygramOffRampOrderService>().processRefund(order.id);
   }
 
   Future<TransactionStatus> _fetchTransactionStatus({
