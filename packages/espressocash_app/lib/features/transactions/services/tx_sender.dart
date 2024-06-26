@@ -9,7 +9,6 @@ import 'package:solana/solana.dart';
 
 import '../../../config.dart';
 import '../models/tx_results.dart';
-import 'extensions.dart';
 
 @injectable
 class TxSender {
