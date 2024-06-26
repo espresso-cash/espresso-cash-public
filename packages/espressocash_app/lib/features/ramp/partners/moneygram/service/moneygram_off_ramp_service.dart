@@ -234,6 +234,7 @@ class MoneygramOffRampOrderService implements Disposable {
               status: Value(OffRampOrderStatus.creatingDepositTx),
             ),
           );
+          return;
         }
 
         await updateQuery.write(
