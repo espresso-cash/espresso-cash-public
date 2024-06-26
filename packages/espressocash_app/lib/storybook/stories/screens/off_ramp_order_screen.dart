@@ -32,6 +32,7 @@ final offRampOrderScreenStory = Story(
       withdrawUrl: null,
       authToken: null,
       moreInfoUrl: null,
+      bridgeAmount: null,
     ),
   ),
 );

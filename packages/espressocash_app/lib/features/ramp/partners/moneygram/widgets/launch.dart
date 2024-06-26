@@ -208,7 +208,7 @@ window.addEventListener("message", (event) => {
 
     if (withdrawUrl == null) {
       final response = await _generateWithdrawLink(
-        amount: order.amount.decimal.toDouble(),
+        amount: order.bridgeAmount?.decimal.toDouble() ?? 0,
       );
 
       if (response == null) {

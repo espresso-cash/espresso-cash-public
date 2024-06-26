@@ -44,6 +44,7 @@ typedef OffRampOrder = ({
   String? withdrawAnchorAccount,
   String? withdrawUrl,
   String? authToken,
+  CryptoAmount? bridgeAmount,
 });
 
 @Singleton(scope: authScope)
@@ -139,6 +140,13 @@ class OffRampOrderService implements Disposable {
         ) as FiatAmount,
       );
 
+      final bridgeAmount = row.bridgeAmount?.let(
+        (it) => Amount(
+          value: it,
+          currency: Currency.usdc,
+        ) as CryptoAmount,
+      );
+
       final depositAddress = row.depositAddress
           .maybeWhere((it) => it.isNotEmpty)
           ?.let(Ed25519HDPublicKey.fromBase58);
@@ -158,6 +166,7 @@ class OffRampOrderService implements Disposable {
         fee: fee,
         withdrawUrl: row.withdrawUrl,
         authToken: row.authToken,
+        bridgeAmount: bridgeAmount,
       );
     });
   }

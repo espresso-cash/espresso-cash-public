@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
@@ -17,7 +16,6 @@ import '../../../../../data/db/db.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../balances/services/refresh_balance.dart';
-import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -112,7 +110,7 @@ class MoneygramOffRampOrderService implements Disposable {
             case OffRampOrderStatus.ready:
               return Stream.fromFuture(_readyProcess(order));
 
-            case OffRampOrderStatus.depositTxRequired:
+            case OffRampOrderStatus.depositTxReady:
               _waitingForDepositReady(order);
 
               return const Stream.empty();
@@ -149,7 +147,7 @@ class MoneygramOffRampOrderService implements Disposable {
             case OffRampOrderStatus.depositError:
             case OffRampOrderStatus.depositTxConfirmError:
             case OffRampOrderStatus.insufficientFunds:
-            case OffRampOrderStatus.depositTxReady:
+            case OffRampOrderStatus.depositTxRequired:
             case OffRampOrderStatus.failure:
               return const Stream.empty();
           }
@@ -183,6 +181,7 @@ class MoneygramOffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
+            bridgeAmount: 0,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -224,23 +223,33 @@ class MoneygramOffRampOrderService implements Disposable {
 
         final status = transaction.status;
 
-        if (status == MgStatus.incomplete) {
-          return;
-        }
+        switch (status) {
+          case MgStatus.pendingUserTransferStart:
+            await updateQuery.write(
+              const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.creatingDepositTx),
+              ),
+            );
 
-        if (status == MgStatus.pendingUserTransferStart) {
-          await updateQuery.write(
-            const OffRampOrderRowsCompanion(
-              status: Value(OffRampOrderStatus.creatingDepositTx),
-            ),
-          );
-        }
+            return;
 
-        await updateQuery.write(
-          const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.depositTxRequired),
-          ),
-        );
+          case MgStatus.pendingAnchor:
+          case MgStatus.pendingUserTransferComplete:
+          case MgStatus.unknown:
+            await updateQuery.write(
+              const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.depositTxReady),
+              ),
+            );
+
+            return;
+
+          case MgStatus.refunded:
+          case MgStatus.completed:
+          case MgStatus.expired:
+          case MgStatus.incomplete:
+            return;
+        }
       });
 
   AsyncResult<void> processRefund(String id) => tryEitherAsync((_) async {
@@ -386,9 +395,7 @@ class MoneygramOffRampOrderService implements Disposable {
         .startWith(null)
         .listen((order) async {
       final statement = _db.update(_db.offRampOrderRows)
-        ..where(
-          (tbl) => tbl.id.equals(id),
-        );
+        ..where((tbl) => tbl.id.equals(id));
 
       final order = await _fetchOrder(id);
 
@@ -501,9 +508,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
+      final bridgeAmount = int.parse(destination.amount) ~/ 10;
+
       await statement.write(
-        const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.ready),
+        OffRampOrderRowsCompanion(
+          status: const Value(OffRampOrderStatus.ready),
+          bridgeAmount: Value(bridgeAmount),
         ),
       );
 
@@ -565,18 +575,15 @@ class MoneygramOffRampOrderService implements Disposable {
     final accountId = _stellarWallet.address;
 
     final amount = CryptoAmount(
-      value: order.amount,
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
-
-    final String formattedAmount =
-        amount.format(const Locale('en'), skipSymbol: true);
 
     final transactionSucceed = await _stellarClient.sendUsdc(
       accountId,
       destinationAddress: order.withdrawAnchorAccount ?? '',
       memo: order.withdrawMemo ?? '',
-      amount: formattedAmount,
+      amount: amount.decimal.toString(),
     );
 
     return transactionSucceed

@@ -131,6 +131,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.bridgeAmount);
             await m.addColumn(
               offRampOrderRows,
               offRampOrderRows.withdrawAnchorAccount,
@@ -198,6 +199,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get moreInfoUrl => text().nullable()();
   TextColumn get solanaBridgeTx => text().nullable()();
   TextColumn get stellarTxHash => text().nullable()();
+  IntColumn get bridgeAmount => integer().nullable()();
 }
 
 enum OnRampOrderStatus {
