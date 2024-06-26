@@ -77,7 +77,7 @@ class MoneygramInterceptor extends Interceptor {
 
     final expirationDate =
         DateTime.fromMillisecondsSinceEpoch(expiration * 1000);
-    
+
     return DateTime.now().isAfter(expirationDate);
   }
 }
