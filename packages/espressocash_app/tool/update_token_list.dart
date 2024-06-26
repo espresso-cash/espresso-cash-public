@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:http/http.dart' as http;
@@ -102,7 +103,10 @@ Future<void> _writeToFile(List<Map<String, String>> tokens) async {
   ];
 
   final csv = StringBuffer()
-    ..writeln('address,chainId,symbol,name,decimals,logoURI,tags,extensions');
+    ..writeln('address,chainId,symbol,name,decimals,logoURI,tags,extensions')
+    ..writeln(
+      'So11111111111111111111111111111111111111111,101,SOL,Solana,9,https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png,[old-registry],coingeckoId:wrapped-solana',
+    );
 
   for (final token in allTokens) {
     csv.writeln(
