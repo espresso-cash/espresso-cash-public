@@ -99,6 +99,7 @@ extension BuildContextExt on BuildContext {
           final transaction = await _fetchTransactionStatus(
             id: orderId,
             token: token,
+            rampType: RampType.onRamp,
           );
 
           final transferAmount = Amount.fromDecimal(
@@ -210,6 +211,7 @@ window.addEventListener("message", (event) => {
       final transaction = await _fetchTransactionStatus(
         id: order.partnerOrderId,
         token: order.authToken ?? '',
+        rampType: RampType.offRamp,
       );
 
       if (transaction.status == MgStatus.expired) {
@@ -290,6 +292,7 @@ window.addEventListener("message", (event) => {
   Future<TransactionStatus> _fetchTransactionStatus({
     required String id,
     required String token,
+    required RampType rampType,
   }) =>
       runWithLoader<TransactionStatus>(this, () async {
         final client = sl<MoneygramApiClient>();
@@ -298,7 +301,7 @@ window.addEventListener("message", (event) => {
             .fetchTransaction(
               id: id,
               authHeader: token,
-              rampType: RampType.onRamp,
+              rampType: rampType,
             )
             .then((e) => e.transaction);
       });
