@@ -3,21 +3,25 @@ import 'package:injectable/injectable.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import '../../accounts/auth_scope.dart';
 import '../constants.dart';
+import '../models/stellar_wallet.dart';
 import '../stellar_module.dart';
 
 @LazySingleton(scope: authScope)
 class StellarClient {
   const StellarClient(
     this._ecClient,
+    this._stellarWallet,
     @stellar this._sdk,
     @soroban this._sorobanClient,
   );
 
   final StellarSDK _sdk;
   final SorobanServer _sorobanClient;
+  final StellarWallet _stellarWallet;
   final EspressoCashClient _ecClient;
 
-  Future<String> fetchToken({required KeyPair wallet}) {
+  Future<String> fetchToken() {
+    final wallet = _stellarWallet.keyPair;
     const moneygramAuthUrl = '$moneygramBaseUrl/auth';
     final moneygramDomain = Uri.parse(moneygramBaseUrl).host;
     const clientDomain = espressoClientDomain;
@@ -75,10 +79,10 @@ class StellarClient {
     }
   }
 
-  Future<List<OperationResponse>> getPayments(String accountId) async {
-    final operations = await _sdk.operations.forAccount(accountId).execute();
+  Future<OperationResponse?> getPaymentByTxId(String txId) async {
+    final operations = await _sdk.operations.forTransaction(txId).execute();
 
-    return operations.records ?? [];
+    return operations.records?.firstOrNull;
   }
 
   Future<bool> hasUsdcTrustline(String accountId, {double? amount}) async {
@@ -106,10 +110,10 @@ class StellarClient {
   }
 
   Future<bool> createUsdcTrustline({
-    required KeyPair userKeyPair,
     required double limit,
   }) async {
-    final accountId = userKeyPair.accountId;
+    final wallet = _stellarWallet.keyPair;
+    final accountId = wallet.accountId;
     final account = await _sdk.accounts.account(accountId);
 
     final usdc = AssetTypeCreditAlphaNum4('USDC', moneygramAssetIssuer);
@@ -118,20 +122,19 @@ class StellarClient {
     final transaction = TransactionBuilder(account)
         .addOperation(ctob.build())
         .build()
-      ..sign(userKeyPair, stellarNetwork);
+      ..sign(wallet, stellarNetwork);
 
     final response = await _sdk.submitTransaction(transaction);
 
     return response.success;
   }
 
-  Future<String?> submitTransactionFromXdrString(
-    String xdr, {
-    required KeyPair userKeyPair,
-  }) async {
+  Future<String?> submitTransactionFromXdrString(String xdr) async {
+    final wallet = _stellarWallet.keyPair;
+
     final transaction = AbstractTransaction.fromEnvelopeXdrString(xdr)
         as Transaction
-      ..sign(userKeyPair, stellarNetwork);
+      ..sign(wallet, stellarNetwork);
 
     final response = await _sorobanClient.sendTransaction(transaction);
 
@@ -156,6 +159,35 @@ class StellarClient {
     }
 
     return transactionResponse;
+  }
+
+  Future<bool> sendUsdc(
+    String accountId, {
+    required String destinationAddress,
+    required String memo,
+    required String amount,
+  }) async {
+    final sourceAccount = await _sdk.accounts.account(accountId);
+
+    final Asset usdcAsset =
+        Asset.createNonNativeAsset('USDC', moneygramAssetIssuer);
+
+    final transactionBuilder = TransactionBuilder(sourceAccount)
+      ..addOperation(
+        PaymentOperationBuilder(
+          destinationAddress,
+          usdcAsset,
+          amount,
+        ).build(),
+      )
+      ..addMemo(Memo.text(memo));
+
+    final transaction = transactionBuilder.build()
+      ..sign(_stellarWallet.keyPair, stellarNetwork);
+
+    final response = await _sdk.submitTransaction(transaction);
+
+    return response.success;
   }
 }
 

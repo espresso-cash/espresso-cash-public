@@ -129,7 +129,7 @@ window.addEventListener("message", (event) => {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();
 
-          final token = await stellarClient.fetchToken(wallet: wallet.keyPair);
+          final token = await stellarClient.fetchToken();
 
           final client = sl<MoneygramApiClient>();
 

@@ -175,7 +175,7 @@ class MoneygramOnRampOrderService implements Disposable {
     final orderId = order.partnerOrderId;
     String? token = order.authToken;
 
-    token ??= await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
+    token ??= await _stellarClient.fetchToken();
 
     final transaction = await _fetchTransactionStatus(
       id: orderId,
@@ -245,10 +245,7 @@ class MoneygramOnRampOrderService implements Disposable {
     );
 
     if (!hasUsdcTrustline) {
-      await _stellarClient.createUsdcTrustline(
-        userKeyPair: _stellarWallet.keyPair,
-        limit: 10000,
-      );
+      await _stellarClient.createUsdcTrustline(limit: 10000);
     }
 
     return const OnRampOrderRowsCompanion(
@@ -284,10 +281,7 @@ class MoneygramOnRampOrderService implements Disposable {
         )
         .then((e) => e.encodedTx);
 
-    final hash = await _stellarClient.submitTransactionFromXdrString(
-      bridgeTx,
-      userKeyPair: _stellarWallet.keyPair,
-    );
+    final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
     if (hash == null) {
       return const OnRampOrderRowsCompanion(
@@ -394,7 +388,7 @@ class MoneygramOnRampOrderService implements Disposable {
       final orderId = order.partnerOrderId;
       String? token = order.authToken;
 
-      token ??= await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
+      token ??= await _stellarClient.fetchToken();
 
       final transaction = await _fetchTransactionStatus(
         id: orderId,
