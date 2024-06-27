@@ -22,6 +22,7 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
+import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -336,7 +337,7 @@ class MoneygramOnRampOrderService implements Disposable {
         ),
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;
@@ -431,7 +432,8 @@ class MoneygramOnRampOrderService implements Disposable {
       _moneygramClient
           .fetchTransaction(
             id: id,
-            authHeader: token.toAuthHeader(),
+            authHeader: token,
+            rampType: RampType.onRamp,
           )
           .then((e) => e.transaction);
 

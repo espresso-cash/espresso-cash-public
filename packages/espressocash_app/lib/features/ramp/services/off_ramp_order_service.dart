@@ -136,7 +136,7 @@ class OffRampOrderService implements Disposable {
       final receiveAmount = row.receiveAmount?.let(
         (it) => Amount(
           value: it,
-          currency: currencyFromString(row.fiatSymbol),
+          currency: currencyFromString(row.fiatSymbol ?? 'USD'),
         ) as FiatAmount,
       );
 

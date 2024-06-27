@@ -62,7 +62,7 @@ sealed class Currency with _$Currency {
 
 const defaultFiatCurrency = Currency.usd;
 
-FiatCurrency currencyFromString(String? currency) {
+FiatCurrency currencyFromString(String currency) {
   switch (currency) {
     case 'USD':
       return Currency.usd;
