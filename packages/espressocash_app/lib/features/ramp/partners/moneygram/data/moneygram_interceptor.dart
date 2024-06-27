@@ -6,7 +6,6 @@ import '../../../../../data/db/db.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../models/ramp_type.dart';
-import 'moneygram_client.dart';
 
 class MoneygramInterceptor extends Interceptor {
   const MoneygramInterceptor(
@@ -80,4 +79,8 @@ class MoneygramInterceptor extends Interceptor {
 
     return DateTime.now().isAfter(expirationDate);
   }
+}
+
+extension on String {
+  String toAuthHeader() => 'Bearer $this';
 }

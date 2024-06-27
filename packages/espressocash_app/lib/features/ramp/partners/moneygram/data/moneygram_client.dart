@@ -46,7 +46,3 @@ abstract class MoneygramApiClient {
     @Header('type') RampType? rampType,
   });
 }
-
-extension StringExt on String {
-  String toAuthHeader() => 'Bearer $this';
-}
