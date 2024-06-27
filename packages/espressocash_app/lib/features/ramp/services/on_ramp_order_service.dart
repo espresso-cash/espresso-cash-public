@@ -55,6 +55,10 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      if (order.partner == RampPartner.moneygram) {
+        continue;
+      }
+
       _subscribe(order.id);
     }
   }
@@ -123,67 +127,6 @@ class OnRampOrderService implements Disposable {
         status: OnRampOrderStatus.waitingForDeposit,
       );
 
-  AsyncResult<String> createPendingMoneygram({
-    required String orderId,
-    required RampPartner partner,
-    required CryptoAmount submittedAmount,
-    required String authToken,
-    OnRampOrderStatus status = OnRampOrderStatus.pending,
-  }) =>
-      tryEitherAsync((_) async {
-        {
-          final order = OnRampOrderRow(
-            id: const Uuid().v4(),
-            partnerOrderId: orderId,
-            amount: submittedAmount.value,
-            token: Token.usdc.address,
-            created: DateTime.now(),
-            isCompleted: false,
-            humanStatus: '',
-            machineStatus: '',
-            txHash: '',
-            partner: partner,
-            status: status,
-            authToken: authToken,
-          );
-
-          await _db.into(_db.onRampOrderRows).insert(order);
-          _subscribe(order.id);
-
-          return order.id;
-        }
-      });
-
-  AsyncResult<void> updateMoneygramOrder({
-    required String id,
-    required String authToken,
-    required CryptoAmount? receiveAmount,
-    required FiatAmount transferAmount,
-    required String moreInfoUrl,
-    required DateTime? transferExpiryDate,
-  }) =>
-      tryEitherAsync((_) async {
-        const bankName = 'moneygram';
-
-        final updateQuery = _db.update(_db.onRampOrderRows)
-          ..where((tbl) => tbl.id.equals(id));
-
-        await updateQuery.write(
-          OnRampOrderRowsCompanion(
-            receiveAmount: Value(receiveAmount?.value),
-            bankTransferAmount: Value(transferAmount.value),
-            fiatSymbol: Value(transferAmount.currency.symbol),
-            authToken: Value(authToken),
-            moreInfoUrl: Value(moreInfoUrl),
-            bankName: const Value(bankName),
-            bankTransferExpiry: transferExpiryDate != null
-                ? Value(transferExpiryDate)
-                : const Value.absent(),
-            status: const Value(OnRampOrderStatus.preProcessing),
-          ),
-        );
-      });
-
   Future<void> confirmDeposit(String orderId) async {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(orderId));
@@ -206,6 +149,7 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.pending:
       case OnRampOrderStatus.preProcessing:
       case OnRampOrderStatus.postProcessing:
+      case OnRampOrderStatus.waitingForBridge:
         break;
     }
   }

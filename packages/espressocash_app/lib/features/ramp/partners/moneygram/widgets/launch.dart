@@ -17,7 +17,6 @@ import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
@@ -25,6 +24,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 import '../service/moneygram_off_ramp_service.dart';
+import '../service/moneygram_on_ramp_service.dart';
 
 typedef MoneygramLink = ({String id, String url, String token});
 
@@ -44,8 +44,11 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.onRamp,
-      calculateEquivalent: (amount) =>
-          _calculateMoneygramFee(amount: amount, type: RampType.onRamp),
+      calculateEquivalent: (amount) => _calculateMoneygramFee(
+        amount: amount,
+        type: RampType.onRamp,
+      ),
+      partnerFeeLabel: 'Fee taken during bridging',
     );
 
     final submittedAmount = amount;
@@ -66,10 +69,9 @@ extension BuildContextExt on BuildContext {
     final token = response.token;
     final orderId = response.id;
 
-    final id = await sl<OnRampOrderService>()
+    final id = await sl<MoneygramOnRampOrderService>()
         .createPendingMoneygram(
       orderId: orderId,
-      partner: partner,
       submittedAmount: submittedAmount,
       authToken: token,
     )
@@ -94,42 +96,10 @@ extension BuildContextExt on BuildContext {
         handlerName: 'moneygram',
         callback: (args) async {
           if (orderWasCreated) return;
-
-          final transaction = await _fetchTransactionStatus(
-            id: orderId,
-            token: token,
-            rampType: RampType.onRamp,
-          );
-
-          final transferAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountIn ?? '0'),
-            currency: Currency.usd,
-          ) as FiatAmount;
-
-          final receiveAmount = Amount.fromDecimal(
-            value: Decimal.parse(transaction.amountOut ?? '0'),
-            currency: Currency.usdc,
-          ) as CryptoAmount;
-
-          await sl<OnRampOrderService>()
-              .updateMoneygramOrder(
-            id: id,
-            receiveAmount: receiveAmount,
-            transferExpiryDate: DateTime.now().add(const Duration(days: 1)),
-            transferAmount: transferAmount,
-            authToken: token,
-            moreInfoUrl: transaction.moreInfoUrl ?? '',
-          )
-              .then((order) {
-            switch (order) {
-              case Left<Exception, void>():
-                break;
-              case Right<Exception, void>():
-                OnRampOrderScreen.pushReplacement(this, id: id);
-            }
-          });
-
           orderWasCreated = true;
+
+          OnRampOrderScreen.pushReplacement(this, id: id);
+          await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
         },
       );
       await controller.evaluateJavascript(
@@ -148,6 +118,10 @@ window.addEventListener("message", (event) => {
       title: l10n.ramp_titleCashIn,
       theme: const CpThemeData.light(),
     );
+
+    if (!orderWasCreated) {
+      await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
+    }
   }
 
   Future<void> launchMoneygramOffRamp() async {
@@ -203,23 +177,6 @@ window.addEventListener("message", (event) => {
     });
   }
 
-  Future<TransactionStatus> _fetchTransactionStatus({
-    required String id,
-    required String token,
-    required RampType rampType,
-  }) =>
-      runWithLoader<TransactionStatus>(this, () async {
-        final client = sl<MoneygramApiClient>();
-
-        return client
-            .fetchTransaction(
-              id: id,
-              authHeader: token,
-              rampType: rampType,
-            )
-            .then((e) => e.transaction);
-      });
-
   Future<MoneygramLink?> _generateDepositLink({required double amount}) =>
       runWithLoader<MoneygramLink?>(this, () async {
         try {
@@ -240,7 +197,9 @@ window.addEventListener("message", (event) => {
             token,
           );
 
-          return (id: response.id, url: response.url, token: token);
+          final url = '${response.url}&callback=postmessage';
+
+          return (id: response.id, url: url, token: token);
         } on Exception {
           return null;
         }

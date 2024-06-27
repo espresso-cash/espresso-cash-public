@@ -16,8 +16,9 @@ import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
+import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../data/on_ramp_order_service.dart';
+import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
 
 class OnRampOrderScreen extends StatefulWidget {
@@ -78,6 +79,10 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final manualDeposit = order.manualDeposit;
     final bool isManualBankTransfer = manualDeposit != null;
 
+    if (order.status == OnRampOrderStatus.pending) {
+      return TransferProgress(onBack: () => Navigator.pop(context));
+    }
+
     if (order.status == OnRampOrderStatus.waitingForDeposit &&
         isManualBankTransfer) {
       return OnRampDepositWidget(
@@ -105,6 +110,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final String statusContent = switch (order.status) {
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
+      OnRampOrderStatus.waitingForBridge ||
       OnRampOrderStatus.waitingForDeposit ||
       OnRampOrderStatus.postProcessing ||
       OnRampOrderStatus.waitingForPartner =>
@@ -115,14 +121,27 @@ class OnRampOrderScreenContent extends StatelessWidget {
       OnRampOrderStatus.completed => context.l10n.onRampDepositSuccess,
     };
 
-    final String? statusSubtitle =
-        order.status == OnRampOrderStatus.waitingForPartner
-            ? context.l10n.onRampAwaitingFunds
-            : null;
+    final String? statusSubtitle = switch (order.status) {
+      OnRampOrderStatus.waitingForPartner => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForBridge =>
+        'Transfer could take a few minutes...',
+      OnRampOrderStatus.pending ||
+      OnRampOrderStatus.preProcessing ||
+      OnRampOrderStatus.waitingForDeposit ||
+      OnRampOrderStatus.postProcessing ||
+      OnRampOrderStatus.depositExpired ||
+      OnRampOrderStatus.failure ||
+      OnRampOrderStatus.completed =>
+        null
+    };
 
     final Widget? primaryButton = order.status == OnRampOrderStatus.failure
         ? const _ContactUsButton()
         : null;
+
+    final depositAmount = (order.partner == RampPartner.moneygram)
+        ? manualDeposit?.transferAmount
+        : order.submittedAmount;
 
     return StatusScreen(
       title: context.l10n.onRampDepositTitle.toUpperCase(),
@@ -135,11 +154,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               statusSubtitle,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                letterSpacing: 0.23,
-              ),
+              style: _contentSubtitleTextStyle,
             ),
           ],
         ],
@@ -150,9 +165,11 @@ class OnRampOrderScreenContent extends StatelessWidget {
             const Spacer(flex: 1),
             _Timeline(
               status: order.status,
-              amount: order.submittedAmount,
+              amount: depositAmount ?? order.submittedAmount,
+              receiveAmount: order.receiveAmount,
               manualDeposit: manualDeposit,
               created: order.created,
+              partner: order.partner,
             ),
             const Spacer(flex: 4),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
@@ -216,12 +233,16 @@ class _Timeline extends StatelessWidget {
     this.amount,
     this.manualDeposit,
     required this.created,
+    required this.partner,
+    this.receiveAmount,
   });
 
   final OnRampOrderStatus status;
-  final CryptoAmount? amount;
+  final Amount? amount;
   final DepositDetails? manualDeposit;
+  final RampPartner partner;
   final DateTime created;
+  final Amount? receiveAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -238,18 +259,25 @@ class _Timeline extends StatelessWidget {
     );
     final amountReceived = CpTimelineItem(
       title: context.l10n.onRampDepositReceived,
+      trailing: receiveAmount?.format(context.locale, maxDecimals: 2),
     );
+
+    CpTimelineItem? deposited;
+    if (isManualBankTransfer) {
+      deposited = CpTimelineItem(
+        title: partner == RampPartner.moneygram
+            ? 'Deposited to MoneyGram'
+            : context.l10n.onRampLocalTransferTile(
+                manualDeposit.transferAmount.format(context.locale),
+                manualDeposit.bankName,
+                manualDeposit.bankAccount,
+              ),
+      );
+    }
 
     final items = [
       depositInitiated,
-      if (isManualBankTransfer)
-        CpTimelineItem(
-          title: context.l10n.onRampLocalTransferTile(
-            manualDeposit.transferAmount.format(context.locale),
-            manualDeposit.bankName,
-            manualDeposit.bankAccount,
-          ),
-        ),
+      if (deposited != null) deposited,
       amountReceived,
     ];
 
@@ -267,6 +295,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpStatusType.info,
@@ -280,6 +309,7 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.pending ||
         OnRampOrderStatus.preProcessing ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.waitingForDeposit ||
         OnRampOrderStatus.waitingForPartner =>
           CpTimelineStatus.inProgress,
@@ -297,8 +327,15 @@ extension on OnRampOrderStatus {
           0,
         OnRampOrderStatus.waitingForPartner ||
         OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
         OnRampOrderStatus.failure ||
         OnRampOrderStatus.completed =>
           1,
       };
 }
+
+const _contentSubtitleTextStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
+  letterSpacing: 0.23,
+);

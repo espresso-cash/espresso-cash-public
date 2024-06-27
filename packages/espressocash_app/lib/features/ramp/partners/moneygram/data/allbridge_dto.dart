@@ -48,6 +48,27 @@ class TransactionStatus with _$TransactionStatus {
       _$TransactionStatusFromJson(json);
 }
 
+@freezed
+class RestoreStellarTxRequestDto with _$RestoreStellarTxRequestDto {
+  const factory RestoreStellarTxRequestDto({
+    required String xdrTx,
+    required String sender,
+  }) = _RestoreStellarTxRequestDto;
+
+  factory RestoreStellarTxRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$RestoreStellarTxRequestDtoFromJson(json);
+}
+
+@freezed
+class RestoreStellarTxResponseDto with _$RestoreStellarTxResponseDto {
+  const factory RestoreStellarTxResponseDto({
+    required String tx,
+  }) = _RestoreStellarTxResponseDto;
+
+  factory RestoreStellarTxResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$RestoreStellarTxResponseDtoFromJson(json);
+}
+
 enum Chain {
   @JsonValue('SOL')
   solana,
