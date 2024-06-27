@@ -1,22 +1,22 @@
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../../data/db/db.dart';
-import '../../../../stellar/models/stellar_wallet.dart';
+import '../../../../accounts/auth_scope.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../models/ramp_type.dart';
 
+@LazySingleton(scope: authScope)
 class MoneygramInterceptor extends Interceptor {
   const MoneygramInterceptor(
     this._db,
     this._stellarClient,
-    this._stellarWallet,
   );
 
   final MyDatabase _db;
   final StellarClient _stellarClient;
-  final StellarWallet _stellarWallet;
 
   @override
   Future<void> onRequest(
@@ -30,7 +30,7 @@ class MoneygramInterceptor extends Interceptor {
   Future<void> _handleToken(RequestOptions options) async {
     String? token = options.headers['Authorization'] as String?;
     if (token == null || _isTokenExpired(token)) {
-      token = await _stellarClient.fetchToken(wallet: _stellarWallet.keyPair);
+      token = await _stellarClient.fetchToken();
       final type = options.headers['type'] as RampType?;
       final orderId = options.queryParameters['id'] as String?;
 

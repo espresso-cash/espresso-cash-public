@@ -28,6 +28,7 @@ import '../../../../transactions/services/tx_confirm.dart';
 import '../../../../transactions/services/tx_sender.dart';
 import '../../../data/my_database_ext.dart';
 import '../../../models/ramp_type.dart';
+import '../../../services/off_ramp_order_service.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -191,24 +192,6 @@ class MoneygramOffRampOrderService implements Disposable {
         }
       });
 
-  Future<void> updateMoneygramWithdrawUrl({
-    required String id,
-    required String withdrawUrl,
-    required String authToken,
-    required String orderId,
-  }) async {
-    final updateQuery = _db.update(_db.offRampOrderRows)
-      ..where((tbl) => tbl.id.equals(id));
-
-    await updateQuery.write(
-      OffRampOrderRowsCompanion(
-        partnerOrderId: Value(orderId),
-        withdrawUrl: Value(withdrawUrl),
-        authToken: Value(authToken),
-      ),
-    );
-  }
-
   AsyncResult<void> updateMoneygramOrder({required String id}) =>
       tryEitherAsync((_) async {
         final updateQuery = _db.update(_db.offRampOrderRows)
@@ -277,6 +260,66 @@ class MoneygramOffRampOrderService implements Disposable {
         );
       });
 
+  Future<String?> getWithdrawUrl({
+    required OffRampOrder order,
+    required String languageCode,
+  }) async {
+    String? withdrawUrl = order.withdrawUrl;
+
+    if (withdrawUrl != null) {
+      final transaction = await _fetchTransactionStatus(
+        id: order.partnerOrderId,
+        token: order.authToken ?? '',
+      );
+
+      if (transaction.status == MgStatus.expired) {
+        withdrawUrl = null;
+      }
+    }
+
+    if (withdrawUrl == null) {
+      final token = await _stellarClient.fetchToken();
+      final response = await _moneygramClient.generateWithdrawUrl(
+        MgWithdrawRequestDto(
+          assetCode: 'USDC',
+          account: _stellarWallet.address,
+          lang: languageCode,
+          amount: order.bridgeAmount?.decimal.toString() ?? '',
+        ),
+        token,
+      );
+
+      withdrawUrl = response.url;
+
+      await _updateMoneygramWithdrawUrl(
+        id: order.id,
+        withdrawUrl: withdrawUrl,
+        authToken: token,
+        orderId: response.id,
+      );
+    }
+
+    return withdrawUrl;
+  }
+
+  Future<void> _updateMoneygramWithdrawUrl({
+    required String id,
+    required String withdrawUrl,
+    required String authToken,
+    required String orderId,
+  }) async {
+    final updateQuery = _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.id.equals(id));
+
+    await updateQuery.write(
+      OffRampOrderRowsCompanion(
+        partnerOrderId: Value(orderId),
+        withdrawUrl: Value(withdrawUrl),
+        authToken: Value(authToken),
+      ),
+    );
+  }
+
   Future<OffRampOrderRowsCompanion> _preProcessOrder(
     OffRampOrderRow order,
   ) async {
@@ -304,10 +347,7 @@ class MoneygramOffRampOrderService implements Disposable {
     );
 
     if (!hasUsdcTrustline) {
-      await _stellarClient.createUsdcTrustline(
-        userKeyPair: _stellarWallet.keyPair,
-        limit: 10000,
-      );
+      await _stellarClient.createUsdcTrustline(limit: 10000);
     }
 
     final bridgeTx = await _ecClient
@@ -634,10 +674,7 @@ class MoneygramOffRampOrderService implements Disposable {
         )
         .then((e) => e.encodedTx);
 
-    final hash = await _stellarClient.submitTransactionFromXdrString(
-      bridgeTx,
-      userKeyPair: _stellarWallet.keyPair,
-    );
+    final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
 
     if (hash == null) {
       return const OffRampOrderRowsCompanion(

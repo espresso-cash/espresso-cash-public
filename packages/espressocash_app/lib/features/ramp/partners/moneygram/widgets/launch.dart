@@ -22,7 +22,6 @@ import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
-import '../../../services/off_ramp_order_service.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 import '../service/moneygram_off_ramp_service.dart';
@@ -204,91 +203,6 @@ window.addEventListener("message", (event) => {
     });
   }
 
-  Future<void> openMoneygramWithdrawUrl(OffRampOrder order) async {
-    String? withdrawUrl = order.withdrawUrl;
-
-    if (withdrawUrl != null) {
-      final transaction = await _fetchTransactionStatus(
-        id: order.partnerOrderId,
-        token: order.authToken ?? '',
-        rampType: RampType.offRamp,
-      );
-
-      if (transaction.status == MgStatus.expired) {
-        withdrawUrl = null;
-      }
-    }
-
-    if (withdrawUrl == null) {
-      final response = await _generateWithdrawLink(
-        amount: order.bridgeAmount?.decimal.toDouble() ?? 0,
-      );
-
-      if (response == null) {
-        showCpErrorSnackbar(this, message: l10n.tryAgainLater);
-
-        return;
-      }
-
-      withdrawUrl = response.url;
-      await sl<MoneygramOffRampOrderService>().updateMoneygramWithdrawUrl(
-        id: order.id,
-        withdrawUrl: withdrawUrl,
-        authToken: response.token,
-        orderId: response.id,
-      );
-    }
-
-    bool orderWasCreated = false;
-    Future<void> handleLoaded(InAppWebViewController controller) async {
-      controller.addJavaScriptHandler(
-        handlerName: 'moneygram',
-        callback: (args) async {
-          if (orderWasCreated) return;
-
-          orderWasCreated = true;
-
-          Navigator.pop(this);
-          await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
-            id: order.id,
-          );
-        },
-      );
-      await controller.evaluateJavascript(
-        source: '''
-window.addEventListener("message", (event) => {
-  window.flutter_inappwebview.callHandler('moneygram', event.data);
-}, false);
-''',
-      );
-    }
-
-    await WebViewScreen.push(
-      this,
-      url: Uri.parse(withdrawUrl),
-      onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashOut,
-      theme: const CpThemeData.light(),
-    );
-
-    if (!orderWasCreated) {
-      await sl<MoneygramOffRampOrderService>().updateMoneygramOrder(
-        id: order.id,
-      );
-    }
-  }
-
-  Future<void> openMoneygramMoreInfoUrl(OffRampOrder order) async {
-    await WebViewScreen.push(
-      this,
-      url: Uri.parse(order.moreInfoUrl ?? ''),
-      title: l10n.ramp_titleCashOut,
-      theme: const CpThemeData.light(),
-    );
-
-    await sl<MoneygramOffRampOrderService>().processRefund(order.id);
-  }
-
   Future<TransactionStatus> _fetchTransactionStatus({
     required String id,
     required String token,
@@ -312,37 +226,11 @@ window.addEventListener("message", (event) => {
           final wallet = sl<StellarWallet>();
           final stellarClient = sl<StellarClient>();
 
-          final token = await stellarClient.fetchToken(wallet: wallet.keyPair);
+          final token = await stellarClient.fetchToken();
 
           final client = sl<MoneygramApiClient>();
 
           final response = await client.generateDepositUrl(
-            MgWithdrawRequestDto(
-              assetCode: 'USDC',
-              account: wallet.keyPair.accountId,
-              lang: locale.languageCode,
-              amount: amount.toString(),
-            ),
-            token,
-          );
-
-          return (id: response.id, url: response.url, token: token);
-        } on Exception {
-          return null;
-        }
-      });
-
-  Future<MoneygramLink?> _generateWithdrawLink({required double amount}) =>
-      runWithLoader<MoneygramLink?>(this, () async {
-        try {
-          final wallet = sl<StellarWallet>();
-          final stellarClient = sl<StellarClient>();
-
-          final token = await stellarClient.fetchToken(wallet: wallet.keyPair);
-
-          final client = sl<MoneygramApiClient>();
-
-          final response = await client.generateWithdrawUrl(
             MgWithdrawRequestDto(
               assetCode: 'USDC',
               account: wallet.keyPair.accountId,

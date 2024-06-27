@@ -21,7 +21,7 @@ import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
-import '../partners/moneygram/widgets/launch.dart';
+import '../partners/moneygram/widgets/extensions.dart';
 import '../services/off_ramp_order_service.dart';
 import '../widgets/off_ramp_confirmation.dart';
 
