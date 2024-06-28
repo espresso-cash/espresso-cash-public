@@ -11,6 +11,7 @@ import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -159,6 +160,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           ],
         ],
       ),
+      theme: const CpThemeData.light(),
       content: CpContentPadding(
         child: Column(
           children: [

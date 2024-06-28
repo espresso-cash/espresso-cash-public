@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../l10n/l10n.dart';
+import '../utils/extensions.dart';
 import 'button.dart';
 import 'clipboard.dart';
 
@@ -18,7 +19,7 @@ class PartnerOrderIdWidget extends StatelessWidget {
             height: CpButtonSize.big.height,
             child: Center(
               child: Text(
-                context.l10n.orderId(orderId),
+                context.l10n.orderId(orderId.toShortAddress()),
                 style: const TextStyle(
                   color: Color(0xFF979593),
                   fontSize: 14,
