@@ -91,7 +91,7 @@ class TransactionRepository {
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: InsertMode.insertOrReplace,
+            mode: InsertMode.insertOrIgnore,
           ),
         );
 

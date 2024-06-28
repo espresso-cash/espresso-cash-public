@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../utils/extensions.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
@@ -41,10 +42,7 @@ class TokenInfo extends StatelessWidget {
           ),
           _InfoItem(
             label: 'Mint Address',
-            value: '${tokenAddress.substring(0, 4)}...${tokenAddress.substring(
-              tokenAddress.length - 4,
-              tokenAddress.length,
-            )}',
+            value: tokenAddress.toShortAddress(),
           ),
         ],
       ),

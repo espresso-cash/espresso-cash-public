@@ -209,7 +209,6 @@ class _RecentActivityWidgetState extends State<RecentActivityWidget> {
   void initState() {
     super.initState();
     _txs = sl<TransactionRepository>().watchCount(_activityCount);
-    sl<TxUpdater>().call();
   }
 
   @override

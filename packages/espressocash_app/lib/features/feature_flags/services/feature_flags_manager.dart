@@ -21,9 +21,9 @@ class FeatureFlagsManager implements Disposable {
         minimumFetchInterval: const Duration(hours: 1),
       ),
     );
-    // await _remoteConfig.fetchAndActivate();
-    // _subscription =
-    //     _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
+    await _remoteConfig.fetchAndActivate();
+    _subscription =
+        _remoteConfig.onConfigUpdated.listen((_) => _remoteConfig.activate());
   }
 
   @override
