@@ -28,6 +28,7 @@ class AssociatedTokenAccountInstruction extends Instruction {
     required Ed25519HDPublicKey address,
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey mint,
+    Ed25519HDPublicKey? tokenProgramId,
   }) =>
       AssociatedTokenAccountInstruction._(
         accounts: [
@@ -40,7 +41,9 @@ class AssociatedTokenAccountInstruction extends Instruction {
             isSigner: false,
           ),
           AccountMeta.readonly(
-            pubKey: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+            pubKey: Ed25519HDPublicKey.fromBase58(
+              tokenProgramId?.toBase58() ?? TokenProgram.id.toBase58(),
+            ),
             isSigner: false,
           ),
           AccountMeta.readonly(

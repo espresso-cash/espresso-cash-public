@@ -1,6 +1,7 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
+import 'package:solana/src/programs/token_2022_program/program.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 
 /// Returns true if [address] is a valid ed25519 point encoded to base58.
@@ -31,13 +32,30 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
   }
 }
 
+enum TokenProgramType {
+  tokenProgram,
+  token2022Program,
+}
+
+extension TokenProgramTypeExt on TokenProgramType {
+  Ed25519HDPublicKey get id {
+    switch (this) {
+      case TokenProgramType.tokenProgram:
+        return TokenProgram.id;
+      case TokenProgramType.token2022Program:
+        return Token2022Program.id;
+    }
+  }
+}
+
 /// Compute and derive the associated token address of [owner].
 Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey owner,
   required Ed25519HDPublicKey mint,
+  TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
+      seeds: [owner.bytes, tokenProgramType.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
 
