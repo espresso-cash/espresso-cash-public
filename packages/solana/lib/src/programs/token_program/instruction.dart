@@ -576,6 +576,71 @@ class TokenInstruction extends Instruction {
         ]),
       );
 
+  /// Gets the required size of an account for the given mint as a
+  /// little-endian `u64`.
+  factory TokenInstruction.getAccountDataSize({
+    required Ed25519HDPublicKey mint,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.readonly(pubKey: mint, isSigner: false),
+        ],
+        data: TokenProgram.getAccountDataSizeInstructionIndex,
+      );
+
+  /// Initialize the Immutable Owner extension for the given token account
+  ///
+  /// Fails if the account has already been initialized, so must be called
+  /// before [TokenInstruction.initializeAccount].
+  factory TokenInstruction.initializeImmutableOwner({
+    required Ed25519HDPublicKey account,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.writeable(pubKey: account, isSigner: false),
+        ],
+        data: TokenProgram.initializeImmutableOwnerInstructionIndex,
+      );
+
+  /// Convert an [amount] of tokens to a UiAmount `string`, using the given
+  /// mint. In this version of the program, the [mint] can only specify the
+  /// number of decimals.
+  ///
+  /// Fails on an invalid mint.
+  factory TokenInstruction.amountToUiAmount({
+    required Ed25519HDPublicKey mint,
+    required int amount,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.readonly(pubKey: mint, isSigner: false),
+        ],
+        data: ByteArray.merge(
+          [
+            TokenProgram.amountToUiAmountInstructionIndex,
+            ByteArray.u64(amount),
+          ],
+        ),
+      );
+
+  /// Convert a UiAmount of tokens to a little-endian `u64` raw [amount], using
+  /// the given [mint].
+  factory TokenInstruction.uiAmountToAmount({
+    required Ed25519HDPublicKey mint,
+    required String amount,
+  }) =>
+      TokenInstruction._(
+        accounts: [
+          AccountMeta.readonly(pubKey: mint, isSigner: false),
+        ],
+        data: ByteArray.merge(
+          [
+            TokenProgram.uiAmountToAmountInstructionIndex,
+            ByteArray.fromString(amount),
+          ],
+        ),
+      );
+
   /// Initialize a new spl token with address [mint], [decimals] decimal places,
   /// and [mintAuthority] as the mint authority.
   ///

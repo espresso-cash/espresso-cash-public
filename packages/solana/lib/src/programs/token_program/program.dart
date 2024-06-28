@@ -34,6 +34,10 @@ abstract class TokenProgram {
   static final initializeAccount3InstructionIndex = ByteArray(const [18]);
   static final initializeMultisig2InstructionIndex = ByteArray(const [19]);
   static final initializeMint2InstructionIndex = ByteArray(const [20]);
+  static final getAccountDataSizeInstructionIndex = ByteArray(const [21]);
+  static final initializeImmutableOwnerInstructionIndex = ByteArray(const [22]);
+  static final amountToUiAmountInstructionIndex = ByteArray(const [23]);
+  static final uiAmountToAmountInstructionIndex = ByteArray(const [24]);
 
   // This is computed by adding the bytes in the following
   // structure
