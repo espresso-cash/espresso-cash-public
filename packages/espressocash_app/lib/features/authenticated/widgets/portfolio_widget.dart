@@ -50,6 +50,7 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
         final hasTokens = balances.isNotEmpty;
         if (!hasTokens) return const SizedBox.shrink();
         _updateTokenRate();
+
         return PortfolioTile(balances: balances);
       },
     );
