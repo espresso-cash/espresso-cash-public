@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -37,13 +38,9 @@ class TokenBalancesRepository {
 
     return query.get().then(
           (rows) => Future.wait(
-            rows.map((row) async {
-              try {
-                return await _tokenListRepository.getToken(row.token);
-              } on Exception catch (_) {
-                return null;
-              }
-            }),
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token),
+            ),
           ).then(
             (tokens) => tokens.whereNotNull().toISet(),
           ),
@@ -62,13 +59,9 @@ class TokenBalancesRepository {
 
     return query.watch().asyncMap(
           (rows) async => Future.wait(
-            rows.map((row) async {
-              try {
-                return await _tokenListRepository.getToken(row.token);
-              } on Exception catch (_) {
-                return null;
-              }
-            }),
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token),
+            ),
           ).then(
             (tokens) => tokens.whereNotNull().toISet(),
           ),
@@ -87,22 +80,16 @@ class TokenBalancesRepository {
 
     return query.watch().asyncMap(
           (rows) async => Future.wait(
-            rows.map((row) async {
-              try {
-                final Token? token =
-                    await _tokenListRepository.getToken(row.token);
-                if (ignoreTokens.contains(token) || token == null) {
-                  return null;
-                }
-
-                return CryptoAmount(
-                  value: row.amount,
-                  cryptoCurrency: CryptoCurrency(token: token),
-                );
-              } on Exception catch (_) {
-                return null;
-              }
-            }),
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token).letAsync(
+                    (token) => token?.let(
+                      (t) => CryptoAmount(
+                        value: row.amount,
+                        cryptoCurrency: CryptoCurrency(token: t),
+                      ),
+                    ),
+                  ),
+            ),
           ).then(
             (balances) => balances.whereNotNull().toIList(),
           ),
