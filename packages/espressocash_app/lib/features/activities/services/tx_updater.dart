@@ -31,17 +31,15 @@ class TxUpdater implements Disposable {
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
 
   Future<void> call({String? tokenAddress}) => _cache.fetchEither(() async {
-        await _repo.mostRecentTxId().letAsync((mostRecentTxId) async {
-          if (tokenAddress == null) {
-            await _updateAllTokenTransactions(mostRecentTxId);
-            await _updateSolTransactions(mostRecentTxId);
-          } else {
-            await _updateTokenTransactions(tokenAddress, mostRecentTxId);
-          }
-        });
+        if (tokenAddress == null) {
+          await _updateAllTokenTransactions();
+          await _updateSolTransactions();
+        } else {
+          await _updateTokenTransactions(tokenAddress);
+        }
       });
 
-  Future<void> _updateAllTokenTransactions(String? mostRecentTxId) =>
+  Future<void> _updateAllTokenTransactions() =>
       getAllTokenAccounts(_wallet.publicKey).letAsync(
         (tokenAccounts) async => Future.wait(
           tokenAccounts.map((account) async {
@@ -57,8 +55,7 @@ class TxUpdater implements Disposable {
         ),
       );
 
-  Future<void> _updateSolTransactions(String? mostRecentTxId) async =>
-      _fetchAndSaveTransactions(
+  Future<void> _updateSolTransactions() => _fetchAndSaveTransactions(
         _wallet.publicKey,
         Token.sol.address,
         null,
@@ -67,10 +64,9 @@ class TxUpdater implements Disposable {
 
   Future<void> _updateTokenTransactions(
     String tokenAddress,
-    String? mostRecentTxId,
   ) async {
     tokenAddress.let((t) => t == Token.sol.address)
-        ? await _updateSolTransactions(mostRecentTxId)
+        ? await _updateSolTransactions()
         : await findAssociatedTokenAddress(
             owner: _wallet.publicKey,
             mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
@@ -99,11 +95,12 @@ class TxUpdater implements Disposable {
         commitment: Commitment.confirmed,
       )
           .letAsync((transactionDetails) async {
-        if (transactionDetails.isNotEmpty) {
-          final txs = transactionDetails
-              .map((it) => it.toFetched(account, tokenAddress));
-          await _repo.saveAll(txs, clear: false);
-        }
+        if (transactionDetails.isEmpty) return;
+
+        final txs =
+            transactionDetails.map((it) => it.toFetched(account, tokenAddress));
+
+        await _repo.saveAll(txs, clear: false);
       });
 
   Future<List<Ed25519HDPublicKey>> getAllTokenAccounts(
@@ -198,6 +195,7 @@ extension on TransactionDetails {
                       .findTokenByMint(tokenAddress ?? Token.usdc.address) ??
                   Token.usdc,
             );
+
       return CryptoAmount(value: amount, cryptoCurrency: cryptoCurrency);
     });
 
