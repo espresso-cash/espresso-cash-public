@@ -12,6 +12,14 @@ class Token2022Instruction extends Instruction {
           programId: Token2022Program.id,
         );
 
+  /// Initialize the close account authority on a new mint.
+  ///
+  /// Fails if the [mint] has already been initialized, so must be called before
+  /// `InitializeMint`.
+  ///
+  /// The mint must have exactly enough space allocated for the base mint (82
+  /// bytes), plus 83 bytes of padding, 1 byte reserved for the account type,
+  /// then space required for this extension, plus any others.
   factory Token2022Instruction.initializeMintCloseAuthority({
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey? closeAuthority,
@@ -28,6 +36,9 @@ class Token2022Instruction extends Instruction {
         ),
       );
 
+  /// Check to see if a token [account] is large enough for a list of
+  /// [extensionTypes], and if not, use reallocation to increase the data
+  /// size.
   factory Token2022Instruction.reallocate({
     required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey payer,
@@ -56,6 +67,11 @@ class Token2022Instruction extends Instruction {
         ]),
       );
 
+  /// Creates the native mint.
+  ///
+  /// This instruction only needs to be invoked once after deployment and is
+  /// permissionless, Wrapped SOL will not be available until this instruction
+  /// is successfully executed.
   factory Token2022Instruction.createNativeMint({
     required Ed25519HDPublicKey payer,
   }) =>
@@ -68,6 +84,10 @@ class Token2022Instruction extends Instruction {
         data: Token2022Program.createNativeMintInstructionIndex,
       );
 
+  /// Initialize the non transferable extension for the given [mint] account
+  ///
+  /// Fails if the account has already been initialized, so must be called
+  /// before `InitializeMint`.
   factory Token2022Instruction.initializeNonTransferableMint({
     required Ed25519HDPublicKey mint,
   }) =>
@@ -78,6 +98,14 @@ class Token2022Instruction extends Instruction {
         data: Token2022Program.initializeNonTransferableMintInstructionIndex,
       );
 
+  // Initialize the permanent delegate on a new [mint].
+  ///
+  /// Fails if the [mint] has already been initialized, so must be called before
+  /// `InitializeMint`.
+  ///
+  /// The [mint] must have exactly enough space allocated for the base mint (82
+  /// bytes), plus 83 bytes of padding, 1 byte reserved for the account type,
+  /// then space required for this extension, plus any others.
   factory Token2022Instruction.initializePermanentDelegate({
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey? delegate,
