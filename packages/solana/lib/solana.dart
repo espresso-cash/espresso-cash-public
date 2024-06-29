@@ -11,7 +11,6 @@ export 'src/programs/compute_budget_program/program.dart';
 export 'src/programs/memo_program/program.dart';
 export 'src/programs/stake_program/program.dart';
 export 'src/programs/system_program/program.dart';
-export 'src/programs/token_2022_program/program.dart';
 export 'src/programs/token_program/program.dart';
 export 'src/rpc/client.dart';
 export 'src/solana_client.dart';

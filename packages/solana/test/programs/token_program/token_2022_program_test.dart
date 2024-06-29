@@ -1,7 +1,5 @@
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
-import 'package:solana/src/programs/token_2022_program/extension_type.dart';
-import 'package:solana/src/programs/token_2022_program/instruction.dart';
 import 'package:test/test.dart';
 
 import '../../config.dart';
@@ -66,7 +64,7 @@ void main() {
       rent: mintRent,
       space: TokenProgram.neededMintAccountSpace,
       decimals: 5,
-      tokenProgramType: TokenProgramType.token2022Program,
+      tokenProgram: TokenProgramType.token2022Program,
     );
 
     await sendMessage(
@@ -82,7 +80,7 @@ void main() {
       owner: owner.publicKey,
       rent: accountRent,
       space: TokenProgram.neededAccountSpace,
-      tokenProgramType: TokenProgramType.token2022Program,
+      tokenProgram: TokenProgramType.token2022Program,
     );
 
     await sendMessage(
@@ -90,7 +88,7 @@ void main() {
       [owner, account],
     );
 
-    final reallocateIx = Token2022Instruction.reallocate(
+    final reallocateIx = TokenInstruction.reallocate(
       account: account.publicKey,
       payer: payer.publicKey,
       extensionTypes: const [ExtensionType.immutableOwner],

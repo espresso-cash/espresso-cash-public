@@ -1,7 +1,6 @@
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana/src/curve25519/compressed_edwards_y.dart';
-import 'package:solana/src/programs/token_2022_program/program.dart';
 import 'package:solana/src/rpc/dto/dto.dart';
 
 /// Returns true if [address] is a valid ed25519 point encoded to base58.
@@ -29,31 +28,6 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
     return !point.isSmallOrder();
   } on FormatException {
     return false;
-  }
-}
-
-enum TokenProgramType {
-  tokenProgram,
-  token2022Program,
-}
-
-extension TokenProgramTypeExt on TokenProgramType {
-  Ed25519HDPublicKey get id {
-    switch (this) {
-      case TokenProgramType.tokenProgram:
-        return TokenProgram.id;
-      case TokenProgramType.token2022Program:
-        return Token2022Program.id;
-    }
-  }
-
-  String get programId {
-    switch (this) {
-      case TokenProgramType.tokenProgram:
-        return TokenProgram.programId;
-      case TokenProgramType.token2022Program:
-        return Token2022Program.programId;
-    }
   }
 }
 
