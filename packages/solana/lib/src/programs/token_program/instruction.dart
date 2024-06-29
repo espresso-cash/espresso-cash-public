@@ -1,10 +1,8 @@
-import 'package:solana/src/crypto/ed25519_hd_public_key.dart';
+import 'package:solana/solana.dart';
 import 'package:solana/src/encoder/account_meta.dart';
 import 'package:solana/src/encoder/byte_array.dart';
 import 'package:solana/src/encoder/constants.dart';
 import 'package:solana/src/encoder/instruction.dart';
-import 'package:solana/src/programs/system_program/instruction.dart';
-import 'package:solana/src/programs/token_program/program.dart';
 
 enum AuthorityType {
   mintTokens,
@@ -18,8 +16,9 @@ class TokenInstruction extends Instruction {
   TokenInstruction._({
     required super.accounts,
     required super.data,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) : super(
-          programId: TokenProgram.id,
+          programId: tokenProgramType.id,
         );
 
   /// Construct an instruction to initialize a new spl token with address
@@ -36,6 +35,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey mintAuthority,
     Ed25519HDPublicKey? freezeAuthority,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -55,6 +55,7 @@ class TokenInstruction extends Instruction {
           else
             ByteArray(List<int>.filled(32, 0)),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Initializes a new [account] to hold tokens.
@@ -67,6 +68,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey account,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -79,6 +81,7 @@ class TokenInstruction extends Instruction {
           ),
         ],
         data: TokenProgram.initializeAccountInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Initializes a multisignature [account] with N provided [signers].
@@ -89,6 +92,7 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.initializeMultisig({
     required Ed25519HDPublicKey account,
     required List<Ed25519HDPublicKey> signers,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -105,6 +109,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.initializeMintInstructionIndex,
           ByteArray.u8(signers.length),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Transfers tokens from one [source] account to [destination] either
@@ -118,6 +123,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey owner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -135,6 +141,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.transferInstructionIndex,
           ByteArray.u64(amount),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Approves a [delegate].
@@ -147,6 +154,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey delegate,
     required Ed25519HDPublicKey sourceOwner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -166,6 +174,7 @@ class TokenInstruction extends Instruction {
             ByteArray.u64(amount),
           ],
         ),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Revokes the delegate's authority.
@@ -173,6 +182,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey source,
     required Ed25519HDPublicKey sourceOwner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -186,6 +196,7 @@ class TokenInstruction extends Instruction {
           ),
         ],
         data: TokenProgram.revokeInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Sets a new authority of a mint or account.
@@ -198,6 +209,7 @@ class TokenInstruction extends Instruction {
     required AuthorityType authorityType,
     Ed25519HDPublicKey? newAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -219,6 +231,7 @@ class TokenInstruction extends Instruction {
           ] else
             ByteArray.u8(0),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Mint the [destination] account with [amount] tokens of the [mint] token.
@@ -231,6 +244,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey authority,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -243,6 +257,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.mintToInstructionIndex,
           ByteArray.u64(amount),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Burns tokens by removing them from an account.
@@ -255,6 +270,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -272,6 +288,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.burnInstructionIndex,
           ByteArray.u64(amount),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Close an account by transferring all its SOL to the destination account.
@@ -282,6 +299,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey owner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -296,6 +314,7 @@ class TokenInstruction extends Instruction {
           ),
         ],
         data: TokenProgram.closeAccountInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Freeze an Initialized [account] using the mint's [freezeAuthority].
@@ -304,6 +323,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey freezeAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -318,6 +338,7 @@ class TokenInstruction extends Instruction {
           ),
         ],
         data: TokenProgram.freezeAccountInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Thaw a Frozen [account] using the mint's [freezeAuthority].
@@ -326,6 +347,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey freezeAuthority,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -340,6 +362,7 @@ class TokenInstruction extends Instruction {
           ),
         ],
         data: TokenProgram.thawAccountInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Transfers tokens from one account to another either directly or via a
@@ -357,6 +380,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey owner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -376,6 +400,7 @@ class TokenInstruction extends Instruction {
           ByteArray.u64(amount),
           ByteArray.u8(decimals),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Approves a delegate. A delegate is given the authority over tokens on
@@ -392,6 +417,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey delegate,
     required Ed25519HDPublicKey sourceOwner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -413,6 +439,7 @@ class TokenInstruction extends Instruction {
             ByteArray.u8(decimals),
           ],
         ),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Mints new tokens to an account. The native mint does not support minting.
@@ -426,6 +453,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey destination,
     required Ed25519HDPublicKey authority,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -439,6 +467,7 @@ class TokenInstruction extends Instruction {
           ByteArray.u64(amount),
           ByteArray.u8(decimals),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Burns tokens by removing them from an account.
@@ -456,6 +485,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
     List<Ed25519HDPublicKey> signers = const <Ed25519HDPublicKey>[],
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -474,6 +504,7 @@ class TokenInstruction extends Instruction {
           ByteArray.u64(amount),
           ByteArray.u8(decimals),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Like [TokenInstruction.initializeAccount], but the owner pubkey is passed
@@ -484,6 +515,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey pubKey,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -498,6 +530,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.initializeAccount2InstructionIndex,
           owner.toByteArray(),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Given a wrapped / native token account (a token account containing SOL)
@@ -507,12 +540,14 @@ class TokenInstruction extends Instruction {
   /// and needs to have its token `amount` field updated.
   factory TokenInstruction.syncNative({
     required Ed25519HDPublicKey nativeTokenAccount,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: nativeTokenAccount, isSigner: false),
         ],
         data: TokenProgram.syncNativeInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Like [TokenInstruction.initializeAccount2], but does not require the Rent
@@ -521,6 +556,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey pubKey,
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey owner,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -531,6 +567,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.initializeAccount3InstructionIndex,
           owner.toByteArray(),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Like [TokenInstruction.initializeMultisig], but does not require the Rent
@@ -538,6 +575,7 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.initializeMultisig2({
     required Ed25519HDPublicKey pubKey,
     required List<Ed25519HDPublicKey> signerPubKeys,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -550,6 +588,7 @@ class TokenInstruction extends Instruction {
           TokenProgram.initializeMultisig2InstructionIndex,
           ByteArray.u8(signerPubKeys.length),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Like [TokenInstruction.initializeMint], but does not require the Rent
@@ -559,6 +598,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey mint,
     required Ed25519HDPublicKey mintAuthority,
     Ed25519HDPublicKey? freezeAuthority,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -574,18 +614,21 @@ class TokenInstruction extends Instruction {
           else
             ByteArray(List<int>.filled(32, 0)),
         ]),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Gets the required size of an account for the given mint as a
   /// little-endian `u64`.
   factory TokenInstruction.getAccountDataSize({
     required Ed25519HDPublicKey mint,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.readonly(pubKey: mint, isSigner: false),
         ],
         data: TokenProgram.getAccountDataSizeInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Initialize the Immutable Owner extension for the given token account
@@ -594,12 +637,14 @@ class TokenInstruction extends Instruction {
   /// before [TokenInstruction.initializeAccount].
   factory TokenInstruction.initializeImmutableOwner({
     required Ed25519HDPublicKey account,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
           AccountMeta.writeable(pubKey: account, isSigner: false),
         ],
         data: TokenProgram.initializeImmutableOwnerInstructionIndex,
+        tokenProgramType: tokenProgramType,
       );
 
   /// Convert an [amount] of tokens to a UiAmount `string`, using the given
@@ -610,6 +655,7 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.amountToUiAmount({
     required Ed25519HDPublicKey mint,
     required int amount,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -621,6 +667,7 @@ class TokenInstruction extends Instruction {
             ByteArray.u64(amount),
           ],
         ),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Convert a UiAmount of tokens to a little-endian `u64` raw [amount], using
@@ -628,6 +675,7 @@ class TokenInstruction extends Instruction {
   factory TokenInstruction.uiAmountToAmount({
     required Ed25519HDPublicKey mint,
     required String amount,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       TokenInstruction._(
         accounts: [
@@ -639,6 +687,7 @@ class TokenInstruction extends Instruction {
             ByteArray.fromString(amount),
           ],
         ),
+        tokenProgramType: tokenProgramType,
       );
 
   /// Initialize a new spl token with address [mint], [decimals] decimal places,
@@ -656,6 +705,7 @@ class TokenInstruction extends Instruction {
     required int space,
     required int decimals,
     Ed25519HDPublicKey? freezeAuthority,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       [
         SystemInstruction.createAccount(
@@ -663,13 +713,14 @@ class TokenInstruction extends Instruction {
           fundingAccount: mintAuthority,
           lamports: rent,
           space: space,
-          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+          owner: Ed25519HDPublicKey.fromBase58(tokenProgramType.programId),
         ),
         TokenInstruction.initializeMint(
           mint: mint,
           decimals: decimals,
           mintAuthority: mintAuthority,
           freezeAuthority: freezeAuthority,
+          tokenProgramType: tokenProgramType,
         ),
       ];
 
@@ -692,6 +743,7 @@ class TokenInstruction extends Instruction {
     required Ed25519HDPublicKey owner,
     required int rent,
     required int space,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
   }) =>
       [
         SystemInstruction.createAccount(
@@ -699,12 +751,13 @@ class TokenInstruction extends Instruction {
           fundingAccount: owner,
           lamports: rent,
           space: space,
-          owner: Ed25519HDPublicKey.fromBase58(TokenProgram.programId),
+          owner: Ed25519HDPublicKey.fromBase58(tokenProgramType.programId),
         ),
         TokenInstruction.initializeAccount(
           mint: mint,
           account: address,
           owner: owner,
+          tokenProgramType: tokenProgramType,
         ),
       ];
 }
