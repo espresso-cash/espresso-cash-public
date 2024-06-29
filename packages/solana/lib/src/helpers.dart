@@ -46,6 +46,15 @@ extension TokenProgramTypeExt on TokenProgramType {
         return Token2022Program.id;
     }
   }
+
+  String get programId {
+    switch (this) {
+      case TokenProgramType.tokenProgram:
+        return TokenProgram.programId;
+      case TokenProgramType.token2022Program:
+        return Token2022Program.programId;
+    }
+  }
 }
 
 /// Compute and derive the associated token address of [owner].
