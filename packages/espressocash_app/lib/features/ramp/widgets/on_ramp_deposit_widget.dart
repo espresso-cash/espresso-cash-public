@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/back_button.dart';
@@ -226,7 +227,7 @@ class _MoneygramDepositContent extends StatelessWidget {
   final VoidCallback onConfirmPress;
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
+  Widget build(BuildContext context) => CpTheme.light(
         child: Scaffold(
           appBar: AppBar(
             title: Text(
@@ -234,66 +235,90 @@ class _MoneygramDepositContent extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
+                color: Colors.black,
               ),
             ),
             leading: const CpBackButton(),
             elevation: 0,
             shape: const Border(),
           ),
-          body: CpContentPadding(
-            bottom: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(),
-                const _InstructionItem(
-                  index: 1,
-                  text:
-                      'Head to your chosen MoneyGram location and transfer the money',
-                ),
-                const Spacer(),
-                _ItemWidget(
-                  title: context.l10n.depositTransferAmount,
-                  value: formattedTransferAmount,
-                  showCopy: false,
-                ),
-                const SizedBox(height: 12),
-                GestureDetector(
-                  onTap: () {
-                    WebViewScreen.push(
-                      context,
-                      url: Uri.parse(deposit.moreInfoUrl ?? ''),
-                      title: 'MoneyGram',
-                      theme: const CpThemeData.light(),
-                    );
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Read full instructions how to transfer the money',
+          body: Stack(
+            children: [
+              SizedBox(
+                height: double.infinity,
+                child:
+                    Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
+              ),
+              CpContentPadding(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 16),
+                    Assets.gifs.moneygramConfirmationAnimation
+                        .image(),
+                    const SizedBox(height: 16),
+                    Assets.images.moneygramLogo.image(height: 32),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Confirm your transfer of',
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline,
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 16),
+                    Text(
+                      formattedTransferAmount,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 46,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 17,
+                        letterSpacing: 0.41,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const Spacer(),
+                    CpButton(
+                      width: double.infinity,
+                      onPressed: onConfirmPress,
+                      text: 'Confirm Transfer',
+                    ),
+                    const SizedBox(height: 40),
+                    GestureDetector(
+                      onTap: () {
+                        WebViewScreen.push(
+                          context,
+                          url: Uri.parse(deposit.moreInfoUrl ?? ''),
+                          title: 'MoneyGram',
+                          theme: const CpThemeData.light(),
+                        );
+                      },
+                      child: const Text(
+                        'View MoneyGram transfer instructions',
+                        style: TextStyle(
+                          // TODO(vsumin): add this color to CpColors
+                          color: Color(0xffCB6E00),
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                  ],
                 ),
-                const Spacer(flex: 2),
-                const _InstructionItem(
-                  index: 2,
-                  text:
-                      'Once the money has been transferred, please confirm below',
-                ),
-                const Spacer(flex: 3),
-                CpButton(
-                  width: double.infinity,
-                  onPressed: onConfirmPress,
-                  text: "I've just transferred the money",
-                ),
-                const Spacer(flex: 2),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
