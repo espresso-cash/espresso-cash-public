@@ -17,6 +17,7 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
+import '../../transactions/screens/send_token_screen.dart';
 import '../widgets/loader_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
@@ -105,7 +106,7 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                                   if (widget.token.isUsdcToken)
                                     const _RampButtons()
                                   else
-                                    const _SwapButton(),
+                                    _SwapButton(token: widget.token),
                                   const SizedBox(height: 41),
                                   Expanded(
                                     child: DecoratedBox(
@@ -270,7 +271,9 @@ class _RampButtons extends StatelessWidget {
 
 // Won't be available in first release
 class _SwapButton extends StatelessWidget {
-  const _SwapButton();
+  const _SwapButton({required this.token});
+
+  final Token token;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -295,12 +298,9 @@ class _SwapButton extends StatelessWidget {
               text: 'Send',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => showInfoDialog(
+              onPressed: () => SendTokenScreen.push(
                 context,
-                title: 'Send',
-                message: 'Coming soon!',
-                confirmLabel: 'OK',
-                onConfirm: () {},
+                token: token,
               ),
             ),
           ],
