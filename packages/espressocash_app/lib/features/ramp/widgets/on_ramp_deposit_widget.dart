@@ -79,7 +79,8 @@ class OnRampDepositWidget extends StatelessWidget {
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
           formattedReceiveAmount: formattedReceiveAmount,
-          onConfirmPress: () => _handleConfirmPress(context),
+          onConfirmPress: () =>
+              sl<OnRampOrderService>().confirmDeposit(deposit.orderId),
         ),
       RampPartner.moneygram => _MoneygramDepositContent(
           deposit: deposit,
@@ -406,12 +407,10 @@ class _ItemWidget extends StatelessWidget {
   const _ItemWidget({
     required this.value,
     required this.title,
-    this.showCopy = true,
   });
 
   final String title;
   final String value;
-  final bool showCopy;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -446,20 +445,19 @@ class _ItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (showCopy)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CpButton(
-                      text: context.l10n.copy,
-                      minWidth: 80,
-                      onPressed: () {
-                        final data = ClipboardData(text: value);
-                        Clipboard.setData(data);
-                        showClipboardSnackbar(context);
-                      },
-                      size: CpButtonSize.micro,
-                    ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CpButton(
+                    text: context.l10n.copy,
+                    minWidth: 80,
+                    onPressed: () {
+                      final data = ClipboardData(text: value);
+                      Clipboard.setData(data);
+                      showClipboardSnackbar(context);
+                    },
+                    size: CpButtonSize.micro,
                   ),
+                ),
               ],
             ),
           ),
