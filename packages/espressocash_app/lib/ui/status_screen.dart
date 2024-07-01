@@ -33,6 +33,9 @@ class StatusScreen extends StatelessWidget {
     final title = this.title;
     final onBackButtonPressed = this.onBackButtonPressed;
     final theme = this.theme ?? const CpThemeData.black();
+    final logo = theme == const CpThemeData.black()
+        ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
+        : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
 
     return CpTheme(
       theme: theme,
@@ -48,7 +51,7 @@ class StatusScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: double.infinity,
-              child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
+              child: logo,
             ),
             SizedBox(
               width: double.infinity,

@@ -143,7 +143,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
         : null;
 
     final theme =
-        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.dark();
+        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
 
     final depositAmount = (order.partner == RampPartner.moneygram)
         ? manualDeposit?.transferAmount
@@ -179,24 +179,17 @@ class OnRampOrderScreenContent extends StatelessWidget {
               partner: order.partner,
             ),
             const Spacer(flex: 4),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
             ],
-            const SizedBox(height: 12),
             Visibility(
               visible: order.status == OnRampOrderStatus.depositExpired,
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
               child: _CancelButton(orderId: order.id),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 12,
-                bottom: MediaQuery.paddingOf(context).bottom + 16,
-              ),
-              child: PartnerOrderIdWidget(orderId: order.partnerOrderId),
             ),
           ],
         ),
@@ -211,13 +204,16 @@ class _CancelButton extends StatelessWidget {
   final String orderId;
 
   @override
-  Widget build(BuildContext context) => CpTextButton(
-        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-        variant: CpTextButtonVariant.light,
-        onPressed: () {
-          sl<OnRampOrderService>().delete(orderId);
-          Navigator.pop(context);
-        },
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: CpTextButton(
+          text: context.l10n.offRampCancelTitle,
+          variant: CpTextButtonVariant.light,
+          onPressed: () {
+            sl<OnRampOrderService>().delete(orderId);
+            Navigator.pop(context);
+          },
+        ),
       );
 }
 
@@ -225,16 +221,11 @@ class _ContactUsButton extends StatelessWidget {
   const _ContactUsButton();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
-        child: CpButton(
-          size: CpButtonSize.big,
-          width: double.infinity,
-          text: context.l10n.contactUs,
-          onPressed: () => sl<IntercomService>().displayMessenger(),
-        ),
+  Widget build(BuildContext context) => CpButton(
+        size: CpButtonSize.big,
+        width: double.infinity,
+        text: context.l10n.contactUs,
+        onPressed: () => sl<IntercomService>().displayMessenger(),
       );
 }
 

@@ -170,7 +170,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
     };
 
     final theme =
-        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.dark();
+        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
 
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
@@ -197,29 +197,23 @@ class OffRampOrderScreenContent extends StatelessWidget {
       content: CpContentPadding(
         child: Column(
           children: [
+            const Spacer(flex: 1),
             _Timeline(
               order: order,
               amount: totalAmount,
             ),
             const Spacer(flex: 4),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
             ],
-            const SizedBox(height: 12),
             Visibility(
               visible: showCancelButton,
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
               child: _CancelButton(handleCanceled: handleCanceled),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: 12,
-                bottom: MediaQuery.paddingOf(context).bottom + 16,
-              ),
-              child: PartnerOrderIdWidget(orderId: order.partnerOrderId),
             ),
           ],
         ),
@@ -251,7 +245,7 @@ class _ContinueButton extends StatelessWidget {
   Widget build(BuildContext context) => CpButton(
         size: CpButtonSize.big,
         width: double.infinity,
-        text: context.l10n.openMoneygram,
+        text: context.l10n.continueToMoneygram,
         onPressed: handleContinue,
       );
 }
@@ -276,10 +270,13 @@ class _CancelButton extends StatelessWidget {
   final VoidCallback handleCanceled;
 
   @override
-  Widget build(BuildContext context) => CpTextButton(
-        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-        variant: CpTextButtonVariant.light,
-        onPressed: handleCanceled,
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: CpTextButton(
+          text: context.l10n.offRampCancelTitle,
+          variant: CpTextButtonVariant.light,
+          onPressed: handleCanceled,
+        ),
       );
 }
 
