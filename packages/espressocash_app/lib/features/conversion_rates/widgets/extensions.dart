@@ -59,8 +59,6 @@ String formatAmount({
   required bool roundInteger,
   String? symbol,
 }) {
-  if (value.toDouble() < 0) return ' ';
-
   final minimumDigits = roundInteger && value.isInteger ? 0 : 2;
 
   final formatter = NumberFormat.decimalPattern(locale.languageCode)
