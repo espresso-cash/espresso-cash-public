@@ -1,28 +1,32 @@
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
-import 'navigation_bar/navigation_bar.dart';
 
-class PageFadeWrapper extends StatelessWidget {
-  const PageFadeWrapper({super.key, required this.child});
+class PageSpacerWrapper extends StatelessWidget {
+  const PageSpacerWrapper({super.key, required this.child});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          child,
-          const Positioned(
-            bottom: cpNavigationBarheight,
-            left: 0,
-            right: 0,
-            child: FadeGradient(
-              height: 50,
-              direction: FadeGradientDirection.bottomUp,
-            ),
+  Widget build(BuildContext context) {
+    final double bottom = MediaQuery.paddingOf(context).bottom;
+
+    return Stack(
+      children: [
+        child,
+        Positioned(
+          bottom: bottom,
+          left: 0,
+          right: 0,
+          child: const SolidPadding(
+            height: 10,
+            direction: FadeGradientDirection.bottomUp,
+            color: FadeGradientColor.dark,
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 enum FadeGradientDirection { topDown, bottomUp }
@@ -34,7 +38,7 @@ class FadeGradient extends StatelessWidget {
     super.key,
     required this.height,
     required this.direction,
-    this.color = FadeGradientColor.white,
+    this.color = FadeGradientColor.dark,
   });
 
   final double height;
@@ -59,6 +63,29 @@ class FadeGradient extends StatelessWidget {
                       CpColors.darkBackground.withOpacity(0),
                     ],
             ),
+          ),
+        ),
+      );
+}
+
+class SolidPadding extends StatelessWidget {
+  const SolidPadding({
+    super.key,
+    required this.height,
+    required this.direction,
+    this.color = FadeGradientColor.dark,
+  });
+
+  final double height;
+  final FadeGradientDirection direction;
+  final FadeGradientColor color;
+
+  @override
+  Widget build(BuildContext context) => IgnorePointer(
+        child: Container(
+          height: height,
+          decoration: const BoxDecoration(
+            color: CpColors.dashboardBackgroundColor,
           ),
         ),
       );

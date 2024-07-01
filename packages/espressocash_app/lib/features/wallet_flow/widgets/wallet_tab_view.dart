@@ -144,7 +144,10 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 12),
+        padding: const EdgeInsets.only(
+          top: 8.0,
+          left: 4.0,
+        ),
         child: CpAppBar(
           leading: Center(
             child: CpIconButton(

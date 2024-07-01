@@ -15,6 +15,7 @@ abstract class CpColors {
   static const disabledTabColor = Color(0xffbababa);
   static const placeholderLightColor = Color(0xffC2C2C2);
   static const listDividerColor = Color(0xffF5F5F5);
+  static const homeDividerColor = Color(0xff3f3c3d);
 
   static const lightGreyBackground = Color(0xffF5F5F5); // for menu buttons
 
@@ -72,6 +73,7 @@ abstract class CpColors {
   static const darkOrangeButtonBackground = Color(0xFF794630);
   static const goldBackgroundColor = Color(0xFFC8B57D);
   static const darkGoldBackgroundColor = Color(0xffA08A4B);
+  static const darkGoldLockBackgroundColor = Color(0xFFB7A572);
 }
 
 const bgGradient = LinearGradient(

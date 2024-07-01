@@ -1,7 +1,7 @@
 name: espressocash_app
 description: Espresso Cash mobile wallet for Solana
 publish_to: "none"
-version: 1.120.0
+version: 1.122.1
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -72,6 +72,7 @@ dependencies:
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18
+  stellar_flutter_sdk: ^1.8.0
   storybook_flutter: ^0.14.0
   uni_links: ^0.5.1
   url_launcher: ^6.2.2
@@ -79,12 +80,13 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.1.5
+  borsh: ^0.3.1+4
   build_runner: ^2.4.7
   drift_dev: ^2.14.1
   flutter_driver:
     sdk: flutter
   flutter_gen_runner: ^5.4.0
-  flutter_native_splash: ^2.3.8
+  flutter_native_splash: ^2.3.7
   flutter_test:
     sdk: flutter
   freezed: ^2.4.6

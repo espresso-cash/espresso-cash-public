@@ -26,7 +26,7 @@ class IntercomService implements Disposable {
 
     final IntercomService instance = _instance ??= const IntercomService._();
 
-    await Intercom.instance.loginIdentifiedUser(userId: account.address);
+    unawaited(Intercom.instance.loginIdentifiedUser(userId: account.address));
 
     return instance;
   }

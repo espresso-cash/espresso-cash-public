@@ -76,6 +76,10 @@ class TokenBalancesRepository {
               .map((row) {
                 final token = _tokens.findTokenByMint(row.token);
 
+                if (ignoreTokens.contains(token)) {
+                  return null;
+                }
+
                 return token == null
                     ? null
                     : CryptoAmount(

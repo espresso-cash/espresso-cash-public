@@ -2,6 +2,7 @@ import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter/material.dart' hide Notification;
 
 import '../../../di.dart';
+import '../../../ui/colors.dart';
 import '../data/transaction_repository.dart';
 import '../services/tx_updater.dart';
 import 'no_activity.dart';
@@ -34,6 +35,8 @@ class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) => RefreshIndicator(
         onRefresh: () => sl<TxUpdater>().call(),
+        color: CpColors.primaryColor,
+        backgroundColor: Colors.white,
         child: StreamBuilder<IList<String>>(
           stream: _txs,
           builder: (context, snapshot) {
@@ -48,6 +51,9 @@ class _TransactionListState extends State<TransactionList> {
                     ),
                   )
                 : ListView.custom(
+                    physics: const BouncingScrollPhysics(
+                      parent: AlwaysScrollableScrollPhysics(),
+                    ),
                     padding: widget.padding,
                     childrenDelegate: SliverChildBuilderDelegate(
                       (context, i) => _KeepAlive(

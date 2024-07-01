@@ -115,6 +115,9 @@ abstract class EspressoCashClient {
     @Body() SubmitDurableTxRequestDto request,
   );
 
+  @POST('/getDurableFees')
+  Future<GetDurableFeesResponseDto> getDurableFees();
+
   @POST('/shortenLink')
   Future<ShortenLinkResponseDto> shortenLink(
     @Body() ShortenLinkRequestDto request,
@@ -136,5 +139,30 @@ abstract class EspressoCashClient {
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
     @Body() PriorityFeesRequestDto request,
+  );
+
+  @POST('/moneygram/sign')
+  Future<MoneygramChallengeSignResponseDto> signChallenge(
+    @Body() MoneygramChallengeSignRequestDto request,
+  );
+
+  @POST('/moneygram/swapToSolana')
+  Future<MoneygramSwapResponseDto> swapToSolana(
+    @Body() SwapToSolanaRequestDto request,
+  );
+
+  @POST('/moneygram/swapToStellar')
+  Future<MoneygramSwapResponseDto> swapToStellar(
+    @Body() SwapToStellarRequestDto request,
+  );
+
+  @POST('/moneygram/calculateFee')
+  Future<MoneygramFeeResponseDto> calculateMoneygramFee(
+    @Body() MoneygramFeeRequestDto request,
+  );
+
+  @POST('/moneygram/fund')
+  Future<void> fundXlmRequest(
+    @Body() FundXlmRequestDto request,
   );
 }

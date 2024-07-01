@@ -20,15 +20,12 @@ class IncomingLinkPayment with _$IncomingLinkPayment {
 @freezed
 sealed class ILPStatus with _$ILPStatus {
   /// Tx is successfully created and ready to be sent.
-  const factory ILPStatus.txCreated(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = ILPStatusTxCreated;
+  const factory ILPStatus.txCreated(SignedTx tx) = ILPStatusTxCreated;
 
-  /// Tx is successfully sent.
+  /// Tx is successfully sent to backend for sending to the blockchain.
   const factory ILPStatus.txSent(
     SignedTx tx, {
-    required BigInt slot,
+    required String signature,
   }) = ILPStatusTxSent;
 
   /// Final state. Tx is successfully confirmed and payment is claimed.

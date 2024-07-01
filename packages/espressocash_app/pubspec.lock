@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "0b2f2bd91ba804e53a61d757b986f89f1f9eaed5b11e4b2f5a2468d86d6c9fc7"
+      sha256: ae92f5d747aee634b87f89d9946000c2de774be1d6ac3e58268224348cd0101a
       url: "https://pub.dev"
     source: hosted
-    version: "67.0.0"
+    version: "61.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -21,18 +21,18 @@ packages:
     dependency: transitive
     description:
       name: analyzer
-      sha256: "37577842a27e4338429a1cbc32679d508836510b056f1eedf0c8d20e39c1383d"
+      sha256: ea3d8652bda62982addfd92fdc2d0214e5f82e43325104990d4f4c4a2a313562
       url: "https://pub.dev"
     source: hosted
-    version: "6.4.1"
+    version: "5.13.0"
   analyzer_plugin:
     dependency: transitive
     description:
       name: analyzer_plugin
-      sha256: "9661b30b13a685efaee9f02e5d01ed9f2b423bd889d28a304d02d704aee69161"
+      sha256: c1d5f167683de03d5ab6c3b53fc9aeefc5d59476e7810ba7bbddff50c6f4392d
       url: "https://pub.dev"
     source: hosted
-    version: "0.11.3"
+    version: "0.11.2"
   ansicolor:
     dependency: transitive
     description:
@@ -121,6 +121,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  borsh:
+    dependency: "direct dev"
+    description:
+      name: borsh
+      sha256: "5bf90ea0e7a6dca4b482f1ba710753334250e062072e33477ce0a9d82f5fcfcf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1+4"
   borsh_annotation:
     dependency: "direct main"
     description:
@@ -333,10 +341,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
+      sha256: "1efa911ca7086affd35f463ca2fc1799584fb6aa89883cf0af8e3664d6a02d55"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.2"
   dartx:
     dependency: transitive
     description:
@@ -707,10 +715,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
-      sha256: edf39bcf4d74aca1eb2c1e43c3e445fd9f494013df7f0da752fefe72020eedc0
+      sha256: "17d9671396fb8ec45ad10f4a975eb8a0f70bedf0fdaf0720b31ea9de6da8c4da"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.3.7"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -986,10 +994,10 @@ packages:
     dependency: "direct dev"
     description:
       name: injectable_generator
-      sha256: "2ca3ada337eac0ef6b82f8049c970ddb63947738fdf32ac6cbef8d1567d7ba05"
+      sha256: "7fb573114f8bbdd169f7ae9b0bcd13f464e8170454c27be816d5a1bb39ac8086"
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.1"
+    version: "2.4.2"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -1342,10 +1350,10 @@ packages:
     dependency: transitive
     description:
       name: petitparser
-      sha256: c15605cd28af66339f8eb6fbe0e541bfe2d1b72d5825efc6598f3e0a31b9ad27
+      sha256: cb3798bef7fc021ac45b308f4b51208a152792445cce0448c9a4ba5879dd8750
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.2"
+    version: "5.4.0"
   pinenacl:
     dependency: transitive
     description:
@@ -1749,6 +1757,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  stellar_flutter_sdk:
+    dependency: "direct main"
+    description:
+      name: stellar_flutter_sdk
+      sha256: "7d505963fe11d0f90b3f798964c485ed9fa64731c38f14c9b2fb76d5d5bd6cd8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.1"
   storybook_flutter:
     dependency: "direct main"
     description:
@@ -1845,6 +1861,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  toml:
+    dependency: transitive
+    description:
+      name: toml
+      sha256: "69756bc12eccf279b72217a87310d217efc4b3752f722e890f672801f19ac485"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.1"
   tuple:
     dependency: transitive
     description:
@@ -1893,6 +1917,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
+  unorm_dart:
+    dependency: transitive
+    description:
+      name: unorm_dart
+      sha256: "5b35bff83fce4d76467641438f9e867dc9bcfdb8c1694854f230579d68cd8f4b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   url_launcher:
     dependency: "direct main"
     description:
@@ -2065,10 +2097,10 @@ packages:
     dependency: transitive
     description:
       name: xml
-      sha256: b015a8ad1c488f66851d762d3090a21c600e479dc75e68328c52774040cf9226
+      sha256: "5bc72e1e45e941d825fd7468b9b4cc3b9327942649aeb6fc5cdbf135f0a86e84"
       url: "https://pub.dev"
     source: hosted
-    version: "6.5.0"
+    version: "6.3.0"
   yaml:
     dependency: transitive
     description:

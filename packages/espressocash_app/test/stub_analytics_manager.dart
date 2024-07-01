@@ -31,4 +31,7 @@ class StubAnalyticsManager implements AnalyticsManager {
     required String to,
     required int amount,
   }) {}
+
+  @override
+  void setTotalInvestmentsBalance(Decimal value) {}
 }
