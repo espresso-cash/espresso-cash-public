@@ -18,6 +18,7 @@ import '../../../ui/web_view_screen.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../partners/moneygram/widgets/style.dart';
 import '../services/on_ramp_order_service.dart';
 import 'countdown_timer.dart';
 
@@ -313,6 +314,11 @@ class _MoneygramDepositContent extends StatelessWidget {
                           url: Uri.parse(deposit.moreInfoUrl ?? ''),
                           title: context.l10n.depositTitle.toUpperCase(),
                           theme: const CpThemeData.light(),
+                          onLoaded: (controller) async {
+                            await controller.evaluateJavascript(
+                              source: await loadMoneygramStyle(),
+                            );
+                          },
                         );
                       },
                       child: Text(
