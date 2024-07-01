@@ -13,8 +13,8 @@ import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 
 typedef OnRampOrder = ({
   String id,
@@ -36,12 +36,12 @@ typedef DepositDetails = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokens);
+  OnRampOrderService(this._db, this._tokenListRepository);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenListRepository _tokenListRepository;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -159,8 +159,8 @@ class OnRampOrderService implements Disposable {
     final query = _db.select(_db.onRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().map(
-      (row) {
+    return query.watchSingle().asyncMap(
+      (row) async {
         final bankAccount = row.bankAccount;
         final bankName = row.bankName;
         final transferExpiryDate = row.bankTransferExpiry;
@@ -173,20 +173,22 @@ class OnRampOrderService implements Disposable {
             transferAmount != null &&
             fiatSymbol != null;
 
+        final Token? token = await _tokenListRepository.getToken(row.token);
+
         return (
           id: row.id,
           created: row.created,
           submittedAmount: CryptoAmount(
             value: row.amount,
             cryptoCurrency: CryptoCurrency(
-              token: _tokens.requireTokenByMint(row.token),
+              token: token ?? Token.unk,
             ),
           ),
           receiveAmount: row.receiveAmount?.let(
             (amount) => CryptoAmount(
               value: amount,
               cryptoCurrency: CryptoCurrency(
-                token: _tokens.requireTokenByMint(row.token),
+                token: token ?? Token.unk,
               ),
             ),
           ),

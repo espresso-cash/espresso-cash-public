@@ -1,5 +1,3 @@
-/// This script will create our local tokenlist.json that we will ship with the
-/// apps
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -9,15 +7,18 @@ import 'package:dfunc/dfunc.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  _fetchCoins().then(_matchTokens).then(_writeToFile);
+  _fetchCoins().then(_matchTokens).then((tokens) async {
+    await _deleteLastFile();
+    await _writeToFile(tokens);
+  });
 }
 
 Future<_CoinMap> _fetchCoins() async {
   final responses = await Future.wait(
     [_coinsUrl, _stablecoinsUrl].map(Uri.parse).map(http.get).map(
           (it) => it
-              .letAsync((response) => response.body.let(jsonDecode))
-              .letAsync((data) => (data as List).whereType<_Json>()),
+              .then((response) => jsonDecode(response.body))
+              .then((data) => (data as List).whereType<_Json>()),
         ),
   );
 
@@ -44,63 +45,115 @@ Future<_CoinMap> _fetchCoins() async {
       .let(Map.fromEntries);
 }
 
-Future<_Json> _fetchTokenList() async {
+Future<List<Map<String, String>>> _fetchTokenList() async {
   final response = await http.get(Uri.parse(_tokenListUrl));
   if (response.statusCode == 200) {
-    return {
-      'tokens':
-          (json.decode(response.body) as List).map((e) => e as _Json).toList(),
-    };
+    return (json.decode(response.body) as List)
+        .map((e) => e as Map<String, dynamic>)
+        .map((e) => e.map((k, v) => MapEntry(k, v.toString())))
+        .toList();
   }
   throw Exception('Failed to load tokens');
 }
 
-Future<_Json> _matchTokens(_CoinMap coins) async {
+Future<List<Map<String, String>>> _matchTokens(_CoinMap coins) async {
   final tokenList = await _fetchTokenList();
 
-  return tokenList
-    ..update(
-      'tokens',
-      (tokens) => (tokens as List)
-          .whereType<_Json>()
-          .map((token) => token.updateToken(coins))
-          .toList(),
-    );
+  return tokenList.map((token) => token.updateToken(coins)).toList();
 }
 
-Future<void> _writeToFile(_Json coingecko) async {
-  final file = File(_path);
+Future<void> _writeToFile(List<Map<String, String>> tokens) async {
+  final String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+  final file = File('$_path$timestamp.csv');
+  final directory = file.parent;
 
-  // Let's keep the old non-mainnet tokens, since coingecko only return mainnet
-  // tokens
+  if (!directory.existsSync()) {
+    await directory.create(recursive: true);
+  }
+
   final nonMainnetTokens = await file
       .let((f) => f.existsSync() ? f : null)
       ?.readAsString()
-      .letAsync(jsonDecode)
-      .letAsync((it) => (it as Map)['tokens'])
-      .letAsync((it) => (it as List).whereType<_Json>())
-      .letAsync((it) => it.where((t) => t['chainId'] != _mainnetChainId));
+      .then((content) => content.split('\n'))
+      .then(
+        (lines) => lines
+            .skip(1)
+            .where((line) => line.isNotEmpty)
+            .map((line) {
+              final values = line.split(',');
+              return {
+                'address': values[0],
+                'chainId': values[1],
+                'symbol': values[2],
+                'name': values[3],
+                'decimals': values[4],
+                'logoURI': values[5],
+                'tags': values[6],
+                'extensions': values[7],
+              };
+            })
+            .toList()
+            .where((t) => t['chainId'] != _mainnetChainId.toString())
+            .toList(),
+      );
 
-  final allTokens = coingecko
-    ..update(
-      'tokens',
-      (tokens) => (tokens as List)..addAll(nonMainnetTokens ?? <_Json>[]),
-    )
-    ..['timestamp'] = DateTime.now().toIso8601String();
+  final allTokens = [
+    ...tokens,
+    if (nonMainnetTokens != null) ...nonMainnetTokens,
+  ];
 
-  await file.writeAsString(jsonEncode(allTokens));
+  final csv = StringBuffer()
+    ..writeln('address,chainId,symbol,name,decimals,logoURI,tags,extensions')
+    ..writeln(
+      'So11111111111111111111111111111111111111111,101,SOL,Solana,9,https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png,[old-registry],coingeckoId:wrapped-solana',
+    );
+
+  for (final token in allTokens) {
+    csv.writeln(
+      [
+        token['address'],
+        token['chainId'],
+        token['symbol'],
+        token['name'],
+        token['decimals'],
+        token['logoURI'],
+        token['tags'],
+        token['extensions'],
+      ].join(','),
+    );
+  }
+
+  await file.writeAsString(csv.toString());
 }
 
-extension on _Json {
-  _Json updateToken(_CoinMap coins) {
-    final coin = coins[this['address'] as String];
+Future<void> _deleteLastFile() async {
+  final directory = Directory('assets/tokens');
+  if (directory.existsSync()) {
+    final files = directory
+        .listSync()
+        .whereType<File>()
+        .where(
+          (file) => file.path.startsWith('assets/tokens/solana.tokenlist.'),
+        )
+        .toList();
+    if (files.isNotEmpty) {
+      files.sort((a, b) => b.path.compareTo(a.path));
+      final lastFile = files.first;
+      await lastFile.delete();
+    }
+  }
+}
+
+extension on Map<String, String> {
+  Map<String, String> updateToken(_CoinMap coins) {
+    final coin = coins[this['address']];
 
     if (coin != null) {
       if (coin.coingeckoId != null) {
-        this['extensions'] = {'coingeckoId': coin.coingeckoId};
+        this['extensions'] = 'coingeckoId:${coin.coingeckoId}';
       }
-      if (coin.isStablecoin) this['tags'] = const ['stablecoin'];
-      this['chainId'] = _mainnetChainId;
+      if (coin.isStablecoin) this['tags'] = 'stablecoin';
+      this['chainId'] = _mainnetChainId.toString();
     }
 
     return this;
@@ -117,7 +170,7 @@ class _CoinData {
   final bool isStablecoin;
 }
 
-const _path = 'lib/features/tokens/solana.tokenlist.json';
+const _path = 'assets/tokens/solana.tokenlist.';
 
 const _mainnetChainId = 101;
 

@@ -12,10 +12,11 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/timeline.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../tokens/token_list.dart';
+import '../../currency/models/amount.dart';
+import '../../tokens/data/token_repository.dart';
 import '../models/payment_request.dart';
 
-class RequestSuccess extends StatelessWidget {
+class RequestSuccess extends StatefulWidget {
   const RequestSuccess({
     super.key,
     required this.request,
@@ -24,19 +25,25 @@ class RequestSuccess extends StatelessWidget {
   final PaymentRequest request;
 
   @override
-  Widget build(BuildContext context) {
-    final tokenList = sl<TokenList>();
+  State<RequestSuccess> createState() => _RequestSuccessState();
+}
 
-    final amount = request.payRequest.cryptoAmount(tokenList);
+class _RequestSuccessState extends State<RequestSuccess> {
+  late Future<CryptoAmount?> _cryptoAmountFuture;
 
-    final requestCreated = CpTimelineItem(
-      title: context.l10n.requestPaymentCreated,
-      trailing: amount?.let((a) => a.format(context.locale)),
-      subtitle: request.created.let((t) => context.formatDate(t)),
+  @override
+  void initState() {
+    super.initState();
+    _cryptoAmountFuture = widget.request.payRequest.cryptoAmount(
+      sl<TokenListRepository>().getToken,
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final moneyReceived = CpTimelineItem(
       title: context.l10n.requestPaymentReceived,
-      subtitle: request.resolvedAt?.let((t) => context.formatDate(t)),
+      subtitle: widget.request.resolvedAt?.let((t) => context.formatDate(t)),
     );
 
     return StatusScreen(
@@ -48,17 +55,20 @@ class RequestSuccess extends StatelessWidget {
       content: CpContentPadding(
         child: Column(
           children: [
-            CpTimeline(
-              status: CpTimelineStatus.success,
-              items: [
-                requestCreated,
-                moneyReceived,
-              ],
-              active: 1,
-              animated: false,
+            FutureBuilder(
+              future: _cryptoAmountFuture,
+              builder: (context, snapshot) => CpTimeline(
+                status: CpTimelineStatus.success,
+                items: [
+                  _requestCreated(context, snapshot),
+                  moneyReceived,
+                ],
+                active: 1,
+                animated: false,
+              ),
             ),
             const Spacer(),
-            if (request.payRequest.invoice case final reference?)
+            if (widget.request.payRequest.invoice case final reference?)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: _InvoiceWidget(reference: reference),
@@ -68,6 +78,16 @@ class RequestSuccess extends StatelessWidget {
       ),
     );
   }
+
+  CpTimelineItem _requestCreated(
+    BuildContext context,
+    AsyncSnapshot<CryptoAmount?> snapshot,
+  ) =>
+      CpTimelineItem(
+        title: context.l10n.requestPaymentCreated,
+        trailing: snapshot.data.let((a) => a?.format(context.locale)),
+        subtitle: widget.request.created.let((t) => context.formatDate(t)),
+      );
 }
 
 class _InvoiceWidget extends StatelessWidget {

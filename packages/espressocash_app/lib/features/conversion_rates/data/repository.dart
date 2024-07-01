@@ -12,7 +12,6 @@ import '../../../utils/async_cache.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import 'jupiter_client.dart';
 
 @Singleton(scope: authScope)
@@ -110,25 +109,31 @@ class ConversionRatesRepository extends ChangeNotifier {
         notifyListeners();
       });
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
-      _cache.fetchEither(() async {
-        final data = await _ecClient.getRates().then((p) => p.usdc);
-        await _storage.setDouble(_usdcRateKey, data);
-        final previous = _value.value[Currency.usd] ?? const IMapConst({});
-        final newValue = _value.value.add(
-          Currency.usd,
-          previous.addAll(
-            {
-              Currency.usdc: data.let((s) => Decimal.parse(s.toString())),
-            }.toIMap(),
-          ),
-        );
-        _value.add(newValue);
+  AsyncResult<void> refresh(
+    FiatCurrency currency,
+    Iterable<Token> tokens, {
+    bool? cache,
+  }) {
+    Future<void> refreshLogic() async {
+      final data = await _ecClient.getRates().then((p) => p.usdc);
+      await _storage.setDouble(_usdcRateKey, data);
+      final previous = _value.value[Currency.usd] ?? const IMapConst({});
+      final newValue = _value.value.add(
+        Currency.usd,
+        previous.addAll(
+          {
+            Currency.usdc: Decimal.parse(data.toString()),
+          }.toIMap(),
+        ),
+      );
+      _value.add(newValue);
+      await _fetchTokens(currency, tokens);
+    }
 
-        notifyListeners();
-
-        await _fetchTokens(currency, tokens);
-      });
+    return (cache != null && !cache)
+        ? tryEitherAsync((_) async => refreshLogic())
+        : _cache.fetchEither(() async => refreshLogic());
+  }
 
   @override
   @disposeMethod
