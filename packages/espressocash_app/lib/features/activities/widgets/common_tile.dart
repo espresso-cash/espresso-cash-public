@@ -27,12 +27,14 @@ class CommonTile extends StatelessWidget {
     final isOutgoing =
         txCommon.amount?.let((e) => e.value.isNegative || e.value == 0) ??
             false;
+
     final amount = txCommon.amount
         ?.let((e) => e.format(context.locale, maxDecimals: 2))
         .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
-      title: signature.toShortAddress(),
+      title: isOutgoing ? 'Sent' : 'Received',
+      subtitle: signature,
       status: switch (txCommon.status) {
         TxCommonStatus.success => CpActivityTileStatus.success,
         TxCommonStatus.failure => CpActivityTileStatus.failure,

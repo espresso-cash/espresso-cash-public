@@ -8,6 +8,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../balances/data/repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
@@ -51,11 +52,11 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates() async {
+  AsyncResult<void> _updateConversionRates({bool? useCache}) async {
     final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
     return sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, tokens)
+        .refresh(defaultFiatCurrency, tokens, useCache: useCache)
         .doOnLeftAsync((_) {
       if (!mounted) return;
 
@@ -69,9 +70,9 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     return _listenForProcessingStateAndThrowOnError(sl<BalancesBloc>().stream);
   }
 
-  AsyncResult<void> _onPulledToRefreshBalances() {
+  AsyncResult<void> _onPulledToRefreshBalances({bool? useCache}) {
     final balances = _updateBalances();
-    final conversionRates = _updateConversionRates();
+    final conversionRates = _updateConversionRates(useCache: useCache);
 
     return balances.flatMapAsync((_) => conversionRates);
   }
@@ -79,7 +80,8 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   @override
   void initState() {
     super.initState();
-    _onPulledToRefreshBalances();
+    _onPulledToRefreshBalances(useCache: false);
+    sl<TxUpdater>().call();
   }
 
   Future<void> _onRefreshWithErrorHandling(BuildContext context) =>

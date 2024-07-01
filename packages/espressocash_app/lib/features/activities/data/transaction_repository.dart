@@ -5,6 +5,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
@@ -14,6 +15,7 @@ import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../tokens/token.dart';
 import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
@@ -32,6 +34,38 @@ class TransactionRepository {
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
     return query.map((row) => row.id).watch().map((event) => event.toIList());
+  }
+
+  Stream<IList<String>> watchByAddress(String tokenAddress) {
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query.map((row) => row.id).watch().map((event) => event.toIList());
+  }
+
+  Stream<Map<String, IList<TxCommon>>> watchGroupedByDate(String tokenAddress) {
+    final query = _db.select(_db.transactionRows)
+      ..where((t) => t.tokenAddress.equals(tokenAddress))
+      ..orderBy([(t) => OrderingTerm.desc(t.created)]);
+
+    return query.watch().map((rows) {
+      final grouped = <String, IList<TxCommon>>{};
+      for (final row in rows) {
+        final model = row.toModel();
+        final created = model.created;
+        if (created != null) {
+          final date = DateFormat('yyyy-MM-dd').format(created);
+          grouped.update(
+            date,
+            (list) => list.add(model),
+            ifAbsent: () => IList([model]),
+          );
+        }
+      }
+
+      return grouped;
+    });
   }
 
   Stream<IList<String>> watchCount(int count) {
@@ -57,7 +91,7 @@ class TransactionRepository {
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: InsertMode.insertOrReplace,
+            mode: InsertMode.insertOrIgnore,
           ),
         );
 
@@ -152,7 +186,12 @@ extension TransactionRowExt on TransactionRow {
         created: created,
         status: status,
         amount: amount?.let(
-          (it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc),
+          (it) => CryptoAmount(
+            value: it,
+            cryptoCurrency: CryptoCurrency(
+              token: TokenList().findTokenByMint(tokenAddress) ?? Token.usdc,
+            ),
+          ),
         ),
       );
 }
@@ -161,6 +200,8 @@ extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
+        tokenAddress:
+            amount?.cryptoCurrency.token.address ?? Token.usdc.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,
