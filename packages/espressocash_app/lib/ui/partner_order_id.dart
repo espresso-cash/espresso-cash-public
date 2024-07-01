@@ -12,7 +12,7 @@ class PartnerOrderIdWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => orderId.isEmpty
-      ? const SizedBox.shrink()
+      ? SizedBox(height: CpButtonSize.big.height)
       : InkWell(
           onTap: () => context.copyToClipboard(orderId),
           child: SizedBox(

@@ -79,6 +79,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final manualDeposit = order.manualDeposit;
     final bool isManualBankTransfer = manualDeposit != null;
+    final isMoneygramOrder = order.partner == RampPartner.moneygram;
 
     if (order.status == OnRampOrderStatus.pending) {
       return TransferProgress(onBack: () => Navigator.pop(context));
@@ -140,12 +141,15 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
+    final theme =
+        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.dark();
+
     final depositAmount = (order.partner == RampPartner.moneygram)
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
     return StatusScreen(
-      title: context.l10n.onRampDepositTitle.toUpperCase(),
+      title: context.l10n.depositTitle.toUpperCase(),
       statusType: order.status.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),
       statusContent: Column(
@@ -160,7 +164,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           ],
         ],
       ),
-      theme: const CpThemeData.light(),
+      theme: theme,
       content: CpContentPadding(
         child: Column(
           children: [
@@ -174,14 +178,24 @@ class OnRampOrderScreenContent extends StatelessWidget {
               partner: order.partner,
             ),
             const Spacer(flex: 4),
-            PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
             ],
-            Opacity(
-              opacity: order.status == OnRampOrderStatus.depositExpired ? 1 : 0,
+            const SizedBox(height: 12),
+            Visibility(
+              visible: order.status == OnRampOrderStatus.depositExpired,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
               child: _CancelButton(orderId: order.id),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 12,
+                bottom: MediaQuery.paddingOf(context).bottom + 16,
+              ),
+              child: PartnerOrderIdWidget(orderId: order.partnerOrderId),
             ),
           ],
         ),
@@ -196,19 +210,13 @@ class _CancelButton extends StatelessWidget {
   final String orderId;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(
-          top: 24,
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
-        child: CpTextButton(
-          text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-          variant: CpTextButtonVariant.light,
-          onPressed: () {
-            sl<OnRampOrderService>().delete(orderId);
-            Navigator.pop(context);
-          },
-        ),
+  Widget build(BuildContext context) => CpTextButton(
+        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+        variant: CpTextButtonVariant.light,
+        onPressed: () {
+          sl<OnRampOrderService>().delete(orderId);
+          Navigator.pop(context);
+        },
       );
 }
 

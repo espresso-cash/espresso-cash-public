@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
 import '../../../di.dart';
@@ -169,6 +170,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
         null,
     };
 
+    final theme =
+        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.dark();
+
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
 
@@ -190,26 +194,35 @@ class OffRampOrderScreenContent extends StatelessWidget {
           if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
         ],
       ),
-      theme: const CpThemeData.light(),
+      theme: theme,
       content: CpContentPadding(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _Timeline(
-                order: order,
-                amount: totalAmount,
-              ),
-              PartnerOrderIdWidget(orderId: order.partnerOrderId),
-              if (primaryButton != null) ...[
-                const SizedBox(height: 12),
-                primaryButton,
-              ],
-              Opacity(
-                opacity: showCancelButton ? 1 : 0,
-                child: _CancelButton(handleCanceled: handleCanceled),
-              ),
+        child: Column(
+          children: [
+            _Timeline(
+              order: order,
+              amount: totalAmount,
+            ),
+            const Spacer(flex: 4),
+            if (primaryButton != null) ...[
+              const SizedBox(height: 12),
+              primaryButton,
             ],
-          ),
+            const SizedBox(height: 12),
+            Visibility(
+              visible: showCancelButton,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: _CancelButton(handleCanceled: handleCanceled),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 12,
+                bottom: MediaQuery.paddingOf(context).bottom + 16,
+              ),
+              child: PartnerOrderIdWidget(orderId: order.partnerOrderId),
+            ),
+          ],
         ),
       ),
     );
@@ -264,16 +277,10 @@ class _CancelButton extends StatelessWidget {
   final VoidCallback handleCanceled;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(
-          top: 24,
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
-        child: CpTextButton(
-          text: context.l10n.outgoingSplitKeyPayments_btnCancel,
-          variant: CpTextButtonVariant.light,
-          onPressed: handleCanceled,
-        ),
+  Widget build(BuildContext context) => CpTextButton(
+        text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+        variant: CpTextButtonVariant.light,
+        onPressed: handleCanceled,
       );
 }
 

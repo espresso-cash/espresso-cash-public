@@ -10,6 +10,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
+import '../../../ui/page_spacer_wrapper.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
@@ -246,28 +247,29 @@ class _MoneygramDepositContent extends StatelessWidget {
             children: [
               SizedBox(
                 height: double.infinity,
-                child:
-                    Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
+                child: Assets.icons.logoBgAlternative.svg(
+                  alignment: Alignment.bottomCenter,
+                ),
               ),
-              CpContentPadding(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 16),
-                    Assets.gifs.moneygramConfirmationAnimation
-                        .image(),
+                    Assets.gifs.moneygramConfirmationAnimation.image(),
                     const SizedBox(height: 16),
                     Assets.images.moneygramLogo.image(height: 32),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Confirm your transfer of',
-                      style: TextStyle(
+                    Text(
+                      context.l10n.confirmYourTransferOf,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 25,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     Text(
                       formattedTransferAmount,
                       style: const TextStyle(
@@ -276,22 +278,31 @@ class _MoneygramDepositContent extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 17,
-                        letterSpacing: 0.41,
-                        fontWeight: FontWeight.w400,
+                    const SizedBox(height: 12),
+                    _Wrapper(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Text(
+                          context.l10n.moneygramInstructionText,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            letterSpacing: 0.41,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const Spacer(),
-                    CpButton(
-                      width: double.infinity,
-                      onPressed: onConfirmPress,
-                      text: 'Confirm Transfer',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 45),
+                      child: CpButton(
+                        size: CpButtonSize.big,
+                        width: double.infinity,
+                        onPressed: onConfirmPress,
+                        text: context.l10n.confirmTransfer,
+                      ),
                     ),
                     const SizedBox(height: 40),
                     GestureDetector(
@@ -303,10 +314,9 @@ class _MoneygramDepositContent extends StatelessWidget {
                           theme: const CpThemeData.light(),
                         );
                       },
-                      child: const Text(
-                        'View MoneyGram transfer instructions',
-                        style: TextStyle(
-                          // TODO(vsumin): add this color to CpColors
+                      child: Text(
+                        context.l10n.viewMoneygramTransferInstructions,
+                        style: const TextStyle(
                           color: Color(0xffCB6E00),
                           fontSize: 17,
                           fontWeight: FontWeight.w400,
@@ -321,6 +331,24 @@ class _MoneygramDepositContent extends StatelessWidget {
             ],
           ),
         ),
+      );
+}
+
+class _Wrapper extends StatelessWidget {
+  const _Wrapper({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          const FadeGradient(
+            height: 150,
+            color: FadeGradientColor.white,
+            direction: FadeGradientDirection.topDown,
+          ),
+          child,
+        ],
       );
 }
 

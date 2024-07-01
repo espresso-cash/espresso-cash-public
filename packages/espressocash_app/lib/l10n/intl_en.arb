@@ -687,7 +687,7 @@
       }
     }
   },
-  "depositTitle": "Add Cash",
+  "depositTitle": "Deposit",
   "@depositTitle": {},
   "depositInstruction1": "Transfer money from your bank account to our local partner:",
   "@depositInstruction1": {},
@@ -829,5 +829,13 @@
   "openMoneygram": "Open Moneygram",
   "@openMoneygram": {},
   "bridgingText": "Bridging USDC to Stellar",
-  "@bridgingText": {}
+  "@bridgingText": {},
+  "moneygramInstructionText": "After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.",
+  "@moneygramInstructionText": {},
+  "confirmTransfer": "Confirm Transfer",
+  "@confirmTransfer": {},
+  "viewMoneygramTransferInstructions": "View MoneyGram transfer instructions",
+  "@viewMoneygramTransferInstructions": {},
+  "confirmYourTransferOf": "Confirm your transfer of",
+  "@confirmYourTransferOf": {}
 }
