@@ -48,10 +48,11 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   ) async {
     try {
       emit(const ProcessingState.processing());
+      final address = event.address;
 
-      final sol = await _solanaClient.getSolBalance(event.address);
+      final sol = await _solanaClient.getSolBalance(address);
 
-      final allAccounts = await _solanaClient.getSplAccounts(event.address);
+      final allAccounts = await _solanaClient.getSplAccounts(address);
       final mainAccounts = await Future.wait<_MainTokenAccount?>(
         allAccounts.map((programAccount) async {
           final account = programAccount.account;
@@ -64,21 +65,19 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
                   programAccount.pubkey,
                   a.info,
                   _tokens,
+                  TokenProgramType.tokenProgram,
                 ),
                 orElse: () async => null,
               ),
-              // Temporary fix until Token2022 is supported on Solana package
-              unsupported: (val) async {
-                final info = val['info'] as Map<String, dynamic>;
-
-                final parsedInfo = SplTokenAccountDataInfo.fromJson(info);
-
-                return _MainTokenAccount.createToken2022(
+              token2022: (parsed) => parsed.maybeMap(
+                account: (a) => _MainTokenAccount.create(
                   programAccount.pubkey,
-                  parsedInfo,
+                  a.info,
                   _tokens,
-                );
-              },
+                  TokenProgramType.token2022Program,
+                ),
+                orElse: () async => null,
+              ),
               orElse: () async => null,
             );
           }
@@ -123,10 +122,12 @@ class _MainTokenAccount {
     String pubKey,
     SplTokenAccountDataInfo info,
     TokenList tokens,
+    TokenProgramType tokenProgramType,
   ) async {
     final expectedPubKey = await findAssociatedTokenAddress(
       owner: Ed25519HDPublicKey.fromBase58(info.owner),
       mint: Ed25519HDPublicKey.fromBase58(info.mint),
+      tokenProgramType: tokenProgramType,
     );
 
     if (expectedPubKey.toBase58() != pubKey) return null;
@@ -134,28 +135,6 @@ class _MainTokenAccount {
     final token = tokens.findTokenByMint(info.mint);
 
     // TODO(IA): we should find a way to display this
-    return token == null ? null : _MainTokenAccount._(pubKey, info, token);
-  }
-
-  static Future<_MainTokenAccount?> createToken2022(
-    String pubKey,
-    SplTokenAccountDataInfo info,
-    TokenList tokens,
-  ) async {
-    final token2022Program = Ed25519HDPublicKey.fromBase58(token2022ProgramId);
-
-    final owner = Ed25519HDPublicKey.fromBase58(info.owner);
-    final mint = Ed25519HDPublicKey.fromBase58(info.mint);
-
-    final expectedPubKey = await Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, token2022Program.toByteArray(), mint.bytes],
-      programId: AssociatedTokenAccountProgram.id,
-    );
-
-    if (expectedPubKey.toBase58() != pubKey) return null;
-
-    final token = tokens.findTokenByMint(info.mint);
-
     return token == null ? null : _MainTokenAccount._(pubKey, info, token);
   }
 
@@ -197,7 +176,7 @@ extension on SolanaClient {
       ),
       rpcClient.getTokenAccountsByOwner(
         address,
-        const TokenAccountsFilter.byProgramId(token2022ProgramId),
+        const TokenAccountsFilter.byProgramId(Token2022Program.programId),
         commitment: Commitment.confirmed,
         encoding: Encoding.jsonParsed,
       ),
@@ -208,6 +187,3 @@ extension on SolanaClient {
     return [...results[0].value, ...results[1].value];
   }
 }
-
-// Temporary fix until Token2022 is supported on Solana package
-const token2022ProgramId = 'TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb';
