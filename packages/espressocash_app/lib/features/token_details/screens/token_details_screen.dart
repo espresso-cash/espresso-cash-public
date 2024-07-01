@@ -17,7 +17,6 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
-import '../widgets/loader_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
@@ -167,84 +166,78 @@ class _TokenHeader extends StatelessWidget {
         ) ??
         Decimal.zero;
 
-    return LoadBalancesWrapper(
-      builder: (context, onRefresh) {
-        onRefresh();
+    return ValueStreamBuilder<CryptoFiatAmount>(
+      create: () => (
+        sl<TokenFiatBalanceService>().readInvestmentBalance(token),
+        (
+          Amount.zero(currency: Currency.usdc) as CryptoAmount,
+          Amount.zero(currency: Currency.usd) as FiatAmount
+        )
+      ),
+      builder: (context, value) {
+        final crypto = value.$1;
+        final fiat = value.$2;
 
-        return ValueStreamBuilder<CryptoFiatAmount>(
-          create: () => (
-            sl<TokenFiatBalanceService>().readInvestmentBalance(token),
-            (
-              Amount.zero(currency: Currency.usdc) as CryptoAmount,
-              Amount.zero(currency: Currency.usd) as FiatAmount
-            )
-          ),
-          builder: (context, value) {
-            final crypto = value.$1;
-            final fiat = value.$2;
+        final fiatRate =
+            Amount.fromDecimal(value: rate, currency: Currency.usd);
 
-            final fiatRate =
-                Amount.fromDecimal(value: rate, currency: Currency.usd);
-
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  Text.rich(
-                    TextSpan(
-                      text: 'Balance ',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: fiat.format(context.locale),
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              Text.rich(
+                TextSpan(
+                  text: 'Balance ',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
                   ),
-                  const SizedBox(height: 24),
-                  FittedBox(
-                    child: Text(
-                      crypto.format(
-                        context.locale,
-                        maxDecimals: 4,
-                      ),
-                      maxLines: 1,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: fiat.format(context.locale),
                       style: const TextStyle(
-                        fontSize: 59,
+                        fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-                  Text.rich(
-                    TextSpan(
-                      text: 'Price ',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text:
-                              '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            );
-          },
+              const SizedBox(height: 24),
+              FittedBox(
+                child: Text(
+                  crypto.format(
+                    context.locale,
+                    maxDecimals: 4,
+                  ),
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 59,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              Text.rich(
+                TextSpan(
+                  text: 'Price ',
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text:
+                          '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
