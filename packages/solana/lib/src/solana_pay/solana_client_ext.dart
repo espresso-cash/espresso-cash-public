@@ -212,6 +212,7 @@ extension SolanaClientSolanaPay on SolanaClient {
     required Decimal amount,
     Ed25519HDPublicKey? splToken,
     Iterable<Ed25519HDPublicKey>? reference,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
     Commitment commitment = Commitment.finalized,
   }) async {
     final response = await rpcClient.getTransaction(
@@ -247,8 +248,11 @@ extension SolanaClientSolanaPay on SolanaClient {
       postAmount = Decimal.fromInt(meta.postBalances[accountIndex])
           .shift(-solDecimalPlaces);
     } else {
-      final recipientATA =
-          await findAssociatedTokenAddress(owner: recipient, mint: splToken);
+      final recipientATA = await findAssociatedTokenAddress(
+        owner: recipient,
+        mint: splToken,
+        tokenProgramType: tokenProgramType,
+      );
       final accountIndex = (response.transaction as ParsedTransaction)
           .message
           .accountKeys
