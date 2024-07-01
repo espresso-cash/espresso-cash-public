@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,7 +9,7 @@ import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
 import '../data/repository.dart';
 
-typedef CryptoFiatAmount = (CryptoAmount, FiatAmount);
+typedef CryptoFiatAmount = (CryptoAmount, FiatAmount?);
 
 @injectable
 class TokenFiatBalanceService {
@@ -26,9 +25,6 @@ class TokenFiatBalanceService {
 
   static const _zeroFiat =
       FiatAmount(value: 0, fiatCurrency: defaultFiatCurrency);
-
-  static const _unknownAmount =
-      FiatAmount(value: -1, fiatCurrency: defaultFiatCurrency);
 
   Stream<FiatAmount?> watch(Token token) {
     const fiatCurrency = defaultFiatCurrency;
@@ -51,19 +47,28 @@ class TokenFiatBalanceService {
   Stream<FiatAmount> watchMainBalance() =>
       watch(Token.usdc).map((it) => it ?? _zeroFiat);
 
-  Stream<FiatAmount> watchTotalInvestmentsBalance() => _balancesRepository
+  Stream<FiatAmount?> watchTotalInvestmentsBalance() => _balancesRepository
       .watchUserTokens(ignoreTokens: [Token.usdc])
       .flatMap(
         (tokens) => Rx.combineLatest(
           tokens.map(watch),
-          (values) => values.whereNotNull().fold(
-                _unknownAmount,
-                (total, next) => (total + next) as FiatAmount,
-              ),
+          (values) => values.fold<FiatAmount?>(
+            null,
+            (total, next) {
+              if (next == null) return total;
+              if (total == null) return next;
+
+              return total + next as FiatAmount;
+            },
+          ),
         ),
       )
       .distinct()
-      .doOnData(_logTotalCryptoBalance);
+      .doOnData((total) {
+        if (total != null) {
+          _logTotalCryptoBalance(total);
+        }
+      });
 
   Stream<IList<CryptoFiatAmount>> watchInvestmentBalances() =>
       _balancesRepository
@@ -71,13 +76,19 @@ class TokenFiatBalanceService {
           .flatMap(
             (cryptoAmounts) => Rx.combineLatest(
               cryptoAmounts.map((c) => watch(c.token).map((fiat) => (c, fiat))),
-              (values) => values.map((e) => (e.$1, e.$2 ?? _unknownAmount)),
+              (values) => values.map((e) => (e.$1, e.$2)).toList(),
             ),
           )
           .map((amount) => amount.toIList())
           .map(
-            (amounts) =>
-                amounts.sort((a, b) => b.$2.value.compareTo(a.$2.value)),
+            (amounts) => amounts.sort(
+              (a, b) {
+                final aValue = a.$2?.value ?? 0;
+                final bValue = b.$2?.value ?? 0;
+
+                return bValue.compareTo(aValue);
+              },
+            ),
           )
           .distinct();
 
