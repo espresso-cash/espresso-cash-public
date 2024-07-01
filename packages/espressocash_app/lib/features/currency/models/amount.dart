@@ -51,6 +51,8 @@ sealed class Amount with _$Amount {
 
   bool get isZero => decimal == Decimal.zero;
 
+  bool get isUnknown => value < 0;
+
   Amount operator +(Amount other) {
     _ensureSameCurrency(other);
 
