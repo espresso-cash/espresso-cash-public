@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -40,11 +41,13 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
     final paymentRequest = await _stream.first;
 
     if (mounted) {
-      final formattedAmount =
-          await paymentRequest.formattedAmount(DeviceLocale.localeOf(context));
-      setState(() {
-        _formattedAmount = formattedAmount;
-        _isLoading = false;
+      await paymentRequest
+          .formattedAmount(DeviceLocale.localeOf(context))
+          .letAsync((value) {
+        setState(() {
+          _formattedAmount = value;
+          _isLoading = false;
+        });
       });
     }
   }
@@ -55,33 +58,24 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
         builder: (context, snapshot) {
           final data = snapshot.data;
 
-          if (data == null || _isLoading) {
-            return SizedBox.shrink(key: ValueKey(widget.id));
-          }
-
-          return CpActivityTile(
-            key: ValueKey(widget.id),
-            title: context.l10n.paymentRequestTitle,
-            icon: Assets.icons.paymentIcon.svg(),
-            timestamp: context.formatDate(data.created),
-            incomingAmount: _formattedAmount,
-            status: _mapPaymentRequestStateToStatus(data.state),
-            onTap: () => PaymentRequestScreen.push(context, id: data.id),
-            showIcon: widget.showIcon,
-          );
+          return (data == null || _isLoading)
+              ? SizedBox.shrink(key: ValueKey(widget.id))
+              : CpActivityTile(
+                  key: ValueKey(widget.id),
+                  title: context.l10n.paymentRequestTitle,
+                  icon: Assets.icons.paymentIcon.svg(),
+                  timestamp: context.formatDate(data.created),
+                  incomingAmount: _formattedAmount,
+                  status: switch (data.state) {
+                    PaymentRequestState.initial =>
+                      CpActivityTileStatus.inProgress,
+                    PaymentRequestState.completed =>
+                      CpActivityTileStatus.success,
+                    PaymentRequestState.error => CpActivityTileStatus.failure,
+                  },
+                  onTap: () => PaymentRequestScreen.push(context, id: data.id),
+                  showIcon: widget.showIcon,
+                );
         },
       );
-
-  CpActivityTileStatus _mapPaymentRequestStateToStatus(
-    PaymentRequestState state,
-  ) {
-    switch (state) {
-      case PaymentRequestState.initial:
-        return CpActivityTileStatus.inProgress;
-      case PaymentRequestState.completed:
-        return CpActivityTileStatus.success;
-      case PaymentRequestState.error:
-        return CpActivityTileStatus.failure;
-    }
-  }
 }
