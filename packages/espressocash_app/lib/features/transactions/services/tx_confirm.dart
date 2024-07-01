@@ -20,7 +20,7 @@ class TxConfirm {
   Future<TxWaitResult?> call({required String txId}) {
     final sentryTx = Sentry.startTransaction(
       'Wait TX confirmation',
-      'TxSender.wait()',
+      'TxConfirm.wait()',
       waitForChildren: true,
       // ignore: avoid-missing-interpolation, as intended
     )..setData('txId', txId);
