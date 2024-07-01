@@ -50,6 +50,7 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
     Ed25519HDPublicKey? owner,
     required Ed25519HDPublicKey mint,
     required Wallet funder,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
     SignatureCallback? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
@@ -58,6 +59,7 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
     final derivedAddress = await findAssociatedTokenAddress(
       owner: effectiveOwner,
       mint: mint,
+      tokenProgramType: tokenProgramType,
     );
     final instruction = AssociatedTokenAccountInstruction.createAccount(
       mint: mint,
@@ -129,9 +131,14 @@ extension SolanaClientAssociatedTokenAccontProgram on SolanaClient {
   Future<TokenAmount> getTokenBalance({
     required Ed25519HDPublicKey owner,
     required Ed25519HDPublicKey mint,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final ata = await findAssociatedTokenAddress(owner: owner, mint: mint);
+    final ata = await findAssociatedTokenAddress(
+      owner: owner,
+      mint: mint,
+      tokenProgramType: tokenProgramType,
+    );
 
     return rpcClient
         .getTokenAccountBalance(ata.toBase58(), commitment: commitment)
