@@ -22,6 +22,7 @@ import '../../../screens/ramp_amount_screen.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
 import '../service/moneygram_on_ramp_service.dart';
+import 'style.dart';
 
 typedef MoneygramLink = ({String id, String url, String token});
 
@@ -89,6 +90,8 @@ extension BuildContextExt on BuildContext {
 
     bool orderWasCreated = false;
     Future<void> handleLoaded(InAppWebViewController controller) async {
+      await controller.evaluateJavascript(source: await loadMoneygramStyle());
+
       controller.addJavaScriptHandler(
         handlerName: 'moneygram',
         callback: (args) async {
