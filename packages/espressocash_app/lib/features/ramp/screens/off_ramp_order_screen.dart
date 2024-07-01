@@ -169,8 +169,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
         null,
     };
 
-    final theme =
-        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
+    final theme = isMoneygramOrder
+        ? const CpThemeData.light()
+        : const CpThemeData.black();
 
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;

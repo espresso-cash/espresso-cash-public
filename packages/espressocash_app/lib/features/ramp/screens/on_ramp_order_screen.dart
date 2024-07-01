@@ -142,8 +142,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final theme =
-        isMoneygramOrder ? const CpThemeData.light() : const CpThemeData.black();
+    final theme = isMoneygramOrder
+        ? const CpThemeData.light()
+        : const CpThemeData.black();
 
     final depositAmount = (order.partner == RampPartner.moneygram)
         ? manualDeposit?.transferAmount
