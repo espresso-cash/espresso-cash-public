@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
 
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
@@ -58,7 +57,9 @@ class TokenPicker extends StatelessWidget {
             child: token?.logoURI != null
                 // ignore: avoid-non-null-assertion, can not be null
                 ? CachedNetworkImage(imageUrl: token!.logoURI!)
-                : const _DefaultIcon(),
+                : const _DefaultIcon(
+                    size: 42,
+                  ),
           ),
           title: SizedBox(
             height: 28,
@@ -134,7 +135,6 @@ class _ContentState extends State<_Content> {
 
   Token? _selectedToken;
   String _searchText = '';
-
   final _tokens = TokenList().tokens.toList();
 
   @override
