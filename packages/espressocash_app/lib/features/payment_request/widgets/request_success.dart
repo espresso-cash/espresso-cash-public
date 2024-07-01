@@ -16,7 +16,7 @@ import '../../currency/models/amount.dart';
 import '../../tokens/data/token_repository.dart';
 import '../models/payment_request.dart';
 
-class RequestSuccess extends StatelessWidget {
+class RequestSuccess extends StatefulWidget {
   const RequestSuccess({
     super.key,
     required this.request,
@@ -25,10 +25,25 @@ class RequestSuccess extends StatelessWidget {
   final PaymentRequest request;
 
   @override
+  State<RequestSuccess> createState() => _RequestSuccessState();
+}
+
+class _RequestSuccessState extends State<RequestSuccess> {
+  late Future<CryptoAmount?> _cryptoAmountFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _cryptoAmountFuture = widget.request.payRequest.cryptoAmount(
+      sl<TokenListRepository>().getToken,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final moneyReceived = CpTimelineItem(
       title: context.l10n.requestPaymentReceived,
-      subtitle: request.resolvedAt?.let((t) => context.formatDate(t)),
+      subtitle: widget.request.resolvedAt?.let((t) => context.formatDate(t)),
     );
 
     return StatusScreen(
@@ -41,9 +56,7 @@ class RequestSuccess extends StatelessWidget {
         child: Column(
           children: [
             FutureBuilder(
-              future: request.payRequest.cryptoAmount(
-                sl<TokenListRepository>().getToken,
-              ),
+              future: _cryptoAmountFuture,
               builder: (context, snapshot) => CpTimeline(
                 status: CpTimelineStatus.success,
                 items: [
@@ -55,7 +68,7 @@ class RequestSuccess extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            if (request.payRequest.invoice case final reference?)
+            if (widget.request.payRequest.invoice case final reference?)
               Padding(
                 padding: const EdgeInsets.only(bottom: 24.0),
                 child: _InvoiceWidget(reference: reference),
@@ -73,7 +86,7 @@ class RequestSuccess extends StatelessWidget {
       CpTimelineItem(
         title: context.l10n.requestPaymentCreated,
         trailing: snapshot.data.let((a) => a?.format(context.locale)),
-        subtitle: request.created.let((t) => context.formatDate(t)),
+        subtitle: widget.request.created.let((t) => context.formatDate(t)),
       );
 }
 
