@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
@@ -51,12 +54,11 @@ class TokenPicker extends StatelessWidget {
             }
           },
           leading: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: Image.network(
-              token?.logoURI ?? Token.usdc.logoURI!,
-              width: 42,
-              height: 42,
-            ),
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            child: token?.logoURI != null
+                // ignore: avoid-non-null-assertion, can not be null
+                ? CachedNetworkImage(imageUrl: token!.logoURI!)
+                : const _DefaultIcon(),
           ),
           title: SizedBox(
             height: 28,
@@ -133,7 +135,7 @@ class _ContentState extends State<_Content> {
   Token? _selectedToken;
   String _searchText = '';
 
-  final _countries = TokenList().tokens.toList();
+  final _tokens = TokenList().tokens.toList();
 
   @override
   void initState() {
@@ -146,9 +148,10 @@ class _ContentState extends State<_Content> {
     });
 
     final token = _selectedToken;
+
     if (token != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        final index = _countries.indexOf(token);
+        final index = _tokens.indexOf(token);
         final centerOffset = ((context.size?.height ?? 0) - _tileHeight) / 2.5;
         final offset = index * _tileHeight - centerOffset;
         _scrollController.jumpTo(offset);
@@ -165,7 +168,7 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredCountries = _countries.where((token) {
+    final filteredCountries = _tokens.where((token) {
       final nameMatches =
           token.name.toLowerCase().contains(_searchText.toLowerCase());
 
@@ -292,27 +295,13 @@ class _TokenItem extends StatelessWidget {
           ),
           overflow: TextOverflow.ellipsis,
         ),
-        trailing: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              fiatAmountText,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            // Text(
-            //   cryptoAmount.format(context.locale),
-            //   style: const TextStyle(
-            //     color: Colors.white,
-            //     fontSize: 14,
-            //     fontWeight: FontWeight.w400,
-            //   ),
-            // ),
-          ],
+        trailing: Text(
+          fiatAmountText,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
@@ -336,4 +325,17 @@ class _Card extends StatelessWidget {
         ),
         child: child,
       );
+}
+
+class _DefaultIcon extends StatelessWidget {
+  const _DefaultIcon({this.size});
+
+  @override
+  Widget build(BuildContext context) => Image.asset(
+        Assets.images.tokenLogo.path,
+        width: size,
+        height: size,
+      );
+
+  final double? size;
 }

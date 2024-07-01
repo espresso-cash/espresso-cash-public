@@ -40,25 +40,23 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
   final TextEditingController _quantityPayController = TextEditingController();
   final TextEditingController _quantityReveiveController =
       TextEditingController();
-  double inputAmount = 0;
-  double textHeight = 1.2;
-  bool visibility = false;
+
   bool _isPayAmountChanging = false;
   bool _isReceiveAmountChanging = false;
-  late Decimal rate = Decimal.fromInt(0);
-  double f1Width = 180;
-  double f2Width = 180;
-  double f3Width = 180;
-  double f4Width = 180;
-  bool isExpanded = false;
+  double _f1Width = 180;
+  double _f2Width = 180;
+  double _f3Width = 180;
+  double _f4Width = 180;
+  bool _isExpanded = false;
+  Token _recieveToken = Token.usdc;
 
-  Token recieveToken = Token.usdc;
-  late Token payToken;
+  late Decimal _rate = Decimal.fromInt(0);
+  late Token _payToken;
 
   @override
   void initState() {
     super.initState();
-    payToken = widget.token;
+    _payToken = widget.token;
 
     _updateRate(widget.token);
 
@@ -66,10 +64,17 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     _quantityReveiveController.addListener(_onReceiveAmountChanged);
   }
 
+  @override
+  void dispose() {
+    _quantityPayController.dispose();
+    _quantityReveiveController.dispose();
+    super.dispose();
+  }
+
   Future<void> _updateRate(Token token) async {
     await sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, [payToken, recieveToken]);
-    rate = sl<ConversionRatesRepository>().readRate(
+        .refresh(defaultFiatCurrency, [_payToken, _recieveToken]);
+    _rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: token),
           to: defaultFiatCurrency,
         ) ??
@@ -80,13 +85,14 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     if (_isReceiveAmountChanging) return;
     if (_quantityPayController.text.isEmpty) {
       setState(() {
-        f1Width = 180;
-        f3Width = 180;
-        f2Width = 180;
-        f4Width = 180;
-        isExpanded = false;
+        _f1Width = 180;
+        _f3Width = 180;
+        _f2Width = 180;
+        _f4Width = 180;
+        _isExpanded = false;
       });
       _quantityReveiveController.text = '';
+
       return;
     }
 
@@ -94,15 +100,15 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
 
     final payAmount =
         Decimal.tryParse(_quantityPayController.text) ?? Decimal.zero;
-    final receiveAmount = payAmount * rate;
+    final receiveAmount = payAmount * _rate;
     _quantityReveiveController.text = receiveAmount.round(scale: 2).toString();
 
     setState(() {
-      f1Width = 260;
-      f3Width = 260;
-      f2Width = 100;
-      f4Width = 100;
-      isExpanded = true;
+      _f1Width = 260;
+      _f3Width = 260;
+      _f2Width = 100;
+      _f4Width = 100;
+      _isExpanded = true;
     });
 
     _isPayAmountChanging = false;
@@ -112,13 +118,14 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     if (_isPayAmountChanging) return;
     if (_quantityReveiveController.text.isEmpty) {
       setState(() {
-        f1Width = 180;
-        f3Width = 180;
-        f2Width = 180;
-        f4Width = 180;
-        isExpanded = false;
+        _f1Width = 180;
+        _f3Width = 180;
+        _f2Width = 180;
+        _f4Width = 180;
+        _isExpanded = false;
       });
       _quantityPayController.text = '';
+
       return;
     }
 
@@ -126,15 +133,15 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
 
     final receiveAmount =
         Decimal.tryParse(_quantityReveiveController.text) ?? Decimal.zero;
-    final payAmount = receiveAmount / rate;
+    final payAmount = receiveAmount / _rate;
     _quantityPayController.text = payAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
-      f1Width = 260;
-      f3Width = 260;
-      f2Width = 100;
-      f4Width = 100;
-      isExpanded = true;
+      _f1Width = 260;
+      _f3Width = 260;
+      _f2Width = 100;
+      _f4Width = 100;
+      _isExpanded = true;
     });
 
     _isReceiveAmountChanging = false;
@@ -144,6 +151,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
   Widget build(BuildContext context) => LoadBalancesWrapper(
         builder: (context, onRefresh) {
           onRefresh();
+
           return ValueStreamBuilder<CryptoFiatAmount>(
             create: () => (
               sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
@@ -156,7 +164,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
               final crypto = value.$1;
 
               final fiatRate =
-                  Amount.fromDecimal(value: rate, currency: Currency.usd);
+                  Amount.fromDecimal(value: _rate, currency: Currency.usd);
 
               return Provider<Token>.value(
                 value: widget.token,
@@ -199,7 +207,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                       curve: Curves.easeInOut,
                                       duration:
                                           const Duration(milliseconds: 300),
-                                      width: f1Width,
+                                      width: _f1Width,
                                       child: _TokenQuantityInput(
                                         quantityController:
                                             _quantityPayController,
@@ -213,17 +221,18 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                       curve: Curves.easeInOut,
                                       duration:
                                           const Duration(milliseconds: 300),
-                                      width: f2Width,
+                                      width: _f2Width,
                                       child: TokenPicker(
                                         title: 'You Pay',
                                         onSubmitted: (value) async {
                                           await _updateRate(value);
+                                          if (!mounted) return;
                                           setState(() {
-                                            payToken = value;
+                                            _payToken = value;
                                           });
                                         },
-                                        token: payToken,
-                                        size: !isExpanded
+                                        token: _payToken,
+                                        size: !_isExpanded
                                             ? TokenPickerSize.big
                                             : TokenPickerSize.small,
                                       ),
@@ -286,14 +295,15 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                       curve: Curves.easeInOut,
                                       duration:
                                           const Duration(milliseconds: 300),
-                                      width: f3Width,
+                                      width: _f3Width,
                                       child: _TokenQuantityInput(
                                         quantityController:
                                             _quantityReveiveController,
                                         crypto: crypto,
                                         symbol: Token.usdc.symbol,
                                         fiatRate: Amount.fromDecimal(
-                                          value: Decimal.tryParse('1')!,
+                                          value: Decimal.tryParse('1') ??
+                                              Decimal.zero,
                                           currency: Currency.usdc,
                                         ),
                                         maxButton: false,
@@ -302,17 +312,18 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                     AnimatedContainer(
                                       duration:
                                           const Duration(milliseconds: 300),
-                                      width: f4Width,
+                                      width: _f4Width,
                                       child: TokenPicker(
                                         title: 'You Receive',
-                                        token: recieveToken,
+                                        token: _recieveToken,
                                         onSubmitted: (value) async {
                                           await _updateRate(value);
+                                          if (!mounted) return;
                                           setState(() {
-                                            recieveToken = value;
+                                            _recieveToken = value;
                                           });
                                         },
-                                        size: !isExpanded
+                                        size: !_isExpanded
                                             ? TokenPickerSize.big
                                             : TokenPickerSize.small,
                                       ),
@@ -481,7 +492,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
               left: 26,
               bottom: 9,
               child: Text(
-                r'≈ $' + buildUsdcAmountText,
+                r'≈ $' + _buildUsdcAmountText,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
@@ -492,7 +503,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         ],
       );
 
-  String get buildUsdcAmountText =>
+  String get _buildUsdcAmountText =>
       ((num.tryParse(widget.quantityController.text) ?? 1) *
               widget.fiatRate.decimal.toDouble())
           .toStringAsFixed(2);

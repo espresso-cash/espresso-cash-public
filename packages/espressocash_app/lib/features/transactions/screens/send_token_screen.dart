@@ -39,19 +39,24 @@ class SendTokenScreen extends StatefulWidget {
 class _SendTokenScreenState extends State<SendTokenScreen> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _recipientController = TextEditingController();
-  double inputAmount = 0;
-  double textHeight = 1.2;
-  bool visibility = false;
 
-  late Decimal rate;
+  late Decimal _rate;
+
   @override
   void initState() {
     super.initState();
-    rate = sl<ConversionRatesRepository>().readRate(
+    _rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: widget.token),
           to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
+  }
+
+  @override
+  void dispose() {
+    _quantityController.dispose();
+    _recipientController.dispose();
+    super.dispose();
   }
 
   Future<void> _handleOnQrScan() async {
@@ -69,6 +74,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
   Widget build(BuildContext context) => LoadBalancesWrapper(
         builder: (context, onRefresh) {
           onRefresh();
+
           return ValueStreamBuilder<CryptoFiatAmount>(
             create: () => (
               sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
@@ -81,7 +87,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
               final crypto = value.$1;
 
               final fiatRate =
-                  Amount.fromDecimal(value: rate, currency: Currency.usd);
+                  Amount.fromDecimal(value: _rate, currency: Currency.usd);
 
               return Provider<Token>.value(
                 value: widget.token,
@@ -131,11 +137,9 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                             ),
                             const SizedBox(height: 8),
                             CpTextField(
-                              padding: const EdgeInsets.only(
-                                top: 16,
-                                bottom: 16,
-                                left: 24,
-                                right: 24,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 24,
                               ),
                               height: 72,
                               controller: _recipientController,
@@ -261,11 +265,9 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
   Widget build(BuildContext context) => Stack(
         children: [
           CpTextField(
-            padding: const EdgeInsets.only(
-              top: 16,
-              bottom: 16,
-              left: 24,
-              right: 24,
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 24,
             ),
             height: 72,
             controller: widget._quantityController,
@@ -301,7 +303,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
               left: 26,
               bottom: 7,
               child: Text(
-                r'≈ $' + buildUsdcAmountText,
+                r'≈ $' + _buildUsdcAmountText,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
@@ -312,7 +314,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         ],
       );
 
-  String get buildUsdcAmountText =>
+  String get _buildUsdcAmountText =>
       ((num.tryParse(widget._quantityController.text.split(' ')[0]) ?? 1) *
               widget.fiatRate.decimal.toDouble())
           .toStringAsFixed(2);
