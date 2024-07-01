@@ -124,13 +124,14 @@ class OnRampOrderScreenContent extends StatelessWidget {
     };
 
     final String? statusSubtitle = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForPartner ||
+      OnRampOrderStatus.postProcessing =>
+        context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge =>
         'Transfer could take a few minutes...',
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||
-      OnRampOrderStatus.postProcessing ||
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.failure ||
       OnRampOrderStatus.completed =>

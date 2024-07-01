@@ -101,7 +101,7 @@ window.addEventListener("message", (event) => {
       this,
       url: uri,
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: null,
     );
   }

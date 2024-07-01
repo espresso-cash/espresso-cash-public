@@ -310,7 +310,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                         WebViewScreen.push(
                           context,
                           url: Uri.parse(deposit.moreInfoUrl ?? ''),
-                          title: 'MoneyGram',
+                          title: context.l10n.depositTitle.toUpperCase(),
                           theme: const CpThemeData.light(),
                         );
                       },
