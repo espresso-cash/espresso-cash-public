@@ -492,6 +492,8 @@
   "@swapErrorTitle": {},
   "swapFailUnknown": "An unkown error ocurred while submitting your transaction",
   "@swapFailUnknown": {},
+  "swap": "Swap",
+  "@swap": {},
   "terms": "Terms",
   "@terms": {},
   "termsOfUse": "Terms of Use",

@@ -6,7 +6,6 @@ import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
-import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/widgets/recent_activity.dart';
@@ -18,6 +17,7 @@ import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../tokens/token.dart';
 import '../../transactions/screens/send_token_screen.dart';
+import '../../transactions/screens/swap_token_screen.dart';
 import '../widgets/loader_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
@@ -285,12 +285,9 @@ class _SwapButton extends StatelessWidget {
               text: 'Swap',
               minWidth: 106,
               size: CpButtonSize.big,
-              onPressed: () => showInfoDialog(
+              onPressed: () => SwapTokenScreen.push(
                 context,
-                title: 'Swap',
-                message: 'Coming soon!',
-                confirmLabel: 'OK',
-                onConfirm: () {},
+                token: token,
               ),
             ),
             const SizedBox(width: 14),
