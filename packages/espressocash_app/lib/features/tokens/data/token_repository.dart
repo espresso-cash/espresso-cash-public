@@ -6,6 +6,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,7 +15,7 @@ import '../../../gen/assets.gen.dart';
 import '../token.dart';
 
 @singleton
-class TokenListRepository {
+class TokenListRepository implements Disposable {
   TokenListRepository(this._db) {
     initialize();
   }
@@ -43,16 +44,14 @@ class TokenListRepository {
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
 
-  Future<dynamic> insertToken(TokenRow token) => _db.transaction(() async {
-        await _db.into(_db.tokenRows).insert(
-              token,
-              mode: InsertMode.insertOrReplace,
-            );
-      });
+  Future<int> insertToken(TokenRow token) => _db.into(_db.tokenRows).insert(
+        token,
+        mode: InsertMode.insertOrReplace,
+      );
 
   Future<dynamic> insertTokens(Iterable<TokenRow> tokens) =>
       _db.transaction(() async {
-        await clearAllTokens();
+        await onDispose();
         await _db.batch(
           (batch) => batch.insertAll(
             _db.tokenRows,
@@ -73,13 +72,14 @@ class TokenListRepository {
         );
       });
 
-  Future<dynamic> updateToken(Insertable<TokenRow> token) =>
+  Future<void> updateToken(TokenRow token) =>
       _db.update(_db.tokenRows).replace(token);
 
-  Future<dynamic> deleteToken(Insertable<TokenRow> token) =>
+  Future<void> deleteToken(TokenRow token) =>
       _db.delete(_db.tokenRows).delete(token);
 
-  Future<dynamic> clearAllTokens() => _db.delete(_db.tokenRows).go();
+  @override
+  Future<void> onDispose() => _db.delete(_db.tokenRows).go();
 
   Future<Either<Exception, void>> _initializeDatabaseFromCsvFile(
     String filePath,
