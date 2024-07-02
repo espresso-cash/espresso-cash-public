@@ -11,6 +11,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
@@ -42,7 +43,7 @@ extension BuildContextExt on BuildContext {
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
       type: RampType.onRamp,
-      calculateEquivalent: (amount) => _calculateMoneygramFee(
+      calculateEquivalent: (amount) => _calculateFees(
         amount: amount,
         type: RampType.onRamp,
       ),
@@ -154,14 +155,13 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  Future<Either<Exception, ({Amount amount, String? rate})>>
-      _calculateMoneygramFee({
+  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
     required Amount amount,
     required RampType type,
   }) async {
     final client = sl<EspressoCashClient>();
 
-    final fee = await client.calculateMoneygramFee(
+    final allbridgeFee = await client.calculateMoneygramFee(
       MoneygramFeeRequestDto(
         type:
             type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
@@ -169,14 +169,38 @@ window.addEventListener("message", (event) => {
       ),
     );
 
+    final moneygramFee = _calculateMoneyGramFee(amount);
+
     return Either.right(
       (
         amount: Amount.fromDecimal(
-          value: Decimal.parse(fee.amount),
+          value: Decimal.parse(allbridgeFee.amount),
           currency: Currency.usdc,
         ),
-        rate: null
+        rate: 'You will pay ${moneygramFee.format(locale)} USDC'
       ),
     );
   }
+}
+
+// Based on fee table sent by MoneyGram
+Amount _calculateMoneyGramFee(Amount input) {
+  final amount = input.decimal.toDouble();
+
+  double feeAmount;
+
+  if (amount < 1) {
+    throw ArgumentError('Invalid transaction amount');
+  } else if (amount <= 99) {
+    feeAmount = 2.0;
+  } else if (amount <= 999) {
+    feeAmount = 2.0 + 0.01 * amount;
+  } else {
+    feeAmount = 10.0 + 0.005 * amount;
+  }
+
+  return Amount.fromDecimal(
+    value: Decimal.parse(feeAmount.toString()),
+    currency: Currency.usd,
+  );
 }
