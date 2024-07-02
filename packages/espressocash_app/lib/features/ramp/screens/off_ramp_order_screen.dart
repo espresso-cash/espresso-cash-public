@@ -179,8 +179,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
 
-    final showAdditionalInfo = order.partner == RampPartner.moneygram &&
-        order.status == OffRampOrderStatus.completed;
+    final showAdditionalInfo = isMoneygramOrder &&
+        (order.status == OffRampOrderStatus.completed ||
+            order.status == OffRampOrderStatus.refunded);
 
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
@@ -330,6 +331,7 @@ class _MgAdditionalInfo extends StatelessWidget {
                   TextSpan(
                     text: 'Click here',
                     style: const TextStyle(
+                      color: Color(0xffCB6E00),
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.bold,
                     ),

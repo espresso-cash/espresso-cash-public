@@ -149,12 +149,12 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const CpThemeData.light()
         : const CpThemeData.black();
 
-    final depositAmount = (order.partner == RampPartner.moneygram)
+    final depositAmount = isMoneygramOrder
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
-    final showAdditionalInfo = order.partner == RampPartner.moneygram &&
-        order.status == OnRampOrderStatus.completed;
+    final showAdditionalInfo =
+        isMoneygramOrder && order.status == OnRampOrderStatus.completed;
 
     return StatusScreen(
       title: context.l10n.depositTitle.toUpperCase(),
@@ -268,6 +268,7 @@ class _MgAdditionalInfo extends StatelessWidget {
                   TextSpan(
                     text: 'Click here',
                     style: const TextStyle(
+                      color: Color(0xffCB6E00),
                       decoration: TextDecoration.underline,
                       fontWeight: FontWeight.bold,
                     ),
