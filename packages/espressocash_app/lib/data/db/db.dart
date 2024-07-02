@@ -146,6 +146,7 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.solanaBridgeTx,
             );
+            await m.addColumn(offRampOrderRows, offRampOrderRows.referenceNumber);
           }
         },
       );
@@ -204,6 +205,7 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get solanaBridgeTx => text().nullable()();
   TextColumn get stellarTxHash => text().nullable()();
   IntColumn get bridgeAmount => integer().nullable()();
+  TextColumn get referenceNumber => text().nullable()();
 }
 
 enum OnRampOrderStatus {

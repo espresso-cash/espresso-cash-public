@@ -481,6 +481,7 @@ class MoneygramOffRampOrderService implements Disposable {
     final withdrawAnchorAccount = transaction.withdrawAnchorAccount;
     final withdrawMemo = transaction.withdrawMemo;
     final moreInfoUrl = transaction.moreInfoUrl;
+    final referenceNumber = transaction.externalTransactionId;
 
     final updateQuery = _db.update(_db.offRampOrderRows)
       ..where((tbl) => tbl.id.equals(id));
@@ -492,6 +493,7 @@ class MoneygramOffRampOrderService implements Disposable {
         withdrawAnchorAccount: Value(withdrawAnchorAccount),
         withdrawMemo: Value(withdrawMemo),
         moreInfoUrl: Value(moreInfoUrl),
+        referenceNumber: Value(referenceNumber),
         feeAmount: Value(fee.value),
         feeToken: Value(fee.token.address),
         status: const Value(OffRampOrderStatus.sendingDepositTx),

@@ -44,6 +44,7 @@ typedef OffRampOrder = ({
   String? withdrawAnchorAccount,
   String? withdrawUrl,
   String? authToken,
+  String? referenceNumber,
   CryptoAmount? bridgeAmount,
 });
 
@@ -166,6 +167,7 @@ class OffRampOrderService implements Disposable {
         fee: fee,
         withdrawUrl: row.withdrawUrl,
         authToken: row.authToken,
+        referenceNumber: row.referenceNumber,
         bridgeAmount: bridgeAmount,
       );
     });

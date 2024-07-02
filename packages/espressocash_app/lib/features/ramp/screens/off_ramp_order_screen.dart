@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
@@ -16,6 +17,7 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -23,6 +25,7 @@ import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
 import '../partners/moneygram/widgets/extensions.dart';
+import '../partners/moneygram/widgets/style.dart';
 import '../services/off_ramp_order_service.dart';
 import '../widgets/off_ramp_confirmation.dart';
 
@@ -176,6 +179,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
 
+    final showAdditionalInfo = order.partner == RampPartner.moneygram &&
+        order.status == OffRampOrderStatus.completed;
+
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
       const Text(
@@ -204,6 +210,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
               amount: totalAmount,
             ),
             const Spacer(flex: 4),
+            if (showAdditionalInfo) _MgAdditionalInfo(order: order),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
@@ -290,6 +297,61 @@ class _ContactUsButton extends StatelessWidget {
         width: double.infinity,
         text: context.l10n.contactUs,
         onPressed: () => sl<IntercomService>().displayMessenger(),
+      );
+}
+
+class _MgAdditionalInfo extends StatelessWidget {
+  const _MgAdditionalInfo({
+    required this.order,
+  });
+  final OffRampOrder order;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (order.referenceNumber case final referenceNumber?)
+            Text(
+              'Reference number: $referenceNumber',
+              style: _additionalInfoTextStyle,
+            ),
+          if (order.fee case final fee?)
+            Text(
+              'Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+              style: _additionalInfoTextStyle,
+            ),
+          if (order.moreInfoUrl case final moreInfoUrl?)
+            Text.rich(
+              TextSpan(
+                style: _additionalInfoTextStyle,
+                children: <TextSpan>[
+                  const TextSpan(
+                    text: 'Additional info: ',
+                  ),
+                  TextSpan(
+                    text: 'Click here',
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        WebViewScreen.push(
+                          context,
+                          url: Uri.parse(moreInfoUrl),
+                          title: context.l10n.depositTitle.toUpperCase(),
+                          theme: const CpThemeData.light(),
+                          onLoaded: (controller) async {
+                            await controller.evaluateJavascript(
+                              source: await loadMoneygramStyle(),
+                            );
+                          },
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
+        ],
       );
 }
 
@@ -474,3 +536,8 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 }
+
+const _additionalInfoTextStyle = TextStyle(
+  color: Color(0xFF979593),
+  fontSize: 14,
+);
