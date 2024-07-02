@@ -9,7 +9,6 @@ import 'package:solana/solana.dart';
 
 import '../../../config.dart';
 import '../models/tx_results.dart';
-import 'extensions.dart';
 
 @injectable
 class TxSender {
@@ -77,12 +76,7 @@ class TxSender {
     )
       ..setData('txId', tx.id)
       // ignore: avoid-missing-interpolation, intentional string
-      ..setTag('txType', txType)
-      ..setMeasurement(
-        'compute_unit_price',
-        tx.computeUnitPrice?.toInt() ?? 0,
-        unit: CustomSentryMeasurementUnit('microlamports'),
-      );
+      ..setTag('txType', txType);
 
     const commitment = Commitment.confirmed;
     final start = DateTime.now();

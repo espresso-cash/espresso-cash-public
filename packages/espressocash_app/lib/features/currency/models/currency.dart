@@ -69,6 +69,13 @@ FiatCurrency currencyFromString(String currency) {
     case 'NGN':
       return Currency.ngn;
     default:
-      return defaultFiatCurrency;
+      return _fallbackFiatCurrency(currency);
   }
 }
+
+FiatCurrency _fallbackFiatCurrency(String currency) => FiatCurrency(
+      symbol: currency,
+      sign: currency,
+      name: currency,
+      decimals: 2,
+    );

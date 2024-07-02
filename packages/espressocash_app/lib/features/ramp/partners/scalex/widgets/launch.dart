@@ -15,13 +15,13 @@ import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
+import '../../../services/on_ramp_order_service.dart';
 import '../data/scalex_repository.dart';
 
 extension BuildContextExt on BuildContext {
@@ -54,11 +54,13 @@ extension BuildContextExt on BuildContext {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
-      calculateEquivalent: (Amount amount) => (
-        amount: amount.calculateOnRampFee(
-          exchangeRate: rampRate,
+      calculateEquivalent: (Amount amount) async => Either.right(
+        (
+          amount: amount.calculateOnRampFee(
+            exchangeRate: rampRate,
+          ),
+          rate: '1 USDC = $rampRate NGN'
         ),
-        rate: '1 USDC = $rampRate NGN'
       ),
       partnerFeeLabel: 'Partner Fee: ${rampFeePercentage * 100}% + \$$fixedFee',
       type: RampType.onRamp,
@@ -123,6 +125,7 @@ extension BuildContextExt on BuildContext {
               transferAmount: transferAmount,
               transferExpiryDate:
                   DateTime.now().add(const Duration(minutes: 30)),
+              submittedAmount: submittedAmount,
             )
                 .then((order) {
               switch (order) {
@@ -149,7 +152,7 @@ window.addEventListener("message", (event) => {
       this,
       url: Uri.parse(link),
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: const CpThemeData.black(),
     );
   }
@@ -179,13 +182,15 @@ window.addEventListener("message", (event) => {
       },
       minAmount: partner.minimumAmountInDecimal,
       currency: Currency.usdc,
-      calculateEquivalent: (amount) => (
-        amount: amount.calculateOffRampFee(
-          exchangeRate: rateAndFee.offRampRate,
-          percentageFee: rateAndFee.offRampFeePercentage,
-          fixedFee: rateAndFee.fixedOffRampFee,
+      calculateEquivalent: (amount) async => Either.right(
+        (
+          amount: amount.calculateOffRampFee(
+            exchangeRate: rateAndFee.offRampRate,
+            percentageFee: rateAndFee.offRampFeePercentage,
+            fixedFee: rateAndFee.fixedOffRampFee,
+          ),
+          rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
         ),
-        rate: '1 USDC = ${rateAndFee.offRampRate} NGN'
       ),
       partnerFeeLabel:
           'Partner Fee: ${rateAndFee.offRampFeePercentage * 100}% + \$${rateAndFee.fixedOffRampFee} (included)',
