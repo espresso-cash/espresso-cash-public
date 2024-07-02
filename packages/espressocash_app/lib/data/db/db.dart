@@ -124,6 +124,8 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
             await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
             await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
 
           if (from < 54) {
@@ -171,6 +173,8 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get authToken => text().nullable()();
   TextColumn get moreInfoUrl => text().nullable()();
   TextColumn get stellarTxHash => text().nullable()();
+  IntColumn get feeAmount => integer().nullable()();
+  TextColumn get referenceNumber => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {

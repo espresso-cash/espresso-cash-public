@@ -38,9 +38,9 @@ final onRampOrderScreenStory = Story(
           currency: Currency.ngn,
         ) as FiatAmount,
         transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
-        moreInfoUrl: 'https://google.com'
       ),
       authToken: null,
+      additionalDetails: (fee: null, moreInfoUrl: null, referenceNumber: null),
     ),
   ),
 );

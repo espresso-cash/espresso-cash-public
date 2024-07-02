@@ -1,4 +1,5 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
@@ -13,12 +14,14 @@ import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
+import '../partners/moneygram/widgets/style.dart';
 import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
 
@@ -97,7 +100,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           orderId: order.id,
           orderCreated: order.created,
           receiveAmount: order.receiveAmount,
-          moreInfoUrl: manualDeposit.moreInfoUrl,
+          moreInfoUrl: order.additionalDetails.moreInfoUrl,
         ),
       );
     }
@@ -150,6 +153,9 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
+    final showAdditionalInfo = order.partner == RampPartner.moneygram &&
+        order.status == OnRampOrderStatus.completed;
+
     return StatusScreen(
       title: context.l10n.depositTitle.toUpperCase(),
       statusType: order.status.toStatusType(),
@@ -180,6 +186,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
               partner: order.partner,
             ),
             const Spacer(flex: 4),
+            if (showAdditionalInfo)
+              _MgAdditionalInfo(details: order.additionalDetails),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
@@ -227,6 +235,61 @@ class _ContactUsButton extends StatelessWidget {
         width: double.infinity,
         text: context.l10n.contactUs,
         onPressed: () => sl<IntercomService>().displayMessenger(),
+      );
+}
+
+class _MgAdditionalInfo extends StatelessWidget {
+  const _MgAdditionalInfo({
+    required this.details,
+  });
+  final AdditionalDetails details;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (details.referenceNumber case final referenceNumber?)
+            Text(
+              'Reference number: $referenceNumber',
+              style: _additionalInfoTextStyle,
+            ),
+          if (details.fee case final fee?)
+            Text(
+              'Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+              style: _additionalInfoTextStyle,
+            ),
+          if (details.moreInfoUrl case final moreInfoUrl?)
+            Text.rich(
+              TextSpan(
+                style: _additionalInfoTextStyle,
+                children: <TextSpan>[
+                  const TextSpan(
+                    text: 'Additional info: ',
+                  ),
+                  TextSpan(
+                    text: 'Click here',
+                    style: const TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        WebViewScreen.push(
+                          context,
+                          url: Uri.parse(moreInfoUrl),
+                          title: context.l10n.depositTitle.toUpperCase(),
+                          theme: const CpThemeData.light(),
+                          onLoaded: (controller) async {
+                            await controller.evaluateJavascript(
+                              source: await loadMoneygramStyle(),
+                            );
+                          },
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
+        ],
       );
 }
 
@@ -341,4 +404,9 @@ const _contentSubtitleTextStyle = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.23,
+);
+
+const _additionalInfoTextStyle = TextStyle(
+  color: Color(0xFF979593),
+  fontSize: 14,
 );
