@@ -43,25 +43,8 @@ class OnRampDepositWidget extends StatelessWidget {
   final RampPartner partner;
   final Deposit deposit;
 
-  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
-        context,
-        title: 'Confirm Deposit',
-        titleStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-        message:
-            'Have you deposit the funds to the selected MoneyGram location?',
-        messageStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
-        onConfirm: () {
-          sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
-        },
-      );
+  void _handleConfirmPress() =>
+      sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +63,12 @@ class OnRampDepositWidget extends StatelessWidget {
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
           formattedReceiveAmount: formattedReceiveAmount,
-          onConfirmPress: () =>
-              sl<OnRampOrderService>().confirmDeposit(deposit.orderId),
+          onConfirmPress: _handleConfirmPress,
         ),
       RampPartner.moneygram => _MoneygramDepositContent(
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
-          onConfirmPress: () => _handleConfirmPress(context),
+          onConfirmPress: _handleConfirmPress,
         ),
       RampPartner.kado ||
       RampPartner.rampNetwork ||
@@ -109,6 +91,24 @@ class _ScalexDepositContent extends StatelessWidget {
   final String formattedTransferAmount;
   final String? formattedReceiveAmount;
   final VoidCallback onConfirmPress;
+
+  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
+        context,
+        title: 'Confirm Deposit',
+        titleStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+        message:
+            'Have you deposit the funds to the selected MoneyGram location?',
+        messageStyle: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+        onConfirm: onConfirmPress.call,
+      );
 
   @override
   Widget build(BuildContext context) => CpTheme.black(
@@ -209,7 +209,7 @@ class _ScalexDepositContent extends StatelessWidget {
               padding: const EdgeInsets.all(24.0),
               child: CpButton(
                 width: double.infinity,
-                onPressed: onConfirmPress,
+                onPressed: () => _handleConfirmPress(context),
                 text: context.l10n.ramp_btnContinue,
               ),
             ),
@@ -258,8 +258,10 @@ class _MoneygramDepositContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 16),
-                    Assets.gifs.moneygramConfirmationAnimation.image(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Assets.gifs.moneygramConfirmationAnimation.image(),
+                    ),
                     const SizedBox(height: 16),
                     Assets.images.moneygramLogo.image(height: 32),
                     const SizedBox(height: 16),
@@ -325,7 +327,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                         context.l10n.viewMoneygramTransferInstructions,
                         style: const TextStyle(
                           color: Color(0xffCB6E00),
-                          fontSize: 17,
+                          fontSize: 16,
                           fontWeight: FontWeight.w400,
                           decoration: TextDecoration.underline,
                         ),

@@ -318,9 +318,12 @@ class _Timeline extends StatelessWidget {
       trailing: amount.format(context.locale),
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
+
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
-      trailing: order.bridgeAmount?.format(context.locale, maxDecimals: 2),
+      trailing: order.bridgeAmount?.let(
+        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+      ),
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,

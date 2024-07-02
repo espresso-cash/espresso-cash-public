@@ -182,7 +182,7 @@ class MoneygramOffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
-            bridgeAmount: receiveAmount?.value,
+            bridgeAmount: 0,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
