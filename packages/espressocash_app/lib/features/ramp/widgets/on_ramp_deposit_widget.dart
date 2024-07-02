@@ -260,7 +260,8 @@ class _MoneygramDepositContent extends StatelessWidget {
                   ],
                 ),
               ),
-              CpContentPadding(
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -287,7 +288,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
                       child: Text(
                         context.l10n.moneygramInstructionText,
                         style: const TextStyle(
@@ -301,7 +302,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                     ),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 45),
                       child: CpButton(
                         size: CpButtonSize.big,
                         width: double.infinity,
