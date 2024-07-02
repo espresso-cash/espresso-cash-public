@@ -340,7 +340,7 @@ class _MgAdditionalInfo extends StatelessWidget {
                         WebViewScreen.push(
                           context,
                           url: Uri.parse(moreInfoUrl),
-                          title: context.l10n.depositTitle.toUpperCase(),
+                          title: context.l10n.ramp_titleCashOut,
                           theme: const CpThemeData.light(),
                           onLoaded: (controller) async {
                             await controller.evaluateJavascript(
