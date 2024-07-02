@@ -25,13 +25,18 @@ final offRampAmountScreenStory = Story(
       initial: RampType.onRamp,
       options: RampType.values.toOptions(),
     ),
-    calculateEquivalent: (amount) => (
-      amount: FiatAmount(
-        value:
-            Currency.usd.decimalToInt(amount.decimal * Decimal.parse('0.95')),
-        fiatCurrency: Currency.usd,
+    calculateEquivalent: (amount) async => Future.delayed(
+      Duration.zero,
+      () => Either.right(
+        (
+          amount: FiatAmount(
+            value: Currency.usd
+                .decimalToInt(amount.decimal * Decimal.parse('0.95')),
+            fiatCurrency: Currency.usd,
+          ),
+          rate: '1 USDC = 1234 USD'
+        ),
       ),
-      rate: '1 USDC = 1234 USD'
     ),
     calculateFee: (amount) => CryptoAmount(
       value: Currency.usdc.decimalToInt(amount.decimal * Decimal.parse('0.05')),

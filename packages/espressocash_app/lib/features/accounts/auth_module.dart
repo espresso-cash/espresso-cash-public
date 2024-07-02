@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
-
 import 'auth_scope.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';

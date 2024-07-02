@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 52;
+const int latestVersion = 53;
 
 const _tables = [
   OutgoingTransferRows,
@@ -119,6 +119,12 @@ class MyDatabase extends _$MyDatabase {
           if (from < 52) {
             await m.createTable(tokenBalanceRows);
           }
+
+          if (from < 53) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
+          }
         },
       );
 }
@@ -140,6 +146,11 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
   IntColumn get bankTransferAmount => integer().nullable()();
   TextColumn get fiatSymbol => text().nullable()();
+
+  // Moneygram
+  TextColumn get authToken => text().nullable()();
+  TextColumn get moreInfoUrl => text().nullable()();
+  TextColumn get stellarTxHash => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -167,6 +178,10 @@ enum OnRampOrderStatus {
   waitingForPartner,
   failure,
   completed,
+  pending, // MG
+  preProcessing, // MG
+  postProcessing, // MG
+  waitingForBridge, // MG
 }
 
 enum OffRampOrderStatus {

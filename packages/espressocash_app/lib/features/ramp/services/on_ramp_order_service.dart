@@ -25,6 +25,7 @@ typedef OnRampOrder = ({
   OnRampOrderStatus status,
   String partnerOrderId,
   DepositDetails? manualDeposit,
+  String? authToken,
 });
 
 typedef DepositDetails = ({
@@ -32,6 +33,7 @@ typedef DepositDetails = ({
   String bankName,
   DateTime transferExpiryDate,
   FiatAmount transferAmount,
+  String? moreInfoUrl
 });
 
 @Singleton(scope: authScope)
@@ -53,6 +55,10 @@ class OnRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      if (order.partner == RampPartner.moneygram) {
+        continue;
+      }
+
       _subscribe(order.id);
     }
   }
@@ -88,6 +94,8 @@ class OnRampOrderService implements Disposable {
             bankTransferExpiry: transferExpiryDate,
             bankTransferAmount: transferAmount?.value,
             fiatSymbol: transferAmount?.currency.symbol,
+            authToken: null,
+            moreInfoUrl: null,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -100,16 +108,17 @@ class OnRampOrderService implements Disposable {
   AsyncResult<String> createForManualTransfer({
     required String orderId,
     required RampPartner partner,
-    required CryptoAmount receiveAmount,
-    required String bankAccount,
-    required String bankName,
-    required DateTime transferExpiryDate,
+    required CryptoAmount submittedAmount,
+    required CryptoAmount? receiveAmount,
+    required String? bankAccount,
+    required String? bankName,
+    required DateTime? transferExpiryDate,
     required FiatAmount transferAmount,
   }) =>
       create(
         orderId: orderId,
         partner: partner,
-        submittedAmount: receiveAmount,
+        submittedAmount: submittedAmount,
         receiveAmount: receiveAmount,
         bankAccount: bankAccount,
         bankName: bankName,
@@ -137,6 +146,10 @@ class OnRampOrderService implements Disposable {
       case OnRampOrderStatus.waitingForPartner:
       case OnRampOrderStatus.failure:
       case OnRampOrderStatus.completed:
+      case OnRampOrderStatus.pending:
+      case OnRampOrderStatus.preProcessing:
+      case OnRampOrderStatus.postProcessing:
+      case OnRampOrderStatus.waitingForBridge:
         break;
     }
   }
@@ -166,9 +179,9 @@ class OnRampOrderService implements Disposable {
         final transferExpiryDate = row.bankTransferExpiry;
         final transferAmount = row.bankTransferAmount;
         final fiatSymbol = row.fiatSymbol;
+        final moreInfoUrl = row.moreInfoUrl;
 
-        final isManualDeposit = bankAccount != null &&
-            bankName != null &&
+        final isManualDeposit = bankName != null &&
             transferExpiryDate != null &&
             transferAmount != null &&
             fiatSymbol != null;
@@ -195,15 +208,17 @@ class OnRampOrderService implements Disposable {
           partnerOrderId: row.partnerOrderId,
           manualDeposit: isManualDeposit
               ? (
-                  bankAccount: bankAccount,
+                  bankAccount: bankAccount ?? '',
                   bankName: bankName,
                   transferExpiryDate: transferExpiryDate,
                   transferAmount: FiatAmount(
                     value: transferAmount,
                     fiatCurrency: currencyFromString(fiatSymbol),
                   ),
+                  moreInfoUrl: moreInfoUrl
                 )
               : null,
+          authToken: row.authToken,
         );
       },
     );
@@ -211,7 +226,10 @@ class OnRampOrderService implements Disposable {
 
   Stream<IList<({String id, DateTime created})>> watchPending() {
     final query = _db.select(_db.onRampOrderRows)
-      ..where((tbl) => tbl.isCompleted.equals(false));
+      ..where(
+        (tbl) =>
+            tbl.isCompleted.equals(false) & tbl.status.isNotValue('pending'),
+      );
 
     return query
         .watch()
