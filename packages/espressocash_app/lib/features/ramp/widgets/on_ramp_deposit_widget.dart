@@ -260,15 +260,11 @@ class _MoneygramDepositContent extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24),
+              CpContentPadding(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: Assets.gifs.moneygramConfirmationAnimation.image(),
-                    ),
+                    Assets.gifs.moneygramConfirmationAnimation.image(),
                     const SizedBox(height: 16),
                     Assets.images.moneygramLogo.image(height: 32),
                     const SizedBox(height: 16),
@@ -291,7 +287,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
                       child: Text(
                         context.l10n.moneygramInstructionText,
                         style: const TextStyle(
@@ -305,7 +301,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                     ),
                     const Spacer(),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 45),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: CpButton(
                         size: CpButtonSize.big,
                         width: double.infinity,
