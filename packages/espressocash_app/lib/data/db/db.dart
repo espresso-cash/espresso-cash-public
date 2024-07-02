@@ -146,7 +146,10 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.solanaBridgeTx,
             );
-            await m.addColumn(offRampOrderRows, offRampOrderRows.referenceNumber);
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.referenceNumber,
+            );
           }
         },
       );
