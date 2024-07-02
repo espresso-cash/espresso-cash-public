@@ -247,10 +247,17 @@ class _MoneygramDepositContent extends StatelessWidget {
           ),
           body: Stack(
             children: [
-              SizedBox(
-                height: double.infinity,
-                child: Assets.icons.logoBgAlternative.svg(
-                  alignment: Alignment.bottomCenter,
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Stack(
+                  children: [
+                    Assets.icons.logoBgAlternative.svg(),
+                    const FadeGradient(
+                      height: 150,
+                      color: FadeGradientColor.white,
+                      direction: FadeGradientDirection.topDown,
+                    ),
+                  ],
                 ),
               ),
               Padding(
@@ -283,19 +290,17 @@ class _MoneygramDepositContent extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 12),
-                    _Wrapper(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          context.l10n.moneygramInstructionText,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            letterSpacing: 0.41,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        context.l10n.moneygramInstructionText,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          letterSpacing: 0.41,
+                          fontWeight: FontWeight.w400,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     const Spacer(),
@@ -340,24 +345,6 @@ class _MoneygramDepositContent extends StatelessWidget {
             ],
           ),
         ),
-      );
-}
-
-class _Wrapper extends StatelessWidget {
-  const _Wrapper({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => Stack(
-        children: [
-          const FadeGradient(
-            height: 150,
-            color: FadeGradientColor.white,
-            direction: FadeGradientDirection.topDown,
-          ),
-          child,
-        ],
       );
 }
 
