@@ -330,7 +330,7 @@ class MoneygramOffRampOrderService implements Disposable {
       cryptoCurrency: Currency.usdc,
     );
 
-    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
+    final xlmBalance = await _stellarClient.getXlmBalance();
 
     if (xlmBalance <= _minimumInitBalance) {
       await _ecClient.fundXlmRequest(
@@ -342,7 +342,6 @@ class MoneygramOffRampOrderService implements Disposable {
     }
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
-      accountId,
       amount: cashOutAmount.decimal.toDouble(),
     );
 
@@ -612,15 +611,12 @@ class MoneygramOffRampOrderService implements Disposable {
   }
 
   Future<OffRampOrderRowsCompanion?> _sendPayment(OffRampOrderRow order) async {
-    final accountId = _stellarWallet.address;
-
     final amount = CryptoAmount(
       value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
     final transactionSucceed = await _stellarClient.sendUsdc(
-      accountId,
       destinationAddress: order.withdrawAnchorAccount ?? '',
       memo: order.withdrawMemo ?? '',
       amount: amount.decimal.toString(),
