@@ -92,24 +92,6 @@ class _ScalexDepositContent extends StatelessWidget {
   final String? formattedReceiveAmount;
   final VoidCallback onConfirmPress;
 
-  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
-        context,
-        title: 'Confirm Deposit',
-        titleStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-        message:
-            'Have you deposit the funds to the selected MoneyGram location?',
-        messageStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
-        onConfirm: onConfirmPress.call,
-      );
-
   @override
   Widget build(BuildContext context) => CpTheme.black(
         child: Scaffold(
@@ -209,7 +191,7 @@ class _ScalexDepositContent extends StatelessWidget {
               padding: const EdgeInsets.all(24.0),
               child: CpButton(
                 width: double.infinity,
-                onPressed: () => _handleConfirmPress(context),
+                onPressed: onConfirmPress,
                 text: context.l10n.ramp_btnContinue,
               ),
             ),
@@ -228,6 +210,24 @@ class _MoneygramDepositContent extends StatelessWidget {
   final Deposit deposit;
   final String formattedTransferAmount;
   final VoidCallback onConfirmPress;
+
+  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
+        context,
+        title: 'Confirm Deposit',
+        titleStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+        message:
+            'Have you deposit the funds to the selected MoneyGram location?',
+        messageStyle: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+        onConfirm: onConfirmPress.call,
+      );
 
   @override
   Widget build(BuildContext context) => CpTheme.light(
@@ -304,7 +304,7 @@ class _MoneygramDepositContent extends StatelessWidget {
                       child: CpButton(
                         size: CpButtonSize.big,
                         width: double.infinity,
-                        onPressed: onConfirmPress,
+                        onPressed: () => _handleConfirmPress(context),
                         text: context.l10n.confirmTransfer,
                       ),
                     ),
