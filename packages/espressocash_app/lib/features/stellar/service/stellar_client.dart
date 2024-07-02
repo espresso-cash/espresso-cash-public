@@ -45,9 +45,9 @@ class StellarClient {
     );
   }
 
-  Future<double> getXlmBalance(String accountId) async {
+  Future<double> getXlmBalance() async {
     try {
-      final account = await _sdk.accounts.account(accountId);
+      final account = await _sdk.accounts.account(_stellarWallet.address);
       final nativeAsset = AssetTypeNative();
 
       for (final balance in account.balances) {
@@ -62,9 +62,9 @@ class StellarClient {
     return 0.0;
   }
 
-  Future<double?> getUsdcBalance(String accountId) async {
+  Future<double?> getUsdcBalance() async {
     try {
-      final account = await _sdk.accounts.account(accountId);
+      final account = await _sdk.accounts.account(_stellarWallet.address);
 
       for (final balance in account.balances) {
         if (balance.assetCode == 'USDC' &&
@@ -85,9 +85,9 @@ class StellarClient {
     return operations.records?.firstOrNull;
   }
 
-  Future<bool> hasUsdcTrustline(String accountId, {double? amount}) async {
+  Future<bool> hasUsdcTrustline({double? amount}) async {
     try {
-      final account = await _sdk.accounts.account(accountId);
+      final account = await _sdk.accounts.account(_stellarWallet.address);
 
       for (final balance in account.balances) {
         if (balance.assetCode == 'USDC' &&
@@ -109,9 +109,7 @@ class StellarClient {
     }
   }
 
-  Future<bool> createUsdcTrustline({
-    required double limit,
-  }) async {
+  Future<bool> createUsdcTrustline({required double limit}) async {
     final wallet = _stellarWallet.keyPair;
     final accountId = wallet.accountId;
     final account = await _sdk.accounts.account(accountId);
@@ -161,13 +159,12 @@ class StellarClient {
     return transactionResponse;
   }
 
-  Future<bool> sendUsdc(
-    String accountId, {
+  Future<bool> sendUsdc({
     required String destinationAddress,
     required String memo,
     required String amount,
   }) async {
-    final sourceAccount = await _sdk.accounts.account(accountId);
+    final sourceAccount = await _sdk.accounts.account(_stellarWallet.address);
 
     final Asset usdcAsset =
         Asset.createNonNativeAsset('USDC', moneygramAssetIssuer);

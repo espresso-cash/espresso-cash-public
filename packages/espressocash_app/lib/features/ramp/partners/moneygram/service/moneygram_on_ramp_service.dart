@@ -221,16 +221,16 @@ class MoneygramOnRampOrderService implements Disposable {
   Future<OnRampOrderRowsCompanion?> _preProcessingOrder(
     OnRampOrderRow order,
   ) async {
-    final accountId = _stellarWallet.address;
-
     final cashInAmount = CryptoAmount(
       value: order.amount,
       cryptoCurrency: Currency.usdc,
     );
 
-    final xlmBalance = await _stellarClient.getXlmBalance(accountId);
+    final xlmBalance = await _stellarClient.getXlmBalance();
 
     if (xlmBalance <= _minimumInitBalance) {
+      final accountId = _stellarWallet.address;
+
       await _ecClient.fundXlmRequest(
         FundXlmRequestDto(
           accountId: accountId,
@@ -240,7 +240,6 @@ class MoneygramOnRampOrderService implements Disposable {
     }
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
-      accountId,
       amount: cashInAmount.decimal.toDouble(),
     );
 
@@ -400,8 +399,7 @@ class MoneygramOnRampOrderService implements Disposable {
         return;
       }
 
-      final usdcBalance =
-          await _stellarClient.getUsdcBalance(_stellarWallet.address) ?? 0;
+      final usdcBalance = await _stellarClient.getUsdcBalance() ?? 0;
 
       if (usdcBalance == 0) {
         // Funds not received yet
