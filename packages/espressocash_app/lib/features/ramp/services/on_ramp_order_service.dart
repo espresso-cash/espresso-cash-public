@@ -26,6 +26,7 @@ typedef OnRampOrder = ({
   String partnerOrderId,
   DepositDetails? manualDeposit,
   String? authToken,
+  AdditionalDetails additionalDetails,
 });
 
 typedef DepositDetails = ({
@@ -33,6 +34,11 @@ typedef DepositDetails = ({
   String bankName,
   DateTime transferExpiryDate,
   FiatAmount transferAmount,
+});
+
+typedef AdditionalDetails = ({
+  FiatAmount? fee,
+  String? referenceNumber,
   String? moreInfoUrl
 });
 
@@ -186,6 +192,13 @@ class OnRampOrderService implements Disposable {
             transferAmount != null &&
             fiatSymbol != null;
 
+        final feeAmount = row.feeAmount?.let(
+          (it) => Amount(
+            value: it,
+            currency: currencyFromString(row.fiatSymbol ?? 'USD'),
+          ) as FiatAmount,
+        );
+
         return (
           id: row.id,
           created: row.created,
@@ -215,10 +228,14 @@ class OnRampOrderService implements Disposable {
                     value: transferAmount,
                     fiatCurrency: currencyFromString(fiatSymbol),
                   ),
-                  moreInfoUrl: moreInfoUrl
                 )
               : null,
           authToken: row.authToken,
+          additionalDetails: (
+            fee: feeAmount,
+            moreInfoUrl: moreInfoUrl,
+            referenceNumber: row.referenceNumber
+          ),
         );
       },
     );

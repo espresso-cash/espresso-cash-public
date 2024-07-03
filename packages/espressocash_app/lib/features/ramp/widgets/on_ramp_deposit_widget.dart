@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../di.dart';
+import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/back_button.dart';
@@ -9,6 +10,7 @@ import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/content_padding.dart';
 import '../../../ui/dialogs.dart';
+import '../../../ui/page_spacer_wrapper.dart';
 import '../../../ui/rounded_rectangle.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/theme.dart';
@@ -41,25 +43,8 @@ class OnRampDepositWidget extends StatelessWidget {
   final RampPartner partner;
   final Deposit deposit;
 
-  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
-        context,
-        title: 'Confirm Deposit',
-        titleStyle: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
-        ),
-        message:
-            'Have you deposit the funds to the selected MoneyGram location?',
-        messageStyle: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w400,
-          color: Colors.white,
-        ),
-        onConfirm: () {
-          sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
-        },
-      );
+  void _handleConfirmPress() =>
+      sl<OnRampOrderService>().confirmDeposit(deposit.orderId);
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +63,12 @@ class OnRampDepositWidget extends StatelessWidget {
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
           formattedReceiveAmount: formattedReceiveAmount,
-          onConfirmPress: () => _handleConfirmPress(context),
+          onConfirmPress: _handleConfirmPress,
         ),
       RampPartner.moneygram => _MoneygramDepositContent(
           deposit: deposit,
           formattedTransferAmount: formattedTransferAmount,
-          onConfirmPress: () => _handleConfirmPress(context),
+          onConfirmPress: _handleConfirmPress,
         ),
       RampPartner.kado ||
       RampPartner.rampNetwork ||
@@ -226,8 +211,26 @@ class _MoneygramDepositContent extends StatelessWidget {
   final String formattedTransferAmount;
   final VoidCallback onConfirmPress;
 
+  void _handleConfirmPress(BuildContext context) => showConfirmationDialog(
+        context,
+        title: 'Confirm Deposit',
+        titleStyle: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w500,
+          color: Colors.white,
+        ),
+        message:
+            'Have you deposit the funds to the selected MoneyGram location?',
+        messageStyle: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w400,
+          color: Colors.white,
+        ),
+        onConfirm: onConfirmPress.call,
+      );
+
   @override
-  Widget build(BuildContext context) => CpTheme.black(
+  Widget build(BuildContext context) => CpTheme.light(
         child: Scaffold(
           appBar: AppBar(
             title: Text(
@@ -235,71 +238,108 @@ class _MoneygramDepositContent extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 17,
+                color: Colors.black,
               ),
             ),
             leading: const CpBackButton(),
             elevation: 0,
             shape: const Border(),
           ),
-          body: CpContentPadding(
-            bottom: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Spacer(),
-                const _InstructionItem(
-                  index: 1,
-                  text:
-                      'Head to your chosen MoneyGram location and transfer the money',
+          body: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Stack(
+                  children: [
+                    Assets.icons.logoBgAlternative.svg(),
+                    const FadeGradient(
+                      height: 150,
+                      color: FadeGradientColor.white,
+                      direction: FadeGradientDirection.topDown,
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                _ItemWidget(
-                  title: context.l10n.depositTransferAmount,
-                  value: formattedTransferAmount,
-                  showCopy: false,
-                ),
-                const SizedBox(height: 12),
-                GestureDetector(
-                  onTap: () {
-                    WebViewScreen.push(
-                      context,
-                      url: Uri.parse(deposit.moreInfoUrl ?? ''),
-                      title: 'MoneyGram',
-                      theme: const CpThemeData.light(),
-                      onLoaded: (controller) async {
-                        await controller.evaluateJavascript(
-                          source: await loadMoneygramStyle(),
-                        );
-                      },
-                    );
-                  },
-                  child: const Center(
-                    child: Text(
-                      'Read full instructions how to transfer the money',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        decoration: TextDecoration.underline,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Assets.gifs.moneygramConfirmationAnimation.image(),
+                    const SizedBox(height: 16),
+                    Assets.images.moneygramLogo.image(height: 32),
+                    const SizedBox(height: 16),
+                    Text(
+                      context.l10n.confirmYourTransferOf,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+                    Text(
+                      formattedTransferAmount,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 46,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 32),
+                      child: Text(
+                        context.l10n.moneygramInstructionText,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          letterSpacing: 0.41,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 45),
+                      child: CpButton(
+                        size: CpButtonSize.big,
+                        width: double.infinity,
+                        onPressed: () => _handleConfirmPress(context),
+                        text: context.l10n.confirmTransfer,
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                    GestureDetector(
+                      onTap: () {
+                        WebViewScreen.push(
+                          context,
+                          url: Uri.parse(deposit.moreInfoUrl ?? ''),
+                          title: context.l10n.depositTitle.toUpperCase(),
+                          theme: const CpThemeData.light(),
+                          onLoaded: (controller) async {
+                            await controller.evaluateJavascript(
+                              source: await loadMoneygramStyle(),
+                            );
+                          },
+                        );
+                      },
+                      child: Text(
+                        context.l10n.viewMoneygramTransferInstructions,
+                        style: const TextStyle(
+                          color: Color(0xffCB6E00),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 40),
+                  ],
                 ),
-                const Spacer(flex: 2),
-                const _InstructionItem(
-                  index: 2,
-                  text:
-                      'Once the money has been transferred, please confirm below',
-                ),
-                const Spacer(flex: 3),
-                CpButton(
-                  width: double.infinity,
-                  onPressed: onConfirmPress,
-                  text: "I've just transferred the money",
-                ),
-                const Spacer(flex: 2),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       );
@@ -359,12 +399,10 @@ class _ItemWidget extends StatelessWidget {
   const _ItemWidget({
     required this.value,
     required this.title,
-    this.showCopy = true,
   });
 
   final String title;
   final String value;
-  final bool showCopy;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -399,20 +437,19 @@ class _ItemWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (showCopy)
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: CpButton(
-                      text: context.l10n.copy,
-                      minWidth: 80,
-                      onPressed: () {
-                        final data = ClipboardData(text: value);
-                        Clipboard.setData(data);
-                        showClipboardSnackbar(context);
-                      },
-                      size: CpButtonSize.micro,
-                    ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CpButton(
+                    text: context.l10n.copy,
+                    minWidth: 80,
+                    onPressed: () {
+                      final data = ClipboardData(text: value);
+                      Clipboard.setData(data);
+                      showClipboardSnackbar(context);
+                    },
+                    size: CpButtonSize.micro,
                   ),
+                ),
               ],
             ),
           ),

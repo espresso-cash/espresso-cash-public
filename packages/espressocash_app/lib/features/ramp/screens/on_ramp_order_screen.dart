@@ -1,4 +1,5 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/db/db.dart';
@@ -11,13 +12,16 @@ import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
+import '../../../ui/theme.dart';
 import '../../../ui/timeline.dart';
+import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../intercom/services/intercom_service.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../transactions/widgets/transfer_progress.dart';
+import '../partners/moneygram/widgets/style.dart';
 import '../services/on_ramp_order_service.dart';
 import '../widgets/on_ramp_deposit_widget.dart';
 
@@ -78,6 +82,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final manualDeposit = order.manualDeposit;
     final bool isManualBankTransfer = manualDeposit != null;
+    final isMoneygramOrder = order.partner == RampPartner.moneygram;
 
     if (order.status == OnRampOrderStatus.pending) {
       return TransferProgress(onBack: () => Navigator.pop(context));
@@ -95,7 +100,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           orderId: order.id,
           orderCreated: order.created,
           receiveAmount: order.receiveAmount,
-          moreInfoUrl: manualDeposit.moreInfoUrl,
+          moreInfoUrl: order.additionalDetails.moreInfoUrl,
         ),
       );
     }
@@ -122,13 +127,14 @@ class OnRampOrderScreenContent extends StatelessWidget {
     };
 
     final String? statusSubtitle = switch (order.status) {
-      OnRampOrderStatus.waitingForPartner => context.l10n.onRampAwaitingFunds,
+      OnRampOrderStatus.waitingForPartner ||
+      OnRampOrderStatus.postProcessing =>
+        context.l10n.onRampAwaitingFunds,
       OnRampOrderStatus.waitingForBridge =>
         'Transfer could take a few minutes...',
       OnRampOrderStatus.pending ||
       OnRampOrderStatus.preProcessing ||
       OnRampOrderStatus.waitingForDeposit ||
-      OnRampOrderStatus.postProcessing ||
       OnRampOrderStatus.depositExpired ||
       OnRampOrderStatus.failure ||
       OnRampOrderStatus.completed =>
@@ -139,12 +145,19 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final depositAmount = (order.partner == RampPartner.moneygram)
+    final theme = isMoneygramOrder
+        ? const CpThemeData.light()
+        : const CpThemeData.black();
+
+    final depositAmount = isMoneygramOrder
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
+    final showAdditionalInfo =
+        isMoneygramOrder && order.status == OnRampOrderStatus.completed;
+
     return StatusScreen(
-      title: context.l10n.onRampDepositTitle.toUpperCase(),
+      title: context.l10n.depositTitle.toUpperCase(),
       statusType: order.status.toStatusType(),
       statusTitle: statusTitle?.let(Text.new),
       statusContent: Column(
@@ -159,6 +172,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
           ],
         ],
       ),
+      theme: theme,
       content: CpContentPadding(
         child: Column(
           children: [
@@ -172,13 +186,18 @@ class OnRampOrderScreenContent extends StatelessWidget {
               partner: order.partner,
             ),
             const Spacer(flex: 4),
+            if (showAdditionalInfo)
+              _MgAdditionalInfo(details: order.additionalDetails),
             PartnerOrderIdWidget(orderId: order.partnerOrderId),
             if (primaryButton != null) ...[
               const SizedBox(height: 12),
               primaryButton,
             ],
-            Opacity(
-              opacity: order.status == OnRampOrderStatus.depositExpired ? 1 : 0,
+            Visibility(
+              visible: order.status == OnRampOrderStatus.depositExpired,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
               child: _CancelButton(orderId: order.id),
             ),
           ],
@@ -195,12 +214,9 @@ class _CancelButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(
-          top: 24,
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
+        padding: const EdgeInsets.only(top: 12),
         child: CpTextButton(
-          text: context.l10n.outgoingSplitKeyPayments_btnCancel,
+          text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
           onPressed: () {
             sl<OnRampOrderService>().delete(orderId);
@@ -214,16 +230,67 @@ class _ContactUsButton extends StatelessWidget {
   const _ContactUsButton();
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.paddingOf(context).bottom + 16,
-        ),
-        child: CpButton(
-          size: CpButtonSize.big,
-          width: double.infinity,
-          text: context.l10n.contactUs,
-          onPressed: () => sl<IntercomService>().displayMessenger(),
-        ),
+  Widget build(BuildContext context) => CpButton(
+        size: CpButtonSize.big,
+        width: double.infinity,
+        text: context.l10n.contactUs,
+        onPressed: () => sl<IntercomService>().displayMessenger(),
+      );
+}
+
+class _MgAdditionalInfo extends StatelessWidget {
+  const _MgAdditionalInfo({
+    required this.details,
+  });
+  final AdditionalDetails details;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: [
+          if (details.referenceNumber case final referenceNumber?)
+            Text(
+              'Reference number: $referenceNumber',
+              style: _additionalInfoTextStyle,
+            ),
+          if (details.fee case final fee?)
+            Text(
+              'Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+              style: _additionalInfoTextStyle,
+            ),
+          if (details.moreInfoUrl case final moreInfoUrl?)
+            Text.rich(
+              TextSpan(
+                style: _additionalInfoTextStyle,
+                children: <TextSpan>[
+                  const TextSpan(
+                    text: 'Additional info: ',
+                  ),
+                  TextSpan(
+                    text: 'Click here',
+                    style: const TextStyle(
+                      color: Color(0xffCB6E00),
+                      decoration: TextDecoration.underline,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        WebViewScreen.push(
+                          context,
+                          url: Uri.parse(moreInfoUrl),
+                          title: context.l10n.depositTitle.toUpperCase(),
+                          theme: const CpThemeData.light(),
+                          onLoaded: (controller) async {
+                            await controller.evaluateJavascript(
+                              source: await loadMoneygramStyle(),
+                            );
+                          },
+                        );
+                      },
+                  ),
+                ],
+              ),
+            ),
+        ],
       );
 }
 
@@ -338,4 +405,9 @@ const _contentSubtitleTextStyle = TextStyle(
   fontSize: 14,
   fontWeight: FontWeight.w400,
   letterSpacing: 0.23,
+);
+
+const _additionalInfoTextStyle = TextStyle(
+  color: Color(0xFF979593),
+  fontSize: 14,
 );
