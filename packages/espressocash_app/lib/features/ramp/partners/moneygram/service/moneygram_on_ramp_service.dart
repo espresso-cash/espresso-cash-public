@@ -422,6 +422,7 @@ class MoneygramOnRampOrderService implements Disposable {
         OnRampOrderRowsCompanion(
           status: const Value.absentIfNull(OnRampOrderStatus.postProcessing),
           referenceNumber: Value(transaction.externalTransactionId),
+          moreInfoUrl: Value(transaction.moreInfoUrl),
           isCompleted: const Value(false),
         ),
       );
