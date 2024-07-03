@@ -56,7 +56,11 @@ class TokenPicker extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(100)),
             child: token?.logoURI != null
                 // ignore: avoid-non-null-assertion, can not be null
-                ? CachedNetworkImage(imageUrl: token!.logoURI!)
+                ? CachedNetworkImage(
+                    imageUrl: token!.logoURI!,
+                    width: 42,
+                    height: 42,
+                  )
                 : const _DefaultIcon(
                     size: 42,
                   ),
