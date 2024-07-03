@@ -4,6 +4,7 @@ import 'dart:isolate';
 
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -12,14 +13,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/db/db.dart';
 import '../../../gen/assets.gen.dart';
+import '../../accounts/auth_scope.dart';
 import '../token.dart';
 
-@singleton
+@Singleton(scope: authScope)
 class TokenListRepository implements Disposable {
-  TokenListRepository(this._db) {
+  TokenListRepository({
+    required MyDatabase db,
+    required EspressoCashClient ecClient,
+  })  : _ecClient = ecClient,
+        _db = db {
     initialize();
   }
 
+  final EspressoCashClient _ecClient;
   final MyDatabase _db;
 
   Future<void> initialize() async {

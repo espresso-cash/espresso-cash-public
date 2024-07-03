@@ -103,14 +103,14 @@ class _SolanaToken extends Token {
 class _UnknownToken extends Token {
   const _UnknownToken()
       : super(
-          address: 'So00000000000000000000000000000000000000000',
+          address: 'Unknown1111111111111111111111111111111111111',
           extensions: null,
           logoURI:
               'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
           chainId: currentChainId,
           tags: const [],
           decimals: 9,
-          name: 'Solana',
+          name: 'Unkonwn Token',
           symbol: 'UNKNOWN',
         );
 }
