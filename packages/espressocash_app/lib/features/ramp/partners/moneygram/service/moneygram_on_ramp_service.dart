@@ -22,6 +22,7 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/tx_confirm.dart';
+import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
 import '../data/dto.dart';
@@ -199,7 +200,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final transferAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountIn ?? '0'),
-      currency: Currency.usd,
+      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
     ) as FiatAmount;
 
     final receiveAmount = Amount.fromDecimal(
@@ -207,9 +208,15 @@ class MoneygramOnRampOrderService implements Disposable {
       currency: Currency.usdc,
     ) as CryptoAmount;
 
+    final feeAmount = Amount.fromDecimal(
+      value: Decimal.parse(transaction.amountFee ?? '0'),
+      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
+    ) as FiatAmount;
+
     return OnRampOrderRowsCompanion(
       receiveAmount: Value(receiveAmount.value),
       bankTransferAmount: Value(transferAmount.value),
+      feeAmount: Value(feeAmount.value),
       fiatSymbol: Value(transferAmount.currency.symbol),
       moreInfoUrl: Value(moreInfoUrl),
       bankName: const Value('moneygram'),
@@ -412,9 +419,11 @@ class MoneygramOnRampOrderService implements Disposable {
       }
 
       await statement.write(
-        const OnRampOrderRowsCompanion(
-          status: Value.absentIfNull(OnRampOrderStatus.postProcessing),
-          isCompleted: Value(false),
+        OnRampOrderRowsCompanion(
+          status: const Value.absentIfNull(OnRampOrderStatus.postProcessing),
+          referenceNumber: Value(transaction.externalTransactionId),
+          moreInfoUrl: Value(transaction.moreInfoUrl),
+          isCompleted: const Value(false),
         ),
       );
 
@@ -429,7 +438,8 @@ class MoneygramOnRampOrderService implements Disposable {
       _moneygramClient
           .fetchTransaction(
             id: id,
-            authHeader: token.toAuthHeader(),
+            authHeader: token,
+            rampType: RampType.onRamp,
           )
           .then((e) => e.transaction);
 

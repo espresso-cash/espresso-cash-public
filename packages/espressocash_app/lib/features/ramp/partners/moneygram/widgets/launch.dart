@@ -125,9 +125,7 @@ window.addEventListener("message", (event) => {
     }
   }
 
-  Future<MoneygramLink?> _generateDepositLink({
-    required double amount,
-  }) =>
+  Future<MoneygramLink?> _generateDepositLink({required double amount}) =>
       runWithLoader<MoneygramLink?>(this, () async {
         try {
           final wallet = sl<StellarWallet>();
@@ -144,7 +142,7 @@ window.addEventListener("message", (event) => {
               lang: locale.languageCode,
               amount: amount.toString(),
             ),
-            token.toAuthHeader(),
+            token,
           );
 
           final url = '${response.url}&callback=postmessage';

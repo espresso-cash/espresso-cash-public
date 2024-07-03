@@ -3,7 +3,9 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../../../../stellar/constants.dart';
+import '../../../models/ramp_type.dart';
 import 'dto.dart';
+import 'moneygram_interceptor.dart';
 
 part 'moneygram_client.g.dart';
 
@@ -11,7 +13,8 @@ part 'moneygram_client.g.dart';
 @injectable
 abstract class MoneygramApiClient {
   @factoryMethod
-  factory MoneygramApiClient() => _MoneygramApiClient(Dio());
+  factory MoneygramApiClient(MoneygramInterceptor interceptor) =>
+      _MoneygramApiClient(Dio()..interceptors.add(interceptor));
 
   @POST('/sep24/transactions/withdraw/interactive')
   Future<MgWithdrawResponseDto> generateWithdrawUrl(
@@ -29,9 +32,6 @@ abstract class MoneygramApiClient {
   Future<MgFetchTransactionResponseDto> fetchTransaction({
     @Query('id') required String id,
     @Header('Authorization') required String authHeader,
+    @Header('type') RampType? rampType,
   });
-}
-
-extension StringExt on String {
-  String toAuthHeader() => 'Bearer $this';
 }
