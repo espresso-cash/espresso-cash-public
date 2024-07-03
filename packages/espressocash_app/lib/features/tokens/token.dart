@@ -110,7 +110,7 @@ class _UnknownToken extends Token {
           chainId: currentChainId,
           tags: const [],
           decimals: 9,
-          name: 'Unkonwn Token',
+          name: 'Unknown Token',
           symbol: 'UNKNOWN',
         );
 }
