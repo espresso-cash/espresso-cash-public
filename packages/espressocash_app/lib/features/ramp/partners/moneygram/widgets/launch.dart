@@ -197,8 +197,10 @@ Amount _calculateMoneyGramFee(Amount input) {
     feeAmount = 10.0 + 0.005 * amount;
   }
 
+  final total = amount + feeAmount;
+
   return Amount.fromDecimal(
-    value: Decimal.parse(feeAmount.toString()),
+    value: Decimal.parse(total.toString()),
     currency: Currency.usd,
   );
 }

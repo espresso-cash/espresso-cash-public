@@ -84,8 +84,15 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final bool isManualBankTransfer = manualDeposit != null;
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
 
+    final theme = isMoneygramOrder
+        ? const CpThemeData.light()
+        : const CpThemeData.black();
+
     if (order.status == OnRampOrderStatus.pending) {
-      return TransferProgress(onBack: () => Navigator.pop(context));
+      return CpTheme(
+        theme: theme,
+        child: TransferProgress(onBack: () => Navigator.pop(context)),
+      );
     }
 
     if (order.status == OnRampOrderStatus.waitingForDeposit &&
@@ -145,10 +152,6 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? const _ContactUsButton()
         : null;
 
-    final theme = isMoneygramOrder
-        ? const CpThemeData.light()
-        : const CpThemeData.black();
-
     final depositAmount = isMoneygramOrder
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
@@ -156,51 +159,53 @@ class OnRampOrderScreenContent extends StatelessWidget {
     final showAdditionalInfo =
         isMoneygramOrder && order.status == OnRampOrderStatus.completed;
 
-    return StatusScreen(
-      title: context.l10n.depositTitle.toUpperCase(),
-      statusType: order.status.toStatusType(),
-      statusTitle: statusTitle?.let(Text.new),
-      statusContent: Column(
-        children: [
-          Text(statusContent),
-          if (statusSubtitle != null) ...[
-            const SizedBox(height: 8),
-            Text(
-              statusSubtitle,
-              style: _contentSubtitleTextStyle,
-            ),
-          ],
-        ],
-      ),
+    return CpTheme(
       theme: theme,
-      content: CpContentPadding(
-        child: Column(
+      child: StatusScreen(
+        title: context.l10n.depositTitle.toUpperCase(),
+        statusType: order.status.toStatusType(),
+        statusTitle: statusTitle?.let(Text.new),
+        statusContent: Column(
           children: [
-            const Spacer(flex: 1),
-            _Timeline(
-              status: order.status,
-              amount: depositAmount ?? order.submittedAmount,
-              receiveAmount: order.receiveAmount,
-              manualDeposit: manualDeposit,
-              created: order.created,
-              partner: order.partner,
-            ),
-            const Spacer(flex: 4),
-            if (showAdditionalInfo)
-              _MgAdditionalInfo(details: order.additionalDetails),
-            PartnerOrderIdWidget(orderId: order.partnerOrderId),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
+            Text(statusContent),
+            if (statusSubtitle != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                statusSubtitle,
+                style: _contentSubtitleTextStyle,
+              ),
             ],
-            Visibility(
-              visible: order.status == OnRampOrderStatus.depositExpired,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: _CancelButton(orderId: order.id),
-            ),
           ],
+        ),
+        content: CpContentPadding(
+          child: Column(
+            children: [
+              const Spacer(flex: 1),
+              _Timeline(
+                status: order.status,
+                amount: depositAmount ?? order.submittedAmount,
+                receiveAmount: order.receiveAmount,
+                manualDeposit: manualDeposit,
+                created: order.created,
+                partner: order.partner,
+              ),
+              const Spacer(flex: 4),
+              if (showAdditionalInfo)
+                _MgAdditionalInfo(details: order.additionalDetails),
+              PartnerOrderIdWidget(orderId: order.partnerOrderId),
+              if (primaryButton != null) ...[
+                const SizedBox(height: 12),
+                primaryButton,
+              ],
+              Visibility(
+                visible: order.status == OnRampOrderStatus.depositExpired,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: _CancelButton(orderId: order.id),
+              ),
+            ],
+          ),
         ),
       ),
     );
