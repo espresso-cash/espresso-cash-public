@@ -35,9 +35,10 @@ bool isPointOnEd25519Curve(Iterable<int> data) {
 Future<Ed25519HDPublicKey> findAssociatedTokenAddress({
   required Ed25519HDPublicKey owner,
   required Ed25519HDPublicKey mint,
+  TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
 }) =>
     Ed25519HDPublicKey.findProgramAddress(
-      seeds: [owner.bytes, TokenProgram.id.toByteArray(), mint.bytes],
+      seeds: [owner.bytes, tokenProgramType.id.toByteArray(), mint.bytes],
       programId: AssociatedTokenAccountProgram.id,
     );
 
