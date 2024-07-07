@@ -1,3 +1,4 @@
+import 'package:dfunc/src/either/either.dart';
 import 'package:espressocash_app/data/db/db.dart';
 import 'package:espressocash_app/features/tokens/data/token_repository.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
@@ -14,9 +15,12 @@ void main() {
   final MemoryTokenRepository memoryRepo = MemoryTokenRepository();
   final MockTokenListRepository mockRepo = MockTokenListRepository();
 
+  setUpAll(() {
+    provideDummy<Either<Exception, String>>(const Right('dummy'));
+  });
   group('mocked test', () {
     test('should initialize database from CSV file', () async {
-      when(mockRepo.initialize()).thenAnswer((_) async {});
+      when(mockRepo.initialize()).thenAnswer((_) async => const Right('dummy'));
 
       await mockRepo.initialize();
 
@@ -45,97 +49,6 @@ void main() {
       ).called(1);
 
       expect(response, token.toModel());
-    });
-
-    test('should insert a token', () async {
-      const token = TokenRow(
-        address: 'So00000000002',
-        chainId: 101,
-        symbol: 'SOL',
-        name: 'Solana',
-        decimals: 18,
-        logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
-      );
-
-      when(mockRepo.insertToken(token)).thenAnswer((_) async => 1);
-
-      final int response = await mockRepo.insertToken(token);
-
-      verify(
-        mockRepo.insertToken(token),
-      ).called(1);
-
-      expect(response, 1);
-    });
-
-    test('should insert multiple tokens', () async {
-      final tokens = [
-        const TokenRow(
-          address: 'So00000000003',
-          chainId: 101,
-          symbol: 'SOL',
-          name: 'Solana',
-          decimals: 18,
-          logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
-        ),
-        const TokenRow(
-          address: 'So00000000004',
-          chainId: 101,
-          symbol: 'SOL',
-          name: 'Solana',
-          decimals: 18,
-          logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
-        ),
-      ];
-      when(mockRepo.insertTokens(tokens)).thenAnswer((_) async => 2);
-
-      await mockRepo.insertTokens(tokens);
-
-      verify(
-        mockRepo.insertTokens(tokens),
-      ).called(1);
-    });
-
-    test('should update a token', () async {
-      const token = TokenRow(
-        address: 'So00000000000',
-        chainId: 101,
-        symbol: 'SOL',
-        name: 'Solana',
-        decimals: 18,
-        logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
-      );
-      when(mockRepo.updateToken(token)).thenAnswer((_) async {});
-
-      await mockRepo.updateToken(token);
-
-      verify(mockRepo.updateToken(token)).called(1);
-    });
-
-    test('should delete a token', () async {
-      const token = TokenRow(
-        address: 'So00000000000',
-        chainId: 101,
-        symbol: 'SOL',
-        name: 'Solana',
-        decimals: 18,
-        logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
-      );
-      when(mockRepo.deleteToken(token)).thenAnswer((_) async {});
-
-      await mockRepo.deleteToken(token);
-
-      verify(mockRepo.deleteToken(token)).called(1);
     });
 
     test('should dispose repository', () async {
@@ -219,9 +132,9 @@ void main() {
         extensions: null,
       );
 
-      await memoryRepo.insertToken(token);
+      memoryRepo.insertToken(token);
 
-      final int response = await memoryRepo.insertToken(token);
+      final int response = memoryRepo.insertToken(token);
 
       expect(response, 1);
 
@@ -253,7 +166,7 @@ void main() {
           extensions: null,
         ),
       ];
-      await memoryRepo.insertTokens(tokens);
+      memoryRepo.insertTokens(tokens);
 
       final Token? responseToken1 = await memoryRepo.getToken('So00000000003');
 
@@ -262,42 +175,6 @@ void main() {
       final Token? responseToken2 = await memoryRepo.getToken('So00000000004');
 
       expect(responseToken2, tokens[1].toModel());
-    });
-
-    test('should update a token', () async {
-      const token = TokenRow(
-        address: 'So00000000000',
-        chainId: 101,
-        symbol: 'SOL',
-        name: 'Solana',
-        decimals: 18,
-        logoURI: 'https://example2.com',
-        tags: [],
-        extensions: null,
-      );
-      await memoryRepo.updateToken(token);
-
-      final Token? response = await memoryRepo.getToken('So00000000000');
-
-      expect(response, token.toModel());
-    });
-
-    test('should delete a token', () async {
-      const token = TokenRow(
-        address: 'So00000000000',
-        chainId: 101,
-        symbol: 'SOL',
-        name: 'Solana',
-        decimals: 18,
-        logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
-      );
-      await memoryRepo.deleteToken(token);
-
-      final Token? response = await memoryRepo.getToken('So00000000000');
-
-      expect(null, response);
     });
 
     test('should parse and load token rows from CSV chunk', () {
@@ -377,47 +254,60 @@ class MemoryTokenRepository implements TokenListRepository {
   final data = BehaviorSubject<TokenMap>.seeded(TokenMap());
 
   @override
-  Future<int> insertToken(TokenRow token) async {
-    data.add(data.value.add(token.address, token));
-    return 1;
-  }
-
-  @override
-  Future<dynamic> insertTokens(Iterable<TokenRow> tokens) async {
-    data.add(
-      data.value
-          .addAll(IMap.fromEntries(tokens.map((e) => MapEntry(e.address, e)))),
-    );
-
-    return tokens.length;
-  }
-
-  @override
   Future<Token?> getToken(String address) async =>
       data.value[address]?.toModel();
 
   @override
-  Future<void> updateToken(TokenRow token) async {
-    data.add(data.value.add(token.address, token));
-  }
-
-  @override
-  Future<void> deleteToken(TokenRow token) async {
-    data.add(data.value.remove(token.address));
-  }
-
-  @override
-  Future<void> initialize() async {
+  Future<Either<Exception, String>> initialize() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
         'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
+    final lines = chunk.split('\n');
+    final List<TokenRow> rows =
+        lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {
+      final values = line.split(',');
+      if (values.length >= 8) {
+        final tags = parseTags(values[6]);
+        final extensions = parseExtensions(values[7]);
+        return TokenRow(
+          address: values[0],
+          chainId: int.parse(values[1]),
+          symbol: values[2],
+          name: values[3],
+          decimals: int.parse(values[4]),
+          logoURI: values[5],
+          tags: tags,
+          extensions: extensions,
+        );
+      }
+      throw Exception('Invalid line format');
+    }).toList();
 
-    final tokenRows = parseChunk(chunk);
-    await insertTokens(tokenRows);
+    final tokenMap =
+        Map.fromEntries(rows.map((row) => MapEntry(row.address, row)));
+    data.add(data.value.addAll(tokenMap.lock));
+
+    return Future.value(const Right(''));
   }
 
   @override
   Future<void> onDispose() async {
     data.add(data.value.clear());
+  }
+
+  @override
+  Future<Either<Exception, void>> initializeFromFile(String baseUrl) {
+    throw UnimplementedError();
+  }
+
+  void insertTokens(List<TokenRow> tokens) {
+    final tokenMap =
+        Map.fromEntries(tokens.map((token) => MapEntry(token.address, token)));
+    data.add(data.value.addAll(tokenMap.lock));
+  }
+
+  int insertToken(TokenRow token) {
+    data.add(data.value.add(token.address, token));
+    return 1;
   }
 }

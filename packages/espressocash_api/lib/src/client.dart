@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -35,6 +35,8 @@ abstract class EspressoCashClient {
           ),
         baseUrl: baseUrl,
       );
+
+  String? get baseUrl;
 
   @POST('/createDirectPayment')
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
@@ -129,12 +131,23 @@ abstract class EspressoCashClient {
   );
 
   @POST('/dln/incoming/gasFee')
-  Future<GasFeeResponseDto> getGasFees(
+  Future<GasFeeResponseDto> getGasFeesxs(
     @Body() GasFeeRequestDto request,
   );
 
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
+
+  @POST('/tokens/timestamp')
+  Future<String> getLastTokenListTimestamp();
+
+  @POST('/tokens/file')
+  @Headers(<String, dynamic>{
+    'Content-Type': 'application/gzip',
+    'Content-Encoding': 'gzip',
+    'Transfer-Encoding': 'chunked',
+  })
+  Stream<List<int>> getTokenListFile();
 
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
