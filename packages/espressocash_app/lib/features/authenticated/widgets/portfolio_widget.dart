@@ -11,7 +11,6 @@ import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/widgets/token_icon.dart';
 
