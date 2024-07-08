@@ -59,6 +59,7 @@ extension SolanaClientTokenProgram on SolanaClient {
     required int decimals,
     Ed25519HDPublicKey? freezeAuthority,
     SignatureCallback? onSigned,
+    TokenProgramType tokenProgramType = TokenProgramType.tokenProgram,
     Commitment commitment = Commitment.finalized,
   }) async {
     final mint = await Ed25519HDKeyPair.random();
@@ -76,6 +77,7 @@ extension SolanaClientTokenProgram on SolanaClient {
       rent: rent,
       space: space,
       decimals: decimals,
+      tokenProgram: tokenProgramType,
     );
 
     final message = Message(instructions: instructions);
