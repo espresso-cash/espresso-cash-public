@@ -194,7 +194,7 @@ class _TokenHeader extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: fiat.format(context.locale),
+                      text: fiat?.format(context.locale),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
