@@ -40,11 +40,11 @@ class TokenListRepository implements Disposable {
   Future<Either<Exception, String>> initialize() =>
       _cache.fetchEither(_ecClient.getTokenListMeta).foldAsync(
             (e) => throw Exception(e),
-            (GetTokenListMetaResponseDto serverTimestamp) =>
+            (GetTokenListMetaResponseDto serverHash) =>
                 TokenListHashStorage.getHash()
                     .letAsync(
-                      (actualTimestamp) => actualTimestamp != null
-                          ? serverTimestamp.md5 != actualTimestamp
+                      (actualHash) => actualHash != null
+                          ? serverHash.md5 != actualHash
                           : true,
                     )
                     .letAsync(
@@ -56,7 +56,7 @@ class TokenListRepository implements Disposable {
                                       : 'https://api.espressocash.com/api/v1'),
                             ).foldAsync(Left.new, (_) async {
                               await TokenListHashStorage.saveHash(
-                                serverTimestamp.md5,
+                                serverHash.md5,
                               );
                               return const Right('token db updated');
                             })
@@ -84,6 +84,7 @@ class TokenListRepository implements Disposable {
     String baseUrl,
   ) =>
       tryEitherAsync((_) async {
+        await onDispose();
         final receivePort = ReceivePort();
 
         final Isolate tokenListIsolate = await Isolate.spawn(
@@ -171,16 +172,18 @@ class TokenListRepository implements Disposable {
         );
 
         await response.transform(transformer).forEach((rows) async {
-          await database.batch((batch) {
-            batch.insertAll(
-              database.tokenRows,
-              rows,
-              mode: InsertMode.insertOrIgnore,
+          await database.transaction(() async {
+            await database.batch(
+              (batch) => batch.insertAll(
+                database.tokenRows,
+                rows,
+                mode: InsertMode.insertOrReplace,
+              ),
             );
           });
+          sendPort.send(null);
+          receivePort.close();
         });
-        sendPort.send(null);
-        receivePort.close();
       }
     }
   }
