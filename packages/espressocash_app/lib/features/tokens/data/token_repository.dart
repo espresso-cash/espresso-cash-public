@@ -44,6 +44,7 @@ class TokenListRepository implements Disposable {
                 TokenListHashStorage.getHash()
                     .letAsync(
                       (actualHash) => actualHash != null
+                          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                           ? serverHash.md5 != actualHash
                           : true,
                     )
@@ -56,8 +57,10 @@ class TokenListRepository implements Disposable {
                                       : 'https://api.espressocash.com/api/v1'),
                             ).foldAsync(Left.new, (_) async {
                               await TokenListHashStorage.saveHash(
+                                // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                                 serverHash.md5,
                               );
+
                               return const Right('token db updated');
                             })
                           : Future<Either<Exception, String>>(
@@ -128,14 +131,9 @@ class TokenListRepository implements Disposable {
           ),
         );
 
-        final request = await HttpClient().postUrl(
+        final request = await HttpClient().getUrl(
           Uri.parse('$baseUrl/tokens/file'),
         );
-
-        request.headers
-          ..set(HttpHeaders.contentEncodingHeader, 'gzip')
-          ..set(HttpHeaders.contentTypeHeader, 'application/gzip')
-          ..set(HttpHeaders.transferEncodingHeader, 'chunked');
 
         final response = await request.close();
 
