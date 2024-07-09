@@ -73,26 +73,6 @@ class ODPService {
     return payment;
   }
 
-  Future<void> retry(
-    String paymentId, {
-    required ECWallet account,
-  }) async {
-    final payment = await _repository.load(paymentId);
-    if (payment == null || !payment.isRetriable) return;
-
-    final status = await _createTx(
-      account: account,
-      receiver: payment.receiver,
-      amount: payment.amount,
-      reference: payment.reference,
-    );
-
-    final newPayment = payment.copyWith(status: status);
-
-    await _repository.save(newPayment);
-    _subscribe(newPayment.id);
-  }
-
   Future<void> cancel(String paymentId) async {
     final payment = await _repository.load(paymentId);
     if (payment == null || !payment.isRetriable) return;

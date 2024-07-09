@@ -31,14 +31,6 @@ extension BuildContextExt on BuildContext {
         return payment.id;
       });
 
-  Future<void> retryODP({required String paymentId}) =>
-      runWithLoader(this, () async {
-        await sl<ODPService>().retry(
-          paymentId,
-          account: sl<MyAccount>().wallet,
-        );
-      });
-
   Future<void> cancelODP({required String paymentId}) =>
       runWithLoader(this, () async {
         await sl<ODPService>().cancel(paymentId);
