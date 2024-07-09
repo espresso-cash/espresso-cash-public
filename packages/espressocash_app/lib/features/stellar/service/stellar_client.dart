@@ -4,15 +4,14 @@ import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 import '../../accounts/auth_scope.dart';
 import '../constants.dart';
 import '../models/stellar_wallet.dart';
-import '../stellar_module.dart';
 
 @LazySingleton(scope: authScope)
 class StellarClient {
   const StellarClient(
     this._ecClient,
     this._stellarWallet,
-    @stellar this._sdk,
-    @soroban this._sorobanClient,
+    this._sdk,
+    this._sorobanClient,
   );
 
   final StellarSDK _sdk;
