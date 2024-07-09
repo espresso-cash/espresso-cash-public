@@ -34,33 +34,36 @@ class TokenListRepository implements Disposable {
 
   final EspressoCashClient _ecClient;
   final MyDatabase _db;
-  final AsyncCache<String> _cache = AsyncCache(const Duration(minutes: 60));
+  final AsyncCache<GetTokenListMetaResponseDto> _cache =
+      AsyncCache(const Duration(minutes: 60));
 
   Future<Either<Exception, String>> initialize() =>
-      _cache.fetchEither(_ecClient.getLastTokenListTimestamp).foldAsync(
+      _cache.fetchEither(_ecClient.getTokenListMeta).foldAsync(
             (e) => throw Exception(e),
-            (serverTimestamp) => TimestampStorage.getTimestamp()
-                .letAsync(
-                  (actualTimestamp) => actualTimestamp != null
-                      ? int.parse(serverTimestamp) > int.parse(actualTimestamp)
-                      : true,
-                )
-                .letAsync(
-                  (shouldInitialize) => shouldInitialize
-                      ? initializeFromFile(
-                          _ecClient.baseUrl ??
-                              (kDebugMode
-                                  ? 'http://localhost:8080/api/v1'
-                                  : 'https://api.espressocash.com/api/v1'),
-                        ).foldAsync(Left.new, (_) async {
-                          await TimestampStorage.saveTimestamp(serverTimestamp);
-
-                          return const Right('token db updated');
-                        })
-                      : Future<Either<Exception, String>>(
-                          () => const Right('token db already up to date'),
-                        ),
-                ),
+            (GetTokenListMetaResponseDto serverTimestamp) =>
+                TokenListHashStorage.getHash()
+                    .letAsync(
+                      (actualTimestamp) => actualTimestamp != null
+                          ? serverTimestamp.md5 != actualTimestamp
+                          : true,
+                    )
+                    .letAsync(
+                      (shouldInitialize) => shouldInitialize
+                          ? initializeFromFile(
+                              _ecClient.baseUrl ??
+                                  (kDebugMode
+                                      ? 'http://localhost:8080/api/v1'
+                                      : 'https://api.espressocash.com/api/v1'),
+                            ).foldAsync(Left.new, (_) async {
+                              await TokenListHashStorage.saveHash(
+                                serverTimestamp.md5,
+                              );
+                              return const Right('token db updated');
+                            })
+                          : Future<Either<Exception, String>>(
+                              () => const Right('token db already up to date'),
+                            ),
+                    ),
           );
 
   Future<Token?> getToken(String address) {
@@ -73,7 +76,7 @@ class TokenListRepository implements Disposable {
 
   @override
   Future<void> onDispose() async {
-    await TimestampStorage.clearTimestamp();
+    await TokenListHashStorage.clearTimestamp();
     await _db.delete(_db.tokenRows).go();
   }
 
@@ -141,7 +144,7 @@ class TokenListRepository implements Disposable {
             StreamTransformer<List<int>, List<TokenRow>>.fromHandlers(
           handleData: (data, sink) {
             final List<TokenRow> rows = [];
-            final lines = utf8.decode(data).split('\n');
+            final lines = utf8.decode(gzip.decode(data)).split('\n');
             for (final line in lines) {
               if (isFirstLine) {
                 isFirstLine = false;
@@ -172,11 +175,10 @@ class TokenListRepository implements Disposable {
             batch.insertAll(
               database.tokenRows,
               rows,
-              mode: InsertMode.insertOrReplace,
+              mode: InsertMode.insertOrIgnore,
             );
           });
         });
-
         sendPort.send(null);
         receivePort.close();
       }
@@ -197,15 +199,15 @@ extension TokenRowsExt on TokenRow {
       );
 }
 
-class TimestampStorage {
+class TokenListHashStorage {
   static const String _key = 'lastTokenListTimestamp';
 
-  static Future<void> saveTimestamp(String timestamp) async {
+  static Future<void> saveHash(String timestamp) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_key, timestamp);
   }
 
-  static Future<String?> getTimestamp() async {
+  static Future<String?> getHash() async {
     final prefs = await SharedPreferences.getInstance();
 
     return prefs.getString(_key);
@@ -214,12 +216,5 @@ class TimestampStorage {
   static Future<void> clearTimestamp() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
-  }
-
-  static String? extractTimestamp(String filePath) {
-    final regex = RegExp(r'tokenlist\.(\d+)\.csv.gz');
-    final match = regex.firstMatch(filePath);
-
-    return match?.group(1);
   }
 }

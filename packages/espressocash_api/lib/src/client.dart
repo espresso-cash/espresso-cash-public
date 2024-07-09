@@ -138,8 +138,8 @@ abstract class EspressoCashClient {
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
 
-  @POST('/tokens/timestamp')
-  Future<String> getLastTokenListTimestamp();
+  @POST('/tokens/meta')
+  Future<GetTokenListMetaResponseDto> getTokenListMeta();
 
   @POST('/tokens/file')
   @Headers(<String, dynamic>{
