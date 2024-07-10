@@ -114,8 +114,7 @@ class CpButton extends StatelessWidget {
         ),
         shape: WidgetStateProperty.all(const StadiumBorder()),
         alignment: alignment.alignment,
-        overlayColor:
-            WidgetStateProperty.all(CpColors.translucentYellowColor),
+        overlayColor: WidgetStateProperty.all(CpColors.translucentYellowColor),
         padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: horizontalPadding),
         ),
