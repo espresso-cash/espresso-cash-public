@@ -141,14 +141,6 @@ abstract class EspressoCashClient {
   @POST('/tokens/meta')
   Future<GetTokenListMetaResponseDto> getTokenListMeta();
 
-  @POST('/tokens/file')
-  @Headers(<String, dynamic>{
-    'Content-Type': 'application/gzip',
-    'Content-Encoding': 'gzip',
-    'Transfer-Encoding': 'chunked',
-  })
-  Stream<List<int>> getTokenListFile();
-
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
     @Body() PriorityFeesRequestDto request,
