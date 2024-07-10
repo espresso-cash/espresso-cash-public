@@ -159,8 +159,8 @@ class TokenListRepository implements Disposable {
                     name: values[3],
                     decimals: int.parse(values[4]),
                     logoURI: values[5],
-                    tags: null,
-                    extensions: null,
+                    tags: _parseTags(values[6]),
+                    extensions: _parseExtensions(values[7]),
                   ),
                 );
               }
@@ -198,6 +198,25 @@ extension TokenRowsExt on TokenRow {
         tags: tags,
         extensions: extensions,
       );
+}
+
+List<String>? _parseTags(String? tagString) {
+  if (tagString == null || tagString.isEmpty) return null;
+
+  return tagString
+      .replaceAll('[', '')
+      .replaceAll(']', '')
+      .split(',')
+      .map((e) => e.trim())
+      .toList();
+}
+
+Extensions? _parseExtensions(String? extensionString) {
+  final parts = extensionString?.split(':');
+
+  return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
+      ? Extensions(coingeckoId: parts[1])
+      : null;
 }
 
 class TokenListHashStorage {
