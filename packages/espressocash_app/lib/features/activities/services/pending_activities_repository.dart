@@ -10,7 +10,6 @@ import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
 import '../../ramp/data/on_ramp_order_service.dart';
 import '../../ramp/services/off_ramp_order_service.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../data/activity_builder.dart';
 import '../models/activity.dart';
@@ -19,14 +18,12 @@ import '../models/activity.dart';
 class PendingActivitiesRepository {
   const PendingActivitiesRepository(
     this._db,
-    this._tokens,
     this._onRampOrderService,
     this._offRampOrderService,
     this._trService,
   );
 
   final MyDatabase _db;
-  final TokenList _tokens;
   final OnRampOrderService _onRampOrderService;
   final OffRampOrderService _offRampOrderService;
   final TRService _trService;
@@ -49,10 +46,22 @@ class PendingActivitiesRepository {
 
     final oprStream =
         opr.watch().map((rows) => rows.map((r) => r.toActivity()));
-    final odpStream =
-        odp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
-    final olpStream =
-        olp.watch().map((rows) => rows.map((r) => r.toActivity(_tokens)));
+
+    final Stream<Iterable<Activity>> odpStream = odp.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map(
+              (r) => r.toActivity(),
+            ),
+          ),
+        );
+
+    final Stream<Iterable<Activity>> olpStream = olp.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map(
+              (r) => r.toActivity(),
+            ),
+          ),
+        );
 
     final outgoingDlnStream = outgoingDlnPayment
         .watch()

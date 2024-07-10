@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:injectable/injectable.dart';
@@ -7,15 +8,15 @@ import '../../../data/db/db.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 
 @Singleton(scope: authScope)
 class TokenBalancesRepository {
-  const TokenBalancesRepository(this._db, this._tokens);
+  const TokenBalancesRepository(this._db, this._tokenListRepository);
 
   final MyDatabase _db;
-  final TokenList _tokens;
+  final TokenListRepository _tokenListRepository;
 
   Future<CryptoAmount> read(Token token) async {
     final query = _db.tokenBalanceRows.select()
@@ -36,10 +37,13 @@ class TokenBalancesRepository {
       ..where((tbl) => tbl.amount.isBiggerThanValue(0));
 
     return query.get().then(
-          (rows) => rows
-              .map((row) => _tokens.findTokenByMint(row.token))
-              .whereNotNull()
-              .toISet(),
+          (rows) => Future.wait(
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token),
+            ),
+          ).then(
+            (tokens) => tokens.whereNotNull().toISet(),
+          ),
         );
   }
 
@@ -53,11 +57,14 @@ class TokenBalancesRepository {
             tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
       );
 
-    return query.watch().map(
-          (rows) => rows
-              .map((row) => _tokens.findTokenByMint(row.token))
-              .whereNotNull()
-              .toISet(),
+    return query.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token),
+            ),
+          ).then(
+            (tokens) => tokens.whereNotNull().toISet(),
+          ),
         );
   }
 
@@ -71,25 +78,21 @@ class TokenBalancesRepository {
             tbl.token.isNotIn(ignoreTokens.map((e) => e.address).toList()),
       );
 
-    return query.watch().map(
-          (rows) => rows
-              .map((row) {
-                final token = _tokens.findTokenByMint(row.token);
-
-                if (ignoreTokens.contains(token)) {
-                  return null;
-                }
-
-                return token == null
-                    ? null
-                    : CryptoAmount(
+    return query.watch().asyncMap(
+          (rows) async => Future.wait(
+            rows.map(
+              (row) async => _tokenListRepository.getToken(row.token).letAsync(
+                    (token) => token?.let(
+                      (t) => CryptoAmount(
                         value: row.amount,
-                        cryptoCurrency: CryptoCurrency(token: token),
-                      );
-              })
-              .whereNotNull()
-              .sortedBy((element) => element.token.name)
-              .toIList(),
+                        cryptoCurrency: CryptoCurrency(token: t),
+                      ),
+                    ),
+                  ),
+            ),
+          ).then(
+            (balances) => balances.whereNotNull().toIList(),
+          ),
         );
   }
 

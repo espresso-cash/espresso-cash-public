@@ -11,7 +11,7 @@ import '../../../ui/share_link.dart';
 import '../../../ui/text_button.dart';
 import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
 import '../models/payment_request.dart';
 import '../services/payment_request_service.dart';
 
@@ -28,17 +28,6 @@ class ShareRequestPayment extends StatelessWidget {
     final title = Text(
       context.l10n.requestPaymentTitle.toUpperCase(),
       style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
-    );
-
-    final tokenList = sl<TokenList>();
-    final amount = request.payRequest.cryptoAmount(tokenList);
-
-    final link = request.shortLink ?? request.dynamicLink;
-    final formattedAmount = amount?.formatWithFiat(context) ?? '';
-
-    final message = context.l10n.sharePaymentRequestLinkMessage(
-      formattedAmount,
-      link,
     );
 
     return CpTheme.black(
@@ -72,11 +61,28 @@ class ShareRequestPayment extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: ShareCodeWidget(
-                    title: context.l10n.scanToSend,
-                    amount: formattedAmount,
-                    qrCode: request.dynamicLink,
-                    shareText: message,
+                  child: FutureBuilder(
+                    future: request.payRequest.cryptoAmount(
+                      sl<TokenListRepository>().getToken,
+                    ),
+                    builder: (context, snapshot) {
+                      final link = request.shortLink ?? request.dynamicLink;
+                      final formattedAmount =
+                          snapshot.data?.formatWithFiat(context) ?? '';
+
+                      final message =
+                          context.l10n.sharePaymentRequestLinkMessage(
+                        formattedAmount,
+                        link,
+                      );
+
+                      return ShareCodeWidget(
+                        title: context.l10n.scanToSend,
+                        amount: formattedAmount,
+                        qrCode: request.dynamicLink,
+                        shareText: message,
+                      );
+                    },
                   ),
                 ),
                 Padding(

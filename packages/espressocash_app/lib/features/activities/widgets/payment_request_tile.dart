@@ -1,3 +1,4 @@
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
@@ -26,11 +27,29 @@ class PaymentRequestTile extends StatefulWidget {
 
 class _PaymentRequestTileState extends State<PaymentRequestTile> {
   late Stream<PaymentRequest> _stream;
+  String? _formattedAmount;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _stream = watchPaymentRequest(widget.id);
+    _fetchFormattedAmount();
+  }
+
+  Future<void> _fetchFormattedAmount() async {
+    final paymentRequest = await _stream.first;
+
+    if (mounted) {
+      await paymentRequest
+          .formattedAmount(DeviceLocale.localeOf(context))
+          .letAsync((value) {
+        setState(() {
+          _formattedAmount = value;
+          _isLoading = false;
+        });
+      });
+    }
   }
 
   @override
@@ -39,15 +58,14 @@ class _PaymentRequestTileState extends State<PaymentRequestTile> {
         builder: (context, snapshot) {
           final data = snapshot.data;
 
-          return data == null
+          return (data == null || _isLoading)
               ? SizedBox.shrink(key: ValueKey(widget.id))
               : CpActivityTile(
                   key: ValueKey(widget.id),
                   title: context.l10n.paymentRequestTitle,
                   icon: Assets.icons.paymentIcon.svg(),
                   timestamp: context.formatDate(data.created),
-                  incomingAmount:
-                      data.formattedAmount(DeviceLocale.localeOf(context)),
+                  incomingAmount: _formattedAmount,
                   status: switch (data.state) {
                     PaymentRequestState.initial =>
                       CpActivityTileStatus.inProgress,
