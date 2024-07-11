@@ -172,7 +172,9 @@ abstract class EspressoCashClient {
 
   @POST('/tokens/meta')
   Future<GetTokensMetaResponseDto> getTokensMeta();
+}
 
+extension EspressoCashClientExt on EspressoCashClient {
   Future<void> getTokensFile(String savePath) => _dio.download(
         '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
         savePath,
