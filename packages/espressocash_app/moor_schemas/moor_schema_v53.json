@@ -369,16 +369,6 @@
                         "dsl_features": []
                     },
                     {
-                        "name": "token_address",
-                        "getter_name": "tokenAddress",
-                        "moor_type": "string",
-                        "nullable": false,
-                        "customConstraints": null,
-                        "default_dart": null,
-                        "default_client_dart": null,
-                        "dsl_features": []
-                    },
-                    {
                         "name": "encoded_tx",
                         "getter_name": "encodedTx",
                         "moor_type": "string",
@@ -1386,6 +1376,112 @@
                 "constraints": [],
                 "explicit_pk": [
                     "token"
+                ]
+            }
+        },
+        {
+            "id": 11,
+            "references": [],
+            "type": "table",
+            "data": {
+                "name": "token_rows",
+                "was_declared_in_moor": false,
+                "columns": [
+                    {
+                        "name": "chain_id",
+                        "getter_name": "chainId",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "address",
+                        "getter_name": "address",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "symbol",
+                        "getter_name": "symbol",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "name",
+                        "getter_name": "name",
+                        "moor_type": "string",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "decimals",
+                        "getter_name": "decimals",
+                        "moor_type": "int",
+                        "nullable": false,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "logo_u_r_i",
+                        "getter_name": "logoURI",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "tags",
+                        "getter_name": "tags",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": [],
+                        "type_converter": {
+                            "dart_expr": "const TagsConverter()",
+                            "dart_type_name": "List<String>"
+                        }
+                    },
+                    {
+                        "name": "extensions",
+                        "getter_name": "extensions",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": [],
+                        "type_converter": {
+                            "dart_expr": "const ExtensionsConverter()",
+                            "dart_type_name": "Extensions"
+                        }
+                    }
+                ],
+                "is_virtual": false,
+                "without_rowid": false,
+                "constraints": [],
+                "explicit_pk": [
+                    "chain_id",
+                    "address"
                 ]
             }
         }

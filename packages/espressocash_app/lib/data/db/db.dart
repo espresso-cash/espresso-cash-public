@@ -123,10 +123,10 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(tokenBalanceRows);
           }
           if (from < 53) {
-            await m.createTable(tokenRows);
+            await m.addColumn(transactionRows, transactionRows.tokenAddress);
           }
           if (from < 54) {
-            await m.addColumn(transactionRows, transactionRows.tokenAddress);
+            await m.createTable(tokenRows);
           }
         },
       );

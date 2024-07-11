@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
+import 'package:drift/drift.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/base58.dart';
@@ -15,8 +16,8 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
 
@@ -29,58 +30,93 @@ class TxUpdater implements Disposable {
   final TransactionRepository _repo;
 
   final AsyncCache<void> _cache = AsyncCache.ephemeral();
+  final AsyncCache<List<TxCommon>> _cache2 =
+      AsyncCache(const Duration(seconds: 30));
 
   Future<void> call({String? tokenAddress}) => _cache.fetchEither(() async {
+        final String? mostRecentTxId = await _repo.mostRecentTxId();
+
         if (tokenAddress == null) {
-          await _updateAllTokenTransactions();
-          await _updateSolTransactions();
+          final allTokensTx = await _updateAllTokenTransactions(mostRecentTxId);
+
+          await _updateSolTransactions(mostRecentTxId).letAsync(
+            (results) async {
+              final uniqueResults = results
+                  .where(
+                    (result) => !allTokensTx.any(
+                      (tx) => tx.tx.id == result.tx.id,
+                    ),
+                  )
+                  .toList();
+
+              await _repo.saveAll(
+                (allTokensTx + uniqueResults).toSet().toList(),
+                clear: false,
+              );
+            },
+          );
         } else {
-          await _updateTokenTransactions(tokenAddress);
+          await _updateTokenTransactions(tokenAddress, mostRecentTxId);
         }
       });
 
-  Future<void> _updateAllTokenTransactions() =>
-      getAllTokenAccounts(_wallet.publicKey).letAsync(
-        (tokenAccounts) async => Future.wait(
-          tokenAccounts.map((account) async {
-            await getMintAddressForTokenAccount(account).letAsync(
-              (tokenAccountAddress) => _fetchAndSaveTransactions(
-                account,
-                tokenAccountAddress,
-                null,
-                50,
+  Future<List<TxCommon>> _updateAllTokenTransactions(String? mostRecentTxId) =>
+      _cache2.fetch(
+        () => getAllTokenAccounts(_wallet.publicKey).letAsync(
+          (tokenAccounts) async {
+            final transactions = await Future.wait(
+              tokenAccounts.map(
+                (account) async =>
+                    getMintAddressForTokenAccount(account).letAsync(
+                  (tokenAccountAddress) => _fetchTransactions(
+                    account,
+                    tokenAccountAddress,
+                    mostRecentTxId,
+                    50,
+                  ),
+                ),
               ),
             );
-          }),
+
+            return transactions.expand((txs) => txs).toList();
+          },
         ),
       );
 
-  Future<void> _updateSolTransactions() => _fetchAndSaveTransactions(
+  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) async =>
+      _fetchTransactions(
         _wallet.publicKey,
         Token.sol.address,
-        null,
-        20,
+        mostRecentTxId,
+        25,
       );
 
   Future<void> _updateTokenTransactions(
     String tokenAddress,
+    String? mostRecentTxId,
   ) async {
     tokenAddress.let((t) => t == Token.sol.address)
-        ? await _updateSolTransactions()
+        ? await _updateSolTransactions(mostRecentTxId).letAsync(
+            (txs) async => _repo.saveAll(
+              txs,
+              clear: false,
+              mode: InsertMode.insertOrIgnore,
+            ),
+          )
         : await findAssociatedTokenAddress(
             owner: _wallet.publicKey,
             mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
           ).letAsync(
-            (tokenAccount) async => _fetchAndSaveTransactions(
+            (tokenAccount) => _fetchTransactions(
               tokenAccount,
               tokenAddress,
-              null,
+              mostRecentTxId,
               50,
-            ),
+            ).letAsync((txs) => _repo.saveAll(txs, clear: false)),
           );
   }
 
-  Future<void> _fetchAndSaveTransactions(
+  Future<List<TxCommon>> _fetchTransactions(
     Ed25519HDPublicKey account,
     String tokenAddress,
     String? until,
@@ -95,12 +131,14 @@ class TxUpdater implements Disposable {
         commitment: Commitment.confirmed,
       )
           .letAsync((transactionDetails) async {
-        if (transactionDetails.isEmpty) return;
+        if (transactionDetails.isEmpty) return [];
 
-        final txs =
-            transactionDetails.map((it) => it.toFetched(account, tokenAddress));
+        final txs = await Future.wait(
+          transactionDetails.map((it) => it.toFetched(account, tokenAddress)),
+        );
+        final filteredTxs = txs.whereNotNull().toList();
 
-        await _repo.saveAll(txs, clear: false);
+        return filteredTxs.toSet().toList();
       });
 
   Future<List<Ed25519HDPublicKey>> getAllTokenAccounts(
@@ -142,7 +180,10 @@ class TxUpdater implements Disposable {
 }
 
 extension on TransactionDetails {
-  TxCommon toFetched(Ed25519HDPublicKey tokenAccount, String? tokenAddress) {
+  Future<TxCommon?> toFetched(
+    Ed25519HDPublicKey tokenAccount,
+    String? tokenAddress,
+  ) async {
     final rawTx = transaction as RawTransaction;
     final tx = SignedTx.fromBytes(rawTx.data);
     final accountIndex =
@@ -151,33 +192,40 @@ extension on TransactionDetails {
     int? getBalanceDifference(
       List<Object>? preBalances,
       List<Object>? postBalances,
-    ) =>
-        (preBalances != null && postBalances != null)
-            ? (postBalances[accountIndex] as int) -
-                (preBalances[accountIndex] as int)
-            : null;
+    ) {
+      if (preBalances != null && postBalances != null) {
+        final preBalance = preBalances[accountIndex] as int;
+        final postBalance = postBalances[accountIndex] as int;
+        if (preBalance == 0 && postBalance == 0) return null;
+        return postBalance - preBalance;
+      }
+      return null;
+    }
 
     int? getTokenBalanceDifference(
       List<TokenBalance>? preBalances,
       List<TokenBalance>? postBalances,
-    ) =>
-        preBalances
-            ?.firstWhereOrNull(
-              (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
-            )
-            ?.let(
-              (preBalance) => postBalances
-                  ?.firstWhereOrNull(
-                    (e) =>
-                        e.mint == tokenAddress &&
-                        e.accountIndex == accountIndex,
-                  )
-                  ?.let(
-                    (postBalance) =>
-                        int.parse(postBalance.uiTokenAmount.amount) -
-                        int.parse(preBalance.uiTokenAmount.amount),
-                  ),
-            );
+    ) {
+      final preBalance = preBalances
+          ?.firstWhereOrNull(
+            (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
+          )
+          ?.uiTokenAmount
+          .amount;
+
+      final postBalance = postBalances
+          ?.firstWhereOrNull(
+            (e) => e.mint == tokenAddress && e.accountIndex == accountIndex,
+          )
+          ?.uiTokenAmount
+          .amount;
+
+      final preReturnValue = preBalance != null ? int.parse(preBalance) : 0;
+      final postReturnValue = postBalance != null ? int.parse(postBalance) : 0;
+
+      if (preReturnValue == 0 && postReturnValue == 0) return null;
+      return postReturnValue - preReturnValue;
+    }
 
     final rawAmount = tokenAddress == Token.sol.address
         ? getBalanceDifference(meta?.preBalances, meta?.postBalances)
@@ -186,17 +234,23 @@ extension on TransactionDetails {
             meta?.postTokenBalances,
           );
 
-    final amount = rawAmount?.let((amount) {
-      final tokenList = GetIt.I<TokenList>();
-      final cryptoCurrency = tokenAddress == Token.sol.address
-          ? const CryptoCurrency(token: Token.sol)
-          : CryptoCurrency(
-              token: tokenList
-                      .findTokenByMint(tokenAddress ?? Token.usdc.address) ??
-                  Token.usdc,
-            );
+    if (rawAmount == null || rawAmount == 0) return null;
 
-      return CryptoAmount(value: amount, cryptoCurrency: cryptoCurrency);
+    final amount = await rawAmount.let((amount) async {
+      final tokenRepository = GetIt.I<TokenListRepository>();
+      final cryptoCurrency = tokenAddress != null
+          ? tokenAddress == Token.sol.address
+              ? const CryptoCurrency(token: Token.sol)
+              : CryptoCurrency(
+                  token:
+                      await tokenRepository.getToken(tokenAddress) ?? Token.unk,
+                )
+          : const CryptoCurrency(token: Token.unk);
+
+      return CryptoAmount(
+        value: amount,
+        cryptoCurrency: cryptoCurrency,
+      );
     });
 
     return TxCommon(

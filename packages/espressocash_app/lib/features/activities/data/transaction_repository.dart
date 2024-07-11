@@ -10,11 +10,13 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
+import '../../../di.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
@@ -47,10 +49,10 @@ class TransactionRepository {
       ..where((t) => t.tokenAddress.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query.watch().map((rows) {
+    return query.watch().asyncMap((rows) async {
       final grouped = <String, IList<TxCommon>>{};
       for (final row in rows) {
-        final model = row.toModel();
+        final model = await row.toModel();
         final created = model.created;
         if (created != null) {
           final date = DateFormat('yyyy-MM-dd').format(created);
@@ -78,18 +80,21 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
+    return query.watchSingle().asyncExpand(
+          (row) => row.toModel().alsoAsync(_match).asStream(),
+        );
   }
 
   Future<void> saveAll(
     Iterable<TxCommon> txs, {
     required bool clear,
+    InsertMode mode = InsertMode.insertOrReplace,
   }) {
     Future<void> save() => _db.batch(
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: InsertMode.insertOrIgnore,
+            mode: mode,
           ),
         );
 
@@ -179,27 +184,30 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  TxCommon toModel() => TxCommon(
-        SignedTx.decode(encodedTx),
-        created: created,
-        status: status,
-        amount: amount?.let(
-          (it) => CryptoAmount(
-            value: it,
-            cryptoCurrency: CryptoCurrency(
-              token: TokenList().findTokenByMint(tokenAddress) ?? Token.usdc,
+  Future<TxCommon> toModel() async =>
+      sl<TokenListRepository>().getToken(tokenAddress).letAsync(
+            (e) async => TxCommon(
+              SignedTx.decode(encodedTx),
+              created: created,
+              status: status,
+              amount: await amount?.let(
+                (it) async => CryptoAmount(
+                  value: it,
+                  cryptoCurrency: CryptoCurrency(
+                    token: (await sl<TokenListRepository>()
+                        .getToken(tokenAddress))!,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      );
+          );
 }
 
 extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
-        tokenAddress:
-            amount?.cryptoCurrency.token.address ?? Token.usdc.address,
+        tokenAddress: amount?.cryptoCurrency.token.address ?? Token.unk.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,

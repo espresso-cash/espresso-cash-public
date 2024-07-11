@@ -17,7 +17,7 @@ class ReturnData {
   final String programId;
 
   /// The return data itself, as base-64 encoded binary data
-  final String data;
+  final List<dynamic> data;
 
   Map<String, dynamic> toJson() => _$ReturnDataToJson(this);
 }
