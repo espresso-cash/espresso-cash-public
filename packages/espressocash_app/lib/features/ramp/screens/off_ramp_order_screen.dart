@@ -118,6 +118,8 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final totalAmount =
         order.fee?.let((fee) => order.amount + fee) ?? order.amount;
 
+    final receiveAmount = order.receiveAmount;
+
     final String statusContent = switch (order.status) {
       OffRampOrderStatus.depositTxRequired ||
       OffRampOrderStatus.creatingDepositTx ||
@@ -210,6 +212,7 @@ class OffRampOrderScreenContent extends StatelessWidget {
               _Timeline(
                 order: order,
                 amount: totalAmount,
+                receiveAmount: receiveAmount,
               ),
               const Spacer(flex: 4),
               if (showAdditionalInfo) _MgAdditionalInfo(order: order),
@@ -363,10 +366,12 @@ class _Timeline extends StatelessWidget {
   const _Timeline({
     required this.order,
     required this.amount,
+    this.receiveAmount,
   });
 
   final OffRampOrder order;
   final Amount amount;
+  final Amount? receiveAmount;
 
   @override
   Widget build(BuildContext context) {
@@ -396,6 +401,7 @@ class _Timeline extends StatelessWidget {
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
+      trailing: receiveAmount?.format(context.locale),
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final paymentCanceled = CpTimelineItem(
