@@ -83,7 +83,7 @@ class TxUpdater implements Disposable {
         ),
       );
 
-  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) async =>
+  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
       _fetchTransactions(
         _wallet.publicKey,
         Token.sol.address,
@@ -197,8 +197,10 @@ extension on TransactionDetails {
         final preBalance = preBalances[accountIndex] as int;
         final postBalance = postBalances[accountIndex] as int;
         if (preBalance == 0 && postBalance == 0) return null;
+
         return postBalance - preBalance;
       }
+
       return null;
     }
 
@@ -224,6 +226,7 @@ extension on TransactionDetails {
       final postReturnValue = postBalance != null ? int.parse(postBalance) : 0;
 
       if (preReturnValue == 0 && postReturnValue == 0) return null;
+
       return postReturnValue - preReturnValue;
     }
 
