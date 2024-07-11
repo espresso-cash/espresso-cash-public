@@ -21,16 +21,13 @@ class OutgoingDirectPayment with _$OutgoingDirectPayment {
 
 @freezed
 sealed class ODPStatus with _$ODPStatus {
-  /// Tx created, but not sent yet. At this stage, it's safe to recreate it.
-  const factory ODPStatus.txCreated(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = ODPStatusTxCreated;
+  /// Tx created, but not sent yet. At this stage, it's safe to cancel it.
+  const factory ODPStatus.txCreated(SignedTx tx) = ODPStatusTxCreated;
 
-  /// Tx sent, but not confirmed yet. We cannot say if it was accepted.
+  /// Tx sent to backend. Should be good as confirmed at this point.
   const factory ODPStatus.txSent(
     SignedTx tx, {
-    required BigInt slot,
+    required String signature,
   }) = ODPStatusTxSent;
 
   /// Money is received by the recipient address. The payment is complete.

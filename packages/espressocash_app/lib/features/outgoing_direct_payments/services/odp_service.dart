@@ -3,18 +3,17 @@ import 'dart:async';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
-import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../config.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
+import '../../payments/create_direct_payment.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_sender.dart';
+import '../../transactions/services/tx_confirm.dart';
 import '../data/repository.dart';
 import '../models/outgoing_direct_payment.dart';
 
@@ -23,14 +22,16 @@ class ODPService {
   ODPService(
     this._client,
     this._repository,
-    this._txSender,
+    this._txConfirm,
     this._analyticsManager,
+    this._createDirectPayment,
   );
 
   final EspressoCashClient _client;
   final ODPRepository _repository;
-  final TxSender _txSender;
+  final TxConfirm _txConfirm;
   final AnalyticsManager _analyticsManager;
+  final CreateDirectPayment _createDirectPayment;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -107,20 +108,16 @@ class ODPService {
     required Ed25519HDPublicKey? reference,
   }) async {
     try {
-      final dto = CreateDirectPaymentRequestDto(
-        senderAccount: account.address,
-        receiverAccount: receiver.toBase58(),
-        referenceAccount: reference?.toBase58(),
+      final directPaymentResult = await _createDirectPayment(
+        aReceiver: receiver,
+        aSender: account.publicKey,
+        aReference: reference,
         amount: amount.value,
-        cluster: apiCluster,
+        commitment: Commitment.confirmed,
       );
-      final response = await _client.createDirectPayment(dto);
-      final tx = await response
-          .let((it) => it.transaction)
-          .let(SignedTx.decode)
-          .let((it) => it.resign(account));
+      final tx = await directPaymentResult.transaction.resign(account);
 
-      return ODPStatus.txCreated(tx, slot: response.slot);
+      return ODPStatus.txCreated(tx);
     } on Exception {
       return const ODPStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -152,21 +149,29 @@ class ODPService {
       return payment;
     }
 
-    final tx = await _txSender.send(status.tx, minContextSlot: status.slot);
+    final tx = status.tx;
 
-    final ODPStatus? newStatus = tx.map(
-      sent: (_) => ODPStatus.txSent(
-        status.tx,
-        slot: status.slot,
-      ),
-      invalidBlockhash: (_) => const ODPStatus.txFailure(
-        reason: TxFailureReason.invalidBlockhashSending,
-      ),
-      failure: (it) => ODPStatus.txFailure(reason: it.reason),
-      networkError: (_) => null,
-    );
+    try {
+      final signature = await _client
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
 
-    return newStatus == null ? payment : payment.copyWith(status: newStatus);
+      return payment.copyWith(
+        status: ODPStatus.txSent(
+          tx,
+          signature: signature,
+        ),
+      );
+    } on Exception {
+      return payment.copyWith(
+        status:
+            const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+      );
+    }
   }
 
   Future<OutgoingDirectPayment> _wait(OutgoingDirectPayment payment) async {
@@ -174,14 +179,9 @@ class ODPService {
     if (status is! ODPStatusTxSent) {
       return payment;
     }
+    final tx = await _txConfirm(txId: status.signature);
 
-    final tx = await _txSender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'OutgoingDirectPayment',
-    );
-
-    final ODPStatus? newStatus = tx.map(
+    final ODPStatus? newStatus = tx?.map(
       success: (_) => ODPStatus.success(txId: status.tx.id),
       failure: (tx) => ODPStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,

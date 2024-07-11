@@ -9,10 +9,10 @@ import 'package:espressocash_app/features/currency/models/currency.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/data/repository.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/models/outgoing_direct_payment.dart';
 import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_service.dart';
+import 'package:espressocash_app/features/payments/create_direct_payment.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:espressocash_app/features/transactions/models/tx_results.dart';
-import 'package:espressocash_app/features/transactions/services/tx_sender.dart';
-
+import 'package:espressocash_app/features/transactions/services/tx_confirm.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -24,17 +24,23 @@ import 'package:solana/solana.dart';
 import '../../../stub_analytics_manager.dart';
 import 'odp_service_test.mocks.dart';
 
-final sender = MockTxSender();
+final confirm = MockTxConfirm();
+final createDirectPayment = MockCreateDirectPayment();
 final client = MockEspressoCashClient();
 
-@GenerateMocks([TxSender, EspressoCashClient])
+@GenerateMocks([
+  TxConfirm,
+  CreateDirectPayment,
+  EspressoCashClient,
+])
 Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
   final receiver = await Ed25519HDKeyPair.random();
   final repository = MemoryRepository();
 
   setUp(() {
-    reset(sender);
+    reset(confirm);
+    reset(createDirectPayment);
     reset(client);
   });
 
@@ -58,13 +64,13 @@ Future<void> main() async {
             [it.toByteArray().toList().let(Uint8List.fromList)],
           ),
         ),
-      )
-      .then((it) => it.encode());
+      );
 
-  final testApiResponse = CreateDirectPaymentResponseDto(
-    fee: 100,
-    transaction: stubTx,
-    slot: BigInt.zero,
+  final testDirectPaymentResult =
+      DirectPaymentResult(fee: 100, transaction: stubTx);
+
+  final testApiResponse = SubmitDurableTxResponseDto(
+    signature: stubTx.encode(),
   );
 
   const testAmount = CryptoAmount(
@@ -75,8 +81,9 @@ Future<void> main() async {
   ODPService createService() => ODPService(
         client,
         repository,
-        sender,
+        confirm,
         const StubAnalyticsManager(),
+        createDirectPayment,
       );
 
   Future<String> createODP(ODPService service) async {
@@ -94,18 +101,19 @@ Future<void> main() async {
     provideDummy<TxSendResult>(const TxSendSent());
     provideDummy<TxWaitResult>(const TxWaitSuccess());
 
-    when(client.createDirectPayment(any))
-        .thenAnswer((_) async => testApiResponse);
-
-    when(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-        .thenAnswer((_) async => const TxSendResult.sent());
     when(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
+      createDirectPayment(
+        aReceiver: anyNamed('aReceiver'),
+        aReference: anyNamed('aReference'),
+        aSender: anyNamed('aSender'),
+        amount: anyNamed('amount'),
+        commitment: anyNamed('commitment'),
       ),
-    ).thenAnswer((_) async => const TxWaitResult.success());
+    ).thenAnswer((_) async => testDirectPaymentResult);
+
+    when(client.submitDurableTx(any)).thenAnswer((_) async => testApiResponse);
+    when(confirm(txId: anyNamed('txId')))
+        .thenAnswer((_) async => const TxWaitResult.success());
 
     final paymentId = await createService().let(createODP);
     final payment = repository.watch(paymentId);
@@ -124,18 +132,11 @@ Future<void> main() async {
       ),
     );
 
-    verify(sender.send(any, minContextSlot: anyNamed('minContextSlot')))
-        .called(1);
-    verify(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
-      ),
-    ).called(1);
+    verify(client.submitDurableTx(any)).called(1);
+    verify(confirm(txId: anyNamed('txId'))).called(1);
   });
 
-  test('Failed to get tx from API', () async {
+  test('Failed to create direct durable payment', () async {
     provideDummy<TxSendResult>(
       const TxSendFailure(reason: TxFailureReason.unknown),
     );
@@ -143,7 +144,15 @@ Future<void> main() async {
       const TxWaitFailure(reason: TxFailureReason.unknown),
     );
 
-    when(client.createDirectPayment(any)).thenAnswer((_) => throw Exception());
+    when(
+      createDirectPayment(
+        aReceiver: anyNamed('aReceiver'),
+        aReference: anyNamed('aReference'),
+        aSender: anyNamed('aSender'),
+        amount: anyNamed('amount'),
+        commitment: anyNamed('commitment'),
+      ),
+    ).thenAnswer((_) async => throw Exception());
 
     final paymentId = await createService().let(createODP);
     final payment = repository.watch(paymentId);
@@ -158,14 +167,8 @@ Future<void> main() async {
       ),
     );
 
-    verifyNever(sender.send(any, minContextSlot: anyNamed('minContextSlot')));
-    verifyNever(
-      sender.wait(
-        any,
-        minContextSlot: anyNamed('minContextSlot'),
-        txType: anyNamed('txType'),
-      ),
-    );
+    verifyNever(client.submitDurableTx(any));
+    verifyNever(confirm(txId: anyNamed('txId')));
   });
 }
 
