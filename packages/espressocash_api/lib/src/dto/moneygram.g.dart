@@ -98,31 +98,27 @@ const _$RampTypeDtoEnumMap = {
 _$MoneygramFeeResponseDtoImpl _$$MoneygramFeeResponseDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$MoneygramFeeResponseDtoImpl(
-      amount: json['amount'] as String,
+      totalAmount: json['totalAmount'] as String,
+      bridgeFee: json['bridgeFee'] as String,
+      moneygramFee: json['moneygramFee'] as String,
     );
 
 Map<String, dynamic> _$$MoneygramFeeResponseDtoImplToJson(
         _$MoneygramFeeResponseDtoImpl instance) =>
     <String, dynamic>{
-      'amount': instance.amount,
+      'totalAmount': instance.totalAmount,
+      'bridgeFee': instance.bridgeFee,
+      'moneygramFee': instance.moneygramFee,
     };
 
 _$FundXlmRequestDtoImpl _$$FundXlmRequestDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$FundXlmRequestDtoImpl(
       accountId: json['accountId'] as String,
-      type: $enumDecode(_$FundTypeEnumMap, json['type']),
     );
 
 Map<String, dynamic> _$$FundXlmRequestDtoImplToJson(
         _$FundXlmRequestDtoImpl instance) =>
     <String, dynamic>{
       'accountId': instance.accountId,
-      'type': _$FundTypeEnumMap[instance.type]!,
     };
-
-const _$FundTypeEnumMap = {
-  FundType.init: 'init',
-  FundType.bridge: 'bridge',
-  FundType.send: 'send',
-};
