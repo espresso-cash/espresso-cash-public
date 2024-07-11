@@ -9,6 +9,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../activities/services/tx_updater.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
@@ -67,77 +68,102 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
         value: widget.token,
         child: CpTheme.dark(
           child: Scaffold(
-            backgroundColor: CpColors.darkGoldBackgroundColor,
-            body: SafeArea(
-              bottom: false,
-              child: NestedScrollView(
-                controller: _scrollController,
-                headerSliverBuilder: (context, _) => [
-                  TokenAppBar(token: widget.token),
-                ],
-                body: Padding(
-                  padding: EdgeInsets.only(top: _paddingTop),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(31),
-                      topRight: Radius.circular(31),
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        CpColors.darkGoldBackgroundColor,
+                        CpColors.dashboardBackgroundColor,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0.75, 0.25],
                     ),
-                    child: LayoutBuilder(
-                      builder: (
-                        BuildContext context,
-                        BoxConstraints viewportConstraints,
-                      ) =>
-                          SingleChildScrollView(
-                        physics: const ClampingScrollPhysics(),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            minHeight: viewportConstraints.maxHeight,
-                          ),
-                          child: DecoratedBox(
-                            decoration: const BoxDecoration(),
-                            child: IntrinsicHeight(
-                              child: Column(
-                                children: [
-                                  const SizedBox(height: 4),
-                                  const _TokenHeader(),
-                                  const SizedBox(height: 33),
-                                  if (widget.token.isUsdcToken)
-                                    const _RampButtons()
-                                  else
-                                    const _SwapButton(),
-                                  const SizedBox(height: 41),
-                                  Expanded(
-                                    child: DecoratedBox(
-                                      decoration: const BoxDecoration(
-                                        color:
-                                            CpColors.dashboardBackgroundColor,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(31),
-                                          topRight: Radius.circular(31),
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            vertical: 41,
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              TokenInfo(
-                                                tokenAddress:
-                                                    widget.token.address,
+                  ),
+                ),
+                SafeArea(
+                  bottom: false,
+                  child: NestedScrollView(
+                    controller: _scrollController,
+                    headerSliverBuilder: (context, _) => [
+                      TokenAppBar(token: widget.token),
+                    ],
+                    body: Padding(
+                      padding: EdgeInsets.only(top: _paddingTop),
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(31),
+                          topRight: Radius.circular(31),
+                        ),
+                        child: LayoutBuilder(
+                          builder: (
+                            BuildContext context,
+                            BoxConstraints viewportConstraints,
+                          ) =>
+                              RefreshIndicator(
+                            onRefresh: () => sl<TxUpdater>().call(),
+                            color: CpColors.primaryColor,
+                            backgroundColor: Colors.white,
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(
+                                decelerationRate: ScrollDecelerationRate.fast,
+                                parent: ClampingScrollPhysics(),
+                              ),
+                              child: ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  minHeight: viewportConstraints.maxHeight,
+                                ),
+                                child: DecoratedBox(
+                                  decoration: const BoxDecoration(),
+                                  child: IntrinsicHeight(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(height: 4),
+                                        const _TokenHeader(),
+                                        const SizedBox(height: 33),
+                                        if (widget.token.isUsdcToken)
+                                          const _RampButtons()
+                                        else
+                                          const _SwapButton(),
+                                        const SizedBox(height: 41),
+                                        Expanded(
+                                          child: DecoratedBox(
+                                            decoration: const BoxDecoration(
+                                              color: CpColors
+                                                  .dashboardBackgroundColor,
+                                              borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(31),
+                                                topRight: Radius.circular(31),
                                               ),
-                                              RecentTokenActivityWidget(
-                                                tokenAddress:
-                                                    widget.token.address,
+                                            ),
+                                            child: Center(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 41,
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    TokenInfo(
+                                                      tokenAddress:
+                                                          widget.token.address,
+                                                    ),
+                                                    RecentTokenActivityWidget(
+                                                      tokenAddress:
+                                                          widget.token.address,
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
@@ -146,7 +172,7 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

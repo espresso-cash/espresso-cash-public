@@ -29,17 +29,15 @@ class TxUpdater implements Disposable {
   final ECWallet _wallet;
   final TransactionRepository _repo;
 
-  final AsyncCache<void> _cache = AsyncCache.ephemeral();
-  final AsyncCache<List<TxCommon>> _cache2 =
-      AsyncCache(const Duration(seconds: 30));
+  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
 
-  Future<void> call({String? tokenAddress}) => _cache.fetchEither(() async {
+  Future<void> call({String? tokenAddress}) => _callCache.fetchEither(() async {
         final String? mostRecentTxId = await _repo.mostRecentTxId();
 
         if (tokenAddress == null) {
           final allTokensTx = await _updateAllTokenTransactions(mostRecentTxId);
 
-          await _updateSolTransactions(mostRecentTxId).letAsync(
+          await _updateSolTransactions(mostRecentTxId: mostRecentTxId).letAsync(
             (results) async {
               final uniqueResults = results
                   .where(
@@ -56,34 +54,35 @@ class TxUpdater implements Disposable {
             },
           );
         } else {
-          await _updateTokenTransactions(tokenAddress, mostRecentTxId);
+          await _updateTokenTransactions(
+            tokenAddress,
+            mostRecentTxId: mostRecentTxId,
+          );
         }
       });
 
   Future<List<TxCommon>> _updateAllTokenTransactions(String? mostRecentTxId) =>
-      _cache2.fetch(
-        () => getAllTokenAccounts(_wallet.publicKey).letAsync(
-          (tokenAccounts) async {
-            final transactions = await Future.wait(
-              tokenAccounts.map(
-                (account) async =>
-                    getMintAddressForTokenAccount(account).letAsync(
-                  (tokenAccountAddress) => _fetchTransactions(
-                    account,
-                    tokenAccountAddress,
-                    mostRecentTxId,
-                    50,
-                  ),
+      getAllTokenAccounts(_wallet.publicKey).letAsync(
+        (tokenAccounts) async {
+          final transactions = await Future.wait(
+            tokenAccounts.map(
+              (account) async =>
+                  getMintAddressForTokenAccount(account).letAsync(
+                (tokenAccountAddress) => _fetchTransactions(
+                  account,
+                  tokenAccountAddress,
+                  mostRecentTxId,
+                  25,
                 ),
               ),
-            );
+            ),
+          );
 
-            return transactions.expand((txs) => txs).toList();
-          },
-        ),
+          return transactions.expand((txs) => txs).toList();
+        },
       );
 
-  Future<List<TxCommon>> _updateSolTransactions(String? mostRecentTxId) =>
+  Future<List<TxCommon>> _updateSolTransactions({String? mostRecentTxId}) =>
       _fetchTransactions(
         _wallet.publicKey,
         Token.sol.address,
@@ -92,11 +91,11 @@ class TxUpdater implements Disposable {
       );
 
   Future<void> _updateTokenTransactions(
-    String tokenAddress,
+    String tokenAddress, {
     String? mostRecentTxId,
-  ) async {
+  }) async {
     tokenAddress.let((t) => t == Token.sol.address)
-        ? await _updateSolTransactions(mostRecentTxId).letAsync(
+        ? await _updateSolTransactions(mostRecentTxId: mostRecentTxId).letAsync(
             (txs) async => _repo.saveAll(
               txs,
               clear: false,
@@ -111,8 +110,10 @@ class TxUpdater implements Disposable {
               tokenAccount,
               tokenAddress,
               mostRecentTxId,
-              50,
-            ).letAsync((txs) => _repo.saveAll(txs, clear: false)),
+              25,
+            ).letAsync(
+              (txs) => _repo.saveAll(txs, clear: false),
+            ),
           );
   }
 
