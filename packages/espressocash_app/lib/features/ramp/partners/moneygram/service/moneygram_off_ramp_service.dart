@@ -333,12 +333,7 @@ class MoneygramOffRampOrderService implements Disposable {
     final xlmBalance = await _stellarClient.getXlmBalance();
 
     if (xlmBalance <= _minimumInitBalance) {
-      await _ecClient.fundXlmRequest(
-        FundXlmRequestDto(
-          accountId: accountId,
-          type: FundType.init,
-        ),
-      );
+      await _ecClient.fundXlmRequest(FundXlmRequestDto(accountId: accountId));
     }
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(

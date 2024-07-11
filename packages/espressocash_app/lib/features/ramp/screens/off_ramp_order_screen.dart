@@ -191,40 +191,42 @@ class OffRampOrderScreenContent extends StatelessWidget {
       ),
     ];
 
-    return StatusScreen(
-      title: context.l10n.offRampWithdrawTitle.toUpperCase(),
-      statusType: order.status.toStatusType(),
-      statusTitle: statusTitle?.let(Text.new),
-      statusContent: Column(
-        children: [
-          Text(statusContent),
-          if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
-        ],
-      ),
+    return CpTheme(
       theme: theme,
-      content: CpContentPadding(
-        child: Column(
+      child: StatusScreen(
+        title: context.l10n.offRampWithdrawTitle.toUpperCase(),
+        statusType: order.status.toStatusType(),
+        statusTitle: statusTitle?.let(Text.new),
+        statusContent: Column(
           children: [
-            const Spacer(flex: 1),
-            _Timeline(
-              order: order,
-              amount: totalAmount,
-            ),
-            const Spacer(flex: 4),
-            if (showAdditionalInfo) _MgAdditionalInfo(order: order),
-            PartnerOrderIdWidget(orderId: order.partnerOrderId),
-            if (primaryButton != null) ...[
-              const SizedBox(height: 12),
-              primaryButton,
-            ],
-            Visibility(
-              visible: showCancelButton,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              child: _CancelButton(handleCanceled: handleCanceled),
-            ),
+            Text(statusContent),
+            if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
           ],
+        ),
+        content: CpContentPadding(
+          child: Column(
+            children: [
+              const Spacer(flex: 1),
+              _Timeline(
+                order: order,
+                amount: totalAmount,
+              ),
+              const Spacer(flex: 4),
+              if (showAdditionalInfo) _MgAdditionalInfo(order: order),
+              PartnerOrderIdWidget(orderId: order.partnerOrderId),
+              if (primaryButton != null) ...[
+                const SizedBox(height: 12),
+                primaryButton,
+              ],
+              Visibility(
+                visible: showCancelButton,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: _CancelButton(handleCanceled: handleCanceled),
+              ),
+            ],
+          ),
         ),
       ),
     );
