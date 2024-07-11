@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
+import 'package:espressocash_api/src/dto/get_tokens.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'client.g.dart';
@@ -35,6 +36,9 @@ abstract class EspressoCashClient {
           ),
         baseUrl: baseUrl,
       );
+
+  Dio get _dio;
+  String? get baseUrl;
 
   @POST('/createDirectPayment')
   Future<CreateDirectPaymentResponseDto> createDirectPayment(
@@ -165,4 +169,15 @@ abstract class EspressoCashClient {
   Future<void> fundXlmRequest(
     @Body() FundXlmRequestDto request,
   );
+
+  @POST('/tokens/meta')
+  Future<GetTokensMetaResponseDto> getTokensMeta();
+}
+
+extension EspressoCashClientExt on EspressoCashClient {
+  Future<void> getTokensFile(String savePath) => _dio.download(
+        '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
+        savePath,
+        options: Options(method: HttpMethod.POST),
+      );
 }
