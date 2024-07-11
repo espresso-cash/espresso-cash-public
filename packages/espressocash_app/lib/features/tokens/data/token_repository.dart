@@ -34,13 +34,13 @@ class TokenListRepository implements Disposable {
 
   final EspressoCashClient _ecClient;
   final MyDatabase _db;
-  final AsyncCache<GetTokenListMetaResponseDto> _cache =
+  final AsyncCache<GetTokensMetaResponseDto> _cache =
       AsyncCache(const Duration(minutes: 60));
 
   Future<Either<Exception, String>> initialize() =>
-      _cache.fetchEither(_ecClient.getTokenListMeta).foldAsync(
+      _cache.fetchEither(_ecClient.getTokensMeta).foldAsync(
             (e) => throw Exception(e),
-            (GetTokenListMetaResponseDto serverHash) =>
+            (GetTokensMetaResponseDto serverHash) =>
                 TokenListHashStorage.getHash()
                     .letAsync(
                       (actualHash) => actualHash != null
