@@ -29,30 +29,36 @@ typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
   Future<void> launchMoneygramOnRamp() async {
-    Amount? amount;
+    FiatAmount? amount;
 
     const partner = RampPartner.moneygram;
+    const type = RampType.onRamp;
 
     await RampAmountScreen.push(
       this,
       partner: partner,
       onSubmitted: (Amount? value) {
         Navigator.pop(this);
-        amount = value;
+        amount = value as FiatAmount?;
       },
       minAmount: partner.minimumAmountInDecimal,
-      currency: Currency.usdc,
-      type: RampType.onRamp,
+      currency: Currency.usd,
+      type: type,
       calculateEquivalent: (amount) => _calculateFees(
         amount: amount,
-        type: RampType.onRamp,
+        type: type,
       ),
       partnerFeeLabel: 'Fee taken during bridging',
     );
 
     final submittedAmount = amount;
 
-    if (submittedAmount is! CryptoAmount) return;
+    if (submittedAmount == null) return;
+
+    final receiveAmount = await runWithLoader<Amount>(
+      this,
+      () async => _calculateFee(amount: submittedAmount, type: type),
+    ) as CryptoAmount;
 
     final response = await _generateDepositLink(
       amount: submittedAmount.decimal.toDouble(),
@@ -73,6 +79,7 @@ extension BuildContextExt on BuildContext {
       orderId: orderId,
       submittedAmount: submittedAmount,
       authToken: token,
+      receiveAmount: receiveAmount,
     )
         .then((order) {
       switch (order) {
@@ -153,13 +160,13 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
+  Future<Amount> _calculateFee({
     required Amount amount,
     required RampType type,
   }) async {
     final client = sl<EspressoCashClient>();
 
-    final allbridgeFee = await client.calculateMoneygramFee(
+    final fee = await client.calculateMoneygramFee(
       MoneygramFeeRequestDto(
         type:
             type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
@@ -167,16 +174,25 @@ window.addEventListener("message", (event) => {
       ),
     );
 
+    return Amount.fromDecimal(
+      value: Decimal.parse(fee.amount),
+      currency: type == RampType.onRamp ? Currency.usdc : Currency.usd,
+    );
+  }
+
+  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final bridgeFee = await _calculateFee(
+      amount: amount,
+      type: type,
+    );
+
     final moneygramFee = _calculateMoneyGramFee(amount);
 
     return Either.right(
-      (
-        amount: Amount.fromDecimal(
-          value: Decimal.parse(allbridgeFee.amount),
-          currency: Currency.usdc,
-        ),
-        rate: 'You will pay ${moneygramFee.format(locale)} USDC'
-      ),
+      (amount: bridgeFee, rate: 'You will pay ${moneygramFee.format(locale)}'),
     );
   }
 }
