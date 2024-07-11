@@ -11,6 +11,11 @@ class ParsedAccountData with _$ParsedAccountData implements AccountData {
     SplTokenProgramAccountData parsed,
   ) = ParsedSplTokenProgramAccountData;
 
+  @FreezedUnionValue('spl-token-2022')
+  const factory ParsedAccountData.token2022(
+    SplTokenProgramAccountData parsed,
+  ) = ParsedSplToken2022ProgramAccountData;
+
   const factory ParsedAccountData.stake(
     StakeProgramAccountData parsed,
   ) = ParsedStakeProgramAccountData;
