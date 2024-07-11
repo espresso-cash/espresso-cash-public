@@ -18,12 +18,9 @@ abstract class StellarModule {
     return createStellarWallet(mnemonic: mnemonic);
   }
 
-  @stellar
+  @lazySingleton
   StellarSDK sdk() => stellarSdk;
 
-  @soroban
+  @lazySingleton
   SorobanServer client() => SorobanServer(sorobanRpcUrl);
 }
-
-const stellar = Named('StellarSdk');
-const soroban = Named('SorobanServer');

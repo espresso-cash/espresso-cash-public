@@ -94,7 +94,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
     }
   }
 
-  void _onCloseWindowHandler() {
+  void _handleWindowClosed() {
     final onClosed = widget.onClosed;
 
     if (onClosed != null) {
@@ -119,7 +119,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           onPermissionRequest: (_, permissionRequest) =>
               _handlePermissionRequest(permissionRequest.resources),
           onLoadStop: (controller, _) => _handleLoaded(controller),
-          onCloseWindow: (_) => _onCloseWindowHandler(),
+          onCloseWindow: (_) => _handleWindowClosed(),
           initialSettings: InAppWebViewSettings(
             iframeAllowFullscreen: false,
             allowsInlineMediaPlayback: true,

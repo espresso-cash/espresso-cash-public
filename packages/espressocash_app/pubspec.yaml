@@ -117,7 +117,7 @@ flutter:
     - assets/coinflow/static/
     - assets/coinflow/static/js/
     - assets/coinflow/static/css/
-    - assets/scalex/ 
+    - assets/scalex/
     - assets/moneygram/
 
   fonts:

@@ -130,8 +130,9 @@ class MoneygramOnRampOrderService implements Disposable {
 
   AsyncResult<String> createPendingMoneygram({
     required String orderId,
-    required CryptoAmount submittedAmount,
+    required FiatAmount submittedAmount,
     required String authToken,
+    required CryptoAmount receiveAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -139,6 +140,8 @@ class MoneygramOnRampOrderService implements Disposable {
             id: const Uuid().v4(),
             partnerOrderId: orderId,
             amount: submittedAmount.value,
+            fiatSymbol: submittedAmount.currency.symbol,
+            receiveAmount: receiveAmount.value,
             token: Token.usdc.address,
             created: DateTime.now(),
             isCompleted: false,
@@ -203,18 +206,12 @@ class MoneygramOnRampOrderService implements Disposable {
       currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
     ) as FiatAmount;
 
-    final receiveAmount = Amount.fromDecimal(
-      value: Decimal.parse(transaction.amountOut ?? '0'),
-      currency: Currency.usdc,
-    ) as CryptoAmount;
-
     final feeAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountFee ?? '0'),
       currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
     ) as FiatAmount;
 
     return OnRampOrderRowsCompanion(
-      receiveAmount: Value(receiveAmount.value),
       bankTransferAmount: Value(transferAmount.value),
       feeAmount: Value(feeAmount.value),
       fiatSymbol: Value(transferAmount.currency.symbol),
@@ -238,12 +235,7 @@ class MoneygramOnRampOrderService implements Disposable {
     if (xlmBalance <= _minimumInitBalance) {
       final accountId = _stellarWallet.address;
 
-      await _ecClient.fundXlmRequest(
-        FundXlmRequestDto(
-          accountId: accountId,
-          type: FundType.init,
-        ),
-      );
+      await _ecClient.fundXlmRequest(FundXlmRequestDto(accountId: accountId));
     }
 
     final hasUsdcTrustline = await _stellarClient.hasUsdcTrustline(
