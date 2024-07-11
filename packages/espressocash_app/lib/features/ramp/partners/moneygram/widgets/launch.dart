@@ -57,7 +57,8 @@ extension BuildContextExt on BuildContext {
 
     final receiveAmount = await runWithLoader<Amount>(
       this,
-      () async => _calculateFee(amount: submittedAmount, type: type),
+      () async => _fetchFees(amount: submittedAmount, type: type)
+          .letAsync((p) => p.receiveAmount),
     ) as CryptoAmount;
 
     final response = await _generateDepositLink(
@@ -160,7 +161,30 @@ window.addEventListener("message", (event) => {
         }
       });
 
-  Future<Amount> _calculateFee({
+  /// For [RampType.onRamp], fee is added to input amount,
+  /// for [RampType.offRamp], fee is taken from input amount
+  ///
+  /// Since [RampType.onRamp] fee is added, we show total amount to pay
+  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
+    required Amount amount,
+    required RampType type,
+  }) async {
+    final fees = await _fetchFees(
+      amount: amount,
+      type: type,
+    );
+
+    final payAmount = fees.moneygramFee + amount;
+
+    final feeLabel = switch (type) {
+      RampType.onRamp => 'You will pay ${payAmount.format(locale)}',
+      RampType.offRamp => null,
+    };
+
+    return Either.right((amount: fees.receiveAmount, rate: feeLabel));
+  }
+
+  Future<({Amount receiveAmount, Amount moneygramFee})> _fetchFees({
     required Amount amount,
     required RampType type,
   }) async {
@@ -168,55 +192,32 @@ window.addEventListener("message", (event) => {
 
     final fee = await client.calculateMoneygramFee(
       MoneygramFeeRequestDto(
-        type:
-            type == RampType.onRamp ? RampTypeDto.onRamp : RampTypeDto.offRamp,
+        type: type.toDto(),
         amount: amount.decimal.toString(),
       ),
     );
 
-    return Amount.fromDecimal(
-      value: Decimal.parse(fee.amount),
-      currency: type == RampType.onRamp ? Currency.usdc : Currency.usd,
-    );
-  }
-
-  Future<Either<Exception, ({Amount amount, String? rate})>> _calculateFees({
-    required Amount amount,
-    required RampType type,
-  }) async {
-    final bridgeFee = await _calculateFee(
-      amount: amount,
-      type: type,
-    );
-
-    final moneygramFee = _calculateMoneyGramFee(amount);
-
-    return Either.right(
-      (amount: bridgeFee, rate: 'You will pay ${moneygramFee.format(locale)}'),
+    return (
+      receiveAmount: Amount.fromDecimal(
+        value: Decimal.parse(fee.totalAmount),
+        currency: type.currency,
+      ),
+      moneygramFee: Amount.fromDecimal(
+        value: Decimal.parse(fee.moneygramFee),
+        currency: Currency.usd,
+      ),
     );
   }
 }
 
-// Based on fee table sent by MoneyGram
-Amount _calculateMoneyGramFee(Amount input) {
-  final amount = input.decimal.toDouble();
+extension on RampType {
+  Currency get currency => switch (this) {
+        RampType.onRamp => Currency.usdc,
+        RampType.offRamp => Currency.usd
+      };
 
-  double feeAmount;
-
-  if (amount < 1) {
-    throw ArgumentError('Invalid transaction amount');
-  } else if (amount <= 99) {
-    feeAmount = 2.0;
-  } else if (amount <= 999) {
-    feeAmount = 2.0 + 0.01 * amount;
-  } else {
-    feeAmount = 10.0 + 0.005 * amount;
-  }
-
-  final total = amount + feeAmount;
-
-  return Amount.fromDecimal(
-    value: Decimal.parse(total.toString()),
-    currency: Currency.usd,
-  );
+  RampTypeDto toDto() => switch (this) {
+        RampType.onRamp => RampTypeDto.onRamp,
+        RampType.offRamp => RampTypeDto.offRamp
+      };
 }
