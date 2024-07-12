@@ -7,7 +7,7 @@ import '../models/payment_request.dart';
 
 extension PaymentRequestFormatAmountExt on PaymentRequest {
   Future<String> formattedAmount(Locale locale) async =>
-      (await payRequest.cryptoAmount(sl<TokenListRepository>().getToken))
+      (await payRequest.cryptoAmount(sl<TokenRepository>().getToken))
           ?.format(locale) ??
       '';
 }

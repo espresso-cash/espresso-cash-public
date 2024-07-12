@@ -36,12 +36,12 @@ typedef DepositDetails = ({
 
 @Singleton(scope: authScope)
 class OnRampOrderService implements Disposable {
-  OnRampOrderService(this._db, this._tokenListRepository);
+  OnRampOrderService(this._db, this._tokenRepository);
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
   final MyDatabase _db;
-  final TokenListRepository _tokenListRepository;
+  final TokenRepository _tokenRepository;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -173,7 +173,7 @@ class OnRampOrderService implements Disposable {
             transferAmount != null &&
             fiatSymbol != null;
 
-        final Token? token = await _tokenListRepository.getToken(row.token);
+        final Token? token = await _tokenRepository.getToken(row.token);
 
         return (
           id: row.id,

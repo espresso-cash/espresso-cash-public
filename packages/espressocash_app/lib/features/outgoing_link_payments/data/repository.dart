@@ -144,8 +144,7 @@ extension OLPRowExt on OLPRow {
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(
-            token:
-                (await sl<TokenListRepository>().getToken(token)) ?? Token.unk,
+            token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
           ),
         ),
         status: status.toOLPStatus(this),

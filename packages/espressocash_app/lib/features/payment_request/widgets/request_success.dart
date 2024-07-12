@@ -35,7 +35,7 @@ class _RequestSuccessState extends State<RequestSuccess> {
   void initState() {
     super.initState();
     _cryptoAmountFuture = widget.request.payRequest.cryptoAmount(
-      sl<TokenListRepository>().getToken,
+      sl<TokenRepository>().getToken,
     );
   }
 

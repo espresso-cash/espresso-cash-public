@@ -13,10 +13,10 @@ import '../../tokens/token.dart';
 
 @Singleton(scope: authScope)
 class TokenBalancesRepository {
-  const TokenBalancesRepository(this._db, this._tokenListRepository);
+  const TokenBalancesRepository(this._db, this._tokenRepository);
 
   final MyDatabase _db;
-  final TokenListRepository _tokenListRepository;
+  final TokenRepository _tokenRepository;
 
   Future<CryptoAmount> read(Token token) async {
     final query = _db.tokenBalanceRows.select()
@@ -39,7 +39,7 @@ class TokenBalancesRepository {
     return query.get().then(
           (rows) => Future.wait(
             rows.map(
-              (row) async => _tokenListRepository.getToken(row.token),
+              (row) async => _tokenRepository.getToken(row.token),
             ),
           ).then(
             (tokens) => tokens.whereNotNull().toISet(),
@@ -60,7 +60,7 @@ class TokenBalancesRepository {
     return query.watch().asyncMap(
           (rows) async => Future.wait(
             rows.map(
-              (row) async => _tokenListRepository.getToken(row.token),
+              (row) async => _tokenRepository.getToken(row.token),
             ),
           ).then(
             (tokens) => tokens.whereNotNull().toISet(),
@@ -81,7 +81,7 @@ class TokenBalancesRepository {
     return query.watch().asyncMap(
           (rows) async => Future.wait(
             rows.map(
-              (row) async => _tokenListRepository.getToken(row.token).letAsync(
+              (row) async => _tokenRepository.getToken(row.token).letAsync(
                     (token) => token?.let(
                       (t) => CryptoAmount(
                         value: row.amount,
