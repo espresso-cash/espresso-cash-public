@@ -19,11 +19,12 @@ import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../payments/create_direct_payment.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_sender.dart';
+import '../../transactions/services/tx_confirm.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
@@ -47,7 +48,8 @@ class OffRampOrderService implements Disposable {
   OffRampOrderService(
     this._account,
     this._client,
-    this._sender,
+    this._createDirectPayment,
+    this._txConfirm,
     this._db,
     this._tokens,
   );
@@ -57,7 +59,8 @@ class OffRampOrderService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
-  final TxSender _sender;
+  final CreateDirectPayment _createDirectPayment;
+  final TxConfirm _txConfirm;
   final MyDatabase _db;
   final TokenList _tokens;
 
@@ -327,8 +330,7 @@ class OffRampOrderService implements Disposable {
             ),
           );
         case OffRampOrderStatus.sendingDepositTx:
-          final tx =
-              SignedTx.decode(order.transaction).let((it) => (it, order.slot));
+          final tx = SignedTx.decode(order.transaction).let((it) => it);
 
           return Stream.fromFuture(_sendTx(tx));
         case OffRampOrderStatus.depositTxReady:
@@ -372,24 +374,23 @@ class OffRampOrderService implements Disposable {
     required CryptoAmount amount,
     required Ed25519HDPublicKey receiver,
   }) async {
-    final dto = CreateDirectPaymentRequestDto(
-      senderAccount: _account.address,
-      receiverAccount: receiver.toBase58(),
+    final directPaymentResult = await _createDirectPayment(
+      aReceiver: receiver,
+      aSender: _account.publicKey,
+      aReference: null,
       amount: amount.value,
-      referenceAccount: null,
-      cluster: apiCluster,
+      commitment: Commitment.confirmed,
     );
-    final response = await _client.createDirectPayment(dto);
 
     return _signAndUpdateRow(
-      encodedTx: response.transaction,
-      slot: response.slot,
+      encodedTx: directPaymentResult.transaction.encode(),
     );
   }
 
   Future<OffRampOrderRowsCompanion> _createScalexTx({
     required String partnerOrderId,
   }) async {
+    // TODO(vsumin): make scalex durable
     final dto = ScalexWithdrawRequestDto(
       orderId: partnerOrderId,
       cluster: apiCluster,
@@ -398,13 +399,12 @@ class OffRampOrderService implements Disposable {
 
     return _signAndUpdateRow(
       encodedTx: response.transaction,
-      slot: response.slot,
+      //  slot: response.slot,
     );
   }
 
   Future<OffRampOrderRowsCompanion> _signAndUpdateRow({
     required String encodedTx,
-    required BigInt slot,
   }) async {
     final tx =
         await SignedTx.decode(encodedTx).let((it) => it.resign(_account));
@@ -412,38 +412,38 @@ class OffRampOrderService implements Disposable {
     return OffRampOrderRowsCompanion(
       status: const Value(OffRampOrderStatus.depositTxReady),
       transaction: Value(tx.encode()),
-      slot: Value(slot),
     );
   }
 
-  Future<OffRampOrderRowsCompanion> _sendTx((SignedTx, BigInt) tx) async {
-    final sent = await _sender.send(tx.$1, minContextSlot: tx.$2);
-    switch (sent) {
-      case TxSendSent():
-        break;
-      case TxSendInvalidBlockhash():
-        return OffRampOrderRowsCompanion(
-          status: const Value(OffRampOrderStatus.depositError),
-          transaction: const Value(''),
-          slot: Value(BigInt.zero),
-        );
-      case TxSendFailure(:final reason):
-        return OffRampOrderRowsCompanion(
-          status: reason == TxFailureReason.insufficientFunds
-              ? const Value(OffRampOrderStatus.insufficientFunds)
-              : const Value(OffRampOrderStatus.depositError),
-          transaction: const Value(''),
-          slot: Value(BigInt.zero),
-        );
-      case TxSendNetworkError():
-        return _depositError;
-    }
+  Future<OffRampOrderRowsCompanion> _sendTx(SignedTx tx) async {
+    final signature = await _submitDurableTx(tx);
 
-    final confirmed = await _sender.wait(
-      tx.$1,
-      minContextSlot: tx.$2,
-      txType: 'OffRamp',
-    );
+    return signature.isEmpty
+        ? OffRampOrderRowsCompanion(
+            status: const Value(OffRampOrderStatus.depositError),
+            transaction: const Value(''),
+            slot: Value(BigInt.zero),
+          )
+        : await _confirmTransaction(signature);
+  }
+
+  Future<String> _submitDurableTx(SignedTx tx) async {
+    try {
+      final response = await _client.submitDurableTx(
+        SubmitDurableTxRequestDto(tx: tx.encode()),
+      );
+
+      return response.signature;
+    } on Exception {
+      return '';
+    }
+  }
+
+  Future<OffRampOrderRowsCompanion> _confirmTransaction(
+    String signature,
+  ) async {
+    final confirmed = await _txConfirm(txId: signature);
+
     switch (confirmed) {
       case TxWaitSuccess():
         return const OffRampOrderRowsCompanion(
@@ -458,6 +458,7 @@ class OffRampOrderService implements Disposable {
           slot: Value(BigInt.zero),
         );
       case TxWaitNetworkError():
+      case null:
         return _depositError;
     }
   }
