@@ -29,7 +29,7 @@ class CommonTile extends StatelessWidget {
             false;
 
     final amount = txCommon.amount
-        ?.let((e) => e.format(context.locale, maxDecimals: 2))
+        ?.let((e) => e.format(context.locale, maxDecimals: 9))
         .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
