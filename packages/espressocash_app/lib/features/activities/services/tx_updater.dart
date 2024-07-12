@@ -241,7 +241,7 @@ extension on TransactionDetails {
     if (rawAmount == null || rawAmount == 0) return null;
 
     final amount = await rawAmount.let((amount) async {
-      final tokenRepository = GetIt.I<TokenListRepository>();
+      final tokenRepository = GetIt.I<TokenRepository>();
       final cryptoCurrency = tokenAddress != null
           ? tokenAddress == Token.sol.address
               ? const CryptoCurrency(token: Token.sol)

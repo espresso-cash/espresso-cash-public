@@ -185,7 +185,7 @@ class TransactionRepository {
 
 extension TransactionRowExt on TransactionRow {
   Future<TxCommon> toModel() =>
-      sl<TokenListRepository>().getToken(tokenAddress).letAsync(
+      sl<TokenRepository>().getToken(tokenAddress).letAsync(
             (e) async => TxCommon(
               SignedTx.decode(encodedTx),
               created: created,
@@ -194,9 +194,9 @@ extension TransactionRowExt on TransactionRow {
                 (it) async => CryptoAmount(
                   value: it,
                   cryptoCurrency: CryptoCurrency(
-                    token: (await sl<TokenListRepository>()
-                            .getToken(tokenAddress)) ??
-                        Token.unk,
+                    token:
+                        (await sl<TokenRepository>().getToken(tokenAddress)) ??
+                            Token.unk,
                   ),
                 ),
               ),
