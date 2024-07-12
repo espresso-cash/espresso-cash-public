@@ -8,6 +8,7 @@ export 'src/dto/gas.dart';
 export 'src/dto/get_fees.dart';
 export 'src/dto/get_meta.dart';
 export 'src/dto/get_rates.dart';
+export 'src/dto/get_tokens.dart';
 export 'src/dto/moneygram.dart';
 export 'src/dto/priority_fees.dart';
 export 'src/dto/scalex.dart';

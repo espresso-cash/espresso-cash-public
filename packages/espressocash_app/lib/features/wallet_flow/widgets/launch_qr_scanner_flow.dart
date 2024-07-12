@@ -55,7 +55,7 @@ extension BuildContextExt on BuildContext {
       );
       final requestAmount = await request.whenOrNull(
         solanaPay: (r) => r.cryptoAmount(
-          sl<TokenListRepository>().getToken,
+          sl<TokenRepository>().getToken,
         ),
       );
 

@@ -108,28 +108,27 @@ class CpButton extends StatelessWidget {
       style: ButtonStyle(
         animationDuration: Duration.zero,
         minimumSize:
-            MaterialStateProperty.all(Size(minWidth ?? 100, size.height)),
-        fixedSize: MaterialStateProperty.all(
+            WidgetStateProperty.all(Size(minWidth ?? 100, size.height)),
+        fixedSize: WidgetStateProperty.all(
           Size.fromHeight(size.height),
         ),
-        shape: MaterialStateProperty.all(const StadiumBorder()),
+        shape: WidgetStateProperty.all(const StadiumBorder()),
         alignment: alignment.alignment,
-        overlayColor:
-            MaterialStateProperty.all(CpColors.translucentYellowColor),
-        padding: MaterialStateProperty.all(
+        overlayColor: WidgetStateProperty.all(CpColors.translucentYellowColor),
+        padding: WidgetStateProperty.all(
           EdgeInsets.symmetric(horizontal: horizontalPadding),
         ),
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (states) => states.contains(MaterialState.disabled)
+        backgroundColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.disabled)
               ? _backgroundColor.withOpacity(_disabledOpacity)
               : _backgroundColor,
         ),
-        foregroundColor: MaterialStateProperty.resolveWith(
-          (states) => states.contains(MaterialState.disabled)
+        foregroundColor: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.disabled)
               ? _foregroundColor.withOpacity(_disabledOpacity)
               : _foregroundColor,
         ),
-        textStyle: MaterialStateProperty.all(textStyle),
+        textStyle: WidgetStateProperty.all(textStyle),
       ),
       child: SizedBox(
         width: trailing == null ? null : double.infinity,

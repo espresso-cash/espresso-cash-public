@@ -30,7 +30,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     with DisposableBloc {
   BalancesBloc(
     this._solanaClient,
-    this._tokenListRepository,
+    this._tokenRepository,
     this._tokensBalanceRepository,
     this._analyticsManager,
   ) : super(const ProcessingStateNone()) {
@@ -38,7 +38,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   }
 
   final SolanaClient _solanaClient;
-  final TokenListRepository _tokenListRepository;
+  final TokenRepository _tokenRepository;
   final TokenBalancesRepository _tokensBalanceRepository;
   final AnalyticsManager _analyticsManager;
 
@@ -63,7 +63,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
                 account: (a) => _MainTokenAccount.create(
                   programAccount.pubkey,
                   a.info,
-                  _tokenListRepository,
+                  _tokenRepository,
                 ),
                 orElse: () async => null,
               ),
@@ -110,7 +110,7 @@ class _MainTokenAccount {
   static Future<_MainTokenAccount?> create(
     String pubKey,
     SplTokenAccountDataInfo info,
-    TokenListRepository tokenListRepository,
+    TokenRepository tokenListRepository,
   ) async {
     final expectedPubKey = await findAssociatedTokenAddress(
       owner: Ed25519HDPublicKey.fromBase58(info.owner),

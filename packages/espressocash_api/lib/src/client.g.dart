@@ -588,7 +588,7 @@ class _EspressoCashClient implements EspressoCashClient {
   }
 
   @override
-  Future<GasFeeResponseDto> getGasFeesxs(GasFeeRequestDto request) async {
+  Future<GasFeeResponseDto> getGasFees(GasFeeRequestDto request) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -640,66 +640,6 @@ class _EspressoCashClient implements EspressoCashClient {
             ))));
     final value = GetRatesResponseDto.fromJson(_result.data!);
     return value;
-  }
-
-  @override
-  Future<GetTokenListMetaResponseDto> getTokenListMeta() async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<GetTokenListMetaResponseDto>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/tokens/meta',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = GetTokenListMetaResponseDto.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
-  Stream<List<int>> getTokenListFile() async* {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{
-      r'Content-Type': 'application/gzip',
-      r'Content-Encoding': 'gzip',
-      r'Transfer-Encoding': 'chunked',
-    };
-    _headers.removeWhere((k, v) => v == null);
-    const Map<String, dynamic>? _data = null;
-    final _result =
-        await _dio.fetch<List<dynamic>>(_setStreamType<List<int>>(Options(
-      method: 'POST',
-      headers: _headers,
-      extra: _extra,
-      contentType: 'application/gzip',
-    )
-            .compose(
-              _dio.options,
-              '/tokens/file',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(
-                baseUrl: _combineBaseUrls(
-              _dio.options.baseUrl,
-              baseUrl,
-            ))));
-    final value = _result.data!.cast<int>();
-    yield value;
   }
 
   @override
@@ -870,6 +810,33 @@ class _EspressoCashClient implements EspressoCashClient {
           _dio.options.baseUrl,
           baseUrl,
         ))));
+  }
+
+  @override
+  Future<GetTokensMetaResponseDto> getTokensMeta() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<GetTokensMetaResponseDto>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/tokens/meta',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = GetTokensMetaResponseDto.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

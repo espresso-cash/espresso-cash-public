@@ -36,6 +36,7 @@ abstract class EspressoCashClient {
         baseUrl: baseUrl,
       );
 
+  Dio get _dio;
   String? get baseUrl;
 
   @POST('/createDirectPayment')
@@ -131,15 +132,12 @@ abstract class EspressoCashClient {
   );
 
   @POST('/dln/incoming/gasFee')
-  Future<GasFeeResponseDto> getGasFeesxs(
+  Future<GasFeeResponseDto> getGasFees(
     @Body() GasFeeRequestDto request,
   );
 
   @POST('/rates')
   Future<GetRatesResponseDto> getRates();
-
-  @POST('/tokens/meta')
-  Future<GetTokenListMetaResponseDto> getTokenListMeta();
 
   @POST('/getPriorityFeeEstimate')
   Future<PriorityFeesResponseDto> getPriorityFeeEstimate(
@@ -170,4 +168,15 @@ abstract class EspressoCashClient {
   Future<void> fundXlmRequest(
     @Body() FundXlmRequestDto request,
   );
+
+  @POST('/tokens/meta')
+  Future<GetTokensMetaResponseDto> getTokensMeta();
+}
+
+extension EspressoCashClientExt on EspressoCashClient {
+  Future<void> getTokensFile(String savePath) => _dio.download(
+        '${baseUrl ?? _dio.options.baseUrl}/tokens/file',
+        savePath,
+        options: Options(method: HttpMethod.POST),
+      );
 }

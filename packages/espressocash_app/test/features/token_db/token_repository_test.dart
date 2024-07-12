@@ -8,25 +8,17 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'token_list_repository_test.mocks.dart';
+import 'token_repository_test.mocks.dart';
 
-@GenerateMocks([TokenListRepository])
+@GenerateMocks([TokenRepository])
 void main() {
   final MemoryTokenRepository memoryRepo = MemoryTokenRepository();
-  final MockTokenListRepository mockRepo = MockTokenListRepository();
+  final MockTokenRepository mockRepo = MockTokenRepository();
 
   setUpAll(() {
     provideDummy<Either<Exception, String>>(const Right('dummy'));
   });
   group('mocked test', () {
-    test('should initialize database from CSV file', () async {
-      when(mockRepo.initialize()).thenAnswer((_) async => const Right('dummy'));
-
-      await mockRepo.initialize();
-
-      verify(mockRepo.initialize()).called(1);
-    });
-
     test('should get a token', () async {
       const token = TokenRow(
         address: 'So00000000000',
@@ -250,14 +242,13 @@ Extensions? parseExtensions(String? extensionString) {
 
 typedef TokenMap = IMap<String, TokenRow>;
 
-class MemoryTokenRepository implements TokenListRepository {
+class MemoryTokenRepository implements TokenRepository {
   final data = BehaviorSubject<TokenMap>.seeded(TokenMap());
 
   @override
   Future<Token?> getToken(String address) async =>
       data.value[address]?.toModel();
 
-  @override
   Future<Either<Exception, String>> initialize() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
@@ -293,11 +284,6 @@ class MemoryTokenRepository implements TokenListRepository {
   @override
   Future<void> onDispose() async {
     data.add(data.value.clear());
-  }
-
-  @override
-  Future<Either<Exception, void>> initializeFromFile(String baseUrl) {
-    throw UnimplementedError();
   }
 
   void insertTokens(List<TokenRow> tokens) {

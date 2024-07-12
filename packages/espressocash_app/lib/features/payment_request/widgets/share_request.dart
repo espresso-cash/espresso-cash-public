@@ -63,7 +63,7 @@ class ShareRequestPayment extends StatelessWidget {
                 Expanded(
                   child: FutureBuilder(
                     future: request.payRequest.cryptoAmount(
-                      sl<TokenListRepository>().getToken,
+                      sl<TokenRepository>().getToken,
                     ),
                     builder: (context, snapshot) {
                       final link = request.shortLink ?? request.dynamicLink;

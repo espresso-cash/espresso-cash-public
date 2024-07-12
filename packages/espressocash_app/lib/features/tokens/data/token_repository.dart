@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:async/async.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
@@ -11,63 +10,49 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/open_connection.dart';
-import '../../../utils/async_cache.dart';
+import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../token.dart';
 
 @Singleton(scope: authScope)
-class TokenListRepository implements Disposable {
-  TokenListRepository({
+class TokenRepository implements Disposable {
+  TokenRepository({
     required MyDatabase db,
     required EspressoCashClient ecClient,
   })  : _ecClient = ecClient,
         _db = db {
-    initialize().foldAsync(
-      (err) => kDebugMode ? debugPrint(err.toString()) : null,
-      (msg) => kDebugMode ? debugPrint(msg) : null,
-    );
+    _initialize();
   }
 
   final EspressoCashClient _ecClient;
   final MyDatabase _db;
-  final AsyncCache<GetTokenListMetaResponseDto> _cache =
-      AsyncCache(const Duration(minutes: 60));
 
-  Future<Either<Exception, String>> initialize() =>
-      _cache.fetchEither(_ecClient.getTokenListMeta).foldAsync(
-            (e) => throw Exception(e),
-            (GetTokenListMetaResponseDto serverHash) =>
-                TokenListHashStorage.getHash()
-                    .letAsync(
-                      (actualHash) => actualHash != null
-                          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-                          ? serverHash.md5 != actualHash
-                          : true,
-                    )
-                    .letAsync(
-                      (shouldInitialize) => shouldInitialize
-                          ? initializeFromFile(
-                              _ecClient.baseUrl ??
-                                  (kDebugMode
-                                      ? 'http://localhost:8080/api/v1'
-                                      : 'https://api.espressocash.com/api/v1'),
-                            ).foldAsync(Left.new, (_) async {
-                              await TokenListHashStorage.saveHash(
-                                // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-                                serverHash.md5,
-                              );
-
-                              return const Right('token db updated');
-                            })
-                          : Future<Either<Exception, String>>(
-                              () => const Right('token db already up to date'),
-                            ),
-                    ),
-          );
+  Future<void> _initialize() => _ecClient.getTokensMeta().letAsync(
+        (GetTokensMetaResponseDto serverHash) => TokensMetaStorage.getHash()
+            .letAsync(
+          (actualHash) => actualHash != null
+              // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+              ? serverHash.md5 != actualHash
+              : true,
+        )
+            .letAsync((shouldInitialize) {
+          if (shouldInitialize) {
+            return _initializeFromFile().letAsync((_) async {
+              await TokensMetaStorage.saveHash(
+                // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+                serverHash.md5,
+              );
+            });
+          }
+        }),
+      );
 
   Future<Token?> getToken(String address) {
     final query = _db.select(_db.tokenRows)
@@ -79,28 +64,27 @@ class TokenListRepository implements Disposable {
 
   @override
   Future<void> onDispose() async {
-    await TokenListHashStorage.clearTimestamp();
+    await TokensMetaStorage.clearHash();
     await _db.delete(_db.tokenRows).go();
   }
 
-  Future<Either<Exception, void>> initializeFromFile(
-    String baseUrl,
-  ) =>
+  Future<Either<Exception, void>> _initializeFromFile() =>
       tryEitherAsync((_) async {
         await onDispose();
         final receivePort = ReceivePort();
 
         final Isolate tokenListIsolate = await Isolate.spawn(
-          _initializeFromFileIsolate,
+          _initializeIsolate,
           receivePort.sendPort,
         );
+        final wallet = sl<ECWallet>();
 
         final sendPort = await receivePort.first as SendPort;
         final responsePort = ReceivePort();
         sendPort.send([
           responsePort.sendPort,
           ServicesBinding.rootIsolateToken,
-          baseUrl,
+          wallet,
         ]);
 
         await for (final message in responsePort) {
@@ -112,7 +96,7 @@ class TokenListRepository implements Disposable {
         }
       });
 
-  static Future<void> _initializeFromFileIsolate(SendPort mainSendPort) async {
+  static Future<void> _initializeIsolate(SendPort mainSendPort) async {
     final receivePort = ReceivePort();
     mainSendPort.send(receivePort.sendPort);
 
@@ -121,7 +105,7 @@ class TokenListRepository implements Disposable {
         final SendPort sendPort = message[0] as SendPort;
         final RootIsolateToken rootIsolateToken =
             message[1] as RootIsolateToken;
-        final String baseUrl = message[2] as String;
+        final ECWallet wallet = message[2] as ECWallet;
 
         BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
 
@@ -131,45 +115,24 @@ class TokenListRepository implements Disposable {
           ),
         );
 
-        final request = await HttpClient().getUrl(
-          Uri.parse('$baseUrl/tokens/file'),
-        );
+        final appDir = await getTemporaryDirectory();
 
-        final response = await request.close();
+        final path = '${appDir.path}${Platform.pathSeparator}tokens.csv.gz';
 
-        bool isFirstLine = true;
+        await EspressoCashClient(
+          baseUrl: kDebugMode ? 'http://localhost:8080/api/v1' : null,
+          sign: (data) async => (
+            signature:
+                await wallet.sign([Uint8List.fromList(utf8.encode(data))]).then(
+              (value) => value.first.toBase58(),
+            ),
+            publicKey: wallet.publicKey.toBase58(),
+          ),
+        ).getTokensFile(path);
 
-        final transformer =
-            StreamTransformer<List<int>, List<TokenRow>>.fromHandlers(
-          handleData: (data, sink) {
-            final List<TokenRow> rows = [];
-            final lines = utf8.decode(gzip.decode(data)).split('\n');
-            for (final line in lines) {
-              if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-              }
-              final values = line.split(',');
-              if (values.length >= 8) {
-                rows.add(
-                  TokenRow(
-                    address: values[0],
-                    chainId: int.parse(values[1]),
-                    symbol: values[2],
-                    name: values[3],
-                    decimals: int.parse(values[4]),
-                    logoURI: values[5],
-                    tags: _parseTags(values[6]),
-                    extensions: _parseExtensions(values[7]),
-                  ),
-                );
-              }
-            }
-            sink.add(rows);
-          },
-        );
+        final File myFile = File(path);
 
-        await response.transform(transformer).forEach((rows) async {
+        await myFile.openRead().transformToTokenRows().forEach((rows) async {
           await database.transaction(() async {
             await database.batch(
               (batch) => batch.insertAll(
@@ -179,6 +142,7 @@ class TokenListRepository implements Disposable {
               ),
             );
           });
+
           sendPort.send(null);
           receivePort.close();
         });
@@ -200,27 +164,64 @@ extension TokenRowsExt on TokenRow {
       );
 }
 
-List<String>? _parseTags(String? tagString) {
-  if (tagString == null || tagString.isEmpty) return null;
-
-  return tagString
-      .replaceAll('[', '')
-      .replaceAll(']', '')
-      .split(',')
-      .map((e) => e.trim())
-      .toList();
+extension _StreamExtension on Stream<List<int>> {
+  Stream<List<TokenRow>> transformToTokenRows() => transform(
+        StreamTransformer<List<int>, List<TokenRow>>.fromHandlers(
+          handleData: (data, sink) {
+            final List<TokenRow> rows = [];
+            final lines = utf8.decode(gzip.decode(data)).split('\n');
+            bool isFirstLine = true;
+            for (final line in lines) {
+              if (isFirstLine) {
+                isFirstLine = false;
+                continue;
+              }
+              final values = line.split(',');
+              if (values.length >= 8) {
+                rows.add(
+                  TokenRow(
+                    address: values[0],
+                    chainId: int.parse(values[1]),
+                    symbol: values[2],
+                    name: values[3],
+                    decimals: int.parse(values[4]),
+                    logoURI: values[5],
+                    tags: values[6]._parseTags(),
+                    extensions: values[7]._parseExtensions(),
+                  ),
+                );
+              }
+            }
+            sink.add(rows);
+          },
+        ),
+      );
 }
 
-Extensions? _parseExtensions(String? extensionString) {
-  final parts = extensionString?.split(':');
+extension _TagStringParser on String {
+  List<String>? _parseTags() {
+    if (this.isEmpty) return null;
 
-  return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
-      ? Extensions(coingeckoId: parts[1])
-      : null;
+    return replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(',')
+        .map((e) => e.trim())
+        .toList();
+  }
 }
 
-class TokenListHashStorage {
-  static const String _key = 'lastTokenListTimestamp';
+extension _ExtensionStringParser on String {
+  Extensions? _parseExtensions() {
+    final parts = split(':');
+
+    return (parts.length == 2 && parts[0] == 'coingeckoId')
+        ? Extensions(coingeckoId: parts[1])
+        : null;
+  }
+}
+
+abstract final class TokensMetaStorage {
+  static const String _key = 'tokensFileHash';
 
   static Future<void> saveHash(String timestamp) async {
     final prefs = await SharedPreferences.getInstance();
@@ -233,7 +234,7 @@ class TokenListHashStorage {
     return prefs.getString(_key);
   }
 
-  static Future<void> clearTimestamp() async {
+  static Future<void> clearHash() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
   }

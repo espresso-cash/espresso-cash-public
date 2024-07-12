@@ -50,7 +50,7 @@ class OffRampOrderService implements Disposable {
     this._client,
     this._sender,
     this._db,
-    this._tokenListRepository,
+    this._tokenRepository,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -60,7 +60,7 @@ class OffRampOrderService implements Disposable {
   final EspressoCashClient _client;
   final TxSender _sender;
   final MyDatabase _db;
-  final TokenListRepository _tokenListRepository;
+  final TokenRepository _tokenRepository;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -110,7 +110,7 @@ class OffRampOrderService implements Disposable {
 
           if (tokenAddress == null) return null;
 
-          final token = await _tokenListRepository.getToken(tokenAddress);
+          final token = await _tokenRepository.getToken(tokenAddress);
 
           if (token == null) return null;
 
@@ -366,8 +366,7 @@ class OffRampOrderService implements Disposable {
   Future<CryptoAmount> _amount(OffRampOrderRow order) async => CryptoAmount(
         value: order.amount,
         cryptoCurrency: CryptoCurrency(
-          token:
-              (await _tokenListRepository.getToken(order.token)) ?? Token.unk,
+          token: (await _tokenRepository.getToken(order.token)) ?? Token.unk,
         ),
       );
 
