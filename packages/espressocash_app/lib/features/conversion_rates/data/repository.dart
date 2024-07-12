@@ -12,7 +12,6 @@ import '../../../utils/async_cache.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import 'jupiter_client.dart';
 
 @Singleton(scope: authScope)
@@ -31,6 +30,7 @@ class ConversionRatesRepository extends ChangeNotifier {
   final JupiterPriceClient _jupiterClient;
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
+
   final AsyncCache<void> _cache = AsyncCache(const Duration(minutes: 1));
 
   @PostConstruct()
@@ -110,25 +110,35 @@ class ConversionRatesRepository extends ChangeNotifier {
         notifyListeners();
       });
 
-  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
-      _cache.fetchEither(() async {
-        final data = await _ecClient.getRates().then((p) => p.usdc);
-        await _storage.setDouble(_usdcRateKey, data);
-        final previous = _value.value[Currency.usd] ?? const IMapConst({});
-        final newValue = _value.value.add(
-          Currency.usd,
-          previous.addAll(
-            {
-              Currency.usdc: data.let((s) => Decimal.parse(s.toString())),
-            }.toIMap(),
-          ),
-        );
-        _value.add(newValue);
+  AsyncResult<void> refresh(
+    FiatCurrency currency,
+    Iterable<Token> tokens, {
+    bool? useCache,
+  }) {
+    Future<void> updateData() async {
+      final data = await _ecClient.getRates().then((p) => p.usdc);
+      await _storage.setDouble(_usdcRateKey, data);
 
-        notifyListeners();
+      final previous = _value.value[Currency.usd] ?? const IMapConst({});
+      final newValue = _value.value.add(
+        Currency.usd,
+        previous.addAll(
+          {
+            Currency.usdc: Decimal.parse(data.toString()),
+          }.toIMap(),
+        ),
+      );
 
-        await _fetchTokens(currency, tokens);
-      });
+      _value.add(newValue);
+      notifyListeners();
+
+      await _fetchTokens(currency, tokens);
+    }
+
+    return useCache ?? true
+        ? _cache.fetchEither(updateData)
+        : tryEitherAsync((_) => updateData());
+  }
 
   @override
   @disposeMethod

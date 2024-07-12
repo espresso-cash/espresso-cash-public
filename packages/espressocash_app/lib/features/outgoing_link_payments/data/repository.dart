@@ -10,25 +10,26 @@ import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
 import '../../../data/db/mixins.dart';
+import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../escrow/models/escrow_private_key.dart';
-import '../../tokens/token_list.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../models/outgoing_link_payment.dart';
 
 @Singleton(scope: authScope)
 class OLPRepository implements Disposable {
-  const OLPRepository(this._db, this._tokens);
+  const OLPRepository(this._db);
 
   final MyDatabase _db;
-  final TokenList _tokens;
 
   Future<OutgoingLinkPayment?> load(String id) {
     final query = _db.select(_db.oLPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then((row) => row?.toModel(_tokens));
+    return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Future<void> save(OutgoingLinkPayment payment) async {
@@ -38,7 +39,7 @@ class OLPRepository implements Disposable {
   Stream<OutgoingLinkPayment> watch(String id) {
     final query = _db.select(_db.oLPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingle().asyncMap((row) => row.toModel(_tokens));
+    return query.watchSingle().asyncMap((row) => row.toModel());
   }
 
   /// Watches for statuses that can be moved to withdrawn or canceled directly,
@@ -80,10 +81,14 @@ class OLPRepository implements Disposable {
     final query = _db.select(_db.oLPRows)
       ..where((p) => p.status.isInValues(statuses));
 
-    return query
-        .watch()
-        .map((rows) => rows.map((row) => row.toModel(_tokens)))
-        .map((event) => event.toIList());
+    return query.watch().asyncMap(
+          (rows) async => (await Future.wait(
+            rows.map(
+              (row) => row.toModel(),
+            ),
+          ))
+              .toIList(),
+        );
   }
 
   Future<IList<String>> getNonCompletedPaymentIds() {
@@ -133,13 +138,13 @@ enum OLPStatusDto {
 }
 
 extension OLPRowExt on OLPRow {
-  OutgoingLinkPayment toModel(TokenList tokens) => OutgoingLinkPayment(
+  Future<OutgoingLinkPayment> toModel() async => OutgoingLinkPayment(
         id: id,
         created: created,
         amount: CryptoAmount(
           value: amount,
           cryptoCurrency: CryptoCurrency(
-            token: tokens.requireTokenByMint(token),
+            token: (await sl<TokenRepository>().getToken(token)) ?? Token.unk,
           ),
         ),
         status: status.toOLPStatus(this),

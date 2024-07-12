@@ -10,13 +10,14 @@ import 'package:rxdart/rxdart.dart';
 import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
+import '../../../di.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
@@ -24,10 +25,9 @@ import 'activity_builder.dart';
 
 @injectable
 class TransactionRepository {
-  const TransactionRepository(this._db, this._tokens);
+  const TransactionRepository(this._db);
 
   final MyDatabase _db;
-  final TokenList _tokens;
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
@@ -49,10 +49,10 @@ class TransactionRepository {
       ..where((t) => t.tokenAddress.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query.watch().map((rows) {
+    return query.watch().asyncMap((rows) async {
       final grouped = <String, IList<TxCommon>>{};
       for (final row in rows) {
-        final model = row.toModel();
+        final model = await row.toModel();
         final created = model.created;
         if (created != null) {
           final date = DateFormat('yyyy-MM-dd').format(created);
@@ -80,18 +80,21 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
+    return query.watchSingle().asyncExpand(
+          (row) => row.toModel().alsoAsync(_match).asStream(),
+        );
   }
 
   Future<void> saveAll(
     Iterable<TxCommon> txs, {
     required bool clear,
+    InsertMode mode = InsertMode.insertOrReplace,
   }) {
     Future<void> save() => _db.batch(
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: InsertMode.insertOrIgnore,
+            mode: mode,
           ),
         );
 
@@ -130,13 +133,13 @@ class TransactionRepository {
 
     final odp = _db.oDPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => row.status != ODPStatusDto.success,
     );
 
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled]
           .contains(row.status)
           .not(),
@@ -181,27 +184,31 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  TxCommon toModel() => TxCommon(
-        SignedTx.decode(encodedTx),
-        created: created,
-        status: status,
-        amount: amount?.let(
-          (it) => CryptoAmount(
-            value: it,
-            cryptoCurrency: CryptoCurrency(
-              token: TokenList().findTokenByMint(tokenAddress) ?? Token.usdc,
+  Future<TxCommon> toModel() =>
+      sl<TokenRepository>().getToken(tokenAddress).letAsync(
+            (e) async => TxCommon(
+              SignedTx.decode(encodedTx),
+              created: created,
+              status: status,
+              amount: await amount?.let(
+                (it) async => CryptoAmount(
+                  value: it,
+                  cryptoCurrency: CryptoCurrency(
+                    token:
+                        (await sl<TokenRepository>().getToken(tokenAddress)) ??
+                            Token.unk,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      );
+          );
 }
 
 extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
-        tokenAddress:
-            amount?.cryptoCurrency.token.address ?? Token.usdc.address,
+        tokenAddress: amount?.cryptoCurrency.token.address ?? Token.unk.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,
