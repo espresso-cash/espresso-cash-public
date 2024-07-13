@@ -21,7 +21,7 @@ import '../../tokens/token.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
-class TokenDetailsScreen extends StatefulWidget {
+class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
 
   static void push(BuildContext context, {required Token token}) =>
@@ -33,16 +33,11 @@ class TokenDetailsScreen extends StatefulWidget {
 
   final Token token;
 
-  @override
-  State<TokenDetailsScreen> createState() => _TokenDetailsScreenState();
-}
-
-class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
   final double _paddingTop = 0.0;
 
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
-        value: widget.token,
+        value: token,
         child: CpTheme.dark(
           child: Scaffold(
             body: Stack(
@@ -64,7 +59,7 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                   bottom: false,
                   child: NestedScrollView(
                     headerSliverBuilder: (context, _) => [
-                      TokenAppBar(token: widget.token),
+                      TokenAppBar(token: token),
                     ],
                     body: Padding(
                       padding: EdgeInsets.only(top: _paddingTop),
@@ -99,7 +94,7 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                                         const SizedBox(height: 4),
                                         const _TokenHeader(),
                                         const SizedBox(height: 33),
-                                        if (widget.token.isUsdcToken)
+                                        if (token.isUsdcToken)
                                           const _RampButtons()
                                         else
                                           const _SwapButton(),
@@ -124,11 +119,11 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                                                   children: [
                                                     TokenInfo(
                                                       tokenAddress:
-                                                          widget.token.address,
+                                                          token.address,
                                                     ),
                                                     RecentTokenActivityWidget(
                                                       tokenAddress:
-                                                          widget.token.address,
+                                                          token.address,
                                                     ),
                                                   ],
                                                 ),
