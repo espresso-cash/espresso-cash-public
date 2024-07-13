@@ -1,5 +1,7 @@
 {
   "@@locale": "en",
+  "about": "About",
+  "@about": {},
   "activities_lblCanceled": "Canceled",
   "@activities_lblCanceled": {},
   "activities_lblFailure": "Failure",
@@ -42,6 +44,8 @@
   "@carouselSendMoneyBtn": {},
   "close": "Close",
   "@close": {},
+  "coin": "Coin",
+  "@coin": {},
   "comingSoon": "Coming soon!",
   "@comingSoon": {},
   "completeThePuzzle": "Did you write it down your recovery phrase correctly? Test it here:",
@@ -163,6 +167,8 @@
       }
     }
   },
+  "mintAddress": "Mint Address",
+  "@mintAddress": {},
   "mobileWalletAcceptAuthorization": "Authorize",
   "@mobileWalletAcceptAuthorization": {},
   "mobileWalletAcceptSignAndSendPayloads": "Sign and Send",
@@ -506,6 +512,8 @@
       }
     }
   },
+  "token" : "Token",
+  "@token": {},
   "tokenEquivalent": "Equivalent to {value}",
   "@tokenEquivalent": {
     "placeholders": {
@@ -767,6 +775,8 @@
       }
     }
   },
+  "price": "Price",
+  "@price": {},
   "outgoingDlnDisclaimer1": "This feature is currently in BETA.\nPlease contact ",
   "@outgoingDlnDisclaimer1": {},
   "outgoingDlnDisclaimer2": "Espresso customer support",
