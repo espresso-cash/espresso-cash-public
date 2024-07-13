@@ -38,30 +38,7 @@ class TokenDetailsScreen extends StatefulWidget {
 }
 
 class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
-  late ScrollController _scrollController;
-  double _paddingTop = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    setState(() {
-      _paddingTop =
-          (_scrollController.offset > 56) ? 56 : _scrollController.offset;
-    });
-  }
+  final double _paddingTop = 0.0;
 
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
@@ -86,7 +63,6 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                 SafeArea(
                   bottom: false,
                   child: NestedScrollView(
-                    controller: _scrollController,
                     headerSliverBuilder: (context, _) => [
                       TokenAppBar(token: widget.token),
                     ],

@@ -41,9 +41,7 @@ class _TransactionListState extends State<TransactionList> {
           builder: (context, snapshot) {
             final data = snapshot.data;
 
-            if (data == null) return const SizedBox.shrink();
-
-            return data.isEmpty
+            return data == null || data.isEmpty
                 ? Center(
                     child: NoActivity(
                       onSendMoneyPressed: widget.onSendMoneyPressed,

@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../currency/models/amount.dart';
@@ -29,21 +30,22 @@ class TokenInfo extends StatelessWidget {
     final fiatRate = Amount.fromDecimal(value: rate, currency: Currency.usd);
 
     return TokenItemContainer(
-      title: 'About ${token.name}',
+      title: '${context.l10n.about} ${token.name}',
       content: Column(
         children: [
           _InfoItem(
-            label: 'Token',
+            label: token != Token.sol ? context.l10n.token : context.l10n.coin,
             value: '${token.name} (${token.symbol})',
           ),
           _InfoItem(
-            label: 'Price',
+            label: context.l10n.price,
             value: '\$${fiatRate.formatRate(rate.toDouble(), context.locale)}',
           ),
-          _InfoItem(
-            label: 'Mint Address',
-            value: tokenAddress.toShortAddress(),
-          ),
+          if (token != Token.sol)
+            _InfoItem(
+              label: context.l10n.mintAddress,
+              value: tokenAddress.toShortAddress(),
+            ),
         ],
       ),
     );
