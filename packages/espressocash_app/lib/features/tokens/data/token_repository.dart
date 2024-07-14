@@ -6,7 +6,6 @@ import 'dart:isolate';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -44,12 +43,12 @@ class TokenRepository implements Disposable {
         )
             .letAsync((shouldInitialize) {
           if (shouldInitialize) {
-            return _initializeFromFile().letAsync((_) async {
-              await TokensMetaStorage.saveHash(
+            return _initializeFromFile().letAsync(
+              (_) async => TokensMetaStorage.saveHash(
                 // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                 serverHash.md5,
-              );
-            });
+              ),
+            );
           }
         }),
       );
@@ -77,10 +76,11 @@ class TokenRepository implements Disposable {
           _initializeIsolate,
           receivePort.sendPort,
         );
-        final wallet = sl<ECWallet>();
 
+        final wallet = sl<ECWallet>();
         final sendPort = await receivePort.first as SendPort;
         final responsePort = ReceivePort();
+
         sendPort.send([
           responsePort.sendPort,
           ServicesBinding.rootIsolateToken,
@@ -120,7 +120,6 @@ class TokenRepository implements Disposable {
         final path = '${appDir.path}${Platform.pathSeparator}tokens.csv.gz';
 
         await EspressoCashClient(
-          baseUrl: kDebugMode ? 'http://localhost:8080/api/v1' : null,
           sign: (data) async => (
             signature:
                 await wallet.sign([Uint8List.fromList(utf8.encode(data))]).then(
@@ -130,9 +129,12 @@ class TokenRepository implements Disposable {
           ),
         ).getTokensFile(path);
 
-        final File myFile = File(path);
+        final File tokensFile = File(path);
 
-        await myFile.openRead().transformToTokenRows().forEach((rows) async {
+        await tokensFile
+            .openRead()
+            .transformToTokenRows()
+            .forEach((rows) async {
           await database.transaction(() async {
             await database.batch(
               (batch) => batch.insertAll(

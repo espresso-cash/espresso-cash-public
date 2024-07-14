@@ -22,8 +22,10 @@ import '../../transactions/screens/send_token_screen.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
-class TokenDetailsScreen extends StatefulWidget {
+class TokenDetailsScreen extends StatelessWidget {
   const TokenDetailsScreen({super.key, required this.token});
+
+  final Token token;
 
   static void push(BuildContext context, {required Token token}) =>
       Navigator.of(context).push<void>(
@@ -32,41 +34,9 @@ class TokenDetailsScreen extends StatefulWidget {
         ),
       );
 
-  final Token token;
-
-  @override
-  State<TokenDetailsScreen> createState() => _TokenDetailsScreenState();
-}
-
-class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
-  late ScrollController _scrollController;
-  double _paddingTop = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    setState(() {
-      _paddingTop =
-          (_scrollController.offset > 56) ? 56 : _scrollController.offset;
-    });
-  }
-
   @override
   Widget build(BuildContext context) => Provider<Token>.value(
-        value: widget.token,
+        value: token,
         child: CpTheme.dark(
           child: Scaffold(
             body: Stack(
@@ -87,30 +57,31 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                 SafeArea(
                   bottom: false,
                   child: NestedScrollView(
-                    controller: _scrollController,
                     headerSliverBuilder: (context, _) => [
-                      TokenAppBar(token: widget.token),
+                      TokenAppBar(token: token),
                     ],
-                    body: Padding(
-                      padding: EdgeInsets.only(top: _paddingTop),
-                      child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(31),
-                          topRight: Radius.circular(31),
-                        ),
-                        child: LayoutBuilder(
-                          builder: (
-                            BuildContext context,
-                            BoxConstraints viewportConstraints,
-                          ) =>
-                              RefreshIndicator(
-                            onRefresh: () => sl<TxUpdater>().call(),
-                            color: CpColors.primaryColor,
-                            backgroundColor: Colors.white,
-                            child: SingleChildScrollView(
-                              physics: const BouncingScrollPhysics(
-                                decelerationRate: ScrollDecelerationRate.fast,
-                                parent: ClampingScrollPhysics(),
+                    body: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(31),
+                        topRight: Radius.circular(31),
+                      ),
+                      child: LayoutBuilder(
+                        builder: (
+                          BuildContext context,
+                          BoxConstraints viewportConstraints,
+                        ) =>
+                            RefreshIndicator(
+                          onRefresh: () => sl<TxUpdater>().call(),
+                          color: CpColors.primaryColor,
+                          backgroundColor: Colors.white,
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(
+                              decelerationRate: ScrollDecelerationRate.fast,
+                              parent: ClampingScrollPhysics(),
+                            ),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                minHeight: viewportConstraints.maxHeight,
                               ),
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
@@ -124,10 +95,10 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                                         const SizedBox(height: 4),
                                         const _TokenHeader(),
                                         const SizedBox(height: 33),
-                                        if (widget.token.isUsdcToken)
+                                        if (token.isUsdcToken)
                                           const _RampButtons()
                                         else
-                                          _SwapButton(token: widget.token),
+                                          _SwapButton(token: token),
                                         const SizedBox(height: 41),
                                         Expanded(
                                           child: DecoratedBox(
@@ -149,11 +120,11 @@ class _TokenDetailsScreenState extends State<TokenDetailsScreen> {
                                                   children: [
                                                     TokenInfo(
                                                       tokenAddress:
-                                                          widget.token.address,
+                                                          token.address,
                                                     ),
                                                     RecentTokenActivityWidget(
                                                       tokenAddress:
-                                                          widget.token.address,
+                                                          token.address,
                                                     ),
                                                   ],
                                                 ),
