@@ -56,7 +56,6 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
 class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
   const factory ScalexWithdrawRequestDto({
     required String orderId,
-    required Cluster cluster,
   }) = _ScalexWithdrawRequestDto;
 
   factory ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -66,9 +65,8 @@ class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
 @freezed
 class ScalexWithdrawResponseDto with _$ScalexWithdrawResponseDto {
   const factory ScalexWithdrawResponseDto({
-    required int fee,
-    required String transaction,
-    required BigInt slot,
+    required String depositAddress,
+    required int amount,
   }) = _WithdrawPaymentResponseDto;
 
   factory ScalexWithdrawResponseDto.fromJson(Map<String, dynamic> json) =>

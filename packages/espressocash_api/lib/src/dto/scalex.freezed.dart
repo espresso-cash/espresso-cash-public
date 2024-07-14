@@ -756,7 +756,6 @@ ScalexWithdrawRequestDto _$ScalexWithdrawRequestDtoFromJson(
 /// @nodoc
 mixin _$ScalexWithdrawRequestDto {
   String get orderId => throw _privateConstructorUsedError;
-  Cluster get cluster => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -770,7 +769,7 @@ abstract class $ScalexWithdrawRequestDtoCopyWith<$Res> {
           $Res Function(ScalexWithdrawRequestDto) then) =
       _$ScalexWithdrawRequestDtoCopyWithImpl<$Res, ScalexWithdrawRequestDto>;
   @useResult
-  $Res call({String orderId, Cluster cluster});
+  $Res call({String orderId});
 }
 
 /// @nodoc
@@ -788,17 +787,12 @@ class _$ScalexWithdrawRequestDtoCopyWithImpl<$Res,
   @override
   $Res call({
     Object? orderId = null,
-    Object? cluster = null,
   }) {
     return _then(_value.copyWith(
       orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as Cluster,
     ) as $Val);
   }
 }
@@ -812,7 +806,7 @@ abstract class _$$ScalexWithdrawRequestDtoImplCopyWith<$Res>
       __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String orderId, Cluster cluster});
+  $Res call({String orderId});
 }
 
 /// @nodoc
@@ -829,17 +823,12 @@ class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? orderId = null,
-    Object? cluster = null,
   }) {
     return _then(_$ScalexWithdrawRequestDtoImpl(
       orderId: null == orderId
           ? _value.orderId
           : orderId // ignore: cast_nullable_to_non_nullable
               as String,
-      cluster: null == cluster
-          ? _value.cluster
-          : cluster // ignore: cast_nullable_to_non_nullable
-              as Cluster,
     ));
   }
 }
@@ -847,20 +836,17 @@ class __$$ScalexWithdrawRequestDtoImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
-  const _$ScalexWithdrawRequestDtoImpl(
-      {required this.orderId, required this.cluster});
+  const _$ScalexWithdrawRequestDtoImpl({required this.orderId});
 
   factory _$ScalexWithdrawRequestDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$ScalexWithdrawRequestDtoImplFromJson(json);
 
   @override
   final String orderId;
-  @override
-  final Cluster cluster;
 
   @override
   String toString() {
-    return 'ScalexWithdrawRequestDto(orderId: $orderId, cluster: $cluster)';
+    return 'ScalexWithdrawRequestDto(orderId: $orderId)';
   }
 
   @override
@@ -868,13 +854,12 @@ class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ScalexWithdrawRequestDtoImpl &&
-            (identical(other.orderId, orderId) || other.orderId == orderId) &&
-            (identical(other.cluster, cluster) || other.cluster == cluster));
+            (identical(other.orderId, orderId) || other.orderId == orderId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, orderId, cluster);
+  int get hashCode => Object.hash(runtimeType, orderId);
 
   @JsonKey(ignore: true)
   @override
@@ -892,17 +877,14 @@ class _$ScalexWithdrawRequestDtoImpl implements _ScalexWithdrawRequestDto {
 }
 
 abstract class _ScalexWithdrawRequestDto implements ScalexWithdrawRequestDto {
-  const factory _ScalexWithdrawRequestDto(
-      {required final String orderId,
-      required final Cluster cluster}) = _$ScalexWithdrawRequestDtoImpl;
+  const factory _ScalexWithdrawRequestDto({required final String orderId}) =
+      _$ScalexWithdrawRequestDtoImpl;
 
   factory _ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =
       _$ScalexWithdrawRequestDtoImpl.fromJson;
 
   @override
   String get orderId;
-  @override
-  Cluster get cluster;
   @override
   @JsonKey(ignore: true)
   _$$ScalexWithdrawRequestDtoImplCopyWith<_$ScalexWithdrawRequestDtoImpl>
@@ -916,9 +898,8 @@ ScalexWithdrawResponseDto _$ScalexWithdrawResponseDtoFromJson(
 
 /// @nodoc
 mixin _$ScalexWithdrawResponseDto {
-  int get fee => throw _privateConstructorUsedError;
-  String get transaction => throw _privateConstructorUsedError;
-  BigInt get slot => throw _privateConstructorUsedError;
+  String get depositAddress => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -932,7 +913,7 @@ abstract class $ScalexWithdrawResponseDtoCopyWith<$Res> {
           $Res Function(ScalexWithdrawResponseDto) then) =
       _$ScalexWithdrawResponseDtoCopyWithImpl<$Res, ScalexWithdrawResponseDto>;
   @useResult
-  $Res call({int fee, String transaction, BigInt slot});
+  $Res call({String depositAddress, int amount});
 }
 
 /// @nodoc
@@ -949,23 +930,18 @@ class _$ScalexWithdrawResponseDtoCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fee = null,
-    Object? transaction = null,
-    Object? slot = null,
+    Object? depositAddress = null,
+    Object? amount = null,
   }) {
     return _then(_value.copyWith(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-      transaction: null == transaction
-          ? _value.transaction
-          : transaction // ignore: cast_nullable_to_non_nullable
+      depositAddress: null == depositAddress
+          ? _value.depositAddress
+          : depositAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -979,7 +955,7 @@ abstract class _$$WithdrawPaymentResponseDtoImplCopyWith<$Res>
       __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int fee, String transaction, BigInt slot});
+  $Res call({String depositAddress, int amount});
 }
 
 /// @nodoc
@@ -995,23 +971,18 @@ class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? fee = null,
-    Object? transaction = null,
-    Object? slot = null,
+    Object? depositAddress = null,
+    Object? amount = null,
   }) {
     return _then(_$WithdrawPaymentResponseDtoImpl(
-      fee: null == fee
-          ? _value.fee
-          : fee // ignore: cast_nullable_to_non_nullable
-              as int,
-      transaction: null == transaction
-          ? _value.transaction
-          : transaction // ignore: cast_nullable_to_non_nullable
+      depositAddress: null == depositAddress
+          ? _value.depositAddress
+          : depositAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      slot: null == slot
-          ? _value.slot
-          : slot // ignore: cast_nullable_to_non_nullable
-              as BigInt,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -1020,22 +991,20 @@ class __$$WithdrawPaymentResponseDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
   const _$WithdrawPaymentResponseDtoImpl(
-      {required this.fee, required this.transaction, required this.slot});
+      {required this.depositAddress, required this.amount});
 
   factory _$WithdrawPaymentResponseDtoImpl.fromJson(
           Map<String, dynamic> json) =>
       _$$WithdrawPaymentResponseDtoImplFromJson(json);
 
   @override
-  final int fee;
+  final String depositAddress;
   @override
-  final String transaction;
-  @override
-  final BigInt slot;
+  final int amount;
 
   @override
   String toString() {
-    return 'ScalexWithdrawResponseDto(fee: $fee, transaction: $transaction, slot: $slot)';
+    return 'ScalexWithdrawResponseDto(depositAddress: $depositAddress, amount: $amount)';
   }
 
   @override
@@ -1043,15 +1012,14 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$WithdrawPaymentResponseDtoImpl &&
-            (identical(other.fee, fee) || other.fee == fee) &&
-            (identical(other.transaction, transaction) ||
-                other.transaction == transaction) &&
-            (identical(other.slot, slot) || other.slot == slot));
+            (identical(other.depositAddress, depositAddress) ||
+                other.depositAddress == depositAddress) &&
+            (identical(other.amount, amount) || other.amount == amount));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, fee, transaction, slot);
+  int get hashCode => Object.hash(runtimeType, depositAddress, amount);
 
   @JsonKey(ignore: true)
   @override
@@ -1071,19 +1039,16 @@ class _$WithdrawPaymentResponseDtoImpl implements _WithdrawPaymentResponseDto {
 abstract class _WithdrawPaymentResponseDto
     implements ScalexWithdrawResponseDto {
   const factory _WithdrawPaymentResponseDto(
-      {required final int fee,
-      required final String transaction,
-      required final BigInt slot}) = _$WithdrawPaymentResponseDtoImpl;
+      {required final String depositAddress,
+      required final int amount}) = _$WithdrawPaymentResponseDtoImpl;
 
   factory _WithdrawPaymentResponseDto.fromJson(Map<String, dynamic> json) =
       _$WithdrawPaymentResponseDtoImpl.fromJson;
 
   @override
-  int get fee;
+  String get depositAddress;
   @override
-  String get transaction;
-  @override
-  BigInt get slot;
+  int get amount;
   @override
   @JsonKey(ignore: true)
   _$$WithdrawPaymentResponseDtoImplCopyWith<_$WithdrawPaymentResponseDtoImpl>
