@@ -55,7 +55,7 @@ window.addEventListener("message", (event) => {
       this,
       url: Uri.parse(withdrawUrl),
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashOut,
+      title: l10n.offRampWithdrawTitle.toUpperCase(),
       theme: const CpThemeData.light(),
     );
 
@@ -70,7 +70,7 @@ window.addEventListener("message", (event) => {
     await WebViewScreen.push(
       this,
       url: Uri.parse(order.moreInfoUrl ?? ''),
-      title: l10n.ramp_titleCashOut,
+      title: l10n.offRampWithdrawTitle.toUpperCase(),
       theme: const CpThemeData.light(),
     );
 
