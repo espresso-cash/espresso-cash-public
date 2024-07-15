@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart' hide Headers;
+import 'package:dio/dio.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:retrofit/retrofit.dart';
 
