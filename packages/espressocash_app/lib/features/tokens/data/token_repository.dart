@@ -133,18 +133,20 @@ class TokenRepository implements Disposable {
 
         await tokensFile
             .openRead()
-            .transformToTokenRows()
-            .forEach((rows) async {
-          await database.transaction(() async {
-            await database.batch(
-              (batch) => batch.insertAll(
+            .transform(gzip.decoder)
+            .transform(utf8.decoder)
+            ._transformToTokenRows()
+            .forEach((tokenRow) async {
+          await database.transaction(
+            () async => database.batch(
+              (batch) async => batch.insertAll(
                 database.tokenRows,
-                rows,
+                tokenRow,
                 mode: InsertMode.insertOrReplace,
               ),
-            );
-          });
-
+            ),
+          );
+        }).whenComplete(() {
           sendPort.send(null);
           receivePort.close();
         });
@@ -166,12 +168,34 @@ extension TokenRowsExt on TokenRow {
       );
 }
 
-extension _StreamExtension on Stream<List<int>> {
-  Stream<List<TokenRow>> transformToTokenRows() => transform(
-        StreamTransformer<List<int>, List<TokenRow>>.fromHandlers(
+extension _TagStringParser on String {
+  List<String>? _parseTags() {
+    if (this.isEmpty) return null;
+
+    return replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(',')
+        .map((e) => e.trim())
+        .toList();
+  }
+}
+
+extension _ExtensionStringParser on String {
+  Extensions? _parseExtensions() {
+    final parts = split(':');
+
+    return (parts.length == 2 && parts[0] == 'coingeckoId')
+        ? Extensions(coingeckoId: parts[1])
+        : null;
+  }
+}
+
+extension _StreamExtension on Stream<String> {
+  Stream<List<TokenRow>> _transformToTokenRows() => transform(
+        StreamTransformer<String, List<TokenRow>>.fromHandlers(
           handleData: (data, sink) {
             final List<TokenRow> rows = [];
-            final lines = utf8.decode(gzip.decode(data)).split('\n');
+            final lines = data.split('\n');
             bool isFirstLine = true;
             for (final line in lines) {
               if (isFirstLine) {
@@ -198,28 +222,6 @@ extension _StreamExtension on Stream<List<int>> {
           },
         ),
       );
-}
-
-extension _TagStringParser on String {
-  List<String>? _parseTags() {
-    if (this.isEmpty) return null;
-
-    return replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(',')
-        .map((e) => e.trim())
-        .toList();
-  }
-}
-
-extension _ExtensionStringParser on String {
-  Extensions? _parseExtensions() {
-    final parts = split(':');
-
-    return (parts.length == 2 && parts[0] == 'coingeckoId')
-        ? Extensions(coingeckoId: parts[1])
-        : null;
-  }
 }
 
 abstract final class TokensMetaStorage {
