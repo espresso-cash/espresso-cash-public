@@ -82,8 +82,8 @@ class _CpAppBarState extends State<CpAppBar> {
       automaticallyImplyLeading: widget.automaticallyImplyLeading,
       backgroundColor: scrolledUnderColor == null
           ? widget.backgroundColor
-          : MaterialStateColor.resolveWith(
-              (states) => states.contains(MaterialState.scrolledUnder)
+          : WidgetStateColor.resolveWith(
+              (states) => states.contains(WidgetState.scrolledUnder)
                   ? scrolledUnderColor
                   : widget.backgroundColor,
             ),
