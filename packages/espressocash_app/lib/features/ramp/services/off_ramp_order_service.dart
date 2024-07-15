@@ -390,13 +390,21 @@ class OffRampOrderService implements Disposable {
   Future<OffRampOrderRowsCompanion> _createScalexTx({
     required String partnerOrderId,
   }) async {
-    final dto = ScalexWithdrawRequestDto(orderId: partnerOrderId);
-    final response = await _client.createScalexWithdraw(dto);
+    final dto = OrderStatusScalexRequestDto(referenceId: partnerOrderId);
+    final response = await _client.fetchScalexTransaction(dto);
+
+    final details = response.offRampDetails;
+
+    if (details == null) {
+      return const OffRampOrderRowsCompanion(
+        status: Value(OffRampOrderStatus.depositError),
+      );
+    }
 
     final scalexPaymentResult = await _scalexWithdrawPayment(
-      aReceiver: Ed25519HDPublicKey.fromBase58(response.depositAddress),
+      aReceiver: Ed25519HDPublicKey.fromBase58(details.depositAddress),
       aSender: _account.publicKey,
-      amount: response.amount,
+      amount: details.amount,
       commitment: Commitment.confirmed,
     );
 

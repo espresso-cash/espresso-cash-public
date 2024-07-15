@@ -91,7 +91,7 @@ class OnRampScalexDetails with _$OnRampScalexDetails {
 }
 
 @freezed
-class OffRampScalexDetails with _$OnRampScalexDetails {
+class OffRampScalexDetails with _$OffRampScalexDetails {
   const factory OffRampScalexDetails({
     required String depositAddress,
     required int amount,
