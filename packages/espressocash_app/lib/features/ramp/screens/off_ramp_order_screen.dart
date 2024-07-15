@@ -181,10 +181,6 @@ class OffRampOrderScreenContent extends StatelessWidget {
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
         order.status == OffRampOrderStatus.ready;
 
-    final showAdditionalInfo = isMoneygramOrder &&
-        (order.status == OffRampOrderStatus.completed ||
-            order.status == OffRampOrderStatus.refunded);
-
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
       const Text(
@@ -206,29 +202,29 @@ class OffRampOrderScreenContent extends StatelessWidget {
           ],
         ),
         content: CpContentPadding(
-          child: Column(
-            children: [
-              const Spacer(flex: 1),
-              _Timeline(
-                order: order,
-                amount: totalAmount,
-                receiveAmount: receiveAmount,
-              ),
-              const Spacer(flex: 4),
-              if (showAdditionalInfo) _MgAdditionalInfo(order: order),
-              PartnerOrderIdWidget(orderId: order.partnerOrderId),
-              if (primaryButton != null) ...[
-                const SizedBox(height: 12),
-                primaryButton,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _Timeline(
+                  order: order,
+                  amount: totalAmount,
+                  receiveAmount: receiveAmount,
+                ),
+                if (isMoneygramOrder) _MgAdditionalInfo(order: order),
+                PartnerOrderIdWidget(orderId: order.partnerOrderId),
+                if (primaryButton != null) ...[
+                  const SizedBox(height: 12),
+                  primaryButton,
+                ],
+                Visibility(
+                  visible: showCancelButton,
+                  maintainSize: true,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  child: _CancelButton(handleCanceled: handleCanceled),
+                ),
               ],
-              Visibility(
-                visible: showCancelButton,
-                maintainSize: true,
-                maintainAnimation: true,
-                maintainState: true,
-                child: _CancelButton(handleCanceled: handleCanceled),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -315,16 +311,15 @@ class _MgAdditionalInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (order.referenceNumber case final referenceNumber?)
-            Text(
-              'Reference number: $referenceNumber',
-              style: _additionalInfoTextStyle,
-            ),
           if (order.fee case final fee?)
             Text(
-              'Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+              'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
               style: _additionalInfoTextStyle,
             ),
+          Text(
+            'Status: ${order.status.toMoneygramStatus().toUpperCase()}',
+            style: _additionalInfoTextStyle,
+          ),
           if (order.moreInfoUrl case final moreInfoUrl?)
             Text.rich(
               TextSpan(
@@ -357,6 +352,11 @@ class _MgAdditionalInfo extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          if (order.referenceNumber case final referenceNumber?)
+            Text(
+              'Reference number: $referenceNumber',
+              style: _additionalInfoTextStyle,
             ),
         ],
       );
@@ -545,6 +545,28 @@ extension on OffRampOrderStatus {
   bool get isWaitingForBridge =>
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
+
+  String toMoneygramStatus() => switch (this) {
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.creatingDepositTx ||
+        OffRampOrderStatus.depositTxReady ||
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.ready ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.waitingForPartner =>
+          'Pending',
+        OffRampOrderStatus.depositError ||
+        OffRampOrderStatus.depositTxConfirmError ||
+        OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.failure =>
+          'Failed',
+        OffRampOrderStatus.completed => 'Completed',
+        OffRampOrderStatus.cancelled => 'Cancelled',
+        OffRampOrderStatus.refunded => 'Refunded',
+      };
 }
 
 const _additionalInfoTextStyle = TextStyle(
