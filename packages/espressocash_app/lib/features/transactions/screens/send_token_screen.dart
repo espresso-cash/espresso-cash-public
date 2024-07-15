@@ -1,10 +1,15 @@
+import 'dart:async';
+import 'dart:math' as math;
+import 'dart:typed_data';
+
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
-import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
@@ -12,13 +17,21 @@ import '../../../ui/icon_button.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
+import '../../accounts/models/ec_wallet.dart';
+import '../../activities/data/transaction_repository.dart';
+import '../../activities/models/transaction.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../outgoing_direct_payments/data/repository.dart';
+import '../../outgoing_direct_payments/models/outgoing_direct_payment.dart';
+import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
+import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
-import '../../token_details/widgets/loader_wrapper.dart';
 import '../../tokens/token.dart';
+import '../services/tx_sender.dart';
+import '../widgets/loader_wrapper.dart';
 
 class SendTokenScreen extends StatefulWidget {
   const SendTokenScreen({super.key, required this.token});
@@ -88,7 +101,9 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                 child: CpTheme.dark(
                   child: Scaffold(
                     appBar: CpAppBar(
-                      title: Text(context.l10n.sendMoney),
+                      title: Text(
+                        'Send ${widget.token.symbol}',
+                      ),
                     ),
                     backgroundColor: CpColors.dashboardBackgroundColor,
                     body: SafeArea(
@@ -169,7 +184,33 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                                 width: MediaQuery.sizeOf(context).width,
                                 alignment: CpButtonAlignment.center,
                                 size: CpButtonSize.big,
-                                onPressed: () {},
+                                onPressed: () async {
+                                  unawaited(
+                                    ODPConfirmationScreen.push(
+                                      context,
+                                      token: widget.token,
+                                      initialAmount: _quantityController.text,
+                                      isEnabled: false,
+                                      recipient: Ed25519HDPublicKey.fromBase58(
+                                        _recipientController.text,
+                                      ),
+                                    ).then((_) async {
+                                      Navigator.pop(context);
+                                      late String id;
+                                      //wip: tx should me mounted first and then sent
+                                      widget.token == Token.sol
+                                          ? id = (await _sendSolana()).$1.id
+                                          : id = (await _sendToken()).$1.id;
+
+                                      if (mounted) {
+                                        ODPDetailsScreen.push(context, id: id);
+                                      }
+                                    }),
+                                  );
+                                },
+                                //  widget.token == Token.sol
+                                //     ? _sendSolana
+                                //     : _sendToken,
                                 text: 'Next',
                               ),
                             ),
@@ -184,6 +225,253 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
           );
         },
       );
+
+  Future<(SignedTx, BigInt)> _sendToken() async {
+    final aReceiver = Ed25519HDPublicKey.fromBase58(_recipientController.text);
+    final aSender = sl<ECWallet>().publicKey;
+    final amount = (double.parse(_quantityController.text) *
+            math.pow(10, widget.token.decimals))
+        .toInt();
+    final mint = widget.token.publicKey;
+    const commitment = Commitment.finalized;
+
+    final shouldCreateAta = !await sl<SolanaClient>().hasAssociatedTokenAccount(
+      owner: aReceiver,
+      mint: mint,
+      commitment: commitment,
+    );
+
+    final instructions = <Instruction>[];
+
+    final ataSender = await findAssociatedTokenAddress(
+      owner: aSender,
+      mint: mint,
+    );
+
+    final ataReceiver = await findAssociatedTokenAddress(
+      owner: aReceiver,
+      mint: mint,
+    );
+
+    if (shouldCreateAta) {
+      final iCreateATA = AssociatedTokenAccountInstruction.createAccount(
+        funder: sl<ECWallet>().publicKey,
+        address: ataReceiver,
+        owner: aReceiver,
+        mint: mint,
+      );
+      instructions.add(iCreateATA);
+    }
+
+    final iTransfer = TokenInstruction.transfer(
+      amount: amount,
+      source: ataSender,
+      destination: ataReceiver,
+      owner: aSender,
+    );
+
+    instructions.add(iTransfer);
+
+    final message = Message(instructions: instructions);
+
+    final recentBlockhash =
+        await sl<SolanaClient>().rpcClient.getLatestBlockhash();
+
+    final compiledMessage = message.compile(
+      recentBlockhash: recentBlockhash.value.blockhash,
+      feePayer: sl<ECWallet>().publicKey,
+    );
+
+    final payloads = [compiledMessage].map(
+      (it) => Uint8List.fromList(
+        it.toByteArray().toList(),
+      ),
+    );
+
+    final signatures = await sl<ECWallet>().sign(
+      payloads,
+    );
+
+    final signedTx = SignedTx(
+      signatures: signatures,
+      compiledMessage: compiledMessage,
+    );
+
+    unawaited(
+      sl<ODPRepository>().save(
+        OutgoingDirectPayment(
+          id: signedTx.id,
+          receiver: Ed25519HDPublicKey.fromBase58(
+            _recipientController.text,
+          ),
+          amount: CryptoAmount(
+            value: amount,
+            cryptoCurrency: CryptoCurrency(token: widget.token),
+          ),
+          created: DateTime.now(),
+          status: ODPStatus.txCreated(
+            signedTx,
+            slot: recentBlockhash.context.slot,
+          ),
+        ),
+      ),
+    );
+
+    unawaited(
+      TxSender(client: sl<SolanaClient>())
+          .wait(
+        signedTx,
+        minContextSlot: recentBlockhash.context.slot,
+        txType: 'OutgoingDirectPayment',
+      )
+          .then((_) async {
+        unawaited(
+          sl<ODPRepository>().save(
+            OutgoingDirectPayment(
+              id: signedTx.id,
+              receiver: Ed25519HDPublicKey.fromBase58(
+                _recipientController.text,
+              ),
+              amount: CryptoAmount(
+                value: amount,
+                cryptoCurrency: CryptoCurrency(token: widget.token),
+              ),
+              created: DateTime.now(),
+              status: ODPStatus.success(
+                txId: signedTx.id,
+              ),
+            ),
+          ),
+        );
+
+        unawaited(
+          sl<TransactionRepository>().saveAll(
+            [
+              TxCommon(
+                signedTx,
+                status: TxCommonStatus.success,
+                created: DateTime.now(),
+                amount: CryptoAmount(
+                  value: -amount,
+                  cryptoCurrency: CryptoCurrency(token: widget.token),
+                ),
+              ),
+            ],
+            clear: false,
+          ),
+        );
+      }),
+    );
+
+    return (signedTx, recentBlockhash.context.slot);
+  }
+
+  Future<(SignedTx, BigInt)> _sendSolana() async {
+    final amount = (double.parse(_quantityController.text) *
+            math.pow(10, widget.token.decimals))
+        .toInt();
+
+    final Message message = Message(
+      instructions: [
+        SystemInstruction.transfer(
+          fundingAccount: sl<ECWallet>().publicKey,
+          lamports: amount,
+          recipientAccount: Ed25519HDPublicKey.fromBase58(
+            _recipientController.text,
+          ),
+        ),
+      ],
+    );
+
+    final blockhash = await sl<SolanaClient>().rpcClient.getLatestBlockhash();
+    final compiledMessage = message.compile(
+      recentBlockhash: blockhash.value.blockhash,
+      feePayer: sl<ECWallet>().publicKey,
+    );
+
+    final payloads = [compiledMessage].map(
+      (it) => Uint8List.fromList(
+        it.toByteArray().toList(),
+      ),
+    );
+
+    final signatures = await sl<ECWallet>().sign(
+      payloads,
+    );
+
+    final signedTx = SignedTx(
+      signatures: signatures,
+      compiledMessage: compiledMessage,
+    );
+
+    unawaited(
+      sl<ODPRepository>().save(
+        OutgoingDirectPayment(
+          id: signedTx.id,
+          receiver: Ed25519HDPublicKey.fromBase58(
+            _recipientController.text,
+          ),
+          amount: CryptoAmount(
+            value: amount,
+            cryptoCurrency: CryptoCurrency(token: widget.token),
+          ),
+          created: DateTime.now(),
+          status: ODPStatus.txCreated(
+            signedTx,
+            slot: blockhash.context.slot,
+          ),
+        ),
+      ),
+    );
+
+    unawaited(
+      TxSender(client: sl<SolanaClient>())
+          .wait(
+        signedTx,
+        minContextSlot: blockhash.context.slot,
+        txType: 'OutgoingDirectPayment',
+      )
+          .then((_) async {
+        unawaited(
+          sl<ODPRepository>().save(
+            OutgoingDirectPayment(
+              id: signedTx.id,
+              receiver: Ed25519HDPublicKey.fromBase58(
+                _recipientController.text,
+              ),
+              amount: CryptoAmount(
+                value: amount,
+                cryptoCurrency: CryptoCurrency(token: widget.token),
+              ),
+              created: DateTime.now(),
+              status: ODPStatus.success(
+                txId: signedTx.id,
+              ),
+            ),
+          ),
+        );
+
+        unawaited(
+          sl<TransactionRepository>().saveAll(
+            [
+              TxCommon(
+                signedTx,
+                status: TxCommonStatus.success,
+                created: DateTime.now(),
+                amount: CryptoAmount(
+                  value: -amount,
+                  cryptoCurrency: CryptoCurrency(token: widget.token),
+                ),
+              ),
+            ],
+            clear: false,
+          ),
+        );
+      }),
+    );
+
+    return (signedTx, blockhash.context.slot);
+  }
 }
 
 class _TokenQuantityInput extends StatefulWidget {
@@ -206,7 +494,7 @@ class _TokenQuantityInput extends StatefulWidget {
 class __TokenQuantityInputState extends State<_TokenQuantityInput> {
   bool _visibility = false;
   double _textHeight = 1.2;
-  double _fontSize = 34.0;
+  final double _fontSize = 34.0;
 
   @override
   void initState() {
@@ -226,46 +514,44 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         _visibility = false;
       }
 
-      _fontSize = _calculateFontSize(widget._quantityController.text);
+      //_fontSize = _calculateFontSize(widget._quantityController.text);
     });
   }
 
-  double _calculateFontSize(String text) {
-    double fontSize = 34;
+  // double _calculateFontSize(String text) {
+  //   double fontSize = 34;
 
-    final double textWidth = _calculateTextWidth(text, fontSize);
+  //   final double textWidth = _calculateTextWidth(text, fontSize);
 
-    if (textWidth > 245) {
-      fontSize *= 245 / textWidth;
-    }
+  //   if (textWidth > 245) {
+  //     fontSize *= 245 / textWidth;
+  //   }
 
-    return fontSize;
-  }
+  //   return fontSize;
+  // }
 
-  double _calculateTextWidth(String text, double fontSize) {
-    final textSpan = TextSpan(
-      text: text,
-      style: TextStyle(fontSize: fontSize),
-    );
+  // double _calculateTextWidth(String text, double fontSize) {
+  //   final textSpan = TextSpan(
+  //     text: text,
+  //     style: TextStyle(fontSize: fontSize),
+  //   );
 
-    final textPainter = TextPainter(
-      text: textSpan,
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
+  //   final textPainter = TextPainter(
+  //     text: textSpan,
+  //     maxLines: 1,
+  //     textDirection: TextDirection.ltr,
+  //   )..layout(minWidth: 0, maxWidth: double.infinity);
 
-    return textPainter.size.width;
-  }
+  //   return textPainter.size.width;
+  // }
 
   @override
   Widget build(BuildContext context) => Stack(
         children: [
           CpTextField(
-            padding: const EdgeInsets.only(
-              top: 16,
-              bottom: 16,
-              left: 24,
-              right: 24,
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 24,
             ),
             height: 72,
             controller: widget._quantityController,
@@ -278,7 +564,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
             textColor: Colors.white,
             fontSize: _fontSize,
             fontWeight: FontWeight.w700,
-            maxLength: 30,
+            maxLength: 29,
             textHeight: _textHeight,
             suffix: Padding(
               padding: const EdgeInsets.only(right: 14),
