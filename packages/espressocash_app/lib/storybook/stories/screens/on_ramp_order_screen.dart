@@ -40,7 +40,14 @@ final onRampOrderScreenStory = Story(
         transferExpiryDate: DateTime.now().add(const Duration(minutes: 30)),
       ),
       authToken: null,
-      additionalDetails: (fee: null, moreInfoUrl: null, referenceNumber: null),
+      additionalDetails: (
+        fee: Amount.fromDecimal(
+          value: Decimal.parse('10'),
+          currency: Currency.usd,
+        ) as FiatAmount,
+        moreInfoUrl: 'https://moreinfo.com',
+        referenceNumber: '1111111111'
+      ),
     ),
   ),
 );

@@ -156,9 +156,6 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
-    final showAdditionalInfo =
-        isMoneygramOrder && order.status == OnRampOrderStatus.completed;
-
     return CpTheme(
       theme: theme,
       child: StatusScreen(
@@ -190,8 +187,11 @@ class OnRampOrderScreenContent extends StatelessWidget {
                 partner: order.partner,
               ),
               const Spacer(flex: 4),
-              if (showAdditionalInfo)
-                _MgAdditionalInfo(details: order.additionalDetails),
+              if (isMoneygramOrder)
+                _MgAdditionalInfo(
+                  details: order.additionalDetails,
+                  status: order.status.toMoneygramStatus(),
+                ),
               PartnerOrderIdWidget(orderId: order.partnerOrderId),
               if (primaryButton != null) ...[
                 const SizedBox(height: 12),
@@ -246,22 +246,23 @@ class _ContactUsButton extends StatelessWidget {
 class _MgAdditionalInfo extends StatelessWidget {
   const _MgAdditionalInfo({
     required this.details,
+    required this.status,
   });
   final AdditionalDetails details;
+  final String status;
 
   @override
   Widget build(BuildContext context) => Column(
         children: [
-          if (details.referenceNumber case final referenceNumber?)
-            Text(
-              'Reference number: $referenceNumber',
-              style: _additionalInfoTextStyle,
-            ),
           if (details.fee case final fee?)
             Text(
-              'Fee: ${fee.format(context.locale, maxDecimals: 2)}',
+              'MoneyGram Fee: ${fee.format(context.locale, maxDecimals: 2)}',
               style: _additionalInfoTextStyle,
             ),
+          Text(
+            'Status: ${status.toUpperCase()}',
+            style: _additionalInfoTextStyle,
+          ),
           if (details.moreInfoUrl case final moreInfoUrl?)
             Text.rich(
               TextSpan(
@@ -294,6 +295,11 @@ class _MgAdditionalInfo extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+          if (details.referenceNumber case final referenceNumber?)
+            Text(
+              'Reference number: $referenceNumber',
+              style: _additionalInfoTextStyle,
             ),
         ],
       );
@@ -403,6 +409,19 @@ extension on OnRampOrderStatus {
         OnRampOrderStatus.failure ||
         OnRampOrderStatus.completed =>
           1,
+      };
+
+  String toMoneygramStatus() => switch (this) {
+        OnRampOrderStatus.pending ||
+        OnRampOrderStatus.preProcessing ||
+        OnRampOrderStatus.waitingForBridge ||
+        OnRampOrderStatus.waitingForDeposit ||
+        OnRampOrderStatus.postProcessing ||
+        OnRampOrderStatus.waitingForPartner =>
+          'Pending',
+        OnRampOrderStatus.depositExpired => 'Expired',
+        OnRampOrderStatus.failure => 'Failed',
+        OnRampOrderStatus.completed => 'Completed',
       };
 }
 
