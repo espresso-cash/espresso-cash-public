@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'scalex.freezed.dart';
@@ -45,6 +46,7 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
     @JsonKey(unknownEnumValue: ScalexOrderStatus.unknown)
     required ScalexOrderStatus status,
     OnRampScalexDetails? onRampDetails,
+    OffRampScalexDetails? offRampDetails,
   }) = _OrderStatusScalexResponseDto;
 
   factory OrderStatusScalexResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -55,6 +57,7 @@ class OrderStatusScalexResponseDto with _$OrderStatusScalexResponseDto {
 class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
   const factory ScalexWithdrawRequestDto({
     required String orderId,
+    required Cluster cluster,
   }) = _ScalexWithdrawRequestDto;
 
   factory ScalexWithdrawRequestDto.fromJson(Map<String, dynamic> json) =>
@@ -64,8 +67,9 @@ class ScalexWithdrawRequestDto with _$ScalexWithdrawRequestDto {
 @freezed
 class ScalexWithdrawResponseDto with _$ScalexWithdrawResponseDto {
   const factory ScalexWithdrawResponseDto({
-    required String depositAddress,
-    required int amount,
+    required int fee,
+    required String transaction,
+    required BigInt slot,
   }) = _WithdrawPaymentResponseDto;
 
   factory ScalexWithdrawResponseDto.fromJson(Map<String, dynamic> json) =>
@@ -84,6 +88,17 @@ class OnRampScalexDetails with _$OnRampScalexDetails {
 
   factory OnRampScalexDetails.fromJson(Map<String, dynamic> json) =>
       _$OnRampScalexDetailsFromJson(json);
+}
+
+@freezed
+class OffRampScalexDetails with _$OnRampScalexDetails {
+  const factory OffRampScalexDetails({
+    required String depositAddress,
+    required int amount,
+  }) = _OffRampScalexDetails;
+
+  factory OffRampScalexDetails.fromJson(Map<String, dynamic> json) =>
+      _$OffRampScalexDetailsFromJson(json);
 }
 
 @freezed
