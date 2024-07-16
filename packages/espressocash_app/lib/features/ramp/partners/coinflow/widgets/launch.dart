@@ -32,16 +32,28 @@ extension BuildContextExt on BuildContext {
     final hasKYC = await _checkKYC(address: address);
 
     switch (hasKYC) {
-      case Left<Exception, bool>():
+      case Left<Exception, bool>(:final value):
+        final exception = value as DioException;
+
+        if (exception.response?.statusCode == 451) {
+          final verificationLink = (exception.response?.data
+              as Map<String, dynamic>)['verificationLink'] as String?;
+
+          if (verificationLink != null) {
+            await _launchUrl(Uri.parse(verificationLink));
+
+            return;
+          }
+        }
+
         showCpErrorSnackbar(this, message: l10n.tryAgainLater);
 
         return;
 
       case Right<Exception, bool>(:final value):
         if (!value) {
-          await launchUrl(
+          await _launchUrl(
             _buildKycUrl(address: address, email: profile.email),
-            mode: LaunchMode.externalApplication,
           );
 
           return;
@@ -168,3 +180,8 @@ extension BuildContextExt on BuildContext {
     );
   }
 }
+
+Future<void> _launchUrl(Uri url) => launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
