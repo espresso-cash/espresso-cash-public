@@ -6,7 +6,6 @@ import 'dart:isolate';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -44,12 +43,12 @@ class TokenRepository implements Disposable {
         )
             .letAsync((shouldInitialize) {
           if (shouldInitialize) {
-            return _initializeFromFile().letAsync((_) async {
-              await TokensMetaStorage.saveHash(
+            return _initializeFromFile().letAsync(
+              (_) async => TokensMetaStorage.saveHash(
                 // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                 serverHash.md5,
-              );
-            });
+              ),
+            );
           }
         }),
       );
@@ -77,10 +76,11 @@ class TokenRepository implements Disposable {
           _initializeIsolate,
           receivePort.sendPort,
         );
-        final wallet = sl<ECWallet>();
 
+        final wallet = sl<ECWallet>();
         final sendPort = await receivePort.first as SendPort;
         final responsePort = ReceivePort();
+
         sendPort.send([
           responsePort.sendPort,
           ServicesBinding.rootIsolateToken,
@@ -120,7 +120,6 @@ class TokenRepository implements Disposable {
         final path = '${appDir.path}${Platform.pathSeparator}tokens.csv.gz';
 
         await EspressoCashClient(
-          baseUrl: kDebugMode ? 'http://localhost:8080/api/v1' : null,
           sign: (data) async => (
             signature:
                 await wallet.sign([Uint8List.fromList(utf8.encode(data))]).then(
@@ -130,19 +129,24 @@ class TokenRepository implements Disposable {
           ),
         ).getTokensFile(path);
 
-        final File myFile = File(path);
+        final File tokensFile = File(path);
 
-        await myFile.openRead().transformToTokenRows().forEach((rows) async {
-          await database.transaction(() async {
-            await database.batch(
-              (batch) => batch.insertAll(
+        await tokensFile
+            .openRead()
+            .transform(gzip.decoder)
+            .transform(utf8.decoder)
+            ._transformToTokenRows()
+            .forEach((tokenRow) async {
+          await database.transaction(
+            () async => database.batch(
+              (batch) async => batch.insertAll(
                 database.tokenRows,
-                rows,
+                tokenRow,
                 mode: InsertMode.insertOrReplace,
               ),
-            );
-          });
-
+            ),
+          );
+        }).whenComplete(() {
           sendPort.send(null);
           receivePort.close();
         });
@@ -164,12 +168,34 @@ extension TokenRowsExt on TokenRow {
       );
 }
 
-extension _StreamExtension on Stream<List<int>> {
-  Stream<List<TokenRow>> transformToTokenRows() => transform(
-        StreamTransformer<List<int>, List<TokenRow>>.fromHandlers(
+extension _TagStringParser on String {
+  List<String>? _parseTags() {
+    if (this.isEmpty) return null;
+
+    return replaceAll('[', '')
+        .replaceAll(']', '')
+        .split(',')
+        .map((e) => e.trim())
+        .toList();
+  }
+}
+
+extension _ExtensionStringParser on String {
+  Extensions? _parseExtensions() {
+    final parts = split(':');
+
+    return (parts.length == 2 && parts[0] == 'coingeckoId')
+        ? Extensions(coingeckoId: parts[1])
+        : null;
+  }
+}
+
+extension _StreamExtension on Stream<String> {
+  Stream<List<TokenRow>> _transformToTokenRows() => transform(
+        StreamTransformer<String, List<TokenRow>>.fromHandlers(
           handleData: (data, sink) {
             final List<TokenRow> rows = [];
-            final lines = utf8.decode(gzip.decode(data)).split('\n');
+            final lines = data.split('\n');
             bool isFirstLine = true;
             for (final line in lines) {
               if (isFirstLine) {
@@ -196,28 +222,6 @@ extension _StreamExtension on Stream<List<int>> {
           },
         ),
       );
-}
-
-extension _TagStringParser on String {
-  List<String>? _parseTags() {
-    if (this.isEmpty) return null;
-
-    return replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(',')
-        .map((e) => e.trim())
-        .toList();
-  }
-}
-
-extension _ExtensionStringParser on String {
-  Extensions? _parseExtensions() {
-    final parts = split(':');
-
-    return (parts.length == 2 && parts[0] == 'coingeckoId')
-        ? Extensions(coingeckoId: parts[1])
-        : null;
-  }
 }
 
 abstract final class TokensMetaStorage {
