@@ -54,7 +54,7 @@ android {
     defaultConfig {
         applicationId "com.pleasecrypto.flutter"
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
