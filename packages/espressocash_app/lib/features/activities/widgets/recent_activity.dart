@@ -10,7 +10,6 @@ import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../data/transaction_repository.dart';
 import '../models/transaction.dart';
-import '../services/tx_updater.dart';
 import 'common_tile.dart';
 import 'odp_tile.dart';
 import 'off_ramp_tile.dart';
@@ -40,7 +39,6 @@ class _RecentTokenActivityWidgetState extends State<RecentTokenActivityWidget> {
   @override
   void initState() {
     super.initState();
-    sl<TxUpdater>().call(tokenAddress: widget.tokenAddress);
     _groupedTxs =
         sl<TransactionRepository>().watchGroupedByDate(widget.tokenAddress);
   }

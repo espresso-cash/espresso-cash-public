@@ -8,7 +8,6 @@ import '../../../gen/assets.gen.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/snackbar.dart';
 import '../../../utils/processing_state.dart';
-import '../../activities/services/tx_updater.dart';
 import '../../balances/data/repository.dart';
 import '../../balances/services/balances_bloc.dart';
 import '../../balances/widgets/context_ext.dart';
@@ -81,7 +80,6 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   void initState() {
     super.initState();
     _onPulledToRefreshBalances(useCache: false);
-    sl<TxUpdater>().call();
   }
 
   Future<void> _onRefreshWithErrorHandling(BuildContext context) =>

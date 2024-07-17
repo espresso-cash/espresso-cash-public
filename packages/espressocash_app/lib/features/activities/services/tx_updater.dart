@@ -72,7 +72,7 @@ class TxUpdater implements Disposable {
                   account,
                   tokenAccountAddress,
                   mostRecentTxId,
-                  25,
+                  15,
                 ),
               ),
             ),
@@ -87,7 +87,7 @@ class TxUpdater implements Disposable {
         _wallet.publicKey,
         Token.sol.address,
         mostRecentTxId,
-        25,
+        15,
       );
 
   Future<void> _updateTokenTransactions(
@@ -110,7 +110,7 @@ class TxUpdater implements Disposable {
               tokenAccount,
               tokenAddress,
               mostRecentTxId,
-              25,
+              15,
             ).letAsync(
               (txs) => _repo.saveAll(txs, clear: false),
             ),
