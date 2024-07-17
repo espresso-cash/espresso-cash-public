@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../analytics/analytics_manager.dart';
+import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../payments/create_direct_payment.dart';
 import '../../transactions/models/tx_results.dart';
@@ -25,6 +26,7 @@ class ODPService {
     this._txConfirm,
     this._analyticsManager,
     this._createDirectPayment,
+    this._refreshBalance,
   );
 
   final EspressoCashClient _client;
@@ -32,6 +34,7 @@ class ODPService {
   final TxConfirm _txConfirm;
   final AnalyticsManager _analyticsManager;
   final CreateDirectPayment _createDirectPayment;
+  final RefreshBalance _refreshBalance;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -188,6 +191,7 @@ class ODPService {
     );
 
     if (newStatus is ODPStatusSuccess) {
+      _refreshBalance();
       _analyticsManager.directPaymentSent(amount: payment.amount.decimal);
     }
 
