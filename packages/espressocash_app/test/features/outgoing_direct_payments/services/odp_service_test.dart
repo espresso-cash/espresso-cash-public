@@ -22,6 +22,7 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../stub_analytics_manager.dart';
+import '../../../stub_refresh_balance.dart';
 import 'odp_service_test.mocks.dart';
 
 final confirm = MockTxConfirm();
@@ -84,6 +85,7 @@ Future<void> main() async {
         confirm,
         const StubAnalyticsManager(),
         createDirectPayment,
+        const StubRefreshBalance(),
       );
 
   Future<String> createODP(ODPService service) async {
