@@ -1,85 +1,48 @@
-import 'dart:async';
+part of '../data/transaction_repository.dart';
 
-import 'package:async/async.dart';
-import 'package:collection/collection.dart';
-import 'package:dfunc/dfunc.dart';
-import 'package:drift/drift.dart';
-import 'package:get_it/get_it.dart';
-import 'package:injectable/injectable.dart';
-import 'package:solana/base58.dart';
-import 'package:solana/dto.dart';
-import 'package:solana/encoder.dart';
-import 'package:solana/solana.dart';
-
-import '../../../utils/async_cache.dart';
-import '../../accounts/auth_scope.dart';
-import '../../accounts/models/ec_wallet.dart';
-import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
-import '../../tokens/data/token_repository.dart';
-import '../../tokens/token.dart';
-import '../data/transaction_repository.dart';
-import '../models/transaction.dart';
-
-@Singleton(scope: authScope)
-class TxUpdater implements Disposable {
-  TxUpdater(this._client, this._wallet, this._repo);
-
-  final SolanaClient _client;
-  final ECWallet _wallet;
-  final TransactionRepository _repo;
-
-  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
-
-  Future<void> call({String? tokenAddress}) => _callCache.fetchEither(() async {
-        final String? mostRecentTxId = await _repo.mostRecentTxId();
-
-        if (tokenAddress == null) {
-          final allTokensTx = await _updateAllTokenTransactions(mostRecentTxId);
-
-          await _updateSolTransactions(mostRecentTxId: mostRecentTxId).letAsync(
-            (results) async {
-              final uniqueResults = results
-                  .where(
-                    (result) => !allTokensTx.any(
-                      (tx) => tx.tx.id == result.tx.id,
+extension TxUpdater on TransactionRepository {
+  Future<void> update({String? tokenAddress}) => _callCache.fetchEither(
+        () => mostRecentTxId().letAsync(
+          (mostRecentTxId) async => tokenAddress == null
+              ? await _updateAllTokenTransactions(mostRecentTxId).letAsync(
+                  (allTokensTxs) =>
+                      _updateSolTransactions(mostRecentTxId: mostRecentTxId)
+                          .letAsync(
+                    (allSolTxs) => saveAll(
+                      allTokensTxs +
+                          allSolTxs
+                              .where(
+                                (result) => !allTokensTxs.any(
+                                  (tx) => tx.tx.id == result.tx.id,
+                                ),
+                              )
+                              .toList(),
                     ),
-                  )
-                  .toList();
-
-              await _repo.saveAll(
-                (allTokensTx + uniqueResults).toSet().toList(),
-                clear: false,
-              );
-            },
-          );
-        } else {
-          await _updateTokenTransactions(
-            tokenAddress,
-            mostRecentTxId: mostRecentTxId,
-          );
-        }
-      });
+                  ),
+                )
+              : await _updateTokenTransactions(
+                  tokenAddress,
+                  mostRecentTxId: mostRecentTxId,
+                ),
+        ),
+      );
 
   Future<List<TxCommon>> _updateAllTokenTransactions(String? mostRecentTxId) =>
-      getAllTokenAccounts(_wallet.publicKey).letAsync(
-        (tokenAccounts) async {
-          final transactions = await Future.wait(
-            tokenAccounts.map(
-              (account) async =>
-                  getMintAddressForTokenAccount(account).letAsync(
-                (tokenAccountAddress) => _fetchTransactions(
-                  account,
-                  tokenAccountAddress,
-                  mostRecentTxId,
-                  25,
-                ),
+      _getAllTokenAccounts(_wallet.publicKey).letAsync(
+        (tokenAccounts) async => (await Future.wait(
+          tokenAccounts.map(
+            (account) => getMintAddressForTokenAccount(account).letAsync(
+              (tokenAccountAddress) => _fetchTransactions(
+                account,
+                tokenAccountAddress,
+                mostRecentTxId,
+                15,
               ),
             ),
-          );
-
-          return transactions.expand((txs) => txs).toList();
-        },
+          ),
+        ))
+            .expand((txs) => txs)
+            .toList(),
       );
 
   Future<List<TxCommon>> _updateSolTransactions({String? mostRecentTxId}) =>
@@ -87,35 +50,34 @@ class TxUpdater implements Disposable {
         _wallet.publicKey,
         Token.sol.address,
         mostRecentTxId,
-        25,
+        15,
       );
 
   Future<void> _updateTokenTransactions(
     String tokenAddress, {
     String? mostRecentTxId,
-  }) async {
-    tokenAddress.let((t) => t == Token.sol.address)
-        ? await _updateSolTransactions(mostRecentTxId: mostRecentTxId).letAsync(
-            (txs) async => _repo.saveAll(
-              txs,
-              clear: false,
-              mode: InsertMode.insertOrIgnore,
-            ),
-          )
-        : await findAssociatedTokenAddress(
-            owner: _wallet.publicKey,
-            mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
-          ).letAsync(
-            (tokenAccount) => _fetchTransactions(
-              tokenAccount,
-              tokenAddress,
-              mostRecentTxId,
-              25,
+  }) async =>
+      tokenAddress.let((t) => t == Token.sol.address)
+          ? await _updateSolTransactions(mostRecentTxId: mostRecentTxId)
+              .letAsync(
+              (txs) async => saveAll(
+                txs,
+                mode: InsertMode.insertOrIgnore,
+              ),
+            )
+          : await findAssociatedTokenAddress(
+              owner: _wallet.publicKey,
+              mint: Ed25519HDPublicKey.fromBase58(tokenAddress),
             ).letAsync(
-              (txs) => _repo.saveAll(txs, clear: false),
-            ),
-          );
-  }
+              (tokenAccount) => _fetchTransactions(
+                tokenAccount,
+                tokenAddress,
+                mostRecentTxId,
+                15,
+              ).letAsync(
+                saveAll,
+              ),
+            );
 
   Future<List<TxCommon>> _fetchTransactions(
     Ed25519HDPublicKey account,
@@ -142,19 +104,20 @@ class TxUpdater implements Disposable {
         return filteredTxs.toSet().toList();
       });
 
-  Future<List<Ed25519HDPublicKey>> getAllTokenAccounts(
+  Future<List<Ed25519HDPublicKey>> _getAllTokenAccounts(
     Ed25519HDPublicKey owner,
-  ) async {
-    final accounts = await _client.rpcClient.getTokenAccountsByOwner(
-      owner.toBase58(),
-      encoding: Encoding.base64,
-      const TokenAccountsFilter.byProgramId(TokenProgram.programId),
-    );
-
-    return accounts.value
-        .map((account) => Ed25519HDPublicKey.fromBase58(account.pubkey))
-        .toList();
-  }
+  ) =>
+      _client.rpcClient
+          .getTokenAccountsByOwner(
+            owner.toBase58(),
+            encoding: Encoding.base64,
+            const TokenAccountsFilter.byProgramId(TokenProgram.programId),
+          )
+          .letAsync(
+            (accounts) => accounts.value
+                .map((account) => Ed25519HDPublicKey.fromBase58(account.pubkey))
+                .toList(),
+          );
 
   Future<String> getMintAddressForTokenAccount(
     Ed25519HDPublicKey tokenAccount,
@@ -175,9 +138,6 @@ class TxUpdater implements Disposable {
     return Ed25519HDPublicKey.fromBase58(base58encode(mintAddressBytes))
         .toBase58();
   }
-
-  @override
-  Future<void> onDispose() => _repo.clear();
 }
 
 extension on TransactionDetails {

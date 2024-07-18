@@ -110,7 +110,7 @@ class _MainTokenAccount {
   static Future<_MainTokenAccount?> create(
     String pubKey,
     SplTokenAccountDataInfo info,
-    TokenRepository tokenListRepository,
+    TokenRepository tokenRepository,
   ) async {
     final expectedPubKey = await findAssociatedTokenAddress(
       owner: Ed25519HDPublicKey.fromBase58(info.owner),
@@ -119,7 +119,7 @@ class _MainTokenAccount {
 
     if (expectedPubKey.toBase58() != pubKey) return null;
 
-    final Token? token = await tokenListRepository.getToken(info.mint);
+    final Token? token = await tokenRepository.getToken(info.mint);
 
     if (token == null) return null;
 
