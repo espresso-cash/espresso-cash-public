@@ -27,7 +27,7 @@ class HomeAddCashContent extends StatelessWidget {
             displacement: 80,
             onRefresh: () => Future.wait([
               onRefresh(),
-              sl<TransactionRepository>().call(),
+              sl<TransactionRepository>().update(),
             ]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
