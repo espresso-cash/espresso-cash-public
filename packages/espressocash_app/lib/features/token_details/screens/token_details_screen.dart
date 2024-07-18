@@ -9,7 +9,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../activities/services/tx_updater.dart';
+import '../../activities/data/transaction_repository.dart';
 import '../../activities/widgets/recent_activity.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
@@ -70,8 +70,8 @@ class TokenDetailsScreen extends StatelessWidget {
                           BoxConstraints viewportConstraints,
                         ) =>
                             RefreshIndicator(
-                          onRefresh: () =>
-                              sl<TxUpdater>().call(tokenAddress: token.address),
+                          onRefresh: () => sl<TransactionRepository>()
+                              .update(tokenAddress: token.address),
                           color: CpColors.primaryColor,
                           backgroundColor: Colors.white,
                           child: SingleChildScrollView(

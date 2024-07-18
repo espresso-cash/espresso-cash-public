@@ -34,10 +34,10 @@ class _ShareRequestPaymentState extends State<ShareRequestPayment> {
 
   @override
   void initState() {
+    super.initState();
     _cryptoAmountFuture = widget.request.payRequest.cryptoAmount(
       sl<TokenRepository>().getToken,
     );
-    super.initState();
   }
 
   @override
