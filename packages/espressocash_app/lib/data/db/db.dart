@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 52;
+const int latestVersion = 53;
 
 const _tables = [
   OutgoingTransferRows,
@@ -38,6 +38,7 @@ const _tables = [
   OutgoingDlnPaymentRows,
   TransactionRequestRows,
   TokenBalanceRows,
+  ConversionRatesRows,
 ];
 
 @lazySingleton
@@ -118,6 +119,10 @@ class MyDatabase extends _$MyDatabase {
 
           if (from < 52) {
             await m.createTable(tokenBalanceRows);
+          }
+
+          if (from < 53) {
+            await m.createTable(conversionRatesRows);
           }
         },
       );
@@ -244,4 +249,16 @@ class TokenBalanceRows extends Table with AmountMixin {
 
   @override
   Set<Column> get primaryKey => {token};
+}
+
+class ConversionRatesRows extends Table {
+  const ConversionRatesRows();
+
+  TextColumn get token => text()();
+  TextColumn get fiatCurrency => text()();
+  TextColumn get rate => text()();
+  DateTimeColumn get updatedAt => dateTime()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {token, fiatCurrency};
 }
