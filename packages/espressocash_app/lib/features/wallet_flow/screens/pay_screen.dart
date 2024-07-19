@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
@@ -71,7 +73,7 @@ class _PayScreenState extends State<PayScreen> {
 
           if (!mounted) return;
 
-          ODPDetailsScreen.open(context, id: id);
+          unawaited(ODPDetailsScreen.open(context, id: id));
         } else {
           OutgoingDlnPaymentConfirmationScreen.push(
             context,
