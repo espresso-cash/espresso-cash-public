@@ -63,11 +63,9 @@ class ConversionRatesRepository {
             tbl.fiatCurrency.equals(to.symbol),
       );
 
-    return query.watchSingleOrNull().map((row) {
-      final rateString = row?.rate;
-
-      return rateString == null ? null : Decimal.tryParse(rateString);
-    });
+    return query
+        .watchSingleOrNull()
+        .map((row) => row?.rate.let(Decimal.tryParse));
   }
 
   AsyncResult<void> _fetchTokens(
