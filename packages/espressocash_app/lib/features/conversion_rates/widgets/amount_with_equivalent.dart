@@ -25,6 +25,7 @@ class AmountWithEquivalent extends StatelessWidget {
     this.shakeKey,
     this.error = '',
     this.showUsdcInfo = false,
+    this.amount,
   });
 
   final TextEditingController inputController;
@@ -33,6 +34,7 @@ class AmountWithEquivalent extends StatelessWidget {
   final Key? shakeKey;
   final String error;
   final bool showUsdcInfo;
+  final String? amount;
 
   @override
   Widget build(BuildContext context) =>
@@ -54,6 +56,7 @@ class AmountWithEquivalent extends StatelessWidget {
                 child: _InputDisplay(
                   input: value.text,
                   fontSize: collapsed ? 57 : (context.isSmall ? 55 : 80),
+                  token: token,
                 ),
               ),
               if (!collapsed)
@@ -75,8 +78,8 @@ class AmountWithEquivalent extends StatelessWidget {
                             ),
                           (true, false, true) => const _InfoChip(),
                           _ => _EquivalentDisplay(
-                              input: value.text,
-                              token: token,
+                              input: amount?.let((it) => it) ?? value.text,
+                              token: Token.usdc,
                               backgroundColor: Colors.black,
                             ),
                         },
@@ -218,16 +221,19 @@ class _InputDisplay extends StatelessWidget {
   const _InputDisplay({
     required this.input,
     required this.fontSize,
+    required this.token,
   });
 
   final String input;
   final double fontSize;
+  final Token token;
 
   @override
   Widget build(BuildContext context) {
     final sign = Currency.usd.sign;
     final amount = input.formatted(context);
-    final formatted = '$sign$amount';
+    final formatted =
+        token == Token.usdc ? '$sign$amount' : '$amount ${token.symbol}';
 
     return SizedBox(
       height: 94,

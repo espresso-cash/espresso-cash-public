@@ -108,6 +108,25 @@ class TokenBalancesRepository {
         );
   }
 
+  Future<void> updateSingle(CryptoAmount balance) => _db.transaction(() async {
+        final row = await (_db.tokenBalanceRows.select()
+              ..where((tbl) => tbl.token.equals(balance.token.address)))
+            .getSingle();
+
+        await _db.tokenBalanceRows.deleteOne(row);
+
+        await _db.batch((batch) {
+          batch.insert(
+            _db.tokenBalanceRows,
+            TokenBalanceRow(
+              amount: row.amount - balance.value,
+              token: balance.token.address,
+            ),
+            mode: InsertMode.insertOrReplace,
+          );
+        });
+      });
+
   Future<void> save(Iterable<CryptoAmount> balances) =>
       _db.transaction(() async {
         await _db.delete(_db.tokenBalanceRows).go();

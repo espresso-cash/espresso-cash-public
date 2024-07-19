@@ -17,8 +17,9 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../send_token/screens/send_token_screen.dart';
 import '../../tokens/token.dart';
-import '../../transactions/screens/send_token_screen.dart';
+import '../widgets/refresh_token_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
@@ -70,70 +71,76 @@ class TokenDetailsScreen extends StatelessWidget {
                           BuildContext context,
                           BoxConstraints viewportConstraints,
                         ) =>
-                            RefreshIndicator(
-                          onRefresh: () => sl<TransactionRepository>()
-                              .update(tokenAddress: token.address),
-                          color: CpColors.primaryColor,
-                          backgroundColor: Colors.white,
-                          child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(
-                              decelerationRate: ScrollDecelerationRate.fast,
-                              parent: ClampingScrollPhysics(),
-                            ),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(
-                                minHeight: viewportConstraints.maxHeight,
+                            RefreshTokenWrapper(
+                          token: token,
+                          builder: (context, onRefresh) => RefreshIndicator(
+                            onRefresh: () => Future.wait([
+                              onRefresh(),
+                              sl<TransactionRepository>()
+                                  .update(tokenAddress: token.address),
+                            ]),
+                            color: CpColors.primaryColor,
+                            backgroundColor: Colors.white,
+                            child: SingleChildScrollView(
+                              physics: const BouncingScrollPhysics(
+                                decelerationRate: ScrollDecelerationRate.fast,
+                                parent: ClampingScrollPhysics(),
                               ),
                               child: ConstrainedBox(
                                 constraints: BoxConstraints(
                                   minHeight: viewportConstraints.maxHeight,
                                 ),
-                                child: DecoratedBox(
-                                  decoration: const BoxDecoration(),
-                                  child: IntrinsicHeight(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 4),
-                                        const _TokenHeader(),
-                                        const SizedBox(height: 33),
-                                        if (token.isUsdcToken)
-                                          const _RampButtons()
-                                        else
-                                          _SwapButton(token: token),
-                                        const SizedBox(height: 41),
-                                        Expanded(
-                                          child: DecoratedBox(
-                                            decoration: const BoxDecoration(
-                                              color: CpColors
-                                                  .dashboardBackgroundColor,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(31),
-                                                topRight: Radius.circular(31),
-                                              ),
-                                            ),
-                                            child: Center(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 41,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minHeight: viewportConstraints.maxHeight,
+                                  ),
+                                  child: DecoratedBox(
+                                    decoration: const BoxDecoration(),
+                                    child: IntrinsicHeight(
+                                      child: Column(
+                                        children: [
+                                          const SizedBox(height: 4),
+                                          const _TokenHeader(),
+                                          const SizedBox(height: 33),
+                                          if (token.isUsdcToken)
+                                            const _RampButtons()
+                                          else
+                                            _SwapButton(token: token),
+                                          const SizedBox(height: 41),
+                                          Expanded(
+                                            child: DecoratedBox(
+                                              decoration: const BoxDecoration(
+                                                color: CpColors
+                                                    .dashboardBackgroundColor,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(31),
+                                                  topRight: Radius.circular(31),
                                                 ),
-                                                child: Column(
-                                                  children: [
-                                                    TokenInfo(
-                                                      tokenAddress:
-                                                          token.address,
-                                                    ),
-                                                    RecentTokenActivityWidget(
-                                                      tokenAddress:
-                                                          token.address,
-                                                    ),
-                                                  ],
+                                              ),
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                    vertical: 41,
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      TokenInfo(
+                                                        tokenAddress:
+                                                            token.address,
+                                                      ),
+                                                      RecentTokenActivityWidget(
+                                                        tokenAddress:
+                                                            token.address,
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

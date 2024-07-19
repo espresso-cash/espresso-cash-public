@@ -26,6 +26,7 @@ class ODPConfirmationScreen extends StatefulWidget {
     required this.label,
     required this.token,
     this.isEnabled = true,
+    this.fiatRate,
   });
 
   static Future<Decimal?> push(
@@ -35,6 +36,7 @@ class ODPConfirmationScreen extends StatefulWidget {
     String? label,
     required Token token,
     required bool isEnabled,
+    String? fiatRate,
   }) =>
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -44,6 +46,7 @@ class ODPConfirmationScreen extends StatefulWidget {
             label: label,
             token: token,
             isEnabled: isEnabled,
+            fiatRate: fiatRate,
           ),
         ),
       );
@@ -53,6 +56,7 @@ class ODPConfirmationScreen extends StatefulWidget {
   final String? label;
   final Token token;
   final bool isEnabled;
+  final String? fiatRate;
 
   @override
   State<ODPConfirmationScreen> createState() => _ScreenState();
@@ -123,6 +127,7 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 inputController: _amountController,
                 token: widget.token,
                 collapsed: widget.isEnabled,
+                amount: widget.fiatRate,
               ),
               const SizedBox(height: 16),
               Expanded(
@@ -136,7 +141,8 @@ class _ScreenState extends State<ODPConfirmationScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              FeeLabel(type: FeeType.direct(widget.recipient)),
+              if (widget.token == Token.usdc)
+                FeeLabel(type: FeeType.direct(widget.recipient)),
               const SizedBox(height: 21),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),

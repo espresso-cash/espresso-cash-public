@@ -20,6 +20,7 @@ import '../../../ui/value_stream_builder.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../../activities/data/transaction_repository.dart';
 import '../../activities/models/transaction.dart';
+import '../../balances/data/repository.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
@@ -30,8 +31,8 @@ import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../tokens/token.dart';
-import '../services/tx_sender.dart';
-import '../widgets/loader_wrapper.dart';
+import '../../transactions/services/tx_sender.dart';
+import '../../transactions/widgets/loader_wrapper.dart';
 
 class SendTokenScreen extends StatefulWidget {
   const SendTokenScreen({super.key, required this.token});
@@ -52,19 +53,24 @@ class SendTokenScreen extends StatefulWidget {
 class _SendTokenScreenState extends State<SendTokenScreen> {
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _recipientController = TextEditingController();
-  double inputAmount = 0;
-  double textHeight = 1.2;
-  bool visibility = false;
 
-  late Decimal rate;
+  late Decimal _rate;
   @override
   void initState() {
     super.initState();
-    rate = sl<ConversionRatesRepository>().readRate(
+
+    _rate = sl<ConversionRatesRepository>().readRate(
           CryptoCurrency(token: widget.token),
           to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
+  }
+
+  @override
+  void dispose() {
+    _quantityController.dispose();
+    _recipientController.dispose();
+    super.dispose();
   }
 
   Future<void> _handleOnQrScan() async {
@@ -78,10 +84,46 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     });
   }
 
+  Future<void> _onPressed() async {
+    final confirmationResult = await ODPConfirmationScreen.push(
+      context,
+      token: widget.token,
+      initialAmount: _quantityController.text,
+      isEnabled: false,
+      fiatRate: (double.parse(_quantityController.text) * _rate.toDouble())
+          .toString(),
+      recipient: Ed25519HDPublicKey.fromBase58(_recipientController.text),
+    );
+
+    if (confirmationResult != null) {
+      final total = (double.parse(_quantityController.text) *
+              math.pow(10, widget.token.decimals))
+          .toInt();
+
+      final res = widget.token == Token.sol
+          ? await _mountTxSol()
+          : await _mountTxToken();
+
+      final cryptoAmount = (widget.token == Token.sol
+          ? _sendTxToken(res.$1, total, res.$2)
+          : _sendTxSolana(res.$1, total, res.$2));
+
+      if (!mounted) return;
+
+      unawaited(
+        ODPDetailsScreen.open(context, id: res.$1.id).then((_) {
+          _quantityController.clear();
+          sl<TokenBalancesRepository>().updateSingle(cryptoAmount);
+        }),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => LoadBalancesWrapper(
         builder: (context, onRefresh) {
           onRefresh();
+
           return ValueStreamBuilder<CryptoFiatAmount>(
             create: () => (
               sl<TokenFiatBalanceService>().readInvestmentBalance(widget.token),
@@ -92,9 +134,6 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
             ),
             builder: (context, value) {
               final crypto = value.$1;
-
-              final fiatRate =
-                  Amount.fromDecimal(value: rate, currency: Currency.usd);
 
               return Provider<Token>.value(
                 value: widget.token,
@@ -127,11 +166,11 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                               ),
                             ),
                             const SizedBox(height: 8),
-                            _TokenQuantityInput(
+                            TokenQuantityInput(
                               quantityController: _quantityController,
                               crypto: crypto,
                               symbol: widget.token.symbol,
-                              fiatRate: fiatRate,
+                              rate: _rate,
                             ),
                             const SizedBox(height: 32),
                             const Padding(
@@ -146,11 +185,9 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                             ),
                             const SizedBox(height: 8),
                             CpTextField(
-                              padding: const EdgeInsets.only(
-                                top: 16,
-                                bottom: 16,
-                                left: 24,
-                                right: 24,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 16,
+                                horizontal: 24,
                               ),
                               height: 72,
                               controller: _recipientController,
@@ -184,33 +221,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                                 width: MediaQuery.sizeOf(context).width,
                                 alignment: CpButtonAlignment.center,
                                 size: CpButtonSize.big,
-                                onPressed: () async {
-                                  unawaited(
-                                    ODPConfirmationScreen.push(
-                                      context,
-                                      token: widget.token,
-                                      initialAmount: _quantityController.text,
-                                      isEnabled: false,
-                                      recipient: Ed25519HDPublicKey.fromBase58(
-                                        _recipientController.text,
-                                      ),
-                                    ).then((_) async {
-                                      Navigator.pop(context);
-                                      late String id;
-                                      //wip: tx should me mounted first and then sent
-                                      widget.token == Token.sol
-                                          ? id = (await _sendSolana()).$1.id
-                                          : id = (await _sendToken()).$1.id;
-
-                                      if (mounted) {
-                                        ODPDetailsScreen.push(context, id: id);
-                                      }
-                                    }),
-                                  );
-                                },
-                                //  widget.token == Token.sol
-                                //     ? _sendSolana
-                                //     : _sendToken,
+                                onPressed: _onPressed,
                                 text: 'Next',
                               ),
                             ),
@@ -226,7 +237,79 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
         },
       );
 
-  Future<(SignedTx, BigInt)> _sendToken() async {
+  CryptoAmount _sendTxToken(
+    SignedTx signedTx,
+    int amount,
+    BigInt slot,
+  ) {
+    final crypto = CryptoAmount(
+      value: amount,
+      cryptoCurrency: CryptoCurrency(token: widget.token),
+    );
+    unawaited(
+      sl<ODPRepository>().save(
+        OutgoingDirectPayment(
+          id: signedTx.id,
+          receiver: Ed25519HDPublicKey.fromBase58(
+            _recipientController.text,
+          ),
+          amount: crypto,
+          created: DateTime.now(),
+          status: ODPStatus.txCreated(
+            signedTx,
+            slot: slot,
+          ),
+        ),
+      ),
+    );
+
+    unawaited(
+      TxSender(client: sl<SolanaClient>())
+          .wait(
+        signedTx,
+        minContextSlot: slot,
+        txType: 'OutgoingDirectPayment',
+      )
+          .then((_) async {
+        unawaited(
+          sl<ODPRepository>().save(
+            OutgoingDirectPayment(
+              id: signedTx.id,
+              receiver: Ed25519HDPublicKey.fromBase58(
+                _recipientController.text,
+              ),
+              amount: crypto,
+              created: DateTime.now(),
+              status: ODPStatus.success(
+                txId: signedTx.id,
+              ),
+            ),
+          ),
+        );
+
+        unawaited(
+          sl<TransactionRepository>().saveAll(
+            [
+              TxCommon(
+                signedTx,
+                status: TxCommonStatus.success,
+                created: DateTime.now(),
+                amount: CryptoAmount(
+                  value: -amount,
+                  cryptoCurrency: CryptoCurrency(token: widget.token),
+                ),
+              ),
+            ],
+            clear: false,
+          ),
+        );
+      }),
+    );
+
+    return crypto;
+  }
+
+  Future<(SignedTx, BigInt)> _mountTxToken() async {
     final aReceiver = Ed25519HDPublicKey.fromBase58(_recipientController.text);
     final aSender = sl<ECWallet>().publicKey;
     final amount = (double.parse(_quantityController.text) *
@@ -297,76 +380,10 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
       compiledMessage: compiledMessage,
     );
 
-    unawaited(
-      sl<ODPRepository>().save(
-        OutgoingDirectPayment(
-          id: signedTx.id,
-          receiver: Ed25519HDPublicKey.fromBase58(
-            _recipientController.text,
-          ),
-          amount: CryptoAmount(
-            value: amount,
-            cryptoCurrency: CryptoCurrency(token: widget.token),
-          ),
-          created: DateTime.now(),
-          status: ODPStatus.txCreated(
-            signedTx,
-            slot: recentBlockhash.context.slot,
-          ),
-        ),
-      ),
-    );
-
-    unawaited(
-      TxSender(client: sl<SolanaClient>())
-          .wait(
-        signedTx,
-        minContextSlot: recentBlockhash.context.slot,
-        txType: 'OutgoingDirectPayment',
-      )
-          .then((_) async {
-        unawaited(
-          sl<ODPRepository>().save(
-            OutgoingDirectPayment(
-              id: signedTx.id,
-              receiver: Ed25519HDPublicKey.fromBase58(
-                _recipientController.text,
-              ),
-              amount: CryptoAmount(
-                value: amount,
-                cryptoCurrency: CryptoCurrency(token: widget.token),
-              ),
-              created: DateTime.now(),
-              status: ODPStatus.success(
-                txId: signedTx.id,
-              ),
-            ),
-          ),
-        );
-
-        unawaited(
-          sl<TransactionRepository>().saveAll(
-            [
-              TxCommon(
-                signedTx,
-                status: TxCommonStatus.success,
-                created: DateTime.now(),
-                amount: CryptoAmount(
-                  value: -amount,
-                  cryptoCurrency: CryptoCurrency(token: widget.token),
-                ),
-              ),
-            ],
-            clear: false,
-          ),
-        );
-      }),
-    );
-
     return (signedTx, recentBlockhash.context.slot);
   }
 
-  Future<(SignedTx, BigInt)> _sendSolana() async {
+  Future<(SignedTx, BigInt)> _mountTxSol() async {
     final amount = (double.parse(_quantityController.text) *
             math.pow(10, widget.token.decimals))
         .toInt();
@@ -404,6 +421,18 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
       compiledMessage: compiledMessage,
     );
 
+    return (signedTx, blockhash.context.slot);
+  }
+
+  CryptoAmount _sendTxSolana(
+    SignedTx signedTx,
+    int amount,
+    BigInt slot,
+  ) {
+    final crypto = CryptoAmount(
+      value: amount,
+      cryptoCurrency: CryptoCurrency(token: widget.token),
+    );
     unawaited(
       sl<ODPRepository>().save(
         OutgoingDirectPayment(
@@ -411,14 +440,11 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
           receiver: Ed25519HDPublicKey.fromBase58(
             _recipientController.text,
           ),
-          amount: CryptoAmount(
-            value: amount,
-            cryptoCurrency: CryptoCurrency(token: widget.token),
-          ),
+          amount: crypto,
           created: DateTime.now(),
           status: ODPStatus.txCreated(
             signedTx,
-            slot: blockhash.context.slot,
+            slot: slot,
           ),
         ),
       ),
@@ -428,7 +454,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
       TxSender(client: sl<SolanaClient>())
           .wait(
         signedTx,
-        minContextSlot: blockhash.context.slot,
+        minContextSlot: slot,
         txType: 'OutgoingDirectPayment',
       )
           .then((_) async {
@@ -439,10 +465,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
               receiver: Ed25519HDPublicKey.fromBase58(
                 _recipientController.text,
               ),
-              amount: CryptoAmount(
-                value: amount,
-                cryptoCurrency: CryptoCurrency(token: widget.token),
-              ),
+              amount: crypto,
               created: DateTime.now(),
               status: ODPStatus.success(
                 txId: signedTx.id,
@@ -470,28 +493,29 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
       }),
     );
 
-    return (signedTx, blockhash.context.slot);
+    return crypto;
   }
 }
 
-class _TokenQuantityInput extends StatefulWidget {
-  const _TokenQuantityInput({
+class TokenQuantityInput extends StatefulWidget {
+  const TokenQuantityInput({
+    super.key,
     required TextEditingController quantityController,
     required this.crypto,
-    required this.fiatRate,
+    required this.rate,
     required this.symbol,
   }) : _quantityController = quantityController;
 
   final TextEditingController _quantityController;
   final CryptoAmount crypto;
   final String symbol;
-  final Amount fiatRate;
+  final Decimal rate;
 
   @override
-  State<_TokenQuantityInput> createState() => __TokenQuantityInputState();
+  State<TokenQuantityInput> createState() => _TokenQuantityInputState();
 }
 
-class __TokenQuantityInputState extends State<_TokenQuantityInput> {
+class _TokenQuantityInputState extends State<TokenQuantityInput> {
   bool _visibility = false;
   double _textHeight = 1.2;
   final double _fontSize = 34.0;
@@ -513,37 +537,8 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         _textHeight = 1.2;
         _visibility = false;
       }
-
-      //_fontSize = _calculateFontSize(widget._quantityController.text);
     });
   }
-
-  // double _calculateFontSize(String text) {
-  //   double fontSize = 34;
-
-  //   final double textWidth = _calculateTextWidth(text, fontSize);
-
-  //   if (textWidth > 245) {
-  //     fontSize *= 245 / textWidth;
-  //   }
-
-  //   return fontSize;
-  // }
-
-  // double _calculateTextWidth(String text, double fontSize) {
-  //   final textSpan = TextSpan(
-  //     text: text,
-  //     style: TextStyle(fontSize: fontSize),
-  //   );
-
-  //   final textPainter = TextPainter(
-  //     text: textSpan,
-  //     maxLines: 1,
-  //     textDirection: TextDirection.ltr,
-  //   )..layout(minWidth: 0, maxWidth: double.infinity);
-
-  //   return textPainter.size.width;
-  // }
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -587,7 +582,7 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
               left: 26,
               bottom: 7,
               child: Text(
-                r'≈ $' + buildUsdcAmountText,
+                r'≈ $' + _buildUsdcAmountText,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
@@ -598,9 +593,9 @@ class __TokenQuantityInputState extends State<_TokenQuantityInput> {
         ],
       );
 
-  String get buildUsdcAmountText =>
+  String get _buildUsdcAmountText =>
       ((num.tryParse(widget._quantityController.text.split(' ')[0]) ?? 1) *
-              widget.fiatRate.decimal.toDouble())
+              widget.rate.toDouble())
           .toStringAsFixed(2);
 
   bool _isMax() =>

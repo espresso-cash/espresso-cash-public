@@ -21,14 +21,14 @@ class ODPDetailsScreen extends StatefulWidget {
     required this.id,
   });
 
-  static void push(BuildContext context, {required String id}) =>
+  static Future<void> push(BuildContext context, {required String id}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
           builder: (context) => ODPDetailsScreen(id: id),
         ),
       );
 
-  static void open(BuildContext context, {required String id}) =>
+  static Future<void> open(BuildContext context, {required String id}) =>
       Navigator.of(context).pushAndRemoveUntil<void>(
         MaterialPageRoute(
           builder: (context) => ODPDetailsScreen(id: id),
