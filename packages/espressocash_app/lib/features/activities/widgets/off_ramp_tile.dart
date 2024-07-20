@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-wildcard-cases-with-enums
+
 import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
@@ -31,11 +33,12 @@ class OffRampTile extends StatelessWidget {
             maxDecimals: 2,
           ),
           icon: Assets.icons.paymentIcon.svg(),
-          status: order?.status == OffRampOrderStatus.completed
-              ? CpActivityTileStatus.success
-              : order?.status == OffRampOrderStatus.failure
-                  ? CpActivityTileStatus.failure
-                  : CpActivityTileStatus.inProgress,
+          status: switch (order?.status) {
+            OffRampOrderStatus.completed => CpActivityTileStatus.success,
+            OffRampOrderStatus.failure => CpActivityTileStatus.failure,
+            OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
+            _ => CpActivityTileStatus.inProgress,
+          },
           timestamp: context.formatDate(activity.created),
           onTap: () => OffRampOrderScreen.push(context, id: activity.id),
           showIcon: showIcon,
