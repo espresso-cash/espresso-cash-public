@@ -153,7 +153,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
       OffRampOrderStatus.depositError ||
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.insufficientFunds =>
-        _RetryButton(handleRetry: handleRetry),
+        order.partner != RampPartner.moneygram
+            ? _RetryButton(handleRetry: handleRetry)
+            : null,
       OffRampOrderStatus.failure => const _ContactUsButton(),
       OffRampOrderStatus.ready =>
         _ContinueButton(handleContinue: handleContinue),
@@ -178,8 +180,12 @@ class OffRampOrderScreenContent extends StatelessWidget {
         ? const CpThemeData.light()
         : const CpThemeData.black();
 
+    final showMoneygramCancel = order.partner == RampPartner.moneygram &&
+        order.status == OffRampOrderStatus.insufficientFunds;
+
     final showCancelButton = order.status == OffRampOrderStatus.depositError ||
-        order.status == OffRampOrderStatus.ready;
+        order.status == OffRampOrderStatus.ready ||
+        showMoneygramCancel;
 
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),

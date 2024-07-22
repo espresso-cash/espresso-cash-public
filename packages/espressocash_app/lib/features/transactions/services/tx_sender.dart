@@ -45,7 +45,9 @@ class TxSender {
         return const TxSendResult.networkError();
       }
 
-      if (error.isInsufficientFunds || error.invalidTransferAccount) {
+      if (error.isInsufficientFunds ||
+          error.invalidTransferAccount ||
+          error.hasNoAccount) {
         return const TxSendResult.failure(
           reason: TxFailureReason.insufficientFunds,
         );
@@ -288,6 +290,16 @@ extension on JsonRpcException {
     final instructionErrorData = instructionError[1];
 
     return instructionErrorData == 'InvalidAccountData';
+  }
+
+  bool get hasNoAccount {
+    final data = this.data;
+    if (data is! Map<String, dynamic>) return false;
+
+    final error = data['err'];
+    if (error is! String) return false;
+
+    return error == 'AccountNotFound';
   }
 }
 

@@ -365,8 +365,17 @@ class MoneygramOffRampOrderService implements Disposable {
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.preProcessing),
+      return send.maybeMap(
+        failure: (reason) => reason.reason == TxFailureReason.insufficientFunds
+            ? const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.insufficientFunds),
+              )
+            : const OffRampOrderRowsCompanion(
+                status: Value(OffRampOrderStatus.depositError),
+              ),
+        orElse: () => const OffRampOrderRowsCompanion(
+          status: Value(OffRampOrderStatus.depositError),
+        ),
       );
     }
 
