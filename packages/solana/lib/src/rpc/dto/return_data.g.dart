@@ -8,7 +8,7 @@ part of 'return_data.dart';
 
 ReturnData _$ReturnDataFromJson(Map<String, dynamic> json) => ReturnData(
       programId: json['programId'] as String,
-      data: json['data'] as String,
+      data: json['data'] as dynamic,
     );
 
 Map<String, dynamic> _$ReturnDataToJson(ReturnData instance) =>

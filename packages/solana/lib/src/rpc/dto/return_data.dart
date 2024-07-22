@@ -16,8 +16,8 @@ class ReturnData {
   /// The program that generated the return data, as base-58 encoded Pubkey
   final String programId;
 
-  /// The return data itself, as base-64 encoded binary data
-  final String data;
+  /// The return data itself, contaning base-64 encoded binary data
+  final dynamic data;
 
   Map<String, dynamic> toJson() => _$ReturnDataToJson(this);
 }
