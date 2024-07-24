@@ -16,6 +16,8 @@ class EspressoCashException implements Exception {
 
 @JsonEnum(fieldRename: FieldRename.pascal)
 enum EspressoCashError {
+  /// Account is invalid or does not exist.
+  invalidEscrowAccount,
   insufficientFunds,
   genericError,
 }
