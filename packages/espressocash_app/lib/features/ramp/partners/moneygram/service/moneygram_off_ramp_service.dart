@@ -1,3 +1,5 @@
+// ignore_for_file: avoid-wildcard-cases-with-enums
+
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -365,18 +367,17 @@ class MoneygramOffRampOrderService implements Disposable {
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
-      return send.maybeMap(
-        failure: (reason) => reason.reason == TxFailureReason.insufficientFunds
-            ? const OffRampOrderRowsCompanion(
-                status: Value(OffRampOrderStatus.insufficientFunds),
-              )
-            : const OffRampOrderRowsCompanion(
-                status: Value(OffRampOrderStatus.depositError),
-              ),
-        orElse: () => const OffRampOrderRowsCompanion(
-          status: Value(OffRampOrderStatus.depositError),
-        ),
+      final status = send.maybeMap(
+        failure: (reason) => switch (reason.reason) {
+          TxFailureReason.insufficientFunds ||
+          TxFailureReason.txError =>
+            OffRampOrderStatus.insufficientFunds,
+          _ => OffRampOrderStatus.depositError,
+        },
+        orElse: () => OffRampOrderStatus.depositError,
       );
+
+      return OffRampOrderRowsCompanion(status: Value(status));
     }
 
     final wait = await _sender.wait(
