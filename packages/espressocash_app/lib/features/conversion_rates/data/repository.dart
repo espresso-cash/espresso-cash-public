@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:decimal/decimal.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:espressocash_api/espressocash_api.dart' hide JupiterPriceClient;
@@ -8,7 +7,6 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../utils/async_cache.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
@@ -30,7 +28,6 @@ class ConversionRatesRepository extends ChangeNotifier {
   final JupiterPriceClient _jupiterClient;
   final EspressoCashClient _ecClient;
   final SharedPreferences _storage;
-  final AsyncCache<void> _cache = AsyncCache(const Duration(minutes: 1));
 
   @PostConstruct()
   void init() {
@@ -109,31 +106,25 @@ class ConversionRatesRepository extends ChangeNotifier {
         notifyListeners();
       });
 
-  AsyncResult<void> refresh(
-    FiatCurrency currency,
-    Iterable<Token> tokens, {
-    bool? cache,
-  }) {
-    Future<void> refreshLogic() async {
-      final data = await _ecClient.getRates().then((p) => p.usdc);
-      await _storage.setDouble(_usdcRateKey, data);
-      final previous = _value.value[Currency.usd] ?? const IMapConst({});
-      final newValue = _value.value.add(
-        Currency.usd,
-        previous.addAll(
-          {
-            Currency.usdc: Decimal.parse(data.toString()),
-          }.toIMap(),
-        ),
-      );
-      _value.add(newValue);
-      await _fetchTokens(currency, tokens);
-    }
+  AsyncResult<void> refresh(FiatCurrency currency, Iterable<Token> tokens) =>
+      tryEitherAsync((_) async {
+        final data = await _ecClient.getRates().then((p) => p.usdc);
+        await _storage.setDouble(_usdcRateKey, data);
+        final previous = _value.value[Currency.usd] ?? const IMapConst({});
+        final newValue = _value.value.add(
+          Currency.usd,
+          previous.addAll(
+            {
+              Currency.usdc: data.let((s) => Decimal.parse(s.toString())),
+            }.toIMap(),
+          ),
+        );
+        _value.add(newValue);
 
-    return (cache != null && !cache)
-        ? tryEitherAsync((_) async => refreshLogic())
-        : _cache.fetchEither(() async => refreshLogic());
-  }
+        notifyListeners();
+
+        await _fetchTokens(currency, tokens);
+      });
 
   @override
   @disposeMethod
