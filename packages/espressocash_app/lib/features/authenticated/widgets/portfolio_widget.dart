@@ -8,14 +8,10 @@ import '../../../ui/colors.dart';
 import '../../../ui/home_tile.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
-import '../../balances/data/repository.dart';
-import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../token_details/screens/token_details_screen.dart';
-import '../../tokens/token.dart';
 import '../../tokens/widgets/token_icon.dart';
 
 class PortfolioWidget extends StatefulWidget {
@@ -30,14 +26,6 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
   @override
   bool get wantKeepAlive => true;
 
-  Future<void> _updateTokenRate() async {
-    final ISet<Token> tokens =
-        await sl<TokenBalancesRepository>().readUserTokens();
-
-    await sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, tokens, useCache: false);
-  }
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -49,10 +37,10 @@ class _PortfolioWidgetState extends State<PortfolioWidget>
       ),
       builder: (context, balances) {
         final hasTokens = balances.isNotEmpty;
-        if (!hasTokens) return const SizedBox.shrink();
-        _updateTokenRate();
 
-        return PortfolioTile(balances: balances);
+        return hasTokens
+            ? PortfolioTile(balances: balances)
+            : const SizedBox.shrink();
       },
     );
   }
