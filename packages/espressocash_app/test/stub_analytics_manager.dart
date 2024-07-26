@@ -6,7 +6,7 @@ class StubAnalyticsManager implements AnalyticsManager {
   const StubAnalyticsManager();
 
   @override
-  void directPaymentSent({required Decimal amount}) {}
+  void directPaymentSent({required Token token, required Decimal amount}) {}
 
   @override
   void setProfileCountryCode(String countryCode) {}
@@ -35,7 +35,4 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void setTotalInvestmentsBalance(Decimal value) {}
-
-  @override
-  void tokenPaymentSent({required Token token, required Decimal amount}) {}
 }

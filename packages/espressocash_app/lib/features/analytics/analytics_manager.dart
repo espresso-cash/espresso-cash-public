@@ -64,22 +64,11 @@ class AnalyticsManager {
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
   void directPaymentSent({
-    required Decimal amount,
-  }) =>
-      _analytics.track(
-        'directPaymentSent',
-        properties: {'amount': amount.toDouble()},
-      );
-
-  void tokenPaymentSent({
     required Token token,
     required Decimal amount,
   }) =>
       _analytics.track(
         'directPaymentSent',
-        properties: {
-          'token': token.symbol,
-          'amount': amount.toDouble(),
-        },
+        properties: {'token': token.symbol, 'amount': amount.toDouble()},
       );
 }

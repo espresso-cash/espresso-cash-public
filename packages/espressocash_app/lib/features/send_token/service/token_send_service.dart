@@ -269,7 +269,7 @@ class TokenSendService {
     if (newStatus is ODPStatusSuccess) {
       _refreshBalance();
 
-      _analyticsManager.tokenPaymentSent(
+      _analyticsManager.directPaymentSent(
         token: payment.amount.token,
         amount: payment.amount.decimal,
       );
