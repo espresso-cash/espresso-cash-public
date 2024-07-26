@@ -27,7 +27,6 @@ class TokenQuantityInput extends StatefulWidget {
 class _TokenQuantityInputState extends State<TokenQuantityInput> {
   bool _visibility = false;
   double _textHeight = 1.2;
-  final double _fontSize = 34.0;
 
   @override
   void initState() {
@@ -66,18 +65,15 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
             placeholder: '0 ${widget.symbol}',
             placeholderColor: Colors.white,
             textColor: Colors.white,
-            fontSize: _fontSize,
+            fontSize: 34,
             fontWeight: FontWeight.w700,
             maxLength: 29,
             textHeight: _textHeight,
             suffix: Padding(
               padding: const EdgeInsets.only(right: 14),
               child: CpButton(
-                onPressed: _isMax()
-                    ? () => widget._quantityController.text = ''
-                    : () => widget._quantityController.text =
-                        '${widget.crypto.decimal}',
-                text: _isMax() ? 'Clear' : 'Max',
+                onPressed: _isMaxAmountZero ? _callback : null,
+                text: _buttonText,
                 fontSize: 12,
                 minWidth: 54,
                 size: CpButtonSize.small,
@@ -91,7 +87,7 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
               left: 26,
               bottom: 7,
               child: Text(
-                r'≈ $' + _buildUsdcAmountText,
+                _usdcAmount,
                 style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
@@ -102,15 +98,18 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
         ],
       );
 
-  String get _buildUsdcAmountText =>
-      ((num.tryParse(widget._quantityController.text.split(' ')[0]) ?? 1) *
-              widget.rate.toDouble())
-          .toStringAsFixed(2);
+  num get _parseAmount => num.tryParse(widget._quantityController.text) ?? 0;
 
-  bool _isMax() =>
-      (num.tryParse(
-            widget._quantityController.text,
-          ) ??
-          -1) ==
-      widget.crypto.decimal.toDouble();
+  bool get _isMax => _parseAmount == widget.crypto.decimal.toDouble();
+
+  bool get _isMaxAmountZero => widget.crypto.decimal.toDouble() > 0;
+
+  String get _usdcAmount =>
+      r'≈ $' + (_parseAmount * widget.rate.toDouble()).toStringAsFixed(2);
+
+  String get _buttonText => _isMax ? 'Clear' : 'Max';
+
+  VoidCallback get _callback => _isMax
+      ? () => widget._quantityController.clear()
+      : () => widget._quantityController.text = '${widget.crypto.decimal}';
 }
