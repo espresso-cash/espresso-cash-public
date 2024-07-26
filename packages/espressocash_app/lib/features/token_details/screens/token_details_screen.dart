@@ -11,6 +11,7 @@ import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../activities/data/transaction_repository.dart';
 import '../../activities/widgets/recent_activity.dart';
+import '../../authenticated/widgets/refresh_balance_wrapper.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -19,7 +20,6 @@ import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import '../../send_token/screens/send_token_screen.dart';
 import '../../tokens/token.dart';
-import '../widgets/refresh_token_wrapper.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
 
@@ -71,8 +71,7 @@ class TokenDetailsScreen extends StatelessWidget {
                           BuildContext context,
                           BoxConstraints viewportConstraints,
                         ) =>
-                            RefreshTokenWrapper(
-                          token: token,
+                            RefreshBalancesWrapper(
                           builder: (context, onRefresh) => RefreshIndicator(
                             onRefresh: () => Future.wait([
                               onRefresh(),

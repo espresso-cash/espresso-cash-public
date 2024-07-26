@@ -10,7 +10,6 @@ import 'package:logging/logging.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
-import '../../../di.dart';
 import '../../../utils/disposable_bloc.dart';
 import '../../../utils/processing_state.dart';
 import '../../accounts/auth_scope.dart';
@@ -25,7 +24,6 @@ part 'balances_bloc.freezed.dart';
 
 final _logger = Logger('BalancesBloc');
 typedef BalancesState = ProcessingState;
-typedef BalanceState = ProcessingState;
 
 @Singleton(scope: authScope)
 class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
@@ -106,93 +104,6 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
   }
 }
 
-@Singleton(scope: authScope)
-class BalanceBloc extends Bloc<BalanceEvent, BalanceState> with DisposableBloc {
-  BalanceBloc(
-    this._solanaClient,
-    this._tokenRepository,
-    this._tokensBalanceRepository,
-    this._analyticsManager,
-  ) : super(const ProcessingStateNone()) {
-    on<BalanceEventRequested>(_handleRequested, transformer: droppable());
-  }
-
-  final SolanaClient _solanaClient;
-  final TokenRepository _tokenRepository;
-  final TokenBalancesRepository _tokensBalanceRepository;
-  final AnalyticsManager _analyticsManager;
-
-  Future<void> _handleRequested(
-    BalanceEventRequested event,
-    Emitter<BalanceState> emit,
-  ) async {
-    try {
-      emit(const ProcessingState.processing());
-
-      final programAccount = await _solanaClient.getAssociatedTokenAccount(
-        owner: Ed25519HDPublicKey.fromBase58(event.address),
-        mint: Ed25519HDPublicKey.fromBase58(event.mint),
-      );
-
-      if (programAccount == null) {
-        emit(const ProcessingState.none());
-
-        return;
-      }
-
-      final account = programAccount.account;
-      final data = account.data;
-      late _MainTokenAccount? mainAccount;
-
-      if (data is ParsedAccountData) {
-        mainAccount = await data.maybeWhen<Future<_MainTokenAccount?>>(
-          splToken: (parsed) => parsed.maybeMap<Future<_MainTokenAccount?>>(
-            account: (a) => _MainTokenAccount.create(
-              programAccount.pubkey,
-              a.info,
-              _tokenRepository,
-            ),
-            orElse: () async => null,
-          ),
-          orElse: () async => null,
-        );
-      }
-
-      if (mainAccount == null) {
-        emit(const ProcessingState.none());
-
-        return;
-      }
-
-      final tokenBalance = CryptoAmount(
-        value: int.parse(mainAccount.info.tokenAmount.amount),
-        cryptoCurrency: CryptoCurrency(token: mainAccount.token),
-      );
-
-      final usdcBalance =
-          event.mint == Token.usdc.address ? tokenBalance : null;
-
-      if (isClosed) return;
-
-      emit(const ProcessingState.none());
-
-      if (usdcBalance != null) {
-        _analyticsManager.setUsdcBalance(usdcBalance.decimal);
-      }
-
-      await _tokensBalanceRepository.updateSingle(tokenBalance);
-      sl<TokenBalancesRepository>().watchTokenBalances();
-    } on Exception catch (exception) {
-      _logger.severe('Failed to fetch balance', exception);
-
-      if (isClosed) return;
-
-      emit(const ProcessingState.error(BalanceRequestException()));
-      emit(const ProcessingState.none());
-    }
-  }
-}
-
 class _MainTokenAccount {
   const _MainTokenAccount._(this.pubKey, this.info, this.token);
 
@@ -224,23 +135,11 @@ class BalancesRequestException implements Exception {
   const BalancesRequestException();
 }
 
-class BalanceRequestException implements Exception {
-  const BalanceRequestException();
-}
-
 @freezed
 sealed class BalancesEvent with _$BalancesEvent {
   const factory BalancesEvent.refreshRequested({
     required String address,
   }) = BalancesEventRequested;
-}
-
-@freezed
-sealed class BalanceEvent with _$BalanceEvent {
-  const factory BalanceEvent.refreshRequested({
-    required String address,
-    required String mint,
-  }) = BalanceEventRequested;
 }
 
 extension on SolanaClient {
