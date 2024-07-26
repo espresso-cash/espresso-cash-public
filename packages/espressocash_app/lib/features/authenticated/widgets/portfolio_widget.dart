@@ -11,7 +11,6 @@ import '../../../ui/value_stream_builder.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
 import '../../token_details/screens/token_details_screen.dart';
 import '../../tokens/widgets/token_icon.dart';
 
@@ -72,26 +71,28 @@ class PortfolioTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ValueStreamBuilder<Amount>(
+                  ValueStreamBuilder<Amount?>(
                     create: () => (
                       sl<TokenFiatBalanceService>()
                           .watchTotalInvestmentsBalance(),
-                      Amount.zero(currency: Currency.usd),
+                      null,
                     ),
-                    builder: (context, balance) => Flexible(
-                      child: FittedBox(
-                        child: Text(
-                          balance.format(DeviceLocale.localeOf(context)),
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium
-                              ?.copyWith(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w600,
+                    builder: (context, balance) => balance != null
+                        ? Flexible(
+                            child: FittedBox(
+                              child: Text(
+                                balance.format(DeviceLocale.localeOf(context)),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayMedium
+                                    ?.copyWith(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
-                        ),
-                      ),
-                    ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ],
               ),
@@ -138,18 +139,15 @@ class _TokenItem extends StatelessWidget {
   });
 
   final CryptoAmount cryptoAmount;
-  final FiatAmount fiatAmount;
+  final FiatAmount? fiatAmount;
 
   static const double _iconSize = 36.0;
   static const double _minFiatAmount = 0.01;
 
   @override
   Widget build(BuildContext context) {
-    String fiatAmountText;
-
-    fiatAmountText = fiatAmount.value < _minFiatAmount
-        ? r'<$0.01'
-        : fiatAmount.format(context.locale, maxDecimals: 2);
+    final String fiatAmountText =
+        context.portfilioTotalAmountText(fiatAmount, _minFiatAmount);
 
     return _Card(
       child: ListTile(
@@ -216,4 +214,18 @@ class _Card extends StatelessWidget {
         ),
         child: child,
       );
+}
+
+extension TotalPortfolioTextExtension on BuildContext {
+  String portfilioTotalAmountText(FiatAmount? fiatAmount, num minFiatAmount) {
+    if (fiatAmount != null) {
+      if (fiatAmount.value < minFiatAmount) {
+        return r'<$0.01';
+      }
+
+      return fiatAmount.format(locale, maxDecimals: 2);
+    }
+
+    return '-';
+  }
 }
