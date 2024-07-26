@@ -51,7 +51,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
             },
           );
 
-  AsyncResult<void> _updateConversionRates({bool? useCache}) async {
+  AsyncResult<void> _updateConversionRates() async {
     final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
     return sl<ConversionRatesRepository>()
@@ -69,9 +69,9 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     return _listenForProcessingStateAndThrowOnError(sl<BalancesBloc>().stream);
   }
 
-  AsyncResult<void> _onPulledToRefreshBalances({bool? useCache}) {
+  AsyncResult<void> _onPulledToRefreshBalances() {
     final balances = _updateBalances();
-    final conversionRates = _updateConversionRates(useCache: useCache);
+    final conversionRates = _updateConversionRates();
 
     return balances.flatMapAsync((_) => conversionRates);
   }
@@ -79,7 +79,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
   @override
   void initState() {
     super.initState();
-    _onPulledToRefreshBalances(useCache: false);
+    _onPulledToRefreshBalances();
   }
 
   Future<void> _onRefreshWithErrorHandling(BuildContext context) =>
