@@ -55,7 +55,7 @@ class _RefreshBalancesWrapperState extends State<RefreshBalancesWrapper> {
     final tokens = await sl<TokenBalancesRepository>().readUserTokens();
 
     return sl<ConversionRatesRepository>()
-        .refresh(defaultFiatCurrency, tokens, useCache: useCache)
+        .refresh(defaultFiatCurrency, tokens)
         .doOnLeftAsync((_) {
       if (!mounted) return;
 
