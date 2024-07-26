@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/features/analytics/analytics_manager.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 
 class StubAnalyticsManager implements AnalyticsManager {
   const StubAnalyticsManager();
@@ -34,4 +35,7 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void setTotalInvestmentsBalance(Decimal value) {}
+
+  @override
+  void tokenPaymentSent({required Token token, required Decimal amount}) {}
 }
