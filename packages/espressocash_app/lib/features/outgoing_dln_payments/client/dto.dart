@@ -46,6 +46,7 @@ class DlnQuoteResponseDto with _$DlnQuoteResponseDto {
 
 @freezed
 class CreateTxRequestDto with _$CreateTxRequestDto {
+  @JsonSerializable(includeIfNull: false)
   const factory CreateTxRequestDto({
     required String srcChainId,
     required String srcChainTokenIn,
