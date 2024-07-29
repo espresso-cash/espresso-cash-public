@@ -334,7 +334,7 @@ class MoneygramOnRampOrderService implements Disposable {
         ),
       );
 
-      final status = response?.receive;
+      final status = response.receive;
 
       if (status == null) {
         return;
