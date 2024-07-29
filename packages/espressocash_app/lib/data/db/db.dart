@@ -128,7 +128,7 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
 
-          if (from < 54) {
+          if (from >= 40 && from < 54) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
             await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);

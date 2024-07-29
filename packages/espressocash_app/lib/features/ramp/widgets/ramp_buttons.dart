@@ -263,10 +263,11 @@ extension RampBuildContextExt on BuildContext {
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexOffRamp(profile: profile, address: address);
-      case RampPartner.rampNetwork:
-      case RampPartner.guardarian:
       case RampPartner.moneygram:
         launchMoneygramOffRamp();
+      case RampPartner.rampNetwork:
+      case RampPartner.guardarian:
+        throw UnimplementedError('Not implemented for $partner');
     }
   }
 }
