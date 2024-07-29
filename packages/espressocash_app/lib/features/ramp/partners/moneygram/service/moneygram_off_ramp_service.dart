@@ -536,13 +536,11 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient
-          .fetchBridgeStatus(
-            BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
-          )
-          .catchError((_) => null);
+      final response = await _allbridgeApiClient.fetchBridgeStatus(
+        BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+      );
 
-      final destination = response?.receive;
+      final destination = response.receive;
 
       if (destination == null) {
         return;
@@ -654,7 +652,7 @@ class MoneygramOffRampOrderService implements Disposable {
             txId: order.solanaBridgeTx ?? '',
           ),
         )
-        .then((e) => e?.receive)
+        .then((e) => e.receive)
         .catchError((_) => null);
 
     if (response == null) {
@@ -736,7 +734,7 @@ class MoneygramOffRampOrderService implements Disposable {
         ),
       );
 
-      final status = response?.receive;
+      final status = response.receive;
 
       if (status == null) {
         return;
