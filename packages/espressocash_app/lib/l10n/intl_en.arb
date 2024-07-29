@@ -823,5 +823,17 @@
   "received": "Received",
   "@received": {},
   "failed": "Failed",
-  "@failed": {}
+  "@failed": {},
+  "continueToMoneygram": "Continue to MoneyGram",
+  "@continueToMoneygram": {},
+  "bridgingText": "Bridging USDC to Stellar",
+  "@bridgingText": {},
+  "moneygramInstructionText": "After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.",
+  "@moneygramInstructionText": {},
+  "confirmTransfer": "Confirm Transfer",
+  "@confirmTransfer": {},
+  "viewMoneygramTransferInstructions": "View MoneyGram transfer instructions",
+  "@viewMoneygramTransferInstructions": {},
+  "confirmYourTransferOf": "Confirm your transfer of",
+  "@confirmYourTransferOf": {}
 }

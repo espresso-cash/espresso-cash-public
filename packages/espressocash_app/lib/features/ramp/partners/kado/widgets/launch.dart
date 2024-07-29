@@ -10,13 +10,13 @@ import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
+import '../../../services/on_ramp_order_service.dart';
 import '../data/kado_api_client.dart';
 
 extension BuildContextExt on BuildContext {

@@ -15,6 +15,7 @@ dependencies:
   cached_network_image: ^3.3.1
   collection: ^1.18.0
   crypto: ^3.0.2
+  dart_jsonwebtoken: ^2.14.0
   decimal: ^2.3.3
   device_preview: ^1.1.0
   dfunc: ^0.10.0
@@ -111,11 +112,13 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/rive/
+    - assets/gifs/
     - assets/coinflow/
     - assets/coinflow/static/
     - assets/coinflow/static/js/
     - assets/coinflow/static/css/
     - assets/scalex/
+    - assets/moneygram/
 
   fonts:
     - family: RobotoApp

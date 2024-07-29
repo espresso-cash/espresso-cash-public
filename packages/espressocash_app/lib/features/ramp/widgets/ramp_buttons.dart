@@ -11,6 +11,7 @@ import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
 import '../../country_picker/models/country.dart';
+import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/profile_data.dart';
@@ -18,6 +19,7 @@ import '../models/ramp_type.dart';
 import '../partners/coinflow/widgets/launch.dart';
 import '../partners/guardarian/widgets/launch.dart';
 import '../partners/kado/widgets/launch.dart';
+import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
 import '../screens/ramp_onboarding_screen.dart';
@@ -242,6 +244,8 @@ extension RampBuildContextExt on BuildContext {
         launchGuardarianOnRamp(profile: profile, address: address);
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
+      case RampPartner.moneygram:
+        launchMoneygramOnRamp();
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
@@ -261,6 +265,7 @@ extension RampBuildContextExt on BuildContext {
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
+      case RampPartner.moneygram:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -283,6 +288,13 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
 
   if (_guardarianCountries.contains(countryCode)) {
     partners.add(RampPartner.guardarian);
+  }
+
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
   }
 
   return IList(partners);
@@ -317,3 +329,5 @@ const _coinflowCountries = {
 };
 
 const _scalexCountries = {'NG'};
+
+const _moneygramCountries = {'US'};
