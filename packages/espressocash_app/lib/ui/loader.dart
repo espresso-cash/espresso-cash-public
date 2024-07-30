@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../utils/callback.dart';
 import 'colors.dart';
 
-// ignore: avoid-unnecessary-stateful-widgets, DCM bug
 class CpLoader extends StatefulWidget {
   const CpLoader({
     super.key,

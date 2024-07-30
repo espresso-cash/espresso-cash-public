@@ -142,11 +142,12 @@ class OffRampOrderScreenContent extends StatelessWidget {
         '${context.l10n.splitKeyErrorMessage2} ${context.l10n.errorMessageInsufficientFunds}',
       OffRampOrderStatus.preProcessing ||
       OffRampOrderStatus.postProcessing =>
-        'Preparing your withdrawal',
-      OffRampOrderStatus.ready => 'Open Moneygram to continue',
-      OffRampOrderStatus.processingRefund => 'Processing refund',
-      OffRampOrderStatus.waitingForRefundBridge => 'Amount being refunded',
-      OffRampOrderStatus.refunded => 'Your withdrawal refunded',
+        context.l10n.preparingWithdrawal,
+      OffRampOrderStatus.ready => context.l10n.openMoneygramIframeText,
+      OffRampOrderStatus.processingRefund => context.l10n.processingRefund,
+      OffRampOrderStatus.waitingForRefundBridge =>
+        context.l10n.refundInProgressText,
+      OffRampOrderStatus.refunded => context.l10n.refundSuccessText,
     };
 
     final Widget? primaryButton = switch (order.status) {
@@ -189,9 +190,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
 
     final bridgeSubtitleContent = [
       const SizedBox(height: 6),
-      const Text(
-        'Transfer could take a few minutes...',
-        style: TextStyle(fontSize: 14),
+      Text(
+        context.l10n.transferInProgressText,
+        style: const TextStyle(fontSize: 14),
       ),
     ];
 
@@ -323,7 +324,7 @@ class _MgAdditionalInfo extends StatelessWidget {
               style: _additionalInfoTextStyle,
             ),
           Text(
-            'Status: ${order.status.toMoneygramStatus().toUpperCase()}',
+            'Status: ${order.status.toMoneygramStatus(context).toUpperCase()}',
             style: _additionalInfoTextStyle,
           ),
           if (order.moreInfoUrl case final moreInfoUrl?)
@@ -553,7 +554,7 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 
-  String toMoneygramStatus() => switch (this) {
+  String toMoneygramStatus(BuildContext context) => switch (this) {
         OffRampOrderStatus.preProcessing ||
         OffRampOrderStatus.postProcessing ||
         OffRampOrderStatus.depositTxRequired ||
@@ -564,15 +565,15 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.processingRefund ||
         OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.waitingForPartner =>
-          'Pending',
+          context.l10n.pending,
         OffRampOrderStatus.depositError ||
         OffRampOrderStatus.depositTxConfirmError ||
         OffRampOrderStatus.insufficientFunds ||
         OffRampOrderStatus.failure =>
-          'Failed',
-        OffRampOrderStatus.completed => 'Completed',
-        OffRampOrderStatus.cancelled => 'Cancelled',
-        OffRampOrderStatus.refunded => 'Refunded',
+          context.l10n.failed,
+        OffRampOrderStatus.completed => context.l10n.completed,
+        OffRampOrderStatus.cancelled => context.l10n.cancelled,
+        OffRampOrderStatus.refunded => context.l10n.refunded,
       };
 }
 

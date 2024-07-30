@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'package:flutter/widgets.dart';
 
 import '../../../data/db/db.dart';
@@ -37,6 +35,7 @@ class OffRampTile extends StatelessWidget {
             OffRampOrderStatus.completed => CpActivityTileStatus.success,
             OffRampOrderStatus.failure => CpActivityTileStatus.failure,
             OffRampOrderStatus.refunded => CpActivityTileStatus.canceled,
+            // ignore: avoid-wildcard-cases-with-enums, check if needed
             _ => CpActivityTileStatus.inProgress,
           },
           timestamp: context.formatDate(activity.created),
