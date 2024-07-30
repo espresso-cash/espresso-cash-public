@@ -1,3 +1,14 @@
+## 1.123.0
+
+ - **REFACTOR**: update outgoing escrow signing (#1500).
+ - **FIX**: coinflow additional verification redirect (#1516).
+ - **FIX**: portfolio amount value (#1504).
+ - **FEAT**: add moneygram cash out (#1506).
+ - **FEAT**: add moneygram cash in (#1502).
+ - **FEAT**: android target sdk version to 34 (#1523).
+ - **FEAT**: upgrade to Flutter 3.22 (#1517).
+ - **FEAT**: add logging for link tx creation (#1513).
+
 ## 1.122.1
 
  - **FIX**: durable tx signing.
