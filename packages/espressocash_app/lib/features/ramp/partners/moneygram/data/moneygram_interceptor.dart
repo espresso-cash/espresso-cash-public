@@ -39,7 +39,7 @@ class MoneygramInterceptor extends Interceptor {
           case RampType.onRamp:
             _updateOnRampOrder(orderId, token);
           case RampType.offRamp:
-            break;
+            _updateOffRampOrder(orderId, token);
         }
       }
     }
@@ -51,6 +51,16 @@ class MoneygramInterceptor extends Interceptor {
       ..where((tbl) => tbl.partnerOrderId.equals(orderId))
       ..write(
         OnRampOrderRowsCompanion(
+          authToken: Value(token),
+        ),
+      );
+  }
+
+  void _updateOffRampOrder(String orderId, String token) {
+    _db.update(_db.offRampOrderRows)
+      ..where((tbl) => tbl.partnerOrderId.equals(orderId))
+      ..write(
+        OffRampOrderRowsCompanion(
           authToken: Value(token),
         ),
       );

@@ -7,6 +7,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../../../../di.dart';
 import '../../../../../l10n/device_locale.dart';
 import '../../../../../l10n/l10n.dart';
+import '../../../../../ui/dialogs.dart';
 import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
@@ -18,10 +19,12 @@ import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../models/ramp_type.dart';
+import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../data/dto.dart';
 import '../data/moneygram_client.dart';
+import '../service/moneygram_off_ramp_service.dart';
 import '../service/moneygram_on_ramp_service.dart';
 import 'style.dart';
 
@@ -131,6 +134,62 @@ window.addEventListener("message", (event) => {
     if (!orderWasCreated) {
       await sl<MoneygramOnRampOrderService>().updateMoneygramOrder(id: id);
     }
+  }
+
+  Future<void> launchMoneygramOffRamp() async {
+    Amount? amount;
+
+    const partner = RampPartner.moneygram;
+    const type = RampType.offRamp;
+
+    await RampAmountScreen.push(
+      this,
+      partner: partner,
+      onSubmitted: (Amount? value) async {
+        await showConfirmationDialog(
+          this,
+          title: 'Confirm Withdrawal',
+          message:
+              'We will be transferring the amount now. If you cancel after, you will be charged a fee. Are you sure you want to proceed?',
+          onConfirm: () {
+            Navigator.pop(this);
+            amount = value;
+          },
+        );
+      },
+      minAmount: partner.minimumAmountInDecimal,
+      currency: Currency.usdc,
+      type: type,
+      calculateEquivalent: (amount) => _calculateFees(
+        amount: amount,
+        type: type,
+      ),
+    );
+
+    final submittedAmount = amount;
+
+    if (submittedAmount is! CryptoAmount) return;
+
+    final receiveAmount = await runWithLoader<Amount>(
+      this,
+      () async => _fetchFees(amount: submittedAmount, type: type)
+          .letAsync((p) => p.receiveAmount),
+    ) as FiatAmount;
+
+    await sl<MoneygramOffRampOrderService>()
+        .createMoneygramOrder(
+      submittedAmount: submittedAmount,
+      receiveAmount: receiveAmount,
+    )
+        .then((order) {
+      switch (order) {
+        case Left<Exception, String>():
+          showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+        case Right<Exception, String>(:final value):
+          OffRampOrderScreen.push(this, id: value);
+      }
+    });
   }
 
   Future<MoneygramLink?> _generateDepositLink({required double amount}) =>

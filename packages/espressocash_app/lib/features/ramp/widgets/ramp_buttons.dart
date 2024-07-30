@@ -263,9 +263,10 @@ extension RampBuildContextExt on BuildContext {
         launchCoinflowOffRamp(address: address, profile: profile);
       case RampPartner.scalex:
         launchScalexOffRamp(profile: profile, address: address);
+      case RampPartner.moneygram:
+        launchMoneygramOffRamp();
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
-      case RampPartner.moneygram:
         throw UnimplementedError('Not implemented for $partner');
     }
   }
@@ -309,6 +310,13 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
 
   if (_scalexCountries.contains(countryCode)) {
     partners.add(RampPartner.scalex);
+  }
+
+  final isMoneygramEnabled =
+      sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
+
+  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
+    partners.add(RampPartner.moneygram);
   }
 
   return IList(partners);

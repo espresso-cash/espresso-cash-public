@@ -33,4 +33,16 @@ extension MyDatabaseExt on MyDatabase {
 
     return query.getSingleOrNull();
   }
+
+  Future<OffRampOrderRow?> getOffRampOrderWithStatus(
+    String orderId, {
+    required OffRampOrderStatus status,
+  }) {
+    final query = select(offRampOrderRows)
+      ..where(
+        (tbl) => tbl.id.equals(orderId) & tbl.status.equals(status.name),
+      );
+
+    return query.getSingleOrNull();
+  }
 }
