@@ -174,6 +174,7 @@ class TransactionRepository {
         OffRampOrderStatus.completed,
         OffRampOrderStatus.cancelled,
         OffRampOrderStatus.failure,
+        OffRampOrderStatus.refunded,
       ].contains(row.status).not(),
     );
 
