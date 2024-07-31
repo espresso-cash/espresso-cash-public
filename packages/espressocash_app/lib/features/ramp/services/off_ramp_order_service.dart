@@ -330,12 +330,12 @@ class OffRampOrderService implements Disposable {
       RampPartner.kado => sl<KadoOffRampOrderWatcher>(),
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
+      RampPartner.moneygram => null,
       RampPartner.rampNetwork ||
-      RampPartner.moneygram ||
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }
-      ..watch(orderId);
+      ?..watch(orderId);
   }
 
   void _subscribe(String orderId) {
