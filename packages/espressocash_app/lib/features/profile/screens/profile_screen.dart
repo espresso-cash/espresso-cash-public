@@ -109,6 +109,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         EditProfileSection(),
+                        KycSection(),
                         SecuritySection(),
                         HelpSection(),
                         DangerSection(),
