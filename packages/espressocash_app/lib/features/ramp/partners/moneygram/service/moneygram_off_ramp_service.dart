@@ -1,5 +1,3 @@
-// ignore_for_file: avoid-wildcard-cases-with-enums
-
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -372,6 +370,7 @@ class MoneygramOffRampOrderService implements Disposable {
           TxFailureReason.insufficientFunds ||
           TxFailureReason.txError =>
             OffRampOrderStatus.insufficientFunds,
+          // ignore: avoid-wildcard-cases-with-enums, check if needed
           _ => OffRampOrderStatus.depositError,
         },
         orElse: () => OffRampOrderStatus.depositError,
