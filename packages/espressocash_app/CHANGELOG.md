@@ -1,3 +1,8 @@
+## 1.123.1
+
+ - **REFACTOR**: moneygram pr (#1533).
+ - **FIX**: Temporary change for webview package dependency (#1534).
+
 ## 1.123.0
 
  - **REFACTOR**: update outgoing escrow signing (#1500).
