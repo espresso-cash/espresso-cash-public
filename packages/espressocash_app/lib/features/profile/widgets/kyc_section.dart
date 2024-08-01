@@ -16,9 +16,9 @@ class KycSection extends StatelessWidget {
             label: 'Phone',
             onPressed: null,
           ),
-          const ProfileButton(
+          ProfileButton(
             label: 'KYC',
-            onPressed: null,
+            onPressed: () => KycScreen.push(context),
           ),
         ],
       );

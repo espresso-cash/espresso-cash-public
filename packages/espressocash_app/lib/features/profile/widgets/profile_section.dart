@@ -13,6 +13,7 @@ import '../../../ui/loader.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';
 import '../../verification/screens/email_verification_screen.dart';
+import '../../verification/screens/kyc_screen.dart';
 import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 
