@@ -369,16 +369,6 @@
                         "dsl_features": []
                     },
                     {
-                        "name": "token_address",
-                        "getter_name": "tokenAddress",
-                        "moor_type": "string",
-                        "nullable": false,
-                        "customConstraints": null,
-                        "default_dart": null,
-                        "default_client_dart": null,
-                        "dsl_features": []
-                    },
-                    {
                         "name": "encoded_tx",
                         "getter_name": "encodedTx",
                         "moor_type": "string",
@@ -901,6 +891,56 @@
                     {
                         "name": "fiat_symbol",
                         "getter_name": "fiatSymbol",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "auth_token",
+                        "getter_name": "authToken",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "more_info_url",
+                        "getter_name": "moreInfoUrl",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "stellar_tx_hash",
+                        "getter_name": "stellarTxHash",
+                        "moor_type": "string",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "fee_amount",
+                        "getter_name": "feeAmount",
+                        "moor_type": "int",
+                        "nullable": true,
+                        "customConstraints": null,
+                        "default_dart": null,
+                        "default_client_dart": null,
+                        "dsl_features": []
+                    },
+                    {
+                        "name": "reference_number",
+                        "getter_name": "referenceNumber",
                         "moor_type": "string",
                         "nullable": true,
                         "customConstraints": null,

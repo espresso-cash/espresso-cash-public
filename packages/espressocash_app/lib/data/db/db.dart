@@ -27,7 +27,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 54;
+const int latestVersion = 56;
 
 const _tables = [
   OutgoingTransferRows,
@@ -123,10 +123,40 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(tokenBalanceRows);
           }
           if (from < 53) {
-            await m.addColumn(transactionRows, transactionRows.tokenAddress);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.stellarTxHash);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
+            await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
-          if (from < 54) {
+          if (from >= 40 && from < 54) {
+            await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawMemo);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.withdrawUrl);
+            await m.addColumn(offRampOrderRows, offRampOrderRows.bridgeAmount);
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.withdrawAnchorAccount,
+            );
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.stellarTxHash,
+            );
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.solanaBridgeTx,
+            );
+            await m.addColumn(
+              offRampOrderRows,
+              offRampOrderRows.referenceNumber,
+            );
+          }
+          if (from < 55) {
             await m.createTable(tokenRows);
+          }
+          if (from < 56) {
+            await m.addColumn(transactionRows, transactionRows.tokenAddress);
           }
         },
       );
@@ -149,6 +179,13 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   DateTimeColumn get bankTransferExpiry => dateTime().nullable()();
   IntColumn get bankTransferAmount => integer().nullable()();
   TextColumn get fiatSymbol => text().nullable()();
+
+  // Moneygram
+  TextColumn get authToken => text().nullable()();
+  TextColumn get moreInfoUrl => text().nullable()();
+  TextColumn get stellarTxHash => text().nullable()();
+  IntColumn get feeAmount => integer().nullable()();
+  TextColumn get referenceNumber => text().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
@@ -168,6 +205,17 @@ class OffRampOrderRows extends Table with AmountMixin, EntityMixin {
       textEnum<RampPartner>().withDefault(const Constant('kado'))();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get feeToken => text().nullable()();
+
+  // Moneygram
+  TextColumn get authToken => text().nullable()();
+  TextColumn get withdrawAnchorAccount => text().nullable()();
+  TextColumn get withdrawMemo => text().nullable()();
+  TextColumn get withdrawUrl => text().nullable()();
+  TextColumn get moreInfoUrl => text().nullable()();
+  TextColumn get solanaBridgeTx => text().nullable()();
+  TextColumn get stellarTxHash => text().nullable()();
+  IntColumn get bridgeAmount => integer().nullable()();
+  TextColumn get referenceNumber => text().nullable()();
 }
 
 enum OnRampOrderStatus {
@@ -176,6 +224,10 @@ enum OnRampOrderStatus {
   waitingForPartner,
   failure,
   completed,
+  pending, // MG
+  preProcessing, // MG
+  postProcessing, // MG
+  waitingForBridge, // MG
 }
 
 enum OffRampOrderStatus {
@@ -190,6 +242,12 @@ enum OffRampOrderStatus {
   completed,
   cancelled,
   insufficientFunds,
+  preProcessing, // MG
+  postProcessing, // MG
+  ready, // MG
+  processingRefund, // MG
+  waitingForRefundBridge, // MG
+  refunded, // MG
 }
 
 class OutgoingDlnPaymentRows extends Table with EntityMixin, TxStatusMixin {
