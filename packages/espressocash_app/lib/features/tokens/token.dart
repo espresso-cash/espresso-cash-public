@@ -1,4 +1,3 @@
-import 'package:injectable/injectable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:solana/solana.dart';
@@ -9,7 +8,6 @@ part 'token.g.dart';
 
 @immutable
 @JsonSerializable(createToJson: false)
-@injectable
 class Token {
   const Token({
     required this.chainId,
@@ -22,16 +20,12 @@ class Token {
     required this.extensions,
   });
 
-  @factoryMethod
   const factory Token.solana() = _SolanaToken;
 
-  @factoryMethod
   const factory Token.unknown() = _UnknownToken;
 
-  @factoryMethod
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
 
-  @factoryMethod
   const factory Token.splToken({
     required int chainId,
     required String address,
@@ -43,7 +37,6 @@ class Token {
     required Extensions? extensions,
   }) = SplToken;
 
-  @factoryMethod
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
 
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
@@ -180,13 +173,11 @@ class _UsdcDevToken extends SplToken {
 }
 
 @JsonSerializable()
-@injectable
 class Extensions {
   const Extensions({
     this.coingeckoId,
   });
 
-  @factoryMethod
   factory Extensions.fromJson(Map<String, dynamic> data) =>
       _$ExtensionsFromJson(data);
 
