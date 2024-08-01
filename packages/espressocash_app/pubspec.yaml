@@ -26,6 +26,7 @@ dependencies:
   espressocash_api:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
+  face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.3.0+2
   firebase_core: ^3.1.1
@@ -43,6 +44,7 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
+  grpc: ^4.0.0
   http: ^1.1.2
   image_picker: ^1.1.1
   injectable: ^2.3.2
@@ -57,6 +59,7 @@ dependencies:
   path: ^1.8.3
   path_provider: ^2.1.1
   permission_handler: ^11.1.0
+  protobuf: ^3.1.0
   provider: ^6.1.1
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
