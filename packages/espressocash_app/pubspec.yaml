@@ -43,6 +43,7 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   freezed_annotation: ^2.4.1
   get_it: ^7.6.4
+  grpc: ^3.2.4
   kyc_app_client:
     path: ../../../kyc_validator/kyc_app_client
   kyc_client_dart:
