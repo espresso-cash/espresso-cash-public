@@ -1035,10 +1035,10 @@ packages:
     dependency: "direct main"
     description:
       name: injectable
-      sha256: "3c8355a29d11ff28c0311bed754649761f345ef7a13ff66a714380954af51226"
+      sha256: "69874ba3ec10e3a0de3f519a184442878291d928f3299d718813f24642585198"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.4"
   injectable_generator:
     dependency: "direct dev"
     description:
