@@ -96,8 +96,8 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncExpand(
-          (row) => row.toModel().alsoAsync(_match).asStream(),
+    return query.watchSingle().asyncMap(
+          (row) async => row.toModel().then((value) => _match(value).first),
         );
   }
 
@@ -201,19 +201,17 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  Future<TxCommon> toModel() =>
+  Future<TxCommon> toModel() async =>
       sl<TokenRepository>().getToken(tokenAddress).letAsync(
-            (e) async => TxCommon(
+            (e) => TxCommon(
               SignedTx.decode(encodedTx),
               created: created,
               status: status,
-              amount: await amount?.let(
-                (it) async => CryptoAmount(
+              amount: amount?.let(
+                (it) => CryptoAmount(
                   value: it,
                   cryptoCurrency: CryptoCurrency(
-                    token:
-                        (await sl<TokenRepository>().getToken(tokenAddress)) ??
-                            Token.unk,
+                    token: e ?? Token.unk,
                   ),
                 ),
               ),
