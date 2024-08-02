@@ -238,31 +238,28 @@ class _WalletTextField extends StatelessWidget {
   final VoidCallback onQrScan;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: CpTextField(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 24,
-          ),
-          height: 72,
-          controller: controller,
-          inputType: TextInputType.text,
-          textInputAction: TextInputAction.next,
-          textCapitalization: TextCapitalization.none,
-          backgroundColor: CpColors.darkBackgroundColor,
-          placeholder: 'Enter a wallet address',
-          placeholderColor: CpColors.secondaryTextColor,
-          textColor: Colors.white,
-          fontSize: 16,
-          multiLine: true,
-          suffix: Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: CpIconButton(
-              onPressed: onQrScan,
-              icon: Assets.icons.qrScanner.svg(color: Colors.white),
-              variant: CpIconButtonVariant.inverted,
-            ),
+  Widget build(BuildContext context) => CpTextField(
+        padding: const EdgeInsets.symmetric(
+          vertical: 16,
+          horizontal: 24,
+        ),
+        height: 72,
+        controller: controller,
+        inputType: TextInputType.text,
+        textInputAction: TextInputAction.next,
+        textCapitalization: TextCapitalization.none,
+        backgroundColor: CpColors.darkBackgroundColor,
+        placeholder: 'Enter a wallet address',
+        placeholderColor: CpColors.secondaryTextColor,
+        textColor: Colors.white,
+        fontSize: 16,
+        multiLine: true,
+        suffix: Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: CpIconButton(
+            onPressed: onQrScan,
+            icon: Assets.icons.qrScanner.svg(color: Colors.white),
+            variant: CpIconButtonVariant.inverted,
           ),
         ),
       );

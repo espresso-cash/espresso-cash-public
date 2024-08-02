@@ -1,11 +1,10 @@
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/text_field.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
@@ -57,7 +56,7 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
         children: [
           CpTextField(
             padding: const EdgeInsets.symmetric(
-              vertical: 12,
+              vertical: 16,
               horizontal: 24,
             ),
             height: 72,
@@ -102,18 +101,15 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
         ],
       );
 
-  num get _parsedAmount => NumberFormat.decimalPattern(
-        DeviceLocale.localeOf(context).languageCode,
-      ).let(
-        (format) => format.tryParse(widget._quantityController.text) ?? 0,
-      );
+  Decimal get _parsedAmount => widget._quantityController.text
+      .toDecimalOrZero(DeviceLocale.localeOf(context));
 
-  bool get _isMax => _parsedAmount == widget.crypto.decimal.toDouble();
+  bool get _isMax => _parsedAmount == widget.crypto.decimal;
 
-  bool get _isMaxAmountZero => widget.crypto.decimal.toDouble() > 0;
+  bool get _isMaxAmountZero => widget.crypto.decimal > Decimal.zero;
 
   String get _usdcAmount =>
-      r'≈ $' + (_parsedAmount * widget.rate.toDouble()).toStringAsFixed(2);
+      r'≈ $' + (_parsedAmount * widget.rate).toStringAsFixed(2);
 
   String get _buttonText => _isMax ? 'Clear' : 'Max';
 

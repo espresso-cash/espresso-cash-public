@@ -1,6 +1,7 @@
 import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../di.dart';
 import '../../../l10n/decimal_separator.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -13,6 +14,7 @@ import '../../../ui/usdc_info.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
+import '../data/repository.dart';
 import '../services/amount_ext.dart';
 import 'extensions.dart';
 
@@ -25,7 +27,6 @@ class AmountWithEquivalent extends StatelessWidget {
     this.shakeKey,
     this.error = '',
     this.showUsdcInfo = false,
-    this.amount,
   });
 
   final TextEditingController inputController;
@@ -34,7 +35,6 @@ class AmountWithEquivalent extends StatelessWidget {
   final Key? shakeKey;
   final String error;
   final bool showUsdcInfo;
-  final String? amount;
 
   @override
   Widget build(BuildContext context) =>
@@ -78,8 +78,8 @@ class AmountWithEquivalent extends StatelessWidget {
                             ),
                           (true, false, true) => const _InfoChip(),
                           _ => _EquivalentDisplay(
-                              input: amount?.let((it) => it) ?? value.text,
-                              token: Token.usdc,
+                              input: value.text,
+                              token: token,
                               backgroundColor: Colors.black,
                             ),
                         },
@@ -120,9 +120,21 @@ class _EquivalentDisplay extends StatelessWidget {
 
     final String formattedAmount;
     if (shouldDisplay) {
-      formattedAmount = Amount.fromDecimal(value: value, currency: Currency.usd)
-          .let((it) => it as FiatAmount)
-          .let((it) => it.toTokenAmount(token)?.round(Currency.usd.decimals))
+      formattedAmount = Amount.fromDecimal(
+        value: value,
+        currency:
+            token == Token.usdc ? Currency.usd : CryptoCurrency(token: token),
+      )
+          .let(
+            (it) => switch (it) {
+              final FiatAmount fiat =>
+                fiat.toTokenAmount(token)?.round(Currency.usd.decimals),
+              final CryptoAmount crypto => crypto.toFiatAmount(
+                  defaultFiatCurrency,
+                  ratesRepository: sl<ConversionRatesRepository>(),
+                ),
+            },
+          )
           .maybeFlatMap(
             (it) => it.format(locale, roundInteger: true, skipSymbol: true),
           )
@@ -143,7 +155,7 @@ class _EquivalentDisplay extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: ' ${token.symbol.toUpperCase()}',
+            text: ' ${Token.usdc.symbol.toUpperCase()}',
             style: const TextStyle(
               color: CpColors.yellowColor,
               fontSize: 15,
