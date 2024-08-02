@@ -45,17 +45,13 @@ class ODPRepository implements Disposable {
   Future<OutgoingDirectPayment?> load(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
-    return query.getSingleOrNull().then(
-          (row) => row?.toModel(),
-        );
+    return query.getSingleOrNull().then((row) => row?.toModel());
   }
 
   Stream<OutgoingDirectPayment> watch(String id) {
     final query = _db.select(_db.oDPRows)..where((p) => p.id.equals(id));
 
-    return query.watchSingle().asyncMap(
-          (row) => row.toModel(),
-        );
+    return query.watchSingle().asyncMap((row) => row.toModel());
   }
 
   Future<void> save(OutgoingDirectPayment payment) async {

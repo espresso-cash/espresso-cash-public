@@ -82,12 +82,8 @@ class OLPRepository implements Disposable {
       ..where((p) => p.status.isInValues(statuses));
 
     return query.watch().asyncMap(
-          (rows) async => (await Future.wait(
-            rows.map(
-              (row) => row.toModel(),
-            ),
-          ))
-              .toIList(),
+          (rows) => Future.wait(rows.map((row) => row.toModel()))
+              .then((payments) => payments.toIList()),
         );
   }
 
