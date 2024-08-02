@@ -164,7 +164,6 @@ extension TokenRowsExt on TokenRow {
         logoURI: logoURI,
         chainId: chainId,
         tags: tags,
-        extensions: extensions,
       );
 }
 
@@ -177,16 +176,6 @@ extension _TagStringParser on String {
         .split(',')
         .map((e) => e.trim())
         .toList();
-  }
-}
-
-extension _ExtensionStringParser on String {
-  Extensions? _parseExtensions() {
-    final parts = split(':');
-
-    return (parts.length == 2 && parts[0] == 'coingeckoId')
-        ? Extensions(coingeckoId: parts[1])
-        : null;
   }
 }
 
@@ -213,7 +202,6 @@ extension _StreamExtension on Stream<String> {
                     decimals: int.parse(values[4]),
                     logoURI: values[5],
                     tags: values[6]._parseTags(),
-                    extensions: values[7]._parseExtensions(),
                   ),
                 );
               }

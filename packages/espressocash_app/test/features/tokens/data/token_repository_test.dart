@@ -202,7 +202,6 @@ List<TokenRow> parseChunk(String chunk) {
     final values = line.split(',');
     if (values.length < 8) continue;
     final tags = parseTags(values[6]);
-    final extensions = parseExtensions(values[7]);
 
     tokenIterable.add(
       TokenRow(
@@ -213,7 +212,6 @@ List<TokenRow> parseChunk(String chunk) {
         decimals: int.parse(values[4]),
         logoURI: values[5],
         tags: tags,
-        extensions: extensions,
       ),
     );
   }
@@ -230,14 +228,6 @@ List<String>? parseTags(String? tagString) {
       .split(',')
       .map((e) => e.trim())
       .toList();
-}
-
-Extensions? parseExtensions(String? extensionString) {
-  final List<String>? parts = extensionString?.split(':');
-
-  return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
-      ? Extensions(coingeckoId: parts[1])
-      : null;
 }
 
 typedef TokenMap = IMap<String, TokenRow>;
@@ -259,7 +249,6 @@ class MemoryTokenRepository implements TokenRepository {
       final values = line.split(',');
       if (values.length >= 8) {
         final tags = parseTags(values[6]);
-        final extensions = parseExtensions(values[7]);
 
         return TokenRow(
           address: values[0],
@@ -269,7 +258,6 @@ class MemoryTokenRepository implements TokenRepository {
           decimals: int.parse(values[4]),
           logoURI: values[5],
           tags: tags,
-          extensions: extensions,
         );
       }
       throw Exception('Invalid line format');
