@@ -1,5 +1,7 @@
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
@@ -100,19 +102,23 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
         ],
       );
 
-  num get _parseAmount => num.tryParse(widget._quantityController.text) ?? 0;
+  num get _parsedAmount => NumberFormat.decimalPattern(
+        DeviceLocale.localeOf(context).languageCode,
+      ).let(
+        (format) => format.tryParse(widget._quantityController.text) ?? 0,
+      );
 
-  bool get _isMax => _parseAmount == widget.crypto.decimal.toDouble();
+  bool get _isMax => _parsedAmount == widget.crypto.decimal.toDouble();
 
   bool get _isMaxAmountZero => widget.crypto.decimal.toDouble() > 0;
 
   String get _usdcAmount =>
-      r'≈ $' + (_parseAmount * widget.rate.toDouble()).toStringAsFixed(2);
+      r'≈ $' + (_parsedAmount * widget.rate.toDouble()).toStringAsFixed(2);
 
   String get _buttonText => _isMax ? 'Clear' : 'Max';
 
   VoidCallback get _callback => _isMax
-      ? () => widget._quantityController.clear()
+      ? widget._quantityController.clear
       : () => widget._quantityController.text = widget.crypto
           .format(DeviceLocale.localeOf(context), skipSymbol: true);
 }
