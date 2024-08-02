@@ -15,10 +15,9 @@ const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
 class KycSharingService {
-  KycSharingService(XFlowClient xflowClient, this._ecWallet)
-      : _validatorClient = xflowClient.kycValidatorClient;
+  KycSharingService(this._xFlowClient, this._ecWallet);
 
-  final KycServiceClient _validatorClient;
+  final XFlowClient _xFlowClient;
   final ECWallet _ecWallet;
 
   late final KycUserClient _kycUserClient;
@@ -26,6 +25,8 @@ class KycSharingService {
   late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
+
+  KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
 
   @PostConstruct()
   Future<void> init() async {

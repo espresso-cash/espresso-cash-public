@@ -86,8 +86,6 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
           showCpSnackbar(context, message: 'Success, KYC submitted');
         } on Exception {
-          if (!mounted) return;
-
           showCpErrorSnackbar(context, message: 'Failed to submit KYC');
         }
       },

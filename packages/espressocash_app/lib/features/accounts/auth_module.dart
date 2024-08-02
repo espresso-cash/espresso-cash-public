@@ -31,6 +31,6 @@ abstract class AuthModule {
         ),
       );
 
-  @lazySingleton
+  @LazySingleton(scope: authScope)
   XFlowClient get xflowClient => XFlowClient();
 }
