@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 54;
+const int latestVersion = 55;
 
 const _tables = [
   OutgoingTransferRows,
@@ -151,6 +151,10 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.referenceNumber,
             );
+          }
+
+          if (from < 55) {
+            await m.createTable(conversionRatesRows);
           }
         },
       );
