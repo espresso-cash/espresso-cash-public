@@ -201,7 +201,7 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  Future<TxCommon> toModel() async =>
+  Future<TxCommon> toModel() =>
       sl<TokenRepository>().getToken(tokenAddress).letAsync(
             (e) => TxCommon(
               SignedTx.decode(encodedTx),
