@@ -7,7 +7,6 @@ import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,12 +15,11 @@ import 'package:solana/encoder.dart';
 import '../../../data/db/db.dart';
 import '../../../data/db/open_connection.dart';
 import '../../../di.dart';
-import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
 import '../token.dart';
 
-@Singleton(scope: authScope)
-class TokenRepository implements Disposable {
+@Singleton()
+class TokenRepository {
   TokenRepository({
     required MyDatabase db,
     required EspressoCashClient ecClient,
@@ -61,15 +59,8 @@ class TokenRepository implements Disposable {
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
 
-  @override
-  Future<void> onDispose() async {
-    await TokensMetaStorage.clearHash();
-    await _db.delete(_db.tokenRows).go();
-  }
-
   Future<Either<Exception, void>> _initializeFromFile() =>
       tryEitherAsync((_) async {
-        await onDispose();
         final receivePort = ReceivePort();
 
         final Isolate tokenListIsolate = await Isolate.spawn(
@@ -135,7 +126,7 @@ class TokenRepository implements Disposable {
             .openRead()
             .transform(gzip.decoder)
             .transform(utf8.decoder)
-            ._transformToTokenRows()
+            .transformToTokenRows()
             .forEach((tokenRow) async {
           await database.transaction(
             () async => database.batch(
@@ -178,8 +169,8 @@ extension on String {
   }
 }
 
-extension _StreamExtension on Stream<String> {
-  Stream<List<TokenRow>> _transformToTokenRows() => transform(
+extension on Stream<String> {
+  Stream<List<TokenRow>> transformToTokenRows() => transform(
         StreamTransformer<String, List<TokenRow>>.fromHandlers(
           handleData: (data, sink) {
             final List<TokenRow> rows = [];
@@ -223,10 +214,5 @@ abstract final class TokensMetaStorage {
     final prefs = await SharedPreferences.getInstance();
 
     return prefs.getString(_key);
-  }
-
-  static Future<void> clearHash() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_key);
   }
 }
