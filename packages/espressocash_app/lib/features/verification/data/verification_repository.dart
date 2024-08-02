@@ -36,14 +36,15 @@ class VerificationRepository extends ChangeNotifier {
 
     _client = KycUserClient(
       sign: (data) async {
-        final payloads = data.map((int value) => Uint8List.fromList([value]));
-
-        return _account.sign(payloads).then((value) => value.first);
+        final signature =
+            await _account.sign([Uint8List.fromList(data.toList())]);
+        
+        return signature.first;
       },
     );
 
     await _client.init();
-    await _client.initStorage(walletAddress: _account.publicKey.toString());
+   // await _client.initStorage(walletAddress: _account.publicKey.toString());
 
     _rawSecretKey = _client.rawSecretKey;
     _authPublicKey = _client.authPublicKey;

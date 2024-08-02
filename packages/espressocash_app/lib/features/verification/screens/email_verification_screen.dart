@@ -13,6 +13,7 @@ import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
 import '../data/client.dart';
 import '../data/verification_repository.dart';
+import 'email_confirmation_screen.dart';
 
 const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
@@ -83,7 +84,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       },
     );
     if (!mounted) return;
-    // if (success) EmailConfirmationScreen.push(context);
+    if (success) EmailConfirmationScreen.push(context);
   }
 
   @override
@@ -96,7 +97,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: 'Send verification code',
-              onPressed: () => _sendEmail(AutofillHints.addressCity),
+              onPressed: () => _sendEmail(_emailController.text),
             ),
             children: [
               SizedBox(height: MediaQuery.paddingOf(context).top + 48),
