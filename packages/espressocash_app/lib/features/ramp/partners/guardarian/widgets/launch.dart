@@ -33,7 +33,7 @@ extension BuildContextExt on BuildContext {
       this,
       url: uri,
       onLoaded: null,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: null,
     );
   }
