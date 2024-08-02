@@ -318,7 +318,7 @@ class TokenRows extends Table {
   TextColumn get name => text()();
   IntColumn get decimals => integer()();
   TextColumn get logoURI => text().nullable()();
-  TextColumn get tags => text().map(const TagsConverter()).nullable()();
+  BoolColumn get isStablecoin => boolean()();
 
   @override
   Set<Column> get primaryKey => {chainId, address};

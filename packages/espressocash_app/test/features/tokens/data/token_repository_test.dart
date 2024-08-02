@@ -27,8 +27,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
       when(mockRepo.getToken('So00000000000'))
@@ -63,8 +62,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       final result = parseChunk(chunk);
@@ -82,8 +80,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
       await memoryRepo.initialize();
@@ -101,8 +98,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       await memoryRepo.getToken('So00000000000');
@@ -120,8 +116,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
       memoryRepo.insertToken(token);
@@ -144,8 +139,7 @@ void main() {
           name: 'Solana',
           decimals: 18,
           logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
+          isStablecoin: false,
         ),
         const TokenRow(
           address: 'So00000000004',
@@ -154,8 +148,7 @@ void main() {
           name: 'Solana',
           decimals: 18,
           logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
+          isStablecoin: false,
         ),
       ];
       memoryRepo.insertTokens(tokens);
@@ -181,8 +174,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       final result = parseChunk(chunk);
@@ -201,7 +193,6 @@ List<TokenRow> parseChunk(String chunk) {
     if (line.trim().isEmpty) continue;
     final values = line.split(',');
     if (values.length < 8) continue;
-    final tags = parseTags(values[6]);
 
     tokenIterable.add(
       TokenRow(
@@ -211,23 +202,12 @@ List<TokenRow> parseChunk(String chunk) {
         name: values[3],
         decimals: int.parse(values[4]),
         logoURI: values[5],
-        tags: tags,
+        isStablecoin: false,
       ),
     );
   }
 
   return tokenIterable;
-}
-
-List<String>? parseTags(String? tagString) {
-  if (tagString == null || tagString.isEmpty) return null;
-
-  return tagString
-      .replaceAll('[', '')
-      .replaceAll(']', '')
-      .split(',')
-      .map((e) => e.trim())
-      .toList();
 }
 
 typedef TokenMap = IMap<String, TokenRow>;
@@ -248,8 +228,6 @@ class MemoryTokenRepository implements TokenRepository {
         lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {
       final values = line.split(',');
       if (values.length >= 8) {
-        final tags = parseTags(values[6]);
-
         return TokenRow(
           address: values[0],
           chainId: int.parse(values[1]),
@@ -257,7 +235,7 @@ class MemoryTokenRepository implements TokenRepository {
           name: values[3],
           decimals: int.parse(values[4]),
           logoURI: values[5],
-          tags: tags,
+          isStablecoin: false,
         );
       }
       throw Exception('Invalid line format');

@@ -163,19 +163,18 @@ extension TokenRowsExt on TokenRow {
         decimals: decimals,
         logoURI: logoURI,
         chainId: chainId,
-        tags: tags,
+        isStablecoin: isStablecoin,
       );
 }
 
-extension _TagStringParser on String {
-  List<String>? _parseTags() {
-    if (this.isEmpty) return null;
+extension on String {
+  bool hasStablecoinTag() {
+    if (this.isEmpty) return false;
 
     return replaceAll('[', '')
         .replaceAll(']', '')
         .split(',')
-        .map((e) => e.trim())
-        .toList();
+        .any((e) => e == 'stablecoin');
   }
 }
 
@@ -201,7 +200,7 @@ extension _StreamExtension on Stream<String> {
                     name: values[3],
                     decimals: int.parse(values[4]),
                     logoURI: values[5],
-                    tags: values[6]._parseTags(),
+                    isStablecoin: values[6].hasStablecoinTag(),
                   ),
                 );
               }

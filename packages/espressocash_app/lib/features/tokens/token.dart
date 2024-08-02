@@ -16,7 +16,7 @@ class Token {
     required this.name,
     required this.decimals,
     required this.logoURI,
-    required this.tags,
+    required this.isStablecoin,
   });
 
   const factory Token.solana() = _SolanaToken;
@@ -32,7 +32,7 @@ class Token {
     required String name,
     required int decimals,
     required String logoURI,
-    required List<String> tags,
+    required bool isStablecoin,
   }) = SplToken;
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
@@ -46,8 +46,6 @@ class Token {
   static const wrappedSol = Token.wrappedSolana();
 
   bool get isSolana => this is _SolanaToken;
-
-  bool get isStablecoin => tags?.contains('stablecoin') == true;
 
   Ed25519HDPublicKey get publicKey => Ed25519HDPublicKey.fromBase58(address);
 
@@ -68,7 +66,7 @@ class Token {
   final String name;
   final int decimals;
   final String? logoURI;
-  final List<String>? tags;
+  final bool isStablecoin;
 }
 
 class _SolanaToken extends Token {
@@ -78,10 +76,10 @@ class _SolanaToken extends Token {
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
           chainId: currentChainId,
-          tags: const [],
           decimals: 9,
           name: 'Solana',
           symbol: 'SOL',
+          isStablecoin: false,
         );
 }
 
@@ -92,10 +90,10 @@ class _UnknownToken extends Token {
           logoURI:
               'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
           chainId: currentChainId,
-          tags: const [],
           decimals: 9,
           name: 'Unknown Token',
           symbol: 'UNKNOWN',
+          isStablecoin: false,
         );
 }
 
@@ -107,7 +105,7 @@ class SplToken extends Token {
     required super.name,
     required super.decimals,
     super.logoURI,
-    required List<String> super.tags,
+    required super.isStablecoin,
   });
 }
 
@@ -118,10 +116,10 @@ class _WrappedSolanaToken extends SplToken {
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
           chainId: currentChainId,
-          tags: const [],
           decimals: 9,
           name: 'Wrapped SOL',
           symbol: 'SOL',
+          isStablecoin: false,
         );
 }
 
@@ -132,10 +130,10 @@ class _UsdcMainToken extends SplToken {
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
           chainId: currentChainId,
-          tags: const ['stablecoin'],
           decimals: 6,
           name: 'USD Coin',
           symbol: 'USDC',
+          isStablecoin: true,
         );
 }
 
@@ -146,10 +144,10 @@ class _UsdcDevToken extends SplToken {
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
           chainId: currentChainId,
-          tags: const ['stablecoin'],
           decimals: 6,
           name: 'USD Coin',
           symbol: 'USDC',
+          isStablecoin: true,
         );
 }
 
