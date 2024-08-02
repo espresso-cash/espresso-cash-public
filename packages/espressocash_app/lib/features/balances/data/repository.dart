@@ -38,12 +38,8 @@ class TokenBalancesRepository {
 
     return query.get().then(
           (rows) => Future.wait(
-            rows.map(
-              (row) async => _tokenRepository.getToken(row.token),
-            ),
-          ).then(
-            (tokens) => tokens.whereNotNull().toISet(),
-          ),
+            rows.map((row) async => _tokenRepository.getToken(row.token)),
+          ).then((tokens) => tokens.whereNotNull().toISet()),
         );
   }
 
@@ -59,12 +55,8 @@ class TokenBalancesRepository {
 
     return query.watch().asyncMap(
           (rows) async => Future.wait(
-            rows.map(
-              (row) async => _tokenRepository.getToken(row.token),
-            ),
-          ).then(
-            (tokens) => tokens.whereNotNull().toISet(),
-          ),
+            rows.map((row) async => _tokenRepository.getToken(row.token)),
+          ).then((tokens) => tokens.whereNotNull().toISet()),
         );
   }
 
@@ -90,9 +82,7 @@ class TokenBalancesRepository {
                     ),
                   ),
             ),
-          ).then(
-            (balances) => balances.whereNotNull().toIList(),
-          ),
+          ).then((balances) => balances.whereNotNull().toIList()),
         );
   }
 
