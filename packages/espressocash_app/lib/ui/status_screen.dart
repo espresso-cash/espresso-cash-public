@@ -31,40 +31,42 @@ class StatusScreen extends StatelessWidget {
     final title = this.title;
     final onBackButtonPressed = this.onBackButtonPressed;
 
-    return CpTheme.black(
-      child: Scaffold(
-        appBar: CpAppBar(
-          title: title != null ? Text(title, style: _titleStyle) : null,
-          leading: onBackButtonPressed != null
-              ? CpBackButton(onPressed: onBackButtonPressed)
-              : null,
-          automaticallyImplyLeading: onBackButtonPressed != null,
-        ),
-        body: Stack(
-          children: [
-            SizedBox(
-              height: double.infinity,
-              child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  if (statusContent case final statusContent?)
-                    CpContentPadding(
-                      bottom: false,
-                      child: CpStatusWidget(
-                        statusType: statusType,
-                        title: statusTitle,
-                        content: statusContent,
-                      ),
+    final logo = CpTheme.of(context) == const CpThemeData.black()
+        ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
+        : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
+
+    return Scaffold(
+      appBar: CpAppBar(
+        title: title != null ? Text(title, style: _titleStyle) : null,
+        leading: onBackButtonPressed != null
+            ? CpBackButton(onPressed: onBackButtonPressed)
+            : null,
+        automaticallyImplyLeading: onBackButtonPressed != null,
+      ),
+      body: Stack(
+        children: [
+          SizedBox(
+            height: double.infinity,
+            child: logo,
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                if (statusContent case final statusContent?)
+                  CpContentPadding(
+                    bottom: false,
+                    child: CpStatusWidget(
+                      statusType: statusType,
+                      title: statusTitle,
+                      content: statusContent,
                     ),
-                  if (content != null) Expanded(child: content),
-                ],
-              ),
+                  ),
+                if (content != null) Expanded(child: content),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
