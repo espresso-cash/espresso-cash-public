@@ -1,10 +1,10 @@
 import 'package:injectable/injectable.dart';
+import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 
 import '../accounts/auth_scope.dart';
 import '../accounts/data/account_repository.dart';
 import 'constants.dart';
 import 'models/stellar_wallet.dart';
-import 'service/stellar_client.dart';
 
 @module
 abstract class StellarModule {
@@ -18,6 +18,9 @@ abstract class StellarModule {
     return createStellarWallet(mnemonic: mnemonic);
   }
 
-  @LazySingleton(scope: authScope)
-  StellarClient stellarClient() => StellarClient(stellarSdk);
+  @lazySingleton
+  StellarSDK sdk() => stellarSdk;
+
+  @lazySingleton
+  SorobanServer client() => SorobanServer(sorobanRpcUrl);
 }
