@@ -27,3 +27,6 @@ deps_graph_all:
 
 deps_graph_features:
 	dcm as lib/features --exclude="" --modules="/features/" > features.dot && python3 ./tool/cycles.py features.dot --only-shortest && echo "No cycles"
+
+generate_protos:
+	protoc --dart_out=grpc:lib/gen/ -Iprotos protos/kyc.proto

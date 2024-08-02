@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package kyc;
+
+message KycRequest{
+  string secretKey = 1;
+  string partnerToken = 2;
+  string userPk = 3;
+}
+
+message KycResponse{
+  string userId = 1;
+  bool success = 2;
+}
+
+service KycService {
+  rpc RequestKyc (KycRequest) returns (KycResponse);
+}

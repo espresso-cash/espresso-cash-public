@@ -51,6 +51,8 @@ dependencies:
   intercom_flutter: ^9.0.7
   intl: ^0.19.0
   json_annotation: ^4.8.1
+  kyc_client_dart:
+    path: ../../../kyc_client_dart
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0
@@ -71,8 +73,7 @@ dependencies:
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
-  solana:
-    path: ../solana/
+  solana: ^0.30.4
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/form_page.dart';
@@ -12,6 +13,8 @@ import '../../../ui/text_field.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../models/id_type.dart';
+import '../models/kyc_model.dart';
+import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
 import 'kyc_camera_screen.dart';
 
@@ -64,37 +67,25 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
       context,
       () async {
         try {
-          // final state = context.read<WalletAppState>();
+          final service = sl<KycSharingService>();
 
-          // await state.updateInfo(
-          //   data: KycUserInfo(
-          //     firstName: _firstNameController.text,
-          //     middleName: _middleNameController.text,
-          //     lastName: _lastNameController.text,
-          //     dob: _dob?.toIso8601String() ?? '',
-          //     countryCode: _country!.code,
-          //     idType: _idType!.value,
-          //     idNumber: _idController.text,
-          //   ),
-          //   photo: photo,
-          // );
-
-          // await state.generatePartnerToken(partnerAuthPk);
-
-          // await client.requestKyc(
-          //   KycRequest(
-          //     secretKey: state.rawSecretKey,
-          //     partnerToken: state.partnerToken,
-          //     userPk: state.authPublicKey,
-          //   ),
-          // );
+          await service.updateInfo(
+            data: KycUserInfo(
+              firstName: _firstNameController.text,
+              middleName: _middleNameController.text,
+              lastName: _lastNameController.text,
+              dob: _dob?.toIso8601String() ?? '',
+              countryCode: _country!.code,
+              idType: _idType!.value,
+              idNumber: _idController.text,
+            ),
+            photo: photo,
+          );
 
           if (!mounted) return;
 
           showCpSnackbar(context, message: 'Success, KYC submitted');
-        } on Exception catch (ex) {
-          print('failed: $ex');
-
+        } on Exception {
           if (!mounted) return;
 
           showCpErrorSnackbar(context, message: 'Failed to submit KYC');

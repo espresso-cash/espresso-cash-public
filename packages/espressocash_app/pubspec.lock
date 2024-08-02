@@ -1019,10 +1019,10 @@ packages:
     dependency: "direct main"
     description:
       name: http
-      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
+      sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   http2:
     dependency: transitive
     description:
@@ -1219,6 +1219,13 @@ packages:
       relative: true
     source: path
     version: "0.0.4"
+  kyc_client_dart:
+    dependency: "direct main"
+    description:
+      path: "../../../kyc_client_dart"
+      relative: true
+    source: path
+    version: "1.0.0"
   leak_tracker:
     dependency: transitive
     description:
@@ -1795,9 +1802,10 @@ packages:
   solana:
     dependency: "direct main"
     description:
-      path: "../solana"
-      relative: true
-    source: path
+      name: solana
+      sha256: "59e9acde91958681070c32e50380daccaa69c275e078deee3b915ba043f6ba9b"
+      url: "https://pub.dev"
+    source: hosted
     version: "0.30.4"
   solana_mobile_wallet:
     dependency: "direct main"
@@ -2255,5 +2263,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.4.0 <4.0.0"
+  dart: ">=3.4.3 <4.0.0"
   flutter: ">=3.22.0"
