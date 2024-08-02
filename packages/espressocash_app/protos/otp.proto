@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package kyc;
+
+message SendOtpRequest {
+  string secretKey = 1;
+  string partnerToken = 2;
+  string userPk = 3;
+}
+
+message SendOtpResponse {
+  string status = 1;
+}
+
+message VerifyOtpRequest {
+  string identifier = 1;
+  string otp = 2;
+}
+
+message VerifyOtpResponse {
+  bool isValid = 1;
+}
+
+service OtpService {
+  rpc SendOtpByEmail(SendOtpRequest) returns (SendOtpResponse);
+  rpc SendOtpBySms(SendOtpRequest) returns (SendOtpResponse);
+  rpc VerifyOtp(VerifyOtpRequest) returns (VerifyOtpResponse);
+}   

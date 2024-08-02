@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:espressocash_api/espressocash_api.dart';
-import 'package:grpc/grpc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
-import '../../gen/kyc.pbgrpc.dart';
+import '../kyc_sharing/data/client.dart';
 import 'auth_scope.dart';
 import 'models/account.dart';
 import 'models/ec_wallet.dart';
@@ -33,15 +32,5 @@ abstract class AuthModule {
       );
 
   @lazySingleton
-  KycServiceClient get kycValidatorClient => KycServiceClient(
-        ClientChannel(
-          'localhost',
-          port: 50051,
-          options: ChannelOptions(
-            credentials: const ChannelCredentials.insecure(),
-            codecRegistry:
-                CodecRegistry(codecs: const [GzipCodec(), IdentityCodec()]),
-          ),
-        ),
-      );
+  XFlowClient get xflowClient => XFlowClient();
 }

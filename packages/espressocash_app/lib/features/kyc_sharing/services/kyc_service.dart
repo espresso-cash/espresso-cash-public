@@ -7,6 +7,7 @@ import 'package:kyc_client_dart/kyc_client_dart.dart';
 import '../../../gen/kyc.pbgrpc.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../data/client.dart';
 import '../models/kyc_model.dart';
 
 // Hardcoded for now
@@ -14,7 +15,8 @@ const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
 
 @Singleton(scope: authScope)
 class KycSharingService {
-  KycSharingService(this._validatorClient, this._ecWallet);
+  KycSharingService(XFlowClient xflowClient, this._ecWallet)
+      : _validatorClient = xflowClient.kycValidatorClient;
 
   final KycServiceClient _validatorClient;
   final ECWallet _ecWallet;
