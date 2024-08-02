@@ -260,6 +260,7 @@ class MemoryTokenRepository implements TokenRepository {
       if (values.length >= 8) {
         final tags = parseTags(values[6]);
         final extensions = parseExtensions(values[7]);
+
         return TokenRow(
           address: values[0],
           chainId: int.parse(values[1]),
@@ -294,6 +295,7 @@ class MemoryTokenRepository implements TokenRepository {
 
   int insertToken(TokenRow token) {
     data.add(data.value.add(token.address, token));
+
     return 1;
   }
 }
