@@ -2,11 +2,13 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
@@ -49,9 +51,6 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
 
   late Decimal _rate;
 
-  bool get _isValid =>
-      Blockchain.solana.validateAddress(_recipientController.text);
-
   @override
   void initState() {
     super.initState();
@@ -81,7 +80,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     });
   }
 
-  Future<void> _onPressed() async {
+  Future<void> _handlePressed() async {
     final recipient = Ed25519HDPublicKey.fromBase58(_recipientController.text);
 
     final confirmedAmount = await ODPConfirmationScreen.push(
@@ -108,6 +107,30 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     if (!mounted) return;
     unawaited(ODPDetailsScreen.open(context, id: id));
   }
+
+  bool _validateQuantity() {
+    final value = _quantityController.text;
+
+    if (value.isEmpty) {
+      return false;
+    }
+
+    final format = NumberFormat.decimalPattern(
+      DeviceLocale.localeOf(context).languageCode,
+    );
+
+    final amount = format.tryParse(value)?.toDouble();
+
+    if (amount == null || amount <= 0) {
+      return false;
+    }
+
+    return true;
+  }
+
+  bool get _isValid =>
+      Blockchain.solana.validateAddress(_recipientController.text) &&
+      _validateQuantity();
 
   @override
   Widget build(BuildContext context) => ValueStreamBuilder<CryptoFiatAmount>(
@@ -182,12 +205,14 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
                             right: 25,
                           ),
                           child: ListenableBuilder(
-                            listenable: _recipientController,
+                            listenable: Listenable.merge(
+                              [_quantityController, _recipientController],
+                            ),
                             builder: (context, child) => CpButton(
                               width: MediaQuery.sizeOf(context).width,
                               alignment: CpButtonAlignment.center,
                               size: CpButtonSize.big,
-                              onPressed: _isValid ? _onPressed : null,
+                              onPressed: _isValid ? _handlePressed : null,
                               text: context.l10n.next,
                             ),
                           ),

@@ -1,9 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 
+import '../../../l10n/device_locale.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/text_field.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 
 class TokenQuantityInput extends StatefulWidget {
@@ -53,12 +55,12 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
         children: [
           CpTextField(
             padding: const EdgeInsets.symmetric(
-              vertical: 16,
+              vertical: 12,
               horizontal: 24,
             ),
             height: 72,
             controller: widget._quantityController,
-            inputType: TextInputType.number,
+            inputType: const TextInputType.numberWithOptions(decimal: true),
             textInputAction: TextInputAction.next,
             textCapitalization: TextCapitalization.none,
             backgroundColor: CpColors.darkBackgroundColor,
@@ -84,8 +86,8 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
           Visibility(
             visible: _visibility,
             child: Positioned(
-              left: 26,
-              bottom: 7,
+              left: 28,
+              bottom: 4,
               child: Text(
                 _usdcAmount,
                 style: const TextStyle(
@@ -111,5 +113,6 @@ class _TokenQuantityInputState extends State<TokenQuantityInput> {
 
   VoidCallback get _callback => _isMax
       ? () => widget._quantityController.clear()
-      : () => widget._quantityController.text = '${widget.crypto.decimal}';
+      : () => widget._quantityController.text = widget.crypto
+          .format(DeviceLocale.localeOf(context), skipSymbol: true);
 }
