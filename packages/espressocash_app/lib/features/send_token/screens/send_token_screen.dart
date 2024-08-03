@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
@@ -14,6 +13,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
+import '../../../ui/number_formatter.dart';
 import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
@@ -109,23 +109,12 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
   }
 
   bool _validateQuantity() {
-    final value = _quantityController.text;
+    if (_quantityController.text.isEmpty) return false;
 
-    if (value.isEmpty) {
-      return false;
-    }
+    final amount = _quantityController.text
+        .toDecimalOrZero(DeviceLocale.localeOf(context));
 
-    final format = NumberFormat.decimalPattern(
-      DeviceLocale.localeOf(context).languageCode,
-    );
-
-    final amount = format.tryParse(value)?.toDouble();
-
-    if (amount == null || amount <= 0) {
-      return false;
-    }
-
-    return true;
+    return amount.toDouble() <= 0;
   }
 
   bool get _isValid =>
