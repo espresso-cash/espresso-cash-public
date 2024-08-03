@@ -1,7 +1,6 @@
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart';
 
-const _isStellarProd =
-    bool.fromEnvironment('STELLAR_PROD', defaultValue: false);
+const _isStellarProd = bool.fromEnvironment('STELLAR_PROD', defaultValue: true);
 
 final stellarNetwork = _isStellarProd ? Network.PUBLIC : Network.TESTNET;
 final stellarSdk = _isStellarProd ? StellarSDK.PUBLIC : StellarSDK.TESTNET;

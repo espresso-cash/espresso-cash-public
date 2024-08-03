@@ -233,10 +233,9 @@ window.addEventListener("message", (event) => {
       type: type,
     );
 
-    final payAmount = fees.moneygramFee + amount;
-
     final feeLabel = switch (type) {
-      RampType.onRamp => 'You will pay ${payAmount.format(locale)}',
+      RampType.onRamp =>
+        'You will pay ${(fees.moneygramFee + amount).format(locale)}',
       RampType.offRamp => null,
     };
 
