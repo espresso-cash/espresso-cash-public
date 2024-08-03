@@ -47,8 +47,8 @@ workflows:
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
             --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
-            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN
-            --dart-define STELLAR_PROD=true
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN \
+            --dart-define STELLAR_PROD=true \
             --dart-define SOROBAN_RPC_URL=$SOROBAN_RPC_URL
       - name: Build IPA with Flutter
         script: |
@@ -66,8 +66,8 @@ workflows:
             --dart-define INTERCOM_APP_ID=$INTERCOM_APP_ID \
             --dart-define INTERCOM_IOS_KEY=$INTERCOM_IOS_KEY \
             --dart-define INTERCOM_ANDROID_KEY=$INTERCOM_ANDROID_KEY \
-            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN
-            --dart-define STELLAR_PROD=true
+            --dart-define MIXPANEL_TOKEN=$MIXPANEL_TOKEN \
+            --dart-define STELLAR_PROD=true \
             --dart-define SOROBAN_RPC_URL=$SOROBAN_RPC_URL
 
     artifacts:
