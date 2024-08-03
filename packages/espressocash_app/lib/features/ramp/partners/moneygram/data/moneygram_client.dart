@@ -9,7 +9,7 @@ import 'moneygram_interceptor.dart';
 
 part 'moneygram_client.g.dart';
 
-@RestApi(baseUrl: moneygramBaseUrl)
+@RestApi()
 @injectable
 abstract class MoneygramApiClient {
   @factoryMethod
