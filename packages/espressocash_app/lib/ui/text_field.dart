@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'colors.dart';
 
@@ -12,6 +13,7 @@ class CpTextField extends StatelessWidget {
     this.placeholder,
     this.margin,
     this.inputType,
+    this.inputFormatters,
     this.placeholderColor = CpColors.placeholderLightColor,
     this.backgroundColor = CpColors.lightGreyBackground,
     this.readOnly = false,
@@ -22,6 +24,7 @@ class CpTextField extends StatelessWidget {
     this.border = CpTextFieldBorder.stadium,
     this.prefix,
     this.textColor = CpColors.primaryTextColor,
+    this.textAlign = TextAlign.start,
     this.textInputAction,
     this.multiLine = false,
     this.textCapitalization = TextCapitalization.none,
@@ -37,10 +40,12 @@ class CpTextField extends StatelessWidget {
   final double fontSize;
   final bool disabled;
   final TextInputType? inputType;
+  final List<TextInputFormatter>? inputFormatters;
   final Widget? suffix;
   final Widget? prefix;
   final CpTextFieldBorder border;
   final Color? textColor;
+  final TextAlign textAlign;
   final TextInputAction? textInputAction;
   final bool? multiLine;
   final TextCapitalization textCapitalization;
@@ -77,8 +82,10 @@ class CpTextField extends StatelessWidget {
           color: textColor,
           height: 1.2,
         ),
+        textAlign: textAlign,
         placeholder: placeholder,
         keyboardType: inputType,
+        inputFormatters: inputFormatters,
         textCapitalization: textCapitalization,
         keyboardAppearance: Theme.of(context).brightness,
         placeholderStyle: TextStyle(color: placeholderColor),
