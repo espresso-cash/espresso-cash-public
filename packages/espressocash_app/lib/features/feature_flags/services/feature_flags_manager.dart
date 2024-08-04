@@ -29,8 +29,7 @@ class FeatureFlagsManager implements Disposable {
   bool isMoneygramAccessEnabled() =>
       _remoteConfig.getBool(FeatureFlag.moneygram.name);
 
-  bool isVerificationEnabled() =>
-      _remoteConfig.getBool(FeatureFlag.verification.name);
+  bool isKycSharingEnabled() => _remoteConfig.getBool(FeatureFlag.kyc.name);
 
   @override
   void onDispose() {
@@ -38,4 +37,4 @@ class FeatureFlagsManager implements Disposable {
   }
 }
 
-enum FeatureFlag { moneygram, verification }
+enum FeatureFlag { moneygram, kyc }

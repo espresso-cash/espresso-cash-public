@@ -114,7 +114,7 @@ class ProfileScreen extends StatelessWidget {
                       children: [
                         const EditProfileSection(),
                         if (sl<FeatureFlagsManager>()
-                            .isVerificationEnabled()) ...[
+                            .isKycSharingEnabled()) ...[
                           const KycSection(),
                         ],
                         const SecuritySection(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_app_client/kyc_app_client.dart';
 
-import '../../../gen/otp.pbgrpc.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';

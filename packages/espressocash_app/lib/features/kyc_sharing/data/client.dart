@@ -1,7 +1,5 @@
 import 'package:grpc/grpc.dart';
-
-import '../../../gen/kyc.pbgrpc.dart';
-import '../../../gen/otp.pbgrpc.dart';
+import 'package:kyc_app_client/kyc_app_client.dart';
 
 class XFlowClient {
   XFlowClient({String? baseUrl})
