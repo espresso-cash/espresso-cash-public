@@ -1224,7 +1224,7 @@ packages:
     description:
       path: kyc_app_client
       ref: HEAD
-      resolved-ref: "64d1d65ee11d9315b11e3ad187d31addbc99494a"
+      resolved-ref: "1767f5998e9788924ccd0e48f26877e7988acc1f"
       url: "https://github.com/espresso-cash/kyc_validator.git"
     source: git
     version: "0.0.0"

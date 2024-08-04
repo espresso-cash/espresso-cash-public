@@ -25,6 +25,7 @@ class KycSharingService {
   late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
+  late String _userPublicKey = '';
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
   OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
@@ -49,6 +50,7 @@ class KycSharingService {
 
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
+    _userPublicKey = _ecWallet.publicKey.toString();
 
     _partnerToken = await _kycUserClient.generatePartnerToken(partnerAuthPk);
   }
@@ -83,6 +85,21 @@ class KycSharingService {
     }
   }
 
+  Future<bool> verifyField({
+    required String identifier,
+    required String value,
+  }) async {
+    final response = await _otpClient.verifyOtp(
+      VerifyOtpRequest(
+        identifier: identifier,
+        otp: value,
+        userPk: _authPublicKey,
+      ),
+    );
+
+    return response.isValid;
+  }
+
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(
       SendOtpRequest(
@@ -108,7 +125,8 @@ class KycSharingService {
       KycRequest(
         secretKey: _rawSecretKey,
         partnerToken: _partnerToken,
-        userPk: _authPublicKey,
+        userAuthPk: _authPublicKey,
+        userPublicKey: _userPublicKey,
       ),
     );
   }

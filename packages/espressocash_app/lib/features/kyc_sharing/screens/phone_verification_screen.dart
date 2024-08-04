@@ -19,6 +19,13 @@ class PhoneVerificationScreen extends StatefulWidget {
         ),
       );
 
+  static void pushReplacement(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const PhoneVerificationScreen(),
+        ),
+      );
+
   @override
   State<PhoneVerificationScreen> createState() => _PhoneInputScreenState();
 }
@@ -30,7 +37,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
         r'^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$',
       ).hasMatch(_numberController.text);
 
-  Future<void> _sendSms(String phoneNumber) async {
+  Future<void> _sendSms() async {
     final success = await runWithLoader<bool>(
       context,
       () async {
@@ -38,7 +45,9 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           final service = sl<KycSharingService>();
 
           await service.updateField(
-              key: DataInfoKeys.email, value: phoneNumber);
+            key: DataInfoKeys.phone,
+            value: _numberController.text,
+          );
 
           return true;
         } on Exception catch (ex) {
@@ -107,9 +116,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
                   builder: (context, child) => CpButton(
                     width: double.infinity,
                     text: 'Send verification code',
-                    onPressed: _isValid
-                        ? () => _sendSms(_numberController.text)
-                        : null,
+                    onPressed: _isValid ? _sendSms : null,
                   ),
                 ),
               ],

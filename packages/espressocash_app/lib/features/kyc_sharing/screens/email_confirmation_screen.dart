@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
 
+import '../../../di.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
-import '../data/client.dart';
+import '../data/kyc_repository.dart';
+import '../services/kyc_service.dart';
+import 'phone_verification_screen.dart';
 
 class EmailConfirmationScreen extends StatefulWidget {
   const EmailConfirmationScreen({super.key});
@@ -28,19 +30,18 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   bool get _isValid => _controller.text.length == 6;
 
   Future<void> _handleConfirm() async {
-    final xFlowClient = XFlowClient();
-    final response = await xFlowClient.otpServiceClient.verifyOtp(
-      VerifyOtpRequest(
-        identifier: 'email',
-        otp: _controller.text,
-      ),
-    );
+    final service = sl<KycSharingService>();
 
-    if (response.isValid) {
+    final isValid =
+        await service.verifyField(identifier: 'email', value: _controller.text);
+
+    if (isValid) {
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, email verified');
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      sl<KycRepository>().hasValidatedEmail = true;
+      Navigator.pop(context);
+      PhoneVerificationScreen.pushReplacement(context);
     } else {
       if (!mounted) return;
       showCpErrorSnackbar(

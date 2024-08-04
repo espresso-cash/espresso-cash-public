@@ -48,14 +48,17 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     super.dispose();
   }
 
-  Future<void> _sendEmail(String email) async {
+  Future<void> _sendEmail() async {
     final success = await runWithLoader<bool>(
       context,
       () async {
         try {
           final service = sl<KycSharingService>();
 
-          await service.updateField(key: DataInfoKeys.email, value: email);
+          await service.updateField(
+            key: DataInfoKeys.email,
+            value: _emailController.text,
+          );
 
           return true;
         } on Exception catch (ex) {
@@ -86,7 +89,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           body: OnboardingScreen(
             footer: OnboardingFooterButton(
               text: 'Send verification code',
-              onPressed: () => _sendEmail(_emailController.text),
+              onPressed: _sendEmail,
             ),
             children: [
               SizedBox(height: MediaQuery.paddingOf(context).top + 48),

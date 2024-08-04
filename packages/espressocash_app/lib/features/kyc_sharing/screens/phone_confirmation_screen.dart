@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:provider/provider.dart';
 
+import '../../../di.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
-import '../data/client.dart';
+import '../data/kyc_repository.dart';
+import '../services/kyc_service.dart';
+import 'kyc_details_screen.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
   const PhoneConfirmationScreen({super.key});
@@ -29,19 +32,18 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   bool get _isValid => _controller.text.length == 6;
 
   Future<void> _handleConfirm() async {
-    final xFlowClient = XFlowClient();
-    final response = await xFlowClient.otpServiceClient.verifyOtp(
-      VerifyOtpRequest(
-        identifier: 'number',
-        otp: _controller.text,
-      ),
-    );
+    final service = sl<KycSharingService>();
 
-    if (response.isValid) {
+    final isValid =
+        await service.verifyField(identifier: 'phone', value: _controller.text);
+
+    if (isValid) {
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, phone number verified');
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      sl<KycRepository>().hasValidatedPhone = true;
+      Navigator.pop(context);
+      KycDetailsScreen.pushReplacement(context);
     } else {
       if (!mounted) return;
       showCpErrorSnackbar(
