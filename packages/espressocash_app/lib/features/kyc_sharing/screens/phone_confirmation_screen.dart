@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
+import 'package:provider/provider.dart';
 
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
@@ -8,21 +9,21 @@ import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../data/client.dart';
 
-class EmailConfirmationScreen extends StatefulWidget {
-  const EmailConfirmationScreen({super.key});
+class PhoneConfirmationScreen extends StatefulWidget {
+  const PhoneConfirmationScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const EmailConfirmationScreen(),
+          builder: (context) => const PhoneConfirmationScreen(),
         ),
       );
 
   @override
-  State<EmailConfirmationScreen> createState() =>
-      _EmailConfirmationScreenState();
+  State<PhoneConfirmationScreen> createState() =>
+      _PhoneConfirmationScreenState();
 }
 
-class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
+class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   final _controller = TextEditingController();
 
   bool get _isValid => _controller.text.length == 6;
@@ -31,7 +32,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     final xFlowClient = XFlowClient();
     final response = await xFlowClient.otpServiceClient.verifyOtp(
       VerifyOtpRequest(
-        identifier: 'email',
+        identifier: 'number',
         otp: _controller.text,
       ),
     );
@@ -39,7 +40,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     if (response.isValid) {
       if (!mounted) return;
 
-      showCpSnackbar(context, message: 'Success, email verified');
+      showCpSnackbar(context, message: 'Success, phone number verified');
       Navigator.of(context).popUntil((route) => route.isFirst);
     } else {
       if (!mounted) return;
@@ -59,7 +60,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: const CpAppBar(
-          title: Text('Email Verification'),
+          title: Text('Phone number Verification'),
         ),
         backgroundColor: const Color(0xFFC8B57D),
         body: SafeArea(
@@ -70,7 +71,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
               children: [
                 const Spacer(),
                 const Text(
-                  'Please enter the 6-digit code sent to ${'email'}',
+                  'Please enter the 6-digit code sent to ${'phone number'}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

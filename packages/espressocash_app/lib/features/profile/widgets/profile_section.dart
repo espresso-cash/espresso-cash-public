@@ -12,7 +12,7 @@ import '../../../di.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../accounts/services/account_service.dart';
-import '../../kyc_sharing/screens/kyc_details_screen.dart';
+import '../../kyc_sharing/screens/kyc_flow_screen.dart';
 import '../screens/manage_profile_screen.dart';
 import 'profile_button.dart';
 

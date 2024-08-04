@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../../../l10n/l10n.dart';
 import '../../../../../ui/app_bar.dart';
@@ -10,6 +11,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
+import '../services/kyc_service.dart';
 import 'email_confirmation_screen.dart';
 
 const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
@@ -51,19 +53,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       context,
       () async {
         try {
-          // final state = sl<VerificationRepository>();
+          final service = sl<KycSharingService>();
 
-          // await state.updateEmail(email);
-
-          // await state.generatePartnerToken(partnerAuthPk);
-
-          // await otpClient.sendOtpByEmail(
-          //   SendOtpRequest(
-          //     secretKey: state.rawSecretKey,
-          //     partnerToken: state.partnerToken,
-          //     userPk: state.authPublicKey,
-          //   ),
-          // );
+          await service.updateField(key: DataInfoKeys.email, value: email);
 
           return true;
         } on Exception catch (ex) {

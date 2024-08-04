@@ -10,7 +10,7 @@ class KycSection extends StatelessWidget {
         actions: [
           ProfileButton(
             label: 'KYC',
-            onPressed: () => KycDetailsScreen.push(context),
+            onPressed: () => KycFlowScreen.open(context),
           ),
         ],
       );

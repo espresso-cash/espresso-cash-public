@@ -27,6 +27,7 @@ class KycSharingService {
   late String _rawSecretKey = '';
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
+  OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
@@ -63,6 +64,43 @@ class KycSharingService {
     );
 
     await validate();
+  }
+
+  Future<void> updateField({
+    required DataInfoKeys key,
+    required String value,
+  }) async {
+    await _kycUserClient.setData(data: {key: value});
+
+    switch (key) {
+      case DataInfoKeys.email:
+        await _sendEmailOtp();
+      case DataInfoKeys.phone:
+        await _sendSmsOtp();
+      // ignore: avoid-wildcard-cases-with-enums, check if needed
+      case _:
+        return;
+    }
+  }
+
+  Future<void> _sendEmailOtp() async {
+    await _otpClient.sendOtpByEmail(
+      SendOtpRequest(
+        secretKey: _rawSecretKey,
+        partnerToken: _partnerToken,
+        userPk: _authPublicKey,
+      ),
+    );
+  }
+
+  Future<void> _sendSmsOtp() async {
+    await _otpClient.sendOtpBySms(
+      SendOtpRequest(
+        secretKey: _rawSecretKey,
+        partnerToken: _partnerToken,
+        userPk: _authPublicKey,
+      ),
+    );
   }
 
   Future<void> validate() async {
