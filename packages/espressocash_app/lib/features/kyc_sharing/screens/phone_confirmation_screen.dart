@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kyc_app_client/kyc_app_client.dart';
-import 'package:provider/provider.dart';
 
 import '../../../di.dart';
-import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../data/kyc_repository.dart';
@@ -13,11 +11,14 @@ import '../services/kyc_service.dart';
 import 'kyc_details_screen.dart';
 
 class PhoneConfirmationScreen extends StatefulWidget {
-  const PhoneConfirmationScreen({super.key});
+  const PhoneConfirmationScreen(this.phone, {super.key});
 
-  static void push(BuildContext context) => Navigator.of(context).push<void>(
+  final String phone;
+
+  static void push(BuildContext context, String phone) =>
+      Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const PhoneConfirmationScreen(),
+          builder: (context) => PhoneConfirmationScreen(phone),
         ),
       );
 
@@ -60,22 +61,21 @@ class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: const CpAppBar(
-          title: Text('Phone number Verification'),
-        ),
-        backgroundColor: const Color(0xFFC8B57D),
-        body: SafeArea(
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: Text('Phone Verification'.toUpperCase()),
+        header: const SizedBox(),
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Spacer(),
-                const Text(
-                  'Please enter the 6-digit code sent to ${'phone number'}',
+                Text(
+                  'Please enter the 6-digit code sent to ${widget.phone}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),

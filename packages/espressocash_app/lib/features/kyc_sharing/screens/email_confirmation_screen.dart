@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../di.dart';
-import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
+import '../../profile/data/profile_repository.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
 import 'phone_verification_screen.dart';
@@ -58,22 +59,21 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: const CpAppBar(
-          title: Text('Email Verification'),
-        ),
-        backgroundColor: const Color(0xFFC8B57D),
-        body: SafeArea(
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: Text('Email Verification'.toUpperCase()),
+        header: const SizedBox(),
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Spacer(),
-                const Text(
-                  'Please enter the 6-digit code sent to ${'email'}',
+                Text(
+                  'Please enter the 6-digit code sent to ${sl<ProfileRepository>().email}',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                   ),

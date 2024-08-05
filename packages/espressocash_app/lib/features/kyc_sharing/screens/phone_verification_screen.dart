@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
 import '../../../di.dart';
-import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
@@ -50,9 +50,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           );
 
           return true;
-        } on Exception catch (ex) {
-          print('failed: $ex');
-
+        } on Exception {
           if (!mounted) return false;
 
           showCpErrorSnackbar(
@@ -65,7 +63,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
       },
     );
     if (!mounted) return;
-    if (success) PhoneConfirmationScreen.push(context);
+    if (success) PhoneConfirmationScreen.push(context, _numberController.text);
   }
 
   @override
@@ -75,12 +73,11 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: const CpAppBar(
-          title: Text('Phone number Verification'),
-        ),
-        backgroundColor: const Color(0xFFC8B57D),
-        body: SafeArea(
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: Text('Phone Verification'.toUpperCase()),
+        header: const SizedBox(),
+        child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
             child: Column(
@@ -102,7 +99,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
                     right: 26,
                   ),
                   controller: _numberController,
-                  inputType: TextInputType.text,
+                  inputType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   backgroundColor: const Color(0xFF9D8A59),
                   placeholder: 'Enter number',

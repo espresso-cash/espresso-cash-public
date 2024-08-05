@@ -1,65 +1,51 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../accounts/auth_scope.dart';
-import '../../accounts/models/ec_wallet.dart';
 
 @Singleton(scope: authScope)
 class KycRepository extends ChangeNotifier {
-  KycRepository(this._ecWallet);
+  KycRepository(this._storage);
 
-  final ECWallet _ecWallet;
-
-  late final KycPartnerClient _client;
+  final SharedPreferences _storage;
 
   @PostConstruct()
   void init() {
-    // // should we use partner client here, or instead set result to shared preferences?
-    // _client = KycPartnerClient(authKeyPair: '');
-    // _client.getValidationResult(
-    //   key: ValidationResultKeys.email,
-    //   validatorPK: 'validatorPK',
-    //   secretKey: 'secretKey',
-    // );
-    // // set hasValidatedEmail
-    // _client.getValidationResult(
-    //   key: ValidationResultKeys.phone,
-    //   validatorPK: 'validatorPK',
-    //   secretKey: 'secretKey',
-    // );
-    // // set hasValidatedPhone
-    // _client.getValidationResult(
-    //   key: ValidationResultKeys.smileId,
-    //   validatorPK: 'validatorPK',
-    //   secretKey: 'secretKey',
-    // );
-    // // set hasPassedKyc
+    // here we should fetch validation status from backend for user
+    // _hasValidatedEmail = _storage.getBool(_emailValidatedKey) ?? false;
+    // _hasValidatedPhone = _storage.getBool(_phoneValidatedKey) ?? false;
+    // _hasPassedKyc = _storage.getBool(_kycValidatedKey) ?? false;
   }
 
   bool _hasValidatedEmail = false;
-  bool _hasValidatedPhone = false;
-  bool _hasPassedKyc = false;
-
   bool get hasValidatedEmail => _hasValidatedEmail;
-  bool get hasValidatedPhone => _hasValidatedPhone;
-  bool get hasPassedKyc => _hasPassedKyc;
-
   set hasValidatedEmail(bool value) {
     if (value == _hasValidatedEmail) return;
     _hasValidatedEmail = value;
+    //_storage.setBool(_emailValidatedKey, value);
     notifyListeners();
   }
 
+  bool _hasValidatedPhone = false;
+  bool get hasValidatedPhone => _hasValidatedPhone;
   set hasValidatedPhone(bool value) {
     if (value == _hasValidatedPhone) return;
     _hasValidatedPhone = value;
+    //_storage.setBool(_phoneValidatedKey, value);
     notifyListeners();
   }
 
+  bool _hasPassedKyc = false;
+  bool get hasPassedKyc => _hasPassedKyc;
   set hasPassedKyc(bool value) {
     if (value == _hasPassedKyc) return;
     _hasPassedKyc = value;
+    //_storage.setBool(_kycValidatedKey, value);
     notifyListeners();
   }
 }
+
+// const _emailValidatedKey = 'emailValidated';
+// const _phoneValidatedKey = 'phoneValidated';
+// const _kycValidatedKey = 'kycValidated';

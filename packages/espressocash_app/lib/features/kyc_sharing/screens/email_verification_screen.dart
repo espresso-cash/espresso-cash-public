@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
 
-import '../../../../../l10n/l10n.dart';
-import '../../../../../ui/app_bar.dart';
-import '../../../../../ui/onboarding_screen.dart';
 import '../../../../../ui/text_field.dart';
-import '../../../../../ui/theme.dart';
 import '../../../di.dart';
-import '../../../ui/colors.dart';
+import '../../../ui/button.dart';
+import '../../../ui/form_page.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../../profile/data/profile_repository.dart';
@@ -61,9 +58,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           );
 
           return true;
-        } on Exception catch (ex) {
-          print('failed: $ex');
-
+        } on Exception {
           if (!mounted) return false;
 
           showCpErrorSnackbar(
@@ -80,41 +75,54 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => CpTheme.black(
-        child: Scaffold(
-          appBar: const CpAppBar(
-            title: Text('Email verification'),
-          ),
-          extendBodyBehindAppBar: true,
-          body: OnboardingScreen(
-            footer: OnboardingFooterButton(
-              text: 'Send verification code',
-              onPressed: _sendEmail,
-            ),
-            children: [
-              SizedBox(height: MediaQuery.paddingOf(context).top + 48),
-              OnboardingPadding(
-                child: CpTextField(
-                  disabled: true,
-                  margin: const EdgeInsets.only(top: 16),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
+  Widget build(BuildContext context) => FormPage(
+        colorTheme: FormPageColorTheme.gold,
+        title: Text('Email Verification'.toUpperCase()),
+        header: const SizedBox(),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+            child: Column(
+              children: [
+                const Spacer(),
+                const Text(
+                  'Enter email to get verification code:',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
                   ),
-                  placeholder: context.l10n.yourEmailPlaceholder,
-                  controller: _emailController,
-                  textColor: Colors.white,
-                  placeholderColor: _placeholderTextColor,
-                  backgroundColor: CpColors.blackTextFieldBackgroundColor,
-                  fontSize: 16,
-                  inputType: TextInputType.emailAddress,
                 ),
-              ),
-            ],
+                const SizedBox(height: 12),
+                CpTextField(
+                  padding: const EdgeInsets.only(
+                    top: 18,
+                    bottom: 16,
+                    left: 26,
+                    right: 26,
+                  ),
+                  controller: _emailController,
+                  inputType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                  backgroundColor: const Color(0xFF9D8A59),
+                  placeholder: 'Enter email',
+                  placeholderColor: Colors.white,
+                  textColor: Colors.white,
+                  fontSize: 16,
+                ),
+                const Spacer(),
+                ListenableBuilder(
+                  listenable: _emailController,
+                  builder: (context, child) => CpButton(
+                    width: double.infinity,
+                    text: 'Send verification code',
+                    onPressed: _sendEmail,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );
 }
 
-const _placeholderTextColor = Color(0xff858585);
-const keyCreateProfileName = Key('createProfileName');
+
