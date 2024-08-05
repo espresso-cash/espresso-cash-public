@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:injectable/injectable.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
 import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
@@ -22,7 +23,6 @@ class KycSharingService {
 
   late final KycUserClient _kycUserClient;
 
-  late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
 
@@ -30,8 +30,6 @@ class KycSharingService {
 
   @PostConstruct()
   Future<void> init() async {
-    _partnerToken = '';
-
     _kycUserClient = KycUserClient(
       sign: (data) async {
         final signature =
@@ -41,15 +39,42 @@ class KycSharingService {
       },
     );
 
-    await _kycUserClient.init();
-    await _kycUserClient.initStorage(
-      walletAddress: _ecWallet.publicKey.toString(),
-    );
+    await _kycUserClient.init(walletAddress: _ecWallet.publicKey.toString());
 
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
+  }
 
-    _partnerToken = await _kycUserClient.generatePartnerToken(partnerAuthPk);
+  Future<KycUserInfo?> fetchUser() async {
+    try {
+      final data = await _kycUserClient.getData(
+        keys: [
+          DataInfoKeys.firstName,
+          DataInfoKeys.middleName,
+          DataInfoKeys.lastName,
+          DataInfoKeys.dateOfBirth,
+          DataInfoKeys.countryCode,
+          DataInfoKeys.idType,
+          DataInfoKeys.idNumber,
+        ],
+        userPK: _authPublicKey,
+        secretKey: _rawSecretKey,
+      );
+
+      final photo = await _kycUserClient.download(
+        key: DataFileKeys.photo,
+        userPK: _authPublicKey,
+        secretKey: _rawSecretKey,
+      );
+
+      final tempDir = await getTemporaryDirectory();
+      final File file = await File('${tempDir.path}/image.png').create();
+      file.writeAsBytesSync(photo);
+
+      return KycUserInfo.fromJson(data).copyWith(photo: file);
+    } on Exception {
+      return null;
+    }
   }
 
   Future<void> updateInfo({
@@ -61,16 +86,18 @@ class KycSharingService {
       file: photo.readAsBytesSync(),
       key: DataFileKeys.photo,
     );
-
-    await validate();
   }
 
   Future<void> validate() async {
+    final partnerToken =
+        await _kycUserClient.generatePartnerToken(partnerAuthPk);
+
     await _validatorClient.requestKyc(
       KycRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _partnerToken,
-        userPk: _authPublicKey,
+        partnerToken: partnerToken,
+        userAuthPk: _authPublicKey,
+        userPublicKey: _ecWallet.publicKey.toString(),
       ),
     );
   }

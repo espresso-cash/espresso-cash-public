@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../di.dart';
-import '../../../gen/assets.gen.dart';
+import '../../../ui/app_bar.dart';
+import '../../../ui/back_button.dart';
 import '../../../ui/button.dart';
-import '../../../ui/form_page.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
+import '../../../ui/pick_image_container.dart';
 import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../../country_picker/models/country.dart';
@@ -45,6 +47,9 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
   Country? _country;
   IdType? _idType;
+  File? _photo;
+
+  bool _isLoading = true;
 
   bool get _isValid =>
       _firstNameController.text.isNotEmpty &&
@@ -52,44 +57,42 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
       _lastNameController.text.isNotEmpty &&
       _dobController.text.isNotEmpty &&
       _idController.text.isNotEmpty &&
+      _photo != null &&
       _country != null;
 
   Future<void> _handleSubmitted() async {
-    final photo = await _openCamera();
+    setState(() => _isLoading = true);
 
-    if (photo == null) {
-      return;
+    try {
+      final service = sl<KycSharingService>();
+
+      await service.updateInfo(
+        data: KycUserInfo(
+          firstName: _firstNameController.text,
+          middleName: _middleNameController.text,
+          lastName: _lastNameController.text,
+          dob: _dob?.toIso8601String() ?? '',
+          countryCode: _country!.code,
+          idType: _idType!.value,
+          idNumber: _idController.text,
+        ),
+        photo: _photo!,
+      );
+
+      if (!mounted) return;
+
+      await _fetchKycInfo();
+
+      if (!mounted) return;
+
+      showCpSnackbar(context, message: 'Success, Data updated');
+    } on Exception {
+      showCpErrorSnackbar(context, message: 'Failed to update data');
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
-
-    if (!mounted) return;
-
-    await runWithLoader(
-      context,
-      () async {
-        try {
-          final service = sl<KycSharingService>();
-
-          await service.updateInfo(
-            data: KycUserInfo(
-              firstName: _firstNameController.text,
-              middleName: _middleNameController.text,
-              lastName: _lastNameController.text,
-              dob: _dob?.toIso8601String() ?? '',
-              countryCode: _country!.code,
-              idType: _idType!.value,
-              idNumber: _idController.text,
-            ),
-            photo: photo,
-          );
-
-          if (!mounted) return;
-
-          showCpSnackbar(context, message: 'Success, KYC submitted');
-        } on Exception {
-          showCpErrorSnackbar(context, message: 'Failed to submit KYC');
-        }
-      },
-    );
   }
 
   Future<File?> _openCamera() => Navigator.of(context).push<File?>(
@@ -116,6 +119,40 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
     }
   }
 
+  Future<void> _fetchKycInfo() async {
+    setState(() => _isLoading = true);
+
+    try {
+      final service = sl<KycSharingService>();
+      final kycInfo = await service.fetchUser();
+
+      if (!mounted) return;
+      if (kycInfo == null) return;
+
+      setState(() {
+        _firstNameController.text = kycInfo.firstName;
+        _middleNameController.text = kycInfo.middleName;
+        _lastNameController.text = kycInfo.lastName;
+        if (kycInfo.dob.isNotEmpty) {
+          _dob = DateTime.parse(kycInfo.dob);
+          _dobController.text = DateFormat('dd/MM/yyyy').format(_dob!);
+        }
+        _country = Country.findByCode(kycInfo.countryCode);
+        _idController.text = kycInfo.idNumber;
+
+        _photo = kycInfo.photo;
+      });
+    } on Exception {
+      if (!mounted) return;
+
+      showCpErrorSnackbar(context, message: 'Failed to fetch KYC information');
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -124,6 +161,8 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
     _country = Country.findByCode('NG');
     _idType = IdType.voterId;
     _idController.text = '0000000000000000004';
+
+    _fetchKycInfo();
   }
 
   @override
@@ -138,79 +177,106 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => FormPage(
-        colorTheme: FormPageColorTheme.gold,
-        title: Text('Basic Information'.toUpperCase()),
-        header: FormPageHeader(
-          title: const SizedBox.shrink(),
-          description: const Text(
-            'KYC Information',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
+  Widget build(BuildContext context) => CpLoader(
+        isLoading: _isLoading,
+        child: Scaffold(
+          appBar: CpAppBar(
+            scrolledUnderColor: CpColors.goldBackgroundColor,
+            leading: const CpBackButton(),
+            title: Text('Basic Information'.toUpperCase()),
           ),
-          icon: Assets.images.identityGraphic,
-        ),
-        child: Column(
-          children: [
-            _ProfileTextField(
-              controller: _firstNameController,
-              inputType: TextInputType.text,
-              placeholder: 'First Name',
-            ),
-            const SizedBox(height: 8),
-            _ProfileTextField(
-              controller: _middleNameController,
-              inputType: TextInputType.text,
-              placeholder: 'Middle Name',
-            ),
-            const SizedBox(height: 8),
-            _ProfileTextField(
-              controller: _lastNameController,
-              inputType: TextInputType.text,
-              placeholder: 'Last Name',
-            ),
-            const SizedBox(height: 8),
-            GestureDetector(
-              onTap: _selectDob,
-              child: AbsorbPointer(
-                child: _ProfileTextField(
-                  controller: _dobController,
-                  inputType: TextInputType.text,
-                  placeholder: 'Date of Birth',
+          backgroundColor: CpColors.goldBackgroundColor,
+          extendBodyBehindAppBar: true,
+          body: LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: SafeArea(
+                  child: IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 24),
+                          PickImageContainer(
+                            image: _photo,
+                            pickImageClicked: () async {
+                              final photo = await _openCamera();
+
+                              if (photo != null && mounted) {
+                                setState(() => _photo = photo);
+                              }
+                            },
+                          ),
+                          const SizedBox(height: 42),
+                          _ProfileTextField(
+                            controller: _firstNameController,
+                            inputType: TextInputType.text,
+                            placeholder: 'First Name',
+                          ),
+                          const SizedBox(height: 8),
+                          _ProfileTextField(
+                            controller: _middleNameController,
+                            inputType: TextInputType.text,
+                            placeholder: 'Middle Name',
+                          ),
+                          const SizedBox(height: 8),
+                          _ProfileTextField(
+                            controller: _lastNameController,
+                            inputType: TextInputType.text,
+                            placeholder: 'Last Name',
+                          ),
+                          const SizedBox(height: 8),
+                          GestureDetector(
+                            onTap: _selectDob,
+                            child: AbsorbPointer(
+                              child: _ProfileTextField(
+                                controller: _dobController,
+                                inputType: TextInputType.text,
+                                placeholder: 'Date of Birth',
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          CountryPicker(
+                            country: _country,
+                            onSubmitted: (country) =>
+                                setState(() => _country = country),
+                          ),
+                          const SizedBox(height: 8),
+                          IdPicker(
+                            type: _idType,
+                            enabled: false,
+                          ),
+                          const SizedBox(height: 8),
+                          _ProfileTextField(
+                            controller: _idController,
+                            inputType: TextInputType.text,
+                            placeholder: 'ID Number',
+                            disabled: true,
+                          ),
+                          const SizedBox(height: 28),
+                          const Spacer(),
+                          ListenableBuilder(
+                            listenable: Listenable.merge([
+                              _firstNameController,
+                              _lastNameController,
+                              _dobController,
+                            ]),
+                            builder: (context, child) => CpButton(
+                              width: double.infinity,
+                              text: 'Update',
+                              onPressed: _isValid ? _handleSubmitted : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 8),
-            CountryPicker(
-              country: _country,
-              onSubmitted: (country) => setState(() => _country = country),
-            ),
-            const SizedBox(height: 8),
-            IdPicker(
-              type: _idType,
-              enabled: false,
-            ),
-            const SizedBox(height: 8),
-            _ProfileTextField(
-              controller: _idController,
-              inputType: TextInputType.text,
-              placeholder: 'ID Number',
-              disabled: true,
-            ),
-            const SizedBox(height: 28),
-            const Spacer(),
-            ListenableBuilder(
-              listenable: Listenable.merge([
-                _firstNameController,
-                _lastNameController,
-                _dobController,
-              ]),
-              builder: (context, child) => CpButton(
-                width: double.infinity,
-                text: 'Next',
-                onPressed: _isValid ? _handleSubmitted : null,
-              ),
-            ),
-          ],
+          ),
         ),
       );
 }

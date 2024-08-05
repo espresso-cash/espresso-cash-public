@@ -71,7 +71,7 @@ dependencies:
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
   retrofit: ^4.0.3
-  rive: ^0.13.2
+  rive: 0.13.9
   rxdart: ^0.27.7
   sentry_flutter: ^8.1.0
   share: ^2.0.4
@@ -173,6 +173,7 @@ flutter_native_splash:
     color: "#B4A270"
 
 dependency_overrides:
+  decimal: ^3.0.2
   # TODO: Recheck once flutter_inappwebview version >6.0.0 is released
   flutter_inappwebview_android:
     git:
@@ -181,4 +182,3 @@ dependency_overrides:
       ref: d89b1d32638b49dfc58c4b7c84153be0c269d057
   jupiter_aggregator:
     path: ../jupiter_aggregator/
-  decimal: ^3.0.2
