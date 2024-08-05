@@ -23,13 +23,18 @@ class KycSharingService {
 
   late final KycUserClient _kycUserClient;
 
+  late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
+  late String _userPublicKey = '';
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
+  OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
+    _partnerToken = '';
+
     _kycUserClient = KycUserClient(
       sign: (data) async {
         final signature =
@@ -39,10 +44,15 @@ class KycSharingService {
       },
     );
 
-    await _kycUserClient.init(walletAddress: _ecWallet.publicKey.toString());
+    await _kycUserClient.init(
+      walletAddress: _ecWallet.publicKey.toString(),
+    );
 
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
+    _userPublicKey = _ecWallet.publicKey.toString();
+
+    _partnerToken = await _kycUserClient.generatePartnerToken(partnerAuthPk);
   }
 
   Future<KycUserInfo?> fetchUser() async {
@@ -86,18 +96,69 @@ class KycSharingService {
       file: photo.readAsBytesSync(),
       key: DataFileKeys.photo,
     );
+
+    await validate();
+  }
+
+  Future<void> updateField({
+    required DataInfoKeys key,
+    required String value,
+  }) async {
+    await _kycUserClient.setData(data: {key: value});
+
+    switch (key) {
+      case DataInfoKeys.email:
+        await _sendEmailOtp();
+      case DataInfoKeys.phone:
+        await _sendSmsOtp();
+      // ignore: avoid-wildcard-cases-with-enums, check if needed
+      case _:
+        return;
+    }
+  }
+
+  Future<bool> verifyField({
+    required String identifier,
+    required String value,
+  }) async {
+    final response = await _otpClient.verifyOtp(
+      VerifyOtpRequest(
+        identifier: identifier,
+        otp: value,
+        userPk: _authPublicKey,
+      ),
+    );
+
+    return response.isValid;
+  }
+
+  Future<void> _sendEmailOtp() async {
+    await _otpClient.sendOtpByEmail(
+      SendOtpRequest(
+        secretKey: _rawSecretKey,
+        partnerToken: _partnerToken,
+        userPk: _authPublicKey,
+      ),
+    );
+  }
+
+  Future<void> _sendSmsOtp() async {
+    await _otpClient.sendOtpBySms(
+      SendOtpRequest(
+        secretKey: _rawSecretKey,
+        partnerToken: _partnerToken,
+        userPk: _authPublicKey,
+      ),
+    );
   }
 
   Future<void> validate() async {
-    final partnerToken =
-        await _kycUserClient.generatePartnerToken(partnerAuthPk);
-
     await _validatorClient.requestKyc(
       KycRequest(
         secretKey: _rawSecretKey,
-        partnerToken: partnerToken,
+        partnerToken: _partnerToken,
         userAuthPk: _authPublicKey,
-        userPublicKey: _ecWallet.publicKey.toString(),
+        userPublicKey: _userPublicKey,
       ),
     );
   }

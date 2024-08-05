@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_app_client/kyc_app_client.dart';
+import 'package:provider/provider.dart';
 
 import '../../../di.dart';
 import '../../../ui/app_bar.dart';
@@ -8,23 +10,23 @@ import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../data/kyc_repository.dart';
 import '../services/kyc_service.dart';
-import 'phone_verification_screen.dart';
+import 'kyc_details_screen.dart';
 
-class EmailConfirmationScreen extends StatefulWidget {
-  const EmailConfirmationScreen({super.key});
+class PhoneConfirmationScreen extends StatefulWidget {
+  const PhoneConfirmationScreen({super.key});
 
   static void push(BuildContext context) => Navigator.of(context).push<void>(
         MaterialPageRoute(
-          builder: (context) => const EmailConfirmationScreen(),
+          builder: (context) => const PhoneConfirmationScreen(),
         ),
       );
 
   @override
-  State<EmailConfirmationScreen> createState() =>
-      _EmailConfirmationScreenState();
+  State<PhoneConfirmationScreen> createState() =>
+      _PhoneConfirmationScreenState();
 }
 
-class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
+class _PhoneConfirmationScreenState extends State<PhoneConfirmationScreen> {
   final _controller = TextEditingController();
 
   bool get _isValid => _controller.text.length == 6;
@@ -33,15 +35,15 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
     final service = sl<KycSharingService>();
 
     final isValid =
-        await service.verifyField(identifier: 'email', value: _controller.text);
+        await service.verifyField(identifier: 'phone', value: _controller.text);
 
     if (isValid) {
       if (!mounted) return;
 
-      showCpSnackbar(context, message: 'Success, email verified');
-      sl<KycRepository>().hasValidatedEmail = true;
+      showCpSnackbar(context, message: 'Success, phone number verified');
+      sl<KycRepository>().hasValidatedPhone = true;
       Navigator.pop(context);
-      PhoneVerificationScreen.pushReplacement(context);
+      KycDetailsScreen.pushReplacement(context);
     } else {
       if (!mounted) return;
       showCpErrorSnackbar(
@@ -60,7 +62,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: const CpAppBar(
-          title: Text('Email Verification'),
+          title: Text('Phone number Verification'),
         ),
         backgroundColor: const Color(0xFFC8B57D),
         body: SafeArea(
@@ -71,7 +73,7 @@ class _EmailConfirmationScreenState extends State<EmailConfirmationScreen> {
               children: [
                 const Spacer(),
                 const Text(
-                  'Please enter the 6-digit code sent to ${'email'}',
+                  'Please enter the 6-digit code sent to ${'phone number'}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

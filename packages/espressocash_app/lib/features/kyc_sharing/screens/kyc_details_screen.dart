@@ -32,6 +32,13 @@ class KycDetailsScreen extends StatefulWidget {
         ),
       );
 
+  static void pushReplacement(BuildContext context) =>
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const KycDetailsScreen(),
+        ),
+      );
+
   @override
   State<KycDetailsScreen> createState() => _KycDetailsScreenState();
 }
