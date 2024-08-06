@@ -45,7 +45,7 @@ dependencies:
   get_it: ^7.6.4
   http: ^1.1.2
   image_picker: ^1.1.1
-  injectable: ^2.3.2
+  injectable: ^2.4.4
   intercom_flutter: ^9.0.7
   intl: ^0.19.0
   json_annotation: ^4.8.1
