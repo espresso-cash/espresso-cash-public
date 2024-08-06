@@ -13,7 +13,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_sender.dart';
+import '../../transactions/services/tx_confirm.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
 import '../models/payment_quote.dart';
@@ -23,7 +23,7 @@ class OutgoingDlnPaymentService implements Disposable {
   OutgoingDlnPaymentService(
     this._account,
     this._client,
-    this._sender,
+    this._txConfirm,
     this._repository,
   );
 
@@ -32,7 +32,7 @@ class OutgoingDlnPaymentService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
-  final TxSender _sender;
+  final TxConfirm _txConfirm;
   final OutgoingDlnPaymentRepository _repository;
 
   @PostConstruct(preResolve: true)
@@ -111,7 +111,7 @@ class OutgoingDlnPaymentService implements Disposable {
     try {
       final tx = await SignedTx.decode(quote.encodedTx).resign(_account);
 
-      return OutgoingDlnPaymentStatus.txCreated(tx, slot: quote.slot);
+      return OutgoingDlnPaymentStatus.txCreated(tx);
     } on Exception {
       return const OutgoingDlnPaymentStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -125,20 +125,30 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _sender.send(status.tx, minContextSlot: status.slot);
-    final OutgoingDlnPaymentStatus? newStatus = tx.map(
-      sent: (_) => OutgoingDlnPaymentStatus.txSent(
-        status.tx,
-        slot: status.slot,
-      ),
-      invalidBlockhash: (_) => const OutgoingDlnPaymentStatus.txFailure(
-        reason: TxFailureReason.invalidBlockhashSending,
-      ),
-      failure: (it) => OutgoingDlnPaymentStatus.txFailure(reason: it.reason),
-      networkError: (_) => null,
-    );
+    final tx = status.tx;
 
-    return newStatus == null ? payment : payment.copyWith(status: newStatus);
+    try {
+      final signature = await _client
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
+
+      return payment.copyWith(
+        status: OutgoingDlnPaymentStatus.txSent(
+          tx,
+          signature: signature,
+        ),
+      );
+    } on Exception {
+      return payment.copyWith(
+        status: const OutgoingDlnPaymentStatus.txFailure(
+          reason: TxFailureReason.creatingFailure,
+        ),
+      );
+    }
   }
 
   Future<OutgoingDlnPayment> _wait(OutgoingDlnPayment payment) async {
@@ -147,12 +157,9 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _sender.wait(
-      status.tx,
-      minContextSlot: status.slot,
-      txType: 'OutgoingDlnPayment',
-    );
-    final OutgoingDlnPaymentStatus? newStatus = await tx.map(
+    final tx = await _txConfirm(txId: status.signature);
+
+    final OutgoingDlnPaymentStatus? newStatus = tx?.map(
       success: (_) => OutgoingDlnPaymentStatus.success(
         status.tx,
         orderId: null,

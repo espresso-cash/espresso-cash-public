@@ -106,20 +106,16 @@ extension ODPRowExt on ODPRow {
 extension on ODPStatusDto {
   ODPStatus toModel(ODPRow row) {
     final tx = row.tx?.let(SignedTx.decode);
-    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ODPStatusDto.txCreated:
       case ODPStatusDto.txSendFailure:
-        return ODPStatus.txCreated(
-          tx!,
-          slot: slot ?? BigInt.zero,
-        );
+        return ODPStatus.txCreated(tx!);
       case ODPStatusDto.txSent:
       case ODPStatusDto.txWaitFailure:
         return ODPStatus.txSent(
           tx ?? StubSignedTx(row.txId!),
-          slot: slot ?? BigInt.zero,
+          signature: row.txId ?? '',
         );
       case ODPStatusDto.success:
         return ODPStatus.success(txId: row.txId!);
@@ -141,7 +137,6 @@ extension on OutgoingDirectPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         txFailureReason: status.toTxFailureReason(),
-        slot: status.toSlot()?.toString(),
       );
 }
 
@@ -159,15 +154,11 @@ extension on ODPStatus {
       );
 
   String? toTxId() => mapOrNull(
+        txSent: (it) => it.signature,
         success: (it) => it.txId,
       );
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
-      );
-
-  BigInt? toSlot() => mapOrNull(
-        txCreated: (it) => it.slot,
-        txSent: (it) => it.slot,
       );
 }

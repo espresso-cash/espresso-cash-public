@@ -21,15 +21,13 @@ class OutgoingDlnPayment with _$OutgoingDlnPayment {
 @freezed
 sealed class OutgoingDlnPaymentStatus with _$OutgoingDlnPaymentStatus {
   /// Tx is successfully created and ready to be sent.
-  const factory OutgoingDlnPaymentStatus.txCreated(
-    SignedTx tx, {
-    required BigInt slot,
-  }) = OutgoingDlnPaymentStatusTxCreated;
+  const factory OutgoingDlnPaymentStatus.txCreated(SignedTx tx) =
+      OutgoingDlnPaymentStatusTxCreated;
 
-  /// Tx is successfully sent.
+  /// Tx sent to backend. Should be good as confirmed at this point.
   const factory OutgoingDlnPaymentStatus.txSent(
     SignedTx tx, {
-    required BigInt slot,
+    required String signature,
   }) = OutgoingDlnPaymentStatusTxSent;
 
   /// Tx is successfully confirmed and order awaiting fulfillment.

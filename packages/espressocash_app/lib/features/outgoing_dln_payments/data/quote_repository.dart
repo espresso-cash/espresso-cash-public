@@ -1,54 +1,50 @@
-import 'package:espressocash_api/espressocash_api.dart';
-
 import 'package:injectable/injectable.dart';
 
-import '../../blockchain/models/blockchain.dart';
-import '../../currency/models/amount.dart';
-import '../../currency/models/currency.dart';
-import '../models/dln_payment.dart';
-import '../models/payment_quote.dart';
+import '../../tokens/token.dart';
+import '../client/client.dart';
+import '../models/quote_info.dart';
 
 @injectable
 class QuoteRepository {
   const QuoteRepository({
-    required EspressoCashClient ecClient,
-  }) : _client = ecClient;
+    required DlnApiClient dlnApiClient,
+  }) : _dlnApiClient = dlnApiClient;
+  final DlnApiClient _dlnApiClient;
 
-  final EspressoCashClient _client;
-
-  Future<PaymentQuote> getQuote({
-    required CryptoAmount amount,
+  Future<QuoteInfo> getQuoteAndTransaction({
+    required int amount,
     required String receiverAddress,
-    required Blockchain receiverBlockchain,
+    required String senderAddress,
+    required DlnChains receiverChain,
   }) async {
-    final quote = await _client.getDlnQuote(
-      PaymentQuoteRequestDto(
-        amount: amount.value,
-        receiverAddress: receiverAddress,
-        receiverBlockchain: receiverBlockchain.name,
+    final response = await _dlnApiClient.createTx(
+      CreateTxRequestDto(
+        srcChainId: DlnChains.solana.chainId,
+        srcChainTokenIn: Token.usdc.publicKey.toBase58(),
+        srcChainTokenInAmount: 'auto',
+        dstChainId: receiverChain.chainId,
+        dstChainTokenOut: receiverChain.usdcAddress,
+        dstChainTokenOutAmount: amount.toString(),
+        dstChainTokenOutRecipient: receiverAddress,
+        srcChainOrderAuthorityAddress: senderAddress,
+        dstChainOrderAuthorityAddress: receiverAddress,
+        referralCode: espressoDlnRefCode,
       ),
     );
 
-    return PaymentQuote(
-      payment: DlnPayment(
-        inputAmount: amount,
-        receiverAddress: receiverAddress,
-        receiverBlockchain: receiverBlockchain,
-      ),
-      receiverAmount: CryptoAmount(
-        cryptoCurrency: Currency.usdc,
-        value: quote.receiverAmount,
-      ),
-      inputAmount: CryptoAmount(
-        cryptoCurrency: Currency.usdc,
-        value: quote.inputAmount,
-      ),
-      fee: CryptoAmount(
-        cryptoCurrency: Currency.usdc,
-        value: quote.feeInUsdc,
-      ),
-      encodedTx: quote.encodedTx,
-      slot: quote.slot,
+    final tx = response.tx.data;
+    final estimation = response.estimation;
+
+    final totalFees = int.parse(estimation.srcChainTokenIn.amount) - amount;
+
+    return QuoteInfo(
+      tx: tx,
+      inputAmount: amount,
+      senderDeductAmount: int.parse(estimation.srcChainTokenIn.amount),
+      receiverAmount: int.parse(estimation.dstChainTokenOut.recommendedAmount),
+      totalFees: totalFees,
     );
   }
 }
+
+const espressoDlnRefCode = 8435;

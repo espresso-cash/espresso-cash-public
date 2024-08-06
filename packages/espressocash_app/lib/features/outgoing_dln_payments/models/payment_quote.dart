@@ -13,6 +13,5 @@ class PaymentQuote with _$PaymentQuote {
     required CryptoAmount receiverAmount,
     required CryptoAmount fee,
     required String encodedTx,
-    required BigInt slot,
   }) = _PaymentQuote;
 }
