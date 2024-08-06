@@ -189,5 +189,7 @@ class _ProfileTextField extends StatelessWidget {
         placeholderColor: Colors.white,
         textColor: Colors.white,
         fontSize: 16,
+        scrollPadding:
+            EdgeInsets.only(bottom: MediaQuery.sizeOf(context).height / 4),
       );
 }
