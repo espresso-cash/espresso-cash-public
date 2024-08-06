@@ -62,7 +62,7 @@ dependencies:
   recase: ^4.1.0
   retrofit: ^4.0.3
   rive: ^0.13.2
-  rxdart: ^0.27.7
+  rxdart: ^0.28.0
   sentry_flutter: ^8.1.0
   share: ^2.0.4
   shared_preferences: ^2.2.2
