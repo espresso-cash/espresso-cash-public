@@ -47,8 +47,6 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
     Navigator.pop(context);
   }
 
-  void _retryTR(String id) => sl<TRService>().retry(id);
-
   void _handleCancel(String id) => showConfirmationDialog(
         context,
         title: context.l10n.outgoingDirectPayments_lblCancelConfirmationTitle
@@ -88,7 +86,6 @@ class _TRDetailsScreenState extends State<TRDetailsScreen> {
               ),
             TRStatus.failure => TransferError(
                 onBack: () => Navigator.pop(context),
-                onRetry: () => _retryTR(payment.id),
                 onCancel: () => _handleCancel(payment.id),
               ),
             TRStatus.created || TRStatus.sent => loading,

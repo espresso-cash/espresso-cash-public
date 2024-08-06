@@ -85,25 +85,6 @@ class TRService {
         .go();
   }
 
-  Future<void> retry(String paymentId) async {
-    final query = _db.select(_db.transactionRequestRows)
-      ..where((tbl) => tbl.id.equals(paymentId));
-    final payment = await query.getSingle();
-
-    if (payment.status != TRStatusDto.failure) return;
-
-    final updateQuery = _db.update(_db.transactionRequestRows)
-      ..where((tbl) => tbl.id.equals(paymentId));
-
-    await updateQuery.write(
-      const TransactionRequestRowsCompanion(
-        status: Value(TRStatusDto.created),
-      ),
-    );
-
-    _subscribe(paymentId);
-  }
-
   void _subscribe(String paymentId) {
     _subscriptions[paymentId] = (_db.select(_db.transactionRequestRows)
           ..where((tbl) => tbl.id.equals(paymentId)))

@@ -131,12 +131,6 @@ class _OLPScreenState extends State<OLPScreen> {
               cancelButton,
             ],
             txFailure: (s) => [
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.retry,
-                onPressed: () => context.retryOLP(payment: payment),
-              ),
               cancelButton,
             ],
             cancelTxFailure: (s) => [

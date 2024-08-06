@@ -84,23 +84,6 @@ class ILPService implements Disposable {
     return payment;
   }
 
-  Future<IncomingLinkPayment> retry(
-    IncomingLinkPayment payment, {
-    required ECWallet account,
-  }) async {
-    final status = await _createTx(
-      escrow: await payment.escrow.keyPair,
-      account: account,
-    );
-
-    final newPayment = payment.copyWith(status: status);
-
-    await _repository.save(newPayment);
-    _subscribe(payment.id);
-
-    return newPayment;
-  }
-
   Future<ILPStatus> _createTx({
     required ECWallet account,
     required Ed25519HDKeyPair escrow,
