@@ -12,7 +12,7 @@ part of 'client.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ClientState {
@@ -20,6 +20,7 @@ mixin _$ClientState {
   AuthorizationResult? get authorizationResult =>
       throw _privateConstructorUsedError;
   bool get isRequestingAirdrop => throw _privateConstructorUsedError;
+  bool get isMainnet => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ClientStateCopyWith<ClientState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $ClientStateCopyWith<$Res> {
   $Res call(
       {GetCapabilitiesResult? capabilities,
       AuthorizationResult? authorizationResult,
-      bool isRequestingAirdrop});
+      bool isRequestingAirdrop,
+      bool isMainnet});
 
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
   $AuthorizationResultCopyWith<$Res>? get authorizationResult;
@@ -57,6 +59,7 @@ class _$ClientStateCopyWithImpl<$Res, $Val extends ClientState>
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
     Object? isRequestingAirdrop = null,
+    Object? isMainnet = null,
   }) {
     return _then(_value.copyWith(
       capabilities: freezed == capabilities
@@ -70,6 +73,10 @@ class _$ClientStateCopyWithImpl<$Res, $Val extends ClientState>
       isRequestingAirdrop: null == isRequestingAirdrop
           ? _value.isRequestingAirdrop
           : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isMainnet: null == isMainnet
+          ? _value.isMainnet
+          : isMainnet // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -101,17 +108,18 @@ class _$ClientStateCopyWithImpl<$Res, $Val extends ClientState>
 }
 
 /// @nodoc
-abstract class _$$_ClientStateCopyWith<$Res>
+abstract class _$$ClientStateImplCopyWith<$Res>
     implements $ClientStateCopyWith<$Res> {
-  factory _$$_ClientStateCopyWith(
-          _$_ClientState value, $Res Function(_$_ClientState) then) =
-      __$$_ClientStateCopyWithImpl<$Res>;
+  factory _$$ClientStateImplCopyWith(
+          _$ClientStateImpl value, $Res Function(_$ClientStateImpl) then) =
+      __$$ClientStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {GetCapabilitiesResult? capabilities,
       AuthorizationResult? authorizationResult,
-      bool isRequestingAirdrop});
+      bool isRequestingAirdrop,
+      bool isMainnet});
 
   @override
   $GetCapabilitiesResultCopyWith<$Res>? get capabilities;
@@ -120,11 +128,11 @@ abstract class _$$_ClientStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ClientStateCopyWithImpl<$Res>
-    extends _$ClientStateCopyWithImpl<$Res, _$_ClientState>
-    implements _$$_ClientStateCopyWith<$Res> {
-  __$$_ClientStateCopyWithImpl(
-      _$_ClientState _value, $Res Function(_$_ClientState) _then)
+class __$$ClientStateImplCopyWithImpl<$Res>
+    extends _$ClientStateCopyWithImpl<$Res, _$ClientStateImpl>
+    implements _$$ClientStateImplCopyWith<$Res> {
+  __$$ClientStateImplCopyWithImpl(
+      _$ClientStateImpl _value, $Res Function(_$ClientStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -133,8 +141,9 @@ class __$$_ClientStateCopyWithImpl<$Res>
     Object? capabilities = freezed,
     Object? authorizationResult = freezed,
     Object? isRequestingAirdrop = null,
+    Object? isMainnet = null,
   }) {
-    return _then(_$_ClientState(
+    return _then(_$ClientStateImpl(
       capabilities: freezed == capabilities
           ? _value.capabilities
           : capabilities // ignore: cast_nullable_to_non_nullable
@@ -147,17 +156,22 @@ class __$$_ClientStateCopyWithImpl<$Res>
           ? _value.isRequestingAirdrop
           : isRequestingAirdrop // ignore: cast_nullable_to_non_nullable
               as bool,
+      isMainnet: null == isMainnet
+          ? _value.isMainnet
+          : isMainnet // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
 
 /// @nodoc
 
-class _$_ClientState extends _ClientState with DiagnosticableTreeMixin {
-  const _$_ClientState(
+class _$ClientStateImpl extends _ClientState with DiagnosticableTreeMixin {
+  const _$ClientStateImpl(
       {this.capabilities,
       this.authorizationResult,
-      this.isRequestingAirdrop = false})
+      this.isRequestingAirdrop = false,
+      this.isMainnet = false})
       : super._();
 
   @override
@@ -167,10 +181,13 @@ class _$_ClientState extends _ClientState with DiagnosticableTreeMixin {
   @override
   @JsonKey()
   final bool isRequestingAirdrop;
+  @override
+  @JsonKey()
+  final bool isMainnet;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult, isRequestingAirdrop: $isRequestingAirdrop)';
+    return 'ClientState(capabilities: $capabilities, authorizationResult: $authorizationResult, isRequestingAirdrop: $isRequestingAirdrop, isMainnet: $isMainnet)';
   }
 
   @override
@@ -180,38 +197,42 @@ class _$_ClientState extends _ClientState with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'ClientState'))
       ..add(DiagnosticsProperty('capabilities', capabilities))
       ..add(DiagnosticsProperty('authorizationResult', authorizationResult))
-      ..add(DiagnosticsProperty('isRequestingAirdrop', isRequestingAirdrop));
+      ..add(DiagnosticsProperty('isRequestingAirdrop', isRequestingAirdrop))
+      ..add(DiagnosticsProperty('isMainnet', isMainnet));
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ClientState &&
+            other is _$ClientStateImpl &&
             (identical(other.capabilities, capabilities) ||
                 other.capabilities == capabilities) &&
             (identical(other.authorizationResult, authorizationResult) ||
                 other.authorizationResult == authorizationResult) &&
             (identical(other.isRequestingAirdrop, isRequestingAirdrop) ||
-                other.isRequestingAirdrop == isRequestingAirdrop));
+                other.isRequestingAirdrop == isRequestingAirdrop) &&
+            (identical(other.isMainnet, isMainnet) ||
+                other.isMainnet == isMainnet));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, capabilities, authorizationResult, isRequestingAirdrop);
+  int get hashCode => Object.hash(runtimeType, capabilities,
+      authorizationResult, isRequestingAirdrop, isMainnet);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ClientStateCopyWith<_$_ClientState> get copyWith =>
-      __$$_ClientStateCopyWithImpl<_$_ClientState>(this, _$identity);
+  _$$ClientStateImplCopyWith<_$ClientStateImpl> get copyWith =>
+      __$$ClientStateImplCopyWithImpl<_$ClientStateImpl>(this, _$identity);
 }
 
 abstract class _ClientState extends ClientState {
   const factory _ClientState(
       {final GetCapabilitiesResult? capabilities,
       final AuthorizationResult? authorizationResult,
-      final bool isRequestingAirdrop}) = _$_ClientState;
+      final bool isRequestingAirdrop,
+      final bool isMainnet}) = _$ClientStateImpl;
   const _ClientState._() : super._();
 
   @override
@@ -221,7 +242,9 @@ abstract class _ClientState extends ClientState {
   @override
   bool get isRequestingAirdrop;
   @override
+  bool get isMainnet;
+  @override
   @JsonKey(ignore: true)
-  _$$_ClientStateCopyWith<_$_ClientState> get copyWith =>
+  _$$ClientStateImplCopyWith<_$ClientStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

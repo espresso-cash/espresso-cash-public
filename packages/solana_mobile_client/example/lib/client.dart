@@ -6,14 +6,32 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 import 'package:solana_mobile_client/solana_mobile_client.dart';
+import 'package:solana_mobile_client_example/config.dart';
 
 part 'client.freezed.dart';
 
 // ignore: avoid-cubits, just an example
 class ClientBloc extends Cubit<ClientState> {
-  ClientBloc(this._solanaClient) : super(const ClientState());
+  ClientBloc() : super(const ClientState()) {
+    _initializeClient();
+  }
 
-  final SolanaClient _solanaClient;
+  late SolanaClient _solanaClient;
+
+  void _initializeClient() {
+    final rpcUrl = state.isMainnet ? mainnetRpcUrl : testnetRpcUrl;
+    final websocketUrl = state.isMainnet ? mainnetWsUrl : testnetWsUrl;
+    _solanaClient = SolanaClient(
+      rpcUrl: Uri.parse(rpcUrl),
+      websocketUrl: Uri.parse(websocketUrl),
+    );
+  }
+
+  void updateNetwork({required bool isMainnet}) {
+    if (state.isMainnet == isMainnet) return;
+    _initializeClient();
+    emit(ClientState(isMainnet: isMainnet));
+  }
 
   Future<bool> isWalletAvailable() => LocalAssociationScenario.isAvailable();
 
@@ -180,7 +198,7 @@ class ClientBloc extends Cubit<ClientState> {
       identityUri: Uri.parse('https://solana.com'),
       iconUri: Uri.parse('favicon.ico'),
       identityName: 'Solana',
-      cluster: 'testnet',
+      cluster: state.isMainnet ? mainnetCluster : testnetCluster,
     );
 
     emit(state.copyWith(authorizationResult: result));
@@ -211,6 +229,7 @@ class ClientState with _$ClientState {
     GetCapabilitiesResult? capabilities,
     AuthorizationResult? authorizationResult,
     @Default(false) bool isRequestingAirdrop,
+    @Default(false) bool isMainnet,
   }) = _ClientState;
 
   const ClientState._();
