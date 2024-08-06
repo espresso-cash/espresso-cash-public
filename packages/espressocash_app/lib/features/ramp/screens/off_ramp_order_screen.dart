@@ -196,42 +196,40 @@ class OffRampOrderScreenContent extends StatelessWidget {
       ),
     ];
 
-    return CpTheme(
+    return StatusScreen(
       theme: theme,
-      child: StatusScreen(
-        title: context.l10n.offRampWithdrawTitle.toUpperCase(),
-        statusType: order.status.toStatusType(),
-        statusTitle: statusTitle?.let(Text.new),
-        statusContent: Column(
-          children: [
-            Text(statusContent),
-            if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
-          ],
-        ),
-        content: CpContentPadding(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _Timeline(
-                  order: order,
-                  amount: totalAmount,
-                  receiveAmount: receiveAmount,
-                ),
-                if (isMoneygramOrder) _MgAdditionalInfo(order: order),
-                PartnerOrderIdWidget(orderId: order.partnerOrderId),
-                if (primaryButton != null) ...[
-                  const SizedBox(height: 12),
-                  primaryButton,
-                ],
-                Visibility(
-                  visible: showCancelButton,
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  child: _CancelButton(handleCanceled: handleCanceled),
-                ),
+      title: context.l10n.offRampWithdrawTitle.toUpperCase(),
+      statusType: order.status.toStatusType(),
+      statusTitle: statusTitle?.let(Text.new),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
+        ],
+      ),
+      content: CpContentPadding(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _Timeline(
+                order: order,
+                amount: totalAmount,
+                receiveAmount: receiveAmount,
+              ),
+              if (isMoneygramOrder) _MgAdditionalInfo(order: order),
+              PartnerOrderIdWidget(orderId: order.partnerOrderId),
+              if (primaryButton != null) ...[
+                const SizedBox(height: 12),
+                primaryButton,
               ],
-            ),
+              Visibility(
+                visible: showCancelButton,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: _CancelButton(handleCanceled: handleCanceled),
+              ),
+            ],
           ),
         ),
       ),
