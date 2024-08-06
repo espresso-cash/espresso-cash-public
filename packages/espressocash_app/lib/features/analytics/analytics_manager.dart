@@ -68,4 +68,6 @@ class AnalyticsManager {
         'directPaymentSent',
         properties: {'amount': amount.toDouble()},
       );
+
+  void ataCreated() => _analytics.track('ataCreated');
 }
