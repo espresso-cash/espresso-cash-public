@@ -12,7 +12,8 @@ import '../data/client.dart';
 import '../models/kyc_model.dart';
 
 // Hardcoded for now
-const partnerAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
+const validatorAuthPk = 'HHV5joB6D4c2pigVZcQ9RY5suDMvAiHBLLBCFqmWuM4E';
+const partnerAuthPk = '5PcfzhA3saCwcJjRstKyytMwwxeK1XJt48WGUhZEyecp';
 
 @Singleton(scope: authScope)
 class KycSharingService {
@@ -23,6 +24,7 @@ class KycSharingService {
 
   late final KycUserClient _kycUserClient;
 
+  late String _validatorToken = '';
   late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
@@ -30,9 +32,11 @@ class KycSharingService {
 
   KycServiceClient get _validatorClient => _xFlowClient.kycValidatorClient;
   OtpServiceClient get _otpClient => _xFlowClient.otpServiceClient;
+  PartnerServiceClient get _partnerClient => _xFlowClient.partnerServiceClient;
 
   @PostConstruct()
   Future<void> init() async {
+    _validatorToken = '';
     _partnerToken = '';
 
     _kycUserClient = KycUserClient(
@@ -52,6 +56,8 @@ class KycSharingService {
     _authPublicKey = _kycUserClient.authPublicKey;
     _userPublicKey = _ecWallet.publicKey.toString();
 
+    _validatorToken =
+        await _kycUserClient.generatePartnerToken(validatorAuthPk);
     _partnerToken = await _kycUserClient.generatePartnerToken(partnerAuthPk);
   }
 
@@ -132,11 +138,35 @@ class KycSharingService {
     return response.isValid;
   }
 
+  Future<void> validate() async {
+    await _validatorClient.requestKyc(
+      KycRequest(
+        secretKey: _rawSecretKey,
+        partnerToken: _validatorToken,
+        userAuthPk: _authPublicKey,
+        userPublicKey: _userPublicKey,
+      ),
+    );
+  }
+
+  Future<void> sendUserData() async {
+    await _partnerClient.sendUserData(
+      SendUserDataRequest(
+        user: User(
+          userPk: _authPublicKey,
+          secretKey: _rawSecretKey,
+          partnerToken: _partnerToken,
+        ),
+        partnerPk: partnerAuthPk,
+      ),
+    );
+  }
+
   Future<void> _sendEmailOtp() async {
     await _otpClient.sendOtpByEmail(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _partnerToken,
+        partnerToken: _validatorToken,
         userPk: _authPublicKey,
       ),
     );
@@ -146,19 +176,8 @@ class KycSharingService {
     await _otpClient.sendOtpBySms(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _partnerToken,
+        partnerToken: _validatorToken,
         userPk: _authPublicKey,
-      ),
-    );
-  }
-
-  Future<void> validate() async {
-    await _validatorClient.requestKyc(
-      KycRequest(
-        secretKey: _rawSecretKey,
-        partnerToken: _partnerToken,
-        userAuthPk: _authPublicKey,
-        userPublicKey: _userPublicKey,
       ),
     );
   }

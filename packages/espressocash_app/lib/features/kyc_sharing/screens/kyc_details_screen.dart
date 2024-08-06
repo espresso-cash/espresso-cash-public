@@ -14,11 +14,13 @@ import '../../../ui/snackbar.dart';
 import '../../../ui/text_field.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
+import '../data/kyc_repository.dart';
 import '../models/id_type.dart';
 import '../models/kyc_model.dart';
 import '../services/kyc_service.dart';
 import '../widgets/id_picker.dart';
 import 'kyc_camera_screen.dart';
+import 'read_pesmission_screen.dart';
 
 class KycDetailsScreen extends StatefulWidget {
   const KycDetailsScreen({super.key});
@@ -93,6 +95,8 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
       if (!mounted) return;
 
       showCpSnackbar(context, message: 'Success, Data updated');
+      sl<KycRepository>().hasPassedKyc = true;
+      ReadPermissionScreen.pushReplacement(context);
     } on Exception {
       showCpErrorSnackbar(context, message: 'Failed to update data');
     } finally {
