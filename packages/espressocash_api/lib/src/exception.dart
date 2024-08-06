@@ -18,4 +18,6 @@ class EspressoCashException implements Exception {
 enum EspressoCashError {
   /// Account is invalid or does not exist.
   invalidEscrowAccount,
+  insufficientFunds,
+  genericError,
 }

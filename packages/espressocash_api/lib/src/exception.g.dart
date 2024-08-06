@@ -20,4 +20,6 @@ Map<String, dynamic> _$EspressoCashExceptionToJson(
 
 const _$EspressoCashErrorEnumMap = {
   EspressoCashError.invalidEscrowAccount: 'InvalidEscrowAccount',
+  EspressoCashError.insufficientFunds: 'InsufficientFunds',
+  EspressoCashError.genericError: 'GenericError',
 };
