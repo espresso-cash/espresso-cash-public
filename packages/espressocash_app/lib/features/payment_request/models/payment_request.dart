@@ -5,7 +5,6 @@ import '../../../config.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 
 part 'payment_request.freezed.dart';
 
@@ -41,14 +40,15 @@ extension SolanaPayRequestExt on SolanaPayRequest {
     );
   }
 
-  CryptoAmount? cryptoAmount(TokenList tokenList) {
+  Future<CryptoAmount?> cryptoAmount(
+    Future<Token?> Function(String address) getToken,
+  ) async {
     final amount = this.amount;
     if (amount == null) return null;
 
     final splToken = this.splToken;
-    final token = splToken == null
-        ? Token.sol
-        : tokenList.findTokenByMint(splToken.toBase58());
+    final token =
+        splToken == null ? Token.sol : await getToken(splToken.toBase58());
 
     if (token == null) return null;
 

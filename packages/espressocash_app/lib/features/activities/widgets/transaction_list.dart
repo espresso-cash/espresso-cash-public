@@ -4,7 +4,6 @@ import 'package:flutter/material.dart' hide Notification;
 import '../../../di.dart';
 import '../../../ui/colors.dart';
 import '../data/transaction_repository.dart';
-import '../services/tx_updater.dart';
 import 'no_activity.dart';
 import 'transaction_item.dart';
 
@@ -29,12 +28,11 @@ class _TransactionListState extends State<TransactionList> {
   void initState() {
     super.initState();
     _txs = sl<TransactionRepository>().watchAll();
-    sl<TxUpdater>().call();
   }
 
   @override
   Widget build(BuildContext context) => RefreshIndicator(
-        onRefresh: () => sl<TxUpdater>().call(),
+        onRefresh: () => sl<TransactionRepository>().update(),
         color: CpColors.primaryColor,
         backgroundColor: Colors.white,
         child: StreamBuilder<IList<String>>(
