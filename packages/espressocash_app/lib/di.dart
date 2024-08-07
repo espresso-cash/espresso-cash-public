@@ -8,7 +8,6 @@ import 'package:solana/solana.dart';
 
 import 'config.dart';
 import 'di.config.dart';
-import 'features/tokens/token_list.dart';
 
 final sl = GetIt.instance;
 
@@ -27,9 +26,6 @@ abstract class AppModule {
 
   @lazySingleton
   Dio get dio => Dio();
-
-  @lazySingleton
-  TokenList get tokenList => TokenList();
 
   @lazySingleton
   SolanaClient get solanaClient => SolanaClient(

@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
+import '../tokens/token.dart';
+
 @lazySingleton
 class AnalyticsManager {
   const AnalyticsManager(this._analytics);
@@ -62,10 +64,11 @@ class AnalyticsManager {
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
   void directPaymentSent({
+    required Token token,
     required Decimal amount,
   }) =>
       _analytics.track(
         'directPaymentSent',
-        properties: {'amount': amount.toDouble()},
+        properties: {'token': token.symbol, 'amount': amount.toDouble()},
       );
 }

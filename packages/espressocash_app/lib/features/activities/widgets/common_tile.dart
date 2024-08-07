@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
+import '../../../l10n/l10n.dart';
 import '../../../ui/web_view_screen.dart';
 import '../../../utils/extensions.dart';
 import '../../conversion_rates/widgets/extensions.dart';
@@ -27,12 +28,14 @@ class CommonTile extends StatelessWidget {
     final isOutgoing =
         txCommon.amount?.let((e) => e.value.isNegative || e.value == 0) ??
             false;
+
     final amount = txCommon.amount
-        ?.let((e) => e.format(context.locale, maxDecimals: 2))
+        ?.let((e) => e.format(context.locale, maxDecimals: 9))
         .let((e) => e.replaceAll('-', ''));
 
     return CpActivityTile(
-      title: signature.toShortAddress(),
+      title: isOutgoing ? context.l10n.sentDirectly : context.l10n.received,
+      subtitle: signature,
       status: switch (txCommon.status) {
         TxCommonStatus.success => CpActivityTileStatus.success,
         TxCommonStatus.failure => CpActivityTileStatus.failure,
