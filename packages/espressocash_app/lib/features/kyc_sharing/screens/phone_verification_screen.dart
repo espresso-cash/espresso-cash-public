@@ -99,7 +99,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
                     right: 26,
                   ),
                   controller: _numberController,
-                  inputType: TextInputType.number,
+                  inputType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                   backgroundColor: const Color(0xFF9D8A59),
                   placeholder: 'Enter number',
