@@ -90,10 +90,6 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
       if (!mounted) return;
 
-      await _fetchKycInfo();
-
-      if (!mounted) return;
-
       showCpSnackbar(context, message: 'Success, Data updated');
       sl<KycRepository>().hasPassedKyc = true;
       ReadPermissionScreen.pushReplacement(context);
@@ -222,19 +218,19 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
                           const SizedBox(height: 42),
                           _ProfileTextField(
                             controller: _firstNameController,
-                            inputType: TextInputType.text,
+                            inputType: TextInputType.name,
                             placeholder: 'First Name',
                           ),
                           const SizedBox(height: 8),
                           _ProfileTextField(
                             controller: _middleNameController,
-                            inputType: TextInputType.text,
+                            inputType: TextInputType.name,
                             placeholder: 'Middle Name',
                           ),
                           const SizedBox(height: 8),
                           _ProfileTextField(
                             controller: _lastNameController,
-                            inputType: TextInputType.text,
+                            inputType: TextInputType.name,
                             placeholder: 'Last Name',
                           ),
                           const SizedBox(height: 8),
