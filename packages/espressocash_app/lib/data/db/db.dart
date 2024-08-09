@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 54;
+const int latestVersion = 55;
 
 const _tables = [
   OutgoingTransferRows,
@@ -38,6 +38,7 @@ const _tables = [
   OutgoingDlnPaymentRows,
   TransactionRequestRows,
   TokenBalanceRows,
+  TokenRows,
 ];
 
 @lazySingleton
@@ -127,7 +128,6 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
             await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
-
           if (from >= 40 && from < 54) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
@@ -150,6 +150,9 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.referenceNumber,
             );
+          }
+          if (from < 55) {
+            await m.createTable(tokenRows);
           }
         },
       );
@@ -304,4 +307,37 @@ class TokenBalanceRows extends Table with AmountMixin {
 
   @override
   Set<Column> get primaryKey => {token};
+}
+
+class TokenRows extends Table {
+  const TokenRows();
+
+  IntColumn get chainId => integer()();
+  TextColumn get address => text()();
+  TextColumn get symbol => text()();
+  TextColumn get name => text()();
+  IntColumn get decimals => integer()();
+  TextColumn get logoURI => text().nullable()();
+  BoolColumn get isStablecoin => boolean()();
+
+  @override
+  Set<Column> get primaryKey => {chainId, address};
+}
+
+class TagsConverter extends TypeConverter<List<String>, String> {
+  const TagsConverter();
+
+  @override
+  List<String> fromSql(String fromDb) {
+    if (fromDb.isEmpty) return [];
+
+    return fromDb.split(',');
+  }
+
+  @override
+  String toSql(List<String> value) {
+    if (value.isEmpty) return '';
+
+    return value.join(',');
+  }
 }
