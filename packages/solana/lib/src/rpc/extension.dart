@@ -102,7 +102,6 @@ extension RpcClientExt on RpcClient {
     final Iterable<dynamic> transactions = response.map<dynamic>(getResult);
 
     return transactions
-        .where((dynamic t) => t != null)
         .map(
           (dynamic t) => TransactionDetails.fromJson(t as Map<String, dynamic>),
         )

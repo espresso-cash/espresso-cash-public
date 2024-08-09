@@ -22,6 +22,8 @@ class Token {
 
   const factory Token.solana() = _SolanaToken;
 
+  const factory Token.unknown() = _UnknownToken;
+
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
 
   const factory Token.splToken({
@@ -40,6 +42,8 @@ class Token {
   static const usdc = isProd ? _UsdcMainToken() : _UsdcDevToken();
 
   static const sol = Token.solana();
+
+  static const unk = Token.unknown();
 
   static const wrappedSol = Token.wrappedSolana();
 
@@ -86,6 +90,21 @@ class _SolanaToken extends Token {
           decimals: 9,
           name: 'Solana',
           symbol: 'SOL',
+        );
+}
+
+class _UnknownToken extends Token {
+  const _UnknownToken()
+      : super(
+          address: '',
+          extensions: null,
+          logoURI:
+              'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
+          chainId: currentChainId,
+          tags: const [],
+          decimals: 0,
+          name: '',
+          symbol: '',
         );
 }
 
@@ -162,23 +181,11 @@ class Extensions {
   factory Extensions.fromJson(Map<String, dynamic> data) =>
       _$ExtensionsFromJson(data);
 
-  Map<String, dynamic> toJson() {
-    throw const FormatException('cannot convert token to json');
-  }
+  Map<String, dynamic> toJson() => _$ExtensionsToJson(this);
 
   final String? coingeckoId;
 }
 
-@JsonSerializable(createToJson: false)
-class ParsedContent {
-  const ParsedContent({
-    required this.timestamp,
-    required this.tokens,
-  });
-
-  factory ParsedContent.fromJson(Map<String, dynamic> json) =>
-      _$ParsedContentFromJson(json);
-
-  final List<Token> tokens;
-  final DateTime timestamp;
+extension TokenExt on Iterable<Token> {
+  Iterable<String> get symbols => map((t) => t.symbol);
 }

@@ -12,7 +12,6 @@ import '../../../utils/async_cache.dart';
 import '../../accounts/auth_scope.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import 'jupiter_client.dart';
 
 @Singleton(scope: authScope)

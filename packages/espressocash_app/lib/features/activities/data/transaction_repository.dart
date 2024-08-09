@@ -1,33 +1,49 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:solana/base58.dart';
+import 'package:solana/dto.dart' hide Transaction;
 import 'package:solana/encoder.dart';
+import 'package:solana/solana.dart';
 
 import '../../../data/db/db.dart';
+import '../../../di.dart';
+import '../../../utils/async_cache.dart';
+import '../../accounts/auth_scope.dart';
+import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
 import '../../payment_request/data/repository.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/service/tr_service.dart';
 import '../models/activity.dart';
 import '../models/transaction.dart';
 import 'activity_builder.dart';
 
-@injectable
-class TransactionRepository {
-  const TransactionRepository(this._db, this._tokens);
+part '../services/tx_updater.dart';
 
+@Singleton(scope: authScope)
+class TransactionRepository {
+  TransactionRepository(this._db, this._client, this._wallet) {
+    update();
+  }
+
+  final SolanaClient _client;
+  final ECWallet _wallet;
   final MyDatabase _db;
-  final TokenList _tokens;
+
+  final AsyncCache<void> _callCache = AsyncCache.ephemeral();
 
   Stream<IList<String>> watchAll() {
     final query = _db.select(_db.transactionRows)
@@ -49,10 +65,10 @@ class TransactionRepository {
       ..where((t) => t.tokenAddress.equals(tokenAddress))
       ..orderBy([(t) => OrderingTerm.desc(t.created)]);
 
-    return query.watch().map((rows) {
+    return query.watch().asyncMap((rows) async {
       final grouped = <String, IList<TxCommon>>{};
       for (final row in rows) {
-        final model = row.toModel();
+        final model = await row.toModel();
         final created = model.created;
         if (created != null) {
           final date = DateFormat('yyyy-MM-dd').format(created);
@@ -80,24 +96,27 @@ class TransactionRepository {
     final query = _db.select(_db.transactionRows)
       ..where((tbl) => tbl.id.equals(id));
 
-    return query.watchSingle().asyncExpand((row) => _match(row.toModel()));
+    return query.watchSingle().asyncMap(
+          (row) async => row.toModel().then((value) => _match(value).first),
+        );
   }
 
   Future<void> saveAll(
     Iterable<TxCommon> txs, {
-    required bool clear,
+    bool clear = false,
+    InsertMode mode = InsertMode.insertOrReplace,
   }) {
     Future<void> save() => _db.batch(
           (batch) => batch.insertAll(
             _db.transactionRows,
             txs.map((e) => e.toRow()),
-            mode: InsertMode.insertOrIgnore,
+            mode: mode,
           ),
         );
 
     return clear
         ? _db.transaction(() async {
-            await _db.delete(_db.transactionRows).go();
+            await this.clear();
             await save();
           })
         : save();
@@ -130,13 +149,13 @@ class TransactionRepository {
 
     final odp = _db.oDPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => row.status != ODPStatusDto.success,
     );
 
     final olp = _db.oLPRows.findActivityOrNull(
       where: (row) => row.txId.equals(txId),
-      builder: (pr) => pr.toActivity(_tokens),
+      builder: (pr) => pr.toActivity(),
       ignoreWhen: (row) => const [OLPStatusDto.withdrawn, OLPStatusDto.canceled]
           .contains(row.status)
           .not(),
@@ -155,6 +174,7 @@ class TransactionRepository {
         OffRampOrderStatus.completed,
         OffRampOrderStatus.cancelled,
         OffRampOrderStatus.failure,
+        OffRampOrderStatus.refunded,
       ].contains(row.status).not(),
     );
 
@@ -181,27 +201,29 @@ class TransactionRepository {
 }
 
 extension TransactionRowExt on TransactionRow {
-  TxCommon toModel() => TxCommon(
-        SignedTx.decode(encodedTx),
-        created: created,
-        status: status,
-        amount: amount?.let(
-          (it) => CryptoAmount(
-            value: it,
-            cryptoCurrency: CryptoCurrency(
-              token: TokenList().findTokenByMint(tokenAddress) ?? Token.usdc,
+  Future<TxCommon> toModel() =>
+      sl<TokenRepository>().getToken(tokenAddress).letAsync(
+            (e) => TxCommon(
+              SignedTx.decode(encodedTx),
+              created: created,
+              status: status,
+              amount: amount?.let(
+                (it) => CryptoAmount(
+                  value: it,
+                  cryptoCurrency: CryptoCurrency(
+                    token: e ?? Token.unk,
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      );
+          );
 }
 
 extension on TxCommon {
   TransactionRow toRow() => TransactionRow(
         id: tx.id,
         created: created,
-        tokenAddress:
-            amount?.cryptoCurrency.token.address ?? Token.usdc.address,
+        tokenAddress: amount?.cryptoCurrency.token.address ?? Token.unk.address,
         encodedTx: tx.encode(),
         status: status,
         amount: amount?.value,

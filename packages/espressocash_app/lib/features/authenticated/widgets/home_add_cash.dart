@@ -9,7 +9,7 @@ import '../../../ui/bullet_item.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../accounts/models/account.dart';
-import '../../activities/services/tx_updater.dart';
+import '../../activities/data/transaction_repository.dart';
 import '../../ramp/models/ramp_type.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
 import 'balance_amount.dart';
@@ -27,7 +27,7 @@ class HomeAddCashContent extends StatelessWidget {
             displacement: 80,
             onRefresh: () => Future.wait([
               onRefresh(),
-              sl<TxUpdater>().call(),
+              sl<TransactionRepository>().update(),
             ]),
             color: CpColors.primaryColor,
             backgroundColor: Colors.white,
