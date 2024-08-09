@@ -19,6 +19,7 @@ class CpButton extends StatelessWidget {
   const CpButton({
     super.key,
     required this.text,
+    this.fontSize,
     this.onPressed,
     this.width,
     this.variant = CpButtonVariant.dark,
@@ -30,6 +31,7 @@ class CpButton extends StatelessWidget {
   });
 
   final String text;
+  final double? fontSize;
   final double? width;
   final VoidCallback? onPressed;
   final CpButtonVariant variant;
@@ -81,13 +83,13 @@ class CpButton extends StatelessWidget {
         case CpButtonSize.normal:
           return style;
         case CpButtonSize.big:
-          return style.copyWith(fontSize: 17);
+          return style.copyWith(fontSize: fontSize ?? 17);
         case CpButtonSize.small:
-          return style.copyWith(fontSize: 17, height: 1);
+          return style.copyWith(fontSize: fontSize ?? 17, height: 1);
         case CpButtonSize.wide:
-          return style.copyWith(fontSize: 16, height: 0);
+          return style.copyWith(fontSize: fontSize ?? 16, height: 0);
         case CpButtonSize.micro:
-          return style.copyWith(fontSize: 15, height: 0);
+          return style.copyWith(fontSize: fontSize ?? 15, height: 0);
       }
     })();
 

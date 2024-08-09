@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -7,6 +9,7 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/ramp_partner/models/ramp_partner.dart';
+import '../../features/tokens/token.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -24,7 +27,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 54;
+const int latestVersion = 56;
 
 const _tables = [
   OutgoingTransferRows,
@@ -38,6 +41,7 @@ const _tables = [
   OutgoingDlnPaymentRows,
   TransactionRequestRows,
   TokenBalanceRows,
+  TokenRows,
 ];
 
 @lazySingleton
@@ -115,11 +119,9 @@ class MyDatabase extends _$MyDatabase {
           if (from < 51) {
             await m.addColumn(transactionRows, transactionRows.amount);
           }
-
           if (from < 52) {
             await m.createTable(tokenBalanceRows);
           }
-
           if (from < 53) {
             await m.addColumn(onRampOrderRows, onRampOrderRows.authToken);
             await m.addColumn(onRampOrderRows, onRampOrderRows.moreInfoUrl);
@@ -127,7 +129,6 @@ class MyDatabase extends _$MyDatabase {
             await m.addColumn(onRampOrderRows, onRampOrderRows.referenceNumber);
             await m.addColumn(onRampOrderRows, onRampOrderRows.feeAmount);
           }
-
           if (from >= 40 && from < 54) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.authToken);
             await m.addColumn(offRampOrderRows, offRampOrderRows.moreInfoUrl);
@@ -150,6 +151,12 @@ class MyDatabase extends _$MyDatabase {
               offRampOrderRows,
               offRampOrderRows.referenceNumber,
             );
+          }
+          if (from < 55) {
+            await m.createTable(tokenRows);
+          }
+          if (from < 56) {
+            await m.addColumn(transactionRows, transactionRows.tokenAddress);
           }
         },
       );
@@ -275,6 +282,7 @@ class TransactionRows extends Table {
 
   TextColumn get id => text()();
   DateTimeColumn get created => dateTime().nullable()();
+  TextColumn get tokenAddress => text()();
   TextColumn get encodedTx => text()();
   IntColumn get status => intEnum<TxCommonStatus>()();
   IntColumn get amount => integer().nullable()();
@@ -304,4 +312,53 @@ class TokenBalanceRows extends Table with AmountMixin {
 
   @override
   Set<Column> get primaryKey => {token};
+}
+
+class TokenRows extends Table {
+  const TokenRows();
+
+  IntColumn get chainId => integer()();
+  TextColumn get address => text()();
+  TextColumn get symbol => text()();
+  TextColumn get name => text()();
+  IntColumn get decimals => integer()();
+  TextColumn get logoURI => text().nullable()();
+  TextColumn get tags => text().map(const TagsConverter()).nullable()();
+  TextColumn get extensions =>
+      text().map(const ExtensionsConverter()).nullable()();
+
+  @override
+  Set<Column> get primaryKey => {chainId, address};
+}
+
+class TagsConverter extends TypeConverter<List<String>, String> {
+  const TagsConverter();
+
+  @override
+  List<String> fromSql(String fromDb) {
+    if (fromDb.isEmpty) return [];
+
+    return fromDb.split(',');
+  }
+
+  @override
+  String toSql(List<String> value) {
+    if (value.isEmpty) return '';
+
+    return value.join(',');
+  }
+}
+
+class ExtensionsConverter extends TypeConverter<Extensions, String> {
+  const ExtensionsConverter();
+
+  @override
+  Extensions fromSql(String fromDb) => Extensions.fromJson(
+        Map<String, dynamic>.from(
+          jsonDecode(fromDb) as Map<String, dynamic>,
+        ),
+      );
+
+  @override
+  String toSql(Extensions value) => json.encode(value.toJson());
 }

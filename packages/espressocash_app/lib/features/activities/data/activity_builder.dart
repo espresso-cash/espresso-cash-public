@@ -2,7 +2,6 @@ import '../../../data/db/db.dart';
 import '../../outgoing_direct_payments/data/repository.dart';
 import '../../outgoing_dln_payments/data/repository.dart';
 import '../../outgoing_link_payments/data/repository.dart';
-import '../../tokens/token_list.dart';
 import '../../transaction_request/models/transaction_request.dart';
 import '../models/activity.dart';
 
@@ -14,10 +13,10 @@ extension PaymentRequestRowToActivityExt on PaymentRequestRow {
 }
 
 extension ODPRowToActivityExt on ODPRow {
-  Activity toActivity(TokenList tokens) => Activity.outgoingDirectPayment(
+  Future<Activity> toActivity() async => Activity.outgoingDirectPayment(
         id: id,
         created: created,
-        data: toModel(tokens),
+        data: await toModel(),
       );
 }
 
@@ -30,10 +29,10 @@ extension OutgoingDlnPaymentRowToActivityExt on OutgoingDlnPaymentRow {
 }
 
 extension OLPRowToActivityExt on OLPRow {
-  Activity toActivity(TokenList tokens) => Activity.outgoingLinkPayment(
+  Future<Activity> toActivity() async => Activity.outgoingLinkPayment(
         id: id,
         created: created,
-        data: toModel(tokens),
+        data: await toModel(),
       );
 }
 
