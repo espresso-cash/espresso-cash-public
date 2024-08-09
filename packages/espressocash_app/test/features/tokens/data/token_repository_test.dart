@@ -42,14 +42,6 @@ void main() {
       expect(response, token.toModel());
     });
 
-    test('should dispose repository', () async {
-      when(mockRepo.onDispose()).thenAnswer((_) async {});
-
-      await mockRepo.onDispose();
-
-      verify(mockRepo.onDispose()).called(1);
-    });
-
     test('should parse and load token rows from CSV chunk', () {
       const chunk =
           'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
@@ -246,11 +238,6 @@ class MemoryTokenRepository implements TokenRepository {
     data.add(data.value.addAll(tokenMap.lock));
 
     return Future.value(const Right(''));
-  }
-
-  @override
-  Future<void> onDispose() async {
-    data.add(data.value.clear());
   }
 
   void insertTokens(List<TokenRow> tokens) {

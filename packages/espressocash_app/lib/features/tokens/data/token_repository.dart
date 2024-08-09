@@ -1,54 +1,76 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
-import 'dart:isolate';
 
+import 'package:crypto/crypto.dart';
 import 'package:dfunc/dfunc.dart';
 import 'package:drift/drift.dart';
-import 'package:espressocash_api/espressocash_api.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:solana/encoder.dart';
 
 import '../../../data/db/db.dart';
-import '../../../data/db/open_connection.dart';
-import '../../../di.dart';
-import '../../accounts/models/ec_wallet.dart';
+import '../../../data/file_manager.dart';
+import '../service/extensions.dart';
 import '../token.dart';
 
 @Singleton()
 class TokenRepository {
-  TokenRepository({
-    required MyDatabase db,
-    required EspressoCashClient ecClient,
-  })  : _ecClient = ecClient,
-        _db = db {
-    _initialize();
+  TokenRepository(this._db, this.fileManager) {
+    initialize();
   }
 
-  final EspressoCashClient _ecClient;
   final MyDatabase _db;
+  final FileManager fileManager;
 
-  Future<void> _initialize() => _ecClient.getTokensMeta().letAsync(
-        (GetTokensMetaResponseDto serverHash) => TokensMetaStorage.getHash()
-            .letAsync(
-          (actualHash) => actualHash != null
-              // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-              ? serverHash.md5 != actualHash
-              : true,
-        )
-            .letAsync((shouldInitialize) {
-          if (shouldInitialize) {
-            return _initializeFromFile().letAsync(
-              (_) async => TokensMetaStorage.saveHash(
-                // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-                serverHash.md5,
-              ),
-            );
-          }
-        }),
+  Future<void> initialize() =>
+      TokensMetaStorage.getHash().letAsync((actualHash) async {
+        if (actualHash == null) {
+          final rootToken = ServicesBinding.rootIsolateToken;
+
+          if (rootToken == null) return;
+
+          final assetFile =
+              await rootBundle.load('assets/tokens/tokens.csv.gz');
+
+          final platformFile =
+              await fileManager.loadFromAppDir('tokens.csv.gz');
+
+          await compute(
+            initializeFromAssets,
+            IsolateParams(assetFile, platformFile, rootToken),
+          );
+        }
+      });
+
+  Future<Either<Exception, void>> initializeFromAssets(
+    IsolateParams args,
+  ) =>
+      tryEitherAsync(
+        (_) async {
+          BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
+
+          await args.platformFile
+              .writeAsBytes(args.data.buffer.asUint8List())
+              .letAsync(
+                (file) => file.openRead().let(
+                      (stream) => stream
+                          .decodeFile()
+                          .forEach((tokenRows) {
+                            for (final tokenRow in tokenRows) {
+                              _db.transaction(
+                                () => _db.into(_db.tokenRows).insert(
+                                      tokenRow,
+                                      mode: InsertMode.insertOrReplace,
+                                    ),
+                              );
+                            }
+                          })
+                          .letAsync((_) => md5.bind(stream).toString())
+                          .letAsync(TokensMetaStorage.saveHash),
+                    ),
+              );
+        },
       );
 
   Future<Token?> getToken(String address) {
@@ -58,151 +80,17 @@ class TokenRepository {
 
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
-
-  Future<Either<Exception, void>> _initializeFromFile() =>
-      tryEitherAsync((_) async {
-        final receivePort = ReceivePort();
-
-        final Isolate tokenListIsolate = await Isolate.spawn(
-          _initializeIsolate,
-          receivePort.sendPort,
-        );
-
-        final wallet = sl<ECWallet>();
-        final sendPort = await receivePort.first as SendPort;
-        final responsePort = ReceivePort();
-
-        sendPort.send([
-          responsePort.sendPort,
-          ServicesBinding.rootIsolateToken,
-          wallet,
-        ]);
-
-        await for (final message in responsePort) {
-          if (message == null) {
-            tokenListIsolate.kill(priority: Isolate.immediate);
-            receivePort.close();
-            break;
-          }
-        }
-      });
-
-  static Future<void> _initializeIsolate(SendPort mainSendPort) async {
-    final receivePort = ReceivePort();
-    mainSendPort.send(receivePort.sendPort);
-
-    await for (final message in receivePort) {
-      if (message is List && message.length == 3) {
-        final SendPort sendPort = message[0] as SendPort;
-        final RootIsolateToken rootIsolateToken =
-            message[1] as RootIsolateToken;
-        final ECWallet wallet = message[2] as ECWallet;
-
-        BackgroundIsolateBinaryMessenger.ensureInitialized(rootIsolateToken);
-
-        final database = MyDatabase.connect(
-          DatabaseConnection(
-            openConnection(),
-          ),
-        );
-
-        final appDir = await getTemporaryDirectory();
-
-        final path = '${appDir.path}${Platform.pathSeparator}tokens.csv.gz';
-
-        await EspressoCashClient(
-          sign: (data) async => (
-            signature:
-                await wallet.sign([Uint8List.fromList(utf8.encode(data))]).then(
-              (value) => value.first.toBase58(),
-            ),
-            publicKey: wallet.publicKey.toBase58(),
-          ),
-        ).getTokensFile(path);
-
-        final File tokensFile = File(path);
-
-        await tokensFile
-            .openRead()
-            .transform(gzip.decoder)
-            .transform(utf8.decoder)
-            .transformToTokenRows()
-            .forEach((tokenRow) async {
-          await database.transaction(
-            () async => database.batch(
-              (batch) async => batch.insertAll(
-                database.tokenRows,
-                tokenRow,
-                mode: InsertMode.insertOrReplace,
-              ),
-            ),
-          );
-        }).whenComplete(() {
-          sendPort.send(null);
-          receivePort.close();
-        });
-      }
-    }
-  }
 }
 
-extension TokenRowsExt on TokenRow {
-  Token toModel() => Token(
-        address: address,
-        name: name,
-        symbol: symbol,
-        decimals: decimals,
-        logoURI: logoURI,
-        chainId: chainId,
-        isStablecoin: isStablecoin,
-      );
+class IsolateParams {
+  IsolateParams(this.data, this.platformFile, this.rootToken);
+
+  final ByteData data;
+  final File platformFile;
+  final RootIsolateToken rootToken;
 }
 
-extension on String {
-  bool hasStablecoinTag() {
-    if (this.isEmpty) return false;
-
-    return replaceAll('[', '')
-        .replaceAll(']', '')
-        .split(',')
-        .any((e) => e == 'stablecoin');
-  }
-}
-
-extension on Stream<String> {
-  Stream<List<TokenRow>> transformToTokenRows() => transform(
-        StreamTransformer<String, List<TokenRow>>.fromHandlers(
-          handleData: (data, sink) {
-            final List<TokenRow> rows = [];
-            final lines = data.split('\n');
-            bool isFirstLine = true;
-            for (final line in lines) {
-              if (isFirstLine) {
-                isFirstLine = false;
-                continue;
-              }
-              final values = line.split(',');
-              if (values.length >= 8) {
-                rows.add(
-                  TokenRow(
-                    address: values[0],
-                    chainId: int.parse(values[1]),
-                    symbol: values[2],
-                    name: values[3],
-                    decimals: int.parse(values[4]),
-                    logoURI: values[5],
-                    isStablecoin: values[6].hasStablecoinTag(),
-                  ),
-                );
-              }
-            }
-            sink.add(rows);
-          },
-        ),
-      );
-}
-
-abstract final class TokensMetaStorage {
+final class TokensMetaStorage {
   static const String _key = 'tokensFileHash';
 
   static Future<void> saveHash(String timestamp) async {
