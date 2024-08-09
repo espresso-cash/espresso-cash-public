@@ -398,12 +398,14 @@ class _Timeline extends StatelessWidget {
 
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
-      trailing: order.bridgeAmount?.let(
-        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-      ),
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,
+      trailing: isMoneygramOrder
+          ? order.bridgeAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
