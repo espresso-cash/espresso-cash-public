@@ -1,6 +1,8 @@
 import 'package:dfunc/src/either/either.dart';
 import 'package:espressocash_app/data/db/db.dart';
+import 'package:espressocash_app/data/file_manager.dart';
 import 'package:espressocash_app/features/tokens/data/token_repository.dart';
+import 'package:espressocash_app/features/tokens/service/extensions.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -211,6 +213,7 @@ class MemoryTokenRepository implements TokenRepository {
   Future<Token?> getToken(String address) async =>
       data.value[address]?.toModel();
 
+  @override
   Future<Either<Exception, String>> initialize() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
@@ -250,5 +253,13 @@ class MemoryTokenRepository implements TokenRepository {
     data.add(data.value.add(token.address, token));
 
     return 1;
+  }
+
+  @override
+  FileManager get fileManager => throw UnimplementedError();
+
+  @override
+  Future<Either<Exception, void>> initializeFromAssets(IsolateParams args) {
+    throw UnimplementedError();
   }
 }

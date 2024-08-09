@@ -78,6 +78,7 @@ extension FileExtension on File {
   static Future<File> createTempFile(String fileName) async {
     final appDir = await getTemporaryDirectory();
     final path = '${appDir.path}${Platform.pathSeparator}$fileName';
+
     return File(path);
   }
 }

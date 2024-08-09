@@ -25,22 +25,20 @@ class TokenRepository {
 
   Future<void> initialize() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
-        if (actualHash == null) {
-          final rootToken = ServicesBinding.rootIsolateToken;
+        if (actualHash == null) return;
 
-          if (rootToken == null) return;
+        final rootToken = ServicesBinding.rootIsolateToken;
 
-          final assetFile =
-              await rootBundle.load('assets/tokens/tokens.csv.gz');
+        if (rootToken == null) return;
 
-          final platformFile =
-              await fileManager.loadFromAppDir('tokens.csv.gz');
+        final assetFile = await rootBundle.load('assets/tokens/tokens.csv.gz');
 
-          await compute(
-            initializeFromAssets,
-            IsolateParams(assetFile, platformFile, rootToken),
-          );
-        }
+        final platformFile = await fileManager.loadFromAppDir('tokens.csv.gz');
+
+        await compute(
+          initializeFromAssets,
+          IsolateParams(assetFile, platformFile, rootToken),
+        );
       });
 
   Future<Either<Exception, void>> initializeFromAssets(
@@ -66,6 +64,7 @@ class TokenRepository {
                               );
                             }
                           })
+                          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                           .letAsync((_) => md5.bind(stream).toString())
                           .letAsync(TokensMetaStorage.saveHash),
                     ),
@@ -83,14 +82,14 @@ class TokenRepository {
 }
 
 class IsolateParams {
-  IsolateParams(this.data, this.platformFile, this.rootToken);
+  const IsolateParams(this.data, this.platformFile, this.rootToken);
 
   final ByteData data;
   final File platformFile;
   final RootIsolateToken rootToken;
 }
 
-final class TokensMetaStorage {
+abstract final class TokensMetaStorage {
   static const String _key = 'tokensFileHash';
 
   static Future<void> saveHash(String timestamp) async {

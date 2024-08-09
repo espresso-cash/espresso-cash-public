@@ -27,27 +27,25 @@ class TokenUpdater {
 
   Future<void> call() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
-        if (actualHash == null) {
-          final rootToken = ServicesBinding.rootIsolateToken;
+        if (actualHash == null) return;
 
-          if (rootToken == null) return;
+        final rootToken = ServicesBinding.rootIsolateToken;
 
-          final serverHash = await _ecClient.getTokensMeta();
-          final actualHash = await TokensMetaStorage.getHash();
+        if (rootToken == null) return;
 
-          final shouldInitialize =
-              actualHash == null || serverHash.md5 != actualHash;
+        final serverHash = await _ecClient.getTokensMeta();
 
-          if (shouldInitialize) {
-            final file =
-                await const FileManager().loadFromAppDir('tokens.csv.gz');
+        final shouldInitialize = serverHash.md5 != actualHash;
 
-            await _ecClient.getTokensFile(file.path);
-            await compute(
-              initializeFromAssets,
-              IsolateParams(file, ServicesBinding.rootIsolateToken!),
-            );
-          }
+        if (shouldInitialize) {
+          final file =
+              await const FileManager().loadFromAppDir('tokens.csv.gz');
+
+          await _ecClient.getTokensFile(file.path);
+          await compute(
+            initializeFromAssets,
+            IsolateParams(file, rootToken),
+          );
         }
       });
 
@@ -71,6 +69,7 @@ class TokenUpdater {
                         );
                       }
                     })
+                    // ignore: avoid-weak-cryptographic-algorithms, non sensitive
                     .letAsync((_) => md5.bind(stream).toString())
                     .letAsync(TokensMetaStorage.saveHash),
               );
@@ -79,7 +78,7 @@ class TokenUpdater {
 }
 
 class IsolateParams {
-  IsolateParams(this.platformFile, this.rootToken);
+  const IsolateParams(this.platformFile, this.rootToken);
 
   final File platformFile;
   final RootIsolateToken rootToken;
