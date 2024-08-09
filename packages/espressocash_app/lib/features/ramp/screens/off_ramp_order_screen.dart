@@ -414,6 +414,11 @@ class _Timeline extends StatelessWidget {
     );
     final paymentCanceled = CpTimelineItem(
       title: context.l10n.offRampWithdrawCancelledTitle,
+      trailing: isMoneygramOrder
+          ? order.refundAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final refunding = CpTimelineItem(
