@@ -414,8 +414,11 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.offRampWithdrawCancelledTitle,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
-    const refunding = CpTimelineItem(
+    final refunding = CpTimelineItem(
       title: 'Refunding USDC',
+      trailing: order.bridgeAmount?.let(
+        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+      ),
     );
 
     final normalItems = [
@@ -549,6 +552,7 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge;
 
   bool get isWaitingForBridge =>
+      this == OffRampOrderStatus.preProcessing ||
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 
