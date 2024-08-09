@@ -265,7 +265,8 @@ class _MoneygramDepositContent extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Assets.gifs.moneygramConfirmationAnimation.image(),
+                    Assets.gifs.moneygramConfirmationAnimation
+                        .image(width: 320),
                     const SizedBox(height: 16),
                     Assets.images.moneygramLogo.image(height: 32),
                     const SizedBox(height: 16),

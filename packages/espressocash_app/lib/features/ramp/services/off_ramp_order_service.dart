@@ -46,6 +46,7 @@ typedef OffRampOrder = ({
   String? authToken,
   String? referenceNumber,
   CryptoAmount? bridgeAmount,
+  CryptoAmount? refundAmount,
 });
 
 @Singleton(scope: authScope)
@@ -152,6 +153,13 @@ class OffRampOrderService implements Disposable {
           .maybeWhere((it) => it.isNotEmpty)
           ?.let(Ed25519HDPublicKey.fromBase58);
 
+      final refundAmount = row.refundAmount?.let(
+        (it) => Amount(
+          value: it,
+          currency: Currency.usdc,
+        ) as CryptoAmount,
+      );
+
       return (
         id: row.id,
         created: row.created,
@@ -169,6 +177,7 @@ class OffRampOrderService implements Disposable {
         authToken: row.authToken,
         referenceNumber: row.referenceNumber,
         bridgeAmount: bridgeAmount,
+        refundAmount: refundAmount,
       );
     });
   }

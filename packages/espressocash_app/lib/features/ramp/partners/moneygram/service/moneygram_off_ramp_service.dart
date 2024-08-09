@@ -664,6 +664,20 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final solanaAddress = _ecWallet.address;
 
+    final refundAmount = await _ecClient
+        .calculateMoneygramFee(
+          MoneygramFeeRequestDto(
+            type: RampTypeDto.onRamp,
+            amount: (int.parse(response.amount) / 10000000).toString(),
+          ),
+        )
+        .then(
+          (e) => Amount.fromDecimal(
+            value: Decimal.parse(e.totalAmount),
+            currency: Currency.usdc,
+          ),
+        );
+
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
@@ -695,6 +709,7 @@ class MoneygramOffRampOrderService implements Disposable {
         : OffRampOrderRowsCompanion(
             stellarTxHash: Value(hash),
             status: const Value(OffRampOrderStatus.waitingForRefundBridge),
+            refundAmount: Value(refundAmount.value),
           );
   }
 
