@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../l10n/device_locale.dart';
@@ -15,7 +16,8 @@ import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 import '../models/ramp_type.dart';
 
-typedef AmountCalculator = ({Amount amount, String? rate}) Function(
+typedef AmountCalculator = AsyncResult<({Amount amount, String? rate})>
+    Function(
   Amount amount,
 );
 typedef FeeCalculator = CryptoAmount Function(Amount amount);
@@ -318,7 +320,7 @@ class _EnteredAmount extends StatelessWidget {
       );
 }
 
-class _Calculator extends StatelessWidget {
+class _Calculator extends StatefulWidget {
   const _Calculator({
     required this.calculateEquivalent,
     required this.amount,
@@ -330,50 +332,84 @@ class _Calculator extends StatelessWidget {
   final RampPartner partner;
 
   @override
-  Widget build(BuildContext context) {
-    final equivalent = calculateEquivalent(amount);
+  State<_Calculator> createState() => _CalculatorState();
+}
 
-    return Column(
-      children: [
-        if (partner == RampPartner.scalex)
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: equivalent.amount
-                      .format(context.locale, skipSymbol: true),
-                ),
-                TextSpan(
-                  text: ' ${equivalent.amount.currency.symbol.toUpperCase()}',
-                  style: const TextStyle(color: CpColors.yellowColor),
-                ),
-              ],
-            ),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-            textAlign: TextAlign.center,
-          )
-        else
-          Text(
-            context.l10n.rampAmountEquivalent(
-              equivalent.amount.format(context.locale),
-            ),
-          ),
-        if (equivalent.rate case final rate?)
-          Text(
-            rate,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.19,
-            ),
-          ),
-      ],
-    );
+class _CalculatorState extends State<_Calculator> {
+  AsyncResult<({Amount amount, String? rate})>? _result;
+
+  @override
+  void initState() {
+    super.initState();
+    _result = widget.calculateEquivalent(widget.amount);
   }
+
+  @override
+  void didUpdateWidget(covariant _Calculator oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.amount == widget.amount) return;
+
+    _result = widget.calculateEquivalent(widget.amount);
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _result,
+        builder: (context, snapshot) {
+          final data = snapshot.data;
+
+          return data == null ||
+                  snapshot.connectionState != ConnectionState.done
+              ? Text(context.l10n.loading)
+              : data.fold(
+                  (_) => const Text('Error. Please try again later.'),
+                  (data) => Column(
+                    children: [
+                      if (widget.partner == RampPartner.scalex)
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: data.amount
+                                    .format(context.locale, skipSymbol: true),
+                              ),
+                              TextSpan(
+                                text:
+                                    ' ${data.amount.currency.symbol.toUpperCase()}',
+                                style: const TextStyle(
+                                  color: CpColors.yellowColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      else
+                        Text(
+                          context.l10n.rampAmountEquivalent(
+                            data.amount.format(context.locale, maxDecimals: 3),
+                          ),
+                        ),
+                      if (data.rate case final rate?)
+                        Text(
+                          rate,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.19,
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+        },
+      );
 }
 
 class _FeeCalculator extends StatefulWidget {
