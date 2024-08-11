@@ -16,6 +16,7 @@ class StatusScreen extends StatelessWidget {
     this.onBackButtonPressed,
     this.statusTitle,
     this.statusContent,
+    this.theme = const CpThemeData.black(),
   });
 
   final CpStatusType statusType;
@@ -24,6 +25,7 @@ class StatusScreen extends StatelessWidget {
   final Widget? statusTitle;
   final Widget? statusContent;
   final VoidCallback? onBackButtonPressed;
+  final CpThemeData theme;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,12 @@ class StatusScreen extends StatelessWidget {
     final title = this.title;
     final onBackButtonPressed = this.onBackButtonPressed;
 
-    return CpTheme.black(
+    final logo = theme == const CpThemeData.black()
+        ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
+        : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
+
+    return CpTheme(
+      theme: theme,
       child: Scaffold(
         appBar: CpAppBar(
           title: title != null ? Text(title, style: _titleStyle) : null,
@@ -44,7 +51,7 @@ class StatusScreen extends StatelessWidget {
           children: [
             SizedBox(
               height: double.infinity,
-              child: Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter),
+              child: logo,
             ),
             SizedBox(
               width: double.infinity,
