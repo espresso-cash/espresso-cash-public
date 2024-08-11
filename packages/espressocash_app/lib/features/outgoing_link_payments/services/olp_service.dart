@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -21,7 +20,7 @@ import '../../escrow_payments/escrow_exception.dart';
 import '../../link_payments/models/link_payment.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_durable_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_link_payment.dart';
 
@@ -31,8 +30,7 @@ class OLPService implements Disposable {
     this._repository,
     this._createOutgoingEscrow,
     this._createCanceledEscrow,
-    this._ecClient,
-    this._txConfirm,
+    this._txDurableSender,
     this._analyticsManager,
     this._refreshBalance,
   );
@@ -40,8 +38,7 @@ class OLPService implements Disposable {
   final OLPRepository _repository;
   final CreateOutgoingEscrow _createOutgoingEscrow;
   final CreateCanceledEscrow _createCanceledEscrow;
-  final EspressoCashClient _ecClient;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final AnalyticsManager _analyticsManager;
   final RefreshBalance _refreshBalance;
 
@@ -218,32 +215,21 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    final tx = status.tx;
+    final tx = await _txDurableSender.send(status.tx);
 
-    try {
-      final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
-          .then((e) => e.signature);
+    final OLPStatus? newStatus = tx.map(
+      sent: (it) => OLPStatus.txSent(
+        status.tx,
+        escrow: status.escrow,
+        signature: it.signature ?? '',
+      ),
+      invalidBlockhash: (_) => null,
+      failure: (it) =>
+          const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+      networkError: (_) => null,
+    );
 
-      _analyticsManager.singleLinkCreated(amount: payment.amount.decimal);
-
-      return payment.copyWith(
-        status: OLPStatus.txSent(
-          tx,
-          escrow: status.escrow,
-          signature: signature,
-        ),
-      );
-    } on Exception {
-      return payment.copyWith(
-        status:
-            const OLPStatus.txFailure(reason: TxFailureReason.creatingFailure),
-      );
-    }
+    return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }
 
   Future<OutgoingLinkPayment> _wait(OutgoingLinkPayment payment) async {
@@ -252,7 +238,7 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
+    await _txDurableSender.wait(txId: status.signature);
 
     final token = payment.amount.token;
 
@@ -282,32 +268,23 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    final tx = status.tx;
+    final tx = await _txDurableSender.send(status.tx);
 
-    try {
-      final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
-          .then((e) => e.signature);
+    final OLPStatus? newStatus = tx.map(
+      sent: (it) => OLPStatus.cancelTxSent(
+        status.tx,
+        escrow: status.escrow,
+        signature: it.signature ?? '',
+      ),
+      invalidBlockhash: (_) => null,
+      failure: (it) => OLPStatus.cancelTxFailure(
+        reason: TxFailureReason.creatingFailure,
+        escrow: status.escrow,
+      ),
+      networkError: (_) => null,
+    );
 
-      return payment.copyWith(
-        status: OLPStatus.cancelTxSent(
-          tx,
-          escrow: status.escrow,
-          signature: signature,
-        ),
-      );
-    } on Exception {
-      return payment.copyWith(
-        status: OLPStatus.cancelTxFailure(
-          reason: TxFailureReason.creatingFailure,
-          escrow: status.escrow,
-        ),
-      );
-    }
+    return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }
 
   Future<OutgoingLinkPayment> _processCanceled(
@@ -319,7 +296,7 @@ class OLPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
+    await _txDurableSender.wait(txId: status.signature);
 
     _analyticsManager.singleLinkCanceled(amount: payment.amount.decimal);
 

@@ -1,26 +1,49 @@
 import 'package:dfunc/dfunc.dart';
+import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logging/logging.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:solana/dto.dart';
+import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../../config.dart';
 import '../models/tx_results.dart';
 
 @injectable
-class TxConfirm {
-  const TxConfirm({
-    required SolanaClient client,
-  }) : _client = client;
+class TxDurableSender {
+  const TxDurableSender({
+    required EspressoCashClient ecClient,
+    required SolanaClient solanaClient,
+  })  : _ecClient = ecClient,
+        _solanaClient = solanaClient;
 
-  final SolanaClient _client;
+  final EspressoCashClient _ecClient;
+  final SolanaClient _solanaClient;
 
-  Future<TxWaitResult?> call({required String txId}) {
+  Future<TxSendResult> send(SignedTx tx) async {
+    try {
+      final signature = await _ecClient
+          .submitDurableTx(
+            SubmitDurableTxRequestDto(
+              tx: tx.encode(),
+            ),
+          )
+          .then((e) => e.signature);
+
+      return TxSendResult.sent(signature: signature);
+    } on Exception {
+      return const TxSendResult.failure(
+        reason: TxFailureReason.creatingFailure,
+      );
+    }
+  }
+
+  Future<TxWaitResult?> wait({required String txId}) {
     final sentryTx = Sentry.startTransaction(
       'Wait TX confirmation',
-      'TxConfirm.wait()',
+      'TxDurableSender.wait()',
       waitForChildren: true,
       // ignore: avoid-missing-interpolation, as intended
     )..setData('txId', txId);
@@ -31,7 +54,7 @@ class TxConfirm {
       final innerSpan = span.startChild('getSignatureStatus()');
       _logger.fine('$txId: Checking tx status.');
 
-      final statuses = await _client.rpcClient.getSignatureStatuses(
+      final statuses = await _solanaClient.rpcClient.getSignatureStatuses(
         [txId],
         searchTransactionHistory: true,
       );
@@ -72,7 +95,7 @@ class TxConfirm {
     Future<TxWaitResult?> waitForSignatureStatus(ISentrySpan span) async {
       final innerSpan = span.startChild('waitForSignatureStatus()');
       try {
-        await _client.waitForSignatureStatus(
+        await _solanaClient.waitForSignatureStatus(
           txId,
           status: commitment,
           pingInterval: pingDefaultInterval,
@@ -125,4 +148,4 @@ class TxConfirm {
   }
 }
 
-final _logger = Logger('TxConfirm');
+final _logger = Logger('TxDurableSender');

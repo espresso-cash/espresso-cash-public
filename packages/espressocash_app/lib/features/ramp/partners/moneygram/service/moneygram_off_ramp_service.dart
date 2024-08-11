@@ -24,7 +24,7 @@ import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
 import '../../../../transactions/services/resign_tx.dart';
-import '../../../../transactions/services/tx_confirm.dart';
+import '../../../../transactions/services/tx_durable_sender.dart';
 import '../../../../transactions/services/tx_sender.dart';
 import '../../../data/my_database_ext.dart';
 import '../../../models/ramp_type.dart';
@@ -46,13 +46,13 @@ class MoneygramOffRampOrderService implements Disposable {
     this._moneygramClient,
     this._allbridgeApiClient,
     this._solanaClient,
-    this._txConfirm,
+    this._txDurableSender,
     this._refreshBalance,
   );
 
   final MyDatabase _db;
   final TxSender _sender;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final RefreshBalance _refreshBalance;
 
   final ECWallet _ecWallet;
@@ -362,6 +362,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final slot = latestBlockhash.context.slot;
 
+    // TODO(vsumin): Check, if this can be durable
     final send = await _sender.send(tx, minContextSlot: slot);
 
     if (send != const TxSendSent()) {
@@ -741,7 +742,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
       final solanaTxId = status.txId;
 
-      final waitResult = await _txConfirm(txId: solanaTxId);
+      final waitResult = await _txDurableSender.wait(txId: solanaTxId);
       if (waitResult != const TxWaitSuccess()) {
         return;
       }

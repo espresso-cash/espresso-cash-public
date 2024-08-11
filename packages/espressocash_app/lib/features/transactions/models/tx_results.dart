@@ -43,7 +43,7 @@ class StubSignedTx implements SignedTx {
 
 @freezed
 sealed class TxSendResult with _$TxSendResult {
-  const factory TxSendResult.sent() = TxSendSent;
+  const factory TxSendResult.sent({String? signature}) = TxSendSent;
   const factory TxSendResult.invalidBlockhash() = TxSendInvalidBlockhash;
   const factory TxSendResult.failure({
     required TxFailureReason reason,

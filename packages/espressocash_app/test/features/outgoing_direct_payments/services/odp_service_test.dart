@@ -12,7 +12,7 @@ import 'package:espressocash_app/features/outgoing_direct_payments/services/odp_
 import 'package:espressocash_app/features/payments/create_direct_payment.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:espressocash_app/features/transactions/models/tx_results.dart';
-import 'package:espressocash_app/features/transactions/services/tx_confirm.dart';
+import 'package:espressocash_app/features/transactions/services/tx_durable_sender.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -25,14 +25,12 @@ import '../../../stub_analytics_manager.dart';
 import '../../../stub_refresh_balance.dart';
 import 'odp_service_test.mocks.dart';
 
-final confirm = MockTxConfirm();
+final txDurableSender = MockTxDurableSender();
 final createDirectPayment = MockCreateDirectPayment();
-final client = MockEspressoCashClient();
 
 @GenerateMocks([
-  TxConfirm,
+  TxDurableSender,
   CreateDirectPayment,
-  EspressoCashClient,
 ])
 Future<void> main() async {
   final account = LocalWallet(await Ed25519HDKeyPair.random());
@@ -40,9 +38,8 @@ Future<void> main() async {
   final repository = MemoryRepository();
 
   setUp(() {
-    reset(confirm);
+    reset(txDurableSender);
     reset(createDirectPayment);
-    reset(client);
   });
 
   tearDown(
@@ -80,9 +77,8 @@ Future<void> main() async {
   );
 
   ODPService createService() => ODPService(
-        client,
         repository,
-        confirm,
+        txDurableSender,
         const StubAnalyticsManager(),
         createDirectPayment,
         const StubRefreshBalance(),
@@ -113,8 +109,10 @@ Future<void> main() async {
       ),
     ).thenAnswer((_) async => testDirectPaymentResult);
 
-    when(client.submitDurableTx(any)).thenAnswer((_) async => testApiResponse);
-    when(confirm(txId: anyNamed('txId')))
+    when(txDurableSender.send(any)).thenAnswer(
+      (_) async => TxSendResult.sent(signature: testApiResponse.signature),
+    );
+    when(txDurableSender.wait(txId: anyNamed('txId')))
         .thenAnswer((_) async => const TxWaitResult.success());
 
     final paymentId = await createService().let(createODP);
@@ -134,8 +132,8 @@ Future<void> main() async {
       ),
     );
 
-    verify(client.submitDurableTx(any)).called(1);
-    verify(confirm(txId: anyNamed('txId'))).called(1);
+    verify(txDurableSender.send(any)).called(1);
+    verify(txDurableSender.wait(txId: anyNamed('txId'))).called(1);
   });
 
   test('Failed to create direct durable payment', () async {
@@ -169,8 +167,8 @@ Future<void> main() async {
       ),
     );
 
-    verifyNever(client.submitDurableTx(any));
-    verifyNever(confirm(txId: anyNamed('txId')));
+    verifyNever(txDurableSender.send(any));
+    verifyNever(txDurableSender.wait(txId: anyNamed('txId')));
   });
 }
 

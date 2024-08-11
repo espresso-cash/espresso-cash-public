@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/solana.dart';
 import 'package:uuid/uuid.dart';
@@ -14,24 +13,22 @@ import '../../currency/models/amount.dart';
 import '../../payments/create_direct_payment.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_durable_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_direct_payment.dart';
 
 @Singleton(scope: authScope)
 class ODPService {
   ODPService(
-    this._client,
     this._repository,
-    this._txConfirm,
+    this._txDurableSender,
     this._analyticsManager,
     this._createDirectPayment,
     this._refreshBalance,
   );
 
-  final EspressoCashClient _client;
   final ODPRepository _repository;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final AnalyticsManager _analyticsManager;
   final CreateDirectPayment _createDirectPayment;
   final RefreshBalance _refreshBalance;
@@ -152,29 +149,20 @@ class ODPService {
       return payment;
     }
 
-    final tx = status.tx;
+    final tx = await _txDurableSender.send(status.tx);
 
-    try {
-      final signature = await _client
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
-          .then((e) => e.signature);
+    final ODPStatus? newStatus = tx.map(
+      sent: (it) => ODPStatus.txSent(
+        status.tx,
+        signature: it.signature ?? '',
+      ),
+      invalidBlockhash: (_) => null,
+      failure: (it) =>
+          const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+      networkError: (_) => null,
+    );
 
-      return payment.copyWith(
-        status: ODPStatus.txSent(
-          tx,
-          signature: signature,
-        ),
-      );
-    } on Exception {
-      return payment.copyWith(
-        status:
-            const ODPStatus.txFailure(reason: TxFailureReason.creatingFailure),
-      );
-    }
+    return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }
 
   Future<OutgoingDirectPayment> _wait(OutgoingDirectPayment payment) async {
@@ -182,7 +170,7 @@ class ODPService {
     if (status is! ODPStatusTxSent) {
       return payment;
     }
-    final tx = await _txConfirm(txId: status.signature);
+    final tx = await _txDurableSender.wait(txId: status.signature);
 
     final ODPStatus? newStatus = tx?.map(
       success: (_) => ODPStatus.success(txId: status.tx.id),

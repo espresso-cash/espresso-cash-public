@@ -23,7 +23,7 @@ import '../../ramp_partner/models/ramp_partner.dart';
 import '../../tokens/token_list.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_durable_sender.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
@@ -56,7 +56,7 @@ class OffRampOrderService implements Disposable {
     this._client,
     this._scalexWithdrawPayment,
     this._createDirectPayment,
-    this._txConfirm,
+    this._txDurableSender,
     this._db,
     this._tokens,
   );
@@ -68,7 +68,7 @@ class OffRampOrderService implements Disposable {
   final EspressoCashClient _client;
   final ScalexWithdrawPayment _scalexWithdrawPayment;
   final CreateDirectPayment _createDirectPayment;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final MyDatabase _db;
   final TokenList _tokens;
 
@@ -470,34 +470,29 @@ class OffRampOrderService implements Disposable {
   }
 
   Future<OffRampOrderRowsCompanion> _sendTx(SignedTx tx) async {
-    final signature = await _submitDurableTx(tx);
-
-    return signature.isEmpty
-        ? OffRampOrderRowsCompanion(
-            status: const Value(OffRampOrderStatus.depositError),
-            transaction: const Value(''),
-            slot: Value(BigInt.zero),
-          )
-        : await _confirmTransaction(signature);
-  }
-
-  Future<String> _submitDurableTx(SignedTx tx) async {
-    try {
-      final response = await _client.submitDurableTx(
-        SubmitDurableTxRequestDto(tx: tx.encode()),
-      );
-
-      return response.signature;
-    } on Exception {
-      return '';
+    final sent = await _txDurableSender.send(tx);
+    switch (sent) {
+      case TxSendSent():
+        break;
+      case TxSendInvalidBlockhash():
+        return OffRampOrderRowsCompanion(
+          status: const Value(OffRampOrderStatus.depositError),
+          transaction: const Value(''),
+          slot: Value(BigInt.zero),
+        );
+      case TxSendFailure(:final reason):
+        return OffRampOrderRowsCompanion(
+          status: reason == TxFailureReason.insufficientFunds
+              ? const Value(OffRampOrderStatus.insufficientFunds)
+              : const Value(OffRampOrderStatus.depositError),
+          transaction: const Value(''),
+          slot: Value(BigInt.zero),
+        );
+      case TxSendNetworkError():
+        return _depositError;
     }
-  }
 
-  Future<OffRampOrderRowsCompanion> _confirmTransaction(
-    String signature,
-  ) async {
-    final confirmed = await _txConfirm(txId: signature);
-
+    final confirmed = await _txDurableSender.wait(txId: sent.signature ?? '');
     switch (confirmed) {
       case TxWaitSuccess():
         return const OffRampOrderRowsCompanion(

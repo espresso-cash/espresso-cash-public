@@ -13,7 +13,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_durable_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
 import '../models/payment_quote.dart';
@@ -23,7 +23,7 @@ class OutgoingDlnPaymentService implements Disposable {
   OutgoingDlnPaymentService(
     this._account,
     this._client,
-    this._txConfirm,
+    this._txDurableSender,
     this._repository,
   );
 
@@ -32,7 +32,7 @@ class OutgoingDlnPaymentService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final OutgoingDlnPaymentRepository _repository;
 
   @PostConstruct(preResolve: true)
@@ -125,30 +125,21 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = status.tx;
+    final tx = await _txDurableSender.send(status.tx);
 
-    try {
-      final signature = await _client
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
-          .then((e) => e.signature);
+    final OutgoingDlnPaymentStatus? newStatus = tx.map(
+      sent: (it) => OutgoingDlnPaymentStatus.txSent(
+        status.tx,
+        signature: it.signature ?? '',
+      ),
+      invalidBlockhash: (_) => null,
+      failure: (it) => const OutgoingDlnPaymentStatus.txFailure(
+        reason: TxFailureReason.creatingFailure,
+      ),
+      networkError: (_) => null,
+    );
 
-      return payment.copyWith(
-        status: OutgoingDlnPaymentStatus.txSent(
-          tx,
-          signature: signature,
-        ),
-      );
-    } on Exception {
-      return payment.copyWith(
-        status: const OutgoingDlnPaymentStatus.txFailure(
-          reason: TxFailureReason.creatingFailure,
-        ),
-      );
-    }
+    return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }
 
   Future<OutgoingDlnPayment> _wait(OutgoingDlnPayment payment) async {
@@ -157,7 +148,7 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _txConfirm(txId: status.signature);
+    final tx = await _txDurableSender.wait(txId: status.signature);
 
     final OutgoingDlnPaymentStatus? newStatus = tx?.map(
       success: (_) => OutgoingDlnPaymentStatus.success(

@@ -21,7 +21,7 @@ import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
 import '../../../../tokens/token.dart';
 import '../../../../transactions/models/tx_results.dart';
-import '../../../../transactions/services/tx_confirm.dart';
+import '../../../../transactions/services/tx_durable_sender.dart';
 import '../../../models/ramp_type.dart';
 import '../data/allbridge_client.dart';
 import '../data/allbridge_dto.dart' hide TransactionStatus;
@@ -38,12 +38,12 @@ class MoneygramOnRampOrderService implements Disposable {
     this._stellarClient,
     this._moneygramClient,
     this._allbridgeApiClient,
-    this._txConfirm,
+    this._txDurableSender,
     this._refreshBalance,
   );
 
   final MyDatabase _db;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
   final RefreshBalance _refreshBalance;
 
   final ECWallet _ecWallet;
@@ -343,7 +343,7 @@ class MoneygramOnRampOrderService implements Disposable {
       final solanaTxId = status.txId;
       final receiveAmount = int.tryParse(status.amount);
 
-      final waitResult = await _txConfirm(txId: solanaTxId);
+      final waitResult = await _txDurableSender.wait(txId: solanaTxId);
       if (waitResult != const TxWaitSuccess()) {
         return;
       }

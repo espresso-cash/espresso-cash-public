@@ -19,7 +19,7 @@ import '../../escrow_payments/create_incoming_escrow.dart';
 import '../../escrow_payments/escrow_exception.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_confirm.dart';
+import '../../transactions/services/tx_durable_sender.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
 
@@ -30,14 +30,14 @@ class ILPService implements Disposable {
     this._createIncomingEscrow,
     this._ecClient,
     this._refreshBalance,
-    this._txConfirm,
+    this._txDurableSender,
   );
 
   final ILPRepository _repository;
   final CreateIncomingEscrow _createIncomingEscrow;
   final EspressoCashClient _ecClient;
   final RefreshBalance _refreshBalance;
-  final TxConfirm _txConfirm;
+  final TxDurableSender _txDurableSender;
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
 
@@ -132,27 +132,20 @@ class ILPService implements Disposable {
       return payment;
     }
 
-    final tx = status.tx;
+    final tx = await _txDurableSender.send(status.tx);
 
-    try {
-      final signature = await _ecClient
-          .submitDurableTx(
-            SubmitDurableTxRequestDto(
-              tx: tx.encode(),
-            ),
-          )
-          .then((e) => e.signature);
+    final ILPStatus? newStatus = tx.map(
+      sent: (it) => ILPStatus.txSent(
+        status.tx,
+        signature: it.signature ?? '',
+      ),
+      invalidBlockhash: (_) => null,
+      failure: (it) =>
+          const ILPStatus.txFailure(reason: TxFailureReason.creatingFailure),
+      networkError: (_) => null,
+    );
 
-      return payment.copyWith(
-        status: ILPStatus.txSent(tx, signature: signature),
-      );
-    } on Exception {
-      return payment.copyWith(
-        status: const ILPStatus.txFailure(
-          reason: TxFailureReason.creatingFailure,
-        ),
-      );
-    }
+    return newStatus == null ? payment : payment.copyWith(status: newStatus);
   }
 
   Future<IncomingLinkPayment?> _wait(IncomingLinkPayment payment) async {
@@ -162,7 +155,7 @@ class ILPService implements Disposable {
       return payment;
     }
 
-    await _txConfirm(txId: status.signature);
+    await _txDurableSender.wait(txId: status.signature);
 
     int? fee;
     try {
