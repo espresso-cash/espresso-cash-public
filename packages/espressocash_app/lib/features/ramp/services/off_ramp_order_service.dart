@@ -41,6 +41,12 @@ typedef OffRampOrder = ({
   FiatAmount? receiveAmount,
   String partnerOrderId,
   Ed25519HDPublicKey? depositAddress,
+  String? moreInfoUrl,
+  String? withdrawAnchorAccount,
+  String? withdrawUrl,
+  String? authToken,
+  String? referenceNumber,
+  CryptoAmount? bridgeAmount,
 });
 
 @Singleton(scope: authScope)
@@ -56,7 +62,7 @@ class OffRampOrderService implements Disposable {
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
-  final Map<String, RampWatcher> _watchers = {};
+  final Map<String, RampWatcher?> _watchers = {};
 
   final ECWallet _account;
   final EspressoCashClient _client;
@@ -79,6 +85,10 @@ class OffRampOrderService implements Disposable {
     final orders = await query.get();
 
     for (final order in orders) {
+      if (order.partner == RampPartner.moneygram) {
+        continue;
+      }
+
       _subscribe(order.id);
       unawaited(_watch(order.id));
     }
@@ -91,6 +101,9 @@ class OffRampOrderService implements Disposable {
       )
       ..where(
         (tbl) => tbl.status.equalsValue(OffRampOrderStatus.cancelled).not(),
+      )
+      ..where(
+        (tbl) => tbl.status.equalsValue(OffRampOrderStatus.refunded).not(),
       );
 
     return query
@@ -129,9 +142,15 @@ class OffRampOrderService implements Disposable {
       final receiveAmount = row.receiveAmount?.let(
         (it) => Amount(
           value: it,
-          // ignore: avoid-non-null-assertion, checked amount
-          currency: currencyFromString(row.fiatSymbol!),
+          currency: currencyFromString(row.fiatSymbol ?? 'USD'),
         ) as FiatAmount,
+      );
+
+      final bridgeAmount = row.bridgeAmount?.let(
+        (it) => Amount(
+          value: it,
+          currency: Currency.usdc,
+        ) as CryptoAmount,
       );
 
       final depositAddress = row.depositAddress
@@ -148,7 +167,13 @@ class OffRampOrderService implements Disposable {
         receiveAmount: receiveAmount,
         partnerOrderId: row.partnerOrderId,
         depositAddress: depositAddress,
+        withdrawAnchorAccount: row.withdrawAnchorAccount,
+        moreInfoUrl: row.moreInfoUrl,
         fee: fee,
+        withdrawUrl: row.withdrawUrl,
+        authToken: row.authToken,
+        referenceNumber: row.referenceNumber,
+        bridgeAmount: bridgeAmount,
       );
     });
   }
@@ -187,9 +212,15 @@ class OffRampOrderService implements Disposable {
         }
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
+      case OffRampOrderStatus.ready:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.processingRefund:
+      case OffRampOrderStatus.waitingForRefundBridge:
+      case OffRampOrderStatus.refunded:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
         break;
@@ -208,15 +239,24 @@ class OffRampOrderService implements Disposable {
       case OffRampOrderStatus.depositError:
       case OffRampOrderStatus.insufficientFunds:
         await updateQuery.write(_cancelled);
+      case OffRampOrderStatus.ready:
+        if (order.partner == RampPartner.moneygram) {
+          await updateQuery.write(_processRefund);
+        }
       case OffRampOrderStatus.depositTxRequired:
       case OffRampOrderStatus.creatingDepositTx:
       case OffRampOrderStatus.depositTxReady:
       case OffRampOrderStatus.sendingDepositTx:
       case OffRampOrderStatus.waitingForPartner:
       case OffRampOrderStatus.failure:
+      case OffRampOrderStatus.processingRefund:
+      case OffRampOrderStatus.waitingForRefundBridge:
       case OffRampOrderStatus.completed:
       case OffRampOrderStatus.cancelled:
       case OffRampOrderStatus.depositTxConfirmError:
+      case OffRampOrderStatus.preProcessing:
+      case OffRampOrderStatus.postProcessing:
+      case OffRampOrderStatus.refunded:
         break;
     }
   }
@@ -296,6 +336,7 @@ class OffRampOrderService implements Disposable {
       RampPartner.scalex => sl<ScalexOffRampOrderWatcher>(),
       RampPartner.coinflow => sl<CoinflowOffRampOrderWatcher>(),
       RampPartner.rampNetwork ||
+      RampPartner.moneygram || // moneygram orders will not reach this point
       RampPartner.guardarian =>
         throw ArgumentError('Not implemented'),
     }
@@ -311,6 +352,9 @@ class OffRampOrderService implements Disposable {
         case OffRampOrderStatus.depositTxRequired:
         case OffRampOrderStatus.depositError:
         case OffRampOrderStatus.depositTxConfirmError:
+        case OffRampOrderStatus.preProcessing:
+        case OffRampOrderStatus.postProcessing:
+        case OffRampOrderStatus.ready:
         case OffRampOrderStatus.insufficientFunds:
         case OffRampOrderStatus.waitingForPartner:
           return const Stream.empty();
@@ -343,6 +387,9 @@ class OffRampOrderService implements Disposable {
           );
         case OffRampOrderStatus.cancelled:
         case OffRampOrderStatus.failure:
+        case OffRampOrderStatus.processingRefund:
+        case OffRampOrderStatus.waitingForRefundBridge:
+        case OffRampOrderStatus.refunded:
         case OffRampOrderStatus.completed:
           _subscriptions.remove(orderId)?.cancel();
 
@@ -361,7 +408,7 @@ class OffRampOrderService implements Disposable {
   @override
   Future<void> onDispose() async {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
-    _watchers.values.map((it) => it.close());
+    _watchers.values.map((it) => it?.close());
     await _db.delete(_db.offRampOrderRows).go();
   }
 
@@ -477,5 +524,9 @@ class OffRampOrderService implements Disposable {
 
   static const _depositError = OffRampOrderRowsCompanion(
     status: Value(OffRampOrderStatus.depositTxConfirmError),
+  );
+
+  static const _processRefund = OffRampOrderRowsCompanion(
+    status: Value(OffRampOrderStatus.processingRefund),
   );
 }

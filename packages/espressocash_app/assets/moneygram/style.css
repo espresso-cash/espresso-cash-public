@@ -1,0 +1,15 @@
+div.filled-blue-container.ng-star-inserted {
+  background-color: #f4edcb !important;
+}
+
+div.button-filled-trans.ng-star-inserted {
+  background-color: #f4edcb !important;
+}
+
+div div img[alt~="confirmation-icon"] {
+  content: url(https://espressocash.com/img/location_pin.png);
+}
+
+div.ref-or-account-num {
+  text-align: center;
+}
