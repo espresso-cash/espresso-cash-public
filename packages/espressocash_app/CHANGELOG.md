@@ -1,3 +1,7 @@
+## 1.123.2
+
+ - **FIX**: moneygram stellar config (#1540).
+
 ## 1.123.1
 
  - **REFACTOR**: moneygram pr (#1533).
