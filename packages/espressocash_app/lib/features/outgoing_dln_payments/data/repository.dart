@@ -100,12 +100,16 @@ extension OutgoingDlnPaymentRowExt on OutgoingDlnPaymentRow {
 extension on ODLNPaymentStatusDto {
   OutgoingDlnPaymentStatus toModel(OutgoingDlnPaymentRow row) {
     final tx = row.tx?.let(SignedTx.decode);
+    final slot = row.slot?.let(BigInt.tryParse);
 
     switch (this) {
       case ODLNPaymentStatusDto.txCreated:
-        return OutgoingDlnPaymentStatus.txCreated(tx!);
+        return OutgoingDlnPaymentStatus.txCreated(
+          tx!,
+          slot: slot ?? BigInt.zero,
+        );
       case ODLNPaymentStatusDto.txSent:
-        return OutgoingDlnPaymentStatus.txSent(tx!, signature: tx.id);
+        return OutgoingDlnPaymentStatus.txSent(tx!, slot: slot ?? BigInt.zero);
       case ODLNPaymentStatusDto.success:
         return OutgoingDlnPaymentStatus.success(
           tx!,
@@ -155,6 +159,7 @@ extension on OutgoingDlnPayment {
         tx: status.toTx(),
         txId: status.toTxId(),
         amount: amount.value,
+        slot: status.toSlot()?.toString(),
         receiverBlockchain: payment.receiverBlockchain.toDto(),
         receiverAddress: payment.receiverAddress,
         txFailureReason: status.toTxFailureReason(),
@@ -180,7 +185,7 @@ extension on OutgoingDlnPaymentStatus {
       );
 
   String? toTxId() => mapOrNull(
-        txSent: (it) => it.signature,
+        txSent: (it) => it.tx.id,
         success: (it) => it.tx.id,
         txCreated: (it) => it.tx.id,
         unfulfilled: (it) => it.tx.id,
@@ -194,5 +199,10 @@ extension on OutgoingDlnPaymentStatus {
 
   TxFailureReason? toTxFailureReason() => mapOrNull<TxFailureReason?>(
         txFailure: (it) => it.reason,
+      );
+
+  BigInt? toSlot() => mapOrNull(
+        txCreated: (it) => it.slot,
+        txSent: (it) => it.slot,
       );
 }

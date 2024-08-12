@@ -11,6 +11,7 @@ import 'package:solana/dto.dart' as dto;
 import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
+import '../../di.dart';
 import '../../utils/transactions.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
@@ -26,6 +27,7 @@ class QuoteTransaction with _$QuoteTransaction {
     required int receiverAmount,
     required int fee,
     required SignedTx transaction,
+    required BigInt slot,
   }) = _QuoteTransaction;
 }
 
@@ -36,11 +38,13 @@ class CreateDlnPayment {
     this._ecClient,
     this._client,
     this._addPriorityFees,
+    @platformAccount this._platform,
   );
 
   final QuoteRepository _quoteRepository;
   final EspressoCashClient _ecClient;
   final SolanaClient _client;
+  final Ed25519HDKeyPair _platform;
   final AddPriorityFees _addPriorityFees;
 
   Future<QuoteTransaction> call({
@@ -50,9 +54,6 @@ class CreateDlnPayment {
     required Commitment commitment,
     required String receiverChain,
   }) async {
-    final nonceData = await _ecClient.getFreeNonce();
-    final platformAccount = Ed25519HDPublicKey.fromBase58(nonceData.authority);
-
     final senderAccount = Ed25519HDPublicKey.fromBase58(senderAddress);
 
     final chain = receiverChain.toDlnChain;
@@ -60,12 +61,12 @@ class CreateDlnPayment {
     if (chain == null) {
       throw ArgumentError.value(
         receiverChain,
-        'receiver_Chain',
+        'receiverChain',
         'Invalid chain',
       );
     }
 
-    final feePayer = platformAccount;
+    final feePayer = _platform.publicKey;
 
     final instructions = <Instruction>[];
 
@@ -121,20 +122,16 @@ class CreateDlnPayment {
       (tx) => tx.decompileMessage(addressLookupTableAccounts: lookUpTables),
     );
 
-    final instructionsWithNonce = [
-      SystemInstruction.advanceNonceAccount(
-        nonce: Ed25519HDPublicKey.fromBase58(nonceData.nonceAccount),
-        nonceAuthority: platformAccount,
-      ),
-      ...instructions,
-    ];
-
     final message = dlnMessage
         .let((m) => m.removeDefaultComputeIx())
-        .let((m) => m.addIxsToFront(instructionsWithNonce));
+        .let((m) => m.addIxsToFront(instructions));
+
+    final latestBlockhash = await _client.rpcClient.getLatestBlockhash(
+      commitment: commitment,
+    );
 
     final compiled = message.compileV0(
-      recentBlockhash: nonceData.nonce,
+      recentBlockhash: latestBlockhash.value.blockhash,
       feePayer: feePayer,
       addressLookupTableAccounts: lookUpTables,
     );
@@ -142,15 +139,16 @@ class CreateDlnPayment {
     final tx = await SignedTx(
       compiledMessage: compiled,
       signatures: [
-        platformAccount.emptySignature(),
-        senderAccount.emptySignature(),
+        await _platform.sign(compiled.toByteArray()),
+        Signature(List.filled(64, 0), publicKey: senderAccount),
       ],
     ).let(
       (tx) => _addPriorityFees(
         tx: tx,
         commitment: commitment,
         maxPriorityFee: _maxTxCostUsdc,
-        platform: platformAccount,
+        sign: _platform.sign,
+        platform: _platform.publicKey,
       ),
     );
 
@@ -161,6 +159,7 @@ class CreateDlnPayment {
       receiverAmount: quote.receiverAmount,
       fee: totalFees,
       transaction: tx,
+      slot: latestBlockhash.context.slot,
     );
   }
 }

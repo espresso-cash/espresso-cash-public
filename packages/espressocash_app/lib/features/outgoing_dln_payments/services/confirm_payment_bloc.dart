@@ -114,6 +114,7 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
           value: createDlnPayment.fee,
         ),
         encodedTx: createDlnPayment.transaction.encode(),
+        slot: createDlnPayment.slot,
       );
 
       _startTimer();

@@ -13,7 +13,7 @@ import '../../accounts/models/ec_wallet.dart';
 import '../../currency/models/amount.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
-import '../../transactions/services/tx_durable_sender.dart';
+import '../../transactions/services/tx_sender.dart';
 import '../data/repository.dart';
 import '../models/outgoing_payment.dart';
 import '../models/payment_quote.dart';
@@ -23,7 +23,7 @@ class OutgoingDlnPaymentService implements Disposable {
   OutgoingDlnPaymentService(
     this._account,
     this._client,
-    this._txDurableSender,
+    this._sender,
     this._repository,
   );
 
@@ -32,7 +32,7 @@ class OutgoingDlnPaymentService implements Disposable {
 
   final ECWallet _account;
   final EspressoCashClient _client;
-  final TxDurableSender _txDurableSender;
+  final TxSender _sender;
   final OutgoingDlnPaymentRepository _repository;
 
   @PostConstruct(preResolve: true)
@@ -111,7 +111,7 @@ class OutgoingDlnPaymentService implements Disposable {
     try {
       final tx = await SignedTx.decode(quote.encodedTx).resign(_account);
 
-      return OutgoingDlnPaymentStatus.txCreated(tx);
+      return OutgoingDlnPaymentStatus.txCreated(tx, slot: quote.slot);
     } on Exception {
       return const OutgoingDlnPaymentStatus.txFailure(
         reason: TxFailureReason.creatingFailure,
@@ -125,17 +125,16 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _txDurableSender.send(status.tx);
-
+    final tx = await _sender.send(status.tx, minContextSlot: status.slot);
     final OutgoingDlnPaymentStatus? newStatus = tx.map(
-      sent: (it) => OutgoingDlnPaymentStatus.txSent(
+      sent: (_) => OutgoingDlnPaymentStatus.txSent(
         status.tx,
-        signature: it.signature ?? '',
+        slot: status.slot,
       ),
-      invalidBlockhash: (_) => null,
-      failure: (it) => const OutgoingDlnPaymentStatus.txFailure(
-        reason: TxFailureReason.creatingFailure,
+      invalidBlockhash: (_) => const OutgoingDlnPaymentStatus.txFailure(
+        reason: TxFailureReason.invalidBlockhashSending,
       ),
+      failure: (it) => OutgoingDlnPaymentStatus.txFailure(reason: it.reason),
       networkError: (_) => null,
     );
 
@@ -148,9 +147,12 @@ class OutgoingDlnPaymentService implements Disposable {
       return payment;
     }
 
-    final tx = await _txDurableSender.wait(txId: status.signature);
-
-    final OutgoingDlnPaymentStatus? newStatus = tx?.map(
+    final tx = await _sender.wait(
+      status.tx,
+      minContextSlot: status.slot,
+      txType: 'OutgoingDlnPayment',
+    );
+    final OutgoingDlnPaymentStatus? newStatus = await tx.map(
       success: (_) => OutgoingDlnPaymentStatus.success(
         status.tx,
         orderId: null,

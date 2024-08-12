@@ -45,10 +45,9 @@ final outgoingDlnScreenStory = Story(
 
 const dummyOrderId = 'ORDER_ID';
 const dummyTx = StubSignedTx(dummyOrderId);
-const dummySignature = 'Signature';
+final dummyBigInt = BigInt.from(0);
 
-const txSent =
-    OutgoingDlnPaymentStatus.txSent(dummyTx, signature: dummySignature);
+final txSent = OutgoingDlnPaymentStatus.txSent(dummyTx, slot: dummyBigInt);
 const success =
     OutgoingDlnPaymentStatus.success(dummyTx, orderId: dummyOrderId);
 const txFailure = OutgoingDlnPaymentStatus.txFailure(

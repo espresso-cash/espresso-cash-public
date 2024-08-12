@@ -77,6 +77,8 @@ const coinflowKycUrl = isProd
     ? 'https://coinflow.cash/withdraw/espresso'
     : 'https://sandbox.coinflow.cash/withdraw/espresso';
 
+const platformMnemonic = String.fromEnvironment('PLATFORM_MNEMONIC_MAINNET');
+
 const maxPayloadsPerSigningRequest = 10;
 
 const playstoreName = 'com.pleasecrypto.flutter';
