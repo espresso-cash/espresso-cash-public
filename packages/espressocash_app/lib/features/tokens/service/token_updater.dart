@@ -35,6 +35,7 @@ class TokenUpdater {
 
         final serverHash = await _ecClient.getTokensMeta();
 
+        // ignore: avoid-weak-cryptographic-algorithms, non sensitive
         final shouldInitialize = serverHash.md5 != actualHash;
 
         if (shouldInitialize) {
