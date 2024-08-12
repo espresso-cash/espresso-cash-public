@@ -173,7 +173,7 @@ class ODPService {
     final tx = await _txDurableSender.wait(txId: status.signature);
 
     final ODPStatus? newStatus = tx?.map(
-      success: (_) => ODPStatus.success(txId: status.tx.id),
+      success: (_) => ODPStatus.success(txId: status.signature),
       failure: (tx) => ODPStatus.txFailure(reason: tx.reason),
       networkError: (_) => null,
     );
