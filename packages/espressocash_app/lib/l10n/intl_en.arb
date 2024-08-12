@@ -838,7 +838,7 @@
   "@viewMoneygramTransferInstructions": {},
   "confirmYourTransferOf": "Confirm your transfer of",
   "@confirmYourTransferOf": {},
-  "transferInProgressText": "Transfer could take a few minutes...'",
+  "transferInProgressText": "Transfer could take a few minutes...",
   "@transferInProgressText": {},
   "openMoneygramIframeText": "Open Moneygram to continue",
   "@openMoneygramIframeText": {},

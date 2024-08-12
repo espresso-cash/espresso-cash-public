@@ -9,12 +9,15 @@ import 'moneygram_interceptor.dart';
 
 part 'moneygram_client.g.dart';
 
-@RestApi(baseUrl: moneygramBaseUrl)
+@RestApi()
 @injectable
 abstract class MoneygramApiClient {
   @factoryMethod
   factory MoneygramApiClient(MoneygramInterceptor interceptor) =>
-      _MoneygramApiClient(Dio()..interceptors.add(interceptor));
+      _MoneygramApiClient(
+        Dio()..interceptors.add(interceptor),
+        baseUrl: moneygramBaseUrl,
+      );
 
   @POST('/sep24/transactions/withdraw/interactive')
   Future<MgWithdrawResponseDto> generateWithdrawUrl(
