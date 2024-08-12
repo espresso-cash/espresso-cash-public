@@ -156,56 +156,54 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
-    return CpTheme(
+    return StatusScreen(
       theme: theme,
-      child: StatusScreen(
-        title: context.l10n.depositTitle.toUpperCase(),
-        statusType: order.status.toStatusType(),
-        statusTitle: statusTitle?.let(Text.new),
-        statusContent: Column(
-          children: [
-            Text(statusContent),
-            if (statusSubtitle != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                statusSubtitle,
-                style: _contentSubtitleTextStyle,
-              ),
-            ],
+      title: context.l10n.depositTitle.toUpperCase(),
+      statusType: order.status.toStatusType(),
+      statusTitle: statusTitle?.let(Text.new),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (statusSubtitle != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              statusSubtitle,
+              style: _contentSubtitleTextStyle,
+            ),
           ],
-        ),
-        content: CpContentPadding(
-          child: Column(
-            children: [
-              const Spacer(flex: 1),
-              _Timeline(
-                status: order.status,
-                amount: depositAmount ?? order.submittedAmount,
-                receiveAmount: order.receiveAmount,
-                manualDeposit: manualDeposit,
-                created: order.created,
-                partner: order.partner,
+        ],
+      ),
+      content: CpContentPadding(
+        child: Column(
+          children: [
+            const Spacer(flex: 1),
+            _Timeline(
+              status: order.status,
+              amount: depositAmount ?? order.submittedAmount,
+              receiveAmount: order.receiveAmount,
+              manualDeposit: manualDeposit,
+              created: order.created,
+              partner: order.partner,
+            ),
+            const Spacer(flex: 4),
+            if (isMoneygramOrder)
+              _MgAdditionalInfo(
+                details: order.additionalDetails,
+                status: order.status.toMoneygramStatus(),
               ),
-              const Spacer(flex: 4),
-              if (isMoneygramOrder)
-                _MgAdditionalInfo(
-                  details: order.additionalDetails,
-                  status: order.status.toMoneygramStatus(),
-                ),
-              PartnerOrderIdWidget(orderId: order.partnerOrderId),
-              if (primaryButton != null) ...[
-                const SizedBox(height: 12),
-                primaryButton,
-              ],
-              Visibility(
-                visible: order.status == OnRampOrderStatus.depositExpired,
-                maintainSize: true,
-                maintainAnimation: true,
-                maintainState: true,
-                child: _CancelButton(orderId: order.id),
-              ),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
+            if (primaryButton != null) ...[
+              const SizedBox(height: 12),
+              primaryButton,
             ],
-          ),
+            Visibility(
+              visible: order.status == OnRampOrderStatus.depositExpired,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: _CancelButton(orderId: order.id),
+            ),
+          ],
         ),
       ),
     );
