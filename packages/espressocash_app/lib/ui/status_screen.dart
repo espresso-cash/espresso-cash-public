@@ -16,6 +16,7 @@ class StatusScreen extends StatelessWidget {
     this.onBackButtonPressed,
     this.statusTitle,
     this.statusContent,
+    this.theme = const CpThemeData.black(),
   });
 
   final CpStatusType statusType;
@@ -24,6 +25,7 @@ class StatusScreen extends StatelessWidget {
   final Widget? statusTitle;
   final Widget? statusContent;
   final VoidCallback? onBackButtonPressed;
+  final CpThemeData theme;
 
   @override
   Widget build(BuildContext context) {
@@ -31,42 +33,45 @@ class StatusScreen extends StatelessWidget {
     final title = this.title;
     final onBackButtonPressed = this.onBackButtonPressed;
 
-    final logo = CpTheme.of(context) == const CpThemeData.black()
+    final logo = theme == const CpThemeData.black()
         ? Assets.icons.logoBg.svg(alignment: Alignment.bottomCenter)
         : Assets.icons.logoBgLight.svg(alignment: Alignment.bottomCenter);
 
-    return Scaffold(
-      appBar: CpAppBar(
-        title: title != null ? Text(title, style: _titleStyle) : null,
-        leading: onBackButtonPressed != null
-            ? CpBackButton(onPressed: onBackButtonPressed)
-            : null,
-        automaticallyImplyLeading: onBackButtonPressed != null,
-      ),
-      body: Stack(
-        children: [
-          SizedBox(
-            height: double.infinity,
-            child: logo,
-          ),
-          SizedBox(
-            width: double.infinity,
-            child: Column(
-              children: [
-                if (statusContent case final statusContent?)
-                  CpContentPadding(
-                    bottom: false,
-                    child: CpStatusWidget(
-                      statusType: statusType,
-                      title: statusTitle,
-                      content: statusContent,
-                    ),
-                  ),
-                if (content != null) Expanded(child: content),
-              ],
+    return CpTheme(
+      theme: theme,
+      child: Scaffold(
+        appBar: CpAppBar(
+          title: title != null ? Text(title, style: _titleStyle) : null,
+          leading: onBackButtonPressed != null
+              ? CpBackButton(onPressed: onBackButtonPressed)
+              : null,
+          automaticallyImplyLeading: onBackButtonPressed != null,
+        ),
+        body: Stack(
+          children: [
+            SizedBox(
+              height: double.infinity,
+              child: logo,
             ),
-          ),
-        ],
+            SizedBox(
+              width: double.infinity,
+              child: Column(
+                children: [
+                  if (statusContent case final statusContent?)
+                    CpContentPadding(
+                      bottom: false,
+                      child: CpStatusWidget(
+                        statusType: statusType,
+                        title: statusTitle,
+                        content: statusContent,
+                      ),
+                    ),
+                  if (content != null) Expanded(child: content),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
