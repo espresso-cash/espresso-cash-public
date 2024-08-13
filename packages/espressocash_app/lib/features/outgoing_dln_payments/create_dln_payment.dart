@@ -57,7 +57,7 @@ class CreateDlnPayment {
     if (chain == null) {
       throw ArgumentError.value(
         receiverChain,
-        'receiverChain',
+        'receiver_Chain',
         'Invalid chain',
       );
     }
