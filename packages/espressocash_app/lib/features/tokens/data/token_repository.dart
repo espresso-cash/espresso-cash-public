@@ -25,7 +25,7 @@ class TokenRepository {
 
   Future<void> initialize() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
-        if (actualHash == null) return;
+        if (actualHash != null) return;
 
         final rootToken = ServicesBinding.rootIsolateToken;
 
