@@ -43,14 +43,6 @@ abstract class AppModule {
   @preResolve
   Future<SharedPreferences> prefs() => SharedPreferences.getInstance();
 
-  @preResolve
-  @platformAccount
-  Future<Ed25519HDKeyPair> platformKeyPair() => Ed25519HDKeyPair.fromMnemonic(
-        platformMnemonic,
-        account: 0,
-        change: 0,
-      );
-
   @singleton
   @preResolve
   Future<Mixpanel> mixpanel() async {
@@ -63,5 +55,3 @@ abstract class AppModule {
     return mixpanel;
   }
 }
-
-const platformAccount = Named('PlatformAccount');
