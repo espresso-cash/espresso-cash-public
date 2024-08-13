@@ -12,6 +12,7 @@ import 'package:solana/solana_pay.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../accounts/auth_scope.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../balances/services/refresh_balance.dart';
 import '../../currency/models/amount.dart';
 import '../../tokens/token.dart';
@@ -23,12 +24,14 @@ class PaymentRequestService implements Disposable {
   PaymentRequestService(
     this._repository,
     this._solanaClient,
+    this._analyticsManager,
     this._refreshBalance,
     this._ecClient,
   );
 
   final PaymentRequestRepository _repository;
   final SolanaClient _solanaClient;
+  final AnalyticsManager _analyticsManager;
   final RefreshBalance _refreshBalance;
   final EspressoCashClient _ecClient;
 
@@ -178,6 +181,8 @@ class PaymentRequestService implements Disposable {
     );
     await _repository.save(paymentRequest);
 
+    _analyticsManager.paymentRequestLinkCreated(amount: amount);
+    
     _subscribe(paymentRequest);
 
     return paymentRequest;
