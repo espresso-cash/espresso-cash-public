@@ -23,7 +23,6 @@ class AddPriorityFees {
     required SignedTx tx,
     required Commitment commitment,
     required int maxPriorityFee,
-    Future<Signature> Function(Iterable<int> data)? sign,
     required Ed25519HDPublicKey platform,
   }) async {
     final priorityFees = await _ecClient.getPriorityFeeEstimate(
@@ -36,7 +35,6 @@ class AddPriorityFees {
           tx,
           recommendedCuPrice: veryHighFee ?? (pow(2, 32).toInt()),
           maxTxFee: maxPriorityFee,
-          sign: sign,
           platform: platform,
           commitment: commitment,
         ) ??
@@ -47,7 +45,6 @@ class AddPriorityFees {
     SignedTx tx, {
     required int recommendedCuPrice,
     required int maxTxFee,
-    Future<Signature> Function(Iterable<int> data)? sign,
     required Ed25519HDPublicKey platform,
     required Commitment commitment,
   }) async {
@@ -149,14 +146,10 @@ class AddPriorityFees {
       feePayer: platform,
     );
 
-    final signature = sign != null
-        ? await sign(newCompiledMessage.toByteArray())
-        : platform.emptySignature();
-
     return SignedTx(
       compiledMessage: newCompiledMessage,
       signatures: [
-        signature,
+        platform.emptySignature(),
         ...tx.signatures.where((s) => s.publicKey != platform),
       ],
     );
