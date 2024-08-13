@@ -16,14 +16,13 @@ import '../token.dart';
 
 @Singleton()
 class TokenRepository {
-  TokenRepository(this._db, this.fileManager) {
-    initialize();
-  }
+  const TokenRepository(this._db, this.fileManager);
 
   final MyDatabase _db;
   final FileManager fileManager;
 
-  Future<void> initialize() =>
+  @PostConstruct(preResolve: true)
+  Future<void> init() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
         if (actualHash != null) return;
 
@@ -36,39 +35,42 @@ class TokenRepository {
         final platformFile = await fileManager.loadFromAppDir('tokens.csv.gz');
 
         await compute(
-          initializeFromAssets,
-          IsolateParams(assetFile, platformFile, rootToken),
+          _initializeFromAssets,
+          IsolateParams(
+            assetFile.buffer.asUint8List(),
+            platformFile,
+            rootToken,
+          ),
         );
       });
 
-  Future<Either<Exception, void>> initializeFromAssets(
+  Future<Either<Exception, void>> _initializeFromAssets(
     IsolateParams args,
   ) =>
       tryEitherAsync(
         (_) async {
           BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
 
-          await args.platformFile
-              .writeAsBytes(args.data.buffer.asUint8List())
-              .letAsync(
-                (file) => file.openRead().let(
-                      (stream) => stream
-                          .decodeFile()
-                          .forEach((tokenRows) {
-                            for (final tokenRow in tokenRows) {
-                              _db.transaction(
-                                () => _db.into(_db.tokenRows).insert(
-                                      tokenRow,
-                                      mode: InsertMode.insertOrReplace,
-                                    ),
-                              );
-                            }
-                          })
-                          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-                          .letAsync((_) => md5.bind(stream).toString())
-                          .letAsync(TokensMetaStorage.saveHash),
+          final tokenStream = Stream.value(args.data)
+              .asyncExpand<List<int>>(
+                (data) => Stream.fromIterable([data]),
+              )
+              .decodeFile();
+
+          await tokenStream.forEach((tokenRows) async {
+            for (final tokenRow in tokenRows) {
+              await _db.transaction(
+                () => _db.into(_db.tokenRows).insert(
+                      tokenRow,
+                      mode: InsertMode.insertOrReplace,
                     ),
               );
+            }
+          });
+
+          // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+          final hash = md5.convert(args.data);
+          await TokensMetaStorage.saveHash(hash.toString());
         },
       );
 
@@ -84,7 +86,7 @@ class TokenRepository {
 class IsolateParams {
   const IsolateParams(this.data, this.platformFile, this.rootToken);
 
-  final ByteData data;
+  final Uint8List data;
   final File platformFile;
   final RootIsolateToken rootToken;
 }
@@ -92,9 +94,9 @@ class IsolateParams {
 abstract final class TokensMetaStorage {
   static const String _key = 'tokensFileHash';
 
-  static Future<void> saveHash(String timestamp) async {
+  static Future<void> saveHash(String hash) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_key, timestamp);
+    await prefs.setString(_key, hash);
   }
 
   static Future<String?> getHash() async {

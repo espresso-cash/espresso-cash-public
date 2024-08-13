@@ -77,7 +77,7 @@ void main() {
         isStablecoin: false,
       );
 
-      await memoryRepo.initialize();
+      await memoryRepo.init();
 
       final Token? response = await memoryRepo.getToken('So00000000000');
 
@@ -214,7 +214,7 @@ class MemoryTokenRepository implements TokenRepository {
       data.value[address]?.toModel();
 
   @override
-  Future<Either<Exception, String>> initialize() {
+  Future<Either<Exception, String>> init() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
         'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
@@ -257,9 +257,4 @@ class MemoryTokenRepository implements TokenRepository {
 
   @override
   FileManager get fileManager => throw UnimplementedError();
-
-  @override
-  Future<Either<Exception, void>> initializeFromAssets(IsolateParams args) {
-    throw UnimplementedError();
-  }
 }

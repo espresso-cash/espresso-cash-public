@@ -17,18 +17,14 @@ import 'extensions.dart';
 
 @Singleton(scope: authScope)
 class TokenUpdater {
-  TokenUpdater(this._db, this.fileManager, this._ecClient) {
-    call();
-  }
+  const TokenUpdater(this.fileManager, this._ecClient);
 
-  final MyDatabase _db;
   final FileManager fileManager;
   final EspressoCashClient _ecClient;
 
+  @PostConstruct(preResolve: true)
   Future<void> call() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
-        if (actualHash == null) return;
-
         final rootToken = ServicesBinding.rootIsolateToken;
 
         if (rootToken == null) return;
@@ -43,40 +39,45 @@ class TokenUpdater {
               await const FileManager().loadFromAppDir('tokens.csv.gz');
 
           await _ecClient.getTokensFile(file.path);
+
           await compute(
-            initializeFromAssets,
-            IsolateParams(file, rootToken),
+            _initializeFromAssets,
+            IsolateParams(
+              file,
+              rootToken,
+            ),
           );
         }
       });
-
-  Future<Either<Exception, void>> initializeFromAssets(
-    IsolateParams args,
-  ) =>
-      tryEitherAsync(
-        (_) async {
-          BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
-
-          await args.platformFile.openRead().let(
-                (stream) => stream
-                    .decodeFile()
-                    .forEach((tokenRows) {
-                      for (final tokenRow in tokenRows) {
-                        _db.transaction(
-                          () => _db.into(_db.tokenRows).insert(
-                                tokenRow,
-                                mode: InsertMode.insertOrReplace,
-                              ),
-                        );
-                      }
-                    })
-                    // ignore: avoid-weak-cryptographic-algorithms, non sensitive
-                    .letAsync((_) => md5.bind(stream).toString())
-                    .letAsync(TokensMetaStorage.saveHash),
-              );
-        },
-      );
 }
+
+Future<Either<Exception, void>> _initializeFromAssets(
+  IsolateParams args,
+) =>
+    tryEitherAsync(
+      (_) async {
+        BackgroundIsolateBinaryMessenger.ensureInitialized(args.rootToken);
+
+        final tokenStream = args.platformFile.openRead().decodeFile();
+
+        final db = MyDatabase();
+
+        await tokenStream.forEach((tokenRows) async {
+          for (final tokenRow in tokenRows) {
+            await db.transaction(
+              () => db.into(db.tokenRows).insert(
+                    tokenRow,
+                    mode: InsertMode.insertOrReplace,
+                  ),
+            );
+          }
+        });
+
+        // ignore: avoid-weak-cryptographic-algorithms, non sensitive
+        final hash = await md5.bind(args.platformFile.openRead()).first;
+        await TokensMetaStorage.saveHash(hash.toString());
+      },
+    );
 
 class IsolateParams {
   const IsolateParams(this.platformFile, this.rootToken);
