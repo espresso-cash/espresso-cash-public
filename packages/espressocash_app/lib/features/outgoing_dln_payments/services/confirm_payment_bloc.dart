@@ -6,14 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:solana/solana.dart';
 import '../../../utils/flow.dart';
-import '../../accounts/models/ec_wallet.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../tokens/token.dart';
-import '../create_dln_payment.dart';
+import '../data/quote_repository.dart';
 import '../models/dln_payment.dart';
 import '../models/payment_quote.dart';
 
@@ -26,12 +24,10 @@ typedef _Emitter = Emitter<_State>;
 @injectable
 class ConfirmPaymentBloc extends Bloc<_Event, _State> {
   ConfirmPaymentBloc({
-    required CreateDlnPayment createDlnPayment,
+    required QuoteRepository quoteRepository,
     required TokenBalancesRepository balancesRepository,
-    required ECWallet account,
-  })  : _createDlnPayment = createDlnPayment,
+  })  : _quoteRepository = quoteRepository,
         _balancesRepository = balancesRepository,
-        _account = account,
         super(ConfirmPaymentState(flowState: const Flow.initial())) {
     on<Init>(_onInit);
     on<Confirmed>(_onConfirmed);
@@ -43,9 +39,8 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     );
   }
 
-  final CreateDlnPayment _createDlnPayment;
+  final QuoteRepository _quoteRepository;
   final TokenBalancesRepository _balancesRepository;
-  final ECWallet _account;
 
   Timer? _timer;
 
@@ -90,31 +85,10 @@ class ConfirmPaymentBloc extends Bloc<_Event, _State> {
     }
 
     try {
-      final createDlnPayment = await _createDlnPayment(
-        amount: payment.inputAmount.value,
-        senderAddress: _account.publicKey.toBase58(),
+      final quote = await _quoteRepository.getQuote(
+        amount: payment.inputAmount,
         receiverAddress: payment.receiverAddress,
-        receiverChain: payment.receiverBlockchain.name,
-        commitment: Commitment.confirmed,
-      );
-
-      final quote = PaymentQuote(
-        payment: DlnPayment(
-          inputAmount: payment.inputAmount,
-          receiverAddress: payment.receiverAddress,
-          receiverBlockchain: payment.receiverBlockchain,
-        ),
-        receiverAmount: CryptoAmount(
-          cryptoCurrency: Currency.usdc,
-          value: createDlnPayment.receiverAmount,
-        ),
-        inputAmount: payment.inputAmount,
-        fee: CryptoAmount(
-          cryptoCurrency: Currency.usdc,
-          value: createDlnPayment.fee,
-        ),
-        encodedTx: createDlnPayment.transaction.encode(),
-        slot: createDlnPayment.slot,
+        receiverBlockchain: payment.receiverBlockchain,
       );
 
       _startTimer();
