@@ -4,7 +4,6 @@ import 'package:borsh_annotation/borsh_annotation.dart';
 import 'package:collection/collection.dart';
 import 'package:convert/convert.dart';
 import 'package:dfunc/dfunc.dart';
-import 'package:espressocash_api/espressocash_api.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:solana/dto.dart' as dto;
@@ -12,7 +11,6 @@ import 'package:solana/encoder.dart';
 import 'package:solana/solana.dart';
 
 import '../../di.dart';
-import '../../utils/transactions.dart';
 import '../priority_fees/services/add_priority_fees.dart';
 import '../tokens/token.dart';
 import 'client/chains.dart';
@@ -35,14 +33,12 @@ class QuoteTransaction with _$QuoteTransaction {
 class CreateDlnPayment {
   const CreateDlnPayment(
     this._quoteRepository,
-    this._ecClient,
     this._client,
     this._addPriorityFees,
     @platformAccount this._platform,
   );
 
   final QuoteRepository _quoteRepository;
-  final EspressoCashClient _ecClient;
   final SolanaClient _client;
   final Ed25519HDKeyPair _platform;
   final AddPriorityFees _addPriorityFees;
