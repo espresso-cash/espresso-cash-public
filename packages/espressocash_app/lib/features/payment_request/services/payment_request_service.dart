@@ -182,7 +182,7 @@ class PaymentRequestService implements Disposable {
     await _repository.save(paymentRequest);
 
     _analyticsManager.paymentRequestLinkCreated(amount: amount);
-    
+
     _subscribe(paymentRequest);
 
     return paymentRequest;
