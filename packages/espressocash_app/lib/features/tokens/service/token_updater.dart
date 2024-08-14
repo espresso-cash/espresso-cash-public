@@ -22,7 +22,7 @@ class TokenUpdater {
   final FileManager fileManager;
   final EspressoCashClient _ecClient;
 
-  @PostConstruct(preResolve: true)
+  @PostConstruct(preResolve: false)
   Future<void> call() =>
       TokensMetaStorage.getHash().letAsync((actualHash) async {
         final rootToken = ServicesBinding.rootIsolateToken;
