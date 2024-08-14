@@ -153,12 +153,8 @@ class OffRampOrderService implements Disposable {
           .maybeWhere((it) => it.isNotEmpty)
           ?.let(Ed25519HDPublicKey.fromBase58);
 
-      final refundAmount = row.refundAmount?.let(
-        (it) => Amount(
-          value: it,
-          currency: Currency.usdc,
-        ) as CryptoAmount,
-      );
+      final refundAmount = row.refundAmount
+          ?.let((it) => CryptoAmount(value: it, cryptoCurrency: Currency.usdc));
 
       return (
         id: row.id,
