@@ -76,4 +76,12 @@ class AnalyticsManager {
         'paymentRequestLinkCreated',
         properties: {'amount': amount.toDouble()},
       );
+
+  void paymentRequestLinkPaid({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkPaid',
+        properties: {'amount': amount.toDouble()},
+      );
 }

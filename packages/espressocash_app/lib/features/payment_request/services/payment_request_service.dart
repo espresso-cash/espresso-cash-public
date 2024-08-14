@@ -129,6 +129,10 @@ class PaymentRequestService implements Disposable {
         ),
       );
 
+      _analyticsManager.paymentRequestLinkPaid(
+        amount: request.payRequest.amount ?? Decimal.zero,
+      );
+
       _refreshBalance();
 
       await _subscriptions[request.id]?.cancel();
