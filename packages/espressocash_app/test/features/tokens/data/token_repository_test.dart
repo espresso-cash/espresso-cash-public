@@ -1,6 +1,8 @@
 import 'package:dfunc/src/either/either.dart';
 import 'package:espressocash_app/data/db/db.dart';
+import 'package:espressocash_app/data/file_manager.dart';
 import 'package:espressocash_app/features/tokens/data/token_repository.dart';
+import 'package:espressocash_app/features/tokens/service/extensions.dart';
 import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:fast_immutable_collections/fast_immutable_collections.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -27,8 +29,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
       when(mockRepo.getToken('So00000000000'))
@@ -43,14 +44,6 @@ void main() {
       expect(response, token.toModel());
     });
 
-    test('should dispose repository', () async {
-      when(mockRepo.onDispose()).thenAnswer((_) async {});
-
-      await mockRepo.onDispose();
-
-      verify(mockRepo.onDispose()).called(1);
-    });
-
     test('should parse and load token rows from CSV chunk', () {
       const chunk =
           'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
@@ -63,8 +56,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       final result = parseChunk(chunk);
@@ -82,11 +74,10 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
-      await memoryRepo.initialize();
+      await memoryRepo.init();
 
       final Token? response = await memoryRepo.getToken('So00000000000');
 
@@ -101,8 +92,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       await memoryRepo.getToken('So00000000000');
@@ -120,8 +110,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: [],
-        extensions: null,
+        isStablecoin: false,
       );
 
       memoryRepo.insertToken(token);
@@ -144,8 +133,7 @@ void main() {
           name: 'Solana',
           decimals: 18,
           logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
+          isStablecoin: false,
         ),
         const TokenRow(
           address: 'So00000000004',
@@ -154,8 +142,7 @@ void main() {
           name: 'Solana',
           decimals: 18,
           logoURI: 'https://example.com',
-          tags: [],
-          extensions: null,
+          isStablecoin: false,
         ),
       ];
       memoryRepo.insertTokens(tokens);
@@ -181,8 +168,7 @@ void main() {
         name: 'Solana',
         decimals: 18,
         logoURI: 'https://example.com',
-        tags: null,
-        extensions: null,
+        isStablecoin: false,
       );
 
       final result = parseChunk(chunk);
@@ -201,8 +187,6 @@ List<TokenRow> parseChunk(String chunk) {
     if (line.trim().isEmpty) continue;
     final values = line.split(',');
     if (values.length < 8) continue;
-    final tags = parseTags(values[6]);
-    final extensions = parseExtensions(values[7]);
 
     tokenIterable.add(
       TokenRow(
@@ -212,32 +196,12 @@ List<TokenRow> parseChunk(String chunk) {
         name: values[3],
         decimals: int.parse(values[4]),
         logoURI: values[5],
-        tags: tags,
-        extensions: extensions,
+        isStablecoin: false,
       ),
     );
   }
 
   return tokenIterable;
-}
-
-List<String>? parseTags(String? tagString) {
-  if (tagString == null || tagString.isEmpty) return null;
-
-  return tagString
-      .replaceAll('[', '')
-      .replaceAll(']', '')
-      .split(',')
-      .map((e) => e.trim())
-      .toList();
-}
-
-Extensions? parseExtensions(String? extensionString) {
-  final List<String>? parts = extensionString?.split(':');
-
-  return (parts != null && parts.length == 2 && parts[0] == 'coingeckoId')
-      ? Extensions(coingeckoId: parts[1])
-      : null;
 }
 
 typedef TokenMap = IMap<String, TokenRow>;
@@ -249,7 +213,8 @@ class MemoryTokenRepository implements TokenRepository {
   Future<Token?> getToken(String address) async =>
       data.value[address]?.toModel();
 
-  Future<Either<Exception, String>> initialize() {
+  @override
+  Future<Either<Exception, String>> init() {
     const chunk =
         'address,chainId,symbol,name,decimals,logoURI,tags,extensions\n'
         'So00000000000,101,SOL,Solana,18,https://example.com,,\n';
@@ -258,8 +223,6 @@ class MemoryTokenRepository implements TokenRepository {
         lines.skip(1).where((line) => line.trim().isNotEmpty).map((line) {
       final values = line.split(',');
       if (values.length >= 8) {
-        final tags = parseTags(values[6]);
-        final extensions = parseExtensions(values[7]);
         return TokenRow(
           address: values[0],
           chainId: int.parse(values[1]),
@@ -267,8 +230,7 @@ class MemoryTokenRepository implements TokenRepository {
           name: values[3],
           decimals: int.parse(values[4]),
           logoURI: values[5],
-          tags: tags,
-          extensions: extensions,
+          isStablecoin: false,
         );
       }
       throw Exception('Invalid line format');
@@ -281,11 +243,6 @@ class MemoryTokenRepository implements TokenRepository {
     return Future.value(const Right(''));
   }
 
-  @override
-  Future<void> onDispose() async {
-    data.add(data.value.clear());
-  }
-
   void insertTokens(List<TokenRow> tokens) {
     final tokenMap =
         Map.fromEntries(tokens.map((token) => MapEntry(token.address, token)));
@@ -294,6 +251,10 @@ class MemoryTokenRepository implements TokenRepository {
 
   int insertToken(TokenRow token) {
     data.add(data.value.add(token.address, token));
+
     return 1;
   }
+
+  @override
+  FileManager get fileManager => throw UnimplementedError();
 }

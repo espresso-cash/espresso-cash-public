@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:drift/drift.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,7 +7,6 @@ import '../../features/outgoing_direct_payments/data/repository.dart';
 import '../../features/outgoing_link_payments/data/repository.dart';
 import '../../features/payment_request/data/repository.dart';
 import '../../features/ramp_partner/models/ramp_partner.dart';
-import '../../features/tokens/token.dart';
 import '../../features/transactions/models/tx_results.dart';
 import 'mixins.dart';
 import 'open_connection.dart';
@@ -323,9 +320,7 @@ class TokenRows extends Table {
   TextColumn get name => text()();
   IntColumn get decimals => integer()();
   TextColumn get logoURI => text().nullable()();
-  TextColumn get tags => text().map(const TagsConverter()).nullable()();
-  TextColumn get extensions =>
-      text().map(const ExtensionsConverter()).nullable()();
+  BoolColumn get isStablecoin => boolean()();
 
   @override
   Set<Column> get primaryKey => {chainId, address};
@@ -347,18 +342,4 @@ class TagsConverter extends TypeConverter<List<String>, String> {
 
     return value.join(',');
   }
-}
-
-class ExtensionsConverter extends TypeConverter<Extensions, String> {
-  const ExtensionsConverter();
-
-  @override
-  Extensions fromSql(String fromDb) => Extensions.fromJson(
-        Map<String, dynamic>.from(
-          jsonDecode(fromDb) as Map<String, dynamic>,
-        ),
-      );
-
-  @override
-  String toSql(Extensions value) => json.encode(value.toJson());
 }
