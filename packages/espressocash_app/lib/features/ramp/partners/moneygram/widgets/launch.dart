@@ -12,6 +12,7 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -215,7 +216,9 @@ window.addEventListener("message", (event) => {
           final url = '${response.url}&callback=postmessage';
 
           return (id: response.id, url: url, token: token);
-        } on Exception {
+        } on Exception catch (error) {
+          reportError(error);
+
           return null;
         }
       });
@@ -233,10 +236,9 @@ window.addEventListener("message", (event) => {
       type: type,
     );
 
-    final payAmount = fees.moneygramFee + amount;
-
     final feeLabel = switch (type) {
-      RampType.onRamp => 'You will pay ${payAmount.format(locale)}',
+      RampType.onRamp =>
+        'You will pay ${(fees.moneygramFee + amount).format(locale)}',
       RampType.offRamp => null,
     };
 

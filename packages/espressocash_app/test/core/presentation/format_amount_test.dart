@@ -15,8 +15,7 @@ void main() {
       decimals: 6,
       logoURI:
           'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/2e7yNwrmTgXp9ABUmcPXvFJTSrEVLj4YMyrb4GUM4Pdd/logo.png',
-      tags: ['old-registry', 'solana-fm'],
-      extensions: Extensions(),
+      isStablecoin: false,
     );
 
     final amount = Amount.fromToken(value: 44450000000, token: msiToken);
