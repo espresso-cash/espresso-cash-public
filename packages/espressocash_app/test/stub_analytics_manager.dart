@@ -37,4 +37,10 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void setStellarAddress(String? address) {}
+
+  @override
+  void paymentRequestLinkCreated({required Decimal amount}) {}
+
+  @override
+  void paymentRequestLinkPaid({required Decimal amount}) {}
 }
