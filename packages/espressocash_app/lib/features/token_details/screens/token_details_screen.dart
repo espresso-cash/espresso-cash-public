@@ -70,8 +70,7 @@ class TokenDetailsScreen extends StatelessWidget {
                           BoxConstraints viewportConstraints,
                         ) =>
                             RefreshIndicator(
-                          onRefresh: () => sl<TransactionRepository>()
-                              .update(tokenAddress: token.address),
+                          onRefresh: () => sl<TransactionRepository>().update(),
                           color: CpColors.primaryColor,
                           backgroundColor: Colors.white,
                           child: SingleChildScrollView(
