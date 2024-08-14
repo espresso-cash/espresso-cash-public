@@ -31,6 +31,10 @@ class AnalyticsManager {
     }
   }
 
+  void setStellarAddress(String? address) {
+    _analytics.getPeople().set('stellarWalletAddress', address);
+  }
+
   void setUsdcBalance(Decimal value) {
     _analytics.getPeople().set('usdcBalance', value.toDouble());
   }
