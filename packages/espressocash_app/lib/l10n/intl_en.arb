@@ -838,7 +838,7 @@
   "@moreInfo": {},
   "continueToMoneygram": "Continue to MoneyGram",
   "@continueToMoneygram": {},
-  "bridgingText": "Bridging USDC to Stellar",
+  "bridgingText": "Connecting to MoneyGram",
   "@bridgingText": {},
   "moneygramInstructionText": "After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.",
   "@moneygramInstructionText": {},

@@ -109,23 +109,6 @@ class OLPService implements Disposable {
     return payment;
   }
 
-  Future<OutgoingLinkPayment> retry(
-    OutgoingLinkPayment payment, {
-    required ECWallet account,
-  }) async {
-    final status = await _createTx(
-      amount: payment.amount,
-      account: account,
-    );
-
-    final newPayment = payment.copyWith(status: status);
-
-    await _repository.save(newPayment);
-    _subscribe(payment.id);
-
-    return newPayment;
-  }
-
   Future<OutgoingLinkPayment> cancel(
     OutgoingLinkPayment payment, {
     required ECWallet account,

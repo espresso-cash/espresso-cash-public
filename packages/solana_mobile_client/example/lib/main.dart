@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:solana/solana.dart';
 import 'package:solana_mobile_client_example/client.dart';
 
 void main() {
   runApp(
     BlocProvider(
-      create: (_) => ClientBloc(
-        SolanaClient(
-          rpcUrl: Uri.parse('https://api.testnet.solana.com'),
-          websocketUrl: Uri.parse('wss://api.testnet.solana.com'),
-        ),
-      ),
+      create: (_) => ClientBloc(),
       child: const MyApp(),
     ),
   );
@@ -37,6 +31,7 @@ class MyApp extends StatelessWidget {
               builder: (context, state) => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const NetworkToggleButtons(),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 8,
@@ -140,6 +135,34 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      );
+}
+
+class NetworkToggleButtons extends StatelessWidget {
+  const NetworkToggleButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ToggleButtons(
+          isSelected: [
+            !context.watch<ClientBloc>().state.isMainnet,
+            context.watch<ClientBloc>().state.isMainnet,
+          ],
+          onPressed: (index) {
+            context.read<ClientBloc>().updateNetwork(isMainnet: index == 1);
+          },
+          children: const [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text('Testnet'),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Text('Mainnet'),
+            ),
+          ],
         ),
       );
 }

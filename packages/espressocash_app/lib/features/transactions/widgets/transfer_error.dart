@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../l10n/l10n.dart';
-import '../../../ui/button.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
 import '../../../ui/text_button.dart';
@@ -10,13 +9,11 @@ import '../models/tx_results.dart';
 class TransferError extends StatelessWidget {
   const TransferError({
     super.key,
-    required this.onRetry,
     required this.onBack,
     this.reason,
     this.onCancel,
   });
 
-  final VoidCallback onRetry;
   final VoidCallback onBack;
   final VoidCallback? onCancel;
   final TxFailureReason? reason;
@@ -41,12 +38,6 @@ class TransferError extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CpButton(
-                size: CpButtonSize.big,
-                width: double.infinity,
-                text: context.l10n.retry,
-                onPressed: onRetry,
-              ),
               if (onCancel != null)
                 _CancelButton(
                   onCancel: onCancel,
