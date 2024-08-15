@@ -27,6 +27,7 @@ class AmountWithEquivalent extends StatelessWidget {
     this.shakeKey,
     this.error = '',
     this.showUsdcInfo = false,
+    this.backgroundColor = Colors.black,
   });
 
   final TextEditingController inputController;
@@ -35,6 +36,7 @@ class AmountWithEquivalent extends StatelessWidget {
   final Key? shakeKey;
   final String error;
   final bool showUsdcInfo;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) =>
@@ -80,7 +82,7 @@ class AmountWithEquivalent extends StatelessWidget {
                           _ => _EquivalentDisplay(
                               input: value.text,
                               token: token,
-                              backgroundColor: Colors.black,
+                              backgroundColor: backgroundColor,
                             ),
                         },
                       ],
@@ -136,7 +138,11 @@ class _EquivalentDisplay extends StatelessWidget {
             },
           )
           .maybeFlatMap(
-            (it) => it.format(locale, roundInteger: true, skipSymbol: true),
+            (it) => it.format(
+              locale,
+              roundInteger: true,
+              skipSymbol: token == Token.usdc,
+            ),
           )
           .ifNull(() => '0');
     } else {
@@ -154,14 +160,15 @@ class _EquivalentDisplay extends StatelessWidget {
               fontWeight: FontWeight.w700,
             ),
           ),
-          TextSpan(
-            text: ' ${Token.usdc.symbol.toUpperCase()}',
-            style: const TextStyle(
-              color: CpColors.yellowColor,
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
+          if (token == Token.usdc)
+            TextSpan(
+              text: ' ${Token.usdc.symbol.toUpperCase()}',
+              style: const TextStyle(
+                color: CpColors.yellowColor,
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+              ),
             ),
-          ),
         ],
       ),
       textAlign: TextAlign.center,

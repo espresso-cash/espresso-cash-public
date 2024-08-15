@@ -83,57 +83,50 @@ class TokenDetailsScreen extends StatelessWidget {
                               constraints: BoxConstraints(
                                 minHeight: viewportConstraints.maxHeight,
                               ),
-                              child: ConstrainedBox(
-                                constraints: BoxConstraints(
-                                  minHeight: viewportConstraints.maxHeight,
-                                ),
-                                child: DecoratedBox(
-                                  decoration: const BoxDecoration(),
-                                  child: IntrinsicHeight(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(height: 4),
-                                        const _TokenHeader(),
-                                        const SizedBox(height: 33),
-                                        if (token.isUsdcToken)
-                                          const _RampButtons()
-                                        else
-                                          _SwapButton(token: token),
-                                        const SizedBox(height: 41),
-                                        Expanded(
-                                          child: DecoratedBox(
-                                            decoration: const BoxDecoration(
-                                              color: CpColors
-                                                  .dashboardBackgroundColor,
-                                              borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(31),
-                                                topRight: Radius.circular(31),
-                                              ),
+                              child: DecoratedBox(
+                                decoration: const BoxDecoration(),
+                                child: IntrinsicHeight(
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 4),
+                                      const _TokenHeader(),
+                                      const SizedBox(height: 33),
+                                      if (token.isUsdcToken)
+                                        const _RampButtons()
+                                      else
+                                        _SwapButton(token: token),
+                                      const SizedBox(height: 41),
+                                      Expanded(
+                                        child: DecoratedBox(
+                                          decoration: const BoxDecoration(
+                                            color: CpColors
+                                                .dashboardBackgroundColor,
+                                            borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(31),
+                                              topRight: Radius.circular(31),
                                             ),
-                                            child: Center(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  vertical: 41,
-                                                ),
-                                                child: Column(
-                                                  children: [
-                                                    TokenInfo(
-                                                      tokenAddress:
-                                                          token.address,
-                                                    ),
-                                                    RecentTokenActivityWidget(
-                                                      tokenAddress:
-                                                          token.address,
-                                                    ),
-                                                  ],
-                                                ),
+                                          ),
+                                          child: Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                vertical: 41,
+                                              ),
+                                              child: Column(
+                                                children: [
+                                                  TokenInfo(
+                                                    tokenAddress: token.address,
+                                                  ),
+                                                  RecentTokenActivityWidget(
+                                                    tokenAddress: token.address,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),

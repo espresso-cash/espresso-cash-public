@@ -15,21 +15,31 @@ class TokenAppBar extends StatelessWidget {
   const TokenAppBar({
     super.key,
     required this.token,
+    this.color = CpColors.darkGoldBackgroundColor,
+    this.displayText = true,
   });
 
   final Token token;
+  final Color color;
+  final bool displayText;
 
   @override
   Widget build(BuildContext context) => SliverPersistentHeader(
         pinned: true,
-        delegate: _TokenAppBarDelegate(token),
+        delegate: _TokenAppBarDelegate(token, color, displayText: displayText),
       );
 }
 
 class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
-  const _TokenAppBarDelegate(this.token);
+  const _TokenAppBarDelegate(
+    this.token,
+    this.color, {
+    required this.displayText,
+  });
 
   final Token token;
+  final Color color;
+  final bool displayText;
 
   @override
   Widget build(
@@ -44,13 +54,13 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
     final iconSize = max(_tokenSize * ratio, 24.0);
 
     return Material(
-      color: CpColors.darkGoldBackgroundColor,
+      color: color,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Stack(
           children: [
             _buildIcon(ratio, iconSize),
-            _buildText(ratio, iconSize),
+            if (displayText) _buildText(ratio, iconSize),
             Positioned(
               top: 0,
               left: 0,
@@ -96,7 +106,7 @@ class _TokenAppBarDelegate extends SliverPersistentHeaderDelegate {
       );
 
   @override
-  double get maxExtent => _tokenSize + (_minExtent - 20);
+  double get maxExtent => _tokenSize + (_minExtent - 40);
 
   @override
   double get minExtent => _minExtent;

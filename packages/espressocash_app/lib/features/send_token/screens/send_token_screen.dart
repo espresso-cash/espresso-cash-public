@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:solana/solana.dart';
 
 import '../../../di.dart';
@@ -15,19 +14,18 @@ import '../../../ui/colors.dart';
 import '../../../ui/icon_button.dart';
 import '../../../ui/number_formatter.dart';
 import '../../../ui/text_field.dart';
-import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../blockchain/models/blockchain.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../outgoing_direct_payments/screens/odp_confirmation_screen.dart';
 import '../../outgoing_direct_payments/screens/odp_details_screen.dart';
 import '../../qr_scanner/widgets/build_context_ext.dart';
 import '../../tokens/token.dart';
 import '../widgets/extensions.dart';
 import '../widgets/token_input.dart';
+import 'confirmation_screen.dart';
 
 class SendTokenScreen extends StatefulWidget {
   const SendTokenScreen({super.key, required this.token});
@@ -83,7 +81,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
   Future<void> _handlePressed() async {
     final recipient = Ed25519HDPublicKey.fromBase58(_recipientController.text);
 
-    final confirmedAmount = await ODPConfirmationScreen.push(
+    final confirmedAmount = await SendTokenConfirmationScreen.push(
       context,
       token: widget.token,
       initialAmount: _quantityController.text,
@@ -114,7 +112,7 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
     final amount = _quantityController.text
         .toDecimalOrZero(DeviceLocale.localeOf(context));
 
-    return amount.toDouble() <= 0;
+    return amount.toDouble() > 0;
   }
 
   bool get _isValid =>
@@ -133,82 +131,77 @@ class _SendTokenScreenState extends State<SendTokenScreen> {
         builder: (context, value) {
           final crypto = value.$1;
 
-          return Provider<Token>.value(
-            value: widget.token,
-            child: CpTheme.dark(
-              child: Scaffold(
-                appBar: CpAppBar(
-                  title: Text(
-                    'Send ${widget.token.symbol}',
-                  ),
-                ),
-                backgroundColor: CpColors.dashboardBackgroundColor,
-                body: SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const EdgeInsets.all(23.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 25.0),
-                          child: Text(
-                            'Quantity',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        TokenQuantityInput(
-                          quantityController: _quantityController,
-                          crypto: crypto,
-                          symbol: widget.token.symbol,
-                          rate: _rate,
-                        ),
-                        const SizedBox(height: 32),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 25.0),
-                          child: Text(
-                            'Recipient',
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        _WalletTextField(
-                          controller: _recipientController,
-                          onQrScan: _handleOnQrScan,
-                        ),
-                        const Spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 100.0,
-                            left: 25,
-                            right: 25,
-                          ),
-                          child: ListenableBuilder(
-                            listenable: Listenable.merge(
-                              [_quantityController, _recipientController],
-                            ),
-                            builder: (context, child) => CpButton(
-                              width: MediaQuery.sizeOf(context).width,
-                              alignment: CpButtonAlignment.center,
-                              size: CpButtonSize.big,
-                              onPressed: _isValid ? _handlePressed : null,
-                              text: context.l10n.next,
-                            ),
-                          ),
-                        ),
-                      ],
+          return Scaffold(
+            appBar: CpAppBar(
+              title: Text(
+                'Send ${widget.token.symbol}',
+              ),
+            ),
+            backgroundColor: CpColors.dashboardBackgroundColor,
+            body: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.all(23.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(
+                      height: 8,
                     ),
-                  ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 25.0),
+                      child: Text(
+                        'Quantity',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TokenQuantityInput(
+                      quantityController: _quantityController,
+                      crypto: crypto,
+                      symbol: widget.token.symbol,
+                      rate: _rate,
+                    ),
+                    const SizedBox(height: 32),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 25.0),
+                      child: Text(
+                        'Recipient',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    _WalletTextField(
+                      controller: _recipientController,
+                      onQrScan: _handleOnQrScan,
+                    ),
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 47.0,
+                        left: 25,
+                        right: 25,
+                      ),
+                      child: ListenableBuilder(
+                        listenable: Listenable.merge(
+                          [_quantityController, _recipientController],
+                        ),
+                        builder: (context, child) => CpButton(
+                          width: MediaQuery.sizeOf(context).width,
+                          alignment: CpButtonAlignment.center,
+                          size: CpButtonSize.big,
+                          onPressed: _isValid ? _handlePressed : null,
+                          text: context.l10n.next,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
