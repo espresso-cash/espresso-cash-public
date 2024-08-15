@@ -8,7 +8,6 @@ import '../../transactions/widgets/transfer_progress.dart';
 import '../../transactions/widgets/transfer_success.dart';
 import '../data/ilp_repository.dart';
 import '../models/incoming_link_payment.dart';
-import '../widgets/extensions.dart';
 import '../widgets/invalid_escrow_error_widget.dart';
 
 class IncomingLinkPaymentScreen extends StatefulWidget {
@@ -60,7 +59,6 @@ class _IncomingLinkPaymentScreenState extends State<IncomingLinkPaymentScreen> {
                       ? const InvalidEscrowErrorWidget()
                       : TransferError(
                           onBack: () => Navigator.pop(context),
-                          onRetry: () => context.retryILP(payment),
                         ),
                   orElse: () => TransferProgress(
                     onBack: () => Navigator.pop(context),

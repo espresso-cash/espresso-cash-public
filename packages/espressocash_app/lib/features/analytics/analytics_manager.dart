@@ -31,6 +31,10 @@ class AnalyticsManager {
     }
   }
 
+  void setStellarAddress(String? address) {
+    _analytics.getPeople().set('stellarWalletAddress', address);
+  }
+
   void setUsdcBalance(Decimal value) {
     _analytics.getPeople().set('usdcBalance', value.toDouble());
   }
@@ -66,6 +70,22 @@ class AnalyticsManager {
   }) =>
       _analytics.track(
         'directPaymentSent',
+        properties: {'amount': amount.toDouble()},
+      );
+
+  void paymentRequestLinkCreated({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkCreated',
+        properties: {'amount': amount.toDouble()},
+      );
+
+  void paymentRequestLinkPaid({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkPaid',
         properties: {'amount': amount.toDouble()},
       );
 

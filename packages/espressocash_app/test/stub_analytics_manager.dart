@@ -36,5 +36,14 @@ class StubAnalyticsManager implements AnalyticsManager {
   void setTotalInvestmentsBalance(Decimal value) {}
 
   @override
+  void setStellarAddress(String? address) {}
+
+  @override
+  void paymentRequestLinkCreated({required Decimal amount}) {}
+
+  @override
+  void paymentRequestLinkPaid({required Decimal amount}) {}
+
+  @override
   void ataCreated() {}
 }
