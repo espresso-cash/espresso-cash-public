@@ -155,7 +155,7 @@ class MyDatabase extends _$MyDatabase {
           if (from >= 40 && from < 55) {
             await m.addColumn(offRampOrderRows, offRampOrderRows.refundAmount);
           }
-          if (from < 55) {
+          if (from < 56) {
             await m.createTable(conversionRatesRows);
           }
         },
