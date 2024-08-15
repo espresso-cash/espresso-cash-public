@@ -41,6 +41,7 @@ final offRampOrderScreenStory = Story(
       moreInfoUrl: 'https://example.com',
       referenceNumber: '11111111',
       bridgeAmount: null,
+      refundAmount: null,
     ),
   ),
 );

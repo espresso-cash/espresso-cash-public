@@ -33,16 +33,6 @@ extension BuildContextExt on BuildContext {
         );
         await span.finish();
       });
-
-  Future<void> retryOLP({required OutgoingLinkPayment payment}) =>
-      runWithLoader<void>(this, () async {
-        final span = _start(function: 'retryOLP');
-        await sl<OLPService>().retry(
-          payment,
-          account: sl<MyAccount>().wallet,
-        );
-        await span.finish();
-      });
 }
 
 ISentrySpan _start({required String function}) => Sentry.startTransaction(
