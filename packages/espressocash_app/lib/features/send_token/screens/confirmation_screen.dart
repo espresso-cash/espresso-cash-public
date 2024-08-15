@@ -90,8 +90,8 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
             SafeArea(
               child: NestedScrollView(
                 headerSliverBuilder: (context, _) => [
-                  const TokenAppBar(
-                    token: Token.sol,
+                  TokenAppBar(
+                    token: widget.token,
                     color: CpColors.dashboardBackgroundColor,
                     displayText: false,
                   ),
