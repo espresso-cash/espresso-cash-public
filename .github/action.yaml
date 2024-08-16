@@ -1,0 +1,172 @@
+name: "Solana Local Validator"
+author: "Switchboard Labs"
+description:
+  "Start a localnet Solana validator with a specific feature set enabled."
+branding:
+  color: purple
+  icon: activity
+inputs:
+  cluster:
+    type: choice
+    description: "the cluster to match a feature set for"
+    required: false
+    default: "local"
+    options:
+      - "all"
+      - "local"
+      - "devnet"
+      - "testnet"
+      - "mainnet"
+  rust-version:
+    description: ""
+    required: false
+    default: "stable"
+  solana-version:
+    description: "the Solana version to install"
+    required: false
+    default: "stable"
+  anchor-version:
+    description:
+      "the Anchor version to install. if blank then dont install anchor"
+    required: false
+    default: ""
+  args:
+    description: "solana-test-validator arguements"
+    required: false
+    default: ""
+  quiet:
+    type: boolean
+    description: "suppress solana-test-validator stdout"
+    required: false
+    default: true
+runs:
+  using: "composite"
+  steps:
+    # Install Linux Compilers
+    - name: Install Linux Deps
+      shell: bash
+      run:
+        sudo apt-get update && sudo apt-get install -y pkg-config
+        build-essential libudev-dev
+
+    # Install Rust Toolchain
+    - name: Install Rust Stable
+      id: rust_toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: ${{ inputs.rust-version }}
+        override: true
+        profile: minimal
+        components: rustfmt, clippy
+    - name: Add Cargo bin to Path
+      shell: bash
+      run: |
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+    - name: Verify Rust install
+      shell: bash
+      run: |
+        echo "Verifying rust '${{ inputs.toolchain }}' ..."
+        rustc --version
+        cargo --version
+        cargo clippy --version
+        rustfmt --version
+    - name: Share rustc hash
+      shell: bash
+      run: |
+        echo 'RUSTC_HASH=${{ steps.rust_toolchain.outputs.rustc_hash }}' >> $GITHUB_ENV
+
+    # Install Solana Toolchain
+    - name: Cache Solana Install
+      id: cache-solana-install
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/solana/
+          ~/.local/share/solana/
+        # TODO: Should update this cache key so stable doesnt mask
+        key: ${{ runner.os }}-Solana-${{ inputs.solana-version  }}
+    - name: Install Solana
+      shell: bash
+      if: steps.cache-solana-install.outputs.cache-hit != 'true'
+      run:
+        sh -c "$(curl -sSfL https://release.anza.xyz/${{
+        inputs.solana-version}}/install)"
+    - name: Add Solana bin to Path
+      shell: bash
+      run: |
+        echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+    - name: Verify Solana install
+      shell: bash
+      run: |
+        solana --version
+
+    # Install Solana Cluster Feature Set Diff
+    - name: Cache SCFSD Install
+      id: cache-scfsd-cli
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/scfsd
+        key: scfsd-cli-${{ runner.os }}-9f742d455586a3cae2a31b85d0bb1c8709c143ab
+    - name: Cargo Install SCFSD
+      shell: bash
+      if: steps.cache-scfsd-cli.outputs.cache-hit != 'true'
+      run:
+        cargo install --git https://github.com/FrankC01/solana-gadgets --rev
+        9f742d455586a3cae2a31b85d0bb1c8709c143ab scfsd
+    - name: Verify SCFSD Install
+      shell: bash
+      run: |
+        scfsd --version
+
+    # Install Anchor
+    - name: Setup Anchor Cache
+      uses: actions/cache@v3
+      id: cache-anchor-cli
+      if: inputs.anchor-version != ''
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          ./target/
+        key: anchor-cli-${{ runner.os }}-${{ inputs.anchor-version }}
+    - name: Install Anchor
+      shell: bash
+      if:
+        inputs.anchor-version != '' && steps.cache-anchor-cli.outputs.cache-hit
+        != 'true'
+      run:
+        cargo install --git https://github.com/coral-xyz/anchor --tag
+        "${{inputs.anchor-version }}" anchor-cli --locked
+    - name: Verify Anchor install
+      shell: bash
+      if: inputs.anchor-version != ''
+      run: anchor --version
+
+    # Setup Keypair
+    - name: Find or Create Keypair
+      shell: bash
+      run: |
+        find ~/.config/solana/id.json || solana-keygen new -s --no-bip39-passphrase
+        echo "DEFAULT_SOLANA_PUBLIC_KEY=$(solana-keygen pubkey ~/.config/solana/id.json)" >> $GITHUB_ENV
+
+    # Setup Local Validator Config
+    - name: Optional Quiet Flag
+      shell: bash
+      run:
+        echo "SOLANA_QUIET_FLAG=$(${{ inputs.quiet }} && echo -q )" >>
+        $GITHUB_ENV
+    - name: Get Cluster Feature Set
+      shell: bash
+      run:
+        echo "SOLANA_FEATURES=$(scfsd -c ${{ inputs.cluster }} -k -t )" >>
+        $GITHUB_ENV
+
+    # Run
+    - name: Start Local Validator
+      shell: bash
+      run: |
+        solana-test-validator ${{ env.SOLANA_QUIET_FLAG }} -r --bind-address 0.0.0.0 --rpc-port 8899 ${{ env.SOLANA_FEATURES }} ${{ inputs.args }} &
+        for attempt in {1..30}; do sleep 1; if curl -sS http://localhost:8899 -X POST -H 'Content-Type: application/json' -d '{"jsonrpc":"2.0","id":1, "method":"getBlockHeight"}'; then echo ready; break; fi; echo waiting...; done
