@@ -7,6 +7,7 @@ import '../../../ui/splash_screen.dart';
 import '../../accounts/services/account_service.dart';
 import '../../backup_phrase/widgets/backup_phrase_module.dart';
 import '../../mobile_wallet/widgets/mobile_wallet_listener.dart';
+import '../../stellar/widgets/stellar_recovery_module.dart';
 import 'home_screen.dart';
 
 class AuthenticatedFlowScreen extends StatefulWidget {
@@ -49,7 +50,9 @@ class _AuthenticatedFlowScreenState extends State<AuthenticatedFlowScreen> {
 
           return const BackupPhraseModule(
             child: MobileWalletListener(
-              child: HomeScreen(),
+              child: StellarRecoveryModule(
+                child: HomeScreen(),
+              ),
             ),
           );
         },
