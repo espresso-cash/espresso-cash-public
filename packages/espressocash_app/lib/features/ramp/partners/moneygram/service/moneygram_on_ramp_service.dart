@@ -11,6 +11,7 @@ import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../balances/services/refresh_balance.dart';
@@ -86,6 +87,14 @@ class MoneygramOnRampOrderService implements Disposable {
         .watchSingleOrNull()
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'Moneygram on ramp order status update',
+            data: {
+              'orderId': orderId,
+              'status': order.status.name,
+            },
+          );
+
           switch (order.status) {
             case OnRampOrderStatus.pending:
               return Stream.fromFuture(_pendingOrder(order));
