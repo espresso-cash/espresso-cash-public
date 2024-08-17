@@ -272,7 +272,7 @@ class MoneygramOnRampOrderService implements Disposable {
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.value.toString(),
+            amount: (amount.value - 20).toString(),
             stellarSenderAddress: _stellarWallet.address,
             solanaReceiverAddress: solanaAddress,
           ),
@@ -327,14 +327,12 @@ class MoneygramOnRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(
-          chain: Chain.stellar,
-          txId: hash,
-        ),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.stellar,
+        hash: hash,
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;

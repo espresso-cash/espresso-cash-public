@@ -535,11 +535,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.solana,
+        hash: hash,
       );
 
-      final destination = response.receive;
+      final destination = response?.receive;
 
       if (destination == null) {
         return;
@@ -645,14 +646,11 @@ class MoneygramOffRampOrderService implements Disposable {
     }
 
     final response = await _allbridgeApiClient
-        .fetchBridgeStatus(
-          BridgeStatusRequestDto(
-            chain: Chain.solana,
-            txId: order.solanaBridgeTx ?? '',
-          ),
+        .fetchStatus(
+          chain: Chain.solana,
+          hash: order.solanaBridgeTx ?? '',
         )
-        .then((e) => e.receive)
-        .catchError((_) => null);
+        .then((e) => e?.receive);
 
     if (response == null) {
       return const OffRampOrderRowsCompanion(
@@ -741,14 +739,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(
-          chain: Chain.stellar,
-          txId: hash,
-        ),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.stellar,
+        hash: hash,
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;
