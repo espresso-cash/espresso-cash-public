@@ -3,6 +3,7 @@ import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/account.dart';
@@ -32,11 +33,8 @@ class StellarRecoveryService extends ChangeNotifier {
 
   final SharedPreferences _storage;
 
-  double? _stellarUsdcAmount = 0;
   bool _hasStellarUsdc = false;
-
   bool get hasStellarUsdc => _hasStellarUsdc;
-  double? get stellarUsdcAmount => _stellarUsdcAmount;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -53,7 +51,6 @@ class StellarRecoveryService extends ChangeNotifier {
       return;
     }
 
-    _stellarUsdcAmount = usdcBalance;
     _hasStellarUsdc = true;
 
     await _storage.setBool(_stellarRecoverKey, true);
@@ -91,11 +88,10 @@ class StellarRecoveryService extends ChangeNotifier {
 
     final result = await _stellarClient.pollStatus(hash);
 
-    if (result?.status != 'SUCCESS') {
+    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
       throw Exception('Failed to recover USDC');
     }
 
-    _stellarUsdcAmount = null;
     _hasStellarUsdc = false;
 
     await _storage.setBool(_stellarRecoverKey, false);
@@ -112,8 +108,9 @@ class StellarRecoveryService extends ChangeNotifier {
 }
 
 extension on double {
-  bool get isEmpty => abs() <= _epsilon;
+  bool get isEmpty => this <= _minimumAmount;
 }
 
-const double _epsilon = 1e-6;
+// Cannot bridge less than this amount
+const _minimumAmount = 2.0;
 const _stellarRecoverKey = 'stellarRecoverKey';
