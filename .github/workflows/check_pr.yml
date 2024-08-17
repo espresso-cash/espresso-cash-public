@@ -1,8 +1,6 @@
 name: Check PR
 on:
   pull_request:
-    paths:
-      - "action.yaml"
     branches:
       - master
 
@@ -93,7 +91,7 @@ jobs:
         run: make activate_utils
 
       - name: Start Solana Local Validator
-        uses: ./
+        uses: ./action.yaml
         with:
           solana-version: ${{ matrix.solanaVersion }}
           cluster: mainnet
