@@ -90,9 +90,8 @@ jobs:
       - name: Activate utils
         run: make activate_utils
 
-      - uses: actions/checkout@v2
       - name: Start Solana Local Validator
-        uses: ./action.yaml
+        uses: ./.github/action.yaml
         with:
           solana-version: ${{ matrix.solanaVersion }}
           cluster: mainnet
