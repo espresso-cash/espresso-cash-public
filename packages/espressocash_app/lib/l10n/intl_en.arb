@@ -855,5 +855,17 @@
   "cancelled": "Cancelled",
   "@cancelled": {},
   "refunded": "Refunded",
-  "@refunded": {}
+  "@refunded": {},
+  "moneyRecoveryTitle": "MONEY RECOVERY",
+  "@moneyRecoveryTitle": {},
+  "moneyRecoveryBtn": "Recover",
+  "@moneyRecoveryBtn": {},
+  "moneyRecoveryContent": "Unclaimed money has been detected and is ready for recovery.",
+  "@moneyRecoveryContent": {},
+  "moneyRecoverySubContent": "The recovered amount will be added to your Espresso Cash account balance.",
+  "@moneyRecoverySubContent": {},
+  "moneyRecoveryDisclaimer": "*This can take up to 3 minutes to complete.",
+  "@moneyRecoveryDisclaimer": {},
+  "moneyRecoverySuccessNotice": "Success! Money will be recovered soon",
+  "@moneyRecoverySuccessNotice": {}
 }

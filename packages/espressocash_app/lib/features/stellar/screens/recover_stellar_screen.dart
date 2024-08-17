@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
-import '../../../ui/form_page.dart';
+import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
 import '../service/recovery_service.dart';
@@ -30,16 +32,7 @@ class RecoverStellarScreen extends StatefulWidget {
 }
 
 class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
-  double _amount = 0.0;
-
   bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _amount = sl<StellarRecoveryService>().stellarUsdcAmount ?? 0.0;
-  }
 
   Future<void> _recover() async {
     setState(() {
@@ -51,12 +44,12 @@ class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
 
       if (!mounted) return;
 
-      showCpSnackbar(context, message: 'Success! USDC will be recovered soon');
       widget.onConfirmed();
+      showCpSnackbar(context, message: context.l10n.moneyRecoverySuccessNotice);
     } on Exception {
       if (!mounted) return;
 
-      showCpErrorSnackbar(context, message: 'Error. Please try again');
+      showCpErrorSnackbar(context, message: context.l10n.lblUnknownError);
     } finally {
       if (mounted) {
         setState(() {
@@ -69,24 +62,70 @@ class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
   @override
   Widget build(BuildContext context) => CpLoader(
         isLoading: _isLoading,
-        child: FormPage(
-          title: Text('Recover Stellar'.toUpperCase()),
-          colorTheme: FormPageColorTheme.gold,
-          header: FormPageHeader(
-            title: const SizedBox.shrink(),
-            description: const Text(
-              'Stellar USDC Found',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-            ),
-            icon: Assets.images.identityGraphic,
+        child: Scaffold(
+          backgroundColor: CpColors.yellowSplashBackgroundColor,
+          appBar: CpAppBar(
+            scrolledUnderColor: CpColors.yellowSplashBackgroundColor,
+            title: Text(context.l10n.moneyRecoveryTitle),
           ),
-          child: Column(
-            children: [
-              Text('${_amount.toStringAsFixed(2)} USDC'),
-              CpButton(
-                width: double.infinity,
-                text: 'Recover',
+          extendBodyBehindAppBar: true,
+          extendBody: true,
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(32),
+              child: CpButton(
                 onPressed: _recover,
+                text: context.l10n.moneyRecoveryBtn,
+              ),
+            ),
+          ),
+          body: Stack(
+            children: [
+              Align(
+                child: Assets.images.dollarBg.image(
+                  fit: BoxFit.fitHeight,
+                  height: double.infinity,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Assets.icons.money.svg(
+                      height: 90,
+                      width: 90,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      context.l10n.moneyRecoveryContent,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 32,
+                        height: 0.95,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      context.l10n.moneyRecoverySubContent,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      context.l10n.moneyRecoveryDisclaimer,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
