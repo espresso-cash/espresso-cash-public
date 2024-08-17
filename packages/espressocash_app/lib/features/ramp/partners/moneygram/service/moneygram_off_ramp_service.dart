@@ -727,8 +727,9 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] =
-        Stream<void>.periodic(const Duration(seconds: 60)).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 60))
+        .startWith(null)
+        .listen((_) async {
       final statement = _db.update(_db.offRampOrderRows)
         ..where(
           (tbl) => tbl.id.equals(id),
