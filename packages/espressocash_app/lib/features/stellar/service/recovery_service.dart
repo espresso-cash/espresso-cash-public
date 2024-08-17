@@ -73,7 +73,7 @@ class StellarRecoveryService extends ChangeNotifier {
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.value.toString(),
+            amount: (amount.value - 10).toString(),
             stellarSenderAddress: _stellarWallet.address,
             solanaReceiverAddress: _ecWallet.address,
           ),
