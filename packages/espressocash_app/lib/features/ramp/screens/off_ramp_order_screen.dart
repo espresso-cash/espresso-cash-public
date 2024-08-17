@@ -398,12 +398,14 @@ class _Timeline extends StatelessWidget {
 
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
-      trailing: order.bridgeAmount?.let(
-        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-      ),
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,
+      trailing: isMoneygramOrder
+          ? order.bridgeAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
@@ -412,10 +414,18 @@ class _Timeline extends StatelessWidget {
     );
     final paymentCanceled = CpTimelineItem(
       title: context.l10n.offRampWithdrawCancelledTitle,
+      trailing: isMoneygramOrder
+          ? order.refundAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
-    const refunding = CpTimelineItem(
+    final refunding = CpTimelineItem(
       title: 'Refunding USDC',
+      trailing: order.bridgeAmount?.let(
+        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+      ),
     );
 
     final normalItems = [
@@ -549,6 +559,7 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge;
 
   bool get isWaitingForBridge =>
+      this == OffRampOrderStatus.preProcessing ||
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 
