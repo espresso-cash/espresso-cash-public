@@ -91,6 +91,7 @@ jobs:
         run: make activate_utils
 
       - name: Start Solana Local Validator
+      - uses: actions/checkout@v2
         uses: ./action.yaml
         with:
           solana-version: ${{ matrix.solanaVersion }}
