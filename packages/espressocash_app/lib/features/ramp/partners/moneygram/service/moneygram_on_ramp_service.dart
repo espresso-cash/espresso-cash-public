@@ -414,6 +414,14 @@ class MoneygramOnRampOrderService implements Disposable {
 
       if (usdcBalance < amount.decimal.toDouble()) {
         // Not enough funds
+        logMessage(
+          message: 'Received incorrect amount',
+          data: {
+            'balance': usdcBalance,
+            'requestedAmount': amount.decimal.toDouble(),
+          },
+        );
+
         return;
       }
 
