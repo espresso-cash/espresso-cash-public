@@ -78,6 +78,7 @@ runs:
     # Check Solana channels versions
     - name: Determine Solana CLI version
       id: solana-channel-version
+      shell: bash
       run: |
         chmod +x solana_local_validator/scripts/channel-info.sh
         output=$(solana_local_validator/scripts/channel-info.sh)
