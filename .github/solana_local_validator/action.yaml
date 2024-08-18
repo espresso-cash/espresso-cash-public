@@ -83,8 +83,7 @@ runs:
         path: |
           ~/.cache/solana/
           ~/.local/share/solana/
-        # TODO: Should update this cache key so stable doesnt mask
-        key: ${{ runner.os }}-Solana-${{ inputs.solana-version  }}
+        key: ${{ runner.os }}-Solana-${{ inputs.solana-version  }}-${{ github.ref }}
     - name: Install Solana
       shell: bash
       if: steps.cache-solana-install.outputs.cache-hit != 'true'
