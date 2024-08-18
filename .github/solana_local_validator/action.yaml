@@ -80,8 +80,8 @@ runs:
       id: solana-channel-version
       shell: bash
       run: |
-        chmod +x solana_local_validator/scripts/channel-info.sh
-        output=$(solana_local_validator/scripts/channel-info.sh)
+        chmod +x ./.github/solana_local_validator/scripts/channel-info.sh
+        output=$(./.github/solana_local_validator/scripts/channel-info.sh)
         read -r BETA_CHANNEL_LATEST_TAG STABLE_CHANNEL_LATEST_TAG <<< "$output"
         echo "BETA_CHANNEL_LATEST_TAG=$BETA_CHANNEL_LATEST_TAG" >> $GITHUB_ENV
         echo "STABLE_CHANNEL_LATEST_TAG=$STABLE_CHANNEL_LATEST_TAG" >> $GITHUB_ENV 
