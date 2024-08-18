@@ -75,6 +75,16 @@ runs:
       run: |
         echo 'RUSTC_HASH=${{ steps.rust_toolchain.outputs.rustc_hash }}' >> $GITHUB_ENV
 
+    # Check Solana channels versions
+    - name: Determine Solana CLI version
+      id: solana-channel-version
+      run: |
+        chmod +x solana_local_validator/scripts/channel-info.sh
+        output=$(solana_local_validator/scripts/channel-info.sh)
+        read -r BETA_CHANNEL_LATEST_TAG STABLE_CHANNEL_LATEST_TAG <<< "$output"
+        echo "BETA_CHANNEL_LATEST_TAG=$BETA_CHANNEL_LATEST_TAG" >> $GITHUB_ENV
+        echo "STABLE_CHANNEL_LATEST_TAG=$STABLE_CHANNEL_LATEST_TAG" >> $GITHUB_ENV 
+
     # Install Solana Toolchain
     - name: Cache Solana Install
       id: cache-solana-install
@@ -83,7 +93,7 @@ runs:
         path: |
           ~/.cache/solana/
           ~/.local/share/solana/
-        key: ${{ runner.os }}-Solana-${{ inputs.solana-version  }}-${{ github.ref }}
+        key: ${{ runner.os }}-Solana-${{ inputs.solana-version == 'stable' && env.STABLE_CHANNEL_LATEST_TAG || inputs.solana-version == 'beta' && env.BETA_CHANNEL_LATEST_TAG || inputs.solana-version }}
     - name: Install Solana
       shell: bash
       if: steps.cache-solana-install.outputs.cache-hit != 'true'
