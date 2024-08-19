@@ -13,6 +13,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../../data/db/db.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
+import '../../../../analytics/analytics_manager.dart';
 import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -40,11 +41,13 @@ class MoneygramOnRampOrderService implements Disposable {
     this._allbridgeApiClient,
     this._txConfirm,
     this._refreshBalance,
+    this._analytics,
   );
 
   final MyDatabase _db;
   final TxConfirm _txConfirm;
   final RefreshBalance _refreshBalance;
+  final AnalyticsManager _analytics;
 
   final ECWallet _ecWallet;
   final StellarWallet _stellarWallet;
@@ -133,6 +136,7 @@ class MoneygramOnRampOrderService implements Disposable {
     required FiatAmount submittedAmount,
     required String authToken,
     required CryptoAmount receiveAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -154,6 +158,14 @@ class MoneygramOnRampOrderService implements Disposable {
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
+
+          _analytics.rampInitiated(
+            partner: RampPartner.moneygram,
+            type: RampType.onRamp,
+            amount: submittedAmount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
 
           return order.id;
         }
@@ -357,6 +369,12 @@ class MoneygramOnRampOrderService implements Disposable {
           txHash: Value(solanaTxId),
           receiveAmount: Value.absentIfNull(receiveAmount),
         ),
+      );
+
+      _analytics.rampCompleted(
+        partner: RampPartner.moneygram,
+        type: RampType.onRamp,
+        id: id,
       );
 
       _removeWatcher(id);

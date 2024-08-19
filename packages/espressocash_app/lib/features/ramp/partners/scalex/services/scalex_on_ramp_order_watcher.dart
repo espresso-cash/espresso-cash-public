@@ -6,16 +6,20 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
+import '../../../../analytics/analytics_manager.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/scalex_repository.dart';
 
 @injectable
 class ScalexOnRampOrderWatcher implements RampWatcher {
-  ScalexOnRampOrderWatcher(this._db, this._client);
+  ScalexOnRampOrderWatcher(this._db, this._client, this._analytics);
 
   final MyDatabase _db;
   final ScalexRepository _client;
+  final AnalyticsManager _analytics;
 
   StreamSubscription<void>? _subscription;
 
@@ -42,6 +46,14 @@ class ScalexOnRampOrderWatcher implements RampWatcher {
           : isExpired
               ? OnRampOrderStatus.depositExpired
               : null;
+
+      if (isCompleted) {
+        _analytics.rampCompleted(
+          partner: RampPartner.scalex,
+          type: RampType.onRamp,
+          id: orderId,
+        );
+      }
 
       await statement.write(
         OnRampOrderRowsCompanion(

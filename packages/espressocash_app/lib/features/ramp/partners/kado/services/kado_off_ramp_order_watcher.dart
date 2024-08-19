@@ -5,16 +5,20 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../analytics/analytics_manager.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/kado_api_client.dart';
 
 @injectable
 class KadoOffRampOrderWatcher implements RampWatcher {
-  KadoOffRampOrderWatcher(this._db, this._client);
+  KadoOffRampOrderWatcher(this._db, this._client, this._analytics);
 
   final MyDatabase _db;
   final KadoApiClient _client;
+  final AnalyticsManager _analytics;
 
   StreamSubscription<void>? _subscription;
 
@@ -36,7 +40,15 @@ class KadoOffRampOrderWatcher implements RampWatcher {
           );
         final isCompleted = data.machineStatusField == MachineStatus.settled;
 
-        if (isCompleted) await _subscription?.cancel();
+        if (isCompleted) {
+          await _subscription?.cancel();
+
+          _analytics.rampCompleted(
+            partner: RampPartner.kado,
+            type: RampType.offRamp,
+            id: orderId,
+          );
+        }
 
         await statement.write(
           OffRampOrderRowsCompanion(

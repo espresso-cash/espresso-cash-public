@@ -9,17 +9,26 @@ import 'package:solana/encoder.dart';
 
 import '../../../../../data/db/db.dart';
 import '../../../../accounts/models/ec_wallet.dart';
+import '../../../../analytics/analytics_manager.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/coinflow_api_client.dart';
 
 @injectable
 class CoinflowOffRampOrderWatcher implements RampWatcher {
-  CoinflowOffRampOrderWatcher(this._db, this._client, this._account);
+  CoinflowOffRampOrderWatcher(
+    this._db,
+    this._client,
+    this._account,
+    this._analytics,
+  );
 
   final MyDatabase _db;
   final CoinflowClient _client;
   final ECWallet _account;
+  final AnalyticsManager _analytics;
 
   StreamSubscription<void>? _subscription;
 
@@ -50,7 +59,15 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
           OffRampOrderStatus.waitingForPartner,
       };
 
-      if (status == OffRampOrderStatus.completed) await _subscription?.cancel();
+      if (status == OffRampOrderStatus.completed) {
+        await _subscription?.cancel();
+
+        _analytics.rampCompleted(
+          partner: RampPartner.coinflow,
+          type: RampType.offRamp,
+          id: orderId,
+        );
+      }
 
       await statement.write(OffRampOrderRowsCompanion(status: Value(status)));
     });

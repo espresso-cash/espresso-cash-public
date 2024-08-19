@@ -10,6 +10,7 @@ import '../../../gen/assets.gen.dart';
 import '../../../ui/button.dart';
 import '../../../ui/icon_button.dart';
 import '../../accounts/models/account.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../country_picker/models/country.dart';
 import '../../feature_flags/services/feature_flags_manager.dart';
 import '../../profile/data/profile_repository.dart';
@@ -245,10 +246,12 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOnRamp(profile: profile, address: address);
       case RampPartner.moneygram:
-        launchMoneygramOnRamp();
+        launchMoneygramOnRamp(profile: profile);
       case RampPartner.coinflow:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>().rampOpened(partner: partner, type: RampType.onRamp);
   }
 
   void _launchOffRampPartner(
@@ -264,11 +267,13 @@ extension RampBuildContextExt on BuildContext {
       case RampPartner.scalex:
         launchScalexOffRamp(profile: profile, address: address);
       case RampPartner.moneygram:
-        launchMoneygramOffRamp();
+        launchMoneygramOffRamp(profile: profile);
       case RampPartner.rampNetwork:
       case RampPartner.guardarian:
         throw UnimplementedError('Not implemented for $partner');
     }
+
+    sl<AnalyticsManager>().rampOpened(partner: partner, type: RampType.offRamp);
   }
 }
 

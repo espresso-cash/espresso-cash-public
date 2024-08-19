@@ -6,16 +6,20 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
+import '../../../../analytics/analytics_manager.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/scalex_repository.dart';
 
 @injectable
 class ScalexOffRampOrderWatcher implements RampWatcher {
-  ScalexOffRampOrderWatcher(this._db, this._client);
+  ScalexOffRampOrderWatcher(this._db, this._client, this._analytics);
 
   final MyDatabase _db;
   final ScalexRepository _client;
+  final AnalyticsManager _analytics;
 
   StreamSubscription<void>? _subscription;
 
@@ -45,6 +49,12 @@ class ScalexOffRampOrderWatcher implements RampWatcher {
 
       if (orderStatus == OffRampOrderStatus.completed) {
         await _subscription?.cancel();
+
+        _analytics.rampCompleted(
+          partner: RampPartner.scalex,
+          type: RampType.offRamp,
+          id: orderId,
+        );
       }
 
       await statement.write(
