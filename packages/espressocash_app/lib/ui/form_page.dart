@@ -15,9 +15,11 @@ class FormPage extends StatelessWidget {
     required this.title,
     required this.header,
     required this.child,
+    this.backgroundImage,
   });
 
   final Widget header;
+  final AssetGenImage? backgroundImage;
   final Widget child;
   final FormPageColorTheme colorTheme;
   final Widget title;
@@ -38,20 +40,34 @@ class FormPage extends StatelessWidget {
         ),
         backgroundColor: bgColor,
         extendBodyBehindAppBar: true,
-        body: LayoutBuilder(
-          builder: (context, constraints) => SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: [
-                    _Header(colorTheme: colorTheme, content: header),
-                    _Content(child: child),
-                  ],
+        body: Stack(
+          children: [
+            Align(
+              child: backgroundImage?.image(
+                fit: BoxFit.fitHeight,
+                height: double.infinity,
+              ),
+            ),
+            LayoutBuilder(
+              builder: (context, constraints) => SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      children: [
+                        _Header(
+                          colorTheme: colorTheme,
+                          content: header,
+                          showImage: backgroundImage == null,
+                        ),
+                        _Content(child: child),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
@@ -100,10 +116,12 @@ class _Header extends StatelessWidget {
   const _Header({
     required this.colorTheme,
     required this.content,
+    required this.showImage,
   });
 
   final FormPageColorTheme colorTheme;
   final Widget content;
+  final bool showImage;
 
   AssetGenImage get image => switch (colorTheme) {
         FormPageColorTheme.orange => Assets.images.formPageOrangeBg,
@@ -116,30 +134,32 @@ class _Header extends StatelessWidget {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            image.image(
-              fit: BoxFit.cover,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: switch (colorTheme) {
-                    FormPageColorTheme.orange => [
-                        const Color(0x00D06022),
-                        CpColors.darkOrangeBackgroundColor,
-                      ],
-                    FormPageColorTheme.gold => [
-                        const Color(0x00C8B57D),
-                        CpColors.goldBackgroundColor,
-                      ],
-                  },
+            if (showImage) ...[
+              image.image(
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+              Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: switch (colorTheme) {
+                      FormPageColorTheme.orange => [
+                          const Color(0x00D06022),
+                          CpColors.darkOrangeBackgroundColor,
+                        ],
+                      FormPageColorTheme.gold => [
+                          const Color(0x00C8B57D),
+                          CpColors.goldBackgroundColor,
+                        ],
+                    },
+                  ),
                 ),
               ),
-            ),
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
