@@ -891,13 +891,9 @@ Future<String> _createAccount(SolanaClient client, int size) async {
   final bh = await client.rpcClient
       .getLatestBlockhash(commitment: Commitment.finalized)
       .value;
-  final recentBlockhash = RecentBlockhash(
-    blockhash: bh.blockhash,
-    feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
-  );
 
   final signedTx = await signTransaction(
-    recentBlockhash,
+    bh,
     Message.only(instruction),
     [source, accountKeyPair],
   );

@@ -28,10 +28,7 @@ class SolanaClient {
   }) async {
     final bh = await rpcClient.getLatestBlockhash(commitment: commitment).value;
     final tx = await signTransaction(
-      RecentBlockhash(
-        blockhash: bh.blockhash,
-        feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
-      ),
+      bh,
       message,
       signers,
     );

@@ -10,12 +10,8 @@ extension RpcClientExt on RpcClient {
     Commitment commitment = Commitment.finalized,
   }) async {
     final bh = await getLatestBlockhash(commitment: commitment).value;
-    final recentBlockhash = RecentBlockhash(
-      blockhash: bh.blockhash,
-      feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
-    );
 
-    final signedTx = await signTransaction(recentBlockhash, message, signers);
+    final signedTx = await signTransaction(bh, message, signers);
 
     if (onSigned != null) {
       await onSigned(signedTx.signatures.first);
@@ -30,18 +26,13 @@ extension RpcClientExt on RpcClient {
   Future<SignedTx> signMessage(
     Message message,
     List<Ed25519HDKeyPair> signers, {
-    RecentBlockhash? blockhash,
+    LatestBlockhash? blockhash,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final recentBlockhash = blockhash ??
-        RecentBlockhash(
-          blockhash: (await getLatestBlockhash(commitment: commitment))
-              .value
-              .blockhash,
-          feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
-        );
+    final latestBlockhash =
+        blockhash ?? await getLatestBlockhash(commitment: commitment).value;
 
-    return signTransaction(recentBlockhash, message, signers);
+    return signTransaction(latestBlockhash, message, signers);
   }
 
   /// Get the [limit] most recent transactions for the [address] account
