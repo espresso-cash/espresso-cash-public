@@ -9,8 +9,12 @@ extension RpcClientExt on RpcClient {
     FutureOr<void> Function(Signature signature)? onSigned,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final recentBlockhash =
-        await getRecentBlockhash(commitment: commitment).value;
+    final bh = await getLatestBlockhash(commitment: commitment).value;
+    final recentBlockhash = RecentBlockhash(
+      blockhash: bh.blockhash,
+      feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+    );
+
     final signedTx = await signTransaction(recentBlockhash, message, signers);
 
     if (onSigned != null) {
@@ -29,8 +33,13 @@ extension RpcClientExt on RpcClient {
     RecentBlockhash? blockhash,
     Commitment commitment = Commitment.finalized,
   }) async {
-    final recentBlockhash =
-        blockhash ?? await getRecentBlockhash(commitment: commitment).value;
+    final recentBlockhash = blockhash ??
+        RecentBlockhash(
+          blockhash: (await getLatestBlockhash(commitment: commitment))
+              .value
+              .blockhash,
+          feeCalculator: const FeeCalculator(lamportsPerSignature: 500),
+        );
 
     return signTransaction(recentBlockhash, message, signers);
   }
