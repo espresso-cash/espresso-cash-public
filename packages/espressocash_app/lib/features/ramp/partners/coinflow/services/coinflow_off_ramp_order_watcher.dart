@@ -64,7 +64,7 @@ class CoinflowOffRampOrderWatcher implements RampWatcher {
 
         _analytics.rampCompleted(
           partner: RampPartner.coinflow,
-          type: RampType.offRamp,
+          rampType: RampType.offRamp.name,
           id: orderId,
         );
       }

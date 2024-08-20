@@ -251,7 +251,8 @@ extension RampBuildContextExt on BuildContext {
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(partner: partner, type: RampType.onRamp);
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.onRamp.name);
   }
 
   void _launchOffRampPartner(
@@ -273,7 +274,8 @@ extension RampBuildContextExt on BuildContext {
         throw UnimplementedError('Not implemented for $partner');
     }
 
-    sl<AnalyticsManager>().rampOpened(partner: partner, type: RampType.offRamp);
+    sl<AnalyticsManager>()
+        .rampOpened(partner: partner, rampType: RampType.offRamp.name);
   }
 }
 

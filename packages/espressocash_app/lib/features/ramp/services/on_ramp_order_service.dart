@@ -113,7 +113,7 @@ class OnRampOrderService implements Disposable {
 
           _analytics.rampInitiated(
             partner: partner,
-            type: RampType.onRamp,
+            rampType: RampType.onRamp.name,
             amount: submittedAmount.value.toString(),
             countryCode: countryCode,
             id: order.id,

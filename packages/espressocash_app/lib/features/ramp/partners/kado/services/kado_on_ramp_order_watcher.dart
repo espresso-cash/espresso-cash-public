@@ -50,7 +50,7 @@ class KadoOnRampOrderWatcher implements RampWatcher {
 
           _analytics.rampCompleted(
             partner: RampPartner.kado,
-            type: RampType.onRamp,
+            rampType: RampType.onRamp.name,
             id: orderId,
           );
         } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
