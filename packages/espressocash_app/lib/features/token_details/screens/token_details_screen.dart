@@ -16,8 +16,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../send_token/screens/send_token_screen.dart';
 import '../../tokens/token.dart';
-import '../../transactions/screens/send_token_screen.dart';
 import '../../transactions/screens/swap_token_screen.dart';
 import '../widgets/token_app_bar.dart';
 import '../widgets/token_info.dart';
@@ -71,8 +71,7 @@ class TokenDetailsScreen extends StatelessWidget {
                           BoxConstraints viewportConstraints,
                         ) =>
                             RefreshIndicator(
-                          onRefresh: () => sl<TransactionRepository>()
-                              .update(tokenAddress: token.address),
+                          onRefresh: () => sl<TransactionRepository>().update(),
                           color: CpColors.primaryColor,
                           backgroundColor: Colors.white,
                           child: SingleChildScrollView(
@@ -95,9 +94,7 @@ class TokenDetailsScreen extends StatelessWidget {
                                       if (token.isUsdcToken)
                                         const _RampButtons()
                                       else
-                                        _SwapButton(
-                                          token: token,
-                                        ),
+                                        _SwapButton(token: token),
                                       const SizedBox(height: 41),
                                       Expanded(
                                         child: DecoratedBox(

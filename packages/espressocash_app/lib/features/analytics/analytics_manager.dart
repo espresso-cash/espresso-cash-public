@@ -2,6 +2,8 @@ import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
+import '../tokens/token.dart';
+
 @lazySingleton
 class AnalyticsManager {
   const AnalyticsManager(this._analytics);
@@ -29,6 +31,10 @@ class AnalyticsManager {
       _analytics.identify(address);
       _analytics.getPeople().set('walletAddress', address);
     }
+  }
+
+  void setStellarAddress(String? address) {
+    _analytics.getPeople().set('stellarWalletAddress', address);
   }
 
   void setUsdcBalance(Decimal value) {
@@ -62,10 +68,27 @@ class AnalyticsManager {
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
   void directPaymentSent({
+    required Token token,
     required Decimal amount,
   }) =>
       _analytics.track(
         'directPaymentSent',
+        properties: {'token': token.symbol, 'amount': amount.toDouble()},
+      );
+
+  void paymentRequestLinkCreated({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkCreated',
+        properties: {'amount': amount.toDouble()},
+      );
+
+  void paymentRequestLinkPaid({
+    required Decimal amount,
+  }) =>
+      _analytics.track(
+        'paymentRequestLinkPaid',
         properties: {'amount': amount.toDouble()},
       );
 }

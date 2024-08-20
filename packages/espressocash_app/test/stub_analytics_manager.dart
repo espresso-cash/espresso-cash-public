@@ -1,11 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/features/analytics/analytics_manager.dart';
+import 'package:espressocash_app/features/tokens/token.dart';
 
 class StubAnalyticsManager implements AnalyticsManager {
   const StubAnalyticsManager();
 
   @override
-  void directPaymentSent({required Decimal amount}) {}
+  void directPaymentSent({required Token token, required Decimal amount}) {}
 
   @override
   void setProfileCountryCode(String countryCode) {}
@@ -34,4 +35,13 @@ class StubAnalyticsManager implements AnalyticsManager {
 
   @override
   void setTotalInvestmentsBalance(Decimal value) {}
+
+  @override
+  void setStellarAddress(String? address) {}
+
+  @override
+  void paymentRequestLinkCreated({required Decimal amount}) {}
+
+  @override
+  void paymentRequestLinkPaid({required Decimal amount}) {}
 }

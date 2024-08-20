@@ -21,14 +21,14 @@ class ODPDetailsScreen extends StatefulWidget {
     required this.id,
   });
 
-  static void push(BuildContext context, {required String id}) =>
+  static Future<void> push(BuildContext context, {required String id}) =>
       Navigator.of(context).push<void>(
         MaterialPageRoute(
           builder: (context) => ODPDetailsScreen(id: id),
         ),
       );
 
-  static void open(BuildContext context, {required String id}) =>
+  static Future<void> open(BuildContext context, {required String id}) =>
       Navigator.of(context).pushAndRemoveUntil<void>(
         MaterialPageRoute(
           builder: (context) => ODPDetailsScreen(id: id),
@@ -85,7 +85,6 @@ class _ODPDetailsScreenState extends State<ODPDetailsScreen> {
                   ),
                   txFailure: (it) => TransferError(
                     onBack: () => Navigator.pop(context),
-                    onRetry: () => context.retryODP(paymentId: payment.id),
                     onCancel: () => _handleCancel(payment.id),
                     reason: it.reason,
                   ),

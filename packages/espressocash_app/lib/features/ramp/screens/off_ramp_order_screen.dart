@@ -196,42 +196,40 @@ class OffRampOrderScreenContent extends StatelessWidget {
       ),
     ];
 
-    return CpTheme(
+    return StatusScreen(
       theme: theme,
-      child: StatusScreen(
-        title: context.l10n.offRampWithdrawTitle.toUpperCase(),
-        statusType: order.status.toStatusType(),
-        statusTitle: statusTitle?.let(Text.new),
-        statusContent: Column(
-          children: [
-            Text(statusContent),
-            if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
-          ],
-        ),
-        content: CpContentPadding(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                _Timeline(
-                  order: order,
-                  amount: totalAmount,
-                  receiveAmount: receiveAmount,
-                ),
-                if (isMoneygramOrder) _MgAdditionalInfo(order: order),
-                PartnerOrderIdWidget(orderId: order.partnerOrderId),
-                if (primaryButton != null) ...[
-                  const SizedBox(height: 12),
-                  primaryButton,
-                ],
-                Visibility(
-                  visible: showCancelButton,
-                  maintainSize: true,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  child: _CancelButton(handleCanceled: handleCanceled),
-                ),
+      title: context.l10n.offRampWithdrawTitle.toUpperCase(),
+      statusType: order.status.toStatusType(),
+      statusTitle: statusTitle?.let(Text.new),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (order.status.isWaitingForBridge) ...bridgeSubtitleContent,
+        ],
+      ),
+      content: CpContentPadding(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              _Timeline(
+                order: order,
+                amount: totalAmount,
+                receiveAmount: receiveAmount,
+              ),
+              if (isMoneygramOrder) _MgAdditionalInfo(order: order),
+              PartnerOrderIdWidget(orderId: order.partnerOrderId),
+              if (primaryButton != null) ...[
+                const SizedBox(height: 12),
+                primaryButton,
               ],
-            ),
+              Visibility(
+                visible: showCancelButton,
+                maintainSize: true,
+                maintainAnimation: true,
+                maintainState: true,
+                child: _CancelButton(handleCanceled: handleCanceled),
+              ),
+            ],
           ),
         ),
       ),
@@ -400,12 +398,14 @@ class _Timeline extends StatelessWidget {
 
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
-      trailing: order.bridgeAmount?.let(
-        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-      ),
     );
     final amountSent = CpTimelineItem(
       title: context.l10n.offRampWithdrawSent,
+      trailing: isMoneygramOrder
+          ? order.bridgeAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
@@ -414,10 +414,18 @@ class _Timeline extends StatelessWidget {
     );
     final paymentCanceled = CpTimelineItem(
       title: context.l10n.offRampWithdrawCancelledTitle,
+      trailing: isMoneygramOrder
+          ? order.refundAmount?.let(
+              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+            )
+          : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
-    const refunding = CpTimelineItem(
+    final refunding = CpTimelineItem(
       title: 'Refunding USDC',
+      trailing: order.bridgeAmount?.let(
+        (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
+      ),
     );
 
     final normalItems = [
@@ -551,6 +559,7 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.waitingForRefundBridge;
 
   bool get isWaitingForBridge =>
+      this == OffRampOrderStatus.preProcessing ||
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
 
