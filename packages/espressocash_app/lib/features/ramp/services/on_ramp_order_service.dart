@@ -165,7 +165,7 @@ class OnRampOrderService implements Disposable {
       ..where((tbl) => tbl.id.equals(orderId));
     final order = await query.getSingle();
 
-    if (order.status != OnRampOrderStatus.depositExpired) {
+    if (!order.status.isCancellable) {
       return;
     }
 
@@ -290,4 +290,12 @@ class OnRampOrderService implements Disposable {
     await Future.wait(_subscriptions.values.map((it) => it.cancel()));
     await _db.delete(_db.onRampOrderRows).go();
   }
+}
+
+extension OnRampOrderStatusExt on OnRampOrderStatus {
+  bool get isCancellable =>
+      this == OnRampOrderStatus.depositExpired ||
+      this == OnRampOrderStatus.pending ||
+      this == OnRampOrderStatus.preProcessing ||
+      this == OnRampOrderStatus.postProcessing;
 }

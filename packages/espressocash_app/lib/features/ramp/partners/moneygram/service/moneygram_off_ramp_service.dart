@@ -13,6 +13,7 @@ import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
 import 'package:uuid/uuid.dart';
 
 import '../../../../../data/db/db.dart';
+import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
 import '../../../../balances/services/refresh_balance.dart';
@@ -99,6 +100,14 @@ class MoneygramOffRampOrderService implements Disposable {
     _subscriptions[orderId] = query
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
+          logMessage(
+            message: 'Moneygram off ramp order status update',
+            data: {
+              'orderId': orderId,
+              'status': order.status.name,
+            },
+          );
+
           switch (order.status) {
             case OffRampOrderStatus.preProcessing:
               return Stream.fromFuture(_preProcessOrder(order));
@@ -535,11 +544,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(chain: Chain.solana, txId: hash),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.solana,
+        hash: hash,
       );
 
-      final destination = response.receive;
+      final destination = response?.receive;
 
       if (destination == null) {
         return;
@@ -645,14 +655,11 @@ class MoneygramOffRampOrderService implements Disposable {
     }
 
     final response = await _allbridgeApiClient
-        .fetchBridgeStatus(
-          BridgeStatusRequestDto(
-            chain: Chain.solana,
-            txId: order.solanaBridgeTx ?? '',
-          ),
+        .fetchStatus(
+          chain: Chain.solana,
+          hash: order.solanaBridgeTx ?? '',
         )
-        .then((e) => e.receive)
-        .catchError((_) => null);
+        .then((e) => e?.receive);
 
     if (response == null) {
       return const OffRampOrderRowsCompanion(
@@ -720,8 +727,9 @@ class MoneygramOffRampOrderService implements Disposable {
       return;
     }
 
-    _watchers[id] =
-        Stream<void>.periodic(const Duration(seconds: 60)).listen((_) async {
+    _watchers[id] = Stream<void>.periodic(const Duration(seconds: 60))
+        .startWith(null)
+        .listen((_) async {
       final statement = _db.update(_db.offRampOrderRows)
         ..where(
           (tbl) => tbl.id.equals(id),
@@ -741,14 +749,12 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final response = await _allbridgeApiClient.fetchBridgeStatus(
-        BridgeStatusRequestDto(
-          chain: Chain.stellar,
-          txId: hash,
-        ),
+      final response = await _allbridgeApiClient.fetchStatus(
+        chain: Chain.stellar,
+        hash: hash,
       );
 
-      final status = response.receive;
+      final status = response?.receive;
 
       if (status == null) {
         return;
