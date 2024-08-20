@@ -126,6 +126,7 @@ extension BuildContextExt on BuildContext {
               transferExpiryDate:
                   DateTime.now().add(const Duration(minutes: 30)),
               submittedAmount: submittedAmount,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {
@@ -248,6 +249,7 @@ window.addEventListener("message", (event) => {
               partner: RampPartner.scalex,
               receiveAmount: receiveAmount,
               depositAddress: address,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {

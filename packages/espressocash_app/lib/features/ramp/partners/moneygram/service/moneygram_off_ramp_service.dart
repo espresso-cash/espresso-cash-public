@@ -16,6 +16,7 @@ import '../../../../../data/db/db.dart';
 import '../../../../../utils/errors.dart';
 import '../../../../accounts/auth_scope.dart';
 import '../../../../accounts/models/ec_wallet.dart';
+import '../../../../analytics/analytics_manager.dart';
 import '../../../../balances/services/refresh_balance.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
@@ -49,12 +50,14 @@ class MoneygramOffRampOrderService implements Disposable {
     this._solanaClient,
     this._txConfirm,
     this._refreshBalance,
+    this._analytics,
   );
 
   final MyDatabase _db;
   final TxSender _sender;
   final TxConfirm _txConfirm;
   final RefreshBalance _refreshBalance;
+  final AnalyticsManager _analytics;
 
   final ECWallet _ecWallet;
   final StellarWallet _stellarWallet;
@@ -173,6 +176,7 @@ class MoneygramOffRampOrderService implements Disposable {
   AsyncResult<String> createMoneygramOrder({
     required CryptoAmount submittedAmount,
     required FiatAmount? receiveAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -196,6 +200,14 @@ class MoneygramOffRampOrderService implements Disposable {
 
           await _db.into(_db.offRampOrderRows).insert(order);
           _subscribe(order.id);
+
+          _analytics.rampInitiated(
+            partner: RampPartner.moneygram,
+            rampType: RampType.offRamp.name,
+            amount: submittedAmount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
 
           return order.id;
         }
@@ -611,6 +623,12 @@ class MoneygramOffRampOrderService implements Disposable {
           const OffRampOrderRowsCompanion(
             status: Value(OffRampOrderStatus.completed),
           ),
+        );
+
+        _analytics.rampCompleted(
+          partner: RampPartner.moneygram,
+          rampType: RampType.offRamp.name,
+          id: id,
         );
       }
 
