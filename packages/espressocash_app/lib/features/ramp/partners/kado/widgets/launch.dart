@@ -10,13 +10,13 @@ import '../../../../../ui/web_view_screen.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
-import '../../../data/on_ramp_order_service.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
 import '../../../screens/ramp_amount_screen.dart';
 import '../../../services/off_ramp_order_service.dart';
+import '../../../services/on_ramp_order_service.dart';
 import '../data/kado_api_client.dart';
 
 extension BuildContextExt on BuildContext {
@@ -75,6 +75,7 @@ extension BuildContextExt on BuildContext {
               orderId: orderId,
               submittedAmount: submittedAmount,
               partner: RampPartner.kado,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {
@@ -101,7 +102,7 @@ window.addEventListener("message", (event) => {
       this,
       url: uri,
       onLoaded: handleLoaded,
-      title: l10n.ramp_titleCashIn,
+      title: l10n.ramp_titleCashIn.toUpperCase(),
       theme: null,
     );
   }
@@ -169,6 +170,7 @@ window.addEventListener("message", (event) => {
               amount: submittedAmount,
               partner: RampPartner.kado,
               depositAddress: depositAddress,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {

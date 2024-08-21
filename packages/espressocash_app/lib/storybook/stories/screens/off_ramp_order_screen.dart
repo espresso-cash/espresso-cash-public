@@ -23,11 +23,25 @@ final offRampOrderScreenStory = Story(
         cryptoCurrency: Currency.usdc,
       ),
       receiveAmount: null,
-      partner: RampPartner.scalex,
+      partner: context.knobs.options(
+        label: 'Partner',
+        initial: RampPartner.scalex,
+        options: RampPartner.values.toOptions(),
+      ),
       resolved: null,
       partnerOrderId: 'PARTNER_ORDER_ID',
       depositAddress: null,
-      fee: null
+      fee: const CryptoAmount(
+        value: 10000000,
+        cryptoCurrency: Currency.usdc,
+      ),
+      withdrawAnchorAccount: null,
+      withdrawUrl: null,
+      authToken: null,
+      moreInfoUrl: 'https://example.com',
+      referenceNumber: '11111111',
+      bridgeAmount: null,
+      refundAmount: null,
     ),
   ),
 );

@@ -1,3 +1,34 @@
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
+## 1.123.2
+
+ - **FIX**: moneygram stellar config (#1540).
+
+## 1.123.1
+
+ - **REFACTOR**: moneygram pr (#1533).
+ - **FIX**: Temporary change for webview package dependency (#1534).
+
+## 1.123.0
+
+ - **REFACTOR**: update outgoing escrow signing (#1500).
+ - **FIX**: coinflow additional verification redirect (#1516).
+ - **FIX**: portfolio amount value (#1504).
+ - **FEAT**: add moneygram cash out (#1506).
+ - **FEAT**: add moneygram cash in (#1502).
+ - **FEAT**: android target sdk version to 34 (#1523).
+ - **FEAT**: upgrade to Flutter 3.22 (#1517).
+ - **FEAT**: add logging for link tx creation (#1513).
+
 ## 1.122.1
 
  - **FIX**: durable tx signing.
