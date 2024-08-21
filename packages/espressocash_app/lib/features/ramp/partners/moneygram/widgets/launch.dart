@@ -19,6 +19,7 @@ import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
+import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
@@ -32,7 +33,9 @@ import 'style.dart';
 typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchMoneygramOnRamp() async {
+  Future<void> launchMoneygramOnRamp({
+    required ProfileData profile,
+  }) async {
     FiatAmount? amount;
 
     const partner = RampPartner.moneygram;
@@ -85,6 +88,7 @@ extension BuildContextExt on BuildContext {
       submittedAmount: submittedAmount,
       authToken: token,
       receiveAmount: receiveAmount,
+      countryCode: profile.country.code,
     )
         .then((order) {
       switch (order) {
@@ -137,7 +141,9 @@ window.addEventListener("message", (event) => {
     }
   }
 
-  Future<void> launchMoneygramOffRamp() async {
+  Future<void> launchMoneygramOffRamp({
+    required ProfileData profile,
+  }) async {
     Amount? amount;
 
     const partner = RampPartner.moneygram;
@@ -181,6 +187,7 @@ window.addEventListener("message", (event) => {
         .createMoneygramOrder(
       submittedAmount: submittedAmount,
       receiveAmount: receiveAmount,
+      countryCode: profile.country.code,
     )
         .then((order) {
       switch (order) {

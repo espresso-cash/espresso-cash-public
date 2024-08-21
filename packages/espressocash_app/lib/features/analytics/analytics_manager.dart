@@ -2,6 +2,7 @@ import 'package:decimal/decimal.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
+import '../ramp_partner/models/ramp_partner.dart';
 import '../tokens/token.dart';
 
 @lazySingleton
@@ -90,5 +91,49 @@ class AnalyticsManager {
       _analytics.track(
         'paymentRequestLinkPaid',
         properties: {'amount': amount.toDouble()},
+      );
+
+  void rampOpened({
+    required RampPartner partner,
+    required String rampType,
+  }) =>
+      _analytics.track(
+        'rampOpened',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+        },
+      );
+
+  void rampInitiated({
+    required RampPartner partner,
+    required String rampType,
+    required String? amount,
+    required String countryCode,
+    required String id,
+  }) =>
+      _analytics.track(
+        'rampStarted',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+          'amount': amount,
+          'countryCode': countryCode,
+          'id': id,
+        },
+      );
+
+  void rampCompleted({
+    required RampPartner partner,
+    required String rampType,
+    required String id,
+  }) =>
+      _analytics.track(
+        'rampCompleted',
+        properties: {
+          'partner': partner.name,
+          'type': rampType,
+          'id': id,
+        },
       );
 }
