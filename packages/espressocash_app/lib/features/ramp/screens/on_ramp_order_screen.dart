@@ -8,6 +8,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
@@ -156,6 +157,8 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
+    final showCancelButton = order.status.isCancellable;
+
     return StatusScreen(
       theme: theme,
       title: context.l10n.depositTitle.toUpperCase(),
@@ -197,7 +200,7 @@ class OnRampOrderScreenContent extends StatelessWidget {
               primaryButton,
             ],
             Visibility(
-              visible: order.status == OnRampOrderStatus.depositExpired,
+              visible: showCancelButton,
               maintainSize: true,
               maintainAnimation: true,
               maintainState: true,
@@ -221,10 +224,15 @@ class _CancelButton extends StatelessWidget {
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
-          onPressed: () {
-            sl<OnRampOrderService>().delete(orderId);
-            Navigator.pop(context);
-          },
+          onPressed: () => showConfirmationDialog(
+            context,
+            title: context.l10n.onRampCancelTitle.toUpperCase(),
+            message: context.l10n.onRampCancelSubtitle,
+            onConfirm: () {
+              sl<OnRampOrderService>().delete(orderId);
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
 }
