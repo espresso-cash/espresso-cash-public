@@ -75,6 +75,7 @@ extension BuildContextExt on BuildContext {
               orderId: orderId,
               submittedAmount: submittedAmount,
               partner: RampPartner.kado,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {
@@ -169,6 +170,7 @@ window.addEventListener("message", (event) => {
               amount: submittedAmount,
               partner: RampPartner.kado,
               depositAddress: depositAddress,
+              countryCode: profile.country.code,
             )
                 .then((order) {
               switch (order) {

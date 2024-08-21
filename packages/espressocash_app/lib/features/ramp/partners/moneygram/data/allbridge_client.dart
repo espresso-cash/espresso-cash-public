@@ -22,3 +22,21 @@ abstract class AllbridgeApiClient {
     @Queries() RestoreStellarTxRequestDto requestDto,
   );
 }
+
+extension AllbridgeApiClientX on AllbridgeApiClient {
+  Future<BridgeStatusResponseDto?> fetchStatus({
+    required Chain chain,
+    required String hash,
+  }) async {
+    try {
+      return await fetchBridgeStatus(
+        BridgeStatusRequestDto(chain: chain, txId: hash),
+      );
+    } on Exception catch (error) {
+      if (error is DioException && error.response?.statusCode == 400) {
+        return null;
+      }
+      rethrow;
+    }
+  }
+}
