@@ -17,6 +17,7 @@ import '../../../data/db/db.dart';
 import '../../../di.dart';
 import '../../accounts/auth_scope.dart';
 import '../../accounts/models/ec_wallet.dart';
+import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
@@ -25,6 +26,7 @@ import '../../tokens/token.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/resign_tx.dart';
 import '../../transactions/services/tx_sender.dart';
+import '../models/ramp_type.dart';
 import '../models/ramp_watcher.dart';
 import '../partners/coinflow/services/coinflow_off_ramp_order_watcher.dart';
 import '../partners/kado/services/kado_off_ramp_order_watcher.dart';
@@ -58,6 +60,7 @@ class OffRampOrderService implements Disposable {
     this._sender,
     this._db,
     this._tokenRepository,
+    this._analytics,
   );
 
   final Map<String, StreamSubscription<void>> _subscriptions = {};
@@ -68,6 +71,7 @@ class OffRampOrderService implements Disposable {
   final TxSender _sender;
   final MyDatabase _db;
   final TokenRepository _tokenRepository;
+  final AnalyticsManager _analytics;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
@@ -272,6 +276,7 @@ class OffRampOrderService implements Disposable {
     (SignedTx, BigInt)? transaction,
     FiatAmount? receiveAmount,
     CryptoAmount? fee,
+    required String countryCode,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -300,6 +305,14 @@ class OffRampOrderService implements Disposable {
           _subscribe(order.id);
           await _watch(order.id);
 
+          _analytics.rampInitiated(
+            partner: partner,
+            rampType: RampType.offRamp.name,
+            amount: amount.value.toString(),
+            countryCode: countryCode,
+            id: order.id,
+          );
+
           return order.id;
         }
       });
@@ -311,6 +324,7 @@ class OffRampOrderService implements Disposable {
     required RampPartner partner,
     required BigInt slot,
     FiatAmount? receiveAmount,
+    required String countryCode,
   }) =>
       tryEitherAsync((bind) async {
         {
@@ -323,6 +337,7 @@ class OffRampOrderService implements Disposable {
             depositAddress: '',
             receiveAmount: receiveAmount,
             transaction: (signed, slot),
+            countryCode: countryCode,
           ).letAsync(bind);
         }
       });
