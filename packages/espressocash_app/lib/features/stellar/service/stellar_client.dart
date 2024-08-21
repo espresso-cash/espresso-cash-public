@@ -136,7 +136,7 @@ class StellarClient {
     final response = await _sorobanClient.sendTransaction(transaction);
 
     if (response.status == 'ERROR') {
-      throw Exception('error');
+      throw Exception('Submit xdr transaction failed: $response');
     }
 
     return response.hash;

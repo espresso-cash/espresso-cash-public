@@ -1,3 +1,14 @@
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
 ## 1.123.2
 
  - **FIX**: moneygram stellar config (#1540).
