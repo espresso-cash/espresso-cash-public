@@ -168,7 +168,8 @@ class TransactionRepository {
     );
 
     final offRamp = _db.offRampOrderRows.findActivityOrNull(
-      where: (row) => row.transaction.equals(tx.encode()),
+      where: (row) =>
+          row.transaction.equals(tx.encode()) | row.solanaBridgeTx.equals(txId),
       builder: (pr) => Activity.offRamp(id: pr.id, created: pr.created),
       ignoreWhen: (row) => const [
         OffRampOrderStatus.completed,
