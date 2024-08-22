@@ -81,6 +81,12 @@ class TokenRepository {
 
     return query.getSingleOrNull().letAsync((token) => token?.toModel());
   }
+
+  Future<List<TokenRow>> getAll() {
+    final query = _db.select(_db.tokenRows);
+
+    return query.get();
+  }
 }
 
 class IsolateParams {

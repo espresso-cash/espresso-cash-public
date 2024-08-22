@@ -12,11 +12,11 @@ import '../../../ui/text_field.dart';
 import '../../../ui/theme.dart';
 import '../../../ui/value_stream_builder.dart';
 import '../../app_lock/widgets/pin_keypad.dart';
+import '../../authenticated/widgets/refresh_balance_wrapper.dart';
 import '../../conversion_rates/data/repository.dart';
 import '../../conversion_rates/services/token_fiat_balance_service.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
-import '../../token_details/widgets/loader_wrapper.dart';
 import '../../tokens/token.dart';
 import 'token_picker_screen.dart';
 
@@ -50,7 +50,8 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
   bool _isExpanded = false;
   Token _recieveToken = Token.usdc;
 
-  late Decimal _rate = Decimal.fromInt(0);
+  late Decimal _payTokenRate = Decimal.fromInt(0);
+  late Decimal _receiveTokenRate = Decimal.fromInt(0);
   late Token _payToken;
 
   @override
@@ -58,7 +59,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     super.initState();
     _payToken = widget.token;
 
-    _updateRate(widget.token);
+    _updateRate(widget.token, Token.usdc);
 
     _quantityPayController.addListener(_onPayAmountChanged);
     _quantityReveiveController.addListener(_onReceiveAmountChanged);
@@ -71,11 +72,16 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
     super.dispose();
   }
 
-  Future<void> _updateRate(Token token) async {
+  Future<void> _updateRate(Token payToken, Token receiveToken) async {
     await sl<ConversionRatesRepository>()
         .refresh(defaultFiatCurrency, [_payToken, _recieveToken]);
-    _rate = sl<ConversionRatesRepository>().readRate(
-          CryptoCurrency(token: token),
+    _payTokenRate = sl<ConversionRatesRepository>().readRate(
+          CryptoCurrency(token: payToken),
+          to: defaultFiatCurrency,
+        ) ??
+        Decimal.zero;
+    _receiveTokenRate = sl<ConversionRatesRepository>().readRate(
+          CryptoCurrency(token: receiveToken),
           to: defaultFiatCurrency,
         ) ??
         Decimal.zero;
@@ -100,7 +106,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
 
     final payAmount =
         Decimal.tryParse(_quantityPayController.text) ?? Decimal.zero;
-    final receiveAmount = payAmount * _rate;
+    final receiveAmount = payAmount * _payTokenRate;
     _quantityReveiveController.text = receiveAmount.round(scale: 2).toString();
 
     setState(() {
@@ -133,7 +139,8 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
 
     final receiveAmount =
         Decimal.tryParse(_quantityReveiveController.text) ?? Decimal.zero;
-    final payAmount = receiveAmount / _rate;
+
+    final payAmount = receiveAmount / _payTokenRate;
     _quantityPayController.text = payAmount.toDouble().toStringAsFixed(2);
 
     setState(() {
@@ -148,7 +155,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => LoadBalancesWrapper(
+  Widget build(BuildContext context) => RefreshBalancesWrapper(
         builder: (context, onRefresh) {
           onRefresh();
 
@@ -163,8 +170,15 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
             builder: (context, value) {
               final crypto = value.$1;
 
-              final fiatRate =
-                  Amount.fromDecimal(value: _rate, currency: Currency.usd);
+              final fiatRatePay = Amount.fromDecimal(
+                value: _payTokenRate,
+                currency: Currency.usd,
+              );
+
+              final fiatRateReceive = Amount.fromDecimal(
+                value: _receiveTokenRate,
+                currency: Currency.usd,
+              );
 
               return Provider<Token>.value(
                 value: widget.token,
@@ -212,9 +226,9 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                         quantityController:
                                             _quantityPayController,
                                         crypto: crypto,
-                                        symbol: widget.token.symbol,
-                                        fiatRate: fiatRate,
-                                        maxButton: true,
+                                        symbol: _payToken.symbol,
+                                        fiatRate: fiatRatePay,
+                                        maxButton: false,
                                       ),
                                     ),
                                     AnimatedContainer(
@@ -225,7 +239,10 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                       child: TokenPicker(
                                         title: 'You Pay',
                                         onSubmitted: (value) async {
-                                          await _updateRate(value);
+                                          await _updateRate(
+                                            value,
+                                            _recieveToken,
+                                          );
                                           if (!mounted) return;
                                           setState(() {
                                             _payToken = value;
@@ -300,12 +317,8 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                         quantityController:
                                             _quantityReveiveController,
                                         crypto: crypto,
-                                        symbol: Token.usdc.symbol,
-                                        fiatRate: Amount.fromDecimal(
-                                          value: Decimal.tryParse('1') ??
-                                              Decimal.zero,
-                                          currency: Currency.usdc,
-                                        ),
+                                        symbol: _recieveToken.symbol,
+                                        fiatRate: fiatRateReceive,
                                         maxButton: false,
                                       ),
                                     ),
@@ -317,7 +330,7 @@ class _SwapTokenScreenState extends State<SwapTokenScreen> {
                                         title: 'You Receive',
                                         token: _recieveToken,
                                         onSubmitted: (value) async {
-                                          await _updateRate(value);
+                                          await _updateRate(_payToken, value);
                                           if (!mounted) return;
                                           setState(() {
                                             _recieveToken = value;

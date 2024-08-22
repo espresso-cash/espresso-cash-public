@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
+import '../../../data/db/db.dart';
+import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
@@ -11,8 +13,9 @@ import '../../../ui/theme.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
+import '../../tokens/service/extensions.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../../tokens/widgets/token_icon.dart';
 import 'swap_token_screen.dart';
 
@@ -139,28 +142,17 @@ class _ContentState extends State<_Content> {
 
   Token? _selectedToken;
   String _searchText = '';
-  final _tokens = TokenList().tokens.toList();
+  List<TokenRow> _tokens = [];
 
   @override
   void initState() {
     super.initState();
-
+    sl<TokenRepository>().getAll().then((value) => _tokens = value);
     _selectedToken = widget.initial;
 
     _searchController.addListener(() {
       setState(() => _searchText = _searchController.text);
     });
-
-    final token = _selectedToken;
-
-    if (token != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final index = _tokens.indexOf(token);
-        final centerOffset = ((context.size?.height ?? 0) - _tileHeight) / 2.5;
-        final offset = index * _tileHeight - centerOffset;
-        _scrollController.jumpTo(offset);
-      });
-    }
   }
 
   @override
@@ -172,14 +164,10 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredCountries = _tokens.where((token) {
+    final filteredTokens = _tokens.where((token) {
       final nameMatches =
           token.name.toLowerCase().contains(_searchText.toLowerCase());
-
-      final codeMatches =
-          token.address.toLowerCase().contains(_searchText.toLowerCase());
-
-      return nameMatches || codeMatches;
+      return nameMatches;
     }).toList();
 
     return Column(
@@ -202,7 +190,7 @@ class _ContentState extends State<_Content> {
             ),
           ),
         ),
-        if (filteredCountries.isEmpty)
+        if (filteredTokens.isEmpty)
           Expanded(
             child: Center(
               child: Text(
@@ -224,11 +212,11 @@ class _ContentState extends State<_Content> {
                 top: 20,
                 bottom: MediaQuery.paddingOf(context).bottom,
               ),
-              itemCount: filteredCountries.length,
+              itemCount: filteredTokens.length,
               separatorBuilder: (context, index) => const SizedBox(height: 8),
               itemBuilder: (BuildContext context, int index) {
-                final token = filteredCountries[index];
-                final selected = token == _selectedToken;
+                final token = filteredTokens[index];
+                final selected = token.toModel() == _selectedToken;
 
                 return DecoratedBox(
                   decoration: selected
@@ -240,7 +228,7 @@ class _ContentState extends State<_Content> {
                   child: _TokenItem(
                     cryptoAmount: CryptoAmount(
                       value: 0,
-                      cryptoCurrency: CryptoCurrency(token: token),
+                      cryptoCurrency: CryptoCurrency(token: token.toModel()),
                     ),
                     fiatAmount: const FiatAmount(
                       value: 0,
@@ -256,11 +244,8 @@ class _ContentState extends State<_Content> {
   }
 }
 
-const _tileHeight = 46.0;
-
 class _TokenItem extends StatelessWidget {
   const _TokenItem({
-    super.key,
     required this.cryptoAmount,
     required this.fiatAmount,
   });
