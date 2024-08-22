@@ -283,9 +283,12 @@ class MoneygramOnRampOrderService implements Disposable {
       );
     }
 
-    final amount = CryptoAmount(
-      value: order.amount,
-      cryptoCurrency: Currency.usdc,
+    final amount =
+        Amount.fiat(value: order.amount, fiatCurrency: Currency.usd).let(
+      (e) => Amount.fromDecimal(
+        value: Decimal.parse(e.decimal.toString()),
+        currency: Currency.usdc,
+      ),
     );
 
     final solanaAddress = _ecWallet.address;
