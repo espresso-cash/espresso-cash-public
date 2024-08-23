@@ -3,6 +3,7 @@ import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
+import '../../../di.dart';
 import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
@@ -10,6 +11,10 @@ import '../../../ui/colors.dart';
 import '../../../ui/dialogs.dart';
 import '../../../ui/number_formatter.dart';
 import '../../conversion_rates/widgets/amount_with_equivalent.dart';
+import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
+import '../../fees/models/fee_type.dart';
+import '../../fees/services/fee_calculator.dart';
 import '../../token_details/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
 
@@ -55,11 +60,13 @@ class SendTokenConfirmationScreen extends StatefulWidget {
 
 class _ScreenState extends State<SendTokenConfirmationScreen> {
   late final TextEditingController _amountController;
+  late Future<CryptoAmount> _feeAmount;
 
   @override
   void initState() {
     super.initState();
     _amountController = TextEditingController(text: widget.initialAmount);
+    _feeAmount = sl<FeeCalculator>().call(FeeTypeDirect(widget.recipient));
   }
 
   void _handleSubmitted() {
@@ -133,11 +140,19 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                             CpColors.dashboardBackgroundColor,
                                       ),
                                       const SizedBox(height: 72),
-                                      _Info(
-                                        '${substring(widget.recipient.toBase58(), 0, 6)}'
-                                            '\u2026'
-                                            '${substring(widget.recipient.toBase58(), widget.recipient.toBase58().length - 6)}',
-                                        r'$0.01',
+                                      FutureBuilder(
+                                        future: _feeAmount,
+                                        builder: (context, fee) => _Info(
+                                          '${substring(widget.recipient.toBase58(), 0, 6)}'
+                                          '\u2026'
+                                          '${substring(widget.recipient.toBase58(), widget.recipient.toBase58().length - 6)}',
+                                          fee.connectionState !=
+                                                  ConnectionState.waiting
+                                              ? fee.data != null
+                                                  ? '\$${fee.data!.format(DeviceLocale.localeOf(context), skipSymbol: true)}'
+                                                  : 'Unable to fetch fee'
+                                              : 'Fetching fee...',
+                                        ),
                                       ),
                                     ],
                                   ),
