@@ -101,12 +101,7 @@ class TransactionRepository {
         );
   }
 
-  Future<void> saveAll(
-    Iterable<TxCommon> txs, {
-    bool clear = false,
-    InsertMode mode = InsertMode.insertOrReplace,
-  }) async =>
-      _db.batch(
+  Future<void> saveAll(Iterable<TxCommon> txs) => _db.batch(
         (batch) => batch.insertAll(
           _db.transactionRows,
           txs.map((e) => e.toRow()),
