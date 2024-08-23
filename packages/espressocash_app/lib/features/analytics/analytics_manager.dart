@@ -3,7 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
 import '../ramp_partner/models/ramp_partner.dart';
-import '../tokens/token.dart';
 
 @lazySingleton
 class AnalyticsManager {
@@ -69,12 +68,12 @@ class AnalyticsManager {
   void singleLinkReceived() => _analytics.track('singleLinkReceived');
 
   void directPaymentSent({
-    required Token token,
+    required String symbol,
     required Decimal amount,
   }) =>
       _analytics.track(
         'directPaymentSent',
-        properties: {'token': token.symbol, 'amount': amount.toDouble()},
+        properties: {'token': symbol, 'amount': amount.toDouble()},
       );
 
   void paymentRequestLinkCreated({

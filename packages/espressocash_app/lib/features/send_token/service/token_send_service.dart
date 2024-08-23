@@ -270,7 +270,7 @@ class TokenSendService {
       _refreshBalance();
 
       _analyticsManager.directPaymentSent(
-        token: payment.amount.token,
+        symbol: payment.amount.token.symbol,
         amount: payment.amount.decimal,
       );
     }
