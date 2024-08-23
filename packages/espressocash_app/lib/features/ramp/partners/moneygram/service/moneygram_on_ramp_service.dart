@@ -146,6 +146,7 @@ class MoneygramOnRampOrderService implements Disposable {
     required String authToken,
     required CryptoAmount receiveAmount,
     required String countryCode,
+    required Amount bridgeAmount,
   }) =>
       tryEitherAsync((_) async {
         {
@@ -164,6 +165,7 @@ class MoneygramOnRampOrderService implements Disposable {
             partner: RampPartner.moneygram,
             status: OnRampOrderStatus.pending,
             authToken: authToken,
+            bridgeAmount: bridgeAmount.value,
           );
 
           await _db.into(_db.onRampOrderRows).insert(order);
@@ -247,7 +249,7 @@ class MoneygramOnRampOrderService implements Disposable {
     OnRampOrderRow order,
   ) async {
     final cashInAmount = CryptoAmount(
-      value: order.amount,
+      value: order.bridgeAmount ?? 0,
       cryptoCurrency: Currency.usdc,
     );
 
@@ -283,12 +285,9 @@ class MoneygramOnRampOrderService implements Disposable {
       );
     }
 
-    final amount =
-        Amount.fiat(value: order.amount, fiatCurrency: Currency.usd).let(
-      (e) => Amount.fromDecimal(
-        value: Decimal.parse(e.decimal.toString()),
-        currency: Currency.usdc,
-      ),
+    final amount = Amount.crypto(
+      value: order.bridgeAmount ?? 0,
+      cryptoCurrency: Currency.usdc,
     );
 
     final solanaAddress = _ecWallet.address;
@@ -408,7 +407,7 @@ class MoneygramOnRampOrderService implements Disposable {
         );
 
       final amount = CryptoAmount(
-        value: order.amount,
+        value: order.bridgeAmount ?? 0,
         cryptoCurrency: Currency.usdc,
       );
 
