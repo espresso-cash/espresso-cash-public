@@ -1,13 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_app/features/analytics/analytics_manager.dart';
 import 'package:espressocash_app/features/ramp_partner/models/ramp_partner.dart';
-import 'package:espressocash_app/features/tokens/token.dart';
 
 class StubAnalyticsManager implements AnalyticsManager {
   const StubAnalyticsManager();
 
   @override
-  void directPaymentSent({required Token token, required Decimal amount}) {}
+  void directPaymentSent({required String symbol, required Decimal amount}) {}
 
   @override
   void setProfileCountryCode(String countryCode) {}
