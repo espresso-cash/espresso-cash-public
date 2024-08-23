@@ -272,10 +272,19 @@ extension on String {
 }
 
 extension on BuildContext {
-  String feeStatus(AsyncSnapshot<CryptoAmount> fee) => fee.connectionState !=
-          ConnectionState.waiting
-      ? fee.data != null
-          ? '\$${fee.data!.format(DeviceLocale.localeOf(this), skipSymbol: true)}'
-          : 'Unable to fetch fee'
-      : 'Fetching fee...';
+  String feeStatus(AsyncSnapshot<CryptoAmount> fee) {
+    if (fee.connectionState == ConnectionState.waiting) {
+      return 'Fetching fee...';
+    }
+
+    final data = fee.data;
+    if (!fee.hasData || data == null) {
+      return 'Unable to fetch fee';
+    }
+
+    final formattedFee =
+        data.format(DeviceLocale.localeOf(this), skipSymbol: true);
+
+    return '\$$formattedFee';
+  }
 }
