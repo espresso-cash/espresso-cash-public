@@ -1,5 +1,4 @@
 import 'package:decimal/decimal.dart';
-import 'package:dfunc/dfunc.dart';
 import 'package:flutter/material.dart';
 import 'package:solana/solana.dart';
 
@@ -15,8 +14,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/services/fee_calculator.dart';
-import '../../token_details/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
+import '../widgets/token_app_bar.dart';
 
 class SendTokenConfirmationScreen extends StatefulWidget {
   const SendTokenConfirmationScreen({
@@ -65,8 +64,10 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
   @override
   void initState() {
     super.initState();
+    final feeType = FeeTypeDirect(widget.recipient);
+
     _amountController = TextEditingController(text: widget.initialAmount);
-    _feeAmount = sl<FeeCalculator>().call(FeeTypeDirect(widget.recipient));
+    _feeAmount = sl<FeeCalculator>().call(feeType);
   }
 
   void _handleSubmitted() {
@@ -143,15 +144,8 @@ class _ScreenState extends State<SendTokenConfirmationScreen> {
                                       FutureBuilder(
                                         future: _feeAmount,
                                         builder: (context, fee) => _Info(
-                                          '${substring(widget.recipient.toBase58(), 0, 6)}'
-                                          '\u2026'
-                                          '${substring(widget.recipient.toBase58(), widget.recipient.toBase58().length - 6)}',
-                                          fee.connectionState !=
-                                                  ConnectionState.waiting
-                                              ? fee.data != null
-                                                  ? '\$${fee.data!.format(DeviceLocale.localeOf(context), skipSymbol: true)}'
-                                                  : 'Unable to fetch fee'
-                                              : 'Fetching fee...',
+                                          widget.recipient.toString().shortened,
+                                          context.feeStatus(fee),
                                         ),
                                       ),
                                     ],
@@ -267,4 +261,30 @@ class _SendInfoContainer extends StatelessWidget {
         ),
         child: content,
       );
+}
+
+extension on String {
+  String get shortened {
+    if (length < 16) return this;
+
+    return '${substring(0, 8)}...${substring(length - 8, length)}';
+  }
+}
+
+extension on BuildContext {
+  String feeStatus(AsyncSnapshot<CryptoAmount> fee) {
+    if (fee.connectionState == ConnectionState.waiting) {
+      return 'Fetching fee...';
+    }
+
+    final data = fee.data;
+    if (!fee.hasData || data == null) {
+      return 'Unable to fetch fee';
+    }
+
+    final formattedFee =
+        data.format(DeviceLocale.localeOf(this), skipSymbol: true);
+
+    return '\$$formattedFee';
+  }
 }
