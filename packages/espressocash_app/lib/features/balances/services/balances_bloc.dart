@@ -16,8 +16,8 @@ import '../../accounts/auth_scope.dart';
 import '../../analytics/analytics_manager.dart';
 import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
+import '../../tokens/data/token_repository.dart';
 import '../../tokens/token.dart';
-import '../../tokens/token_list.dart';
 import '../data/repository.dart';
 
 part 'balances_bloc.freezed.dart';
@@ -30,16 +30,16 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
     with DisposableBloc {
   BalancesBloc(
     this._solanaClient,
-    this._tokens,
-    this._tokensRepository,
+    this._tokenRepository,
+    this._tokensBalanceRepository,
     this._analyticsManager,
   ) : super(const ProcessingStateNone()) {
     on<BalancesEventRequested>(_handleRequested, transformer: droppable());
   }
 
   final SolanaClient _solanaClient;
-  final TokenList _tokens;
-  final TokenBalancesRepository _tokensRepository;
+  final TokenRepository _tokenRepository;
+  final TokenBalancesRepository _tokensBalanceRepository;
   final AnalyticsManager _analyticsManager;
 
   Future<void> _handleRequested(
@@ -63,7 +63,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
                 account: (a) => _MainTokenAccount.create(
                   programAccount.pubkey,
                   a.info,
-                  _tokens,
+                  _tokenRepository,
                 ),
                 orElse: () async => null,
               ),
@@ -92,7 +92,7 @@ class BalancesBloc extends Bloc<BalancesEvent, BalancesState>
         _analyticsManager.setUsdcBalance(usdcBalance.decimal);
       }
 
-      await _tokensRepository.save([...tokenBalances, sol]);
+      await _tokensBalanceRepository.save([...tokenBalances, sol]);
     } on Exception catch (exception) {
       _logger.severe('Failed to fetch balances', exception);
 
@@ -110,7 +110,7 @@ class _MainTokenAccount {
   static Future<_MainTokenAccount?> create(
     String pubKey,
     SplTokenAccountDataInfo info,
-    TokenList tokens,
+    TokenRepository tokenRepository,
   ) async {
     final expectedPubKey = await findAssociatedTokenAddress(
       owner: Ed25519HDPublicKey.fromBase58(info.owner),
@@ -119,10 +119,11 @@ class _MainTokenAccount {
 
     if (expectedPubKey.toBase58() != pubKey) return null;
 
-    final token = tokens.findTokenByMint(info.mint);
+    final Token? token = await tokenRepository.getToken(info.mint);
 
-    // TODO(IA): we should find a way to display this
-    return token == null ? null : _MainTokenAccount._(pubKey, info, token);
+    if (token == null) return null;
+
+    return _MainTokenAccount._(pubKey, info, token);
   }
 
   final Token token;
