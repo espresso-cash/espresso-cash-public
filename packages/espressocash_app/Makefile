@@ -10,7 +10,7 @@ splash:
 	dart run flutter_native_splash:create
 
 update_tokens:
-	dart run tool/update_token_list.dart
+	dart run tool/update_tokens.dart
 
 flutter_test:
 	dart run $(DART_TEST_DEFINITIONS) tool/tests_setup.dart

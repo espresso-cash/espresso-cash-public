@@ -16,11 +16,12 @@ class Token {
     required this.name,
     required this.decimals,
     required this.logoURI,
-    required this.tags,
-    required this.extensions,
+    required this.isStablecoin,
   });
 
   const factory Token.solana() = _SolanaToken;
+
+  const factory Token.unknown() = _UnknownToken;
 
   const factory Token.wrappedSolana() = _WrappedSolanaToken;
 
@@ -31,8 +32,7 @@ class Token {
     required String name,
     required int decimals,
     required String logoURI,
-    required List<String> tags,
-    required Extensions? extensions,
+    required bool isStablecoin,
   }) = SplToken;
 
   factory Token.fromJson(Map<String, dynamic> data) => _$TokenFromJson(data);
@@ -41,13 +41,11 @@ class Token {
 
   static const sol = Token.solana();
 
+  static const unk = Token.unknown();
+
   static const wrappedSol = Token.wrappedSolana();
 
   bool get isSolana => this is _SolanaToken;
-
-  String? get coingeckoId => extensions?.coingeckoId;
-
-  bool get isStablecoin => tags?.contains('stablecoin') == true;
 
   Ed25519HDPublicKey get publicKey => Ed25519HDPublicKey.fromBase58(address);
 
@@ -68,24 +66,34 @@ class Token {
   final String name;
   final int decimals;
   final String? logoURI;
-  final List<String>? tags;
-  final Extensions? extensions;
+  final bool isStablecoin;
 }
 
 class _SolanaToken extends Token {
   const _SolanaToken()
       : super(
           address: 'So11111111111111111111111111111111111111111',
-          extensions: const Extensions(
-            coingeckoId: 'solana',
-          ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
           chainId: currentChainId,
-          tags: const [],
           decimals: 9,
           name: 'Solana',
           symbol: 'SOL',
+          isStablecoin: false,
+        );
+}
+
+class _UnknownToken extends Token {
+  const _UnknownToken()
+      : super(
+          address: 'Unknown1111111111111111111111111111111111111',
+          logoURI:
+              'https://upload.wikimedia.org/wikipedia/commons/5/57/ABCQ.png',
+          chainId: currentChainId,
+          decimals: 9,
+          name: 'Unknown Token',
+          symbol: 'UNKNOWN',
+          isStablecoin: false,
         );
 }
 
@@ -97,8 +105,7 @@ class SplToken extends Token {
     required super.name,
     required super.decimals,
     super.logoURI,
-    required List<String> super.tags,
-    super.extensions,
+    required super.isStablecoin,
   });
 }
 
@@ -106,16 +113,13 @@ class _WrappedSolanaToken extends SplToken {
   const _WrappedSolanaToken()
       : super(
           address: 'So11111111111111111111111111111111111111112',
-          extensions: const Extensions(
-            coingeckoId: 'wrapped-solana',
-          ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png',
           chainId: currentChainId,
-          tags: const [],
           decimals: 9,
           name: 'Wrapped SOL',
           symbol: 'SOL',
+          isStablecoin: false,
         );
 }
 
@@ -123,16 +127,13 @@ class _UsdcMainToken extends SplToken {
   const _UsdcMainToken()
       : super(
           address: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-          extensions: const Extensions(
-            coingeckoId: 'usd-coin',
-          ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png',
           chainId: currentChainId,
-          tags: const ['stablecoin'],
           decimals: 6,
           name: 'USD Coin',
           symbol: 'USDC',
+          isStablecoin: true,
         );
 }
 
@@ -140,45 +141,16 @@ class _UsdcDevToken extends SplToken {
   const _UsdcDevToken()
       : super(
           address: '4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU',
-          extensions: const Extensions(
-            coingeckoId: 'usd-coin',
-          ),
           logoURI:
               'https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU/logo.png',
           chainId: currentChainId,
-          tags: const ['stablecoin'],
           decimals: 6,
           name: 'USD Coin',
           symbol: 'USDC',
+          isStablecoin: true,
         );
 }
 
-@JsonSerializable()
-class Extensions {
-  const Extensions({
-    this.coingeckoId,
-  });
-
-  factory Extensions.fromJson(Map<String, dynamic> data) =>
-      _$ExtensionsFromJson(data);
-
-  Map<String, dynamic> toJson() {
-    throw const FormatException('cannot convert token to json');
-  }
-
-  final String? coingeckoId;
-}
-
-@JsonSerializable(createToJson: false)
-class ParsedContent {
-  const ParsedContent({
-    required this.timestamp,
-    required this.tokens,
-  });
-
-  factory ParsedContent.fromJson(Map<String, dynamic> json) =>
-      _$ParsedContentFromJson(json);
-
-  final List<Token> tokens;
-  final DateTime timestamp;
+extension TokenExt on Iterable<Token> {
+  Iterable<String> get symbols => map((t) => t.symbol);
 }

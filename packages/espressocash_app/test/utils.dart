@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:espressocash_app/features/tokens/token.dart';
 import 'package:solana/dto.dart';
 import 'package:solana/solana.dart';
 
@@ -87,7 +86,7 @@ extension SolanaClientExt on SolanaClient {
 
   Future<void> airdropSplTokens(
     Ed25519HDPublicKey recipient,
-    Token token, {
+    Ed25519HDKeyPair token, {
     required int amount,
   }) async {
     final mintAuthority = await Ed25519HDKeyPair.fromPrivateKeyBytes(
