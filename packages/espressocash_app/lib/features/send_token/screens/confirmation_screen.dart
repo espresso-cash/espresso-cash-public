@@ -14,8 +14,8 @@ import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
 import '../../fees/models/fee_type.dart';
 import '../../fees/services/fee_calculator.dart';
-import '../../token_details/widgets/token_app_bar.dart';
 import '../../tokens/token.dart';
+import '../widgets/token_app_bar.dart';
 
 class SendTokenConfirmationScreen extends StatefulWidget {
   const SendTokenConfirmationScreen({
