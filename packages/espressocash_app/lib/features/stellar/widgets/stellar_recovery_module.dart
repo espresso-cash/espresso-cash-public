@@ -14,24 +14,34 @@ class StellarRecoveryModule extends StatefulWidget {
 }
 
 class _StellarRecoveryModuleState extends State<StellarRecoveryModule> {
+  late final Future<void> _init;
+
   @override
   void initState() {
     super.initState();
-
-    final hasStellarUsdc = sl<StellarRecoveryService>().hasStellarUsdc;
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (hasStellarUsdc) {
-        RecoverStellarScreen.push(
-          context,
-          onConfirmed: () {
-            Navigator.of(context).pop();
-          },
-        );
-      }
-    });
+    _init = sl<StellarRecoveryService>().init();
   }
 
   @override
-  Widget build(BuildContext context) => widget.child;
+  Widget build(BuildContext context) => FutureBuilder<void>(
+        future: _init,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            final hasStellarUsdc = sl<StellarRecoveryService>().hasStellarUsdc;
+
+            if (hasStellarUsdc) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                RecoverStellarScreen.push(
+                  context,
+                  onConfirmed: () {
+                    Navigator.of(context).pop();
+                  },
+                );
+              });
+            }
+          }
+
+          return widget.child;
+        },
+      );
 }
