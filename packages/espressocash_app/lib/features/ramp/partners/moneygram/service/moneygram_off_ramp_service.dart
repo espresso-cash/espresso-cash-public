@@ -573,12 +573,16 @@ class MoneygramOffRampOrderService implements Disposable {
         return;
       }
 
-      final bridgeAmount = int.parse(destination.amount) ~/ 10;
+      final amount = int.parse(destination.amount) ~/ 10;
+
+      final bridgeAmount =
+          CryptoAmount(value: amount, cryptoCurrency: Currency.usdc)
+              .floor(Currency.usd.decimals);
 
       await statement.write(
         OffRampOrderRowsCompanion(
           status: const Value(OffRampOrderStatus.ready),
-          bridgeAmount: Value(bridgeAmount),
+          bridgeAmount: Value(bridgeAmount.value),
         ),
       );
 
