@@ -36,6 +36,7 @@ class StellarRecoveryService extends ChangeNotifier {
   bool _hasStellarUsdc = false;
   bool get hasStellarUsdc => _hasStellarUsdc;
 
+  @PostConstruct()
   Future<void> init() async {
     final hasRecoveryKey = _storage.getBool(_stellarRecoverKey) == true;
     final isSeedInputted = _account.accessMode.isSeedInputted;

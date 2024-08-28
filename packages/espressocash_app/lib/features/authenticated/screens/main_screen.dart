@@ -15,6 +15,7 @@ import '../../activities/widgets/recent_activity.dart';
 import '../../balances/data/repository.dart';
 import '../../currency/models/amount.dart';
 import '../../ramp/widgets/ramp_buttons.dart';
+import '../../stellar/widgets/stellar_recovery_notice.dart';
 import '../../tokens/token.dart';
 import '../widgets/home_add_cash.dart';
 import '../widgets/home_app_bar.dart';
@@ -133,6 +134,7 @@ class _HomeScrollableRegion extends StatelessWidget {
               Column(
                 children: [
                   const InvestmentHeader(),
+                  const StellarRecoveryNotice(),
                   DecoratedBox(
                     decoration: const BoxDecoration(
                       color: CpColors.dashboardBackgroundColor,
