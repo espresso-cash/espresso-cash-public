@@ -24,7 +24,7 @@ class OutgoingTransferRows extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
-const int latestVersion = 57;
+const int latestVersion = 58;
 
 const _tables = [
   OutgoingTransferRows,
@@ -159,6 +159,9 @@ class MyDatabase extends _$MyDatabase {
             await m.createTable(conversionRatesRows);
           }
           if (from < 57) {
+            await m.addColumn(onRampOrderRows, onRampOrderRows.bridgeAmount);
+          }
+          if (from < 58) {
             await m.createTable(tokenRows);
           }
         },
@@ -189,6 +192,7 @@ class OnRampOrderRows extends Table with AmountMixin, EntityMixin {
   TextColumn get stellarTxHash => text().nullable()();
   IntColumn get feeAmount => integer().nullable()();
   TextColumn get referenceNumber => text().nullable()();
+  IntColumn get bridgeAmount => integer().nullable()();
 }
 
 class OffRampOrderRows extends Table with AmountMixin, EntityMixin {

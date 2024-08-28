@@ -13,12 +13,14 @@ import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
 import '../../../../../utils/errors.dart';
+import '../../../../conversion_rates/services/amount_ext.dart';
 import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
+import '../../../../tokens/token.dart';
 import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
@@ -62,14 +64,23 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
+    final usdcAmount =
+        submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
+
+    if (usdcAmount == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
     final receiveAmount = await runWithLoader<Amount>(
       this,
-      () async => _fetchFees(amount: submittedAmount, type: type)
+      () async => _fetchFees(amount: usdcAmount, type: type)
           .letAsync((p) => p.receiveAmount),
     ) as CryptoAmount;
 
     final response = await _generateDepositLink(
-      amount: submittedAmount.decimal.toDouble(),
+      amount: usdcAmount.decimal.toDouble(),
     );
 
     if (response == null) {
@@ -89,6 +100,7 @@ extension BuildContextExt on BuildContext {
       authToken: token,
       receiveAmount: receiveAmount,
       countryCode: profile.country.code,
+      bridgeAmount: usdcAmount,
     )
         .then((order) {
       switch (order) {

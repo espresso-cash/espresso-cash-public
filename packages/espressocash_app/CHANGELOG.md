@@ -1,3 +1,7 @@
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
 ## 1.124.0
 
  - **FIX**: moneygram ramp fixes (#1550).
