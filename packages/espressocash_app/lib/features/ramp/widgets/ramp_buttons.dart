@@ -301,7 +301,7 @@ IList<RampPartner> _getOnRampPartners(String countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
-  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
+  if (isMoneygramEnabled && _moneygramOnRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
 
@@ -322,7 +322,7 @@ IList<RampPartner> _getOffRampPartners(String countryCode) {
   final isMoneygramEnabled =
       sl<FeatureFlagsManager>().isMoneygramAccessEnabled();
 
-  if (isMoneygramEnabled && _moneygramCountries.contains(countryCode)) {
+  if (isMoneygramEnabled && _moneygramOffRampCountries.contains(countryCode)) {
     partners.add(RampPartner.moneygram);
   }
 
@@ -345,4 +345,5 @@ const _coinflowCountries = {
 
 const _scalexCountries = {'NG'};
 
-const _moneygramCountries = {'US'};
+const _moneygramOnRampCountries = {'US'};
+const _moneygramOffRampCountries = {'US', 'PT'};
