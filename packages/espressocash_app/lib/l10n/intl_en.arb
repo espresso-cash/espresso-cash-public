@@ -871,5 +871,9 @@
   "moneyRecoveryDisclaimer": "*This can take up to 3 minutes to complete.",
   "@moneyRecoveryDisclaimer": {},
   "moneyRecoverySuccessNotice": "Success! Money will be recovered soon",
-  "@moneyRecoverySuccessNotice": {}
+  "@moneyRecoverySuccessNotice": {},
+  "stellarRecoveryNoticeTitle": "Unclaimed money has been detected.",
+  "@stellarRecoveryNoticeTitle": {},
+  "stellarRecoveryNoticeAction": "Click here to recover.",
+  "@stellarRecoveryNoticeAction": {}
 }

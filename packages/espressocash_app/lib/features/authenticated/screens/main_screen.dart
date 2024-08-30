@@ -134,7 +134,6 @@ class _HomeScrollableRegion extends StatelessWidget {
               Column(
                 children: [
                   const InvestmentHeader(),
-                  const StellarRecoveryNotice(),
                   DecoratedBox(
                     decoration: const BoxDecoration(
                       color: CpColors.dashboardBackgroundColor,

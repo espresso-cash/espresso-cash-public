@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../../di.dart';
-import '../../../ui/button.dart';
+import '../../../l10n/l10n.dart';
+import '../../../ui/colors.dart';
+import '../../../ui/info_widget.dart';
 import '../screens/recover_stellar_screen.dart';
 import '../service/recovery_service.dart';
 
@@ -43,22 +46,7 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
               : ListenableBuilder(
                   listenable: recoveryService,
                   builder: (context, child) => recoveryService.hasStellarUsdc
-                      ? AspectRatio(
-                          aspectRatio: 450 / 100,
-                          child: GestureDetector(
-                            onTap: _handlePressed,
-                            child: RepaintBoundary(
-                              child: Stack(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.center,
-                                    child: _Content(onPressed: _handlePressed),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        )
+                      ? _Content(onPressed: _handlePressed)
                       : const SizedBox.shrink(),
                 );
         },
@@ -71,31 +59,34 @@ class _Content extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(
-            width: 150,
-            child: FittedBox(
-              child: Text(
-                'USDC Found!',
-                maxLines: 2,
-                style: TextStyle(
+  Widget build(BuildContext context) => Center(
+        child: SizedBox(
+          height: 60,
+          width: 350,
+          child: CpInfoWidget(
+            message: Text.rich(
+              TextSpan(
+                text: '${context.l10n.stellarRecoveryNoticeTitle}\n',
+                children: <TextSpan>[
+                  TextSpan(
+                    text: context.l10n.stellarRecoveryNoticeAction,
+                    style: const TextStyle(
+                      color: CpColors.yellowColor,
+                    ),
+                    recognizer: TapGestureRecognizer()..onTap = onPressed,
+                  ),
+                ],
+                style: const TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 14.5,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
+            infoRadius: 32,
+            variant: CpInfoVariant.black,
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 4),
           ),
-          const SizedBox(width: 12),
-          CpButton(
-            text: 'Recover USDC',
-            size: CpButtonSize.micro,
-            onPressed: onPressed,
-          ),
-          const SizedBox(width: 24),
-        ],
+        ),
       );
 }
