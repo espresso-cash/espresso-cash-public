@@ -79,29 +79,37 @@ class _Content extends StatelessWidget {
   Widget build(BuildContext context) => Center(
         child: SizedBox(
           height: 60,
-          width: 350,
+          width: 343,
           child: CpInfoWidget(
             message: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text.rich(
-                  TextSpan(
-                    text: '${context.l10n.stellarRecoveryNoticeTitle}\n',
-                    children: <TextSpan>[
+                Expanded(
+                  child: Center(
+                    child: Text.rich(
                       TextSpan(
-                        text: context.l10n.stellarRecoveryNoticeAction,
-                        style: const TextStyle(
-                          color: CpColors.yellowColor,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = onRecoverPressed,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '${context.l10n.stellarRecoveryNoticeTitle} ',
+                          ),
+                          TextSpan(
+                            text: context.l10n.stellarRecoveryNoticeAction,
+                            style: const TextStyle(
+                              color: CpColors.yellowColor,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = onRecoverPressed,
+                          ),
+                        ],
                       ),
-                    ],
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.w500,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.visible,
                     ),
                   ),
                 ),
@@ -116,7 +124,8 @@ class _Content extends StatelessWidget {
                 ),
               ],
             ),
-            infoRadius: 14,
+            infoRadius: 12,
+            iconSize: 12,
             variant: CpInfoVariant.black,
             padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           ),
