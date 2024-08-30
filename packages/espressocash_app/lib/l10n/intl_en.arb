@@ -864,8 +864,14 @@
   "@moneyRecoveryTitle": {},
   "moneyRecoveryBtn": "Recover",
   "@moneyRecoveryBtn": {},
-  "moneyRecoveryContent": "Unclaimed money has been detected and is ready for recovery.",
-  "@moneyRecoveryContent": {},
+  "moneyRecoveryContent": "{amount} in unclaimed money has been detected and is ready for recovery.",
+  "@moneyRecoveryContent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "moneyRecoverySubContent": "The recovered amount will be added to your Espresso Cash account balance.",
   "@moneyRecoverySubContent": {},
   "moneyRecoveryDisclaimer": "*This can take up to 3 minutes to complete.",

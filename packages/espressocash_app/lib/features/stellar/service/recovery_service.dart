@@ -36,6 +36,12 @@ class StellarRecoveryService extends ChangeNotifier {
   bool _hasStellarUsdc = false;
   bool get hasStellarUsdc => _hasStellarUsdc;
 
+  CryptoAmount _usdcAmount = const CryptoAmount(
+    value: 0,
+    cryptoCurrency: Currency.usdc,
+  );
+  CryptoAmount get usdcAmount => _usdcAmount;
+
   @PostConstruct()
   Future<void> init() async {
     final hasRecoveryKey = _storage.getBool(_stellarRecoverKey) == true;
@@ -50,6 +56,18 @@ class StellarRecoveryService extends ChangeNotifier {
     if (usdcBalance == null || usdcBalance.isEmpty) {
       return;
     }
+
+    final fee = await _ecClient.calculateMoneygramFee(
+      MoneygramFeeRequestDto(
+        type: RampTypeDto.onRamp,
+        amount: usdcBalance.toString(),
+      ),
+    );
+
+    _usdcAmount = Amount.fromDecimal(
+      value: Decimal.parse(fee.totalAmount),
+      currency: Currency.usdc,
+    ) as CryptoAmount;
 
     _hasStellarUsdc = true;
 

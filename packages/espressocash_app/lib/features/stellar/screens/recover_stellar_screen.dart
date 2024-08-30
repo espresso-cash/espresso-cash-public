@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/loader.dart';
 import '../../../ui/snackbar.dart';
+import '../../conversion_rates/widgets/extensions.dart';
 import '../service/recovery_service.dart';
 
 class RecoverStellarScreen extends StatefulWidget {
@@ -96,9 +98,13 @@ class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
                       height: 90,
                       width: 90,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     Text(
-                      context.l10n.moneyRecoveryContent,
+                      context.l10n.moneyRecoveryContent(
+                        sl<StellarRecoveryService>()
+                            .usdcAmount
+                            .format(context.locale, maxDecimals: 2),
+                      ),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
@@ -106,7 +112,7 @@ class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
                         height: 0.95,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 12),
                     Text(
                       context.l10n.moneyRecoverySubContent,
                       textAlign: TextAlign.center,
@@ -115,7 +121,7 @@ class _RecoverStellarScreenState extends State<RecoverStellarScreen> {
                         fontSize: 18,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 6),
                     Text(
                       context.l10n.moneyRecoveryDisclaimer,
                       textAlign: TextAlign.center,
