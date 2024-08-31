@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../../../di.dart';
 import '../../../gen/assets.gen.dart';
+import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_widget.dart';
+import '../../conversion_rates/widgets/extensions.dart';
+import '../../currency/models/amount.dart';
 import '../screens/recover_stellar_screen.dart';
 import '../service/recovery_service.dart';
 
@@ -33,10 +36,14 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
         },
       );
 
-  void _handleClosePressed() {
+  void _handleHideNoticePressed() {
     setState(() {
       _isVisible = false;
     });
+
+    if (sl<StellarRecoveryService>().value is RecoveryCompleted) {
+      sl<StellarRecoveryService>().dismiss();
+    }
   }
 
   @override
@@ -54,80 +61,151 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
                 ? const SizedBox.shrink()
                 : ListenableBuilder(
                     listenable: recoveryService,
-                    builder: (context, child) => recoveryService.hasStellarUsdc
-                        ? _Content(
+                    builder: (context, child) => recoveryService.value.maybeMap(
+                      none: (_) => const SizedBox.shrink(),
+                      dismissed: (_) => const SizedBox.shrink(),
+                      orElse: () => _RecoveryNoticeContent(
+                        onClosePressed: _handleHideNoticePressed,
+                        child: recoveryService.value.maybeMap(
+                          pending: (_) =>
+                              _Pending(onRecoverPressed: _handleRecoverPressed),
+                          processing: (_) => const _Processing(),
+                          completed: (e) => _Completed(
+                            amount: e.amount,
+                          ),
+                          failed: (_) => _Failed(
                             onRecoverPressed: _handleRecoverPressed,
-                            onClosePressed: _handleClosePressed,
-                          )
-                        : const SizedBox.shrink(),
+                          ),
+                          orElse: () => const SizedBox.shrink(),
+                        ),
+                      ),
+                    ),
                   );
           },
         )
       : const SizedBox.shrink();
 }
 
-class _Content extends StatelessWidget {
-  const _Content({
-    required this.onRecoverPressed,
-    required this.onClosePressed,
-  });
+class _Pending extends StatelessWidget {
+  const _Pending({required this.onRecoverPressed});
 
   final VoidCallback onRecoverPressed;
-  final VoidCallback onClosePressed;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: SizedBox(
-          height: 60,
-          width: 343,
-          child: CpInfoWidget(
-            message: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Center(
-                    child: Text.rich(
-                      TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '${context.l10n.stellarRecoveryNoticeTitle} ',
-                          ),
-                          TextSpan(
-                            text: context.l10n.stellarRecoveryNoticeAction,
-                            style: const TextStyle(
-                              color: CpColors.yellowColor,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = onRecoverPressed,
-                          ),
-                        ],
-                      ),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.visible,
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: onClosePressed,
-                  child: SizedBox.square(
-                    dimension: 12,
-                    child: Assets.icons.closeButtonIcon.svg(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: '${context.l10n.stellarRecoveryNoticeTitle} ',
             ),
-            infoRadius: 12,
-            iconSize: 12,
-            variant: CpInfoVariant.black,
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            TextSpan(
+              text: context.l10n.stellarRecoveryNoticeAction,
+              style: const TextStyle(
+                color: CpColors.yellowColor,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
+            ),
+          ],
+        ),
+      );
+}
+
+class _Processing extends StatelessWidget {
+  const _Processing();
+
+  @override
+  Widget build(BuildContext context) => const Center(
+        child: Text(
+          'Your money is being recovered',
+        ),
+      );
+}
+
+class _Completed extends StatelessWidget {
+  const _Completed({required this.amount});
+  final CryptoAmount amount;
+
+  @override
+  Widget build(BuildContext context) => Text(
+        '${amount.format(context.locale, maxDecimals: 2)} has been successfully added to your balance.',
+        style: const TextStyle(color: Colors.white),
+      );
+}
+
+class _Failed extends StatelessWidget {
+  const _Failed({required this.onRecoverPressed});
+
+  final VoidCallback onRecoverPressed;
+
+  @override
+  Widget build(BuildContext context) => Text.rich(
+        TextSpan(
+          children: <TextSpan>[
+            const TextSpan(
+              text: 'There was an issue recovering your money. ',
+            ),
+            TextSpan(
+              text: context.l10n.stellarRecoveryNoticeAction,
+              style: const TextStyle(
+                color: CpColors.yellowColor,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = onRecoverPressed,
+            ),
+          ],
+        ),
+      );
+}
+
+class _RecoveryNoticeContent extends StatelessWidget {
+  const _RecoveryNoticeContent({
+    required this.onClosePressed,
+    required this.child,
+  });
+
+  final VoidCallback onClosePressed;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => DefaultTextStyle(
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 14.5,
+          fontWeight: FontWeight.w500,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Center(
+            child: SizedBox(
+              width: 360,
+              child: CpInfoWidget(
+                message: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: child,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: onClosePressed,
+                      child: SizedBox.square(
+                        dimension: 12,
+                        child: Assets.icons.closeButtonIcon.svg(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                infoRadius: 12,
+                iconSize: 12,
+                variant: CpInfoVariant.black,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              ),
+            ),
           ),
         ),
       );
