@@ -42,11 +42,10 @@ class StellarRecoveryState with _$StellarRecoveryState {
 }
 
 extension StellarRecoveryStateX on StellarRecoveryState {
-  CryptoAmount? get amount => maybeMap(
+  CryptoAmount? get amount => mapOrNull(
         pending: (e) => e.amount,
         processing: (e) => e.amount,
         completed: (e) => e.amount,
-        orElse: () => null,
       );
 }
 
@@ -82,70 +81,62 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
 
   @PostConstruct()
   Future<void> init() async {
-    final status = _storage.getString(_stellarRecoveryStatusKey);
-
-    value = switch (status) {
-      'pending' => StellarRecoveryState.pending(
-          amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount,
-        ),
-      'processing' => StellarRecoveryState.processing(
-          amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount,
-          txId: _storage.getString(_stellarRecoveryTxIdKey) ?? '',
-        ),
-      'completed' => StellarRecoveryState.completed(
-          amount: _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount,
-          txId: _storage.getString(_stellarRecoveryTxIdKey) ?? '',
-        ),
-      'failed' => const StellarRecoveryState.failed(),
-      'dismissed' => const StellarRecoveryState.dismissed(),
-      _ => const StellarRecoveryState.none(),
-    };
+    value = _getInitialState();
 
     if (value is RecoveryNone) {
-      final isSeedInputted = _account.accessMode.isSeedInputted;
-
-      if (!isSeedInputted) {
-        return;
-      }
-
-      final usdcBalance = await _stellarClient.getUsdcBalance();
-
-      if (usdcBalance == null || usdcBalance.isEmpty) {
-        return;
-      }
-
-      final fee = await _ecClient.calculateMoneygramFee(
-        MoneygramFeeRequestDto(
-          type: RampTypeDto.onRamp,
-          amount: usdcBalance.toString(),
-        ),
-      );
-
-      final amount = Amount.fromDecimal(
-        value: Decimal.parse(fee.totalAmount),
-        currency: Currency.usdc,
-      ) as CryptoAmount;
-
-      value = StellarRecoveryState.pending(amount: amount);
-    }
-
-    if (value is RecoveryProcessing) {
+      await _checkAndInitiatePendingRecovery();
+    } else if (value is RecoveryProcessing) {
       await _watchBridgeTx();
     }
   }
 
+  StellarRecoveryState _getInitialState() {
+    final status = _storage.getString(_stellarRecoveryStatusKey);
+    final amount = _storage.getInt(_stellarRecoveryAmountKey).toCryptoAmount;
+    final txId = _storage.getString(_stellarRecoveryTxIdKey) ?? '';
+
+    return switch (status) {
+      'pending' => StellarRecoveryState.pending(amount: amount),
+      'processing' =>
+        StellarRecoveryState.processing(amount: amount, txId: txId),
+      'completed' => StellarRecoveryState.completed(amount: amount, txId: txId),
+      'failed' => const StellarRecoveryState.failed(),
+      'dismissed' => const StellarRecoveryState.dismissed(),
+      _ => const StellarRecoveryState.none(),
+    };
+  }
+
+  Future<void> _checkAndInitiatePendingRecovery() async {
+    if (!_account.accessMode.isSeedInputted) return;
+
+    final usdcBalance = await _stellarClient.getUsdcBalance();
+    if (usdcBalance == null || usdcBalance.isEmpty) return;
+
+    final fee = await _ecClient.calculateMoneygramFee(
+      MoneygramFeeRequestDto(
+        type: RampTypeDto.onRamp,
+        amount: usdcBalance.toString(),
+      ),
+    );
+
+    final amount = Amount.fromDecimal(
+      value: Decimal.parse(fee.totalAmount),
+      currency: Currency.usdc,
+    ) as CryptoAmount;
+
+    value = StellarRecoveryState.pending(amount: amount);
+  }
+
   Future<void> recover() async {
-    if (value is! RecoveryPending && value is! RecoveryFailed) {
-      return;
-    }
+    if (value is! RecoveryPending && value is! RecoveryFailed) return;
 
     value = const StellarRecoveryState.processing();
 
     try {
       final usdcBalance = await _stellarClient.getUsdcBalance();
-
       if (usdcBalance == null || usdcBalance.isEmpty) {
-        throw Exception('No USDC balance found');
+        value = const StellarRecoveryState.none();
+        return;
       }
 
       final amount = Amount.fromDecimal(
@@ -153,35 +144,35 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
         currency: Currency.usdc,
       ) as CryptoAmount;
 
-      final bridgeTx = await _ecClient
-          .swapToSolana(
-            SwapToSolanaRequestDto(
-              amount: (amount.value - 10).toString(),
-              stellarSenderAddress: _stellarWallet.address,
-              solanaReceiverAddress: _ecWallet.address,
-            ),
-          )
-          .then((e) => e.encodedTx);
-
-      final hash =
-          await _stellarClient.submitTransactionFromXdrString(bridgeTx);
-
-      if (hash == null) {
-        throw Exception('Failed to submit transaction');
-      }
-
-      final result = await _stellarClient.pollStatus(hash);
-
-      if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
-        throw Exception('Failed to recover USDC');
-      }
+      final hash = await _initiateSwapToSolana(amount);
 
       value = StellarRecoveryState.processing(amount: value.amount, txId: hash);
-
       await _watchBridgeTx();
     } on Exception {
       value = const StellarRecoveryState.failed();
     }
+  }
+
+  Future<String> _initiateSwapToSolana(CryptoAmount amount) async {
+    final bridgeTx = await _ecClient
+        .swapToSolana(
+          SwapToSolanaRequestDto(
+            amount: (amount.value - 10).toString(),
+            stellarSenderAddress: _stellarWallet.address,
+            solanaReceiverAddress: _ecWallet.address,
+          ),
+        )
+        .then((e) => e.encodedTx);
+
+    final hash = await _stellarClient.submitTransactionFromXdrString(bridgeTx);
+    if (hash == null) throw Exception();
+
+    final result = await _stellarClient.pollStatus(hash);
+    if (result?.status != GetTransactionResponse.STATUS_SUCCESS) {
+      throw Exception();
+    }
+
+    return hash;
   }
 
   void dismiss() {

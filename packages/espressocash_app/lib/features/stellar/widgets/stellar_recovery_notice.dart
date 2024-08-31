@@ -70,12 +70,9 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
                           pending: (_) =>
                               _Pending(onRecoverPressed: _handleRecoverPressed),
                           processing: (_) => const _Processing(),
-                          completed: (e) => _Completed(
-                            amount: e.amount,
-                          ),
-                          failed: (_) => _Failed(
-                            onRecoverPressed: _handleRecoverPressed,
-                          ),
+                          completed: (e) => _Completed(amount: e.amount),
+                          failed: (_) =>
+                              _Failed(onRecoverPressed: _handleRecoverPressed),
                           orElse: () => const SizedBox.shrink(),
                         ),
                       ),
