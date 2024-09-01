@@ -158,7 +158,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
 
   Future<void> _watchBridgeTx() async {
     _watcher =
-        Stream<void>.periodic(const Duration(seconds: 30)).listen((_) async {
+        Stream<void>.periodic(const Duration(seconds: 15)).listen((_) async {
       final txId = value.maybeMap(
         processing: (e) => e.txId,
         orElse: () => null,
