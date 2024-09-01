@@ -58,7 +58,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
     if (value is RecoveryNone) {
       await _checkAndInitiatePendingRecovery();
     } else if (value is RecoveryProcessing) {
-      await _watchBridgeTx();
+      _watchBridgeTx();
     }
   }
 
@@ -109,6 +109,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
       final usdcBalance = await _stellarClient.getUsdcBalance();
       if (usdcBalance == null || usdcBalance.isEmpty) {
         value = const StellarRecoveryState.none();
+
         return;
       }
 
@@ -120,7 +121,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
       final hash = await _initiateSwapToSolana(amount);
 
       value = StellarRecoveryState.processing(amount: value.amount, txId: hash);
-      await _watchBridgeTx();
+      _watchBridgeTx();
     } on Exception {
       value = const StellarRecoveryState.failed();
     }
@@ -156,7 +157,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
     value = const StellarRecoveryState.dismissed();
   }
 
-  Future<void> _watchBridgeTx() async {
+  void _watchBridgeTx() {
     _watcher =
         Stream<void>.periodic(const Duration(seconds: 15)).listen((_) async {
       final txId = value.maybeMap(
@@ -189,7 +190,8 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
       _refreshBalance();
 
       value = StellarRecoveryState.completed(
-        amount: value.amount!,
+        amount: value.amount ??
+            const CryptoAmount(value: 0, cryptoCurrency: Currency.usdc),
         txId: txId,
       );
 
