@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:espressocash_api/espressocash_api.dart';
 import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stellar_flutter_sdk/stellar_flutter_sdk.dart' hide Currency;
@@ -16,38 +15,11 @@ import '../../currency/models/amount.dart';
 import '../../currency/models/currency.dart';
 import '../../ramp/partners/moneygram/data/allbridge_client.dart';
 import '../../ramp/partners/moneygram/data/allbridge_dto.dart';
+import '../../stellar/models/stellar_wallet.dart';
+import '../../stellar/service/stellar_client.dart';
 import '../../transactions/models/tx_results.dart';
 import '../../transactions/services/tx_confirm.dart';
-import '../models/stellar_wallet.dart';
-import 'stellar_client.dart';
-
-part 'recovery_service.freezed.dart';
-
-@freezed
-class StellarRecoveryState with _$StellarRecoveryState {
-  const factory StellarRecoveryState.none() = RecoveryNone;
-  const factory StellarRecoveryState.pending({
-    required CryptoAmount amount,
-  }) = RecoveryPending;
-  const factory StellarRecoveryState.processing({
-    CryptoAmount? amount,
-    String? txId,
-  }) = RecoveryProcessing;
-  const factory StellarRecoveryState.completed({
-    required CryptoAmount amount,
-    required String txId,
-  }) = RecoveryCompleted;
-  const factory StellarRecoveryState.failed() = RecoveryFailed;
-  const factory StellarRecoveryState.dismissed() = RecoveryDismissed;
-}
-
-extension StellarRecoveryStateX on StellarRecoveryState {
-  CryptoAmount? get amount => mapOrNull(
-        pending: (e) => e.amount,
-        processing: (e) => e.amount,
-        completed: (e) => e.amount,
-      );
-}
+import '../models/recovery_state.dart';
 
 @Singleton(scope: authScope)
 class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
@@ -110,6 +82,7 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
     if (!_account.accessMode.isSeedInputted) return;
 
     final usdcBalance = await _stellarClient.getUsdcBalance();
+
     if (usdcBalance == null || usdcBalance.isEmpty) return;
 
     final fee = await _ecClient.calculateMoneygramFee(
@@ -232,17 +205,13 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
           ..setString(_stellarRecoveryStatusKey, 'pending')
           ..setInt(_stellarRecoveryAmountKey, amount.value);
       },
-      processing: (amount, txId) {
+      processing: (_, txId) {
         _storage
           ..setString(_stellarRecoveryStatusKey, 'processing')
-          ..setInt(_stellarRecoveryAmountKey, amount?.value ?? 0)
           ..setString(_stellarRecoveryTxIdKey, txId ?? '');
       },
-      completed: (amount, txId) {
-        _storage
-          ..setString(_stellarRecoveryStatusKey, 'completed')
-          ..setInt(_stellarRecoveryAmountKey, amount.value)
-          ..setString(_stellarRecoveryTxIdKey, txId);
+      completed: (amount, _) {
+        _storage.setString(_stellarRecoveryStatusKey, 'completed');
       },
       failed: () {
         _storage.setString(_stellarRecoveryStatusKey, 'failed');

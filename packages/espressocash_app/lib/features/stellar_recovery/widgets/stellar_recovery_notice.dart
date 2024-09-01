@@ -9,6 +9,7 @@ import '../../../ui/colors.dart';
 import '../../../ui/info_widget.dart';
 import '../../conversion_rates/widgets/extensions.dart';
 import '../../currency/models/amount.dart';
+import '../models/recovery_state.dart';
 import '../screens/recover_stellar_screen.dart';
 import '../service/recovery_service.dart';
 
@@ -93,10 +94,10 @@ class _Pending extends StatelessWidget {
         TextSpan(
           children: <TextSpan>[
             TextSpan(
-              text: '${context.l10n.stellarRecoveryNoticeTitle} ',
+              text: '${context.l10n.moneyRecoveryNoticeTitle} ',
             ),
             TextSpan(
-              text: context.l10n.stellarRecoveryNoticeAction,
+              text: context.l10n.moneyRecoveryNoticeAction,
               style: const TextStyle(
                 color: CpColors.yellowColor,
               ),
@@ -111,10 +112,8 @@ class _Processing extends StatelessWidget {
   const _Processing();
 
   @override
-  Widget build(BuildContext context) => const Center(
-        child: Text(
-          'Your money is being recovered',
-        ),
+  Widget build(BuildContext context) => Center(
+        child: Text(context.l10n.moneyRecoveryPending),
       );
 }
 
@@ -124,7 +123,9 @@ class _Completed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-        '${amount.format(context.locale, maxDecimals: 2)} has been successfully added to your balance.',
+        context.l10n.moneyRecoverySuccess(
+          amount.format(context.locale, maxDecimals: 2),
+        ),
         style: const TextStyle(color: Colors.white),
       );
 }
@@ -138,11 +139,9 @@ class _Failed extends StatelessWidget {
   Widget build(BuildContext context) => Text.rich(
         TextSpan(
           children: <TextSpan>[
-            const TextSpan(
-              text: 'There was an issue recovering your money. ',
-            ),
+            TextSpan(text: '${context.l10n.moneyRecoveryFailure} '),
             TextSpan(
-              text: context.l10n.stellarRecoveryNoticeAction,
+              text: context.l10n.moneyRecoveryNoticeAction,
               style: const TextStyle(
                 color: CpColors.yellowColor,
               ),

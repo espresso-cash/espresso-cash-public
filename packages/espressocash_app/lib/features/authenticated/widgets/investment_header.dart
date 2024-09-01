@@ -4,7 +4,7 @@ import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/info_icon.dart';
-import '../../stellar/widgets/stellar_recovery_notice.dart';
+import '../../stellar_recovery/widgets/stellar_recovery_notice.dart';
 import 'balance_amount.dart';
 
 class InvestmentHeader extends StatefulWidget {

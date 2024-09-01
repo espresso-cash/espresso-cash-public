@@ -8,6 +8,7 @@ import '../../../ui/app_bar.dart';
 import '../../../ui/button.dart';
 import '../../../ui/colors.dart';
 import '../../conversion_rates/widgets/extensions.dart';
+import '../models/recovery_state.dart';
 import '../service/recovery_service.dart';
 
 class RecoverStellarScreen extends StatelessWidget {

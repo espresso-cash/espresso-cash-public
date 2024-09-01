@@ -878,8 +878,20 @@
   "@moneyRecoveryDisclaimer": {},
   "moneyRecoverySuccessNotice": "Success! Money will be recovered soon",
   "@moneyRecoverySuccessNotice": {},
-  "stellarRecoveryNoticeTitle": "Unclaimed money has been detected.",
-  "@stellarRecoveryNoticeTitle": {},
-  "stellarRecoveryNoticeAction": "Click here to recover.",
-  "@stellarRecoveryNoticeAction": {}
+  "moneyRecoveryNoticeTitle": "Unclaimed money has been detected.",
+  "@moneyRecoveryNoticeTitle": {},
+  "moneyRecoveryNoticeAction": "Click here to recover.",
+  "@moneyRecoveryNoticeAction": {},
+  "moneyRecoveryPending": "Please wait. Your money is being recovered",
+  "@moneyRecoveryPending": {},
+  "moneyRecoveryFailure": "There was an issue recovering your money.",
+  "@moneyRecoveryFailure": {},
+  "moneyRecoverySuccess": "{amount} has been successfully added to your balance.",
+  "@moneyRecoverySuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
 }
