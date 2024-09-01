@@ -882,7 +882,7 @@
   "@moneyRecoveryNoticeTitle": {},
   "moneyRecoveryNoticeAction": "Click here to recover.",
   "@moneyRecoveryNoticeAction": {},
-  "moneyRecoveryPending": "Please wait. Your money is being recovered",
+  "moneyRecoveryPending": "Your money is being recovered. Please wait a moment...",
   "@moneyRecoveryPending": {},
   "moneyRecoveryFailure": "There was an issue recovering your money.",
   "@moneyRecoveryFailure": {},

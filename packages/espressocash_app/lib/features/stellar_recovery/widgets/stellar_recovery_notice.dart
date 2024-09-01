@@ -112,13 +112,12 @@ class _Processing extends StatelessWidget {
   const _Processing();
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Text(context.l10n.moneyRecoveryPending),
-      );
+  Widget build(BuildContext context) => Text(context.l10n.moneyRecoveryPending);
 }
 
 class _Completed extends StatelessWidget {
   const _Completed({required this.amount});
+
   final CryptoAmount amount;
 
   @override
@@ -126,7 +125,6 @@ class _Completed extends StatelessWidget {
         context.l10n.moneyRecoverySuccess(
           amount.format(context.locale, maxDecimals: 2),
         ),
-        style: const TextStyle(color: Colors.white),
       );
 }
 
@@ -180,8 +178,11 @@ class _RecoveryNoticeContent extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                        child: child,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4.0,
+                          vertical: 2,
+                        ),
+                        child: Center(child: child),
                       ),
                     ),
                     GestureDetector(
