@@ -859,5 +859,9 @@
   "onRampCancelTitle": "Cancel Deposit",
   "@onRampCancelTitle": {},
   "onRampCancelSubtitle": "Are you sure you want to cancel this deposit?",
-  "@onRampCancelSubtitle": {}
+  "@onRampCancelSubtitle": {},
+  "offRampWithdrawalInProgress": "Withdrawing in progress...",
+  "@offRampWithdrawalInProgress": {},
+  "moneygramCashAvailable": "Cash is available at Moneygram location",
+  "@moneygramCashAvailable": {}
 }
