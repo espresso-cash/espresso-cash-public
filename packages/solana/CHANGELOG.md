@@ -1,3 +1,13 @@
+## 0.31.0
+
+ - Removed deprecated methods
+
+ - **REFACTOR**: migrate to Flutter 3.19 (#1393).
+ - **REFACTOR**: update linter (#1392).
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FEAT**: initial Token2022 support (#1512).
+ - **FEAT**: add ignoreSignerVerification on processSolanaPayTransactionRequest (#1448).
+
 ## 0.30.4
 
  - **REFACTOR**: update lints.
