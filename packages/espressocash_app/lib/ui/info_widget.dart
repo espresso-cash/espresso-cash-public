@@ -13,7 +13,7 @@ class CpInfoWidget extends StatelessWidget {
     this.variant = CpInfoVariant.light,
     this.padding = const EdgeInsets.all(24),
     this.infoRadius = 14,
-    this.iconSize,
+    this.iconSize = 20,
   });
 
   final Widget message;
