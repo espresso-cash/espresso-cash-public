@@ -52,13 +52,19 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   StreamSubscription<void>? _watcher;
 
   @PostConstruct()
-  Future<void> init() async {
+  void init() {
     value = _getInitialState();
 
-    if (value is RecoveryNone) {
-      await _checkAndInitiatePendingRecovery();
-    } else if (value is RecoveryProcessing) {
-      _watchBridgeTx();
+    switch (value) {
+      case RecoveryNone():
+        _checkAndInitiatePendingRecovery();
+      case RecoveryProcessing():
+        _watchBridgeTx();
+      case RecoveryPending():
+      case RecoveryCompleted():
+      case RecoveryFailed():
+      case RecoveryDismissed():
+        break;
     }
   }
 
@@ -160,10 +166,10 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   void _watchBridgeTx() {
     _watcher =
         Stream<void>.periodic(const Duration(seconds: 15)).listen((_) async {
-      final txId = value.maybeMap(
-        processing: (e) => e.txId,
-        orElse: () => null,
-      );
+      final txId = switch (value) {
+        RecoveryProcessing(:final txId) => txId,
+        _ => null,
+      };
 
       if (txId == null) {
         return;
@@ -200,28 +206,24 @@ class StellarRecoveryService extends ValueNotifier<StellarRecoveryState> {
   }
 
   void _updateStorage() {
-    value.when(
-      none: () {},
-      pending: (amount) {
+    switch (value) {
+      case RecoveryPending(:final amount):
         _storage
           ..setString(_stellarRecoveryStatusKey, 'pending')
           ..setInt(_stellarRecoveryAmountKey, amount.value);
-      },
-      processing: (_, txId) {
+      case RecoveryProcessing(:final txId):
         _storage
           ..setString(_stellarRecoveryStatusKey, 'processing')
           ..setString(_stellarRecoveryTxIdKey, txId ?? '');
-      },
-      completed: (amount, _) {
+      case RecoveryCompleted():
         _storage.setString(_stellarRecoveryStatusKey, 'completed');
-      },
-      failed: () {
+      case RecoveryFailed():
         _storage.setString(_stellarRecoveryStatusKey, 'failed');
-      },
-      dismissed: () {
+      case RecoveryDismissed():
         _storage.setString(_stellarRecoveryStatusKey, 'dismissed');
-      },
-    );
+      case RecoveryNone():
+        break;
+    }
   }
 
   @override

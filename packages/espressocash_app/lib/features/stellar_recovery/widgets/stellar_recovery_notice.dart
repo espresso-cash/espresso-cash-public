@@ -62,22 +62,27 @@ class _StellarRecoveryNoticeState extends State<StellarRecoveryNotice> {
                 ? const SizedBox.shrink()
                 : ListenableBuilder(
                     listenable: recoveryService,
-                    builder: (context, child) => recoveryService.value.maybeMap(
-                      none: (_) => const SizedBox.shrink(),
-                      dismissed: (_) => const SizedBox.shrink(),
-                      orElse: () => _RecoveryNoticeContent(
-                        onClosePressed: _handleHideNoticePressed,
-                        child: recoveryService.value.maybeMap(
-                          pending: (_) =>
-                              _Pending(onRecoverPressed: _handleRecoverPressed),
-                          processing: (_) => const _Processing(),
-                          completed: (e) => _Completed(amount: e.amount),
-                          failed: (_) =>
-                              _Failed(onRecoverPressed: _handleRecoverPressed),
-                          orElse: () => const SizedBox.shrink(),
-                        ),
-                      ),
-                    ),
+                    builder: (context, child) {
+                      Widget notice(Widget child) => _RecoveryNoticeContent(
+                            onClosePressed: _handleHideNoticePressed,
+                            child: child,
+                          );
+
+                      return switch (recoveryService.value) {
+                        RecoveryNone() ||
+                        RecoveryDismissed() =>
+                          const SizedBox.shrink(),
+                        RecoveryPending() => notice(
+                            _Pending(onRecoverPressed: _handleRecoverPressed),
+                          ),
+                        RecoveryProcessing() => notice(const _Processing()),
+                        RecoveryCompleted(:final amount) =>
+                          notice(_Completed(amount: amount)),
+                        RecoveryFailed() => notice(
+                            _Failed(onRecoverPressed: _handleRecoverPressed),
+                          ),
+                      };
+                    },
                   );
           },
         )
