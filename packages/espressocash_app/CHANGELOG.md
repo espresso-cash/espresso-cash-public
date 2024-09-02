@@ -1,3 +1,11 @@
+## 1.125.0
+
+ - **FEAT**: enable moneygram for PT (#1558).
+
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
 ## 1.124.0
 
  - **FIX**: moneygram ramp fixes (#1550).
