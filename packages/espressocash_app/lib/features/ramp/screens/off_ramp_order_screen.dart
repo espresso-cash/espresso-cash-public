@@ -128,8 +128,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
         context.l10n.offRampWithdrawOngoing(
           totalAmount.format(locale),
         ),
-      OffRampOrderStatus.waitingForPartner =>
-        context.l10n.offRampWaitingForPartner,
+      OffRampOrderStatus.waitingForPartner => isMoneygramOrder
+          ? context.l10n.offRampWithdrawalInProgress
+          : context.l10n.offRampWaitingForPartner,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
@@ -383,8 +384,11 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress &&
-        order.status != OffRampOrderStatus.ready;
+    final animatedForMoneygram = (order.status != OffRampOrderStatus.ready &&
+            order.status != OffRampOrderStatus.waitingForPartner) ||
+        !isMoneygramOrder;
+    final animated =
+        timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
 
     final int activeItem = isMoneygramOrder
         ? order.status.toActiveItemForMoneygram()
@@ -400,7 +404,9 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.bridgingText,
     );
     final amountSent = CpTimelineItem(
-      title: context.l10n.offRampWithdrawSent,
+      title: isMoneygramOrder
+          ? context.l10n.moneygramCashAvailable
+          : context.l10n.offRampWithdrawSent,
       trailing: isMoneygramOrder
           ? order.bridgeAmount?.let(
               (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
@@ -545,12 +551,10 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.refunded =>
           2,
-        OffRampOrderStatus.waitingForPartner ||
-        OffRampOrderStatus.failure ||
-        OffRampOrderStatus.completed =>
-          3,
+        OffRampOrderStatus.failure || OffRampOrderStatus.completed => 3,
       };
 
   bool get isRefunding =>

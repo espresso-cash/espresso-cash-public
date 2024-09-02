@@ -894,4 +894,8 @@
       }
     }
   }
+  "offRampWithdrawalInProgress": "Withdrawing in progress...",
+  "@offRampWithdrawalInProgress": {},
+  "moneygramCashAvailable": "Cash is available at Moneygram location",
+  "@moneygramCashAvailable": {}
 }
