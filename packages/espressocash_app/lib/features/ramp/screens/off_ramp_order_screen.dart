@@ -128,8 +128,9 @@ class OffRampOrderScreenContent extends StatelessWidget {
         context.l10n.offRampWithdrawOngoing(
           totalAmount.format(locale),
         ),
-      OffRampOrderStatus.waitingForPartner =>
-        context.l10n.offRampWaitingForPartner,
+      OffRampOrderStatus.waitingForPartner => isMoneygramOrder
+          ? context.l10n.offRampWithdrawalInProgress
+          : context.l10n.offRampWaitingForPartner,
       OffRampOrderStatus.depositTxConfirmError ||
       OffRampOrderStatus.depositError =>
         context.l10n.offRampDepositError,
@@ -403,7 +404,9 @@ class _Timeline extends StatelessWidget {
       title: context.l10n.bridgingText,
     );
     final amountSent = CpTimelineItem(
-      title: context.l10n.offRampWithdrawSent,
+      title: isMoneygramOrder
+          ? context.l10n.moneygramCashAvailable
+          : context.l10n.offRampWithdrawSent,
       trailing: isMoneygramOrder
           ? order.bridgeAmount?.let(
               (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
