@@ -104,11 +104,8 @@ class MoneygramOffRampOrderService implements Disposable {
         .watchSingle()
         .asyncExpand<OffRampOrderRowsCompanion?>((order) {
           logMessage(
-            message: 'Moneygram off ramp order status update',
-            data: {
-              'orderId': orderId,
-              'status': order.status.name,
-            },
+            message: 'MGOffRampOrderStatusChange',
+            data: order.toSentry,
           );
 
           switch (order.status) {
@@ -832,3 +829,18 @@ class MoneygramOffRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
+
+extension on OffRampOrderRow {
+  Map<String, dynamic> get toSentry {
+    final json = toJson();
+
+    const filter = ['transaction', 'slot'];
+
+    json.removeWhere(
+      (key, value) =>
+          value == null || value == '' || filter.contains(key) || value == 0.0,
+    );
+
+    return json;
+  }
+}
