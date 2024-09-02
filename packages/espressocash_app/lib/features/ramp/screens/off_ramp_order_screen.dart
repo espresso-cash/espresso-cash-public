@@ -383,8 +383,11 @@ class _Timeline extends StatelessWidget {
   Widget build(BuildContext context) {
     final isMoneygramOrder = order.partner == RampPartner.moneygram;
     final CpTimelineStatus timelineStatus = order.status.toTimelineStatus();
-    final animated = timelineStatus == CpTimelineStatus.inProgress &&
-        order.status != OffRampOrderStatus.ready;
+    final animatedForMoneygram = (order.status != OffRampOrderStatus.ready &&
+            order.status != OffRampOrderStatus.waitingForPartner) ||
+        !isMoneygramOrder;
+    final animated =
+        timelineStatus == CpTimelineStatus.inProgress && animatedForMoneygram;
 
     final int activeItem = isMoneygramOrder
         ? order.status.toActiveItemForMoneygram()
@@ -545,12 +548,10 @@ extension on OffRampOrderStatus {
         OffRampOrderStatus.depositTxReady ||
         OffRampOrderStatus.waitingForRefundBridge ||
         OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.waitingForPartner ||
         OffRampOrderStatus.refunded =>
           2,
-        OffRampOrderStatus.waitingForPartner ||
-        OffRampOrderStatus.failure ||
-        OffRampOrderStatus.completed =>
-          3,
+        OffRampOrderStatus.failure || OffRampOrderStatus.completed => 3,
       };
 
   bool get isRefunding =>
