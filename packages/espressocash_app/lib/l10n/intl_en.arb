@@ -828,7 +828,7 @@
   "@moreInfo": {},
   "continueToMoneygram": "Continue to MoneyGram",
   "@continueToMoneygram": {},
-  "bridgingText": "Bridging USDC to Stellar",
+  "bridgingText": "Connecting to MoneyGram",
   "@bridgingText": {},
   "moneygramInstructionText": "After completing your transfer in person at your chosen MoneyGram payment location, please return here and confirm below.",
   "@moneygramInstructionText": {},
@@ -838,7 +838,7 @@
   "@viewMoneygramTransferInstructions": {},
   "confirmYourTransferOf": "Confirm your transfer of",
   "@confirmYourTransferOf": {},
-  "transferInProgressText": "Transfer could take a few minutes...'",
+  "transferInProgressText": "Transfer could take a few minutes...",
   "@transferInProgressText": {},
   "openMoneygramIframeText": "Open Moneygram to continue",
   "@openMoneygramIframeText": {},
@@ -855,5 +855,47 @@
   "cancelled": "Cancelled",
   "@cancelled": {},
   "refunded": "Refunded",
-  "@refunded": {}
+  "@refunded": {},
+  "onRampCancelTitle": "Cancel Deposit",
+  "@onRampCancelTitle": {},
+  "onRampCancelSubtitle": "Are you sure you want to cancel this deposit?",
+  "@onRampCancelSubtitle": {},
+  "moneyRecoveryTitle": "MONEY RECOVERY",
+  "@moneyRecoveryTitle": {},
+  "moneyRecoveryBtn": "Recover",
+  "@moneyRecoveryBtn": {},
+  "moneyRecoveryContent": "{amount} in unclaimed money has been detected and is ready for recovery.",
+  "@moneyRecoveryContent": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "moneyRecoverySubContent": "The recovered amount will be added to your Espresso Cash account balance.",
+  "@moneyRecoverySubContent": {},
+  "moneyRecoveryDisclaimer": "*This can take up to 3 minutes to complete.",
+  "@moneyRecoveryDisclaimer": {},
+  "moneyRecoverySuccessNotice": "Success! Money will be recovered soon",
+  "@moneyRecoverySuccessNotice": {},
+  "moneyRecoveryNoticeTitle": "Unclaimed money has been detected.",
+  "@moneyRecoveryNoticeTitle": {},
+  "moneyRecoveryNoticeAction": "Click here to recover.",
+  "@moneyRecoveryNoticeAction": {},
+  "moneyRecoveryPending": "Your money is being recovered. Please wait a moment...",
+  "@moneyRecoveryPending": {},
+  "moneyRecoveryFailure": "There was an issue recovering your money.",
+  "@moneyRecoveryFailure": {},
+  "moneyRecoverySuccess": "{amount} has been successfully added to your balance.",
+  "@moneyRecoverySuccess": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offRampWithdrawalInProgress": "Withdrawing in progress...",
+  "@offRampWithdrawalInProgress": {},
+  "moneygramCashAvailable": "Cash is available at Moneygram location",
+  "@moneygramCashAvailable": {}
 }

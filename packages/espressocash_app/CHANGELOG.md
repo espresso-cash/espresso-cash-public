@@ -1,3 +1,32 @@
+## 1.126.0
+
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FIX**: moneygram offramp bridge amount (#1556).
+ - **FEAT**: add stellar recovery service (#1549).
+
+## 1.125.0
+
+ - **FEAT**: enable moneygram for PT (#1558).
+
+## 1.124.1
+
+ - **FIX**: moneygram bridge precision (#1555).
+
+## 1.124.0
+
+ - **FIX**: moneygram ramp fixes (#1550).
+ - **FIX**: status screen UI theming (#1541).
+ - **FEAT**: add ramp analytics (#1552).
+ - **FEAT**: onboarding UI update (#1553).
+ - **FEAT**: store conversion rates to db (#1526).
+ - **FEAT**: remove the smart retry for all transactions (#1515).
+ - **FEAT**: moneygram updates (#1543).
+ - **FEAT**: request link creation to mixpanel logs (#1546).
+
+## 1.123.2
+
+ - **FIX**: moneygram stellar config (#1540).
+
 ## 1.123.1
 
  - **REFACTOR**: moneygram pr (#1533).

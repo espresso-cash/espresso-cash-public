@@ -12,12 +12,16 @@ import '../../../../../ui/loader.dart';
 import '../../../../../ui/snackbar.dart';
 import '../../../../../ui/theme.dart';
 import '../../../../../ui/web_view_screen.dart';
+import '../../../../../utils/errors.dart';
+import '../../../../conversion_rates/services/amount_ext.dart';
 import '../../../../conversion_rates/widgets/extensions.dart';
 import '../../../../currency/models/amount.dart';
 import '../../../../currency/models/currency.dart';
 import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../../stellar/models/stellar_wallet.dart';
 import '../../../../stellar/service/stellar_client.dart';
+import '../../../../tokens/token.dart';
+import '../../../models/profile_data.dart';
 import '../../../models/ramp_type.dart';
 import '../../../screens/off_ramp_order_screen.dart';
 import '../../../screens/on_ramp_order_screen.dart';
@@ -31,7 +35,9 @@ import 'style.dart';
 typedef MoneygramLink = ({String id, String url, String token});
 
 extension BuildContextExt on BuildContext {
-  Future<void> launchMoneygramOnRamp() async {
+  Future<void> launchMoneygramOnRamp({
+    required ProfileData profile,
+  }) async {
     FiatAmount? amount;
 
     const partner = RampPartner.moneygram;
@@ -58,14 +64,23 @@ extension BuildContextExt on BuildContext {
 
     if (submittedAmount == null) return;
 
+    final usdcAmount =
+        submittedAmount.toTokenAmount(Token.usdc)?.round(Currency.usd.decimals);
+
+    if (usdcAmount == null) {
+      showCpErrorSnackbar(this, message: l10n.tryAgainLater);
+
+      return;
+    }
+
     final receiveAmount = await runWithLoader<Amount>(
       this,
-      () async => _fetchFees(amount: submittedAmount, type: type)
+      () async => _fetchFees(amount: usdcAmount, type: type)
           .letAsync((p) => p.receiveAmount),
     ) as CryptoAmount;
 
     final response = await _generateDepositLink(
-      amount: submittedAmount.decimal.toDouble(),
+      amount: usdcAmount.decimal.toDouble(),
     );
 
     if (response == null) {
@@ -84,6 +99,8 @@ extension BuildContextExt on BuildContext {
       submittedAmount: submittedAmount,
       authToken: token,
       receiveAmount: receiveAmount,
+      countryCode: profile.country.code,
+      bridgeAmount: usdcAmount,
     )
         .then((order) {
       switch (order) {
@@ -136,7 +153,9 @@ window.addEventListener("message", (event) => {
     }
   }
 
-  Future<void> launchMoneygramOffRamp() async {
+  Future<void> launchMoneygramOffRamp({
+    required ProfileData profile,
+  }) async {
     Amount? amount;
 
     const partner = RampPartner.moneygram;
@@ -180,6 +199,7 @@ window.addEventListener("message", (event) => {
         .createMoneygramOrder(
       submittedAmount: submittedAmount,
       receiveAmount: receiveAmount,
+      countryCode: profile.country.code,
     )
         .then((order) {
       switch (order) {
@@ -215,7 +235,9 @@ window.addEventListener("message", (event) => {
           final url = '${response.url}&callback=postmessage';
 
           return (id: response.id, url: url, token: token);
-        } on Exception {
+        } on Exception catch (error) {
+          reportError(error);
+
           return null;
         }
       });
@@ -233,10 +255,9 @@ window.addEventListener("message", (event) => {
       type: type,
     );
 
-    final payAmount = fees.moneygramFee + amount;
-
     final feeLabel = switch (type) {
-      RampType.onRamp => 'You will pay ${payAmount.format(locale)}',
+      RampType.onRamp =>
+        'You will pay ${(fees.moneygramFee + amount).format(locale)}',
       RampType.offRamp => null,
     };
 

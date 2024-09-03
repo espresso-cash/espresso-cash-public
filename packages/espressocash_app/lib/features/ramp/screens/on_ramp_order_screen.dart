@@ -8,6 +8,7 @@ import '../../../l10n/device_locale.dart';
 import '../../../l10n/l10n.dart';
 import '../../../ui/button.dart';
 import '../../../ui/content_padding.dart';
+import '../../../ui/dialogs.dart';
 import '../../../ui/partner_order_id.dart';
 import '../../../ui/status_screen.dart';
 import '../../../ui/status_widget.dart';
@@ -156,56 +157,56 @@ class OnRampOrderScreenContent extends StatelessWidget {
         ? manualDeposit?.transferAmount
         : order.submittedAmount;
 
-    return CpTheme(
+    final showCancelButton = order.status.isCancellable;
+
+    return StatusScreen(
       theme: theme,
-      child: StatusScreen(
-        title: context.l10n.depositTitle.toUpperCase(),
-        statusType: order.status.toStatusType(),
-        statusTitle: statusTitle?.let(Text.new),
-        statusContent: Column(
-          children: [
-            Text(statusContent),
-            if (statusSubtitle != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                statusSubtitle,
-                style: _contentSubtitleTextStyle,
-              ),
-            ],
+      title: context.l10n.depositTitle.toUpperCase(),
+      statusType: order.status.toStatusType(),
+      statusTitle: statusTitle?.let(Text.new),
+      statusContent: Column(
+        children: [
+          Text(statusContent),
+          if (statusSubtitle != null) ...[
+            const SizedBox(height: 8),
+            Text(
+              statusSubtitle,
+              style: _contentSubtitleTextStyle,
+            ),
           ],
-        ),
-        content: CpContentPadding(
-          child: Column(
-            children: [
-              const Spacer(flex: 1),
-              _Timeline(
-                status: order.status,
-                amount: depositAmount ?? order.submittedAmount,
-                receiveAmount: order.receiveAmount,
-                manualDeposit: manualDeposit,
-                created: order.created,
-                partner: order.partner,
+        ],
+      ),
+      content: CpContentPadding(
+        child: Column(
+          children: [
+            const Spacer(flex: 1),
+            _Timeline(
+              status: order.status,
+              amount: depositAmount ?? order.submittedAmount,
+              receiveAmount: order.receiveAmount,
+              manualDeposit: manualDeposit,
+              created: order.created,
+              partner: order.partner,
+            ),
+            const Spacer(flex: 4),
+            if (isMoneygramOrder)
+              _MgAdditionalInfo(
+                details: order.additionalDetails,
+                status: order.status.toMoneygramStatus(),
               ),
-              const Spacer(flex: 4),
-              if (isMoneygramOrder)
-                _MgAdditionalInfo(
-                  details: order.additionalDetails,
-                  status: order.status.toMoneygramStatus(),
-                ),
-              PartnerOrderIdWidget(orderId: order.partnerOrderId),
-              if (primaryButton != null) ...[
-                const SizedBox(height: 12),
-                primaryButton,
-              ],
-              Visibility(
-                visible: order.status == OnRampOrderStatus.depositExpired,
-                maintainSize: true,
-                maintainAnimation: true,
-                maintainState: true,
-                child: _CancelButton(orderId: order.id),
-              ),
+            PartnerOrderIdWidget(orderId: order.partnerOrderId),
+            if (primaryButton != null) ...[
+              const SizedBox(height: 12),
+              primaryButton,
             ],
-          ),
+            Visibility(
+              visible: showCancelButton,
+              maintainSize: true,
+              maintainAnimation: true,
+              maintainState: true,
+              child: _CancelButton(orderId: order.id),
+            ),
+          ],
         ),
       ),
     );
@@ -223,10 +224,15 @@ class _CancelButton extends StatelessWidget {
         child: CpTextButton(
           text: context.l10n.offRampCancelTitle,
           variant: CpTextButtonVariant.light,
-          onPressed: () {
-            sl<OnRampOrderService>().delete(orderId);
-            Navigator.pop(context);
-          },
+          onPressed: () => showConfirmationDialog(
+            context,
+            title: context.l10n.onRampCancelTitle.toUpperCase(),
+            message: context.l10n.onRampCancelSubtitle,
+            onConfirm: () {
+              sl<OnRampOrderService>().delete(orderId);
+              Navigator.pop(context);
+            },
+          ),
         ),
       );
 }
