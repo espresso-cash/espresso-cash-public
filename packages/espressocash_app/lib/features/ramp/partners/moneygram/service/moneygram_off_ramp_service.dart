@@ -649,17 +649,23 @@ class MoneygramOffRampOrderService implements Disposable {
       cryptoCurrency: Currency.usdc,
     );
 
-    final transactionSucceed = await _stellarClient.sendUsdc(
-      destinationAddress: order.withdrawAnchorAccount ?? '',
-      memo: order.withdrawMemo ?? '',
-      amount: amount.decimal.toString(),
-    );
+    try {
+      final transactionSucceed = await _stellarClient.sendUsdc(
+        destinationAddress: order.withdrawAnchorAccount ?? '',
+        memo: order.withdrawMemo ?? '',
+        amount: amount.decimal.toString(),
+      );
 
-    return transactionSucceed
-        ? const OffRampOrderRowsCompanion(
-            status: Value(OffRampOrderStatus.waitingForPartner),
-          )
-        : null;
+      return transactionSucceed
+          ? const OffRampOrderRowsCompanion(
+              status: Value(OffRampOrderStatus.waitingForPartner),
+            )
+          : null;
+    } on Exception catch (error, stackTrace) {
+      reportError(error, stackTrace);
+
+      return null;
+    }
   }
 
   Future<OffRampOrderRowsCompanion?> _processRefund(
