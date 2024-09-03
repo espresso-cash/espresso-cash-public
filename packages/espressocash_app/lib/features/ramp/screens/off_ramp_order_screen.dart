@@ -400,18 +400,18 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
+    final bridgeFeeAmount = order.bridgeAmount?.let((e) => order.amount - e);
+
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
+      subtitle: bridgeFeeAmount != null
+          ? '${bridgeFeeAmount.format(context.locale, maxDecimals: 2)} fee applied'
+          : null,
     );
     final amountSent = CpTimelineItem(
       title: isMoneygramOrder
           ? context.l10n.moneygramCashAvailable
           : context.l10n.offRampWithdrawSent,
-      trailing: isMoneygramOrder
-          ? order.bridgeAmount?.let(
-              (e) => e.isZero ? null : e.format(context.locale, maxDecimals: 2),
-            )
-          : null,
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
