@@ -7,17 +7,21 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../../../../../../data/db/db.dart';
+import '../../../../analytics/analytics_manager.dart';
 import '../../../../currency/models/currency.dart';
+import '../../../../ramp_partner/models/ramp_partner.dart';
 import '../../../data/my_database_ext.dart';
+import '../../../models/ramp_type.dart';
 import '../../../models/ramp_watcher.dart';
 import '../data/kado_api_client.dart';
 
 @injectable
 class KadoOnRampOrderWatcher implements RampWatcher {
-  KadoOnRampOrderWatcher(this._db, this._client);
+  KadoOnRampOrderWatcher(this._db, this._client, this._analytics);
 
   final MyDatabase _db;
   final KadoApiClient _client;
+  final AnalyticsManager _analytics;
 
   StreamSubscription<void>? _subscription;
 
@@ -43,6 +47,12 @@ class KadoOnRampOrderWatcher implements RampWatcher {
         OnRampOrderStatus? status;
         if (isCompleted) {
           status = OnRampOrderStatus.completed;
+
+          _analytics.rampCompleted(
+            partner: RampPartner.kado,
+            rampType: RampType.onRamp.name,
+            id: orderId,
+          );
         } else if (data.machineStatusField == MachineStatus.achPaymentFailed ||
             data.machineStatusField == MachineStatus.cardPaymentFailed) {
           status = OnRampOrderStatus.failure;

@@ -93,7 +93,7 @@ class _RampOnboardingScreenState extends State<RampOnboardingScreen> {
         header: FormPageHeader(
           title: Text(context.l10n.rampBasicInfoRequired),
           description: Text(context.l10n.yourEmailDisclaimer),
-          icon: Assets.images.identityGraphic,
+          icon: Assets.images.profileGraphic,
         ),
         child: Column(
           children: [
