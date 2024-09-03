@@ -25,3 +25,9 @@ class AccessMode with _$AccessMode {
   const factory AccessMode.seedInputted() = _SeedInputted;
   const factory AccessMode.created() = _AccountCreated;
 }
+
+extension AccessModeExt on AccessMode {
+  bool get isLoaded => this is _Loaded;
+  bool get isSeedInputted => this is _SeedInputted;
+  bool get isAccountCreated => this is _AccountCreated;
+}

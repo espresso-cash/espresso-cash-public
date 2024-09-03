@@ -1,3 +1,9 @@
+## 1.126.0
+
+ - **FIX**: Solana v.2 tests (#1554).
+ - **FIX**: moneygram offramp bridge amount (#1556).
+ - **FEAT**: add stellar recovery service (#1549).
+
 ## 1.125.0
 
  - **FEAT**: enable moneygram for PT (#1558).

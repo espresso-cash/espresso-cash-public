@@ -12,11 +12,15 @@ class CpInfoWidget extends StatelessWidget {
     required this.message,
     this.variant = CpInfoVariant.light,
     this.padding = const EdgeInsets.all(24),
+    this.infoRadius = 14,
+    this.iconSize = 20,
   });
 
   final Widget message;
   final EdgeInsetsGeometry padding;
   final CpInfoVariant variant;
+  final double infoRadius;
+  final double? iconSize;
 
   Color get _iconColor {
     switch (variant) {
@@ -37,9 +41,9 @@ class CpInfoWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 8),
           child: CircleAvatar(
-            maxRadius: 14,
+            maxRadius: infoRadius,
             backgroundColor: CpColors.yellowColor,
-            child: CpInfoIcon(iconColor: _iconColor),
+            child: CpInfoIcon(iconColor: _iconColor, height: iconSize),
           ),
         ),
         Flexible(
