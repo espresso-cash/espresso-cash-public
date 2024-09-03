@@ -53,7 +53,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           final service = sl<KycSharingService>();
 
           await service.updateField(
-            key: DataInfoKeys.email,
+            key: 'email',
             value: _emailController.text,
           );
 
@@ -124,5 +124,3 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
         ),
       );
 }
-
-

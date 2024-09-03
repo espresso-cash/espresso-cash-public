@@ -45,7 +45,7 @@ class _PhoneInputScreenState extends State<PhoneVerificationScreen> {
           final service = sl<KycSharingService>();
 
           await service.updateField(
-            key: DataInfoKeys.phone,
+            key: 'phone',
             value: _numberController.text,
           );
 

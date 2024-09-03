@@ -66,7 +66,7 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
       _lastNameController.text.isNotEmpty &&
       _dobController.text.isNotEmpty &&
       _idController.text.isNotEmpty &&
-      _photo != null &&
+      // _photo != null &&
       _country != null;
 
   Future<void> _handleSubmitted() async {
@@ -85,7 +85,8 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
           idType: _idType!.value,
           idNumber: _idController.text,
         ),
-        photo: _photo!,
+        // photo: _photo!,
+        photo: null,
       );
 
       if (!mounted) return;
@@ -104,7 +105,8 @@ class _KycDetailsScreenState extends State<KycDetailsScreen> {
 
   Future<File?> _openCamera() => Navigator.of(context).push<File?>(
         MaterialPageRoute(
-          builder: (context) => const KycCameraScreen(),
+          // builder: (context) => const KycCameraScreen(),
+          builder: (context) => const SizedBox.shrink(),
         ),
       );
 

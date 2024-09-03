@@ -26,7 +26,7 @@ dependencies:
   espressocash_api:
     path: ../espressocash_api/
   ethereum_addresses: ^1.0.2
-  face_camera: ^0.1.2
+  # face_camera: ^0.1.2
   fast_immutable_collections: ^10.2.2
   firebase_app_installations: ^0.3.0+2
   firebase_core: ^3.1.1
@@ -58,6 +58,7 @@ dependencies:
   kyc_client_dart:
     git:
       url: https://github.com/espresso-cash/kyc_client_dart.git
+      ref: upd-api
   logging: ^1.2.0
   meta: ^1.10.0
   mixpanel_flutter: ^2.2.0
@@ -70,7 +71,7 @@ dependencies:
   provider: ^6.1.1
   ramp_flutter: ^3.0.0
   recase: ^4.1.0
-  retrofit: ^4.0.3
+  retrofit: 4.0.3
   rive: 0.13.9
   rxdart: ^0.27.7
   sentry_flutter: ^8.1.0
@@ -78,7 +79,7 @@ dependencies:
   shared_preferences: ^2.2.2
   sliver_tools: ^0.2.12
   smooth_page_indicator: ^1.1.0
-  solana: ^0.30.4
+  solana: ^0.31.0
   solana_mobile_wallet:
     path: ../solana_mobile_wallet/
   sqlite3_flutter_libs: ^0.5.18

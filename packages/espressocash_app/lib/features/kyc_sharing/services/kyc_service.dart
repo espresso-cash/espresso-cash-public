@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:injectable/injectable.dart';
 import 'package:kyc_app_client/kyc_app_client.dart';
-import 'package:kyc_client_dart/kyc_client_dart.dart';
+import 'package:kyc_client_dart/kyc_client_dart.dart' hide KycServiceClient;
 import 'package:path_provider/path_provider.dart';
 
 import '../../accounts/auth_scope.dart';
@@ -24,8 +24,6 @@ class KycSharingService {
 
   late final KycUserClient _kycUserClient;
 
-  late String _validatorToken = '';
-  late String _partnerToken = '';
   late String _authPublicKey = '';
   late String _rawSecretKey = '';
   late String _userPublicKey = '';
@@ -36,9 +34,6 @@ class KycSharingService {
 
   @PostConstruct()
   Future<void> init() async {
-    _validatorToken = '';
-    _partnerToken = '';
-
     _kycUserClient = KycUserClient(
       sign: (data) async {
         final signature =
@@ -46,6 +41,7 @@ class KycSharingService {
 
         return signature.first;
       },
+      baseUrl: 'https://kyc-backend-oxvpvdtvzq-ew.a.run.app/',
     );
 
     await _kycUserClient.init(
@@ -55,69 +51,73 @@ class KycSharingService {
     _rawSecretKey = _kycUserClient.rawSecretKey;
     _authPublicKey = _kycUserClient.authPublicKey;
     _userPublicKey = _ecWallet.publicKey.toString();
-
-    _validatorToken =
-        await _kycUserClient.generatePartnerToken(validatorAuthPk);
-    _partnerToken = await _kycUserClient.generatePartnerToken(partnerAuthPk);
   }
 
   Future<KycUserInfo?> fetchUser() async {
     try {
       final data = await _kycUserClient.getData(
-        keys: [
-          DataInfoKeys.firstName,
-          DataInfoKeys.middleName,
-          DataInfoKeys.lastName,
-          DataInfoKeys.dateOfBirth,
-          DataInfoKeys.countryCode,
-          DataInfoKeys.idType,
-          DataInfoKeys.idNumber,
-        ],
         userPK: _authPublicKey,
         secretKey: _rawSecretKey,
       );
 
-      final photo = await _kycUserClient.download(
-        key: DataFileKeys.photo,
-        userPK: _authPublicKey,
-        secretKey: _rawSecretKey,
-      );
+      final selfie = data['photoSelfie'];
 
-      final tempDir = await getTemporaryDirectory();
-      final File file = await File('${tempDir.path}/image.png').create();
-      file.writeAsBytesSync(photo);
+      if (selfie != null) {
+        //TODO
+        print(selfie);
 
-      return KycUserInfo.fromJson(data).copyWith(photo: file);
-    } on Exception {
+        // final tempDir = await getTemporaryDirectory();
+        // final File file = await File('${tempDir.path}/image.png').create();
+        // file.writeAsBytesSync(photo);
+      }
+
+      return KycUserInfo.fromJson(data);
+    } on Exception catch (e) {
+      print(e);
+
       return null;
     }
   }
 
   Future<void> updateInfo({
     required KycUserInfo data,
-    required File photo,
+    required File? photo,
   }) async {
-    await _kycUserClient.setData(data: data.toKycModel());
-    await _kycUserClient.upload(
-      file: photo.readAsBytesSync(),
-      key: DataFileKeys.photo,
+    await _kycUserClient.setData(
+      data: V1UserData(
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        dob: data.dob,
+        countryCode: data.countryCode,
+        idType: data.idType,
+        idNumber: data.idNumber,
+      ),
+      selfie: photo != null ? await photo.readAsBytes() : null,
+      idCard: null,
     );
 
-    await validate();
+    // await validate(); //TODO
   }
 
   Future<void> updateField({
-    required DataInfoKeys key,
+    required String key,
     required String value,
   }) async {
-    await _kycUserClient.setData(data: {key: value});
+    await _kycUserClient.setData(
+      data: V1UserData(
+        email: key == 'email' ? value : null,
+        phone: key == 'phone' ? value : null,
+      ),
+      selfie: null,
+      idCard: null,
+    );
 
     switch (key) {
-      case DataInfoKeys.email:
+      case 'email':
         await _sendEmailOtp();
-      case DataInfoKeys.phone:
+      case 'phone':
         await _sendSmsOtp();
-      // ignore: avoid-wildcard-cases-with-enums, check if needed
       case _:
         return;
     }
@@ -142,7 +142,7 @@ class KycSharingService {
     await _validatorClient.requestKyc(
       KycRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _validatorToken,
+        // partnerToken: _validatorToken, //TODO
         userAuthPk: _authPublicKey,
         userPublicKey: _userPublicKey,
       ),
@@ -155,7 +155,7 @@ class KycSharingService {
         user: User(
           userPk: _authPublicKey,
           secretKey: _rawSecretKey,
-          partnerToken: _partnerToken,
+          // partnerToken: _partnerToken, //TODO
         ),
         partnerPk: partnerAuthPk,
       ),
@@ -166,7 +166,7 @@ class KycSharingService {
     await _otpClient.sendOtpByEmail(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _validatorToken,
+        // partnerToken: _validatorToken, //TODO
         userPk: _authPublicKey,
       ),
     );
@@ -176,7 +176,7 @@ class KycSharingService {
     await _otpClient.sendOtpBySms(
       SendOtpRequest(
         secretKey: _rawSecretKey,
-        partnerToken: _validatorToken,
+        // partnerToken: _validatorToken, //TODO
         userPk: _authPublicKey,
       ),
     );
