@@ -679,28 +679,16 @@ class MoneygramOffRampOrderService implements Disposable {
       );
     }
 
-    final response = await _allbridgeApiClient
-        .fetchStatus(
-          chain: Chain.solana,
-          hash: order.solanaBridgeTx ?? '',
-        )
-        .then((e) => e?.receive);
-
-    if (response == null) {
-      return const OffRampOrderRowsCompanion(
-        status: Value(OffRampOrderStatus.processingRefund),
-      );
-    }
-
-    final amount = int.parse(response.amount) ~/ 10;
-
-    final solanaAddress = _ecWallet.address;
+    final amount = CryptoAmount(
+      value: order.bridgeAmount ?? 0,
+      cryptoCurrency: Currency.usdc,
+    );
 
     final refundAmount = await _ecClient
         .calculateMoneygramFee(
           MoneygramFeeRequestDto(
             type: RampTypeDto.onRamp,
-            amount: (int.parse(response.amount) / 10000000).toString(),
+            amount: amount.decimal.toString(),
           ),
         )
         .then(
@@ -713,9 +701,9 @@ class MoneygramOffRampOrderService implements Disposable {
     final bridgeTx = await _ecClient
         .swapToSolana(
           SwapToSolanaRequestDto(
-            amount: amount.toStringAsFixed(0),
+            amount: amount.value.toString(),
             stellarSenderAddress: _stellarWallet.address,
-            solanaReceiverAddress: solanaAddress,
+            solanaReceiverAddress: _ecWallet.address,
           ),
         )
         .then((e) => e.encodedTx);
