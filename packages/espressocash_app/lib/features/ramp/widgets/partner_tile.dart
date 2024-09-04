@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../l10n/l10n.dart';
-import '../../../ui/arrow.dart';
 import '../../../ui/colors.dart';
+import '../../ramp_partner/models/payment_methods.dart';
 import '../../ramp_partner/models/ramp_partner.dart';
 
 class PartnerTile extends StatelessWidget {
@@ -31,6 +30,11 @@ class PartnerTile extends StatelessWidget {
             ),
           ),
           child: ListTile(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(30),
+              ),
+            ),
             leading: Container(
               alignment: Alignment.center,
               width: 40,
@@ -38,31 +42,27 @@ class PartnerTile extends StatelessWidget {
             ),
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 28, vertical: 10),
-            title: Text(
-              partner.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
+            title: Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(
+                partner.title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             subtitle: Row(
               children: [
-                Text(
-                  context.l10n.rampMinimumTransferAmount(partner.minimumAmount),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                for (final method in partner.paymentMethods) ...[
+                  method.logo.image(),
+                  const SizedBox(width: 4),
+                ],
+                if (partner == RampPartner.moneygram) ...[
+                  const Text('Cash deposits', style: _subtitleStyle),
+                ],
                 const Spacer(),
-                const Text(
-                  'min 10h',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                Text('Min ${partner.minimumAmount}', style: _subtitleStyle),
               ],
             ),
             onTap: () => onPartnerSelected(partner),
@@ -70,3 +70,9 @@ class PartnerTile extends StatelessWidget {
         ),
       );
 }
+
+const _subtitleStyle = const TextStyle(
+  fontSize: 14,
+  color: Colors.white,
+  fontWeight: FontWeight.w400,
+);

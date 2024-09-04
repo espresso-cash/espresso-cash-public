@@ -14,8 +14,7 @@ final onRampPartnerSelectScreen = Story(
   name: 'Screens/RampPartnerSelectScreen',
   wrapperBuilder: appWrapper,
   builder: (context) => RampPartnerSelectScreen(
-    topPartner: RampPartner.kado,
-    otherPartners: RampPartner.values.lock.remove(RampPartner.kado),
+    partners: RampPartner.values.lock.remove(RampPartner.kado),
     onPartnerSelected: ignore,
     type: context.knobs.options(
       label: 'Type',

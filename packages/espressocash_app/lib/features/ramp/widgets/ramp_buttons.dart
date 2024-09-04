@@ -23,9 +23,8 @@ import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
-import '../screens/ramp_onboarding_screen.dart';
 import '../screens/ramp_partner_select_screen.dart';
-import 'off_ramp_bottom_sheet.dart';
+import '../screens/ramp_onboarding_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
   const PayOrRequestButton({
@@ -165,32 +164,13 @@ extension RampBuildContextExt on BuildContext {
   }) {
     final partners = _getOnRampPartners(profile.country.code);
 
-    if (partners.isEmpty) {
-      OffRampBottomSheet.show(this, title: l10n.ramp_btnAddCash);
-
-      return;
-    }
-
-    final [top, ...others] = partners.unlock;
-
-    if (others.isEmpty) {
-      _launchOnRampPartner(
-        top,
-        profile: profile,
-        address: address,
-      );
-
-      return;
-    }
-
     RampPartnerSelectScreen.push(
       this,
-      topPartner: top,
-      otherPartners: others.lock,
       type: RampType.onRamp,
-      onPartnerSelected: (RampPartner p) {
+      partners: partners,
+      onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        _launchOnRampPartner(p, profile: profile, address: address);
+        _launchOnRampPartner(partner, profile: profile, address: address);
       },
     );
   }
@@ -201,32 +181,13 @@ extension RampBuildContextExt on BuildContext {
   }) {
     final partners = _getOffRampPartners(profile.country.code);
 
-    if (partners.isEmpty) {
-      OffRampBottomSheet.show(this, title: l10n.ramp_btnCashOut);
-
-      return;
-    }
-
-    final [top, ...others] = partners.unlock;
-
-    if (others.isEmpty) {
-      _launchOffRampPartner(
-        top,
-        profile: profile,
-        address: address,
-      );
-
-      return;
-    }
-
     RampPartnerSelectScreen.push(
       this,
-      topPartner: top,
-      otherPartners: others.lock,
       type: RampType.offRamp,
-      onPartnerSelected: (RampPartner p) {
+      partners: partners,
+      onPartnerSelected: (RampPartner partner) {
         Navigator.pop(this);
-        _launchOffRampPartner(p, profile: profile, address: address);
+        _launchOffRampPartner(partner, profile: profile, address: address);
       },
     );
   }
@@ -278,8 +239,6 @@ extension RampBuildContextExt on BuildContext {
         .rampOpened(partner: partner, rampType: RampType.offRamp.name);
   }
 }
-
-typedef PartnerOptions = ({RampPartner top, IList<RampPartner> other});
 
 IList<RampPartner> _getOnRampPartners(String countryCode) {
   final partners = <RampPartner>{};
