@@ -192,7 +192,7 @@ class MoneygramOffRampOrderService implements Disposable {
             transaction: '',
             depositAddress: '',
             slot: BigInt.zero,
-            bridgeAmount: 0,
+            bridgeAmount: null,
           );
 
           await _db.into(_db.offRampOrderRows).insert(order);
@@ -492,7 +492,7 @@ class MoneygramOffRampOrderService implements Disposable {
 
     final receiveAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountOut ?? '0'),
-      currency: Currency.usd,
+      currency: currencyFromString(transaction.amountOutAsset ?? 'USD'),
     ) as FiatAmount;
 
     final fee = Amount.fromDecimal(

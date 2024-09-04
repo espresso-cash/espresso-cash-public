@@ -400,7 +400,11 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
-    final bridgeFeeAmount = order.bridgeAmount?.let((e) => order.amount - e);
+    final bridgeFeeAmount = order.bridgeAmount?.let((e) {
+      if (e.value == 0) return null;
+
+      return order.amount - e;
+    });
 
     final bridgingToStellar = CpTimelineItem(
       title: context.l10n.bridgingText,
