@@ -71,7 +71,7 @@ class PartnerTile extends StatelessWidget {
       );
 }
 
-const _subtitleStyle = const TextStyle(
+const _subtitleStyle = TextStyle(
   fontSize: 14,
   color: Colors.white,
   fontWeight: FontWeight.w400,

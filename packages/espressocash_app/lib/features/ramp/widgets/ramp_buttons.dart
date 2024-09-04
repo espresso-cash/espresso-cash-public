@@ -23,8 +23,8 @@ import '../partners/kado/widgets/launch.dart';
 import '../partners/moneygram/widgets/launch.dart';
 import '../partners/ramp_network/widgets/launch.dart';
 import '../partners/scalex/widgets/launch.dart';
-import '../screens/ramp_partner_select_screen.dart';
 import '../screens/ramp_onboarding_screen.dart';
+import '../screens/ramp_partner_select_screen.dart';
 
 class PayOrRequestButton extends StatelessWidget {
   const PayOrRequestButton({
