@@ -95,7 +95,10 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Withdrawals'.toUpperCase(),
+                        text: switch (widget.type) {
+                          RampType.onRamp => 'Deposits'.toUpperCase(),
+                          RampType.offRamp => 'Withdrawals'.toUpperCase(),
+                        },
                         style: const TextStyle(
                           color: CpColors.yellowColor,
                         ),

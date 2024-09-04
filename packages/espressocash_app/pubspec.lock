@@ -1702,7 +1702,7 @@ packages:
       path: "../solana"
       relative: true
     source: path
-    version: "0.30.4"
+    version: "0.31.0"
   solana_mobile_wallet:
     dependency: "direct main"
     description:
