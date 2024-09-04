@@ -228,7 +228,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final feeAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountFee ?? '0'),
-      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
+      currency: currencyFromString(transaction.amountFeeAsset ?? 'USD'),
     ) as FiatAmount;
 
     return OnRampOrderRowsCompanion(
