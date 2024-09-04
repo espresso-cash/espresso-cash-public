@@ -400,6 +400,9 @@ class _Timeline extends StatelessWidget {
       subtitle: order.created.let((t) => context.formatDate(t)),
     );
 
+    final showReceiveAmount =
+        isMoneygramOrder ? order.status.showMoneygramReceiveAmount : true;
+
     final bridgeFeeAmount = order.bridgeAmount?.let((e) {
       if (e.value == 0) return null;
 
@@ -419,7 +422,8 @@ class _Timeline extends StatelessWidget {
     );
     final paymentSuccess = CpTimelineItem(
       title: context.l10n.offRampWithdrawReceived,
-      trailing: receiveAmount?.format(context.locale),
+      trailing:
+          showReceiveAmount ? receiveAmount?.format(context.locale) : null,
       subtitle: order.resolved?.let((t) => context.formatDate(t)),
     );
     final paymentCanceled = CpTimelineItem(
@@ -570,6 +574,28 @@ extension on OffRampOrderStatus {
       this == OffRampOrderStatus.preProcessing ||
       this == OffRampOrderStatus.waitingForRefundBridge ||
       this == OffRampOrderStatus.postProcessing;
+
+  bool get showMoneygramReceiveAmount => switch (this) {
+        OffRampOrderStatus.sendingDepositTx ||
+        OffRampOrderStatus.completed ||
+        OffRampOrderStatus.waitingForPartner =>
+          true,
+        OffRampOrderStatus.depositTxRequired ||
+        OffRampOrderStatus.depositTxReady ||
+        OffRampOrderStatus.processingRefund ||
+        OffRampOrderStatus.waitingForRefundBridge ||
+        OffRampOrderStatus.preProcessing ||
+        OffRampOrderStatus.postProcessing ||
+        OffRampOrderStatus.ready ||
+        OffRampOrderStatus.creatingDepositTx ||
+        OffRampOrderStatus.depositError ||
+        OffRampOrderStatus.depositTxConfirmError ||
+        OffRampOrderStatus.insufficientFunds ||
+        OffRampOrderStatus.failure ||
+        OffRampOrderStatus.cancelled ||
+        OffRampOrderStatus.refunded =>
+          false,
+      };
 
   String toMoneygramStatus(BuildContext context) => switch (this) {
         OffRampOrderStatus.preProcessing ||
