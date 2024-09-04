@@ -91,11 +91,8 @@ class MoneygramOnRampOrderService implements Disposable {
         .whereNotNull()
         .asyncExpand<OnRampOrderRowsCompanion?>((order) {
           logMessage(
-            message: 'Moneygram on ramp order status update',
-            data: {
-              'orderId': orderId,
-              'status': order.status.name,
-            },
+            message: 'MGOnRampOrderStatusChange',
+            data: order.toSentry,
           );
 
           switch (order.status) {
@@ -231,7 +228,7 @@ class MoneygramOnRampOrderService implements Disposable {
 
     final feeAmount = Amount.fromDecimal(
       value: Decimal.parse(transaction.amountFee ?? '0'),
-      currency: currencyFromString(transaction.amountInAsset ?? 'USD'),
+      currency: currencyFromString(transaction.amountFeeAsset ?? 'USD'),
     ) as FiatAmount;
 
     return OnRampOrderRowsCompanion(
@@ -483,3 +480,10 @@ class MoneygramOnRampOrderService implements Disposable {
 }
 
 const _minimumInitBalance = 1.5; // 1.5 XLM
+
+extension on OnRampOrderRow {
+  Map<String, dynamic> get toSentry => toJson()
+    ..removeWhere(
+      (key, value) => value == null || value == '' || value == 0.0,
+    );
+}
