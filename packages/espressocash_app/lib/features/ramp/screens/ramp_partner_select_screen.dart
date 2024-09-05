@@ -9,6 +9,7 @@ import '../../../ui/back_button.dart';
 import '../../../ui/colors.dart';
 import '../../../ui/onboarding_screen.dart';
 import '../../../ui/theme.dart';
+import '../../../utils/extensions.dart';
 import '../../country_picker/models/country.dart';
 import '../../country_picker/widgets/country_picker.dart';
 import '../../profile/data/profile_repository.dart';
@@ -95,39 +96,46 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
                   Assets.images.cashOutGraphic.image(height: 100),
               },
               const SizedBox(height: 20),
-              OnboardingPadding(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 42),
                 child: Text.rich(
                   TextSpan(
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
                       letterSpacing: 0.25,
+                      height: 1,
                     ),
                     children: <TextSpan>[
                       TextSpan(
                         text: switch (widget.type) {
-                          RampType.onRamp => 'Deposits'.toUpperCase(),
-                          RampType.offRamp => 'Withdrawals'.toUpperCase(),
+                          RampType.onRamp => context
+                              .l10n.selectPartnerOnRampTitle.firstWord
+                              .toUpperCase(),
+                          RampType.offRamp => context
+                              .l10n.selectPartnerOffRampTitle.firstWord
+                              .toUpperCase(),
                         },
                         style: const TextStyle(
                           color: CpColors.yellowColor,
                         ),
                       ),
                       TextSpan(
-                        text: ' are processed by our network partners'
-                            .toUpperCase(),
+                        text:
+                            ' ${context.l10n.selectPartnerOnRampTitle.restOfSentence.toUpperCase()}',
                       ),
                     ],
                   ),
                 ),
               ),
               const SizedBox(height: 20),
-              const OnboardingPadding(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 42),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Payment methods & fees vary by region.\nConfirm your current location:',
-                    style: TextStyle(
+                    context.l10n.selectPartnerAdditionalText,
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
@@ -138,6 +146,7 @@ class _RampPartnerSelectScreenState extends State<RampPartnerSelectScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: CountryPicker(
+                  backgroundColor: CpColors.darkBackgroundColor,
                   country: _country,
                   onSubmitted: _handleCountryChange,
                 ),

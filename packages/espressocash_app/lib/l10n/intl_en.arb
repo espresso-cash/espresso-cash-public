@@ -897,5 +897,13 @@
   "offRampWithdrawalInProgress": "Withdrawing in progress...",
   "@offRampWithdrawalInProgress": {},
   "moneygramCashAvailable": "Cash is available at Moneygram location",
-  "@moneygramCashAvailable": {}
+  "@moneygramCashAvailable": {},
+  "deposits": "Deposits",
+  "@deposits": {},
+  "selectPartnerOffRampTitle": "Withdrawals are processed by our network partners",
+  "@selectPartnerOffRampTitle": {},
+  "selectPartnerOnRampTitle": "Deposits are processed by our network partners",
+  "@selectPartnerOnRampTitle": {},
+  "selectPartnerAdditionalText": "Payment methods & fees vary by region.\nConfirm your current location:",
+  "@selectPartnerAdditionalText": {}
 }
